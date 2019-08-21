@@ -1,13 +1,11 @@
 import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { Card, Button, MenuItem, Dialog, DialogTitle, DialogContent } from 'material-ui';
-import { Grid, GridItem, Scrollbar, AlertConfirm, SelectInput, LoadingSection, BasicButton, LiveToast } from '../../../displayComponents';
+import { Card, Button, MenuItem, Dialog, DialogTitle, DialogContent, FormControlLabel, Switch } from 'material-ui';
+import { Grid, GridItem, Scrollbar, AlertConfirm, SelectInput, LoadingSection, BasicButton, LiveToast, HelpPopover } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import withTranslations from '../../../HOCs/withTranslations';
-import { generateActTags } from '../../council/writing/actEditor/ActEditor';
-import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
 import { DRAFT_TYPES } from '../../../constants';
@@ -29,6 +27,7 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
 
     const [template, setTemplate] = React.useState(-1)
     const [data, setData] = React.useState(false)
+    const [edit, setEdit] = React.useState(false)
     const [editInfo, setEditInfo] = React.useState(false)
     const [loading, setLoading] = React.useState(true)
     const [modal, setModal] = React.useState(false)
@@ -44,6 +43,10 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
         text: "",
         errors: {}
     })
+
+    const handleChange = event => {
+        setEdit(event.target.checked);
+    };
 
     React.useEffect(() => {
         getData()
@@ -118,14 +121,39 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
 
     const shouldCancelStart = (event) => {
         if (event.target.tagName.toLowerCase() === 'i' && event.target.classList[2] !== undefined) {
-
+            return true
+        }
+        if (event.target.classList.value === "ql-syntax") {
+            return true
+        }
+        if (event.target.classList.value === "ql-picker-options") {
+            return true
+        }
+        if (event.target.classList.value === "ql-editor" || event.target.classList.value === "ql-toolbar ql-snow") {
+            return true
+        }
+        if (event.path[1].classList.value === "ql-editor" && event.path[0].tagName.toLowerCase() === "p") {
             return true
         }
         if (event.target.tagName.toLowerCase() === 'i' && event.target.classList[2] === undefined) {
             return true
         }
         if (event.target.tagName.toLowerCase() === 'button' ||
-            event.target.tagName.toLowerCase() === 'span') {
+            event.target.tagName.toLowerCase() === 'span' ||
+            event.target.tagName.toLowerCase() === 'polyline' ||
+            event.target.tagName.toLowerCase() === 'path' ||
+            event.target.tagName.toLowerCase() === 'pre' ||
+            event.target.tagName.toLowerCase() === 'h1' ||
+            event.target.tagName.toLowerCase() === 'h2' ||
+            event.target.tagName.toLowerCase() === 'li' ||
+            event.target.tagName.toLowerCase() === 's' ||
+            event.target.tagName.toLowerCase() === 'a' ||
+            event.target.tagName.toLowerCase() === 'u' ||
+            event.target.tagName.toLowerCase() === 'line' ||
+            event.target.tagName.toLowerCase() === 'strong' ||
+            event.target.tagName.toLowerCase() === 'em' ||
+            event.target.tagName.toLowerCase() === 'blockquote' ||
+            event.target.tagName.toLowerCase() === 'svg') {
             return true
         }
 
@@ -138,36 +166,35 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
 
     const updateCouncilActa = async () => {
 
-        if (data.data.council.act) {
-            const { __typename, ...act } = data.data.council.act;
-            if (!checkBraces()) {
-                act[editInfo.originalName] = state.text ? state.text : act[editInfo.originalName]
-                setState({
-                    updating: true,
-                    disableButtons: false
-                });
-                const response = await client.mutate({
-                    mutation: updateCouncilAct,
-                    variables: {
-                        councilAct: {
-                            ...act,
-                            councilId: data.data.council.id
-                        }
-                    }
-                });
-
-                if (!!response) {
-                    let id = editInfo.id;
-                    let indexCambio = agendas.items.findIndex(agendas => agendas.id === id);
-                    agendas.items[indexCambio].text = act[editInfo.originalName];
-                    setAgendas(agendas)
-                    setState({
-                        updating: false
-                    });
-                    setModal(false)
-                }
-            }
-        }
+        //     if (data.data.council.act) {
+        //         const { __typename, ...act } = data.data.council.act;
+        //         if (!checkBraces()) {
+        //             act[editInfo.originalName] = state.text ? state.text : act[editInfo.originalName]
+        //             setState({
+        //                 updating: true,
+        //                 disableButtons: false
+        //             });
+        //             const response = await client.mutate({
+        //                 mutation: updateCouncilAct,
+        //                 variables: {
+        //                     councilAct: {
+        //                         ...act,
+        //                         councilId: data.data.council.id
+        //                     }
+        //                 }
+        //             });
+        //             if (!!response) {
+        //                 let id = editInfo.id;
+        //                 let indexCambio = agendas.items.findIndex(agendas => agendas.id === id);
+        //                 agendas.items[indexCambio].text = act[editInfo.originalName];
+        //                 setAgendas(agendas)
+        //                 setState({
+        //                     updating: false
+        //                 });
+        //                 setModal(false)
+        //             }
+        //         }
+        //     }
     }
 
     const checkBraces = () => {
@@ -305,8 +332,8 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
             orden.forEach(element => {
                 auxTemplate.push(arrastrables.items.find(arrastrable => arrastrable.originalName === element));
             })
-            auxArrastrableQuitar =  arrastrables.items.filter(value => !orden.includes(value.originalName))
-            
+            auxArrastrableQuitar = arrastrables.items.filter(value => !orden.includes(value.originalName))
+
             setArrastrables({ items: auxArrastrableQuitar })
             setAgendas({ items: auxTemplate })
         } else {
@@ -315,7 +342,7 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
         }
     }
 
-   
+
 
     const loadDraft = async draft => {
         const correctedText = await changeVariablesToValues(draft.text, {
@@ -336,7 +363,7 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
                 :
                 <React.Fragment>
                     <div style={{ borderBottom: "1px solid gainsboro" }}>{/*height: "3em" */}
-                        <div style={{ display: "flex", alignItems: "center", padding: "0px 1em" }}>
+                        <div style={{ display: "flex", alignItems: "center", padding: "0px 1em", justifyContent: "space-between" }}>
                             <div>
                                 <SelectInput
                                     value={template}
@@ -348,13 +375,26 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
                                     <MenuItem value={'default4'}>Vacia</MenuItem>
                                 </SelectInput>
                             </div>
+                            <div>
+                                <FormControlLabel control={<Switch checked={edit} onChange={event => handleChange(event)} value="edit" />} label="Edit" />
+                            </div>
                         </div>
                     </div>
                     <div style={{ display: "flex", height: "100%" }}>
                         <div style={{ borderRight: "1px solid gainsboro", width: "40%", overflow: "hidden", height: "calc( 100% - 3em )" }}>
                             <div style={{ margin: "1.5em", height: "calc( 100% - 3em )", borderRadius: "8px", background: "white" }}>
+                                <div style={{ display: "flex", justifyContent: "space-between", }}>
+                                    <Bloques
+                                        text={"Info"}
+                                        styles={{  borderTopLeftRadius: "8px", }}
+                                    />
+                                    <Bloques
+                                        text={"Bloques logicos"}
+                                        styles={{ borderRight: "none", borderTopRightRadius: "8px", }}
+                                    />
+                                </div>
                                 <Scrollbar>
-                                    <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1.5em" }}>
+                                    <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em" }}>
                                         {arrastrables.items.map((item, index) => (
                                             <ActionToInsert
                                                 xs={12}
@@ -377,7 +417,15 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
                                 <Scrollbar>
                                     <div style={{ padding: "1em" }}>
                                         <SortableList
+                                            axis={"y"}
+                                            lockAxis={"y"}
                                             items={agendas.items}
+                                            updateCouncilActa={updateCouncilActa}
+                                            editInfo={editInfo}
+                                            state={state}
+                                            setState={setState}
+                                            edit={edit}
+                                            translate={translate}
                                             offset={agendas.items.lenght}
                                             onSortEnd={onSortEnd}
                                             helperClass="draggable"
@@ -424,6 +472,38 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
     )
 
 }
+
+const Bloques = ({ text, styles }) => {
+    const [hover, setHover] = React.useState(false);
+
+    const onMouseEnter = () => {
+        setHover(true)
+    }
+
+    const onMouseLeave = () => {
+        setHover(false)
+    }
+
+    return (
+        <div
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            style={{
+                background: hover ? "#f5f5f5" : "white",
+                padding: "10px 30px 10px 30px",
+                borderBottom: "1px solid gainsboro",
+                borderRight: "1px solid gainsboro",
+                width: "100%",
+                textAlign: " center",
+                cursor: 'pointer',
+                ...styles
+            }}
+        >
+            {text}
+        </div>
+    );
+}
+
 
 const ActionToInsert = ({ xs, md, lg, addItem, icon, text, name, itemInfo }) => {
     const [hover, setHover] = React.useState(false);
@@ -493,36 +573,86 @@ const ActionToInsert = ({ xs, md, lg, addItem, icon, text, name, itemInfo }) => 
 };
 
 
-const SortableList = SortableContainer(({ items, offset = 0, moveUp, moveDown, openModal, remove }) => {
+const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, state, setState, edit, translate, offset = 0, moveUp, moveDown, openModal, remove }) => {
+    if (edit) {
+        return (
+            <div >
+                {items &&
+                    items.map((item, index) => (
+                        <DraggableBlock
+                            key={`item-${item.id}`}
+                            updateCouncilActa={updateCouncilActa}
+                            state={state}
+                            setState={setState}
+                            edit={edit}
+                            editInfo={editInfo}
+                            translate={translate}
+                            index={offset + index}
+                            value={item}
+                            id={item.id}
+                            indexItem={index}
+                            moveUp={moveUp}
+                            moveDown={moveDown}
+                            openModal={openModal}
+                            remove={remove}
+                        />
+                    ))
 
-    return (
-        <div >
-            {items &&
-                items.map((item, index) => (
-                    <DraggableBlock
-                        key={`item-${item.id}`}
-                        index={offset + index}
-                        value={item}
-                        id={item.id}
-                        indexItem={index}
-                        moveUp={moveUp}
-                        moveDown={moveDown}
-                        openModal={openModal}
-                        remove={remove}
-                    />
-                ))
+                }
+            </div>
+        );
+    } else {
+        return (
+            <div >
+                {items &&
+                    items.map((item, index) => (
+                        <NoDraggableBlock
+                            key={`item-${item.id}`}
+                            updateCouncilActa={updateCouncilActa}
+                            edit={edit}
+                            translate={translate}
+                            index={offset + index}
+                            value={item}
+                            id={item.id}
+                            indexItem={index}
+                            moveUp={moveUp}
+                            moveDown={moveDown}
+                            openModal={openModal}
+                            remove={remove}
+                        />
+                    ))
 
-            }
-        </div>
-    );
+                }
+            </div>
+        );
+    }
 });
 
 
 const DraggableBlock = SortableElement((props) => {
+    const [hover, setHover] = React.useState(false);
+    const [hoverFijo, setHoverFijo] = React.useState(false);
+
+    const onMouseEnter = () => {
+        setHover(true)
+    }
+    const onMouseLeave = () => {
+        setHover(false)
+    }
+
+    const hoverAndSave = () => {
+        if (hoverFijo) {
+            props.updateCouncilActa();
+        }
+        // props.updateCouncilActa();
+        setHoverFijo(!hoverFijo)
+    }
 
     return (
         props.value !== undefined && props.value.text !== undefined &&
         <Card
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
             key={props.id}
             style={{
                 opacity: 1,
@@ -573,14 +703,55 @@ const DraggableBlock = SortableElement((props) => {
                 <div style={{ fontWeight: "700" }}>
                     {props.value.name}
                 </div>
-                <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
-                    __html: props.value.text
-                }}>
-                </div>
+
+                {hoverFijo ?
+                    <div style={{ marginTop: "1em", cursor: "default" }} className="editorText" >
+                        <RichTextInput
+                            value={props.value.text || ''}
+                            translate={props.translate}
+                            // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
+                            errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
+                            // onChange={value => props.setState({ text: value })}
+                            loadDraft={
+                                <BasicButton
+                                    text={props.translate.load_draft}
+                                    color={getSecondary()}
+                                    textStyle={{
+                                        color: "white",
+                                        fontWeight: "600",
+                                        fontSize: "0.8em",
+                                        textTransform: "none",
+                                        marginLeft: "0.4em",
+                                        minHeight: 0,
+                                        lineHeight: "1em"
+                                    }}
+                                    textPosition="after"
+                                    onClick={() =>
+                                        props.setState({
+                                            loadDraft: true,
+                                            load: props.editInfo.originalName,
+                                            draftType: DRAFT_TYPES[props.editInfo.originalName.toUpperCase()]
+                                        })
+                                    }
+                                />
+                            }
+                        />
+                    </div>
+                    :
+                    <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
+                        __html: props.value.text
+                    }}>
+                    </div>
+                }
                 <div style={{ marginTop: "1em", }}>
                     {props.value.editButton &&
-                        <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => props.openModal(props.value)}>
-                            Editar
+                        <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave()}>
+                            {/* onClick={props.updateCouncilActa} */}
+                            {hoverFijo ?
+                                'Editando' //TRANSLATE
+                                :
+                                'Editar' //TRANSLATE
+                            }
                         </Button>
                     }
                 </div>
@@ -588,6 +759,97 @@ const DraggableBlock = SortableElement((props) => {
         </Card>
     );
 });
+
+const NoDraggableBlock = (props) => {
+    const [hover, setHover] = React.useState(false);
+
+    const onMouseEnter = () => {
+        setHover(true)
+    }
+    const onMouseLeave = () => {
+        setHover(false)
+    }
+
+
+    if (props.logic) {
+        return (
+            props.value !== undefined && props.value.text !== undefined &&
+            <Card
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                key={props.id}
+                style={{
+                    boxShadow:  "0px 0px 5px 0px green" ,
+                    margin: "3px",
+                    paddingLeft: "15px",
+                    paddingTop: "5px",
+                }}
+            >
+                <div style={{}}>
+                    {hover &&
+                        <div style={{ display: "flex" }}>
+                            <div style={{ fontWeight: "700" }}>
+                                {props.value.name}
+                            </div>
+                            <div style={{ fontWeight: "700" }}>
+                                <HelpPopover
+                                    title={"Bloque lógico"}
+                                    content={"Este bloque se completará con la informacion adecuada cuando se genere el acta"}
+                                >
+                                </HelpPopover>
+                            </div>
+                        </div>
+                    }
+                    <div style={{}}
+                        dangerouslySetInnerHTML={{
+                            __html: props.value.text
+                        }}>
+                    </div>
+
+                </div>
+            </Card>
+        );
+    } else {
+        return (
+            props.value !== undefined && props.value.text !== undefined &&
+            <Card
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                key={props.id}
+                style={{
+                    boxShadow: hover ? "0px 0px 5px 0px #f99292d9" : "none",
+                    margin: "3px",
+                    paddingLeft: "15px",
+                    paddingTop: "5px",
+                }}
+            >
+                <div style={{}}>
+                    {hover &&
+                        <div style={{ display: "flex" }}>
+                            <div style={{ fontWeight: "700" }}>
+                                {props.value.name}
+                            </div>
+                            {/* <div style={{ fontWeight: "700" }}>
+                                <HelpPopover
+                                    title={"s"}
+                                    content={"asdas"}
+                                >
+                                </HelpPopover>
+                            </div> */}
+                        </div>
+                    }
+                    <div style={{}}
+                        dangerouslySetInnerHTML={{
+                            __html: props.value.text
+                        }}>
+                    </div>
+
+                </div>
+            </Card>
+        );
+    }
+
+}
 
 
 const IconsDragActions = ({ clase, click, id, indexItem }) => {
