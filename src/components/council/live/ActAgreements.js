@@ -5,7 +5,7 @@ import { compose, graphql, withApollo } from "react-apollo";
 import { updateAgenda } from "../../../queries/agenda";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
-import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations } from "../../../utils/CBX";
+import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText } from "../../../utils/CBX";
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
@@ -133,8 +133,8 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
 
 		const correctedText = await changeVariablesToValues(text, {
-			company: company,
-			council: council,
+			company,
+			council,
 			...(agenda.votingState === AGENDA_STATES.CLOSED? {
 				votings: {
 					positive: agenda.positiveVotings + agenda.positiveManual,
@@ -188,6 +188,10 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 				{
 					value: company.businessName,
 					label: translate.business_name
+				},
+				{
+					value: generateGBDecidesText(translate, company.governingBodyType),
+					label: '[Órgano de gobierno] decide'
 				},
 				{
 					value: council.remoteCelebration === 1? translate.remote_celebration : council.street,

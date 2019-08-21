@@ -335,6 +335,20 @@ export const replaceSpecials = string => {
 	return string.replace(regex, "\\$&");
 }
 
+export const generateGBDecidesText = (translate, type) => {
+	//TRADUCCION
+	const labels = {
+		0: 'Ninguno',
+		1: 'El Administrador único decide',
+		2: 'El Administrador único decide',
+		3: 'Los Administradores Mancomunados acuerdan',
+		4: 'El Administrador Solidario decide',
+		5: 'El Consejo de Administración acuerda'
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
@@ -429,6 +443,9 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{percentageSCPresent}}/g, data.council.percentageSCPresent);
 	text = text.replace(/{{percentageSCRepresented}}/g, data.council.percentageSCDelegated);
 	text = text.replace(/{{percentageSCTotal}}/g, data.council.percentageSCTotal);
+	text = text.replace(/{{numParticipationsPresent}}/g, data.council.numParticipationsPresent);
+	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
+
 
 	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
@@ -469,6 +486,8 @@ export const changeVariablesToValues = async (text, data, translate) => {
 			);
 		}
 	}
+
+	text = text.replace(/{{GBdecides}}/g, generateGBDecidesText(translate, data.company.governingBodyType));
 
 	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
 	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);
@@ -592,6 +611,14 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				label: 'Nº de asistentes totales' //TRADUCCION
 			},
 			{
+				value: '{{numParticipationsPresent}}',
+				label: 'Nº de participaciones asisten personalmente' //TRADUCCION
+			},
+			{
+				value: '{{numParticipationsRepresented}}',
+				label: ' Nº de participaciones asisten representadas' //TRADUCCION
+			},
+			{
 				value: '{{percentageSCPresent}}',
 				label: '% del capital social que asiste personalmente' //TRADUCCION
 			},
@@ -649,6 +676,14 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			{
 				value: '{{numParticipants}}',
 				label: 'Nº de asistentes totales' //TRADUCCION
+			},
+			{
+				value: '{{numParticipationsPresent}}',
+				label: 'Nº de participaciones asisten personalmente' //TRADUCCION
+			},
+			{
+				value: '{{numParticipationsRepresented}}',
+				label: ' Nº de participaciones asisten representadas' //TRADUCCION
 			},
 			{
 				value: '{{percentageSCPresent}}',
@@ -801,6 +836,10 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			{
 				value: `{{street}}`,
 				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{GBdecides}}',
+				label: '[Órgano de gobierno] decide'//TRADUCCION
 			},
 			{
 				value: '{{positiveVotings}}',

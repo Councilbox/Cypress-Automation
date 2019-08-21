@@ -192,7 +192,7 @@ export const generateCouncilSmartTagsValues = data => {
 		return cache.get(string);
 	}
 
-	const percentageSCPresent = ((data.councilAttendants.list.reduce((acc, curr) => {
+	const numParticipationsPresent = (data.councilAttendants.list.reduce((acc, curr) => {
 		let counter = acc;
 		counter = counter + curr.numParticipations;
 		if(curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0){
@@ -201,9 +201,14 @@ export const generateCouncilSmartTagsValues = data => {
 			}, 0);
 		}
 		return counter;
-	}, 0) / data.councilRecount.partTotal) * 100).toFixed(3);
+	}, 0));
 
-	const percentageSCDelegated = ((data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0) / data.councilRecount.partTotal) * 100).toFixed(3)
+	const numParticipationsRepresented = (data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0));
+
+
+	const percentageSCPresent = ((numParticipationsPresent / data.councilRecount.partTotal) * 100).toFixed(3);
+
+	const percentageSCDelegated = ((numParticipationsRepresented / data.councilRecount.partTotal) * 100).toFixed(3)
 
 	const calculatedObject = {
 		...data.council,
@@ -214,6 +219,8 @@ export const generateCouncilSmartTagsValues = data => {
 		numTotalAttendance: data.participantsWithDelegatedVote.length + data.councilAttendants.list.length,
 		percentageSCPresent,
 		percentageSCDelegated,
+		numParticipationsPresent,
+		numParticipationsRepresented,
 		percentageSCTotal: (+percentageSCDelegated + (+percentageSCPresent)).toFixed(3)
 	}
 
@@ -810,7 +817,7 @@ export const generateActTags = (type, data, translate) => {
 	}
 
 
-	const tagis = {
+	const smartTags = {
 		businessName: {
 			value: `${company.businessName} `,
 			label: translate.business_name
@@ -875,7 +882,7 @@ export const generateActTags = (type, data, translate) => {
 		},
 		currentQuorum: {
 			value: council.currentQuorum,
-			label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
+			label: `Nº participaciones que asiste del total del capital social` //TRADUCCION
 		},
 		percentageShares: {
 			value: (council.currentQuorum / parseInt(base) * 100).toFixed(3),
@@ -902,20 +909,16 @@ export const generateActTags = (type, data, translate) => {
 		percentageSCTotal: {
 			value: council.percentageSCTotal + '%',
 			label: '% del capital social que asiste' //TRADUCCION
-		}
+		},
+		numParticipationsPresent: {
+			value: council.numParticipationsPresent,
+			label: 'Nº de participaciones asisten personalmente' //TRADUCCION
+		},
+		numParticipationsRepresented: {
+			value: council.numParticipationsRepresented,
+			label: ' Nº de participaciones asisten representadas' //TRADUCCION
+		},
 	}
-
-	const handler = {
-		get: (target, name) => {
-			if(!(name in target)){
-				alert(name);
-			}
-
-			return target[name];
-		}
-	}
-
-	const smartTags = new Proxy(tagis, handler);
 
 	switch(type){
 		case 'intro':
@@ -943,6 +946,8 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.delegatedVotes,
 				smartTags.numPresentOrRemote,
 				smartTags.numDelegations,
+				smartTags.numParticipationsPresent,
+				smartTags.numParticipationsRepresented,
 				smartTags.percentageSCPresent,
 				smartTags.percentageSCDelegated,
 				smartTags.percentageSCTotal
@@ -956,7 +961,6 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.now,
 				smartTags.president,
 				smartTags.secretary,
-				smartTags.currentQuorum,
 				smartTags.percentageShares,
 				smartTags.location,
 				smartTags.dateRealStart,
@@ -975,6 +979,9 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.delegatedVotes,
 				smartTags.numPresentOrRemote,
 				smartTags.numDelegations,
+				smartTags.numParticipationsPresent,
+				smartTags.numParticipationsRepresented,
+				smartTags.currentQuorum,
 			];
 
 			return tags;

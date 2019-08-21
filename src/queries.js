@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { companyFragment } from "./queries/company";
 
 export const setCompanyAsSelected = gql`
 	mutation setCompanyAsSelected($userId: Int!, $companyId: Int!) {
@@ -88,26 +89,7 @@ export const getTranslations = gql`
 export const company = gql`
 	query company($id: Int!) {
 		company(id: $id) {
-			alias
-			tin
-			balance
-			logo
-			id
-			category
-			businessName
-			address
-			city
-			zipcode
-			country
-			countryState
-			linkKey
-			creatorId
-			domain
-			demo
-			type
-			language
-			creationDate
-			corporationId
+			${companyFragment}
 		}
 	}
 `;
@@ -117,28 +99,7 @@ export const companies = gql`
 		userCompanies(userId: $userId) {
 			actived
 			company {
-				alias
-				tin
-				logo
-				id
-				category
-				businessName
-				address
-				city
-				zipcode
-				governingBodyType
-				governingBodyData
-				country
-				demo
-				countryState
-				linkKey
-				creatorId
-				domain
-				demo
-				type
-				language
-				creationDate
-				corporationId
+				${companyFragment}
 			}
 		}
 	}
