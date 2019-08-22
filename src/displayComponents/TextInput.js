@@ -36,19 +36,22 @@ const TextInput = ({
 	id,
 	helpPopoverInLabel,
 	styles,
-	styleInInput
+	styleInInput,
+	labelNone
 }) => (
 		<FormControl
 			style={{
 				width: "100%",
-				marginTop: 0,
+				marginTop: '0',
 				...styles
 			}}
 		>
 			<TextField
 				onSelect={onClick}
 				onBlur={onBlur}
-				label={helpPopoverInLabel ? floatingText:
+				label={
+					labelNone? "" :
+					helpPopoverInLabel ? floatingText :
 					<div style={{ display: 'flex' }}>
 						{`${floatingText}${required ? "*" : ""}`}
 						{!!errorText &&
