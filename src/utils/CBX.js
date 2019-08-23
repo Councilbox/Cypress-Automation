@@ -405,6 +405,10 @@ export const generateGBSoleProposeText = (translate, type) => {
 	return labels[type]? labels[type] : labels[0];
 }
 
+export const generateAgendaText = (translate, agenda) => {
+	return agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '');
+}
+
 
 
 export const changeVariablesToValues = async (text, data, translate) => {
@@ -550,6 +554,8 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{GM\/SoleDecides}}/g, generateGBSoleDecidesText(translate, data.company.type));
 	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
 	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements(translate, data.company.governingBodyType));
+
+	text = text.replace(/{{Agenda}}/g, generateAgendaText(translate, data.council.agenda));	
 	
 
 
@@ -738,6 +744,10 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		gbAgreements: {
 			value: '{{GBAgreements}}',
 			label: '[Solidariamente/Mancomunadamente]'
+		},
+		agenda: {
+			value: '{{Agenda}}',
+			label: translate.agenda
 		}
 	}
 
@@ -828,6 +838,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.president,
 			smartTags.secretary,
 			smartTags.convene,
+			smartTags.agenda,
 			smartTags.percentageSCPresent,
 			smartTags.percentageSCRepresented,
 			smartTags.percentageSCTotal,

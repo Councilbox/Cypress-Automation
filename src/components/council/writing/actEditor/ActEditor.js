@@ -22,7 +22,7 @@ import { updateCouncilAct } from '../../../../queries';
 import DownloadActPDF from '../actViewer/DownloadActPDF';
 import ExportActToMenu from '../actViewer/ExportActToMenu';
 import { ConfigContext } from '../../../../containers/AppControl';
-import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues, hasSecondCall } from '../../../../utils/CBX';
+import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues, hasSecondCall, generateAgendaText } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
 
@@ -212,6 +212,7 @@ export const generateCouncilSmartTagsValues = data => {
 
 	const calculatedObject = {
 		...data.council,
+		agenda: data.agendas,
 		...data.councilRecount,
 		numPresentAttendance: data.councilAttendants.list.filter(p => p.state === 5 || p.state === 7).length,
 		numRemoteAttendance: data.councilAttendants.list.filter(p => p.state === 0).length,
@@ -918,6 +919,14 @@ export const generateActTags = (type, data, translate) => {
 			value: council.numParticipationsRepresented,
 			label: ' Nº de participaciones asisten representadas' //TRADUCCION
 		},
+		convene: {
+			value: council.emailText,
+			label: translate.convene
+		},
+		agenda: {
+			value: generateAgendaText(translate, council.agenda),
+			label: translate.agenda
+		}
 	}
 
 	switch(type){
@@ -942,7 +951,9 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.secretary,
 				smartTags.location,
 				smartTags.now,
+				smartTags.convene,
 				smartTags.attendants,
+				smartTags.agenda,
 				smartTags.delegatedVotes,
 				smartTags.numPresentOrRemote,
 				smartTags.numDelegations,
@@ -953,6 +964,41 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.percentageSCTotal
 			]
 
+			return tags;
+
+		case 'certHeader': 
+			tags = [
+				smartTags.businessName,
+				smartTags.dateStart
+			]
+
+			if(hasSecondCall(council.statute)){
+				tags = [...tags, smartTags.dateStart2NdCall];
+			}
+
+			if(council.remoteCelebration !== 1){
+				tags = [...tags, smartTags.city, smartTags.country];
+			}
+
+			tags = [...tags,
+				smartTags.dateRealStart,
+				smartTags.firstOrSecondConvene,
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.location,
+				smartTags.now,
+				smartTags.convene,
+				smartTags.agenda,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numPresentOrRemote,
+				smartTags.numDelegations,
+				smartTags.numParticipationsPresent,
+				smartTags.numParticipationsRepresented,
+				smartTags.percentageSCPresent,
+				smartTags.percentageSCDelegated,
+				smartTags.percentageSCTotal
+			]
 			return tags;
 
 		case 'constitution':

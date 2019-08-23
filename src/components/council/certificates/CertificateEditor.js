@@ -180,6 +180,8 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
         return <LoadingSection />
     }
 
+    console.log(draftData);
+
     return(
         <CardPageLayout title={translate.certificate_generate} disableScroll={true}>
             <div style={{height: 'calc(100% -  3.5em)'}}>
@@ -203,9 +205,10 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                                 ref={headerEditor}
                                 translate={translate}
                                 errorText={errors.header}
-                                tags={generateActTags('intro', {
+                                tags={generateActTags('certHeader', {
                                     council: {
                                         attendants: draftData.councilAttendants.list,
+                                        agenda: draftData.agendas,
                                         delegatedVotes: draftData.participantsWithDelegatedVote,
                                         ...generateCouncilSmartTagsValues(draftData),
                                     },
@@ -249,6 +252,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                             tags={generateActTags('certFooter', {
                                     council: {
                                         attendants: draftData.councilAttendants.list,
+                                        agenda: draftData.agendas,
                                         delegatedVotes: draftData.participantsWithDelegatedVote,
                                         ...generateCouncilSmartTagsValues(draftData),
                                     },
@@ -315,7 +319,8 @@ export const query = gql`
 			currentQuorum
 			quorumPrototype
 			secretary
-			president
+            president
+            emailText
 			street
 			city
 			name
