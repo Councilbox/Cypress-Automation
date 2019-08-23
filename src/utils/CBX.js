@@ -338,12 +338,26 @@ export const replaceSpecials = string => {
 export const generateGBDecidesText = (translate, type) => {
 	//TRADUCCION
 	const labels = {
-		0: 'Ninguno',
+		0: '',
 		1: 'El Administrador único decide',
 		2: 'El Administrador único decide',
 		3: 'Los Administradores Mancomunados acuerdan',
 		4: 'El Administrador Solidario decide',
 		5: 'El Consejo de Administración acuerda'
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
+export const generateGBAgreements = (translate, type) => {
+	//TRADUCCION
+	const labels = {
+		0: '',
+		1: '',
+		2: '',
+		3: 'MANCOMUNADAMENTE, con la firma conjunta de dos de ellos en la forma y con las limitaciones más abajo reseñadas',
+		4: 'SOLIDARIAMENTE, con su sola firma en la forma y con las limitaciones más abajo reseñadas',
+		5: ''
 	}
 
 	return labels[type]? labels[type] : labels[0];
@@ -535,6 +549,8 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{GoverningBody}}/g, getGoverningText(translate, data.company.governingBodyType));
 	text = text.replace(/{{GM\/SoleDecides}}/g, generateGBSoleDecidesText(translate, data.company.type));
 	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
+	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements(translate, data.company.governingBodyType));
+	
 
 
 	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
@@ -718,6 +734,10 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		abstentionSCPresent: {
 			value: '{{abstentionSCPresent}}',
 			label: '% abstención / capital social presente'
+		},
+		gbAgreements: {
+			value: '{{GBAgreements}}',
+			label: '[Solidariamente/Mancomunadamente]'
 		}
 	}
 
@@ -837,6 +857,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.gbDecides,
 			smartTags.soleDecides,
 			smartTags.solePropose,
+			smartTags.gbAgreements,
 			smartTags.positiveVotings,
 			smartTags.negativeVotings,
 			smartTags.numPositive,
