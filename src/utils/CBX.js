@@ -562,393 +562,293 @@ export const changeVariablesToValues = async (text, data, translate) => {
 };
 
 export const getTagVariablesByDraftType = (draftType, translate) => {
+	const tags = {
+		dateFirstCall: {
+			value: '{{dateFirstCall}}',
+			label: translate["1st_call_date"]
+		},
+		dateSecondCall: {
+			value: '{{dateSecondCall}}',
+			label: translate["2nd_call_date"]
+		},
+		businessName: {
+			value: '{{business_name}}',
+			label: translate.business_name
+		},
+		street: {
+			value: `{{street}}`,
+			label: translate.new_location_of_celebrate
+		},
+		city: {
+			value: '{{city}}',
+			label: translate.company_new_locality
+		},
+		countryState: {
+			value: '{{country_state}}',
+			label: translate.company_new_country_state
+		},
+		now: {
+			value: '{{now}}',
+			label: translate.actual_date
+		},
+		dateRealStart: {
+			value: '{{dateRealStart}}',
+			label: translate.date_real_start
+		},
+		firstOrSecondCall: {
+			value: '{{firstOrSecondCall}}',
+			label: translate.first_or_second_call
+		},
+		president: {
+			value: '{{president}}',
+			label: translate.president
+		},
+		secretary: {
+			value: '{{secretary}}',
+			label: translate.secretary
+		},
+		numPresentOrRemote: {
+			value: '{{numPresentOrRemote}}',
+			label: 'Nº de asistentes personalmente' //TRADUCCION
+		},
+		numRepresented: {
+			value: '{{numRepresented}}',
+			label: 'Nº de asistentes representados' //TRADUCCION
+		},
+		numParticipants: {
+			value: '{{numParticipants}}',
+			label: 'Nº de asistentes totales' //TRADUCCION
+		},
+		numParticipationsPresent: {
+			value: '{{numParticipationsPresent}}',
+			label: 'Nº de participaciones asisten personalmente' //TRADUCCION
+		},
+		numParticipationsRepresented: {
+			value: '{{numParticipationsRepresented}}',
+			label: ' Nº de participaciones asisten representadas' //TRADUCCION
+		},
+		percentageSCPresent: {
+			value: '{{percentageSCPresent}}',
+			label: '% del capital social que asiste personalmente' //TRADUCCION
+		},
+		percentageSCRepresented: {
+			value: '{{percentageSCRepresented}}',
+			label: '% del capital social que asiste representado' //TRADUCCION
+		},
+		percentageSCTotal: {
+			value: '{{percentageSCTotal}}',
+			label: '% del capital social que asiste' //TRADUCCION
+		},
+		convene: {
+			value: '{{convene}}',
+			label: 'Texto de la convocatoria' //TRADUCCION
+		},
+		numberOfShares: {
+			value: '{{numberOfShares}}',
+			label: 'Nº participaciones que asiste del total del capital social'
+		},
+		percentageOfShares: {
+			value: '{{percentageOfShares}}',
+			label: translate.social_capital_percentage
+		},
+		dateEnd: {
+			value: '{{dateEnd}}',
+			label: translate.date_end
+		},
+		governingBody: {
+			value: '{{GoverningBody}}',
+			label: 'Órgano de gobierno'//TRADUCCION
+		},
+		gbDecides: {
+			value: '{{GBdecides}}',
+			label: '[Órgano de gobierno] decide'//TRADUCCION
+		},
+		soleDecides: {
+			value: '{{GM/SoleDecides}}',
+			label: '[Junta Gral./Socio/Accionista único] decide'//TRADUCCION
+		},
+		solePropose: {
+			value: '{{GM/SolePropose}}',
+			label: '[Junta Gral./Socio/Accionista único] propone'//TRADUCCION
+		},
+		positiveVotings: {
+			value: '{{positiveVotings}}',
+			label: translate.positive_votings
+		},
+		negativeVotings: {
+			value: '{{negativeVotings}}',
+			label: translate.negative_votings
+		},
+		numPositive: {
+			value: '{{numPositive}}',
+			label: translate.num_positive
+		},
+		numNegative: {
+			value: '{{numNegative}}',
+			label: translate.num_negative
+		},
+		numAbstention: {
+			value: '{{numAbstention}}',
+			label: translate.num_abstention
+		},
+		numNoVote: {
+			value: '{{numNoVote}}',
+			label: translate.num_no_vote
+		},
+		positiveSCTotal: {
+			value: '{{positiveSCTotal}}',
+			label: '% a favor / total capital social'
+		},
+		negativeSCTotal: {
+			value: '{{negativeSCTotal}}',
+			label: '% en contra / total capital social'
+		},
+		abstentionSCTotal: {
+			value: '{{abstentionSCTotal}}',
+			label: '% abstención / total capital social'
+		},
+		positiveSCPresent: {
+			value: '{{positiveSCPresent}}',
+			label: '% a favor / capital social presente'
+		},
+		negativeSCPresent: {
+			value: '{{negativeSCPresent}}',
+			label: '% en contra / capital social presente'
+		},
+		abstentionSCPresent: {
+			value: '{{abstentionSCPresent}}',
+			label: '% abstención / capital social presente'
+		}
+	}
+
+	const handler = {
+		get: (target, name) => {
+			if(!target[name]){
+				throw new Error('Invalid tag');
+			}
+
+			return target[name];
+		}
+	}
+
+	const smartTags = new Proxy(tags, handler);
+
+
 	const types = {
 		[DRAFT_TYPES.CONVENE_HEADER]: [
-			{
-				value: '{{dateFirstCall}}',
-				label: translate["1st_call_date"]
-			},
-			{
-				value: '{{dateSecondCall}}',
-				label: translate["2nd_call_date"]
-			},
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{country_state}}',
-				label: translate.company_new_country_state
-			}
+			smartTags.dateFirstCall,
+			smartTags.dateSecondCall,
+			smartTags.businessName,
+			smartTags.street,
+			smartTags.city,
+			smartTags.countryState,
 		],
 
 		[DRAFT_TYPES.AGENDA]: [
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{country_state}}',
-				label: translate.company_new_country_state
-			}
+			smartTags.city,
+			smartTags.countryState
 		],
 
 		[DRAFT_TYPES.INTRO]: [
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: '{{now}}',
-				label: translate.actual_date
-			},
-			{
-				value: '{{dateRealStart}}',
-				label: translate.date_real_start
-			},
-			{
-				value: '{{dateFirstCall}}',
-				label: translate["1st_call_date"]
-			},
-			{
-				value: '{{dateSecondCall}}',
-				label: translate["2nd_call_date"]
-			},
-			{
-				value: '{{firstOrSecondCall}}',
-				label: translate.first_or_second_call
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{president}}',
-				label: translate.president
-			},
-			{
-				value: '{{secretary}}',
-				label: translate.secretary
-			},
-			{
-				value: '{{numPresentOrRemote}}',
-				label: 'Nº de asistentes personalmente' //TRADUCCION
-			},
-			{
-				value: '{{numRepresented}}',
-				label: 'Nº de asistentes representados' //TRADUCCION
-			},
-			{
-				value: '{{numParticipants}}',
-				label: 'Nº de asistentes totales' //TRADUCCION
-			},
-			{
-				value: '{{numParticipationsPresent}}',
-				label: 'Nº de participaciones asisten personalmente' //TRADUCCION
-			},
-			{
-				value: '{{numParticipationsRepresented}}',
-				label: ' Nº de participaciones asisten representadas' //TRADUCCION
-			},
-			{
-				value: '{{percentageSCPresent}}',
-				label: '% del capital social que asiste personalmente' //TRADUCCION
-			},
-			{
-				value: '{{percentageSCRepresented}}',
-				label: '% del capital social que asiste representado' //TRADUCCION
-			},
-			{
-				value: '{{percentageSCTotal}}',
-				label: '% del capital social que asiste' //TRADUCCION
-			},
-			{
-				value: '{{convene}}',
-				label: 'Texto de la convocatoria' //TRADUCCION
-			},
+			smartTags.businessName,
+			smartTags.now,
+			smartTags.dateRealStart,
+			smartTags.dateFirstCall,
+			smartTags.dateSecondCall,
+			smartTags.firstOrSecondCall,
+			smartTags.city,
+			smartTags.street,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.numPresentOrRemote,
+			smartTags.numRepresented,
+			smartTags.numParticipants,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCRepresented,
+			smartTags.percentageSCTotal,
+			smartTags.convene
 		],
 
 		[DRAFT_TYPES.CONSTITUTION]: [
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: '{{president}}',
-				label: translate.president
-			},
-			{
-				value: '{{secretary}}',
-				label: translate.secretary
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{dateRealStart}}',
-				label: translate.date_real_start
-			},
-			{
-				value: '{{now}}',
-				label: translate.actual_date
-			},
-			{
-				value: '{{numPresentOrRemote}}',
-				label: 'Nº de asistentes personalmente' //TRADUCCION
-			},
-			{
-				value: '{{numRepresented}}',
-				label: 'Nº de asistentes representados' //TRADUCCION
-			},
-			{
-				value: '{{numParticipants}}',
-				label: 'Nº de asistentes totales' //TRADUCCION
-			},
-			{
-				value: '{{numParticipationsPresent}}',
-				label: 'Nº de participaciones asisten personalmente' //TRADUCCION
-			},
-			{
-				value: '{{numParticipationsRepresented}}',
-				label: ' Nº de participaciones asisten representadas' //TRADUCCION
-			},
-			{
-				value: '{{percentageSCPresent}}',
-				label: '% del capital social que asiste personalmente' //TRADUCCION
-			},
-			{
-				value: '{{percentageSCRepresented}}',
-				label: '% del capital social que asiste representado' //TRADUCCION
-			},
-			{
-				value: '{{percentageSCTotal}}',
-				label: '% del capital social que asiste' //TRADUCCION
-			},
-			{
-				value: '{{numberOfShares}}',
-				label: 'Nº participaciones que asiste del total del capital social'
-			},
-			{
-				value: '{{percentageOfShares}}',
-				label: translate.social_capital_percentage
-			}
+			smartTags.businessName,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.street,
+			smartTags.city,
+			smartTags.dateRealStart,
+			smartTags.now,
+			smartTags.numPresentOrRemote,
+			smartTags.numRepresented,
+			smartTags.numParticipants,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCRepresented,
+			smartTags.percentageSCTotal,
+			smartTags.numberOfShares,
+			smartTags.percentageOfShares
 		],
 
 		[DRAFT_TYPES.CONCLUSION]: [
-			{
-				value: '{{dateEnd}}',
-				label: translate.date_end
-			},
-			{
-				value: '{{president}}',
-				label: translate.president
-			},
-			{
-				value: '{{secretary}}',
-				label: translate.secretary
-			}
+			smartTags.dateEnd,
+			smartTags.president,
+			smartTags.secretary
 		],
 
 		[DRAFT_TYPES.CERTIFICATE_HEADER]: [
-			{
-				value: '{{dateFirstCall}}',
-				label: translate["1st_call_date"]
-			},
-			{
-				value: '{{dateSecondCall}}',
-				label: translate["2nd_call_date"]
-			},
-			{
-				value: '{{dateRealStart}}',
-				label: translate.date_real_start
-			},
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{country_state}}',
-				label: translate.company_new_country_state
-			},
-			{
-				value: '{{president}}',
-				label: translate.president
-			},
-			{
-				value: '{{secretary}}',
-				label: translate.secretary
-			},
-			{
-				value: '{{percentageSCPresent}}',
-				label: '% del capital social que asiste personalmente' //TRADUCCION
-			},
-			{
-				value: '{{percentageSCRepresented}}',
-				label: '% del capital social que asiste representado' //TRADUCCION
-			},
-			{
-				value: '{{percentageSCTotal}}',
-				label: '% del capital social que asiste' //TRADUCCION
-			},
-			{
-				value: '{{numPresentOrRemote}}',
-				label: 'Nº de asistentes personalmente' //TRADUCCION
-			},
-			{
-				value: '{{numRepresented}}',
-				label: 'Nº de asistentes representados' //TRADUCCION
-			},
-			{
-				value: '{{numParticipants}}',
-				label: 'Nº de asistentes totales' //TRADUCCION
-			},
+			smartTags.dateFirstCall,
+			smartTags.dateSecondCall,
+			smartTags.dateRealStart,
+			smartTags.businessName,
+			smartTags.street,
+			smartTags.city,
+			smartTags.countryState,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.convene,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCRepresented,
+			smartTags.percentageSCTotal,
+			smartTags.numPresentOrRemote,
+			smartTags.numRepresented,
+			smartTags.numParticipants,
 		],
 
 		[DRAFT_TYPES.CERTIFICATE_FOOTER]: [
-			{
-				value: '{{dateFirstCall}}',
-				label: translate["1st_call_date"]
-			},
-			{
-				value: '{{dateSecondCall}}',
-				label: translate["2nd_call_date"]
-			},
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{country_state}}',
-				label: translate.company_new_country_state
-			},
-			{
-				value: '{{now}}',
-				label: translate.actual_date
-			},
-			{
-				value: '{{president}}',
-				label: translate.president
-			},
-			{
-				value: '{{secretary}}',
-				label: translate.secretary
-			}
+			smartTags.dateFirstCall,
+			smartTags.dateSecondCall,
+			smartTags.dateEnd,
+			smartTags.businessName,
+			smartTags.street,
+			smartTags.city,
+			smartTags.countryState,
+			smartTags.now,
+			smartTags.president,
+			smartTags.secretary
 		],
 
 		[DRAFT_TYPES.COMMENTS_AND_AGREEMENTS]: [
-			{
-				value: '{{dateFirstCall}}',
-				label: translate["1st_call_date"]
-			},
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{GoverningBody}}',
-				label: 'Órgano de gobierno'//TRADUCCION
-			},
-			{
-				value: '{{GBdecides}}',
-				label: '[Órgano de gobierno] decide'//TRADUCCION
-			},
-			{
-				value: '{{GM/SoleDecides}}',
-				label: '[Junta Gral./Socio/Accionista único] decide'//TRADUCCION
-			},
-			{
-				value: '{{GM/SolePropose}}',
-				label: '[Junta Gral./Socio/Accionista único] propone'//TRADUCCION
-			},
-			{
-				value: '{{positiveVotings}}',
-				label: translate.positive_votings
-			},
-			{
-				value: '{{negativeVotings}}',
-				label: translate.negative_votings
-			},
-			{
-				value: '{{numPositive}}',
-				label: translate.num_positive
-			},
-			{
-				value: '{{numAbstention}}',
-				label: translate.num_abstention
-			},
-			{
-				value: '{{numNegative}}',
-				label: translate.num_negative
-			},
-			{
-				value: '{{numNoVote}}',
-				label: translate.num_no_vote
-			},
-			{
-				value: '{{positiveSCTotal}}',
-				label: '% a favor / total capital social'
-			},
-			{
-				value: '{{negativeSCTotal}}',
-				label: '% en contra / total capital social'
-			},
-			{
-				value: '{{abstentionSCTotal}}',
-				label: '% abstención / total capital social'
-			},
-			{
-				value: '{{positiveSCPresent}}',
-				label: '% a favor / capital social presente'
-			},
-			{
-				value: '{{negativeSCPresent}}',
-				label: '% en contra / capital social presente'
-			},
-			{
-				value: '{{abstentionSCPresent}}',
-				label: '% abstención / capital social presente'
-			},
+			smartTags.dateFirstCall,
+			smartTags.businessName,
+			smartTags.street,
+			smartTags.governingBody,
+			smartTags.gbDecides,
+			smartTags.soleDecides,
+			smartTags.solePropose,
+			smartTags.positiveVotings,
+			smartTags.negativeVotings,
+			smartTags.numPositive,
+			smartTags.numNegative,
+			smartTags.numAbstention,
+			smartTags.numNoVote,
+			smartTags.positiveSCTotal,
+			smartTags.negativeSCTotal,
+			smartTags.abstentionSCTotal,
+			smartTags.positiveSCPresent,
+			smartTags.negativeSCPresent,
+			smartTags.abstentionSCPresent
 		]
 	}
 
