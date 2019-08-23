@@ -64,6 +64,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	}, [getData]);
 
 	const updateState = object => {
+		console.log(object)
 		setData({
 			...data,
 			...object
