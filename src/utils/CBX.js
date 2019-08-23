@@ -380,12 +380,12 @@ export const getGoverningText = (translate, type) => {
 export const generateGBSoleDecidesText = (translate, type) => {
 	//TRADUCCION
 	const labels = {
-		0: 'la Junta General acuerda',
-		1: 'la Junta General acuerda',
-		6: 'el Socio/Accionista único decide',
-		7: 'el Socio/Accionista único decide',
-		8: 'el Socio/Accionista único decide',
-		9: 'el Socio/Accionista único decide'
+		0: 'La Junta General acuerda',
+		1: 'La Junta General acuerda',
+		6: 'El Socio/Accionista único decide',
+		7: 'El Socio/Accionista único decide',
+		8: 'El Socio/Accionista único decide',
+		9: 'El Socio/Accionista único decide'
 	}
 
 	return labels[type]? labels[type] : labels[0];
@@ -394,12 +394,12 @@ export const generateGBSoleDecidesText = (translate, type) => {
 export const generateGBSoleProposeText = (translate, type) => {
 	//TRADUCCION
 	const labels = {
-		0: 'la Junta General',
-		1: 'la Junta General',
-		6: 'el Socio/Accionista único',
-		7: 'el Socio/Accionista único',
-		8: 'el Socio/Accionista único',
-		9: 'el Socio/Accionista único'
+		0: 'La Junta General',
+		1: 'La Junta General',
+		6: 'El Socio/Accionista único',
+		7: 'El Socio/Accionista único',
+		8: 'El Socio/Accionista único',
+		9: 'El Socio/Accionista único'
 	}
 
 	return labels[type]? labels[type] : labels[0];
