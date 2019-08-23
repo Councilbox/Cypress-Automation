@@ -23,7 +23,8 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 		loadingPresentsAll: true,
 		showModal: false,
 		filters: '',
-		offsetOnline:0
+		offsetOnline: 0,
+		offsetPresencial: 15
 	})
 
 	const getData = () => {
@@ -47,6 +48,7 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 					limit: 1,
 					offset: 0
 				},
+
 			}
 		});
 
@@ -66,7 +68,8 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 				options: {
 					limit: 15,
 					offset: 0
-				}
+				},
+
 			}
 		});
 
@@ -85,49 +88,66 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 	const verMas = async (vermas) => {
 
 		if (vermas === "presencial") {
+			let offset
+			if (state.filters) {
+				offset = 1
+				setState({ ...state, offsetPresencial: offset })
+			} else {
+				offset = state.offsetPresencial + 1
+				setState({ ...state, offsetPresencial: offset })
+			}
 			const response = await client.query({
 				query: roomLiveParticipantsPresents,
 				variables: {
 					councilId: council.id,
 					options: {
 						limit: 15,
-						offset: 0
+						offset: state.offsetPresencial
 					},
 					filters: [
 						{
-							field: 'name',
+							field: 'fullName',
 							text: state.filters
 						}
 					]
 				},
 			});
+
 			setParticipantsPresentsAll({
 				list: [...participantsPresentsAll.list, ...response.data.roomLiveParticipantsPresents.list],
-				total: [...response.data.roomLiveParticipantsPresents.total],
+				total: response.data.roomLiveParticipantsPresents.total,
 			});
 		} else if (vermas === "online") {
+			let offset
+			if (state.filters) {
+				offset = 1
+				setState({ ...state, offsetOnline: offset })
+			} else {
+				offset = state.offsetOnline + 1
+				setState({ ...state, offsetOnline: offset })
+			}
 			const responseOnline = await client.query({
 				query: roomLiveParticipantsOnline,
 				variables: {
 					councilId: council.id,
 					options: {
 						limit: 1,
-						offset: state.offsetOnline
+						offset: offset
 					},
 					filters: [
 						{
-							field: 'name',
+							field: 'fullName',
 							text: state.filters
 						}
 					]
 				},
 			});
-			setState({...state, offset: state.offsetOnline+1 })
+
 			setParticipantsOnlineAll({
 				list: [...participantsOnlineAll.list, ...responseOnline.data.roomLiveParticipantsOnline.list],
-				total: [...responseOnline.data.roomLiveParticipantsOnline.total],
+				total: responseOnline.data.roomLiveParticipantsOnline.total,
 			});
-			
+
 		} else {
 			const response = await client.query({
 				query: roomLiveParticipantsPresents,
@@ -139,15 +159,13 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 					},
 					filters: [
 						{
-							field: 'name',
+							field: 'fullName',
 							text: state.filters
 						}
 					]
 				},
 			});
-			setParticipantsPresentsAll({
-				...response.data.roomLiveParticipantsPresents
-			});
+			
 
 			const responseOnline = await client.query({
 				query: roomLiveParticipantsOnline,
@@ -159,16 +177,20 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 					},
 					filters: [
 						{
-							field: 'name',
+							field: 'fullName',
 							text: state.filters
 						}
 					]
 				},
 			});
+			setParticipantsPresentsAll({
+				// ...response.data.roomLiveParticipantsPresents
+				...responseOnline.data.roomLiveParticipantsOnline
+			});
 			setParticipantsOnlineAll({
 				...responseOnline.data.roomLiveParticipantsOnline
 			});
-			
+
 		}
 
 
@@ -304,7 +326,7 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 					</div>
 				</Drawer>
 			}
-			<AlertConfirm
+			{/* <AlertConfirm
 				requestClose={() => setState({ showModal: false })}
 				open={state.showModal}
 				buttonCancel={"Close"}
@@ -354,8 +376,8 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 											}
 										</Scrollbar>
 										{!state.loadingPresentsAll &&
-											// participantsOnlineAll.total >= participantsOnlineAll.list.length &&
-											<div style={{ cursor: "pointer", color: getPrimary() }} onClick={() => verMas("online")}>Ver más </div>
+											participantsOnlineAll.total !== participantsOnlineAll.list.length &&
+											<div style={{ cursor: "pointer", color: getPrimary() }} onClick={() => verMas("online")}>Ver más</div>
 										}
 									</div>
 								</div>
@@ -387,7 +409,7 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 											}
 										</Scrollbar>
 										{!state.loadingPresentsAll &&
-											participantsPresentsAll.total >= participantsPresentsAll.list.length &&
+											participantsPresentsAll.total !== participantsPresentsAll.list.length &&
 											<div style={{ cursor: "pointer", color: getPrimary() }} onClick={() => verMas("presencial")}>Ver más</div>
 										}
 									</div>
@@ -397,10 +419,119 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 					</Grid>
 				}
 				title={"Personas Online / Presenciales"} //TRADUCCION
-			/>
+			/> */}
+			<Modal
+				setState={setState}
+				showModal={state.showModal}
+				body={
+					<Grid style={{ height: "100%", justifyContent: "space-between", overflow: "hidden" }}>
+						<GridItem xs={12} md={12} lg={12} style={{ display: "flex", justifyContent: "flex-end" }}>
+							<div >
+								<TextInput
+									adornment={<Icon>search</Icon>}
+									type="text"
+									labelNone={true}
+									value={state.filters}
+									onChange={event => {
+										setState({ ...state, filters: event.target.value });
+									}}
+								/>
+							</div>
+						</GridItem>
+						<Grid style={{ display: "flex", height: "100%", justifyContent: "space-between" }}>
+							<GridItem xs={5} md={5} lg={5}>
+								<div style={{ marginBottom: "1em", display: "flex", alignItems: "center" }}>
+									<i className={"fa fa-globe"} style={{ marginRight: "0.5em" }}></i>
+									Online
+				</div>
+								<div style={{ border: "1px solid gainsboro", height: "80%", borderRadius: "5px", padding: "10px" }}>
+									<div style={{ width: "100%", height: "95%" }}>
+										<Scrollbar>
+											{state.loadingPresentsAll ?
+												<LoadingSection />
+												:
+												<div>
+													{participantsOnlineAll.list.map(item => {
+														return (
+															<div key={item.id} style={{ alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
+																{CBX.haveGrantedWord(item) &&
+																	<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em" }}></i>
+																}
+																<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
+																	{item.name + " " + item.surname}
+																</div>
+															</div>
+														)
+													}
+													)}
+												</div>
+											}
+										</Scrollbar>
+										{!state.loadingPresentsAll &&
+											participantsOnlineAll.total !== participantsOnlineAll.list.length &&
+											<div style={{ cursor: "pointer", color: getPrimary() }} onClick={() => verMas("online")}>Ver más</div>
+										}
+									</div>
+								</div>
+							</GridItem>
+							<GridItem xs={5} md={5} lg={5}>
+								<div style={{ marginBottom: "1em", display: "flex", alignItems: "center" }}>
+									<i className="material-icons" aria-hidden="true" style={{ marginRight: "5px", fontSize: "18px" }}>
+										face
+					</i>
+									Presencial
+				</div>
+								<div style={{ border: "1px solid gainsboro", height: "80%", borderRadius: "5px", padding: "10px" }}>
+									<div style={{ width: "100%", height: "95%" }}>
+										<Scrollbar>
+											{state.loadingPresentsAll ?
+												<LoadingSection />
+												:
+												participantsPresentsAll.list.map(item => {
+													return (
+														<div key={item.id + "presents"} style={{ fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
+															<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
+																{item.name + " " + item.surname}
+															</div>
+														</div>
+													)
+												}
+												)
+
+											}
+										</Scrollbar>
+										{!state.loadingPresentsAll &&
+											participantsPresentsAll.total !== participantsPresentsAll.list.length &&
+											<div style={{ cursor: "pointer", color: getPrimary() }} onClick={() => verMas("presencial")}>Ver más</div>
+										}
+									</div>
+								</div>
+							</GridItem>
+						</Grid>
+					</Grid>
+				}
+			></Modal>
 		</div>
 	)
 }
+
+const Modal = ({ setState, showModal, body }) => {
+
+
+	return (
+		<AlertConfirm
+			requestClose={() => setState({ showModal: false })}
+			open={showModal}
+			buttonCancel={"Close"}
+			bodyStyle={{ minWidth: "70vw", height: "65vh" }}
+			bodyText={
+				body
+			}
+			title={"Personas Online / Presenciales"} //TRADUCCION
+		/>
+	)
+}
+
 
 const styles = {
 	paperAnchorTop: {
