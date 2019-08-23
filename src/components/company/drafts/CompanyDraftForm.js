@@ -37,11 +37,8 @@ const styles = {
 };
 
 const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, companyTypes, ...props }) => {
-	const [title, setTitle] = React.useState(draft.title);
 	const [search, setSearch] = React.useState('');
-	const [description, setDescription] = React.useState(draft.description);
 	const [newTag, setNewTag] = React.useState('');//TRADUCCION
-	const [infoText, setInfoText] = React.useState(draft.text);
 	const [testTags, setTestTags] = React.useState({});
 
 
@@ -156,7 +153,14 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 			<React.Fragment>
 				<div style={{ fontSize: "18px" }}>{translate.description}</div>
 				<div>
-					<textarea
+					<TextField
+						error={errors.description}
+						value={draft.description}
+						onChange={event =>
+							updateState({
+								description: event.nativeEvent.target.value
+							})
+						}
 						style={{
 							color: "rgba(0, 0, 0, 0.36)",
 							fontSize: '18px',
@@ -168,28 +172,13 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 							minHeight: "86px",
 							resize: 'none',
 						}}
+						InputProps={{
+							disableUnderline: true,
+							style:{
+								color: "rgba(0, 0, 0, 0.36)",
+							}
+						}}
 						placeholder={'Añadir una descripcion detallada' /*TRADUCCION*/}
-						error={errors.description}
-						value={draft.description}
-						onChange={event =>
-							updateState({
-								description: event.nativeEvent.target.value
-							})
-						}
-					/>
-					<TextField
-					style={{
-						color: "rgba(0, 0, 0, 0.36)",
-						fontSize: '18px',
-						boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-						border: "1px solid #d7d7d7",
-						width: "100%",
-						padding: '.5em 1.6em',
-						marginTop: "1em",
-						minHeight: "86px",
-						resize: 'none',
-					}}
-						placeholder="MultiLine with rows: 2 and rowsMax: 4"
 						multiline={true}
 						rows={2}
 						rowsMax={4}
@@ -214,15 +203,23 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 			<React.Fragment>
 				<div>
 					<RichTextInput
-						type="text"
+						value={draft.text || ""}
+						errorText={errors.text}
 						translate={translate}
-						value={infoText}
-						onChange={value => { setInfoText(value) }}
+						onChange={value =>
+							updateState({
+								text: value
+							})
+						}
+						tags={CBX.getTagVariablesByDraftType(draft.type, translate)}
 					/>
 				</div>
 			</React.Fragment>
 		);
 	}
+	console.log(companyStatutes)
+	console.log(GOVERNING_BODY_TYPES)
+	console.log(draftTypes)
 
 	const renderSelectorEtiquetas = () => {
 		return (
@@ -309,7 +306,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 													.map(votingType => {
 														return (
 															<Etiqueta
-																// key={`tag_${votingType.value}`}
+																key={`tag_${votingType.value}`}
 																childs={CBX.hasVotation(votingType.value) ?
 																	majorityTypes
 																		.filter(majority => {
@@ -367,9 +364,6 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 				<AlertConfirm
 					requestClose={() => setOpenClonar(false)}
 					open={openClonar}
-					// acceptAction={this.updateAttachment}
-					// buttonAccept={translate.accept}
-					// buttonCancel={translate.cancel}
 					hideAccept={true}
 					bodyText={renderModalClonar()}
 					title={"Cargar Plantilla"}
