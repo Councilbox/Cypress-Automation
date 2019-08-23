@@ -1,7 +1,6 @@
 import React from "react";
 import { EnhancedTable } from "../../../displayComponents/index";
-import { graphql } from "react-apollo";
-
+import { graphql, withApollo } from "react-apollo";
 import { companyDrafts } from "../../../queries/companyDrafts";
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from "../../../constants";
 import { TableCell, TableRow } from "material-ui/Table";
@@ -20,16 +19,76 @@ export const draftTypes = gql`
 	}
 `;
 
-const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props }) => {
-	React.useEffect(() => {
-		props.data.refetch();
+// graphql(companyDrafts, {
+// 	name: "data",
+// 	options: props => ({
+// 		variables: {
+// 			companyId: props.companyId,
+// 			prototype: 3,
+// 			filters: [
+// 				{
+// 					field: "type",
+// 					text: props.draftType
+// 				},
+// 				{
+// 					field: "statuteId",
+// 					text: props.statute.statuteId
+// 				}
+// 			],
+// 			options: {
+// 				limit: DRAFTS_LIMITS[0],
+// 				offset: 0
+// 			}
+// 		}
+// 	})
+// }),
+
+
+const LoadDraft = withSharedProps()(({ translate, statutes, statute, client, ...props }) => {
+	const [data, setData] = React.useState(null);
+	const [loading, setLoading] = React.useState(true);
+	// React.useEffect(() => {
+	// 	props.data.refetch();
+	// }, []);
+	const getData = React.useCallback(async variables => {
+		const response = await client.query({
+			query: companyDrafts,
+			variables: {
+				companyId: props.companyId,
+				prototype: 3,
+				filters: [
+					{
+						field: "type",
+						text: props.draftType
+					},
+					{
+						field: "statuteId",
+						text: statute.statuteId
+					}
+				],
+				options: {
+					limit: DRAFTS_LIMITS[0],
+					offset: 0
+				},
+				...variables
+			}
+		})
+
+		console.log(response);
+
+		setData(response.data.companyDrafts);
+		setLoading(false);
 	}, []);
 
-	const { companyDrafts, loading } = props.data;
+	React.useEffect(() => {
+		if(!data){
+			getData();
+		}
+	}, [getData]);
 
 	return (
 		<React.Fragment>
-			{!!companyDrafts && (
+			{!!data && (
 				<EnhancedTable
 					translate={translate}
 					defaultLimit={DRAFTS_LIMITS[0]}
@@ -37,15 +96,15 @@ const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props })
 					limits={DRAFTS_LIMITS}
 					page={1}
 					loading={loading}
-					length={companyDrafts.list.length}
-					total={companyDrafts.total}
+					length={data.list.length}
+					total={data.total}
 					addedFilters={[
 						{
 							field: "type",
 							text: props.draftType
 						}
 					]}
-					refetch={props.data.refetch}
+					refetch={getData}
 					selectedCategories={[{
 						field: "statuteId",
 						value: statute.statuteId,
@@ -90,7 +149,7 @@ const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props })
 						}
 					]}
 				>
-					{companyDrafts.list.map(draft => {
+					{data.list.map(draft => {
 						return (
 							<TableRow
 								key={`draft${draft.id}`}
@@ -119,28 +178,6 @@ const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props })
 
 
 export default compose(
-	graphql(companyDrafts, {
-		name: "data",
-		options: props => ({
-			variables: {
-				companyId: props.companyId,
-				prototype: 3,
-				filters: [
-					{
-						field: "type",
-						text: props.draftType
-					},
-					{
-						field: "statuteId",
-						text: props.statute.statuteId
-					}
-				],
-				options: {
-					limit: DRAFTS_LIMITS[0],
-					offset: 0
-				}
-			}
-		})
-	}),
+	withApollo,
 	graphql(draftTypes, { name: "info" })
 )(LoadDraft);
