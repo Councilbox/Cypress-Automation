@@ -789,6 +789,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.firstOrSecondCall,
 			smartTags.city,
 			smartTags.street,
+			smartTags.governingBody,
 			smartTags.president,
 			smartTags.secretary,
 			smartTags.numPresentOrRemote,
@@ -804,6 +805,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 
 		[DRAFT_TYPES.CONSTITUTION]: [
 			smartTags.businessName,
+			smartTags.governingBody,
 			smartTags.president,
 			smartTags.secretary,
 			smartTags.street,
@@ -824,6 +826,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 
 		[DRAFT_TYPES.CONCLUSION]: [
 			smartTags.dateEnd,
+			smartTags.governingBody,
 			smartTags.president,
 			smartTags.secretary
 		],
@@ -836,6 +839,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.street,
 			smartTags.city,
 			smartTags.countryState,
+			smartTags.governingBody,
 			smartTags.president,
 			smartTags.secretary,
 			smartTags.convene,
