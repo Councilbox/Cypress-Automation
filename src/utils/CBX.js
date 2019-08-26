@@ -772,6 +772,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.street,
 			smartTags.city,
 			smartTags.countryState,
+			smartTags.governingBody
 		],
 
 		[DRAFT_TYPES.AGENDA]: [
