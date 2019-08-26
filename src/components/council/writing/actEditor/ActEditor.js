@@ -769,6 +769,7 @@ export default compose(
 					offset: 0
 				}
 			},
+			fetchPolicy: 'network-only',
 			notifyOnNetworkStatusChange: true
 		})
 	}),
