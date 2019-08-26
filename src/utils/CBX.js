@@ -555,9 +555,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
 	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements(translate, data.company.governingBodyType));
 
-	text = text.replace(/{{Agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');	
-	
-
+	text = text.replace(/{{Agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
 
 	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
 	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);

@@ -330,6 +330,7 @@ export const changeStatute = gql`
 	mutation changeCouncilStatute($councilId: Int!, $statuteId: Int!) {
 		changeCouncilStatute(councilId: $councilId, statuteId: $statuteId) {
 			id
+			title
 			conveneFooter
 			conveneHeader
 		}
