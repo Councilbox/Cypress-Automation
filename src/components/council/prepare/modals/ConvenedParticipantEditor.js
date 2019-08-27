@@ -136,7 +136,7 @@ class ConvenedParticipantEditor extends React.Component {
 		if(participant.email && participant.email !== this.props.participant.email){
 			let emailsToCheck = [participant.email];
 
-			if(representative.email && representative.email !== this.props.participant.representative.email){
+			if(representative.email && ((this.props.participant.representative && representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)){
 				emailsToCheck.push(representative.email);
 			}
 
