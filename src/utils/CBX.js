@@ -1150,7 +1150,6 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 				);
 			}
 			break;
-
 		case COUNCIL_STATES.ROOM_OPENED:
 			if (expected !== "live") {
 				bHistory.replace(
@@ -1159,33 +1158,10 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 			}
 			break;
 		case COUNCIL_STATES.FINISHED:
-			if (expected !== "finished") {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/finished`
-				);
-			}
-			break;
 		case COUNCIL_STATES.APPROVED:
-			if (expected !== "finished") {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/finished`
-				);
-			}
-			break;
 		case COUNCIL_STATES.FINAL_ACT_SENT:
-			if (expected !== "finished") {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/finished`
-				);
-			}
-			break;
+		case COUNCIL_STATES.CANCELED:
 		case COUNCIL_STATES.NOT_CELEBRATED:
-			if (expected !== "finished") {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/finished`
-				);
-			}
-			break;
 		case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
 			if (expected !== "finished") {
 				bHistory.replace(
