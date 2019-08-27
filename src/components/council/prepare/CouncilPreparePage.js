@@ -28,6 +28,7 @@ import { useOldState } from "../../../hooks";
 import { ConfigContext } from "../../../containers/AppControl";
 import DelegationRestriction from "../editor/DelegationRestriction";
 
+
 const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 	const [state, setState] = useOldState({
 		participants: false,
@@ -41,6 +42,20 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 
 	const primary = getPrimary();
 	const secondary = getSecondary();
+
+	React.useEffect(() => {
+		if(data.council){
+			CBX.checkCouncilState(
+				{
+					state: data.council.state,
+					id: data.council.id
+				},
+				company,
+				bHistory,
+				"convened"
+			);
+		}
+	}, [data]);
 
 	const goToPrepareRoom = () => {
 		bHistory.push(
@@ -355,6 +370,7 @@ export default graphql(councilDetails, {
 	options: props => ({
 		variables: {
 			councilID: props.match.params.id
-		}
+		},
+		pollInterval: 10000
 	})
 })(withApollo(withSharedProps()(withRouter(CouncilPreparePage))));
