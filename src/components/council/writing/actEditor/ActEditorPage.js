@@ -241,6 +241,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                 <GoverningBodyDisplay
                     translate={translate}
                     company={props.company}
+                    open={state.infoMenu}
                 />
                 {/* <CouncilSideMenu
                     council={council}

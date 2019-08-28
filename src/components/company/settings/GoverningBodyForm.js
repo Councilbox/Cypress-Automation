@@ -269,6 +269,17 @@ const baseUser = {
     id: new Date()
 }
 
+export const getCouncilAdminPosition = (index, translate) => {
+    const positions = {
+        0: translate.president,
+        1: 'Vicepresidente',
+        2: translate.secretary,
+        3: 'Vicesecretario'
+    }
+
+    return positions[index];
+}
+
 const CouncilAdminForm = ({ translate, setData, data }) => {
 
     React.useEffect(() => {
@@ -291,16 +302,7 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
         })
     }
 
-    const getContent = index => {
-        const positions = {
-            0: translate.president,
-            1: 'Vicepresidente',
-            2: translate.secretary,
-            3: 'Vicesecretario'
-        }
 
-        return positions[index];
-    }
 
 
 
@@ -331,7 +333,7 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
                     {data.list && data.list.map((item, index) => (
                         <TableRow key={`item_${item.id}`} style={{ marginTop: '1em', ...(index > 0? { borderTop: '1px solid gainsboro'} : {})}}>
                             <TableCell>
-                                {getContent(index)}
+                                {getCouncilAdminPosition(index, translate)}
                             </TableCell>
                             <TableCell>
                                 <TextInput

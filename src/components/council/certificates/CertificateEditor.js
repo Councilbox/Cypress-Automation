@@ -11,6 +11,7 @@ import gql from 'graphql-tag';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
+import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
 
 const initialState = {
     loadingDraftData: true,
@@ -36,6 +37,7 @@ const dataReducer = (state, action) => {
 const CerficateEditor = ({ translate, council, company, client, ...props }) => {
     const [loading, setLoading] = React.useState(false);
     const [{ loadingDraftData, draftData }, dispatch] = React.useReducer(dataReducer, initialState);
+    const [infoMenu, setInfoMenu] = React.useState(false);
     //const [loadingDraftData, setLoadingDraftData] = React.useState(true);
     //const [draftData, setDraftData] = React.useState(null);
     const [data, setData] = React.useState({
@@ -159,6 +161,10 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
         return Object.keys(errors).length > 0;
     }
 
+    const toggleInfoMenu = () => {
+        setInfoMenu(!infoMenu);
+    }
+
     const updateCertificateDate = object => {
         setData({
             ...data,
@@ -183,129 +189,150 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
     console.log(draftData);
 
     return(
-        <CardPageLayout title={translate.certificate_generate} disableScroll={true}>
-            <div style={{height: 'calc(100% -  3.5em)'}}>
-                <Scrollbar>
-                    <div style={{padding: '2em', paddingTop: '1em', paddingBottom: '1em'}}>
-                        <SectionTitle text={translate.edit_company} color={primary} style={{marginTop: '1.6em'}}/>
-                        <div style={{marginBottom: '1.2em', maxWidth: '50em'}}>
-                            <TextInput
-                                floatingText={translate.certificate_title_of}
-                                value={data.title}
-                                errorText={errors.title}
-                                onChange={(event) => updateCertificateDate({
-                                    title: event.target.value
-                                })}
-                            />
-                        </div>
-                        <div style={{marginBottom: '1.2em'}}>
-                            <RichTextInput
-                                floatingText={translate.certificate_header}
-                                value={data.header}
-                                ref={headerEditor}
-                                translate={translate}
-                                errorText={errors.header}
-                                tags={generateActTags('certHeader', {
-                                    council: {
-                                        attendants: draftData.councilAttendants.list,
-                                        agenda: draftData.agendas,
-                                        delegatedVotes: draftData.participantsWithDelegatedVote,
-                                        ...generateCouncilSmartTagsValues(draftData),
-                                    },
-                                    company,
-                                    recount: draftData.councilRecount
-                                }, translate)}
-                                loadDraft={
-                                    <LoadDraftModal
-                                        translate={translate}
-                                        companyId={council.companyId}
-                                        loadDraft={loadHeaderDraft}
-                                        statute={draftData.council.statute}
-                                        statutes={draftData.companyStatutes}
-                                        draftType={7}
+        <div style={{width: '100%', height: '100%', display: 'flex'}}>
+            <div style={{width: infoMenu? '65%' : '100%', height: '100%', transition: 'width 0.6s'}}>
+                <CardPageLayout title={translate.certificate_generate} disableScroll={true}>
+                    <div style={{height: 'calc(100% -  3.5em)'}}>
+                        <Scrollbar>
+                            <div style={{padding: '2em', paddingTop: '1em', paddingBottom: '1em'}}>
+                                <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+                                    <BasicButton
+                                        text={'Miembros órgano de gobierno'}//TRADUCCION
+                                        color={'white'}
+                                        type="flat"
+                                        textStyle={{ color: secondary }}
+                                        buttonStyle={{border: `1px solid ${secondary}`, marginLeft: '0.6em', alignSelf: 'flex-end'}}
+                                        onClick={toggleInfoMenu}
                                     />
-                                }
-                                onChange={value => updateCertificateDate({
-                                    header: value
-                                })}
-                            />
-                        </div>
+                                </div>
+                                <SectionTitle text={translate.edit_company} color={primary} style={{marginTop: '1.6em'}}/>
+                                <div style={{marginBottom: '1.2em', maxWidth: '50em'}}>
+                                    <TextInput
+                                        floatingText={translate.certificate_title_of}
+                                        value={data.title}
+                                        errorText={errors.title}
+                                        onChange={(event) => updateCertificateDate({
+                                            title: event.target.value
+                                        })}
+                                    />
+                                </div>
+                                <div style={{marginBottom: '1.2em'}}>
+                                    <RichTextInput
+                                        floatingText={translate.certificate_header}
+                                        value={data.header}
+                                        ref={headerEditor}
+                                        translate={translate}
+                                        errorText={errors.header}
+                                        tags={generateActTags('certHeader', {
+                                            council: {
+                                                attendants: draftData.councilAttendants.list,
+                                                agenda: draftData.agendas,
+                                                delegatedVotes: draftData.participantsWithDelegatedVote,
+                                                ...generateCouncilSmartTagsValues(draftData),
+                                            },
+                                            company,
+                                            recount: draftData.councilRecount
+                                        }, translate)}
+                                        loadDraft={
+                                            <LoadDraftModal
+                                                translate={translate}
+                                                companyId={council.companyId}
+                                                loadDraft={loadHeaderDraft}
+                                                statute={draftData.council.statute}
+                                                statutes={draftData.companyStatutes}
+                                                draftType={7}
+                                            />
+                                        }
+                                        onChange={value => updateCertificateDate({
+                                            header: value
+                                        })}
+                                    />
+                                </div>
 
-                        <SectionTitle text={`${translate.include_agenda_points}:`} color={primary} style={{marginTop: '1.6em'}}/>
-                        <div style={{marginBottom: '1.2em'}}>
-                            {council.agendas.map(agenda => (
-                                <AgendaCheckItem
-                                    key={`agenda_${agenda.id}`}
-                                    agenda={agenda}
-                                    updatePoints={updatePoints}
-                                    checked={points}
+                                <SectionTitle text={`${translate.include_agenda_points}:`} color={primary} style={{marginTop: '1.6em'}}/>
+                                <div style={{marginBottom: '1.2em'}}>
+                                    {council.agendas.map(agenda => (
+                                        <AgendaCheckItem
+                                            key={`agenda_${agenda.id}`}
+                                            agenda={agenda}
+                                            updatePoints={updatePoints}
+                                            checked={points}
+                                        />
+                                    ))}
+                                </div>
+
+                                <SectionTitle text={translate.certificate_footer} color={primary} style={{marginTop: '1.6em'}}/>
+                                <RichTextInput
+                                    ref={footerEditor}
+                                    value={data.footer}
+                                    translate={translate}
+                                    errorText={errors.footer}
+                                    tags={generateActTags('certFooter', {
+                                            council: {
+                                                attendants: draftData.councilAttendants.list,
+                                                agenda: draftData.agendas,
+                                                delegatedVotes: draftData.participantsWithDelegatedVote,
+                                                ...generateCouncilSmartTagsValues(draftData),
+                                            },
+                                            company,
+                                            recount: draftData.councilRecount
+                                        }, translate)}
+                                        loadDraft={
+                                            <LoadDraftModal
+                                                translate={translate}
+                                                companyId={council.companyId}
+                                                loadDraft={loadFooterDraft}
+                                                statute={draftData.council.statute}
+                                                statutes={draftData.companyStatutes}
+                                                draftType={8}
+                                            />
+                                        }
+                                    onChange={value => updateCertificateDate({
+                                        footer: value
+                                    })}
                                 />
-                            ))}
-                        </div>
-
-                        <SectionTitle text={translate.certificate_footer} color={primary} style={{marginTop: '1.6em'}}/>
-                        <RichTextInput
-                            ref={footerEditor}
-                            value={data.footer}
-                            translate={translate}
-                            errorText={errors.footer}
-                            tags={generateActTags('certFooter', {
-                                    council: {
-                                        attendants: draftData.councilAttendants.list,
-                                        agenda: draftData.agendas,
-                                        delegatedVotes: draftData.participantsWithDelegatedVote,
-                                        ...generateCouncilSmartTagsValues(draftData),
-                                    },
-                                    company,
-                                    recount: draftData.councilRecount
-                                }, translate)}
-                                loadDraft={
-                                    <LoadDraftModal
-                                        translate={translate}
-                                        companyId={council.companyId}
-                                        loadDraft={loadFooterDraft}
-                                        statute={draftData.council.statute}
-                                        statutes={draftData.companyStatutes}
-                                        draftType={8}
-                                    />
-                                }
-                            onChange={value => updateCertificateDate({
-                                footer: value
-                            })}
+                            </div>
+                        </Scrollbar>
+                    </div>
+                    <div
+                        style={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            paddingRight: '1.2em',
+                            borderTop: '1px solid gainsboro',
+                            justifyContent: 'flex-end',
+                            height: '3.5em'
+                        }}
+                    >
+                        <BasicButton
+                            text={translate.back}
+                            onClick={props.requestClose}
+                            loading={loading}
+                            type="flat"
+                            textStyle={{textTransform: 'none', fontWeight: '700'}}
+                            color={'white'}
+                            buttonStyle={{marginTop: '0.8em', margingRight: '0.6em'}}
+                        />
+                        <BasicButton
+                            text={translate.certificate_generate}
+                            onClick={createCertificate}
+                            loading={loading}
+                            textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                            color={secondary}
+                            buttonStyle={{marginTop: '0.8em'}}
                         />
                     </div>
-                </Scrollbar>
+                </CardPageLayout>
             </div>
-            <div
-                style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    paddingRight: '1.2em',
-                    borderTop: '1px solid gainsboro',
-                    justifyContent: 'flex-end',
-                    height: '3.5em'
-                }}
-            >
-                <BasicButton
-                    text={translate.back}
-                    onClick={props.requestClose}
-                    loading={loading}
-                    type="flat"
-                    textStyle={{textTransform: 'none', fontWeight: '700'}}
-                    color={'white'}
-                    buttonStyle={{marginTop: '0.8em', margingRight: '0.6em'}}
-                />
-                <BasicButton
-                    text={translate.certificate_generate}
-                    onClick={createCertificate}
-                    loading={loading}
-                    textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
-                    color={secondary}
-                    buttonStyle={{marginTop: '0.8em'}}
+            <div style={{backgroundColor: 'white', width: infoMenu? '35%' : '0', transition: 'width 0.6s', height: '100%'}}>
+                <GoverningBodyDisplay
+                    translate={translate}
+                    company={company}
+                    open={infoMenu}
                 />
             </div>
-        </CardPageLayout>
+        </div>
     )
 }
 
