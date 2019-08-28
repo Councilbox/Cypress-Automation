@@ -2,7 +2,7 @@ import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
-	CardPageLayout
+	CardPageLayout,
 } from "../../../displayComponents";
 import CompanyDraftForm from "./CompanyDraftForm";
 import { graphql, withApollo } from "react-apollo";
@@ -45,7 +45,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);
 
-	const getData = React.useCallback(async() => {
+	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: getCompanyDraftData,
 			variables: {
@@ -53,7 +53,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				companyId: props.match.params.company
 			}
 		});
-
+		
 		setVars(response.data);
 		setData(response.data.companyDraft);
 		setFetching(false);
@@ -76,6 +76,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	}
 
 	const updateCompanyDraft = async () => {
+
 		if (!checkRequiredFields(translate, data, updateErrors)) {
 			setLoading(true);
 			const { __typename, ...cleanData } = data;
@@ -94,6 +95,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				label: props.company.businessName
 			});
 
+
 			if (!response.errors) {
 				setSuccess(true);
 				setLoading(false);
@@ -102,10 +104,10 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	}
 
 	return (
-		<CardPageLayout title={'Editar Plantillas'}>{/*TRADUCCION*/}
+		<CardPageLayout title={'Editar Plantillas'} disableScroll={true}>{/*TRADUCCION*/}
 			{!fetching && (
-				<div style={{ height:'100%', padding:"0px 25px" }}>
-					<div style={{ marginTop: "1.8em", height:"calc( 100% - 6em )" }}>
+				<div style={{ height: 'calc( 100% - 5em )' }}>
+					<div style={{ marginTop: "1.8em", height: "100%", overflow: "hidden", padding: "0px 25px" }}>
 						<CompanyDraftForm
 							translate={translate}
 							errors={errors}
@@ -115,28 +117,38 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 							draftTypes={vars.draftTypes}
 							votingTypes={vars.votingTypes}
 							majorityTypes={vars.majorityTypes}
+							match={props.match}
 						/>
 					</div>
-					<br />
-					<BasicButton
-						text={translate.save}
-						color={getPrimary()}
-						loading={loading}
-						success={success}
-						textStyle={{
-							color: "white",
-							fontWeight: "700"
-						}}
-						floatRight
-						onClick={updateCompanyDraft}
-						icon={<ButtonIcon type="save" color="white" />}
-					/>
+					{/* <br /> */}
+					<div style={{
+						height: '3.5em',
+						borderTop: '1px solid gainsboro',
+						paddingRight: '0.8em',
+						width: '100%',
+						display: 'flex',
+						justifyContent: 'flex-end',
+						alignItems: 'center',
+					}}>
+						<BasicButton
+							text={translate.save}
+							color={getPrimary()}
+							loading={loading}
+							success={success}
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							floatRight
+							onClick={updateCompanyDraft}
+							icon={<ButtonIcon type="save" color="white" />}
+						/>
+					</div>
 				</div>
 			)}
 		</CardPageLayout>
 	);
 }
-
 
 export default compose(
 	withApollo,

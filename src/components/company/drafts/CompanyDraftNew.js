@@ -30,6 +30,7 @@ class CompanyDraftNew extends Component {
 	createCompanyDraft = async () => {
 		const { translate } = this.props;
 		const { draft } = this.state;
+		
 		if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
 			this.setState({ loading: true });
 			const response = await this.props.createCompanyDraft({
@@ -98,7 +99,7 @@ class CompanyDraftNew extends Component {
 
 		return (
 			<React.Fragment>
-				<div style={{ marginTop: "1.8em" }}>
+				<div style={{ marginTop: "1.8em", height: 'calc( 100% - 8em )' }}>
 					<CompanyDraftForm
 						draft={draft}
 						errors={errors}

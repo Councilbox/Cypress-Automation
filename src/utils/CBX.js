@@ -1278,7 +1278,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 			errors.majorityDivider = translate.required_field;
 		}
 	}
-
+	console.log(errors)
 	updateErrors(errors);
 	return hasError;
 };
