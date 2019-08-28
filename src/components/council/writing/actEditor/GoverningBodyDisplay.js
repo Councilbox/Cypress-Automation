@@ -25,18 +25,19 @@ const GoverningBodyDisplay = ({ translate, company, open, ...props }) => {
                             )
                         })
                     :
-                        <div>
-                            {company.governingBodyType === 2 &&
+                        company.governingBodyType !== 0 &&
+                            <div>
+                                {company.governingBodyType === 2 &&
+                                    <Row
+                                        field={translate.entity}
+                                        value={`${company.governingBodyData.entityName}`}
+                                    />
+                                }
                                 <Row
-                                    field={translate.entity}
-                                    value={`${company.governingBodyData.entityName}`}
+                                    field={company.governingBodyType === 2? translate.representative : null}
+                                    value={`${company.governingBodyData.name} ${company.governingBodyData.surname}`}
                                 />
-                            }
-                            <Row
-                                field={company.governingBodyType === 2? translate.representative : null}
-                                value={`${company.governingBodyData.name} ${company.governingBodyData.surname}`}
-                            />
-                        </div>
+                            </div>
                     }
 
                 </React.Fragment>
