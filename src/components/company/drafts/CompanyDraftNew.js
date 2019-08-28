@@ -31,7 +31,7 @@ class CompanyDraftNew extends Component {
 		const { translate } = this.props;
 		const { draft } = this.state;
 		
-		if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
+		// if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
 			this.setState({ loading: true });
 			const response = await this.props.createCompanyDraft({
 				variables: {
@@ -43,7 +43,7 @@ class CompanyDraftNew extends Component {
 				this.setState({ success: true });
 				this.timeout = setTimeout(() => this.resetAndClose(), 2000);
 			}
-		}
+		// }
 	};
 
 	resetAndClose = () => {

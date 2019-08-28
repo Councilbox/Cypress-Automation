@@ -267,7 +267,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, ...props }) => {
 				{draft.title}
 			</TableCell>
 			<TableCell>
-				{translate[draftTypes[draft.type].label]}
+				{translate[draftTypes[draft.type]? translate[draftTypes[draft.type].label] : ""] }
 			</TableCell>
 			<TableCell>
 				<div style={{width: '3em'}}>
