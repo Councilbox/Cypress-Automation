@@ -13,6 +13,7 @@ import AgendaTab from './AgendaTab';
 import RecordingsSection from '../recordings/RecordingsSection';
 import ActHTMLTab from '../actViewer/ActHTMLTab';
 import CouncilSideMenu from './CouncilSideMenu';
+import GoverningBodyDisplay from './GoverningBodyDisplay';
 import EvidencesPage from '../evindences/EvidencesPage';
 import { ConfigContext } from '../../../../containers/AppControl';
 
@@ -237,7 +238,11 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                 </CardPageLayout>
             </div>
             <div style={{backgroundColor: 'white', width: state.infoMenu? '35%' : '0', transition: 'width 0.6s', height: '100%'}}>
-                <CouncilSideMenu
+                <GoverningBodyDisplay
+                    translate={translate}
+                    company={props.company}
+                />
+                {/* <CouncilSideMenu
                     council={council}
                     open={state.infoMenu}
                     translate={translate}
@@ -246,7 +251,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                     participantsWithDelegatedVote={props.participantsWithDelegatedVote}
                     councilAttendants={props.councilAttendants}
                     councilRecount={props.councilRecount}
-                />
+                /> */}
             </div>
         </div>
 

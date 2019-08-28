@@ -448,7 +448,7 @@ class ActEditor extends Component {
 													}
 													{config.actCouncilInfo?
 														<BasicButton
-															text={this.props.translate.show_info_panel}
+															text={'Miembros órgano de gobierno'}//TRADUCCION
 															color={'white'}
 															type="flat"
 															textStyle={{ color: secondary }}
