@@ -50,14 +50,22 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, toggleSc
 				</div>
 				<div
 					style={{
-						// marginRight: "10%",
-						whiteSpace: 'nowrap',
-						overflow: 'hidden',
-						textOverflow: 'ellipsis',
+						display: 'flex',
+						justifyContent: 'center',
+						maxWidth: '60%'
 					}}
 				>{/**style={{width: "35%",}} */}
 					<Tooltip title={councilName}>
-						<div style={{ textAlign: "center", color: primary, fontWeight: '700', fontSize: '1.1em' }}>
+						<div
+							style={{
+								textAlign: "center",
+								color: primary,
+								fontWeight: '700',
+								fontSize: '1.1em',
+								maxWidth: '100%'
+							}}
+							className="truncate"
+						>
 							{councilName}
 						</div>
 					</Tooltip>
