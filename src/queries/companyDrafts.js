@@ -55,6 +55,22 @@ export const companyDrafts = gql`
 			label
 			value
 		}
+		companyStatutes(companyId: $companyId) {
+			id
+			title
+		}
+		majorityTypes {
+			label
+			value
+		}
+		draftTypes {
+			label
+			value
+		}
+		votingTypes {
+			label
+			value
+		}
 	}
 `;
 

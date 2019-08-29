@@ -98,6 +98,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 				<BasicButton
 					text={translate.drafts_new}
 					color={primary}
+					id={"newDraft"}
 					textStyle={{
 						color: "white",
 						fontWeight: "700",

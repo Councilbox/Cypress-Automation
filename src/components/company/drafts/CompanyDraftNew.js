@@ -30,19 +30,19 @@ class CompanyDraftNew extends Component {
 	createCompanyDraft = async () => {
 		const { translate } = this.props;
 		const { draft } = this.state;
-		
-		// if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
-			this.setState({ loading: true });
-			const response = await this.props.createCompanyDraft({
-				variables: {
-					draft: this.state.draft
-				}
-			});
 
-			if (!response.errors) {
-				this.setState({ success: true });
-				this.timeout = setTimeout(() => this.resetAndClose(), 2000);
+		// if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
+		this.setState({ loading: true });
+		const response = await this.props.createCompanyDraft({
+			variables: {
+				draft: this.state.draft
 			}
+		});
+
+		if (!response.errors) {
+			this.setState({ success: true });
+			this.timeout = setTimeout(() => this.resetAndClose(), 2000);
+		}
 		// }
 	};
 
@@ -109,6 +109,7 @@ class CompanyDraftNew extends Component {
 					/>
 					<br />
 					<BasicButton
+						id={"saveDraft"}
 						floatRight
 						text={translate.save}
 						color={getPrimary()}
@@ -121,7 +122,7 @@ class CompanyDraftNew extends Component {
 						onClick={() => this.createCompanyDraft()}
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
-					<br/><br/>
+					<br /><br />
 				</div>
 			</React.Fragment>
 		);

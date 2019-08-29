@@ -2,6 +2,7 @@
 import loginTest from './login';
 import logoutTest from './logout';
 import dashboardTest from './dashboard';
+import plantillasTest from './plantillas';
 
 context('Actions', () => {
   beforeEach(() => {
@@ -15,10 +16,16 @@ context('Actions', () => {
 
   it('Type and login user', () => {
     // https://on.cypress.io/type
-    loginTest();
-    dashboardTest();
+    // loginTest();
+    // dashboardTest();
+    
+    // logoutTest();
 
-    logoutTest();
+    //solo prueba de plantillas 
+    
+    plantillasTest();
+
+    
   })
 
   /* it('.focus() - focus on a DOM element', () => {

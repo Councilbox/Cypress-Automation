@@ -8,7 +8,7 @@ import {
 	DropDownMenu,
 } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
-import { MenuItem, TextField, Input, Icon, Collapse } from "material-ui";
+import { MenuItem, TextField, Input, Icon, Collapse, Card, CardHeader, IconButton } from "material-ui";
 import * as CBX from "../../../utils/CBX";
 import { GOVERNING_BODY_TYPES, DRAFTS_LIMITS } from "../../../constants";
 import { withStyles } from "material-ui";
@@ -96,6 +96,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 					<Input
 						placeholder={translate.title}
 						disableUnderline={true}
+						id={"titleDraft"}
 						style={{
 							color: "rgba(0, 0, 0, 0.36)",
 							fontSize: '15px',
@@ -176,6 +177,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 					<TextField
 						error={errors.description}
 						value={draft.description}
+						id={"descripcionPlantilla"}
 						onChange={event =>
 							updateState({
 								description: event.nativeEvent.target.value
@@ -223,6 +225,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 			<React.Fragment>
 				<div>
 					<RichTextInput
+						id={"draftRichEditor"}
 						value={draft.text || ""}
 						errorText={errors.text}
 						translate={translate}
@@ -275,7 +278,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	let matchSearch = []
 	if (search) {
 		matchSearch = tagsSearch.filter(statute =>
-			(statute.translation ? statute.translation : statute.label).toLowerCase().includes(search)
+			(statute.translation ? statute.translation : statute.label).toLowerCase().includes(search.toLowerCase())
 		).map(statute => {
 			return ({
 				label: statute.label,
@@ -296,7 +299,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 							local_offer
 							</i>
 					</div>
-					<div onClick={() => setOpenClonar(true)}>
+					<div onClick={() => setOpenClonar(true)} id={"modalCargarPlantillas"} >
 						ModalClonar
 								</div>
 				</div>
@@ -304,6 +307,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 					<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
 						<div style={{ marginBottom: "1em" }}>
 							<TextInput
+								id={"buscadorEtiqueta"}
 								placeholder={"Busca una etiqueta" /*TRADUCCION*/}
 								adornment={<Icon>search</Icon>}
 								type="text"
@@ -433,6 +437,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 						</div>
 						<div style={{ marginBottom: "1em" }}>
 							<TextInput
+								id={"crearEtiquetasNuevas"}
 								type="text"
 								placeholder='Crear etiqueta nueva'//TRADUCCION
 								value={newTag}
@@ -539,7 +544,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 	const [draftLoading, setdraftLoading] = React.useState(true);
 	const [draftsRender, setDraftsRender] = React.useState({});
 
-	
+
 	const plantillasFiltradas = async () => {
 		console.log(Object.keys(testTags))
 		const response = await client.query({
@@ -637,7 +642,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 	let matchSearch = []
 	if (searchModal) {
 		matchSearch = tagsSearch.filter(statute =>
-			(statute.translation ? statute.translation : statute.label).toLowerCase().includes(searchModal)
+			(statute.translation ? statute.translation : statute.label).toLowerCase().includes(searchModal.toLowerCase())
 		).map(statute => {
 			return ({
 				label: statute.label,
@@ -703,6 +708,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 						<GridItem xs={12} lg={6} md={6} style={{ display: "flex" }}>
 							<div style={{ display: "flex", alignItems: "center", marginRight: "1em" }}>
 								<DropDownMenu
+									id={"cargarPlantillasSelectorEtiquetas"}
 									color={primary}
 									loading={false}
 									paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
@@ -711,7 +717,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 										<MenuItem
 											style={{
 												height: '100%',
-												border: " solid 1px #35343496",												
+												border: " solid 1px #35343496",
 												borderRadius: '3px',
 												width: '100%',
 												margin: 0,
@@ -738,7 +744,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 										}}>
 											<div style={{
 												margin: "0px 1em",
-												minWidth:"80vw"
+												minWidth: "80vw"
 											}}>
 												<div style={{
 													width: "100%",
@@ -762,6 +768,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 														<TextInput
 															placeholder={"Buscar Etiquetas"}
 															adornment={<Icon>search</Icon>}
+															id={"buscarEtiquetasEnModal"}
 															type="text"
 															value={searchModal}
 															styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)" }}
@@ -965,22 +972,15 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 				<Scrollbar>
 					<Grid style={{ width: "95%", margin: "0 auto", marginTop: "1em", }}>
 						<GridItem xs={12} lg={12} md={12} >
-							<Grid>
+							<Grid id={"contenedorPlantillasEnModal"}>
 								{!draftLoading &&
 									draftsRender.map((item, key) => {
 										return (
-											<React.Fragment key={'key_' + item.title} >
-												<GridItem xs={12} lg={12} md={12}
-													style={{
-														cursor: "pointer",
-														boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-														padding: "0.8em",
-														marginBottom: "1em"
-													}}
-												>
-													<div style={{ color: "#000000", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.title}</div>
-												</GridItem>
-											</React.Fragment>
+											<CardPlantillas
+												translate={translate}
+												key={'key__' + item.title}
+												item={item}
+											/>
 										)
 									})
 								}
@@ -993,6 +993,70 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 	);
 
 }
+
+const regularCardStyle = {
+	cardTitle: {
+		fontSize: "1em",
+	},
+}
+
+const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate }) => {
+	const [expanded, setExpanded] = React.useState(false);
+
+	const toggleExpanded = () => {
+		setExpanded(!expanded)
+	}
+
+	return (
+		<GridItem xs={12} lg={12} md={12}
+
+		>
+			<Card
+				style={{
+
+					boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+					padding: "0.8em",
+					marginBottom: "1em"
+				}}>
+				<CardHeader
+					onClick={toggleExpanded}
+					style={{ color: "#000000", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', cursor: "pointer", }}
+					title={item.title}
+					classes={{
+						title: classes.cardTitle,
+					}}
+					action={
+						<IconButton
+							style={{ top: '5px', width:"35px" }}
+							onClick={toggleExpanded}
+							aria-expanded={expanded}
+							aria-label="Show more"
+							className={"expandButtonModal"}
+						>
+							<i
+								className={"fa fa-angle-down"}
+								style={{
+									transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+									transition: "all 0.3s"
+								}}
+							/>
+						</IconButton>
+					}
+				></CardHeader>
+				<Collapse in={expanded} timeout="auto" unmountOnExit >
+					<div style={{ paddingLeft: "1.5em" }}>
+						<div>{translate.title}: {item.title}</div>
+						<div style={{display:"flex"}}>{translate.description}: 
+						<div style={{paddingLeft:"0.3em"}} dangerouslySetInnerHTML={{
+								__html: item.text
+							}} ></div>
+						</div>
+					</div>
+				</Collapse>
+			</Card>
+		</GridItem>
+	)
+});
 
 
 const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate }) => {
@@ -1046,7 +1110,7 @@ const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, addTag, 
 			>
 				<Collapse in={true} timeout="auto" unmountOnExit >
 					<div style={{ marginBottom: "1em" }}>
-						<div style={{}}>
+						<div style={{}} id={"contenedorEtiquetasBuscadas"}>
 							{tags.map((tag, index) => (
 								<Etiqueta
 									key={`tag_${index}`}
@@ -1249,8 +1313,8 @@ CompanyDraftForm.propTypes = {
 //options
 const draftTagSearch = gql`
 query DraftTagSearch($companyId: Int! ,$tags: [String], $options: OptionsInput){
-	draftTagSearch(companyId: $companyId, tags: $tags, options: $options){
-		list {
+				draftTagSearch(companyId: $companyId, tags: $tags, options: $options){
+				list {
 			id
 			userId
 			companyId
