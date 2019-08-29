@@ -16,6 +16,7 @@ import CouncilSideMenu from './CouncilSideMenu';
 import GoverningBodyDisplay from './GoverningBodyDisplay';
 import EvidencesPage from '../evindences/EvidencesPage';
 import { ConfigContext } from '../../../../containers/AppControl';
+import { COUNCIL_STATES } from '../../../../constants';
 
 
 const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
@@ -29,6 +30,15 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     });
 
     const config = React.useContext(ConfigContext);
+
+    React.useEffect(() => {
+        if(state.infoMenu && council.state > COUNCIL_STATES.FINISHED){
+            setState({
+                ...state,
+                infoMenu: false
+            });
+        }
+    }, [council.state]);
 
     const toggleInfoMenu = () => {
         const menu = state.infoMenu;
