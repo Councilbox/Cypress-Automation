@@ -782,7 +782,7 @@ export default compose(
 export const generateActTags = (type, data, translate) => {
 	const { council, company } = data;
 	let tags;
-	const base = council.quorumPrototype === 1? data.recount.socialCapitalTotal : data.recount.partTotal;
+	const base = data.recount.partTotal;
 	let attendantsString = cache.get(`${council.id}_attendants`);
 	let delegatedVotesString = cache.get(`${council.id}_delegated`);
 
@@ -796,12 +796,12 @@ export const generateActTags = (type, data, translate) => {
 				<p style="border: 1px solid black; padding: 5px;">-
 					${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
 						represented.name + ' ' + represented.surname
-					}${(council.quorumPrototype === 1)? ` titular de ${represented.numParticipations} acciones` : ''}
+					}${(council.statute.quorumPrototype === 1)? ` titular de ${represented.numParticipations} acciones` : ''}
 				<p><br/>`;
 			}
 			return acc + `
 			<p style="border: 1px solid black; padding: 5px;">-
-				${attendant.name} ${attendant.surname} - con DNI ${attendant.dni}${(council.quorumPrototype === 1 && attendant.numParticipations > 0)? ` titular de ${attendant.numParticipations} participaciones` : ''}
+				${attendant.name} ${attendant.surname} - con DNI ${attendant.dni}${(council.statute.quorumPrototype === 1 && attendant.numParticipations > 0)? ` titular de ${attendant.numParticipations} participaciones` : ''}
 			<p><br/>
 		`}, `<br/><h4>${translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)}</h4><br/>`);
 		cache.set(`${council.id}_attendants`, attendantsString);

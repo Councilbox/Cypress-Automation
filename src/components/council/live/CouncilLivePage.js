@@ -390,7 +390,11 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 										alignItems: 'center',
 										paddingRight: '1em' //TRADUCCION
 									}}>
-										<b>{`Quorum actual: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / data.councilRecount.partTotal) * 100).toFixed(3)}%)`}</b>
+										{council.quorumPrototype === 0?
+											<b>{`Quorum actual: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)`}</b>
+										:
+											<b>{`Quorum actual: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)`}</b>
+										}
 									</div>
 								</Tabs>
 							}

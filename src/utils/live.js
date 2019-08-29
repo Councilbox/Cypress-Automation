@@ -26,7 +26,7 @@ class LiveUtil {
 		const companies = store.getState().companies;
 		const company = companies.list[companies.selected];
 		let specialSL = false;
-		if (company.type === 1 && council.quorumPrototype === 1) {
+		if (company.type === 1 && council.statute.quorumPrototype === 1) {
 			specialSL = true;
 		}
 		return this.calculateMajority(
@@ -37,7 +37,7 @@ class LiveUtil {
 			agenda.majority,
 			agenda.majorityDivider,
 			agenda.negativeVotings + agenda.negativeManual,
-			council.quorumPrototype
+			council.statute.quorumPrototype
 		);
 	}
 

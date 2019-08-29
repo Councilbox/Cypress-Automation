@@ -522,7 +522,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 			''
 	);
 
-	const base = data.council.quorumPrototype === 1 ? data.council.socialCapitalTotal : data.council.partTotal;
+	const base = data.council.partTotal;
 
 	text = text.replace(/{{president}}/g, data.council.president);
 	text = text.replace(/{{secretary}}/g, data.council.secretary);
@@ -1503,15 +1503,15 @@ export const formatSize = size => {
 
 export const calculateMajorityAgenda = (agenda, company, council, recount) => {
 	let specialSL = false;
-	if (company.type === 1 && council.quorumPrototype === 1) {
+	if (company.type === 1 && council.statute.quorumPrototype === 1) {
 		specialSL = true;
 	}
-	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.quorumPrototype);
+	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.statute.quorumPrototype);
 }
 
 export const calculateQuorum = (council, recount) => {
 	let base;
-	if (council.quorumPrototype === 1) {
+	if (council.statute.quorumPrototype === 1) {
 		base = !!recount ? recount.socialCapitalTotal : 0;
 	} else {
 		base = !!recount ? recount.numTotal : 0;

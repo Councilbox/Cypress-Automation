@@ -1475,6 +1475,7 @@ export const councilLiveQuery = gql`
 				includeParticipantsList
 				existsComments
 				conveneHeader
+				quorumPrototype
 				intro
 				constitution
 				conclusion
@@ -1498,6 +1499,7 @@ export const councilLiveQuery = gql`
 			weighedPartTotal
 			socialCapitalRightVoting
 			numRightVoting
+			partRightVoting
 		}
 	}
 `;

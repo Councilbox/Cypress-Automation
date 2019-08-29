@@ -46,13 +46,13 @@ const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
                         <span>
                             {`${translate.required_quorum}: ${neededQuorum}`}
                         </span>
-                        {council.quorumPrototype === 0?
+                        {council.statute.quorumPrototype === 0?
                             neededQuorum <= recount.numRightVoting?
                                 <ReachedIcon />
                             :
                                 <NotReachedIcon />
                         :
-                            neededQuorum <= recount.socialCapitalRightVoting?
+                            neededQuorum <= recount.partRightVoting?
                                 <ReachedIcon />
                             :
                                 <NotReachedIcon />
