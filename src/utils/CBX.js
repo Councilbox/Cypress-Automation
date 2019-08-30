@@ -405,6 +405,33 @@ export const generateGBSoleProposeText = (translate, type) => {
 	return labels[type]? labels[type] : labels[0];
 }
 
+export const getGoverningBodySignatories = (translate, type, data) => {
+	const blankSpaces = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+
+	//TRADUCCION
+	const labels = {
+		0: () => 'Fdo. ',
+		1: () => {
+			return `Fdo. por don/doña ${data.name} ${data.surname}`;
+		},
+		2: () => {
+			return `Fdo. por don/doña ${data.name} ${data.surname}`;
+		},
+		3: () => {
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length -1)? blankSpaces : ''}`, 'Fdo. por <br/>');
+		},
+		4: () => {
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, 'Fdo. por <br/>');
+		},
+		5: () => {
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, 'Fdo. por <br/>');
+		},
+	}
+
+
+	return labels[type]? labels[type]() : labels[0]();
+}
+
 export const generateAgendaText = (translate, agenda) => {
 	return agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '');
 }
@@ -496,6 +523,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	}
 
 	text = text.replace(/{{now}}/g, new moment().format('LLL'));
+	text = text.replace(/{{signatories}}/g, getGoverningBodySignatories(translate, data.company.governingBodyType, data.company.governingBodyData));
 
 	text = text.replace(/{{convene}}/g, data.council.emailText);
 
@@ -867,6 +895,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.dateFirstCall,
 			smartTags.businessName,
 			smartTags.street,
+			smartTags.now,
 			smartTags.governingBody,
 			smartTags.gbDecides,
 			smartTags.soleDecides,
