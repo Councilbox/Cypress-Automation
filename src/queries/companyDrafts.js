@@ -55,22 +55,6 @@ export const companyDrafts = gql`
 			label
 			value
 		}
-		companyStatutes(companyId: $companyId) {
-			id
-			title
-		}
-		majorityTypes {
-			label
-			value
-		}
-		draftTypes {
-			label
-			value
-		}
-		votingTypes {
-			label
-			value
-		}
 	}
 `;
 
@@ -120,6 +104,26 @@ export const getCompanyDraftData = gql`
 			majorityDivider
 			tags
 		}
+		companyStatutes(companyId: $companyId) {
+			id
+			title
+		}
+		majorityTypes {
+			label
+			value
+		}
+		draftTypes {
+			label
+			value
+		}
+		votingTypes {
+			label
+			value
+		}
+	}
+`;
+export const getCompanyDraftDataNoCompany = gql`
+	query getData($companyId: Int!) {
 		companyStatutes(companyId: $companyId) {
 			id
 			title

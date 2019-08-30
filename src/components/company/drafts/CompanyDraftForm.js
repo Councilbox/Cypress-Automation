@@ -23,7 +23,7 @@ import { companyDrafts } from "../../../queries/companyDrafts";
 
 
 
-const levelColor = ['#b47fb6', '#7fa5b6', '#7f94b6'];
+export const levelColor = ['#b47fb6', '#7fa5b6', '#7f94b6'];
 
 const styles = {
 	'input': {
@@ -590,6 +590,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 	}
 
 	const getTags = async () => {
+		console.log(match.params.company)
 		const response = await client.query({
 			query: draftTagSearch,
 			variables: {
@@ -1059,7 +1060,7 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate 
 });
 
 
-const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate }) => {
+export const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate }) => {
 
 	return (
 		<div>
@@ -1097,7 +1098,7 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 
 
 
-const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, addTag, translate, search }) => {
+export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, addTag, translate, search }) => {
 	const [open, setOpen] = React.useState(false);
 
 	if (search) {
@@ -1176,7 +1177,7 @@ const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, addTag, 
 }
 
 
-const Etiqueta = ({ text, color, childs, width, etiquetas, addTag, action }) => {
+export const Etiqueta = ({ text, color, childs, width, etiquetas, addTag, action }) => {
 	const [open, setOpen] = React.useState(false);
 	const [openTimeOut, setOpenTimeOut] = React.useState(false);
 
@@ -1239,7 +1240,7 @@ const Etiqueta = ({ text, color, childs, width, etiquetas, addTag, action }) => 
 
 }
 
-const EtiquetaBase = ({ text, color, action, props }) => {
+export const EtiquetaBase = ({ text, color, action, props }) => {
 	const anchoRef = React.useRef();
 	const [tooltip, setTooltip] = React.useState(false);
 
@@ -1288,7 +1289,7 @@ const EtiquetaBase = ({ text, color, action, props }) => {
 	)
 }
 
-const getTagColor = type => {
+export const getTagColor = type => {
 	const colors = {
 		0: 'rgba(125, 33, 128, 0.58)',
 		1: 'rgba(33, 98, 128, 0.58)',

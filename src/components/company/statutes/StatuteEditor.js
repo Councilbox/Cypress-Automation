@@ -181,7 +181,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 								})
 							}
 						>
-							{!loading &&
+							{quorumTypes !== undefined &&
+							!loading &&
 								quorumTypes.map(quorumType => {
 									return (
 										<MenuItem
@@ -191,7 +192,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 											{translate[quorumType.label]}
 										</MenuItem>
 									);
-								})}
+								})
+								}
 						</SelectInput>
 					</GridItem>
 					<GridItem xs={6} md={2} lg={2}>
