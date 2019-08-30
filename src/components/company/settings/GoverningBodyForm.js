@@ -4,6 +4,7 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import { MenuItem, TableBody } from 'material-ui';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
 import { Table, TableHead, TableRow, TableCell } from 'material-ui';
+import CheckBox from '../../../displayComponents/CheckBox';
 
 
 const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
@@ -68,7 +69,6 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
 }
 
 const SingleAdminForm = ({ translate, setData, data = {} }) => {
-
     return (
         <GridItem xs={12} md={8} lg={6}>
             <TextInput
@@ -150,7 +150,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 
 
     const setAdminData = (newData, index) => {
-        const list = data.list || [];
+        const list = [...data.list] || [];
         list[index] = {
             ...list[index],
             ...newData
@@ -199,6 +199,9 @@ const ListAdminForm = ({ translate, setData, data }) => {
             <Table style={{width: '100%'}}>
                 <TableHead>
                     <TableCell>
+                        {'Firma'}
+                    </TableCell>
+                    <TableCell>
                         {translate.name}
                     </TableCell>
                     <TableCell>
@@ -219,6 +222,12 @@ const ListAdminForm = ({ translate, setData, data }) => {
                 <TableBody>
                     {data.list && data.list.map((item, index) => (
                         <TableRow key={`item_${item.id}`} style={{ marginTop: '1em', ...(index > 0? { borderTop: '1px solid gainsboro'} : {})}}>
+                            <TableCell>
+                                <CheckBox
+                                    value={item? item.sign : false}
+                                    onChange={(event, checked) => setAdminData({ sign: checked }, index)}
+                                />
+                            </TableCell>
                             <TableCell>
                                 <TextInput
                                     value={item? item.name : ''}
@@ -291,7 +300,7 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
     }, [data.list]);
 
     const setAdminData = (newData, index) => {
-        const list = data.list
+        const list = [...data.list];
         list[index] = {
             ...list[index],
             ...newData
@@ -310,6 +319,9 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
         <div style={{width: '100%', overflowX: 'auto'}}>
             <Table style={{maxWidth: "100%", tableLayout: 'auto'}}>
                 <TableHead>
+                    <TableCell>
+                        Firma
+                    </TableCell>
                     <TableCell>
                         {translate.position}
                     </TableCell>
@@ -332,6 +344,12 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
                 <TableBody>
                     {data.list && data.list.map((item, index) => (
                         <TableRow key={`item_${item.id}`} style={{ marginTop: '1em', ...(index > 0? { borderTop: '1px solid gainsboro'} : {})}}>
+                            <TableCell>
+                                <CheckBox
+                                    value={item? item.sign : false}
+                                    onChange={(event, checked) => setAdminData({ sign: checked }, index)}
+                                />
+                            </TableCell>
                             <TableCell>
                                 {getCouncilAdminPosition(index, translate)}
                             </TableCell>
