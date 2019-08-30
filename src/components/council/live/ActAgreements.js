@@ -186,6 +186,10 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 					label: translate.date
 				},
 				{
+					getValue: () => moment().format('LLL'),
+					label: translate.actual_date
+				},
+				{
 					value: company.businessName,
 					label: translate.business_name
 				},

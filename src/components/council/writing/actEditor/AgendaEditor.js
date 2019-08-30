@@ -16,6 +16,7 @@ import { updateAgenda } from "../../../../queries/agenda";
 import CustomAgendaRecount from "../../live/voting/CustomAgendaRecount";
 import { agendaRecountQuery } from "../../live/ActAgreements";
 import { useOldState } from "../../../../hooks";
+import { moment } from "../../../../containers/App";
 
 
 const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props }) => {
@@ -113,7 +114,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote + agenda.socialCapitalNoParticipate;
 	const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 
-
+	
 	let tags = [
 		{
 			value: numPositive,
@@ -122,6 +123,10 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 		{
 			value: numNegative,
 			label: translate.num_negative
+		},
+		{
+			getValue: () => moment().format('LLL'),
+			label: translate.actual_date
 		},
 		{
 			value: numAbstention,
