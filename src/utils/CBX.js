@@ -774,6 +774,10 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		agenda: {
 			value: '{{Agenda}}',
 			label: translate.agenda
+		},
+		signatories: {
+			value: '{{signatories}}',
+			label: 'Firmantes'//TR
 		}
 	}
 
@@ -888,7 +892,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.countryState,
 			smartTags.now,
 			smartTags.president,
-			smartTags.secretary
+			smartTags.secretary,
+			smartTags.signatories
 		],
 
 		[DRAFT_TYPES.COMMENTS_AND_AGREEMENTS]: [

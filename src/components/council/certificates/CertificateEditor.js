@@ -186,8 +186,6 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
         return <LoadingSection />
     }
 
-    console.log(draftData);
-
     return(
         <div style={{width: '100%', height: '100%', display: 'flex'}}>
             <div style={{width: infoMenu? '65%' : '100%', height: '100%', transition: 'width 0.6s'}}>

@@ -22,7 +22,7 @@ import { updateCouncilAct } from '../../../../queries';
 import DownloadActPDF from '../actViewer/DownloadActPDF';
 import ExportActToMenu from '../actViewer/ExportActToMenu';
 import { ConfigContext } from '../../../../containers/AppControl';
-import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues, hasSecondCall, generateAgendaText } from '../../../../utils/CBX';
+import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues, hasSecondCall, generateAgendaText, getGoverningBodySignatories } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
 
@@ -927,6 +927,10 @@ export const generateActTags = (type, data, translate) => {
 		agenda: {
 			value: generateAgendaText(translate, council.agenda),
 			label: translate.agenda
+		},
+		signatories: {
+			value: getGoverningBodySignatories(translate, company.governingBodyType, company.governingBodyData),
+			label: 'Firmantes'//TRADUCCION
 		}
 	}
 
@@ -1048,6 +1052,7 @@ export const generateActTags = (type, data, translate) => {
 			tags = [
 				smartTags.president,
 				smartTags.secretary,
+				smartTags.signatories,
 				smartTags.now,
 				smartTags.dateEnd,
 				smartTags.attendants,
