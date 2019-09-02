@@ -410,21 +410,21 @@ export const getGoverningBodySignatories = (translate, type, data) => {
 
 	//TRADUCCION
 	const labels = {
-		0: () => 'Fdo. ',
+		0: () => '',
 		1: () => {
-			return `Fdo. por don/doña ${data.name} ${data.surname}`;
+			return `don/doña ${data.name} ${data.surname}`;
 		},
 		2: () => {
-			return `Fdo. por don/doña ${data.name} ${data.surname}`;
+			return `don/doña ${data.name} ${data.surname}`;
 		},
 		3: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length -1)? blankSpaces : ''}`, 'Fdo. por <br/>');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length -1)? blankSpaces : ''}`, '');
 		},
 		4: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, 'Fdo. por <br/>');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
 		},
 		5: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, 'Fdo. por <br/>');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
 		},
 	}
 
