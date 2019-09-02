@@ -1,22 +1,20 @@
 import React from "react";
-import { EnhancedTable, Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem } from "../../../displayComponents/index";
+import { Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem } from "../../../displayComponents/index";
 import { graphql, withApollo } from "react-apollo";
-import { companyDrafts, getCompanyDraftData, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts";
+import { companyDrafts, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts";
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from "../../../constants";
-import { TableCell, TableRow } from "material-ui/Table";
 import { compose } from "react-apollo/index";
 import gql from "graphql-tag";
 import { sendGAevent } from "../../../utils/analytics";
 import * as CBX from "../../../utils/CBX";
-import { MenuItem, Card, CardHeader } from "material-ui";
-import { levelColor, ContenedorEtiquetas, Etiqueta, EtiquetasModal, getTagColor, EtiquetaBase } from "./CompanyDraftForm";
+import { MenuItem, Card, CardHeader, Tooltip } from "material-ui";
+import { levelColor, ContenedorEtiquetas, getTagColor, } from "./CompanyDraftForm";
 import { Divider } from "material-ui";
 import { primary } from "../../../styles/colors";
 import { isMobile } from "react-device-detect";
 import { withStyles } from "material-ui";
 import { IconButton } from "material-ui";
 import { Collapse } from "material-ui";
-import withSharedProps from "../../../HOCs/withSharedProps";
 
 
 
@@ -42,7 +40,7 @@ const styles = {
 	}
 };
 
-const LoadDraft = withApollo(({ majorityTypes, translate, client, match, ...props }) => {
+const LoadDraft = withApollo(({ majorityTypes, translate, client, match, defaultTags, ...props}) => {
 
 	const [search, setSearch] = React.useState('');
 	const [searchModal, setSearchModal] = React.useState('');
@@ -53,7 +51,14 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, ...prop
 
 	const [vars, setVars] = React.useState({});
 	const [varsLoading, setVarsLoading] = React.useState(true);
-	console.log(props)
+	
+	// const defaultTags = {
+	// 	// "Junta General Ordinaria": {
+	// 	// 	active: true,
+	// 	// 	type: 0
+	// 	// }
+	// }
+
 	React.useEffect(() => {
 		props.data.refetch();
 	}, []);
@@ -98,9 +103,11 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, ...prop
 
 	React.useEffect(() => {
 		getData();
+		setTestTags({ ...defaultTags });
 	}, []);
 
 	const addTag = tag => {
+		// console.log(tag)
 		setTestTags({
 			...testTags,
 			[formatTagLabel(tag)]: {
@@ -125,7 +132,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, ...prop
 				tags: Object.keys(testTags),
 			}
 		});
-
+		
 		setDraftsRender(response.data.draftTagSearch.list)
 		setdraftLoading(false)
 	};
@@ -220,7 +227,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, ...prop
 				return columns;
 			}
 
-			const columns = buildTagColumns(testTags);
+			let columns = buildTagColumns(testTags);
 
 			return (
 				<div style={{ display: isMobile ? "" : 'flex' }}>
@@ -240,7 +247,6 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, ...prop
 				</div>
 			);
 		}
-
 
 		return (
 			<div>
@@ -512,7 +518,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, ...prop
 				}}>
 					{renderEtiquetasSeleccionadas()}
 				</div>
-				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", minHeight: "12em", height: '0', overflow: "hidden" }}>
+				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", minHeight: "20em", height: '0', overflow: "hidden" }}>
 					<Scrollbar>
 						<Grid style={{ width: "95%", margin: "0 auto", marginTop: "1em", }}>
 							<GridItem xs={12} lg={12} md={12} >
@@ -559,6 +565,12 @@ const regularCardStyle = {
 	cardTitle: {
 		fontSize: "1em",
 	},
+	content: {
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		maxWidth: '100%'
+	}
 }
 
 
@@ -592,10 +604,30 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 				<CardHeader
 					onMouseOver={mouseEnterHandler}
 					onMouseLeave={mouseLeaveHandler}
-					style={{ color: "#000000",padding: "1.5em", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', cursor: "pointer", background: hover && "gainsboro" }}
-					title={item.title}
+					style={{
+						color: "#000000",
+						padding: "1.5em",
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis',
+						cursor: "pointer",
+						background: hover && "gainsboro"
+					}}
+					title={
+						<div
+							style={{
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								width: "100%"
+							}}
+						>
+							{item.title}
+						</div>
+					}
 					classes={{
 						title: classes.cardTitle,
+						content: classes.content,
 					}}
 
 					onClick={onClick}
@@ -631,6 +663,94 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 		</GridItem>
 	)
 });
+
+
+const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate }) => {
+
+	return (
+		<div>
+			<div style={{ fontWeight: "700" }} >
+				<div>{title}</div>
+			</div>
+			<div style={{ color: color }}>
+				<div style={{
+					display: 'flex',
+					flexFlow: 'wrap column',
+					maxHeight: '135px',
+				}}
+				>
+					{tags.map((tag, index) => (
+						<Tooltip title={tag.translation ? tag.translation : tag.label} key={"tag_" + index}>
+							<div
+								style={{
+									marginRight: "1em",
+									cursor: "pointer",
+									whiteSpace: 'nowrap',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									maxWidth: tags.length > 6 ? "150px" : '220px',
+								}}
+								key={`tag_${index}`}
+								onClick={() => addTag(tag)}
+							>
+								{tag.translation ? tag.translation : tag.label}
+							</div>
+						</Tooltip>
+					))}
+				</div>
+			</div>
+		</div>
+	);
+}
+
+const EtiquetaBase = ({ text, color, action, props }) => {
+	const anchoRef = React.useRef();
+	const [tooltip, setTooltip] = React.useState(false);
+
+	React.useLayoutEffect(() => {
+		if (anchoRef.current.clientWidth > (15 * 12) && !tooltip) {
+			setTooltip(true);
+		}
+	});
+
+	return (
+		<React.Fragment>
+			<div style={{ visibility: 'hidden', position: 'absolute' }} ref={anchoRef}>{text}</div>
+			<div
+				style={{
+					borderRadius: '20px',
+					background: color,
+					padding: "0 0.5em",
+					display: "inline-block",
+					marginRight: "0.5em",
+					marginTop: "0.25em",
+					marginBottom: "0.25em",
+					color: "white",
+					padding: "8px"
+				}}
+			>
+				<div style={{ display: "flex", justifyContent: 'space-between' }}>
+					{tooltip ?
+						<Tooltip title={text}>
+							<div style={{ paddingRight: "0.5em", maxWidth: props.innerWidth < 1190 ? isMobile ? "" : '11em' : '15em' }} className="truncate">{text}</div>
+						</Tooltip>
+						:
+						<div style={{ paddingRight: "0.5em", maxWidth: props.innerWidth < 1190 ? isMobile ? "" : '11em' : '15em' }} className="truncate">{text}</div>
+					}
+					<div>
+						<i
+							className="fa fa-times"
+							style={{ cursor: 'pointer', background: " #ffffff", color, borderRadius: "6px", padding: "0em 1px" }}
+							aria-hidden="true"
+							onClick={action}
+						>
+						</i>
+					</div>
+				</div>
+			</div>
+		</React.Fragment>
+	)
+}
 
 
 const draftTagSearch = gql`

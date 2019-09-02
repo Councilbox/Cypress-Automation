@@ -528,6 +528,13 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 												loadDraft={loadDraft}
 												statute={statute}
 												statutes={companyStatutes}
+												defaultTags={{
+													"Cabecera de convocatoria": {
+														active: true,
+														type: 2
+													}
+												}
+												}
 												draftType={
 													draftTypes.filter(
 														draft =>

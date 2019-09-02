@@ -18,6 +18,7 @@ import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda, checkValidMajority } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
 import { useOldState } from "../../../../../hooks";
+import { withRouter } from "react-router-dom";
 
 const defaultValues = {
 	agendaSubject: "",
@@ -111,7 +112,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 			majority: draft.majority,
 			majorityType: draft.majorityType,
 			majorityDivider: draft.majorityDivider,
-			subjectType: filteredTypes.find(type => type.value === draft.votationType)? draft.votationType : filteredTypes[0].value,
+			subjectType: filteredTypes.find(type => type.value === draft.votationType) ? draft.votationType : filteredTypes[0].value,
 			agendaSubject: draft.title
 		});
 
@@ -121,21 +122,29 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 	const _renderNewPointBody = () => {
 		const errors = state.errors;
 		const agenda = state.newPoint;
-
+		console.log(agenda)
 		return (
 			<div
 				style={{
-					width: window.innerWidth > 800? '800px' : '100%'
+					width: window.innerWidth > 800 ? '800px' : '100%'
 				}}
 			>
 				{state.loadDraft && (
 					<LoadDraft
+						match={props.match}
 						translate={translate}
 						companyId={company.id}
 						loadDraft={loadDraft}
 						statute={statute}
 						statutes={companyStatutes}
 						draftType={1}
+						defaultTags={{
+							"Orden del día": {
+								active: true,
+								type: 2
+							}
+						}
+						}
 					/>
 				)}
 
@@ -199,7 +208,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 												value={"" + majority.value}
 												key={`majorityType_${
 													majority.value
-												}`}
+													}`}
 											>
 												{translate[majority.label]}
 											</MenuItem>
@@ -211,30 +220,30 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 								{CBX.majorityNeedsInput(
 									agenda.majorityType
 								) && (
-									<MajorityInput
-										type={agenda.majorityType}
-										value={agenda.majority}
-										majorityError={!!state.majorityError}
-										dividerError={!!state.majorityError}
-										divider={agenda.majorityDivider}
-										onChange={value =>
-											updateState({
-												majority: +value
-											})
-										}
-										onChangeDivider={value =>
-											updateState({
-												majorityDivider: +value
-											})
-										}
-									/>
-								)}
+										<MajorityInput
+											type={agenda.majorityType}
+											value={agenda.majority}
+											majorityError={!!state.majorityError}
+											dividerError={!!state.majorityError}
+											divider={agenda.majorityDivider}
+											onChange={value =>
+												updateState({
+													majority: +value
+												})
+											}
+											onChangeDivider={value =>
+												updateState({
+													majorityDivider: +value
+												})
+											}
+										/>
+									)}
 							</GridItem>
 
 						</Grid>
 					)}
 					<div>
-						<span style={{color: 'red'}}>{state.majorityError}</span>
+						<span style={{ color: 'red' }}>{state.majorityError}</span>
 					</div>
 					<RichTextInput
 						ref={editor}
@@ -315,4 +324,4 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 
 export default graphql(addAgenda, {
 	name: "addAgenda"
-})(NewAgendaPointModal);
+})(withRouter(NewAgendaPointModal));

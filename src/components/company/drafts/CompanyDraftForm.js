@@ -84,6 +84,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 
 
 	React.useEffect(() => {
+		console.log(draft.tags)
 		setTestTags({ ...draft.tags });
 	}, []);
 

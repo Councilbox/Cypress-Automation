@@ -5,7 +5,7 @@ import LoadDraft from "./LoadDraft";
 import { withRouter } from "react-router-dom";
 
 
-const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes, statute, ...props }) => {
+const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes, statute, defaultTags, ...props }) => {
 	const [state, setState] = React.useState({
 		loadDraft: false
 	});
@@ -15,11 +15,12 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 			loadDraft: false
 		});
 	};
-	
+
 	const _renderModalBody = () => {
 		return (
-			<div style={{ width: '800px' }}>
+			<div>
 				<LoadDraft
+					defaultTags={defaultTags}
 					match={props.match}
 					companyId={companyId}
 					councilType={councilType}
@@ -64,6 +65,7 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 				buttonCancel={translate.close}
 				bodyText={_renderModalBody()}
 				title={translate.load_draft}
+				bodyStyle={{ width: "75vw", minWidth: "50vw", }}
 			/>
 		</React.Fragment>
 	);
