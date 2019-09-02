@@ -12,6 +12,7 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
 import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
+import { GOVERNING_BODY_TYPES } from '../../../constants';
 
 const initialState = {
     loadingDraftData: true,
@@ -78,7 +79,16 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
     const getCorrectedText = async text => {
 		const correctedText = await changeVariablesToValues(text, {
 			company,
-			council: generateCouncilSmartTagsValues(draftData),
+			council: {
+                ...generateCouncilSmartTagsValues(draftData),
+                ...(company.governingBodyType === GOVERNING_BODY_TYPES.COUNCIL.value? {
+                    president: `${company.governingBodyData.list[0].name} ${company.governingBodyData.list[0].name}`,
+                    secretary: `${company.governingBodyData.list[2].name} ${company.governingBodyData.list[2].name}`,
+                } : {
+                    president: '',
+                    secretary: ''
+                })
+            }
 		}, translate);
 		return correctedText;
 	}
