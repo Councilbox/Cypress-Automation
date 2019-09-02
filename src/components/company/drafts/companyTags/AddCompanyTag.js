@@ -85,7 +85,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
             });
 
             if(response.data.companyTagKeyUsed){
-                errors.key = 'Clave ya usada en otra etiqueta' //TRADUCCION
+                errors.key = translate.key_already_used;
             }
         }
 

@@ -53,7 +53,7 @@ const CustomPointForm = ({
                     </GridItem>
                     <GridItem xs={12} md={3} lg={3}>
                         <SelectInput
-                            floatingText={'Tipo de votación'}//TRADUCCION
+                            floatingText={translate.votation_type}
                             value={"" + agenda.subjectType}
                             onChange={event =>
                                 updateAgenda({

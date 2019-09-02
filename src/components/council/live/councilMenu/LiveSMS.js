@@ -80,7 +80,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                         <div style={{ marginBottom: "1em", marginLeft: "5px" }}>
                             <BasicButton
                                 color="transparent"
-                                text={filter ? 'Todos' : 'Ver fallidos' /*TRADUCCION*/}
+                                text={filter ? translate.all_plural : translate.browse_failed_sms}
                                 onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
                                 textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
                             />
@@ -128,7 +128,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                         <div style={{ marginBottom: "1em" }}>
                             <BasicButton
                                 color="transparent"
-                                text={filter ? 'Todos' : 'Ver fallidos' /*TRADUCCION*/}
+                                text={filter ? translate.all_plural : translate.browse_failed_sms}
                                 onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
                                 textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
                             />

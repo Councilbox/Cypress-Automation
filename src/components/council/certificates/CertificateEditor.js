@@ -205,7 +205,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                             <div style={{padding: '2em', paddingTop: '1em', paddingBottom: '1em'}}>
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
                                     <BasicButton
-                                        text={'Miembros órgano de gobierno'}//TRADUCCION
+                                        text={translate.governing_body_members}
                                         color={'white'}
                                         type="flat"
                                         textStyle={{ color: secondary }}

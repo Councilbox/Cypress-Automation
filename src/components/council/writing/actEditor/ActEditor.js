@@ -448,7 +448,7 @@ class ActEditor extends Component {
 													}
 													{config.actCouncilInfo?
 														<BasicButton
-															text={'Miembros órgano de gobierno'}//TRADUCCION
+															text={translate.governing_body_members}
 															color={'white'}
 															type="flat"
 															textStyle={{ color: secondary }}
@@ -884,7 +884,7 @@ export const generateActTags = (type, data, translate) => {
 		},
 		currentQuorum: {
 			value: council.currentQuorum,
-			label: `Nº participaciones que asiste del total del capital social` //TRADUCCION
+			label: translate.number_of_participations
 		},
 		percentageShares: {
 			value: (council.currentQuorum / parseInt(base) * 100).toFixed(3),
@@ -898,27 +898,27 @@ export const generateActTags = (type, data, translate) => {
 		},
 		numPresentOrRemote: {
 			value: council.numPresentAttendance + council.numRemoteAttendance,
-			label: 'Nº de asistentes personalmente' //TRADUCCION
+			label: translate.number_attentands_in_person
 		},
 		percentageSCPresent: {
 			value: council.percentageSCPresent + '%',
-			label: '% del capital social que asiste personalmente' //TRADUCCION
+			label: translate.percentage_shares_personally
 		},
 		percentageSCDelegated: {
 			value: council.percentageSCDelegated + '%',
-			label: '% del capital social que asiste representado' //TRADUCCION
+			label: translate.percentage_shares_represented
 		},
 		percentageSCTotal: {
 			value: council.percentageSCTotal + '%',
-			label: '% del capital social que asiste' //TRADUCCION
+			label: translate.percentage_quorum
 		},
 		numParticipationsPresent: {
 			value: council.numParticipationsPresent,
-			label: 'Nº de participaciones asisten personalmente' //TRADUCCION
+			label: translate.number_shares_personally
 		},
 		numParticipationsRepresented: {
 			value: council.numParticipationsRepresented,
-			label: ' Nº de participaciones asisten representadas' //TRADUCCION
+			label: translate.number_shares_represented
 		},
 		convene: {
 			value: council.emailText,
@@ -930,7 +930,7 @@ export const generateActTags = (type, data, translate) => {
 		},
 		signatories: {
 			value: getGoverningBodySignatories(translate, company.governingBodyType, company.governingBodyData),
-			label: 'Firmantes'//TRADUCCION
+			label: translate.signatories
 		}
 	}
 

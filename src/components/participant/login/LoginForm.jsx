@@ -160,11 +160,10 @@ class LoginForm extends React.Component {
                     }
                 });
 
-                    //TRADUCCION
                 if (!response.data.checkParticipantKey.success) {
                     this.setState({
                         errors: {
-                            password: 'Clave de acceso incorrecta'
+                            password: translate.incorrect_access__key
                         }
                     });
                     return;
@@ -172,7 +171,7 @@ class LoginForm extends React.Component {
             } catch (error) {
                 this.setState({
                     errors: {
-                        password: 'Clave de acceso incorrecta'
+                        password: translate.incorrect_access__key
                     }
                 });
                 return;

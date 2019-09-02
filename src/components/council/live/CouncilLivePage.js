@@ -393,21 +393,21 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 										display: 'flex',
 										justifyContent: 'flex-end',
 										alignItems: 'center',
-										paddingRight: '1em' //TRADUCCION
+										paddingRight: '1em'
 									}}>
 										{council.quorumPrototype === 0?
-											<b>{`Quorum actual: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
+											<b>{`${translate.current_quorum}: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
 												(councilStartedState() && council.councilStarted === 1)?
-													` / Quorum inicial: ${
+													` / ${translate.initial_quorum}: ${
 														council.initialQuorum? council.initialQuorum : council.currentQuorum
 													} (${((data.council.initialQuorum / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
 												:
 													''
 											}`}</b>
 										:
-											<b>{`Quorum actual: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
+											<b>{`${translate.current_quorum}: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
 												(councilStartedState() && council.councilStarted === 1)?
-													` / Quorum inicial: ${
+													` / ${translate.initial_quorum}: ${
 														council.initialQuorum? council.initialQuorum : council.currentQuorum
 													} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
 												:

@@ -104,7 +104,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                         selectCheckBox={getSelectedRadio(-1)}
                     />
                     <VotingButton
-                        text={"No votar"} //TRADUCCION
+                        text={translate.dont_vote}
                         styleButton={{ width: "90%" }}
                         selectCheckBox={selections.length === 0}
                         onClick={resetSelections}

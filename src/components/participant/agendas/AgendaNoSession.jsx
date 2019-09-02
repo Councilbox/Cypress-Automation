@@ -103,7 +103,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                     {props.timeline ?
                                         (
                                             <React.Fragment>
-                                                <Typography variant="title" style={{ fontWeight: '700' }}>Resumen</Typography>{/*TRADUCCION*/}
+                                                <Typography variant="title" style={{ fontWeight: '700' }}>{translate.summary}</Typography>
                                             </React.Fragment>
                                         ) : (
                                             <React.Fragment>

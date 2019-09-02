@@ -108,7 +108,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 }}
             />
             <VotingButton
-                text={"No votar"} //TRADUCCION
+                text={translate.dont_vote}
                 selected={agenda.votings[0].vote === -1}
                 onClick={() => {
                     if (singleVoteMode) {

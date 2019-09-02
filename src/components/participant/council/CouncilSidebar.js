@@ -89,7 +89,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     fontSize: '0.55rem',
                     textTransform: "none"
                 }}>
-                    Agenda {/*TRADUCCION*/}
+                    {translate.agenda}
                 </div>
             </div>
         </Button>
@@ -120,7 +120,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     textTransform: "none"
                 }}>
                     {props.isMobile ?
-                        'Mensaje' /*TRADUCCION*/
+                        translate.message
                         :
                         'Mensaje al admin'/*TRADUCCION*/
                     }
@@ -559,7 +559,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
                     fontSize: '0.55rem',
                     textTransform: "none"
                 }}>
-                    Resumen {/*TRADUCCION*/}
+                    {translate.summary}
                 </div>
             </div>
         </Button>
