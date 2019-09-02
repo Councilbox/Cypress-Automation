@@ -399,7 +399,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 											<b>{`Quorum actual: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
 												(councilStartedState() && council.councilStarted === 1)?
 													` / Quorum inicial: ${
-														council.initialQuorum? council.initialQuorum : 0
+														council.initialQuorum? council.initialQuorum : council.currentQuorum
 													} (${((data.council.initialQuorum / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
 												:
 													''
@@ -408,7 +408,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 											<b>{`Quorum actual: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
 												(councilStartedState() && council.councilStarted === 1)?
 													` / Quorum inicial: ${
-														council.initialQuorum? council.initialQuorum : 0
+														council.initialQuorum? council.initialQuorum : council.currentQuorum
 													} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
 												:
 													''
