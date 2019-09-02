@@ -128,6 +128,11 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 
 	const { council } = data;
 
+	const councilStartedState = () => {
+		return council.state === 20 || council.state === 30;
+	}
+
+
 	if (!checkLoadingComplete()) {
 		return <LoadingMainApp />;
 	}
@@ -162,7 +167,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 					zIndex: 2
 				}}
 			>
-				{(council.state === 20 || council.state === 30) &&
+				{councilStartedState() &&
 					<Tooltip title={`${translate.wall} - (ALT + W)`} open={state.wallTooltip}>
 						<div>
 							{state.unreadComments > 0 ?
@@ -391,9 +396,23 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 										paddingRight: '1em' //TRADUCCION
 									}}>
 										{council.quorumPrototype === 0?
-											<b>{`Quorum actual: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)`}</b>
+											<b>{`Quorum actual: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
+												(councilStartedState() && council.councilStarted === 1)?
+													` / Quorum inicial: ${
+														council.initialQuorum? council.initialQuorum : 0
+													} (${((data.council.initialQuorum / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
+												:
+													''
+											}`}</b>
 										:
-											<b>{`Quorum actual: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)`}</b>
+											<b>{`Quorum actual: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
+												(councilStartedState() && council.councilStarted === 1)?
+													` / Quorum inicial: ${
+														council.initialQuorum? council.initialQuorum : 0
+													} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
+												:
+													''
+											}`}</b>
 										}
 									</div>
 								</Tabs>

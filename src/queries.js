@@ -1383,6 +1383,7 @@ export const councilLiveQuery = gql`
 			}
 			active
 			autoClose
+			initialQuorum
 			approveActDraft
 			attachments {
 				councilId
