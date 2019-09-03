@@ -42,7 +42,7 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
     return (
         <div style={{width: '100%'}}>
             <SectionTitle
-                text={'Órgano de gobierno'}
+                text={translate.governing_body}
                 color={primary}
                 style={{
                     marginTop: '2em'
@@ -281,9 +281,9 @@ const baseUser = {
 export const getCouncilAdminPosition = (index, translate) => {
     const positions = {
         0: translate.president,
-        1: 'Vicepresidente',
+        1: translate.vice_president,
         2: translate.secretary,
-        3: 'Vicesecretario'
+        3: translate.vice_secretary
     }
 
     return positions[index];

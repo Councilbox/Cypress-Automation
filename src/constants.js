@@ -180,27 +180,27 @@ export const AGENDA_TYPES = {
 export const GOVERNING_BODY_TYPES = {
 	NONE: {
 		value: 0,
-		label: 'Ninguno'
+		label: 'none'
 	},
 	ONE_PERSON: {
 		value: 1,
-		label: 'Administrador único'
+		label: 'sole_admin'
 	},
 	ONE_ENTITY: {
 		value: 2,
-		label: 'Ad. único persona jurídica'
+		label: 'sole_admin_entity'
 	},
 	JOINT_ADMIN: {
 		value: 3,
-		label: 'Administradores mancomunados'
+		label: 'joint_admins'
 	},
 	SOLIDARY_ADMIN: {
 		value: 4,
-		label: 'Administradores solidarios'
+		label: 'solidarity_admins'
 	},
 	COUNCIL: {
 		value: 5,
-		label: 'Consejo de administración'
+		label: 'board_of_directors'
 	}
 }
 
