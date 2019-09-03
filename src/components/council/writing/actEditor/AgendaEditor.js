@@ -1,9 +1,9 @@
 import React from "react";
-import { Grid, GridItem, TabsScreen, BasicButton, LiveToast, LoadingSection } from "../../../../displayComponents";
+import { Grid, GridItem, TabsScreen, BasicButton, LiveToast } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import AgendaRecount from '../../agendas/AgendaRecount';
-import { AGENDA_TYPES, DRAFT_TYPES, VOTE_VALUES } from '../../../../constants';
+import { AGENDA_TYPES, DRAFT_TYPES } from '../../../../constants';
 import { toast } from 'react-toastify';
 import { graphql, compose } from 'react-apollo';
 import VotingsTableFiltersContainer from '../../../council/live/voting/VotingsTableFiltersContainer';
@@ -22,7 +22,6 @@ import { moment } from "../../../../containers/App";
 const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props }) => {
 	const [comment, setComment] = React.useState(agenda.comment);
 	const editor = React.useRef();
-	const [loading, setLoading] = React.useState(false);
 	const [state, setState] = useOldState({
 		loadDraft: false,
 		draftType: ''
@@ -32,7 +31,6 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 
 	const updateAgenda = React.useCallback(async () => {
 		if(!checkForUnclosedBraces(comment)){
-			setLoading(true);
 			await props.updateAgenda({
 				variables: {
 					agenda: {
@@ -71,10 +69,10 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 
 	const loadDraft = async draft => {
 		let { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
-		let { positiveSC, negativeSC, abstentionSC, noVoteSC } = agendaData.agendaRecount;
+		let { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
 		const participations = hasParticipations(council);
-		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote + agenda.socialCapitalNoParticipate;
 		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
+
 
 		const correctedText = await changeVariablesToValues(draft.text, {
 			company,
@@ -109,12 +107,10 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	}
 	let tabs = [];
 	let { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
-	let { positiveSC, negativeSC, abstentionSC, noVoteSC } = agendaData.agendaRecount;
+	let { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
 	const participations = hasParticipations(council);
-	const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote + agenda.socialCapitalNoParticipate;
 	const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 
-	
 	let tags = [
 		{
 			value: numPositive,

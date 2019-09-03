@@ -1,6 +1,4 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { AlertConfirm, BasicButton } from "../../../../displayComponents";
 import { getSecondary } from "../../../../styles/colors";
 import CustomPointVotingMenu from '../../../participant/agendas/CustomPointVotingMenu';

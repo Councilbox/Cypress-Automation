@@ -1,11 +1,8 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection } from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
 import { AGENDA_TYPES } from '../../../constants';
 import { VotingButton } from './VotingMenu';
-import { moment } from "../../../containers/App";
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
     return ballots
@@ -25,7 +22,6 @@ const asbtentionOption = {
 
 const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVoting, ...props }) => {
     const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
-    const [loading, setLoading] = React.useState(false);
 
     const addSelection = item => {
         let newSelections = [...selections, cleanObject(item)]; ;
@@ -69,15 +65,13 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     }
 
     const sendCustomAgendaVote = async selected => {
-        setLoading(true);
-        const response = await updateCustomPointVoting({
+        await updateCustomPointVoting({
             variables: {
                 selections: selected,
                 votingId: ownVote.id
             }
         });
         await props.refetch();
-        setLoading(false);
     }
 
     const getRemainingOptions = () => {

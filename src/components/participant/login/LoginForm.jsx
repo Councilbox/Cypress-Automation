@@ -19,21 +19,10 @@ import { useOldState } from "../../../hooks";
 
 
 const styles = {
-    loginContainer: {
-        width: "100%",
-        height: "100%",
-        padding: '1em',
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative"
-    },
     loginContainerMax: {
         width: "100%",
         height: "100%",
         padding: '1em',
-        // display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
@@ -231,7 +220,7 @@ const LoginForm = ({ participant, translate, company, council, ...props }) => {
         });
 
         if (response.errors) {
-            if (response.errors[0].message = 'Invalid phone number') {
+            if (response.errors[0].message === 'Invalid phone number') {
                 setState({
                     phoneError: translate.invalid_phone_number,
                     loading: false

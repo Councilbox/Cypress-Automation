@@ -63,12 +63,6 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				props.match.params.id
 			}/live`
 		);
-	};
-
-	const handleChange = tabIndex => {
-		setState({
-			selectedTab: tabIndex
-		})
 	}
 
 	const { council, error, loading, refetch } = data;

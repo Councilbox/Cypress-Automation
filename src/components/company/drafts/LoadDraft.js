@@ -72,9 +72,7 @@ const LoadDraft = withSharedProps()(({ translate, statutes, statute, client, ...
 				},
 				...variables
 			}
-		})
-
-		console.log(response);
+		});
 
 		setData(response.data.companyDrafts);
 		setLoading(false);

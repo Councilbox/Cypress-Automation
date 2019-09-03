@@ -103,29 +103,6 @@ const SendActModal = ({ translate, data, ...props }) => {
 		});
 	};
 
-	const addEmail = () => {
-		if(checkValidEmail(state.newEmail)){
-			if(state.participants.findIndex(item => item === state.newEmail) === -1){
-				setState({
-					participants: [...state.participants, state.newEmail],
-					newEmail: ''
-				});
-			}else{
-				setState({
-					errors: {
-						newEmail: translate.repeated_email
-					}
-				});
-			}
-		}else{
-			setState({
-				errors: {
-					newEmail: translate.tooltip_invalid_email_address
-				}
-			})
-		}
-	};
-
 	const deleteEmailFromList = id => {
 		const list = state.participants;
 		const index = list.find(item => id === item.id);

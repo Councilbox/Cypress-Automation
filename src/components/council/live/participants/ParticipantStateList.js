@@ -92,7 +92,7 @@ const ParticipantStateList = ({ participant, translate, council, inDropDown, cli
 						</div>
 					</FilterButton>
 				</div>
-				<div style={{ display: 'flex', alignItems: 'center', width: '11em', width: '100%' }}>
+				<div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
 					<FilterButton
 						styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", borderRadius: "0"}}
 						tooltip={translate.change_to_remote}

@@ -5,7 +5,7 @@ import { LiveToast, AlertConfirm } from '../../../displayComponents';
 import { Button } from 'material-ui';
 import * as CBX from '../../../utils/CBX';
 import gql from 'graphql-tag';
-import { PARTICIPANT_STATES, AGENDA_STATES } from '../../../constants';
+import { AGENDA_STATES } from '../../../constants';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 
 
@@ -53,7 +53,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
     const updateComment = async () => {
         if(!checkRequiredFields()){
             setLoading(true);
-            const response = await client.mutate({
+            await client.mutate({
                 mutation: updateCommentMutation,
                 variables: {
                     id: state.vote.id,

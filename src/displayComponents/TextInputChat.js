@@ -1,14 +1,5 @@
 import React from "react";
-import {
-	FormControl,
-	IconButton,
-	InputAdornment,
-	TextField
-} from "material-ui";
-import Visibility from "material-ui-icons/Visibility";
-import VisibilityOff from "material-ui-icons/VisibilityOff";
-import FontAwesome from 'react-fontawesome';
-import HelpPopover from './HelpPopover';
+import { FormControl, TextField } from "material-ui";
 
 const TextInputChat = ({
 	type,

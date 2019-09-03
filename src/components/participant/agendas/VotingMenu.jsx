@@ -5,7 +5,6 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import VoteConfirmationModal from './VoteConfirmationModal';
 import { isMobile } from 'react-device-detect';
-import { moment } from '../../../containers/App';
 
 
 const styles = {

@@ -1247,7 +1247,7 @@ export const getSignerStatusTranslateField = status => {
 			return 'rejected';
 		default:
 			return 'error';
-	};
+	}
 }
 
 export const checkCouncilState = (council, company, bHistory, expected) => {

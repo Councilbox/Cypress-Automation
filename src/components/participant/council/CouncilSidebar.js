@@ -296,33 +296,21 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     classNameDialog={'modal100Comentario'}
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0' }}
                     PaperProps={{
-                        style: { width:"100%", margin:"0",
-                        transition: "bottom 0.4s",
-                        display: "flex",
-                        position: "fixed",
-                        minHeight: '50px',
-                        width: "100vw",
-                        bottom: props.click ? "0" : "3.7rem",
-                        left: "0",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        // zIndex: '1050',
-                        borderTop: "1px solid gainsboro" }
+                        style: {
+                            margin:"0",
+                            transition: "bottom 0.4s",
+                            display: "flex",
+                            position: "fixed",
+                            minHeight: '50px',
+                            width: "100vw",
+                            bottom: props.click ? "0" : "3.7rem",
+                            left: "0",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderTop: "1px solid gainsboro"
+                        }
                     }}
                     bodyText={
-                        // <div style={{
-                            // transition: "bottom 0.4s",
-                            // display: "flex",
-                            // position: "fixed",
-                            // minHeight: '50px',
-                            // width: "100vw",
-                            // bottom: props.click ? "0" : "3.7rem",
-                            // left: "0",
-                            // alignItems: "center",
-                            // justifyContent: "center",
-                            // // zIndex: '1050',
-                            // borderTop: "1px solid gainsboro"
-                        // }}>
                             <div style={{
                                 borderRadiusTopLeft: "5px",
                                 position: "relative",
@@ -334,7 +322,6 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                     {props.comentario}
                                 </div>
                          </div>
-                        // </div>
                     }
                 />
             </div>
@@ -461,7 +448,6 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
 const TimelineButton = withApollo(({ onClick, actived, council, translate, client, participant }) => {
     const [total, setTotal] = React.useState(0);
     const [lastEvidenceId, setlastEvidenceId] = React.useState(0);
-    const [readed, setReaded] = React.useState(0);
     const [timelineLastRead, setTimelineLastRead] = React.useState(0);
     const [arrayTimeline, setArrayTimeline] = React.useState(null);
 
@@ -519,9 +505,8 @@ const TimelineButton = withApollo(({ onClick, actived, council, translate, clien
 
 
     const enterTimeline = () => {
-        setReaded(total);
         onClick();
-        evidenceRead()
+        evidenceRead();
     }
 
 

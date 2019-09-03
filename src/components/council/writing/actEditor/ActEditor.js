@@ -888,7 +888,7 @@ export const generateActTags = (type, data, translate) => {
 			label: translate.number_of_participations
 		},
 		percentageShares: {
-			value: (council.currentQuorum / parseInt(base) * 100).toFixed(3),
+			value: (council.currentQuorum / parseInt(base, 10) * 100).toFixed(3),
 			label: translate.social_capital_percentage
 		},
 		dateEnd: {

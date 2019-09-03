@@ -1,6 +1,4 @@
 import React from "react";
-import Spinner from "react-spinkit";
-import { getPrimary } from "../styles/colors";
 
 const LoadingMainApp = ({ message }) => (
 	<div
@@ -13,15 +11,7 @@ const LoadingMainApp = ({ message }) => (
 			flexDirection: 'column'
 		}}
 	>
-		{/* <Spinner
-			name="double-bounce"
-			color={getPrimary()}
-			className="spinner"
-		/> */}
-		{/* Prueba1 */}
 		<img src="/img/logo-icono.png" className="element-animation" alt="councilbox logo"></img>
-		{/* <img src="icono" alt="councilbox logo" className='splash' /> */}
-
 		<div>
 			{message}
 		</div>

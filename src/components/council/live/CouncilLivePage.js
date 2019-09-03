@@ -1,5 +1,5 @@
 import React from "react";
-import { FabButton, Icon, LoadingMainApp, TabsScreen } from "../../../displayComponents";
+import { FabButton, Icon, LoadingMainApp } from "../../../displayComponents";
 import LiveHeader from "./LiveHeader";
 import { darkGrey, lightGrey } from "../../../styles/colors";
 import { graphql } from "react-apollo";

@@ -26,7 +26,6 @@ import * as CBX from "../../../utils/CBX";
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
-import { useOldState } from "../../../hooks";
 
 
 const StepNotice = ({ data, translate, company, ...props }) => {

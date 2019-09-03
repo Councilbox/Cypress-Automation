@@ -3,13 +3,12 @@ import { LoadingMainApp, FabButton, Icon, BasicButton } from '../../../../displa
 import { showVideo } from '../../../../utils/CBX';
 import { graphql } from 'react-apollo';
 import { councilLiveQuery } from "../../../../queries";
-import { Badge, Tooltip } from 'material-ui';
 import ParticipantsManager from '../participants/ParticipantsManager';
 import LiveMobileHeader from './LiveMobileHeader';
 import AgendaManager from '../AgendaManager';
 import CommentWall from '../CommentWall';
 import LiveParticipantsDrawer from './LiveParticipantsDrawer';
-import { lightGrey, getSecondary } from '../../../../styles/colors';
+import { getSecondary } from '../../../../styles/colors';
 import FloatGroup from 'react-float-button';
 
 class CouncilLiveMobilePage extends React.Component {

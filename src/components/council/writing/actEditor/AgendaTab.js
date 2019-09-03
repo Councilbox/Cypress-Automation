@@ -1,7 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
 import { LoadingSection, Scrollbar } from '../../../../displayComponents';
-import gql from 'graphql-tag';
 import AgendaEditor from './AgendaEditor';
 
 const AgendaTab = ({ council, translate, data }) => {

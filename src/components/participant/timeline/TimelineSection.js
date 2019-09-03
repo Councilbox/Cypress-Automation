@@ -1,11 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { Scrollbar, LoadingSection } from '../../../displayComponents';
-import { Paper } from 'material-ui';
+import { LoadingSection } from '../../../displayComponents';
 import { Stepper, Step, StepLabel, StepContent } from 'material-ui';
 import { moment } from '../../../containers/App';
-import { isMobile } from 'react-device-detect';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import withTranslations from '../../../HOCs/withTranslations';
 

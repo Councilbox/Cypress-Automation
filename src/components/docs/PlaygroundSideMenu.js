@@ -1,11 +1,9 @@
 import React from 'react';
 import { PlaygroundContext } from './PlaygroundPage';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from 'material-ui';
-import gql from 'graphql-tag';
 
 
 const PlaygroundSideMenu = () => {
-    const [expanded, setExpanded] = React.useState(null);
     const playgroundContext = React.useContext(PlaygroundContext);
 
     return (
@@ -20,7 +18,6 @@ const PlaygroundSideMenu = () => {
                 style={{
                     backgroundColor: '#212121'
                 }}
-                //onChange={() => setExpanded('panel1')}
             >
                 <ExpansionPanelSummary>
                     Cuenta
@@ -37,7 +34,6 @@ const PlaygroundSideMenu = () => {
                 style={{
                     backgroundColor: '#212121'
                 }}
-                //onChange={() => setExpanded('panel1')}
             >
                 <ExpansionPanelSummary>
                     Usuarios
@@ -54,7 +50,6 @@ const PlaygroundSideMenu = () => {
                 style={{
                     backgroundColor: '#212121'
                 }}
-                //onChange={() => setExpanded('panel1')}
             >
                 <ExpansionPanelSummary>
                     Compañías

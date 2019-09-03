@@ -1,8 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
-import { getPrimary, getSecondary } from '../styles/colors';
-import { variant } from '../config';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
 

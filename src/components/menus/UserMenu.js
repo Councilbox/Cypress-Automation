@@ -4,7 +4,7 @@ import * as mainActions from "../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { MenuItem, Divider } from "material-ui";
-import { DropDownMenu, Icon, Link, BasicButton } from "../../displayComponents";
+import { DropDownMenu, Icon, Link } from "../../displayComponents";
 import FontAwesome from "react-fontawesome";
 import { Tooltip } from "material-ui";
 import { isMobile } from "react-device-detect";
@@ -37,6 +37,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 								className={
 									!company.logo ? "imageAfterHeader" : ""
 								}
+								alt="company-logo"
 								style={{
 									width: "auto",
 									height: "auto",
@@ -86,7 +87,6 @@ const UserMenu = ({ user, actions, translate, company }) => {
 									style={{
 										display: "flex",
 										paddingBottom: "0.5em",
-										justifyContent: "center",
 										alignItems: "center",
 										width: "100%",
 										justifyContent: 'space-between'

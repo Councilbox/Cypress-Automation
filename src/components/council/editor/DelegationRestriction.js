@@ -5,10 +5,8 @@ import DelegationsRestrictionModal from './DelegationsRestrictionModal';
 import { AlertConfirm, BasicButton, Checkbox, SectionTitle } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { Table, TableBody, TableCell, TableRow } from 'material-ui';
-import { TableHead, Toolbar, Card } from 'material-ui';
+import { TableHead, Card } from 'material-ui';
 import { isMobile } from 'react-device-detect';
-import { Translate } from 'material-ui-icons';
-
 
 
 const councilDelegates = gql`

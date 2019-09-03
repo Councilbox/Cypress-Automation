@@ -32,7 +32,6 @@ export const agendaRecountQuery = gql`
 `;
 
 const ActAgreements = ({ translate, council, company, agenda, recount, ...props }) => {
-	const [loading, setLoading] = React.useState(false);
 	const [error, setError] = React.useState(false);
 	const timeout = React.useRef(null);
 	const editor = React.useRef(null);
@@ -110,7 +109,6 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 			return;
 		}
 		if (value.replace(/<\/?[^>]+(>|$)/g, "").length > 0) {
-			setLoading(true);
 			await props.updateAgenda({
 				variables: {
 					agenda: {
@@ -122,13 +120,12 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 			});
 			props.refetch();
 			setError(false);
-			setLoading(false);
 		}
 	}
 
 	const getCorrectedText = async text => {
 		let { numPositive, numNegative, numAbstention, numNoVote } = data;
-		let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
+		let { positiveSC, negativeSC, abstentionSC } = data;
 		const participations = hasParticipations(council);
 		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
 
@@ -174,7 +171,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 
 		if(data) {
 			let { numPositive, numNegative, numAbstention, numNoVote } = data;
-			let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
+			let { positiveSC, negativeSC, abstentionSC } = data;
 			const participations = hasParticipations(council);
 
 			const totalSC = recount.partTotal;

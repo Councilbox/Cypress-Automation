@@ -1,9 +1,6 @@
 import React from "react";
 import { LiveToast } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import DelegationsModal from './DelegationsModal';
 import { agendaPointOpened, agendaVotingsOpened } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
@@ -27,7 +24,6 @@ class Agendas extends React.Component {
     agendaVotingsToastId = null;
 
     componentDidMount() {
-        const { translate, ordenDiaTitle } = this.props;
         if (this.props.participant.delegatedVotes.length > 0) {
             if (!sessionStorage.getItem('delegationsNotify')) {
                 this.setState({
@@ -56,7 +52,7 @@ class Agendas extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { translate, ordenDiaTitle } = this.props;
+        const { translate } = this.props;
 
         if (prevProps.data.agendas) {
             const { agendas: actualAgendas } = this.props.data;

@@ -151,7 +151,6 @@ class AgendaDescriptionModal extends React.Component {
 					bodyStyle={{width: "75vw",minWidth: "50vw",}}
                     requestClose={this.closeModal}
                     open={this.state.modal}
-                    loadingAction={this.state.sending}
                     acceptAction={this.updateAgenda}
                     buttonAccept={this.props.translate.accept}
                     loadingAction={this.state.loading}

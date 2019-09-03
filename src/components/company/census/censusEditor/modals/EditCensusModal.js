@@ -35,7 +35,7 @@ class EditCensusButton extends React.Component {
             })
 
             if(!response.errors){
-                const response = await this.props.refetch();
+                await this.props.refetch();
                 this.props.requestClose();
             }
         }

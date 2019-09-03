@@ -7,7 +7,6 @@ import {
 	dangerColor,
 	defaultFont,
 	drawerWidth,
-	infoColor,
 	primaryBoxShadow,
 	primaryColor,
 	successColor,

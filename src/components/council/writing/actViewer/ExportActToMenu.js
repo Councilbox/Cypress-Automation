@@ -1,9 +1,8 @@
 import React from 'react';
-import { DropDownMenu, Icon } from '../../../../displayComponents';
+import { DropDownMenu } from '../../../../displayComponents';
 import { MenuItem, Divider } from 'material-ui';
 import { getSecondary } from '../../../../styles/colors';
 import { downloadFile } from '../../../../utils/CBX';
-import { downloadAct } from '../../../../queries';
 import { withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import gql from 'graphql-tag';

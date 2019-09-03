@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button } from "material-ui";
 import { LoadingSection, Scrollbar } from '../../../displayComponents';
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary } from "../../../styles/colors";
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
 import { getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';

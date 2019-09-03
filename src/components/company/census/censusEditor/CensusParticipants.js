@@ -298,7 +298,7 @@ class HoverableRow extends React.PureComponent {
 
 
 	render() {
-		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected, translate } = this.props;
+		const { participant, _renderDeleteIcon, representative, selected, translate } = this.props;
 
 		if(isMobile){
             return(

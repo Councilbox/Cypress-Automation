@@ -1,16 +1,14 @@
 import React from 'react';
 import { GOVERNING_BODY_TYPES } from '../../../../constants';
 import * as CBX from '../../../../utils/CBX';
-import { Tooltip, MenuItem } from 'material-ui';
+import { Tooltip } from 'material-ui';
 import { useHoverRow } from '../../../../hooks';
 import { BasicButton } from '../../../../displayComponents';
 import { getCouncilAdminPosition } from '../../../company/settings/GoverningBodyForm';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const GoverningBodyDisplay = ({ translate, company, open, ...props }) => {
-    const secondary = getSecondary();
-
+const GoverningBodyDisplay = ({ translate, company, open }) => {
     const copyAll = () => {
         return company.governingBodyType > 2?
             CBX.copyStringToClipboard(company.governingBodyData.list.reduce((acc, curr) => acc + `${curr.name} ${curr.surname} \n`, ''))

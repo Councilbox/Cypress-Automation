@@ -28,7 +28,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
     const updateTag = async () => {
         if(!await checkRequiredFields()){
             const { __typename, ...data } = tag;
-            const response = await client.mutate({
+            await client.mutate({
                 mutation,
                 variables: {
                     tag: data

@@ -1,6 +1,6 @@
 import React from 'react';
-import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput, Scrollbar } from '../../../../displayComponents';
-import { InputAdornment, Card, Avatar, IconButton, CardHeader, Typography, Collapse, CardContent } from 'material-ui';
+import { LoadingSection, BasicButton, TextInput, Scrollbar } from '../../../../displayComponents';
+import { InputAdornment, Card, IconButton, CardHeader, Typography, Collapse, CardContent } from 'material-ui';
 import FontAwesome from "react-fontawesome";
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';

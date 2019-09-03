@@ -83,11 +83,10 @@ class RichTextInput extends React.Component {
 
 	render() {
 		const { tags, loadDraft, errorText, required, translate } = this.props;
-		const secondary = getSecondary();
 		const modules = {
 			toolbar: {
 				container: [
-					[{ 'color': [] }, { 'background': [] }], , [ 'bold', 'italic', 'underline', 'link', 'strike'],
+					[{ 'color': [] }, { 'background': [] }], [ 'bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
 					[{ 'align': 'justify'}]

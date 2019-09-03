@@ -27,7 +27,7 @@ class ParticipantsWithActTable extends React.Component {
     }
 
     refreshEmails = async () => {
-        const response = await this.props.updateActSends({
+        await this.props.updateActSends({
             variables: {
                 councilId: this.props.council.id
             }

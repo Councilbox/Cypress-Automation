@@ -44,7 +44,7 @@ class RecordingButton extends React.Component {
     }
 
     startRecording = async () => {
-        const response = await this.props.startRecording({
+        await this.props.startRecording({
             variables: {
                 councilId: this.props.council.id
             }

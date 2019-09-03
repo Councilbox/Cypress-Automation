@@ -2,7 +2,7 @@ import React from 'react';
 import { BasicButton, AlertConfirm, ButtonIcon } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getSecondary, getPrimary } from '../../../../styles/colors';
+import { getPrimary } from '../../../../styles/colors';
 import CompanyTagForm from './CompanyTagForm';
 import { sendGAevent } from '../../../../utils/analytics';
 
@@ -31,7 +31,6 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
         key: '',
         value: ''
     });
-    const secondary = getSecondary();
     const primary = getPrimary();
     const [tag, setTag] = React.useState({
         key: '',

@@ -30,7 +30,6 @@ import moment from "moment/min/moment-with-locales.min";
 import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
 import ConveneDisplay from "../components/council/convene/ConveneDisplay";
 import { pageView } from "../utils/analytics";
-import withSharedProps from "../HOCs/withSharedProps";
 import { shouldLoadSubdomain } from "../utils/subdomain";
 export { moment as moment };
 

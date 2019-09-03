@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { LoadingMainApp, LiveToast, AlertConfirm, BlockButton, Grid, GridItem } from "../../displayComponents";
+import { LoadingMainApp, LiveToast, AlertConfirm } from "../../displayComponents";
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';

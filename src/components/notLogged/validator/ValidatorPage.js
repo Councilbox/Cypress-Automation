@@ -1,9 +1,8 @@
 import React from 'react';
-import { NotLoggedLayout, TextInput, BasicButton, SectionTitle, LoadingSection, Grid, GridItem, DropDownMenu } from '../../../displayComponents';
+import { NotLoggedLayout, LoadingSection } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Card, Button, CardHeader, Avatar, CardContent, IconButton, Popover } from 'material-ui';
+import { Card, Button, CardHeader, Avatar, CardContent } from 'material-ui';
 import { isMobile } from 'react-device-detect';
-import { getPrimary } from '../../../styles/colors';
 import { EXPLORER_URL } from '../../../config';
 import { moment } from '../../../containers/App';
 import gql from 'graphql-tag';
@@ -89,8 +88,6 @@ class ValidatorPage extends React.Component {
     }
 
     render() {
-        const primary = getPrimary();
-
         return (
             <NotLoggedLayout
                 translate={this.props.translate}
@@ -143,7 +140,6 @@ export const ExplorerLink = ({ txHash, translate }) => {
 }
 
 export const ValidatorLink = ({ prvHash, translate }) => {
-    const primary = getPrimary();
     return (
         <Button size="small" color="primary" href={`${window.location.origin}/evidence/${prvHash}`} target="_blank" rel="noreferrer noopener">
             {translate.read_details.toUpperCase()}
