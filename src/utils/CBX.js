@@ -552,11 +552,13 @@ export const changeVariablesToValues = async (text, data, translate) => {
 
 	const base = data.council.partTotal;
 
+
 	text = text.replace(/{{president}}/g, data.council.president);
 	text = text.replace(/{{secretary}}/g, data.council.secretary);
 	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`)
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
+	text = text.replace(/{{attendants}}/g, data.council.attendants.reduce((acc, curr, index) => acc + `${index > 0? ', ' : ' '} ${curr.name} ${curr.surname}`, ''));
 
 	if (data.council.street) {
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
@@ -777,7 +779,11 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		},
 		signatories: {
 			value: '{{signatories}}',
-			label: 'Firmantes'//TR
+			label: translate.signatories
+		},
+		attendants: {
+			value: '{{attendants}}',
+			label: translate.census_type_assistants
 		}
 	}
 
@@ -872,6 +878,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.governingBody,
 			smartTags.president,
 			smartTags.secretary,
+			smartTags.attendants,
 			smartTags.convene,
 			smartTags.agenda,
 			smartTags.percentageSCPresent,
@@ -893,7 +900,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.now,
 			smartTags.president,
 			smartTags.secretary,
-			smartTags.signatories
+			smartTags.signatories,
+			smartTags.attendants
 		],
 
 		[DRAFT_TYPES.COMMENTS_AND_AGREEMENTS]: [

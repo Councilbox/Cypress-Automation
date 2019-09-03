@@ -214,6 +214,7 @@ export const generateCouncilSmartTagsValues = data => {
 		...data.council,
 		agenda: data.agendas,
 		...data.councilRecount,
+		attendants: data.councilAttendants.list,
 		numPresentAttendance: data.councilAttendants.list.filter(p => p.state === 5 || p.state === 7).length,
 		numRemoteAttendance: data.councilAttendants.list.filter(p => p.state === 0).length,
 		numDelegatedAttendance: data.participantsWithDelegatedVote.length,
