@@ -77,6 +77,8 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
     }, [getData]);
 
     const getCorrectedText = async text => {
+        console.log(company);
+
 		const correctedText = await changeVariablesToValues(text, {
 			company,
 			council: {

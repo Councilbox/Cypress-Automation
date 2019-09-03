@@ -13,7 +13,8 @@ import {
 	VOTE_VALUES,
 	CUSTOM_AGENDA_VOTING_TYPES,
 	PARTICIPANT_TYPE,
-	COUNCIL_TYPES
+	COUNCIL_TYPES,
+	GOVERNING_BODY_TYPES
 } from "../constants";
 import dropped from "../assets/img/dropped.png";
 import React from 'react';
@@ -335,71 +336,156 @@ export const replaceSpecials = string => {
 	return string.replace(regex, "\\$&");
 }
 
+
+export const getArticles = () => {
+	const articles = {
+		el: language => {
+			const languages = {
+				es: 'El',
+				en: 'The',
+				gal: 'O',
+				cat: "El",
+				pt: 'O'
+			}
+			return languages[language];
+		},
+		la: language => {
+			const languages = {
+				es: 'La',
+				en: 'The',
+				gal: 'A',
+				cat: "La",
+				pt: 'A'
+			}
+			return languages[language];
+		},
+		los: language => {
+			const languages = {
+				es: 'Los',
+				en: 'The',
+				gal: 'Os',
+				cat: 'Els',
+				pt: 'Os'
+			}
+			return languages[language];
+		},
+		las: language => {
+			const languages = {
+				es: 'Las',
+				en: 'The',
+				gal: 'As',
+				cat: 'Les',
+				pt: 'As'
+			}
+			return languages[language];
+		}
+	}
+
+	return articles;
+}
+
+export const getDecides = () => {
+	const articles = {
+		decide: language => {
+			const languages = {
+				es: 'decide',
+				en: 'decides',
+				gal: 'decide',
+				cat: "decideix",
+				pt: 'decide'
+			}
+			return languages[language];
+		},
+		acuerda: language => {
+			const languages = {
+				es: 'acuerda',
+				en: 'agrees',
+				gal: 'acorda',
+				cat: "acorda",
+				pt: 'concorda'
+			}
+			return languages[language];
+		},
+		acuerdan: language => {
+			const languages = {
+				es: 'acuerdan',
+				en: 'agrees',
+				gal: 'acordan',
+				cat: "acordan",
+				pt: 'concordan'
+			}
+			return languages[language];
+		}
+	}
+
+	return articles;
+}
+
 export const generateGBDecidesText = (translate, type) => {
-	//TRADUCCION
+	const articles = getArticles();
+	const decides = getDecides();
+
 	const labels = {
-		0: '',
-		1: 'El Administrador único decide',
-		2: 'El Administrador único decide',
-		3: 'Los Administradores Mancomunados acuerdan',
-		4: 'El Administrador Solidario decide',
-		5: 'El Consejo de Administración acuerda'
+		1: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.ONE_PERSON.label]} ${decides.decide(translate.selectedLanguage)}`,
+		2: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.ONE_ENTITY.label]} ${decides.decide(translate.selectedLanguage)}`,
+		3: `${articles.los(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.JOINT_ADMIN.label]} ${decides.acuerdan(translate.selectedLanguage)}`,
+		4: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.SOLIDARY_ADMIN.label]} ${decides.decide(translate.selectedLanguage)}`,
+		5: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.COUNCIL.label]} ${decides.acuerda(translate.selectedLanguage)}`
 	}
 
 	return labels[type]? labels[type] : labels[0];
 }
 
 export const generateGBAgreements = (translate, type) => {
-	//TRADUCCION
 	const labels = {
 		0: '',
 		1: '',
 		2: '',
-		3: 'MANCOMUNADAMENTE, con la firma conjunta de dos de ellos en la forma y con las limitaciones más abajo reseñadas',
-		4: 'SOLIDARIAMENTE, con su sola firma en la forma y con las limitaciones más abajo reseñadas',
+		3: translate.jointly_decides,
+		4: translate.in_solidarity_decides,
 		5: ''
 	}
 
 	return labels[type]? labels[type] : labels[0];
 }
 
+
 export const getGoverningText = (translate, type) => {
-	//TRADUCCION
+	const articles = getArticles();
+
 	const labels = {
-		0: 'Ninguno',
-		1: 'El Administrador único',
-		2: 'El Administrador único persona jurídica',
-		3: 'Los Administradores Mancomunados',
-		4: 'El Administrador Solidario',
-		5: 'El Consejo de Administración'
+		0: `${translate[GOVERNING_BODY_TYPES.NONE.label]}`,
+		1: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.ONE_PERSON.label]}`,
+		2: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.ONE_ENTITY.label]}`,
+		3: `${articles.los(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.JOINT_ADMIN.label]}`,
+		4: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.SOLIDARY_ADMIN.label]}`,
+		5: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.COUNCIL.label]}`
 	}
 
 	return labels[type]? labels[type] : labels[0];
 }
 
 export const generateGBSoleDecidesText = (translate, type) => {
-	//TRADUCCION
 	const labels = {
-		0: 'La Junta General acuerda',
-		1: 'La Junta General acuerda',
-		6: 'El Socio/Accionista único decide',
-		7: 'El Socio/Accionista único decide',
-		8: 'El Socio/Accionista único decide',
-		9: 'El Socio/Accionista único decide'
+		0: `${translate.the_general_meeting} ${translate.agrees}`,
+		1: `${translate.the_general_meeting} ${translate.agrees}`,
+		6: `${translate.the_sole_shareholder} ${translate.agrees}`,
+		7: `${translate.the_sole_shareholder} ${translate.agrees}`,
+		8: `${translate.the_sole_shareholder} ${translate.agrees}`,
+		9: `${translate.the_sole_shareholder} ${translate.agrees}`
 	}
 
 	return labels[type]? labels[type] : labels[0];
 }
 
 export const generateGBSoleProposeText = (translate, type) => {
-	//TRADUCCION
 	const labels = {
-		0: 'La Junta General',
-		1: 'La Junta General',
-		6: 'El Socio/Accionista único',
-		7: 'El Socio/Accionista único',
-		8: 'El Socio/Accionista único',
-		9: 'El Socio/Accionista único'
+		0: translate.the_general_meeting,
+		1: translate.the_general_meeting,
+		6: translate.the_sole_shareholder,
+		7: translate.the_sole_shareholder,
+		8: translate.the_sole_shareholder,
+		9: translate.the_sole_shareholder
 	}
 
 	return labels[type]? labels[type] : labels[0];
@@ -407,24 +493,22 @@ export const generateGBSoleProposeText = (translate, type) => {
 
 export const getGoverningBodySignatories = (translate, type, data) => {
 	const blankSpaces = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
-
-	//TRADUCCION
 	const labels = {
 		0: () => '',
 		1: () => {
-			return `don/doña ${data.name} ${data.surname}`;
+			return `${translate.mr_ms} ${data.name} ${data.surname}`;
 		},
 		2: () => {
-			return `don/doña ${data.name} ${data.surname}`;
+			return `${translate.mr_ms} ${data.name} ${data.surname}`;
 		},
 		3: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length -1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${translate.mr_ms} ${curr.name} ${curr.surname}${(index < array.length -1)? blankSpaces : ''}`, '');
 		},
 		4: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${translate.mr_ms} ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
 		},
 		5: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `Don/Doña ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${translate.mr_ms} ${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
 		},
 	}
 
