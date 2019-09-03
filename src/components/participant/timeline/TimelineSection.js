@@ -7,6 +7,7 @@ import { Stepper, Step, StepLabel, StepContent } from 'material-ui';
 import { moment } from '../../../containers/App';
 import { isMobile } from 'react-device-detect';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
+import withTranslations from '../../../HOCs/withTranslations';
 
 
 const TimelineSection = ({ translate, participant, council, scrollToBottom, isMobile, client }) => {
@@ -129,13 +130,4 @@ const getTimelineTranslation = (type, content, translate) => {
     return types[type] ? types[type]() : types.default();
 }
 
-export default withApollo(TimelineSection);
-
-/*
-graphql(councilTimeline, {
-    options: props => ({
-        variables: {
-            councilId: props.council.id
-        }
-    })
-})*/
+export default withApollo(withTranslations()(TimelineSection));
