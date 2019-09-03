@@ -256,6 +256,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             <TimelineButton
                                 council={council}
+                                translate={translate}
                                 onClick={() => props.setContent('timeline')}
                                 actived={props.modalContent === "timeline"}
                                 participant={participant}
@@ -411,6 +412,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 onClick={() => props.setContent('timeline')}
                                 actived={props.modalContent === "timeline"}
                                 participant={participant}
+                                translate={translate}
                             />
                         </div>
                     </Grid>
@@ -456,7 +458,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
 }
 
 
-const TimelineButton = withApollo(({ onClick, actived, council, client, participant }) => {
+const TimelineButton = withApollo(({ onClick, actived, council, translate, client, participant }) => {
     const [total, setTotal] = React.useState(0);
     const [lastEvidenceId, setlastEvidenceId] = React.useState(0);
     const [readed, setReaded] = React.useState(0);

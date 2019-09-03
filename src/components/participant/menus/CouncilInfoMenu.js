@@ -8,8 +8,6 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { moment } from '../../../containers/App';
 
 
-
-
 class CouncilInfoMenu extends React.Component {
 
     state = {
@@ -77,14 +75,14 @@ class CouncilInfoMenu extends React.Component {
                         {`${this.props.translate.you_have_following_delegated_votes}:`}
                         {participant.delegatedVotes.map(vote => (
                             <div key={`delegatedVote_${vote.id}`}>
-                                <b>{`${vote.name} ${vote.surname} - Votos `}</b> : {`${vote.numParticipations}`/*TRADUCCION*/}
+                                <b>{`${vote.name} ${vote.surname} - ${translate.votes} `}</b> : {`${vote.numParticipations}`}
                             </div>
                         ))}
                         <br></br>
                     </div>
                     {`${this.props.translate.total_votes}: ${this.calculateParticipantVotes()}`}
                 </Card>
-            </div >
+            </div>
         )
     }
 

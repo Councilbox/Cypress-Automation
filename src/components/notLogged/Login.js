@@ -72,7 +72,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 						setState({
 							loading: false,
 							errors: {
-								user: 'Estas credenciales no son válidas para este dominio' //TRADUCCION
+								user: translate.domain_invalid_creds
 							}
 						})
 					}
