@@ -82,8 +82,8 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 			council: {
                 ...generateCouncilSmartTagsValues(draftData),
                 ...(company.governingBodyType === GOVERNING_BODY_TYPES.COUNCIL.value? {
-                    president: `${company.governingBodyData.list[0].name} ${company.governingBodyData.list[0].name}`,
-                    secretary: `${company.governingBodyData.list[2].name} ${company.governingBodyData.list[2].name}`,
+                    president: `${company.governingBodyData.list[0].name} ${company.governingBodyData.list[0].surname}`,
+                    secretary: `${company.governingBodyData.list[2].name} ${company.governingBodyData.list[2].surname}`,
                 } : {
                     president: '',
                     secretary: ''
