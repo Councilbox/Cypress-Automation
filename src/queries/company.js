@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-const companyFragment = `
+export const companyFragment = `
 	alias
 	tin
 	logo

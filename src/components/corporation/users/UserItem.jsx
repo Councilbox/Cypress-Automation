@@ -1,16 +1,13 @@
 import React from "react";
-import FontAwesome from "react-fontawesome";
 import { getSecondary, getPrimary } from "../../../styles/colors";
 import { MenuItem } from 'material-ui';
 import { DateWrapper, BasicButton } from '../../../displayComponents';
 import { USER_ACTIVATIONS } from '../../../constants';
-import CloseSessionButton from './CloseSessionButton';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 
 const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
     const secondary = getSecondary();
-    const primary = getPrimary();
 
     const activatePremium = async event => {
         event.stopPropagation();

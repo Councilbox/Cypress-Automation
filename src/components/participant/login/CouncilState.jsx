@@ -1,7 +1,6 @@
 import React from "react";
 import {
 	CardHeader,
-	Avatar,
 	Dialog,
 	DialogTitle,
 	DialogContent
@@ -11,7 +10,6 @@ import { BasicButton } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
-import { isMobile } from 'react-device-detect';
 import Results from '../Results';
 import OverFlowText from "../../../displayComponents/OverFlowText";
 import {
@@ -308,7 +306,6 @@ class TextRender extends React.PureComponent {
 			council,
 			company,
 			translate,
-			styles,
 			windowOrientation
 		} = this.props;
 		const primaryColor = getPrimary();
@@ -318,7 +315,7 @@ class TextRender extends React.PureComponent {
 				<h3 style={{ color: primaryColor, marginBottom: windowOrientation === "landscape" ? "" : "1em" }}>{title}</h3>
 
 				{text && (
-					<p style={{ marginBottom: "8px", fontSize: '1.1em', marginBottom: windowOrientation === "landscape" ? "" : "2em" }}>
+					<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === "landscape" ? "" : "2em" }}>
 						{isHtmlText ? (
 							<span dangerouslySetInnerHTML={{ __html: text }} />
 						) : (
@@ -365,7 +362,7 @@ class TextRender extends React.PureComponent {
 	}
 }
 
-const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
+const CouncilInfoCardRender = ({ council, windowOrientation }) => (
 	<React.Fragment>
 		<div
 			style={{
@@ -374,18 +371,9 @@ const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
 			}}
 		>
 			<CardHeader
-				// style={{ padding: windowOrientation === "landscape" ? "0px" : "" }}
-				// style={{...styles}}
-				/* avatar={
-					<Avatar
-						src={company.logo}
-						aria-label="CouncilLogo"
-					/>
-				} */
 				title={
 					<div style={{ marginBottom: windowOrientation === "landscape" ? "" : "10px" }}>
-						{/* <img src={company.logo} style={{ height: company.logo !== "" ? '2em' : '' }}></img>{company.logo !== "" ? <br /> : ""} */}
-						<img src={logoIcon} style={{ height: logoIcon !== "" ? '2em' : '' }}></img>{logoIcon !== "" ? <br /> : ""}
+						<img src={logoIcon} style={{ height: logoIcon !== "" ? '2em' : '' }} alt="icono councilbox"></img>{logoIcon !== "" ? <br /> : ""}
 						<b>{council.name}</b>
 					</div>
 				}
@@ -393,13 +381,6 @@ const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
 					"LLL"
 				)}
 			/>
-			{/* <CardContent style={{ paddingBottom: "16px" }}>
-						<p
-							dangerouslySetInnerHTML={{
-								__html: council.conveneText
-							}}
-						/>
-					</CardContent> */}
 		</div>
 	</React.Fragment>
 );
@@ -444,6 +425,7 @@ const Image = ({ src, widths, windowOrientation, styles }) => (
 		<img
 			style={{ width: '100%' }}
 			src={src}
+			alt="empty table"
 		/>
 	</div>
 );

@@ -3,12 +3,13 @@ import { DateWrapper } from '../../../displayComponents';
 import * as CBX from '../../../utils/CBX';
 import QuorumWrapper from '../quorum/QuorumWrapper';
 import { Card } from 'material-ui';
-import { getLightGrey } from '../../../styles/colors';
-
 
 
 const ConveneSelector = ({ translate, council, recount, convene, changeConvene }) => {
-    const lightGrey = getLightGrey();
+    const renderParticipationsText = () => {
+        return `${recount.socialCapitalRightVoting} (${((recount.socialCapitalRightVoting / recount.socialCapitalTotal) * 100).toFixed(3)}%) ${translate.social_capital.toLowerCase()}`
+    }
+
     return (
         <React.Fragment>
             <Card style={{
@@ -18,7 +19,7 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                 padding: '0.8em',
                 cursor: 'pointer',
                 fontSize: '0.9rem',
-                backgroundColor: convene === 1 && lightGrey,
+                backgroundColor: convene === 1 && 'gainsboro',
                 outline: 'none'
             }}
                 elevation={convene === 1 ? 0 : 1}
@@ -40,7 +41,7 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                         fontSize: '0.9rem',
                         marginTop: '0.5em',
                         outline: 'none',
-                        backgroundColor: convene !== 1 && lightGrey
+                        backgroundColor: convene !== 1 && 'gainsboro'
                     }}
                     elevation={convene === 1 ? 1 : 0}
                     tabIndex="0"
@@ -52,25 +53,25 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                 </Card>
             }
             <div style={{ fontSize: '0.85em', marginTop: '0.8em' }}>
-                <div>
+                <div style={{ fontWeight: '700', fontSize: '0.9rem'}}>
                     {`${translate.current_quorum}: ${
                         council.quorumPrototype === 1 ?
-                            `${recount.socialCapitalRightVoting} ${translate.social_capital}`
+                            renderParticipationsText()
                             :
                             `${recount.numRightVoting} ${translate.participants}`
                         }`}
                 </div>
                 <div>
-                    {translate.council_will_be_started}
+                    {`${translate.council_will_be_started} `}
                     <DateWrapper date={Date.now()} format="LLL" />
                     <div>
-                        {council.statute.existsSecondCall === 1 ?
+                        {council.existsSecondCall === 1 ?
                             convene === 1 ?
                                 `${translate['1st_call']} ${
                                 council.statute.firstCallQuorumType !== -1 ?
                                     `${translate.with_current_quorum} ${
                                     council.quorumPrototype === 1 ?
-                                        `${recount.socialCapitalRightVoting} ${translate.social_capital.toLowerCase()}`
+                                        renderParticipationsText()
                                         :
                                         `${recount.numRightVoting} ${translate.participants.toLowerCase()}`
                                     }`
@@ -80,10 +81,10 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
 
                                 :
                                 `${translate['2nd_call']} ${
-                                council.statute.secondCallQuorumType !== -1 ?
+                                council.secondCallQuorumType !== -1 ?
                                     `${translate.with_current_quorum} ${
                                     council.quorumPrototype === 1 ?
-                                        `${recount.socialCapitalRightVoting} ${translate.social_capital.toLowerCase()}`
+                                        renderParticipationsText()
                                         :
                                         `${recount.numRightVoting} ${translate.participants.toLowerCase()}`
                                     }`
@@ -93,7 +94,7 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                             :
                             `${translate.with_current_quorum} ${
                             council.quorumPrototype === 1 ?
-                                `${recount.socialCapitalRightVoting} ${translate.social_capital.toLowerCase()}`
+                                renderParticipationsText()
                                 :
                                 `${recount.numRightVoting} ${translate.participants.toLowerCase()}`
                             }`

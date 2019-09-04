@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, GridItem, BlockButton, DateTimePicker } from '../../displayComponents';
+import { DateTimePicker } from '../../displayComponents';
 import { moment } from '../../containers/App';
 
 const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props }) => {

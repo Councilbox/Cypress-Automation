@@ -114,7 +114,7 @@ export const rescheduleCouncil = gql`
 `;
 
 export const cancelCouncil = gql`
-	mutation cancelCouncil($councilId: Int!, $timezone: String!) {
+	mutation cancelCouncil($councilId: Int!, $timezone: String) {
 		cancelCouncil(councilId: $councilId, timezone: $timezone) {
 			success
 		}

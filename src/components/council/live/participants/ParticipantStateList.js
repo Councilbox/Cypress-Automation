@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import { graphql, withApollo } from "react-apollo";
 import * as CBX from "../../../../utils/CBX";
 import { isLandscape } from "../../../../utils/screen";
 import { getSecondary } from "../../../../styles/colors";
@@ -8,8 +8,10 @@ import { changeParticipantState } from "../../../../queries/liveParticipant";
 import { FilterButton, Grid, GridItem } from "../../../../displayComponents";
 import StateIcon from "./StateIcon";
 import { useOldState } from "../../../../hooks";
+import { removeLiveParticipantSignature } from "./modals/SignatureModal";
 
-const ParticipantStateList = ({ participant, translate, council, inDropDown, ...props }) => {
+
+const ParticipantStateList = ({ participant, translate, council, inDropDown, client, ...props }) => {
 	const [state, setState] = useOldState({
 		loading: false,
 		delegateVote: false,
@@ -28,9 +30,13 @@ const ParticipantStateList = ({ participant, translate, council, inDropDown, ...
 		const response = await props.changeParticipantState({
 			variables: {
 				participantId: participant.id,
-				state: state
+				state
 			}
 		});
+
+		if(state === PARTICIPANT_STATES.NO_PARTICIPATE && participant.signed){
+			removeParticipantSignature();
+		}
 
 		if (response) {
 			setState({
@@ -39,6 +45,15 @@ const ParticipantStateList = ({ participant, translate, council, inDropDown, ...
 			props.refetch();
 		}
 	};
+
+	const removeParticipantSignature = async () => {
+		await client.mutate({
+			mutation: removeLiveParticipantSignature,
+			variables: {
+				participantId: participant.id
+			}
+		});
+	}
 
 	const { loading } = state;
 
@@ -77,7 +92,7 @@ const ParticipantStateList = ({ participant, translate, council, inDropDown, ...
 						</div>
 					</FilterButton>
 				</div>
-				<div style={{ display: 'flex', alignItems: 'center', width: '11em', width: '100%' }}>
+				<div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
 					<FilterButton
 						styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", borderRadius: "0"}}
 						tooltip={translate.change_to_remote}
@@ -159,4 +174,4 @@ const ParticipantStateList = ({ participant, translate, council, inDropDown, ...
 
 export default graphql(changeParticipantState, {
 	name: "changeParticipantState"
-})(ParticipantStateList);
+})(withApollo(ParticipantStateList));

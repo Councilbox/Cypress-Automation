@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Icon } from './';
+import { Icon } from './';
 import { getSecondary, darkGrey } from '../styles/colors';
 import { Card, MenuItem } from 'material-ui';
 import { sendGAevent } from '../utils/analytics';
@@ -11,7 +11,7 @@ const Block = withSharedProps()(({ button, link, icon, text, id, customIcon, dis
 		sendGAevent({
 			category: 'Dashboard',
 			action: text,
-			label: company.businessName
+			label: company? company.businessName : 'Sin compañía'
 		})
 		bHistory.push(link);
 	}

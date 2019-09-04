@@ -2,7 +2,6 @@ import React from 'react';
 import { SelectInput, TextInput, Grid, GridItem, Radio, DateTimePicker, SectionTitle } from '../../displayComponents';
 import RichTextInput from '../../displayComponents/RichTextInput';
 import { MenuItem, Paper } from 'material-ui';
-import { provinces } from '../../queries/masters';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';

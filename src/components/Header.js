@@ -1,7 +1,5 @@
 import React from "react";
 import logo from "../assets/img/logo.png";
-import conpaasLogo from "../assets/img/conpaas_logo.png";
-import coeLogo from "../assets/img/coe.png";
 import icono from "../assets/img/logo-icono.png";
 import { Link } from "react-router-dom";
 import LanguageSelector from "./menus/LanguageSelector";
@@ -15,11 +13,9 @@ import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION, variant } from "../config";
-import { ConfigContext } from "../containers/AppControl";
+import { getCustomLogo, getCustomIcon } from "../utils/subdomain";
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, ...props }) => {
-	const config = React.useContext(ConfigContext);
-
 	const goBack = () => {
 		bHistory.goBack();
 	};
@@ -30,6 +26,8 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 
 	const secondary = getSecondary();
 	const language = translate && translate.selectedLanguage;
+	const customIcon = getCustomIcon();
+	const customLogo = getCustomLogo();
 
 	return (
 		<Paper
@@ -81,34 +79,9 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					</Tooltip>
 				)}
 				<Link to="/">
-					{variant === 'COE'?
-						<div>
-							<img
-								src={!showVerticalLayout() ? conpaasLogo : icono}
-								className="App-logo"
-								style={{
-									height: "1.5em",
-									marginLeft: "1em",
-									// marginLeft: "2em",
-									userSelect: 'none'
-								}}
-								alt="logo"
-							/>
-							<img
-								src={!showVerticalLayout() ? coeLogo : icono}
-								className="App-logo"
-								style={{
-									height: "1.5em",
-									marginLeft: "1em",
-									// marginLeft: "2em",
-									userSelect: 'none'
-								}}
-								alt="logo"
-							/>
-						</div>
-					:
+					<div>
 						<img
-							src={!showVerticalLayout() ? logo : icono}
+							src={!showVerticalLayout() ? customLogo? customLogo : logo : customIcon? customIcon : icono}
 							className="App-logo"
 							style={{
 								height: "1.5em",
@@ -118,8 +91,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 							}}
 							alt="logo"
 						/>
-					}
-
+					</div>
 				</Link>
 			</div>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Drawer, SwipeableDrawer, withStyles } from 'material-ui';
+import { Drawer, withStyles } from 'material-ui';
 import CompaniesManagerButton from '../menus/CompaniesManagerButton';
 import CompanySelector from '../menus/CompanySelector';
 import withWindowSize from '../../HOCs/withWindowSize';
@@ -8,10 +8,7 @@ import { isLandscape } from '../../utils/screen';
 import { isMobile } from "react-device-detect";
 let icon;
 import('../../assets/img/imago-councilbox-inverse-xl.png').then(data => icon = data);
-const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-
-//const defaultWidth = 420;
 
 const sidebarStyle = theme => ({
 	paperAnchorLeft: {
@@ -22,11 +19,9 @@ const sidebarStyle = theme => ({
 class CompanyMenu extends React.Component {
 	render() {
 		const sideWidth = window.innerWidth > 420 ? 420 : window.innerWidth;
-		
+
 		return (
 			<Drawer
-				// disableBackdropTransition={!iOS}
-				// disableDiscovery={iOS}
 				style={{
 					minWidth: `${sideWidth + isLandscape() ? 100 : 0}px`,
 					maxWidth: "100%",

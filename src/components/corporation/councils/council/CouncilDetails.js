@@ -2,12 +2,11 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput, Scrollbar } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, AlertConfirm, Scrollbar } from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
 import withTranslations from '../../../../HOCs/withTranslations';
-import { exceedsOnlineTimeout, isAskingForWord } from '../../../../utils/CBX';
 import SendCredentialsModal from "../../../council/live/councilMenu/SendCredentialsModal";
 import AgendaManager from "../../../council/live/AgendaManager";
 import { StatuteDisplay } from '../../../council/display/StatuteDisplay';
@@ -15,8 +14,7 @@ import OptionsDisplay from '../../../council/display/OptionsDisplay';
 import CostManager from './CostManager';
 import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
-import LiveParticipantStats from './LiveParticipantStats';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableFooter } from 'material-ui';
+import { Table, TableHead, TableRow, TableCell, TableBody, } from 'material-ui';
 import FailedSMSList from './FailedSMSList';
 
 
@@ -110,7 +108,7 @@ class CouncilDetails extends React.Component {
 	}
 
 	cancelCouncilAct = async () => {
-		const response = await this.props.cancelAct({
+		await this.props.cancelAct({
 			variables: {
 				councilId: this.state.data.council.id
 			}
@@ -172,7 +170,6 @@ class CouncilDetails extends React.Component {
 							<div
 								onClick={this.toggleLock}
 								style={{
-									backgroundColor: 'gainsboro',
 									opacity: '0.9',
 									borderRadius: '1.5em',
 									display: 'flex',

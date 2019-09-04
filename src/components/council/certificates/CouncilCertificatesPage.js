@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { LoadingSection, CardPageLayout, ButtonIcon, BasicButton, Table, DateWrapper } from '../../../displayComponents';
 import { TableRow, TableCell, Typography } from 'material-ui';
 import { downloadFile } from '../../../utils/CBX';
-import CertificateForm from './CertificateForm';
+import CertificateEditor from './CertificateEditor';
 import { useHoverRow } from '../../../hooks';
 
 const CouncilCertificates = ({ data, translate, ...props }) => {
@@ -50,7 +50,7 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
 
     if(editor){
         return(
-            <CertificateForm
+            <CertificateEditor
                 council={data.council}
                 translate={translate}
                 requestClose={closeEditor}

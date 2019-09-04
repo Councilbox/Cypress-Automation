@@ -1,14 +1,13 @@
 import React from 'react';
-import { CollapsibleSection, BasicButton, ButtonIcon, AlertConfirm } from '../../../displayComponents';
+import { BasicButton, AlertConfirm } from '../../../displayComponents';
 import ActHTML from '../../council/writing/actViewer/ActHTML';
 import CommentMenu from './CommentMenu';
 import * as CBX from '../../../utils/CBX';
 import { Typography } from 'material-ui';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { getSecondary } from '../../../styles/colors';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
 import { PARTICIPANT_TYPE } from '../../../constants';
 import VotingSection from './VotingSection';
-import VotingMenu from './VotingMenu';
 import CustomPointVotingMenu from './CustomPointVotingMenu';
 
 
@@ -110,7 +109,6 @@ class AgendaMenu extends React.Component {
     render() {
         const { translate, agenda } = this.props;
         const secondary = getSecondary();
-        const primary = getPrimary();
         const ownVote = this.findOwnVote(agenda.votings, this.props.participant);
 
         return (

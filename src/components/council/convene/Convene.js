@@ -84,7 +84,7 @@ class Convene extends React.Component {
 	}
 
 	togglePublicConvene = async () => {
-		const response = await this.props.updateCouncil({
+		await this.props.updateCouncil({
 			variables: {
 				council: {
 					id: this.props.data.council.id,

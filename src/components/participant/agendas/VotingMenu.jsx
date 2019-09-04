@@ -5,7 +5,6 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import VoteConfirmationModal from './VoteConfirmationModal';
 import { isMobile } from 'react-device-detect';
-import { moment } from '../../../containers/App';
 
 
 const styles = {
@@ -108,7 +107,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 }}
             />
             <VotingButton
-                text={"No votar"} //TRADUCCION
+                text={translate.dont_vote}
                 selected={agenda.votings[0].vote === -1}
                 onClick={() => {
                     if (singleVoteMode) {

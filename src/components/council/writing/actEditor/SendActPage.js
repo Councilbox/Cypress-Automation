@@ -1,7 +1,7 @@
 import React from 'react';
 import SendActModal from './SendActModal';
 import ParticipantsWithActTable from './ParticipantsWithActTable';
-import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { getPrimary } from '../../../../styles/colors';
 import { BasicButton, DropDownMenu, AlertConfirm, SuccessMessage } from '../../../../displayComponents';
 import { Typography, MenuItem } from 'material-ui';
 import { graphql } from 'react-apollo';
@@ -81,7 +81,6 @@ class SendActPage extends React.Component {
 
     render(){
         const primary = getPrimary();
-        const secondary = getSecondary();
         const { translate, council } = this.props;
 
         return(

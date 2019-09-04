@@ -11,13 +11,14 @@ const CanceledCouncil = ({ council, translate }) => {
                 translate={translate}
             />
             {!!council.noCelebrateComment &&
-                <Card 
+                <Card
                     elevation={0}
                     style={{
                         marginTop: '1em',
                         padding: '0.8em'
                     }}
                 >
+                    <h5>{translate.message}</h5>
                     <div dangerouslySetInnerHTML={{__html: council.noCelebrateComment}} />
                 </Card>
             }

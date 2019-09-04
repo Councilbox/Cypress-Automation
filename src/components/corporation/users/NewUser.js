@@ -8,46 +8,50 @@ import CompanyLinksManager from './CompanyLinksManager';
 import gql from 'graphql-tag';
 import { bHistory } from '../../../containers/App';
 import { checkValidEmail } from '../../../utils/validation';
+import { useOldState } from '../../../hooks';
 
-class NewUser extends React.PureComponent {
-    state = {
+const NewUser = ({ fixedCompany, translate, ...props }) => {
+    const [state, setState] = useOldState({
         data: {
             email: '',
             surname: '',
             name: '',
             preferredLanguage: 'es'
         },
-        companies: [],
+        companies: fixedCompany? [fixedCompany] : [],
         errors: {}
-    }
+    });
+    const [success, setSuccess] = React.useState(false);
 
-    updateState = (object) => {
-        this.setState({
+    const updateState = object => {
+        setState({
             data: {
-                ...this.state.data,
+                ...state.data,
                 ...object
             }
         })
     }
 
-    createUserWithoutPassword = async () => {
-        if(!this.checkRequiredFields()){
-            const response = await this.props.createUserWithoutPassword({
+    const createUserWithoutPassword = async () => {
+        if(!checkRequiredFields()){
+            const response = await props.createUserWithoutPassword({
                 variables: {
-                    user: this.state.data,
-                    companies: this.state.companies.map(company => company.id)
+                    user: state.data,
+                    companies: state.companies.map(company => company.id)
                 }
             });
 
             if(!response.errors){
-                if(response.data.createUserWithoutPassword.id){
+                if(response.data.createUserWithoutPassword.id && !fixedCompany){
                     bHistory.push(`/users/edit/${response.data.createUserWithoutPassword.id}`);
+                } else {
+                    setSuccess(true);
                 }
             }else{
                 if(response.errors[0].originalError.original.constraint === "users_email_key"){
-                    this.setState({
+                    setState({
                         errors: {
-                            email: this.props.translate.register_exists_email
+                            email: translate.register_exists_email
                         }
                     })
                 }
@@ -55,7 +59,7 @@ class NewUser extends React.PureComponent {
         }
     }
 
-    checkRequiredFields() {
+    function checkRequiredFields() {
         let errors = {
             email: '',
             name: '',
@@ -64,29 +68,29 @@ class NewUser extends React.PureComponent {
         }
 
         let hasError = false;
-        const { data } = this.state;
+        const { data } = state;
 
         if(data.email.trim().length === 0){
             hasError = true;
-            errors.email = this.props.translate.required_field;
+            errors.email = translate.required_field;
         }else{
             if(!checkValidEmail(data.email)){
                 hasError = true;
-                errors.email = this.props.translate.tooltip_invalid_email_address;
+                errors.email = translate.tooltip_invalid_email_address;
             }
         }
 
         if(data.name.trim().length === 0){
             hasError = true;
-            errors.name = this.props.translate.required_field;
+            errors.name = translate.required_field;
         }
 
         if(data.surname.trim().length === 0){
             hasError = true;
-            errors.surname = this.props.translate.required_field;
+            errors.surname = translate.required_field;
         }
 
-        this.setState({
+        setState({
             errors
         });
 
@@ -94,49 +98,78 @@ class NewUser extends React.PureComponent {
 
     }
 
-    render() {
-        const { translate } = this.props;
-        if(this.props.data.loading){
-            return <LoadingSection />
-        }
+    if(props.data.loading){
+        return <LoadingSection />
+    }
 
-        return(
-            <div style={{height: 'calc(100vh - 3em)'}}>
-                <CardPageLayout title={translate.users_add}>
-                    <UserForm
-                        translate={translate}
-                        data={this.state.data}
-                        errors={this.state.errors}
-                        updateState={this.updateState}
-                        languages={this.props.data.languages}
-                    />
-                    <CompanyLinksManager
-                        linkedCompanies={this.state.companies}
-                        translate={translate}
-                        addCheckedCompanies={(companies) => this.setState({
-                            companies: companies
-                        })}
-                    />
-                    <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+
+    const body = () => (
+        <React.Fragment>
+            <UserForm
+                translate={translate}
+                data={state.data}
+                errors={state.errors}
+                updateState={updateState}
+                languages={props.data.languages}
+            />
+            {success &&
+                <div style={{margin: '2em 0em'}}>
+                    Se le ha enviado un <b>email de confirmación</b> al usuario para que pueda completar su registro indicando su <b>contraseña</b>.
+                </div>
+            }
+            {!fixedCompany &&
+                <CompanyLinksManager
+                    linkedCompanies={state.companies}
+                    translate={translate}
+                    addCheckedCompanies={companies => setState({
+                        companies
+                    })}
+                />
+            }
+            <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+                {!success?
+                    <React.Fragment>
                         <BasicButton
-                            text={this.props.translate.back}
+                            text={translate.back}
                             textStyle={{textTransform: 'none', color: 'black', fontWeight: '700'}}
-                            onClick={this.props.requestClose}
+                            onClick={props.requestClose}
                             buttonStyle={{marginRight: '5em'}}
                         />
                         <BasicButton
-                            text={this.props.translate.save}
+                            text={translate.save}
                             color={getPrimary()}
                             icon={<ButtonIcon type="save" color="white" />}
                             textStyle={{textTransform: 'none', color: 'white', fontWeight: '700'}}
-                            onClick={this.createUserWithoutPassword}
+                            onClick={createUserWithoutPassword}
                         />
-                    </div>
-                </CardPageLayout>
+                    </React.Fragment>
+                :
+                    <BasicButton
+                        text={translate.back}
+                        textStyle={{textTransform: 'none', color: 'black', fontWeight: '700'}}
+                        onClick={props.requestClose}
+                        buttonStyle={{marginRight: '5em'}}
+                    />
+                }
+
             </div>
-        )
-    }
+        </React.Fragment>
+    )
+
+    return(
+        <div style={{height: !fixedCompany? 'calc(100vh - 3em)' : '100%'}}>
+            {fixedCompany?
+                body()
+            :
+                <CardPageLayout title={translate.users_add}>
+                    {body()}
+                </CardPageLayout>
+            }
+
+        </div>
+    )
 }
+
 
 const createUserWithoutPassword = gql`
     mutation CreateUserWithoutPassword($user: UserInput!, $companies: [Int]){

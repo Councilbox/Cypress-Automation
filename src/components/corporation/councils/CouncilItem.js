@@ -2,12 +2,11 @@ import React from 'react';
 import { getSecondary } from '../../../styles/colors';
 import { moment } from '../../../containers/App';
 import FontAwesome from 'react-fontawesome';
-import { Link, BasicButton } from '../../../displayComponents';
+import { Link } from '../../../displayComponents';
 import FixedVideoURLModal from './FixedVideoURLModal';
 import { Card, CardHeader, CardContent } from 'material-ui';
 
 const CouncilItem = ({ council, translate, hideFixedUrl, enRoot }) => {
-
     if (enRoot) {
         return (
             <div >
@@ -34,22 +33,22 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enRoot }) => {
                 <div style={{ margin: "1em 0px", border: "1px solid gainsboro" }}>
                     <Link to={`/council/${council.id}`}>
                         <div style={{ display: 'flex', borderBottom: "1px solid gainsboro", alignItems: "center", justifyContent: "center" }}>
-                            <div style={{ width: '10%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Total
                             </div>
-                            <div style={{ width: '10%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 ID
                             </div>
-                            <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Titulo
                             </div>
-                            <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Archivo
                             </div>
-                            <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Fechas
                             </div>
-                            <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Estado
                             </div>
                         </div>
@@ -64,10 +63,10 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enRoot }) => {
                                 />
                                 <span style={{ fontSize: '2rem', paddingLeft: "10px" }}>{council.participants.length}</span>
                             </div>
-                            <div style={{ textAlign: "center", width: '10%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ textAlign: "center", width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 {` ${council.id}`}
                             </div>
-                            <div style={{ textAlign: "center", width: '20%', textAlign: "center", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            <div style={{ width: '20%', textAlign: "center", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                 <span styel={{ fontWeight: '700', width: '20%' }}>{council.company.businessName}</span>
                             </div>
                             <div style={{ textAlign: "center", width: '20%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -109,24 +108,24 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enRoot }) => {
                             <div style={{ border: "1px solid gainsboro" }}>
 
                                 <div style={{ display: 'flex', borderBottom: "1px solid gainsboro", alignItems: "center", justifyContent: "center" }}>
-                                    <div style={{ width: '10%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <div style={{ width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         Total
-                            </div>
-                                    <div style={{ width: '10%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    </div>
+                                    <div style={{ width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         ID
-                            </div>
-                                    <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    </div>
+                                    <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         Titulo
-                            </div>
-                                    <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    </div>
+                                    <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         Archivo
-                            </div>
-                                    <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    </div>
+                                    <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         Fecha
-                            </div>
-                                    <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    </div>
+                                    <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         Estado
-                            </div>
+                                    </div>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: "center", justifyContent: "center" }}>
                                     <div style={{ width: '10%', color: getSecondary(), display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: "center" }}>
@@ -139,10 +138,10 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enRoot }) => {
                                         />
                                         <span style={{ fontSize: '2rem', paddingLeft: "10px" }}>{council.participants.length}</span>
                                     </div>
-                                    <div style={{ textAlign: "center", width: '10%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <div style={{ textAlign: "center", width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         {` ${council.id}`}
                                     </div>
-                                    <div style={{ textAlign: "center", width: '20%', textAlign: "center", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                    <div style={{ width: '20%', textAlign: "center", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                         <span styel={{ fontWeight: '700', width: '20%' }}>{council.company.businessName}</span>
                                     </div>
                                     <div style={{ textAlign: "center", width: '20%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -185,22 +184,22 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enRoot }) => {
                 <div style={{  border: "1px solid gainsboro" }}>
                     <Link to={`/council/${council.id}`}>
                         <div style={{ display: 'flex', borderBottom: "1px solid gainsboro", alignItems: "center", justifyContent: "center" }}>
-                            <div style={{ width: '10%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Total
                             </div>
-                            <div style={{ width: '10%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 ID
                             </div>
-                            <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Titulo
                             </div>
-                            <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Archivo
                             </div>
-                            <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Fecha
                             </div>
-                            <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Estado
                             </div>
                         </div>
@@ -215,7 +214,7 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enRoot }) => {
                                 />
                                 <span style={{ fontSize: '2rem', paddingLeft: "10px" }}>{council.participants.length}</span>
                             </div>
-                            <div style={{ textAlign: "center", width: '10%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ textAlign: "center", width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 {` ${council.id}`}
                             </div>
                             <div style={{ textAlign: "center", width: '20%', textAlign: "center", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -257,7 +256,7 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enRoot }) => {
                             />
                             <span style={{ fontSize: '2rem' }}>{council.participants.length}</span>
                         </div>
-                        <div style={{ fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em' }}>
+                        <div style={{ paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em' }}>
                             {`ID: ${council.id}`}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', }}>

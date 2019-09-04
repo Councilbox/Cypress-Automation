@@ -1,38 +1,11 @@
 import React from 'react';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 import { AlertConfirm, BasicButton } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import RefuseDelegationConfirm from '../delegations/RefuseDelegationConfirm';
 import { PARTICIPANT_STATES } from '../../../constants';
 
-const reducer = (state, { type, payload }) => {
-    const actions = {
-        success: () => ({
-            ...state,
-            data: payload,
-            success: true,
-            error: false,
-            loading: false
-        }),
 
-        loading: () => ({
-            ...state,
-            loading: payload
-        }),
-
-        error: () => ({
-            ...state,
-            success: false,
-            loading: false,
-            error: payload
-        })
-    }
-
-    return actions[type]();
-}
-
-const DelegationsModal = ({ open, requestClose, translate, refuseDelegation, refetch, participant }) => {
+const DelegationsModal = ({ open, requestClose, translate, refetch, participant }) => {
     const [delegation, setDelegation] = React.useState(false);
 
     const closeConfirm = () => {

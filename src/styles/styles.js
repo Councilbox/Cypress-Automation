@@ -1,4 +1,4 @@
-import { darkGrey } from "./colors";
+import { darkGrey, getSecondary } from "./colors";
 import { variant } from "../config";
 
 const drawerWidth = 75;
@@ -41,7 +41,7 @@ const primaryColor = "#9c27b0";
 const warningColor = "#ff9800";
 const dangerColor = "#f44336";
 const successColor = "#4caf50";
-const infoColor = variant === 'COE'? "#e61d72" : "#00acc1";
+const infoColor = variant === 'CUSTOM'? getSecondary() : "#00acc1";
 const roseColor = "#e91e63";
 const grayColor = "#999999";
 

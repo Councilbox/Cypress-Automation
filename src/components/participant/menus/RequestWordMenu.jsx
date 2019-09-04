@@ -298,7 +298,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                 acceptAction={askForWord}
                 cancelAction={closeWordModal}
                 title={translate.warning}
-                bodyText={"Va a pedir palabra."}/*TRADUCCION*/
+                bodyText={translate.will_ask_for_word}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
             />
@@ -349,10 +349,10 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                                     />
                                 </div>
                                 <div>
-                                    Le han concedido la palabra {/* TRADUCCION */}
+                                    {translate.word_gived}
                                 </div>
                                 <div>
-                                    < FontAwesome
+                                    <FontAwesome
                                         name={"close"}
                                         style={{
                                             cursor: "pointer",
@@ -379,7 +379,7 @@ const changeRequestWord = gql`
     mutation ChangeRequestWord($participantId: Int!, $requestWord: Int!){
             changeRequestWord(participantId: $participantId, requestWord: $requestWord){
             success
-    message
+            message
         }
     }
 `;

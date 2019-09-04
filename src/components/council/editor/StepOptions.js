@@ -20,11 +20,15 @@ import * as CBX from "../../../utils/CBX";
 import withWindowSize from '../../../HOCs/withWindowSize';
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
+import DelegationRestriction from "./DelegationRestriction";
+import { ConfigContext } from "../../../containers/AppControl";
+
 
 
 const StepOptions = ({ translate, data, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
+	const config = React.useContext(ConfigContext);
 
 	const [state, setState] = React.useState({
 		data: {},
@@ -296,6 +300,15 @@ const StepOptions = ({ translate, data, ...props }) => {
 		return councilOptions[type]? councilOptions[type] : councilOptions[1];
 	}
 
+	function _renderDelegationRestriction(){
+		return (
+			<DelegationRestriction
+				translate={translate}
+				council={council}
+			/>
+		);
+	}
+
 	function _renderSecurityForm() {
 		return (
 			<React.Fragment>
@@ -386,7 +399,7 @@ const StepOptions = ({ translate, data, ...props }) => {
 								}}
 							/>
 							{_renderSecurityForm()}
-
+							{(council.statute.existsDelegatedVote === 1 && config.councilDelegates) && _renderDelegationRestriction()}
 							{CBX.hasAct(council.statute) && council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle

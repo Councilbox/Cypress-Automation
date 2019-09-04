@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CloseIcon, SectionTitle, AlertConfirm } from '../../../../displayComponents';
+import { CloseIcon, SectionTitle } from '../../../../displayComponents';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { useHoverRow } from '../../../../hooks';
 import { getPrimary } from '../../../../styles/colors';
@@ -33,7 +33,6 @@ const deleteCompanyTag = gql`
 const CompanyTags = ({ client, translate, company, ...props }) => {
     const [data, setData] = React.useState(null);
     const [editTag, setEditTag] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
     const primary = getPrimary();
 
     const getData = async () => {
@@ -44,7 +43,6 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
             }
         });
         setData(response.data.companyTags);
-        setLoading(false)
     }
 
     React.useEffect(() => {
@@ -71,7 +69,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
 
 
     const deleteTag = async id => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: deleteCompanyTag,
             variables: {
                 tagId: id
@@ -84,7 +82,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
         <div>
             <SectionTitle
                 color={primary}
-                title="Etiquetas de compañía"
+                title="Etiquetas de compañía" //TRADUCCION
             />
 
             <AddCompanyTag

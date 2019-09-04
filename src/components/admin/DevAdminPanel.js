@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, GridItem, LoadingSection, BasicButton, TextInput, SelectInput } from '../../displayComponents';
+import { Grid, GridItem, LoadingSection, BasicButton, TextInput, SelectInput, FileUploadButton } from '../../displayComponents';
 import ToggleRecordings from './featureControl/ToggleRecordings';
 import ToggleVideo from './featureControl/ToggleVideo';
 import LogoutUser from './featureControl/LogoutUser';
@@ -99,6 +99,15 @@ const createCensus = gql`
     }
 `;
 
+const uploadDomainImage = gql`
+    mutation uploadSubdomainImage($image: String!, $type: String!, $subdomain: String!){
+        uploadSubdomainImage(image: $image, type: $type, subdomain: $subdomain){
+            success
+            message
+        }
+    }
+`
+
 const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
     const [data, setData] = React.useState({
         companyId: '',
@@ -138,7 +147,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     dateStart: new Date(2019,11,17, 14, 30, 0).toISOString(),
                     dateStart2NdCall: new Date(2019,11,17, 14, 50, 0).toISOString(),
                     companyId: 375,
-                    selectedCensusId: 753
+                    selectedCensusId: 754
                 },
                 agenda: [{
                     type: 0,
@@ -235,7 +244,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         const response = await client.mutate({
             mutation: sendConvene,
             variables: {
-               councilId: 7057
+               councilId: 7058
             }
         });
 
@@ -298,6 +307,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                 text="Crear censos"
                 onClick={createCe}
             />
+            <SubdomainImage client={client} />
             {exceptions.map(exception => (
                 <div key={`exception_${exception.id}`}>
                     {`${exception.featureName} - ${exception.companyId} - ${exception.active}`}
@@ -310,6 +320,65 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         </div>
     )
 });
+
+const SubdomainImage = ({ client }) => {
+    const [image, setImage] = React.useState(null);
+    const [subdomain, setSubdomain] = React.useState('');
+    const [type, setType] = React.useState('');
+
+	const handleFile = event => {
+		const file = event.nativeEvent.target.files[0];
+		if (!file) {
+			return;
+		}
+
+		let reader = new FileReader();
+		reader.readAsDataURL(file);
+
+		reader.onload = async () => {
+            setImage(reader.result);
+		};
+    }
+
+    const upload = async () => {
+        const response = await client.mutate({
+            mutation: uploadDomainImage,
+            variables: {
+                image,
+                subdomain,
+                type
+            }
+        });
+
+        console.log(response);
+    }
+
+
+    return (
+        <div>
+            <FileUploadButton
+                text={'Imagen'}
+                image
+                color={'cyan'}
+                textStyle={{
+                    color: "white",
+                    fontWeight: "700",
+                    fontSize: "0.9em",
+                    textTransform: "none"
+                }}
+                onChange={handleFile}
+            />
+            Subdomain
+            <input onChange={event => setSubdomain(event.target.value)}></input>
+            type
+            <input onChange={event => setType(event.target.value)}></input>
+            <BasicButton
+                text="Enviar"
+                onClick={upload}
+            />
+        </div>
+    )
+} 
 
 
 const Features = ({ value, toggleFeature }) => {

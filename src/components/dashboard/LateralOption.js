@@ -1,10 +1,9 @@
 import React from "react";
 import { Icon } from '../../displayComponents';
-import { getPrimary, getSecondary, darkGrey } from "../../styles/colors";
 import { ListItem } from "material-ui";
 import { bHistory } from '../../containers/App';
 
-const LateralOption = ({ icon, text, first, link, customIcon, style }) => {
+const LateralOption = ({ icon, text, link, customIcon, style }) => {
 
 	const followLink = link => {
 		bHistory.push(link);
