@@ -9,13 +9,13 @@ import { useInterval } from "../../hooks";
 import { getPrimary } from "../../styles/colors";
 
 
-const participantHeaderLimit = 1;
+const participantHeaderLimit = 15;
 
 
 const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
-	const [drawerTop, setDrawerTop] = React.useState(false)
-	const [participantsOnline, setParticipantsOnline] = React.useState(false)
-	const [participantsPresents, setParticipantsPresents] = React.useState(false)
+	const [drawerTop, setDrawerTop] = React.useState(false);
+	const [participantsOnline, setParticipantsOnline] = React.useState(false);
+	const [participantsPresents, setParticipantsPresents] = React.useState(false);
 	const [state, setState] = React.useState({
 		loading: true,
 		loadingPresents: true,
@@ -244,28 +244,38 @@ const reducer = (state, action) => {
 			...state,
 			loading: false,
 			data: {
-				online: {
-					list: [...state.data.online.list, ...action.value.online.list],
-					total: action.value.online.total
-				},
-				presents: {
-					list: [...state.data.presents.list, ...action.value.presents.list],
-					total: action.value.presents.total
-				}
+				...state.data,
+				...(action.value.online? {
+					online: {
+						list: action.value.online.list,
+						total: action.value.online.total
+					},
+				} : {}),
+				...(action.value.presents? {
+					presents: {
+						list: action.value.presents.list,
+						total: action.value.presents.total
+					},
+				} : {})
 			}
 		}),
 		'RESET_DATA': () => ({
 			...state,
 			loading: false,
 			data: {
-				online: {
-					list: action.value.online.list,
-					total: action.value.online.total
-				},
-				presents: {
-					list: action.value.presents.list,
-					total: action.value.presents.total
-				}
+				...state.data,
+				...(action.value.online? {
+					online: {
+						list: action.value.online.list,
+						total: action.value.online.total
+					},
+				} : {}),
+				...(action.value.presents? {
+					presents: {
+						list: action.value.presents.list,
+						total: action.value.presents.total
+					},
+				} : {})
 			}
 		}),
 		'SET_FULLNAME': () => ({
@@ -282,6 +292,13 @@ const reducer = (state, action) => {
 				...state.filters,
 				onlineOffset: action.value
 			}
+		}),
+		'PRESENTS_OFFSET': () => ({
+			...state,
+			filters: {
+				...state.filters,
+				presentOffset: action.value
+			}
 		})
 	}
 
@@ -291,7 +308,7 @@ const reducer = (state, action) => {
 
 const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) => {
 	const [state, dispatch] = React.useReducer(reducer, initialState);
-	const actualSearch = React.useRef('');
+	const actualSearch = React.useRef(null);
 
 	const { fullName, presentOffset, onlineOffset } = state.filters;
 
@@ -341,18 +358,12 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 
 	const getData = React.useCallback(async () => {
 		const [response, responseOnline] = await Promise.all([getPresents(fullName), getOnline(fullName)]);
+		console.log(response);
 
 		if (fullName !== actualSearch.current) {
+			actualSearch.current = fullName;
 			dispatch({
 				type: 'RESET_DATA', value: {
-					presents: response.data.roomLiveParticipantsPresents,
-					online: responseOnline.data.roomLiveParticipantsOnline
-				}
-			});
-			actualSearch.current = fullName
-		} else {
-			dispatch({
-				type: 'LOAD_DATA', value: {
 					presents: response.data.roomLiveParticipantsPresents,
 					online: responseOnline.data.roomLiveParticipantsOnline
 				}
@@ -360,10 +371,44 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 		}
 	}, [getPresents, getOnline, fullName]);
 
+	const loadMorePresents = React.useCallback(async () => {
+		const [response] = await Promise.all([getPresents(fullName)]);
+		dispatch({
+			type: 'LOAD_DATA', value: {
+				presents: response.data.roomLiveParticipantsPresents,
+			}
+		});
+	}, [presentOffset]);
+
+	const loadMoreRemote = React.useCallback(async () => {
+		const [response] = await Promise.all([getOnline(fullName)]);
+		dispatch({
+			type: 'LOAD_DATA', value: {
+				online: response.data.roomLiveParticipantsOnline
+			}
+		});
+	}, [onlineOffset]);
+
 	React.useEffect(() => {
-		if (showModal) {
-			getData();
+		if(showModal && presentOffset !== 0){
+			loadMorePresents();
 		}
+	}, [presentOffset]);
+
+	React.useEffect(() => {
+		if(showModal && onlineOffset !== 0){
+			loadMoreRemote();
+		}
+	}, [onlineOffset]);
+
+	console.log(state);
+
+	React.useEffect(() => {
+		let timeout;
+		if (showModal) {
+			timeout = setTimeout(getData, 400);
+		}
+		return () => clearTimeout(timeout);
 	}, [getData, showModal]);
 
 
