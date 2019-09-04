@@ -22,7 +22,7 @@ const GoverningBodyDisplay = ({ translate, company, open }) => {
         <div style={{ width: '100%', height: '100%', padding: '1em' }}>
             {open &&
                 <React.Fragment>
-                    <div>{type.label} {company.governingBodyType > 2 &&
+                    <div>{translate[type.label] || type.label} {company.governingBodyType > 2 &&
                         <BasicButton
                             type="flat"
                             color="transparent"
