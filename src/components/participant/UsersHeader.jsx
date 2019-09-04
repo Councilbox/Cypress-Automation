@@ -3,7 +3,7 @@ import { Drawer, withStyles, Divider } from "material-ui";
 import { isMobile } from "react-device-detect";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, AlertConfirm, Grid, GridItem, Scrollbar, TextInput, Icon } from "../../displayComponents";
+import { LoadingSection, AlertConfirm, Grid, GridItem, Scrollbar, TextInput, Icon, BasicButton } from "../../displayComponents";
 import * as CBX from '../../utils/CBX';
 import { useInterval } from "../../hooks";
 import { getPrimary } from "../../styles/colors";
@@ -12,7 +12,7 @@ import { getPrimary } from "../../styles/colors";
 const participantHeaderLimit = 15;
 
 
-const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
+const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }) => {
 	const [drawerTop, setDrawerTop] = React.useState(false);
 	const [participantsOnline, setParticipantsOnline] = React.useState(false);
 	const [participantsPresents, setParticipantsPresents] = React.useState(false);
@@ -212,6 +212,7 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 					requestClose={() => setState({ showModal: false })}
 					showModal={state.showModal}
 					council={council}
+					translate={translate}
 				/>
 			}
 		</div>
@@ -247,13 +248,13 @@ const reducer = (state, action) => {
 				...state.data,
 				...(action.value.online? {
 					online: {
-						list: action.value.online.list,
+						list: [...state.data.online.list, ...action.value.online.list],
 						total: action.value.online.total
 					},
 				} : {}),
 				...(action.value.presents? {
 					presents: {
-						list: action.value.presents.list,
+						list: [...state.data.presents.list, ...action.value.presents.list],
 						total: action.value.presents.total
 					},
 				} : {})
@@ -306,14 +307,15 @@ const reducer = (state, action) => {
 }
 
 
-const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) => {
+const Modal = withApollo(({ translate, showModal, requestClose, council: { id }, client }) => {
 	const [state, dispatch] = React.useReducer(reducer, initialState);
+	const [loading, setLoading] = React.useState(false);
 	const actualSearch = React.useRef(null);
 
 	const { fullName, presentOffset, onlineOffset } = state.filters;
 
 
-	const getPresents = React.useCallback(async text => {
+	const getPresents = async text => {
 		return await client.query({
 			query: roomLiveParticipantsPresents,
 			variables: {
@@ -332,9 +334,9 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 				} : {})
 			},
 		});
-	}, [presentOffset, id]);
+	};
 
-	const getOnline = React.useCallback(async text => {
+	const getOnline = async text => {
 		return await client.query({
 			query: roomLiveParticipantsOnline,
 			variables: {
@@ -353,12 +355,11 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 				} : {})
 			},
 		});
-	}, [onlineOffset, id]);
+	};
 
 
 	const getData = React.useCallback(async () => {
 		const [response, responseOnline] = await Promise.all([getPresents(fullName), getOnline(fullName)]);
-		console.log(response);
 
 		if (fullName !== actualSearch.current) {
 			actualSearch.current = fullName;
@@ -369,24 +370,28 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 				}
 			});
 		}
-	}, [getPresents, getOnline, fullName]);
+	}, [fullName]);
 
 	const loadMorePresents = React.useCallback(async () => {
+		setLoading(true);
 		const [response] = await Promise.all([getPresents(fullName)]);
 		dispatch({
 			type: 'LOAD_DATA', value: {
 				presents: response.data.roomLiveParticipantsPresents,
 			}
 		});
+		setLoading(false);
 	}, [presentOffset]);
 
 	const loadMoreRemote = React.useCallback(async () => {
+		setLoading(true);
 		const [response] = await Promise.all([getOnline(fullName)]);
 		dispatch({
 			type: 'LOAD_DATA', value: {
 				online: response.data.roomLiveParticipantsOnline
 			}
 		});
+		setLoading(false);
 	}, [onlineOffset]);
 
 	React.useEffect(() => {
@@ -400,8 +405,6 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 			loadMoreRemote();
 		}
 	}, [onlineOffset]);
-
-	console.log(state);
 
 	React.useEffect(() => {
 		let timeout;
@@ -489,11 +492,20 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 							</Scrollbar>
 							{!state.loading &&
 								state.data.presents.total !== state.data.presents.list.length &&
-								<div style={{ cursor: "pointer", color: getPrimary() }}
+								<BasicButton
+									text="Ver más" //TRADUCCION
+									type="flat"
 									onClick={() => { dispatch({ type: 'PRESENTS_OFFSET', value: presentOffset + participantHeaderLimit }) }}
-								>
-									Ver más
-								</div>
+									loading={loading}
+									loadingColor={getPrimary()}
+									color="transparent"
+									buttonStyle={{
+										marginBottom: '5px'
+									}}
+									textStyle={{
+										color: getPrimary()
+									}}
+								/>
 							}
 						</div>
 					</div>
@@ -507,7 +519,7 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 		<AlertConfirm
 			requestClose={requestClose}
 			open={showModal}
-			buttonCancel={"Close"}
+			buttonCancel={translate.close}
 			bodyStyle={{ minWidth: "70vw", height: "70vh" }}
 			bodyText={renderBody()}
 			title={"Personas Online / Presenciales"} //TRADUCCION
