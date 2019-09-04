@@ -9,7 +9,7 @@ import { useInterval } from "../../hooks";
 import { getPrimary } from "../../styles/colors";
 
 
-const participantHeaderLimit = 15;
+const participantHeaderLimit = 1;
 
 
 const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
@@ -100,7 +100,7 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 				background: '#483962',
 			}}
 		>
-			<div style={{ marginLeft: "1em ", marginRight: "1em", color: "white", display: "flex", justifyContent: "center", fontSize: "18px" }}>
+			<div style={{ marginLeft: "1em ", marginRight: "1em", color: "white", display: "flex", justifyContent: "center", fontSize: "16px" }}>
 				<div
 					style={{
 						marginRight: "0.7em",
@@ -369,7 +369,7 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 
 	const renderBody = () => (
 		<Scrollbar>
-			<Grid style={{ height: "100%", justifyContent: "space-between", overflow: "hidden", padding:"0.2em" }}>
+			<Grid style={{ height: "100%", justifyContent: "space-between", overflow: "hidden", padding: "0.2em" }}>
 				<GridItem xs={12} md={12} lg={12} style={{ display: "flex", justifyContent: "flex-end", maxHeight: "5em" }}>
 					<div>
 						<TextInput
@@ -444,7 +444,11 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 							</Scrollbar>
 							{!state.loading &&
 								state.data.presents.total !== state.data.presents.list.length &&
-								<div style={{ cursor: "pointer", color: getPrimary() }} onClick={() => { dispatch({ type: 'PRESENTS_OFFSET', value: onlineOffset + participantHeaderLimit }) }}>Ver más</div>
+								<div style={{ cursor: "pointer", color: getPrimary() }}
+									onClick={() => { dispatch({ type: 'PRESENTS_OFFSET', value: presentOffset + participantHeaderLimit }) }}
+								>
+									Ver más
+								</div>
 							}
 						</div>
 					</div>
@@ -459,7 +463,7 @@ const Modal = withApollo(({ showModal, requestClose, council: { id }, client }) 
 			requestClose={requestClose}
 			open={showModal}
 			buttonCancel={"Close"}
-			bodyStyle={{ minWidth: "70vw", height: "65vh" }}
+			bodyStyle={{ minWidth: "70vw", height: "70vh" }}
 			bodyText={renderBody()}
 			title={"Personas Online / Presenciales"} //TRADUCCION
 		/>
@@ -471,7 +475,7 @@ const styles = {
 	paperAnchorTop: {
 		top: isMobile ? '88px' : "104px",
 		left: !isMobile && '10px',
-		width: '150px!important',
+		width: '200px!important',
 		maxHeight: "calc( 100% - 10rem )!important",
 		background: '#74559bed',
 		color: "white",
@@ -481,7 +485,7 @@ const styles = {
 	},
 	paper: {
 		top: "88px",
-		width: '150px!important',
+		width: '200px!important',
 	}
 }
 
