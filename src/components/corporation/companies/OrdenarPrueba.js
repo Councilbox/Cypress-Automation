@@ -15,10 +15,13 @@ import { toast } from 'react-toastify';
 import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
 
 
-
+const agendaBlocks = ['agendaSubject', 'description', 'comment', 'voting', 'votes', 'agendaComments'];
 
 const defaultTemplates = {
-    "0": ["title", "puntos", "intro", "constitution", "conclusion"],
+    "0": ["title", "intro", "puntos", 'constitution', 'textOrdenDelDia',
+        'tomaAcuerdos',
+        'conclusion', 'listaAsistentes'
+    ],
     "default1": ["intro", "constitution", "conclusion"],
     "default2": ["intro", "constitution", "conclusion"]
 }
@@ -80,44 +83,40 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         let newArray = []
         //Bloque de texto
         newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Bloque de texto", text: 'Inserte el texto', originalName: "bloqueDeTexto", editButton: true })
-        console.log(objetoArrayAct)
-        console.log(agendas)
-        console.log(attendants)
-        console.log("-----------------------------")
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Titulo de la reunion", text: "Titulo de la reunion", originalName: 'title', noBorrar: true })
+
+        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Titulo de la reunion", text: "<b>Titulo de la reunion</b>", originalName: 'title', noBorrar: true })
         objetoArrayAct.forEach(element => {
             if (element[0] !== "id" && element[0] !== '__typename' && element[1] !== "") {
                 newArray.push({ id: Math.random().toString(36).substr(2, 9), name: element[0], text: element[1], originalName: element[0], editButton: true, noBorrar: true })
             }
         });
-        let puntos = "Para tratar el siguiente Orden de Día </br>"
+        let puntos = "<b>Para tratar el siguiente Orden de Día </b> </br>"
         agendas.forEach((element, index) => {
-            puntos +=  (index+1) +"- "+ element.agendaSubject + "</br>" ; 
+            puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
         });
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Puntos del Orden de Día ", text: puntos, originalName: 'puntos' })//TRADUCCION
+        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Puntos del Orden de Día ", text: puntos, originalName: 'puntos', noBorrar: true })//TRADUCCION
+        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "", text: "<b>A continuación se entra a debatir el primer punto del Oden del día</b>", originalName: 'textOrdenDelDia', noBorrar: true })//TRADUCCION
 
         agendas.forEach((element, index) => {
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Puntos del Orden de Día ", text: "Para tratar el siguiente Orden de Día </br>" + element.agendaSubject + "</br>", originalName: 'puntos' })//TRADUCCION
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.title, text: element.agendaSubject, editButton: true, originalName: 'agendaSubject' })//TRADUCCION
-            if (element.description) {
-                newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.description, text: element.description, editButton: true, originalName: 'description' })//TRADUCCION
-            }
-            if (element.comment) {
-                newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Toma de acuerdos", text: element.comment, editButton: true, originalName: 'comment' }) //TRADUCCION
-            }
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votaciones", text: " A FAVOR: ... | EN CONTRA: ... | ABSTENCIONES: ... | NO VOTAN: ...", editButton: false, originalName: 'voting' }) //TRADUCCION
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votos", text: "A FAVOR, EN CONTRA, ABSTENCIÓN", editButton: false, originalName: "votes" })//TRADUCCION
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Comentarios", text: element.description, editButton: false, originalName: 'agendaComments' })//TRADUCCION
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.title, text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>", editButton: true, originalName: 'agendaSubject', noBorrar: true, editButton: false })//TRADUCCION
+            // if (element.description) {
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.description, text: element.description, editButton: true, originalName: 'description', noBorrar: true, editButton: false })//TRADUCCION
+            // }
+            // if (element.comment) {
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Toma de acuerdos", text: element.comment, editButton: true, originalName: 'comment', noBorrar: true }) //TRADUCCION
+            // }
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votaciones", text: "<b>Votaciones </b></br> A FAVOR: ... | EN CONTRA: ... | ABSTENCIONES: ... | NO VOTAN: ...", editButton: false, originalName: 'voting', noBorrar: true, editButton: false, logic: true }) //TRADUCCION
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN", editButton: false, originalName: "votes", noBorrar: true, editButton: false, logic: true })//TRADUCCION
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Comentarios", text: "<b>Comentarios</b> </br>" + element.description, editButton: false, originalName: 'agendaComments', noBorrar: true, editButton: false })//TRADUCCION
         });
         let assistants = ""
         attendants.forEach(element => {
             assistants = element.name + " " + element.surname + " con DNI " + element.dni + "  Firma: ..."
         });
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: translate.assistants_list, text: assistants, editButton: false, logic: true })
+        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: translate.assistants_list, text: '<b>Lista de asistentes</b> </br>' + assistants, editButton: false, logic: true, originalName: 'listaAsistentes' })
         newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Listado de delegaciones", text: "", editButton: false, logic: true })
-
         setArrastrables({ items: newArray })
-        ordenarTemplateInit(defaultTemplates[template], newArray)
+        ordenarTemplateInit(defaultTemplates[template], newArray, agendas)
     }
 
     const addItem = (id) => {
@@ -273,30 +272,43 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     };
 
 
-    const changeTemplate = event => {
+    const changeTemplate = (event, agendas) => {
         if (template !== event.target.value) {
             setTemplate(event.target.value)
-            renderTemplate(event.target.value)
+            renderTemplate(event.target.value, agendas)
         }
     };
 
 
-    const renderTemplate = (numTemp) => {
-        ordenarTemplate(defaultTemplates[numTemp])
+    const renderTemplate = (numTemp, agendas) => {
+        ordenarTemplate(defaultTemplates[numTemp], agendas)
     };
 
 
 
-    const ordenarTemplate = (orden) => {
+    const ordenarTemplate = (orden, agendas) => {
         let auxTemplate = []
         let auxArrastrableQuitar = []
         if (orden !== undefined) {
             orden.forEach(element => {
-                auxTemplate.push(arrastrables.items.find(arrastrable => arrastrable.originalName === element));
+                if (element === 'tomaAcuerdos') {
+                    const bloques = agendaBlocks.map(block => {
+                        return arrastrables.items.find(
+                            arrastrable =>
+                                arrastrable.originalName === block
+                        )
+                    });
+                    auxTemplate = [...auxTemplate, ...bloques];
+                } else {
+                    auxTemplate.push(
+                        arrastrables.items.find(
+                            arrastrable =>
+                                arrastrable.originalName === element
+                        )
+                    );
+                }
             })
-            auxArrastrableQuitar = arrastrables.items.filter(value => !orden.includes(value.originalName))
-
-            setArrastrables({ items: auxArrastrableQuitar })
+            setArrastrables({ items: [...arrastrables.items.filter(value => !agendaBlocks.includes(value.originalName) && !orden.includes(value.originalName)),] })
             setAgendas({ items: auxTemplate })
         } else {
             setAgendas({ items: [] })
@@ -304,16 +316,33 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         }
     }
 
-    const ordenarTemplateInit = (orden, array) => {
+    const ordenarTemplateInit = (orden, array, agendas) => {
         let auxTemplate = []
         let auxTemplate2 = { items: array }
         let auxArrastrableQuitar = []
+        let puntosDelDiaLenght = agendas.length
         if (orden !== undefined) {
             orden.forEach(element => {
-                auxTemplate.push(auxTemplate2.items.find(arrastrable => arrastrable.originalName === element));
+                if (element === 'tomaAcuerdos') {
+                    agendas.forEach((agenda, index) => {
+                        const bloques = agendaBlocks.map(block => {
+                            return auxTemplate2.items.find(
+                                arrastrable =>
+                                    arrastrable.originalName === block && arrastrable.name.includes(`Punto ${index + 1}`)
+                            )
+                        });
+                        auxTemplate = [...auxTemplate, ...bloques];
+                    })
+                } else {
+                    auxTemplate.push(
+                        auxTemplate2.items.find(
+                            arrastrable =>
+                                arrastrable.originalName === element
+                        )
+                    );
+                }
             })
-            auxArrastrableQuitar = auxTemplate2.items.filter(value => !orden.includes(value.originalName))
-            setArrastrables({ items: auxArrastrableQuitar })
+            setArrastrables({ items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.originalName) && !orden.includes(value.originalName)),] })
             setAgendas({ items: auxTemplate })
         } else {
             setAgendas({ items: [] })
@@ -345,7 +374,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                 <SelectInput
                                     value={template}
                                     floatingText={'Plantillas'}
-                                    onChange={(event) => changeTemplate(event)}
+                                    onChange={(event) => changeTemplate(event, agendas)}
                                 >
                                     <MenuItem value={'none'}> </MenuItem>
                                     <MenuItem value={0}>Default</MenuItem>
@@ -417,14 +446,14 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                 </Scrollbar>
                             </div>
                         </div>
-                        <div style={{ width: colapse ? "100%" : "60%", height: "calc( 100% - 3em )", }}>
-                            <div style={{ margin: "1.5em", height: "calc( 100% - 3em )", borderRadius: "8px", background: "white" }}>
+                        <div style={{ width: colapse ? "100%" : "60%", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
+                            <div style={{ margin: "1.5em", height: "calc( 100% - 3em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
                                 <Scrollbar>
                                     <div style={{ display: "flex", height: "100%" }}>
                                         <div style={{ width: "20%", maxWidth: "95px" }}>
                                             <img style={{ width: "100%", }} src={imgIzq}></img>
                                         </div>
-                                        <div>
+                                        <div style={{ width: "100%" }}>
                                             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
                                                 <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
                                                     <img style={{ width: "100%" }} src={company.logo}></img>
@@ -794,6 +823,7 @@ const NoDraggableBlock = (props) => {
                     margin: "3px",
                     paddingLeft: "15px",
                     paddingTop: "5px",
+                    marginBottom: "1em"
                 }}
             >
                 <div style={{}}>
@@ -805,7 +835,7 @@ const NoDraggableBlock = (props) => {
                             <div style={{ fontWeight: "700" }}>
                                 <HelpPopover
                                     title={"Bloque lógico"}
-                                    content={"Este bloque se completará con la informacion adecuada cuando se genere el acta"}
+                                    content={"Este bloque se completará con la informacion adecuada cuando se genere el acta y no tendra el recuadro verde"}
                                 >
                                 </HelpPopover>
                             </div>
