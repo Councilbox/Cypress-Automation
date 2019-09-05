@@ -65,16 +65,14 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		setTestTags({
 			...testTags,
 			[formatTagLabel(tag)]: {
-				segments: tag.segments,
-				type: tag.type,
+				...tag,
 				active: true
 			}
 		});
 		let data = {
 			...testTags,
 			[formatTagLabel(tag)]: {
-				segments: tag.segments,
-				type: tag.type,
+				...tag,
 				active: true
 			}
 		}
@@ -84,9 +82,10 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 
 
 	React.useEffect(() => {
-		console.log(draft.tags)
 		setTestTags({ ...draft.tags });
 	}, []);
+
+	console.log(testTags);
 
 
 	const renderTitle = () => {
@@ -245,22 +244,22 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	let tagsSearch = []
 	companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 		tagsSearch.push({
-			label: statute.title,
-			translation: translate[statute.title],
+			label: translate[statute.title] || statute.title,
+			name: `${statute.title}_${statute.id}`,
 			type: 0
 		})
 	));
 	Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
 		tagsSearch.push({
-			label: GOVERNING_BODY_TYPES[key].label,
-			translation: translate[GOVERNING_BODY_TYPES[key].label],
+			name: GOVERNING_BODY_TYPES[key].label,
+			label: translate[GOVERNING_BODY_TYPES[key].label],
 			type: 1
 		})
 	))
 	draftTypes.map(draft => (
 		tagsSearch.push({
-			label: draft.label,
-			translation: translate[draft.label],
+			name: draft.label,
+			label: translate[draft.label],
 			type: 2
 		})
 	))
@@ -269,8 +268,8 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		draft.label === 'agenda' &&
 		CBX.filterAgendaVotingTypes(votingTypes).filter(type => !testTags[type.label]).map(votingType =>
 			tagsSearch.push({
-				label: votingType.label,
-				translation: translate[votingType.label],
+				name: votingType.label,
+				label: translate[votingType.label],
 				type: 2,
 			})
 		)
@@ -279,16 +278,24 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	let matchSearch = []
 	if (search) {
 		matchSearch = tagsSearch.filter(statute =>
-			(statute.translation ? statute.translation : statute.label).toLowerCase().includes(search.toLowerCase())
+			(statute.name ? statute.name : statute.label).toLowerCase().includes(search.toLowerCase())
 		).map(statute => {
 			return ({
-				label: statute.label,
-				translation: statute.translation ? statute.translation : statute.label,
+				name: statute.label,
+				label: statute.translation || statute.label,
 				type: statute.type
 			})
 		}
 		)
 	}
+
+	console.log(Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
+		{
+			name: GOVERNING_BODY_TYPES[key].label,
+			label: translate[GOVERNING_BODY_TYPES[key].label],
+			type: 1
+		}
+	)));
 
 	const renderSelectorEtiquetas = () => {
 		return (
@@ -302,7 +309,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 					</div>
 					<div onClick={() => setOpenClonar(true)} id={"modalCargarPlantillas"} >
 						ModalClonar
-								</div>
+					</div>
 				</div>
 				<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", }}>
 					<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
@@ -331,9 +338,9 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 									title={translate.council_type}
 									tags={matchSearch.map(statute => {
 										return ({
-											label: statute.label,
-											translation: statute.translation ? statute.translation : statute.label,
-											type: statute.type
+											label: translate[statute.title] || statute.title,
+											name: `${statute.title}_${statute.id}`,
+											type: 0
 										})
 									}
 									)}
@@ -352,8 +359,8 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 									}}
 									tags={companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 										{
-											label: statute.title,
-											translation: translate[statute.title],
+											label: translate[statute.title] || statute.title,
+											name: `${statute.title}_${statute.id}`,
 											type: 0
 										}
 									))}
@@ -369,8 +376,8 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 								}}
 								tags={Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
 									{
-										label: GOVERNING_BODY_TYPES[key].label,
-										translation: translate[GOVERNING_BODY_TYPES[key].label],
+										name: GOVERNING_BODY_TYPES[key].label,
+										label: translate[GOVERNING_BODY_TYPES[key].label],
 										type: 1
 									}
 								))}
@@ -387,8 +394,8 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 									}}
 									tags={draftTypes.map(draft => (
 										{
-											label: draft.label,
-											translation: translate[draft.label],
+											name: draft.label,
+											label: translate[draft.label],
 											type: 2,
 											childs: draft.label === 'agenda' ?
 												CBX.filterAgendaVotingTypes(votingTypes)
@@ -400,7 +407,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 																	majorityTypes
 																		.filter(majority => {
 																			return !testTags[formatTagLabel({
-																				label: majority.label,
+																				name: majority.label,
 																				segments: [draft.label, votingType.label, majority.label],
 																			})]
 																		})
@@ -411,9 +418,9 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 																					text={translate[majority.label]}
 																					color={getTagColor(draft.value)}
 																					action={() => addTag({
-																						label: majority.label,
+																						name: majority.label,
 																						segments: [draft.label, votingType.label, majority.label],
-																						translation: translate[majority.label],
+																						label: translate[majority.label],
 																						type: 2,
 																					})}
 																				/>
@@ -422,9 +429,9 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 																text={translate[votingType.label]}
 																color={getTagColor(draft.value)}
 																action={() => addTag({
-																	label: votingType.label,
+																	name: votingType.label,
 																	segments: [draft.label, votingType.label],
-																	translation: translate[votingType.label],
+																	label: translate[votingType.label],
 																	type: 2,
 																})}
 																key={"tag_" + votingType.value}
@@ -802,8 +809,8 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 														title={translate.council_type}
 														tags={matchSearch.map(statute => {
 															return ({
-																label: statute.label,
-																translation: statute.translation ? statute.translation : statute.label,
+																name: statute.label,
+																label: statute.translation ? statute.translation : statute.label,
 																type: statute.type
 															})
 														}
@@ -825,8 +832,8 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 																		}}
 																		tags={companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 																			{
-																				label: statute.title,
-																				translation: translate[statute.title],
+																				name: statute.title,
+																				label: translate[statute.title],
 																				type: 0
 																			}
 																		))}
@@ -846,8 +853,8 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 																	}}
 																	tags={Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
 																		{
-																			label: GOVERNING_BODY_TYPES[key].label,
-																			translation: translate[GOVERNING_BODY_TYPES[key].label],
+																			name: GOVERNING_BODY_TYPES[key].label,
+																			label: translate[GOVERNING_BODY_TYPES[key].label],
 																			type: 1
 																		}
 																	))}
@@ -893,9 +900,9 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 																														text={translate[majority.label]}
 																														color={getTagColor(draft.value)}
 																														action={() => addTag({
-																															label: majority.label,
+																															name: majority.label,
 																															segments: [draft.label, votingType.label, majority.label],
-																															translation: translate[majority.label],
+																															label: translate[majority.label],
 																															type: 2,
 																														})}
 																													/>
@@ -904,9 +911,9 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 																									text={translate[votingType.label]}
 																									color={getTagColor(draft.value)}
 																									action={() => addTag({
-																										label: votingType.label,
+																										name: votingType.label,
 																										segments: [draft.label, votingType.label],
-																										translation: translate[votingType.label],
+																										label: translate[votingType.label],
 																										type: 2,
 																									})}
 																								/>
@@ -918,16 +925,6 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 																}
 															</div>
 														</GridItem>
-														{/* <GridItem xs={12} lg={12} md={12}>
-															<div style={{ display: 'flex' }}>
-																<div style={{ marginRight: "1em", fontWeight: "700" }}>Otros</div>
-																<div style={{ marginRight: "1em" }}>Abogacia legal</div>
-																<div style={{ marginRight: "1em" }}>Denuncias</div>
-																<div style={{ marginRight: "1em" }}>Ampliacion capital</div>
-																<div style={{ marginRight: "1em" }}>Cuentas comunidad</div>
-
-															</div>
-														</GridItem> */}
 													</Grid>
 												}
 											</div>
@@ -1117,7 +1114,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 								<Etiqueta
 									key={`tag_${index}`}
 									childs={tag.childs}
-									text={tag.translation ? tag.translation : tag.label}
+									text={tag.label}
 									color={color ? levelColor[tag.type] : color}
 									action={() => addTag(tag)}
 								/>
@@ -1162,7 +1159,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 								<Etiqueta
 									key={`tag_${index}`}
 									childs={tag.childs}
-									text={tag.translation ? tag.translation : tag.label}
+									text={tag.label}
 									color={getTagColor(tag.type)}
 									action={() => addTag(tag)}
 								/>
