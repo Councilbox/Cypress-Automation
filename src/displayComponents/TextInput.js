@@ -37,7 +37,8 @@ const TextInput = ({
 	helpPopoverInLabel,
 	styles,
 	styleInInput,
-	labelNone
+	labelNone,
+	disableUnderline
 }) => (
 		<FormControl
 			style={{
@@ -83,6 +84,7 @@ const TextInput = ({
 					shrink: true
 				}}
 				InputProps={{
+					disableUnderline:disableUnderline,
 					startAdornment: "",
 					inputProps: {
 						min: min,

@@ -9,7 +9,9 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 	if (toDelegate) {
 		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.filter(p => p.type !== 3).length);
 	}
-
+	console.log(toDelegate)
+	console.log(limitReached)
+	console.log(translate.participant_wont_attend)
 	return (
 		<Paper style={{margin: "0 auto", display: 'flex', flexDirection: 'row', width: '99%', marginTop: '0.2em', padding: '0.3em', paddingLeft: '0.5em', cursor: 'pointer', ...stylesPaper, marginBottom: "1em" }}>
 			{checkBox &&
