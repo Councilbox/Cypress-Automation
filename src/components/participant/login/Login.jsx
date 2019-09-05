@@ -3,11 +3,10 @@ import { Card } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { councilIsLive } from "../../../utils/CBX";
-import { checkIsCompatible, COMPATIBLE } from '../../../utils/webRTC';
+import { checkIsCompatible } from '../../../utils/webRTC';
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
-import IncompatibleDeviceBrowser from '../IncompatibleDeviceBrowser';
 import { isMobile } from "react-device-detect";
 
 

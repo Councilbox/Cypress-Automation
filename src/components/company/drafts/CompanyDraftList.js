@@ -7,7 +7,6 @@ import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
-	CardPageLayout,
 	CloseIcon,
 	Grid,
 	GridItem,

@@ -4,7 +4,7 @@ import withTranslations from "../../../HOCs/withTranslations";
 import { councilIsPreparing, checkForUnclosedBraces } from "../../../utils/CBX";
 import CouncilState from "../login/CouncilState";
 import AssistanceOption from "./AssistanceOption";
-import { compose, graphql, withApollo } from "react-apollo";
+import { compose, graphql } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
 import { PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
 import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, LiveToast } from '../../../displayComponents';

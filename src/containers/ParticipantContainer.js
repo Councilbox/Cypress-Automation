@@ -16,6 +16,7 @@ import Meet from '../components/participant/meet/Meet';
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import { checkSecondDateAfterFirst } from "../utils/CBX";
+import { shouldLoadSubdomain } from "../utils/subdomain";
 
 
 class ParticipantContainer extends React.PureComponent {
@@ -30,10 +31,25 @@ class ParticipantContainer extends React.PureComponent {
 				this.props.actions.setLanguage(this.props.data.participant.language);
 			}
 		}
+
+		if(this.props.state.councilState){
+			const { subdomain } = this.props.state.councilState;
+			const actualSubdomain = window.location.hostname.split('.')[0];
+
+			if(subdomain){
+				if(subdomain !== actualSubdomain){
+					window.location.replace(window.location.origin.replace(actualSubdomain, subdomain) + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
+				}
+			} else {
+				if(shouldLoadSubdomain()){
+					window.location.replace(window.location.origin.replace(actualSubdomain, 'app') + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
+				}
+			}
+		}
 	}
 
 	render() {
-		const { data, detectRTC, main, match, state } = this.props;
+		const { data, detectRTC, main, match } = this.props;
 
 		if (data.error && data.error.graphQLErrors["0"]) {
 			const code = data.error.graphQLErrors["0"].code;
@@ -139,8 +155,10 @@ const councilQuery = gql`
 	query info($councilId: Int!) {
 		councilVideo(id: $councilId) {
 			active
+			subdomain
 			autoClose
 			businessName
+			subdomain
 			city
 			closeDate
 			companyId
@@ -234,6 +252,7 @@ const stateQuery = gql`
 			state
 			councilStarted
 			id
+			subdomain
 		}
 	}
 `;

@@ -4,7 +4,6 @@ import { getSecondary } from "../../../../styles/colors";
 import { graphql, compose } from "react-apollo";
 import { haveGrantedWord } from "../../../../utils/CBX";
 import gql from 'graphql-tag';
-import { LoadingSection } from "../../../../displayComponents";
 
 class MuteToggleButton extends React.Component {
 

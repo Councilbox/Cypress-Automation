@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link, Scrollbar } from '../../../displayComponents';
+import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Link, Scrollbar } from '../../../displayComponents';
 import CompanyItem from './CompanyItem';
 import { MenuItem, Table, TableCell, TableRow, TableHead, InputAdornment } from 'material-ui';
 import NewCompanyPage from '../../company/new/NewCompanyPage';

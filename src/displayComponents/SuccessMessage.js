@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon } from './';
 import { Typography, CircularProgress } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 
@@ -15,14 +14,13 @@ class SuccessMessage extends React.Component {
 	}
 
 	componentDidMount() {
-		const max = 3;
 		setTimeout(() => {
 			this.setState({ mounted: true });
 		}, 2000);
 	}
 
 	render() {
-		const { message, changeImage, } = this.props
+		const { message } = this.props
 		return (
 			<div
 				style={{
@@ -36,15 +34,6 @@ class SuccessMessage extends React.Component {
 			>
 				{this.state.mounted ? (
 					<React.Fragment>
-						{/* <Icon
-							className="material-icons scale-up-center"
-							style={{
-								fontSize: "6em",
-								color: "limegreen",
-							}}
-						>
-							check_circle
-						</Icon> */}
 						<div className="scale-up-center" style={{marginBottom: '15px'}}>
 							< FontAwesome
 								name={"envelope-o"}

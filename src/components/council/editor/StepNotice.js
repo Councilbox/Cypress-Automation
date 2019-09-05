@@ -43,12 +43,16 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	const footerEditor = React.useRef();
 	const primary = getPrimary();
 	const secondary = getSecondary();
+	const dates = React.useRef({
+		dateStart: null,
+		dateStart2NdCall: null
+	});
 
 	const setCouncilWithRemoveValues = React.useCallback(async data => {
 		if(!data.loading && !council.id){
 			setCouncil({
 				...data.council,
-				name: !data.council.name? `${data.council.statute.title} - ${moment().format('DD/MM/YYYY')}` : data.council.name,
+				name: !data.council.name? `${translate[data.council.statute.title]? translate[data.council.statute.title] : data.council.statute.title} - ${moment().format('DD/MM/YYYY')}` : data.council.name,
 				conveneText: await CBX.changeVariablesToValues(data.council.conveneText, {
 					company,
 					council: {
@@ -65,6 +69,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 					}
 				}, translate),
 			});
+			dates.current.dateStart = !data.council.dateStart? new Date().toISOString() : data.council.dateStart;
+			dates.current.dateStart2NdCall = data.council.dateStart2NdCall;
 		}
 	}, [data]);
 
@@ -97,6 +103,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		const firstDate = council.dateStart || new Date().toISOString();
 		const secondDate = council.dateStart2NdCall || new Date().toISOString();
 		const errors = {};
+		const oldFirstDate = dates.current.dateStart;
+		const oldSecondDate = dates.current.dateStart2NdCall;
 
 		//console.log(council.dateStart, council.dateStart2NdCall);
 
@@ -117,8 +125,11 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 					dateStart2NdCall: CBX.addMinimumDistance(firstDate, statute).toISOString()
 				});
 			}
-			updateConveneDates(firstDate, firstDate, secondDate, CBX.addMinimumDistance(firstDate, statute))
+			updateConveneDates(oldFirstDate? oldFirstDate : firstDate, firstDate, oldSecondDate? oldSecondDate : secondDate, CBX.addMinimumDistance(firstDate, statute));
 		} else {
+			if(oldFirstDate !== firstDate || oldSecondDate !== secondDate){
+				updateConveneDates(oldFirstDate, firstDate, oldSecondDate, secondDate);
+			}
 			if (!CBX.checkMinimumDistanceBetweenCalls(firstDate, secondDate, statute)) {
 				//errors.dateStart2NdCall = translate.new_statutes_hours_warning.replace("{{hours}}", statute.minimumSeparationBetweenCall);
 			}
@@ -188,6 +199,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	}
 
 	const changeStatute = async statuteId => {
+		const oldTitle = data.council.statute.title;
 		const response = await props.changeStatute({
 			variables: {
 				councilId: props.councilID,
@@ -202,6 +214,15 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			loadFooterDraft({
 				text: response.data.changeCouncilStatute.conveneFooter
 			});
+
+			const name = council.name.replace(new RegExp(`${translate[oldTitle]?
+				translate[oldTitle] : oldTitle}`),
+				translate[response.data.changeCouncilStatute.title]?
+					translate[response.data.changeCouncilStatute.title] : response.data.changeCouncilStatute.title);
+			updateState({
+				name
+			});
+
 			await data.refetch();
 			checkAssociatedCensus(statuteId);
 			updateDate();
@@ -358,12 +379,19 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		const newDateText = moment(new Date(newDate)).format("LLL");
 		const old2DateText = moment(new Date(old2Date)).format("LLL");
 		const new2DateText = moment(new Date(new2Date)).format("LLL");
+		const newName = council.name.replace(new RegExp(`${moment(oldDate).format('DD/MM/YYYY')}`), moment(newDate).format('DD/MM/YYYY'));
 		const replacedText = text
-			.replace(oldDateText, newDateText)
-			.replace(old2DateText, new2DateText);
+			.replace(new RegExp(`${oldDateText}`, 'g'), newDateText)
+			.replace(new RegExp(`${old2DateText}`, 'g'), new2DateText);
+
+		dates.current = {
+			dateStart: newDate,
+			dateStart2NdCall: new2Date
+		}
 
 		updateState({
-			conveneText: replacedText
+			conveneText: replacedText,
+			name: newName
 		});
 		editor.current.setValue(replacedText);
 	}

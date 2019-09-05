@@ -2,21 +2,20 @@ import React, { Component } from "react";
 import { isMobile } from 'react-device-detect';
 
 if(isMobile){
-	window.addEventListener("resize", updateHeights);
-
 	const updateHeights = () => {
 		const html = document.getElementsByTagName('html');
 		for(let el of html){
 			el.style.height = window.innerHeight+ 'px';
-		}	
+		}
 		const body = document.getElementsByTagName('body');
 		for(let el of body){
 			el.style.height = window.innerHeight + 'px';
 		}
-		
+
 		document.getElementById('root').height = window.innerHeight + 'px';
 	}
 
+	window.addEventListener("resize", updateHeights);
 	updateHeights();
 }
 
@@ -32,7 +31,7 @@ const withWindowSize = WrappedComponent => {
 
 		updateSize = () => {
 			let state = {...this.state};
-			state.innerWidth = window.innerWidth 
+			state.innerWidth = window.innerWidth;
 			if (window.innerWidth < 960) {
 				state.size = "xs";
 			} else if (window.innerWidth < 1200) {

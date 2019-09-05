@@ -3,10 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as mainActions from "../../actions/mainActions";
 import logo from "../../assets/img/logo.png";
-import icono from "../../assets/img/logo-icono.png";
-import { variant } from "../../config";
-import conpaasLogo from "../../assets/img/conpaas_logo.png";
-import coeLogo from "../../assets/img/coe.png";
+import icon from "../../assets/img/logo-icono.png";
 import { Icon, AlertConfirm } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
@@ -17,7 +14,8 @@ import Convene from "../council/convene/Convene";
 import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { PARTICIPANT_STATES } from "../../constants";
-// import * as CBX from '../../../utils/CBX';
+import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
+
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, ...props }) => {
 	const [state, setState] = useOldState({
@@ -28,9 +26,11 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 	});
 	const primary = getPrimary();
 	const secondary = getSecondary();
+	const customLogo = getCustomLogo();
+	const customIcon = getCustomIcon();
 
 	React.useEffect(() => {
-		if(councilIsFinished(council)){
+		if(council && councilIsFinished(council)){
 			logout();
 		}
 	}, [council]);
@@ -132,45 +132,18 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					alignItems: "center"
 				}}
 			>
-				{variant === 'COE' ?
-					<div>
-						<img
-							src={windowSize !== "xs" ? conpaasLogo : icono}
-							className="App-logo"
-							style={{
-								height: "1.5em",
-								marginLeft: "1em",
-								// marginLeft: "2em",
-								userSelect: 'none'
-							}}
-							alt="logo"
-						/>
-						<img
-							src={windowSize !== "xs" ? coeLogo : icono}
-							className="App-logo"
-							style={{
-								height: "1.5em",
-								marginLeft: "1em",
-								// marginLeft: "2em",
-								userSelect: 'none'
-							}}
-							alt="logo"
-						/>
-					</div>
-					:
-					<img
-						src={windowSize !== "xs" ? logo : icono}
-						className="App-logo"
-						style={{
-							height: "1.5em",
-							marginLeft: "2em"
-						}}
-						alt="logo"
-					/>
-				}
+				<img
+					src={windowSize !== "xs" ? customLogo? customLogo : logo : customIcon? customIcon : icon}
+					className="App-logo"
+					style={{
+						height: "1.5em",
+						marginLeft: "1em",
+						// marginLeft: "2em",
+						userSelect: 'none'
+					}}
+					alt="logo"
+				/>
 			</div>
-
-
 			{(council && council.autoClose !== 1) &&
 				<Marquee
 					isMobile={isMobile}
@@ -201,69 +174,74 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					</Tooltip>
 				</div>
 			}
-			<Tooltip title={translate.view_original_convene}>
-				<Icon
-					onClick={() => setState({ drawerTop: !state.drawerTop })}
-					className="material-icons"
-					style={{
-						cursor: "pointer",
-						color: primary,
-						marginRight: "0.4em",
-						width:"30px"
-					}}
-				>
-					list_alt
-				</Icon>
-			</Tooltip>
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					justifyContent: 'flex-end',
-					width: windowSize === "xs" ? '6em' : '15em',
-					alignItems: "center"
-				}}
-			>
-				<Tooltip title={translate.participant_data}>
+			{council &&
+					<Tooltip title={translate.view_original_convene}>
 					<Icon
-						onClick={() =>
-							setState({
-								showParticipantInfo: true
-							})
-						}
+						onClick={() => setState({ drawerTop: !state.drawerTop })}
 						className="material-icons"
 						style={{
-							cursor: 'pointer',
+							cursor: "pointer",
 							color: primary,
-							marginRight: "0.4em"
+							marginRight: "0.4em",
+							width:"30px"
 						}}
 					>
-						person
+						list_alt
 					</Icon>
 				</Tooltip>
-				{logoutButton && (
-						<IconButton
+			}
+			{council &&
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: 'flex-end',
+						width: windowSize === "xs" ? '6em' : '15em',
+						alignItems: "center"
+					}}
+				>
+					<Tooltip title={translate.participant_data}>
+						<Icon
+							onClick={() =>
+								setState({
+									showParticipantInfo: true
+								})
+							}
+							className="material-icons"
 							style={{
-								marginRight: "0.5em",
-								outline: "0"
+								cursor: 'pointer',
+								color: primary,
+								marginRight: "0.4em"
 							}}
-							aria-label="help"
-							onClick={logout}
 						>
-							<Icon
-								className="material-icons"
-								style={{
-									color: primaryColor ? primary : 'white',
-									fontSize: "0.9em"
-								}}
-							>
-								exit_to_app
+							person
 						</Icon>
-						</IconButton>
-					)
-				}
-			</div>
-			{state.drawerTop &&
+					</Tooltip>
+					{(council && logoutButton) && (
+							<IconButton
+								style={{
+									marginRight: "0.5em",
+									outline: "0"
+								}}
+								aria-label="help"
+								onClick={logout}
+							>
+								<Icon
+									className="material-icons"
+									style={{
+										color: primaryColor ? primary : 'white',
+										fontSize: "0.9em"
+									}}
+								>
+									exit_to_app
+							</Icon>
+							</IconButton>
+						)
+					}
+				</div>
+			}
+
+			{(council && state.drawerTop) &&
 				<Drawer
 					className={"drawerConveneRoot"}
 					BackdropProps={{

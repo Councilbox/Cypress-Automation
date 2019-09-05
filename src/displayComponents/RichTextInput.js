@@ -83,11 +83,10 @@ class RichTextInput extends React.Component {
 
 	render() {
 		const { tags, loadDraft, errorText, required, translate } = this.props;
-		const secondary = getSecondary();
 		const modules = {
 			toolbar: {
 				container: [
-					[{ 'color': [] }, { 'background': [] }], , [ 'bold', 'italic', 'underline', 'link', 'strike'],
+					[{ 'color': [] }, { 'background': [] }], [ 'bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
 					[{ 'align': 'justify'}]
@@ -228,7 +227,7 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 							<MenuItem
 								key={`tag_${tag.label}`}
 								onClick={() =>
-									paste(`<span id="${tag.label}">${tag.value}</span>`)
+									paste(`<span id="${tag.label}">${tag.getValue? tag.getValue() : tag.value}</span>`)
 								}
 
 							>

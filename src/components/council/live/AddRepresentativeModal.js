@@ -34,7 +34,7 @@ class AddRepresentativeModal extends React.Component {
 			}
 		}
 		if(response.errors){
-			if(response.errors[0].message = 'Email already used'){
+			if(response.errors[0].message === 'Email already used'){
 				this.setState({
 					errors: {
 						email: this.props.translate.repeated_email

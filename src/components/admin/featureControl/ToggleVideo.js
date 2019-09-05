@@ -4,15 +4,6 @@ import gql from 'graphql-tag';
 import { BasicButton } from '../../../displayComponents';
 
 const ToggleVideo = ({ toggleVideo }) => {
-
-    const toggle = async () => {
-        await toggleVideo({
-            variables: {
-                id: 2
-            }
-        });
-    }
-
     return(
         <BasicButton
             text="Toggle video"

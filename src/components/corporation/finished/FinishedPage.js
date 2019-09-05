@@ -3,7 +3,6 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { moment } from '../../../containers/App';
 import { MenuItem } from 'material-ui';
-import { Card } from 'material-ui';
 import { TextInput, SelectInput, BasicButton, Grid, GridItem, LoadingSection, Scrollbar } from '../../../displayComponents';
 import CouncilItem from '../councils/CouncilItem';
 import withTranslations from '../../../HOCs/withTranslations';

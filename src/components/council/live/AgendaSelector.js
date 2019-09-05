@@ -1,7 +1,6 @@
 import React from "react";
 import { AgendaNumber, Icon } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import NewAgendaPointModal from "../editor/agenda/modals/NewAgendaPointModal";
 import ReorderPointsModal from "../agendas/ReorderPointsModal";
 import * as CBX from "../../../utils/CBX";
 import { Tooltip } from "material-ui";

@@ -1,13 +1,11 @@
 import React from 'react';
-import { DropDownMenu, Icon, AlertConfirm } from '../../../displayComponents';
-import { MenuItem, IconButton, Card } from 'material-ui';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { AlertConfirm } from '../../../displayComponents';
+import { IconButton, Card } from 'material-ui';
+import { getSecondary } from '../../../styles/colors';
 import Convene from '../../council/convene/Convene';
 import CouncilInfo from '../../council/convene/CouncilInfo';
 import withTranslations from '../../../HOCs/withTranslations';
 import { moment } from '../../../containers/App';
-
-
 
 
 class CouncilInfoMenu extends React.Component {
@@ -77,19 +75,18 @@ class CouncilInfoMenu extends React.Component {
                         {`${this.props.translate.you_have_following_delegated_votes}:`}
                         {participant.delegatedVotes.map(vote => (
                             <div key={`delegatedVote_${vote.id}`}>
-                                <b>{`${vote.name} ${vote.surname} - Votos `}</b> : {`${vote.numParticipations}`/*TRADUCCION*/}
+                                <b>{`${vote.name} ${vote.surname} - ${translate.votes} `}</b> : {`${vote.numParticipations}`}
                             </div>
                         ))}
                         <br></br>
                     </div>
                     {`${this.props.translate.total_votes}: ${this.calculateParticipantVotes()}`}
                 </Card>
-            </div >
+            </div>
         )
     }
 
     render() {
-        const primary = getPrimary();
         const secondary = getSecondary();
         const { translate } = this.props;
         let fecha1 = moment(new Date(this.props.council.closeDate))

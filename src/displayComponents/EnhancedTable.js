@@ -153,8 +153,7 @@ class EnhancedTable extends React.Component {
 			loading,
 			headers,
 			children,
-			categories,
-			exporXLSX
+			categories
 		} = this.props;
 		const {
 			filterText,

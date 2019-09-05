@@ -1,8 +1,9 @@
 import { getCompanies } from "./companyActions";
-import { client, bHistory, store } from "../containers/App";
+import { client, bHistory } from "../containers/App";
 import { getMe, getTranslations } from "../queries";
 import DetectRTC from "detectrtc";
 import { moment } from '../containers/App';
+import gql from 'graphql-tag';
 export let language = "es";
 
 export const loginSuccess = (token, refreshToken) => {
@@ -18,6 +19,49 @@ export const loginSuccess = (token, refreshToken) => {
 export const setUnsavedChanges = value => (
 	{ type: 'UNSAVED_CHANGES', value: value }
 )
+
+export const loadSubdomainConfig = () => {
+	return async dispatch => {
+		const response = await client.query({
+			query: gql`
+				query SubdomainConfig($subdomain: String!) {
+					subdomainConfig(subdomain: $subdomain){
+						title
+						primary
+						secondary
+						logo
+						icon
+						background
+						roomBackground
+					}
+				}
+			`,
+			variables: {
+				subdomain: window.location.hostname.split('.')[0]
+			}
+		});
+
+		if(response.errors){
+			window.location.replace('https://app.councilbox.com');
+		}
+
+		const config = response.data.subdomainConfig;
+
+		if(config.primary){
+			document.documentElement.style.setProperty('--primary', config.primary);
+		}
+
+		if(config.secondary){
+			document.documentElement.style.setProperty('--secondary', config.secondary);
+		}
+
+		if(config.title){
+			document.title = config.title;
+		}
+
+		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: response.data.subdomainConfig });
+	}
+}
 
 export const participantLoginSuccess = () => {
 	return dispatch => {

@@ -13,7 +13,8 @@ import {
 	VOTE_VALUES,
 	CUSTOM_AGENDA_VOTING_TYPES,
 	PARTICIPANT_TYPE,
-	COUNCIL_TYPES
+	COUNCIL_TYPES,
+	GOVERNING_BODY_TYPES
 } from "../constants";
 import dropped from "../assets/img/dropped.png";
 import React from 'react';
@@ -335,6 +336,192 @@ export const replaceSpecials = string => {
 	return string.replace(regex, "\\$&");
 }
 
+
+export const getArticles = () => {
+	const articles = {
+		el: language => {
+			const languages = {
+				es: 'El',
+				en: 'The',
+				gal: 'O',
+				cat: "El",
+				pt: 'O'
+			}
+			return languages[language];
+		},
+		la: language => {
+			const languages = {
+				es: 'La',
+				en: 'The',
+				gal: 'A',
+				cat: "La",
+				pt: 'A'
+			}
+			return languages[language];
+		},
+		los: language => {
+			const languages = {
+				es: 'Los',
+				en: 'The',
+				gal: 'Os',
+				cat: 'Els',
+				pt: 'Os'
+			}
+			return languages[language];
+		},
+		las: language => {
+			const languages = {
+				es: 'Las',
+				en: 'The',
+				gal: 'As',
+				cat: 'Les',
+				pt: 'As'
+			}
+			return languages[language];
+		}
+	}
+
+	return articles;
+}
+
+export const getDecides = () => {
+	const articles = {
+		decide: language => {
+			const languages = {
+				es: 'decide',
+				en: 'decides',
+				gal: 'decide',
+				cat: "decideix",
+				pt: 'decide'
+			}
+			return languages[language];
+		},
+		acuerda: language => {
+			const languages = {
+				es: 'acuerda',
+				en: 'agrees',
+				gal: 'acorda',
+				cat: "acorda",
+				pt: 'concorda'
+			}
+			return languages[language];
+		},
+		acuerdan: language => {
+			const languages = {
+				es: 'acuerdan',
+				en: 'agrees',
+				gal: 'acordan',
+				cat: "acordan",
+				pt: 'concordan'
+			}
+			return languages[language];
+		}
+	}
+
+	return articles;
+}
+
+export const generateGBDecidesText = (translate, type) => {
+	const articles = getArticles();
+	const decides = getDecides();
+
+	const labels = {
+		1: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.ONE_PERSON.label]} ${decides.decide(translate.selectedLanguage)}`,
+		2: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.ONE_ENTITY.label]} ${decides.decide(translate.selectedLanguage)}`,
+		3: `${articles.los(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.JOINT_ADMIN.label]} ${decides.acuerdan(translate.selectedLanguage)}`,
+		4: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.SOLIDARY_ADMIN.label]} ${decides.decide(translate.selectedLanguage)}`,
+		5: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.COUNCIL.label]} ${decides.acuerda(translate.selectedLanguage)}`
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
+export const generateGBAgreements = (translate, type) => {
+	const labels = {
+		0: '',
+		1: '',
+		2: '',
+		3: translate.jointly_decides,
+		4: translate.in_solidarity_decides,
+		5: ''
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
+
+export const getGoverningText = (translate, type) => {
+	const articles = getArticles();
+
+	const labels = {
+		0: `${translate[GOVERNING_BODY_TYPES.NONE.label]}`,
+		1: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.ONE_PERSON.label]}`,
+		2: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.ONE_ENTITY.label]}`,
+		3: `${articles.los(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.JOINT_ADMIN.label]}`,
+		4: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.SOLIDARY_ADMIN.label]}`,
+		5: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.COUNCIL.label]}`
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
+export const generateGBSoleDecidesText = (translate, type) => {
+	const labels = {
+		0: `${translate.the_general_meeting} ${translate.agrees}`,
+		1: `${translate.the_general_meeting} ${translate.agrees}`,
+		6: `${translate.the_sole_shareholder} ${translate.agrees}`,
+		7: `${translate.the_sole_shareholder} ${translate.agrees}`,
+		8: `${translate.the_sole_shareholder} ${translate.agrees}`,
+		9: `${translate.the_sole_shareholder} ${translate.agrees}`
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
+export const generateGBSoleProposeText = (translate, type) => {
+	const labels = {
+		0: translate.the_general_meeting,
+		1: translate.the_general_meeting,
+		6: translate.the_sole_shareholder,
+		7: translate.the_sole_shareholder,
+		8: translate.the_sole_shareholder,
+		9: translate.the_sole_shareholder
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
+export const getGoverningBodySignatories = (translate, type, data) => {
+	const blankSpaces = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+	const labels = {
+		0: () => '',
+		1: () => {
+			return `${data.name} ${data.surname}`;
+		},
+		2: () => {
+			return `${data.name} ${data.surname}`;
+		},
+		3: () => {
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname}${(index < array.length -1)? blankSpaces : ''}`, '');
+		},
+		4: () => {
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
+		},
+		5: () => {
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
+		},
+	}
+
+
+	return labels[type]? labels[type]() : labels[0]();
+}
+
+export const generateAgendaText = (translate, agenda) => {
+	return agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '');
+}
+
+
+
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
@@ -419,6 +606,21 @@ export const changeVariablesToValues = async (text, data, translate) => {
 		}
 	}
 
+	text = text.replace(/{{now}}/g, new moment().format('LLL'));
+	text = text.replace(/{{signatories}}/g, getGoverningBodySignatories(translate, data.company.governingBodyType, data.company.governingBodyData));
+
+	text = text.replace(/{{convene}}/g, data.council.emailText);
+
+	text = text.replace(/{{numPresentOrRemote}}/g, data.council.numPresentAttendance + data.council.numRemoteAttendance);
+	text = text.replace(/{{numRepresented}}/g, data.council.numDelegatedAttendance);
+	text = text.replace(/{{numParticipants}}/g, data.council.numTotalAttendance);
+	text = text.replace(/{{percentageSCPresent}}/g, data.council.percentageSCPresent);
+	text = text.replace(/{{percentageSCRepresented}}/g, data.council.percentageSCDelegated);
+	text = text.replace(/{{percentageSCTotal}}/g, data.council.percentageSCTotal);
+	text = text.replace(/{{numParticipationsPresent}}/g, data.council.numParticipationsPresent);
+	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
+
+
 	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
 	text = text.replace(/{{dateEnd}}/g, !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
@@ -432,13 +634,15 @@ export const changeVariablesToValues = async (text, data, translate) => {
 			''
 	);
 
-	const base = data.council.quorumPrototype === 1 ? data.council.socialCapitalTotal : data.council.partTotal;
+	const base = data.council.partTotal;
+
 
 	text = text.replace(/{{president}}/g, data.council.president);
 	text = text.replace(/{{secretary}}/g, data.council.secretary);
 	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`)
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
+	text = text.replace(/{{attendants}}/g, data.council.attendants? data.council.attendants.reduce((acc, curr, index) => acc + `${index > 0? ', ' : ' '} ${curr.name} ${curr.surname}`, '') : '');
 
 	if (data.council.street) {
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
@@ -458,6 +662,14 @@ export const changeVariablesToValues = async (text, data, translate) => {
 			);
 		}
 	}
+
+	text = text.replace(/{{GBdecides}}/g, generateGBDecidesText(translate, data.company.governingBodyType));
+	text = text.replace(/{{GoverningBody}}/g, getGoverningText(translate, data.company.governingBodyType));
+	text = text.replace(/{{GM\/SoleDecides}}/g, generateGBSoleDecidesText(translate, data.company.type));
+	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
+	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements(translate, data.company.governingBodyType));
+
+	text = text.replace(/{{Agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
 
 	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
 	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);
@@ -484,183 +696,320 @@ export const changeVariablesToValues = async (text, data, translate) => {
 };
 
 export const getTagVariablesByDraftType = (draftType, translate) => {
+	const tags = {
+		dateFirstCall: {
+			value: '{{dateFirstCall}}',
+			label: translate["1st_call_date"]
+		},
+		dateSecondCall: {
+			value: '{{dateSecondCall}}',
+			label: translate["2nd_call_date"]
+		},
+		businessName: {
+			value: '{{business_name}}',
+			label: translate.business_name
+		},
+		street: {
+			value: `{{street}}`,
+			label: translate.new_location_of_celebrate
+		},
+		city: {
+			value: '{{city}}',
+			label: translate.company_new_locality
+		},
+		countryState: {
+			value: '{{country_state}}',
+			label: translate.company_new_country_state
+		},
+		now: {
+			value: '{{now}}',
+			label: translate.actual_date
+		},
+		dateRealStart: {
+			value: '{{dateRealStart}}',
+			label: translate.date_real_start
+		},
+		firstOrSecondCall: {
+			value: '{{firstOrSecondCall}}',
+			label: translate.first_or_second_call
+		},
+		president: {
+			value: '{{president}}',
+			label: translate.president
+		},
+		secretary: {
+			value: '{{secretary}}',
+			label: translate.secretary
+		},
+		numPresentOrRemote: {
+			value: '{{numPresentOrRemote}}',
+			label: 'Nº de asistentes personalmente' //TRADUCCION
+		},
+		numRepresented: {
+			value: '{{numRepresented}}',
+			label: 'Nº de asistentes representados' //TRADUCCION
+		},
+		numParticipants: {
+			value: '{{numParticipants}}',
+			label: 'Nº de asistentes totales' //TRADUCCION
+		},
+		numParticipationsPresent: {
+			value: '{{numParticipationsPresent}}',
+			label: 'Nº de participaciones asisten personalmente' //TRADUCCION
+		},
+		numParticipationsRepresented: {
+			value: '{{numParticipationsRepresented}}',
+			label: ' Nº de participaciones asisten representadas' //TRADUCCION
+		},
+		percentageSCPresent: {
+			value: '{{percentageSCPresent}}',
+			label: '% del capital social que asiste personalmente' //TRADUCCION
+		},
+		percentageSCRepresented: {
+			value: '{{percentageSCRepresented}}',
+			label: '% del capital social que asiste representado' //TRADUCCION
+		},
+		percentageSCTotal: {
+			value: '{{percentageSCTotal}}',
+			label: '% del capital social que asiste' //TRADUCCION
+		},
+		convene: {
+			value: '{{convene}}',
+			label: 'Texto de la convocatoria' //TRADUCCION
+		},
+		numberOfShares: {
+			value: '{{numberOfShares}}',
+			label: 'Nº participaciones que asiste del total del capital social'
+		},
+		percentageOfShares: {
+			value: '{{percentageOfShares}}',
+			label: translate.social_capital_percentage
+		},
+		dateEnd: {
+			value: '{{dateEnd}}',
+			label: translate.date_end
+		},
+		governingBody: {
+			value: '{{GoverningBody}}',
+			label: 'Órgano de gobierno'//TRADUCCION
+		},
+		gbDecides: {
+			value: '{{GBdecides}}',
+			label: '[Órgano de gobierno] decide'//TRADUCCION
+		},
+		soleDecides: {
+			value: '{{GM/SoleDecides}}',
+			label: '[Junta Gral./Socio/Accionista único] decide'//TRADUCCION
+		},
+		solePropose: {
+			value: '{{GM/SolePropose}}',
+			label: '[Junta Gral./Socio/Accionista único] propone'//TRADUCCION
+		},
+		positiveVotings: {
+			value: '{{positiveVotings}}',
+			label: translate.positive_votings
+		},
+		negativeVotings: {
+			value: '{{negativeVotings}}',
+			label: translate.negative_votings
+		},
+		numPositive: {
+			value: '{{numPositive}}',
+			label: translate.num_positive
+		},
+		numNegative: {
+			value: '{{numNegative}}',
+			label: translate.num_negative
+		},
+		numAbstention: {
+			value: '{{numAbstention}}',
+			label: translate.num_abstention
+		},
+		numNoVote: {
+			value: '{{numNoVote}}',
+			label: translate.num_no_vote
+		},
+		positiveSCTotal: {
+			value: '{{positiveSCTotal}}',
+			label: '% a favor / total capital social'
+		},
+		negativeSCTotal: {
+			value: '{{negativeSCTotal}}',
+			label: '% en contra / total capital social'
+		},
+		abstentionSCTotal: {
+			value: '{{abstentionSCTotal}}',
+			label: '% abstención / total capital social'
+		},
+		positiveSCPresent: {
+			value: '{{positiveSCPresent}}',
+			label: '% a favor / capital social presente'
+		},
+		negativeSCPresent: {
+			value: '{{negativeSCPresent}}',
+			label: '% en contra / capital social presente'
+		},
+		abstentionSCPresent: {
+			value: '{{abstentionSCPresent}}',
+			label: '% abstención / capital social presente'
+		},
+		gbAgreements: {
+			value: '{{GBAgreements}}',
+			label: '[Solidariamente/Mancomunadamente]'
+		},
+		agenda: {
+			value: '{{Agenda}}',
+			label: translate.agenda
+		},
+		signatories: {
+			value: '{{signatories}}',
+			label: translate.signatories
+		},
+		attendants: {
+			value: '{{attendants}}',
+			label: translate.census_type_assistants
+		}
+	}
+
+	const handler = {
+		get: (target, name) => {
+			if(!target[name]){
+				throw new Error('Invalid tag');
+			}
+
+			return target[name];
+		}
+	}
+
+	const smartTags = new Proxy(tags, handler);
+
+
 	const types = {
 		[DRAFT_TYPES.CONVENE_HEADER]: [
-			{
-				value: '{{dateFirstCall}}',
-				label: translate["1st_call_date"]
-			},
-			{
-				value: '{{dateSecondCall}}',
-				label: translate["2nd_call_date"]
-			},
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{country_state}}',
-				label: translate.company_new_country_state
-			}
+			smartTags.dateFirstCall,
+			smartTags.dateSecondCall,
+			smartTags.businessName,
+			smartTags.street,
+			smartTags.city,
+			smartTags.countryState,
+			smartTags.governingBody
 		],
 
 		[DRAFT_TYPES.AGENDA]: [
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{country_state}}',
-				label: translate.company_new_country_state
-			}
+			smartTags.city,
+			smartTags.countryState
 		],
 
 		[DRAFT_TYPES.INTRO]: [
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: '{{dateRealStart}}',
-				label: translate.date_real_start
-			},
-			{
-				value: '{{firstOrSecondCall}}',
-				label: translate.first_or_second_call
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			}
+			smartTags.businessName,
+			smartTags.now,
+			smartTags.dateRealStart,
+			smartTags.dateFirstCall,
+			smartTags.dateSecondCall,
+			smartTags.firstOrSecondCall,
+			smartTags.city,
+			smartTags.street,
+			smartTags.governingBody,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.numPresentOrRemote,
+			smartTags.numRepresented,
+			smartTags.numParticipants,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCRepresented,
+			smartTags.percentageSCTotal,
+			smartTags.convene
 		],
 
 		[DRAFT_TYPES.CONSTITUTION]: [
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: '{{president}}',
-				label: translate.president
-			},
-			{
-				value: '{{secretary}}',
-				label: translate.secretary
-			},
-			{
-				value: '{{numberOfShares}}',
-				label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
-			},
-			{
-				value: '{{percentageOfShares}}',
-				label: translate.social_capital_percentage
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{dateRealStart}}',
-				label: translate.date_real_start
-			},
+			smartTags.businessName,
+			smartTags.governingBody,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.street,
+			smartTags.city,
+			smartTags.dateRealStart,
+			smartTags.now,
+			smartTags.numPresentOrRemote,
+			smartTags.numRepresented,
+			smartTags.numParticipants,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCRepresented,
+			smartTags.percentageSCTotal,
+			smartTags.numberOfShares,
+			smartTags.percentageOfShares
 		],
 
 		[DRAFT_TYPES.CONCLUSION]: [
-			{
-				value: '{{dateEnd}}',
-				label: translate.date_end
-			},
-			{
-				value: '{{president}}',
-				label: translate.president
-			},
-			{
-				value: '{{secretary}}',
-				label: translate.secretary
-			}
+			smartTags.dateEnd,
+			smartTags.governingBody,
+			smartTags.president,
+			smartTags.secretary
+		],
+
+		[DRAFT_TYPES.CERTIFICATE_HEADER]: [
+			smartTags.dateFirstCall,
+			smartTags.dateSecondCall,
+			smartTags.dateRealStart,
+			smartTags.businessName,
+			smartTags.street,
+			smartTags.city,
+			smartTags.countryState,
+			smartTags.governingBody,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.attendants,
+			smartTags.convene,
+			smartTags.agenda,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCRepresented,
+			smartTags.percentageSCTotal,
+			smartTags.numPresentOrRemote,
+			smartTags.numRepresented,
+			smartTags.numParticipants,
+		],
+
+		[DRAFT_TYPES.CERTIFICATE_FOOTER]: [
+			smartTags.dateFirstCall,
+			smartTags.dateSecondCall,
+			smartTags.dateEnd,
+			smartTags.businessName,
+			smartTags.street,
+			smartTags.city,
+			smartTags.countryState,
+			smartTags.now,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.signatories,
+			smartTags.attendants
 		],
 
 		[DRAFT_TYPES.COMMENTS_AND_AGREEMENTS]: [
-			{
-				value: '{{dateFirstCall}}',
-				label: translate["1st_call_date"]
-			},
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: `{{street}}`,
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{positiveVotings}}',
-				label: translate.positive_votings
-			},
-			{
-				value: '{{negativeVotings}}',
-				label: translate.negative_votings
-			},
-			{
-				value: '{{numPositive}}',
-				label: translate.num_positive
-			},
-			{
-				value: '{{numAbstention}}',
-				label: translate.num_abstention
-			},
-			{
-				value: '{{numNegative}}',
-				label: translate.num_negative
-			},
-			{
-				value: '{{numNoVote}}',
-				label: translate.num_no_vote
-			},
-			{
-				value: '{{positiveSCTotal}}',
-				label: '% a favor / total capital social'
-			},
-			{
-				value: '{{negativeSCTotal}}',
-				label: '% en contra / total capital social'
-			},
-			{
-				value: '{{abstentionSCTotal}}',
-				label: '% abstención / total capital social'
-			},
-			{
-				value: '{{positiveSCPresent}}',
-				label: '% a favor / capital social presente'
-			},
-			{
-				value: '{{negativeSCPresent}}',
-				label: '% en contra / capital social presente'
-			},
-			{
-				value: '{{abstentionSCPresent}}',
-				label: '% abstención / capital social presente'
-			},
+			smartTags.dateFirstCall,
+			smartTags.businessName,
+			smartTags.street,
+			smartTags.now,
+			smartTags.governingBody,
+			smartTags.gbDecides,
+			smartTags.soleDecides,
+			smartTags.solePropose,
+			smartTags.gbAgreements,
+			smartTags.positiveVotings,
+			smartTags.negativeVotings,
+			smartTags.numPositive,
+			smartTags.numNegative,
+			smartTags.numAbstention,
+			smartTags.numNoVote,
+			smartTags.positiveSCTotal,
+			smartTags.negativeSCTotal,
+			smartTags.abstentionSCTotal,
+			smartTags.positiveSCPresent,
+			smartTags.negativeSCPresent,
+			smartTags.abstentionSCPresent
 		]
 	}
 
@@ -898,7 +1247,7 @@ export const getSignerStatusTranslateField = status => {
 			return 'rejected';
 		default:
 			return 'error';
-	};
+	}
 }
 
 export const checkCouncilState = (council, company, bHistory, expected) => {
@@ -927,7 +1276,6 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 				);
 			}
 			break;
-
 		case COUNCIL_STATES.ROOM_OPENED:
 			if (expected !== "live") {
 				bHistory.replace(
@@ -936,33 +1284,10 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 			}
 			break;
 		case COUNCIL_STATES.FINISHED:
-			if (expected !== "finished") {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/finished`
-				);
-			}
-			break;
 		case COUNCIL_STATES.APPROVED:
-			if (expected !== "finished") {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/finished`
-				);
-			}
-			break;
 		case COUNCIL_STATES.FINAL_ACT_SENT:
-			if (expected !== "finished") {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/finished`
-				);
-			}
-			break;
+		case COUNCIL_STATES.CANCELED:
 		case COUNCIL_STATES.NOT_CELEBRATED:
-			if (expected !== "finished") {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/finished`
-				);
-			}
-			break;
 		case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
 			if (expected !== "finished") {
 				bHistory.replace(
@@ -1304,15 +1629,15 @@ export const formatSize = size => {
 
 export const calculateMajorityAgenda = (agenda, company, council, recount) => {
 	let specialSL = false;
-	if (company.type === 1 && council.quorumPrototype === 1) {
+	if (company.type === 1 && council.statute.quorumPrototype === 1) {
 		specialSL = true;
 	}
-	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.quorumPrototype);
+	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.statute.quorumPrototype);
 }
 
 export const calculateQuorum = (council, recount) => {
 	let base;
-	if (council.quorumPrototype === 1) {
+	if (council.statute.quorumPrototype === 1) {
 		base = !!recount ? recount.socialCapitalTotal : 0;
 	} else {
 		base = !!recount ? recount.numTotal : 0;

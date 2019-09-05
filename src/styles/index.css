@@ -724,6 +724,25 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     top: 44px!important ;
     z-index: 1300!important ;
 }
+.drawerUsersRoot {
+    top: 88px!important ;
+    z-index: 1300!important ;
+    width: 150px!important ;
+}
+.drawerUsers {
+   display: none;
+    
+}
+.drawerUsersRootPc {
+    top: 104px!important ;
+    left: 10px!important;
+    z-index: 1300!important ;
+    width: 150px!important ;
+}
+.drawerUsers {
+   display: none;
+    
+}
 .drawerConvene {
     top: 44px!important ;
     

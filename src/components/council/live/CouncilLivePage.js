@@ -1,5 +1,5 @@
 import React from "react";
-import { FabButton, Icon, LoadingMainApp, TabsScreen } from "../../../displayComponents";
+import { FabButton, Icon, LoadingMainApp } from "../../../displayComponents";
 import LiveHeader from "./LiveHeader";
 import { darkGrey, lightGrey } from "../../../styles/colors";
 import { graphql } from "react-apollo";
@@ -128,6 +128,11 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 
 	const { council } = data;
 
+	const councilStartedState = () => {
+		return council.state === 20 || council.state === 30;
+	}
+
+
 	if (!checkLoadingComplete()) {
 		return <LoadingMainApp />;
 	}
@@ -162,7 +167,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 					zIndex: 2
 				}}
 			>
-				{(council.state === 20 || council.state === 30) &&
+				{councilStartedState() &&
 					<Tooltip title={`${translate.wall} - (ALT + W)`} open={state.wallTooltip}>
 						<div>
 							{state.unreadComments > 0 ?
@@ -383,6 +388,33 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 								<Tabs value={state.participants? 0 : 1}>
 									<Tab label={translate.participants} onClick={() => toggleScreens(true)} />
 									<Tab label={translate.agenda} onClick={() => toggleScreens(false)} />
+									<div style={{
+										width: '100%',
+										display: 'flex',
+										justifyContent: 'flex-end',
+										alignItems: 'center',
+										paddingRight: '1em'
+									}}>
+										{council.quorumPrototype === 0?
+											<b>{`${translate.current_quorum}: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
+												(councilStartedState() && council.councilStarted === 1)?
+													` / ${translate.initial_quorum}: ${
+														council.initialQuorum? council.initialQuorum : council.currentQuorum
+													} (${((data.council.initialQuorum / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
+												:
+													''
+											}`}</b>
+										:
+											<b>{`${translate.current_quorum}: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
+												(councilStartedState() && council.councilStarted === 1)?
+													` / ${translate.initial_quorum}: ${
+														council.initialQuorum? council.initialQuorum : council.currentQuorum
+													} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
+												:
+													''
+											}`}</b>
+										}
+									</div>
 								</Tabs>
 							}
 							<div style={{ height: "100%" }}>

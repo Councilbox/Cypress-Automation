@@ -7,11 +7,10 @@ import {
 	Scrollbar,
 	TextInput
 } from "../../../displayComponents";
-import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
-import { Card, MenuItem } from 'material-ui';
+import { Card, MenuItem, Typography } from 'material-ui';
 
 const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 	const loadMore = () => {

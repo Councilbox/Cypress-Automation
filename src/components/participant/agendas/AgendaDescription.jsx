@@ -1,40 +1,19 @@
 import React from 'react';
-import { CollapsibleSection } from '../../../displayComponents';
 
-class AgendaDescription extends React.Component {
+const AgendaDescription = ({ agenda }) => {
+    const [open, setOpen] = React.useState(false);
 
-    state = {
-        open: false
+    const toggle = () => {
+        setOpen(!open);
     }
 
-    toggle = () => {
-        const newValue = !this.state.open;
-        this.setState({
-            open: newValue
-        });
-    }
-
-    render() {
-        // if (!this.props.agenda.description) {
-        //     return this.props.translate.no_description;
-        // }
-
-        return (
-            //TODO CREAR BIEN LA ANIMACI
-            <div dangerouslySetInnerHTML={{ __html: this.props.agenda.description}} style={{ width: '100%'}} className={this.state.open? 'overflowNoEllipsisDangerousHtml' : "overflowEllipsisDangerousHtml"} onClick={this.toggle} ></div>
-
-            // <CollapsibleSection
-            //     trigger={() =>
-            //         <span onClick={this.toggle} style={{fontSize: '14px'}}>{this.props.translate.show_description}</span>
-            //     }
-            //     open={this.state.open}
-            //     onTriggerClick={() => {}}
-            //     collapse={() =>
-            //         <div dangerouslySetInnerHTML={{__html: this.props.agenda.description}}></div>
-            //     }
-            // />
-        )
-    }
+    return (
+        <div
+            dangerouslySetInnerHTML={{ __html: agenda.description}}
+            style={{ width: '100%'}} className={open? 'overflowNoEllipsisDangerousHtml' : "overflowEllipsisDangerousHtml"}
+            onClick={toggle}
+        ></div>
+    )
 }
 
 export default AgendaDescription;

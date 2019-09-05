@@ -54,6 +54,52 @@ export const councilParticipants = gql`
 	}
 `;
 
+export const councilParticipantsFilterIds = gql`
+	query participants(
+		$councilId: Int!
+		$filters: [FilterInput]
+		$options: OptionsInput
+	) {
+		councilParticipantsFilterIds(
+			councilId: $councilId
+			filters: $filters
+			options: $options
+		) {
+			list {
+				id
+				councilId
+				name
+				surname
+				position
+				email
+				phone
+				dni
+				type
+				numParticipations
+				socialCapital
+				uuid
+				delegateUuid
+				delegateId
+				representative {
+					id
+					name
+					surname
+					dni
+					email
+					phone
+					position
+					language
+				}
+				position
+				language
+				city
+				personOrEntity
+			}
+			total
+		}
+	}
+`;
+
 export const addParticipant = gql`
 	mutation upsertCouncilParticipant(
 		$participant: ParticipantInput

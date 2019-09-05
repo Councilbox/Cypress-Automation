@@ -3,7 +3,6 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import LateralOption from "./LateralOption";
 import { darkGrey } from "../../styles/styles";
 import logo from '../../assets/img/logo-icono.png';
-import { isLandscape } from "../../utils/screen";
 import { isMobile } from "react-device-detect";
 
 

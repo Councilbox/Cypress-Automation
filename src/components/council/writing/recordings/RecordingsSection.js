@@ -1,10 +1,7 @@
 import React from 'react';
 import { getSecondary } from '../../../../styles/colors';
-import { Scrollbar } from '../../../../displayComponents';
 import { ALPHA_RELEASE_DATE } from '../../../../constants';
 import { moment } from '../../../../containers/App';
-
-
 const rand = Math.random();
 
 class RecordingsSection extends React.Component {

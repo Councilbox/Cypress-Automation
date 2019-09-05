@@ -4,7 +4,6 @@ import StartCouncilButton from "./StartCouncilButton";
 import EndCouncilButton from "./EndCouncilButton";
 import { councilStarted } from "../../../../utils/CBX";
 import { moment } from '../../../../containers/App';
-import { BasicButton } from '../../../../displayComponents';
 
 const CouncilStateButton = ({ translate, council, participants, refetch, agendas, recount, ...props }) => {
 
