@@ -8,10 +8,11 @@ import {
 	Scrollbar,
 	TextInput,
 	GridItem,
-	ButtonIcon
+	ButtonIcon,
+	Grid
 } from "../../../displayComponents";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
-import { Card, MenuItem, Typography, Grid, withStyles, IconButton, CardHeader, Collapse } from 'material-ui';
+import { Card, MenuItem, Typography, withStyles, IconButton, CardHeader, Collapse } from 'material-ui';
 import { councilParticipantsFilterIds } from "../../../queries/councilParticipant";
 import { getPrimary } from '../../../styles/colors';
 

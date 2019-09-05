@@ -360,7 +360,7 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                 }}
             >
                 <div style={{ padding: "8px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <div style={{ marginLeft: "15px", marginRight: "15px" }}>
+                    <div style={{ marginLeft: "15px", marginRight: "15px", }}>
                         {translate.all_plural}
                     </div>
                 </div>
@@ -387,9 +387,14 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                     minWidth: "100px"
                 }}
             >
-                {/* //TRADUCCION */}
                 <div style={{ padding: "8px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <div style={{ marginLeft: "15px" }}>
+                    <div style={{
+                        marginLeft: "15px",
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        maxWidth: "160px"
+                    }}>
                         {participant.name + " " + participant.surname}
                     </div>
                     <div style={{ marginLeft: "5px", marginRight: "3px", display: "flex" }}>
