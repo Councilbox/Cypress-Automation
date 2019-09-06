@@ -139,12 +139,13 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 						statutes={companyStatutes}
 						draftType={1}
 						defaultTags={{
-							"Orden del día": {
+							"agenda": {
 								active: true,
-								type: 2
+								type: 2,
+								name: 'agenda',
+								label: translate.agenda
 							}
-						}
-						}
+						}}
 					/>
 				)}
 

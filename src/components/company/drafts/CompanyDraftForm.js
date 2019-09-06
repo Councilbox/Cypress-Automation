@@ -396,7 +396,9 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 									border: '1px solid #7fa5b6',
 									color: '#7fa5b6',
 								}}
-								tags={Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
+								tags={Object.keys(GOVERNING_BODY_TYPES).filter(key => (
+									!testTags[GOVERNING_BODY_TYPES[key].label] && GOVERNING_BODY_TYPES[key].value !== 0
+								)).map(key => (
 									{
 										name: GOVERNING_BODY_TYPES[key].label,
 										label: translate[GOVERNING_BODY_TYPES[key].label],

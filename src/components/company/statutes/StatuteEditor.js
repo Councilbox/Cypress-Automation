@@ -12,21 +12,37 @@ import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import SaveDraftModal from '../../company/drafts/SaveDraftModal';
 import { MenuItem, Tooltip } from "material-ui";
 import { draftDetails } from "../../../queries";
-import { compose, graphql } from "react-apollo";
+import { withApollo } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import QuorumInput from "../../../displayComponents/QuorumInput";
 import { DRAFT_TYPES } from "../../../constants";
 
 
-const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) => {
+const StatuteEditor = ({ statute, translate, updateState, errors, client, ...props }) => {
 	const [saveDraft, setSaveDraft] = React.useState(false);
+	const [data, setData] = React.useState({});
+	const [loading, setLoading] = React.useState(true);
 	const editor = React.useRef();
 	const intro = React.useRef();
 	const footer = React.useRef();
 	const constitution = React.useRef();
 	const conclusion = React.useRef();
 	const primary = getPrimary();
+
+
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: draftDetails
+		});
+
+		setData(response.data);
+		setLoading(false);
+	}, [statute.id])
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
 
 	const closeDraftModal = () => {
 		setSaveDraft(false);
@@ -60,7 +76,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 	};
 
 
-	const { quorumTypes, loading } = props.data;
+	const { quorumTypes } = data;
 	return (
 		<Fragment>
 			<Grid>
@@ -576,6 +592,14 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 											...statute,
 											statuteId: statute.id
 										}}
+										defaultTags={{
+											"convene_header": {
+												active: true,
+												type: 2,
+												name: 'convene_header',
+												label: translate.convene_header
+											}
+										}}
 										statutes={props.companyStatutes}
 										draftType={0}
 									/>
@@ -604,6 +628,14 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 									statute={{
 										...statute,
 										statuteId: statute.id
+									}}
+									defaultTags={{
+										"convene_footer": {
+											active: true,
+											type: 2,
+											name: 'convene_footer',
+											label: translate.convene_footer
+										}
 									}}
 									statutes={props.companyStatutes}
 									draftType={6}
@@ -661,6 +693,14 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 											intro.current.setValue(draft.text);
 
 										}}
+										defaultTags={{
+											"intro": {
+												active: true,
+												type: 2,
+												name: 'intro',
+												label: translate.intro
+											}
+										}}
 										statute={{
 											...statute,
 											statuteId: statute.id
@@ -695,6 +735,14 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 									<LoadDraftModal
 										translate={translate}
 										companyId={props.company.id}
+										defaultTags={{
+											"constitution": {
+												active: true,
+												type: 2,
+												name: 'constitution',
+												label: translate.constitution
+											}
+										}}
 										loadDraft={draft => {
 											updateState({
 												constitution: draft.text
@@ -735,6 +783,14 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 								loadDraft={
 									<LoadDraftModal
 										translate={translate}
+										defaultTags={{
+											"conclusion": {
+												active: true,
+												type: 2,
+												name: 'conclusion',
+												label: translate.conclusion
+											}
+										}}
 										companyId={props.company.id}
 										loadDraft={draft => {
 											updateState({
@@ -793,7 +849,7 @@ const SaveDraftIcon = ({ onClick, translate }) => {
 	)
 }
 
-export default graphql(draftDetails)(StatuteEditor);
+export default withApollo(StatuteEditor);
 
 
 

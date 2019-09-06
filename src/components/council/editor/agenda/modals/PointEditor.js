@@ -117,6 +117,14 @@ class PointEditor extends React.Component {
 						companyId={company.id}
 						loadDraft={this.loadDraft}
 						statute={statute}
+						defaultTags={{
+							"agenda": {
+								active: true,
+								type: 2,
+								name: 'agenda',
+								label: translate.agenda
+							}
+						}}
 						statutes={companyStatutes}
 						draftTypes={draftTypes}
 						draftType={1}

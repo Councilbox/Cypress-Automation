@@ -15,6 +15,7 @@ import { isMobile } from "react-device-detect";
 import { withStyles } from "material-ui";
 import { IconButton } from "material-ui";
 import { Collapse } from "material-ui";
+import withSharedProps from "../../../HOCs/withSharedProps";
 
 
 
@@ -40,29 +41,22 @@ const styles = {
 	}
 };
 
-const LoadDraft = withApollo(({ majorityTypes, translate, client, match, defaultTags, ...props}) => {
-
-	const [search, setSearch] = React.useState('');
+const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, translate, client, match, defaultTags, ...props}) => {
 	const [searchModal, setSearchModal] = React.useState('');
 	const [searchModalPlantillas, setSearchModalPlantillas] = React.useState('');
-	const [testTags, setTestTags] = React.useState({});
+	const [testTags, setTestTags] = React.useState(null);
 	const [draftLoading, setDraftLoading] = React.useState(true);
 	const [draftsRender, setDraftsRender] = React.useState([]);
 
 	const [vars, setVars] = React.useState({});
 	const [varsLoading, setVarsLoading] = React.useState(true);
-	
-
-	// React.useEffect(() => {
-	// 	props.data.refetch();
-	// }, []);
 
 	const plantillasFiltradas = async () => {
 		setDraftLoading(true);
 		const response = await client.query({
 			query: companyDrafts,
 			variables: {
-				companyId: match.params.company,
+				companyId: company.id,
 				prototype: 3,
 				...(searchModalPlantillas? {
 					filters: [
@@ -81,20 +75,20 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 		});
 		setDraftLoading(false);
 		setDraftsRender(response.data.companyDrafts.list);
-		console.log(response);
 	}
 
-	console.log(draftsRender);
 
 	React.useEffect(() => {
-		plantillasFiltradas();
+		if(testTags !== null){
+			plantillasFiltradas();
+		}
 	}, [searchModalPlantillas, testTags]);
 
 	const getData = async () => {
 		const response = await client.query({
 			query: getCompanyDraftDataNoCompany,
 			variables: {
-				companyId: match.params.company
+				companyId: company.id
 			}
 		});
 
@@ -104,7 +98,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 
 	React.useEffect(() => {
 		getData();
-		setTestTags({ ...defaultTags });
+		setTestTags(defaultTags? { ...defaultTags } : {});
 	}, []);
 
 	const addTag = tag => {
@@ -120,7 +114,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 
 
 	const removeTag = tag => {
-		delete testTags[tag];
+		delete testTags[tag.name];
 		setTestTags({ ...testTags });
 	}
 
@@ -221,7 +215,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 									key={`tag_${tag.label}`}
 									text={translate[tag.label] || tag.label}
 									color={getTagColor(key)}
-									action={() => removeTag(tag.name)}
+									action={() => removeTag(tag)}
 									props={props}
 								/>
 							})}
@@ -353,7 +347,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 																				border: '1px solid #c196c3',
 																				color: levelColor[0],
 																			}}
-																			tags={vars.companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
+																			tags={vars.companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => (
 																				{
 																					label: translate[statute.title] || statute.title,
 																					name: `statute_${statute.id}`,
@@ -396,7 +390,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 																				border: '1px solid #7fa5b6',
 																				color: levelColor[2],
 																			}}
-																			tags={vars.draftTypes.map(draft => (
+																			tags={vars.draftTypes.filter(type => !testTags[type.label]).map(draft => (
 																				{
 																					name: draft.label,
 																					label: translate[draft.label],
@@ -486,7 +480,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 		)
 	}
 
-})
+}))
 
 const regularCardStyle = {
 	cardTitle: {

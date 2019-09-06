@@ -557,12 +557,13 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 												statute={statute}
 												statutes={companyStatutes}
 												defaultTags={{
-													"Cabecera de convocatoria": {
+													"convene_header": {
 														active: true,
+														label: translate.convene_header,
+														name: 'convene_header',
 														type: 2
 													}
-												}
-												}
+												}}
 												draftType={
 													draftTypes.filter(
 														draft =>
@@ -595,6 +596,14 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 												loadDraft={loadFooterDraft}
 												statute={statute}
 												statutes={companyStatutes}
+												defaultTags={{
+													"convene_footer": {
+														active: true,
+														type: 2,
+														name: 'convene_footer',
+														label: translate.convene_footer
+													}
+												}}
 												draftType={
 													draftTypes.filter(draft => draft.label === "convene_footer")[0].value
 												}

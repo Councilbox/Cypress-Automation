@@ -275,6 +275,14 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 							translate={translate}
 							companyId={company.id}
 							loadDraft={loadDraft}
+							defaultTags={{
+								"comments_and_agreements": {
+									active: true,
+									type: 2,
+									name: 'comments_and_agreements',
+									label: translate.comments_and_agreements
+								}
+							}}
 							statute={council.statute}
 							statutes={props.data.companyStatutes}
 							draftType={5}
