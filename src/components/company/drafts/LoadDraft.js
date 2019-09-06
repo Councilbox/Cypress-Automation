@@ -46,47 +46,48 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 	const [searchModal, setSearchModal] = React.useState('');
 	const [searchModalPlantillas, setSearchModalPlantillas] = React.useState('');
 	const [testTags, setTestTags] = React.useState({});
-	const [draftLoading, setdraftLoading] = React.useState(true);
-	const [draftsRender, setDraftsRender] = React.useState({});
+	const [draftLoading, setDraftLoading] = React.useState(true);
+	const [draftsRender, setDraftsRender] = React.useState([]);
 
 	const [vars, setVars] = React.useState({});
 	const [varsLoading, setVarsLoading] = React.useState(true);
 	
-	// const defaultTags = {
-	// 	// "Junta General Ordinaria": {
-	// 	// 	active: true,
-	// 	// 	type: 0
-	// 	// }
-	// }
 
-	React.useEffect(() => {
-		props.data.refetch();
-	}, []);
+	// React.useEffect(() => {
+	// 	props.data.refetch();
+	// }, []);
 
 	const plantillasFiltradas = async () => {
+		setDraftLoading(true);
 		const response = await client.query({
 			query: companyDrafts,
 			variables: {
 				companyId: match.params.company,
 				prototype: 3,
-				filters: [
-					{
-						field: "title",
-						text: searchModalPlantillas
-					},
-				],
+				...(searchModalPlantillas? {
+					filters: [
+						{
+							field: "title",
+							text: searchModalPlantillas
+						},
+					]
+				} : {}),
 				options: {
 					limit: DRAFTS_LIMITS[0],
 					offset: 0
 				},
-				tags: Object.keys(testTags),
+				tags: Object.keys(testTags).map(key => testTags[key].name),
 			}
 		});
-		setDraftsRender(response.data.companyDrafts.list)
+		setDraftLoading(false);
+		setDraftsRender(response.data.companyDrafts.list);
+		console.log(response);
 	}
 
+	console.log(draftsRender);
+
 	React.useEffect(() => {
-		plantillasFiltradas()
+		plantillasFiltradas();
 	}, [searchModalPlantillas, testTags]);
 
 	const getData = async () => {
@@ -98,7 +99,7 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 		});
 
 		setVars(response.data);
-		setVarsLoading(false)
+		setVarsLoading(false);
 	};
 
 	React.useEffect(() => {
@@ -107,48 +108,30 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 	}, []);
 
 	const addTag = tag => {
-		// console.log(tag)
 		setTestTags({
 			...testTags,
-			[formatTagLabel(tag)]: {
-				segments: tag.segments,
-				type: tag.type,
+			[tag.name]: {
+				...tag,
+				label: formatTagLabel(tag),
 				active: true
 			}
 		});
 	}
+
 
 	const removeTag = tag => {
 		delete testTags[tag];
 		setTestTags({ ...testTags });
 	}
 
-
-	const getTags = async () => {
-		const response = await client.query({
-			query: draftTagSearch,
-			variables: {
-				companyId: match.params.company,
-				tags: Object.keys(testTags),
-			}
-		});
-		
-		setDraftsRender(response.data.draftTagSearch.list)
-		setdraftLoading(false)
-	};
-
-	React.useEffect(() => {
-		getTags();
-	}, [testTags]);
-
 	const formatTagLabel = tag => {
 		return tag.segments ?
 			`${tag.segments.reduce((acc, curr) => {
 				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
 				return acc;
-			}, '')}${tag.type === 99 ? tag.label : translate[tag.label] || tag.label}`
+			}, '')}`
 			:
-			tag.type !== 99 ? translate[tag.label] || tag.label : tag.label
+			tag.label
 	}
 
 
@@ -216,32 +199,32 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 					</div>
 				)
 			}
-
+	
 			const buildTagColumns = tags => {
 				const columns = {};
 				Object.keys(tags).forEach(key => {
 					const tag = tags[key];
-					columns[tag.type] = columns[tag.type] ? [...columns[tag.type], key] : [key]
+					columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
 				});
-
+	
 				return columns;
 			}
-
-			let columns = buildTagColumns(testTags);
-
+	
+			const columns = buildTagColumns(testTags);
+	
 			return (
 				<div style={{ display: isMobile ? "" : 'flex' }}>
 					{Object.keys(columns).map(key => (
 						<TagColumn key={`column_${key}`}>
-							{columns[key].map(tag => (
-								<EtiquetaBase
-									key={`tag_${tag}`}
-									text={tag}
+							{columns[key].map(tag => {
+								return <EtiquetaBase
+									key={`tag_${tag.label}`}
+									text={translate[tag.label] || tag.label}
 									color={getTagColor(key)}
-									action={() => removeTag(tag)}
+									action={() => removeTag(tag.name)}
 									props={props}
 								/>
-							))}
+							})}
 						</TagColumn>
 					))}
 				</div>
@@ -349,9 +332,9 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 															tags={
 																matchSearch.map(statute => {
 																	return ({
-																		label: statute.label,
-																		translation: statute.translation ? statute.translation : statute.label,
-																		type: statute.type
+																		label: translate[statute.title] || statute.title,
+																		name: `statute_${statute.id}`,
+																		type: 0
 																	})
 																}
 																)}
@@ -372,8 +355,8 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 																			}}
 																			tags={vars.companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 																				{
-																					label: statute.title,
-																					translation: translate[statute.title],
+																					label: translate[statute.title] || statute.title,
+																					name: `statute_${statute.id}`,
 																					type: 0
 																				}
 																			))}
@@ -393,8 +376,8 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 																		}}
 																		tags={Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
 																			{
-																				label: GOVERNING_BODY_TYPES[key].label,
-																				translation: translate[GOVERNING_BODY_TYPES[key].label],
+																				name: GOVERNING_BODY_TYPES[key].label,
+																				label: translate[GOVERNING_BODY_TYPES[key].label],
 																				type: 1
 																			}
 																		))}
@@ -415,67 +398,15 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 																			}}
 																			tags={vars.draftTypes.map(draft => (
 																				{
-																					label: draft.label,
-																					translation: translate[draft.label],
+																					name: draft.label,
+																					label: translate[draft.label],
 																					type: 2,
-																					childs: draft.label === 'agenda' ?
-																						CBX.filterAgendaVotingTypes(vars.votingTypes)
-																							.filter(type => !testTags[type.label])
-																							.map(votingType => {
-																								return (
-																									<div></div>
-																									// <Etiqueta
-																									// 	// key={`tag_${votingType.value}`}
-																									// 	childs={CBX.hasVotation(votingType.value) ?
-																									// 		majorityTypes
-																									// 			.filter(majority => {
-																									// 				return !testTags[formatTagLabel({
-																									// 					label: majority.label,
-																									// 					segments: [draft.label, votingType.label, majority.label],
-																									// 				})]
-																									// 			})
-																									// 			.map(majority => {
-																									// 				return (
-																									// 					<Etiqueta
-																									// 						key={`tag_${majority.value}`}
-																									// 						text={translate[majority.label]}
-																									// 						color={getTagColor(draft.value)}
-																									// 						action={() => addTag({
-																									// 							label: majority.label,
-																									// 							segments: [draft.label, votingType.label, majority.label],
-																									// 							translation: translate[majority.label],
-																									// 							type: 2,
-																									// 						})}
-																									// 					/>
-																									// 				)
-																									// 			}) : null}
-																									// 	text={translate[votingType.label]}
-																									// 	color={getTagColor(draft.value)}
-																									// 	action={() => addTag({
-																									// 		label: votingType.label,
-																									// 		segments: [draft.label, votingType.label],
-																									// 		translation: translate[votingType.label],
-																									// 		type: 2,
-																									// 	})}
-																									// />
-																								)
-																							}) : null
 																				}
 																			))}
 																		/>
 																	}
 																</div>
 															</GridItem>
-															{/* <GridItem xs={12} lg={12} md={12}>
-																<div style={{ display: 'flex' }}>
-																	<div style={{ marginRight: "1em", fontWeight: "700" }}>Otros</div>
-																	<div style={{ marginRight: "1em" }}>Abogacia legal</div>
-																	<div style={{ marginRight: "1em" }}>Denuncias</div>
-																	<div style={{ marginRight: "1em" }}>Ampliacion capital</div>
-																	<div style={{ marginRight: "1em" }}>Cuentas comunidad</div>
-	
-																</div>
-															</GridItem> */}
 														</Grid>
 													}
 												</div>
@@ -528,14 +459,13 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 											return (
 												<CardPlantillas
 													translate={translate}
-													key={'key__' + item.title}
+													key={'key__' + item.id}
 													item={item}
 													onClick={() => {
-														//para que vale el label?=???????
 														sendGAevent({
 															category: 'Borradores',
 															action: `Carga de borrador`,
-															// label: props.company.businessName
+															//label: props.company.businessName
 														})
 														props.loadDraft(item);
 													}}
@@ -550,9 +480,6 @@ const LoadDraft = withApollo(({ majorityTypes, translate, client, match, default
 				</div>
 			</div>
 		);
-
-
-
 	} else {
 		return (
 			<div></div>
