@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, GridItem } from "./index";
 import { Typography, MenuItem } from "material-ui";
-import { getSecondary } from "../styles/colors";
+import { getSecondary, getPrimary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 // import RichTextEditor from 'react-rte';
@@ -13,6 +13,10 @@ import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import withSharedProps from "../HOCs/withSharedProps";
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
+import TextInput from "./TextInput";
+import { Divider } from "material-ui";
+import Scrollbar from "./Scrollbar";
+
 
 if (isChrome) {
 	let style = document.createElement("style");
@@ -43,7 +47,7 @@ class RichTextInput extends React.Component {
 	};
 
 	onChange = value => {
-		if(!this.rtEditor){
+		if (!this.rtEditor) {
 			return;
 		}
 		this.setState({ value });
@@ -86,17 +90,17 @@ class RichTextInput extends React.Component {
 		const modules = {
 			toolbar: {
 				container: [
-					[{ 'color': [] }, { 'background': [] }], [ 'bold', 'italic', 'underline', 'link', 'strike'],
+					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify'}]
+					[{ 'align': 'justify' }]
 				],
 			},
 			clipboard: {
 				matchVisual: false,
 			}
 		};
-
+		
 		return (
 			<React.Fragment>
 				<Typography
@@ -177,6 +181,7 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 	const secondary = getSecondary();
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
+	const [ocultar, setOcultar] = React.useState(false);
 
 	const loadCompanyTags = React.useCallback(async () => {
 		const response = await client.query({
@@ -195,58 +200,142 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 
 	const getTextToPaste = tag => {
 		let draftMode = false;
-		if(tags){
-			if(tags[0].value.includes('{{')){
+		if (tags) {
+			if (tags[0].value.includes('{{')) {
 				draftMode = true;
 			}
 		}
 
-		if(draftMode) {
+		if (draftMode) {
 			return `{{${tag.key}}}`;
 		}
-
 		return tag.value;
 	}
 
 
 	return (
 		<DropDownMenu
-			color="transparent"
-			text={translate.markers}
-			textStyle={{ color: secondary, paddingTop: '0px' }}
-			type="flat"
-			icon={
-				<Icon className="material-icons" style={{ color: secondary }}>
-					keyboard_arrow_down
-				</Icon>
+			anchorOrigin={{
+				vertical: 'top',
+				horizontal: 'right',
+			}}
+			transformOrigin={{
+				vertical: 'top',
+				horizontal: 'right',
+			}}
+			color={getPrimary()}
+			loading={false}
+			paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
+			styleBody={{}}
+			Component={() =>
+				<MenuItem
+					style={{
+						height: '100%',
+						border: `solid 1px ${getPrimary()}`,
+						borderRadius: '3px',
+						margin: 0,
+						padding: 0,
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						// marginTop: '14px',
+						padding: "3px 7px",
+						color: getPrimary(),
+					}}
+				>
+					&lt;tags&gt;
+										</MenuItem>
 			}
+			text={translate.add_agenda_point}
+			textStyle={"ETIQUETA"}
 			items={
-				<React.Fragment>
-					{tags.map(tag => {
-						return (
-							<MenuItem
-								key={`tag_${tag.label}`}
-								onClick={() =>
-									paste(`<span id="${tag.label}">${tag.getValue? tag.getValue() : tag.value}</span>`)
-								}
-
-							>
-								{tag.label}
-							</MenuItem>
-						);
-					})}
-					{(!loading && companyTags) && companyTags.map(tag => (
-						<MenuItem
-								key={`tag_${tag.id}`}
-								onClick={() =>
-									paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
-								}
-
-							>
-								{tag.key}
-						</MenuItem>
-					))}
-				</React.Fragment>
+				<div style={{}}
+					onClick={event => {
+						event.stopPropagation();
+					}}
+				>
+					<div style={{
+						margin: "0px 1em",
+					}}>
+						<div style={{
+							width: "100%",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "space-between"
+						}}
+						>
+							<div>
+								<TextInput
+									placeholder={"Buscar Etiquetas"}
+									adornment={<Icon>search</Icon>}
+									id={"buscarEtiquetasEnModal"}
+									type="text"
+									stylesAdornment={{ color: getPrimary() }}
+									// value={searchModal}
+									styleInInput={{ fontSize: "12px", color: getPrimary() }}
+									styles={{ marginBottom: "0" }}
+									// classes={{ input: props.classes.input }}
+									// onChange={event => {
+									// 	setSearchModal(event.target.value);
+									// }}
+									disableUnderline={true}
+								/>
+							</div>
+							<div style={{ color: getPrimary() }}>
+								&lt;tags&gt;
+							</div>
+						</div>
+					</div>
+					<Divider style={{ background: getPrimary() }} />
+					<div
+						style={{
+							width: "100%",
+							flexDirection: "row",
+							justifyContent: "space-between",
+							margin: "1em"
+						}}
+					>
+						{/* //TRADUCCION */}
+						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth:"700px", marginBottom:"1em" }} >
+							<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight:"0.3em" }} onClick={() => setOcultar(false)}>
+								help
+										</i>
+							{!ocultar &&
+								<div>Los &lt;tags&gt; son marcas inteligentes que añaden el nombre o elemento personalizado al documento <u style={{ cursor: "pointer" }} onClick={() => setOcultar(true)}>(Ocultar)</u></div>
+							}
+						</div>
+						<div style={{ width: "97%", height: "16vh" }} >
+							<Scrollbar>
+								<div style={{ width: "100%", }}>
+									{tags.map(tag => {
+										return (
+											<div
+												key={`tag_${tag.label}`}
+												onClick={() =>
+													paste(`<span style="color:${getPrimary()};" id="${tag.label}">${tag.getValue ? tag.getValue() : tag.value}</span>`)
+												}
+												style={{ color: getPrimary(), display: "inline-flex", marginRight: "1em", cursor: "pointer" }}
+											>
+												&lt;{tag.label}&gt;
+									</div>
+										);
+									})}
+									{(!loading && companyTags) && companyTags.map(tag => (
+										<div
+											key={`tag_${tag.id}`}
+											onClick={() =>
+												paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
+											}
+											style={{ color: getPrimary(), display: "inline-flex", marginRight: "1em", cursor: "pointer" }}
+										>
+											&lt;{tag.key}&gt;
+									</div>
+									))}
+								</div>
+							</Scrollbar>
+						</div>
+					</div>
+				</div>
 			}
 		/>
 	)

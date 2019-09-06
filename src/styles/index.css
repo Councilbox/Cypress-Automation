@@ -747,3 +747,24 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     top: 44px!important ;
     
 }
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .ql-formats{
+      margin-top: 0.8em;
+    }
