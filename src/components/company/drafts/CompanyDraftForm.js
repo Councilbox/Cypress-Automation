@@ -56,23 +56,29 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 			`${tag.segments.reduce((acc, curr) => {
 				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
 				return acc;
-			}, '')}${tag.name}`
+			}, '')}`
 			:
-			tag.name
+			tag.label
+	}
+
+	const reduceTagName = tag => {
+		return tag.name
 	}
 
 	const addTag = tag => {
 		setTestTags({
 			...testTags,
-			[formatTagLabel(tag)]: {
+			[reduceTagName(tag)]: {
 				...tag,
+				label: formatTagLabel(tag),
 				active: true
 			}
 		});
 		let data = {
 			...testTags,
-			[formatTagLabel(tag)]: {
+			[reduceTagName(tag)]: {
 				...tag,
+				label: formatTagLabel(tag),
 				active: true
 			}
 		}
@@ -151,22 +157,20 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 			<div style={{ display: isMobile ? "" : 'flex' }}>
 				{Object.keys(columns).map(key => (
 					<TagColumn key={`column_${key}`}>
-						{columns[key].map(tag => (
-							<EtiquetaBase
-								key={`tag_${tag}`}
+						{columns[key].map(tag => {
+							return <EtiquetaBase
+								key={`tag_${tag.label}`}
 								text={translate[tag.label] || tag.label}
 								color={getTagColor(key)}
 								action={() => removeTag(tag.name)}
 								props={props}
 							/>
-						))}
+						})}
 					</TagColumn>
 				))}
 			</div>
 		);
 	}
-
-	console.log(testTags);
 
 	const renderDescription = () => {
 		return (
@@ -244,7 +248,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 		tagsSearch.push({
 			label: translate[statute.title] || statute.title,
-			name: `${statute.title}_${statute.id}`,
+			name: `statute_${statute.id}`,
 			type: 0
 		})
 	));
@@ -287,8 +291,6 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		}
 		)
 	}
-
-	console.log(testTags);
 
 	const renderSelectorEtiquetas = () => {
 		return (
@@ -333,7 +335,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 									tags={matchSearch.map(statute => {
 										return ({
 											label: translate[statute.title] || statute.title,
-											name: `${statute.title}_${statute.id}`,
+											name: `statute_${statute.id}`,
 											type: 0
 										})
 									}
@@ -353,11 +355,11 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 										color: '#b47fb6',
 									}}
 									tags={companyStatutes.filter(statute => {
-										return !testTags[translate[statute.title]? `${translate[statute.title]}_${statute.id}` : `${statute.title}_${statute.id}`]
+										return !testTags[`statute_${statute.id}`]
 									}).map(statute => (
 										{
 											label: translate[statute.title] || statute.title,
-											name: `${statute.title}_${statute.id}`,
+											name: `statute_${statute.id}`,
 											type: 0
 										}
 									))}
@@ -391,24 +393,24 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 										border: '1px solid #7fa5b6',
 										color: '#7fa5b6',
 									}}
-									tags={draftTypes.filter(type => !testTags[type.label]).map(draft => (
+									tags={draftTypes.filter(type => {
+										return !testTags[type.label]
+									}).map(draft => (
 										{
 											name: draft.label,
 											label: translate[draft.label],
 											type: 2,
-											childs: draft.label === 'agenda' ?
-												CBX.filterAgendaVotingTypes(votingTypes)
-													.filter(type => {
-														return !testTags[type.name]
-													})
-													.map(votingType => {
+											childs: draft.label === 'agenda'?
+												CBX.filterAgendaVotingTypes(votingTypes).filter(type => {
+													return !testTags[draft.label];
+												}).map(votingType => {
 														return (
 															<Etiqueta
 																childs={CBX.hasVotation(votingType.value) ?
 																	majorityTypes
 																		.filter(majority => {
-																			return !testTags[formatTagLabel({
-																				name: majority.label,
+																			return !testTags[reduceTagName({
+																				name: draft.label,
 																				segments: [draft.label, votingType.label, majority.label],
 																			})]
 																		})
@@ -419,7 +421,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 																					text={translate[majority.label]}
 																					color={getTagColor(draft.value)}
 																					action={() => addTag({
-																						name: majority.label,
+																						name: draft.label,
 																						segments: [draft.label, votingType.label, majority.label],
 																						label: translate[majority.label],
 																						type: 2,
@@ -430,7 +432,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 																text={translate[votingType.label]}
 																color={getTagColor(draft.value)}
 																action={() => addTag({
-																	name: votingType.label,
+																	name: draft.label,
 																	segments: [draft.label, votingType.label],
 																	label: translate[votingType.label],
 																	type: 2,
@@ -555,7 +557,6 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 
 
 	const plantillasFiltradas = async () => {
-		console.log(Object.keys(testTags))
 		const response = await client.query({
 			query: companyDrafts,
 			variables: {
@@ -599,7 +600,6 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 	}
 
 	const getTags = async () => {
-		console.log(match.params.company)
 		const response = await client.query({
 			query: draftTagSearch,
 			variables: {
@@ -619,7 +619,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 	companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 		tagsSearch.push({
 			name: `${statute.title}_${statute.id}`,
-			label: statute.title,
+			label: `statute_${statute.id}`,
 			type: 0
 		})
 	));
@@ -834,7 +834,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 																		}}
 																		tags={companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 																			{
-																				name: `${statute.label}_${statute.id}`,
+																				name: `statute_${statute.id}`,
 																				label: statute.title,
 																				type: 0
 																			}
@@ -1100,8 +1100,6 @@ export const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag
 
 export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, addTag, translate, search }) => {
 	const [open, setOpen] = React.useState(false);
-
-	console.log(tags);
 
 	if (search) {
 		return (

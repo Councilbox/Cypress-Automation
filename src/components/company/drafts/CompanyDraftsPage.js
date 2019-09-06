@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabsScreen, CardPageLayout } from "../../../displayComponents";
+import { TabsScreen, CardPageLayout, Scrollbar } from "../../../displayComponents";
 import CompanyDraftList from './CompanyDraftList';
 import CompanyTags from './companyTags/CompanyTags';
 import withSharedProps from '../../../HOCs/withSharedProps';

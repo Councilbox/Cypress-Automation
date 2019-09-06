@@ -29,7 +29,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 		deleteModal: false,
 		draftID: null,
 		tags: true,
-		newForm: true
+		newForm: false
 	});
 	const primary = getPrimary();
 
