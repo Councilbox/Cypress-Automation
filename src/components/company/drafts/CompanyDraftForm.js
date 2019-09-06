@@ -45,6 +45,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	const [openClonar, setOpenClonar] = React.useState(false);
 
 
+
 	const removeTag = tag => {
 		delete testTags[tag];
 		setTestTags({ ...testTags });
@@ -59,6 +60,21 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 			}, '')}`
 			:
 			tag.label
+	}
+
+	const formatLabelFromName = tag => {
+		if(tag.type === 0){
+			const title = companyStatutes.find(statute => statute.id === +tag.name.split('_')[1]).title;
+			return translate[title] || title;
+		}
+
+		return tag.segments ?
+		`${tag.segments.reduce((acc, curr) => {
+			if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
+			return acc;
+		}, '')}`
+		:
+		translate[tag.name]? translate[tag.name] : tag.name
 	}
 
 	const reduceTagName = tag => {
@@ -88,7 +104,15 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 
 
 	React.useEffect(() => {
-		setTestTags({ ...draft.tags });
+		let formattedTags = {};
+		Object.keys(draft.tags).forEach(key => {
+			formattedTags[reduceTagName(draft.tags[key])] = {
+				...draft.tags[key],
+				label: formatLabelFromName(draft.tags[key])
+			}
+		})
+
+		setTestTags({ ...formattedTags });
 	}, []);
 
 	const renderTitle = () => {
@@ -109,8 +133,6 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 							padding: '.5em 1.6em',
 							marginTop: "1em"
 						}}
-						// onChange={event => setTitle(event.target.value)}
-						// errorText={errors.title}
 						value={draft.title}
 						onChange={event =>
 							updateState({
