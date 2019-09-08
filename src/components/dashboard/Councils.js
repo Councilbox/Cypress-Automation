@@ -10,6 +10,7 @@ import {
 	GridItem,
 	LoadingSection,
 	MainTitle,
+	PaginationFooter,
 } from "../../displayComponents/index";
 import { isLandscape } from '../../utils/screen';
 import { getSecondary } from '../../styles/colors';
@@ -19,12 +20,16 @@ import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
 import CouncilsFilters from './CouncilsFilters';
 import { useOldState } from '../../hooks';
+import { DRAFTS_LIMITS } from "../../constants.js";
+
 
 const Councils = ({ data, translate, ...props }) => {
 	const [state, setState] = useOldState({
 		councilToDelete: "",
 		deleteModal: false,
-		selectedIds: new Map()
+		selectedIds: new Map(),
+		limit:  DRAFTS_LIMITS[0],
+		page: 1,
 	});
 
 	React.useEffect(() => {
@@ -32,20 +37,20 @@ const Councils = ({ data, translate, ...props }) => {
 	}, [props.link])
 
 	const select = id => {
-        if(state.selectedIds.has(id)){
-            state.selectedIds.delete(id);
-        } else {
-            state.selectedIds.set(id, 'selected');
-        }
+		if (state.selectedIds.has(id)) {
+			state.selectedIds.delete(id);
+		} else {
+			state.selectedIds.set(id, 'selected');
+		}
 
-        setState({
-            selectedIds: new Map(state.selectedIds)
-        });
+		setState({
+			selectedIds: new Map(state.selectedIds)
+		});
 	}
 
 	const selectAll = () => {
 		const newSelected = new Map();
-		if(state.selectedIds.size !== data.councils.length){
+		if (state.selectedIds.size !== data.councils.length) {
 			data.councils.forEach(council => {
 				newSelected.set(council.id, 'selected');
 			})
@@ -57,8 +62,8 @@ const Councils = ({ data, translate, ...props }) => {
 	}
 
 	const openDeleteModal = councilID => {
-		if(Number.isInteger(councilID)){
-			if(!state.selectedIds.has(councilID)){
+		if (Number.isInteger(councilID)) {
+			if (!state.selectedIds.has(councilID)) {
 				state.selectedIds.set(councilID, 'selected');
 			}
 		}
@@ -88,8 +93,17 @@ const Councils = ({ data, translate, ...props }) => {
 		return props.windowSize === 'xs' && isLandscape();
 	}
 
-	const { loading, councils, error } = data;
 
+	const changePage = page => {
+		setState({
+			...state,
+			page: page
+		});
+	};
+
+
+	const { loading, councils, error } = data;
+	console.log(councils)
 
 	return (
 		<div
@@ -107,13 +121,13 @@ const Councils = ({ data, translate, ...props }) => {
 					size={props.windowSize}
 					subtitle={props.desc}
 				/>
-				<Grid style={{marginTop: '0.6em'}}>
+				<Grid style={{ marginTop: '0.6em' }}>
 					<GridItem xs={4} md={8} lg={9}>
 						{state.selectedIds.size > 0 &&
 							<BasicButton
-								text={state.selectedIds.size === 1? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
+								text={state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
 								color={getSecondary()}
-								textStyle={{color: 'white', fontWeight: '700'}}
+								textStyle={{ color: 'white', fontWeight: '700' }}
 								onClick={openDeleteModal}
 							/>
 						}
@@ -133,9 +147,17 @@ const Councils = ({ data, translate, ...props }) => {
 						<LoadingSection />
 					</div>
 				) : (
-						<div style={{ height: `calc(100% - ${mobileLandscape()? '7em' : '13.5em'})`, overflow: 'hidden' }}>
+						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '13.5em'})`, overflow: 'hidden' }}>
+							<PaginationFooter
+								page={state.page}
+								translate={translate}
+								length={councils.length}
+								limit={state.limit}
+								total={50}
+								changePage={changePage}
+							/>
 							<Scrollbar>
-								<div style={{ padding: "1em", paddingTop: '2em'}}>
+								<div style={{ padding: "1em", paddingTop: '2em' }}>
 									{false ? (
 										<div>
 											{error.graphQLErrors.map((error, index) => {
@@ -201,7 +223,11 @@ export default compose(
 				state: props.state,
 				companyId: props.company.id,
 				isMeeting: false,
-				active: 1
+				active: 1,
+				options: {
+					limit: DRAFTS_LIMITS[0],
+					offset: 0
+				}
 			},
 			errorPolicy: 'all',
 			notifyOnNetworkStatusChange: true

@@ -37,7 +37,8 @@ class DropDownMenu extends React.Component {
 			loadingColor,
 			anchorOrigin,
 			claseHover,
-			paperPropsStyles
+			paperPropsStyles,
+			transformOrigin
 		} = this.props;
 
 		return (
@@ -75,6 +76,7 @@ class DropDownMenu extends React.Component {
 					anchorEl={anchorEl}
 					onClose={this.handleClose}
 					anchorOrigin={anchorOrigin}
+					transformOrigin={transformOrigin}
 				// anchorOrigin={{
 				// 	vertical: 'top',
 				// 	horizontal: 'left',
