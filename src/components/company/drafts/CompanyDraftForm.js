@@ -23,7 +23,6 @@ import { companyDrafts } from "../../../queries/companyDrafts";
 
 
 
-
 export const levelColor = ['#b47fb6', '#7fa5b6', '#7f94b6'];
 
 const styles = {
@@ -44,8 +43,6 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	const [testTags, setTestTags] = React.useState({});
 	const [tagsSend, setTagsSend] = React.useState([]);
 	const [openClonar, setOpenClonar] = React.useState(false);
-	const [openSelectorEtiquetas, setOpenSelectorEtiquetas] = React.useState(false);
-
 
 
 	const removeTag = tag => {
@@ -241,6 +238,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		if (event.keyCode === 13) {
 			addTag({
 				label: newTag,
+				name: newTag,
 				type: 99
 			});
 			setNewTag('');
@@ -326,9 +324,9 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 							local_offer
 							</i>
 					</div>
-					{/* <div onClick={() => setOpenClonar(true)} id={"modalCargarPlantillas"} >
+					<div onClick={() => setOpenClonar(true)} id={"modalCargarPlantillas"} >
 						ModalClonar
-					</div> */}
+					</div>
 				</div>
 				<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", }}>
 					<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
@@ -406,7 +404,8 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 										label: translate[GOVERNING_BODY_TYPES[key].label],
 										type: 1
 									}
-								</div>
+								))}
+							/>
 
 							{!!draftTypes &&
 								<ContenedorEtiquetas
@@ -471,6 +470,19 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 								/>
 							}
 						</div>
+						<div style={{ marginBottom: "1em" }}>
+							<TextInput
+								id={"crearEtiquetasNuevas"}
+								type="text"
+								placeholder='Crear etiqueta nueva'//TRADUCCION
+								value={newTag}
+								onKeyUp={handleEnter}
+								styleInInput={{ minHeight: '2.5em', paddingLeft: "0.4em", paddingRight: "0.4em", fontSize: "12px", color: "rgba(0, 0, 0, 0.36)", background: "#f2f4f7" }}
+								onChange={event => {
+									setNewTag(event.target.value);
+								}}
+							/>
+						</div>
 					</div>
 				</div>
 
@@ -500,11 +512,12 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		);
 	}
 
+
 	if (props.innerWidth > 960) {
 		return (
 			<Scrollbar>
 				<Grid spacing={16} style={{ height: "100%", width: "100%", marginBottom: "1em" }}>
-					<GridItem xs={12} lg={8} md={8} style={{}}>
+					<GridItem xs={12} lg={8} md={8} style={{ height: "100%" }}>
 						<Grid spacing={16} style={{ height: "100%" }}>
 							<GridItem xs={12} lg={12} md={12} >
 								{renderTitle()}
@@ -515,23 +528,16 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 							<GridItem xs={12} lg={12} md={12}>
 								{renderDescription()}
 							</GridItem>
-							{openSelectorEtiquetas &&
-								<Fade show={openSelectorEtiquetas}>
-									{renderRichEditor()}
-								</Fade>
-							}
+							<GridItem xs={12} lg={12} md={12}>
+								{renderRichEditor()}
+							</GridItem>
 						</Grid>
 					</GridItem>
 					<GridItem xs={12} lg={4} md={4} style={{}}>
 						{renderSelectorEtiquetas()}
 					</GridItem>
-					{!openSelectorEtiquetas &&
-						<Fade show={!openSelectorEtiquetas}>
-							{renderRichEditor()}
-						</Fade>
-					}
 				</Grid>
-			</Scrollbar >
+			</Scrollbar>
 		);
 	} else {
 		return (
@@ -1013,32 +1019,6 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 
 }
 
-
-const Fade = ({ show, children }) => {
-	const [render, setRender] = React.useState(show);
-
-	React.useEffect(() => {
-		if (show) setRender(true);
-	}, [show]);
-
-	const onAnimationEnd = () => {
-		if (!show) setRender(false);
-	};
-
-	return (
-		render && (
-			<GridItem xs={12} lg={12} md={12}
-				style={{ animation: `${show ? "fadeIn" : "fadeOut"} 1s` }}
-				onAnimationEnd={onAnimationEnd}
-			>
-				{children}
-			</GridItem>
-		)
-	);
-};
-
-
-
 const regularCardStyle = {
 	cardTitle: {
 		fontSize: "1em",
@@ -1072,7 +1052,7 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate 
 					}}
 					action={
 						<IconButton
-							style={{ top: '5px', width: "35px" }}
+							style={{ top: '5px', width:"35px" }}
 							onClick={toggleExpanded}
 							aria-expanded={expanded}
 							aria-label="Show more"
@@ -1091,8 +1071,8 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate 
 				<Collapse in={expanded} timeout="auto" unmountOnExit >
 					<div style={{ paddingLeft: "1.5em" }}>
 						<div>{translate.title}: {item.title}</div>
-						<div style={{ display: "flex" }}>{translate.description}:
-						<div style={{ paddingLeft: "0.3em" }} dangerouslySetInnerHTML={{
+						<div style={{display:"flex"}}>{translate.description}: 
+						<div style={{paddingLeft:"0.3em"}} dangerouslySetInnerHTML={{
 								__html: item.text
 							}} ></div>
 						</div>
@@ -1184,7 +1164,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 				...stylesContent
 			}}
 			>
-				<div style={{ alignItems: "center", justifyContent: "space-between", display: "flex", width: "100%", cursor: "pointer", }} onClick={toggle}>
+				<div style={{ alignItems: "center", justifyContent: "space-between", display: "flex", width: "100%", cursor: "pointer", }} onClick={() => setOpen(!open)}>
 					<div>{title}</div>
 					<div style={{ display: "flex", alignItems: "center" }}>
 						{open ?
