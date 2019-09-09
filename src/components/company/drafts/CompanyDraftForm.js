@@ -23,6 +23,7 @@ import { companyDrafts } from "../../../queries/companyDrafts";
 
 
 
+
 export const levelColor = ['#b47fb6', '#7fa5b6', '#7f94b6'];
 
 const styles = {
@@ -43,7 +44,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	const [testTags, setTestTags] = React.useState({});
 	const [tagsSend, setTagsSend] = React.useState([]);
 	const [openClonar, setOpenClonar] = React.useState(false);
-
+	const [openSelectorEtiquetas, setOpenSelectorEtiquetas] = React.useState(false);
 
 
 	const removeTag = tag => {
@@ -64,7 +65,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 
 	const formatLabelFromName = tag => {
 		if(tag.type === 0){
-			const title = companyStatutes.find(statute => statute.id === +tag.name.split('_')[1]).title;
+			const title = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length-1]).title;
 			return translate[title] || title;
 		}
 
@@ -179,20 +180,21 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 			<div style={{ display: isMobile ? "" : 'flex' }}>
 				{Object.keys(columns).map(key => (
 					<TagColumn key={`column_${key}`}>
-						{columns[key].map(tag => {
-							return <EtiquetaBase
-								key={`tag_${tag.label}`}
+						{columns[key].map(tag => (
+							<EtiquetaBase
+								key={`tag_${tag}`}
 								text={translate[tag.label] || tag.label}
 								color={getTagColor(key)}
 								action={() => removeTag(tag.name)}
 								props={props}
 							/>
-						})}
+						))}
 					</TagColumn>
 				))}
 			</div>
 		);
 	}
+
 
 	const renderDescription = () => {
 		return (
@@ -270,7 +272,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 		tagsSearch.push({
 			label: translate[statute.title] || statute.title,
-			name: `statute_${statute.id}`,
+			name: `${statute.title}_${statute.id}`,
 			type: 0
 		})
 	));
@@ -313,6 +315,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		}
 		)
 	}
+	
 
 	const renderSelectorEtiquetas = () => {
 		return (
@@ -324,164 +327,178 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 							local_offer
 							</i>
 					</div>
-					<div onClick={() => setOpenClonar(true)} id={"modalCargarPlantillas"} >
+					{/* <div onClick={() => setOpenClonar(true)} id={"modalCargarPlantillas"} >
 						ModalClonar
-					</div>
+					</div> */}
 				</div>
-				<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", }}>
-					<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
-						<div style={{ marginBottom: "1em" }}>
-							<TextInput
-								id={"buscadorEtiqueta"}
-								placeholder={"Busca una etiqueta" /*TRADUCCION*/}
-								adornment={<Icon>search</Icon>}
-								type="text"
-								value={search}
-								styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.36)" }}
-								classes={{ input: props.classes.input }}
-								onChange={event => {
-									setSearch(event.target.value);
-								}}
-							/>
-						</div>
-
-						<div style={{ display: matchSearch.length > 0 ? "block" : "none" }}>
-							{matchSearch &&
-								!!companyStatutes &&
-								<ContenedorEtiquetas
-									search={true}
-									color={'rgba(128, 78, 33, 0.58)'}
-									addTag={addTag}
-									translate={translate}
-									title={translate.council_type}
-									tags={matchSearch.map(statute => {
-										return ({
-											label: translate[statute.title] || statute.title,
-											name: `statute_${statute.id}`,
-											type: 0
-										})
-									}
-									)}
-								/>
-							}
-						</div>
-						<div style={{}}>
-							{!!companyStatutes &&
-								<ContenedorEtiquetas
-									color={'#b47fb6'}
-									translate={translate}
-									addTag={addTag}
-									title={translate.council_type}
-									stylesContent={{
-										border: '1px solid #c196c3',
-										color: '#b47fb6',
+				<div style={{ minHeight: "300px" }}>
+					<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", }}>
+						<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
+							<div style={{ marginBottom: "1em", display: "flex" }}>
+								<TextInput
+									id={"buscadorEtiqueta"}
+									placeholder={"Busca una etiqueta" /*TRADUCCION*/}
+									adornment={<Icon>search</Icon>}
+									type="text"
+									value={search}
+									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.36)" }}
+									classes={{ input: props.classes.input }}
+									onChange={event => {
+										setSearch(event.target.value);
+										setOpenSelectorEtiquetas( true )
 									}}
-									tags={companyStatutes.filter(statute => {
-										return !testTags[`statute_${statute.id}`]
-									}).map(statute => (
-										{
-											label: translate[statute.title] || statute.title,
-											name: `statute_${statute.id}`,
-											type: 0
-										}
-									))}
 								/>
-							}
-							<ContenedorEtiquetas
-								color={'#7fa5b6'}
-								translate={translate}
-								addTag={addTag}
-								title={'Órganos de gobierno'/*TRADUCCION*/}
-								stylesContent={{
-									border: '1px solid #7fa5b6',
-									color: '#7fa5b6',
-								}}
-								tags={Object.keys(GOVERNING_BODY_TYPES).filter(key => (
-									!testTags[GOVERNING_BODY_TYPES[key].label] && GOVERNING_BODY_TYPES[key].value !== 0
-								)).map(key => (
-									{
-										name: GOVERNING_BODY_TYPES[key].label,
-										label: translate[GOVERNING_BODY_TYPES[key].label],
-										type: 1
+								<div style={{ color: "#a09aa0", display: "flex", alignItems: "center", cursor: "pointer" }} onClick={() => setOpenSelectorEtiquetas(!openSelectorEtiquetas)}>
+									{openSelectorEtiquetas ?
+										<i className="material-icons" style={{ fontSize: "40px" }}>
+											arrow_drop_up
+											</i>
+										:
+										<i className="material-icons" style={{ fontSize: "40px" }}>
+											arrow_drop_down
+										</i>
 									}
-								))}
-							/>
+								</div>
 
-							{!!draftTypes &&
-								<ContenedorEtiquetas
-									color={'#7fa5b6'}
-									addTag={addTag}
-									translate={translate}
-									title={translate.draft_type}
-									stylesContent={{
-										border: '1px solid #7fa5b6',
-										color: '#7fa5b6',
-									}}
-									tags={draftTypes.filter(type => {
-										return !testTags[type.label]
-									}).map(draft => (
-										{
-											name: draft.label,
-											label: translate[draft.label],
-											type: 2,
-											childs: draft.label === 'agenda'?
-												CBX.filterAgendaVotingTypes(votingTypes).filter(type => {
-													return !testTags[draft.label];
-												}).map(votingType => {
-														return (
-															<Etiqueta
-																childs={CBX.hasVotation(votingType.value) ?
-																	majorityTypes
-																		.filter(majority => {
-																			return !testTags[reduceTagName({
-																				name: draft.label,
-																				segments: [draft.label, votingType.label, majority.label],
-																			})]
-																		})
-																		.map(majority => {
-																			return (
-																				<Etiqueta
-																					key={`tag_${majority.value}`}
-																					text={translate[majority.label]}
-																					color={getTagColor(draft.value)}
-																					action={() => addTag({
-																						name: draft.label,
+							</div>
+							<Collapse in={openSelectorEtiquetas} timeout="auto" unmountOnExit >
+								<div style={{ display: matchSearch.length > 0 ? "block" : "none" }}>
+									{matchSearch &&
+										!!companyStatutes &&
+										<ContenedorEtiquetas
+											search={true}
+											color={'rgba(128, 78, 33, 0.58)'}
+											addTag={addTag}
+											translate={translate}
+											title={translate.council_type}
+											tags={matchSearch.map(statute => {
+												return ({
+													label: translate[statute.title] || statute.title,
+													name: `${statute.title}_${statute.id}`,
+													type: 0
+												})
+											}
+											)}
+										/>
+									}
+								</div>
+								<div style={{}}>
+									{!!companyStatutes &&
+										<ContenedorEtiquetas
+											color={'#b47fb6'}
+											translate={translate}
+											addTag={addTag}
+											title={translate.council_type}
+											stylesContent={{
+												border: '1px solid #c196c3',
+												color: '#b47fb6',
+											}}
+											tags={companyStatutes.filter(statute => {
+												return !testTags[translate[statute.title] ? `${translate[statute.title]}_${statute.id}` : `${statute.title}_${statute.id}`]
+											}).map(statute => (
+												{
+													label: translate[statute.title] || statute.title,
+													name: `${statute.title}_${statute.id}`,
+													type: 0
+												}
+											))}
+										/>
+									}
+									<ContenedorEtiquetas
+										color={'#7fa5b6'}
+										translate={translate}
+										addTag={addTag}
+										title={'Órganos de gobierno'/*TRADUCCION*/}
+										stylesContent={{
+											border: '1px solid #7fa5b6',
+											color: '#7fa5b6',
+										}}
+										tags={Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
+											{
+												name: GOVERNING_BODY_TYPES[key].label,
+												label: translate[GOVERNING_BODY_TYPES[key].label],
+												type: 1
+											}
+										))}
+									/>
+
+									{!!draftTypes &&
+										<ContenedorEtiquetas
+											color={'#7fa5b6'}
+											addTag={addTag}
+											translate={translate}
+											title={translate.draft_type}
+											stylesContent={{
+												border: '1px solid #7fa5b6',
+												color: '#7fa5b6',
+											}}
+											tags={draftTypes.filter(type => !testTags[type.label]).map(draft => (
+												{
+													name: draft.label,
+													label: translate[draft.label],
+													type: 2,
+													childs: draft.label === 'agenda' ?
+														CBX.filterAgendaVotingTypes(votingTypes)
+															.filter(type => {
+																return !testTags[type.name]
+															})
+															.map(votingType => {
+																return (
+																	<Etiqueta
+																		childs={CBX.hasVotation(votingType.value) ?
+																			majorityTypes
+																				.filter(majority => {
+																					return !testTags[formatTagLabel({
+																						name: majority.label,
 																						segments: [draft.label, votingType.label, majority.label],
-																						label: translate[majority.label],
-																						type: 2,
-																					})}
-																				/>
-																			)
-																		}) : null}
-																text={translate[votingType.label]}
-																color={getTagColor(draft.value)}
-																action={() => addTag({
-																	name: draft.label,
-																	segments: [draft.label, votingType.label],
-																	label: translate[votingType.label],
-																	type: 2,
-																})}
-																key={"tag_" + votingType.value}
-															/>
-														)
-													}) : null
-										}
-									))}
-								/>
-							}
-						</div>
-						<div style={{ marginBottom: "1em" }}>
-							<TextInput
-								id={"crearEtiquetasNuevas"}
-								type="text"
-								placeholder='Crear etiqueta nueva'//TRADUCCION
-								value={newTag}
-								onKeyUp={handleEnter}
-								styleInInput={{ minHeight: '2.5em', paddingLeft: "0.4em", paddingRight: "0.4em", fontSize: "12px", color: "rgba(0, 0, 0, 0.36)", background: "#f2f4f7" }}
-								onChange={event => {
-									setNewTag(event.target.value);
-								}}
-							/>
+																					})]
+																				})
+																				.map(majority => {
+																					return (
+																						<Etiqueta
+																							key={`tag_${majority.value}`}
+																							text={translate[majority.label]}
+																							color={getTagColor(draft.value)}
+																							action={() => addTag({
+																								name: majority.label,
+																								segments: [draft.label, votingType.label, majority.label],
+																								label: translate[majority.label],
+																								type: 2,
+																							})}
+																						/>
+																					)
+																				}) : null}
+																		text={translate[votingType.label]}
+																		color={getTagColor(draft.value)}
+																		action={() => addTag({
+																			name: votingType.label,
+																			segments: [draft.label, votingType.label],
+																			label: translate[votingType.label],
+																			type: 2,
+																		})}
+																		key={"tag_" + votingType.value}
+																	/>
+																)
+															}) : null
+												}
+											))}
+										/>
+									}
+								</div>
+								<div style={{ marginBottom: "1em" }}>
+									<TextInput
+										id={"crearEtiquetasNuevas"}
+										type="text"
+										placeholder='Crear etiqueta nueva'//TRADUCCION
+										value={newTag}
+										onKeyUp={handleEnter}
+										styleInInput={{ minHeight: '2.5em', paddingLeft: "0.4em", paddingRight: "0.4em", fontSize: "12px", color: "rgba(0, 0, 0, 0.36)", background: "#f2f4f7" }}
+										onChange={event => {
+											setNewTag(event.target.value);
+										}}
+									/>
+								</div>
+							</Collapse>
 						</div>
 					</div>
 				</div>
@@ -512,12 +529,11 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		);
 	}
 
-
 	if (props.innerWidth > 960) {
 		return (
 			<Scrollbar>
 				<Grid spacing={16} style={{ height: "100%", width: "100%", marginBottom: "1em" }}>
-					<GridItem xs={12} lg={8} md={8} style={{ height: "100%" }}>
+					<GridItem xs={12} lg={8} md={8} style={{}}>
 						<Grid spacing={16} style={{ height: "100%" }}>
 							<GridItem xs={12} lg={12} md={12} >
 								{renderTitle()}
@@ -528,16 +544,23 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 							<GridItem xs={12} lg={12} md={12}>
 								{renderDescription()}
 							</GridItem>
-							<GridItem xs={12} lg={12} md={12}>
-								{renderRichEditor()}
-							</GridItem>
+							{openSelectorEtiquetas &&
+								<Fade show={openSelectorEtiquetas}>
+									{renderRichEditor()}
+								</Fade>
+							}
 						</Grid>
 					</GridItem>
 					<GridItem xs={12} lg={4} md={4} style={{}}>
 						{renderSelectorEtiquetas()}
 					</GridItem>
+					{!openSelectorEtiquetas &&
+						<Fade show={!openSelectorEtiquetas}>
+							{renderRichEditor()}
+						</Fade>
+					}
 				</Grid>
-			</Scrollbar>
+			</Scrollbar >
 		);
 	} else {
 		return (
@@ -581,6 +604,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 
 
 	const plantillasFiltradas = async () => {
+		console.log(Object.keys(testTags))
 		const response = await client.query({
 			query: companyDrafts,
 			variables: {
@@ -643,7 +667,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 	companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 		tagsSearch.push({
 			name: `${statute.title}_${statute.id}`,
-			label: `statute_${statute.id}`,
+			label: statute.title,
 			type: 0
 		})
 	));
@@ -714,7 +738,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 		}
 
 		const columns = buildTagColumns(testTags);
-
+	
 		return (
 			<div style={{ display: isMobile ? "" : 'flex' }}>
 				{Object.keys(columns).map(key => (
@@ -858,7 +882,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 																		}}
 																		tags={companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 																			{
-																				name: `statute_${statute.id}`,
+																				name: `${statute.label}_${statute.id}`,
 																				label: statute.title,
 																				type: 0
 																			}
@@ -1019,6 +1043,32 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 
 }
 
+
+const Fade = ({ show, children }) => {
+	const [render, setRender] = React.useState(show);
+
+	React.useEffect(() => {
+		if (show) setRender(true);
+	}, [show]);
+
+	const onAnimationEnd = () => {
+		if (!show) setRender(false);
+	};
+
+	return (
+		render && (
+			<GridItem xs={12} lg={12} md={12}
+				style={{ animation: `${show ? "fadeIn" : "fadeOut"} 1s` }}
+				onAnimationEnd={onAnimationEnd}
+			>
+				{children}
+			</GridItem>
+		)
+	);
+};
+
+
+
 const regularCardStyle = {
 	cardTitle: {
 		fontSize: "1em",
@@ -1052,7 +1102,7 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate 
 					}}
 					action={
 						<IconButton
-							style={{ top: '5px', width:"35px" }}
+							style={{ top: '5px', width: "35px" }}
 							onClick={toggleExpanded}
 							aria-expanded={expanded}
 							aria-label="Show more"
@@ -1071,8 +1121,8 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate 
 				<Collapse in={expanded} timeout="auto" unmountOnExit >
 					<div style={{ paddingLeft: "1.5em" }}>
 						<div>{translate.title}: {item.title}</div>
-						<div style={{display:"flex"}}>{translate.description}: 
-						<div style={{paddingLeft:"0.3em"}} dangerouslySetInnerHTML={{
+						<div style={{ display: "flex" }}>{translate.description}:
+						<div style={{ paddingLeft: "0.3em" }} dangerouslySetInnerHTML={{
 								__html: item.text
 							}} ></div>
 						</div>
@@ -1125,6 +1175,10 @@ export const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag
 export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, addTag, translate, search }) => {
 	const [open, setOpen] = React.useState(false);
 
+	const toggle = () => {
+		setOpen(!open)
+	}
+	
 	if (search) {
 		return (
 			<div style={{
@@ -1141,7 +1195,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 									key={`tag_${index}`}
 									childs={tag.childs}
 									text={translate[tag.label] || tag.label}
-									color={color ? levelColor[tag.type] : color}
+									color={getTagColor(tag.type)}
 									action={() => addTag(tag)}
 								/>
 							))}
@@ -1164,7 +1218,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 				...stylesContent
 			}}
 			>
-				<div style={{ alignItems: "center", justifyContent: "space-between", display: "flex", width: "100%", cursor: "pointer", }} onClick={() => setOpen(!open)}>
+				<div style={{ alignItems: "center", justifyContent: "space-between", display: "flex", width: "100%", cursor: "pointer", }} onClick={toggle}>
 					<div>{title}</div>
 					<div style={{ display: "flex", alignItems: "center" }}>
 						{open ?
@@ -1204,8 +1258,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 export const Etiqueta = ({ text, color, childs, width, etiquetas, addTag, action }) => {
 	const [open, setOpen] = React.useState(false);
 	const [openTimeOut, setOpenTimeOut] = React.useState(false);
-
-
+	
 	const toggle = () => {
 		let time = open ? 200 : 0;
 		setTimeout(() => setOpenTimeOut(!open), time);
