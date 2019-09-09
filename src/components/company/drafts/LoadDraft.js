@@ -51,6 +51,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 	const [vars, setVars] = React.useState({});
 	const [varsLoading, setVarsLoading] = React.useState(true);
 
+
 	const plantillasFiltradas = async () => {
 		setDraftLoading(true);
 		const response = await client.query({

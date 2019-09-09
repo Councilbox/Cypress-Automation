@@ -1044,6 +1044,16 @@ export const getActPointSubjectType = () => {
 	return 2;
 };
 
+export const generateStatuteTag = (statute, translate) => {
+	return {
+		[`statute_${statute.statuteId}`]: {
+			label: translate[statute.title] || statute.title,
+			name: `statute_${statute.statuteId}`,
+			type: 0
+		}
+	}
+}
+
 export const generateInitialDates = (statute) => {
 	if (statute.existsAdvanceNoticeDays === 1) {
 		const momentDate = moment(new Date().toISOString());
