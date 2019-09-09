@@ -28,7 +28,7 @@ const Councils = ({ data, translate, ...props }) => {
 		councilToDelete: "",
 		deleteModal: false,
 		selectedIds: new Map(),
-		limit:  DRAFTS_LIMITS[0],
+		limit: DRAFTS_LIMITS[0],
 		page: 1,
 	});
 
@@ -148,14 +148,15 @@ const Councils = ({ data, translate, ...props }) => {
 					</div>
 				) : (
 						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '13.5em'})`, overflow: 'hidden' }}>
-							<PaginationFooter
+							{/* <PaginationFooter
 								page={state.page}
 								translate={translate}
-								length={councils.length}
+								// length={councils.length}
+								length={25}
 								limit={state.limit}
 								total={50}
 								changePage={changePage}
-							/>
+							/> */}
 							<Scrollbar>
 								<div style={{ padding: "1em", paddingTop: '2em' }}>
 									{false ? (
@@ -179,17 +180,29 @@ const Councils = ({ data, translate, ...props }) => {
 												company={props.company}
 											/>
 											: (
-
-												<CouncilsList
-													openDeleteModal={openDeleteModal}
-													translate={translate}
-													select={select}
-													selectAll={selectAll}
-													selectedIds={state.selectedIds}
-													councils={councils}
-													company={props.company}
-													link={props.link}
-												/>
+												<div>
+													<CouncilsList
+														openDeleteModal={openDeleteModal}
+														translate={translate}
+														select={select}
+														selectAll={selectAll}
+														selectedIds={state.selectedIds}
+														councils={councils}
+														company={props.company}
+														link={props.link}
+													/>
+													<Grid style={{ padding: '2em 2em 1em 2em' }}>
+														<PaginationFooter
+															page={state.page}
+															translate={translate}
+															// length={councils.length}
+															length={25}
+															limit={state.limit}
+															total={50}
+															changePage={changePage}
+														/>
+													</Grid>
+												</div>
 											)
 									) : (
 												<span>{translate.no_results}</span>
