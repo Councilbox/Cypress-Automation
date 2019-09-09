@@ -64,18 +64,18 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	}
 
 	const formatLabelFromName = tag => {
-		if(tag.type === 0){
-			const title = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length-1]).title;
+		if (tag.type === 0) {
+			const title = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]).title;
 			return translate[title] || title;
 		}
 
 		return tag.segments ?
-		`${tag.segments.reduce((acc, curr) => {
-			if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
-			return acc;
-		}, '')}`
-		:
-		translate[tag.name]? translate[tag.name] : tag.name
+			`${tag.segments.reduce((acc, curr) => {
+				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
+				return acc;
+			}, '')}`
+			:
+			translate[tag.name] ? translate[tag.name] : tag.name
 	}
 
 	const reduceTagName = tag => {
@@ -106,14 +106,16 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 
 	React.useEffect(() => {
 		let formattedTags = {};
-		Object.keys(draft.tags).forEach(key => {
-			formattedTags[reduceTagName(draft.tags[key])] = {
-				...draft.tags[key],
-				label: formatLabelFromName(draft.tags[key])
-			}
-		})
+		if (draft.tags) {
+			Object.keys(draft.tags).forEach(key => {
+				formattedTags[reduceTagName(draft.tags[key])] = {
+					...draft.tags[key],
+					label: formatLabelFromName(draft.tags[key])
+				}
+			})
 
-		setTestTags({ ...formattedTags });
+			setTestTags({ ...formattedTags });
+		}
 	}, []);
 
 	const renderTitle = () => {
@@ -315,7 +317,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		}
 		)
 	}
-	
+
 
 	const renderSelectorEtiquetas = () => {
 		return (
@@ -345,7 +347,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 									classes={{ input: props.classes.input }}
 									onChange={event => {
 										setSearch(event.target.value);
-										setOpenSelectorEtiquetas( true )
+										setOpenSelectorEtiquetas(true)
 									}}
 								/>
 								<div style={{ color: "#a09aa0", display: "flex", alignItems: "center", cursor: "pointer" }} onClick={() => setOpenSelectorEtiquetas(!openSelectorEtiquetas)}>
@@ -738,7 +740,7 @@ const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes
 		}
 
 		const columns = buildTagColumns(testTags);
-	
+
 		return (
 			<div style={{ display: isMobile ? "" : 'flex' }}>
 				{Object.keys(columns).map(key => (
@@ -1178,7 +1180,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 	const toggle = () => {
 		setOpen(!open)
 	}
-	
+
 	if (search) {
 		return (
 			<div style={{
@@ -1258,7 +1260,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 export const Etiqueta = ({ text, color, childs, width, etiquetas, addTag, action }) => {
 	const [open, setOpen] = React.useState(false);
 	const [openTimeOut, setOpenTimeOut] = React.useState(false);
-	
+
 	const toggle = () => {
 		let time = open ? 200 : 0;
 		setTimeout(() => setOpenTimeOut(!open), time);
