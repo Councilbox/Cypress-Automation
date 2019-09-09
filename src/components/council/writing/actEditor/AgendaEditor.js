@@ -9,7 +9,7 @@ import { graphql, compose } from 'react-apollo';
 import VotingsTableFiltersContainer from '../../../council/live/voting/VotingsTableFiltersContainer';
 import CommentsTable from "../../live/comments/CommentsTable";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject } from '../../../../utils/CBX';
+import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag } from '../../../../utils/CBX';
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
 import { updateAgenda } from "../../../../queries/agenda";
@@ -336,6 +336,16 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 						loadDraft={loadDraft}
 						statute={council.statute}
 						statutes={data? data.companyStatutes : ''}
+						defaultTags={
+							{
+								"comments_and_agreements": {
+								active: true,
+								type: 2,
+								name: 'comments_and_agreements',
+								label: translate.comments_and_agreements
+							},
+							...generateStatuteTag(council.statute, translate)
+						}}
 						draftType={state.draftType}
 					/>
 				</DialogContent>

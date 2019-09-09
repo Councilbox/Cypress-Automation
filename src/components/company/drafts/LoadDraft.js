@@ -51,7 +51,6 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 	const [vars, setVars] = React.useState({});
 	const [varsLoading, setVarsLoading] = React.useState(true);
 
-
 	const plantillasFiltradas = async () => {
 		setDraftLoading(true);
 		const response = await client.query({
@@ -194,19 +193,19 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 					</div>
 				)
 			}
-	
+
 			const buildTagColumns = tags => {
 				const columns = {};
 				Object.keys(tags).forEach(key => {
 					const tag = tags[key];
 					columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
 				});
-	
+
 				return columns;
 			}
-	
+
 			const columns = buildTagColumns(testTags);
-	
+
 			return (
 				<div style={{ display: isMobile ? "" : 'flex' }}>
 					{Object.keys(columns).map(key => (
@@ -677,8 +676,8 @@ const EtiquetaBase = ({ text, color, action, props }) => {
 
 const draftTagSearch = gql`
 query DraftTagSearch($companyId: Int! ,$tags: [String], $options: OptionsInput){
-				draftTagSearch(companyId: $companyId, tags: $tags, options: $options){
-				list {
+	draftTagSearch(companyId: $companyId, tags: $tags, options: $options){
+		list {
 			id
 			userId
 			companyId

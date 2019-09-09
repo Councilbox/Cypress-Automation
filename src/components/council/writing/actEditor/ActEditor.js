@@ -22,7 +22,15 @@ import { updateCouncilAct } from '../../../../queries';
 import DownloadActPDF from '../actViewer/DownloadActPDF';
 import ExportActToMenu from '../actViewer/ExportActToMenu';
 import { ConfigContext } from '../../../../containers/AppControl';
-import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues, hasSecondCall, generateAgendaText, getGoverningBodySignatories } from '../../../../utils/CBX';
+import {
+	getActPointSubjectType,
+	checkForUnclosedBraces,
+	changeVariablesToValues,
+	hasSecondCall,
+	generateAgendaText,
+	getGoverningBodySignatories,
+	generateStatuteTag
+} from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
 
@@ -56,6 +64,7 @@ export const CouncilActData = gql`
 			}
 			statute {
 				id
+				title
 				statuteId
 				prototype
 				existsSecondCall
@@ -719,6 +728,15 @@ class ActEditor extends Component {
 									companyId={this.props.company.id}
 									loadDraft={this.loadDraft}
 									statute={council.statute}
+									defaultTags={{
+										[this.state.load]: {
+											active: true,
+											type: 2,
+											name: this.state.load,
+											label: translate[this.state.load]
+										},
+										...generateStatuteTag(council.statute, translate)
+									}}
 									statutes={this.state.data.companyStatutes}
 									draftType={this.state.draftType}
 								/>
@@ -965,7 +983,7 @@ export const generateActTags = (type, data, translate) => {
 
 			return tags;
 
-		case 'certHeader': 
+		case 'certHeader':
 			tags = [
 				smartTags.businessName,
 				smartTags.dateStart
