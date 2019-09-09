@@ -62,18 +62,18 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	}
 
 	const formatLabelFromName = tag => {
-		if(tag.type === 0){
+		if (tag.type === 0) {
 			const title = companyStatutes.find(statute => statute.id === +tag.name.split('_')[1]).title;
 			return translate[title] || title;
 		}
 
 		return tag.segments ?
-		`${tag.segments.reduce((acc, curr) => {
-			if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
-			return acc;
-		}, '')}`
-		:
-		translate[tag.name]? translate[tag.name] : tag.name
+			`${tag.segments.reduce((acc, curr) => {
+				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
+				return acc;
+			}, '')}`
+			:
+			translate[tag.name] ? translate[tag.name] : tag.name
 	}
 
 	const reduceTagName = tag => {
@@ -407,33 +407,44 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 								))}
 							/>
 
-							{!!draftTypes &&
-								<ContenedorEtiquetas
-									color={'#7fa5b6'}
-									addTag={addTag}
-									translate={translate}
-									title={translate.draft_type}
-									stylesContent={{
-										border: '1px solid #7fa5b6',
-										color: '#7fa5b6',
-									}}
-									tags={draftTypes.filter(type => {
-										return !testTags[type.label]
-									}).map(draft => (
-										{
-											name: draft.label,
-											label: translate[draft.label],
-											type: 2,
-											childs: draft.label === 'agenda'?
-												CBX.filterAgendaVotingTypes(votingTypes).filter(type => {
-													return !testTags[draft.label];
-												}).map(votingType => {
-														return (
-															<Etiqueta
-																childs={CBX.hasVotation(votingType.value) ?
-																	majorityTypes
-																		.filter(majority => {
-																			return !testTags[reduceTagName({
+						{!!draftTypes &&
+							<ContenedorEtiquetas
+								color={'#7fa5b6'}
+								addTag={addTag}
+								translate={translate}
+								title={translate.draft_type}
+								stylesContent={{
+									border: '1px solid #7fa5b6',
+									color: '#7fa5b6',
+								}}
+								tags={draftTypes.filter(type => {
+									return !testTags[type.label]
+								}).map(draft => (
+									{
+										name: draft.label,
+										label: translate[draft.label],
+										type: 2,
+										childs: draft.label === 'agenda' ?
+											CBX.filterAgendaVotingTypes(votingTypes).filter(type => {
+												return !testTags[draft.label];
+											}).map(votingType => {
+												return (
+													<Etiqueta
+														childs={CBX.hasVotation(votingType.value) ?
+															majorityTypes
+																.filter(majority => {
+																	return !testTags[reduceTagName({
+																		name: draft.label,
+																		segments: [draft.label, votingType.label, majority.label],
+																	})]
+																})
+																.map(majority => {
+																	return (
+																		<Etiqueta
+																			key={`tag_${majority.value}`}
+																			text={translate[majority.label]}
+																			color={getTagColor(draft.value)}
+																			action={() => addTag({
 																				name: draft.label,
 																				segments: [draft.label, votingType.label, majority.label],
 																			})]
@@ -485,30 +496,31 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 						</div>
 					</div>
 				</div>
+				</div>
 
-				<AlertConfirm
-					requestClose={() => setOpenClonar(false)}
-					open={openClonar}
-					hideAccept={true}
-					bodyText={
-						<ModalCargarPlantillas
-							props={props}
-							companyStatutes={companyStatutes}
-							draftTypes={draftTypes}
-							votingTypes={votingTypes}
-							majorityTypes={majorityTypes}
-							formatTagLabel={formatTagLabel}
-							addTag={addTag}
-							translate={translate}
-							match={match}
-							client={client}
-						/>
-					}
-					title={"Cargar Plantilla"}
-					bodyStyle={{ width: "75vw", minWidth: "50vw", }}
-				/>
+			<AlertConfirm
+				requestClose={() => setOpenClonar(false)}
+				open={openClonar}
+				hideAccept={true}
+				bodyText={
+					<ModalCargarPlantillas
+						props={props}
+						companyStatutes={companyStatutes}
+						draftTypes={draftTypes}
+						votingTypes={votingTypes}
+						majorityTypes={majorityTypes}
+						formatTagLabel={formatTagLabel}
+						addTag={addTag}
+						translate={translate}
+						match={match}
+						client={client}
+					/>
+				}
+				title={"Cargar Plantilla"}
+				bodyStyle={{ width: "75vw", minWidth: "50vw", }}
+			/>
 
-			</React.Fragment>
+			</React.Fragment >
 		);
 	}
 
