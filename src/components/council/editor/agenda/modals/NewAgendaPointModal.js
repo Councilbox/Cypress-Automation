@@ -122,7 +122,6 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 	const _renderNewPointBody = () => {
 		const errors = state.errors;
 		const agenda = state.newPoint;
-		console.log(agenda)
 		return (
 			<div
 				style={{
@@ -144,7 +143,8 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 								type: 2,
 								name: 'agenda',
 								label: translate.agenda
-							}
+							},
+							...CBX.generateStatuteTag(statute, translate)
 						}}
 					/>
 				)}

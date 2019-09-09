@@ -562,7 +562,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 														label: translate.convene_header,
 														name: 'convene_header',
 														type: 2
-													}
+													},
+													...CBX.generateStatuteTag(statute, translate)
 												}}
 												draftType={
 													draftTypes.filter(
@@ -602,7 +603,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 														type: 2,
 														name: 'convene_footer',
 														label: translate.convene_footer
-													}
+													},
+													...CBX.generateStatuteTag(statute, translate)
 												}}
 												draftType={
 													draftTypes.filter(draft => draft.label === "convene_footer")[0].value

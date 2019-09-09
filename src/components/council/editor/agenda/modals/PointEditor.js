@@ -123,7 +123,8 @@ class PointEditor extends React.Component {
 								type: 2,
 								name: 'agenda',
 								label: translate.agenda
-							}
+							},
+							...CBX.generateStatuteTag(statute, translate)
 						}}
 						statutes={companyStatutes}
 						draftTypes={draftTypes}
