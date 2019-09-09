@@ -2,10 +2,10 @@ import React from "react";
 import { BasicButton, AlertConfirm } from "../../../displayComponents";
 import { getSecondary } from "../../../styles/colors";
 import LoadDraft from "./LoadDraft";
-import { withRouter } from "react-router-dom";
 
+const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes, statute, defaultTags, ...props }, ref) => {
+	//const modal = React.useRef();
 
-const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes, statute, defaultTags, ...props }) => {
 	const [state, setState] = React.useState({
 		loadDraft: false
 	});
@@ -15,6 +15,10 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 			loadDraft: false
 		});
 	};
+
+	React.useImperativeHandle(ref, () => ({
+		close
+	}));
 
 	const _renderModalBody = () => {
 		return (
@@ -72,4 +76,4 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 
 }
 
-export default withRouter(LoadDraftModal);
+export default React.forwardRef(LoadDraftModal);
