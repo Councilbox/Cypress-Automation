@@ -107,12 +107,23 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 			council
 		}, translate);
 
+		const { segments } = draft.tags.agenda;
+		let majorityType = 0, subjectType = 0;
+
+		if(segments[1]){
+			subjectType = votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
+		}
+
+		if(segments[2]){
+			majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
+		}
+
 		updateState({
 			description: correctedText,
 			majority: draft.majority,
-			majorityType: draft.majorityType,
+			majorityType,
 			majorityDivider: draft.majorityDivider,
-			subjectType: filteredTypes.find(type => type.value === draft.votationType) ? draft.votationType : filteredTypes[0].value,
+			subjectType,
 			agendaSubject: draft.title
 		});
 

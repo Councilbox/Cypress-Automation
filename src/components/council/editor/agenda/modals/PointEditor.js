@@ -51,12 +51,25 @@ class PointEditor extends React.Component {
 			company: this.props.company,
 			council: this.props.council
 		}, this.props.translate);
+
+		const { segments } = draft.tags.agenda;
+		let majorityType = 0, subjectType = 0;
+
+		if(segments[1]){
+			subjectType = this.props.votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
+		}
+
+		if(segments[2]){
+			majorityType = this.props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
+		}
+
+
 		this.updateState({
 			description: correctedText,
 			majority: draft.majority,
-			majorityType: draft.majorityType,
+			majorityType,
 			majorityDivider: draft.majorityDivider,
-			subjectType: draft.votationType,
+			subjectType,
 			agendaSubject: draft.title
 		});
 		this.editor.setValue(correctedText);
