@@ -30,7 +30,8 @@ Quill.register(AlignStyle, true);
 
 class RichTextInput extends React.Component {
 	state = {
-		value: this.props.value
+		value: this.props.value,
+		showTags: false
 	};
 
 	componentDidMount() {
@@ -94,7 +95,11 @@ class RichTextInput extends React.Component {
 					[{ 'align': 'justify' }], ['custom']
 				],
 				handlers: {
-					'custom': ()=> {console.log("ZSDASDAD")}
+					// 'custom': (...args) => {
+					// 	console.log(args);
+					// 	console.log(document.getElementById('pruebas'));
+					// 	//this.setState({ showTags: true })
+					// }
 				}
 			},
 			clipboard: {
@@ -146,7 +151,9 @@ class RichTextInput extends React.Component {
 											{!!tags &&
 												<SmartTags
 													tags={tags}
+													open={this.state.showTags}
 													translate={translate}
+													requestClose={() => this.setState({ showTags: false })}
 													paste={this.paste}
 												/>
 											}
@@ -161,7 +168,15 @@ class RichTextInput extends React.Component {
 								</React.Fragment>
 							}
 						</div>
-						{
+						<div
+							onClick={event => {
+								if(event.target.className === 'ql-custom'){
+									this.setState({
+										showTags: event.target
+									})
+								}
+							}}
+						>
 							<ReactQuill value={this.state.value}
 								onChange={this.onChange}
 								modules={modules}
@@ -169,7 +184,7 @@ class RichTextInput extends React.Component {
 								id={this.props.id}
 								className={`text-editor ${!!errorText ? 'text-editor-error' : ''}`}
 							/>
-						}
+						</div>
 					</GridItem>
 				</Grid>
 			</React.Fragment>
@@ -178,7 +193,7 @@ class RichTextInput extends React.Component {
 }
 
 
-const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, paste, client }) => {
+const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client }) => {
 	const secondary = getSecondary();
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
@@ -225,28 +240,12 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 				horizontal: 'right',
 			}}
 			color={getPrimary()}
+			requestClose={requestClose}
+			open={open}
 			loading={false}
 			paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
 			styleBody={{}}
-			Component={() =>
-				<MenuItem
-					style={{
-						height: '100%',
-						border: `solid 1px ${getPrimary()}`,
-						borderRadius: '3px',
-						margin: 0,
-						padding: 0,
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						// marginTop: '14px',
-						padding: "3px 7px",
-						color: getPrimary(),
-					}}
-				>
-					&lt;tags&gt;
-										</MenuItem>
-			}
+			Component={() => <span/> }
 			text={translate.add_agenda_point}
 			textStyle={"ETIQUETA"}
 			items={
