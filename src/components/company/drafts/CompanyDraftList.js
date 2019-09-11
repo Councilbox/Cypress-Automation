@@ -11,7 +11,8 @@ import {
 	Grid,
 	GridItem,
 	EnhancedTable,
-	ErrorWrapper
+	ErrorWrapper,
+	Scrollbar
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { Card } from 'material-ui';
@@ -93,7 +94,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 
 	return (
 		<React.Fragment>
-			<div style={{display: 'flex', justifyContent: isMobile? 'space-between' : 'flex-start', marginBottom: '1em'}}>
+			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em' }}>
 				<BasicButton
 					text={translate.drafts_new}
 					color={primary}
@@ -126,7 +127,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 					/>
 				</Link>
 			</div>
-			<React.Fragment>
+			<div style={{ height:' calc( 100% - 2em )'}}>
 				{error ? (
 					<div>
 						{error.graphQLErrors.map((error, index) => {
@@ -140,69 +141,69 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 						})}
 					</div>
 				) : (
-					!!companyDrafts && (
-						<EnhancedTable
-							translate={translate}
-							defaultLimit={DRAFTS_LIMITS[0]}
-							defaultFilter={"title"}
-							limits={DRAFTS_LIMITS}
-							page={1}
-							loading={loading}
-							length={companyDrafts.list.length}
-							total={companyDrafts.total}
-							selectedCategories={[{
-								field: "type",
-								value: 'all',
-								label: translate.all_plural
-							}]}
-							categories={[[
-								...draftTypes.map(type => {
-									return {
-										field: "type",
-										value: type.value,
-										label: translate[type.label] || type.label
-									}
-								}),
-								{
+						!!companyDrafts && (
+							<EnhancedTable
+								translate={translate}
+								defaultLimit={DRAFTS_LIMITS[0]}
+								defaultFilter={"title"}
+								limits={DRAFTS_LIMITS}
+								page={1}
+								loading={loading}
+								length={companyDrafts.list.length}
+								total={companyDrafts.total}
+								selectedCategories={[{
 									field: "type",
 									value: 'all',
 									label: translate.all_plural
-								},
-							]]}
-							refetch={data.refetch}
-							headers={[
-								{
-									text: translate.name,
-									name: "title",
-									canOrder: true
-								},
-								{
-									name: "type",
-									text: translate.type,
-									canOrder: true
-								},
-								{
-									name: '',
-									text: ''
-								}
-							]}
-							action={_renderDeleteIcon}
-							companyID={company.id}
-						>
-							{companyDrafts.list.map(draft => {
-								return (
-									<HoverableRow
-										key={`draft${draft.id}`}
-										translate={translate}
-										renderDeleteIcon={_renderDeleteIcon}
-										draft={draft}
-										draftTypes={draftTypes}
-										company={company}
-									/>
-								);
-							})}
-					</EnhancedTable>
-				))}
+								}]}
+								categories={[[
+									...draftTypes.map(type => {
+										return {
+											field: "type",
+											value: type.value,
+											label: translate[type.label] || type.label
+										}
+									}),
+									{
+										field: "type",
+										value: 'all',
+										label: translate.all_plural
+									},
+								]]}
+								refetch={data.refetch}
+								headers={[
+									{
+										text: translate.name,
+										name: "title",
+										canOrder: true
+									},
+									{
+										name: "type",
+										text: translate.type,
+										canOrder: true
+									},
+									{
+										name: '',
+										text: ''
+									}
+								]}
+								action={_renderDeleteIcon}
+								companyID={company.id}
+							>
+								{companyDrafts.list.map(draft => {
+									return (
+										<HoverableRow
+											key={`draft${draft.id}`}
+											translate={translate}
+											renderDeleteIcon={_renderDeleteIcon}
+											draft={draft}
+											draftTypes={draftTypes}
+											company={company}
+										/>
+									);
+								})}
+							</EnhancedTable>
+						))}
 
 				<AlertConfirm
 					title={translate.attention}
@@ -216,7 +217,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 						setState({ deleteModal: false })
 					}
 				/>
-			</React.Fragment>
+			</div>
 		</React.Fragment>
 	);
 }
@@ -224,29 +225,30 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 const HoverableRow = ({ draft, draftTypes, company, translate, ...props }) => {
 	const [show, handlers] = useHoverRow();
 
-	if(isMobile){
-		return(
+	if (isMobile) {
+		return (
 			<Card
-				style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
-				onClick={() => { bHistory.push(`/company/${company.id}/draft/${draft.id}`);
-			}}
+				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
+				onClick={() => {
+					bHistory.push(`/company/${company.id}/draft/${draft.id}`);
+				}}
 			>
 				<Grid>
-					<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
 						{translate.name}
 					</GridItem>
 					<GridItem xs={7} md={7}>
 						{draft.title}
 					</GridItem>
 
-					<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
 						{translate.type}
 					</GridItem>
 					<GridItem xs={7} md={7}>
 						{translate[draftTypes[draft.type].label]}
 					</GridItem>
 				</Grid>
-				<div style={{position: 'absolute', top: '5px', right: '5px'}}>
+				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
 					{props.renderDeleteIcon(draft.id)}
 				</div>
 			</Card>
@@ -267,10 +269,10 @@ const HoverableRow = ({ draft, draftTypes, company, translate, ...props }) => {
 				{draft.title}
 			</TableCell>
 			<TableCell>
-				{translate[draftTypes[draft.type]? translate[draftTypes[draft.type].label] : ""] }
+				{translate[draftTypes[draft.type] ? translate[draftTypes[draft.type].label] : ""]}
 			</TableCell>
 			<TableCell>
-				<div style={{width: '3em'}}>
+				<div style={{ width: '3em' }}>
 					{show && props.renderDeleteIcon(draft.id)}
 				</div>
 			</TableCell>

@@ -83,8 +83,6 @@ class RichTextInput extends React.Component {
 		}, 500);
 	};
 
-
-
 	render() {
 		const { tags, loadDraft, errorText, required, translate } = this.props;
 		const modules = {
@@ -93,14 +91,17 @@ class RichTextInput extends React.Component {
 					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify' }]
+					[{ 'align': 'justify' }], ['custom']
 				],
+				handlers: {
+					'custom': ()=> {console.log("ZSDASDAD")}
+				}
 			},
 			clipboard: {
 				matchVisual: false,
 			}
 		};
-		
+
 		return (
 			<React.Fragment>
 				<Typography
@@ -296,8 +297,8 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 						}}
 					>
 						{/* //TRADUCCION */}
-						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth:"700px", marginBottom:"1em" }} >
-							<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight:"0.3em" }} onClick={() => setOcultar(false)}>
+						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth: "700px", marginBottom: "1em" }} >
+							<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em" }} onClick={() => setOcultar(false)}>
 								help
 										</i>
 							{!ocultar &&

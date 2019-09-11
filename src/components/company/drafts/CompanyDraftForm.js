@@ -20,11 +20,13 @@ import { withApollo } from 'react-apollo';
 import { isMobile } from "react-device-detect";
 import gql from 'graphql-tag';
 import { companyDrafts } from "../../../queries/companyDrafts";
+import { companyTypes } from "../../../queries";
 
 
 
 
-export const levelColor = ['#b47fb6', '#7fa5b6', '#7f94b6'];
+
+export const levelColor = ['#866666', '#b47fb6', '#7fa5b6', '#7f94b6'];
 
 const styles = {
 	'input': {
@@ -38,11 +40,12 @@ const styles = {
 	}
 };
 
-const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, companyTypes, match, client, ...props }) => {
+const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props }) => {
 	const [search, setSearch] = React.useState('');
 	const [newTag, setNewTag] = React.useState('');
 	const [testTags, setTestTags] = React.useState({});
 	const [tagsSend, setTagsSend] = React.useState([]);
+	const [companyT, setCompanyT] = React.useState([]);
 	const [openClonar, setOpenClonar] = React.useState(false);
 	const [openSelectorEtiquetas, setOpenSelectorEtiquetas] = React.useState(false);
 
@@ -103,6 +106,16 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		updateState({ tags: data })
 	}
 
+	const getCompanyTypes = async () => {
+		const response = await client.query({
+			query: companyTypes
+		});
+		setCompanyT(response.data.companyTypes)
+	}
+
+	React.useEffect(() => {
+		getCompanyTypes()
+	}, []);
 
 	React.useEffect(() => {
 		let formattedTags = {};
@@ -329,11 +342,8 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 							local_offer
 							</i>
 					</div>
-					{/* <div onClick={() => setOpenClonar(true)} id={"modalCargarPlantillas"} >
-						ModalClonar
-					</div> */}
 				</div>
-				<div style={{ minHeight: "300px" }}>
+				<div style={{ minHeight: props.innerWidth > 960 ? "300px" : ""}}>
 					<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", }}>
 						<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
 							<div style={{ marginBottom: "1em", display: "flex" }}>
@@ -377,7 +387,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 												return ({
 													label: translate[statute.title] || statute.title,
 													name: `${statute.title}_${statute.id}`,
-													type: 0
+													type: statute.type
 												})
 											}
 											)}
@@ -385,6 +395,27 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 									}
 								</div>
 								<div style={{}}>
+									<ContenedorEtiquetas
+										color={levelColor[0]}
+										translate={translate}
+										addTag={addTag}
+										title={"Tipo de organización"}
+										stylesContent={{
+											border: `1px solid ${levelColor[0]}`,
+											color: levelColor[0],
+										}}
+										tags={
+											companyT.filter(statute => {
+												return !testTags[translate[statute.label] ? `${translate[statute.label]}_${statute.id}` : `${statute.label}_${statute.id}`]
+											}).map(statute => (
+												{
+													label: translate[statute.label] || statute.label,
+													name: `${statute.label}_`,
+													type: 0
+												}
+											)
+											)}
+									/>
 									{!!companyStatutes &&
 										<ContenedorEtiquetas
 											color={'#b47fb6'}
@@ -401,7 +432,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 												{
 													label: translate[statute.title] || statute.title,
 													name: `${statute.title}_${statute.id}`,
-													type: 0
+													type: 1
 												}
 											))}
 										/>
@@ -419,7 +450,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 											{
 												name: GOVERNING_BODY_TYPES[key].label,
 												label: translate[GOVERNING_BODY_TYPES[key].label],
-												type: 1
+												type: 2
 											}
 										))}
 									/>
@@ -438,7 +469,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 												{
 													name: draft.label,
 													label: translate[draft.label],
-													type: 2,
+													type: 3,
 													childs: draft.label === 'agenda' ?
 														CBX.filterAgendaVotingTypes(votingTypes)
 															.filter(type => {
@@ -1370,9 +1401,10 @@ export const EtiquetaBase = ({ text, color, action, props }) => {
 
 export const getTagColor = type => {
 	const colors = {
-		0: 'rgba(125, 33, 128, 0.58)',
-		1: 'rgba(33, 98, 128, 0.58)',
-		2: 'rgba(33, 70, 128, 0.58)',
+		0: 'rgb(134, 102, 102)',
+		1: 'rgba(125, 33, 128, 0.58)',
+		2: 'rgba(33, 98, 128, 0.58)',
+		3: 'rgba(33, 70, 128, 0.58)',
 		99: 'rgba(128, 78, 33, 0.58)'
 	}
 
@@ -1393,8 +1425,8 @@ CompanyDraftForm.propTypes = {
 //options
 const draftTagSearch = gql`
 query DraftTagSearch($companyId: Int! ,$tags: [String], $options: OptionsInput){
-				draftTagSearch(companyId: $companyId, tags: $tags, options: $options){
-				list {
+	draftTagSearch(companyId: $companyId, tags: $tags, options: $options){
+		list {
 			id
 			userId
 			companyId

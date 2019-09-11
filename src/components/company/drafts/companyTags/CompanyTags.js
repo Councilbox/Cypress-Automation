@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CloseIcon, SectionTitle } from '../../../../displayComponents';
+import { CloseIcon, SectionTitle, Scrollbar } from '../../../../displayComponents';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { useHoverRow } from '../../../../hooks';
 import { getPrimary } from '../../../../styles/colors';
@@ -46,7 +46,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
     }
 
     React.useEffect(() => {
-        if(!data){
+        if (!data) {
             getData();
         }
     }, [company.id]);
@@ -79,7 +79,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
     }
 
     return (
-        <div>
+        <div style={{height:"calc( 100% - 5em )"}}>
             <SectionTitle
                 color={primary}
                 title="Etiquetas de compañía" //TRADUCCION
@@ -102,36 +102,38 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
             }
 
             {data &&
-                <div style={{marginTop: '1em'}}>
-                    {data.length > 0?
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>
-                                        Clave
+                <Scrollbar>
+                    <div style={{ marginTop: '1em' }}>
+                        {data.length > 0 ?
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>
+                                            Clave
                                     </TableCell>
-                                    <TableCell>
-                                        Valor
+                                        <TableCell>
+                                            Valor
                                     </TableCell>
-                                    <TableCell/>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {data.map(tag => (
-                                    <HoverableRow
-                                        key={`tag_${tag.id}`}
-                                        tag={tag}
-                                        editTag={openEditTag}
-                                        translate={translate}
-                                        deleteTag={deleteTag}
-                                    />
-                                ))}
-                            </TableBody>
-                        </Table>
-                    :
-                        translate.no_results
-                    }
-                </div>
+                                        <TableCell />
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {data.map(tag => (
+                                        <HoverableRow
+                                            key={`tag_${tag.id}`}
+                                            tag={tag}
+                                            editTag={openEditTag}
+                                            translate={translate}
+                                            deleteTag={deleteTag}
+                                        />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                            :
+                            translate.no_results
+                        }
+                    </div>
+                </Scrollbar>
 
             }
         </div>
@@ -151,7 +153,7 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                 {tag.value}
             </TableCell>
             <TableCell>
-                <div style={{width: '4em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <div style={{ width: '4em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     {show &&
                         <React.Fragment>
                             <IconButton

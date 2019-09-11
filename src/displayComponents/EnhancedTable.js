@@ -17,6 +17,7 @@ import Table, {
 import TableStyles from "../styles/table";
 import PaginationFooter from "./PaginationFooter";
 import { isMobile } from 'react-device-detect';
+import Scrollbar from "./Scrollbar";
 
 class EnhancedTable extends React.Component {
 	state = {
@@ -163,7 +164,7 @@ class EnhancedTable extends React.Component {
 		} = this.state;
 
 		return (
-			<div>
+			<div style={{height:"100%"}}>
 				{isMobile && !!this.props.menuButtons &&
 					this.props.menuButtons
 				}
@@ -251,48 +252,52 @@ class EnhancedTable extends React.Component {
 					</div>
 				</div>
 				{!isMobile ?
-					<Table style={{ maxWidth: "100%", tableLayout: 'auto' }}>
-						<TableHead>
-							<TableRow>
-								{headers.map((header, index) => {
-									return (
-										header.selectAll ?
-											<TableCell key={`header_${index}`}>
-												{header.selectAll}
-											</TableCell>
-											:
-											<TableCell
-												key={`header_${index}`}
-												sortDirection={
-													this.state.orderDirection
-												}
-												style={{ ...TableStyles.TH, paddingRight: "40px" }}
-											>
-												{header.canOrder ? (
-													<TableSortLabel
-														active={
-															header.name ===
-															this.state.orderBy
-														}
-														direction={
+					<div style={{ height: "calc( 100% - 10em )" }}>
+						<Scrollbar>
+							<Table style={{ maxWidth: "100%", tableLayout: 'auto' }}>
+								<TableHead>
+									<TableRow>
+										{headers.map((header, index) => {
+											return (
+												header.selectAll ?
+													<TableCell key={`header_${index}`}>
+														{header.selectAll}
+													</TableCell>
+													:
+													<TableCell
+														key={`header_${index}`}
+														sortDirection={
 															this.state.orderDirection
 														}
-														onClick={() =>
-															this.orderBy(header.name)
-														}
+														style={{ ...TableStyles.TH, paddingRight: "40px" }}
 													>
-														{header.text}
-													</TableSortLabel>
-												) : (
-														header.text
-													)}
-											</TableCell>
-									);
-								})}
-							</TableRow>
-						</TableHead>
-						<TableBody>{!loading && children}</TableBody>
-					</Table>
+														{header.canOrder ? (
+															<TableSortLabel
+																active={
+																	header.name ===
+																	this.state.orderBy
+																}
+																direction={
+																	this.state.orderDirection
+																}
+																onClick={() =>
+																	this.orderBy(header.name)
+																}
+															>
+																{header.text}
+															</TableSortLabel>
+														) : (
+																header.text
+															)}
+													</TableCell>
+											);
+										})}
+									</TableRow>
+								</TableHead>
+								<TableBody>{!loading && children}</TableBody>
+							</Table>
+						</Scrollbar>
+					</div>
 					:
 					children
 				}
