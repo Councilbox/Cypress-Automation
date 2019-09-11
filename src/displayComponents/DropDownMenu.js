@@ -25,9 +25,10 @@ const DropDownMenu = ({
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	React.useEffect(() => {
-		if(open && !anchorEl){
-			console.log(open);
+		if(open){
 			setAnchorEl(open);
+		} else {
+			setAnchorEl(null);
 		}
 	}, [open]);
 

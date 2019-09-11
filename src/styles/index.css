@@ -774,7 +774,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     margin-top: 0.8em;
 }
 
-/* ESTO CAMBIA LA APARIENCIA DEL BOTON TAGS EN RICH-QUILL */
+/* ESTO CAMBIA LA APARIENCIA DEL BOTON TAGS EN RICH-QUILL tambien se quita el color de los bordes */
 .ql-custom:before {
     display: inline-block;
     font: normal normal normal 15px FontAwesome;
@@ -787,3 +787,11 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     padding: 3px 7px;
     border-radius: 3px
 }
+
+.ql-snow.ql-toolbar button.ql-custom:focus{
+    color: none;
+    border: none;
+    background: none;
+    outline: none;
+}
+/*********************************************************/

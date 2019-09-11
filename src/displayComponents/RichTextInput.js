@@ -106,7 +106,7 @@ class RichTextInput extends React.Component {
 				matchVisual: false,
 			}
 		};
-
+		
 		return (
 			<React.Fragment>
 				<Typography
@@ -170,7 +170,7 @@ class RichTextInput extends React.Component {
 						</div>
 						<div
 							onClick={event => {
-								if(event.target.className === 'ql-custom'){
+								if (event.target.className === 'ql-custom') {
 									this.setState({
 										showTags: event.target
 									})
@@ -245,7 +245,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 			loading={false}
 			paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
 			styleBody={{}}
-			Component={() => <span/> }
+			Component={() => <span />}
 			text={translate.add_agenda_point}
 			textStyle={"ETIQUETA"}
 			items={
@@ -311,21 +311,23 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 										return (
 											<div
 												key={`tag_${tag.label}`}
-												onClick={() =>
-													paste(`<span style="color:${getPrimary()};" id="${tag.label}">${tag.getValue ? tag.getValue() : tag.value}</span>`)
-												}
+												onClick={() => {
+													paste(`<span id="${tag.label}">${tag.getValue ? tag.getValue() : tag.value}</span>`);
+													requestClose();
+												}}
 												style={{ color: getPrimary(), display: "inline-flex", marginRight: "1em", cursor: "pointer" }}
 											>
 												&lt;{tag.label}&gt;
-									</div>
+											</div>
 										);
 									})}
 									{(!loading && companyTags) && companyTags.map(tag => (
 										<div
 											key={`tag_${tag.id}`}
-											onClick={() =>
+											onClick={() => {
 												paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
-											}
+												requestClose();
+											}}
 											style={{ color: getPrimary(), display: "inline-flex", marginRight: "1em", cursor: "pointer" }}
 										>
 											&lt;{tag.key}&gt;
