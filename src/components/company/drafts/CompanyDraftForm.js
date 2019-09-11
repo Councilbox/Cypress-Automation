@@ -396,25 +396,23 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 								</div>
 								<div style={{}}>
 									<ContenedorEtiquetas
-										color={levelColor[0]}
+										color={getTagColor(3)}
 										translate={translate}
 										addTag={addTag}
 										title={"Tipo de organización"}
 										stylesContent={{
-											border: `1px solid ${levelColor[0]}`,
-											color: levelColor[0],
+											border: `1px solid ${getTagColor(3)}`,
+											color: getTagColor(3),
 										}}
-										tags={
-											companyT.filter(statute => {
-												return !testTags[translate[statute.label] ? `${translate[statute.label]}_${statute.id}` : `${statute.label}_${statute.id}`]
-											}).map(statute => (
-												{
-													label: translate[statute.label] || statute.label,
-													name: `${statute.label}_`,
-													type: 0
-												}
-											)
-											)}
+										tags={companyT.filter(companyType => {
+												return !testTags[companyType.label]
+										}).map(companyType => (
+											{
+												label: translate[companyType.label] || companyType.label,
+												name: companyType.label,
+												type: 3
+											}
+										))}
 									/>
 									{!!companyStatutes &&
 										<ContenedorEtiquetas
@@ -427,12 +425,12 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 												color: '#b47fb6',
 											}}
 											tags={companyStatutes.filter(statute => {
-												return !testTags[translate[statute.title] ? `${translate[statute.title]}_${statute.id}` : `${statute.title}_${statute.id}`]
+												return !testTags[`statute_${statute.id}`]
 											}).map(statute => (
 												{
 													label: translate[statute.title] || statute.title,
-													name: `${statute.title}_${statute.id}`,
-													type: 1
+													name: `statute_${statute.id}`,
+													type: 0
 												}
 											))}
 										/>
@@ -450,7 +448,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 											{
 												name: GOVERNING_BODY_TYPES[key].label,
 												label: translate[GOVERNING_BODY_TYPES[key].label],
-												type: 2
+												type: 1
 											}
 										))}
 									/>
@@ -469,7 +467,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 												{
 													name: draft.label,
 													label: translate[draft.label],
-													type: 3,
+													type: 2,
 													childs: draft.label === 'agenda' ?
 														CBX.filterAgendaVotingTypes(votingTypes)
 															.filter(type => {
@@ -535,29 +533,6 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 						</div>
 					</div>
 				</div>
-
-				<AlertConfirm
-					requestClose={() => setOpenClonar(false)}
-					open={openClonar}
-					hideAccept={true}
-					bodyText={
-						<ModalCargarPlantillas
-							props={props}
-							companyStatutes={companyStatutes}
-							draftTypes={draftTypes}
-							votingTypes={votingTypes}
-							majorityTypes={majorityTypes}
-							formatTagLabel={formatTagLabel}
-							addTag={addTag}
-							translate={translate}
-							match={match}
-							client={client}
-						/>
-					}
-					title={"Cargar Plantilla"}
-					bodyStyle={{ width: "75vw", minWidth: "50vw", }}
-				/>
-
 			</React.Fragment>
 		);
 	}
@@ -593,7 +568,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 						</Fade>
 					}
 				</Grid>
-			</Scrollbar >
+			</Scrollbar>
 		);
 	} else {
 		return (
@@ -622,457 +597,6 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 			</Scrollbar>
 		);
 	}
-
-}
-
-
-
-const ModalCargarPlantillas = ({ props, companyStatutes, draftTypes, votingTypes, majorityTypes, formatTagLabel, translate, client, match }) => {
-	const [search, setSearch] = React.useState('');
-	const [searchModal, setSearchModal] = React.useState('');
-	const [searchModalPlantillas, setSearchModalPlantillas] = React.useState('');
-	const [testTags, setTestTags] = React.useState({});
-	const [draftLoading, setdraftLoading] = React.useState(true);
-	const [draftsRender, setDraftsRender] = React.useState({});
-
-
-	const plantillasFiltradas = async () => {
-		console.log(Object.keys(testTags))
-		const response = await client.query({
-			query: companyDrafts,
-			variables: {
-				companyId: match.params.company,
-				prototype: 3,
-				filters: [
-					{
-						field: "title",
-						text: searchModalPlantillas
-					},
-				],
-				options: {
-					limit: DRAFTS_LIMITS[0],
-					offset: 0
-				},
-				tags: Object.keys(testTags),
-			}
-		});
-		setDraftsRender(response.data.companyDrafts.list)
-	}
-
-	React.useEffect(() => {
-		plantillasFiltradas()
-	}, [searchModalPlantillas, testTags]);
-
-
-	const addTag = tag => {
-		setTestTags({
-			...testTags,
-			[formatTagLabel(tag)]: {
-				segments: tag.segments,
-				type: tag.type,
-				active: true
-			}
-		});
-	}
-
-	const removeTag = tag => {
-		delete testTags[tag];
-		setTestTags({ ...testTags });
-	}
-
-	const getTags = async () => {
-		const response = await client.query({
-			query: draftTagSearch,
-			variables: {
-				companyId: match.params.company,
-				tags: Object.keys(testTags),
-			}
-		});
-		setDraftsRender(response.data.draftTagSearch.list)
-		setdraftLoading(false)
-	};
-
-	React.useEffect(() => {
-		getTags();
-	}, [testTags]);
-
-	let tagsSearch = []
-	companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
-		tagsSearch.push({
-			name: `${statute.title}_${statute.id}`,
-			label: statute.title,
-			type: 0
-		})
-	));
-	Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
-		tagsSearch.push({
-			name: GOVERNING_BODY_TYPES[key].label,
-			label: GOVERNING_BODY_TYPES[key].label,
-			type: 1
-		})
-	))
-	draftTypes.map(draft => (
-		tagsSearch.push({
-			name: draft.label,
-			label: draft.label,
-			type: 2
-		})
-	))
-
-	draftTypes.map(draft => (
-		draft.label === 'agenda' &&
-		CBX.filterAgendaVotingTypes(votingTypes).filter(type => !testTags[type.label]).map(votingType =>
-			tagsSearch.push({
-				label: votingType.label,
-				translation: translate[votingType.label],
-				type: 2,
-			})
-		)
-	))
-
-	let matchSearch = []
-	if (searchModal) {
-		matchSearch = tagsSearch.filter(statute =>
-			(statute.translation ? statute.translation : statute.label).toLowerCase().includes(searchModal.toLowerCase())
-		).map(statute => {
-			return ({
-				label: statute.label,
-				translation: statute.translation ? statute.translation : statute.label,
-				type: statute.type
-			})
-		}
-		)
-	}
-
-
-	const renderEtiquetasSeleccionadas = () => {
-		const TagColumn = props => {
-			return (
-				<div style={{
-					display: "flex",
-					color: "#ffffff",
-					fontSize: "12px",
-					marginBottom: "0.5em ",
-					flexDirection: 'column'
-				}}>
-					{props.children}
-				</div>
-			)
-		}
-
-		const buildTagColumns = tags => {
-			const columns = {};
-			Object.keys(tags).forEach(key => {
-				const tag = tags[key];
-				columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
-			});
-
-			return columns;
-		}
-
-		const columns = buildTagColumns(testTags);
-
-		return (
-			<div style={{ display: isMobile ? "" : 'flex' }}>
-				{Object.keys(columns).map(key => (
-					<TagColumn key={`column_${key}`}>
-						{columns[key].map(tag => (
-							<EtiquetaBase
-								key={`tag_${tag}`}
-								text={translate[tag.label] || tag.label}
-								color={getTagColor(key)}
-								action={() => removeTag(tag)}
-								props={props}
-							/>
-						))}
-					</TagColumn>
-				))}
-			</div>
-		);
-	}
-
-	return (
-		<div>
-			<div>
-				<div>
-					<Grid>
-						<GridItem xs={12} lg={6} md={6} style={{ display: "flex" }}>
-							<div style={{ display: "flex", alignItems: "center", marginRight: "1em" }}>
-								<DropDownMenu
-									id={"cargarPlantillasSelectorEtiquetas"}
-									color={primary}
-									loading={false}
-									paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
-									styleBody={{}}
-									Component={() =>
-										<MenuItem
-											style={{
-												height: '100%',
-												border: " solid 1px #35343496",
-												borderRadius: '3px',
-												width: '100%',
-												margin: 0,
-												padding: 0,
-												display: 'flex',
-												alignItems: 'center',
-												justifyContent: 'center',
-												marginTop: '14px',
-												padding: "3px 7px",
-												color: "#353434ed",
-											}}
-										>
-											<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
-												local_offer
-											</i>
-											Etiquetas
-										</MenuItem>
-									}
-									text={translate.add_agenda_point}
-									textStyle={"ETIQUETA"}
-									items={
-										<div style={{}} onClick={event => {
-											event.stopPropagation();
-										}}>
-											<div style={{
-												margin: "0px 1em",
-												minWidth: "80vw"
-											}}>
-												<div style={{
-													width: "100%",
-													display: "flex",
-													flexDirection: "row",
-												}}
-												>
-													<div style={{
-														marginRight: "2em",
-														display: "flex",
-														color: "rgb(53, 52, 52)",
-														alignItems: "center"
-													}}
-													>
-														<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
-															local_offer
-														</i>
-														Etiquetas
-													</div>
-													<div>
-														<TextInput
-															placeholder={"Buscar Etiquetas"}
-															adornment={<Icon>search</Icon>}
-															id={"buscarEtiquetasEnModal"}
-															type="text"
-															value={searchModal}
-															styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)" }}
-															styles={{ marginBottom: "0" }}
-															classes={{ input: props.classes.input }}
-															onChange={event => {
-																setSearchModal(event.target.value);
-															}}
-															disableUnderline={true}
-														/>
-													</div>
-												</div>
-											</div>
-											<Divider />
-											<div
-												style={{
-													width: "100%",
-													display: "flex",
-													flexDirection: "row",
-													justifyContent: "space-between",
-													margin: "1em"
-												}}
-											>
-												{matchSearch.length > 0 ?
-													<ContenedorEtiquetas
-														search={true}
-														translate={translate}
-														color={'rgba(128, 78, 33, 0.58)'}
-														addTag={addTag}
-														title={translate.council_type}
-														tags={matchSearch.map(statute => {
-															return ({
-																name: `${statute.label}_${statute.id}`,
-																label: statute.label,
-																type: statute.type
-															})
-														}
-														)}
-													/>
-													:
-
-													<Grid>
-														<GridItem xs={4} lg={4} md={4}>
-															<div style={{}}>
-																{!!companyStatutes &&
-																	<EtiquetasModal
-																		color={levelColor[0]}
-																		addTag={addTag}
-																		title={translate.council_type}
-																		stylesContent={{
-																			border: '1px solid #c196c3',
-																			color: levelColor[0],
-																		}}
-																		tags={companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
-																			{
-																				name: `${statute.label}_${statute.id}`,
-																				label: statute.title,
-																				type: 0
-																			}
-																		))}
-																	/>
-																}
-															</div>
-														</GridItem>
-														<GridItem xs={4} lg={4} md={4}>
-															<div style={{}}>
-																<EtiquetasModal
-																	color={levelColor[1]}
-																	addTag={addTag}
-																	title={'Órganos de gobierno'/*TRADUCCION*/}
-																	stylesContent={{
-																		border: '1px solid #7fa5b6',
-																		color: levelColor[1],
-																	}}
-																	tags={Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
-																		{
-																			name: GOVERNING_BODY_TYPES[key].label,
-																			label: GOVERNING_BODY_TYPES[key].label,
-																			type: 1
-																		}
-																	))}
-																/>
-
-															</div>
-														</GridItem>
-														<GridItem xs={4} lg={4} md={4}>
-															<div style={{ display: "flex" }}>
-																{!!draftTypes &&
-																	<EtiquetasModal
-																		color={levelColor[2]}
-																		addTag={addTag}
-																		title={translate.draft_type}
-																		stylesContent={{
-																			border: '1px solid #7fa5b6',
-																			color: levelColor[2],
-																		}}
-																		tags={draftTypes.map(draft => (
-																			{
-																				label: draft.label,
-																				translation: translate[draft.label],
-																				type: 2,
-																				childs: draft.label === 'agenda' ?
-																					CBX.filterAgendaVotingTypes(votingTypes)
-																						.filter(type => !testTags[type.label])
-																						.map(votingType => {
-																							return (
-																								<Etiqueta
-																									// key={`tag_${votingType.value}`}
-																									childs={CBX.hasVotation(votingType.value) ?
-																										majorityTypes
-																											.filter(majority => {
-																												return !testTags[formatTagLabel({
-																													label: majority.label,
-																													segments: [draft.label, votingType.label, majority.label],
-																												})]
-																											})
-																											.map(majority => {
-																												return (
-																													<Etiqueta
-																														key={`tag_${majority.value}`}
-																														text={translate[majority.label]}
-																														color={getTagColor(draft.value)}
-																														action={() => addTag({
-																															name: majority.label,
-																															segments: [draft.label, votingType.label, majority.label],
-																															label: translate[majority.label],
-																															type: 2,
-																														})}
-																													/>
-																												)
-																											}) : null}
-																									text={translate[votingType.label]}
-																									color={getTagColor(draft.value)}
-																									action={() => addTag({
-																										name: votingType.label,
-																										segments: [draft.label, votingType.label],
-																										label: votingType.label,
-																										type: 2,
-																									})}
-																								/>
-																							)
-																						}) : null
-																			}
-																		))}
-																	/>
-																}
-															</div>
-														</GridItem>
-													</Grid>
-												}
-											</div>
-										</div>
-									}
-								/>
-							</div>
-						</GridItem>
-						<GridItem xs={12} lg={6} md={6} style={{
-							display: 'flex',
-							alignItems: 'end',
-							justifyContent: 'flex-end',
-						}}>
-							<div>
-								<TextInput
-									placeholder={"Buscar Plantillas"}
-									adornment={<Icon>search</Icon>}
-									type="text"
-									value={searchModalPlantillas}
-									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px" }}
-									classes={{ input: props.classes.input, formControl: props.classes.formControl }}
-									disableUnderline={true}
-									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-									onChange={event => {
-										setSearchModalPlantillas(event.target.value);
-									}}
-								/>
-							</div>
-						</GridItem>
-					</Grid>
-				</div>
-			</div>
-			<div style={{
-				display: "flex",
-				color: "#ffffff",
-				fontSize: "12px",
-				marginBottom: "0.5em ",
-				flexDirection: 'column',
-				minHeight: "3em"
-			}}>
-				{renderEtiquetasSeleccionadas()}
-			</div>
-			<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", minHeight: "12em", height: '0', overflow: "hidden" }}>
-				<Scrollbar>
-					<Grid style={{ width: "95%", margin: "0 auto", marginTop: "1em", }}>
-						<GridItem xs={12} lg={12} md={12} >
-							<Grid id={"contenedorPlantillasEnModal"}>
-								{!draftLoading &&
-									draftsRender.map((item, key) => {
-										return (
-											<CardPlantillas
-												translate={translate}
-												key={'key__' + item.title}
-												item={item}
-											/>
-										)
-									})
-								}
-							</Grid>
-						</GridItem>
-					</Grid>
-				</Scrollbar>
-			</div>
-		</div>
-	);
 
 }
 
@@ -1107,64 +631,6 @@ const regularCardStyle = {
 		fontSize: "1em",
 	},
 }
-
-const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate }) => {
-	const [expanded, setExpanded] = React.useState(false);
-
-	const toggleExpanded = () => {
-		setExpanded(!expanded)
-	}
-
-	return (
-		<GridItem xs={12} lg={12} md={12}
-
-		>
-			<Card
-				style={{
-
-					boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-					padding: "0.8em",
-					marginBottom: "1em"
-				}}>
-				<CardHeader
-					onClick={toggleExpanded}
-					style={{ color: "#000000", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', cursor: "pointer", }}
-					title={item.title}
-					classes={{
-						title: classes.cardTitle,
-					}}
-					action={
-						<IconButton
-							style={{ top: '5px', width: "35px" }}
-							onClick={toggleExpanded}
-							aria-expanded={expanded}
-							aria-label="Show more"
-							className={"expandButtonModal"}
-						>
-							<i
-								className={"fa fa-angle-down"}
-								style={{
-									transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
-									transition: "all 0.3s"
-								}}
-							/>
-						</IconButton>
-					}
-				></CardHeader>
-				<Collapse in={expanded} timeout="auto" unmountOnExit >
-					<div style={{ paddingLeft: "1.5em" }}>
-						<div>{translate.title}: {item.title}</div>
-						<div style={{ display: "flex" }}>{translate.description}:
-						<div style={{ paddingLeft: "0.3em" }} dangerouslySetInnerHTML={{
-								__html: item.text
-							}} ></div>
-						</div>
-					</div>
-				</Collapse>
-			</Card>
-		</GridItem>
-	)
-});
 
 
 export const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate }) => {
@@ -1257,11 +723,11 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 						{open ?
 							<i className="material-icons" style={{ fontSize: "40px" }}>
 								arrow_drop_up
-						</i>
+							</i>
 							:
 							<i className="material-icons" style={{ fontSize: "40px" }}>
 								arrow_drop_down
-					</i>
+							</i>
 						}
 					</div>
 				</div>
@@ -1322,11 +788,11 @@ export const Etiqueta = ({ text, color, childs, width, etiquetas, addTag, action
 							{open ?
 								<i className="material-icons" style={{ fontSize: "27px" }} >
 									arrow_drop_up
-						</i>
+								</i>
 								:
 								<i className="material-icons" style={{ fontSize: "27px" }}>
 									arrow_drop_down
-					</i>
+								</i>
 							}
 						</div>
 					</div>
@@ -1401,13 +867,12 @@ export const EtiquetaBase = ({ text, color, action, props }) => {
 
 export const getTagColor = type => {
 	const colors = {
-		0: 'rgb(134, 102, 102)',
-		1: 'rgba(125, 33, 128, 0.58)',
-		2: 'rgba(33, 98, 128, 0.58)',
-		3: 'rgba(33, 70, 128, 0.58)',
+		0: 'rgba(125, 33, 128, 0.58)',
+		1: 'rgba(33, 98, 128, 0.58)',
+		2: 'rgba(33, 70, 128, 0.58)',
+		3: 'rgb(134, 102, 102)',
 		99: 'rgba(128, 78, 33, 0.58)'
 	}
-
 	return colors[type] ? colors[type] : colors[99];
 }
 
@@ -1415,43 +880,5 @@ export const getTagColor = type => {
 CompanyDraftForm.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
-
-
-
-
-
-//companyId $id: Int!
-//tags
-//options
-const draftTagSearch = gql`
-query DraftTagSearch($companyId: Int! ,$tags: [String], $options: OptionsInput){
-	draftTagSearch(companyId: $companyId, tags: $tags, options: $options){
-		list {
-			id
-			userId
-			companyId
-			title
-			description
-			text
-			type
-			votationType
-			governingBodyType
-			majorityType
-			majority
-			statuteId
-			companyType
-			language
-			draftId
-			creationDate
-			lastModificationDate
-			corporationId
-			majorityDivider
-			tags
-		}
-		total
-	}
-}
-`;
-
 
 export default withApollo(withStyles(styles)(withWindowSize(CompanyDraftForm)));
