@@ -327,8 +327,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 				label: statute.translation || statute.label,
 				type: statute.type
 			})
-		}
-		)
+		})
 	}
 
 
@@ -383,14 +382,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 											addTag={addTag}
 											translate={translate}
 											title={translate.council_type}
-											tags={matchSearch.map(statute => {
-												return ({
-													label: translate[statute.title] || statute.title,
-													name: `${statute.title}_${statute.id}`,
-													type: statute.type
-												})
-											}
-											)}
+											tags={matchSearch}
 										/>
 									}
 								</div>
@@ -439,7 +431,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 										color={'#7fa5b6'}
 										translate={translate}
 										addTag={addTag}
-										title={'Órganos de gobierno'/*TRADUCCION*/}
+										title={translate.governing_body}
 										stylesContent={{
 											border: '1px solid #7fa5b6',
 											color: '#7fa5b6',
@@ -679,6 +671,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 	}
 
 	if (search) {
+		console.log(tags);
 		return (
 			<div style={{
 				fontSize: "12px",
