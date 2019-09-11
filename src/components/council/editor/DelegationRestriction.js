@@ -67,8 +67,8 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         setModal(false);
     }
 
-    const openDeleteWarning = participantId => {
-        setWarningModal(participantId);
+    const openDeleteWarning = participant => {
+        setWarningModal(participant);
     }
 
     const closeDeleteWarning = () => {
@@ -80,7 +80,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
             mutation: addCouncilDelegateMutation,
             variables: {
                 councilId: council.id,
-                participantId: participantId
+                participantId
             }
         });
 
@@ -93,7 +93,11 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         //TRADUCCION
         return (
             <div>
-                Si quita a este usuario de la lista se le borrarán todos las posibles delegaciones que tenga asignadas. ¿Continuar?
+                {warningModal.id?
+                    <text>Si quita a <strong>{`${warningModal.name} ${warningModal.surname}`}</strong> de la lista se le borrarán todos las posibles delegaciones que tenga asignadas. ¿Continuar?</text>
+                :
+                    '¿Desea volver a abrir la recepción de delegación a todos los participantes?'
+                }
             </div>
         )
     }
@@ -116,16 +120,6 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
             getData();
             setWarningModal(false)
         }
-    }
-
-    const select = id => {
-        if (selectedIds.has(id)) {
-            selectedIds.delete(id);
-        } else {
-            selectedIds.set(id, 'selected');
-        }
-
-        setselectedIds(new Map(selectedIds));
     }
 
     const selectAll = () => {
@@ -221,6 +215,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                 {participants.length === 0 &&
                                     <Etiqueta
                                         empty={true}
+                                        council={council}
                                         translate={translate}
                                     />
                                 }
@@ -239,12 +234,12 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                         requestClose={closeDeleteWarning}
                         open={!!warningModal}
                         title={translate.warning}
-                        acceptAction={() => removeCouncilDelegate(warningModal)}
+                        acceptAction={() => removeCouncilDelegate(warningModal.id)}
                         buttonAccept={translate.accept}
                         buttonCancel={translate.cancel}
                         bodyText={renderWarningText()}
                     />
-                </div >
+                </div>
             )
         } else {
             return (
@@ -403,10 +398,10 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                             style={{ cursor: "pointer" }}
                             color={getPrimary()}
                             onClick={() => {
-                                if (council.state < 5) {
-                                    removeCouncilDelegate(participant.id)
+                                if (council.state !== 0) {
+                                    openDeleteWarning(participant);
                                 } else {
-                                    openDeleteWarning(participant.id);
+                                    removeCouncilDelegate(participant.id)
                                 }
                             }} />
                     </div>
