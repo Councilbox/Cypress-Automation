@@ -151,23 +151,24 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                     />
                     <div style={{ paddingBottom: "1em" }}>
                         <div style={{ display: "flex" }}>
-                            <div style={{ width: "115px" }}>
+                            <div style={{ width: "135px" }}>
                                 <BasicButton
-                                    color={getPrimary()}
+                                    color={'transparent'}
                                     textStyle={{
-                                        color: "white",
+                                        color: getPrimary(),
                                         fontWeight: "700",
                                         fontSize: "0.9em",
                                         textTransform: "none",
                                         fontWeight: "500",
                                         minWidth: "100px"
                                     }}
+                                    icon={<ButtonIcon type="person_add" color={getPrimary()} />}
                                     textPosition="after"
                                     buttonStyle={{
                                         marginRight: "1em",
                                         borderRadius: "1px",
-                                        boxShadow: "none",
-                                        marginBottom: "0.5em"
+                                        marginBottom: "0.5em",
+                                        border: `2px solid ${getPrimary()}`
                                     }}
                                     onClick={openSelectModal}
                                     text={"Seleccionar"} //TRADUCCION
@@ -184,7 +185,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                             fontWeight: "500",
                                             borderRadius: '2px',
                                             border: `solid 2px ${primary}`,
-                                            minWidth: "100px"
+                                            minWidth: "125px"
                                         }}
                                         textPosition="after"
                                         buttonStyle={{
@@ -192,6 +193,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                             borderRadius: "1px",
                                             boxShadow: "none"
                                         }}
+                                        icon={<ButtonIcon type="people_alt" color={getPrimary()} />}
                                         text={translate.all_plural} //TRADUCCION
                                         onClick={() => {
                                             selectAll()
@@ -347,8 +349,7 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                     cursor: 'initial',
                     marginRight: "1em",
                     borderRadius: "1px",
-                    boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                    border: 'solid 1px #f0f3f6',
+                    //border: 'solid 1px #f0f3f6',
                     display: "inline-block",
                     marginBottom: "0.5em",
                     minWidth: "100px"
