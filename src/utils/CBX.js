@@ -28,6 +28,7 @@ import LiveUtil from './live';
 import { LiveToast } from '../displayComponents';
 import { moment, client, store } from '../containers/App';
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
+import { TAG_TYPES } from "../components/company/drafts/draftTags/utils";
 
 export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
@@ -1049,7 +1050,7 @@ export const generateStatuteTag = (statute, translate) => {
 		[`statute_${statute.statuteId}`]: {
 			label: translate[statute.title] || statute.title,
 			name: `statute_${statute.statuteId}`,
-			type: 0
+			type: TAG_TYPES.STATUTE
 		}
 	}
 }

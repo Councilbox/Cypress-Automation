@@ -8,7 +8,7 @@ import gql from "graphql-tag";
 import { sendGAevent } from "../../../utils/analytics";
 import * as CBX from "../../../utils/CBX";
 import { MenuItem, Card, CardHeader, Tooltip } from "material-ui";
-import { levelColor, ContenedorEtiquetas, getTagColor, } from "./CompanyDraftForm";
+import { levelColor, ContenedorEtiquetas } from "./CompanyDraftForm";
 import { Divider } from "material-ui";
 import { primary } from "../../../styles/colors";
 import { isMobile } from "react-device-detect";
@@ -16,8 +16,10 @@ import { withStyles } from "material-ui";
 import { IconButton } from "material-ui";
 import { Collapse } from "material-ui";
 import withSharedProps from "../../../HOCs/withSharedProps";
+import SelectedTag from './draftTags/SelectedTag';
+import { createTag, getTagColor, TAG_TYPES } from './draftTags/utils';
 
-
+const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
 export const draftTypes = gql`
 	query draftTypes {
@@ -42,7 +44,7 @@ const styles = {
 };
 
 const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, translate, client, match, defaultTags, ...props}) => {
-	const [searchModal, setSearchModal] = React.useState('');
+	const [search, setSearchModal] = React.useState('');
 	const [searchModalPlantillas, setSearchModalPlantillas] = React.useState('');
 	const [testTags, setTestTags] = React.useState(null);
 	const [draftLoading, setDraftLoading] = React.useState(true);
@@ -132,51 +134,22 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 	if (!varsLoading) {
 		let tagsSearch = [];
 
-		vars.companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
-			tagsSearch.push({
-				label: statute.title,
-				translation: translate[statute.title],
-				type: 0
-			})
+		vars.companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).forEach(statute => (
+			tagsSearch.push(createTag(statute, 1, translate))
 		));
-		Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
-			tagsSearch.push({
-				label: GOVERNING_BODY_TYPES[key].label,
-				translation: translate[GOVERNING_BODY_TYPES[key].label],
-				type: 1
-			})
-		))
-		vars.draftTypes.map(draft => (
-			tagsSearch.push({
-				label: draft.label,
-				translation: translate[draft.label],
-				type: 2
-			})
-		))
+		Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label]).forEach(key => (
+			tagsSearch.push(createTag(governingBodyTypes[key], 2, translate))
+		));
+		vars.draftTypes.filter(type => !testTags[type.label]).forEach(draft => tagsSearch.push(createTag({
+			...draft,
+			addTag,
+		}, 3, translate)));
 
-		vars.draftTypes.map(draft => (
-			draft.label === 'agenda' &&
-			CBX.filterAgendaVotingTypes(vars.votingTypes).filter(type => !testTags[type.label]).map(votingType =>
-				tagsSearch.push({
-					label: votingType.label,
-					translation: translate[votingType.label],
-					type: 2,
-				})
-			)
-		))
-
-		let matchSearch = []
-		if (searchModal) {
-			matchSearch = tagsSearch.filter(statute =>
-				(statute.translation ? statute.translation : statute.label).toLowerCase().includes(searchModal.toLowerCase())
-			).map(statute => {
-				return ({
-					label: statute.label,
-					translation: statute.translation ? statute.translation : statute.label,
-					type: statute.type
-				})
-			}
-			)
+		let matchSearch = [];
+		if (search) {
+			matchSearch = tagsSearch.filter(tag => {
+				return tag.label.toLowerCase().includes(search.toLowerCase())
+			});
 		}
 
 		const renderEtiquetasSeleccionadas = () => {
@@ -211,13 +184,15 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 					{Object.keys(columns).map(key => (
 						<TagColumn key={`column_${key}`}>
 							{columns[key].map(tag => {
-								return <EtiquetaBase
-									key={`tag_${tag.label}`}
-									text={translate[tag.label] || tag.label}
-									color={getTagColor(key)}
-									action={() => removeTag(tag)}
-									props={props}
-								/>
+								return (
+									<SelectedTag
+										key={`tag_${tag.label}`}
+										text={translate[tag.label] || tag.label}
+										color={getTagColor(key)}
+										action={() => removeTag(tag)}
+										props={props}
+									/>
+								)
 							})}
 						</TagColumn>
 					))}
@@ -295,7 +270,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 																adornment={<Icon>search</Icon>}
 																id={"buscarEtiquetasEnModal"}
 																type="text"
-																value={searchModal}
+																value={search}
 																styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)" }}
 																styles={{ marginBottom: "0" }}
 																classes={{ input: props.classes.input }}
@@ -322,16 +297,9 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 															search={true}
 															color={'rgba(128, 78, 33, 0.58)'}
 															addTag={addTag}
+															translate={translate}
 															title={translate.council_type}
-															tags={
-																matchSearch.map(statute => {
-																	return ({
-																		label: translate[statute.title] || statute.title,
-																		name: `statute_${statute.id}`,
-																		type: 0
-																	})
-																}
-																)}
+															tags={matchSearch}
 														/>
 														:
 
@@ -340,18 +308,18 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 																<div style={{}}>
 																	{!!vars.companyStatutes &&
 																		<EtiquetasModal
-																			color={levelColor[0]}
+																			color={getTagColor(TAG_TYPES.STATUTE)}
 																			addTag={addTag}
 																			title={translate.council_type}
 																			stylesContent={{
 																				border: '1px solid #c196c3',
-																				color: levelColor[0],
+																				color: getTagColor(TAG_TYPES.STATUTE),
 																			}}
 																			tags={vars.companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => (
 																				{
 																					label: translate[statute.title] || statute.title,
 																					name: `statute_${statute.id}`,
-																					type: 0
+																					type: TAG_TYPES.STATUTE
 																				}
 																			))}
 																		/>
@@ -361,18 +329,18 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 															<GridItem xs={4} lg={4} md={4}>
 																<div style={{}}>
 																	<EtiquetasModal
-																		color={levelColor[1]}
+																		color={getTagColor(TAG_TYPES.GOVERNING_BODY)}
 																		addTag={addTag}
 																		title={'Órganos de gobierno'/*TRADUCCION*/}
 																		stylesContent={{
 																			border: '1px solid #7fa5b6',
-																			color: levelColor[1],
+																			color: getTagColor(TAG_TYPES.GOVERNING_BODY),
 																		}}
-																		tags={Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map(key => (
+																		tags={Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label]).map(key => (
 																			{
-																				name: GOVERNING_BODY_TYPES[key].label,
-																				label: translate[GOVERNING_BODY_TYPES[key].label],
-																				type: 1
+																				name: governingBodyTypes[key].label,
+																				label: translate[governingBodyTypes[key].label],
+																				type: TAG_TYPES.GOVERNING_BODY
 																			}
 																		))}
 																	/>
@@ -383,18 +351,18 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 																<div style={{ display: "flex" }}>
 																	{!!vars.draftTypes &&
 																		<EtiquetasModal
-																			color={levelColor[2]}
+																			color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
 																			addTag={addTag}
 																			title={translate.draft_type}
 																			stylesContent={{
 																				border: '1px solid #7fa5b6',
-																				color: levelColor[2],
+																				color: getTagColor(TAG_TYPES.DRAFT_TYPE),
 																			}}
 																			tags={vars.draftTypes.filter(type => !testTags[type.label]).map(draft => (
 																				{
 																					name: draft.label,
 																					label: translate[draft.label],
-																					type: 2,
+																					type: TAG_TYPES.DRAFT_TYPE,
 																				}
 																			))}
 																		/>
@@ -601,22 +569,20 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 				}}
 				>
 					{tags.map((tag, index) => (
-						<Tooltip title={tag.translation ? tag.translation : tag.label} key={"tag_" + index}>
-							<div
-								style={{
-									marginRight: "1em",
-									cursor: "pointer",
-									whiteSpace: 'nowrap',
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									maxWidth: tags.length > 6 ? "150px" : '220px',
-								}}
-								key={`tag_${index}`}
-								onClick={() => addTag(tag)}
-							>
-								{tag.translation ? tag.translation : tag.label}
-							</div>
-						</Tooltip>
+						<div
+							style={{
+								marginRight: "1em",
+								cursor: "pointer",
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								maxWidth: tags.length > 6 ? "150px" : '220px',
+							}}
+								key={"tag_" + tag.label}
+							onClick={() => addTag(tag)}
+						>
+							{tag.label}
+						</div>
 					))}
 				</div>
 			</div>
@@ -624,202 +590,12 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 	);
 }
 
-const EtiquetaBase = ({ text, color, action, props }) => {
-	const anchoRef = React.useRef();
-	const [tooltip, setTooltip] = React.useState(false);
-
-	React.useLayoutEffect(() => {
-		if (anchoRef.current.clientWidth > (15 * 12) && !tooltip) {
-			setTooltip(true);
-		}
-	});
-
-	return (
-		<React.Fragment>
-			<div style={{ visibility: 'hidden', position: 'absolute' }} ref={anchoRef}>{text}</div>
-			<div
-				style={{
-					borderRadius: '20px',
-					background: color,
-					padding: "0 0.5em",
-					display: "inline-block",
-					marginRight: "0.5em",
-					marginTop: "0.25em",
-					marginBottom: "0.25em",
-					color: "white",
-					padding: "8px"
-				}}
-			>
-				<div style={{ display: "flex", justifyContent: 'space-between' }}>
-					{tooltip ?
-						<Tooltip title={text}>
-							<div style={{ paddingRight: "0.5em", maxWidth: props.innerWidth < 1190 ? isMobile ? "" : '11em' : '15em' }} className="truncate">{text}</div>
-						</Tooltip>
-						:
-						<div style={{ paddingRight: "0.5em", maxWidth: props.innerWidth < 1190 ? isMobile ? "" : '11em' : '15em' }} className="truncate">{text}</div>
-					}
-					<div>
-						<i
-							className="fa fa-times"
-							style={{ cursor: 'pointer', background: " #ffffff", color, borderRadius: "6px", padding: "0em 1px" }}
-							aria-hidden="true"
-							onClick={action}
-						>
-						</i>
-					</div>
-				</div>
-			</div>
-		</React.Fragment>
-	)
-}
-
-
-const draftTagSearch = gql`
-query DraftTagSearch($companyId: Int! ,$tags: [String], $options: OptionsInput){
-	draftTagSearch(companyId: $companyId, tags: $tags, options: $options){
-		list {
-			id
-			userId
-			companyId
-			title
-			description
-			text
-			type
-			votationType
-			governingBodyType
-			majorityType
-			majority
-			statuteId
-			companyType
-			language
-			draftId
-			creationDate
-			lastModificationDate
-			corporationId
-			majorityDivider
-			tags
-		}
-		total
-	}
-}
-`;
-
-
-// const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props }) => {
-// 	React.useEffect(() => {
-// 		props.data.refetch();
-// 	}, []);
-
-// 	const { companyDrafts, loading } = props.data;
-
-// 	return (
-// 		<React.Fragment>
-// 			{!!companyDrafts && (
-// 				<EnhancedTable
-// 					translate={translate}
-// 					defaultLimit={DRAFTS_LIMITS[0]}
-// 					defaultFilter={"title"}
-// 					limits={DRAFTS_LIMITS}
-// 					page={1}
-// 					loading={loading}
-// 					length={companyDrafts.list.length}
-// 					total={companyDrafts.total}
-// 					addedFilters={[
-// 						{
-// 							field: "type",
-// 							text: props.draftType
-// 						}
-// 					]}
-// 					refetch={props.data.refetch}
-// 					selectedCategories={[{
-// 						field: "statuteId",
-// 						value: statute.statuteId,
-// 						label: translate[statute.title] || statute.title
-// 					}, {
-// 						field: "governingBodyType",
-// 						value: 'all',
-// 						label: translate.all_plural
-// 					}]}
-// 					categories={[[
-// 						...statutes.map(statute => {
-// 							return {
-// 								field: "statuteId",
-// 								value: statute.id,
-// 								label: translate[statute.title] || statute.title
-// 							}
-// 						}),
-// 						{
-// 							field: "statuteId",
-// 							value: 'all',
-// 							label: translate.all_plural
-// 						},
-// 					], [...Object.keys(GOVERNING_BODY_TYPES).filter(key => GOVERNING_BODY_TYPES[key].value !== 0).map(key => {
-// 						return {
-// 							field: "governingBodyType",
-// 							value: GOVERNING_BODY_TYPES[key].value,
-// 							label: translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label
-// 						}
-// 					}), {
-// 							field: "governingBodyType",
-// 							value: 'all',
-// 							label: translate.all_plural
-// 					}]]}
-// 					headers={[
-// 						{
-// 							text: translate.title,
-// 							name: "title"
-// 						},
-// 						{
-// 							text: translate.type,
-// 							name: "type"
-// 						}
-// 					]}
-// 				>
-// 					{companyDrafts.list.map(draft => {
-// 						return (
-// 							<TableRow
-// 								key={`draft${draft.id}`}
-// 								style={{ cursor: "pointer" }}
-// 								onClick={() => {
-// 									console.log(props)
-// 									sendGAevent({
-// 										category: 'Borradores',
-// 										action: `Carga de borrador`,
-// 										label: props.company.businessName
-// 									})
-// 									props.loadDraft(draft);
-// 								}}
-// 							>
-// 								<TableCell>{draft.title}</TableCell>
-// 								<TableCell>
-// 									{/* {translate[props.info.draftTypes[draft.type].label]} */} {translate[statute.title] || statute.title}
-// 								</TableCell>
-// 							</TableRow>
-// 						);
-// 					})}
-// 				</EnhancedTable>
-// 			)}
-// 		</React.Fragment>
-// 	);
-// })
-
 export default compose(
 	graphql(companyDrafts, {
 		name: "data",
 		options: props => ({
 			variables: {
 				companyId: props.companyId,
-				// prototype: 3,
-				// filters: [
-				// 	{
-				// 		field: "type",
-				// 		text: props.draftType
-				// 	},
-				// 	{
-				// 		field: "statuteId",
-				// 		text: props.statute.statuteId
-				// 	}
-				// ],
 				options: {
 					limit: DRAFTS_LIMITS[0],
 					offset: 0

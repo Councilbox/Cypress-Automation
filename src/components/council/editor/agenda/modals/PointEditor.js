@@ -17,6 +17,7 @@ import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
+import { TAG_TYPES } from "../../../../company/drafts/draftTags/utils";
 
 class PointEditor extends React.Component {
 
@@ -115,7 +116,6 @@ class PointEditor extends React.Component {
 		} = this.props;
 		const errors = this.state.errors;
 		const agenda = this.state.data;
-
 		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 
 		return (
@@ -133,7 +133,7 @@ class PointEditor extends React.Component {
 						defaultTags={{
 							"agenda": {
 								active: true,
-								type: 2,
+								type: TAG_TYPES.DRAFT_TYPE,
 								name: 'agenda',
 								label: translate.agenda
 							},

@@ -17,6 +17,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import QuorumInput from "../../../displayComponents/QuorumInput";
 import { DRAFT_TYPES } from "../../../constants";
+import { TAG_TYPES } from "../drafts/draftTags/utils";
 
 
 const StatuteEditor = ({ statute, translate, updateState, errors, client, ...props }) => {
@@ -595,7 +596,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 										defaultTags={{
 											"convene_header": {
 												active: true,
-												type: 2,
+												type: TAG_TYPES.DRAFT_TYPE,
 												name: 'convene_header',
 												label: translate.convene_header
 											}
@@ -632,7 +633,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 									defaultTags={{
 										"convene_footer": {
 											active: true,
-											type: 2,
+											type: TAG_TYPES.DRAFT_TYPE,
 											name: 'convene_footer',
 											label: translate.convene_footer
 										}
@@ -696,7 +697,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 										defaultTags={{
 											"intro": {
 												active: true,
-												type: 2,
+												type: TAG_TYPES.DRAFT_TYPE,
 												name: 'intro',
 												label: translate.intro
 											}
@@ -738,7 +739,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 										defaultTags={{
 											"constitution": {
 												active: true,
-												type: 2,
+												type: TAG_TYPES.DRAFT_TYPE,
 												name: 'constitution',
 												label: translate.constitution
 											}
@@ -786,7 +787,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 										defaultTags={{
 											"conclusion": {
 												active: true,
-												type: 2,
+												type: TAG_TYPES.DRAFT_TYPE,
 												name: 'conclusion',
 												label: translate.conclusion
 											}

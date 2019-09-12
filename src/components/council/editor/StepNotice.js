@@ -26,6 +26,7 @@ import * as CBX from "../../../utils/CBX";
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
+import { TAG_TYPES } from "../../company/drafts/draftTags/utils";
 
 
 const StepNotice = ({ data, translate, company, ...props }) => {
@@ -600,7 +601,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 												defaultTags={{
 													"convene_footer": {
 														active: true,
-														type: 2,
+														type: TAG_TYPES.DRAFT_TYPE,
 														name: 'convene_footer',
 														label: translate.convene_footer
 													},

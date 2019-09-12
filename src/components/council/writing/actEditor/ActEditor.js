@@ -33,6 +33,7 @@ import {
 } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
+import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 
 export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
@@ -731,7 +732,7 @@ class ActEditor extends Component {
 									defaultTags={{
 										[this.state.load]: {
 											active: true,
-											type: 2,
+											type: TAG_TYPES.DRAFT_TYPE,
 											name: this.state.load,
 											label: translate[this.state.load]
 										},
