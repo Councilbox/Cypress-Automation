@@ -3,10 +3,12 @@ import {
 	CardHeader,
 	Dialog,
 	DialogTitle,
-	DialogContent
+	DialogContent,
+	Card,
+	Collapse
 } from "material-ui";
 import FontAwesome from "react-fontawesome";
-import { BasicButton } from '../../../displayComponents';
+import { BasicButton, Grid, GridItem, Scrollbar } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -28,6 +30,7 @@ import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 import logoIcon from "../../../assets/img/logo-icono.png";
 import { moment } from '../../../containers/App';
 import TimelineModal from "./TimelineModal";
+import TimelineSection from "../timeline/TimelineSection";
 
 const styles = {
 	container: {
@@ -54,7 +57,8 @@ const styles = {
 		alignItems: "center",
 		justifyContent: "center",
 		padding: "15px",
-		textAlign: "center"
+		textAlign: "center",
+		height: "100%"
 	},
 	// textContainer: {
 	// 	display: "flex",
@@ -93,7 +97,8 @@ class CouncilState extends React.Component {
 	state = {
 		modal: false,
 		width: window.innerWidth,
-		height: window.innerHeight
+		height: window.innerHeight,
+		expanded: false
 	}
 
 	componentDidMount() {
@@ -118,7 +123,8 @@ class CouncilState extends React.Component {
 		} = this.props;
 
 		const secondary = getSecondary();
-
+		
+		
 		return (
 			<div
 				style={
@@ -246,36 +252,112 @@ class CouncilState extends React.Component {
 								heights={this.state.height}
 								windowOrientation={windowOrientation}
 							>
-								<div style={{ width: "410px" }}>
-									<TextRender
+								<div style={{ width: "815px", height: "100%" }}>
+									<TextRenderFinalizada
 										title={translate.concil_finished}
 										council={council}
 										company={company}
 										translate={translate}
 									/>
-									<TimelineModal council={council} translate={translate} />
-									<BasicButton
-										text={translate.see_participation}
-										color={secondary}
-										textStyle={{ color: 'white', fontWeight: '700', marginTop: '0.9em' }}
-										onClick={() => this.setState({
-											modal: true
-										})}
-									/>
-									<Results
-										council={council}
-										participant={this.props.participant}
-										requestClose={() => this.setState({ modal: false })}
-										translate={translate}
-										open={this.state.modal}
-									/>
+
+									<Grid style={{ padding: "0 2em 0 2em", color: "#000000 ", fontSize: "15px", height: "calc( 100% - 5em )" }}>
+										<GridItem xs={6} lg={6} md={6} style={{ paddingRight: '10px' }}>
+											<Card
+												style={{
+													borderRadius: '3px',
+													boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+													marginBottom: "0.6em",
+													padding: "1em",
+												}}>
+												<div >
+													<div style={{ display: "flex", marginBottom: "1em" }} >
+														<b>{council.name}</b>
+													</div>
+													<div style={{ display: "flex" }} >
+														-
+													</div>
+												</div>
+											</Card>
+											<Card
+												style={{
+													borderRadius: "0px",
+													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+													marginBottom: "0.6em",
+													padding: "0.5em",
+													border: 'solid 1px #d7d7d7',
+													display: "flex"
+												}}>
+												{moment(council.dateEnd).format('LLL')}
+											</Card>
+											<Card
+												style={{
+													borderRadius: "0px",
+													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+													marginBottom: "0.6em",
+													padding: "0.5em",
+													border: `solid 1px ${getPrimary()}`,
+													color: ` ${getPrimary()}`,
+													display: "flex"
+												}}>
+												Contactar con el administrador
+											</Card>
+											<Card
+												style={{
+													borderRadius: "0px",
+													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+													marginBottom: "0.6em",
+													border: 'solid 1px #d7d7d7',
+													display: "flex"
+												}}>
+												<div style={{
+													width: "100%",
+												}}>
+													<div onClick={() => this.setState({ expanded: !this.state.expanded })} style={{ padding: "0.5em", justifyContent: "space-between", display: "flex", cursor: "pointer", width: "100%", }}>
+														<div>Ver resumen</div>
+														<i className="material-icons" style={{ color: 'rgba(10, 10, 10, 0.49)', width: '18px', height: '10px' }}>
+															arrow_drop_down
+														</i>
+													</div>
+													<Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+														<div style={{ height: '220px', marginTop: "1em", }}>
+															<Scrollbar>
+																<TimelineSection council={council} translate={translate} endPage={true} />
+															</Scrollbar>
+														</div>
+													</Collapse>
+												</div>
+											</Card>
+										</GridItem>
+										<GridItem xs={6} lg={6} md={6} style={{ paddingLeft: '10px', height: "100%" }}>
+											<Card
+												style={{
+													borderRadius: "0px",
+													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+													marginBottom: "0.6em",
+													padding: "1em",
+													border: 'solid 1px #d7d7d7',
+													height: "100%"
+												}}>
+												<div style={{ width: "100%", height: "100%" }}>
+													<div style={{ display: "flex" }}>Mi participacion - <span style={{ color: getPrimary() }}>{this.props.participant.name + " " + this.props.participant.surname}</span></div>
+													<div style={{ marginTop: "1em", height: "calc( 100% - 2em )" }}>
+														<Scrollbar>
+															<div style={{ height: '165px', }}>
+																<Results
+																	council={council}
+																	participant={this.props.participant}
+																	requestClose={() => this.setState({ modal: false })}
+																	translate={translate}
+																	endPage={true}
+																/>
+															</div>
+														</Scrollbar>
+													</div>
+												</div>
+											</Card>
+										</GridItem>
+									</Grid>
 								</div>
-								<Image
-									src={emptyMeetingTable}
-									widths={this.state.width}
-									windowOrientation={windowOrientation}
-								>
-								</Image>
 							</StateContainer>
 						</React.Fragment>
 					)}
@@ -283,6 +365,44 @@ class CouncilState extends React.Component {
 			</div>
 		);
 	}
+}
+
+const TextRenderFinalizada = ({ title, text, isHtmlText, council, company, translate, windowOrientation }) => {
+	const [state, setState] = React.useState({
+		dialogOpen: false
+	});
+
+	const handleOpenDialog = () => {
+		setState({ dialogOpen: true });
+	};
+
+	const handleCloseDialog = () => {
+		setState({ dialogOpen: false });
+	};
+
+	const primaryColor = getPrimary();
+
+	return (
+		<div style={{ display: "flex", justifyContent: "center" }}>
+			<h3
+				style={{
+					color: primaryColor,
+					marginBottom: windowOrientation === "landscape" ? "" : "1em",
+					fontSize: "28px",
+					paddingTop: "0.5em"
+				}}
+			>
+				{title}
+			</h3>
+
+			<Image
+				src={emptyMeetingTable}
+				styles={{ width: '77px', minWidth: "", marginLeft: "2em" }}
+				windowOrientation={windowOrientation}
+			>
+			</Image>
+		</div>
+	);
 }
 
 class TextRender extends React.PureComponent {

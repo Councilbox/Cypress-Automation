@@ -2,15 +2,15 @@ import React from "react";
 import { Card } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
-import { councilIsLive } from "../../../utils/CBX";
+import { councilIsLive, councilIsFinished } from "../../../utils/CBX";
 import { checkIsCompatible } from '../../../utils/webRTC';
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from "react-device-detect";
 
-
-const width = window.innerWidth > 450 ? '550px' : '100%'
+// '850px'
+const width = window.innerWidth > 450 ? '850px' : '100%'
 
 const styles = {
 	viewContainer: {
@@ -32,7 +32,8 @@ const styles = {
 		margin: isMobile ? "" : "20px",
 		minWidth: width,
 		maxWidth: "100%",
-		height: '70vh'
+		minHeight: '50vh'
+		// height: '70vh'
 	}
 };
 
@@ -52,8 +53,8 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 		>
 			<div style={styles.mainContainer}>
 				<Card style={styles.cardContainer} elevation={6}>
-					<Scrollbar>
-						<React.Fragment>
+					{councilIsFinished(council) ?
+						< React.Fragment >
 							{councilIsLive(council) ? (
 								<LoginForm
 									participant={participant}
@@ -64,10 +65,24 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 									<CouncilState council={council} company={company} participant={participant} />
 								)}
 						</React.Fragment>
-					</Scrollbar>
+						:
+						<Scrollbar>
+							<React.Fragment>
+								{councilIsLive(council) ? (
+									<LoginForm
+										participant={participant}
+										council={council}
+										company={company}
+									/>
+								) : (
+										<CouncilState council={council} company={company} participant={participant} />
+									)}
+							</React.Fragment>
+						</Scrollbar>
+					}
 				</Card>
 			</div>
-		</NotLoggedLayout>
+		</NotLoggedLayout >
 	);
 }
 
