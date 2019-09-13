@@ -24,6 +24,10 @@ import TableStyles from "../../../styles/table";
 import { bHistory } from "../../../containers/App";
 import { sendGAevent } from "../../../utils/analytics.js";
 import { useOldState, useHoverRow } from "../../../hooks.js";
+import Tag from "./draftTags/Tag.js";
+import { getTagColor } from "./draftTags/utils.js";
+import SelectedTag from "./draftTags/SelectedTag.js";
+import withWindowSize from "../../../HOCs/withWindowSize.js";
 
 const CompanyDraftList = ({ data, translate, company, ...props }) => {
 	const [state, setState] = useOldState({
@@ -127,7 +131,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 					/>
 				</Link>
 			</div>
-			<div style={{ height:' calc( 100% - 2em )'}}>
+			<div style={{ height: ' calc( 100% - 2em )' }}>
 				{error ? (
 					<div>
 						{error.graphQLErrors.map((error, index) => {
@@ -179,7 +183,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 									},
 									{
 										name: "type",
-										text: translate.type,
+										text: 'Etiquetas',
 										canOrder: true
 									},
 									{
@@ -199,12 +203,12 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 											draft={draft}
 											draftTypes={draftTypes}
 											company={company}
+											info={props}
 										/>
 									);
 								})}
 							</EnhancedTable>
 						))}
-
 				<AlertConfirm
 					title={translate.attention}
 					bodyText={translate.question_delete}
@@ -222,8 +226,34 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 	);
 }
 
-const HoverableRow = ({ draft, draftTypes, company, translate, ...props }) => {
+const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props }) => {
 	const [show, handlers] = useHoverRow();
+
+	const TagColumn = props => {
+		return (
+			<div style={{
+				display: "flex",
+				color: "#ffffff",
+				fontSize: "12px",
+				marginBottom: "0.5em ",
+				flexDirection: 'column'
+			}}>
+				{props.children}
+			</div>
+		)
+	}
+
+	// const buildTagColumns = tags => {
+	// 	const columns = {};
+	// 	Object.keys(tags).forEach(key => {
+	// 		const tag = tags[key];
+	// 		columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
+	// 	});
+
+	// 	return columns;
+	// }
+
+	// const columns = buildTagColumns(testTags);
 
 	if (isMobile) {
 		return (
@@ -269,7 +299,23 @@ const HoverableRow = ({ draft, draftTypes, company, translate, ...props }) => {
 				{draft.title}
 			</TableCell>
 			<TableCell>
-				{translate[draftTypes[draft.type] ? translate[draftTypes[draft.type].label] : ""]}
+				<TagColumn>
+					<SelectedTag
+						text={22222}
+						color={getTagColor(1)}
+						innerWidth={'100px'}
+						props={info}
+						list={true}
+					/>
+					<SelectedTag
+						text={22222}
+						color={getTagColor(1)}
+						innerWidth={'100px'}
+						props={info}
+						list={true}
+						count={"1"}
+					/>
+				</TagColumn>
 			</TableCell>
 			<TableCell>
 				<div style={{ width: '3em' }}>
@@ -301,5 +347,5 @@ export default withSharedProps()(
 				notifyOnNetworkStatusChange: true
 			})
 		})
-	)(CompanyDraftList)
+	)(withWindowSize(CompanyDraftList))
 );
