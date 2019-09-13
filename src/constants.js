@@ -84,7 +84,10 @@ export const DRAFT_TYPES = {
 	INTRO: 2,
 	CONSTITUTION: 3,
 	CONCLUSION: 4,
-	COMMENTS_AND_AGREEMENTS: 5
+	COMMENTS_AND_AGREEMENTS: 5,
+	CONVENE_FOOTER: 6,
+	CERTIFICATE_HEADER: 7,
+	CERTIFICATE_FOOTER: 8
 };
 
 export const QUORUM_TYPES = [
@@ -173,6 +176,33 @@ export const AGENDA_TYPES = {
 	CUSTOM_PRIVATE: 7,
 	CUSTOM_NOMINAL: 6
 };
+
+export const GOVERNING_BODY_TYPES = {
+	NONE: {
+		value: 0,
+		label: 'none'
+	},
+	ONE_PERSON: {
+		value: 1,
+		label: 'sole_admin'
+	},
+	ONE_ENTITY: {
+		value: 2,
+		label: 'sole_admin_entity'
+	},
+	JOINT_ADMIN: {
+		value: 3,
+		label: 'joint_admins'
+	},
+	SOLIDARY_ADMIN: {
+		value: 4,
+		label: 'solidarity_admins'
+	},
+	COUNCIL: {
+		value: 5,
+		label: 'board_of_directors'
+	}
+}
 
 //CONTINUATION OF AGENDA_TYPES
 export const CUSTOM_AGENDA_VOTING_TYPES = [

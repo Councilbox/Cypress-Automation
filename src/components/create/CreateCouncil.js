@@ -1,13 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { LoadingMainApp, LiveToast, AlertConfirm, BlockButton, Grid, GridItem } from "../../displayComponents";
+import { LoadingMainApp, LiveToast, AlertConfirm } from "../../displayComponents";
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { bHistory } from "../../containers/App";
 import { ConfigContext } from '../../containers/AppControl';
 import { toast } from 'react-toastify';
-import withTranslations from "../../HOCs/withTranslations";
 import { getSecondary } from "../../styles/colors";
 import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
@@ -15,6 +14,8 @@ import { checkSecondDateAfterFirst } from "../../utils/CBX";
 import { isMobile } from "react-device-detect";
 import { Paper } from "material-ui";
 import { useHoverRow } from "../../hooks";
+import { sendGAevent } from '../../utils/analytics';
+import withSharedProps from "../../HOCs/withSharedProps";
 
 
 const CreateCouncil = props => {
@@ -39,6 +40,11 @@ const CreateCouncil = props => {
 				props.match.params.company
 			);
 			if (newCouncilId) {
+				sendGAevent({
+					category: "Reuniones",
+					action: "Creación reunión con sesión",
+					label: props.company.businessName
+				});
 				bHistory.replace(`/company/${props.match.params.company}/council/${newCouncilId}`);
 			} else {
 				bHistory.replace(`/company/${props.match.params.company}`);
@@ -74,7 +80,7 @@ const CreateCouncil = props => {
 			<CreateCouncilModal
 				history={props.history}
 				createCouncil={props.createCouncil}
-				company={props.match.params.company}
+				company={props.company}
 				translate={props.translate}
 				config={config}
 			/>
@@ -95,23 +101,31 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 	const [options, setOptions] = React.useState(null);
 	const [step, setStep] = React.useState(1);
 	const [errors, setErrors] = React.useState({});
+	const [creating, setCreating] = React.useState(false);
 	const [title, setTitle] = React.useState("Seleccionar tipo de reunión");//TRADUCCION
 
 
 	const sendCreateCouncil = async type => {
-		if (!checkRequiredFields(type)) {
+		if (!checkRequiredFields(type) && !creating) {
+			setCreating(true);
 			const response = await createCouncil({
 				variables: {
-					companyId: company,
+					companyId: company.id,
 					type,
 					councilOptions: options
 				}
 			});
 			const newCouncilId = response.data.createCouncil.id;
 			if (newCouncilId) {
-				bHistory.replace(`/company/${company}/council/${newCouncilId}`);
+				sendGAevent({
+					category: "Reuniones",
+					action: "Creación reunión con sesión",
+					label: company.businessName
+				});
+				setCreating(false);
+				bHistory.replace(`/company/${company.id}/council/${newCouncilId}`);
 			} else {
-				bHistory.replace(`/company/${company}`);
+				bHistory.replace(`/company/${company.id}`);
 				toast(
 					<LiveToast
 						message={translate.no_statutes}
@@ -324,19 +338,18 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 
 const mapStateToProps = state => ({
 	main: state.main,
-	company: state.company,
 	user: state.user,
 	council: state.council
 });
 
 export const createCouncil = gql`
 	mutation CreateCouncil($companyId: Int!, $type: Int, $councilOptions: CouncilInput) {
-						createCouncil(companyId: $companyId, type: $type, councilOptions: $councilOptions) {
-						id
-					}
-					}
-				`;
+		createCouncil(companyId: $companyId, type: $type, councilOptions: $councilOptions) {
+			id
+		}
+	}
+`;
 
 export default graphql(createCouncil, { name: 'createCouncil' })(connect(
 	mapStateToProps
-)(withRouter(withTranslations()(CreateCouncil))));
+)(withRouter(withSharedProps()(CreateCouncil))));

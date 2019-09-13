@@ -255,7 +255,11 @@ const StepAgenda = ({ client, translate, ...props }) => {
 																item =>
 																	item.value ===
 																	agenda.subjectType
-															).label
+															)? votingTypes.find(
+																item =>
+																	item.value ===
+																	agenda.subjectType
+															).label : ''
 														]
 													}
 													removeAgenda={removeAgenda}
@@ -441,7 +445,6 @@ export const AddAgendaPoint = ({
 		yesNoModal: false,
 		customPointModal: false
 	});
-	const [loading, setLoading] = React.useState(false);
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
@@ -479,7 +482,7 @@ export const AddAgendaPoint = ({
 				<DropDownMenu
 					color={primary}
 					id={"new-agenda-trigger"}
-					loading={loading}
+					loading={false}
 					{...(!!Component ? (Component = { Component }) : {})}
 					text={translate.add_agenda_point}
 					textStyle={buttonStyle}

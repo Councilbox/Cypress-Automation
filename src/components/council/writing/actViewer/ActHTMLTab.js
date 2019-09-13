@@ -1,16 +1,34 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import { LoadingSection } from '../../../../displayComponents';
 import { Paper } from 'material-ui';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import DownloadActPDF from './DownloadActPDF';
-import { ConfigContext } from '../../../../containers/AppControl';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const ActHTML = ({ data, translate, council, ...props }) => {
-	if (data.loading) {
+const ActHTML = ({ translate, council, client, ...props }) => {
+	const [data, setData] = React.useState(null);
+	const [loading, setLoading] = React.useState(true);
+
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: councilActEmail,
+			variables: {
+				councilId: council.id
+			}
+		});
+
+		setData(response.data);
+		setLoading(false);
+	}, [council.id]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	if (loading) {
 		return (
 			<LoadingSection />
 		);
@@ -66,11 +84,4 @@ const ActHTML = ({ data, translate, council, ...props }) => {
 }
 
 
-export default graphql(councilActEmail, {
-	options: props => ({
-		variables: {
-			councilId: props.council.id
-		},
-		notifyOnNetworkStatusChange: true
-	})
-})(withWindowSize(ActHTML));
+export default withApollo(withWindowSize(ActHTML));

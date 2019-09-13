@@ -1,16 +1,15 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Card, CardHeader, Avatar, CardActions, Button } from 'material-ui';
-import { LoadingSection, Scrollbar } from '../../../../displayComponents';
+import { Card, CardHeader, Avatar, CardActions } from 'material-ui';
+import { LoadingSection } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { getTranslateFieldFromType, ExplorerLink, ValidatorLink } from '../../../notLogged/validator/ValidatorPage';
-import { getSecondary } from '../../../../styles/colors';
 import { isMobile } from 'react-device-detect';
 import ToolTip from '../../../../displayComponents/Tooltip';
 
 
-const EvidencesPage = ({ data, translate, ...props }) => {
+const EvidencesPage = ({ data, translate }) => {
 
     if(data.loading){
         return <LoadingSection />
@@ -21,7 +20,6 @@ const EvidencesPage = ({ data, translate, ...props }) => {
             {data.councilEvidences.map((evidence, index) => {
                 const parsedContent = JSON.parse(evidence.content);
                 const primerasLetras = `${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`.split(' ').map(palabra => palabra.toUpperCase().substr(0, 1))
-                const secondary = getSecondary();
                 return (
                     <Card key={`${evidence.id}`} style={{ padding: '0.6em', userSelect: 'text', width: isMobile ? '90%' : '65%', margin: '0 auto', marginBottom: '1.5em', marginTop: index === 0 ? '1.6em' : '0' }}>
                         <CardHeader

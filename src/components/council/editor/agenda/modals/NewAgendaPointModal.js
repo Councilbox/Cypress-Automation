@@ -100,8 +100,8 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 	};
 
 
-	const loadDraft = draft => {
-		const correctedText = CBX.changeVariablesToValues(draft.text, {
+	const loadDraft = async draft => {
+		const correctedText = await CBX.changeVariablesToValues(draft.text, {
 			company,
 			council
 		}, translate);

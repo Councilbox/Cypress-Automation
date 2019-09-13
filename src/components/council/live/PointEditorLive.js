@@ -4,7 +4,6 @@ import { filterAgendaVotingTypes, hasVotation, majorityNeedsInput, isCustomPoint
 import { checkValidMajority } from '../../../utils/validation';
 import { MenuItem } from 'material-ui';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { updateAgenda } from "../../../queries/agenda";
 import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../constants';
 import { useOldState } from '../../../hooks';

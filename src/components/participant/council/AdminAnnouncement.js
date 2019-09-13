@@ -4,8 +4,10 @@ import { graphql, compose } from 'react-apollo';
 import { Paper } from 'material-ui';
 import { BasicButton } from '../../../displayComponents';
 import icono from "../../../assets/img/logo-icono.png";
+import { ConfigContext } from '../../../containers/AppControl';
 
-const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, context }) => {
+const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement }) => {
+    const context = React.useContext(ConfigContext);
 
     const closeAnnouncement = async () => {
         await closeRoomAnnouncement({

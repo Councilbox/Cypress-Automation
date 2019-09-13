@@ -8,67 +8,91 @@ import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl.jsx";
 
-class ParticipantTokenContainer extends React.Component {
-	state = {
-		loading: true,
-		error: false,
-		participant: null
-	};
+const initialState = {
+	loading: true,
+	error: false,
+	participant: null,
+	token: null
+}
 
-	async componentDidMount() {
-        this.setState({ loading: true });
+const reducer = (state, action) => {
+	const actions = {
+		'SET_LOADING': () => ({
+			...state,
+			loading: action.value
+		}),
+		'SET_DATA': () => ({
+			...state,
+			...action.value,
+			loading: false
+		}),
+		'SET_ERROR': () => ({
+			...state,
+			error: action.value,
+			loading: false
+		})
+	}
 
-        try {
-            const response = await this.props.participantToken();
-            if (response && !response.errors) {
-                const token = response.data.participantToken;
-                sessionStorage.setItem("participantToken", token);
-                const responseQueryMe = await this.props.client.query({
-                    query: getMe,
-                    variables: {},
-                    fetchPolicy: "network-only"
-                });
+	return actions[action.type]? actions[action.type]() : state;
+}
+
+const ParticipantTokenContainer = ({ participantToken, match, client, translate }) => {
+	const [state, dispatch] = React.useReducer(reducer, initialState);
+
+	React.useEffect(() => {
+		const getData = async () => {
+			dispatch({ type: 'SET_LOADING', value: true });
+			try {
+				let token;
+
+				if(match.params.creds){
+					token = match.params.creds;
+				} else {
+					const response = await participantToken();
+					if(response.errors){
+						throw new Error("Error getting participant token");
+					}
+					token = response.data.participantToken;
+				}
+				sessionStorage.setItem("participantToken", token);
+				const responseQueryMe = await client.query({
+					query: getMe,
+					variables: {},
+					fetchPolicy: "network-only"
+				});
 				const participant = responseQueryMe.data.participantMe;
 
-                this.setState({
-                    token: token,
-                    loading: false,
-                    participant: participant
-                });
-            } else {
-                throw new Error("Error getting participant token");
-            }
-        } catch (error) {
-            //TODO ADD TOAST OR LOAD MESSAGE VIEW
-            this.setState({
-                error: true,
-                loading: false
-            });
-        }
-	}
-
-	render() {
-		const { loading, error, participant } = this.state;
-		const { translate } = this.props;
-
-		if (Object.keys(translate).length === 0 && loading) {
-			return <LoadingMainApp />;
+				dispatch({ type: 'SET_DATA', value: {
+					token,
+					participant
+				}});
+			} catch (error) {
+				dispatch({ type: 'SET_ERROR', value: true });
+			}
 		}
 
-		if (error) {
-			return <InvalidUrl test={this.props.match.params.token === 'fake' || this.props.match.params.token === 'test'} />;
+		if(!state.participant){
+			getData();
 		}
+	}, [participantToken]);
 
-		return (
-			<React.Fragment>
-				{participant && (
-					<Redirect
-						to={`/participant/${participant.id}/council/${participant.councilId}/login`}
-					/>
-				)}
-			</React.Fragment>
-		);
+	const { loading, error, participant } = state;
+
+	if (Object.keys(translate).length === 0 && loading) {
+		return <LoadingMainApp />;
 	}
+
+	if (error) {
+		return <InvalidUrl test={match.params.token === 'fake' || match.params.token === 'test'} />;
+	}
+
+	return (
+		<React.Fragment>
+			{participant &&
+				<Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`} />
+			}
+		</React.Fragment>
+	);
 }
 
 const mapStateToProps = state => ({

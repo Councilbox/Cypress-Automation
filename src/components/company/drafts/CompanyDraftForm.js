@@ -9,6 +9,7 @@ import {
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import { MenuItem } from "material-ui";
 import * as CBX from "../../../utils/CBX";
+import { GOVERNING_BODY_TYPES } from "../../../constants";
 
 const CompanyDraftForm = ({
 	translate,
@@ -17,6 +18,7 @@ const CompanyDraftForm = ({
 	updateState,
 	companyStatutes,
 	draftTypes,
+	rootStatutes,
 	languages,
 	votingTypes,
 	majorityTypes,
@@ -37,6 +39,31 @@ const CompanyDraftForm = ({
 				}
 			/>
 		</GridItem>
+		{!!rootStatutes &&
+			<GridItem xs={12} lg={3} md={3}>
+				<SelectInput
+					floatingText={translate.council_type}
+					value={draft['prototype'] || 0}
+					errorText={errors['prototype']}
+					onChange={event =>
+						updateState({
+							prototype: event.target.value
+						})
+					}
+				>
+					{rootStatutes.map(council => {
+						return (
+							<MenuItem
+								value={council['prototype']}
+								key={`counciltype_${council['prototype']}`}
+							>
+								{translate[council.title] || council.title}
+							</MenuItem>
+						);
+					})}
+				</SelectInput>
+			</GridItem>
+		}
 		{!!companyStatutes &&
 			<GridItem xs={12} lg={3} md={3}>
 				<SelectInput
@@ -87,6 +114,27 @@ const CompanyDraftForm = ({
 				</SelectInput>
 			</GridItem>
 		}
+		<GridItem xs={12} lg={3} md={3}>
+			<SelectInput
+				floatingText={'Órgano de gobierno'}
+				value={draft.governingBodyType || 0}
+				errorText={errors.governingBodyType}
+				onChange={event =>
+					updateState({
+						governingBodyType: event.target.value
+					})
+				}
+			>
+			    {Object.keys(GOVERNING_BODY_TYPES).map(key => (
+                    <MenuItem
+                        value={GOVERNING_BODY_TYPES[key].value}
+                        key={GOVERNING_BODY_TYPES[key].value}
+                    >
+                        {translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label}
+                    </MenuItem>
+                ))}
+			</SelectInput>
+		</GridItem>
 		{!!languages &&
 			<GridItem xs={12} lg={3} md={3}>
 				<SelectInput
@@ -173,7 +221,7 @@ const CompanyDraftForm = ({
 				}
 			/>
 		</GridItem>
-		{CBX.hasVotation(draft.votationType) && (
+		{(CBX.hasVotation(draft.votationType) && draft.type === 1) && (
 			<Fragment>
 				<GridItem xs={6} lg={3} md={3}>
 					<SelectInput

@@ -86,28 +86,6 @@ const AgendaManager = ({ data, translate, council, company, stylesDiv, ...props 
 		}
 	}
 
-	const handleKeyPress = event => {
-		const key = event.nativeEvent;
-		const { selectedPoint } = state;
-
-		if (!key.altKey) {
-			switch (key.keyCode) {
-				case 38:
-					if (selectedPoint > 0) {
-						changeSelectedPoint(selectedPoint - 1);
-					}
-					break;
-				case 40:
-					if (selectedPoint < data.agendas.length - 1) {
-						changeSelectedPoint(selectedPoint + 1);
-					}
-					break;
-				default:
-					return;
-			}
-		}
-	}
-
 	React.useImperativeHandle(ref, () => ({
 		showVotingsAlert,
 		state

@@ -3,6 +3,8 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import LateralOption from "./LateralOption";
 import { darkGrey } from "../../styles/styles";
 import logo from '../../assets/img/logo-icono.png';
+import { isMobile } from "react-device-detect";
+
 
 const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType }) => {
 
@@ -14,7 +16,7 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 						customIcon={<i className="fa fa-pencil-square-o"></i>}
 						text={translate.drafts}
 						link={`/company/${company.id}/councils/drafts`}
-						style={{  marginTop: "10px", color: "#ffffffcc" }}
+						style={{ marginTop: "10px", color: "#ffffffcc" }}
 					/>
 
 					<LateralOption
@@ -90,11 +92,12 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 			)
 		}
 
-		return menuOptions[type]? menuOptions[type] : menuOptions.dashboard;
+		return menuOptions[type] ? menuOptions[type] : menuOptions.dashboard;
 
 	}
 
 	return (
+		!isMobile &&
 		<div className={clase} style={{
 			background: 'transparent',
 			width: "130px",
@@ -122,7 +125,9 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 					alignItems: 'center',
 					justifyContent: 'center',
 				}}>
+
 					{renderMenuOptions(menuType)}
+
 				</div>
 			</div>
 		</div>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import { corporationDrafts, deleteCorporationDraft } from "../../../queries";
-import { LoadingSection, SelectInput, TextInput, AlertConfirm, Icon, CloseIcon, BasicButton, ButtonIcon, Scrollbar } from '../../../displayComponents';
-import { MenuItem, Table, TableRow, TableHead, TableCell, TableSortLabel, TableBody, InputAdornment } from 'material-ui';
+import { LoadingSection, SelectInput, TextInput, AlertConfirm, CloseIcon, BasicButton, ButtonIcon, Scrollbar } from '../../../displayComponents';
+import { MenuItem, Table, TableRow, TableHead, TableCell, TableBody, InputAdornment } from 'material-ui';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withTranslations from '../../../HOCs/withTranslations';
 import NewCorporationDraft from './NewCorporationDraft';
@@ -86,7 +86,7 @@ class DraftsDashboard extends React.PureComponent {
             variables.filters = [...variables.filters, { field: 'type', text: this.state.draftType }];
         }
 
-        const response = await this.props.data.refetch(variables);
+        await this.props.data.refetch(variables);
     }
 
     deleteCorporationDraft = async () => {

@@ -81,9 +81,7 @@ class CorporationDrafts extends React.Component {
                                                     {draft.title}
                                                 </TableCell>
                                                 <TableCell>
-                                                    {
-                                                        translate[draftTypes[draft.type].label]
-                                                    }
+                                                    {translate[draftTypes[draft.type].label]}
                                                 </TableCell>
                                             </TableRow>
                                         );

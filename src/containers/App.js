@@ -5,9 +5,10 @@ import createHistory from "history/createBrowserHistory";
 import LoadingMainApp from '../displayComponents/LoadingMainApp';
 import Loadable from 'react-loadable';
 import configureStore from "../store/store";
+import ThemeProvider from "../displayComponents/ThemeProvider";
 import ErrorHandler from '../components/ErrorHandler';
 import { Provider } from "react-redux";
-import { initUserData, loadingFinished, setLanguage, noServerResponse, serverRestored } from "../actions/mainActions";
+import { initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored } from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
 import { RetryLink } from 'apollo-link-retry';
 import AppControl from './AppControl';
@@ -28,6 +29,8 @@ import AdomWrapper from './AdomWrapper';
 import moment from "moment/min/moment-with-locales.min";
 import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
 import ConveneDisplay from "../components/council/convene/ConveneDisplay";
+import { pageView } from "../utils/analytics";
+import { shouldLoadSubdomain } from "../utils/subdomain";
 export { moment as moment };
 
 const httpLink = new HttpLink({
@@ -178,15 +181,19 @@ export const client = new ApolloClient({
 		}
 	}
 });
+export const bHistory = createHistory();
 
 export const store = configureStore();
 store.dispatch(setLanguage("es"));
-export const bHistory = createHistory();
 if (sessionStorage.getItem("token")) {
 	store.dispatch({ type: "LOGIN_SUCCESS" });
 	store.dispatch(initUserData());
 } else {
 	store.dispatch(loadingFinished());
+}
+
+if(shouldLoadSubdomain()){
+	store.dispatch(loadSubdomainConfig());
 }
 
 if(sessionStorage.getItem("participantLoginSuccess")){
@@ -197,75 +204,87 @@ const App = () => {
 	return (
 		<ApolloProvider client={client}>
 			<Provider store={store}>
-				<ErrorHandler>
-					<AppControl>
-						<AdomWrapper>
-							<Router history={bHistory}>
-								<React.Fragment>
-									<Switch>
-										<Route
-											exact
-											path="/company/:company/council/:id/live"
-											component={CouncilLiveContainer}
-										/>
-										<Route
-											exact
-											path="/cmp/:id"
-											component={CouncilLiveTestContainer}
-										/>
-										<Route
-											exact
-											path="/evidence/:uuid?"
-											component={ValidatorPage}
-										/>
-										<Route
-											exact
-											path="/convene/:id"
-											component={ConveneDisplay}
-										/>
-										{!window.location.hostname.includes('app.councilbox') &&
-												<Route
-													exact
-													path="/docs"
-													component={DocsPage}
-												/>
-											}
-											{!window.location.hostname.includes('app.councilbox') &&
-												<Route
-													exact
-													path="/docs/tryit"
-													component={PlaygroundPage}
-												/>
-											}
-										<Route
-											exact
-											path="/company/:company/meeting/live"
-											component={MeetingLivePage}
-										/>
-										<Route
-											exact
-											path="/meeting/"
-											component={MeetingLivePage}
-										/>
-										<Route
-											exact
-											path="/meeting/new"
-											component={MeetingCreateContainer}
-										/>
-										<Route path="/" component={AppRouter} />
-									</Switch>
-									<ToastContainer
-										position="top-right"
-										progressClassName={'toastProgressBar'}
-									/>
-								</React.Fragment>
-							</Router>
-						</AdomWrapper>
-					</AppControl>
-				</ErrorHandler>
+				<ThemeProvider>
+					<ErrorHandler>
+						<AppControl>
+							<AdomWrapper>
+								<Router history={bHistory}>
+									<RouterWrapper />
+								</Router>
+							</AdomWrapper>
+						</AppControl>
+					</ErrorHandler>
+				</ThemeProvider>
 			</Provider>
 		</ApolloProvider>
 	);
 }
+
+const RouterWrapper = props => {
+	React.useEffect(() => {
+		pageView();
+	}, [window.location.href]);
+
+	return (
+		<React.Fragment>
+			<Switch>
+				<Route
+					exact
+					path="/company/:company/council/:id/live"
+					component={CouncilLiveContainer}
+				/>
+				<Route
+					exact
+					path="/cmp/:id"
+					component={CouncilLiveTestContainer}
+				/>
+				<Route
+					exact
+					path="/evidence/:uuid?"
+					component={ValidatorPage}
+				/>
+				<Route
+					exact
+					path="/convene/:id"
+					component={ConveneDisplay}
+				/>
+				{!window.location.hostname.includes('app.councilbox') &&
+						<Route
+							exact
+							path="/docs"
+							component={DocsPage}
+						/>
+					}
+					{!window.location.hostname.includes('app.councilbox') &&
+						<Route
+							exact
+							path="/docs/tryit"
+							component={PlaygroundPage}
+						/>
+					}
+				<Route
+					exact
+					path="/company/:company/meeting/live"
+					component={MeetingLivePage}
+				/>
+				<Route
+					exact
+					path="/meeting/"
+					component={MeetingLivePage}
+				/>
+				<Route
+					exact
+					path="/meeting/new"
+					component={MeetingCreateContainer}
+				/>
+				<Route path="/" component={AppRouter} />
+			</Switch>
+			<ToastContainer
+				position="top-right"
+				progressClassName={'toastProgressBar'}
+			/>
+		</React.Fragment>
+	)
+};
 
 export default App;

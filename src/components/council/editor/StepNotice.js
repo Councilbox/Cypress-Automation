@@ -27,109 +27,145 @@ import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
 
-class StepNotice extends React.Component {
 
-	state = {
-		placeModal: false,
-		changeCensusModal: false,
-		statuteModal: false,
+const StepNotice = ({ data, translate, company, ...props }) => {
+	const [council, setCouncil] = React.useState({});
+	const [placeModal, setPlaceModal] = React.useState(false);
+	const [statuteModal, setStatuteModal] = React.useState(false);
+	const [censusModal, setCensusModal] = React.useState(false);
+	const [errors, setErrors] = React.useState({});
+	const [state, setState] = React.useState({
 		loading: false,
 		success: false,
 		alert: false,
-		data: {},
-		errors: {
-			name: "",
-			dateStart: "",
-			dateStart2NdCall: "",
-			country: "",
-			countryState: "",
-			city: "",
-			zipcode: "",
-			conveneText: "",
-			street: ""
-		}
-	};
+	});
+	const editor = React.useRef();
+	const footerEditor = React.useRef();
+	const primary = getPrimary();
+	const secondary = getSecondary();
+	const dates = React.useRef({
+		dateStart: null,
+		dateStart2NdCall: null
+	});
 
-	baseState = this.state;
-
-	editor = null;
-
- 	componentDidUpdate(prevProps, prevState){
-		if(!this.props.data.loading){
-			if(prevState.data.dateStart && this.state.data.dateStart){
-				if(prevState.data.dateStart !== this.state.data.dateStart){
-					if(!CBX.checkMinimumAdvance(this.state.data.dateStart, this.props.data.council.statute)){
-						this.updateError({
-							dateStart: this.props.translate.new_statutes_warning
-							.replace('{{council_prototype}}', this.props.translate[this.props.data.council.statute.title] || this.props.data.council.statute.title)
-							.replace('{{days}}', this.props.data.council.statute.advanceNoticeDays)
-						});
+	const setCouncilWithRemoveValues = React.useCallback(async data => {
+		if(!data.loading && !council.id){
+			setCouncil({
+				...data.council,
+				name: !data.council.name? `${translate[data.council.statute.title]? translate[data.council.statute.title] : data.council.statute.title} - ${moment().format('DD/MM/YYYY')}` : data.council.name,
+				conveneText: await CBX.changeVariablesToValues(data.council.conveneText, {
+					company,
+					council: {
+						...data.council,
+						dateStart: data.council.dateStart? data.council.dateStart : new Date().toISOString(),
 					}
-				}
-			}
+				}, translate),
+				dateStart: !data.council.dateStart? new Date().toISOString() : data.council.dateStart,
+				conveneFooter: await CBX.changeVariablesToValues(data.council.conveneFooter, {
+					company,
+					council: {
+						...data.council,
+						dateStart: data.council.dateStart? data.council.dateStart : new Date().toISOString(),
+					}
+				}, translate),
+			});
+			dates.current.dateStart = !data.council.dateStart? new Date().toISOString() : data.council.dateStart;
+			dates.current.dateStart2NdCall = data.council.dateStart2NdCall;
 		}
-	}
+	}, [data]);
 
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(nextProps.data.council && !prevState.data.id){
-			const council = nextProps.data.council;
-			return {
-				data: {
-					...council,
-					...(!council.dateStart || !council.dateStart2NdCall? CBX.generateInitialDates(council.statute) : {}),
-					conveneText: CBX.changeVariablesToValues(council.conveneText, {
-						company: nextProps.company,
-						council: {
-							...council,
-							dateStart: council.dateStart? council.dateStart : new Date().toISOString(),
-						}
-					}, nextProps.translate)
-				}
-			}
+	React.useEffect(() => {
+		setCouncilWithRemoveValues(data);
+	}, [setCouncilWithRemoveValues]);
+
+	React.useEffect(() => {
+		if(council.id){
+			checkDates();
 		}
-		return null;
-	}
+	}, [council.dateStart, council.dateStart2NdCall]);
 
-	resetButtonStates = () => {
-		this.setState({
+	const resetButtonStates = () => {
+		setState({
+			...state,
 			loading: false,
 			success: false
 		});
 	}
 
-	reloadData = async () => {
-		await this.props.data.refetch();
-		this.setState({
-			data: {}
-		});
+	const reloadData = async () => {
+		const response = await data.refetch();
+		loadDraft({ text: response.data.council.conveneText });
+		loadFooterDraft({ text: response.data.council.conveneFooter });
 	}
 
-	nextPage = async () => {
-		if (!this.checkRequiredFields()) {
-			const response = await this.updateCouncil(2);
+	const checkDates = () => {
+		const statute = data.council.statute;
+		const firstDate = council.dateStart || new Date().toISOString();
+		const secondDate = council.dateStart2NdCall || new Date().toISOString();
+		const errors = {};
+		const oldFirstDate = dates.current.dateStart;
+		const oldSecondDate = dates.current.dateStart2NdCall;
+
+		//console.log(council.dateStart, council.dateStart2NdCall);
+
+		if(!CBX.checkMinimumAdvance(firstDate, statute)){
+			errors.dateStart = translate.new_statutes_warning
+				.replace('{{council_prototype}}', translate[statute.title] || statute.title)
+				.replace('{{days}}', statute.advanceNoticeDays)
+		}
+
+		if (CBX.hasSecondCall(council.statute) && (!CBX.checkSecondDateAfterFirst(firstDate, secondDate) || !council.dateStart2NdCall)) {
+			//errors.dateStart2NdCall = translate["2nd_call_date_changed"];
+			const first = moment(new Date(firstDate).toISOString(), moment.ISO_8601);
+			const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
+			const difference = second.diff(first, "minutes");
+			if(difference < statute.minimumSeparationBetweenCall){
+				updateState({
+					dateStart: firstDate,
+					dateStart2NdCall: CBX.addMinimumDistance(firstDate, statute).toISOString()
+				});
+			}
+			updateConveneDates(oldFirstDate? oldFirstDate : firstDate, firstDate, oldSecondDate? oldSecondDate : secondDate, CBX.addMinimumDistance(firstDate, statute));
+		} else {
+			if(oldFirstDate !== firstDate || oldSecondDate !== secondDate){
+				updateConveneDates(oldFirstDate, firstDate, oldSecondDate, secondDate);
+			}
+			if (!CBX.checkMinimumDistanceBetweenCalls(firstDate, secondDate, statute)) {
+				//errors.dateStart2NdCall = translate.new_statutes_hours_warning.replace("{{hours}}", statute.minimumSeparationBetweenCall);
+			}
+		}
+
+		setErrors(errors);
+	}
+
+	const nextPage = async () => {
+		if (!checkRequiredFields()) {
+			const response = await updateCouncil(2);
 			if(!response.data.errors){
-				this.props.nextStep();
-				this.props.data.refetch();
+				props.nextStep();
+				data.refetch();
 			}
 		}
 	};
 
-	updateCouncil = async step => {
-		this.setState({
+	const updateCouncil = async step => {
+		setState({
+			...state,
 			loading: true
 		});
-		const { __typename, statute, councilType, ...council } = this.state.data;
-		const response = await this.props.updateCouncil({
+		const { __typename, statute, councilType, ...rest } = council;
+		const response = await props.updateCouncil({
 			variables: {
 				council: {
-					...council,
+					...rest,
 					step: step
 				}
 			}
 		});
 
 		if(!response.data.errors){
-			this.setState({
+			setState({
+				...state,
 				loading: false,
 				success: true
 			});
@@ -138,189 +174,101 @@ class StepNotice extends React.Component {
 		return response;
 	};
 
-	savePlaceAndClose = council => {
-		this.setState({
-			placeModal: false,
-			data: {
-				...this.state.data,
-				...council
-			}
-		});
+	const savePlaceAndClose = newData => {
+		closePlaceModal();
+		updateState(newData);
 	};
 
-	updateState = (object, cb) => {
-		this.setState({
-			data: {
-				...this.state.data,
-				...object
-			}
-		}, cb? cb : null);
+	const updateState = object => {
+		setCouncil(data => ({
+			...data,
+			...object
+		}));
 	};
 
-	updateError = object => {
-		this.setState({
-			errors: {
-				...this.state.errors,
-				...object
-			}
-		});
-	};
-
-	changeCensus = async () => {
-		const response = await this.props.changeCensus({
+	const changeCensus = async () => {
+		const response = await props.changeCensus({
 			variables: {
-				censusId: this.props.data.council.statute.censusId,
-				councilId: this.props.data.council.id
+				censusId: data.council.statute.censusId,
+				councilId: data.council.id
 			}
 		});
 		if (response) {
-			this.setState({
-				changeCensusModal: false
-			});
+			setCensusModal(false);
 		}
 	}
 
-	changeStatute = async statuteId => {
-		const response = await this.props.changeStatute({
+	const changeStatute = async statuteId => {
+		const oldTitle = data.council.statute.title;
+		const response = await props.changeStatute({
 			variables: {
-				councilId: this.props.councilID,
+				councilId: props.councilID,
 				statuteId: statuteId
 			}
 		});
 
 		if (response) {
-			this.loadDraft({
+			loadDraft({
 				text: response.data.changeCouncilStatute.conveneHeader
 			});
-			await this.props.data.refetch();
-			this.checkAssociatedCensus(statuteId);
-			this.updateDate();
+			loadFooterDraft({
+				text: response.data.changeCouncilStatute.conveneFooter
+			});
+
+			const name = council.name.replace(new RegExp(`${translate[oldTitle]?
+				translate[oldTitle] : oldTitle}`),
+				translate[response.data.changeCouncilStatute.title]?
+					translate[response.data.changeCouncilStatute.title] : response.data.changeCouncilStatute.title);
+			updateState({
+				name
+			});
+
+			await data.refetch();
+			checkAssociatedCensus(statuteId);
+			updateDate();
 		}
-	};
-
-	updateConveneDates = (oldDate, newDate, old2Date, new2Date) => {
-		const text = this.state.data.conveneText;
-		const oldDateText = moment(new Date(oldDate)).format("LLL");
-		const newDateText = moment(new Date(newDate)).format("LLL");
-		const old2DateText = moment(new Date(old2Date)).format("LLL");
-		const new2DateText = moment(new Date(new2Date)).format("LLL");
-		const replacedText = text
-			.replace(oldDateText, newDateText)
-			.replace(old2DateText, new2DateText);
-
-		this.setState({
-			data: {
-				...this.state.data,
-				conveneText: replacedText
-			}
-		});
-		this.editor.setValue(replacedText);
 	}
 
-	updateDate = (
-		firstDate = this.state.data.dateStart,
-		secondDate = this.state.data.dateStart2NdCall
-	) => {
-		const { translate } = this.props;
-		const statute = this.props.data.council.statute;
-		const oldDate = this.state.data.dateStart;
-		const old2Date = this.state.data.dateStart2NdCall;
-		const errors = {
-			dateStart: '',
-			dateStart2NdCall: ''
-		};
-
- 		this.updateState({
-			dateStart: firstDate,
-			dateStart2NdCall: secondDate,
-		}, () => this.updateConveneDates(oldDate, firstDate, old2Date, secondDate));
-
-		if(!CBX.checkMinimumAdvance(firstDate, statute)){
-			errors.dateStart = translate.new_statutes_warning
-				.replace('{{council_prototype}}', translate[statute.title] || statute.title)
-				.replace('{{days}}', statute.advanceNoticeDays)
-		}
-		if (!CBX.checkSecondDateAfterFirst(firstDate, secondDate)) {
-			errors.dateStart2NdCall = translate["2nd_call_date_changed"];
-			this.updateState({
-				dateStart: firstDate,
-				dateStart2NdCall: CBX.addMinimumDistance(
-					firstDate,
-					statute
-				).toISOString()
-			}, () => this.updateConveneDates(oldDate, firstDate, old2Date, CBX.addMinimumDistance(firstDate, statute)));
-		} else {
-			if (
-				!CBX.checkMinimumDistanceBetweenCalls(
-					firstDate,
-					secondDate,
-					statute
-				)
-			) {
-				errors.dateStart2NdCall = translate.new_statutes_hours_warning.replace("{{hours}}", statute.minimumSeparationBetweenCall);
-			}
-		}
-
-		this.updateError(errors);
-	};
-
-	updateConveneText = () => {
-		const correctedText = CBX.changeVariablesToValues(this.state.data.conveneText, {
-			company: this.props.company,
-			council: this.state.data
-		}, this.props.translate);
-		this.setState({
-			data: {
-				...this.state.data,
-				conveneText: correctedText
-			}
-		});
-		this.editor.setValue(correctedText);
-	}
-
-	loadDraft = draft => {
-		const correctedText = CBX.changeVariablesToValues(draft.text, {
-			company: this.props.company,
-			council: this.state.data
-		}, this.props.translate);
-		this.updateState({
+	const loadDraft = async draft => {
+		const correctedText = await CBX.changeVariablesToValues(draft.text, {
+			company,
+			council
+		}, translate);
+		updateState({
 			conveneText: correctedText
 		});
-		this.editor.setValue(correctedText);
+		editor.current.setValue(correctedText);
 	};
 
-	checkRequiredFields() {
-		const { translate } = this.props;
-		const { data } = this.state;
+	const loadFooterDraft = async draft => {
+		const correctedText = await CBX.changeVariablesToValues(draft.text, {
+			company: company,
+			council
+		}, translate);
+		updateState({
+			conveneFooter: correctedText
+		});
+		footerEditor.current.setValue(correctedText);
+	}
 
-		let errors = {
-			name: "",
-			dateStart: "",
-			dateStart2NdCall: "",
-			conveneText: ""
-		};
+	function checkRequiredFields() {
+		let errors = {}
 
-		let hasError = false;
-
-		if (!data.name) {
-			hasError = true;
+		if (!council.name) {
 			errors.name = translate.new_enter_title;
 		}
 
-		if (!data.dateStart) {
-			hasError = true;
+		if (!council.dateStart) {
 			errors.dateStart = translate.field_required;
 		}
 
 		if (
-			!data.conveneText ||
-			data.conveneText.replace(/<\/?[^>]+(>|$)/g, "").length <= 0
+			!council.conveneText ||
+			council.conveneText.replace(/<\/?[^>]+(>|$)/g, "").length <= 0
 		) {
-			hasError = true;
 			errors.conveneText = translate.field_required;
 		} else {
-			if(CBX.checkForUnclosedBraces(data.conveneText)){
-				hasError = true;
+			if(CBX.checkForUnclosedBraces(council.conveneText)){
 				errors.conveneText = translate.revise_text;
 				toast(
 					<LiveToast
@@ -334,368 +282,413 @@ class StepNotice extends React.Component {
 			}
 		}
 
-		this.setState({
-			alert: hasError,
-			errors: errors
+		const hasError = Object.keys(errors).length > 0;
+
+		setState({
+			...state,
+			alert: hasError
 		});
+		setErrors(errors);
 
 		return hasError;
 	}
 
-	showPlaceModal = () => {
-		this.setState({
-			placeModal: true
-		});
+	const showPlaceModal = () => {
+		setPlaceModal(true);
 	}
 
-	closePlaceModal = () => {
-		this.setState({
-			placeModal: false
-		});
+	const closePlaceModal = () => {
+		setPlaceModal(false);
 	}
 
-	showStatuteDetailsModal = () => {
-		this.setState({
-			statuteModal: true
-		})
+	const showStatuteDetailsModal = () => {
+		setStatuteModal(true);
 	}
 
-	closeStatuteDetailsModal = () => {
-		this.setState({
-			statuteModal: false
-		});
+	const closeStatuteDetailsModal = () => {
+		setStatuteModal(false);
 	}
 
-	checkAssociatedCensus = statuteId => {
-		const statute = this.props.data.companyStatutes.find(statute => statute.id === statuteId);
+	const checkAssociatedCensus = statuteId => {
+		const statute = data.companyStatutes.find(statute => statute.id === statuteId);
 		if(!!statute.censusId){
-			this.setState({
-				changeCensusModal: true
-			});
+			setCensusModal(true);
 		}
-
 	}
 
-	render() {
-		const { translate, company } = this.props;
-		const { companyStatutes, draftTypes } = this.props.data;
-		const council = this.state.data;
-		const { errors } = this.state;
-		const primary = getPrimary();
-		const secondary = getSecondary();
-		let statute = {};
-		if(!!this.props.data.council){
-			statute = this.props.data.council.statute;
+	const { companyStatutes, draftTypes } = data;
+
+	let statute = {};
+	if(!!council.id){
+		statute = data.council.statute;
+	}
+
+	let tags = [];
+
+
+
+	if(CBX.hasSecondCall(statute)){
+		tags = [{
+			value: moment(council.dateStart).format(
+				"LLL"
+			),
+			label: translate["1st_call_date"]
+		}, {
+			value: moment(council.dateStart2NdCall).format(
+				"LLL"
+			),
+			label: translate["2nd_call_date"]
+		}]
+	} else {
+		tags.push({
+			value: moment(council.dateStart).format(
+				"LLL"
+			),
+			label: translate.date
+		});
+	}
+
+	tags = [...tags,
+		{
+			value: company.businessName,
+			label: translate.business_name
+		},
+		{
+			value: council.remoteCelebration === 1? translate.remote_celebration : `${council.street}, ${
+				council.country
+			}`,
+			label: translate.new_location_of_celebrate
 		}
+	];
 
-		let tags = [];
-
-		if(CBX.hasSecondCall(statute)){
-			tags = [{
-				value: moment(council.dateStart).format(
-					"LLL"
-				),
-				label: translate["1st_call_date"]
-			}, {
-				value: moment(council.dateStart2NdCall).format(
-					"LLL"
-				),
-				label: translate["2nd_call_date"]
-			}]
-		} else {
-			tags.push({
-				value: moment(council.dateStart).format(
-					"LLL"
-				),
-				label: translate.date
-			});
-		}
-
-		tags = [...tags,
-			{
-				value: company.businessName,
-				label: translate.business_name
+	if(council.remoteCelebration !== 1){
+		tags = [...tags, {
+				value: council.country,
+				label: translate.company_new_country
 			},
 			{
-				value: council.remoteCelebration === 1? translate.remote_celebration : `${council.street}, ${
-					council.country
-				}`,
-				label: translate.new_location_of_celebrate
+				value: council.countryState,
+				label: translate.company_new_country_state
 			}
 		];
+	}
 
-		if(council.remoteCelebration !== 1){
-			tags = [...tags, {
-					value: council.country,
-					label: translate.company_new_country
-				},
-				{
-					value: council.countryState,
-					label: translate.company_new_country_state
-				}
-			];
+	const updateConveneDates = (oldDate, newDate, old2Date, new2Date) => {
+		const text = council.conveneText || '';
+		const oldDateText = moment(new Date(oldDate)).format("LLL");
+		const newDateText = moment(new Date(newDate)).format("LLL");
+		const old2DateText = moment(new Date(old2Date)).format("LLL");
+		const new2DateText = moment(new Date(new2Date)).format("LLL");
+		const newName = council.name.replace(new RegExp(`${moment(oldDate).format('DD/MM/YYYY')}`), moment(newDate).format('DD/MM/YYYY'));
+		const replacedText = text
+			.replace(new RegExp(`${oldDateText}`, 'g'), newDateText)
+			.replace(new RegExp(`${old2DateText}`, 'g'), new2DateText);
+
+		dates.current = {
+			dateStart: newDate,
+			dateStart2NdCall: new2Date
 		}
 
-		return (
-			<React.Fragment>
-				<EditorStepLayout
-					body={
-						!this.props.data.council && !this.props.data.errors?
-							<div
-								style={{
-									height: "300px",
-									width: "100%",
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center"
-								}}
-							>
-								<LoadingSection />
-							</div>
-						:
-							<React.Fragment>
-								{
-									<LoadFromPreviousCouncil
-										council={council}
-										translate={translate}
-										company={company}
-										companyStatutes={companyStatutes}
-										refetch={this.reloadData}
-									/>
-								}
-								<Grid>
-									<GridItem xs={12} md={4} lg={4} style={{paddingRight: '3.5em' }}>
-										<SelectInput
-											required
-											floatingText={translate.council_type}
-											value={
-												this.props.data.council.statute.statuteId || ""
-											}
-											onChange={event =>
-												this.changeStatute(+event.target.value)
-											}
-										>
-											{companyStatutes.map((statute, index) => {
-												return (
-													<MenuItem
-														value={statute.id}
-														key={`statutes_${statute.id}`}
-													>
-														{translate[statute.title] ||
-															statute.title}
-													</MenuItem>
-												);
-											})}
-										</SelectInput>
-										<div onClick={this.showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary}}>
-											Ver detalles
-										</div>
-									</GridItem>
-									<GridItem
-										xs={12}
-										md={8}
-										lg={8}
-										style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}
-									>
-										<BasicButton
-											text={translate.change_location}
-											id={'change-place'}
-											color={secondary}
-											textStyle={{
-												color: "white",
-												fontWeight: "600",
-												fontSize: "0.9em",
-												textTransform: "none"
-											}}
-											textPosition="after"
-											onClick={this.showPlaceModal}
-											icon={
-												<ButtonIcon type="location_on" color="white" />
-											}
-										/>
-										<h6 style={{ paddingTop: "0.8em", marginLeft: '1em' }}>
-											<b>{`${translate.new_location_of_celebrate}: `}</b>
-											{council.remoteCelebration === 1
-												? translate.remote_celebration
-												: `${council.street}, ${council.country}`}
-										</h6>
-									</GridItem>
+		updateState({
+			conveneText: replacedText,
+			name: newName
+		});
+		editor.current.setValue(replacedText);
+	}
 
-									<GridItem xs={12} md={4} lg={4} style={{marginTop: '1.3em'}}>
+	const updateDate = (firstDate = council.dateStart, secondDate = council.dateStart2NdCall) => {
+ 		updateState({
+			dateStart: firstDate,
+			dateStart2NdCall: secondDate,
+		});
+	};
+
+
+	return (
+		<React.Fragment>
+			<EditorStepLayout
+				body={
+					!council.id && !data.errors?
+						<div
+							style={{
+								height: "300px",
+								width: "100%",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center"
+							}}
+						>
+							<LoadingSection />
+						</div>
+					:
+						<React.Fragment>
+							{
+								<LoadFromPreviousCouncil
+									council={council}
+									translate={translate}
+									company={company}
+									companyStatutes={companyStatutes}
+									refetch={reloadData}
+								/>
+							}
+							<Grid>
+								<GridItem xs={12} md={4} lg={4} style={{paddingRight: '3.5em' }}>
+									<SelectInput
+										required
+										floatingText={translate.council_type}
+										value={data.council.statute.statuteId || ""}
+										onChange={event =>
+											changeStatute(+event.target.value)
+										}
+									>
+										{companyStatutes.map((statute, index) => {
+											return (
+												<MenuItem
+													value={statute.id}
+													key={`statutes_${statute.id}`}
+												>
+													{translate[statute.title] ||
+														statute.title}
+												</MenuItem>
+											);
+										})}
+									</SelectInput>
+									<div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary}}>
+										Ver detalles
+									</div>
+								</GridItem>
+								<GridItem
+									xs={12}
+									md={8}
+									lg={8}
+									style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}
+								>
+									<BasicButton
+										text={translate.change_location}
+										id={'change-place'}
+										color={secondary}
+										textStyle={{
+											color: "white",
+											fontWeight: "600",
+											fontSize: "0.9em",
+											textTransform: "none"
+										}}
+										textPosition="after"
+										onClick={showPlaceModal}
+										icon={
+											<ButtonIcon type="location_on" color="white" />
+										}
+									/>
+									<h6 style={{ paddingTop: "0.8em", marginLeft: '1em' }}>
+										<b>{`${translate.new_location_of_celebrate}: `}</b>
+										{council.remoteCelebration === 1
+											? translate.remote_celebration
+											: `${council.street}, ${council.country}`}
+									</h6>
+								</GridItem>
+
+								<GridItem xs={12} md={4} lg={4} style={{marginTop: '1.3em'}}>
+									<DateTimePicker
+										required
+										onChange={date => {
+											const newDate = new Date(date);
+											const dateString = newDate.toISOString();
+											updateDate(dateString);
+										}}
+										minDateMessage={""}
+										errorText={errors.dateStart}
+										acceptText={translate.accept}
+										cancelText={translate.cancel}
+										minDate={Date.now()}
+										label={translate["1st_call_date"]}
+										value={council.dateStart}
+									/>
+								</GridItem>
+								<GridItem xs={12} md={4} lg={4} style={{marginTop: '1.3em'}}>
+									{CBX.hasSecondCall(statute) && (
 										<DateTimePicker
 											required
+											minDate={
+												!!council.dateStart
+													? new Date(council.dateStart)
+													: new Date()
+											}
+											errorText={errors.dateStart2NdCall}
 											onChange={date => {
 												const newDate = new Date(date);
 												const dateString = newDate.toISOString();
-												this.updateDate(dateString);
+												updateDate(undefined, dateString);
 											}}
 											minDateMessage={""}
-											errorText={errors.dateStart}
 											acceptText={translate.accept}
 											cancelText={translate.cancel}
-											minDate={Date.now()}
-											label={translate["1st_call_date"]}
-											value={council.dateStart}
+											label={translate["2nd_call_date"]}
+											value={council.dateStart2NdCall}
 										/>
-									</GridItem>
-									<GridItem xs={12} md={4} lg={4} style={{marginTop: '1.3em'}}>
-										{CBX.hasSecondCall(statute) && (
-											<DateTimePicker
-												required
-												minDate={
-													!!council.dateStart
-														? new Date(council.dateStart)
-														: new Date()
+									)}
+								</GridItem>
+								<GridItem xs={12} md={10} lg={10} style={{marginTop: '2em'}}>
+									<TextInput
+										required
+										floatingText={translate.meeting_title}
+										type="text"
+										placeholder="Título que será el que aparezca en el acta"
+										errorText={errors.name}
+										value={council.name || ""}
+										onChange={event =>
+											updateState({
+												name: event.nativeEvent.target.value
+											})
+										}
+									/>
+								</GridItem>
+								<GridItem xs={12} md={12} lg={12}>
+									<RichTextInput
+										ref={editor}
+										key={props.versionControl}
+										translate={translate}
+										errorText={errors.conveneText}
+										required
+										loadDraft={
+											<LoadDraftModal
+												translate={translate}
+												companyId={company.id}
+												loadDraft={loadDraft}
+												statute={statute}
+												statutes={companyStatutes}
+												draftType={
+													draftTypes.filter(
+														draft =>
+															draft.label === "convene_header"
+													)[0].value
 												}
-												errorText={errors.dateStart2NdCall}
-												onChange={date => {
-													const newDate = new Date(date);
-													const dateString = newDate.toISOString();
-													this.updateDate(undefined, dateString);
-												}}
-												minDateMessage={""}
-												acceptText={translate.accept}
-												cancelText={translate.cancel}
-												label={translate["2nd_call_date"]}
-												value={council.dateStart2NdCall}
 											/>
-										)}
-									</GridItem>
-									<GridItem xs={12} md={10} lg={10} style={{marginTop: '2em'}}>
-										<TextInput
-											required
-											floatingText={translate.meeting_title}
-											type="text"
-											placeholder="Título que será el que aparezca en el acta"
-											errorText={errors.name}
-											value={council.name || ""}
-											onChange={event =>
-												this.updateState({
-													name: event.nativeEvent.target.value
-												})
-											}
-										/>
-									</GridItem>
-									<GridItem xs={12} md={12} lg={12}>
-										<RichTextInput
-											ref={editor => this.editor = editor}
-											key={this.props.versionControl}
-											translate={translate}
-											errorText={errors.conveneText}
-											required
-											loadDraft={
-												<LoadDraftModal
-													translate={translate}
-													companyId={company.id}
-													loadDraft={this.loadDraft}
-													statute={statute}
-													statutes={companyStatutes}
-													draftType={
-														draftTypes.filter(
-															draft =>
-																draft.label === "convene_header"
-														)[0].value
-													}
-												/>
-											}
-											tags={tags}
-											floatingText={translate.convene_info}
-											value={council.conveneText || ""}
-											onChange={value =>
-												this.updateState({
-													conveneText: value
-												})
-											}
-										/>
-									</GridItem>
-								</Grid>
-								<PlaceModal
-									open={this.state.placeModal}
-									close={this.closePlaceModal}
-									place={this.state.place}
-									countries={this.props.data.countries}
-									translate={this.props.translate}
-									saveAndClose={this.savePlaceAndClose}
-									council={council}
-								/>
-								<AlertConfirm
-									requestClose={() => this.setState({ changeCensusModal: false })}
-									open={this.state.changeCensusModal}
-									acceptAction={this.changeCensus}
-									buttonAccept={translate.want_census_change}
-									buttonCancel={translate.dont_change}
-									bodyText={<div>{translate.census_change_statute}</div>}
-									title={translate.census_change}
-								/>
-								<AlertConfirm
-									requestClose={this.closeStatuteDetailsModal}
-									open={this.state.statuteModal}
-									buttonCancel={translate.close}
-									title={council.statute? translate[council.statute.title] || council.statute.title : ''}
-									bodyText={
-										<StatuteDisplay
-											statute={council.statute}
-											translate={translate}
-											quorumTypes={this.props.data.quorumTypes}
-										/>
-									}
-								/>
-								<ErrorAlert
-									title={translate.error}
-									bodyText={translate.alert_must_fix_form}
-									buttonAccept={translate.accept}
-									open={this.state.alert}
-									requestClose={() => this.setState({ alert: false })}
-								/>
-							</React.Fragment>
-					}
-					buttons={
-						<React.Fragment>
-							<BasicButton
-								floatRight
-								text={translate.save}
-								loading={this.state.loading}
-								success={this.state.success}
-								reset={this.resetButtonStates}
-								color={secondary}
-								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none",
-									marginRight: "0.6em"
-								}}
-								icon={<ButtonIcon type="save" color="white" />}
-								textPosition="after"
-								onClick={() => this.updateCouncil(1)}
+										}
+										tags={tags}
+										floatingText={translate.convene_info}
+										value={council.conveneText || ""}
+										onChange={value =>
+											updateState({
+												conveneText: value
+											})
+										}
+									/>
+								</GridItem>
+								<GridItem xs={12} md={12} lg={12}>
+									<RichTextInput
+										key={props.versionControl}
+										ref={footerEditor}
+										translate={translate}
+										errorText={errors.conveneFooter}
+										tags={tags}
+										loadDraft={
+											<LoadDraftModal
+												translate={translate}
+												companyId={company.id}
+												loadDraft={loadFooterDraft}
+												statute={statute}
+												statutes={companyStatutes}
+												draftType={
+													draftTypes.filter(draft => draft.label === "convene_footer")[0].value
+												}
+											/>
+										}
+										floatingText={translate.convene_footer}
+										value={council.conveneFooter || ""}
+										onChange={value =>
+											updateState({
+												conveneFooter: value
+											})
+										}
+									/>
+								</GridItem>
+							</Grid>
+							<PlaceModal
+								open={placeModal}
+								close={closePlaceModal}
+								countries={data.countries}
+								translate={translate}
+								saveAndClose={savePlaceAndClose}
+								council={council}
 							/>
-							<BasicButton
-								floatRight
-								text={translate.next}
-								color={primary}
-								disabled={this.props.data.loading}
-								loading={this.state.loading}
-								icon={
-									<ButtonIcon
-										type="arrow_forward"
-										color="white"
+							<AlertConfirm
+								requestClose={() => setCensusModal(false)}
+								open={censusModal}
+								acceptAction={changeCensus}
+								buttonAccept={translate.want_census_change}
+								buttonCancel={translate.dont_change}
+								bodyText={<div>{translate.census_change_statute}</div>}
+								title={translate.census_change}
+							/>
+							<AlertConfirm
+								requestClose={closeStatuteDetailsModal}
+								open={statuteModal}
+								buttonCancel={translate.close}
+								title={council.statute? translate[council.statute.title] || council.statute.title : ''}
+								bodyText={
+									<StatuteDisplay
+										statute={council.statute}
+										translate={translate}
+										quorumTypes={data.quorumTypes}
 									/>
 								}
-								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								textPosition="after"
-								onClick={this.nextPage}
+							/>
+							<ErrorAlert
+								title={translate.error}
+								bodyText={translate.alert_must_fix_form}
+								buttonAccept={translate.accept}
+								open={state.alert}
+								requestClose={() => setState({ ...state, alert: false })}
 							/>
 						</React.Fragment>
-					}
-				/>
-			</React.Fragment>
-		);
-	}
+				}
+				buttons={
+					<React.Fragment>
+						<BasicButton
+							floatRight
+							text={translate.save}
+							loading={state.loading}
+							success={state.success}
+							reset={resetButtonStates}
+							color={secondary}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none",
+								marginRight: "0.6em"
+							}}
+							icon={<ButtonIcon type="save" color="white" />}
+							textPosition="after"
+							onClick={() => updateCouncil(1)}
+						/>
+						<BasicButton
+							floatRight
+							text={translate.next}
+							color={primary}
+							disabled={data.loading}
+							loading={state.loading}
+							icon={
+								<ButtonIcon
+									type="arrow_forward"
+									color="white"
+								/>
+							}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							textPosition="after"
+							onClick={nextPage}
+						/>
+					</React.Fragment>
+				}
+			/>
+		</React.Fragment>
+	);
+
 }
 
 const changeCensus = gql`

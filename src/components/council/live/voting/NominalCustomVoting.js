@@ -1,9 +1,8 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { AlertConfirm, BasicButton } from "../../../../displayComponents";
 import { getSecondary } from "../../../../styles/colors";
 import CustomPointVotingMenu from '../../../participant/agendas/CustomPointVotingMenu';
+import { isMobile } from 'react-device-detect';
 
 const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, ...props }) => {
     const [modal, setModal] = React.useState(false);
@@ -73,9 +72,10 @@ export const DisplayVoting = ({ ballots, translate }) => {
     }
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div style={{display: 'flex', flexDirection: 'column', marginTop: isMobile? '0.6em' : 'inherit'}}>
+            {isMobile && 'Selección:'}
             {ballots.map(ballot => (
-                <div className="truncate" style={{marginTop: '0.3em', maxWidth: '20em'}}>
+                <div className="truncate" style={{marginTop: '0.3em', maxWidth: '20em', fontWeight: isMobile? '700' : '400'}}>
                     {getVoteValueText(ballot.value)}
                 </div>
             ))}

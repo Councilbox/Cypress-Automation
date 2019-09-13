@@ -4,7 +4,6 @@ import { bHistory } from '../../../containers/App';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { Icon } from '../../../displayComponents';
-import { ConfigContext } from "../../../containers/AppControl";
 import { useOldState } from "../../../hooks";
 //import { useAdom } from 'adom-client';
 
@@ -35,17 +34,6 @@ const MeetingLivePage = ({ data }) => {
 		}
 		return () => sessionStorage.removeItem('meetingUrl');
 	}, [state.url]);
-
-	const closeAddParticipantModal = () => {
-		setState({
-			addParticipantModal: false
-		});
-	};
-
-	const checkVideoFlags = () => {
-		const council = data.council;
-		return council.state === 20 && council.councilType === 0;
-	};
 
 	return (
 		<div

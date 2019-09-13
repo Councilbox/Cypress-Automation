@@ -1,5 +1,5 @@
 import React from "react";
-import { LoadingSection, Icon, LiveToast } from "../../../../displayComponents";
+import { LoadingSection, Icon } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { darkGrey } from "../../../../styles/colors";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../../styles/constants";
@@ -150,8 +150,8 @@ class ActLiveSection extends React.Component {
 		);
 	};
 
-    loadDraft = draft => {
-		const correctedText = changeVariablesToValues(draft.text, {
+    loadDraft = async draft => {
+		const correctedText = await changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council,
 			votings: {

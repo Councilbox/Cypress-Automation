@@ -11,6 +11,7 @@ import { isMobile } from 'react-device-detect';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
+import { isLandscape } from '../../../utils/screen';
 
 
 const styles = theme => ({
@@ -32,12 +33,11 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
             cb();
         }
     }
-
-
+ 
     return (
         <div style={{
                 width: '100%',
-                height: isMobile? `calc(100% - ${window.screen.availHeight -window.innerHeight}px)` : '100%',
+                height: isMobile?  isLandscape() ? `calc( 100% - 7em )` : `calc(100% - ${window.screen.availHeight -window.innerHeight}px)` : '100%',
                 backgroundColor: 'white',
                 borderTop: '1px solid gainsboro',
                 paddingBottom: '10px',
@@ -62,7 +62,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                 }
                 <Tab label={isMobile? translate.attachments : translate.attachment_files} />
             </Tabs>
-            <div style={{borderTop: '1px solid gainsboro', height: isMobile ? 'calc(100% - 5em)' : 'calc(100% - 4em)'}}>
+            <div style={{borderTop: '1px solid gainsboro', height: isMobile ? isLandscape() ? '100%' : 'calc(100% - 5em)' : 'calc(100% - 4em)'}}> {/**height: isMobile ? 'calc(100% - 5em)' : 'calc(100% - 4em)' */}
                 <Scrollbar>
                     {selected === 0 &&
                         <div style={{padding: '1em'}}>

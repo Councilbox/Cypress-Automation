@@ -4,7 +4,7 @@ import withTranslations from "../../../HOCs/withTranslations";
 import { councilIsPreparing, checkForUnclosedBraces } from "../../../utils/CBX";
 import CouncilState from "../login/CouncilState";
 import AssistanceOption from "./AssistanceOption";
-import { compose, graphql, withApollo } from "react-apollo";
+import { compose, graphql } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
 import { PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
 import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, LiveToast } from '../../../displayComponents';
@@ -330,21 +330,24 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 																			value={PARTICIPANT_STATES.REMOTE}
 																			selected={state.assistanceIntention}
 																		/>
-																		<AssistanceOption
-																			title={translate.attending_in_person}
-																			translate={translate}
-																			select={() => {
-																				setState({
-																					...state,
-																					assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
-																					locked: false,
-																					delegateId: null
-																				})
-																			}}
-																			value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
-																			selected={state.assistanceIntention}
+																		{council.remoteCelebration !== 1 &&
+																			<AssistanceOption
+																				title={translate.attending_in_person}
+																				translate={translate}
+																				select={() => {
+																					setState({
+																						...state,
+																						assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+																						locked: false,
+																						delegateId: null
+																					})
+																				}}
+																				value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+																				selected={state.assistanceIntention}
 
-																		/>
+																			/>
+																		}
+
 																	</React.Fragment>
 																}
 															</Card>
@@ -375,21 +378,23 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 																		value={PARTICIPANT_STATES.REMOTE}
 																		selected={state.assistanceIntention}
 																	/>
-																	<AssistanceOption
-																		title={translate.attending_in_person}
-																		translate={translate}
-																		select={() => {
-																			setState({
-																				...state,
-																				assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
-																				locked: false,
-																				delegateId: null
-																			})
-																		}}
-																		value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
-																		selected={state.assistanceIntention}
+																	{council.remoteCelebration !== 1 &&
+																		<AssistanceOption
+																			title={translate.attending_in_person}
+																			translate={translate}
+																			select={() => {
+																				setState({
+																					...state,
+																					assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+																					locked: false,
+																					delegateId: null
+																				})
+																			}}
+																			value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+																			selected={state.assistanceIntention}
 
-																	/>
+																		/>
+																	}
 																	<AssistanceOption
 																		translate={translate}
 																		title={translate.not_attending}

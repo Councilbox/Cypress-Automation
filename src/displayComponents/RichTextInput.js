@@ -6,10 +6,13 @@ import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 // import RichTextEditor from 'react-rte';
 import { isChrome } from 'react-device-detect';
+import { withApollo } from 'react-apollo';
 import DropDownMenu from './DropDownMenu';
 import Icon from './Icon';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import withSharedProps from "../HOCs/withSharedProps";
+import { query } from "../components/company/drafts/companyTags/CompanyTags";
 
 if (isChrome) {
 	let style = document.createElement("style");
@@ -80,11 +83,10 @@ class RichTextInput extends React.Component {
 
 	render() {
 		const { tags, loadDraft, errorText, required, translate } = this.props;
-		const secondary = getSecondary();
 		const modules = {
 			toolbar: {
 				container: [
-					[{ 'color': [] }, { 'background': [] }], , [ 'bold', 'italic', 'underline', 'link', 'strike'],
+					[{ 'color': [] }, { 'background': [] }], [ 'bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
 					[{ 'align': 'justify'}]
@@ -123,7 +125,7 @@ class RichTextInput extends React.Component {
 								paddingRight: "0.8em"
 							}}
 						>
-							{!!tags && (
+							{
 								<React.Fragment>
 									<div
 										style={{
@@ -136,35 +138,13 @@ class RichTextInput extends React.Component {
 											alignItems: 'center',
 											justifyContent: 'flex-end'
 										}}>
-											<DropDownMenu
-												color="transparent"
-												text={translate.markers}
-												textStyle={{ color: secondary, paddingTop: '0px' }}
-												type="flat"
-												icon={
-													<Icon className="material-icons" style={{ color: secondary }}>
-														keyboard_arrow_down
-													</Icon>
-												}
-												items={
-													<React.Fragment>
-														{tags.map(tag => {
-															return (
-																<MenuItem
-																	key={`tag_${tag.label}`}
-																	onClick={() =>
-																		this.paste(`<span id="${tag.label}">${tag.value}</span>`)
-																	}
-
-																>
-																	{tag.label}
-																</MenuItem>
-															);
-														})}
-
-													</React.Fragment>
-												}
-											/>
+											{!!tags &&
+												<SmartTags
+													tags={tags}
+													translate={translate}
+													paste={this.paste}
+												/>
+											}
 											<div>
 												{!!loadDraft && loadDraft}
 											</div>
@@ -174,7 +154,7 @@ class RichTextInput extends React.Component {
 										</div>
 									</div>
 								</React.Fragment>
-							)}
+							}
 						</div>
 						{
 							<ReactQuill value={this.state.value}
@@ -191,5 +171,85 @@ class RichTextInput extends React.Component {
 		);
 	}
 }
+
+
+const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, paste, client }) => {
+	const secondary = getSecondary();
+	const [companyTags, setCompanyTags] = React.useState(null);
+	const [loading, setLoading] = React.useState(true);
+
+	const loadCompanyTags = React.useCallback(async () => {
+		const response = await client.query({
+			query,
+			variables: {
+				companyId: company.id
+			}
+		});
+		setLoading(false);
+		setCompanyTags(response.data.companyTags);
+	}, [company.id]);
+
+	React.useEffect(() => {
+		loadCompanyTags();
+	}, [loadCompanyTags]);
+
+	const getTextToPaste = tag => {
+		let draftMode = false;
+		if(tags){
+			if(tags[0].value.includes('{{')){
+				draftMode = true;
+			}
+		}
+
+		if(draftMode) {
+			return `{{${tag.key}}}`;
+		}
+
+		return tag.value;
+	}
+
+
+	return (
+		<DropDownMenu
+			color="transparent"
+			text={translate.markers}
+			textStyle={{ color: secondary, paddingTop: '0px' }}
+			type="flat"
+			icon={
+				<Icon className="material-icons" style={{ color: secondary }}>
+					keyboard_arrow_down
+				</Icon>
+			}
+			items={
+				<React.Fragment>
+					{tags.map(tag => {
+						return (
+							<MenuItem
+								key={`tag_${tag.label}`}
+								onClick={() =>
+									paste(`<span id="${tag.label}">${tag.getValue? tag.getValue() : tag.value}</span>`)
+								}
+
+							>
+								{tag.label}
+							</MenuItem>
+						);
+					})}
+					{(!loading && companyTags) && companyTags.map(tag => (
+						<MenuItem
+								key={`tag_${tag.id}`}
+								onClick={() =>
+									paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
+								}
+
+							>
+								{tag.key}
+						</MenuItem>
+					))}
+				</React.Fragment>
+			}
+		/>
+	)
+}))
 
 export default RichTextInput;

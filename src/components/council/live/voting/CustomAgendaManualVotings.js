@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { BasicButton, TextInput } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
-import { Table, TableHead, Card, TableBody, TableCell, TableRow, CardHeader } from 'material-ui';
+import { Table, TableBody, TableCell, TableRow } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 
 
@@ -39,6 +39,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         ballot.itemId = itemId;
         ballots.set(itemId, ballot);
         setBallots(new Map(ballots));
+        props.changeEditedVotings(true);
     }
 
     function getActualRecount(ballotsMap) {
@@ -65,6 +66,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                 success: true
             });
         }
+        props.changeEditedVotings(false);
     }
 
     const resetButtonStates = () => {

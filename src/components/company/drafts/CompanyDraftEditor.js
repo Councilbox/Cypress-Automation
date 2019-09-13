@@ -5,8 +5,7 @@ import {
 	CardPageLayout
 } from "../../../displayComponents";
 import CompanyDraftForm from "./CompanyDraftForm";
-import withTranslations from "../../../HOCs/withTranslations";
-import { graphql } from "react-apollo";
+import { graphql, withApollo } from "react-apollo";
 import {
 	getCompanyDraftData,
 	updateCompanyDraft
@@ -15,9 +14,11 @@ import { compose } from "react-apollo/index";
 import { checkRequiredFields } from "../../../utils/CBX";
 import { withRouter } from "react-router-dom";
 import { getPrimary } from "../../../styles/colors";
+import { sendGAevent } from "../../../utils/analytics";
+import withSharedProps from "../../../HOCs/withSharedProps";
 
 
-const CompanyDraftEditor = ({ translate, ...props }) => {
+const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	const [data, setData] = React.useState({
 		companyId: '',
 		companyType: '',
@@ -38,17 +39,29 @@ const CompanyDraftEditor = ({ translate, ...props }) => {
 		userId: '',
 		votationType: '',
 	});
+	const [vars, setVars] = React.useState({});
 	const [errors, setErrors] = React.useState({});
+	const [fetching, setFetching] = React.useState(true);
 	const [loading, setLoading] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);
 
-	React.useEffect(() => {
-		if(!props.data.loading){
-			if(props.data.companyDraft.id !== data.id){
-				setData(props.data.companyDraft);
+	const getData = React.useCallback(async() => {
+		const response = await client.query({
+			query: getCompanyDraftData,
+			variables: {
+				id: props.match.params.id,
+				companyId: props.match.params.company
 			}
-		}
-	}, [props.data.loading]);
+		});
+
+		setVars(response.data);
+		setData(response.data.companyDraft);
+		setFetching(false);
+	}, [props.match.params.id]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
 
 	const updateState = object => {
 		setData({
@@ -75,16 +88,22 @@ const CompanyDraftEditor = ({ translate, ...props }) => {
 				}
 			});
 
+			sendGAevent({
+				category: 'Borradores',
+				action: `Modificación de borrador`,
+				label: props.company.businessName
+			});
+
 			if (!response.errors) {
 				setSuccess(true);
 				setLoading(false);
 			}
 		}
 	}
-		
+
 	return (
 		<CardPageLayout title={translate.edit_draft}>
-			{(!props.data.loading && data.id) && (
+			{!fetching && (
 				<div>
 					<div style={{ marginTop: "1.8em" }}>
 						<CompanyDraftForm
@@ -92,10 +111,10 @@ const CompanyDraftEditor = ({ translate, ...props }) => {
 							errors={errors}
 							updateState={updateState}
 							draft={data}
-							companyStatutes={props.data.companyStatutes}
-							draftTypes={props.data.draftTypes}
-							votingTypes={props.data.votingTypes}
-							majorityTypes={props.data.majorityTypes}
+							companyStatutes={vars.companyStatutes}
+							draftTypes={vars.draftTypes}
+							votingTypes={vars.votingTypes}
+							majorityTypes={vars.majorityTypes}
 						/>
 					</div>
 					<br />
@@ -120,15 +139,6 @@ const CompanyDraftEditor = ({ translate, ...props }) => {
 
 
 export default compose(
-	graphql(getCompanyDraftData, {
-		name: "data",
-		options: props => ({
-			variables: {
-				id: props.match.params.id,
-				companyId: props.match.params.company
-			},
-			notifyOnNetworkStatusChange: true
-		})
-	}),
+	withApollo,
 	graphql(updateCompanyDraft, { name: "updateCompanyDraft" })
-)(withRouter(withTranslations()(CompanyDraftEditor)));
+)(withRouter(withSharedProps()(CompanyDraftEditor)));

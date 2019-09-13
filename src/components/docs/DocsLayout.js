@@ -1,7 +1,6 @@
 import React from 'react';
 import logo from '../../assets/img/logo-white.png';
 import ApikeyLogin from './ApikeyLogin';
-import { withApollo } from 'react-apollo';
 export const DocsContext = React.createContext();
 
 

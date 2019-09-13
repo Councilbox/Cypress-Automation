@@ -74,7 +74,7 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
                             flexDirection: 'column'
                         }}
                     >
-                        <img src="/img/logo-icono.png" style={{height: '3em'}} />
+                        <img src="/img/logo-icono.png" style={{height: '3em'}} alt="councilbox-logo" />
                         {error === 400 &&
                             'La convocatoria no es de acceso público'
                         }

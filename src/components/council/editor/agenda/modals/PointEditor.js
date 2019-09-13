@@ -46,8 +46,8 @@ class PointEditor extends React.Component {
 	}
 
 
-	loadDraft = draft => {
-		const correctedText = CBX.changeVariablesToValues(draft.text, {
+	loadDraft = async draft => {
+		const correctedText = await CBX.changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council
 		}, this.props.translate);

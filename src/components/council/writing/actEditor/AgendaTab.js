@@ -1,7 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
 import { LoadingSection, Scrollbar } from '../../../../displayComponents';
-import gql from 'graphql-tag';
 import AgendaEditor from './AgendaEditor';
 
 const AgendaTab = ({ council, translate, data }) => {
@@ -44,113 +42,6 @@ const AgendaTab = ({ council, translate, data }) => {
 		</div>
 	)
 }
-
-const CouncilActData = gql`
-	query CouncilActData($councilId: Int!) {
-		council(id: $councilId) {
-			id
-			businessName
-			country
-			countryState
-			currentQuorum
-			quorumPrototype
-			secretary
-			president
-			street
-			city
-			name
-			remoteCelebration
-			dateStart
-			dateStart2NdCall
-			dateRealStart
-			dateEnd
-			qualityVoteId
-			firstOrSecondConvene
-			act {
-				id
-				intro
-				constitution
-				conclusion
-			}
-			statute {
-				id
-				prototype
-				existsQualityVote
-			}
-		}
-
-		agendas(councilId: $councilId) {
-			id
-			orderIndex
-			agendaSubject
-			subjectType
-			abstentionVotings
-			abstentionManual
-			noVoteVotings
-			noVoteManual
-			positiveVotings
-			positiveManual
-			negativeVotings
-			negativeManual
-			description
-			majorityType
-			majority
-			majorityDivider
-			votings {
-				id
-				participantId
-				comment
-				vote
-				author {
-					id
-					socialCapital
-					numParticipations
-				}
-			}
-			numPresentCensus
-			presentCensus
-			numCurrentRemoteCensus
-			currentRemoteCensus
-			comment
-		}
-
-		councilRecount(councilId: $councilId){
-			socialCapitalTotal
-			partTotal
-			weighedPartTotal
-			numTotal
-		}
-
-		participantsWithDelegatedVote(councilId: $councilId){
-			name
-			surname
-			state
-			representative {
-				name
-				surname
-			}
-		}
-
-		votingTypes {
-			label
-			value
-		}
-
-		councilAttendants(
-			councilId: $councilId
-		) {
-			list {
-				name
-				surname
-			}
-		}
-
-		majorityTypes {
-			label
-			value
-		}
-	}
-`;
 
 export default AgendaTab;
 

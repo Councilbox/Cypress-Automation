@@ -89,7 +89,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     fontSize: '0.55rem',
                     textTransform: "none"
                 }}>
-                    Agenda {/*TRADUCCION*/}
+                    {translate.agenda}
                 </div>
             </div>
         </Button>
@@ -120,7 +120,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     textTransform: "none"
                 }}>
                     {props.isMobile ?
-                        'Mensaje' /*TRADUCCION*/
+                        translate.message
                         :
                         'Mensaje al admin'/*TRADUCCION*/
                     }
@@ -256,6 +256,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             <TimelineButton
                                 council={council}
+                                translate={translate}
                                 onClick={() => props.setContent('timeline')}
                                 actived={props.modalContent === "timeline"}
                                 participant={participant}
@@ -269,7 +270,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     classNameDialog={!!props.modalContent ? 'modal100block' : 'modal100none'}
                     PaperProps={{
                         // style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
-                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px",display: !!props.modalContent ? "block": "none" }
+                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px", display: !!props.modalContent ? "block" : "none" }
                     }}
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', height: '100%  ' }}
                     bodyText={
@@ -294,8 +295,9 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     open={props.adminMessage}
                     classNameDialog={'modal100Comentario'}
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0' }}
-                    bodyText={
-                        <div style={{
+                    PaperProps={{
+                        style: {
+                            margin:"0",
                             transition: "bottom 0.4s",
                             display: "flex",
                             position: "fixed",
@@ -305,20 +307,21 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                             left: "0",
                             alignItems: "center",
                             justifyContent: "center",
-                            zIndex: '1050',
                             borderTop: "1px solid gainsboro"
-                        }}>
+                        }
+                    }}
+                    bodyText={
                             <div style={{
                                 borderRadiusTopLeft: "5px",
                                 position: "relative",
                                 width: "100%",
                                 height: "100%",
-                                background: "#f1f1f1" }}>
+                                background: "#f1f1f1"
+                            }}>
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
                                     {props.comentario}
                                 </div>
-                            </div>
-                        </div>
+                         </div>
                     }
                 />
             </div>
@@ -396,6 +399,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 onClick={() => props.setContent('timeline')}
                                 actived={props.modalContent === "timeline"}
                                 participant={participant}
+                                translate={translate}
                             />
                         </div>
                     </Grid>
@@ -426,7 +430,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 width: "100%",
                                 height: "100%",
                                 background: "#f1f1f1"
-                                }}
+                            }}
                             >
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
                                     {props.comentario}
@@ -441,10 +445,9 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
 }
 
 
-const TimelineButton = withApollo(({ onClick, actived, council, client, participant }) => {
+const TimelineButton = withApollo(({ onClick, actived, council, translate, client, participant }) => {
     const [total, setTotal] = React.useState(0);
     const [lastEvidenceId, setlastEvidenceId] = React.useState(0);
-    const [readed, setReaded] = React.useState(0);
     const [timelineLastRead, setTimelineLastRead] = React.useState(0);
     const [arrayTimeline, setArrayTimeline] = React.useState(null);
 
@@ -502,9 +505,8 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
 
 
     const enterTimeline = () => {
-        setReaded(total);
         onClick();
-        evidenceRead()
+        evidenceRead();
     }
 
 
@@ -544,7 +546,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
                     fontSize: '0.55rem',
                     textTransform: "none"
                 }}>
-                    Resumen {/*TRADUCCION*/}
+                    {translate.summary}
                 </div>
             </div>
         </Button>

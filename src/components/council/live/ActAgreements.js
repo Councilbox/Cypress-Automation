@@ -5,10 +5,11 @@ import { compose, graphql, withApollo } from "react-apollo";
 import { updateAgenda } from "../../../queries/agenda";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
-import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations } from "../../../utils/CBX";
+import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText } from "../../../utils/CBX";
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
+import { AGENDA_STATES } from "../../../constants";
 
 
 export const agendaRecountQuery = gql`
@@ -30,25 +31,47 @@ export const agendaRecountQuery = gql`
 	}
 `;
 
-const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
-	const [loading, setLoading] = React.useState(false);
+const ActAgreements = ({ translate, council, company, agenda, recount, ...props }) => {
 	const [error, setError] = React.useState(false);
 	const timeout = React.useRef(null);
 	const editor = React.useRef(null);
+	const [comment, setComment] = React.useState(agenda.comment);
 	const modal = React.useRef(null);
 	const [data, setData] = React.useState(null);
 
-	const startUpdateTimeout = value => {
-		clearTimeout(timeout.current);
+	React.useEffect(() => {
+		if(comment !== agenda.comment){
+			timeout.current = setTimeout(() => {
+				updateAgreement(comment);
+			}, 300);
+		}
 
-		timeout.current = setTimeout(() => {
-			updateAgreement(value);
-		}, 450);
+		return () => clearTimeout(timeout.current);
+	}, [comment]);
+
+	React.useEffect(() => {
+		if(agenda.comment !== comment){
+			setComment(agenda.comment);
+		}
+	}, [agenda]);
+
+	const updateComment = value => {
+		setComment(value);
+	}
+
+	const updateText = async () => {
+		const correctedText = await getCorrectedText(comment);
+		editor.current.setValue(correctedText);
+		updateAgreement(correctedText);
 	}
 
 	React.useEffect(() => {
-		editor.current.setValue(agenda.comment);
-	}, [agenda.id]);
+		if(agenda.votingState === AGENDA_STATES.CLOSED && data){
+			if(/{{/.test(comment)){
+				updateText();
+			}
+		}
+	}, [agenda.votingState, data]);
 
 	const getData = React.useCallback(async () => {
 		const response = await props.client.query({
@@ -63,7 +86,6 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 
 	React.useEffect(() => {
 		let interval;
-
 		getData();
 		interval = setInterval(getData, 8000);
 		return () => clearInterval(interval);
@@ -87,7 +109,6 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 			return;
 		}
 		if (value.replace(/<\/?[^>]+(>|$)/g, "").length > 0) {
-			setLoading(true);
 			await props.updateAgenda({
 				variables: {
 					agenda: {
@@ -97,39 +118,44 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 					}
 				}
 			});
+			props.refetch();
 			setError(false);
-			setLoading(false);
 		}
 	}
 
-	const loadDraft = draft => {
+	const getCorrectedText = async text => {
 		let { numPositive, numNegative, numAbstention, numNoVote } = data;
-		let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
+		let { positiveSC, negativeSC, abstentionSC } = data;
 		const participations = hasParticipations(council);
+		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
 
-		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
-		const totalPresent = totalSC - noVoteSC;
-
-		const correctedText = changeVariablesToValues(draft.text, {
-			company: company,
-			council: council,
-			votings: {
-				positive: agenda.positiveVotings + agenda.positiveManual,
-				negative: agenda.negativeVotings + agenda.negativeManual,
-				abstention: agenda.abstentionVotings + agenda.abstentionManual,
-				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
-				SCFavorTotal: participations? ((positiveSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
-				SCAgainstTotal: participations? ((negativeSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAbstentionTotal: participations? ((abstentionSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAgainstTotal: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAbstentionTotal: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				numPositive,
-				numNegative,
-				numAbstention,
-				numNoVote
-			}
+		const correctedText = await changeVariablesToValues(text, {
+			company,
+			council,
+			...(agenda.votingState === AGENDA_STATES.CLOSED? {
+				votings: {
+					positive: agenda.positiveVotings + agenda.positiveManual,
+					negative: agenda.negativeVotings + agenda.negativeManual,
+					abstention: agenda.abstentionVotings + agenda.abstentionManual,
+					noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
+					SCFavorTotal: participations? ((positiveSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
+					SCAgainstTotal: participations? ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCAbstentionTotal: participations? ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCAgainstPresent: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCAbstentionPresent: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					numPositive,
+					numNegative,
+					numAbstention,
+					numNoVote
+				}
+			} : {})
 		}, translate);
+		return correctedText;
+	}
+
+	const loadDraft = async draft => {
+		const correctedText = await getCorrectedText(draft.text);
 		editor.current.paste(correctedText);
 		updateAgreement(correctedText);
 		modal.current.close();
@@ -139,13 +165,17 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 	const _section = () => {
 		let tags = [];
 
+		const shouldPasteValue = agenda => {
+			return agenda.votingState === 2
+		}
+
 		if(data) {
 			let { numPositive, numNegative, numAbstention, numNoVote } = data;
-			let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
+			let { positiveSC, negativeSC, abstentionSC } = data;
 			const participations = hasParticipations(council);
 
-			const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
-			const totalPresent = totalSC - noVoteSC;
+			const totalSC = recount.partTotal;
+			const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
 
 			tags = [
 				{
@@ -153,8 +183,16 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 					label: translate.date
 				},
 				{
+					getValue: () => moment().format('LLL'),
+					label: translate.actual_date
+				},
+				{
 					value: company.businessName,
 					label: translate.business_name
+				},
+				{
+					value: generateGBDecidesText(translate, company.governingBodyType),
+					label: '[Órgano de gobierno] decide'
 				},
 				{
 					value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
@@ -165,55 +203,55 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 					label: translate.company_new_country
 				},
 				{
-					value: numPositive,
+					value: shouldPasteValue(agenda)? numPositive : '{{numPositive}}',
 					label: translate.num_positive
 				},
 				{
-					value: numNegative,
+					value: shouldPasteValue(agenda)? numNegative : '{{numNegative}}',
 					label: translate.num_negative
 				},
 				{
-					value: numAbstention,
+					value: shouldPasteValue(agenda)? numAbstention : '{{numAbstention}}',
 					label: translate.num_abstention
 				},
 				{
-					value: numNoVote,
+					value: shouldPasteValue(agenda)? numNoVote : '{{numNoVote}}',
 					label: translate.num_no_vote
 				},
 			]
 
 			if(participations){
 				tags.push({
-					value: ((positiveSC / totalSC) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((positiveSC / totalSC) * 100).toFixed(3) + '%' : '{{positiveSCTotal}}',
 					label: '% a favor / total capital social'
 				},
 				{
-					value: ((negativeSC / totalSC) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((negativeSC / totalSC) * 100).toFixed(3) + '%' : '{{negativeSCTotal}}',
 					label: '% en contra / total capital social'
 				},
 				{
-					value: ((abstentionSC / totalSC) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((abstentionSC / totalSC) * 100).toFixed(3) + '%' : '{{abstentionSCTotal}}',
 					label: '% abstención / total capital social'
 				},
 				{
-					value: ((positiveSC / totalPresent) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : '{{positiveSCPresent}}',
 					label: '% a favor / capital social presente'
 				},
 				{
-					value: ((negativeSC / totalPresent) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : '{{negativeSCPresent}}',
 					label: '% en contra / capital social presente'
 				},
 				{
-					value: ((abstentionSC / totalPresent) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : '{{abstentionSCPresent}}',
 					label: '% abstención / capital social presente'
 				});
 			} else {
 				tags.push({
-					value: `${agenda.positiveVotings + agenda.positiveManual} `,
+					value: shouldPasteValue(agenda)? `${agenda.positiveVotings + agenda.positiveManual} ` : '{{positiveVotings}}',
 					label: translate.positive_votings
 				},
 				{
-					value: `${agenda.negativeVotings + agenda.negativeManual} `,
+					value: shouldPasteValue(agenda)? `${agenda.negativeVotings + agenda.negativeManual} `: '{{negativeVotings}}',
 					label: translate.negative_votings
 				});
 			}
@@ -243,8 +281,8 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 						/>
 					}
 					tags={tags}
-					value={agenda.comment || ""}
-					onChange={value => startUpdateTimeout(value)}
+					value={comment || ""}
+					onChange={value => updateComment(value)}
 				/>
 			</div>
 		)

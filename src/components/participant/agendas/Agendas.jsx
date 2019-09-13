@@ -1,13 +1,11 @@
 import React from "react";
 import { LiveToast } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import DelegationsModal from './DelegationsModal';
 import { agendaPointOpened, agendaVotingsOpened } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import AgendaNoSession from "./AgendaNoSession";
+import { isMobile } from "react-device-detect";
 
 
 class Agendas extends React.Component {
@@ -26,7 +24,6 @@ class Agendas extends React.Component {
     agendaVotingsToastId = null;
 
     componentDidMount() {
-        const { translate, ordenDiaTitle } = this.props;
         if (this.props.participant.delegatedVotes.length > 0) {
             if (!sessionStorage.getItem('delegationsNotify')) {
                 this.setState({
@@ -55,7 +52,7 @@ class Agendas extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { translate, ordenDiaTitle } = this.props;
+        const { translate } = this.props;
 
         if (prevProps.data.agendas) {
             const { agendas: actualAgendas } = this.props.data;
@@ -110,19 +107,20 @@ class Agendas extends React.Component {
 
     toastChanges = (message, onClose) => {
         this.props.setAgendaBadge(true);
-        toast(
-            <LiveToast
-                message={message}
-                action={() => this.selectAgenda}
-            />, {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: false,
-                onClose: onClose,
-                className: "liveToast"
-            }
-        )
+        if (!isMobile) {
+            toast(
+                <LiveToast
+                    message={message}
+                    action={() => this.selectAgenda}
+                />, {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: false,
+                    onClose: onClose,
+                    className: "liveToast"
+                }
+            )
+        }
     }
-
     render() {
         return (
             <React.Fragment>

@@ -12,174 +12,170 @@ import { TRIAL_DAYS } from "../config";
 import { trialDaysLeft } from "../utils/CBX";
 import { moment } from "./App";
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
+import { sendGAevent } from "../utils/analytics";
 
-class SignatureContainer extends React.Component {
+const SignatureContainer = ({ match, company, translate, windowSize, ...props }) => {
+	const [cantCreate, setCantCreate] = React.useState(false);
+	const [noPremiumModal, setNoPremiumModal] = React.useState(false);
 
-	state = {
-		noPremiumModal: false,
-		cantCreateSignature: false
+	React.useEffect(() => {
+        sendGAevent({
+            category: 'Firmas',
+            action: `Entrada a la sección de firmas`,
+            label: company.businessName
+        });
+    }, [sendGAevent])
+
+	const showCantAccessPremiumModal = () => {
+		setNoPremiumModal(true);
 	}
 
-	showCantAccessPremiumModal = () => {
-		this.setState({
-			noPremiumModal: true
-		})
+	const showCantAccessSignatures = () => {
+		setCantCreate(true)
 	}
 
-	showCantAccessSignatures = () => {
-		this.setState({
-			cantCreateSignature: true
-		});
+	const canCreateSignature = () => {
+		return ['aaron.fuentes.cocodin@gmail.com'].includes(props.user.email)
 	}
 
-	canCreateSignature = () => {
-		return ['aaron.fuentes.cocodin@gmail.com'].includes(this.props.user.email)
+	const closeCantAccessPremiumModal = () => {
+		setNoPremiumModal(false)
 	}
 
-	closeCantAccessPremiumModal = () => {
-		this.setState({
-			noPremiumModal: false
-		})
-	}
+	const tabsIndex = {
+		drafts: 0,
+		live: 1,
+		finished: 2
+	};
 
-	render() {
-		const { match, company, translate, windowSize } = this.props;
-		const tabsIndex = {
-			drafts: 0,
-			live: 1,
-			finished: 2
-		};
-
-		const cantAccessPremium = company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0;
-
-
-		const tabsInfo = [
-			{
-				text: translate.document_signature_drafts,
-				link: `/company/${company.id}/signatures/drafts`,
-				component: () => {
-					return (
-						<Signatures
-							company={company}
-							disabled={cantAccessPremium}
-							translate={translate}
-							title={translate.document_signature_drafts}
-							desc={translate.signature_of_documents_drafts_desc}
-							icon={"pencil-square-o"}
-							state={[0]}
-						/>
-					);
-				}
-			},
-			{
-				text: translate.signature_of_documents_sent,
-				link: `/company/${company.id}/signatures/live`,
-				component: () => {
-					return (
-						<Signatures
-							company={company}
-							disabled={cantAccessPremium}
-							translate={translate}
-							title={translate.signature_of_documents_sent}
-							desc={translate.signature_of_documents_desc}
-							icon={"paper-plane-o"}
-							state={[10]}
-						/>
-					);
-				}
-			},
-			{
-				text: translate.signature_of_documents_completed,
-				link: `/company/${company.id}/signatures/finished`,
-				component: () => {
-					return (
-						<Signatures
-							company={company}
-							translate={translate}
-							disabled={cantAccessPremium}
-							title={translate.signature_of_documents_completed}
-							desc={translate.signature_of_documents_completed_desc}
-							icon={"check-square-o"}
-							state={[20]}
-						/>
-					);
-				}
+	const cantAccessPremium = company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0;
+	const tabsInfo = [
+		{
+			text: translate.document_signature_drafts,
+			link: `/company/${company.id}/signatures/drafts`,
+			component: () => {
+				return (
+					<Signatures
+						company={company}
+						disabled={cantAccessPremium}
+						translate={translate}
+						title={translate.document_signature_drafts}
+						desc={translate.signature_of_documents_drafts_desc}
+						icon={"pencil-square-o"}
+						state={[0]}
+					/>
+				);
 			}
-		];
+		},
+		{
+			text: translate.signature_of_documents_sent,
+			link: `/company/${company.id}/signatures/live`,
+			component: () => {
+				return (
+					<Signatures
+						company={company}
+						disabled={cantAccessPremium}
+						translate={translate}
+						title={translate.signature_of_documents_sent}
+						desc={translate.signature_of_documents_desc}
+						icon={"paper-plane-o"}
+						state={[10]}
+					/>
+				);
+			}
+		},
+		{
+			text: translate.signature_of_documents_completed,
+			link: `/company/${company.id}/signatures/finished`,
+			component: () => {
+				return (
+					<Signatures
+						company={company}
+						translate={translate}
+						disabled={cantAccessPremium}
+						title={translate.signature_of_documents_completed}
+						desc={translate.signature_of_documents_completed_desc}
+						icon={"check-square-o"}
+						state={[20]}
+					/>
+				);
+			}
+		}
+	];
 
-		return (
+	return (
+		<div
+			style={{
+				width: '100%',
+				height: '100%',
+				padding: '2em',
+				position: 'relative',
+				...(windowSize === 'xs'? { padding: 0, paddingTop: '1em', height: 'calc(100% - 1.6rem)',width: '98%',margin: '0px auto'} : {}),
+				backgroundColor: lightGrey
+			}}
+		>
+			<TabsScreen
+				tabsIndex={tabsIndex}
+				tabsInfo={tabsInfo}
+				selected={match.params.section}
+				controlled={true}
+				linked={true}
+			/>
 			<div
 				style={{
-					width: '100%',
-					height: '100%',
-					padding: '2em',
-					position: 'relative',
-					...(windowSize === 'xs'? { padding: 0, paddingTop: '1em', height: 'calc(100% - 1.6rem)',width: '98%',margin: '0px auto'} : {}),
-					backgroundColor: lightGrey
+					position: 'absolute',
+					right: '3%',
+					bottom: '5%'
 				}}
 			>
-				<TabsScreen
-					tabsIndex={tabsIndex}
-					tabsInfo={tabsInfo}
-					selected={match.params.section}
-					controlled={true}
-					linked={true}
-				/>
-				<div
-					style={{
-						position: 'absolute',
-						right: '3%',
-						bottom: '5%'
-					}}
-				>
-					<Tooltip title={`${translate.dashboard_new_signature}`}>
-						<div style={{ marginBottom: "0.3em" }}>
-							<FabButton
-								{...(cantAccessPremium || !this.canCreateSignature()? { color: 'grey'} : {})}
-								icon={
-									<Icon className="material-icons">
-										add
-									</Icon>
-								}
-								onClick={() =>
-									cantAccessPremium?
-										this.showCantAccessPremiumModal()
+				<Tooltip title={`${translate.dashboard_new_signature}`}>
+					<div style={{ marginBottom: "0.3em" }}>
+						<FabButton
+							{...(cantAccessPremium || !canCreateSignature()? { color: 'grey'} : {})}
+							icon={
+								<Icon className="material-icons">
+									add
+								</Icon>
+							}
+							onClick={() =>
+								cantAccessPremium?
+									showCantAccessPremiumModal()
+								:
+									!canCreateSignature()?
+										showCantAccessSignatures()
 									:
-										!this.canCreateSignature()?
-											this.showCantAccessSignatures()
-										:
-											bHistory.push(`/company/${company.id}/signature/new`)
-								}
-							/>
-						</div>
-					</Tooltip>
-				</div>
-				<AlertConfirm
-					title={translate.warning}
-					open={this.state.cantCreateSignature}
-					hideAccept
-					buttonCancel={translate.close}
-					requestClose={() => this.setState({ cantCreateSignature: false})}
-					bodyText={
-						<div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-							<div style={{marginBottom: '0.8em'}}>
-								{translate.you_dont_have_this_feature}
-							</div>
-							<CBXContactButton
-								translate={translate}
-							/>
-						</div>
-					}
-				/>
-				<CantCreateCouncilsModal
-					open={this.state.noPremiumModal}
-					requestClose={this.closeCantAccessPremiumModal}
-					translate={translate}
-				/>
+										bHistory.push(`/company/${company.id}/signature/new`)
+							}
+						/>
+					</div>
+				</Tooltip>
 			</div>
-		);
-	}
-};
+			<AlertConfirm
+				title={translate.warning}
+				open={cantCreate}
+				hideAccept
+				buttonCancel={translate.close}
+				requestClose={() => setCantCreate(false)}
+				bodyText={
+					<div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+						<div style={{marginBottom: '0.8em'}}>
+							{translate.you_dont_have_this_feature}
+						</div>
+						<CBXContactButton
+							translate={translate}
+						/>
+					</div>
+				}
+			/>
+			<CantCreateCouncilsModal
+				open={noPremiumModal}
+				requestClose={closeCantAccessPremiumModal}
+				translate={translate}
+			/>
+		</div>
+	);
+}
+
 
 const mapStateToProps = state => ({
 	company: state.companies.list[state.companies.selected],

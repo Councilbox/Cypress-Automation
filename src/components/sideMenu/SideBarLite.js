@@ -116,6 +116,7 @@ class Sidebar extends React.Component {
 	links = () => (
 		<div className={this.props.classes.list}
 			style={{
+				zIndex:"99999",
 				display: 'flex',
 				flexDirection: 'column',
 				position: isMobile ? "" : "absolute",
@@ -128,6 +129,7 @@ class Sidebar extends React.Component {
 					<div
 						className={this.props.classes.logoLink}
 						style={{
+							zIndex:"99999",
 							display: "flex",
 							flexDirection: "row",
 							width: '100%',
@@ -137,6 +139,7 @@ class Sidebar extends React.Component {
 					>
 						<div
 							style={{
+								zIndex:"99999",
 								width: '100%',
 								display: 'flex',
 								alignItems: 'center',
@@ -228,7 +231,7 @@ class Sidebar extends React.Component {
 									<LateralMenuOptions company={this.props.company} clase={"dropdown-container"} menuType={"dashboard"} />
 								)}
 								{route.name === "council" && (
-									<LateralMenuOptions company={this.props.company} clase={"dropdown-container-reunion"} menuType={"council"}/>
+									<LateralMenuOptions company={this.props.company} clase={"dropdown-container-reunion"} menuType={"council"} />
 								)}
 							</div>
 						);
@@ -299,7 +302,7 @@ class Sidebar extends React.Component {
 								>
 									<div
 										style={{
-											paddingTop:'0.35rem',
+											paddingTop: '0.35rem',
 											width: "24px",
 											// height: "30px",
 											display: 'flex',
@@ -341,15 +344,15 @@ class Sidebar extends React.Component {
 		<React.Fragment>
 			<div onClick={this.toggleCompanyMenu}>
 				<div
-				className={`${this.props.classes.logo} intento`}
-				style={{
-					borderRadius: '0',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					right:'0px',
-					cursor: 'pointer'
-				}}
+					className={`${this.props.classes.logo} intento`}
+					style={{
+						borderRadius: '0',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						right: '0px',
+						cursor: 'pointer'
+					}}
 				>
 					<i
 						className="material-icons"
@@ -369,52 +372,7 @@ class Sidebar extends React.Component {
 	render() {
 		const { classes } = this.props;
 		return (
-			<div style={{ float: 'left', zIndex: '0' }}>
-				<div style={{
-					backgroundColor: darkGrey,
-					height: '100vh',
-					zIndex: '1000',
-					position: 'absolute',
-					display: 'flex',
-					...(this.showVerticalLayout() ?
-						{
-							flexDirection: 'row',
-							bottom: 0,
-							overflow: 'hidden',
-							left: 0,
-							width: '100%',
-							alignItems: 'center',
-							height: '3.5em'
-						}
-						:
-						{
-							flexDirection: 'column',
-							top: 0,
-							left: 0,
-							width: '5em',
-						}
-					),
-					alignItems: 'center',
-				}}>
-					{!this.showVerticalLayout() &&
-						this.brand()
-					}
-					<div
-						className={classes.sidebarWrapper}
-						style={{
-							position:"relative",
-							...(this.showVerticalLayout() ? {
-								height: '3.5em',
-								display: 'flex',
-								width: '100%',
-								flexDirection: 'row',
-								alignItems: 'center'
-							} : { height: 'calc(100vh - 75px)' })
-						}}
-					>
-						{this.links()}
-					</div>
-				</div>
+			<React.Fragment>
 				<CompanyMenu
 					open={this.state.companyMenu}
 					company={this.props.company}
@@ -422,7 +380,55 @@ class Sidebar extends React.Component {
 					translate={this.props.translate}
 					requestClose={this.toggleCompanyMenu}
 				/>
-			</div>
+				<div style={{ float: 'left', zIndex: '0', height: '100vh', position: isMobile && isLandscape() && "fixed" }}>
+
+					<div style={{
+						backgroundColor: darkGrey,
+						height: '100vh',
+						zIndex: '1000',
+						position: 'absolute',
+						display: 'flex',
+						...(this.showVerticalLayout() ?
+							{
+								flexDirection: 'row',
+								bottom: 0,
+								overflow: 'hidden',
+								left: 0,
+								width: '100%',
+								alignItems: 'center',
+								height: '3.5em'
+							}
+							:
+							{
+								flexDirection: 'column',
+								top: 0,
+								left: 0,
+								width: '5em',
+							}
+						),
+						alignItems: 'center',
+					}}>
+						{!this.showVerticalLayout() &&
+							this.brand()
+						}
+						<div
+							className={classes.sidebarWrapper}
+							style={{
+								position: "relative",
+								...(this.showVerticalLayout() ? {
+									height: '3.5em',
+									display: 'flex',
+									width: '100%',
+									flexDirection: 'row',
+									alignItems: 'center'
+								} : { height: 'calc(100vh - 75px)' })
+							}}
+						>
+							{this.links()}
+						</div>
+					</div>
+				</div>
+			</React.Fragment>
 		);
 	}
 }

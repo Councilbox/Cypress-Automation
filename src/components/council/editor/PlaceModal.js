@@ -11,16 +11,21 @@ import {
 	TextInput
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
+import { useOldState } from "../../../hooks";
 
 
-class PlaceModal extends React.Component {
-	state = {
-		data: {
-			...this.props.council
-		},
-		countries: [],
-		country_states: [],
-		remote: false,
+const PlaceModal = ({ council, translate, ...props }) => {
+	const [data, setData] = React.useState({
+		street: council.street,
+		city: council.city,
+		country: council.country,
+		zipcode: council.zipcode,
+		countryState: council.countryState,
+		remoteCelebration: 0
+	});
+
+	const [state, setState] = useOldState({
+		remoteCelebration: council.remoteCelebration,
 		errors: {
 			address: "",
 			city: "",
@@ -28,52 +33,28 @@ class PlaceModal extends React.Component {
 			zipcode: "",
 			region: ""
 		}
-	};
-
-	componentDidMount() {
-		if (this.props.council) {
-			this.setState({
-				data: {
-					council: this.props.council
-				}
-			});
-		}
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(nextProps.council && !prevState.data.council){
-			return ({
-				data: {
-					council: nextProps.council
-				}
-			});
-		}
-		return null;
-	}
+	});
+	const primary = getPrimary();
 
 
-	saveAndClose = () => {
-		if (!this.checkRequiredFields()) {
-			if (!this.state.remote) {
-				this.props.saveAndClose(this.state.data.council);
+	const saveAndClose = () => {
+		if (!checkRequiredFields()) {
+			if (!state.remoteCelebration) {
+				props.saveAndClose(data);
 			} else {
-				this.props.saveAndClose({
-					street: "remote_celebration",
+				props.saveAndClose({
+					street: translate["remote_celebration"],
 					remoteCelebration: 1,
 					country: "",
 					countryState: "",
-					state: "",
 					city: "",
 					zipcode: ""
 				});
 			}
 		}
-	};
+	}
 
-	_renderActionButtons = () => {
-		const { translate } = this.props;
-		const primary = getPrimary();
-
+	const _renderActionButtons = () => {
 		return (
 			<React.Fragment>
 				<BasicButton
@@ -87,7 +68,7 @@ class PlaceModal extends React.Component {
 						textTransform: "none"
 					}}
 					textPosition="after"
-					onClick={this.props.close}
+					onClick={props.close}
 				/>
 				<BasicButton
 					text={translate.accept}
@@ -100,15 +81,14 @@ class PlaceModal extends React.Component {
 					}}
 					buttonStyle={{ marginLeft: "1em" }}
 					textPosition="after"
-					onClick={this.saveAndClose}
+					onClick={saveAndClose}
 				/>
 			</React.Fragment>
 		);
-	};
+	}
 
-	checkRequiredFields() {
-		const { translate } = this.props;
-		if (this.state.data.council.remoteCelebration) {
+	function checkRequiredFields() {
+		if (state.remoteCelebration) {
 			return false;
 		}
 
@@ -122,182 +102,133 @@ class PlaceModal extends React.Component {
 
 		let hasError = false;
 
-		if (!this.state.data.council.country) {
+		if (!data.country) {
 			hasError = true;
 			errors.country = translate.field_required;
 		}
 
-		if (!this.state.data.council.street) {
+		if (!data.street) {
 			hasError = true;
 			errors.street = translate.field_required;
 		}
 
-		if (!this.state.data.council.city) {
+		if (!data.city) {
 			hasError = true;
 			errors.city = translate.field_required;
 		}
 
-		if (!this.state.data.council.zipcode) {
+		if (!data.zipcode) {
 			hasError = true;
 			errors.zipcode = translate.field_required;
 		}
 
-		if (!this.state.data.council.countryState) {
+		if (!data.countryState) {
 			hasError = true;
 			errors.countryState = translate.field_required;
 		}
 
-		this.setState({
-			...this.state,
+		setState({
+			...state,
 			errors: errors
 		});
 
 		return hasError;
 	}
 
-	render() {
-		const { translate } = this.props;
 
-		if (!this.state.data.council) {
-			return <LoadingSection />;
-		}
-
-		return (
-			<Dialog disableBackdropClick={true} open={this.props.open}>
-				<DialogTitle>{translate.new_location_of_celebrate}</DialogTitle>
-				<DialogContent>
-					<Checkbox
-						label={translate.remote_celebration}
-						value={this.state.data.council.remoteCelebration === 1}
-						onChange={(event, isInputChecked) =>
-							this.setState({
-								data: {
-									...this.state.data,
-									council: {
-										...this.state.data.council,
-										remoteCelebration: isInputChecked
-											? 1
-											: 0,
-										street: ""
-									}
-								}
-							})
-						}
-					/>
-					{!this.state.data.council.remoteCelebration && (
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "column",
-								alignItems: "center",
-								justifyContent: "center"
-							}}
-						>
-							<TextInput
-								floatingText={translate.country}
-								type="text"
-								errorText={this.state.errors.country}
-								value={this.state.data.council.country}
-								onChange={event =>
-									this.setState({
-										...this.state,
-										data: {
-											...this.state.data,
-											council: {
-												...this.state.data.council,
-												country: event.nativeEvent.target.value
-											}
-										}
-									})
-								}
-							/>
-							<TextInput
-								floatingText={translate.company_new_country_state}
-								type="text"
-								errorText={this.state.errors.countryState}
-								value={this.state.data.council.countryState}
-								onChange={event =>
-									this.setState({
-										...this.state,
-										data: {
-											...this.state.data,
-											council: {
-												...this.state.data.council,
-												countryState:
-													event.nativeEvent.target
-														.value
-											}
-										}
-									})
-								}
-							/>
-							<TextInput
-								floatingText={translate.company_new_zipcode}
-								type="text"
-								errorText={this.state.errors.zipcode}
-								value={this.state.data.council.zipcode}
-								onChange={event =>
-									this.setState({
-										...this.state,
-										data: {
-											...this.state.data,
-											council: {
-												...this.state.data.council,
-												zipcode:
-													event.nativeEvent.target
-														.value
-											}
-										}
-									})
-								}
-							/>
-							<TextInput
-								floatingText={translate.company_new_locality}
-								type="text"
-								errorText={this.state.errors.city}
-								value={this.state.data.council.city}
-								onChange={event =>
-									this.setState({
-										...this.state,
-										data: {
-											...this.state.data,
-											council: {
-												...this.state.data.council,
-												city:
-													event.nativeEvent.target
-														.value
-											}
-										}
-									})
-								}
-							/>
-							<TextInput
-								floatingText={translate.company_new_address}
-								type="text"
-								errorText={this.state.errors.street}
-								value={this.state.data.council.street}
-								onChange={event =>
-									this.setState({
-										...this.state,
-										data: {
-											...this.state.data,
-											council: {
-												...this.state.data.council,
-												street:
-													event.nativeEvent.target
-														.value
-											}
-										}
-									})
-								}
-							/>
-						</div>
-					)}
-				</DialogContent>
-				<DialogActions>{this._renderActionButtons()}</DialogActions>
-			</Dialog>
-		);
+	if (!data) {
+		return <LoadingSection />;
 	}
+
+	return (
+		<Dialog disableBackdropClick={true} open={props.open}>
+			<DialogTitle>{translate.new_location_of_celebrate}</DialogTitle>
+			<DialogContent>
+				<Checkbox
+					label={translate.remote_celebration}
+					value={state.remoteCelebration === 1}
+					onChange={(event, isInputChecked) =>
+						setState({
+							remoteCelebration: isInputChecked? 1 : 0
+						})
+					}
+				/>
+				{!state.remoteCelebration && (
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+							justifyContent: "center"
+						}}
+					>
+						<TextInput
+							floatingText={translate.country}
+							type="text"
+							errorText={state.errors.country}
+							value={data.country}
+							onChange={event =>
+								setData({
+									...data,
+									country: event.nativeEvent.target.value
+								})
+							}
+						/>
+						<TextInput
+							floatingText={translate.company_new_country_state}
+							type="text"
+							errorText={state.errors.countryState}
+							value={data.countryState}
+							onChange={event =>
+								setData({
+									...data,
+									countryState: event.nativeEvent.target.value
+								})
+							}
+						/>
+						<TextInput
+							floatingText={translate.company_new_zipcode}
+							type="text"
+							errorText={state.errors.zipcode}
+							value={data.zipcode}
+							onChange={event =>
+								setData({
+									...data,
+									zipcode: event.nativeEvent.target.value
+								})
+							}
+						/>
+						<TextInput
+							floatingText={translate.company_new_locality}
+							type="text"
+							errorText={state.errors.city}
+							value={data.city}
+							onChange={event =>
+								setData({
+									...data,
+									city: event.nativeEvent.target.value
+								})
+							}
+						/>
+						<TextInput
+							floatingText={translate.company_new_address}
+							type="text"
+							errorText={state.errors.street}
+							value={data.street}
+							onChange={event =>
+								setData({
+									...data,
+									street: event.nativeEvent.target.value
+								})
+							}
+						/>
+					</div>
+				)}
+			</DialogContent>
+			<DialogActions>{_renderActionButtons()}</DialogActions>
+		</Dialog>
+	)
 }
+
 
 export default PlaceModal;

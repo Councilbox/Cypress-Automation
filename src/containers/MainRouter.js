@@ -20,7 +20,7 @@ import CompanyDraftEditor from "../components/company/drafts/CompanyDraftEditor"
 import CouncilFinishedPage from "../components/council/writing/CouncilFinishedPage";
 import StatutesPage from "../components/company/statutes/StatutesPage";
 import CouncilCertificatesPage from "../components/council/certificates/CouncilCertificatesPage";
-import CompanyDraftList from "../components/company/drafts/CompanyDraftList";
+import CompanyDraftsPage from "../components/company/drafts/CompanyDraftsPage";
 import CouncilContainer from "./CouncilContainer";
 import SignatureContainer from "./SignatureContainer";
 import MeetingsContainer from "./MeetingsContainer";
@@ -158,7 +158,7 @@ const MainRouter = ({ company, user, location, disabled }) => {
             <Route
                 exact
                 path="/company/:company/drafts/:id?"
-                component={CompanyDraftList}
+                component={CompanyDraftsPage}
             />
             <Route
                 exact

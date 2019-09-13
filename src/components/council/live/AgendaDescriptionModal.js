@@ -57,8 +57,8 @@ class AgendaDescriptionModal extends React.Component {
         })
     }
 
-    loadDraft = draft => {
-		const correctedText = changeVariablesToValues(draft.text, {
+    loadDraft = async draft => {
+		const correctedText = await changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council
 		}, this.props.translate);
@@ -151,7 +151,6 @@ class AgendaDescriptionModal extends React.Component {
 					bodyStyle={{width: "75vw",minWidth: "50vw",}}
                     requestClose={this.closeModal}
                     open={this.state.modal}
-                    loadingAction={this.state.sending}
                     acceptAction={this.updateAgenda}
                     buttonAccept={this.props.translate.accept}
                     loadingAction={this.state.loading}

@@ -25,6 +25,9 @@ import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import ConfirmCompanyButton from "../../corporation/companies/ConfirmCompanyButton";
 import DeleteCompanyButton from "./DeleteCompanyButton";
+import { sendGAevent } from "../../../utils/analytics";
+import GoverningBodyForm from "./GoverningBodyForm";
+import NewUser from "../../corporation/users/NewUser";
 
 export const info = gql`
 	query info {
@@ -59,6 +62,11 @@ class CompanySettingsPage extends React.Component {
 
 	componentDidMount(){
 		this.props.info.refetch();
+		sendGAevent({
+			category: 'Editar Datos básico de la empresa',
+			action: 'Entrada',
+			label: this.props.company.businessName
+		});
 	}
 
 	componentDidUpdate() {
@@ -71,7 +79,7 @@ class CompanySettingsPage extends React.Component {
 		}
 	}
 
-	updateState(newValues) {
+	updateState = newValues => {
 		this.setState({
 			data: {
 				...this.state.data,
@@ -142,6 +150,12 @@ class CompanySettingsPage extends React.Component {
 
 	saveCompany = async () => {
 		if (!this.checkRequiredFields()) {
+			sendGAevent({
+				category: 'Editar Datos básico de la empresa',
+				action: 'Actualización de datos',
+				label: this.props.company.businessName
+			});
+
 			this.setState({
 				loading: true
 			});
@@ -244,7 +258,7 @@ class CompanySettingsPage extends React.Component {
 
 		return (
 			<CardPageLayout title={translate.company_settings}>
-				<div style={{width: '100%', height: '100%', padding: '1.5em'}}>
+				<div style={{width: '100%', height: '100%', padding: '1.5em', paddingBottom: '6em'}}>
 					<SectionTitle
 						text={translate.fiscal_data}
 						color={primary}
@@ -396,6 +410,11 @@ class CompanySettingsPage extends React.Component {
 						</GridItem>
 					</Grid>
 					<br />
+					<Grid spacing={16}>
+						<GridItem xs={12} md={12} lg={12}>
+							<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
+						</GridItem>
+					</Grid>
 					<SectionTitle
 						text={translate.contact_data}
 						color={primary}
@@ -578,6 +597,23 @@ class CompanySettingsPage extends React.Component {
 							company={this.props.company}
 						/>
 					}
+					{this.props.company.corporationId !== 1 &&
+						<BasicButton
+							text={'Añadir administrador'}
+							color={getPrimary()}
+							floatRight
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							buttonStyle={{ marginRight: "1.2em" }}
+							onClick={() =>
+								this.setState({
+									addAdminModal: true
+								})
+							}
+						/>
+					}
 					<AlertConfirm
 						requestClose={() => this.setState({ unlinkModal: false })}
 						open={this.state.unlinkModal}
@@ -586,6 +622,14 @@ class CompanySettingsPage extends React.Component {
 						buttonCancel={translate.cancel}
 						bodyText={<div>{translate.companies_unlink}</div>}
 						title={translate.edit}
+					/>
+					<AddAdmin
+						open={this.state.addAdminModal}
+						company={this.props.company}
+						requestClose={() => this.setState({
+							addAdminModal: false
+						})}
+						translate={translate}
 					/>
 					<AlertConfirm
 						requestClose={() => this.setState({ fileSizeError: false })}
@@ -598,6 +642,28 @@ class CompanySettingsPage extends React.Component {
 			</CardPageLayout>
 		);
 	}
+}
+
+const AddAdmin = ({ translate, company, open, requestClose }) => {
+	const renderBody = () => {
+		return (
+			<NewUser
+				fixedCompany={company}
+				translate={translate}
+				requestClose={requestClose}
+			/>
+		)
+	}
+
+	return (
+		<AlertConfirm
+			requestClose={requestClose}
+			open={open}
+			buttonCancel={translate.accept}
+			bodyText={renderBody()}
+			title={'Añadir admin'}//TRADUCCION
+		/>
+	)
 }
 
 export default compose(

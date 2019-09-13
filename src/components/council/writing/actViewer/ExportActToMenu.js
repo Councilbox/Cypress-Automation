@@ -1,9 +1,8 @@
 import React from 'react';
-import { DropDownMenu, Icon } from '../../../../displayComponents';
+import { DropDownMenu } from '../../../../displayComponents';
 import { MenuItem, Divider } from 'material-ui';
 import { getSecondary } from '../../../../styles/colors';
 import { downloadFile } from '../../../../utils/CBX';
-import { downloadAct } from '../../../../queries';
 import { withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import gql from 'graphql-tag';
@@ -75,6 +74,7 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
             color="transparent"
             id={'user-menu-trigger'}
             loading={loading}
+            loadingColor={secondary}
             text={translate.export_act_to}
             textStyle={{ color: secondary }}
             type="flat"

@@ -84,7 +84,7 @@ class Convene extends React.Component {
 	}
 
 	togglePublicConvene = async () => {
-		const response = await this.props.updateCouncil({
+		await this.props.updateCouncil({
 			variables: {
 				council: {
 					id: this.props.data.council.id,
@@ -117,7 +117,7 @@ class Convene extends React.Component {
 
 	render() {
 		const secondary = getSecondary();
-		const { translate } = this.props;
+		const { translate, noButtonsDownload } = this.props;
 		const { council, error, loading } = this.props.data;
 
 		if (loading) {
@@ -162,98 +162,103 @@ class Convene extends React.Component {
 							</div>
 						</div>
 					)
-				}
-				<div>
-					<BasicButton
-						text={translate.export_convene}
-						color={secondary}
-						loading={this.state.downloadingPDF}
-						buttonStyle={{ marginTop: "0.5em" }}
-						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
-						}}
-						icon={
-							<FontAwesome
-								name={"file-pdf-o"}
-								style={{
-									fontSize: "1em",
-									color: "white",
-									marginLeft: "0.3em"
-								}}
-							/>
-						}
-						textPosition="after"
-						onClick={this.downloadPDF}
-					/>
-					<BasicButton
-						text={translate.copy_html_clipboard}
-						color={secondary}
-						buttonStyle={{ marginTop: "0.5em", marginLeft: '0.6em' }}
-						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
-						}}
-						icon={<i className="fa fa-clipboard" aria-hidden="true" style={{marginLeft: '0.3em'}}></i>}
-						textPosition="after"
-						onClick={this.copyConveneHTML}
-					/>
-				</div>
-				<div style={{marginTop: '0.6em'}}>
-					<FormControlLabel
-						control={
-							<Switch
-								checked={council.publicConvene === 1}
-								onChange={this.handlePublicChange}
-								value='true'
-								color="primary"
-							/>
-						}
-						label={council.publicConvene === 1? translate.public_convene : translate.private_convene}
-					/>
-					{council.publicConvene === 1 &&
-						<div style={{userSelect: 'text'}}>
-							{`${translate.link_share_convene}: ${window.location.origin}/convene/${this.props.data.council.id}`}
-						</div>
 					}
+					{!noButtonsDownload &&
+						<React.Fragment>
+							<div>
+								<BasicButton
+									text={translate.export_convene}
+									color={secondary}
+									loading={this.state.downloadingPDF}
+									buttonStyle={{ marginTop: "0.5em" }}
+									textStyle={{
+										color: "white",
+										fontWeight: "700",
+										fontSize: "0.9em",
+										textTransform: "none"
+									}}
+									icon={
+										<FontAwesome
+											name={"file-pdf-o"}
+											style={{
+												fontSize: "1em",
+												color: "white",
+												marginLeft: "0.3em"
+											}}
+										/>
+									}
+									textPosition="after"
+									onClick={this.downloadPDF}
+								/>
+								<BasicButton
+									text={translate.copy_html_clipboard}
+									color={secondary}
+									buttonStyle={{ marginTop: "0.5em", marginLeft: '0.6em' }}
+									textStyle={{
+										color: "white",
+										fontWeight: "700",
+										fontSize: "0.9em",
+										textTransform: "none"
+									}}
+									icon={<i className="fa fa-clipboard" aria-hidden="true" style={{ marginLeft: '0.3em' }}></i>}
+									textPosition="after"
+									onClick={this.copyConveneHTML}
+								/>
+							</div>
 
-				</div>
-				<Tooltip title={'Html copiado'} open={this.state.htmlCopiedTooltip}>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							justifyContent: 'center',
-							marginTop: '0.8em'
-						}}
-					>
+							<div style={{ marginTop: '0.6em' }}>
+								<FormControlLabel
+									control={
+										<Switch
+											checked={council.publicConvene === 1}
+											onChange={this.handlePublicChange}
+											value='true'
+											color="primary"
+										/>
+									}
+									label={council.publicConvene === 1 ? translate.public_convene : translate.private_convene}
+								/>
+								{council.publicConvene === 1 &&
+									<div style={{ userSelect: 'text' }}>
+										{`${translate.link_share_convene}: ${window.location.origin}/convene/${this.props.data.council.id}`}
+									</div>
+								}
+
+							</div>
+						</React.Fragment>
+					}
+					<Tooltip title={'Html copiado'} open={this.state.htmlCopiedTooltip}>
 						<div
-							className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								justifyContent: 'center',
+								marginTop: '0.8em'
+							}}
 						>
 							<div
-								dangerouslySetInnerHTML={{ __html: council.emailText }}
-								style={{
-									padding: "2em",
-									margin: "0 auto"
-								}}
-							/>
+								className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
+							>
+								<div
+									dangerouslySetInnerHTML={{ __html: council.emailText }}
+									style={{
+										padding: "2em",
+										margin: "0 auto"
+									}}
+								/>
+							</div>
 						</div>
-					</div>
-				</Tooltip>
-				<AlertConfirm
-					requestClose={() => this.setState({ publicConveneModal: false })}
-					open={this.state.publicConveneModal}
-					acceptAction={this.togglePublicConvene}
-					buttonAccept={translate.accept}
-					buttonCancel={translate.cancel}
-					bodyText={<div>
-						{translate.share_convene_warning}
-					</div>}
+					</Tooltip>
+					<AlertConfirm
+						requestClose={() => this.setState({ publicConveneModal: false })}
+						open={this.state.publicConveneModal}
+						acceptAction={this.togglePublicConvene}
+						buttonAccept={translate.accept}
+						buttonCancel={translate.cancel}
+						bodyText={<div>
+							{translate.share_convene_warning}
+						</div>}
 						title={translate.warning}
 					/>
 				</React.Fragment>
@@ -293,65 +298,70 @@ class Convene extends React.Component {
 							</div>
 						</div>
 					)}
-					<div>
-						<BasicButton
-							text={translate.export_convene}
-							color={secondary}
-							loading={this.state.downloadingPDF}
-							buttonStyle={{ marginTop: "0.5em" }}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							icon={
-								<FontAwesome
-									name={"file-pdf-o"}
-									style={{
-										fontSize: "1em",
+					{!noButtonsDownload &&
+						<React.Fragment>
+							<div>
+								<BasicButton
+									text={translate.export_convene}
+									color={secondary}
+									loading={this.state.downloadingPDF}
+									buttonStyle={{ marginTop: "0.5em" }}
+									textStyle={{
 										color: "white",
-										marginLeft: "0.3em"
+										fontWeight: "700",
+										fontSize: "0.9em",
+										textTransform: "none"
 									}}
+									icon={
+										<FontAwesome
+											name={"file-pdf-o"}
+											style={{
+												fontSize: "1em",
+												color: "white",
+												marginLeft: "0.3em"
+											}}
+										/>
+									}
+									textPosition="after"
+									onClick={this.downloadPDF}
 								/>
-							}
-							textPosition="after"
-							onClick={this.downloadPDF}
-						/>
-						<BasicButton
-							text={translate.copy_html_clipboard}
-							color={secondary}
-							buttonStyle={{ marginTop: "0.5em", marginLeft: '0.6em' }}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							icon={<i className="fa fa-clipboard" aria-hidden="true" style={{ marginLeft: '0.3em' }}></i>}
-							textPosition="after"
-							onClick={this.copyConveneHTML}
-						/>
-					</div>
-					<div style={{ marginTop: '0.6em' }}>
-						<FormControlLabel
-							control={
-								<Switch
-									checked={council.publicConvene === 1}
-									onChange={this.handlePublicChange}
-									value='true'
-									color="primary"
+								<BasicButton
+									text={translate.copy_html_clipboard}
+									color={secondary}
+									buttonStyle={{ marginTop: "0.5em", marginLeft: '0.6em' }}
+									textStyle={{
+										color: "white",
+										fontWeight: "700",
+										fontSize: "0.9em",
+										textTransform: "none"
+									}}
+									icon={<i className="fa fa-clipboard" aria-hidden="true" style={{ marginLeft: '0.3em' }}></i>}
+									textPosition="after"
+									onClick={this.copyConveneHTML}
 								/>
-							}
-							label={council.publicConvene === 1 ? 'Convocatoria pública' : 'Convocatoria privada'}
-						/>
-						{council.publicConvene === 1 &&
-							<div style={{ userSelect: 'text' }}>
-								{`Enlace para compartir: ${window.location.origin}/convene/${this.props.data.council.id}`/*TRADUCCION*/}
 							</div>
-						}
 
-					</div>
+							<div style={{ marginTop: '0.6em' }}>
+								<FormControlLabel
+									control={
+										<Switch
+											checked={council.publicConvene === 1}
+											onChange={this.handlePublicChange}
+											value='true'
+											color="primary"
+										/>
+									}
+									label={council.publicConvene === 1 ? 'Convocatoria pública' : 'Convocatoria privada'}
+								/>
+								{council.publicConvene === 1 &&
+									<div style={{ userSelect: 'text' }}>
+										{`Enlace para compartir: ${window.location.origin}/convene/${this.props.data.council.id}`/*TRADUCCION*/}
+									</div>
+								}
+
+							</div>
+						</React.Fragment>
+					}
 					<Tooltip title={'Html copiado'} open={this.state.htmlCopiedTooltip}>
 						<div
 							style={{

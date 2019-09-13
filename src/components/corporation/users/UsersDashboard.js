@@ -1,9 +1,9 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link, Scrollbar } from '../../../displayComponents';
+import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Link, Scrollbar } from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
-import { MenuItem, Table, TableRow, TableCell, TableBody, InputAdornment } from 'material-ui';
+import { MenuItem, Table, TableRow, TableCell, InputAdornment } from 'material-ui';
 import { corporationUsers } from '../../../queries/corporation';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';

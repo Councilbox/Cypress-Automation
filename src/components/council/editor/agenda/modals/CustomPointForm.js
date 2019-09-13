@@ -5,8 +5,6 @@ import RichTextInput from "../../../../../displayComponents/RichTextInput";
 import { MenuItem } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../../../styles/colors';
 import { Card } from 'material-ui';
-import LoadDraft from "../../../../company/drafts/LoadDraft";
-import { changeVariablesToValues } from '../../../../../utils/CBX';
 
 const CustomPointForm = ({
     errors,
@@ -55,7 +53,7 @@ const CustomPointForm = ({
                     </GridItem>
                     <GridItem xs={12} md={3} lg={3}>
                         <SelectInput
-                            floatingText={'Tipo de votación'}//TRADUCCION
+                            floatingText={translate.votation_type}
                             value={"" + agenda.subjectType}
                             onChange={event =>
                                 updateAgenda({

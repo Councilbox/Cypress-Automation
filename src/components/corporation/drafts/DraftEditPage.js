@@ -8,6 +8,7 @@ import { getPrimary } from '../../../styles/colors';
 import withTranslations from '../../../HOCs/withTranslations';
 import CompanyDraftForm from '../../company/drafts/CompanyDraftForm';
 import { bHistory } from '../../../containers/App';
+import { getRootStatutes } from './NewCorporationDraft';
 
 class DraftEditPage extends React.PureComponent {
 
@@ -48,10 +49,10 @@ class DraftEditPage extends React.PureComponent {
     updateCorporationDraft = async () => {
         const { __typename, ...draft } = this.state.data;
         if (!checkRequiredFields(this.props.translate, draft, this.updateErrors, true)) {
-			this.setState({ loading: true });
+            this.setState({ loading: true });
 			const response = await this.props.updateCorporationDraft({
 				variables: {
-					draft: draft
+					draft
 				}
 			});
 
@@ -76,16 +77,17 @@ class DraftEditPage extends React.PureComponent {
             return <LoadingSection />;
         }
 
+        const rootStatutes = getRootStatutes(this.state.data.companyType);
         return (
             <div style={{height: 'calc(100vh - 3em)'}}>
                 <CardPageLayout title={this.props.translate.drafts_new}>
                     <CompanyDraftForm
+                        rootStatutes={rootStatutes}
                         draft={this.state.data}
                         errors={this.state.errors}
                         translate={this.props.translate}
                         updateState={this.updateState}
                         {...this.props.data}
-                        
                     />
                     <div style={{width: '100%', marginTop: '0.9em', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <div>

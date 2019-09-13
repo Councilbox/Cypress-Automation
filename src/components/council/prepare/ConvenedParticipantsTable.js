@@ -378,7 +378,18 @@ class HoverableRow extends React.Component {
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 		let representative = this.props.representative;
-		const { notifications } = participant.live.state === PARTICIPANT_STATES.REPRESENTATED? representative : participant;
+		let { notifications } = participant.live.state === PARTICIPANT_STATES.REPRESENTATED? representative : participant;
+		notifications = [...notifications].sort((a, b) => {
+			if(a.sendDate > b.sendDate){
+				return 1;
+			}
+
+			if(b.sendDate > a.sendDate){
+				return -1;
+			}
+
+			return 0;
+		});
 		if(participant.live && participant.live.representative){
 			representative = participant.live.representative;
 		}

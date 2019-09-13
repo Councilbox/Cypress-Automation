@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertConfirm, BasicButton, TextInput } from '../../../displayComponents';
-import { primary, secondary } from '../../../styles/colors';
+import { primary } from '../../../styles/colors';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -37,7 +37,7 @@ class FixedVideoURLModal extends React.Component {
             loading: true,
             success: false
         })
-        const response = await this.props.updateCouncilRoomLink({
+        await this.props.updateCouncilRoomLink({
             variables: {
                 councilId: this.props.council.id,
                 link: this.state.url
@@ -91,8 +91,6 @@ class FixedVideoURLModal extends React.Component {
     }
 
     render(){
-        const { translate } = this.props;
-
         return (
             <React.Fragment>
                 <BasicButton

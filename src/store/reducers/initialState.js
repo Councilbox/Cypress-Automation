@@ -12,6 +12,7 @@ export default {
 		list: [],
 		selected: ''
 	},
+	subdomain: null,
 	translate: [],
 	council: {},
 	detectRTC: {}

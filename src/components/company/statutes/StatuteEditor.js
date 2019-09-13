@@ -23,6 +23,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 	const [saveDraft, setSaveDraft] = React.useState(false);
 	const editor = React.useRef();
 	const intro = React.useRef();
+	const footer = React.useRef();
 	const constitution = React.useRef();
 	const conclusion = React.useRef();
 	const primary = getPrimary();
@@ -35,11 +36,27 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 		setSaveDraft(type);
 	}
 
+	const getText = type => {
+		const types = {
+			'CONVENE_HEADER': statute.conveneHeader,
+			'CONVENE_FOOTER': statute.conveneFooter,
+			default: statute[type.toString().toLowerCase()]
+		}
+		return types[type]? types[type] : types.default;
+	}
+
 	const loadDraft = draft => {
 		updateState({
 			conveneHeader: draft.text
 		});
 		editor.current.setValue(draft.text);
+	};
+
+	const loadFooterDraft = draft => {
+		updateState({
+			conveneFooter: draft.text
+		});
+		footer.current.setValue(draft.text);
 	};
 
 
@@ -565,6 +582,41 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 						</GridItem>
 					</React.Fragment>
 				)}
+				{statute.conveneFooter !== undefined && (
+					<GridItem xs={12} md={12} lg={12}>
+						<RichTextInput
+							ref={footer}
+							errorText={errors.conveneFooter}
+							translate={translate}
+							saveDraft={
+								<SaveDraftIcon
+									onClick={showSaveDraft('CONVENE_FOOTER')}
+									translate={translate}
+								/>
+							}
+							loadDraft={
+								<LoadDraftModal
+									translate={translate}
+									companyId={props.company.id}
+									loadDraft={loadFooterDraft}
+									statute={{
+										...statute,
+										statuteId: statute.id
+									}}
+									statutes={props.companyStatutes}
+									draftType={6}
+								/>
+							}
+							floatingText={translate.convene_footer}
+							value={statute.conveneFooter || ""}
+							onChange={value =>
+								updateState({
+									conveneFooter: value
+								})
+							}
+						/>
+					</GridItem>
+				)}
 			</Grid>
 			{statute.existsAct === 1 && (
 				<Fragment>
@@ -700,23 +752,27 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 							/>
 						</GridItem>
 					</Grid>
-					<SaveDraftModal
-						open={!!saveDraft}
-						data={{
-							text: saveDraft === 'CONVENE_HEADER'? statute.conveneHeader : statute[saveDraft.toString().toLowerCase()],
-							description: "",
-							title: `${translate[statute.title] || statute.title} - ${saveDraft === 'CONVENE_HEADER'? translate.convene_header : saveDraft.toString().toLowerCase()}`,
-							votationType: 0,
-							type: DRAFT_TYPES[saveDraft],
-							statuteId: statute.id
-						}}
-						company={props.company}
-						requestClose={closeDraftModal}
-						companyStatutes={props.data.companyStatutes}
-						votingTypes={props.data.votingTypes}
-						majorityTypes={props.data.majorityTypes}
-						draftTypes={props.data.draftTypes}
-					/>
+					{!!saveDraft &&
+						<SaveDraftModal
+							key={saveDraft}
+							open={!!saveDraft}
+							data={{
+								text: getText(saveDraft),
+								description: "",
+								title: '',
+								votationType: 0,
+								type: DRAFT_TYPES[saveDraft],
+								statuteId: statute.id
+							}}
+							company={props.company}
+							requestClose={closeDraftModal}
+							companyStatutes={props.data.companyStatutes}
+							votingTypes={props.data.votingTypes}
+							majorityTypes={props.data.majorityTypes}
+							draftTypes={props.data.draftTypes}
+						/>
+					}
+
 				</Fragment>
 			)}
 		</Fragment>
@@ -735,9 +791,7 @@ const SaveDraftIcon = ({ onClick, translate }) => {
 	)
 }
 
-export default compose(
-	graphql(draftDetails)
-)(StatuteEditor);
+export default graphql(draftDetails)(StatuteEditor);
 
 
 

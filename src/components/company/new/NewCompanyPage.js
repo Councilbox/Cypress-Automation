@@ -11,7 +11,8 @@ import {
 	GridItem,
 	LoadingSection,
 	SelectInput,
-	TextInput
+	TextInput,
+	SectionTitle
 } from "../../../displayComponents";
 import { checkCifExists } from "../../../queries/userAndCompanySignUp";
 import { USER_ACTIVATIONS } from '../../../constants';
@@ -22,6 +23,8 @@ import gql from "graphql-tag";
 import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
 import { toast } from "react-toastify";
+import { sendGAevent } from "../../../utils/analytics";
+import GoverningBodyForm from "../settings/GoverningBodyForm";
 
 
 class NewCompanyPage extends React.PureComponent {
@@ -130,6 +133,11 @@ class NewCompanyPage extends React.PureComponent {
 
 	createCompany = async () => {
 		if (!await this.checkRequiredFields()) {
+			sendGAevent({
+				category: 'Editar entidades',
+				action: 'Crear entidad',
+				label: this.props.company? this.props.company.businessName : 'Sin compañía'
+			});
 			const response = await this.props.createCompany({
 				variables: {
 					company: {
@@ -260,9 +268,13 @@ class NewCompanyPage extends React.PureComponent {
 			<CardPageLayout title={translate.companies_add}>
 				{this.state.step === 1 ? (
 					<React.Fragment>
-						<Typography variant="title" style={{ color: primary }}>
-							{translate.fiscal_data}
-						</Typography>
+						<SectionTitle
+							text={translate.fiscal_data}
+							color={primary}
+							style={{
+								marginTop: '2em'
+							}}
+						/>
 						<br />
 						<Grid spacing={0} onKeyUp={this.handleKeyUp}>
 							<GridItem xs={12} md={9} lg={9}>
@@ -408,9 +420,18 @@ class NewCompanyPage extends React.PureComponent {
 							</GridItem>
 						</Grid>
 						<br />
-						<Typography variant="title" style={{ color: primary }}>
-							{translate.contact_data}
-						</Typography>
+						<Grid spacing={16}>
+							<GridItem xs={12} md={12} lg={12}>
+								<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
+							</GridItem>
+						</Grid>
+						<SectionTitle
+							text={translate.contact_data}
+							color={primary}
+							style={{
+								marginTop: '2em'
+							}}
+						/>
 						<br />
 						<Grid spacing={16} onKeyUp={this.handleKeyUp}>
 							<GridItem xs={12} md={6} lg={6}>

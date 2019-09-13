@@ -89,6 +89,7 @@ export const getCompanyDraftData = gql`
 			text
 			type
 			votationType
+			governingBodyType
 			majorityType
 			majority
 			statuteId

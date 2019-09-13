@@ -76,6 +76,7 @@ export const updateAgenda = gql`
 	mutation updateAgenda($agenda: AgendaInput) {
 		updateAgenda(agenda: $agenda) {
 			id
+			comment
 		}
 	}
 `;

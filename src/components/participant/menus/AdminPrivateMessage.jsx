@@ -8,7 +8,6 @@ import { graphql } from 'react-apollo';
 import TextInputChat from '../../../displayComponents/TextInputChat';
 import { toast } from 'react-toastify';
 
-
 class AdminPrivateMessage extends React.Component {
     state = {
         visible: false,
@@ -56,7 +55,7 @@ class AdminPrivateMessage extends React.Component {
                     }
                     toast(
                         <LiveToast
-                            message={'Se ha enviado su comentario'} /*TRADUCCION*/
+                            message={this.props.translate.tooltip_sent}
                         />, {
                             position: toast.POSITION.TOP_RIGHT,
                             autoClose: true,

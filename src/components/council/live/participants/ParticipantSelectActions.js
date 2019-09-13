@@ -47,7 +47,6 @@ class ParticipantSelectActions extends React.Component {
 		const { translate, participant, council } = this.props;
 		const { loading } = this.state;
 		const secondary = getSecondary();
-		const landscape = isLandscape() || window.innerWidth > 700;
 		const primary = getPrimary();
 		return (
 			<Grid

@@ -7,29 +7,24 @@ import { withRouter } from 'react-router-dom';
 import { LoadingSection, CardPageLayout, ButtonIcon, BasicButton, Table, DateWrapper } from '../../../displayComponents';
 import { TableRow, TableCell, Typography } from 'material-ui';
 import { downloadFile } from '../../../utils/CBX';
-import CertificateForm from './CertificateForm';
+import CertificateEditor from './CertificateEditor';
+import { useHoverRow } from '../../../hooks';
 
-class CouncilCertificates extends React.PureComponent {
+const CouncilCertificates = ({ data, translate, ...props }) => {
+    const [editor, setEditor] = React.useState(false);
+    const [downloading, setDownloading] = React.useState(false);
+    const secondary = getSecondary();
 
-    state = {
-        downloading: false,
-        editor: false
-    }
+    const downloadCertificate = async certificate => {
+        setDownloading(certificate.id);
 
-    downloadCertificate = async (certificate) => {
-        this.setState({
-            downloading: certificate.id
-        })
-
-        const response = await this.props.downloadCertificate({
+        const response = await props.downloadCertificate({
             variables: {
                 id: certificate.id
             }
         });
 
-        this.setState({
-            downloading: false
-        })
+        setDownloading(certificate.id);
 
         if(!!response){
             if(!response.errors){
@@ -40,142 +35,118 @@ class CouncilCertificates extends React.PureComponent {
                 );
             }
         }
-
     }
 
-    closeEditor = () =>  {
-        this.props.data.refetch();
-        this.setState({
-            editor: false
-        });
+    const closeEditor = () =>  {
+        data.refetch();
+        setEditor(false);
     }
 
-    render(){
-        const { translate } = this.props;
+    if(data.loading){
+        return <LoadingSection />
+    }
 
-        if(this.props.data.loading){
-            return <LoadingSection />
-        }
+    const { councilCertificates } = data;
 
-        const { councilCertificates } = this.props.data;
-
-        if(this.state.editor === true){
-            return(
-                <CertificateForm
-                    council={this.props.data.council}
-                    translate={translate}
-                    requestClose={this.closeEditor}
-                />
-            )
-        }
-
+    if(editor){
         return(
-            <CardPageLayout title={translate.certificates}>
-                <div
-                    style={{
-                        padding: '1em',
-                        ...(councilCertificates.length === 0? {
-                            display: 'flex',
-                            width: '100%',
-                            flexDirection: 'column',
-                            height: '15em',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        } : {})
-                    }}
-                >
-                    <BasicButton
-                        text={translate.certificates_new}
-                        textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
-                        color={getSecondary()}
-                        onClick={() => this.setState({
-                            editor: true
-                        })}
-                        icon={<ButtonIcon type="add" color="white"/>}
-                    />
-                    <div>
-                        {councilCertificates.length > 0?
-                            <Table
-                                headers={[
-                                    { name: translate.field_date},
-                                    { name: translate.certificate_title_of},
-                                    { name: ''}
-                                ]}
-                            >
-                                {this.props.data.councilCertificates.map(certificate => (
-                                    <HoverableRow
-                                        key={`certificate_${certificate.id}`}
-                                        certificate={certificate}
-                                        downloading={certificate.id === this.state.downloading}
-                                        downloadCertificate={this.downloadCertificate}
-                                        translate={translate}
-                                    />
-                                ))}
-                            </Table>
-                        :
-                            <Typography variant="subheading" style={{fontWeight: '700', marginTop: '0.8em'}}>
-                                {translate.no_certificates}
-                            </Typography>
-                        }
-                    </div>
-                </div>
-            </CardPageLayout>
+            <CertificateEditor
+                council={data.council}
+                translate={translate}
+                requestClose={closeEditor}
+            />
         )
     }
-}
 
-class HoverableRow extends React.Component {
-    state = {
-        showActions: false
-    }
-
-    mouseEnterHandler = () => {
-        this.setState({
-            showActions: true
-        });
-    }
-
-    mouseLeaveHandler = () => {
-        this.setState({
-            showActions: false
-        });
-    }
-
-    render(){
-        const { certificate } = this.props;
-        const secondary = getSecondary();
-
-        return(
-            <TableRow
-                key={`certificate_${certificate.id}`}
-                onMouseOver={this.mouseEnterHandler}
-                onMouseLeave={this.mouseLeaveHandler}
+    return(
+        <CardPageLayout title={translate.certificates}>
+            <div
+                style={{
+                    padding: '1em',
+                    ...(councilCertificates.length === 0? {
+                        display: 'flex',
+                        width: '100%',
+                        flexDirection: 'column',
+                        height: '15em',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    } : {})
+                }}
             >
-                <TableCell>
-                    <DateWrapper format="DD/MM/YYYY HH:mm" date={certificate.date} />
-                </TableCell>
-                <TableCell>
-                    {certificate.title}
-                </TableCell>
-                <TableCell>
-                    <div style={{width: '10em'}}>
-                        {(this.state.showActions || this.props.downloading) &&
-                            <BasicButton
-                                text={this.props.translate.download}
-                                color='white'
-                                loading={this.props.downloading}
-                                loadingColor={secondary}
-                                buttonStyle={{border: `1px solid ${secondary}`}}
-                                textStyle={{textTransform: 'none', fontWeight: '700', color: secondary}}
-                                onClick={() => this.props.downloadCertificate(certificate)}
-                            />
-                        }
-                    </div>
-                </TableCell>
-            </TableRow>
-        )
-    }
+                <BasicButton
+                    text={translate.certificates_new}
+                    textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                    color={secondary}
+                    onClick={() => setEditor(true)}
+                    icon={<ButtonIcon type="add" color="white"/>}
+                />
+                <div>
+                    {councilCertificates.length > 0?
+                        <Table
+                            headers={[
+                                { name: translate.field_date},
+                                { name: translate.certificate_title_of},
+                                { name: ''}
+                            ]}
+                        >
+                            {data.councilCertificates.map(certificate => (
+                                <HoverableRow
+                                    key={`certificate_${certificate.id}`}
+                                    certificate={certificate}
+                                    downloading={certificate.id === downloading}
+                                    downloadCertificate={downloadCertificate}
+                                    translate={translate}
+                                />
+                            ))}
+                        </Table>
+                    :
+                        <Typography variant="subheading" style={{fontWeight: '700', marginTop: '0.8em'}}>
+                            {translate.no_certificates}
+                        </Typography>
+                    }
+                </div>
+            </div>
+        </CardPageLayout>
+    )
+
 }
+
+
+const HoverableRow = ({ certificate, downloading, translate, ...props }) => {
+    const [show, handlers] = useHoverRow();
+    const secondary = getSecondary();
+
+    return(
+        <TableRow
+            key={`certificate_${certificate.id}`}
+            {...handlers}
+        >
+            <TableCell>
+                <DateWrapper format="DD/MM/YYYY HH:mm" date={certificate.date} />
+            </TableCell>
+            <TableCell>
+                {certificate.title}
+            </TableCell>
+            <TableCell>
+                <div style={{width: '10em'}}>
+                    {(show|| downloading) &&
+                        <BasicButton
+                            text={translate.download}
+                            color='white'
+                            loading={downloading}
+                            loadingColor={secondary}
+                            buttonStyle={{border: `1px solid ${secondary}`}}
+                            textStyle={{textTransform: 'none', color: secondary}}
+                            icon={<ButtonIcon type="get_app" color={secondary} />}
+                            onClick={() => props.downloadCertificate(certificate)}
+                        />
+                    }
+                </div>
+            </TableCell>
+        </TableRow>
+    )
+}
+
 
 export default compose(
     graphql(councilCertificates, {
