@@ -31,6 +31,7 @@ import logoIcon from "../../../assets/img/logo-icono.png";
 import { moment } from '../../../containers/App';
 import TimelineModal from "./TimelineModal";
 import TimelineSection from "../timeline/TimelineSection";
+import { isMobile } from "react-device-detect";
 
 const styles = {
 	container: {
@@ -56,7 +57,7 @@ const styles = {
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		padding: "15px",
+		padding: isMobile ? "" : "15px",
 		textAlign: "center",
 		height: "100%"
 	},
@@ -119,12 +120,13 @@ class CouncilState extends React.Component {
 			company,
 			windowSize,
 			windowOrientation,
-			isAssistance
+			isAssistance,
+			selectHeadFinished
 		} = this.props;
 
 		const secondary = getSecondary();
-		
-		
+
+
 		return (
 			<div
 				style={
@@ -138,7 +140,7 @@ class CouncilState extends React.Component {
 						...styles.textContainer,
 						...(windowSize === "xs" &&
 							windowOrientation === "portrait"
-							? { maxWidth: "100%" }
+							? { maxWidth: "100%", width: "100%" }
 							: { maxWidth: "85%", minWidth: "50%" }),
 						// : { maxWidth: "50%", minWidth: "50%" }),
 					}}
@@ -247,122 +249,191 @@ class CouncilState extends React.Component {
 
 					{councilIsFinished(council) && (
 						<React.Fragment>
-							<StateContainer
-								widths={this.state.width}
-								heights={this.state.height}
-								windowOrientation={windowOrientation}
-							>
-								<div style={{ width: "815px", height: "100%" }}>
-									<TextRenderFinalizada
-										title={translate.concil_finished}
-										council={council}
-										company={company}
-										translate={translate}
-									/>
-
-									<Grid style={{ padding: "0 2em 0 2em", color: "#000000 ", fontSize: "15px", height: "calc( 100% - 5em )" }}>
-										<GridItem xs={6} lg={6} md={6} style={{ paddingRight: '10px' }}>
-											<Card
-												style={{
-													borderRadius: '3px',
-													boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-													marginBottom: "0.6em",
-													padding: "1em",
-												}}>
-												<div >
-													<div style={{ display: "flex", marginBottom: "1em" }} >
-														<b>{council.name}</b>
-													</div>
-													<div style={{ display: "flex" }} >
-														-
-													</div>
+							{isMobile ?
+								<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
+									<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+										<div>
+											<h3 style={{
+												color: getPrimary(),
+												fontSize: "28px",
+												paddingTop: "0.5em"
+											}}
+											>
+												{translate.concil_finished}
+											</h3>
+										</div>
+										<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>
+											<div >
+												<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900" }} >
+													{council.name}
 												</div>
-											</Card>
-											<Card
-												style={{
-													borderRadius: "0px",
-													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-													marginBottom: "0.6em",
-													padding: "0.5em",
-													border: 'solid 1px #d7d7d7',
-													display: "flex"
-												}}>
-												{moment(council.dateEnd).format('LLL')}
-											</Card>
-											<Card
-												style={{
-													borderRadius: "0px",
-													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-													marginBottom: "0.6em",
-													padding: "0.5em",
-													border: `solid 1px ${getPrimary()}`,
-													color: ` ${getPrimary()}`,
-													display: "flex"
-												}}>
-												Contactar con el administrador
-											</Card>
-											<Card
-												style={{
-													borderRadius: "0px",
-													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-													marginBottom: "0.6em",
-													border: 'solid 1px #d7d7d7',
-													display: "flex"
-												}}>
-												<div style={{
-													width: "100%",
-												}}>
-													<div onClick={() => this.setState({ expanded: !this.state.expanded })} style={{ padding: "0.5em", justifyContent: "space-between", display: "flex", cursor: "pointer", width: "100%", }}>
-														<div>Ver resumen</div>
-														<i className="material-icons" style={{ color: 'rgba(10, 10, 10, 0.49)', width: '18px', height: '10px' }}>
-															arrow_drop_down
-														</i>
+												<div style={{ display: "flex" }} >
+													-
 													</div>
-													<Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-														<div style={{ height: '220px', marginTop: "1em", }}>
+											</div>
+											<div >
+												<Image
+													src={emptyMeetingTable}
+													styles={{ width: '77px', minWidth: "", marginLeft: "2em" }}
+													windowOrientation={windowOrientation}
+												>
+												</Image>
+											</div>
+										</div>
+									</div>
+									<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+										<div>
+											{moment(council.dateEnd).format('LLL')}
+										</div>
+									</div>
+									<div style={{ overflow: "hidden", height: "calc( 100% - 15em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+										<div style={{ padding: "1em 1em", height: " 100% ", overflow: "hidden", }}>
+											<div style={{ textAlign: "center" }}>
+												Mi participacion - <span style={{ color: getPrimary() }}>{this.props.participant.name + " " + this.props.participant.surname}</span>
+											</div>
+											<div style={{ marginTop: "1em", height: " 100% ", overflow: "hidden" }}>
+												{selectHeadFinished === "participacion" &&
+													< Scrollbar >
+														<div style={{ height: " 100% ", overflow: "hidden", paddingBottom: "1em" }}>
+															<Results
+																council={council}
+																participant={this.props.participant}
+																requestClose={() => this.setState({ modal: false })}
+																translate={translate}
+																endPage={true}
+															/>
+														</div>
+													</Scrollbar>
+												}
+												{selectHeadFinished === "reunion" &&
+													<Scrollbar>
+														<div style={{ height: " 100% ", overflow: "hidden", paddingBottom: "1em" }}>
+															<TimelineSection council={council} translate={translate} endPage={true} />
+														</div>
+													</Scrollbar>
+												}
+											</div>
+										</div>
+									</div>
+								</div>
+								:
+								<StateContainer
+									widths={this.state.width}
+									heights={this.state.height}
+									windowOrientation={windowOrientation}
+								>
+									<div style={{ width: "815px", height: "100%" }}>
+										<TextRenderFinalizada
+											title={translate.concil_finished}
+											council={council}
+											company={company}
+											translate={translate}
+										/>
+
+										<Grid style={{ padding: "0 2em 0 2em", color: "#000000 ", fontSize: "15px", height: "calc( 100% - 5em )" }}>
+											<GridItem xs={6} lg={6} md={6} style={{ paddingRight: '10px' }}>
+												<Card
+													style={{
+														borderRadius: '3px',
+														boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+														marginBottom: "0.6em",
+														padding: "1em",
+													}}>
+													<div >
+														<div style={{ display: "flex", marginBottom: "1em" }} >
+															<b>{council.name}</b>
+														</div>
+														<div style={{ display: "flex" }} >
+															-
+													</div>
+													</div>
+												</Card>
+												<Card
+													style={{
+														borderRadius: "0px",
+														boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+														marginBottom: "0.6em",
+														padding: "0.5em",
+														border: 'solid 1px #d7d7d7',
+														display: "flex"
+													}}>
+													{moment(council.dateEnd).format('LLL')}
+												</Card>
+												<Card
+													style={{
+														borderRadius: "0px",
+														boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+														marginBottom: "0.6em",
+														padding: "0.5em",
+														border: `solid 1px ${getPrimary()}`,
+														color: ` ${getPrimary()}`,
+														display: "flex"
+													}}>
+													Contactar con el administrador
+											</Card>
+												<Card
+													style={{
+														borderRadius: "0px",
+														boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+														marginBottom: "0.6em",
+														border: 'solid 1px #d7d7d7',
+														display: "flex"
+													}}>
+													<div style={{
+														width: "100%",
+													}}>
+														<div onClick={() => this.setState({ expanded: !this.state.expanded })} style={{ padding: "0.5em", justifyContent: "space-between", display: "flex", cursor: "pointer", width: "100%", }}>
+															<div>Ver resumen</div>
+															<i className="material-icons" style={{ color: 'rgba(10, 10, 10, 0.49)', width: '18px', height: '10px' }}>
+																arrow_drop_down
+														</i>
+														</div>
+														<Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+															<div style={{ height: '220px', marginTop: "1em", }}>
+																<Scrollbar>
+																	<TimelineSection council={council} translate={translate} endPage={true} />
+																</Scrollbar>
+															</div>
+														</Collapse>
+													</div>
+												</Card>
+											</GridItem>
+											<GridItem xs={6} lg={6} md={6} style={{ paddingLeft: '10px', height: "100%" }}>
+												<Card
+													style={{
+														borderRadius: "0px",
+														boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+														marginBottom: "0.6em",
+														padding: "1em",
+														border: 'solid 1px #d7d7d7',
+														height: "100%"
+													}}>
+													<div style={{ width: "100%", height: "100%" }}>
+														<div style={{ display: "flex" }}>Mi participacion - <span style={{ color: getPrimary() }}>{this.props.participant.name + " " + this.props.participant.surname}</span></div>
+														<div style={{ marginTop: "1em", height: "calc( 100% - 2em )" }}>
 															<Scrollbar>
-																<TimelineSection council={council} translate={translate} endPage={true} />
+																<div style={{ height: '165px', }}>
+																	<Results
+																		council={council}
+																		participant={this.props.participant}
+																		requestClose={() => this.setState({ modal: false })}
+																		translate={translate}
+																		endPage={true}
+																	/>
+																</div>
 															</Scrollbar>
 														</div>
-													</Collapse>
-												</div>
-											</Card>
-										</GridItem>
-										<GridItem xs={6} lg={6} md={6} style={{ paddingLeft: '10px', height: "100%" }}>
-											<Card
-												style={{
-													borderRadius: "0px",
-													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-													marginBottom: "0.6em",
-													padding: "1em",
-													border: 'solid 1px #d7d7d7',
-													height: "100%"
-												}}>
-												<div style={{ width: "100%", height: "100%" }}>
-													<div style={{ display: "flex" }}>Mi participacion - <span style={{ color: getPrimary() }}>{this.props.participant.name + " " + this.props.participant.surname}</span></div>
-													<div style={{ marginTop: "1em", height: "calc( 100% - 2em )" }}>
-														<Scrollbar>
-															<div style={{ height: '165px', }}>
-																<Results
-																	council={council}
-																	participant={this.props.participant}
-																	requestClose={() => this.setState({ modal: false })}
-																	translate={translate}
-																	endPage={true}
-																/>
-															</div>
-														</Scrollbar>
 													</div>
-												</div>
-											</Card>
-										</GridItem>
-									</Grid>
-								</div>
-							</StateContainer>
+												</Card>
+											</GridItem>
+										</Grid>
+									</div>
+								</StateContainer>
+							}
 						</React.Fragment>
 					)}
 				</div>
-			</div>
+			</div >
 		);
 	}
 }

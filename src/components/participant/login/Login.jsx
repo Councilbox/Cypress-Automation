@@ -39,35 +39,41 @@ const styles = {
 
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	const [isCompatible, setIsCompatible] = React.useState(null);
+	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
 
 	React.useEffect(() => {
 		let isCompatible = checkIsCompatible(props.detectRTC, council, participant);
 		setIsCompatible(isCompatible)
 	}, [props.detectRTC, council, participant]);
-
-	return (
-		<NotLoggedLayout
-			translate={props.translate}
-			helpIcon={true}
-			languageSelector={false}
-		>
-			<div style={styles.mainContainer}>
-				<Card style={styles.cardContainer} elevation={6}>
-					{councilIsFinished(council) ?
-						< React.Fragment >
-							{councilIsLive(council) ? (
-								<LoginForm
-									participant={participant}
-									council={council}
-									company={company}
-								/>
-							) : (
-									<CouncilState council={council} company={company} participant={participant} />
-								)}
-						</React.Fragment>
-						:
-						<Scrollbar>
-							<React.Fragment>
+	console.log(selectHeadFinished);
+	if (councilIsFinished(council) && isMobile) {
+		return (
+			<NotLoggedLayout
+				translate={props.translate}
+				helpIcon={true}
+				languageSelector={false}
+				councilIsFinished={true}
+				setSelectHeadFinished={setSelectHeadFinished}
+				selectHeadFinished={selectHeadFinished}
+			>
+				<div style={{width:"100%",background:"transparent", height: "100%"}} >
+					<div style={{width:"100%", background:"transparent", height: "100%"}}>
+						<CouncilState council={council} company={company} participant={participant} selectHeadFinished={selectHeadFinished} />
+					</div>
+				</div>
+			</NotLoggedLayout >
+		);
+	} else {
+		return (
+			<NotLoggedLayout
+				translate={props.translate}
+				helpIcon={true}
+				languageSelector={false}
+			>
+				<div style={styles.mainContainer}>
+					<Card style={styles.cardContainer} elevation={6}>
+						{councilIsFinished(council) ?
+							< React.Fragment >
 								{councilIsLive(council) ? (
 									<LoginForm
 										participant={participant}
@@ -78,12 +84,26 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 										<CouncilState council={council} company={company} participant={participant} />
 									)}
 							</React.Fragment>
-						</Scrollbar>
-					}
-				</Card>
-			</div>
-		</NotLoggedLayout >
-	);
+							:
+							<Scrollbar>
+								<React.Fragment>
+									{councilIsLive(council) ? (
+										<LoginForm
+											participant={participant}
+											council={council}
+											company={company}
+										/>
+									) : (
+											<CouncilState council={council} company={company} participant={participant} />
+										)}
+								</React.Fragment>
+							</Scrollbar>
+						}
+					</Card>
+				</div>
+			</NotLoggedLayout >
+		);
+	}
 }
 
 export default withTranslations()(withDetectRTC()(ParticipantLogin));
