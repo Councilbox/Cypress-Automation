@@ -6,7 +6,7 @@ import {
 	DialogContent
 } from "material-ui";
 import FontAwesome from "react-fontawesome";
-import { BasicButton } from '../../../displayComponents';
+import { BasicButton, Link } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -174,6 +174,15 @@ class CouncilState extends React.Component {
 									title={translate.we_are_sorry}
 									text={translate.room_opened_use_access_link}
 									isHtmlText={true}
+									// link={
+									// 	<Link to={`/participant/${this.props.participant.id}/council/${council.id}/login`}>
+									// 		<BasicButton
+									// 			text="Entrar a la sala"
+									// 			color={getPrimary()}
+									// 			textStyle={{ color: 'white', fontWeight: '700' }}
+									// 		/>
+									// 	</Link>
+									// }
 									council={council}
 									company={company}
 									translate={translate}
@@ -305,6 +314,7 @@ class TextRender extends React.PureComponent {
 			isHtmlText,
 			council,
 			company,
+			link,
 			translate,
 			windowOrientation
 		} = this.props;
@@ -317,9 +327,15 @@ class TextRender extends React.PureComponent {
 				{text && (
 					<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === "landscape" ? "" : "2em" }}>
 						{isHtmlText ? (
-							<span dangerouslySetInnerHTML={{ __html: text }} />
+							<React.Fragment>
+								<span dangerouslySetInnerHTML={{ __html: text }} />
+								{link}
+							</React.Fragment>
 						) : (
-								text
+								<React.Fragment>
+									{text}<br/>
+									{link}
+								</React.Fragment>
 							)}
 					</p>
 				)}
