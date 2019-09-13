@@ -821,14 +821,26 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 								title: '',
 								votationType: 0,
 								type: DRAFT_TYPES[saveDraft],
-								statuteId: statute.id
+								statuteId: statute.id,
+								tags: {
+									[`statute_${statute.id}`]: {
+										label: translate[statute.title] || statute.title,
+										name: `statute_${statute.id}`,
+										type: TAG_TYPES.STATUTE
+									},
+									[saveDraft.toLowerCase()]: {
+										type: TAG_TYPES.DRAFT_TYPE,
+										label: translate[saveDraft.toLowerCase()],
+										name: saveDraft.toLowerCase()
+									}
+								}
 							}}
 							company={props.company}
 							requestClose={closeDraftModal}
-							companyStatutes={props.data.companyStatutes}
-							votingTypes={props.data.votingTypes}
-							majorityTypes={props.data.majorityTypes}
-							draftTypes={props.data.draftTypes}
+							companyStatutes={props.companyStatutes}
+							votingTypes={data.votingTypes}
+							majorityTypes={data.majorityTypes}
+							draftTypes={data.draftTypes}
 						/>
 					}
 
