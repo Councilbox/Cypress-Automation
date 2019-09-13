@@ -18,6 +18,7 @@ import { companyTypes } from "../../../queries";
 import SelectedTag from './draftTags/SelectedTag';
 import { createTag, TAG_TYPES, getTagColor } from './draftTags/utils';
 import Tag from './draftTags/Tag';
+import withSharedProps from "../../../HOCs/withSharedProps";
 
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
@@ -35,7 +36,7 @@ const styles = {
 	}
 };
 
-const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props }) => {
+const CompanyDraftForm = ({ translate, draft, errors, company, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props }) => {
 	const [search, setSearch] = React.useState('');
 	const [newTag, setNewTag] = React.useState('');
 	const [testTags, setTestTags] = React.useState({});
@@ -277,7 +278,14 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 		);
 	}
 
-	let tagsSearch = []
+	let tagsSearch = [];
+
+	if(company.id === company.corporationId){
+		companyT.filter(companyType => {
+			return !testTags[companyType.label]
+		}).forEach(companyType => tagsSearch.push(createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate)))
+	}
+
 	companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).forEach(statute => (
 		tagsSearch.push(createTag(statute, TAG_TYPES.STATUTE, translate))
 	));
@@ -356,19 +364,22 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 									}
 								</div>
 								<div style={{}}>
-									<ContenedorEtiquetas
-										color={getTagColor(3)}
-										translate={translate}
-										addTag={addTag}
-										title={"Tipo de organización"}
-										stylesContent={{
-											border: `1px solid ${getTagColor(0)}`,
-											color: getTagColor(0),
-										}}
-										tags={companyT.filter(companyType => {
-												return !testTags[companyType.label]
-										}).map(companyType => createTag(companyType, 0, translate))}
-									/>
+									{company.id === company.corporationId &&
+										<ContenedorEtiquetas
+											color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
+											translate={translate}
+											addTag={addTag}
+											title={"Tipo de organización"}
+											stylesContent={{
+												border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
+												color: getTagColor(TAG_TYPES.COMPANY_TYPE),
+											}}
+											tags={companyT.filter(companyType => {
+													return !testTags[companyType.label]
+											}).map(companyType => createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate))}
+										/>
+									}
+
 									{!!companyStatutes &&
 										<ContenedorEtiquetas
 											color={'#b47fb6'}
@@ -650,4 +661,4 @@ CompanyDraftForm.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withApollo(withStyles(styles)(withWindowSize(CompanyDraftForm)));
+export default withApollo(withStyles(styles)(withWindowSize(withSharedProps()(CompanyDraftForm))));
