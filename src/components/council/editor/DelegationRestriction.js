@@ -96,7 +96,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                 {warningModal.id?
                     <text>Si quita a <strong>{`${warningModal.name} ${warningModal.surname}`}</strong> de la lista se le borrarán todos las posibles delegaciones que tenga asignadas. ¿Continuar?</text>
                 :
-                    '¿Desea volver a abrir la recepción de delegación a todos los participantes?'
+                    'Esta opción eliminará a los usuarios seleccionados y permitirá a todos los participantes recibir delegaciones.'//TRADUCCION
                 }
             </div>
         )
