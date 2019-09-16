@@ -23,8 +23,6 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		return <LoadingMainApp />;
 	}
 
-	console.log(data.participant);
-
 	return (
 		<Assistance
 			participant={data.participant}
@@ -72,6 +70,7 @@ const participantQuery = gql`
 				surname
 				numParticipations
 				state
+				assistanceIntention
 				delegateId
 				representative {
 					name

@@ -59,18 +59,43 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		savingAssistanceComment: false,
 		delegationModal: false,
 		addRepresentative: false,
-		assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
-		delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED? participant.delegateId : null,
 		noAttendWarning: false,
-		delegateInfoUser: participant.representative
+		...generateAttendanceData()
 	});
+
+	function generateAttendanceData() {
+		if(participant.represented && participant.represented.length > 0) {
+			const represented = participant.represented[0];
+			console.log(represented);
+
+			console.log({
+				assistanceIntention: represented.assistanceIntention || PARTICIPANT_STATES.REMOTE,
+				delegateId: represented.delegateId,
+				delegateInfoUser: represented.representative
+			});
+
+			if(represented.assistanceIntention === PARTICIPANT_STATES.DELEGATED){
+				return {
+					assistanceIntention: represented.assistanceIntention || PARTICIPANT_STATES.REMOTE,
+					delegateId: represented.delegateId,
+					delegateInfoUser: represented.representative
+				}
+			}
+		}
+
+		return {
+			assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
+			delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED? participant.delegateId : null,
+			delegateInfoUser: participant.representative
+		}
+	}
+
+	console.log(participant);
 
 	React.useEffect(() => {
 		setState({
 			...state,
-			assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
-			delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED? participant.delegateId : null,
-			delegateInfoUser: participant.representative
+			...generateAttendanceData()
 		});
 	}, [participant.state]);
 
