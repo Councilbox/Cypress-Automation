@@ -2,7 +2,7 @@ import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { Tooltip } from 'material-ui';
 
-const SelectedTag = ({ text, color, action, list, count, props }) => {
+const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, desplegarEtiquetas, mouseEnterHandler, mouseLeaveHandler, props }) => {
 	const anchoRef = React.useRef();
 	const [tooltip, setTooltip] = React.useState(false);
 
@@ -12,11 +12,13 @@ const SelectedTag = ({ text, color, action, list, count, props }) => {
 		}
 	});
 
+	
 	if (list) {
 		return (
 			<React.Fragment>
 				<div style={{ visibility: 'hidden', position: 'absolute' }} ref={anchoRef}>{text}</div>
 				<div
+					className={count && "hoverTags"}
 					style={{
 						borderRadius: '20px',
 						background: color,
@@ -26,8 +28,13 @@ const SelectedTag = ({ text, color, action, list, count, props }) => {
 						marginTop: "0.25em",
 						marginBottom: "0.25em",
 						color: "white",
-						padding: "8px"
+						padding: "8px",
+						maxWidth: "150px",
+						...stylesEtiqueta,
 					}}
+					onClick={(event) => desplegarEtiquetas && desplegarEtiquetas(event)}
+					onMouseEnter={mouseEnterHandler}
+					onMouseLeave={mouseLeaveHandler}
 				>
 					<div style={{ display: "flex", justifyContent: 'space-between' }}>
 						{tooltip ?

@@ -43,7 +43,7 @@ const styles = {
 	}
 };
 
-const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, translate, client, match, defaultTags, ...props}) => {
+const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, translate, client, match, defaultTags, ...props }) => {
 	const [search, setSearchModal] = React.useState('');
 	const [searchModalPlantillas, setSearchModalPlantillas] = React.useState('');
 	const [testTags, setTestTags] = React.useState(null);
@@ -60,7 +60,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 			variables: {
 				companyId: company.id,
 				prototype: 3,
-				...(searchModalPlantillas? {
+				...(searchModalPlantillas ? {
 					filters: [
 						{
 							field: "title",
@@ -81,7 +81,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 
 
 	React.useEffect(() => {
-		if(testTags !== null){
+		if (testTags !== null) {
 			plantillasFiltradas();
 		}
 	}, [searchModalPlantillas, testTags]);
@@ -100,7 +100,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 
 	React.useEffect(() => {
 		getData();
-		setTestTags(defaultTags? { ...defaultTags } : {});
+		setTestTags(defaultTags ? { ...defaultTags } : {});
 	}, []);
 
 	const addTag = tag => {
@@ -207,173 +207,14 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 						<Grid>
 							<GridItem xs={12} lg={6} md={6} style={{ display: "flex" }}>
 								<div style={{ display: "flex", alignItems: "center", marginRight: "1em" }}>
-									<DropDownMenu
-										id={"cargarPlantillasSelectorEtiquetas"}
-										color={primary}
-										loading={false}
-										paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
-										styleBody={{}}
-										Component={() =>
-											<MenuItem
-												style={{
-													height: '100%',
-													border: " solid 1px #35343496",
-													borderRadius: '3px',
-													width: '100%',
-													margin: 0,
-													padding: 0,
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'center',
-													marginTop: '14px',
-													padding: "3px 7px",
-													color: "#353434ed",
-												}}
-											>
-												<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
-													local_offer
-												</i>
-												Etiquetas
-											</MenuItem>
-										}
-										text={translate.add_agenda_point}
-										textStyle={"ETIQUETA"}
-										items={
-											<div style={{}} onClick={event => {
-												event.stopPropagation();
-											}}>
-												<div style={{
-													margin: "0px 1em",
-													minWidth: "80vw"
-												}}>
-													<div style={{
-														width: "100%",
-														display: "flex",
-														flexDirection: "row",
-													}}
-													>
-														<div style={{
-															marginRight: "2em",
-															display: "flex",
-															color: "rgb(53, 52, 52)",
-															alignItems: "center"
-														}}
-														>
-															<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
-																local_offer
-															</i>
-															Etiquetas
-														</div>
-														<div>
-															<TextInput
-																placeholder={"Buscar Etiquetas"}
-																adornment={<Icon>search</Icon>}
-																id={"buscarEtiquetasEnModal"}
-																type="text"
-																value={search}
-																styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)" }}
-																styles={{ marginBottom: "0" }}
-																classes={{ input: props.classes.input }}
-																onChange={event => {
-																	setSearchModal(event.target.value);
-																}}
-																disableUnderline={true}
-															/>
-														</div>
-													</div>
-												</div>
-												<Divider />
-												<div
-													style={{
-														width: "100%",
-														display: "flex",
-														flexDirection: "row",
-														justifyContent: "space-between",
-														margin: "1em"
-													}}
-												>
-													{matchSearch.length > 0 ?
-														<ContenedorEtiquetas
-															search={true}
-															color={'rgba(128, 78, 33, 0.58)'}
-															addTag={addTag}
-															translate={translate}
-															title={translate.council_type}
-															tags={matchSearch}
-														/>
-														:
-
-														<Grid>
-															<GridItem xs={4} lg={4} md={4}>
-																<div style={{}}>
-																	{!!vars.companyStatutes &&
-																		<EtiquetasModal
-																			color={getTagColor(TAG_TYPES.STATUTE)}
-																			addTag={addTag}
-																			title={translate.council_type}
-																			stylesContent={{
-																				border: '1px solid #c196c3',
-																				color: getTagColor(TAG_TYPES.STATUTE),
-																			}}
-																			tags={vars.companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => (
-																				{
-																					label: translate[statute.title] || statute.title,
-																					name: `statute_${statute.id}`,
-																					type: TAG_TYPES.STATUTE
-																				}
-																			))}
-																		/>
-																	}
-																</div>
-															</GridItem>
-															<GridItem xs={4} lg={4} md={4}>
-																<div style={{}}>
-																	<EtiquetasModal
-																		color={getTagColor(TAG_TYPES.GOVERNING_BODY)}
-																		addTag={addTag}
-																		title={'Órganos de gobierno'/*TRADUCCION*/}
-																		stylesContent={{
-																			border: '1px solid #7fa5b6',
-																			color: getTagColor(TAG_TYPES.GOVERNING_BODY),
-																		}}
-																		tags={Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label]).map(key => (
-																			{
-																				name: governingBodyTypes[key].label,
-																				label: translate[governingBodyTypes[key].label],
-																				type: TAG_TYPES.GOVERNING_BODY
-																			}
-																		))}
-																	/>
-
-																</div>
-															</GridItem>
-															<GridItem xs={4} lg={4} md={4}>
-																<div style={{ display: "flex" }}>
-																	{!!vars.draftTypes &&
-																		<EtiquetasModal
-																			color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
-																			addTag={addTag}
-																			title={translate.draft_type}
-																			stylesContent={{
-																				border: '1px solid #7fa5b6',
-																				color: getTagColor(TAG_TYPES.DRAFT_TYPE),
-																			}}
-																			tags={vars.draftTypes.filter(type => !testTags[type.label]).map(draft => (
-																				{
-																					name: draft.label,
-																					label: translate[draft.label],
-																					type: TAG_TYPES.DRAFT_TYPE,
-																				}
-																			))}
-																		/>
-																	}
-																</div>
-															</GridItem>
-														</Grid>
-													}
-												</div>
-											</div>
-										}
+									<DropdownEtiquetas
+										translate={translate}
+										search={search}
+										setSearchModal={setSearchModal}
+										matchSearch={matchSearch}
+										addTag={addTag}
+										vars={vars}
+										testTags={testTags}
 									/>
 								</div>
 							</GridItem>
@@ -449,6 +290,185 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 	}
 
 }))
+
+
+export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSearchModal, matchSearch, addTag, vars, testTags, ...props }) => {
+
+	
+	return (
+		<DropDownMenu
+			id={"cargarPlantillasSelectorEtiquetas"}
+			color={primary}
+			loading={false}
+			paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
+			styleBody={{}}
+			Component={() =>
+				<MenuItem
+					style={{
+						height: '100%',
+						border: " solid 1px #35343496",
+						borderRadius: '3px',
+						width: '100%',
+						margin: 0,
+						padding: 0,
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						marginTop: '14px',
+						padding: "3px 7px",
+						color: "#353434ed",
+					}}
+				>
+					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
+						local_offer
+												</i>
+					Etiquetas
+											</MenuItem>
+			}
+			text={translate.add_agenda_point}
+			textStyle={"ETIQUETA"}
+			items={
+				<div style={{}} onClick={event => {
+					event.stopPropagation();
+				}}>
+					<div style={{
+						margin: "0px 1em",
+						minWidth: "80vw"
+					}}>
+						<div style={{
+							width: "100%",
+							display: "flex",
+							flexDirection: "row",
+						}}
+						>
+							<div style={{
+								marginRight: "2em",
+								display: "flex",
+								color: "rgb(53, 52, 52)",
+								alignItems: "center"
+							}}
+							>
+								<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
+									local_offer
+															</i>
+								Etiquetas
+														</div>
+							<div>
+								<TextInput
+									placeholder={"Buscar Etiquetas"}
+									adornment={<Icon>search</Icon>}
+									id={"buscarEtiquetasEnModal"}
+									type="text"
+									value={search}
+									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)" }}
+									styles={{ marginBottom: "0" }}
+									classes={{ input: props.classes.input }}
+									onChange={event => {
+										setSearchModal(event.target.value);
+									}}
+									disableUnderline={true}
+								/>
+							</div>
+						</div>
+					</div>
+					<Divider />
+					<div
+						style={{
+							width: "100%",
+							display: "flex",
+							flexDirection: "row",
+							justifyContent: "space-between",
+							margin: "1em"
+						}}
+					>
+						{matchSearch.length > 0 ?
+							<ContenedorEtiquetas
+								search={true}
+								color={'rgba(128, 78, 33, 0.58)'}
+								addTag={addTag}
+								translate={translate}
+								title={translate.council_type}
+								tags={matchSearch}
+							/>
+							:
+
+							<Grid>
+								<GridItem xs={4} lg={4} md={4}>
+									<div style={{}}>
+										{!!vars.companyStatutes &&
+											<EtiquetasModal
+												color={getTagColor(TAG_TYPES.STATUTE)}
+												addTag={addTag}
+												title={translate.council_type}
+												stylesContent={{
+													border: '1px solid #c196c3',
+													color: getTagColor(TAG_TYPES.STATUTE),
+												}}
+												tags={vars.companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => (
+													{
+														label: translate[statute.title] || statute.title,
+														name: `statute_${statute.id}`,
+														type: TAG_TYPES.STATUTE
+													}
+												))}
+											/>
+										}
+									</div>
+								</GridItem>
+								<GridItem xs={4} lg={4} md={4}>
+									<div style={{}}>
+										<EtiquetasModal
+											color={getTagColor(TAG_TYPES.GOVERNING_BODY)}
+											addTag={addTag}
+											title={'Órganos de gobierno'/*TRADUCCION*/}
+											stylesContent={{
+												border: '1px solid #7fa5b6',
+												color: getTagColor(TAG_TYPES.GOVERNING_BODY),
+											}}
+											tags={Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label]).map(key => (
+												{
+													name: governingBodyTypes[key].label,
+													label: translate[governingBodyTypes[key].label],
+													type: TAG_TYPES.GOVERNING_BODY
+												}
+											))}
+										/>
+
+									</div>
+								</GridItem>
+								<GridItem xs={4} lg={4} md={4}>
+									<div style={{ display: "flex" }}>
+										{!!vars.draftTypes &&
+											<EtiquetasModal
+												color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
+												addTag={addTag}
+												title={translate.draft_type}
+												stylesContent={{
+													border: '1px solid #7fa5b6',
+													color: getTagColor(TAG_TYPES.DRAFT_TYPE),
+												}}
+												tags={vars.draftTypes.filter(type => !testTags[type.label]).map(draft => (
+													{
+														name: draft.label,
+														label: translate[draft.label],
+														type: TAG_TYPES.DRAFT_TYPE,
+													}
+												))}
+											/>
+										}
+									</div>
+								</GridItem>
+							</Grid>
+						}
+					</div>
+				</div>
+			}
+		/>
+	)
+
+})
+
+
 
 const regularCardStyle = {
 	cardTitle: {
@@ -578,7 +598,7 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 								textOverflow: 'ellipsis',
 								maxWidth: tags.length > 6 ? "150px" : '220px',
 							}}
-								key={"tag_" + tag.label}
+							key={"tag_" + tag.label}
 							onClick={() => addTag(tag)}
 						>
 							{tag.label}

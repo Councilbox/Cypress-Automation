@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { companyDrafts, deleteDraft } from "../../../queries/companyDrafts.js";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import CompanyDraftNew from "./CompanyDraftNew";
 import {
 	AlertConfirm,
@@ -15,7 +15,7 @@ import {
 	Scrollbar
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { Card } from 'material-ui';
+import { Card, Collapse } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from "../../../HOCs/withSharedProps";
@@ -29,13 +29,16 @@ import { getTagColor } from "./draftTags/utils.js";
 import SelectedTag from "./draftTags/SelectedTag.js";
 import withWindowSize from "../../../HOCs/withWindowSize.js";
 
-const CompanyDraftList = ({ data, translate, company, ...props }) => {
+const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 	const [state, setState] = useOldState({
 		deleteModal: false,
 		draftID: null,
 		tags: true,
-		newForm: false
+		newForm: false,
 	});
+	const [search, setSearch] = React.useState("")
+	
+
 	const primary = getPrimary();
 
 	React.useEffect(() => {
@@ -81,6 +84,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 		}
 	}
 
+
 	const { companyDrafts, draftTypes, loading, error } = data;
 
 	if (state.newForm) {
@@ -100,7 +104,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 		<React.Fragment>
 			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em' }}>
 				<BasicButton
-					text={translate.drafts_new}
+					text={"Nueva plantilla"} //TRANSLATE
 					color={primary}
 					id={"newDraft"}
 					textStyle={{
@@ -120,7 +124,7 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 					style={{ marginLeft: "1em" }}
 				>
 					<BasicButton
-						text={translate.general_drafts}
+						text={"Plantillas predeterminadas"}
 						color={getSecondary()}
 						textStyle={{
 							color: "white",
@@ -147,6 +151,13 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 				) : (
 						!!companyDrafts && (
 							<EnhancedTable
+								//
+								listDraftsEtiquetas={true}
+								search={search}
+								setSearch={setSearch}
+								// vars={vars}
+								//
+								hideTextFilter={true}
 								translate={translate}
 								defaultLimit={DRAFTS_LIMITS[0]}
 								defaultFilter={"title"}
@@ -160,20 +171,20 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 									value: 'all',
 									label: translate.all_plural
 								}]}
-								categories={[[
-									...draftTypes.map(type => {
-										return {
-											field: "type",
-											value: type.value,
-											label: translate[type.label] || type.label
-										}
-									}),
-									{
-										field: "type",
-										value: 'all',
-										label: translate.all_plural
-									},
-								]]}
+								// categories={[[
+								// 	...draftTypes.map(type => {
+								// 		return {
+								// 			field: "type",
+								// 			value: type.value,
+								// 			label: translate[type.label] || type.label
+								// 		}
+								// 	}),
+								// 	{
+								// 		field: "type",
+								// 		value: 'all',
+								// 		label: translate.all_plural
+								// 	},
+								// ]]}
 								refetch={data.refetch}
 								headers={[
 									{
@@ -228,6 +239,8 @@ const CompanyDraftList = ({ data, translate, company, ...props }) => {
 
 const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props }) => {
 	const [show, handlers] = useHoverRow();
+	const [expanded, setExpanded] = React.useState(false);
+	const [showActions, setShowActions] = React.useState(false);
 
 	const TagColumn = props => {
 		return (
@@ -243,17 +256,33 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 		)
 	}
 
-	// const buildTagColumns = tags => {
-	// 	const columns = {};
-	// 	Object.keys(tags).forEach(key => {
-	// 		const tag = tags[key];
-	// 		columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
-	// 	});
+	const buildTagColumns = tags => {
+		const columns = {};
+		Object.keys(tags).forEach(key => {
+			const tag = tags[key];
+			columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
+		});
 
-	// 	return columns;
-	// }
+		return columns;
+	}
 
-	// const columns = buildTagColumns(testTags);
+
+	const mouseEnterHandler = () => {
+		setShowActions(true)
+	}
+
+	const mouseLeaveHandler = () => {
+		setShowActions(false)
+	}
+
+	const desplegarEtiquetas = (event) => {
+		event.preventDefault()
+		event.stopPropagation()
+		setExpanded(!expanded)
+	}
+
+	const columns = buildTagColumns(draft.tags);
+
 
 	if (isMobile) {
 		return (
@@ -298,24 +327,46 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 			>
 				{draft.title}
 			</TableCell>
-			<TableCell>
-				<TagColumn>
-					<SelectedTag
-						text={22222}
-						color={getTagColor(1)}
-						innerWidth={'100px'}
-						props={info}
-						list={true}
-					/>
-					<SelectedTag
-						text={22222}
-						color={getTagColor(1)}
-						innerWidth={'100px'}
-						props={info}
-						list={true}
-						count={"1"}
-					/>
-				</TagColumn>
+			<TableCell >
+				<div style={{ display: "flex" }}>
+					{columns &&
+						Object.keys(columns).map(key => {
+							let columnaLength = columns[key].length;
+							return (
+								<TagColumn key={`column_${key}`}>
+									{columns[key].map((tag, index) => {
+										return (
+											index > 0 ?
+												<Collapse in={expanded} timeout="auto" unmountOnExit>
+													<SelectedTag
+														key={`tag_${tag.label}_1`}
+														text={translate[tag.label] || tag.label}
+														color={getTagColor(key)}
+														props={props}
+														list={true}
+														count={""}
+													/>
+												</Collapse>
+												:
+												<SelectedTag
+													key={`tag_${tag.label}`}
+													text={translate[tag.label] || tag.label}
+													color={getTagColor(key)}
+													props={props}
+													list={true}
+													count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
+													stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
+													desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
+													mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
+													mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
+												/>
+										)
+									})}
+								</TagColumn>
+							)
+						})
+					}
+				</div>
 			</TableCell>
 			<TableCell>
 				<div style={{ width: '3em' }}>
@@ -326,7 +377,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 	)
 }
 
-export default withSharedProps()(
+export default withApollo((withSharedProps()(
 	compose(
 		graphql(deleteDraft, {
 			name: "deleteDraft",
@@ -347,5 +398,5 @@ export default withSharedProps()(
 				notifyOnNetworkStatusChange: true
 			})
 		})
-	)(withWindowSize(CompanyDraftList))
-);
+	)(withWindowSize(CompanyDraftList)))
+));

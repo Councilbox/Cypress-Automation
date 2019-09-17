@@ -18,6 +18,7 @@ import TableStyles from "../styles/table";
 import PaginationFooter from "./PaginationFooter";
 import { isMobile } from 'react-device-detect';
 import Scrollbar from "./Scrollbar";
+import LoadDraft, { DropdownEtiquetas } from "../components/company/drafts/LoadDraft";
 
 class EnhancedTable extends React.Component {
 	state = {
@@ -154,7 +155,10 @@ class EnhancedTable extends React.Component {
 			loading,
 			headers,
 			children,
-			categories
+			categories,
+			search,
+			setSearch,
+			// vars
 		} = this.props;
 		const {
 			filterText,
@@ -164,7 +168,7 @@ class EnhancedTable extends React.Component {
 		} = this.state;
 
 		return (
-			<div style={{height:"100%"}}>
+			<div style={{ height: "100%" }}>
 				{isMobile && !!this.props.menuButtons &&
 					this.props.menuButtons
 				}
@@ -248,6 +252,19 @@ class EnhancedTable extends React.Component {
 									}}
 								/>
 							</div>
+						}
+						{this.props.listDraftsEtiquetas &&
+							<React.Fragment>
+								<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
+									<DropdownEtiquetas
+										translate={translate}
+										search={search}
+										setSearchModal={setSearch}
+										matchSearch={[]}
+										// vars={vars}
+									></DropdownEtiquetas>
+								</div>
+							</React.Fragment>
 						}
 					</div>
 				</div>
