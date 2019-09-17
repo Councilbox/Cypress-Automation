@@ -1423,6 +1423,7 @@ export const councilLiveQuery = gql`
 			neededQuorum
 			noCelebrateComment
 			president
+			presidentId
 			proposedActSent
 			prototype
 			qualityVoteId
@@ -1433,6 +1434,7 @@ export const councilLiveQuery = gql`
 			}
 			satisfyQuorum
 			secretary
+			secretaryId
 			securityKey
 			securityType
 			selectedCensusId

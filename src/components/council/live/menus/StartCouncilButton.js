@@ -38,8 +38,10 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 		data: {
 			firstOrSecondConvene: council.firstOrSecondConvene,
 			neededQuorum: 2,
-			president: "",
-			presidentId: ""
+			president: council.president,
+			secretary: council.secretary,
+			presidentId: council.presidentId,
+			secretaryId: council.secretaryId
 		},
 		errors: {
 			president: "",
