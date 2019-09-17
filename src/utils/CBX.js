@@ -614,14 +614,16 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{numPresentOrRemote}}/g, data.council.numPresentAttendance + data.council.numRemoteAttendance);
 	text = text.replace(/{{numRepresented}}/g, data.council.numDelegatedAttendance);
 	text = text.replace(/{{numParticipants}}/g, data.council.numTotalAttendance);
-	text = text.replace(/{{percentageSCPresent}}/g, data.council.percentageSCPresent);
-	text = text.replace(/{{percentageSCRepresented}}/g, data.council.percentageSCDelegated);
-	text = text.replace(/{{percentageSCTotal}}/g, data.council.percentageSCTotal);
+	text = text.replace(/{{percentageSCPresent}}/g, `${data.council.percentageSCPresent}%`);
+	text = text.replace(/{{percentageSCRepresented}}/g, `${data.council.percentageSCDelegated}%`);
+	text = text.replace(/{{percentageSCTotal}}/g, `${data.council.percentageSCTotal}%`);
 	text = text.replace(/{{numParticipationsPresent}}/g, data.council.numParticipationsPresent);
 	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
 
 
 	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
+		moment.ISO_8601).format("LLL") : '');
+	text = text.replace(/{{dateSecondCall}}/g, !!data.council.dateStart2NdCall ? moment(new Date(data.council.dateStart2NdCall).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
 	text = text.replace(/{{dateEnd}}/g, !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
