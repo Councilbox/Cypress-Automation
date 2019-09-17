@@ -12,8 +12,8 @@ const Dashboard = ({ translate, company, user }) => {
 	const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
 
 	React.useEffect(() => {
-		store.dispatch(addSpecificTranslations(company.category));
-	}, [store, company.category]);
+		store.dispatch(addSpecificTranslations(company.type === 10? 'realEstate' : 'society'));
+	}, [store, company.type]);
 
 	return (
 		<div
