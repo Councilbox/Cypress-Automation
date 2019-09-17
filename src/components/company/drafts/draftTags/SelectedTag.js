@@ -27,16 +27,16 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 						marginRight: "0.5em",
 						marginTop: "0.25em",
 						marginBottom: "0.25em",
-						color: "white",
 						padding: "8px",
 						maxWidth: "150px",
 						...stylesEtiqueta,
+						color:color
 					}}
 					onClick={(event) => desplegarEtiquetas && desplegarEtiquetas(event)}
-					onMouseEnter={mouseEnterHandler}
-					onMouseLeave={mouseLeaveHandler}
+					onMouseEnter={mouseEnterHandler ? mouseEnterHandler : function(){return false} }
+					onMouseLeave={mouseLeaveHandler ? mouseLeaveHandler : function(){return false}}
 				>
-					<div style={{ display: "flex", justifyContent: 'space-between' }}>
+					<div style={{ display: "flex", justifyContent: 'space-between', color: "white", }}>
 						{tooltip ?
 							<Tooltip title={text}>
 								<div style={{ paddingRight: "0.5em", maxWidth: props.innerWidth < 1190 ? isMobile ? "" : '11em' : '15em' }} className="truncate">{text}</div>

@@ -292,16 +292,16 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 }))
 
 
-export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSearchModal, matchSearch, addTag, vars, testTags, ...props }) => {
+export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, ...props }) => {
 
-	
 	return (
 		<DropDownMenu
 			id={"cargarPlantillasSelectorEtiquetas"}
 			color={primary}
 			loading={false}
 			paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
-			styleBody={{}}
+			anchorOrigin={anchorOrigin}
+			transformOrigin={transformOrigin}
 			Component={() =>
 				<MenuItem
 					style={{
@@ -333,19 +333,22 @@ export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSear
 				}}>
 					<div style={{
 						margin: "0px 1em",
-						minWidth: "80vw"
+						minWidth: "50vw",
+						...styleBody
 					}}>
 						<div style={{
 							width: "100%",
 							display: "flex",
 							flexDirection: "row",
+							width: "100%"
 						}}
 						>
 							<div style={{
 								marginRight: "2em",
 								display: "flex",
 								color: "rgb(53, 52, 52)",
-								alignItems: "center"
+								alignItems: "center",
+								width: "100%"
 							}}
 							>
 								<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
@@ -392,9 +395,11 @@ export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSear
 							/>
 							:
 
-							<Grid>
-								<GridItem xs={4} lg={4} md={4}>
-									<div style={{}}>
+							<Grid style={{
+								width: "100%",}}>
+								<GridItem xs={3} lg={3} md={3} style={{
+								width: "100%",}}>
+									<div style={{ width: "100%" }}>
 										{!!vars.companyStatutes &&
 											<EtiquetasModal
 												color={getTagColor(TAG_TYPES.STATUTE)}
@@ -415,8 +420,9 @@ export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSear
 										}
 									</div>
 								</GridItem>
-								<GridItem xs={4} lg={4} md={4}>
-									<div style={{}}>
+								<GridItem xs={3} lg={3} md={3} style={{
+								width: "100%",}}>
+									<div style={{ width: "100%" }}>
 										<EtiquetasModal
 											color={getTagColor(TAG_TYPES.GOVERNING_BODY)}
 											addTag={addTag}
@@ -436,8 +442,9 @@ export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSear
 
 									</div>
 								</GridItem>
-								<GridItem xs={4} lg={4} md={4}>
-									<div style={{ display: "flex" }}>
+								<GridItem xs={6} lg={6} md={6} style={{
+								width: "100%",}}>
+									<div style={{ display: "flex", width: "100%" }}>
 										{!!vars.draftTypes &&
 											<EtiquetasModal
 												color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
@@ -577,20 +584,22 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate }) => {
 
 	return (
-		<div>
+		<div style={{width: "100%"}}>
 			<div style={{ fontWeight: "700" }} >
 				<div>{title}</div>
 			</div>
-			<div style={{ color: color }}>
+			<div style={{ color: color, width: "100%" }}>
 				<div style={{
 					display: 'flex',
 					flexFlow: 'wrap column',
 					maxHeight: '135px',
+					width: "100%"
 				}}
 				>
 					{tags.map((tag, index) => (
 						<div
 							style={{
+								width: "100%",
 								marginRight: "1em",
 								cursor: "pointer",
 								whiteSpace: 'nowrap',

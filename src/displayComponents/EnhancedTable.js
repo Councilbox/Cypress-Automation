@@ -158,7 +158,12 @@ class EnhancedTable extends React.Component {
 			categories,
 			search,
 			setSearch,
-			// vars
+			vars,
+			testTags,
+			addTag,
+			styleBody,
+			anchorOrigin,
+			transformOrigin
 		} = this.props;
 		const {
 			filterText,
@@ -255,14 +260,36 @@ class EnhancedTable extends React.Component {
 						}
 						{this.props.listDraftsEtiquetas &&
 							<React.Fragment>
-								<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
-									<DropdownEtiquetas
-										translate={translate}
-										search={search}
-										setSearchModal={setSearch}
-										matchSearch={[]}
-										// vars={vars}
-									></DropdownEtiquetas>
+								<div style={{ marginRight: '0.8em', display: "flex" }}>
+									<div style={{ marginRight: "3em" }}>
+										<DropdownEtiquetas
+											translate={translate}
+											search={search}
+											setSearchModal={setSearch}
+											matchSearch={[]}
+											vars={vars}
+											testTags={testTags}
+											addTag={addTag}
+											styleBody={styleBody}
+											anchorOrigin={anchorOrigin}
+											transformOrigin={transformOrigin}
+										></DropdownEtiquetas>
+									</div>
+									<div>
+										<TextInput
+											disableUnderline={true}
+											styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding:"4px 5px" }}
+											stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+											adornment={<Icon>search</Icon>}
+											floatingText={" "}
+											type="text"
+											value={filterText}
+											placeholder={"Buscar plantillas"}
+											onChange={event => {
+												this.updateFilterText(event.target.value);
+											}}
+										/>
+									</div>
 								</div>
 							</React.Fragment>
 						}

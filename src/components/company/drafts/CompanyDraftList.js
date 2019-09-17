@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { companyDrafts, deleteDraft } from "../../../queries/companyDrafts.js";
+import { companyDrafts, deleteDraft, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts.js";
 import { compose, graphql, withApollo } from "react-apollo";
 import CompanyDraftNew from "./CompanyDraftNew";
 import {
@@ -25,9 +25,11 @@ import { bHistory } from "../../../containers/App";
 import { sendGAevent } from "../../../utils/analytics.js";
 import { useOldState, useHoverRow } from "../../../hooks.js";
 import Tag from "./draftTags/Tag.js";
-import { getTagColor } from "./draftTags/utils.js";
+import { getTagColor, createTag } from "./draftTags/utils.js";
 import SelectedTag from "./draftTags/SelectedTag.js";
 import withWindowSize from "../../../HOCs/withWindowSize.js";
+import * as CBX from "../../../utils/CBX";
+import { councilStepThree, statutes } from "../../../queries.js";
 
 const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 	const [state, setState] = useOldState({
@@ -37,7 +39,12 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 		newForm: false,
 	});
 	const [search, setSearch] = React.useState("")
-	
+	const [vars, setVars] = React.useState({});
+	const [varsLoading, setVarsLoading] = React.useState(true);
+	// const [loading, setLoading] = React.useState(true);
+	const [dataCouncil, setDataCouncil] = React.useState({});
+	const [testTags, setTestTags] = React.useState(null);
+
 
 	const primary = getPrimary();
 
@@ -84,6 +91,52 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 		}
 	}
 
+	React.useEffect(() => {
+		if(testTags && Object.keys(testTags).length > 0) {
+			data.refetch({
+			companyId: company.id,
+			tags: Object.keys(testTags).map(key => testTags[key].name),
+			})
+		}
+	}, [testTags]);
+
+
+	const getData = async () => {
+		const response = await client.query({
+			query: getCompanyDraftDataNoCompany,
+			variables: {
+				companyId: company.id
+			}
+		});
+
+		setVars(response.data);
+		setVarsLoading(false);
+	};
+
+	React.useEffect(() => {
+		getData();
+	}, [company.id]);
+
+	const formatTagLabel = tag => {
+		return tag.segments ?
+			`${tag.segments.reduce((acc, curr) => {
+				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
+				return acc;
+			}, '')}`
+			:
+			tag.label
+	}
+
+	const addTag = tag => {
+		setTestTags({
+			...testTags,
+			[tag.name]: {
+				...tag,
+				label: formatTagLabel(tag),
+				active: true
+			}
+		});
+	}
 
 	const { companyDrafts, draftTypes, loading, error } = data;
 
@@ -99,6 +152,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 			/>
 		);
 	}
+
 
 	return (
 		<React.Fragment>
@@ -124,6 +178,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 					style={{ marginLeft: "1em" }}
 				>
 					<BasicButton
+						//TRADUCCION
 						text={"Plantillas predeterminadas"}
 						color={getSecondary()}
 						textStyle={{
@@ -151,11 +206,29 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 				) : (
 						!!companyDrafts && (
 							<EnhancedTable
-								//
+								// monta etiquetas
 								listDraftsEtiquetas={true}
 								search={search}
 								setSearch={setSearch}
-								// vars={vars}
+								vars={vars}
+								addTag={addTag}
+								testTags={{
+									"agenda": {
+										active: true,
+										type: 2,
+										name: 'agenda',
+										label: translate.agenda
+									},
+								}}
+								anchorOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								transformOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								styleBody={{ minWidth: '50vw' }}
 								//
 								hideTextFilter={true}
 								translate={translate}
@@ -171,20 +244,6 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 									value: 'all',
 									label: translate.all_plural
 								}]}
-								// categories={[[
-								// 	...draftTypes.map(type => {
-								// 		return {
-								// 			field: "type",
-								// 			value: type.value,
-								// 			label: translate[type.label] || type.label
-								// 		}
-								// 	}),
-								// 	{
-								// 		field: "type",
-								// 		value: 'all',
-								// 		label: translate.all_plural
-								// 	},
-								// ]]}
 								refetch={data.refetch}
 								headers={[
 									{
@@ -339,7 +398,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 											index > 0 ?
 												<Collapse in={expanded} timeout="auto" unmountOnExit>
 													<SelectedTag
-														key={`tag_${tag.label}_1`}
+														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
 														text={translate[tag.label] || tag.label}
 														color={getTagColor(key)}
 														props={props}
@@ -349,7 +408,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 												</Collapse>
 												:
 												<SelectedTag
-													key={`tag_${tag.label}`}
+													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
 													text={translate[tag.label] || tag.label}
 													color={getTagColor(key)}
 													props={props}
