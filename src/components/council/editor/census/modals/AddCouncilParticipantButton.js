@@ -15,6 +15,7 @@ import {
 	checkRequiredFieldsRepresentative,
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
+import withSharedProps from "../../../../../HOCs/withSharedProps";
 
 
 class AddCouncilParticipantButton extends React.Component {
@@ -87,12 +88,13 @@ class AddCouncilParticipantButton extends React.Component {
 	async checkRequiredFields() {
 		const participant = this.state.data;
 		const representative = this.state.representative;
-		const { translate, participations } = this.props;
+		const { translate, participations, company } = this.props;
 		let hasSocialCapital = participations;
 		let errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
 			translate,
-			hasSocialCapital
+			hasSocialCapital,
+			company
 		);
 
 		let errorsRepresentative = {
@@ -100,7 +102,11 @@ class AddCouncilParticipantButton extends React.Component {
 			hasError: false
 		};
 
-		const emailsToCheck = [participant.email];
+		const emailsToCheck = [];
+
+		if(this.props.company.type !== 10){
+			emailsToCheck.push(participant.email);
+		}
 
 		if (representative.hasRepresentative) {
 			errorsRepresentative = checkRequiredFieldsRepresentative(
@@ -112,33 +118,36 @@ class AddCouncilParticipantButton extends React.Component {
 		}
 
 
-		const response = await this.props.client.query({
-			query: checkUniqueCouncilEmails,
-			variables: {
-				councilId: this.props.councilId,
-				emailList: emailsToCheck
+		if(emailsToCheck.length > 0){
+			const response = await this.props.client.query({
+				query: checkUniqueCouncilEmails,
+				variables: {
+					councilId: this.props.councilId,
+					emailList: emailsToCheck
+				}
+			});
+
+			if(!response.data.checkUniqueCouncilEmails.success){
+				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
+				data.duplicatedEmails.forEach(email => {
+					if(participant.email === email){
+						errorsParticipant.errors.email = translate.register_exists_email;
+						errorsParticipant.hasError = true;
+					}
+					if(representative.email === email){
+						errorsRepresentative.errors.email = translate.register_exists_email;
+						errorsRepresentative.hasError = true;
+					}
+				})
 			}
-		});
 
-		if(!response.data.checkUniqueCouncilEmails.success){
-			const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
-			data.duplicatedEmails.forEach(email => {
-				if(participant.email === email){
-					errorsParticipant.errors.email = translate.register_exists_email;
-					errorsParticipant.hasError = true;
-				}
-				if(representative.email === email){
-					errorsRepresentative.errors.email = translate.register_exists_email;
-					errorsRepresentative.hasError = true;
-				}
-			})
+			if(participant.email === representative.email){
+				errorsRepresentative.errors.email = translate.repeated_email;
+				errorsParticipant.errors.email = translate.repeated_email;
+				errorsParticipant.hasError = true;
+			}
 		}
 
-		if(participant.email === representative.email){
-			errorsRepresentative.errors.email = translate.repeated_email;
-			errorsParticipant.errors.email = translate.repeated_email;
-			errorsParticipant.hasError = true;
-		}
 
 		this.setState({
 			...this.state,
@@ -288,7 +297,8 @@ export default compose(
 			errorPolicy: "all"
 		}
 	}),
-	graphql(languages)
+	graphql(languages),
+	withSharedProps()
 )(withApollo(AddCouncilParticipantButton));
 
 const initialParticipant = {

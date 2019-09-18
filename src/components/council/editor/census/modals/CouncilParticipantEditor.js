@@ -10,6 +10,7 @@ import {
 	checkValidEmail
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
+import withSharedProps from "../../../../../HOCs/withSharedProps";
 
 class CouncilParticipantEditor extends React.Component {
 	state = {
@@ -100,12 +101,13 @@ class CouncilParticipantEditor extends React.Component {
 	async checkRequiredFields() {
 		const participant = this.state.data;
 		const representative = this.state.representative;
-		const { translate, participations } = this.props;
+		const { translate, participations, company } = this.props;
 		let hasSocialCapital = participations;
 		let errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
 			translate,
-			hasSocialCapital
+			hasSocialCapital,
+			company
 		);
 
 		let errorsRepresentative = {
@@ -114,8 +116,11 @@ class CouncilParticipantEditor extends React.Component {
 		};
 
 		const emailsToCheck = [];
-		if(participant.email !== this.props.participant.email){
-			emailsToCheck.push(participant.email);
+
+		if(company.type !== 10){
+			if(participant.email !== this.props.participant.email){
+				emailsToCheck.push(participant.email);
+			}
 		}
 
 		if (representative.hasRepresentative) {
@@ -131,27 +136,31 @@ class CouncilParticipantEditor extends React.Component {
 			}
 		}
 
-		const response = await this.props.client.query({
-			query: checkUniqueCouncilEmails,
-			variables: {
-				councilId: this.props.councilId,
-				emailList: emailsToCheck
-			}
-		});
 
-		if(!response.data.checkUniqueCouncilEmails.success){
-			const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
-			data.duplicatedEmails.forEach(email => {
-				if(participant.email === email){
-					errorsParticipant.errors.email = translate.register_exists_email;
-					errorsParticipant.hasError = true;
+		if(emailsToCheck.length > 0){
+			const response = await this.props.client.query({
+				query: checkUniqueCouncilEmails,
+				variables: {
+					councilId: this.props.councilId,
+					emailList: emailsToCheck
 				}
-				if(representative.email === email){
-					errorsRepresentative.errors.email = translate.register_exists_email;
-					errorsRepresentative.hasError = true;
-				}
-			})
+			});
+
+			if(!response.data.checkUniqueCouncilEmails.success){
+				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
+				data.duplicatedEmails.forEach(email => {
+					if(participant.email === email){
+						errorsParticipant.errors.email = translate.register_exists_email;
+						errorsParticipant.hasError = true;
+					}
+					if(representative.email === email){
+						errorsRepresentative.errors.email = translate.register_exists_email;
+						errorsRepresentative.hasError = true;
+					}
+				})
+			}
 		}
+
 
 		this.setState({
 			...this.state,
@@ -277,7 +286,8 @@ export default compose(
 			errorPolicy: "all"
 		}
 	}),
-	graphql(languages)
+	graphql(languages),
+	withSharedProps()
 )(withApollo(CouncilParticipantEditor));
 
 const initialRepresentative = {
