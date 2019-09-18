@@ -28,7 +28,8 @@ import PartnersBookPage from '../components/partners/PartnersBookPage';
 import PartnerEditorPage from '../components/partners/PartnerEditorPage';
 import NewPartnerPage from '../components/partners/NewPartnerPage';
 import Loadable from 'react-loadable';
-import { bHistory } from './App';
+import { bHistory, store } from './App';
+import { addSpecificTranslations } from '../actions/companyActions';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),
@@ -40,6 +41,9 @@ const redirect = company => () => {
 }
 
 const MainRouter = ({ company, user, location, disabled }) => {
+    React.useEffect(() => {
+		store.dispatch(addSpecificTranslations(company.type === 10? 'realEstate' : 'society'));
+	}, [store, company.type]);
 
     if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`) && !location.pathname.includes('/admin')){
         bHistory.push(`/company/${company.id}`);

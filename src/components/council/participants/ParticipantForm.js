@@ -103,7 +103,7 @@ const ParticipantForm = ({
 					floatingText={participant.personOrEntity === 1? translate.cif : translate.dni}
 					type="text"
 					errorText={errors.dni}
-					value={participant.dni}
+					value={participant.dni || ''}
 					onChange={event =>
 						updateState({
 							dni: event.nativeEvent.target.value
@@ -117,7 +117,7 @@ const ParticipantForm = ({
 						floatingText={translate.position}
 						type="text"
 						errorText={errors.position}
-						value={participant.position}
+						value={participant.position || ''}
 						onChange={event =>
 							updateState({
 								position: event.nativeEvent.target.value
@@ -132,7 +132,7 @@ const ParticipantForm = ({
 					{...(checkEmail? {onKeyUp: (event) => checkEmail(event, 'participant')} : {})}
 					type="text"
 					errorText={errors.email}
-					value={participant.email}
+					value={participant.email || ''}
 					onChange={event =>
 						updateState({
 							email: event.nativeEvent.target.value
@@ -145,7 +145,7 @@ const ParticipantForm = ({
 					floatingText={translate.phone}
 					type="text"
 					errorText={errors.phone}
-					value={participant.phone}
+					value={participant.phone || ''}
 					onChange={event =>
 						updateState({
 							phone: event.nativeEvent.target.value
@@ -189,7 +189,7 @@ const ParticipantForm = ({
 					type="tel"
 					min={1}
 					errorText={errors.numParticipations}
-					value={participant.numParticipations}
+					value={participant.numParticipations || ''}
 					onChange={event => {
 						if(!isNaN(event.target.value) || +event.target.value > 0){
 							updateState({
@@ -206,7 +206,7 @@ const ParticipantForm = ({
 						type="tel"
 						min={1}
 						errorText={errors.socialCapital}
-						value={participant.socialCapital}
+						value={participant.socialCapital || ''}
 						onChange={event => {
 							if(!isNaN(event.target.value) || +event.target.value > 0){
 								updateState({

@@ -3,18 +3,12 @@ import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
 import { Scrollbar, CBXFooter } from '../../displayComponents';
-import { moment, store } from '../../containers/App';
+import { moment } from '../../containers/App';
 import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft } from '../../utils/CBX';
-import { addSpecificTranslations } from "../../actions/companyActions";
 
 const Dashboard = ({ translate, company, user }) => {
 	const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
-
-	React.useEffect(() => {
-		store.dispatch(addSpecificTranslations(company.type === 10? 'realEstate' : 'society'));
-	}, [store, company.type]);
-
 	return (
 		<div
 			style={{
