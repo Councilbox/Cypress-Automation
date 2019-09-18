@@ -634,7 +634,7 @@ class HoverableRow extends React.Component {
 
 const formatParticipant = participant => {
 	let { representing, ...newParticipant } = participant;
-	if(representing && representing.type === 3){
+	if(representing && representing.type === 3 && representing.live.state === PARTICIPANT_STATES.REPRESENTATED){
 		let { representative, ...rest } = newParticipant;
 		newParticipant = {
 			...representing,
