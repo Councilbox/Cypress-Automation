@@ -12,24 +12,24 @@ import {
 	GridItem,
 	EnhancedTable,
 	ErrorWrapper,
-	Scrollbar
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { Card, Collapse } from 'material-ui';
+import { Card, Collapse, IconButton } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from "../../../HOCs/withSharedProps";
-import { DRAFTS_LIMITS } from "../../../constants";
+import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from "../../../constants";
 import TableStyles from "../../../styles/table";
 import { bHistory } from "../../../containers/App";
 import { sendGAevent } from "../../../utils/analytics.js";
 import { useOldState, useHoverRow } from "../../../hooks.js";
-import Tag from "./draftTags/Tag.js";
 import { getTagColor, createTag } from "./draftTags/utils.js";
 import SelectedTag from "./draftTags/SelectedTag.js";
 import withWindowSize from "../../../HOCs/withWindowSize.js";
-import * as CBX from "../../../utils/CBX";
-import { councilStepThree, statutes } from "../../../queries.js";
+
+
+
+const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
 const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 	const [state, setState] = useOldState({
@@ -40,10 +40,8 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 	});
 	const [search, setSearch] = React.useState("")
 	const [vars, setVars] = React.useState({});
-	const [varsLoading, setVarsLoading] = React.useState(true);
-	// const [loading, setLoading] = React.useState(true);
-	const [dataCouncil, setDataCouncil] = React.useState({});
-	const [testTags, setTestTags] = React.useState(null);
+	const [testTags, setTestTags] = React.useState({});
+
 
 
 	const primary = getPrimary();
@@ -59,13 +57,22 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 
 	const _renderDeleteIcon = draftID => {
 		return (
-			<CloseIcon
-				style={{ color: primary }}
-				onClick={event => {
-					openDeleteModal(draftID);
-					event.stopPropagation();
-				}}
-			/>
+			<div style={{ display: "flex" }}>
+				<i className="fa fa-pencil-square-o" style={{
+					height: "32px",
+					width: "32px",
+					outline: 0, 
+					color: primary
+				}}>
+				</i>
+				<CloseIcon
+					style={{ color: primary }}
+					onClick={event => {
+						openDeleteModal(draftID);
+						event.stopPropagation();
+					}}
+				/>
+			</div>
 		);
 	}
 
@@ -92,12 +99,18 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 	}
 
 	React.useEffect(() => {
-		if(testTags && Object.keys(testTags).length > 0) {
-			data.refetch({
+		data.refetch({
 			companyId: company.id,
+			...(search ? {
+				filters: [
+					{
+						field: "title",
+						text: search
+					},
+				]
+			} : {}),
 			tags: Object.keys(testTags).map(key => testTags[key].name),
-			})
-		}
+		})
 	}, [testTags]);
 
 
@@ -108,9 +121,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 				companyId: company.id
 			}
 		});
-
 		setVars(response.data);
-		setVarsLoading(false);
 	};
 
 	React.useEffect(() => {
@@ -127,13 +138,19 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 			tag.label
 	}
 
+	const removeTag = tag => {
+		delete testTags[tag.name];
+		setTestTags({ ...testTags });
+	}
+
 	const addTag = tag => {
 		setTestTags({
 			...testTags,
 			[tag.name]: {
 				...tag,
 				label: formatTagLabel(tag),
-				active: true
+				active: true,
+				selected: 1
 			}
 		});
 	}
@@ -152,7 +169,6 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 			/>
 		);
 	}
-
 
 	return (
 		<React.Fragment>
@@ -212,14 +228,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 								setSearch={setSearch}
 								vars={vars}
 								addTag={addTag}
-								testTags={{
-									"agenda": {
-										active: true,
-										type: 2,
-										name: 'agenda',
-										label: translate.agenda
-									},
-								}}
+								testTags={testTags}//testTags
 								anchorOrigin={{
 									vertical: 'top',
 									horizontal: 'right',
@@ -228,6 +237,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 									vertical: 'top',
 									horizontal: 'right',
 								}}
+								removeTag={removeTag}
 								styleBody={{ minWidth: '50vw' }}
 								//
 								hideTextFilter={true}

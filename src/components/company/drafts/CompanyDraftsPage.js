@@ -4,7 +4,8 @@ import CompanyDraftList from './CompanyDraftList';
 import CompanyTags from './companyTags/CompanyTags';
 import withSharedProps from '../../../HOCs/withSharedProps';
 
-const CompanyDraftsPage = ({ translate }) => {
+const CompanyDraftsPage = ({ translate, ...props }) => {
+    
     return (
         <CardPageLayout title={"Plantillas"}>{/*TRADUCCION*/}
             <TabsScreen

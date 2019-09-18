@@ -215,6 +215,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 										addTag={addTag}
 										vars={vars}
 										testTags={testTags}
+										removeTag={removeTag}
 									/>
 								</div>
 							</GridItem>
@@ -250,7 +251,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 					flexDirection: 'column',
 					minHeight: "3em"
 				}}>
-					{renderEtiquetasSeleccionadas()}
+					{/* {renderEtiquetasSeleccionadas()} */}
 				</div>
 				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", minHeight: "20em", height: '0', overflow: "hidden" }}>
 					<Scrollbar>
@@ -260,6 +261,15 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 									{!draftLoading &&
 										draftsRender.map((item, key) => {
 											return (
+												// <HoverableRow
+												// key={'key__' + item.id}
+												// 	translate={translate}
+												// 	renderDeleteIcon={_renderDeleteIcon}
+												// 	draft={draft}
+												// 	draftTypes={draftTypes}
+												// 	company={company}
+												// 	info={props}
+												// />
 												<CardPlantillas
 													translate={translate}
 													key={'key__' + item.id}
@@ -268,7 +278,6 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 														sendGAevent({
 															category: 'Borradores',
 															action: `Carga de borrador`,
-															//label: props.company.businessName
 														})
 														props.loadDraft(item);
 													}}
@@ -292,7 +301,148 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 }))
 
 
-export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, ...props }) => {
+// const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props }) => {
+// 	const [show, handlers] = useHoverRow();
+// 	const [expanded, setExpanded] = React.useState(false);
+// 	const [showActions, setShowActions] = React.useState(false);
+
+// 	const TagColumn = props => {
+// 		return (
+// 			<div style={{
+// 				display: "flex",
+// 				color: "#ffffff",
+// 				fontSize: "12px",
+// 				marginBottom: "0.5em ",
+// 				flexDirection: 'column'
+// 			}}>
+// 				{props.children}
+// 			</div>
+// 		)
+// 	}
+
+// 	const buildTagColumns = tags => {
+// 		const columns = {};
+// 		Object.keys(tags).forEach(key => {
+// 			const tag = tags[key];
+// 			columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
+// 		});
+
+// 		return columns;
+// 	}
+
+
+// 	const mouseEnterHandler = () => {
+// 		setShowActions(true)
+// 	}
+
+// 	const mouseLeaveHandler = () => {
+// 		setShowActions(false)
+// 	}
+
+// 	const desplegarEtiquetas = (event) => {
+// 		event.preventDefault()
+// 		event.stopPropagation()
+// 		setExpanded(!expanded)
+// 	}
+
+// 	const columns = buildTagColumns(draft.tags);
+
+
+// 	if (isMobile) {
+// 		return (
+// 			<Card
+// 				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
+// 				onClick={() => {
+// 					bHistory.push(`/company/${company.id}/draft/${draft.id}`);
+// 				}}
+// 			>
+// 				<Grid>
+// 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+// 						{translate.name}
+// 					</GridItem>
+// 					<GridItem xs={7} md={7}>
+// 						{draft.title}
+// 					</GridItem>
+
+// 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+// 						{translate.type}
+// 					</GridItem>
+// 					<GridItem xs={7} md={7}>
+// 						{translate[draftTypes[draft.type].label]}
+// 					</GridItem>
+// 				</Grid>
+// 				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
+// 					{props.renderDeleteIcon(draft.id)}
+// 				</div>
+// 			</Card>
+// 		)
+// 	}
+
+// 	return (
+// 		<TableRow
+// 			hover
+// 			{...handlers}
+// 			onClick={() => {
+// 				bHistory.push(`/company/${company.id}/draft/${draft.id}`);
+// 			}}
+// 		>
+// 			<TableCell
+// 				style={TableStyles.TD}
+// 			>
+// 				{draft.title}
+// 			</TableCell>
+// 			<TableCell >
+// 				<div style={{ display: "flex" }}>
+// 					{columns &&
+// 						Object.keys(columns).map(key => {
+// 							let columnaLength = columns[key].length;
+// 							return (
+// 								<TagColumn key={`column_${key}`}>
+// 									{columns[key].map((tag, index) => {
+// 										return (
+// 											index > 0 ?
+// 												<Collapse in={expanded} timeout="auto" unmountOnExit>
+// 													<SelectedTag
+// 														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
+// 														text={translate[tag.label] || tag.label}
+// 														color={getTagColor(key)}
+// 														props={props}
+// 														list={true}
+// 														count={""}
+// 													/>
+// 												</Collapse>
+// 												:
+// 												<SelectedTag
+// 													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+// 													text={translate[tag.label] || tag.label}
+// 													color={getTagColor(key)}
+// 													props={props}
+// 													list={true}
+// 													count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
+// 													stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
+// 													desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
+// 													mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
+// 													mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
+// 												/>
+// 										)
+// 									})}
+// 								</TagColumn>
+// 							)
+// 						})
+// 					}
+// 				</div>
+// 			</TableCell>
+// 			<TableCell>
+// 				<div style={{ width: '3em' }}>
+// 					{show && props.renderDeleteIcon(draft.id)}
+// 				</div>
+// 			</TableCell>
+// 		</TableRow>
+// 	)
+// }
+
+
+export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, ...props }) => {
 
 	return (
 		<DropDownMenu
@@ -396,9 +546,11 @@ export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSear
 							:
 
 							<Grid style={{
-								width: "100%",}}>
+								width: "100%",
+							}}>
 								<GridItem xs={3} lg={3} md={3} style={{
-								width: "100%",}}>
+									width: "100%",
+								}}>
 									<div style={{ width: "100%" }}>
 										{!!vars.companyStatutes &&
 											<EtiquetasModal
@@ -409,19 +561,29 @@ export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSear
 													border: '1px solid #c196c3',
 													color: getTagColor(TAG_TYPES.STATUTE),
 												}}
-												tags={vars.companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => (
+												tags={vars.companyStatutes.map(statute => (
 													{
 														label: translate[statute.title] || statute.title,
 														name: `statute_${statute.id}`,
 														type: TAG_TYPES.STATUTE
 													}
 												))}
+												testTags={testTags}
+												removeTag={removeTag}
+											// tags={vars.companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => (
+											// 	{
+											// 		label: translate[statute.title] || statute.title,
+											// 		name: `statute_${statute.id}`,
+											// 		type: TAG_TYPES.STATUTE
+											// 	}
+											// ))}
 											/>
 										}
 									</div>
 								</GridItem>
 								<GridItem xs={3} lg={3} md={3} style={{
-								width: "100%",}}>
+									width: "100%",
+								}}>
 									<div style={{ width: "100%" }}>
 										<EtiquetasModal
 											color={getTagColor(TAG_TYPES.GOVERNING_BODY)}
@@ -431,19 +593,29 @@ export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSear
 												border: '1px solid #7fa5b6',
 												color: getTagColor(TAG_TYPES.GOVERNING_BODY),
 											}}
-											tags={Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label]).map(key => (
+											tags={Object.keys(governingBodyTypes).map(key => (
 												{
 													name: governingBodyTypes[key].label,
 													label: translate[governingBodyTypes[key].label],
 													type: TAG_TYPES.GOVERNING_BODY
 												}
 											))}
+											testTags={testTags}
+											removeTag={removeTag}
+										// tags={Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label]).map(key => (
+										// 	{
+										// 		name: governingBodyTypes[key].label,
+										// 		label: translate[governingBodyTypes[key].label],
+										// 		type: TAG_TYPES.GOVERNING_BODY
+										// 	}
+										// ))}
 										/>
 
 									</div>
 								</GridItem>
 								<GridItem xs={6} lg={6} md={6} style={{
-								width: "100%",}}>
+									width: "100%",
+								}}>
 									<div style={{ display: "flex", width: "100%" }}>
 										{!!vars.draftTypes &&
 											<EtiquetasModal
@@ -454,13 +626,22 @@ export const DropdownEtiquetas = withStyles(styles)(({translate, search, setSear
 													border: '1px solid #7fa5b6',
 													color: getTagColor(TAG_TYPES.DRAFT_TYPE),
 												}}
-												tags={vars.draftTypes.filter(type => !testTags[type.label]).map(draft => (
+												tags={vars.draftTypes.map(draft => (
 													{
 														name: draft.label,
 														label: translate[draft.label],
 														type: TAG_TYPES.DRAFT_TYPE,
 													}
 												))}
+												testTags={testTags}
+												removeTag={removeTag}
+											// tags={vars.draftTypes.filter(type => !testTags[type.label]).map(draft => (
+											// 	{
+											// 		name: draft.label,
+											// 		label: translate[draft.label],
+											// 		type: TAG_TYPES.DRAFT_TYPE,
+											// 	}
+											// ))}
 											/>
 										}
 									</div>
@@ -581,10 +762,21 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 });
 
 
-const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate }) => {
+const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate, testTags, removeTag }) => {
+
+	const styles = {
+		borderRadius: '20px',
+		background: color,
+		padding: "0 0.5em",
+		display: "inline-block",
+		marginRight: "0.5em",
+		marginBottom: "3px",
+		color: 'white'
+	}
+	console.log(testTags)
 
 	return (
-		<div style={{width: "100%"}}>
+		<div style={{ width: "100%" }}>
 			<div style={{ fontWeight: "700" }} >
 				<div>{title}</div>
 			</div>
@@ -592,30 +784,35 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 				<div style={{
 					display: 'flex',
 					flexFlow: 'wrap column',
-					maxHeight: '135px',
+					maxHeight: '150px',
 					width: "100%"
 				}}
 				>
-					{tags.map((tag, index) => (
-						<div
-							style={{
-								width: "100%",
-								marginRight: "1em",
-								cursor: "pointer",
-								whiteSpace: 'nowrap',
-								overflow: 'hidden',
-								textOverflow: 'ellipsis',
-								maxWidth: tags.length > 6 ? "150px" : '220px',
-							}}
-							key={"tag_" + tag.label}
-							onClick={() => addTag(tag)}
-						>
-							{tag.label}
-						</div>
-					))}
+					{tags.map((tag, index) => {
+						return (
+							< div
+								style={{
+									width: "100%",
+									marginRight: "1em",
+									cursor: "pointer",
+									whiteSpace: 'nowrap',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									maxWidth: tags.length > 6 ? "150px" : '220px',
+									...(testTags[tag.name] ? {
+										...styles
+									} : {}),
+								}}
+								key={"tag_" + tag.label}
+								onClick={() => testTags[tag.name] ? removeTag(tag) : addTag(tag)}
+							>
+								{tag.label}
+							</div>
+						)
+					})}
 				</div>
 			</div>
-		</div>
+		</div >
 	);
 }
 

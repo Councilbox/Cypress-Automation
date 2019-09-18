@@ -163,7 +163,8 @@ class EnhancedTable extends React.Component {
 			addTag,
 			styleBody,
 			anchorOrigin,
-			transformOrigin
+			transformOrigin,
+			removeTag
 		} = this.props;
 		const {
 			filterText,
@@ -273,7 +274,8 @@ class EnhancedTable extends React.Component {
 											styleBody={styleBody}
 											anchorOrigin={anchorOrigin}
 											transformOrigin={transformOrigin}
-										></DropdownEtiquetas>
+											removeTag={removeTag}
+										/>
 									</div>
 									<div>
 										<TextInput
