@@ -172,6 +172,16 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 						vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 								<br />
+								{delegatedVote.fixed &&
+									<Tooltip
+										title={getTooltip(delegatedVote.vote)}
+									>
+										<VotingValueIcon
+											vote={delegatedVote.vote}
+											fixed
+										/>
+									</Tooltip>
+								}
 								{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} ${`(Ha delegado su voto)`} ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
 							</React.Fragment>
 						))
@@ -322,7 +332,9 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 													{vote.delegateId && vote.author.state !== PARTICIPANT_STATES.REPRESENTATED ?
 														translate.customer_delegated
 														:
-														renderVotingMenu(vote)
+														<React.Fragment>
+															{renderVotingMenu(vote)}
+														</React.Fragment>
 													}
 												</div>
 											}
@@ -367,7 +379,9 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 													{vote.delegateId && vote.author.state !== PARTICIPANT_STATES.REPRESENTATED ?
 														translate.customer_delegated
 														:
-														renderVotingMenu(vote)
+														<React.Fragment>
+															{renderVotingMenu(vote)}
+														</React.Fragment>
 													}
 												</div>
 											}
@@ -588,12 +602,12 @@ const PrivateVotingDisplay = compose(
 
 const setAllPresentVotingsMutation = gql`
 	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
-					setAllPresentVotings(agendaId: $agendaId, vote: $vote){
-					success
+		setAllPresentVotings(agendaId: $agendaId, vote: $vote){
+			success
 			message
-				}
-			}
-		`;
+		}
+	}
+`;
 
 const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 	name: 'setAllPresentVotings'
