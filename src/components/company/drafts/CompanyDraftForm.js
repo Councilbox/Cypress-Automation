@@ -42,7 +42,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	const [testTags, setTestTags] = React.useState({});
 	const [tagsSend, setTagsSend] = React.useState([]);
 	const [companyT, setCompanyT] = React.useState([]);
-	const [openSelectorEtiquetas, setOpenSelectorEtiquetas] = React.useState(false);
+	const [openSelectorEtiquetas, setOpenSelectorEtiquetas] = React.useState(true);
 
 
 	const removeTag = tag => {
@@ -261,6 +261,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		return (
 			<React.Fragment>
 				<div>
+					<div style={{ fontSize: "18px", marginBottom: "1em" }}>Contenido</div>
 					<RichTextInput
 						id={"draftRichEditor"}
 						value={draft.text || ""}
@@ -280,7 +281,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 	let tagsSearch = [];
 
-	if(company.id === company.corporationId){
+	if (company.id === company.corporationId) {
 		companyT.filter(companyType => {
 			return !testTags[companyType.label]
 		}).forEach(companyType => tagsSearch.push(createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate)))
@@ -319,8 +320,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 							</i>
 					</div>
 				</div>
-				<div style={{ minHeight: props.innerWidth > 960 ? "300px" : ""}}>
-					<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", }}>
+				<div style={{ minHeight: props.innerWidth > 960 ? "300px" : "", height: "calc( 100% - 4em )" }}>
+					<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", height: "100%" }}>
 						<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
 							<div style={{ marginBottom: "1em", display: "flex" }}>
 								<TextInput
@@ -333,10 +334,10 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 									classes={{ input: props.classes.input }}
 									onChange={event => {
 										setSearch(event.target.value);
-										setOpenSelectorEtiquetas(true)
+										// setOpenSelectorEtiquetas(true)
 									}}
 								/>
-								<div style={{ color: "#a09aa0", display: "flex", alignItems: "center", cursor: "pointer" }} onClick={() => setOpenSelectorEtiquetas(!openSelectorEtiquetas)}>
+								{/* <div style={{ color: "#a09aa0", display: "flex", alignItems: "center", cursor: "pointer" }} onClick={() => setOpenSelectorEtiquetas(!openSelectorEtiquetas)}>
 									{openSelectorEtiquetas ?
 										<i className="material-icons" style={{ fontSize: "40px" }}>
 											arrow_drop_up
@@ -346,7 +347,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 											arrow_drop_down
 										</i>
 									}
-								</div>
+								</div> */}
 
 							</div>
 							<Collapse in={openSelectorEtiquetas} timeout="auto" unmountOnExit >
@@ -375,7 +376,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 												color: getTagColor(TAG_TYPES.COMPANY_TYPE),
 											}}
 											tags={companyT.filter(companyType => {
-													return !testTags[companyType.label]
+												return !testTags[companyType.label]
 											}).map(companyType => createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate))}
 										/>
 									}
@@ -449,20 +450,23 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	}
 
 	if (props.innerWidth > 960) {
+		console.log(testTags)
 		return (
 			<Scrollbar>
 				<Grid spacing={16} style={{ height: "100%", width: "100%", marginBottom: "1em" }}>
 					<GridItem xs={12} lg={8} md={8} style={{}}>
-						<Grid spacing={16} style={{ height: "100%" }}>
-							<GridItem xs={12} lg={12} md={12} >
+						<Grid spacing={16} style={{  }}>
+							<GridItem xs={12} lg={12} md={12} style={{ height: "120px " }} >
 								{renderTitle()}
 							</GridItem>
-							<GridItem xs={12} lg={12} md={12} style={{ marginTop: " 1em" }}>
-								{renderEtiquetasSeleccionadas()}
-							</GridItem>
-							<GridItem xs={12} lg={12} md={12}>
+							{Object.keys(testTags).length > 0 &&
+								< GridItem xs={12} lg={12} md={12} style={{}}>
+									{renderEtiquetasSeleccionadas()}
+								</GridItem>
+							}
+							{/* <GridItem xs={12} lg={12} md={12}>
 								{renderDescription()}
-							</GridItem>
+							</GridItem> */}
 							{openSelectorEtiquetas &&
 								<Fade show={openSelectorEtiquetas}>
 									{renderRichEditor()}
@@ -479,7 +483,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						</Fade>
 					}
 				</Grid>
-			</Scrollbar>
+			</Scrollbar >
 		);
 	} else {
 		return (
@@ -490,15 +494,17 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 							<GridItem xs={12} lg={8} md={8} >
 								{renderTitle()}
 							</GridItem>
-							<GridItem xs={12} lg={8} md={8} style={{ marginTop: " 1em" }}>
-								{renderSelectorEtiquetas()}
-							</GridItem>
+							{Object.keys(testTags).length > 0 &&
+								<GridItem xs={12} lg={8} md={8} style={{ marginTop: " 1em" }}>
+									{renderSelectorEtiquetas()}
+								</GridItem>
+							}
 							<GridItem xs={12} lg={8} md={8} style={{ marginTop: " 1em" }}>
 								{renderEtiquetasSeleccionadas()}
 							</GridItem>
-							<GridItem xs={12} lg={8} md={8}>
+							{/* <GridItem xs={12} lg={8} md={8}>
 								{renderDescription()}
-							</GridItem>
+							</GridItem> */}
 							<GridItem xs={12} lg={8} md={8}>
 								{renderRichEditor()}
 							</GridItem>

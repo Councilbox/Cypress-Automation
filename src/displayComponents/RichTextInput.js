@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, GridItem } from "./index";
-import { Typography, MenuItem } from "material-ui";
+import { Typography, MenuItem, TableRow, TableHead, Table, TableBody, TableCell, IconButton } from "material-ui";
 import { getSecondary, getPrimary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
@@ -16,6 +16,8 @@ import { query } from "../components/company/drafts/companyTags/CompanyTags";
 import TextInput from "./TextInput";
 import { Divider } from "material-ui";
 import Scrollbar from "./Scrollbar";
+import CloseIcon from "./CloseIcon";
+import { useHoverRow } from "../hooks";
 
 
 if (isChrome) {
@@ -87,7 +89,7 @@ class RichTextInput extends React.Component {
 	render() {
 		const { tags, loadDraft, errorText, required, translate, styles } = this.props;
 		const modules = {
-			toolbar: { 
+			toolbar: {
 				container: [
 					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
@@ -112,7 +114,7 @@ class RichTextInput extends React.Component {
 			style.innerHTML = `.ql-editor{ ${styles} }`;
 			document.head.appendChild(style);
 		}
-		
+
 
 		return (
 			<React.Fragment>
@@ -214,13 +216,13 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 			variables: {
 				companyId: company.id,
 				...(searchModal ? {
-                    filters: [
-                        {
-                            field: "key",
-                            text: searchModal
-                        },
-                    ]
-                } : {}),
+					filters: [
+						{
+							field: "key",
+							text: searchModal
+						},
+					]
+				} : {}),
 			}
 		});
 		setLoading(false);
@@ -291,7 +293,6 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 									value={searchModal}
 									styleInInput={{ fontSize: "12px", color: getPrimary() }}
 									styles={{ marginBottom: "0" }}
-									// classes={{ input: props.classes.input }}
 									onChange={event => {
 										setSearchModal(event.target.value);
 									}}
@@ -313,7 +314,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 						}}
 					>
 						{/* //TRADUCCION */}
-						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth: "700px", marginBottom: "1em" }} >
+						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth: "700px", marginBottom: "0.5em" }} >
 							<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em" }} onClick={() => setOcultar(false)}>
 								help
 										</i>
@@ -322,36 +323,53 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 							}
 						</div>
 						<div style={{ width: "97%", height: "16vh" }} >
-							<Scrollbar>
-								<div style={{ width: "100%", }}>
-									{tags.map(tag => {
-										return (
-											<div
-												key={`tag_${tag.label}`}
-												onClick={() => {
-													paste(`<span id="${tag.label}">${tag.getValue ? tag.getValue() : tag.value}</span>`);
-													requestClose();
-												}}
-												style={{ color: getPrimary(), display: "inline-flex", marginRight: "1em", cursor: "pointer" }}
-											>
-												&lt;{tag.label}&gt;
-											</div>
-										);
-									})}
-									{(!loading && companyTags) && companyTags.map(tag => (
-										<div
-											key={`tag_${tag.id}`}
-											onClick={() => {
-												paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
-												requestClose();
-											}}
-											style={{ color: getPrimary(), display: "inline-flex", marginRight: "1em", cursor: "pointer",}}
-										>
-											&lt;{tag.key}&gt;
+							<div style={{ width: "100%", height: '100%' }}>
+								<Scrollbar>
+									<div style={{ height: '100%' }}>
+										<Table style={{ maxWidth: "100%", width: "100%" }}>
+											<TableHead>
+												<TableRow style={{ color: "black" }}>
+													{/* TRADUCCION */}
+													<TableCell style={{ color: "black", fontSize: "16px" }}>
+														Clave
+                                                     </TableCell>
+													<TableCell style={{ color: "black", fontSize: "16px" }}>
+														Descripcion
+                                                    </TableCell>
+												</TableRow>
+											</TableHead>
+											<TableBody>
+												{tags.map(tag => {
+													return (
+														<HoverableRow
+															key={`tag_${tag.id}`}
+															tag={tag}
+															translate={translate}
+															onClick={() => {
+																paste(`<span id="${tag.label}">${tag.getValue ? tag.getValue() : tag.value}</span>`);
+																requestClose();
+															}}
+														/>
+													);
+												})}
+												{(!loading && companyTags) && companyTags.map(tag => {
+													return (
+														<HoverableRow
+															key={`tag_${tag.id}`}
+															tag={tag}
+															translate={translate}
+															onClick={() => {
+																paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
+																requestClose();
+															}}
+														/>
+													)
+												})}
+											</TableBody>
+										</Table>
 									</div>
-									))}
-								</div>
-							</Scrollbar>
+								</Scrollbar>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -359,5 +377,29 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 		/>
 	)
 }))
+
+
+const HoverableRow = ({ tag, onClick }) => {
+	const [show, handlers] = useHoverRow();
+	const primary = getPrimary();
+
+	return (
+		<TableRow
+			{...handlers}
+			style={{
+				background: show && "rgba(0, 0, 0, 0.07)",
+				cursor:"pointer"
+			}}
+			onClick={onClick}
+		>
+			<TableCell style={{ color: "black" }}>
+				{tag.key || tag.label}
+			</TableCell>
+			<TableCell style={{ color: getPrimary() }}>
+				{tag.description || tag.value }
+			</TableCell>
+		</TableRow>
+	)
+}
 
 export default RichTextInput;
