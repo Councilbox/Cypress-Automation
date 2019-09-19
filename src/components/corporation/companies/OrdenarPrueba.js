@@ -391,27 +391,17 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                     </div>
                     <div style={{ display: "flex", height: "100%" }}>
                         <div style={{ borderRight: "1px solid gainsboro", width: "40%", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
-                            <div style={{ margin: "1.5em", height: "calc( 100% - 3em )", borderRadius: "8px", background: "white" }}>
-                                <div style={{ display: "flex", justifyContent: "space-between", }}>
-                                    <Bloques
-                                        text={"Info"}
-                                        selected={bloque === 'info'}
-                                        setBloque={() => setBloque('info')}
-                                        styles={{ borderTopLeftRadius: "8px", }}
-                                    />
-                                    <Bloques
-                                        text={"Bloques logicos"}
-                                        selected={bloque === 'logicos'}
-                                        setBloque={() => setBloque('logicos')}
-                                        styles={{ borderRight: "none", borderTopRightRadius: "8px", }}
-                                    />
-                                </div>
+                            <div style={{ marginTop: "1.5em", height: "calc( 100% - 3em )", borderRadius: "8px", }}>
                                 <Scrollbar>
-                                    {bloque === 'info' &&
                                         <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
-                                            {arrastrables.items.filter(item => item.logic !== true).map((item, index) => {
+                                            {arrastrables.items.map((item, index) => {
                                                 return (
-                                                    <ActionToInsert
+                                                    <CajaBorderIzq>
+                                                        <div style={{display:"flex"}}>
+                                                            <div>Icon</div>
+                                                            <div style={{marginLeft:"0.3em"}}>Titulo</div>
+                                                        </div>
+                                                    {/* <ActionToInsert
                                                         xs={12}
                                                         md={12}
                                                         lg={12}
@@ -420,13 +410,14 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                         name={item.name}
                                                         itemInfo={item.id}
                                                         key={index + item.id}
-                                                    />
+                                                    /> */}
+                                                    </CajaBorderIzq>
                                                 )
                                             }
                                             )}
                                         </Grid>
-                                    }
-                                    {bloque === 'logicos' &&
+                                   {/* Filtrado viejo de logicos */}
+                                    {/* {bloque === 'logicos' &&
                                         <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
                                             {arrastrables.items.filter(item => item.logic === true).map((item, index) => (
                                                 <ActionToInsert
@@ -442,7 +433,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             ))
                                             }
                                         </Grid>
-                                    }
+                                    } */}
                                 </Scrollbar>
                             </div>
                         </div>
@@ -892,6 +883,20 @@ const NoDraggableBlock = (props) => {
 
 }
 
+
+const CajaBorderIzq = ({ colorBorder, children }) => {
+
+    return(
+        <div style={{width: "100%", background:"white", boxShadow:" 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRight:"4px", marginBottom:"0.8em"}}>
+            <div style={{width: "100%", display:"flex",}}>
+            <div style={{paddingRight: "4px", background: getPrimary(), borderRadius:"15px", }}></div>
+                <div style={{ marginLeft:"0.5em", paddingTop:"0.8em",  paddingBottom:"0.8em" }}>
+                {children}
+                </div>
+            </div>
+        </div>
+    );
+}
 
 const IconsDragActions = ({ clase, click, id, indexItem }) => {
     const [hover, setHover] = React.useState(false);
