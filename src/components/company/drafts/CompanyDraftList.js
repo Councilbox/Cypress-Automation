@@ -58,13 +58,21 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 	const _renderDeleteIcon = draftID => {
 		return (
 			<div style={{ display: "flex" }}>
-				<i className="fa fa-pencil-square-o" style={{
-					height: "32px",
-					width: "32px",
-					outline: 0, 
-					color: primary
-				}}>
-				</i>
+				<IconButton
+					onClick={() => {
+						bHistory.push(`/company/${company.id}/draft/${draftID}`);
+					}}
+					style={{
+						color: primary,
+						height: "32px",
+						width: "32px",
+						outline: 0
+					}}
+				>
+					<i className="fa fa-pencil-square-o">
+					</i>
+				</IconButton>
+
 				<CloseIcon
 					style={{ color: primary }}
 					onClick={event => {
@@ -170,6 +178,27 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 		);
 	}
 
+
+	let tagsSearch = [];
+	let matchSearch = [];
+	if (search) {
+		vars.companyStatutes.map(statute => (
+			tagsSearch.push(createTag(statute, 1, translate))
+		));
+		Object.keys(governingBodyTypes).map(key => (
+			tagsSearch.push(createTag(governingBodyTypes[key], 2, translate))
+		));
+		vars.draftTypes.map(draft => tagsSearch.push(createTag({
+			...draft,
+			addTag,
+		}, 3, translate)));
+		matchSearch = tagsSearch.filter(tag => {
+			return tag.label.toLowerCase().includes(search.toLowerCase())
+		});
+	}
+
+
+
 	return (
 		<React.Fragment>
 			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em' }}>
@@ -239,6 +268,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 								}}
 								removeTag={removeTag}
 								styleBody={{ minWidth: '50vw' }}
+								matchSearch={matchSearch}
 								//
 								hideTextFilter={true}
 								translate={translate}
@@ -357,9 +387,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 		return (
 			<Card
 				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
-				onClick={() => {
-					bHistory.push(`/company/${company.id}/draft/${draft.id}`);
-				}}
+
 			>
 				<Grid>
 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -385,11 +413,11 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 
 	return (
 		<TableRow
-			hover
 			{...handlers}
-			onClick={() => {
-				bHistory.push(`/company/${company.id}/draft/${draft.id}`);
-			}}
+			hover
+		// onClick={() => {
+		// 	bHistory.push(`/company/${company.id}/draft/${draft.id}`);
+		// }}
 		>
 			<TableCell
 				style={TableStyles.TD}

@@ -11,7 +11,8 @@ const CompanyDraftsPage = ({ translate, ...props }) => {
             <TabsScreen
                 uncontrolled={true}
                 tabsInfo={[{
-                    text: translate.drafts,
+                    text: "Plantillas",
+                    // TRADUCCION
                     component: () => {
                         return <div style={{width: '100%', height: '100%', padding: '1em'}}><CompanyDraftList /></div>;
                     },

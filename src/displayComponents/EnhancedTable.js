@@ -164,7 +164,9 @@ class EnhancedTable extends React.Component {
 			styleBody,
 			anchorOrigin,
 			transformOrigin,
-			removeTag
+			removeTag,
+			stylesDivSuperior,
+			matchSearch
 		} = this.props;
 		const {
 			filterText,
@@ -267,7 +269,7 @@ class EnhancedTable extends React.Component {
 											translate={translate}
 											search={search}
 											setSearchModal={setSearch}
-											matchSearch={[]}
+											matchSearch={matchSearch}
 											vars={vars}
 											testTags={testTags}
 											addTag={addTag}
@@ -298,7 +300,7 @@ class EnhancedTable extends React.Component {
 					</div>
 				</div>
 				{!isMobile ?
-					<div style={{ height: "calc( 100% - 10em )" }}>
+					<div style={{ height: "calc( 100% - 10em )", ...stylesDivSuperior }}>
 						<Scrollbar>
 							<Table style={{ maxWidth: "100%", tableLayout: 'auto' }}>
 								<TableHead>

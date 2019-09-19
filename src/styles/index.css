@@ -800,3 +800,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .hoverTags:hover {
     box-shadow: 0px 2px 6px 0px;
 }
+
+.ql-custom{
+    min-width: 65px;
+}

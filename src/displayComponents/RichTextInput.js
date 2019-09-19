@@ -85,9 +85,9 @@ class RichTextInput extends React.Component {
 	};
 
 	render() {
-		const { tags, loadDraft, errorText, required, translate } = this.props;
+		const { tags, loadDraft, errorText, required, translate, styles } = this.props;
 		const modules = {
-			toolbar: {
+			toolbar: { 
 				container: [
 					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
@@ -106,7 +106,14 @@ class RichTextInput extends React.Component {
 				matchVisual: false,
 			}
 		};
+
+		if (styles) {
+			let style = document.createElement("style");
+			style.innerHTML = `.ql-editor{ ${styles} }`;
+			document.head.appendChild(style);
+		}
 		
+
 		return (
 			<React.Fragment>
 				<Typography
@@ -177,7 +184,8 @@ class RichTextInput extends React.Component {
 								}
 							}}
 						>
-							<ReactQuill value={this.state.value}
+							<ReactQuill
+								value={this.state.value}
 								onChange={this.onChange}
 								modules={modules}
 								ref={editor => this.rtEditor = editor}
@@ -198,17 +206,26 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 	const [ocultar, setOcultar] = React.useState(false);
+	const [searchModal, setSearchModal] = React.useState("");
 
 	const loadCompanyTags = React.useCallback(async () => {
 		const response = await client.query({
 			query,
 			variables: {
-				companyId: company.id
+				companyId: company.id,
+				...(searchModal ? {
+                    filters: [
+                        {
+                            field: "key",
+                            text: searchModal
+                        },
+                    ]
+                } : {}),
 			}
 		});
 		setLoading(false);
 		setCompanyTags(response.data.companyTags);
-	}, [company.id]);
+	}, [company.id, searchModal]);
 
 	React.useEffect(() => {
 		loadCompanyTags();
@@ -271,13 +288,13 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 									id={"buscarEtiquetasEnModal"}
 									type="text"
 									stylesAdornment={{ color: getPrimary() }}
-									// value={searchModal}
+									value={searchModal}
 									styleInInput={{ fontSize: "12px", color: getPrimary() }}
 									styles={{ marginBottom: "0" }}
 									// classes={{ input: props.classes.input }}
-									// onChange={event => {
-									// 	setSearchModal(event.target.value);
-									// }}
+									onChange={event => {
+										setSearchModal(event.target.value);
+									}}
 									disableUnderline={true}
 								/>
 							</div>
@@ -328,7 +345,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 												paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
 												requestClose();
 											}}
-											style={{ color: getPrimary(), display: "inline-flex", marginRight: "1em", cursor: "pointer" }}
+											style={{ color: getPrimary(), display: "inline-flex", marginRight: "1em", cursor: "pointer",}}
 										>
 											&lt;{tag.key}&gt;
 									</div>

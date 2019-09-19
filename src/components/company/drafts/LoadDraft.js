@@ -1,5 +1,5 @@
 import React from "react";
-import { Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem } from "../../../displayComponents/index";
+import { Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem, EnhancedTable } from "../../../displayComponents/index";
 import { graphql, withApollo } from "react-apollo";
 import { companyDrafts, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts";
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from "../../../constants";
@@ -7,7 +7,7 @@ import { compose } from "react-apollo/index";
 import gql from "graphql-tag";
 import { sendGAevent } from "../../../utils/analytics";
 import * as CBX from "../../../utils/CBX";
-import { MenuItem, Card, CardHeader, Tooltip } from "material-ui";
+import { MenuItem, Card, CardHeader, Tooltip, TableCell, TableRow } from "material-ui";
 import { levelColor, ContenedorEtiquetas } from "./CompanyDraftForm";
 import { Divider } from "material-ui";
 import { primary } from "../../../styles/colors";
@@ -18,6 +18,7 @@ import { Collapse } from "material-ui";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import SelectedTag from './draftTags/SelectedTag';
 import { createTag, getTagColor, TAG_TYPES } from './draftTags/utils';
+import { useHoverRow } from "../../../hooks";
 
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
@@ -49,6 +50,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 	const [testTags, setTestTags] = React.useState(null);
 	const [draftLoading, setDraftLoading] = React.useState(true);
 	const [draftsRender, setDraftsRender] = React.useState([]);
+	const [drafts, setDrafts] = React.useState([]);
 
 	const [vars, setVars] = React.useState({});
 	const [varsLoading, setVarsLoading] = React.useState(true);
@@ -75,8 +77,9 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 				tags: Object.keys(testTags).map(key => testTags[key].name),
 			}
 		});
-		setDraftLoading(false);
 		setDraftsRender(response.data.companyDrafts.list);
+		setDrafts(response.data.companyDrafts);
+		setDraftLoading(false);
 	}
 
 
@@ -130,6 +133,21 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 			tag.label
 	}
 
+	const _renderEyeIcon = () => {
+		return (
+			<IconButton
+				style={{
+					color: primary,
+					height: "32px",
+					width: "32px",
+					outline: 0
+				}}
+			>
+				<i className="fa fa-eye">
+				</i>
+			</IconButton>
+		);
+	}
 
 	if (!varsLoading) {
 		let tagsSearch = [];
@@ -199,6 +217,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 				</div>
 			);
 		}
+		
 
 		return (
 			<div>
@@ -251,41 +270,72 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 					flexDirection: 'column',
 					minHeight: "3em"
 				}}>
-					{/* {renderEtiquetasSeleccionadas()} */}
+					{renderEtiquetasSeleccionadas()}
 				</div>
 				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", minHeight: "20em", height: '0', overflow: "hidden" }}>
 					<Scrollbar>
-						<Grid style={{ width: "95%", margin: "0 auto", marginTop: "1em", }}>
-							<GridItem xs={12} lg={12} md={12} >
-								<Grid id={"contenedorPlantillasEnModal"}>
+						<Grid style={{ width: "100%", margin: "0 auto", height: "calc( 100% - 3em )" }}>
+							<GridItem xs={12} lg={12} md={12} style={{ width: "100%", height: "100%" }}>
+								<div id={"contenedorPlantillasEnModal"} style={{ width: "100%", height: "100%" }}>
 									{!draftLoading &&
-										draftsRender.map((item, key) => {
-											return (
-												// <HoverableRow
-												// key={'key__' + item.id}
-												// 	translate={translate}
-												// 	renderDeleteIcon={_renderDeleteIcon}
-												// 	draft={draft}
-												// 	draftTypes={draftTypes}
-												// 	company={company}
-												// 	info={props}
-												// />
-												<CardPlantillas
-													translate={translate}
-													key={'key__' + item.id}
-													item={item}
-													onClick={() => {
-														sendGAevent({
-															category: 'Borradores',
-															action: `Carga de borrador`,
-														})
-														props.loadDraft(item);
-													}}
-												/>
-											)
-										})
+										<EnhancedTable
+											hideTextFilter={true}
+											translate={translate}
+											defaultFilter={"title"}
+											page={1}
+											loading={draftLoading}
+											length={drafts.list.length}
+											total={drafts.total}
+											selectedCategories={[{
+												field: "type",
+												value: 'all',
+												label: translate.all_plural
+											}]}
+											headers={[
+												{
+													text: translate.name,
+													name: "title",
+													canOrder: true
+												},
+												{
+													name: "type",
+													text: 'Etiquetas',
+													canOrder: true
+												},
+												{
+													name: '',
+													text: ''
+												}
+											]}
+											action={_renderEyeIcon}
+											companyID={company.id}
+											stylesDivSuperior={{ height: "100%" }}
+										>
+											{!draftLoading &&
+												draftsRender.map((item, key) => {
+													return (
+														<HoverableRow
+															key={'key__' + item.id}
+															renderDeleteIcon={_renderEyeIcon}
+															translate={translate}
+															draft={item}
+															draftTypes={draftTypes}
+															company={company}
+															info={props}
+															onClick={() => {
+																sendGAevent({
+																	category: 'Borradores',
+																	action: `Carga de borrador`,
+																})
+																props.loadDraft(item);
+															}}
+														/>
+													)
+												})
+											}
+										</EnhancedTable>
 									}
-								</Grid>
+								</div>
 							</GridItem>
 						</Grid>
 					</Scrollbar>
@@ -301,145 +351,141 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 }))
 
 
-// const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props }) => {
-// 	const [show, handlers] = useHoverRow();
-// 	const [expanded, setExpanded] = React.useState(false);
-// 	const [showActions, setShowActions] = React.useState(false);
+const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, ...props }) => {
+	const [show, handlers] = useHoverRow();
+	const [expanded, setExpanded] = React.useState(false);
+	const [showActions, setShowActions] = React.useState(false);
 
-// 	const TagColumn = props => {
-// 		return (
-// 			<div style={{
-// 				display: "flex",
-// 				color: "#ffffff",
-// 				fontSize: "12px",
-// 				marginBottom: "0.5em ",
-// 				flexDirection: 'column'
-// 			}}>
-// 				{props.children}
-// 			</div>
-// 		)
-// 	}
+	const TagColumn = props => {
+		return (
+			<div style={{
+				display: "flex",
+				color: "#ffffff",
+				fontSize: "12px",
+				marginBottom: "0.5em ",
+				flexDirection: 'column'
+			}}>
+				{props.children}
+			</div>
+		)
+	}
 
-// 	const buildTagColumns = tags => {
-// 		const columns = {};
-// 		Object.keys(tags).forEach(key => {
-// 			const tag = tags[key];
-// 			columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
-// 		});
+	const buildTagColumns = tags => {
+		const columns = {};
+		Object.keys(tags).forEach(key => {
+			const tag = tags[key];
+			columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
+		});
 
-// 		return columns;
-// 	}
-
-
-// 	const mouseEnterHandler = () => {
-// 		setShowActions(true)
-// 	}
-
-// 	const mouseLeaveHandler = () => {
-// 		setShowActions(false)
-// 	}
-
-// 	const desplegarEtiquetas = (event) => {
-// 		event.preventDefault()
-// 		event.stopPropagation()
-// 		setExpanded(!expanded)
-// 	}
-
-// 	const columns = buildTagColumns(draft.tags);
+		return columns;
+	}
 
 
-// 	if (isMobile) {
-// 		return (
-// 			<Card
-// 				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
-// 				onClick={() => {
-// 					bHistory.push(`/company/${company.id}/draft/${draft.id}`);
-// 				}}
-// 			>
-// 				<Grid>
-// 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-// 						{translate.name}
-// 					</GridItem>
-// 					<GridItem xs={7} md={7}>
-// 						{draft.title}
-// 					</GridItem>
+	const mouseEnterHandler = () => {
+		setShowActions(true)
+	}
 
-// 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-// 						{translate.type}
-// 					</GridItem>
-// 					<GridItem xs={7} md={7}>
-// 						{translate[draftTypes[draft.type].label]}
-// 					</GridItem>
-// 				</Grid>
-// 				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
-// 					{props.renderDeleteIcon(draft.id)}
-// 				</div>
-// 			</Card>
-// 		)
-// 	}
+	const mouseLeaveHandler = () => {
+		setShowActions(false)
+	}
 
-// 	return (
-// 		<TableRow
-// 			hover
-// 			{...handlers}
-// 			onClick={() => {
-// 				bHistory.push(`/company/${company.id}/draft/${draft.id}`);
-// 			}}
-// 		>
-// 			<TableCell
-// 				style={TableStyles.TD}
-// 			>
-// 				{draft.title}
-// 			</TableCell>
-// 			<TableCell >
-// 				<div style={{ display: "flex" }}>
-// 					{columns &&
-// 						Object.keys(columns).map(key => {
-// 							let columnaLength = columns[key].length;
-// 							return (
-// 								<TagColumn key={`column_${key}`}>
-// 									{columns[key].map((tag, index) => {
-// 										return (
-// 											index > 0 ?
-// 												<Collapse in={expanded} timeout="auto" unmountOnExit>
-// 													<SelectedTag
-// 														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
-// 														text={translate[tag.label] || tag.label}
-// 														color={getTagColor(key)}
-// 														props={props}
-// 														list={true}
-// 														count={""}
-// 													/>
-// 												</Collapse>
-// 												:
-// 												<SelectedTag
-// 													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
-// 													text={translate[tag.label] || tag.label}
-// 													color={getTagColor(key)}
-// 													props={props}
-// 													list={true}
-// 													count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
-// 													stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
-// 													desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
-// 													mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
-// 													mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
-// 												/>
-// 										)
-// 									})}
-// 								</TagColumn>
-// 							)
-// 						})
-// 					}
-// 				</div>
-// 			</TableCell>
-// 			<TableCell>
-// 				<div style={{ width: '3em' }}>
-// 					{show && props.renderDeleteIcon(draft.id)}
-// 				</div>
-// 			</TableCell>
-// 		</TableRow>
-// 	)
-// }
+	const desplegarEtiquetas = (event) => {
+		event.preventDefault()
+		event.stopPropagation()
+		setExpanded(!expanded)
+	}
+
+	const columns = buildTagColumns(draft.tags);
+
+
+	if (isMobile) {
+		return (
+			<Card
+				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
+				onClick={onClick}
+			>
+				<Grid>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+						{translate.name}
+					</GridItem>
+					<GridItem xs={7} md={7}>
+						{draft.title}
+					</GridItem>
+
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+						{translate.type}
+					</GridItem>
+					<GridItem xs={7} md={7}>
+						{translate[draftTypes[draft.type].label]}
+					</GridItem>
+				</Grid>
+				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
+					{props.renderDeleteIcon()}
+				</div>
+			</Card>
+		)
+	}
+
+	return (
+		<TableRow
+			hover
+			{...handlers}
+			onClick={onClick}
+		>
+			<TableCell
+			// style={TableStyles.TD}
+			>
+				{draft.title}
+			</TableCell>
+			<TableCell >
+				<div style={{ display: "flex" }}>
+					{columns &&
+						Object.keys(columns).map(key => {
+							let columnaLength = columns[key].length;
+							return (
+								<TagColumn key={`column_${key}`}>
+									{columns[key].map((tag, index) => {
+										return (
+											index > 0 ?
+												<Collapse in={expanded} timeout="auto" unmountOnExit>
+													<SelectedTag
+														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
+														text={translate[tag.label] || tag.label}
+														color={getTagColor(key)}
+														props={props}
+														list={true}
+														count={""}
+													/>
+												</Collapse>
+												:
+												<SelectedTag
+													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+													text={translate[tag.label] || tag.label}
+													color={getTagColor(key)}
+													props={props}
+													list={true}
+													count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
+													stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
+													desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
+													mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
+													mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
+												/>
+										)
+									})}
+								</TagColumn>
+							)
+						})
+					}
+				</div>
+			</TableCell>
+			<TableCell>
+				<div style={{ width: '3em' }}>
+					{show && props.renderDeleteIcon()}
+				</div>
+			</TableCell>
+		</TableRow>
+	)
+}
 
 
 export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, ...props }) => {
@@ -773,7 +819,7 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 		marginBottom: "3px",
 		color: 'white'
 	}
-	console.log(testTags)
+
 
 	return (
 		<div style={{ width: "100%" }}>

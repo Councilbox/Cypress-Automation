@@ -29,12 +29,14 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
     const [modal, setModal] = React.useState(false);
     const [errors, setErrors] = React.useState({
         key: '',
-        value: ''
+        value: '',
+        description: ""
     });
     const primary = getPrimary();
     const [tag, setTag] = React.useState({
         key: '',
-        value: ''
+        value: '',
+        description: ""
     });
 
 
@@ -47,6 +49,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
                     tag: {
                         value: tag.value,
                         key: tag.key,
+                        description: tag.description,
                         companyId: company.id
                     }
                 }
@@ -62,7 +65,8 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
                 setModal(false);
                 setTag({
                     key: '',
-                    value: ''
+                    value: '',
+                    description: '',
                 })
             }
         }

@@ -17,6 +17,13 @@ const CompanyTagForm = ({ tag, translate, setTag, errors }) => {
                     floatingText={translate.value}
                     onChange={event => setTag({value: event.target.value})}
                 />
+
+                <TextInput
+                    value={tag.description}
+                    errorText={errors.description}
+                    floatingText={translate.description}
+                    onChange={event => setTag({description: event.target.value})}
+                />
             </React.Fragment>
     )
 }
