@@ -728,3 +728,9 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     top: 44px!important ;
     
 }
+.text-editor-sinBordes .ql-toolbar {
+    border: none!important
+}
+.text-editor-sinBordes .ql-container {
+    border: none!important
+}

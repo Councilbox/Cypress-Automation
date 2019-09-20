@@ -43,7 +43,7 @@ class RichTextInput extends React.Component {
 	};
 
 	onChange = value => {
-		if(!this.rtEditor){
+		if (!this.rtEditor) {
 			return;
 		}
 		this.setState({ value });
@@ -82,15 +82,15 @@ class RichTextInput extends React.Component {
 
 
 	render() {
-		const { tags, loadDraft, errorText, required, translate } = this.props;
+		const { tags, loadDraft, errorText, required, translate, noBordes } = this.props;
 		const secondary = getSecondary();
 		const modules = {
 			toolbar: {
 				container: [
-					[{ 'color': [] }, { 'background': [] }], , [ 'bold', 'italic', 'underline', 'link', 'strike'],
+					[{ 'color': [] }, { 'background': [] }], , ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify'}]
+					[{ 'align': 'justify' }]
 				],
 			},
 			clipboard: {
@@ -163,7 +163,7 @@ class RichTextInput extends React.Component {
 								modules={modules}
 								ref={editor => this.rtEditor = editor}
 								id={this.props.id}
-								className={`text-editor ${!!errorText ? 'text-editor-error' : ''}`}
+								className={`text-editor ${!!errorText ? 'text-editor-error' : ''} ${!!noBordes ? 'text-editor-sinBordes' : ''}`}
 							/>
 						}
 					</GridItem>
@@ -196,13 +196,13 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 
 	const getTextToPaste = tag => {
 		let draftMode = false;
-		if(tags){
-			if(tags[0].value.includes('{{')){
+		if (tags) {
+			if (tags[0].value.includes('{{')) {
 				draftMode = true;
 			}
 		}
 
-		if(draftMode) {
+		if (draftMode) {
 			return `{{${tag.key}}}`;
 		}
 
@@ -238,13 +238,13 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 					})}
 					{(!loading && companyTags) && companyTags.map(tag => (
 						<MenuItem
-								key={`tag_${tag.id}`}
-								onClick={() =>
-									paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
-								}
+							key={`tag_${tag.id}`}
+							onClick={() =>
+								paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
+							}
 
-							>
-								{tag.key}
+						>
+							{tag.key}
 						</MenuItem>
 					))}
 				</React.Fragment>

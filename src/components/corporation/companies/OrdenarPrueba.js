@@ -2,7 +2,7 @@ import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { Card, Button, MenuItem, Dialog, DialogTitle, DialogContent, FormControlLabel, Switch } from 'material-ui';
-import { Grid, GridItem, Scrollbar, SelectInput, LoadingSection, BasicButton, LiveToast, HelpPopover } from '../../../displayComponents';
+import { Grid, GridItem, Scrollbar, SelectInput, LoadingSection, BasicButton, LiveToast, HelpPopover, ButtonIcon } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -35,6 +35,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     const [edit, setEdit] = React.useState(false)
     const [editInfo, setEditInfo] = React.useState(false)
     const [loading, setLoading] = React.useState(true)
+    const [ocultar, setOcultar] = React.useState(true)
     const [agendas, setAgendas] = React.useState({ items: [], });
     const [arrastrables, setArrastrables] = React.useState({ items: [] });
     const [bloque, setBloque] = React.useState("info")
@@ -225,10 +226,10 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                 <LiveToast
                     message={this.props.translate.revise_text}
                 />, {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: true,
-                    className: "errorToast"
-                }
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: true,
+                className: "errorToast"
+            }
             );
         }
 
@@ -390,55 +391,170 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                         </div>
                     </div>
                     <div style={{ display: "flex", height: "100%" }}>
-                        <div style={{ borderRight: "1px solid gainsboro", width: "40%", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
-                            <div style={{ marginTop: "1.5em", height: "calc( 100% - 3em )", borderRadius: "8px", }}>
+                        <div style={{ width: "40%", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
+                            <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
+                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
+                                    help
+										</i>
+                                {ocultar &&
+                                    <div style={{
+                                        fontSize: '13px',
+                                        color: '#a09aa0'
+                                    }}>
+                                        Personaliza y exporta el acta de la reunión a través de los bloques inferiores. Desplázalos hasta el acta y edita el texto que necesites
+                                    </div>
+                                }
+                            </div>
+                            <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
                                 <Scrollbar>
-                                        <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
+                                    <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
+                                        <React.Fragment>
                                             {arrastrables.items.map((item, index) => {
                                                 return (
-                                                    <CajaBorderIzq>
-                                                        <div style={{display:"flex"}}>
-                                                            <div>Icon</div>
-                                                            <div style={{marginLeft:"0.3em"}}>Titulo</div>
-                                                        </div>
-                                                    {/* <ActionToInsert
-                                                        xs={12}
-                                                        md={12}
-                                                        lg={12}
+                                                    <CajaBorderIzq
                                                         addItem={addItem}
-                                                        text={item.text}
-                                                        name={item.name}
                                                         itemInfo={item.id}
-                                                        key={index + item.id}
-                                                    /> */}
+                                                    >
+                                                        <div key={index + item.id}>
+                                                            <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{item.name}</div>
+                                                        </div>
                                                     </CajaBorderIzq>
                                                 )
                                             }
                                             )}
-                                        </Grid>
-                                   {/* Filtrado viejo de logicos */}
-                                    {/* {bloque === 'logicos' &&
-                                        <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
-                                            {arrastrables.items.filter(item => item.logic === true).map((item, index) => (
-                                                <ActionToInsert
-                                                    xs={12}
-                                                    md={12}
-                                                    lg={12}
-                                                    addItem={addItem}
-                                                    text={item.text}
-                                                    name={item.name}
-                                                    itemInfo={item.id}
-                                                    key={index + item.id}
-                                                />
-                                            ))
-                                            }
-                                        </Grid>
-                                    } */}
+                                            <BloquesAutomaticos
+                                                addItem={addItem}
+                                                automaticos={arrastrables}
+                                            >
+                                            </BloquesAutomaticos>
+                                        </React.Fragment>
+                                    </Grid>
                                 </Scrollbar>
                             </div>
                         </div>
                         <div style={{ width: colapse ? "100%" : "60%", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
-                            <div style={{ margin: "1.5em", height: "calc( 100% - 3em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 1em " }}>
+                                <div style={{ display: "flex" }}>
+                                    <BasicButton
+                                        text={'Ver PDF'}
+                                        color={"white"}
+                                        textStyle={{
+                                            color: "black",
+                                            fontWeight: "700",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={"IC"}
+                                        // icon={<ButtonIcon type="add" color={primary} />}
+                                        // onClick={() => this.setState({ modal: true })}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px'
+                                        }}
+                                    />
+                                    <BasicButton
+                                        text={translate.save}
+                                        color={getPrimary()}
+                                        textStyle={{
+                                            color: "white",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={"IC"}
+                                        // icon={<ButtonIcon type="add" color={primary} />}
+                                        // onClick={() => this.setState({ modal: true })}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px'
+                                        }}
+                                    />
+                                    <BasicButton
+                                        text={'Enviar a revision'}
+                                        color={getPrimary()}
+                                        textStyle={{
+                                            color: "white",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={"IC"}
+                                        // icon={<ButtonIcon type="add" color={primary} />}
+                                        // onClick={() => this.setState({ modal: true })}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px'
+                                        }}
+                                    />
+                                    <BasicButton
+                                        text={'Finalizar'}
+                                        color={getSecondary()}
+                                        textStyle={{
+                                            color: "white",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={"IC"}
+                                        // icon={<ButtonIcon type="add" color={primary} />}
+                                        // onClick={() => this.setState({ modal: true })}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px'
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ display: "flex" }}>
+                                    <BasicButton
+                                        text={''}
+                                        color={"white"}
+                                        textStyle={{
+                                            color: "black",
+                                            fontWeight: "700",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={"IC"}
+                                        // icon={<ButtonIcon type="add" color={primary} />}
+                                        // onClick={() => this.setState({ modal: true })}
+                                        buttonStyle={{
+                                            // marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px',
+                                            borderTopRightRadius: '0px',
+                                            borderBottomRightRadius: '0px',
+                                            borderRight: '1px solid #e8eaeb'
+                                        }}
+                                    /><BasicButton
+                                        text={''}
+                                        color={"white"}
+                                        textStyle={{
+                                            color: "black",
+                                            fontWeight: "700",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={"IC"}
+                                        // icon={<ButtonIcon type="add" color={primary} />}
+                                        // onClick={() => this.setState({ modal: true })}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px',
+                                            borderTopLeftRadius: '0px',
+                                            borderBottomLeftRadius: '0px'
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
                                 <Scrollbar>
                                     <div style={{ display: "flex", height: "100%" }}>
                                         <div style={{ width: "20%", maxWidth: "95px" }}>
@@ -495,7 +611,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                     </Dialog>
                 </React.Fragment>
             }
-        </div>
+        </div >
     )
 
 }
@@ -680,7 +796,7 @@ const DraggableBlock = SortableElement((props) => {
 
     return (
         props.value !== undefined && props.value.text !== undefined &&
-        <Card
+        <div
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             key={props.id}
@@ -688,129 +804,140 @@ const DraggableBlock = SortableElement((props) => {
                 opacity: 1,
                 width: "100%",
                 display: "flex",
-                alignItems: "center",
-                padding: "0.5em",
-                border: `2px solid gainsboro`,
                 listStyleType: "none",
-                borderRadius: "3px",
+                borderRadius: "4px",
                 cursor: "grab",
-                marginTop: "0.5em",
-                justifyContent: "space-between",
-                position: "relative"
+                marginBottom: "0.8em",
+                position: "relative",
+                boxShadow: '0 2px 4px 5px rgba(0, 0, 0, 0.11)'
             }}
             className="draggable"
         >
-            <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0" }}>
-                {!props.noBorrar &&
-                    < IconsDragActions
-                        clase={`fa fa-times ${props.id}`}
-                        aria-hidden="true"
-                        click={props.remove}
-                        id={props.id}
-                        indexItem={props.indexItem}
-                    />
-                }
-            </div>
-            <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "35px", right: "1px", }}>
-                <div>
-                    <IconsDragActions
-                        clase={`fa fa-arrow-up`}
-                        aria-hidden="true"
-                        click={props.moveUp}
-                        id={props.id}
-                        indexItem={props.indexItem}
-                    />
-                </div>
-                <div>
-                    <IconsDragActions
-                        clase={`fa fa-arrow-down`}
-                        aria-hidden="true"
-                        click={props.moveDown}
-                        id={props.id}
-                        indexItem={props.indexItem}
-                    />
-                </div>
-            </div>
-            <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%" }}>
-                <div style={{ fontWeight: "700" }}>
-                    {props.value.name}
-                </div>
-
-                {hoverFijo ?
-                    <div style={{ marginTop: "1em", cursor: "default" }} className="editorText" >
-                        <RichTextInput
-                            value={props.value.text || ''}
-                            translate={props.translate}
-                            // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
-                            errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
-                            onChange={value => setText(value)}
-                            loadDraft={
-                                <BasicButton
-                                    text={props.translate.load_draft}
-                                    color={getSecondary()}
-                                    textStyle={{
-                                        color: "white",
-                                        fontWeight: "600",
-                                        fontSize: "0.8em",
-                                        textTransform: "none",
-                                        marginLeft: "0.4em",
-                                        minHeight: 0,
-                                        lineHeight: "1em"
-                                    }}
-                                    textPosition="after"
-                                    onClick={() =>
-                                        props.setState({
-                                            loadDraft: true,
-                                            load: props.name,
-                                            draftType: DRAFT_TYPES[props.name.toUpperCase()]
-                                        })
-                                    }
-                                />
-                            }
+            <div style={{ paddingRight: "4px", background: getPrimary(), borderRadius: "15px", }}></div>
+            <div style={{ marginLeft: "4px", width: '95%' }}>
+                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0" }}>
+                    {!props.noBorrar &&
+                        < IconsDragActions
+                            clase={`fa fa-times ${props.id}`}
+                            aria-hidden="true"
+                            click={props.remove}
+                            id={props.id}
+                            indexItem={props.indexItem}
                         />
-                    </div>
-                    :
-                    <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
-                        __html: props.value.text
-                    }}>
-                    </div>
-                }
-                <div style={{ marginTop: "1em", }}>
-                    {props.value.editButton &&
-                        <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id)}>
-                            {/* onClick={props.updateCouncilActa} */}
-                            {hoverFijo ?
-                                'Editando' //TRANSLATE
-                                :
-                                'Editar' //TRANSLATE
-                            }
-                        </Button>
                     }
                 </div>
+                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: !props.noBorrar ? "35px" : '10px', right: "1px", }}>
+                    <div>
+                        <IconsDragActions
+                            turn={"up"}
+                            aria-hidden="true"
+                            click={props.moveUp}
+                            id={props.id}
+                            indexItem={props.indexItem}
+                        />
+                    </div>
+                    <div>
+                        <IconsDragActions
+                            turn={"down"}
+                            aria-hidden="true"
+                            click={props.moveDown}
+                            id={props.id}
+                            indexItem={props.indexItem}
+                        />
+                    </div>
+                </div>
+                <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%", }}>
+                    <div style={{ display: "flex", fontSize: '19px' }}>
+                        <div style={{ color: getPrimary(), fontWeight: "bold", display: "flex", paddingRight: "1em", }}>
+                            <div> Aa</div>
+                            <div>
+                                <i className="fa fa-i-cursor" aria-hidden="true">
+                                </i>
+                            </div>
+                        </div>
+                        <div style={{ fontWeight: "700" }}>
+                            {props.value.name}
+                        </div>
+                    </div>
+
+                    {hoverFijo ?
+                        <div style={{ marginTop: "1em", cursor: "default" }} className="editorText" >
+                            <RichTextInput
+                                noBordes={true}
+                                value={props.value.text || ''}
+                                translate={props.translate}
+                                // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
+                                errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
+                                onChange={value => setText(value)}
+                                loadDraft={
+                                    <BasicButton
+                                        text={props.translate.load_draft}
+                                        color={getSecondary()}
+                                        textStyle={{
+                                            color: "white",
+                                            fontWeight: "600",
+                                            fontSize: "0.8em",
+                                            textTransform: "none",
+                                            marginLeft: "0.4em",
+                                            minHeight: 0,
+                                            lineHeight: "1em"
+                                        }}
+                                        textPosition="after"
+                                        onClick={() =>
+                                            props.setState({
+                                                loadDraft: true,
+                                                load: props.name,
+                                                draftType: DRAFT_TYPES[props.name.toUpperCase()]
+                                            })
+                                        }
+                                    />
+                                }
+                            />
+                        </div>
+                        :
+                        <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
+                            __html: props.value.text
+                        }}>
+                        </div>
+                    }
+                    <div style={{ marginTop: "1em", }}>
+                        {props.value.editButton &&
+                            <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id)}>
+                                {/* onClick={props.updateCouncilActa} */}
+                                {hoverFijo ?
+                                    'Editando' //TRANSLATE
+                                    :
+                                    'Editar' //TRANSLATE
+                                }
+                            </Button>
+                        }
+                    </div>
+                </div>
             </div>
-        </Card>
+        </div>
     );
 });
 
 const NoDraggableBlock = (props) => {
-    const [hover, setHover] = React.useState(false);
+    // const [hover, setHover] = React.useState(false);
 
-    const onMouseEnter = () => {
-        setHover(true)
-    }
-    const onMouseLeave = () => {
-        setHover(false)
-    }
+    // const onMouseEnter = () => {
+    //     setHover(true)
+    // }
+    // const onMouseLeave = () => {
+    //     setHover(false)
+    // }
 
     if (props.logic) {
         return (
             props.value !== undefined && props.value.text !== undefined &&
             <Card
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}
+                // onMouseEnter={onMouseEnter}
+                // onMouseLeave={onMouseLeave}
                 key={props.id}
                 style={{
-                    boxShadow: "0px 0px 5px 0px green",
+                    // boxShadow: "0px 0px 5px 0px green",
+                    boxShadow: "none",
                     margin: "3px",
                     paddingLeft: "15px",
                     paddingTop: "5px",
@@ -818,7 +945,7 @@ const NoDraggableBlock = (props) => {
                 }}
             >
                 <div style={{}}>
-                    {hover &&
+                    {/* {hover &&
                         <div style={{ display: "flex" }}>
                             <div style={{ fontWeight: "700" }}>
                                 {props.value.name}
@@ -831,7 +958,7 @@ const NoDraggableBlock = (props) => {
                                 </HelpPopover>
                             </div>
                         </div>
-                    }
+                    } */}
                     <div style={{}}
                         dangerouslySetInnerHTML={{
                             __html: props.value.text
@@ -845,18 +972,19 @@ const NoDraggableBlock = (props) => {
         return (
             props.value !== undefined && props.value.text !== undefined &&
             <Card
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}
+                // onMouseEnter={onMouseEnter}
+                // onMouseLeave={onMouseLeave}
                 key={props.id}
                 style={{
-                    boxShadow: hover ? "0px 0px 5px 0px #f99292d9" : "none",
+                    // boxShadow: hover ? "0px 0px 5px 0px #f99292d9" : "none",
+                    boxShadow: "none",
                     margin: "3px",
                     paddingLeft: "15px",
                     paddingTop: "5px",
                 }}
             >
                 <div style={{}}>
-                    {hover &&
+                    {/* {hover &&
                         <div style={{ display: "flex" }}>
                             <div style={{ fontWeight: "700" }}>
                                 {props.value.name}
@@ -868,8 +996,8 @@ const NoDraggableBlock = (props) => {
                                 >
                                 </HelpPopover>
                             </div> */}
-                        </div>
-                    }
+                    {/* </div> */}
+
                     <div style={{}}
                         dangerouslySetInnerHTML={{
                             __html: props.value.text
@@ -884,21 +1012,94 @@ const NoDraggableBlock = (props) => {
 }
 
 
-const CajaBorderIzq = ({ colorBorder, children }) => {
+const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo }) => {
 
-    return(
-        <div style={{width: "100%", background:"white", boxShadow:" 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRight:"4px", marginBottom:"0.8em"}}>
-            <div style={{width: "100%", display:"flex",}}>
-            <div style={{paddingRight: "4px", background: getPrimary(), borderRadius:"15px", }}></div>
-                <div style={{ marginLeft:"0.5em", paddingTop:"0.8em",  paddingBottom:"0.8em" }}>
-                {children}
+    return (
+        <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
+            <div style={{ width: "100%", display: "flex", }}>
+                <div style={{ paddingRight: "4px", background: getPrimary(), borderRadius: "15px", }}></div>
+                <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
+                    <div style={{ display: "flex", width: "100%" }}>
+                        <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
+                            <div> Aa</div>
+                            <div>
+                                <i className="fa fa-i-cursor" aria-hidden="true">
+                                </i>
+                            </div>
+                        </div>
+                        <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
+                            <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
+                                {children}
+                            </div>
+                            <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
+                                <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={addItem}>
+                                    arrow_right_alt
+                            </i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     );
 }
 
-const IconsDragActions = ({ clase, click, id, indexItem }) => {
+const BloquesAutomaticos = ({ colorBorder, children, automaticos }) => {
+
+    return (
+        <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
+            <div style={{ width: "100%", display: "flex", }}>
+                <div style={{ paddingRight: "4px", }}></div>
+                <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
+                    <div style={{ width: "100%", fontSize: '16px', color: '#a09aa0', display: "flex", fontWeight: "bold" }}>
+                        <div style={{ marginRight: "1em" }}>Bloques  automáticos</div>
+                        <div>
+                            <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} >
+                                help
+							</i>
+                        </div>
+                    </div>
+                    <div style={{ width: "100%", marginTop: "0.5em" }}>
+                        {automaticos.items.filter(item => item.logic === true).map((item, index) => (
+                            <CajaBloquesAutomaticos
+                                item={item}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+const CajaBloquesAutomaticos = ({ colorBorder, children, item }) => {
+
+    return (
+        <div style={{ display: "flex", width: "100%" }}>
+            <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
+                <div> Aa</div>
+                <div>
+                    <i className="fa fa-i-cursor" aria-hidden="true">
+                    </i>
+                </div>
+            </div>
+            <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
+                <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', fontSize: ' 16px', overflow: 'hidden', textOverflow: 'ellipsis', color: "#000000" }}>
+                    {item.name}
+                </div>
+                <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
+                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }}>
+                        arrow_right_alt
+        </i>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+
+const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
     const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
@@ -907,25 +1108,40 @@ const IconsDragActions = ({ clase, click, id, indexItem }) => {
     const onMouseLeave = () => {
         setHover(false)
     }
-
-    return (
-        <i
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            className={clase}
-            style={{ background: hover && "gainsboro", padding: "2px 3px 2px 3px", borderRadius: "10px" }}
-            aria-hidden="true"
-            onClick={() => click(id, indexItem)}
-        >
-        </i>
-    )
+    if (turn === "up") {
+        return (
+            <i
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                className={"material-icons"}
+                style={{ background: hover && "gainsboro", borderRadius: "10px", color: "#a09aa0", transform: 'rotate(-90deg)' }}
+                aria-hidden="true"
+                onClick={() => click(id, indexItem)}
+            >
+                arrow_right_alt
+            </i>
+        )
+    } else {
+        return (
+            <i
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                className={"material-icons"}
+                style={{ background: hover && "gainsboro", borderRadius: "10px", color: "#a09aa0", transform: 'rotate(90deg)' }}
+                aria-hidden="true"
+                onClick={() => click(id, indexItem)}
+            >
+                arrow_right_alt
+            </i>
+        )
+    }
 }
 
 
 const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
-		council(id: $councilID) {
-			id
+                council(id: $councilID) {
+                id
 			businessName
 			country
 			countryState
@@ -944,21 +1160,21 @@ const CouncilActData = gql`
 			qualityVoteId
 			firstOrSecondConvene
 			act {
-				id
+                id
 				intro
-				constitution
-				conclusion
-			}
+            constitution
+            conclusion
+        }
 			statute {
-				id
+                id
 				statuteId
-				prototype
-				existsQualityVote
-            }
-		}
+            prototype
+            existsQualityVote
+        }
+    }
 
 		agendas(councilId: $councilID) {
-			id
+                id
 			orderIndex
 			agendaSubject
 			subjectType
@@ -975,33 +1191,33 @@ const CouncilActData = gql`
 			majority
 			majorityDivider
 			items {
-				id
+                id
 				value
-			}
+        }
 			options {
-				id
+                id
 				maxSelections
-			}
+        }
 			ballots {
-				id
+                id
 				participantId
-				weight
-				value
-				itemId
-			}
-			numNoVoteVotings
-			numPositiveVotings
-			numNegativeVotings
-			numAbstentionVotings
-			numPresentCensus
-			presentCensus
-			numCurrentRemoteCensus
-			currentRemoteCensus
-			comment
-		}
+            weight
+            value
+            itemId
+        }
+        numNoVoteVotings
+        numPositiveVotings
+        numNegativeVotings
+        numAbstentionVotings
+        numPresentCensus
+        presentCensus
+        numCurrentRemoteCensus
+        currentRemoteCensus
+        comment
+    }
 
 		councilRecount(councilId: $councilID){
-			socialCapitalTotal
+                socialCapitalTotal
 			partTotal
 			partPresent
 			partRemote
@@ -1010,20 +1226,20 @@ const CouncilActData = gql`
 		}
 
 		participantsWithDelegatedVote(councilId: $councilID){
-			id
+                id
 			name
             surname
             dni
 			state
 			representative {
-				id
+                id
 				name
-				surname
-			}
-		}
+            surname
+        }
+    }
 
 		votingTypes {
-			label
+                label
 			value
 		}
 
@@ -1031,23 +1247,23 @@ const CouncilActData = gql`
 			councilId: $councilID
 			options: $options
 		) {
-			list {
-				id
+                list {
+                id
 				name
-				surname
-                lastDateConnection
-                dni
-			}
-		}
+            surname
+            lastDateConnection
+            dni
+        }
+    }
 
 		companyStatutes(companyId: $companyId) {
-			id
+                id
 			title
 			censusId
 		}
 
 		majorityTypes {
-			label
+                label
 			value
 		}
 	}
