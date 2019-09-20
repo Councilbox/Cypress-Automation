@@ -261,91 +261,51 @@ class EnhancedTable extends React.Component {
 								/>
 							</div>
 						}
-						{this.props.listDraftsEtiquetas &&
-							<React.Fragment>
-								<div style={{ marginRight: '0.8em', display: "flex" }}>
-									<div style={{ marginRight: "3em" }}>
-										<DropdownEtiquetas
-											translate={translate}
-											search={search}
-											setSearchModal={setSearch}
-											matchSearch={matchSearch}
-											vars={vars}
-											testTags={testTags}
-											addTag={addTag}
-											styleBody={styleBody}
-											anchorOrigin={anchorOrigin}
-											transformOrigin={transformOrigin}
-											removeTag={removeTag}
-										/>
-									</div>
-									<div>
-										<TextInput
-											disableUnderline={true}
-											styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding:"4px 5px" }}
-											stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-											adornment={<Icon>search</Icon>}
-											floatingText={" "}
-											type="text"
-											value={filterText}
-											placeholder={"Buscar plantillas"}
-											onChange={event => {
-												this.updateFilterText(event.target.value);
-											}}
-										/>
-									</div>
-								</div>
-							</React.Fragment>
-						}
 					</div>
 				</div>
 				{!isMobile ?
-					<div style={{ height: "calc( 100% - 10em )", ...stylesDivSuperior }}>
-						<Scrollbar>
-							<Table style={{ maxWidth: "100%", tableLayout: 'auto' }}>
-								<TableHead>
-									<TableRow>
-										{headers.map((header, index) => {
-											return (
-												header.selectAll ?
-													<TableCell key={`header_${index}`}>
-														{header.selectAll}
-													</TableCell>
-													:
-													<TableCell
-														key={`header_${index}`}
-														sortDirection={
+					<Table style={{ maxWidth: "100%", tableLayout: 'auto' }}>
+						<TableHead>
+							<TableRow>
+								{headers.map((header, index) => {
+									return (
+										header.selectAll ?
+											<TableCell key={`header_${index}`}>
+												{header.selectAll}
+											</TableCell>
+											:
+											<TableCell
+												key={`header_${index}`}
+												sortDirection={
+													this.state.orderDirection
+												}
+												style={{ ...TableStyles.TH, paddingRight: "40px" }}
+											>
+												{header.canOrder ? (
+													<TableSortLabel
+														active={
+															header.name ===
+															this.state.orderBy
+														}
+														direction={
 															this.state.orderDirection
 														}
-														style={{ ...TableStyles.TH, paddingRight: "40px" }}
+														onClick={() =>
+															this.orderBy(header.name)
+														}
 													>
-														{header.canOrder ? (
-															<TableSortLabel
-																active={
-																	header.name ===
-																	this.state.orderBy
-																}
-																direction={
-																	this.state.orderDirection
-																}
-																onClick={() =>
-																	this.orderBy(header.name)
-																}
-															>
-																{header.text}
-															</TableSortLabel>
-														) : (
-																header.text
-															)}
-													</TableCell>
-											);
-										})}
-									</TableRow>
-								</TableHead>
-								<TableBody>{!loading && children}</TableBody>
-							</Table>
-						</Scrollbar>
-					</div>
+														{header.text}
+													</TableSortLabel>
+												) : (
+														header.text
+													)}
+											</TableCell>
+									);
+								})}
+							</TableRow>
+						</TableHead>
+						<TableBody>{!loading && children}</TableBody>
+					</Table>
 					:
 					children
 				}

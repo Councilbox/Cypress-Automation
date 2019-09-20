@@ -8,13 +8,15 @@ import {
 	BasicButton,
 	ButtonIcon,
 	CloseIcon,
+	TextInput,
 	Grid,
+	Scrollbar,
 	GridItem,
 	EnhancedTable,
 	ErrorWrapper,
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { Card, Collapse, IconButton } from 'material-ui';
+import { Card, Collapse, IconButton, Icon } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from "../../../HOCs/withSharedProps";
@@ -26,6 +28,7 @@ import { useOldState, useHoverRow } from "../../../hooks.js";
 import { getTagColor, createTag } from "./draftTags/utils.js";
 import SelectedTag from "./draftTags/SelectedTag.js";
 import withWindowSize from "../../../HOCs/withWindowSize.js";
+import { DropdownEtiquetas } from "./LoadDraft.js";
 
 
 
@@ -41,8 +44,6 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 	const [search, setSearch] = React.useState("")
 	const [vars, setVars] = React.useState({});
 	const [testTags, setTestTags] = React.useState({});
-
-
 
 	const primary = getPrimary();
 
@@ -119,7 +120,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 			} : {}),
 			tags: Object.keys(testTags).map(key => testTags[key].name),
 		})
-	}, [testTags]);
+	}, [testTags, search]);
 
 
 	const getData = async () => {
@@ -235,90 +236,113 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 					/>
 				</Link>
 			</div>
-			<div style={{ height: ' calc( 100% - 2em )' }}>
-				{error ? (
-					<div>
-						{error.graphQLErrors.map((error, index) => {
-							return (
-								<ErrorWrapper
-									key={`error_${index}`}
-									error={error}
-									translate={translate}
-								/>
-							);
-						})}
+			<div style={{ height: ' calc( 100% - 10em )' }}>
+				<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end' }}>
+					<div style={{ marginRight: "3em" }}>
+						<DropdownEtiquetas
+							translate={translate}
+							search={search}
+							setSearchModal={setSearch}
+							matchSearch={matchSearch}
+							vars={vars}
+							testTags={testTags}
+							addTag={addTag}
+							styleBody={{ minWidth: '50vw' }}
+							anchorOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
+							}}
+							transformOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
+							}}
+							removeTag={removeTag}
+						/>
 					</div>
-				) : (
-						!!companyDrafts && (
-							<EnhancedTable
-								// monta etiquetas
-								listDraftsEtiquetas={true}
-								search={search}
-								setSearch={setSearch}
-								vars={vars}
-								addTag={addTag}
-								testTags={testTags}//testTags
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								removeTag={removeTag}
-								styleBody={{ minWidth: '50vw' }}
-								matchSearch={matchSearch}
-								//
-								hideTextFilter={true}
-								translate={translate}
-								defaultLimit={DRAFTS_LIMITS[0]}
-								defaultFilter={"title"}
-								limits={DRAFTS_LIMITS}
-								page={1}
-								loading={loading}
-								length={companyDrafts.list.length}
-								total={companyDrafts.total}
-								selectedCategories={[{
-									field: "type",
-									value: 'all',
-									label: translate.all_plural
-								}]}
-								refetch={data.refetch}
-								headers={[
-									{
-										text: translate.name,
-										name: "title",
-										canOrder: true
-									},
-									{
-										name: "type",
-										text: 'Etiquetas',
-										canOrder: true
-									},
-									{
-										name: '',
-										text: ''
-									}
-								]}
-								action={_renderDeleteIcon}
-								companyID={company.id}
-							>
-								{companyDrafts.list.map(draft => {
-									return (
-										<HoverableRow
-											key={`draft${draft.id}`}
-											translate={translate}
-											renderDeleteIcon={_renderDeleteIcon}
-											draft={draft}
-											draftTypes={draftTypes}
-											company={company}
-											info={props}
-										/>
-									);
-								})}
-							</EnhancedTable>
-						))}
+					<div>
+						<TextInput
+							disableUnderline={true}
+							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding:"4px 5px" }}
+							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+							adornment={<Icon>search</Icon>}
+							floatingText={" "}
+							type="text"
+							value={search}
+							placeholder={"Buscar plantillas"}
+							onChange={event => {
+								setSearch(event.target.value);
+							}}
+						/>
+					</div>
+				</div>
+				<Scrollbar>
+				<div style={{height: '100%', paddingRight: '1em'}}>
+					{error ? (
+						<div>
+							{error.graphQLErrors.map((error, index) => {
+								return (
+									<ErrorWrapper
+										key={`error_${index}`}
+										error={error}
+										translate={translate}
+									/>
+								);
+							})}
+						</div>
+					) : (
+							!!companyDrafts && (
+								<EnhancedTable
+									hideTextFilter={true}
+									translate={translate}
+									defaultLimit={DRAFTS_LIMITS[0]}
+									defaultFilter={"title"}
+									limits={DRAFTS_LIMITS}
+									page={1}
+									loading={loading}
+									length={companyDrafts.list.length}
+									total={companyDrafts.total}
+									selectedCategories={[{
+										field: "type",
+										value: 'all',
+										label: translate.all_plural
+									}]}
+									refetch={data.refetch}
+									headers={[
+										{
+											text: translate.name,
+											name: "title",
+											canOrder: true
+										},
+										{
+											name: "type",
+											text: 'Etiquetas',
+											canOrder: true
+										},
+										{
+											name: '',
+											text: ''
+										}
+									]}
+									action={_renderDeleteIcon}
+									companyID={company.id}
+								>
+									{companyDrafts.list.map(draft => {
+										return (
+											<HoverableRow
+												key={`draft${draft.id}`}
+												translate={translate}
+												renderDeleteIcon={_renderDeleteIcon}
+												draft={draft}
+												draftTypes={draftTypes}
+												company={company}
+												info={props}
+											/>
+										);
+									})}
+								</EnhancedTable>
+							))}
+				</div>
+				
 				<AlertConfirm
 					title={translate.attention}
 					bodyText={translate.question_delete}
@@ -331,6 +355,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 						setState({ deleteModal: false })
 					}
 				/>
+				</Scrollbar>
 			</div>
 		</React.Fragment>
 	);
@@ -357,10 +382,12 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 
 	const buildTagColumns = tags => {
 		const columns = {};
-		Object.keys(tags).forEach(key => {
-			const tag = tags[key];
-			columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
-		});
+		if(tags){
+			Object.keys(tags).forEach(key => {
+				const tag = tags[key];
+				columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
+			});
+		}
 
 		return columns;
 	}
@@ -387,7 +414,6 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 		return (
 			<Card
 				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
-
 			>
 				<Grid>
 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
