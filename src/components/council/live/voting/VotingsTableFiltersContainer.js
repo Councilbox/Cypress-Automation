@@ -3,9 +3,11 @@ import VotingsTable from './VotingsTable';
 import { withApollo } from 'react-apollo';
 import { agendaVotings } from "../../../../queries/agenda";
 import { useOldState } from '../../../../hooks';
+import { canEditPresentVotings, agendaVotingsOpened } from '../../../../utils/CBX';
+import ManualVotingsMenu from './ManualVotingsMenu';
 const pageLimit = 10;
 
-const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
+const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => {
 	const [state, setState] = useOldState({
 		open: false,
 		voteFilter: "all",
@@ -114,20 +116,33 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 	}
 
 	return (
-		<VotingsTable
-			{...props}
-			changePage={changePage}
-			page={state.page}
-			state={state}
-			pageLimit={pageLimit}
-			data={data}
-			refetch={getData}
-			agenda={agenda}
-			loading={state.loading}
-			changeStateFilter={changeStateFilter}
-			changeVoteFilter={changeVoteFilter}
-			updateFilterText={updateFilterText}
-		/>
+		<React.Fragment>
+			{((canEditPresentVotings(agenda) && agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
+				<ManualVotingsMenu
+					refetch={props.refetch}
+					changeEditedVotings={props.changeEditedVotings}
+					editedVotings={props.editedVotings}
+					translate={props.translate}
+					agenda={agenda}
+					votingsRecount={data.votingsRecount}
+				/>
+			}
+			<VotingsTable
+				{...props}
+				changePage={changePage}
+				page={state.page}
+				state={state}
+				pageLimit={pageLimit}
+				data={data}
+				council={council}
+				refetch={getData}
+				agenda={agenda}
+				loading={state.loading}
+				changeStateFilter={changeStateFilter}
+				changeVoteFilter={changeVoteFilter}
+				updateFilterText={updateFilterText}
+			/>
+		</React.Fragment>
 	)
 
 }
