@@ -8,7 +8,7 @@ import AgendaManager from "./AgendaManager";
 import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
-import { showVideo } from "../../../utils/CBX";
+import { showVideo, councilHasSession } from "../../../utils/CBX";
 import { Tooltip, Badge, Tabs, Tab } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
@@ -397,7 +397,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									}}>
 										{council.quorumPrototype === 0?
 											<b>{`${translate.current_quorum}: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
-												(councilStartedState() && council.councilStarted === 1)?
+												(councilStartedState() && council.councilStarted === 1 && councilHasSession(council))?
 													` / ${translate.initial_quorum}: ${
 														council.initialQuorum? council.initialQuorum : council.currentQuorum
 													} (${((data.council.initialQuorum / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
@@ -406,7 +406,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 											}`}</b>
 										:
 											<b>{`${translate.current_quorum}: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
-												(councilStartedState() && council.councilStarted === 1)?
+												(councilStartedState() && council.councilStarted === 1 && councilHasSession(council))?
 													` / ${translate.initial_quorum}: ${
 														council.initialQuorum? council.initialQuorum : council.currentQuorum
 													} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
