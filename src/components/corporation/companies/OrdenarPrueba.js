@@ -13,9 +13,16 @@ import LoadDraft from '../../company/drafts/LoadDraft';
 import { changeVariablesToValues, checkForUnclosedBraces } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
+import StepPreview from '../../council/editor/StepPreview';
+import preview from '../../../assets/img/preview-1.svg'
+import textool from '../../../assets/img/text-tool.svg'
+import iconAsistentes from '../../../assets/img/meeting.svg'
+import iconDelegaciones from '../../../assets/img/networking.svg'
+import iconVotaciones from '../../../assets/img/handshake.svg'
 
 
 const agendaBlocks = ['agendaSubject', 'description', 'comment', 'voting', 'votes', 'agendaComments'];
+const ordenDelDia = [  ];
 
 const defaultTemplates = {
     "0": ["title", "intro", "puntos", 'constitution', 'textOrdenDelDia',
@@ -95,7 +102,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         agendas.forEach((element, index) => {
             puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
         });
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Puntos del Orden de Día ", text: puntos, originalName: 'puntos', noBorrar: true })//TRADUCCION
+        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Orden de día ", text: puntos, originalName: 'puntos', noBorrar: true, expand: true })//TRADUCCION
         newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "", text: "<b>A continuación se entra a debatir el primer punto del Oden del día</b>", originalName: 'textOrdenDelDia', noBorrar: true })//TRADUCCION
 
         agendas.forEach((element, index) => {
@@ -106,7 +113,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             // if (element.comment) {
             newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Toma de acuerdos", text: element.comment, editButton: true, originalName: 'comment', noBorrar: true }) //TRADUCCION
             // }
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votaciones", text: "<b>Votaciones </b></br> A FAVOR: ... | EN CONTRA: ... | ABSTENCIONES: ... | NO VOTAN: ...", editButton: false, originalName: 'voting', noBorrar: true, editButton: false, logic: true }) //TRADUCCION
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votaciones", text: "", editButton: false, originalName: 'voting', noBorrar: true, editButton: false, logic: true, icon: iconVotaciones, colorBorder: '#866666' }) //TRADUCCION
             newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN", editButton: false, originalName: "votes", noBorrar: true, editButton: false, logic: true })//TRADUCCION
             newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Comentarios", text: "<b>Comentarios</b> </br>" + element.description, editButton: false, originalName: 'agendaComments', noBorrar: true, editButton: false })//TRADUCCION
         });
@@ -114,8 +121,8 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         attendants.forEach(element => {
             assistants = element.name + " " + element.surname + " con DNI " + element.dni + "  Firma: ..."
         });
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: translate.assistants_list, text: '<b>Lista de asistentes</b> </br>' + assistants, editButton: false, logic: true, originalName: 'listaAsistentes' })
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Listado de delegaciones", text: "", editButton: false, logic: true })
+        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: translate.assistants_list, text: '', editButton: false, logic: true, originalName: 'listaAsistentes', icon: iconAsistentes, colorBorder: "#61abb7" })
+        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Lista de delegaciones", text: "", editButton: false, logic: true, icon: iconDelegaciones, colorBorder: '#7f94b6' })
         setArrastrables({ items: newArray })
         ordenarTemplateInit(defaultTemplates[template], newArray, agendas)
     }
@@ -124,8 +131,10 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         if (agendas.items[0] === undefined) {
             agendas.items = new Array;
         }
+        console.log(arrastrables)
         let resultado = arrastrables.items.find(arrastrable => arrastrable.id === id);
         let arrayArrastrables
+        // console.log(resultado)
         if (resultado.originalName !== "bloqueDeTexto") {
             arrayArrastrables = arrastrables.items.filter(arrastrable => arrastrable.id !== id)
         } else {
@@ -188,7 +197,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     const updateCouncilActa = (id, newText) => {
         let indexItemToEdit = agendas.items.findIndex(item => item.id === id)
         agendas.items[indexItemToEdit].text = newText
-
     }
 
     const checkBraces = () => {
@@ -226,10 +234,10 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                 <LiveToast
                     message={this.props.translate.revise_text}
                 />, {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: true,
-                className: "errorToast"
-            }
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: true,
+                    className: "errorToast"
+                }
             );
         }
 
@@ -409,7 +417,8 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                 <Scrollbar>
                                     <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
                                         <React.Fragment>
-                                            {arrastrables.items.map((item, index) => {
+                                            {arrastrables.items.filter(item => !item.logic ).map((item, index) => {
+                                                // .filter(item => item.logic === true).map((item, index) => {
                                                 return (
                                                     <CajaBorderIzq
                                                         addItem={addItem}
@@ -433,127 +442,124 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                             </div>
                         </div>
                         <div style={{ width: colapse ? "100%" : "60%", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
-                            <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 1em " }}>
-                                <div style={{ display: "flex" }}>
-                                    <BasicButton
-                                        text={'Ver PDF'}
-                                        color={"white"}
-                                        textStyle={{
-                                            color: "black",
-                                            fontWeight: "700",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={"IC"}
-                                        // icon={<ButtonIcon type="add" color={primary} />}
-                                        // onClick={() => this.setState({ modal: true })}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    />
-                                    <BasicButton
-                                        text={translate.save}
-                                        color={getPrimary()}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={"IC"}
-                                        // icon={<ButtonIcon type="add" color={primary} />}
-                                        // onClick={() => this.setState({ modal: true })}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    />
-                                    <BasicButton
-                                        text={'Enviar a revision'}
-                                        color={getPrimary()}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={"IC"}
-                                        // icon={<ButtonIcon type="add" color={primary} />}
-                                        // onClick={() => this.setState({ modal: true })}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    />
-                                    <BasicButton
-                                        text={'Finalizar'}
-                                        color={getSecondary()}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={"IC"}
-                                        // icon={<ButtonIcon type="add" color={primary} />}
-                                        // onClick={() => this.setState({ modal: true })}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    />
+                            {!colapse &&
+                                <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
+                                    <div style={{ display: "flex" }}>
+                                        <BasicButton
+                                            text={'Ver PDF'}
+                                            color={"white"}
+                                            textStyle={{
+                                                color: "black",
+                                                fontWeight: "700",
+                                                fontSize: "0.9em",
+                                                textTransform: "none",
+                                                whiteSpace: "nowrap"
+                                            }}
+                                            textPosition="after"
+                                            iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-file-pdf-o" aria-hidden="true"></i>}
+                                            // onClick={() => this.setState({ modal: true })}
+                                            buttonStyle={{
+                                                marginRight: "1em",
+                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                borderRadius: '3px'
+                                            }}
+                                        />
+                                        <BasicButton
+                                            text={translate.save}
+                                            color={getPrimary()}
+                                            textStyle={{
+                                                color: "white",
+                                                fontSize: "0.9em",
+                                                textTransform: "none"
+                                            }}
+                                            textPosition="after"
+                                            iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                            // onClick={() => this.setState({ modal: true })}
+                                            buttonStyle={{
+                                                marginRight: "1em",
+                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                borderRadius: '3px'
+                                            }}
+                                        />
+                                        <BasicButton
+                                            text={'Enviar a revision'}
+                                            color={getPrimary()}
+                                            textStyle={{
+                                                color: "white",
+                                                fontSize: "0.9em",
+                                                textTransform: "none",
+                                                whiteSpace: "nowrap"
+                                            }}
+                                            textPosition="after"
+                                            iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                            // onClick={() => this.setState({ modal: true })}
+                                            buttonStyle={{
+                                                marginRight: "1em",
+                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                borderRadius: '3px'
+                                            }}
+                                        />
+                                        <BasicButton
+                                            text={'Finalizar'}
+                                            color={getSecondary()}
+                                            textStyle={{
+                                                color: "white",
+                                                fontSize: "0.9em",
+                                                textTransform: "none"
+                                            }}
+                                            textPosition="after"
+                                            iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                            // onClick={() => this.setState({ modal: true })}
+                                            buttonStyle={{
+                                                marginRight: "1em",
+                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                borderRadius: '3px'
+                                            }}
+                                        />
+                                    </div>
+                                    <div style={{ display: "flex" }}>
+                                        <BasicButton
+                                            text={''}
+                                            color={"white"}
+                                            textStyle={{
+                                                color: "black",
+                                                fontWeight: "700",
+                                                fontSize: "0.9em",
+                                                textTransform: "none"
+                                            }}
+                                            textPosition="after"
+                                            iconInit={<img src={preview} />}
+                                            // onClick={() => this.setState({ modal: true })}
+                                            buttonStyle={{
+                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                borderRadius: '3px',
+                                                borderTopRightRadius: '0px',
+                                                borderBottomRightRadius: '0px',
+                                                borderRight: '1px solid #e8eaeb'
+                                            }}
+                                        /><BasicButton
+                                            text={''}
+                                            color={"white"}
+                                            textStyle={{
+                                                color: "black",
+                                                fontWeight: "700",
+                                                fontSize: "0.9em",
+                                                textTransform: "none"
+                                            }}
+                                            textPosition="after"
+                                            iconInit={<img src={textool} />}
+                                            // onClick={() => this.setState({ modal: true })}
+                                            buttonStyle={{
+                                                marginRight: "1em",
+                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                borderRadius: '3px',
+                                                borderTopLeftRadius: '0px',
+                                                borderBottomLeftRadius: '0px'
+                                            }}
+                                        />
+                                    </div>
                                 </div>
-                                <div style={{ display: "flex" }}>
-                                    <BasicButton
-                                        text={''}
-                                        color={"white"}
-                                        textStyle={{
-                                            color: "black",
-                                            fontWeight: "700",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={"IC"}
-                                        // icon={<ButtonIcon type="add" color={primary} />}
-                                        // onClick={() => this.setState({ modal: true })}
-                                        buttonStyle={{
-                                            // marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px',
-                                            borderTopRightRadius: '0px',
-                                            borderBottomRightRadius: '0px',
-                                            borderRight: '1px solid #e8eaeb'
-                                        }}
-                                    /><BasicButton
-                                        text={''}
-                                        color={"white"}
-                                        textStyle={{
-                                            color: "black",
-                                            fontWeight: "700",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={"IC"}
-                                        // icon={<ButtonIcon type="add" color={primary} />}
-                                        // onClick={() => this.setState({ modal: true })}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px',
-                                            borderTopLeftRadius: '0px',
-                                            borderBottomLeftRadius: '0px'
-                                        }}
-                                    />
-                                </div>
-                            </div>
+                            }
                             <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
                                 <Scrollbar>
                                     <div style={{ display: "flex", height: "100%" }}>
@@ -566,7 +572,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                     <img style={{ width: "100%" }} src={company.logo}></img>
                                                 </div>
                                             </div>
-                                            <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em" }}>
+                                            <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }}>
                                                 <SortableList
                                                     axis={"y"}
                                                     lockAxis={"y"}
@@ -740,6 +746,7 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, st
                             remove={remove}
                             name={item.name}
                             noBorrar={item.noBorrar}
+                            expand={item.expand}
                         />
                     ))
 
@@ -793,7 +800,6 @@ const DraggableBlock = SortableElement((props) => {
         setHoverFijo(!hoverFijo)
     }
 
-
     return (
         props.value !== undefined && props.value.text !== undefined &&
         <div
@@ -809,15 +815,29 @@ const DraggableBlock = SortableElement((props) => {
                 cursor: "grab",
                 marginBottom: "0.8em",
                 position: "relative",
-                boxShadow: '0 2px 4px 5px rgba(0, 0, 0, 0.11)'
+                boxShadow: '0 2px 4px 5px rgba(0, 0, 0, 0.11)',
+                background: "white"
             }}
             className="draggable"
         >
-            <div style={{ paddingRight: "4px", background: getPrimary(), borderRadius: "15px", }}></div>
-            <div style={{ marginLeft: "4px", width: '95%' }}>
-                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0" }}>
+            <div style={{ paddingRight: "4px", background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: "15px", }}></div>
+            <div style={{ marginLeft: "4px", width: '95%', minHeight:"90px" }}>
+                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0", right: "35px" }}>
+                    {props.expand &&
+                        < IconsDragActions
+                            turn={"expand"}
+                            clase={`fa fa-times ${props.id}`}
+                            aria-hidden="true"
+                            click={props.remove}
+                            id={props.id}
+                            indexItem={props.indexItem}
+                        />
+                    }
+                </div>
+                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0", }}>
                     {!props.noBorrar &&
                         < IconsDragActions
+                            turn={"cross"}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
                             click={props.remove}
@@ -849,11 +869,22 @@ const DraggableBlock = SortableElement((props) => {
                 <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%", }}>
                     <div style={{ display: "flex", fontSize: '19px' }}>
                         <div style={{ color: getPrimary(), fontWeight: "bold", display: "flex", paddingRight: "1em", }}>
-                            <div> Aa</div>
-                            <div>
-                                <i className="fa fa-i-cursor" aria-hidden="true">
-                                </i>
-                            </div>
+                            {props.value.icon ?
+                                <React.Fragment>
+                                    <div>
+                                        <img src={props.value.icon} />
+                                    </div>
+                                </React.Fragment>
+                                :
+                                <React.Fragment>
+                                    <div>Aa</div>
+                                    <div>
+                                        <i className="fa fa-i-cursor" aria-hidden="true">
+                                        </i>
+                                    </div>
+                                </React.Fragment>
+                            }
+
                         </div>
                         <div style={{ fontWeight: "700" }}>
                             {props.value.name}
@@ -1044,27 +1075,38 @@ const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo }) => {
     );
 }
 
-const BloquesAutomaticos = ({ colorBorder, children, automaticos }) => {
-
+const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem }) => {
+    const [open, setOpen] = React.useState(true)
+    console.log(automaticos)
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
             <div style={{ width: "100%", display: "flex", }}>
                 <div style={{ paddingRight: "4px", }}></div>
                 <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
                     <div style={{ width: "100%", fontSize: '16px', color: '#a09aa0', display: "flex", fontWeight: "bold" }}>
-                        <div style={{ marginRight: "1em" }}>Bloques  automáticos</div>
-                        <div>
-                            <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} >
-                                help
+                        <div style={{ marginRight: "1em", width: "15em" }}>Bloques  automáticos</div>
+                        <div style={{ display: "flex", width: "100%" }}>
+                            <div>
+                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOpen(!open)}>
+                                    help
 							</i>
+                            </div>
+                            {open &&
+                                <div style={{ fontSize: "10px", color: "#a09aa0", fontWeight:"100" }}>Este tipo de bloques son generados automáticamente por el sistema y no necesitan edición.</div>
+                            }
                         </div>
                     </div>
                     <div style={{ width: "100%", marginTop: "0.5em" }}>
-                        {automaticos.items.filter(item => item.logic === true).map((item, index) => (
-                            <CajaBloquesAutomaticos
-                                item={item}
-                            />
-                        ))}
+                        {automaticos.items.filter(item => item.logic === true).map((item, index) => {
+                            console.log(item)
+                            // console.log(delegaciones)
+                            return (
+                                <CajaBloquesAutomaticos
+                                    item={item}
+                                    addItem={addItem}
+                                />
+                            )
+                        })}
                     </div>
                 </div>
             </div>
@@ -1072,15 +1114,18 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos }) => {
     );
 }
 
-const CajaBloquesAutomaticos = ({ colorBorder, children, item }) => {
-
+const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem }) => {
+    // console.log(item)
     return (
-        <div style={{ display: "flex", width: "100%" }}>
+        <div style={{ display: "flex", width: "100%", marginBottom: "0.8em" }}>
             <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
-                <div> Aa</div>
+                {/* <div> Aa</div>
                 <div>
                     <i className="fa fa-i-cursor" aria-hidden="true">
                     </i>
+                </div> */}
+                <div>
+                    <img src={item.icon} />
                 </div>
             </div>
             <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
@@ -1088,7 +1133,7 @@ const CajaBloquesAutomaticos = ({ colorBorder, children, item }) => {
                     {item.name}
                 </div>
                 <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
-                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }}>
+                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={addItem}>
                         arrow_right_alt
         </i>
                 </div>
@@ -1108,6 +1153,7 @@ const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
     const onMouseLeave = () => {
         setHover(false)
     }
+
     if (turn === "up") {
         return (
             <i
@@ -1121,7 +1167,35 @@ const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
                 arrow_right_alt
             </i>
         )
-    } else {
+    }
+    else if (turn === 'expand') {
+        return (
+            <i
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                className={"fa fa-arrows-alt"}
+                style={{ background: hover && "gainsboro", borderRadius: "10px", color: "#a09aa0" }}
+                aria-hidden="true"
+                onClick={() => click(id, indexItem)}
+            >
+            </i>
+        )
+    }
+    else if (turn === 'cross') {
+        return (
+            <i
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                className={"material-icons"}
+                style={{ background: hover && "gainsboro", borderRadius: "10px", color: "#a09aa0" }}
+                aria-hidden="true"
+                onClick={() => click(id, indexItem)}
+            >
+                clear
+            </i>
+        )
+    }
+    else {
         return (
             <i
                 onMouseEnter={onMouseEnter}
