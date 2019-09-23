@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import { BasicButton, TextInput } from '../../../../displayComponents';
+import { BasicButton, TextInput, LoadingSection } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 import { Table, TableBody, TableCell, TableRow } from 'material-ui';
 import { isMobile } from 'react-device-detect';
@@ -20,8 +20,13 @@ const createManualBallotsMutation = gql`
 const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...props }) => {
     const [state, setState] = React.useState(false)
     const [ballots, setBallots] = React.useState(new Map(agenda.ballots.filter(ballot => ballot.admin === 1).map(ballot => [ballot.itemId, ballot])));
-    const maxBallot = agenda.presentCensus;
-    const maxTotal = agenda.presentCensus * agenda.options.maxSelections;
+    
+    if(!props.votingsRecount){
+        return <LoadingSection />
+    }
+
+    const maxBallot = props.votingsRecount.availableVotes;
+    const maxTotal = maxBallot * agenda.options.maxSelections;
     const totalWeight = getActualRecount(ballots);
 
     const updateBallotValue = (itemId, value) => {

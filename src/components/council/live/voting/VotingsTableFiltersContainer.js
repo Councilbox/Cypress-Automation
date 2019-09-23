@@ -3,8 +3,9 @@ import VotingsTable from './VotingsTable';
 import { withApollo } from 'react-apollo';
 import { agendaVotings } from "../../../../queries/agenda";
 import { useOldState } from '../../../../hooks';
-import { canEditPresentVotings, agendaVotingsOpened } from '../../../../utils/CBX';
+import { canEditPresentVotings, agendaVotingsOpened, isCustomPoint } from '../../../../utils/CBX';
 import ManualVotingsMenu from './ManualVotingsMenu';
+import CustomAgendaManualVotings from './CustomAgendaManualVotings';
 const pageLimit = 10;
 
 const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => {
@@ -117,15 +118,32 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 
 	return (
 		<React.Fragment>
-			{((canEditPresentVotings(agenda) && agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
-				<ManualVotingsMenu
-					refetch={props.refetch}
-					changeEditedVotings={props.changeEditedVotings}
-					editedVotings={props.editedVotings}
-					translate={props.translate}
-					agenda={agenda}
-					votingsRecount={data.votingsRecount}
-				/>
+			{!isCustomPoint(agenda.subjectType)?
+				<React.Fragment>
+					{((canEditPresentVotings(agenda) && agendaVotingsOpened(agenda) && council.councilType !== 3)
+					|| (council.councilType === 3 && agenda.votingState === 4)) &&
+						<ManualVotingsMenu
+							refetch={props.refetch}
+							changeEditedVotings={props.changeEditedVotings}
+							editedVotings={props.editedVotings}
+							translate={props.translate}
+							agenda={agenda}
+							votingsRecount={data.votingsRecount}
+						/>
+					}
+				</React.Fragment>
+			:
+				<React.Fragment>
+					{((canEditPresentVotings(agenda) &&
+						agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
+						<CustomAgendaManualVotings
+							agenda={agenda}
+							translate={props.translate}
+							votingsRecount={data.votingsRecount}
+							changeEditedVotings={props.changeEditedVotings}
+						/>
+					}
+				</React.Fragment>
 			}
 			<VotingsTable
 				{...props}

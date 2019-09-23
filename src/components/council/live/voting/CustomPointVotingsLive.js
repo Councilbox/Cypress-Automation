@@ -16,13 +16,6 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
 				:
                     <CustomAgendaRecount agenda={agenda} translate={translate} />
                 }
-                {((CBX.canEditPresentVotings(agenda) && CBX.agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
-                    <CustomAgendaManualVotings
-                        agenda={agenda}
-                        translate={translate}
-                        changeEditedVotings={props.changeEditedVotings}
-                    />
-				}
 
                 <GridItem xs={12} md={12} lg={12}>
                     <VotingsTableFiltersContainer
