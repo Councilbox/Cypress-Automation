@@ -498,11 +498,13 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 			}
 		});
 
-		console.log(response);
-
 		if(response.data){
 			data.refetch();
 		}
+	}
+
+	if(!representative){
+		return <span/>
 	}
 
 	return (
