@@ -115,7 +115,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 	React.useEffect(() => {
 		window.addEventListener("resize", updateDimensions);
 
-		return () => window.removeEventListener(updateDimensions);
+		return () => window.removeEventListener('resize', updateDimensions);
 	}, [council.id]);
 
 	return (

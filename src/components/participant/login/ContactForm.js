@@ -3,14 +3,41 @@ import { TextInput, BasicButton, ButtonIcon } from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import { useOldState } from '../../../hooks';
 import { getPrimary } from '../../../styles/colors';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 
-const ContactForm = ({ participant, translate, council }) => {
+const ContactForm = ({ participant, translate, council, client }) => {
     const [state, setState] = useOldState({
         replyTo: participant.email,
-        title: '',
+        subject: '',
         body: ''
     });
     const primary = getPrimary();
+
+    const send = async () => {
+        const response = await client.mutate({
+            mutation: gql`
+                mutation sendAdminEmail(
+                    $councilId: Int!,
+                    $message: AdminMessageInput
+                ){
+                    sendAdminEmail(
+                        councilId: $councilId
+                        message: $message
+                    ){
+                        success
+                        message
+                    }
+                }
+            `,
+            variables: {
+                councilId: council.id,
+                message: state
+            }
+        });
+
+        console.log(response);
+    }
 
 
     return (
@@ -21,19 +48,20 @@ const ContactForm = ({ participant, translate, council }) => {
                 floatingText={'Email'}
             />
             <TextInput
-                value={state.title}
-                onChange={event => setState({ title: event.target.value })}
+                value={state.subject}
+                onChange={event => setState({ subject: event.target.value })}
                 floatingText={translate.title}
             />
             <RichTextInput
                 value={state.body}
-                onChange={event => setState({ body: event.target.value })}
+                onChange={value => setState({ body: value })}
                 floatingText={translate.message}
             />
             <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '0.6em'}}>
                 <BasicButton
                     text={translate.send}
                     color={primary}
+                    onClick={send}
                     icon={<ButtonIcon type="send" />}
                     textStyle={{ color: 'white' }}
                 />
@@ -44,4 +72,4 @@ const ContactForm = ({ participant, translate, council }) => {
     )
 }
 
-export default ContactForm;
+export default withApollo(ContactForm);
