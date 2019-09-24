@@ -968,7 +968,7 @@ const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesB
                             </div>
                             <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
                                 {borrar ?
-                                    <i className="fa fa-trash-o" style={{ cursor: "pointer", color: "#979797" }} >
+                                    <i className="fa fa-trash-o" style={{ cursor: "pointer", color: colorBorder }} >
                                          </i>
                                     :
                                     <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
