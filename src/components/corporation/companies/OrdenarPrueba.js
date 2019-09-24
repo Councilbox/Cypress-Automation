@@ -1,7 +1,7 @@
 import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { Card, Button, MenuItem, Dialog, DialogTitle, DialogContent, FormControlLabel, Switch } from 'material-ui';
+import { Card, Button, MenuItem, Dialog, DialogTitle, DialogContent, FormControlLabel, Switch, Collapse } from 'material-ui';
 import { Grid, GridItem, Scrollbar, SelectInput, LoadingSection, BasicButton, LiveToast, HelpPopover, ButtonIcon } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import RichTextInput from '../../../displayComponents/RichTextInput';
@@ -21,8 +21,10 @@ import iconDelegaciones from '../../../assets/img/networking.svg'
 import iconVotaciones from '../../../assets/img/handshake.svg'
 
 
+// https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
+
 const agendaBlocks = ['agendaSubject', 'description', 'comment', 'voting', 'votes', 'agendaComments'];
-const ordenDelDia = [  ];
+const ordenDelDia = [];
 
 const defaultTemplates = {
     "0": ["title", "intro", "puntos", 'constitution', 'textOrdenDelDia',
@@ -53,7 +55,8 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         updating: false,
         disableButtons: false,
         text: "",
-        errors: {}
+        errors: {},
+        imgIzqCbx: 2,
     })
 
     const handleChange = event => {
@@ -131,12 +134,12 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         if (agendas.items[0] === undefined) {
             agendas.items = new Array;
         }
-        console.log(arrastrables)
         let resultado = arrastrables.items.find(arrastrable => arrastrable.id === id);
         let arrayArrastrables
-        // console.log(resultado)
         if (resultado.originalName !== "bloqueDeTexto") {
+            console.log(arrastrables)
             arrayArrastrables = arrastrables.items.filter(arrastrable => arrastrable.id !== id)
+            console.log(arrayArrastrables)
         } else {
             arrayArrastrables = arrastrables.items
             resultado = { id: Math.random().toString(36).substr(2, 9), name: "Bloque de texto", text: 'Inserte el texto', originalName: "bloqueDeTexto", editButton: true }
@@ -182,6 +185,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             event.target.tagName.toLowerCase() === 'li' ||
             event.target.tagName.toLowerCase() === 's' ||
             event.target.tagName.toLowerCase() === 'a' ||
+            event.target.tagName.toLowerCase() === 'p' ||
             event.target.tagName.toLowerCase() === 'u' ||
             event.target.tagName.toLowerCase() === 'line' ||
             event.target.tagName.toLowerCase() === 'strong' ||
@@ -198,57 +202,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         let indexItemToEdit = agendas.items.findIndex(item => item.id === id)
         agendas.items[indexItemToEdit].text = newText
     }
-
-    const checkBraces = () => {
-        const act = data.data.council.act;
-        let errors = {
-            intro: false,
-            conclusion: false,
-            constitution: false
-        };
-        let hasError = false;
-
-        if (act.intro) {
-            if (checkForUnclosedBraces(act.intro)) {
-                errors.intro = true;
-                hasError = true;
-            }
-        }
-
-        if (act.constitution) {
-            if (checkForUnclosedBraces(act.constitution)) {
-                errors.constitution = true;
-                hasError = true;
-            }
-        }
-
-        if (act.conclusion) {
-            if (checkForUnclosedBraces(act.conclusion)) {
-                errors.conclusion = true;
-                hasError = true;
-            }
-        }
-
-        if (hasError) {
-            toast(
-                <LiveToast
-                    message={this.props.translate.revise_text}
-                />, {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: true,
-                    className: "errorToast"
-                }
-            );
-        }
-
-        setState({
-            disableButtons: hasError,
-            errors
-        });
-
-        return hasError;
-    }
-
 
 
     const remove = (id, index) => {
@@ -297,7 +250,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 
     const ordenarTemplate = (orden, agendas) => {
         let auxTemplate = []
-        let auxArrastrableQuitar = []
         if (orden !== undefined) {
             orden.forEach(element => {
                 if (element === 'tomaAcuerdos') {
@@ -328,8 +280,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     const ordenarTemplateInit = (orden, array, agendas) => {
         let auxTemplate = []
         let auxTemplate2 = { items: array }
-        let auxArrastrableQuitar = []
-        let puntosDelDiaLenght = agendas.length
         if (orden !== undefined) {
             orden.forEach(element => {
                 if (element === 'tomaAcuerdos') {
@@ -371,6 +321,16 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         });
     };
 
+
+    React.useEffect(() => {
+        if (document.getElementsByClassName("actaLienzo")[0]) {
+            if (Math.ceil(document.getElementsByClassName("actaLienzo")[0].scrollHeight / 995) >= 2) {
+                setState({ imgIzqCbx: Math.ceil(document.getElementsByClassName("actaLienzo")[0].scrollHeight / 995) })
+            }
+        }
+    }, [document.getElementsByClassName("actaLienzo")[0], colapse, edit])
+
+
     return (
         <div style={{ width: "100%", height: "100%" }}>
             {loading ?
@@ -387,7 +347,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                 >
                                     <MenuItem value={'none'}> </MenuItem>
                                     <MenuItem value={0}>Default</MenuItem>
-                                    {/* <MenuItem value={'default4'}>Vacia</MenuItem> */}
                                 </SelectInput>
                             </div>
                             <div style={{ display: "flex", }}>
@@ -417,14 +376,33 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                 <Scrollbar>
                                     <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
                                         <React.Fragment>
-                                            {arrastrables.items.filter(item => !item.logic ).map((item, index) => {
+                                            {/* <SortableList
+                                                axis={"y"}
+                                                lockAxis={"y"}
+                                                items={agendas.items}
+                                                updateCouncilActa={updateCouncilActa}
+                                                editInfo={editInfo}
+                                                state={state}
+                                                setState={setState}
+                                                edit={edit}
+                                                translate={translate}
+                                                offset={agendas.items.lenght}
+                                                onSortEnd={onSortEnd}
+                                                helperClass="draggable"
+                                                shouldCancelStart={event => shouldCancelStart(event)}
+                                                moveUp={moveUp}
+                                                moveDown={moveDown}
+                                                remove={remove}
+                                            /> */}
+                                            {arrastrables.items.filter(item => !item.logic).map((item, index) => {
                                                 // .filter(item => item.logic === true).map((item, index) => {
                                                 return (
                                                     <CajaBorderIzq
+                                                        key={item.id}
                                                         addItem={addItem}
                                                         itemInfo={item.id}
                                                     >
-                                                        <div key={index + item.id}>
+                                                        <div >
                                                             <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{item.name}</div>
                                                         </div>
                                                     </CajaBorderIzq>
@@ -450,7 +428,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             color={"white"}
                                             textStyle={{
                                                 color: "black",
-                                                fontWeight: "700",
                                                 fontSize: "0.9em",
                                                 textTransform: "none",
                                                 whiteSpace: "nowrap"
@@ -562,17 +539,19 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                             }
                             <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
                                 <Scrollbar>
-                                    <div style={{ display: "flex", height: "100%" }}>
+                                    <div style={{ display: "flex", height: "100%" }} >
                                         <div style={{ width: "20%", maxWidth: "95px" }}>
-                                            <img style={{ width: "100%", }} src={imgIzq}></img>
+                                            {new Array(state.imgIzqCbx).fill(0).map(index =>
+                                                <img style={{ width: "100%", }} src={imgIzq} key={index + "cbx" + Math.floor(Math.random() * 100)}></img>
+                                            )}
                                         </div>
                                         <div style={{ width: "100%" }}>
                                             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
                                                 <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                                                    <img style={{ width: "100%" }} src={company.logo}></img>
+                                                    < img style={{ width: "100%" }} src={company.logo}></img>
                                                 </div>
                                             </div>
-                                            <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }}>
+                                            <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
                                                 <SortableList
                                                     axis={"y"}
                                                     lockAxis={"y"}
@@ -599,7 +578,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                         </div>
                     </div>
                     <Dialog
-                        open={state.loadDraft}
+                        open={!!state.loadDraft}
                         maxWidth={false}
                         onClose={() => setState({ loadDraft: false })}
                     >
@@ -621,106 +600,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     )
 
 }
-
-const Bloques = ({ text, styles, setBloque, selected }) => {
-    const [hover, setHover] = React.useState(false);
-
-    const onMouseEnter = () => {
-        setHover(true)
-    }
-
-    const onMouseLeave = () => {
-        setHover(false)
-    }
-
-    return (
-        <div
-            onClick={setBloque}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            style={{
-                textDecoration: hover ? `underline ${getSecondary()}` : selected ? `underline ${getSecondary()}` : "",
-                padding: "10px 30px 10px 30px",
-                borderBottom: "1px solid gainsboro",
-                borderRight: "1px solid gainsboro",
-                width: "100%",
-                textAlign: " center",
-                cursor: 'pointer',
-                ...styles
-            }}
-        >
-            {text}
-        </div>
-    );
-}
-
-
-const ActionToInsert = ({ xs, md, lg, addItem, icon, text, name, itemInfo }) => {
-    const [hover, setHover] = React.useState(false);
-
-    const onMouseEnter = () => {
-        setHover(true)
-    }
-
-    const onMouseLeave = () => {
-        setHover(false)
-    }
-
-    return (
-        <GridItem
-            key={itemInfo}
-            xs={xs}
-            md={md}
-            lg={lg}
-            style={{ overflow: "hidden", marginRight: "1em" }}
-        >
-            <div
-                style={{
-                    border: "1px solid gainsboro",
-                    borderRadius: "3px",
-                    boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
-                    // background: hover ? "#dcdcdc59" : "white",
-                    background: "white",
-                    padding: "1em",
-                }}
-            >
-                <div style={{}}>
-                    <div style={{ fontWeight: 700, display: "flex", justifyContent: "space-between" }}>
-                        <div style={{ textTransform: "capitalize" }}>
-                            {name}
-                        </div>
-                        <div
-                            onMouseEnter={onMouseEnter}
-                            onMouseLeave={onMouseLeave}
-                            style={{ cursor: "pointer", }}
-                            onClick={() => addItem(itemInfo)}
-                        >
-                            <i className={"fa fa-arrow-right"} style={{ color: hover && "black" }} aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    <div style={{
-                        marginTop: "1em",
-                        maxHeight: "6.6em",
-                        overflow: "hidden",
-                        border: "1px solid gainsboro",
-                        padding: "1em",
-                    }}>
-                        <div style={{
-                            overflow: "hidden",
-                            display: '-webkit-box',
-                            WebkitLineClamp: '3',
-                            WebkitBoxOrient: 'vertical',
-                        }}
-                            dangerouslySetInnerHTML={{
-                                __html: text
-                            }}  >
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </GridItem>
-    );
-};
 
 
 const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
@@ -783,6 +662,7 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, st
 
 const DraggableBlock = SortableElement((props) => {
     const [hover, setHover] = React.useState(false);
+    const [expand, setExpand] = React.useState(false);
     const [hoverFijo, setHoverFijo] = React.useState(false);
     const [text, setText] = React.useState("");
 
@@ -799,7 +679,7 @@ const DraggableBlock = SortableElement((props) => {
         }
         setHoverFijo(!hoverFijo)
     }
-
+    console.log(props)
     return (
         props.value !== undefined && props.value.text !== undefined &&
         <div
@@ -821,14 +701,14 @@ const DraggableBlock = SortableElement((props) => {
             className="draggable"
         >
             <div style={{ paddingRight: "4px", background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: "15px", }}></div>
-            <div style={{ marginLeft: "4px", width: '95%', minHeight:"90px" }}>
+            <div style={{ marginLeft: "4px", width: '95%', minHeight: "90px" }}>
                 <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0", right: "35px" }}>
                     {props.expand &&
                         < IconsDragActions
                             turn={"expand"}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
-                            click={props.remove}
+                            click={() => setExpand(!expand)}
                             id={props.id}
                             indexItem={props.indexItem}
                         />
@@ -890,47 +770,102 @@ const DraggableBlock = SortableElement((props) => {
                             {props.value.name}
                         </div>
                     </div>
-
-                    {hoverFijo ?
-                        <div style={{ marginTop: "1em", cursor: "default" }} className="editorText" >
-                            <RichTextInput
-                                noBordes={true}
-                                value={props.value.text || ''}
-                                translate={props.translate}
-                                // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
-                                errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
-                                onChange={value => setText(value)}
-                                loadDraft={
-                                    <BasicButton
-                                        text={props.translate.load_draft}
-                                        color={getSecondary()}
-                                        textStyle={{
-                                            color: "white",
-                                            fontWeight: "600",
-                                            fontSize: "0.8em",
-                                            textTransform: "none",
-                                            marginLeft: "0.4em",
-                                            minHeight: 0,
-                                            lineHeight: "1em"
-                                        }}
-                                        textPosition="after"
-                                        onClick={() =>
-                                            props.setState({
-                                                loadDraft: true,
-                                                load: props.name,
-                                                draftType: DRAFT_TYPES[props.name.toUpperCase()]
-                                            })
+                    {props.expand ?
+                        // Este es el que tiene que montar los demas puntos dentro
+                        <Collapse in={expand} timeout="auto" unmountOnExit>
+                            <React.Fragment>
+                                <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
+                                    __html: props.value.text
+                                }}>
+                                </div>
+                                <div>
+                                    <RichTextInput
+                                        noBordes={true}
+                                        value={props.value.text || ''}
+                                        translate={props.translate}
+                                        // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
+                                        errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
+                                        onChange={value => setText(value)}
+                                        loadDraft={
+                                            <BasicButton
+                                                text={props.translate.load_draft}
+                                                color={getSecondary()}
+                                                textStyle={{
+                                                    color: "white",
+                                                    fontWeight: "600",
+                                                    fontSize: "0.8em",
+                                                    textTransform: "none",
+                                                    marginLeft: "0.4em",
+                                                    minHeight: 0,
+                                                    lineHeight: "1em"
+                                                }}
+                                                textPosition="after"
+                                                onClick={() =>
+                                                    props.setState({
+                                                        loadDraft: true,
+                                                        load: props.name,
+                                                        draftType: DRAFT_TYPES[props.name.toUpperCase()]
+                                                    })
+                                                }
+                                            />
                                         }
                                     />
-                                }
-                            />
-                        </div>
+                                </div>
+                                <CajaBorderIzq
+                                    itemInfo={288}
+                                    icon={iconVotaciones}
+                                    colorBorder={'#866666'}
+                                    stylesBody={{ width: "98%" }}
+                                    borrar={true}
+                                >
+                                    <div >
+                                        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>Votaciones del punto</div>
+                                    </div>
+                                </CajaBorderIzq>
+                            </React.Fragment>
+                        </Collapse>
                         :
-                        <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
-                            __html: props.value.text
-                        }}>
-                        </div>
+                        hoverFijo ?
+                            <div style={{ marginTop: "1em", cursor: "default" }} className="editorText" >
+                                <RichTextInput
+                                    noBordes={true}
+                                    value={props.value.text || ''}
+                                    translate={props.translate}
+                                    // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
+                                    errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
+                                    onChange={value => setText(value)}
+                                    loadDraft={
+                                        <BasicButton
+                                            text={props.translate.load_draft}
+                                            color={getSecondary()}
+                                            textStyle={{
+                                                color: "white",
+                                                fontWeight: "600",
+                                                fontSize: "0.8em",
+                                                textTransform: "none",
+                                                marginLeft: "0.4em",
+                                                minHeight: 0,
+                                                lineHeight: "1em"
+                                            }}
+                                            textPosition="after"
+                                            onClick={() =>
+                                                props.setState({
+                                                    loadDraft: true,
+                                                    load: props.name,
+                                                    draftType: DRAFT_TYPES[props.name.toUpperCase()]
+                                                })
+                                            }
+                                        />
+                                    }
+                                />
+                            </div>
+                            :
+                            <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
+                                __html: props.value.text
+                            }}>
+                            </div>
                     }
+
                     <div style={{ marginTop: "1em", }}>
                         {props.value.editButton &&
                             <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id)}>
@@ -950,24 +885,13 @@ const DraggableBlock = SortableElement((props) => {
 });
 
 const NoDraggableBlock = (props) => {
-    // const [hover, setHover] = React.useState(false);
-
-    // const onMouseEnter = () => {
-    //     setHover(true)
-    // }
-    // const onMouseLeave = () => {
-    //     setHover(false)
-    // }
 
     if (props.logic) {
         return (
             props.value !== undefined && props.value.text !== undefined &&
             <Card
-                // onMouseEnter={onMouseEnter}
-                // onMouseLeave={onMouseLeave}
                 key={props.id}
                 style={{
-                    // boxShadow: "0px 0px 5px 0px green",
                     boxShadow: "none",
                     margin: "3px",
                     paddingLeft: "15px",
@@ -976,20 +900,6 @@ const NoDraggableBlock = (props) => {
                 }}
             >
                 <div style={{}}>
-                    {/* {hover &&
-                        <div style={{ display: "flex" }}>
-                            <div style={{ fontWeight: "700" }}>
-                                {props.value.name}
-                            </div>
-                            <div style={{ fontWeight: "700" }}>
-                                <HelpPopover
-                                    title={"Bloque lógico"}
-                                    content={"Este bloque se completará con la informacion adecuada cuando se genere el acta y no tendra el recuadro verde"}
-                                >
-                                </HelpPopover>
-                            </div>
-                        </div>
-                    } */}
                     <div style={{}}
                         dangerouslySetInnerHTML={{
                             __html: props.value.text
@@ -1003,11 +913,8 @@ const NoDraggableBlock = (props) => {
         return (
             props.value !== undefined && props.value.text !== undefined &&
             <Card
-                // onMouseEnter={onMouseEnter}
-                // onMouseLeave={onMouseLeave}
                 key={props.id}
                 style={{
-                    // boxShadow: hover ? "0px 0px 5px 0px #f99292d9" : "none",
                     boxShadow: "none",
                     margin: "3px",
                     paddingLeft: "15px",
@@ -1015,20 +922,6 @@ const NoDraggableBlock = (props) => {
                 }}
             >
                 <div style={{}}>
-                    {/* {hover &&
-                        <div style={{ display: "flex" }}>
-                            <div style={{ fontWeight: "700" }}>
-                                {props.value.name}
-                            </div>
-                            {/* <div style={{ fontWeight: "700" }}>
-                                <HelpPopover
-                                    title={"s"}
-                                    content={"asdas"}
-                                >
-                                </HelpPopover>
-                            </div> */}
-                    {/* </div> */}
-
                     <div style={{}}
                         dangerouslySetInnerHTML={{
                             __html: props.value.text
@@ -1043,29 +936,45 @@ const NoDraggableBlock = (props) => {
 }
 
 
-const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo }) => {
+const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar }) => {
 
     return (
-        <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
+        <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", ...stylesBody }}>
             <div style={{ width: "100%", display: "flex", }}>
-                <div style={{ paddingRight: "4px", background: getPrimary(), borderRadius: "15px", }}></div>
+                <div style={{ paddingRight: "4px", background: colorBorder ? colorBorder : getPrimary(), borderRadius: "15px", }}></div>
                 <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
                     <div style={{ display: "flex", width: "100%" }}>
                         <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
-                            <div> Aa</div>
-                            <div>
-                                <i className="fa fa-i-cursor" aria-hidden="true">
-                                </i>
-                            </div>
+                            {icon ?
+                                <React.Fragment>
+                                    <div>
+                                        <img src={icon} />
+                                    </div>
+                                </React.Fragment>
+                                :
+                                <React.Fragment>
+                                    <div>Aa</div>
+                                    <div>
+                                        <i className="fa fa-i-cursor" aria-hidden="true">
+                                        </i>
+                                    </div>
+                                </React.Fragment>
+                            }
+
                         </div>
                         <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
                             <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
                                 {children}
                             </div>
                             <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
-                                <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={addItem}>
-                                    arrow_right_alt
+                                {borrar ?
+                                    <i className="fa fa-trash-o" style={{ cursor: "pointer", color: "#979797" }} >
+                                         </i>
+                                    :
+                                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
+                                        arrow_right_alt
                             </i>
+                                }
                             </div>
                         </div>
                     </div>
@@ -1077,7 +986,6 @@ const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo }) => {
 
 const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem }) => {
     const [open, setOpen] = React.useState(true)
-    console.log(automaticos)
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
             <div style={{ width: "100%", display: "flex", }}>
@@ -1092,18 +1000,18 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem }) => 
 							</i>
                             </div>
                             {open &&
-                                <div style={{ fontSize: "10px", color: "#a09aa0", fontWeight:"100" }}>Este tipo de bloques son generados automáticamente por el sistema y no necesitan edición.</div>
+                                <div style={{ fontSize: "10px", color: "#a09aa0", fontWeight: "100" }}>Este tipo de bloques son generados automáticamente por el sistema y no necesitan edición.</div>
                             }
                         </div>
                     </div>
                     <div style={{ width: "100%", marginTop: "0.5em" }}>
                         {automaticos.items.filter(item => item.logic === true).map((item, index) => {
-                            console.log(item)
-                            // console.log(delegaciones)
                             return (
                                 <CajaBloquesAutomaticos
+                                    key={item.id + index + "automaticos"}
                                     item={item}
                                     addItem={addItem}
+                                    itemInfo={item.id}
                                 />
                             )
                         })}
@@ -1114,16 +1022,10 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem }) => 
     );
 }
 
-const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem }) => {
-    // console.log(item)
+const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo }) => {
     return (
         <div style={{ display: "flex", width: "100%", marginBottom: "0.8em" }}>
             <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
-                {/* <div> Aa</div>
-                <div>
-                    <i className="fa fa-i-cursor" aria-hidden="true">
-                    </i>
-                </div> */}
                 <div>
                     <img src={item.icon} />
                 </div>
@@ -1133,7 +1035,7 @@ const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem }) => {
                     {item.name}
                 </div>
                 <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
-                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={addItem}>
+                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
                         arrow_right_alt
         </i>
                 </div>
@@ -1160,7 +1062,7 @@ const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={"material-icons"}
-                style={{ background: hover && "gainsboro", borderRadius: "10px", color: "#a09aa0", transform: 'rotate(-90deg)' }}
+                style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0", transform: 'rotate(-90deg)' }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
@@ -1173,8 +1075,8 @@ const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
             <i
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
-                className={"fa fa-arrows-alt"}
-                style={{ background: hover && "gainsboro", borderRadius: "10px", color: "#a09aa0" }}
+                className={"fa fa-compress"}
+                style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0", padding: "5px", fontSize: "16px" }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
@@ -1187,7 +1089,7 @@ const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={"material-icons"}
-                style={{ background: hover && "gainsboro", borderRadius: "10px", color: "#a09aa0" }}
+                style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0" }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
@@ -1201,7 +1103,7 @@ const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={"material-icons"}
-                style={{ background: hover && "gainsboro", borderRadius: "10px", color: "#a09aa0", transform: 'rotate(90deg)' }}
+                style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0", transform: 'rotate(90deg)' }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
