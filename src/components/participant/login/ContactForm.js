@@ -35,8 +35,6 @@ const ContactForm = ({ participant, translate, council, client }) => {
                 message: state
             }
         });
-
-        console.log(response);
     }
 
 

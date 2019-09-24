@@ -130,7 +130,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 								{selectHeadFinished === 'participacion' ?
 									//TRADUCCION
 									<MenuItem onClick={() => setSelectHeadFinished("reunion")} >
-										Ver resumen reunión
+										{translate.summary}
 								</MenuItem>
 									:
 									<MenuItem onClick={() => setSelectHeadFinished("participacion")} >
@@ -140,8 +140,8 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 								<MenuItem onClick={() => setSelectHeadFinished("contactAdmin")} >
 									Contacta al admin
 								</MenuItem>
-								<MenuItem onClick={() => setSelectHeadFinished("salir")}>
-									Salir
+								<MenuItem onClick={() => bHistory.push('/')}>
+									{translate.exit}
 								</MenuItem>
 							</div>
 						}
