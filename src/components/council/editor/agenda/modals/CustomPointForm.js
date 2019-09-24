@@ -195,6 +195,7 @@ const CustomPointForm = ({
                             value={item.value}
                             placeholder="Escribe el valor de la opción"
                             floatingText="Valor"
+                            multiline
                             errorText={errors.items && errors.items[index] && errors.items[index].error}
                             onChange={event => updateItem(index, event.target.value)}
                         />

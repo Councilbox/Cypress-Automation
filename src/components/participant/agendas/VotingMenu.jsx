@@ -149,6 +149,7 @@ export const VotingButton = ({ onClick, text, selected, icon, loading, onChange,
                 }}
                 buttonStyle={{
                     width: '100%',
+                    whiteSpace: 'pre-wrap',
                     border: (selected || selectCheckBox) && `2px solid ${primary}`,
                     ...styleButton
                 }}

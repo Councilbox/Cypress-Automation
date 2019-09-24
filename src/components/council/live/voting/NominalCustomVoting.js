@@ -75,7 +75,7 @@ export const DisplayVoting = ({ ballots, translate }) => {
         <div style={{display: 'flex', flexDirection: 'column', marginTop: isMobile? '0.6em' : 'inherit'}}>
             {isMobile && 'Selección:'}
             {ballots.map(ballot => (
-                <div className="truncate" style={{marginTop: '0.3em', maxWidth: '20em', fontWeight: isMobile? '700' : '400'}}>
+                <div className="truncate" style={{marginTop: '0.3em', maxWidth: '20em', fontWeight: isMobile? '700' : '400', whiteSpace: 'pre-wrap'}}>
                     {getVoteValueText(ballot.value)}
                 </div>
             ))}
