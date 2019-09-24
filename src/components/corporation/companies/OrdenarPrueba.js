@@ -19,6 +19,9 @@ import textool from '../../../assets/img/text-tool.svg'
 import iconAsistentes from '../../../assets/img/meeting.svg'
 import iconDelegaciones from '../../../assets/img/networking.svg'
 import iconVotaciones from '../../../assets/img/handshake.svg'
+import DownloadActPDF from '../../council/writing/actViewer/DownloadActPDF';
+import SendActDraftModal from '../../council/writing/actEditor/SendActDraftModal';
+import FinishActModal from '../../council/writing/actEditor/FinishActModal';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -57,6 +60,8 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         text: "",
         errors: {},
         imgIzqCbx: 2,
+        sendActDraft: false,
+        finishActModal: false
     })
 
     const handleChange = event => {
@@ -137,9 +142,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         let resultado = arrastrables.items.find(arrastrable => arrastrable.id === id);
         let arrayArrastrables
         if (resultado.originalName !== "bloqueDeTexto") {
-            console.log(arrastrables)
             arrayArrastrables = arrastrables.items.filter(arrastrable => arrastrable.id !== id)
-            console.log(arrayArrastrables)
         } else {
             arrayArrastrables = arrastrables.items
             resultado = { id: Math.random().toString(36).substr(2, 9), name: "Bloque de texto", text: 'Inserte el texto', originalName: "bloqueDeTexto", editButton: true }
@@ -376,24 +379,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                 <Scrollbar>
                                     <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
                                         <React.Fragment>
-                                            {/* <SortableList
-                                                axis={"y"}
-                                                lockAxis={"y"}
-                                                items={agendas.items}
-                                                updateCouncilActa={updateCouncilActa}
-                                                editInfo={editInfo}
-                                                state={state}
-                                                setState={setState}
-                                                edit={edit}
-                                                translate={translate}
-                                                offset={agendas.items.lenght}
-                                                onSortEnd={onSortEnd}
-                                                helperClass="draggable"
-                                                shouldCancelStart={event => shouldCancelStart(event)}
-                                                moveUp={moveUp}
-                                                moveDown={moveDown}
-                                                remove={remove}
-                                            /> */}
                                             {arrastrables.items.filter(item => !item.logic).map((item, index) => {
                                                 // .filter(item => item.logic === true).map((item, index) => {
                                                 return (
@@ -423,23 +408,11 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                             {!colapse &&
                                 <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
                                     <div style={{ display: "flex" }}>
-                                        <BasicButton
-                                            text={'Ver PDF'}
-                                            color={"white"}
-                                            textStyle={{
-                                                color: "black",
-                                                fontSize: "0.9em",
-                                                textTransform: "none",
-                                                whiteSpace: "nowrap"
-                                            }}
-                                            textPosition="after"
-                                            iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-file-pdf-o" aria-hidden="true"></i>}
-                                            // onClick={() => this.setState({ modal: true })}
-                                            buttonStyle={{
-                                                marginRight: "1em",
-                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                borderRadius: '3px'
-                                            }}
+                                        <DownloadActPDF
+                                            translate={translate}
+                                            council={7021} // cambiar a council
+                                            inEditorActa={true}
+                                            text={"Exportar a PDF"}// TRADUCCION
                                         />
                                         <BasicButton
                                             text={translate.save}
@@ -469,13 +442,22 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             }}
                                             textPosition="after"
                                             iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                            // onClick={() => this.setState({ modal: true })}
+                                            onClick={() => setState({
+                                                sendActDraft: true
+                                            })}
                                             buttonStyle={{
                                                 marginRight: "1em",
                                                 boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                                 borderRadius: '3px'
                                             }}
                                         />
+                                        {/* <SendActDraftModal
+                                            council={7021}
+                                            translate={translate}
+                                            show={false}
+                                            show={state.sendActDraft}
+                                            requestClose={() => setState({ ...state, sendActDraft: false })}
+                                        /> */}
                                         <BasicButton
                                             text={'Finalizar'}
                                             color={getSecondary()}
@@ -493,6 +475,15 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                 borderRadius: '3px'
                                             }}
                                         />
+                                         {/* <FinishActModal
+                                            // refetch={this.props.refetch}
+                                            council={7021}
+                                            // config={config}
+                                            // liveMode={this.props.liveMode}
+                                            translate={translate}
+                                            show={state.finishActModal}
+                                            requestClose={() => this.setState({ finishActModal: false })}
+                                        /> */}
                                     </div>
                                     <div style={{ display: "flex" }}>
                                         <BasicButton
@@ -506,7 +497,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             }}
                                             textPosition="after"
                                             iconInit={<img src={preview} />}
-                                            // onClick={() => this.setState({ modal: true })}
+                                            onClick={() => setColapse(!colapse)}
                                             buttonStyle={{
                                                 boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                                 borderRadius: '3px',
@@ -525,7 +516,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             }}
                                             textPosition="after"
                                             iconInit={<img src={textool} />}
-                                            // onClick={() => this.setState({ modal: true })}
+                                            onClick={() => setEdit(!edit)}
                                             buttonStyle={{
                                                 marginRight: "1em",
                                                 boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
@@ -679,7 +670,7 @@ const DraggableBlock = SortableElement((props) => {
         }
         setHoverFijo(!hoverFijo)
     }
-    console.log(props)
+
     return (
         props.value !== undefined && props.value.text !== undefined &&
         <div
@@ -969,7 +960,7 @@ const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesB
                             <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
                                 {borrar ?
                                     <i className="fa fa-trash-o" style={{ cursor: "pointer", color: colorBorder }} >
-                                         </i>
+                                    </i>
                                     :
                                     <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
                                         arrow_right_alt
