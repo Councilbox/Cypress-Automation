@@ -136,7 +136,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						disableUnderline={true}
 						id={"titleDraft"}
 						style={{
-							color: "rgba(0, 0, 0, 0.36)",
+							color: "rgba(0, 0, 0, 0.65)",
 							fontSize: '15px',
 							boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
 							border: "1px solid #d7d7d7",
@@ -330,7 +330,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 									adornment={<Icon>search</Icon>}
 									type="text"
 									value={search}
-									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.36)" }}
+									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.65)" }}
 									classes={{ input: props.classes.input }}
 									onChange={event => {
 										setSearch(event.target.value);
@@ -429,7 +429,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 									}
 								</div>
 								<div style={{ marginBottom: "1em" }}>
-									<TextInput
+									{/* Crear etiqueta nueva */}
+									{/* <TextInput
 										id={"crearEtiquetasNuevas"}
 										type="text"
 										placeholder='Crear etiqueta nueva'//TRADUCCION
@@ -439,7 +440,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 										onChange={event => {
 											setNewTag(event.target.value);
 										}}
-									/>
+									/> */}
 								</div>
 							</Collapse>
 						</div>
@@ -455,7 +456,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 			<Scrollbar>
 				<Grid spacing={16} style={{ height: "100%", width: "100%", marginBottom: "1em" }}>
 					<GridItem xs={12} lg={8} md={8} style={{}}>
-						<Grid spacing={16} style={{  }}>
+						<Grid spacing={16} style={{}}>
 							<GridItem xs={12} lg={12} md={12} style={{ height: "120px " }} >
 								{renderTitle()}
 							</GridItem>
