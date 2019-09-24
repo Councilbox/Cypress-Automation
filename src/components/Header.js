@@ -128,6 +128,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 						items={
 							<div style={{ color: getPrimary() }}>
 								{selectHeadFinished === 'participacion' ?
+									//TRADUCCION
 									<MenuItem onClick={() => setSelectHeadFinished("reunion")} >
 										Ver resumen reunión
 								</MenuItem>

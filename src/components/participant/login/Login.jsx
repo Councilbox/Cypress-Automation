@@ -38,14 +38,8 @@ const styles = {
 };
 
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
-	const [isCompatible, setIsCompatible] = React.useState(null);
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
 
-	React.useEffect(() => {
-		let isCompatible = checkIsCompatible(props.detectRTC, council, participant);
-		setIsCompatible(isCompatible)
-	}, [props.detectRTC, council, participant]);
-	console.log(selectHeadFinished);
 	if (councilIsFinished(council) && isMobile) {
 		return (
 			<NotLoggedLayout
@@ -61,7 +55,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 						<CouncilState council={council} company={company} participant={participant} selectHeadFinished={selectHeadFinished} />
 					</div>
 				</div>
-			</NotLoggedLayout >
+			</NotLoggedLayout>
 		);
 	} else {
 		return (
@@ -73,7 +67,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 				<div style={styles.mainContainer}>
 					<Card style={styles.cardContainer} elevation={6}>
 						{councilIsFinished(council) ?
-							< React.Fragment >
+							<React.Fragment>
 								{councilIsLive(council) ? (
 									<LoginForm
 										participant={participant}
@@ -101,7 +95,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 						}
 					</Card>
 				</div>
-			</NotLoggedLayout >
+			</NotLoggedLayout>
 		);
 	}
 }
