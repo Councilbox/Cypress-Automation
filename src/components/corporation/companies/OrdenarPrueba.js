@@ -16,12 +16,11 @@ import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
 import StepPreview from '../../council/editor/StepPreview';
 import preview from '../../../assets/img/preview-1.svg'
 import textool from '../../../assets/img/text-tool.svg'
-import iconAsistentes from '../../../assets/img/meeting.svg'
-import iconDelegaciones from '../../../assets/img/networking.svg'
-import iconVotaciones from '../../../assets/img/handshake.svg'
+import iconVotaciones from '../../../assets/img/handshake.svg';
 import DownloadActPDF from '../../council/writing/actViewer/DownloadActPDF';
 import SendActDraftModal from '../../council/writing/actEditor/SendActDraftModal';
 import FinishActModal from '../../council/writing/actEditor/FinishActModal';
+import { getBlocks, generateAgendaBlocks } from './documentEditor/EditorBlocks';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -87,52 +86,30 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         });
 
         if (response) {
-            setData(response)
-            setLoading(false)
-            generateArrastrable(response.data.council.act, response.data.agendas, response.data.councilAttendants.list)
+            setData(response);
+            setLoading(false);
+            generateDraggable(response.data.council.act, response.data.agendas, response.data.councilAttendants.list);
         }
     }
 
 
-    const generateArrastrable = (act, agendas, attendants) => {
-        let objetoArrayAct = Object.entries(act);
-        let newArray = []
-        //Bloque de texto
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Bloque de texto", text: 'Inserte el texto', originalName: "bloqueDeTexto", editButton: true })
-
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Titulo de la reunion", text: "<b>Titulo de la reunion</b>", originalName: 'title', noBorrar: true })
-        objetoArrayAct.forEach(element => {
-            if (element[0] !== "id" && element[0] !== '__typename' && element[1] !== "") {
-                newArray.push({ id: Math.random().toString(36).substr(2, 9), name: element[0], text: element[1], originalName: element[0], editButton: true, noBorrar: true })
-            }
-        });
-        let puntos = "<b>Para tratar el siguiente Orden de Día </b> </br>"
-        agendas.forEach((element, index) => {
-            puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
-        });
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Orden de día ", text: puntos, originalName: 'puntos', noBorrar: true, expand: true })//TRADUCCION
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "", text: "<b>A continuación se entra a debatir el primer punto del Oden del día</b>", originalName: 'textOrdenDelDia', noBorrar: true })//TRADUCCION
-
-        agendas.forEach((element, index) => {
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.title, text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>", editButton: true, originalName: 'agendaSubject', noBorrar: true, editButton: false })//TRADUCCION
-            // if (element.description) {
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.description, text: element.description, editButton: true, originalName: 'description', noBorrar: true, editButton: false })//TRADUCCION
-            // }
-            // if (element.comment) {
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Toma de acuerdos", text: element.comment, editButton: true, originalName: 'comment', noBorrar: true }) //TRADUCCION
-            // }
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votaciones", text: "", editButton: false, originalName: 'voting', noBorrar: true, editButton: false, logic: true, icon: iconVotaciones, colorBorder: '#866666' }) //TRADUCCION
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN", editButton: false, originalName: "votes", noBorrar: true, editButton: false, logic: true })//TRADUCCION
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Comentarios", text: "<b>Comentarios</b> </br>" + element.description, editButton: false, originalName: 'agendaComments', noBorrar: true, editButton: false })//TRADUCCION
-        });
-        let assistants = ""
-        attendants.forEach(element => {
-            assistants = element.name + " " + element.surname + " con DNI " + element.dni + "  Firma: ..."
-        });
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: translate.assistants_list, text: '', editButton: false, logic: true, originalName: 'listaAsistentes', icon: iconAsistentes, colorBorder: "#61abb7" })
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Lista de delegaciones", text: "", editButton: false, logic: true, icon: iconDelegaciones, colorBorder: '#7f94b6' })
-        setArrastrables({ items: newArray })
-        ordenarTemplateInit(defaultTemplates[template], newArray, agendas)
+    const generateDraggable = (act, agendas, attendants) => {
+        const blocks = getBlocks(translate);
+        ///let objetoArrayAct = Object.entries(act);
+        let items = [
+            blocks.TEXT,
+            blocks.ACT_TITLE,
+            blocks.ACT_INTRO(act.intro),
+            blocks.ACT_CONSTITUTION(act.constitution),
+            blocks.ACT_CONCLUSION(act.conclusion),
+            blocks.AGENDA_LIST(agendas),
+            blocks.AGENDA_INTRO,
+            ...generateAgendaBlocks(translate, agendas),
+            blocks.ATTENDANTS_LIST,
+            blocks.DELEGATION_LIST
+        ];
+        setArrastrables({ items })
+        //ordenarTemplateInit(defaultTemplates[template], items, agendas)
     }
 
     const addItem = (id) => {
@@ -290,7 +267,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                         const bloques = agendaBlocks.map(block => {
                             return auxTemplate2.items.find(
                                 arrastrable =>
-                                    arrastrable.originalName === block && arrastrable.name.includes(`Punto ${index + 1}`)
+                                    arrastrable.originalName === block && arrastrable.label.includes(`Punto ${index + 1}`)
                             )
                         });
                         auxTemplate = [...auxTemplate, ...bloques];
@@ -388,15 +365,15 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                         itemInfo={item.id}
                                                     >
                                                         <div >
-                                                            <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{item.name}</div>
+                                                            <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
                                                         </div>
                                                     </CajaBorderIzq>
                                                 )
-                                            }
-                                            )}
+                                            })}
                                             <BloquesAutomaticos
                                                 addItem={addItem}
                                                 automaticos={arrastrables}
+                                                translate={translate}
                                             >
                                             </BloquesAutomaticos>
                                         </React.Fragment>
@@ -539,7 +516,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                         <div style={{ width: "100%" }}>
                                             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
                                                 <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                                                    < img style={{ width: "100%" }} src={company.logo}></img>
+                                                    <img style={{ width: "100%" }} src={company.logo}></img>
                                                 </div>
                                             </div>
                                             <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
@@ -594,6 +571,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 
 
 const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
+    console.log(items);
     if (edit) {
         return (
             <div >
@@ -625,7 +603,7 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, st
         );
     } else {
         return (
-            <div >
+            <div>
                 {items &&
                     items.map((item, index) => (
                         <NoDraggableBlock
@@ -975,7 +953,7 @@ const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesB
     );
 }
 
-const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem }) => {
+const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, translate }) => {
     const [open, setOpen] = React.useState(true)
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
@@ -1002,6 +980,7 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem }) => 
                                     key={item.id + index + "automaticos"}
                                     item={item}
                                     addItem={addItem}
+                                    translate={translate}
                                     itemInfo={item.id}
                                 />
                             )
@@ -1013,7 +992,7 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem }) => 
     );
 }
 
-const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo }) => {
+const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo, translate }) => {
     return (
         <div style={{ display: "flex", width: "100%", marginBottom: "0.8em" }}>
             <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
@@ -1023,7 +1002,7 @@ const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo
             </div>
             <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
                 <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', fontSize: ' 16px', overflow: 'hidden', textOverflow: 'ellipsis', color: "#000000" }}>
-                    {item.name}
+                    {translate[item.label] || item.label}
                 </div>
                 <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
                     <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
