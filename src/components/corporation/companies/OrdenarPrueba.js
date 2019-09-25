@@ -68,7 +68,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     };
 
     React.useEffect(() => {
-        getData()
+        getData();
     }, []) //Poner datos de la url
 
 
@@ -108,8 +108,8 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             blocks.ATTENDANTS_LIST,
             blocks.DELEGATION_LIST
         ];
-        setArrastrables({ items })
-        //ordenarTemplateInit(defaultTemplates[template], items, agendas)
+        setArrastrables({ items });
+        ordenarTemplateInit(defaultTemplates[template], items, agendas)
     }
 
     const addItem = (id) => {
@@ -264,13 +264,12 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             orden.forEach(element => {
                 if (element === 'tomaAcuerdos') {
                     agendas.forEach((agenda, index) => {
-                        const bloques = agendaBlocks.map(block => {
-                            return auxTemplate2.items.find(
-                                arrastrable =>
-                                    arrastrable.originalName === block && arrastrable.label.includes(`Punto ${index + 1}`)
-                            )
-                        });
-                        auxTemplate = [...auxTemplate, ...bloques];
+                        // const bloques = agendaBlocks.map(block => {
+                        //     return auxTemplate2.items.find(
+                        //         arrastrable => arrastrable.originalName === block && arrastrable.label.includes(`Punto ${index + 1}`)
+                        //     )
+                        // });
+                        // auxTemplate = [...auxTemplate, ...bloques];
                     })
                 } else {
                     auxTemplate.push(
@@ -281,6 +280,8 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                     );
                 }
             })
+            console.log(auxTemplate, auxTemplate2);
+
             setArrastrables({ items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.originalName) && !orden.includes(value.originalName)),] })
             setAgendas({ items: auxTemplate })
         } else {
@@ -401,7 +402,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             }}
                                             textPosition="after"
                                             iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                            // onClick={() => this.setState({ modal: true })}
                                             buttonStyle={{
                                                 marginRight: "1em",
                                                 boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
@@ -428,13 +428,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                 borderRadius: '3px'
                                             }}
                                         />
-                                        {/* <SendActDraftModal
-                                            council={7021}
-                                            translate={translate}
-                                            show={false}
-                                            show={state.sendActDraft}
-                                            requestClose={() => setState({ ...state, sendActDraft: false })}
-                                        /> */}
                                         <BasicButton
                                             text={'Finalizar'}
                                             color={getSecondary()}
@@ -445,22 +438,12 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             }}
                                             textPosition="after"
                                             iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                            // onClick={() => this.setState({ modal: true })}
                                             buttonStyle={{
                                                 marginRight: "1em",
                                                 boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                                 borderRadius: '3px'
                                             }}
                                         />
-                                         {/* <FinishActModal
-                                            // refetch={this.props.refetch}
-                                            council={7021}
-                                            // config={config}
-                                            // liveMode={this.props.liveMode}
-                                            translate={translate}
-                                            show={state.finishActModal}
-                                            requestClose={() => this.setState({ finishActModal: false })}
-                                        /> */}
                                     </div>
                                     <div style={{ display: "flex" }}>
                                         <BasicButton
@@ -530,7 +513,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                     setState={setState}
                                                     edit={edit}
                                                     translate={translate}
-                                                    offset={agendas.items.lenght}
+                                                    offset={agendas.items.length}
                                                     onSortEnd={onSortEnd}
                                                     helperClass="draggable"
                                                     shouldCancelStart={event => shouldCancelStart(event)}
@@ -564,7 +547,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                     </Dialog>
                 </React.Fragment>
             }
-        </div >
+        </div>
     )
 
 }
