@@ -94,19 +94,15 @@ class CouncilInfoMenu extends React.Component {
 
         let duration = fecha1.diff(fecha2)
         const diffDuration = moment.duration(duration);
-        console.log("Days:", diffDuration.days());
-        console.log("seconds:", diffDuration.seconds());
         let dias = diffDuration.days() ?  diffDuration.days() + "d " : ""
-        let data =  dias + diffDuration.hours() +":"+ diffDuration.minutes() +":"+ diffDuration.seconds(); 
-        // console.log(diff)
-        // console.log(diffDuration)
-        // console.log(data)
+        let date =  dias + diffDuration.hours() +":"+ diffDuration.minutes() +":"+ diffDuration.seconds(); 
+       
         return (
             <React.Fragment>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
                     {!this.props.noSession &&
                         <div style={{ display: "flex", color: secondary, alignItems: "center" }} >
-                            {data}
+                            {date}
                             <i className="fa fa-hourglass-half"
                                 style={{
                                     outline: 0,

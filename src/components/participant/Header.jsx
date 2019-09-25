@@ -30,7 +30,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 	const customIcon = getCustomIcon();
 
 	React.useEffect(() => {
-		if(council && councilIsFinished(council)){
+		if (council && councilIsFinished(council)) {
 			logout();
 		}
 	}, [council]);
@@ -41,7 +41,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 
 	const _renderConveneBody = () => {
 		return (
-			<div style={{ borderTop: `5px solid ${primary}`, marginBottom: "1em",  }}>
+			<div style={{ borderTop: `5px solid ${primary}`, marginBottom: "1em", }}>
 				<div style={{ marginTop: "1em", marginRight: "1em", justifyContent: "flex-end", display: "flex" }}>
 					< i
 						className={"fa fa-close"}
@@ -83,24 +83,24 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					<div style={{ marginBottom: '1em' }}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
 					</div>
-						{delegations.length > 0 &&
-                    		translate.you_have_following_delegated_votes
-						}
-						{delegations.map(vote => (
-								<div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-									<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
-								</div>
-							)
-						)}
-						{representations.length > 0 &&
-							'Está representando a:'
-						}
-						{representations.map(vote => (
-								<div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-									<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
-								</div>
-							)
-						)}
+					{delegations.length > 0 &&
+						translate.you_have_following_delegated_votes
+					}
+					{delegations.map(vote => (
+						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+						</div>
+					)
+					)}
+					{representations.length > 0 &&
+						'Está representando a:'
+					}
+					{representations.map(vote => (
+						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+						</div>
+					)
+					)}
 					{`${translate.total_votes}: ${calculateParticipantVotes()}`}
 				</Card>
 			</div>
@@ -133,7 +133,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 				}}
 			>
 				<img
-					src={windowSize !== "xs" ? customLogo? customLogo : logo : customIcon? customIcon : icon}
+					src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
 					className="App-logo"
 					style={{
 						height: "1.5em",
@@ -175,7 +175,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 				</div>
 			}
 			{council &&
-					<Tooltip title={translate.view_original_convene}>
+				<Tooltip title={translate.view_original_convene}>
 					<Icon
 						onClick={() => setState({ drawerTop: !state.drawerTop })}
 						className="material-icons"
@@ -183,7 +183,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 							cursor: "pointer",
 							color: primary,
 							marginRight: "0.4em",
-							width:"30px"
+							width: "30px"
 						}}
 					>
 						list_alt
@@ -218,30 +218,30 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						</Icon>
 					</Tooltip>
 					{(council && logoutButton) && (
-							<IconButton
+						<IconButton
+							style={{
+								marginRight: "0.5em",
+								outline: "0"
+							}}
+							aria-label="help"
+							onClick={logout}
+						>
+							<Icon
+								className="material-icons"
 								style={{
-									marginRight: "0.5em",
-									outline: "0"
+									color: primaryColor ? primary : 'white',
+									fontSize: "0.9em"
 								}}
-								aria-label="help"
-								onClick={logout}
 							>
-								<Icon
-									className="material-icons"
-									style={{
-										color: primaryColor ? primary : 'white',
-										fontSize: "0.9em"
-									}}
-								>
-									exit_to_app
+								exit_to_app
 							</Icon>
-							</IconButton>
-						)
+						</IconButton>
+					)
 					}
 				</div>
 			}
 
-			{(council && state.drawerTop) &&
+			{(council) &&
 				<Drawer
 					className={"drawerConveneRoot"}
 					BackdropProps={{
@@ -252,6 +252,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}}
 					anchor="top"
 					open={state.drawerTop}
+					transitionDuration={0}
 					onClose={() => setState({ drawerTop: false })}
 				>
 					{_renderConveneBody()}

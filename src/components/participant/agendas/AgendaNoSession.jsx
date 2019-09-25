@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button } from "material-ui";
-import { LoadingSection, Scrollbar } from '../../../displayComponents';
+import { LoadingSection, Scrollbar, AlertConfirm } from '../../../displayComponents';
 import { getPrimary } from "../../../styles/colors";
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
@@ -14,6 +14,7 @@ import gql from 'graphql-tag';
 import CommentModal from "./CommentModal";
 import { moment, store } from "../../../containers/App";
 import { logoutParticipant } from "../../../actions/mainActions";
+import Results from "../Results";
 
 
 
@@ -41,6 +42,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     const scrollbar = React.useRef();
     let agendas = [];
     const [timelineSeeId, settimelineSeeId] = React.useState(0);
+    const [showModal, setShowModal] = React.useState(false);
 
     const renderAgendaCard = agenda => {
         return (
@@ -51,6 +53,29 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 participant={participant}
                 refetch={data.refetch}
             />
+        )
+    }
+
+
+    const _renderModalBody = () => {
+        return (
+            <div style={{ width: "100%", height: "100%" }}>
+                <div style={{ height: "100%", marginTop: "1em", overflow: "hidden", padding: "1em" }}>
+                    {/* TRADUCCION */}
+                    <div style={{ marginBottom: "1em" }}>Mi participanción - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
+                    <div style={{ height: "calc( 100% - 2.5em )", }}>
+                        <Scrollbar>
+                            <Results
+                                stylesHead={{ marginTop: "1em", }}
+                                council={council}
+                                participant={participant}
+                                translate={translate}
+                                endPage={true}
+                            />
+                        </Scrollbar>
+                    </div>
+                </div>
+            </div>
         )
     }
 
@@ -97,7 +122,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                         {!props.sinCabecera &&
                             <React.Fragment>
                                 <div style={styles.agendasHeader}>
-                                    <div style={{ width: '3em' }}>
+                                    <div style={{ width: '8em' }}>
 
                                     </div>
                                     {props.timeline ?
@@ -177,7 +202,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 {!noSession &&
                     <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
                         <Button
-                            onClick={logout}
+                            onClick={() => setShowModal(true)}
                             style={{
                                 borderRadius: "25px",
                                 background: "white",
@@ -190,10 +215,20 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
                             }}
                         >
-                            <b> Salir </b>
+                            <b> Finalizar </b>
                         </Button>
                     </div>
                 }
+                <AlertConfirm
+                    requestClose={() => setShowModal(false)}
+                    open={showModal}
+                    acceptAction={logout}
+                    buttonAccept={"Finalizar"}
+                    buttonCancel={translate.cancel}
+                    bodyText={_renderModalBody()}
+                    bodyStyle={{ height: "60vh", overflow: "hidden" }}
+                    title={translate.summary}
+                ></AlertConfirm>
             </React.Fragment>
         );
     }
@@ -218,9 +253,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 </React.Fragment>
             }
             {props.sinCabecera &&
-                <div style={{ position: "relative", top: '5px',  width: "100%", height: "32px", }}>
+                <div style={{ position: "relative", top: '5px', width: "100%", height: "32px", }}>
                     <CouncilInfoMenu
-                     noSession={noSession}
+                        noSession={noSession}
                         {...props}
                         translate={translate}
                         participant={participant}
@@ -250,7 +285,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             {!noSession &&
                 <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
                     <Button
-                        onClick={() => logout}
+                        onClick={() => setShowModal(true)}
                         style={{
                             borderRadius: "25px",
                             background: "white",
@@ -265,10 +300,20 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                             marginRight: "0.5em"
                         }}
                     >
-                        <b> Salir </b>
+                        <b> Finalizar </b>
                     </Button>
                 </div>
             }
+            <AlertConfirm
+                requestClose={() => setShowModal(false)}
+                open={showModal}
+                acceptAction={logout}
+                buttonAccept={"Finalizar"}
+                buttonCancel={translate.cancel}
+                bodyText={_renderModalBody()}
+                bodyStyle={{ height: "60vh", overflow: "hidden" }}
+                title={translate.summary}
+            ></AlertConfirm>
         </div>
     );
 }
