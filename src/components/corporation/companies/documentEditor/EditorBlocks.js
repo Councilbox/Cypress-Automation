@@ -8,7 +8,7 @@ export const getBlocks = translate => ({
         id: Math.random().toString(36).substr(2, 9),
         label: "Bloque de texto",
         text: 'Inserte el texto',
-        originalName: "bloqueDeTexto",
+        originalName: "text",
         editButton: true
     },
     ACT_TITLE: {
@@ -51,14 +51,15 @@ export const getBlocks = translate => ({
             id: Math.random().toString(36).substr(2, 9),
             label: translate.agenda,
             text: puntos,
-            originalName: 'puntos',
+            originalName: 'agenda',
             noBorrar: true,
             expand: true
         }
     },
     AGENDA_INTRO: {
         id: Math.random().toString(36).substr(2, 9),
-        label: "", text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",
+        label: "entrar",
+        text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",
         originalName: 'introAgenda',
         noBorrar: true
     },
@@ -68,7 +69,7 @@ export const getBlocks = translate => ({
         text: '',
         editButton: false,
         logic: true,
-        originalName: 'listaAsistentes',
+        originalName: 'attendants',
         icon: iconAsistentes,
         colorBorder: "#61abb7"
     },
@@ -77,6 +78,7 @@ export const getBlocks = translate => ({
         label: "Lista de delegaciones",
         text: "",
         editButton: false,
+        originalName: 'delegations',
         logic: true,
         icon: iconDelegaciones,
         colorBorder: '#7f94b6'
@@ -87,8 +89,11 @@ export const getBlocks = translate => ({
 
 
 export const generateAgendaBlocks = (translate, agenda) => {
+    const blocks = getBlocks(translate);
 
-    let newArray = [];
+    let newArray = [
+        blocks.AGENDA_INTRO
+    ];
     agenda.forEach((element, index) => {
         newArray.push({ id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - " + translate.title, text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>", editButton: true, originalName: 'agendaSubject', noBorrar: true, editButton: false })//TRADUCCION
         // if (element.description) {

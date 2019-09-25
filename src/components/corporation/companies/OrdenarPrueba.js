@@ -13,25 +13,20 @@ import LoadDraft from '../../company/drafts/LoadDraft';
 import { changeVariablesToValues, checkForUnclosedBraces } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
-import StepPreview from '../../council/editor/StepPreview';
 import preview from '../../../assets/img/preview-1.svg'
 import textool from '../../../assets/img/text-tool.svg'
 import iconVotaciones from '../../../assets/img/handshake.svg';
 import DownloadActPDF from '../../council/writing/actViewer/DownloadActPDF';
-import SendActDraftModal from '../../council/writing/actEditor/SendActDraftModal';
-import FinishActModal from '../../council/writing/actEditor/FinishActModal';
 import { getBlocks, generateAgendaBlocks } from './documentEditor/EditorBlocks';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
 
 const agendaBlocks = ['agendaSubject', 'description', 'comment', 'voting', 'votes', 'agendaComments'];
-const ordenDelDia = [];
-
 const defaultTemplates = {
-    "0": ["title", "intro", "puntos", 'constitution', 'textOrdenDelDia',
-        'tomaAcuerdos',
-        'conclusion', 'listaAsistentes'
+    "0": ['title', "intro", "agenda", 'constitution',
+        'agreements',
+        'conclusion', 'attendants', 'delegations'
     ],
     "default1": ["intro", "constitution", "conclusion"],
     "default2": ["intro", "constitution", "conclusion"]
@@ -103,13 +98,12 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             blocks.ACT_CONSTITUTION(act.constitution),
             blocks.ACT_CONCLUSION(act.conclusion),
             blocks.AGENDA_LIST(agendas),
-            blocks.AGENDA_INTRO,
             ...generateAgendaBlocks(translate, agendas),
             blocks.ATTENDANTS_LIST,
             blocks.DELEGATION_LIST
         ];
         setArrastrables({ items });
-        ordenarTemplateInit(defaultTemplates[template], items, agendas)
+        ordenarTemplateInit(defaultTemplates[template], items, agendas, act);
     }
 
     const addItem = (id) => {
@@ -215,10 +209,10 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 
 
     const changeTemplate = (event, agendas) => {
-        if (template !== event.target.value) {
-            setTemplate(event.target.value)
-            renderTemplate(event.target.value, agendas)
-        }
+        // if (template !== event.target.value) {
+        //     setTemplate(event.target.value)
+        //     renderTemplate(event.target.value, agendas)
+        // }
     };
 
 
@@ -232,7 +226,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         let auxTemplate = []
         if (orden !== undefined) {
             orden.forEach(element => {
-                if (element === 'tomaAcuerdos') {
+                if (element === 'AGREEMENTS') {
                     const bloques = agendaBlocks.map(block => {
                         return arrastrables.items.find(
                             arrastrable =>
@@ -257,27 +251,19 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         }
     }
 
-    const ordenarTemplateInit = (orden, array, agendas) => {
-        let auxTemplate = []
+    const ordenarTemplateInit = (orden, array, agendas, act) => {
+        let auxTemplate = [];
         let auxTemplate2 = { items: array }
+        //const blocks = getBlocks(translate);
         if (orden !== undefined) {
             orden.forEach(element => {
-                if (element === 'tomaAcuerdos') {
-                    agendas.forEach((agenda, index) => {
-                        // const bloques = agendaBlocks.map(block => {
-                        //     return auxTemplate2.items.find(
-                        //         arrastrable => arrastrable.originalName === block && arrastrable.label.includes(`Punto ${index + 1}`)
-                        //     )
-                        // });
-                        // auxTemplate = [...auxTemplate, ...bloques];
-                    })
+                if (element === 'agreements') {
+                    auxTemplate = [...auxTemplate, ...generateAgendaBlocks(translate, agendas)];
                 } else {
-                    auxTemplate.push(
-                        auxTemplate2.items.find(
-                            arrastrable =>
-                                arrastrable.originalName === element
-                        )
-                    );
+                    const block = array.find(item => item.originalName === element);
+                    if(block){
+                        auxTemplate.push(block);
+                    }
                 }
             })
             console.log(auxTemplate, auxTemplate2);
@@ -513,7 +499,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                     setState={setState}
                                                     edit={edit}
                                                     translate={translate}
-                                                    offset={agendas.items.length}
+                                                    offset={0}
                                                     onSortEnd={onSortEnd}
                                                     helperClass="draggable"
                                                     shouldCancelStart={event => shouldCancelStart(event)}
@@ -656,7 +642,7 @@ const DraggableBlock = SortableElement((props) => {
             <div style={{ marginLeft: "4px", width: '95%', minHeight: "90px" }}>
                 <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0", right: "35px" }}>
                     {props.expand &&
-                        < IconsDragActions
+                        <IconsDragActions
                             turn={"expand"}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
@@ -668,7 +654,7 @@ const DraggableBlock = SortableElement((props) => {
                 </div>
                 <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0", }}>
                     {!props.noBorrar &&
-                        < IconsDragActions
+                        <IconsDragActions
                             turn={"cross"}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
