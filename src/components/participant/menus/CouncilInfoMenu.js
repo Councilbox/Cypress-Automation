@@ -92,29 +92,31 @@ class CouncilInfoMenu extends React.Component {
         let fecha1 = moment(new Date(this.props.council.closeDate))
         let fecha2 = moment(new Date())
 
-        const diff = fecha1.diff(fecha2);
-        const diffDuration = moment.duration(diff);
-        let data = diffDuration.days()
-            + ":" + (diffDuration.hours() < 10 ? '0' + diffDuration.hours() : diffDuration.hours())
-            + ":" + (diffDuration.minutes() < 10 ? '0' + diffDuration.minutes() : diffDuration.minutes());
-
-
+        let duration = fecha1.diff(fecha2)
+        const diffDuration = moment.duration(duration);
+        console.log("Days:", diffDuration.days());
+        console.log("seconds:", diffDuration.seconds());
+        let dias = diffDuration.days() ?  diffDuration.days() + "d " : ""
+        let data =  dias + diffDuration.hours() +":"+ diffDuration.minutes() +":"+ diffDuration.seconds(); 
+        // console.log(diff)
+        // console.log(diffDuration)
+        // console.log(data)
         return (
             <React.Fragment>
-                <div style={{ display: "flex", justifyContent:"flex-end" }}>
-                {!this.props.noSession &&
-                    <div style={{ display: "flex", color: secondary, alignItems: "center" }} >
-                        {data}
-                        <i className="fa fa-hourglass-half"
-                            style={{
-                                outline: 0,
-                                color: secondary,
-                                fontSize: '16px',
-                                paddingLeft: " 0.2em"
-                            }}
-                        ></i>
-                    </div>
-                }
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    {!this.props.noSession &&
+                        <div style={{ display: "flex", color: secondary, alignItems: "center" }} >
+                            {data}
+                            <i className="fa fa-hourglass-half"
+                                style={{
+                                    outline: 0,
+                                    color: secondary,
+                                    fontSize: '16px',
+                                    paddingLeft: " 0.2em"
+                                }}
+                            ></i>
+                        </div>
+                    }
 
                     <IconButton
                         size={'small'}
@@ -127,7 +129,7 @@ class CouncilInfoMenu extends React.Component {
                             outline: 0,
                             color: secondary,
                             cursor: 'pointer',
-                            width:"42px"
+                            width: "42px"
                         }}
                         title={"information"}
                     >

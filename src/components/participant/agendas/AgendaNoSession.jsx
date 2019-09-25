@@ -111,7 +111,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             </React.Fragment>
                                         )
                                     }
-                                    <div style={{ width: '7em' }}>
+                                    <div style={{ width: '9em' }}>
 
                                         <CouncilInfoMenu
                                             {...props}
