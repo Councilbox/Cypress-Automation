@@ -5,8 +5,25 @@ import { useOldState } from '../../../hooks';
 import { getPrimary } from '../../../styles/colors';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Input, withStyles } from 'material-ui';
 
-const ContactForm = ({ participant, translate, council, client }) => {
+
+
+
+const styles = {
+    'input': {
+        '&::placeholder': {
+            textOverflow: 'ellipsis !important',
+            color: '#0000005c'
+        }
+    },
+    formControl: {
+        background: "red"
+    }
+};
+
+
+const ContactForm = ({ participant, translate, council, client, ...props }) => {
     const [state, setState] = useOldState({
         replyTo: participant.email,
         subject: '',
@@ -72,32 +89,63 @@ const ContactForm = ({ participant, translate, council, client }) => {
         return hasError;
     }
 
-    // Estética como las plantillas
-    // Validación de campos vacíos
-    // Control de envio -> enviando -> enviado (la animación esa que hiciste)
 
-    console.log(errors)
+    // animacion
 
     return (
         <React.Fragment>
-            <TextInput
-                value={state.replyTo}
-                onChange={event => setState({ replyTo: event.target.value })}
-                floatingText={'Email'}
-                errorText={errors.replyTo}
-            />
-            <TextInput
-                value={state.subject}
-                onChange={event => setState({ subject: event.target.value })}
-                floatingText={translate.title}
-                errorText={errors.subject}
-            />
-            <RichTextInput
-                value={state.body}
-                onChange={value => setState({ body: value })}
-                floatingText={translate.message}
-                errorText={errors.body}
-            />
+            <div>
+                <div style={{ fontWeight: "bold" }}>{translate.email}</div>
+                <Input
+                    placeholder={translate.email}
+                    disableUnderline={true}
+                    id={"titleDraft"}
+                    style={{
+                        color: "rgba(0, 0, 0, 0.65)",
+                        fontSize: '15px',
+                        boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+                        border: !!errors.replyTo ? "1px solid red" : "1px solid #d7d7d7",
+                        width: "100%",
+                        padding: '.5em 1.6em',
+                        marginTop: "1em"
+                    }}
+                    value={state.replyTo}
+                    onChange={event => setState({ replyTo: event.target.value })}
+                    classes={{ input: props.classes.input }}
+                    error={!!errors.replyTo}
+                >
+                </Input>
+            </div>
+            <div style={{ marginTop: "1em" }}>
+                <div style={{ fontWeight: "bold" }}>{translate.title}</div>
+                <Input
+                    placeholder={translate.title}
+                    disableUnderline={true}
+                    id={"titleDraft"}
+                    style={{
+                        color: "rgba(0, 0, 0, 0.65)",
+                        fontSize: '15px',
+                        boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+                        border: !!errors.subject ? "1px solid red" : "1px solid #d7d7d7",
+                        width: "100%",
+                        padding: '.5em 1.6em',
+                        marginTop: "1em"
+                    }}
+                    value={state.subject}
+                    onChange={event => setState({ subject: event.target.value })}
+                    classes={{ input: props.classes.input }}
+                    error={!!errors.subject}
+                >
+                </Input>
+            </div>
+            <div style={{ marginTop: "1em" }}>
+                <div style={{ marginBottom: "1em", fontWeight: "bold" }}>{translate.message}</div>
+                <RichTextInput
+                    value={state.body}
+                    onChange={value => setState({ body: value })}
+                    errorText={errors.body}
+                />
+            </div>
             <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '0.6em' }}>
                 <BasicButton
                     text={translate.send}
@@ -113,4 +161,4 @@ const ContactForm = ({ participant, translate, council, client }) => {
     )
 }
 
-export default withApollo(ContactForm);
+export default withStyles(styles)(withApollo(ContactForm));
