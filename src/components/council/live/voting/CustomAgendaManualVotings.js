@@ -20,7 +20,7 @@ const createManualBallotsMutation = gql`
 const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...props }) => {
     const [state, setState] = React.useState(false)
     const [ballots, setBallots] = React.useState(new Map(agenda.ballots.filter(ballot => ballot.admin === 1).map(ballot => [ballot.itemId, ballot])));
-    
+
     if(!props.votingsRecount){
         return <LoadingSection />
     }
@@ -34,12 +34,18 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         let ballot = {
             ...ballots.get(itemId)
         };
-        if(((totalWeight - ballot.weight) + value) > maxTotal){
-            correctedValue = maxTotal - (totalWeight - ballot.weight);
+
+        if(totalWeight == maxTotal){
+            correctedValue = 0;
+        } else {
+            if(((totalWeight - ballot.weight) + value) > maxTotal){
+                correctedValue = maxTotal - (totalWeight - ballot.weight);
+            }
+            if(correctedValue > maxBallot){
+                correctedValue = maxBallot;
+            }
         }
-        if(correctedValue > maxBallot){
-            correctedValue = maxBallot;
-        }
+
         ballot.weight = correctedValue;
         ballot.itemId = itemId;
         ballots.set(itemId, ballot);
