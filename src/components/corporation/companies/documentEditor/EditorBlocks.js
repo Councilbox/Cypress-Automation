@@ -66,7 +66,7 @@ export const getBlocks = translate => ({
     ATTENDANTS_LIST: {
         id: Math.random().toString(36).substr(2, 9),
         label: translate.assistants_list,
-        text: '',
+        text: 'ATTENDANTS',
         editButton: false,
         logic: true,
         originalName: 'attendants',
@@ -76,7 +76,7 @@ export const getBlocks = translate => ({
     DELEGATION_LIST: {
         id: Math.random().toString(36).substr(2, 9),
         label: "Lista de delegaciones",
-        text: "",
+        text: "DELEGACIONES",
         editButton: false,
         originalName: 'delegations',
         logic: true,

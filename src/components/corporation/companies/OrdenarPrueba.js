@@ -705,7 +705,7 @@ const DraggableBlock = SortableElement((props) => {
 
                         </div>
                         <div style={{ fontWeight: "700" }}>
-                            {props.value.name}
+                            {props.value.label}
                         </div>
                     </div>
                     {props.expand ?
