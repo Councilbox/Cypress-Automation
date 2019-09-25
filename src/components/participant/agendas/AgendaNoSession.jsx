@@ -268,7 +268,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     {translate.council_not_started_yet}
                 </div>
             }
-            <div style={{ padding: '0.6em', height: "100%" }}> {/*marginTop: '10px',*/}
+            <div style={{ padding: '0.6em', }}> {/* height: "100%" , marginTop: '10px',*/}
                 {data.agendas ?
                     agendas.map((agenda, index) => {
                         return (
