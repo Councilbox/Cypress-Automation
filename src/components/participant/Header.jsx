@@ -107,7 +107,9 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		)
 	}
 
-
+	console.log(council);
+	console.log(props);
+	console.log(participant);
 	return (
 		<header
 			className="App-header"
