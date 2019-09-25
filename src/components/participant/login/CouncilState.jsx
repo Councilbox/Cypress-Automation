@@ -8,7 +8,7 @@ import {
 	Collapse
 } from "material-ui";
 import FontAwesome from "react-fontawesome";
-import { Grid, GridItem, Scrollbar } from '../../../displayComponents';
+import { Grid, GridItem, Scrollbar, BasicButton } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -33,6 +33,7 @@ import TimelineSection from "../timeline/TimelineSection";
 import { isMobile } from "react-device-detect";
 import ContactModal from "./ContactModal";
 import ContactForm from "./ContactForm";
+import TouchRipple from "material-ui/ButtonBase/TouchRipple";
 
 const styles = {
 	container: {
@@ -104,7 +105,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 		});
 	}
 
-	const showContactModal = () =>{
+	const showContactModal = () => {
 		setModal(true);
 	}
 
@@ -360,20 +361,24 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 												}}>
 												{moment(council.dateEnd).format('LLL')}
 											</Card>
-											<Card
+											<BasicButton
 												onClick={showContactModal}
-												style={{
+												textStyle={{
+													color: ` ${primary}`,
+												}}
+												backgroundColor={{ background: "white", justifyContent:"inherit"}}
+												text={'Contactar con el administrador'}
+												buttonStyle={{
+													width:"100%",
 													borderRadius: "0px",
 													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
 													marginBottom: "0.6em",
 													padding: "0.5em",
 													cursor: 'pointer',
 													border: `solid 1px ${primary}`,
-													color: ` ${primary}`,
-													display: "flex"
+													display: "flex",
 												}}>
-												Contactar con el administrador
-											</Card>
+											</BasicButton>
 											<Card
 												style={{
 													borderRadius: "0px",
