@@ -1,9 +1,7 @@
 import React from 'react';
 import { Grid, GridItem } from '../../../../displayComponents';
-import * as CBX from '../../../../utils/CBX';
 import VotingsTableFiltersContainer from './VotingsTableFiltersContainer';
 import CustomAgendaRecount from './CustomAgendaRecount';
-import CustomAgendaManualVotings from './CustomAgendaManualVotings';
 import PrivateRecountMessage from './PrivateRecountMessage';
 import { AGENDA_STATES } from '../../../../constants';
 
@@ -22,6 +20,7 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
                         recount={recount}
                         council={council}
                         translate={translate}
+                        changeEditedVotings={props.changeEditedVotings}
                         agenda={agenda}
                     />
                 </GridItem>
