@@ -1,7 +1,9 @@
+import { eq } from "semver";
+
 const loginUser = 'anxo.rodriguez.cocodin@gmail.com';
 const password = '502437casa';
 
-
+// yarn cypress run
 export default () => {
     cy.get('#username')
         .type(loginUser).should('have.value', loginUser)
@@ -18,14 +20,18 @@ export default () => {
     cy.get('#newDraft').click();
 
     cy.get('#titleDraft')
-        .type("titulo de plantilla").should('have.value', 'titulo de plantilla');
-    cy.get('#descripcionPlantilla')
-        .type("descripcion de plantilla").should('have.value', 'descripcion de plantilla');
+        .type("0titulo de plantilla").should('have.value', '0titulo de plantilla');
+    // cy.get('#descripcionPlantilla')
+    //     .type("descripcion de plantilla").should('have.value', 'descripcion de plantilla');
+    cy.get('.ql-editor')
+        .type("descripcion de plantilla")//.should('have.value', 'descripcion de plantilla');
 
     cy.get('#saveDraft').click();
     cy.wait(3500)
 
-    cy.get('tr').last().click();
+    cy.get('tr').eq(1).invoke('show').get('.fa-pencil-square-o').click()
+    cy.get('.fa-pencil-square-o').trigger('mouseover').click();
+    //.eq(1).click();
 
     cy.wait(2500)
 
