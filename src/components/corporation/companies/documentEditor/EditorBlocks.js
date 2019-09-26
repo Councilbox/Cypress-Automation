@@ -61,12 +61,13 @@ export const getBlocks = translate => ({
         label: "entrar",
         text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",
         originalName: 'introAgenda',
-        noBorrar: true
+        noBorrar: false,
+        editButton: true
     },
     ATTENDANTS_LIST: {
         id: Math.random().toString(36).substr(2, 9),
         label: translate.assistants_list,
-        text: 'ATTENDANTS',
+        text: '',
         editButton: false,
         logic: true,
         originalName: 'attendants',
@@ -76,7 +77,7 @@ export const getBlocks = translate => ({
     DELEGATION_LIST: {
         id: Math.random().toString(36).substr(2, 9),
         label: "Lista de delegaciones",
-        text: "DELEGACIONES",
+        text: "",
         editButton: false,
         originalName: 'delegations',
         logic: true,
@@ -97,12 +98,62 @@ export const generateAgendaBlocks = (translate, agenda) => {
     ];
     agenda.forEach((element, index) => {
         newArray = newArray.concat([
-            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - " + translate.title, text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>", editButton: true, originalName: 'agendaSubject', noBorrar: true, editButton: false },
-            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - " + translate.description, text: element.description, editButton: true, originalName: 'description', noBorrar: true, editButton: false },
-            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Toma de acuerdos", text: element.comment, editButton: true, originalName: 'comment', noBorrar: true },
-            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Votaciones", text: "", editButton: false, originalName: 'voting', noBorrar: true, editButton: false, logic: true, icon: iconVotaciones, colorBorder: '#866666' },
-            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN", editButton: false, originalName: "votes", noBorrar: true, editButton: false, logic: true },
-            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Comentarios", text: "<b>Comentarios</b> </br>" + element.description, editButton: false, originalName: 'agendaComments', noBorrar: true, editButton: false }
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: "Punto " + (index + 1) + " - " + translate.title,
+                text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
+                editButton: true,
+                originalName: 'agendaSubject',
+                noBorrar: false,
+                editButton: false
+            },
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: "Punto " + (index + 1) + " - " + translate.description,
+                text: element.description,
+                editButton: true,
+                originalName: 'description',
+                noBorrar: true,
+                editButton: false
+            },
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: "Punto " + (index + 1) + " - Toma de acuerdos",
+                text: element.comment,
+                editButton: true,
+                originalName: 'comment',
+                noBorrar: true
+            },
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN",
+                editButton: false,
+                originalName: "votes",
+                noBorrar: true,
+                editButton: false,
+                logic: true
+            },
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: "Punto " + (index + 1) + " - Votaciones",
+                text: "",
+                editButton: false,
+                originalName: 'voting',
+                noBorrar: false,
+                editButton: false,
+                logic: true,
+                icon: iconVotaciones,
+                colorBorder: '#866666'
+            },
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: "Punto " + (index + 1) + " - Comentarios",
+                text: "<b>Comentarios</b> </br>" + element.description,
+                editButton: false,
+                originalName: 'agendaComments',
+                noBorrar: true,
+                editButton: false
+            }
         ])
     });
 

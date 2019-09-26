@@ -7,8 +7,52 @@ import iconVotaciones from '../../../../assets/img/handshake.svg';
 import { BasicButton } from '../../../../displayComponents';
 
 
-const Block = ({ expand, hoverFijo, hoverAndSave, setText, ...props }) => {
-    console.log(props);
+const Block = ({ expand, setExpand, ...props }) => {
+    //console.log(props);
+    const [hoverFijo, setHoverFijo] = React.useState(false);
+    const [text, setText] = React.useState("");
+
+
+    // const loadDraft = async draft => {
+    //     const correctedText = await changeVariablesToValues(draft.text, {
+    //         company: 569,
+    //         council: 7021
+    //     }, translate);
+
+    //     this[state.load].paste(correctedText);
+    //     setState({
+    //         loadDraft: false
+    //     });
+    // };
+
+
+    const hoverAndSave = id => {
+        if (hoverFijo) {
+            props.updateCouncilActa(id, text);
+        }
+        setHoverFijo(!hoverFijo)
+    }
+
+    if(props.value.originalName === 'voting'){
+        return (
+            <CajaBorderIzq
+                itemInfo={288}
+                icon={iconVotaciones}
+                id={props.id}
+                colorBorder={props.value.colorBorder}
+                stylesBody={{ width: "98%" }}
+                removeBlock={props.removeBlock}
+                borrar={true}
+            >
+                <div >
+                    <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
+                </div>
+            </CajaBorderIzq>
+        )
+
+    }
+
+
     return (
         <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%", }}>
             <div style={{ display: "flex", fontSize: '19px' }}>
@@ -48,7 +92,7 @@ const Block = ({ expand, hoverFijo, hoverAndSave, setText, ...props }) => {
                                 value={props.value.text || ''}
                                 translate={props.translate}
                                 // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
-                                errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
+                                //errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
                                 onChange={value => setText(value)}
                                 loadDraft={
                                     <BasicButton
@@ -75,17 +119,6 @@ const Block = ({ expand, hoverFijo, hoverAndSave, setText, ...props }) => {
                                 }
                             />
                         </div>
-                        <CajaBorderIzq
-                            itemInfo={288}
-                            icon={iconVotaciones}
-                            colorBorder={'#866666'}
-                            stylesBody={{ width: "98%" }}
-                            borrar={true}
-                        >
-                            <div >
-                                <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>Votaciones del punto</div>
-                            </div>
-                        </CajaBorderIzq>
                     </React.Fragment>
                 </Collapse>
                 :
@@ -96,7 +129,7 @@ const Block = ({ expand, hoverFijo, hoverAndSave, setText, ...props }) => {
                             value={props.value.text || ''}
                             translate={props.translate}
                             // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
-                            errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
+                            //errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
                             onChange={value => setText(value)}
                             loadDraft={
                                 <BasicButton
@@ -141,11 +174,28 @@ const Block = ({ expand, hoverFijo, hoverAndSave, setText, ...props }) => {
                     </Button>
                 }
             </div>
+            {/* <Dialog
+                open={!!state.loadDraft}
+                maxWidth={false}
+                onClose={() => setState({ loadDraft: false })}
+            >
+                <DialogTitle>{translate.load_draft}</DialogTitle>
+                <DialogContent style={{ width: "800px" }}>
+                    <LoadDraft
+                        translate={translate}
+                        companyId={props.match.params.company}
+                        loadDraft={loadDraft}
+                        statute={data.data.council.statute}
+                        statutes={data.data.companyStatutes}
+                        draftType={state.draftType}
+                    />
+                </DialogContent>
+            </Dialog> */}
         </div>
     )
 }
 
-export const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar }) => {
+export const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar, removeBlock, id }) => {
 
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", ...stylesBody }}>
@@ -177,7 +227,7 @@ export const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, 
                             </div>
                             <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
                                 {borrar ?
-                                    <i className="fa fa-trash-o" style={{ cursor: "pointer", color: colorBorder }} >
+                                    <i className="fa fa-trash-o" style={{ cursor: "pointer", color: colorBorder }} onClick={() => removeBlock(id)}>
                                     </i>
                                     :
                                     <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>

@@ -168,19 +168,26 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             event.target.tagName.toLowerCase() === 'svg') {
             return true
         }
-
     };
 
 
     const updateCouncilActa = (id, newText) => {
-        let indexItemToEdit = agendas.items.findIndex(item => item.id === id)
-        agendas.items[indexItemToEdit].text = newText
+        let indexItemToEdit = agendas.items.findIndex(item => item.id === id);
+        agendas.items[indexItemToEdit].text = newText;
+    }
+
+    const updateBlock = (id, block) => {
+        let indexItemToEdit = agendas.items.findIndex(item => item.id === id);
+        console.log(block);
+        agendas.items[indexItemToEdit] = block;
+        setAgendas({...agendas});
     }
 
 
     const remove = (id, index) => {
         let resultado = agendas.items.find(agendas => agendas.id === id);
-        let arrayAgendas
+        let arrayAgendas;
+
         if (resultado.originalName !== "bloqueDeTexto") {
             arrayAgendas = agendas.items.filter(agendas => agendas.id !== id)
             arrastrables.items.push(resultado)
@@ -276,17 +283,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         }
     }
 
-    const loadDraft = async draft => {
-        const correctedText = await changeVariablesToValues(draft.text, {
-            company: 569,
-            council: 7021
-        }, translate);
 
-        this[state.load].paste(correctedText);
-        setState({
-            loadDraft: false
-        });
-    };
 
 
     React.useEffect(() => {
@@ -494,6 +491,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                     lockAxis={"y"}
                                                     items={agendas.items}
                                                     updateCouncilActa={updateCouncilActa}
+                                                    updateBlock={updateBlock}
                                                     editInfo={editInfo}
                                                     state={state}
                                                     setState={setState}
@@ -514,23 +512,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                             </div>
                         </div>
                     </div>
-                    <Dialog
-                        open={!!state.loadDraft}
-                        maxWidth={false}
-                        onClose={() => setState({ loadDraft: false })}
-                    >
-                        <DialogTitle>{translate.load_draft}</DialogTitle>
-                        <DialogContent style={{ width: "800px" }}>
-                            <LoadDraft
-                                translate={translate}
-                                companyId={props.match.params.company}
-                                loadDraft={loadDraft}
-                                statute={data.data.council.statute}
-                                statutes={data.data.companyStatutes}
-                                draftType={state.draftType}
-                            />
-                        </DialogContent>
-                    </Dialog>
                 </React.Fragment>
             }
         </div>
@@ -539,7 +520,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 }
 
 
-const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
+const SortableList = SortableContainer(({ items, updateCouncilActa, updateBlock, editInfo, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
     if (edit) {
         return (
             <div >
@@ -548,6 +529,7 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, st
                         <DraggableBlock
                             key={`item-${item.id}`}
                             updateCouncilActa={updateCouncilActa}
+                            updateBlock={updateBlock}
                             state={state}
                             setState={setState}
                             edit={edit}
@@ -596,23 +578,14 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, st
 
 
 const DraggableBlock = SortableElement(props => {
-    const [hover, setHover] = React.useState(false);
     const [expand, setExpand] = React.useState(false);
-    const [hoverFijo, setHoverFijo] = React.useState(false);
-    const [text, setText] = React.useState("");
+    const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
         setHover(true)
     }
     const onMouseLeave = () => {
         setHover(false)
-    }
-
-    const hoverAndSave = (id) => {
-        if (hoverFijo) {
-            props.updateCouncilActa(id, text);
-        }
-        setHoverFijo(!hoverFijo)
     }
 
     return (
@@ -684,17 +657,13 @@ const DraggableBlock = SortableElement(props => {
                 {props.value.originalName === 'agreements'?
                     <AgreementsBlock
                         item={props.value}
+                        updateBlock={props.updateBlock}
                         translate={props.translate}
-                        hoverFijo={hoverFijo}
-                        hoverAndSave={hoverAndSave}
-                        setText={setText}
+                        remove={props.remove}
                     />
                 :
                     <Block
                         {...props}
-                        hoverFijo={hoverFijo}
-                        hoverAndSave={hoverAndSave}
-                        setText={setText}
                     />
 
                 }
