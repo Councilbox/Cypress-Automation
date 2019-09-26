@@ -16,8 +16,11 @@ import withSharedProps from "../../HOCs/withSharedProps";
 import { PARTICIPANT_STATES } from "../../constants";
 import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
 
+import { graphql, withApollo, compose } from "react-apollo";
+import gql from "graphql-tag";
 
-const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, ...props }) => {
+
+const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props }) => {
 	const [state, setState] = useOldState({
 		showConvene: false,
 		showCouncilInfo: false,
@@ -107,9 +110,6 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		)
 	}
 
-	console.log(council);
-	console.log(props);
-	console.log(participant);
 	return (
 		<header
 			className="App-header"
@@ -202,23 +202,25 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						alignItems: "center"
 					}}
 				>
-					<Tooltip title={translate.participant_data}>
-						<Icon
-							onClick={() =>
-								setState({
-									showParticipantInfo: true
-								})
-							}
-							className="material-icons"
-							style={{
-								cursor: 'pointer',
-								color: primary,
-								marginRight: "0.4em"
-							}}
-						>
-							person
+					{participant &&
+						<Tooltip title={translate.participant_data}>
+							<Icon
+								onClick={() =>
+									setState({
+										showParticipantInfo: true
+									})
+								}
+								className="material-icons"
+								style={{
+									cursor: 'pointer',
+									color: primary,
+									marginRight: "0.4em"
+								}}
+							>
+								person
 						</Icon>
-					</Tooltip>
+						</Tooltip>
+					}
 					{(council && logoutButton) && (
 						<IconButton
 							style={{
@@ -358,7 +360,45 @@ const mapDispatchToProps = dispatch => {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(withWindowSize(withStyles(styles)(withSharedProps()(Header))));
+
+const participantQuery = gql`
+	query info {
+		participant {
+			name
+			surname
+			id
+			type
+			phone
+			numParticipations
+			delegatedVotes {
+				id
+				name
+				surname
+				numParticipations
+				state
+				type
+			}
+			email
+			state
+			requestWord
+			language
+			online
+			roomType
+		}
+	}
+`;
+
+export default compose(
+	graphql(participantQuery, {
+		name: 'info',
+		options: props => ({
+			fetchPolicy: "network-only",
+			notifyOnNetworkStatusChange: true,
+			pollInterval: 10000
+		})
+	})
+)(withApollo(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(withWindowSize(withStyles(styles)(withSharedProps()(Header))))));

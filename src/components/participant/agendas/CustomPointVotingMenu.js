@@ -24,14 +24,14 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
 
     const addSelection = item => {
-        let newSelections = [...selections, cleanObject(item)]; ;
-        if(selections.length === 1){
-            if(selections[0].id === -1){
+        let newSelections = [...selections, cleanObject(item)];;
+        if (selections.length === 1) {
+            if (selections[0].id === -1) {
                 newSelections = [cleanObject(item)];
             }
         }
         setSelections(newSelections);
-        if(newSelections.length >= agenda.options.minSelections){
+        if (newSelections.length >= agenda.options.minSelections) {
             sendCustomAgendaVote(newSelections);
         }
     }
@@ -43,7 +43,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     const removeSelection = item => {
         const newSelections = selections.filter(selection => selection.id !== item.id);
         setSelections(newSelections);
-        if(newSelections.length < agenda.options.minSelections){
+        if (newSelections.length < agenda.options.minSelections) {
             return sendCustomAgendaVote([]);
         }
         return sendCustomAgendaVote(newSelections);
@@ -75,8 +75,8 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     }
 
     const getRemainingOptions = () => {
-        if(selections.length === 1){
-            if(selections[0].id === -1){
+        if (selections.length === 1) {
+            if (selections[0].id === -1) {
                 return agenda.options.minSelections;
             }
         }
@@ -108,6 +108,9 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
         )
     }
 
+    console.log(selections.length)
+    console.log(agenda.options.minSelections)
+
     return (
         <div>
             {agenda.options.maxSelections === 1 ?
@@ -128,9 +131,12 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                 </React.Fragment>
                 :
                 <React.Fragment>
-                    <div style={{fontSize: '0.85em', height: '1.2em', textAlign: 'left'}}>
+                    <div style={{ fontSize: '0.85em', height: '1.2em', textAlign: 'left' }}>
                         {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) &&
-                            `Tiene que marcar ${getRemainingOptions()} opciones más`
+                            <React.Fragment>Tiene que marcar {getRemainingOptions()} opciones más</React.Fragment>
+                        }
+                        {(agenda.options.maxSelections > 1) && //max mayor k minimo
+                            <React.Fragment>En esta votacion puedes elegir entre {agenda.options.minSelections} y {agenda.options.maxSelections} opciones</React.Fragment>
                         }
                     </div>
                     {agenda.items.map((item, index) => (

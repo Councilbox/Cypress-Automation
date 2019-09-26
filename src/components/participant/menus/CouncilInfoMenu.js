@@ -6,6 +6,7 @@ import Convene from '../../council/convene/Convene';
 import CouncilInfo from '../../council/convene/CouncilInfo';
 import withTranslations from '../../../HOCs/withTranslations';
 import { moment } from '../../../containers/App';
+import * as CBX from '../../../utils/CBX';
 
 
 class CouncilInfoMenu extends React.Component {
@@ -91,16 +92,17 @@ class CouncilInfoMenu extends React.Component {
         const { translate } = this.props;
         let fecha1 = moment(new Date(this.props.council.closeDate))
         let fecha2 = moment(new Date())
-
+    
         let duration = fecha1.diff(fecha2)
         const diffDuration = moment.duration(duration);
-        let dias = diffDuration.days() ?  diffDuration.days() + "d " : ""
-        let date =  dias + diffDuration.hours() +":"+ diffDuration.minutes() +":"+ diffDuration.seconds(); 
-       
+        let dias = diffDuration.days() ? diffDuration.days() + "d " : ""
+        let date = dias + diffDuration.hours() + ":" + diffDuration.minutes() + ":" + diffDuration.seconds();
+
         return (
             <React.Fragment>
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    {!this.props.noSession &&
+                <div style={{display: "flex", justifyContent:"flex-end"}}>
+                    {/* <div style={{ display: "flex", justifyContent: "flex-end" }}> */}
+                    {!this.props.noSession && !CBX.checkSecondDateAfterFirst(fecha1, fecha2) &&
                         <div style={{ display: "flex", color: secondary, alignItems: "center" }} >
                             {date}
                             <i className="fa fa-hourglass-half"

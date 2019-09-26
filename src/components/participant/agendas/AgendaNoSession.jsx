@@ -121,9 +121,17 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     <div style={{ height: "100%" }}>
                         {!props.sinCabecera &&
                             <React.Fragment>
-                                <div style={styles.agendasHeader}>
-                                    <div style={{ width: '8em' }}>
-
+                                <div style={{
+                                    // display: 'flex',
+                                    // alignItems: 'center',
+                                    padding: '8px',
+                                    // justifyContent: 'space-between'
+                                    position: "relative",
+                                    textAlign: "center"
+                                }}>
+                                    {/* <div style={styles.agendasHeader}> */}
+                                    <div style={{}}>
+                                        {/* <div style={{ width: '8em' }}> */}
                                     </div>
                                     {props.timeline ?
                                         (
@@ -136,8 +144,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             </React.Fragment>
                                         )
                                     }
-                                    <div style={{ width: '9em' }}>
-
+                                    <div style={{ position: "absolute", top:"3px", right:"5px" }}>
+                                        {/* <div style={{ width: '9em' }}> */}
                                         <CouncilInfoMenu
                                             {...props}
                                             translate={translate}
@@ -234,12 +242,12 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     }
 
     return (
-        <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
+        <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" , position: "relative"}}>
             {!props.sinCabecera &&
                 <React.Fragment>
                     <div style={styles.agendasHeader}>
                         <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
-                        <div style={{ width: '3em' }}>
+                        <div style={{ position: "absolute", top:"3px", right:"5px" }}>
                             <CouncilInfoMenu
                                 {...props}
                                 translate={translate}
@@ -253,7 +261,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 </React.Fragment>
             }
             {props.sinCabecera &&
-                <div style={{ position: "relative", top: '5px', width: "100%", height: "32px", }}>
+                <div style={{ position: "absolute", top:"3px", right:"5px", width: "100%", height: "32px", }}>
+                {/* <div style={{ position: "relative", top: '5px', width: "100%", height: "32px", }}> */}
                     <CouncilInfoMenu
                         noSession={noSession}
                         {...props}
@@ -268,7 +277,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     {translate.council_not_started_yet}
                 </div>
             }
-            <div style={{ padding: '0.6em', }}> {/* height: "100%" , marginTop: '10px',*/}
+            <div style={{ padding: '0.6em', paddingTop: "2.8em" }}> {/* height: "100%" , marginTop: '10px',*/}
                 {data.agendas ?
                     agendas.map((agenda, index) => {
                         return (
