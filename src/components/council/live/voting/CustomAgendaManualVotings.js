@@ -25,7 +25,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         return <LoadingSection />
     }
 
-    const maxBallot = props.votingsRecount.availableVotes;
+    const maxBallot = agenda.votingState === 4 ? props.votingsRecount.availableVotes : agenda.presentCensus;
     const maxTotal = maxBallot * agenda.options.maxSelections;
     const totalWeight = getActualRecount(ballots);
 
