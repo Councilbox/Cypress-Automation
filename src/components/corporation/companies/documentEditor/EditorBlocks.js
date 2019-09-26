@@ -91,21 +91,31 @@ export const getBlocks = translate => ({
 export const generateAgendaBlocks = (translate, agenda) => {
     const blocks = getBlocks(translate);
 
+    //TRADUCCION
     let newArray = [
         blocks.AGENDA_INTRO
     ];
     agenda.forEach((element, index) => {
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - " + translate.title, text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>", editButton: true, originalName: 'agendaSubject', noBorrar: true, editButton: false })//TRADUCCION
-        // if (element.description) {
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - " + translate.description, text: element.description, editButton: true, originalName: 'description', noBorrar: true, editButton: false })//TRADUCCION
-        // }
-        // if (element.comment) {
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Toma de acuerdos", text: element.comment, editButton: true, originalName: 'comment', noBorrar: true }) //TRADUCCION
-        // }
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Votaciones", text: "", editButton: false, originalName: 'voting', noBorrar: true, editButton: false, logic: true, icon: iconVotaciones, colorBorder: '#866666' }) //TRADUCCION
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN", editButton: false, originalName: "votes", noBorrar: true, editButton: false, logic: true })//TRADUCCION
-        newArray.push({ id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Comentarios", text: "<b>Comentarios</b> </br>" + element.description, editButton: false, originalName: 'agendaComments', noBorrar: true, editButton: false })//TRADUCCION
+        newArray = newArray.concat([
+            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - " + translate.title, text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>", editButton: true, originalName: 'agendaSubject', noBorrar: true, editButton: false },
+            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - " + translate.description, text: element.description, editButton: true, originalName: 'description', noBorrar: true, editButton: false },
+            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Toma de acuerdos", text: element.comment, editButton: true, originalName: 'comment', noBorrar: true },
+            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Votaciones", text: "", editButton: false, originalName: 'voting', noBorrar: true, editButton: false, logic: true, icon: iconVotaciones, colorBorder: '#866666' },
+            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN", editButton: false, originalName: "votes", noBorrar: true, editButton: false, logic: true },
+            { id: Math.random().toString(36).substr(2, 9), label: "Punto " + (index + 1) + " - Comentarios", text: "<b>Comentarios</b> </br>" + element.description, editButton: false, originalName: 'agendaComments', noBorrar: true, editButton: false }
+        ])
     });
 
-    return newArray;
+    const block = {
+        id: Math.random().toString(36).substr(2, 9),
+        label: "agreements",
+        editButton: true,
+        originalName: 'agreements',
+        noBorrar: true,
+        editButton: false,
+        text: '',
+        items: newArray
+    }
+
+    return block;
 }

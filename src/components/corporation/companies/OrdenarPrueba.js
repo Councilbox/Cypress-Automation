@@ -1,23 +1,23 @@
 import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { Card, Button, MenuItem, Dialog, DialogTitle, DialogContent, FormControlLabel, Switch, Collapse } from 'material-ui';
-import { Grid, GridItem, Scrollbar, SelectInput, LoadingSection, BasicButton, LiveToast, HelpPopover, ButtonIcon } from '../../../displayComponents';
+import { Card, MenuItem, Dialog, DialogTitle, DialogContent, FormControlLabel, Switch } from 'material-ui';
+import { Grid, Scrollbar, SelectInput, LoadingSection, BasicButton } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import RichTextInput from '../../../displayComponents/RichTextInput';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
-import { DRAFT_TYPES } from '../../../constants';
+
 import LoadDraft from '../../company/drafts/LoadDraft';
 import { changeVariablesToValues, checkForUnclosedBraces } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
 import preview from '../../../assets/img/preview-1.svg'
 import textool from '../../../assets/img/text-tool.svg'
-import iconVotaciones from '../../../assets/img/handshake.svg';
 import DownloadActPDF from '../../council/writing/actViewer/DownloadActPDF';
 import { getBlocks, generateAgendaBlocks } from './documentEditor/EditorBlocks';
+import AgreementsBlock from './documentEditor/AgreementsBlock';
+import Block, { CajaBorderIzq } from './documentEditor/Block';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -98,7 +98,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             blocks.ACT_CONSTITUTION(act.constitution),
             blocks.ACT_CONCLUSION(act.conclusion),
             blocks.AGENDA_LIST(agendas),
-            ...generateAgendaBlocks(translate, agendas),
+            generateAgendaBlocks(translate, agendas),
             blocks.ATTENDANTS_LIST,
             blocks.DELEGATION_LIST
         ];
@@ -258,7 +258,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         if (orden !== undefined) {
             orden.forEach(element => {
                 if (element === 'agreements') {
-                    auxTemplate = [...auxTemplate, ...generateAgendaBlocks(translate, agendas)];
+                    auxTemplate = [...auxTemplate, generateAgendaBlocks(translate, agendas)];
                 } else {
                     const block = array.find(item => item.originalName === element);
                     if(block){
@@ -540,7 +540,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 
 
 const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
-    console.log(items);
     if (edit) {
         return (
             <div >
@@ -566,7 +565,6 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, st
                             expand={item.expand}
                         />
                     ))
-
                 }
             </div>
         );
@@ -590,7 +588,6 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, st
                             logic={item.logic}
                         />
                     ))
-
                 }
             </div>
         );
@@ -598,7 +595,7 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, editInfo, st
 });
 
 
-const DraggableBlock = SortableElement((props) => {
+const DraggableBlock = SortableElement(props => {
     const [hover, setHover] = React.useState(false);
     const [expand, setExpand] = React.useState(false);
     const [hoverFijo, setHoverFijo] = React.useState(false);
@@ -684,143 +681,28 @@ const DraggableBlock = SortableElement((props) => {
                         />
                     </div>
                 </div>
-                <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%", }}>
-                    <div style={{ display: "flex", fontSize: '19px' }}>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", display: "flex", paddingRight: "1em", }}>
-                            {props.value.icon ?
-                                <React.Fragment>
-                                    <div>
-                                        <img src={props.value.icon} />
-                                    </div>
-                                </React.Fragment>
-                                :
-                                <React.Fragment>
-                                    <div>Aa</div>
-                                    <div>
-                                        <i className="fa fa-i-cursor" aria-hidden="true">
-                                        </i>
-                                    </div>
-                                </React.Fragment>
-                            }
+                {props.value.originalName === 'agreements'?
+                    <AgreementsBlock
+                        item={props.value}
+                        translate={props.translate}
+                        hoverFijo={hoverFijo}
+                        hoverAndSave={hoverAndSave}
+                        setText={setText}
+                    />
+                :
+                    <Block
+                        {...props}
+                        hoverFijo={hoverFijo}
+                        hoverAndSave={hoverAndSave}
+                        setText={setText}
+                    />
 
-                        </div>
-                        <div style={{ fontWeight: "700" }}>
-                            {props.value.label}
-                        </div>
-                    </div>
-                    {props.expand ?
-                        // Este es el que tiene que montar los demas puntos dentro
-                        <Collapse in={expand} timeout="auto" unmountOnExit>
-                            <React.Fragment>
-                                <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
-                                    __html: props.value.text
-                                }}>
-                                </div>
-                                <div>
-                                    <RichTextInput
-                                        noBordes={true}
-                                        value={props.value.text || ''}
-                                        translate={props.translate}
-                                        // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
-                                        errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
-                                        onChange={value => setText(value)}
-                                        loadDraft={
-                                            <BasicButton
-                                                text={props.translate.load_draft}
-                                                color={getSecondary()}
-                                                textStyle={{
-                                                    color: "white",
-                                                    fontWeight: "600",
-                                                    fontSize: "0.8em",
-                                                    textTransform: "none",
-                                                    marginLeft: "0.4em",
-                                                    minHeight: 0,
-                                                    lineHeight: "1em"
-                                                }}
-                                                textPosition="after"
-                                                onClick={() =>
-                                                    props.setState({
-                                                        loadDraft: true,
-                                                        load: props.name,
-                                                        draftType: DRAFT_TYPES[props.name.toUpperCase()]
-                                                    })
-                                                }
-                                            />
-                                        }
-                                    />
-                                </div>
-                                <CajaBorderIzq
-                                    itemInfo={288}
-                                    icon={iconVotaciones}
-                                    colorBorder={'#866666'}
-                                    stylesBody={{ width: "98%" }}
-                                    borrar={true}
-                                >
-                                    <div >
-                                        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>Votaciones del punto</div>
-                                    </div>
-                                </CajaBorderIzq>
-                            </React.Fragment>
-                        </Collapse>
-                        :
-                        hoverFijo ?
-                            <div style={{ marginTop: "1em", cursor: "default" }} className="editorText" >
-                                <RichTextInput
-                                    noBordes={true}
-                                    value={props.value.text || ''}
-                                    translate={props.translate}
-                                    // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
-                                    errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
-                                    onChange={value => setText(value)}
-                                    loadDraft={
-                                        <BasicButton
-                                            text={props.translate.load_draft}
-                                            color={getSecondary()}
-                                            textStyle={{
-                                                color: "white",
-                                                fontWeight: "600",
-                                                fontSize: "0.8em",
-                                                textTransform: "none",
-                                                marginLeft: "0.4em",
-                                                minHeight: 0,
-                                                lineHeight: "1em"
-                                            }}
-                                            textPosition="after"
-                                            onClick={() =>
-                                                props.setState({
-                                                    loadDraft: true,
-                                                    load: props.name,
-                                                    draftType: DRAFT_TYPES[props.name.toUpperCase()]
-                                                })
-                                            }
-                                        />
-                                    }
-                                />
-                            </div>
-                            :
-                            <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
-                                __html: props.value.text
-                            }}>
-                            </div>
-                    }
-
-                    <div style={{ marginTop: "1em", }}>
-                        {props.value.editButton &&
-                            <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id)}>
-                                {/* onClick={props.updateCouncilActa} */}
-                                {hoverFijo ?
-                                    'Editando' //TRANSLATE
-                                    :
-                                    'Editar' //TRANSLATE
-                                }
-                            </Button>
-                        }
-                    </div>
-                </div>
+                }
             </div>
         </div>
     );
 });
+
 
 const NoDraggableBlock = (props) => {
 
@@ -850,76 +732,46 @@ const NoDraggableBlock = (props) => {
     } else {
         return (
             props.value !== undefined && props.value.text !== undefined &&
-            <Card
-                key={props.id}
-                style={{
-                    boxShadow: "none",
-                    margin: "3px",
-                    paddingLeft: "15px",
-                    paddingTop: "5px",
-                }}
-            >
-                <div style={{}}>
-                    <div style={{}}
-                        dangerouslySetInnerHTML={{
-                            __html: props.value.text
-                        }}>
-                    </div>
+            <React.Fragment>
+                {props.value.originalName === 'agreements'?
+                    <Card
+                        key={props.id}
+                        style={{
+                            boxShadow: "none",
+                            margin: "3px",
+                            paddingLeft: "15px",
+                            paddingTop: "5px",
+                        }}
+                    >
+                        <div style={{}}>
+                            Agree
+                        </div>
+                    </Card>
+                :
+                    <Card
+                        key={props.id}
+                        style={{
+                            boxShadow: "none",
+                            margin: "3px",
+                            paddingLeft: "15px",
+                            paddingTop: "5px",
+                        }}
+                    >
+                        <div style={{}}>
+                            <div style={{}}
+                                dangerouslySetInnerHTML={{
+                                    __html: props.value.text
+                                }}>
+                            </div>
 
-                </div>
-            </Card>
+                        </div>
+                    </Card>
+                }
+            </React.Fragment>
+
         );
     }
 
-}
-
-
-const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar }) => {
-
-    return (
-        <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", ...stylesBody }}>
-            <div style={{ width: "100%", display: "flex", }}>
-                <div style={{ paddingRight: "4px", background: colorBorder ? colorBorder : getPrimary(), borderRadius: "15px", }}></div>
-                <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
-                    <div style={{ display: "flex", width: "100%" }}>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
-                            {icon ?
-                                <React.Fragment>
-                                    <div>
-                                        <img src={icon} />
-                                    </div>
-                                </React.Fragment>
-                                :
-                                <React.Fragment>
-                                    <div>Aa</div>
-                                    <div>
-                                        <i className="fa fa-i-cursor" aria-hidden="true">
-                                        </i>
-                                    </div>
-                                </React.Fragment>
-                            }
-
-                        </div>
-                        <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
-                            <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
-                                {children}
-                            </div>
-                            <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
-                                {borrar ?
-                                    <i className="fa fa-trash-o" style={{ cursor: "pointer", color: colorBorder }} >
-                                    </i>
-                                    :
-                                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
-                                        arrow_right_alt
-                            </i>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
 }
 
 const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, translate }) => {
@@ -985,7 +837,7 @@ const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo
 
 
 
-const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
+export const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
     const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
