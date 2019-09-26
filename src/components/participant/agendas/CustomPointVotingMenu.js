@@ -108,9 +108,6 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
         )
     }
 
-    console.log(selections.length)
-    console.log(agenda.options.minSelections)
-
     return (
         <div>
             {agenda.options.maxSelections === 1 ?
@@ -131,9 +128,9 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                 </React.Fragment>
                 :
                 <React.Fragment>
-                    <div style={{ fontSize: '0.85em', height: '1.2em', textAlign: 'left' }}>
+                    <div style={{ fontSize: '0.85em',textAlign: 'left' }}>
                         {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) &&
-                            <React.Fragment>Tiene que marcar {getRemainingOptions()} opciones más</React.Fragment>
+                            <React.Fragment>Tiene que marcar {getRemainingOptions()} opciones más. </React.Fragment>
                         }
                         {(agenda.options.maxSelections > 1) && //max mayor k minimo
                             <React.Fragment>En esta votacion puedes elegir entre {agenda.options.minSelections} y {agenda.options.maxSelections} opciones</React.Fragment>

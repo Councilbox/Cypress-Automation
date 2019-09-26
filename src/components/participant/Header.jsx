@@ -80,10 +80,10 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		return (
 			<div>
 				<Card style={{ padding: "20px" }}>
-					<div>
+					<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
 						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
 					</div>
-					<div style={{ marginBottom: '1em' }}>
+					<div style={{ marginBottom: '1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
 					</div>
 					{delegations.length > 0 &&
