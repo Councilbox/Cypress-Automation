@@ -132,8 +132,8 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                         {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) &&
                             <React.Fragment>Tiene que marcar {getRemainingOptions()} opciones más. </React.Fragment>
                         }
-                        {(agenda.options.maxSelections > 1) && //max mayor k minimo
-                            <React.Fragment>En esta votacion puedes elegir entre {agenda.options.minSelections} y {agenda.options.maxSelections} opciones</React.Fragment>
+                        {(agenda.options.maxSelections > 1) && //TRADUCCION
+                            <React.Fragment>En esta votación puede elegir entre {agenda.options.minSelections} y {agenda.options.maxSelections} opciones</React.Fragment>
                         }
                     </div>
                     {agenda.items.map((item, index) => (
