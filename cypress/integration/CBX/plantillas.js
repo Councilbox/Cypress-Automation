@@ -29,9 +29,12 @@ export default () => {
     cy.get('#saveDraft').click();
     cy.wait(3500)
 
-    cy.get('tr').eq(1).invoke('show').get('.fa-pencil-square-o').click()
-    cy.get('.fa-pencil-square-o').trigger('mouseover').click();
-    //.eq(1).click();
+    cy.get('tr').eq(1).trigger('mouseover');
+    // cy.get('tr').eq(1).hover(false, false);
+    // cy.get('tr').eq(1).mouseover();
+    cy.get('tr').eq(1).trigger("hover");
+    cy.get('tr').eq(1).trigger("mouseover");
+    cy.get('.fa-pencil-square-o').last().click({ force: true })
 
     cy.wait(2500)
 
@@ -51,41 +54,57 @@ export default () => {
     cy.get('#newDraft').click();
 
     cy.get('#titleDraft')
-        .type("titulo2 de2 plantilla2").should('have.value', 'titulo2 de2 plantilla2');
-    cy.get('#descripcionPlantilla')
-        .type("descripcion2 de2 plantilla2").should('have.value', 'descripcion2 de2 plantilla2');
+        .type("00titulo2 de2 plantilla2").should('have.value', '00titulo2 de2 plantilla2');
+    // cy.get('#descripcionPlantilla')
+    //     .type("descripcion2 de2 plantilla2").should('have.value', 'descripcion2 de2 plantilla2');
 
     cy.get('#buscadorEtiqueta')
         .type("Administradores solida");
 
     cy.get('#contenedorEtiquetasBuscadas div').last().click();
 
-    cy.get('#crearEtiquetasNuevas')
-        .type("EtiquetaNueva").type('{enter}');
+    // cy.get('#crearEtiquetasNuevas')
+    //     .type("EtiquetaNueva").type('{enter}');
 
     cy.get('#saveDraft').click();
     cy.wait(3500)
 
-    cy.get('tr').last().click();
+    cy.get('tr').eq(1).trigger('mouseover');
+    cy.get('tr').eq(1).trigger("hover");
+    cy.get('tr').eq(1).trigger("mouseover");
+    cy.get('.fa-pencil-square-o').last().click({ force: true })
+
     cy.wait(2500)
+
+    cy.get('#saveDraftinEdit').last().click();
+
+    cy.wait(2500)
+
+    cy.get('#back-button').click();
     ///////////////////////////////////////////////////// busqueda en modal
 
-    cy.get('#modalCargarPlantillas').click();
+    // cy.get('#modalCargarPlantillas').click();
     cy.get('#cargarPlantillasSelectorEtiquetas').click();
 
-    //////////////////////////////////////////// prueba con uno estando bien 
+    // //////////////////////////////////////////// prueba con uno estando bien 
     cy.get('#buscarEtiquetasEnModal').type("Administradores solidarios");
     cy.get('#contenedorEtiquetasBuscadas div').last().click();
     cy.wait(1000)
-    cy.get('#contenedorPlantillasEnModal>div').should('have.length', 1)
-    ////////borrar la etiqueta
+    cy.get('#contenedorEtiquetasBuscadas div').should('have.length', 1)
 
-    // cy.get('.fa-times').last().click();
-
-    //////////////////////////////////////////// prueba con uno estando mal
-    cy.get('#buscarEtiquetasEnModal').type("Ninguno");
+    cy.reload()
+    
+    cy.get('#cargarPlantillasSelectorEtiquetas').click();
+    
+    cy.wait(1000)
+    cy.get('#tipoDeReunion div').eq(1).click()
+    cy.get('tr').should('have.length', 1)
+    
+    // //////////////////////////////////////////// prueba con uno estando mal
+    cy.reload()
+    cy.get('#buscarEtiquetasEnModal').type("AaAaA");
     cy.get('#contenedorEtiquetasBuscadas div').last().click();
     cy.wait(1000)
-    cy.get('#contenedorPlantillasEnModal>div').should('have.length', 0)
+    cy.get('#contenedorEtiquetasBuscadas div').should('have.length', 1)
 
 }

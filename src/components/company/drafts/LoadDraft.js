@@ -833,6 +833,7 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 					maxHeight: '150px',
 					width: "100%"
 				}}
+				id={'tipoDeReunion'}
 				>
 					{tags.map((tag, index) => {
 						return (

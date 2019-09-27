@@ -3,6 +3,7 @@ import loginTest from './login';
 import logoutTest from './logout';
 import dashboardTest from './dashboard';
 import plantillasTest from './plantillas';
+import plantillasEtiquetas from './plantillasEtiquetas';
 
 context('Actions', () => {
   beforeEach(() => {
@@ -23,7 +24,8 @@ context('Actions', () => {
 
     //solo prueba de plantillas 
     
-    plantillasTest();
+    // plantillasTest();
+    plantillasEtiquetas();
 
     
   })

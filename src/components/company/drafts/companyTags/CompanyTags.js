@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CloseIcon, SectionTitle, Scrollbar, Grid, GridItem, TextInput } from '../../../../displayComponents';
+import { CloseIcon, SectionTitle, Scrollbar, Grid, GridItem, TextInput, AlertConfirm } from '../../../../displayComponents';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { useHoverRow } from '../../../../hooks';
 import { getPrimary } from '../../../../styles/colors';
@@ -119,10 +119,10 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                         <div style={{ display: "flex", alignItems: "center", color: "#969696", minHeight: "42px", marginBottom: "0.5em" }}>
                             {/* TRADUCCION */}
                             <div style={{}} onClick={() => setToggleText(!toggleText)}>
-                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor:"pointer"  }} >
+                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }} >
                                     help
 										</i></div>
-                            <div style={{ height: "100%"}}>
+                            <div style={{ height: "100%" }}>
                                 {toggleText &&
                                     <div>Los &lt;tags&gt; son marcas inteligentes que añaden el nombre o elemento personalizado al documento. En el lado derecho podrás ver un preview.</div>
                                 }
@@ -131,7 +131,6 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                         <div style={{ border: `1px solid ${getPrimary()}`, boxShadow: " 0 2px 4px 0 rgba(0, 0, 0, 0.5)", borderRadius: "2px", height: '390px', overflow: "hidden", paddingBottom: "4em" }}>
                             <div style={{ width: "100%" }}>
                                 <div style={{ maxWidth: "10em", marginLeft: "1em" }}>
-                                    {/* Cambiar lupa */}
                                     <TextInput
                                         disableUnderline={true}
                                         styleInInput={{ fontSize: "12px", color: getPrimary(), }}
@@ -144,6 +143,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                                         onChange={event => {
                                             setBuscarTags(event.target.value);
                                         }}
+                                        id={'buscadorEtiquetas'}
                                     />
                                 </div>
                             </div>
@@ -169,7 +169,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                                                             <TableCell style={{ width: "2em" }} />
                                                         </TableRow>
                                                     </TableHead>
-                                                    <TableBody>
+                                                    <TableBody id={'bodyTagsTable'} >
                                                         {data.map(tag => {
                                                             return (
                                                                 <HoverableRow
@@ -202,6 +202,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
 const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
     const [show, handlers] = useHoverRow();
     const primary = getPrimary();
+    const [modal, setModal] = React.useState(false)
 
     return (
         <TableRow
@@ -243,15 +244,32 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                             </IconButton>
                             <CloseIcon
                                 style={{ color: primary }}
-                                onClick={event => {
-                                    deleteTag(tag.id);
-                                    event.stopPropagation();
-                                }}
+                                onClick={() => setModal(true)}
+                            // onClick={event => {
+                            //     deleteTag(tag.id);
+                            //     event.stopPropagation();
+                            // }}
                             />
                         </React.Fragment>
 
                     }
                 </div>
+                <AlertConfirm
+                    open={modal}
+                    title={'Eliminar etiqueta'}
+                    requestClose={() => setModal(false)}
+                    acceptAction={event => {
+                        deleteTag(tag.id);
+                        event.stopPropagation();
+                    }}
+                    bodyText={
+                        <div>
+                            Quieres eliminar esta Etiqueta?
+                    </div>
+                    }
+                    buttonAccept={translate.accept}
+                    buttonCancel={translate.cancel}
+                />
             </TableCell>
         </TableRow>
     )

@@ -138,6 +138,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
                     color: 'white',
                     fontWeight: '700'
                 }}
+                id={'idAddEtiqueta'}
             />
             <AlertConfirm
                 open={modal}
