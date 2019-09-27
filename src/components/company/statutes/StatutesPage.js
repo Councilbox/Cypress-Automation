@@ -29,6 +29,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { checkForUnclosedBraces } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { useOldState } from "../../../hooks";
+import { isMobile } from "react-device-detect";
 
 
 const StatutesPage = ({ data, translate, client, ...props }) => {
@@ -324,7 +325,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 	return (
 		<CardPageLayout title={translate.statutes} disableScroll={true}>
 			{companyStatutes.length > 0? (
-				<div style={{height:"calc( 100% - 4em )", paddingRight: "0"}} >
+				<div style={{height:`calc( 100% ${isMobile? '- 4em' : ''})`, paddingRight: "0"}} >
 					<VTabs
 						tabs={tabs}
 						changeTab={handleStatuteChange}

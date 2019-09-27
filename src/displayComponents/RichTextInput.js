@@ -33,7 +33,10 @@ class RichTextInput extends React.Component {
 		this.setState({
 			value: this.props.value
 		});
+	}
 
+	shouldComponentUpdate(prevProps, prevState) {
+		return prevProps.value !== this.props.value || prevProps.tags !== this.props.tags;
 	}
 
 	changeShowTags = () => {

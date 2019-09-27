@@ -59,6 +59,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 		footer.current.setValue(draft.text);
 	};
 
+	const conclusionTags = React.useMemo(() => getTagsByActSection('conclusion', translate), [statute.id]);
+	const introTags = React.useMemo(() => getTagsByActSection('intro', translate), [statute.id]);
+	const constitutionTags = React.useMemo(() => getTagsByActSection('constitution', translate), [statute.id]);
+	const conveneHeaderTags = React.useMemo(() => getTagsByActSection('conveneHeader', translate), [statute.id]);
+
 
 	const { quorumTypes, loading } = props.data;
 	return (
@@ -564,7 +569,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 										translate={translate}
 									/>
 								}
-								tags={getTagsByActSection('conveneHeader', translate)}
+								tags={conveneHeaderTags}
 								loadDraft={
 									<LoadDraftModal
 										translate={translate}
@@ -647,7 +652,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 										translate={translate}
 									/>
 								}
-								tags={getTagsByActSection('intro', translate)}
+								tags={introTags}
 								loadDraft={
 									<LoadDraftModal
 										translate={translate}
@@ -688,7 +693,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 										translate={translate}
 									/>
 								}
-								tags={getTagsByActSection('constitution', translate)}
+								tags={constitutionTags}
 								loadDraft={
 									<LoadDraftModal
 										translate={translate}
@@ -729,7 +734,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 										translate={translate}
 									/>
 								}
-								tags={getTagsByActSection('conclusion', translate)}
+								tags={conclusionTags}
 								loadDraft={
 									<LoadDraftModal
 										translate={translate}
