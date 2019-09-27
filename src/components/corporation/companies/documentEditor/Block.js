@@ -183,7 +183,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 }
 
 
-export const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar, removeBlock, id }) => {
+export const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar, removeBlock, id, noIcon }) => {
 
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", ...stylesBody }}>
@@ -218,9 +218,10 @@ export const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, 
                                     <i className="fa fa-trash-o" style={{ cursor: "pointer", color: colorBorder }} onClick={() => removeBlock(id)}>
                                     </i>
                                     :
-                                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
-                                        arrow_right_alt
-                            </i>
+                                    !noIcon &&
+                                        <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
+                                            arrow_right_alt
+                                        </i>
                                 }
                             </div>
                         </div>

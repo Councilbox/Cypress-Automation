@@ -675,25 +675,36 @@ const DraggableBlock = SortableElement(props => {
 });
 
 
-const NoDraggableBlock = (props) => {
-
+const NoDraggableBlock = props => {
     if (props.logic) {
         return (
             props.value !== undefined && props.value.text !== undefined &&
-            <Card
-                key={props.id}
-                style={{
-                    boxShadow: "none",
-                    margin: "3px",
-                    paddingLeft: "15px",
-                    paddingTop: "5px",
-                    marginBottom: "1em"
-                }}
-            >
-                <div style={{}}>
-                    {props.translate[props.value.label] || props.value.label}
-                </div>
-            </Card>
+                <CajaBorderIzq
+                    itemInfo={288}
+                    icon={props.value.icon}
+                    id={props.id}
+                    colorBorder={props.value.colorBorder}
+                    stylesBody={{ width: "98%" }}
+                    noIcon={true}
+                >
+                    <div >
+                        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
+                    </div>
+                </CajaBorderIzq>
+            // <Card
+            //     key={props.id}
+            //     style={{
+            //         boxShadow: "none",
+            //         margin: "3px",
+            //         paddingLeft: "15px",
+            //         paddingTop: "5px",
+            //         marginBottom: "1em"
+            //     }}
+            // >
+            //     <div style={{}}>
+            //         {props.translate[props.value.label] || props.value.label}
+            //     </div>
+            // </Card>
         );
     } else {
         return (
