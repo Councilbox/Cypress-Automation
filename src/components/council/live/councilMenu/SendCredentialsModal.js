@@ -103,14 +103,14 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 					checked={state.sendType === 'all'}
 					onChange={sendAll}
 					name="sendType"
-					label="Todos"
+					label={translate.all_plural}
 				/><br/>
 				<Radio
 					value={"noEnter"}
 					checked={state.sendType === 'noEnter'}
 					onChange={sendNoEnter}
 					name="sendType"
-					label='No han entrado a la sala'
+					label={translate.didnt_enter}
 				/>
 			</div>
 		);

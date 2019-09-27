@@ -517,7 +517,7 @@ export const AddAgendaPoint = ({
 											marginRight: "0.8em"
 										}}
 									>
-										Punto si / no / abstención
+										{translate.approving_point}
 									</span>
 								</div>
 							</MenuItem>
@@ -546,7 +546,7 @@ export const AddAgendaPoint = ({
 											marginRight: "0.8em"
 										}}
 									>
-										Punto personalizado
+										{translate.custom_point}
 									</span>
 								</div>
 							</MenuItem>
