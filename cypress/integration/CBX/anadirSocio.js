@@ -1,7 +1,8 @@
 export default () => {
     cy.get('#user-menu-trigger').click();
     cy.get('#user-menu-logout').click();
-}const nombre = "nombre"
+}
+const nombre = "nombre"
 const Apellidos = "Apellidos"
 const DNINIF = Math.floor((Math.random() * 1000) + 100).toString()
 const Nacionalidad = "Nacionalidad"
