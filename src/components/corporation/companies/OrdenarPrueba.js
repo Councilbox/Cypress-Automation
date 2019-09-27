@@ -16,6 +16,7 @@ import DownloadActPDF from '../../council/writing/actViewer/DownloadActPDF';
 import { getBlocks, generateAgendaBlocks } from './documentEditor/EditorBlocks';
 import AgreementsBlock from './documentEditor/AgreementsBlock';
 import Block, { CajaBorderIzq } from './documentEditor/Block';
+import AgreementsPreview from './documentEditor/AgreementsPreview';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -691,20 +692,6 @@ const NoDraggableBlock = props => {
                         <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
                     </div>
                 </CajaBorderIzq>
-            // <Card
-            //     key={props.id}
-            //     style={{
-            //         boxShadow: "none",
-            //         margin: "3px",
-            //         paddingLeft: "15px",
-            //         paddingTop: "5px",
-            //         marginBottom: "1em"
-            //     }}
-            // >
-            //     <div style={{}}>
-            //         {props.translate[props.value.label] || props.value.label}
-            //     </div>
-            // </Card>
         );
     } else {
         return (
@@ -720,9 +707,10 @@ const NoDraggableBlock = props => {
                             paddingTop: "5px",
                         }}
                     >
-                        <div style={{}}>
-                            Agree
-                        </div>
+                        <AgreementsPreview
+                            item={props.value}
+                            translate={props.translate}
+                        />
                     </Card>
                 :
                     <Card
