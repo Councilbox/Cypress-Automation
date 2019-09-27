@@ -49,12 +49,17 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 		deleteModal: false
 	});
 	const [censusList, setCensusList] = React.useState(null);
+	const [tabs, setTabs] = React.useState([]);
 
 	React.useEffect(() => {
 		if(!data.loading){
 			setState({
 				statute: data.companyStatutes[state.selectedStatute]
 			});
+			setTabs(data.companyStatutes.map(statute => ({
+				title: translate[statute.title] || statute.title,
+				data: statute
+			})));
 		}
 	}, [state.selectedStatute, data.loading]);
 
@@ -269,6 +274,9 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 	};
 
 	const updateState = object => {
+		if(!state.unsavedChanges){
+			store.dispatch(setUnsavedChanges(true));
+		}
  		setState({
 			statute: {
 				...state.statute,
@@ -276,8 +284,6 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 			},
 			unsavedChanges: true
 		});
-
-		store.dispatch(setUnsavedChanges(true));
 	};
 
 	const handleStatuteChange = index => {
@@ -313,15 +319,6 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 
 	if (!companyStatutes) {
 		return <LoadingSection />;
-	}
-
-	let tabs = [];
-	for (let i = 0; i < companyStatutes.length; i++) {
-		const companyStatute = companyStatutes[i];
-		tabs.push({
-			title: translate[companyStatute.title] || companyStatute.title,
-			data: companyStatute
-		});
 	}
 
 	return (
