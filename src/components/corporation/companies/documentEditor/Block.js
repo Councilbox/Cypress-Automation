@@ -5,25 +5,39 @@ import { Button, Collapse } from 'material-ui';
 import { DRAFT_TYPES } from '../../../../constants';
 import iconVotaciones from '../../../../assets/img/handshake.svg';
 import { BasicButton } from '../../../../displayComponents';
+import { Dialog, DialogTitle, DialogContent } from 'material-ui';
+import LoadDraft from '../../../company/drafts/LoadDraft';
+import { ActContext } from '../OrdenarPrueba';
+import withSharedProps from '../../../../HOCs/withSharedProps';
+import { changeVariablesToValues } from '../../../../utils/CBX';
 
 
-const Block = ({ expand, setExpand, ...props }) => {
-    //console.log(props);
+const Block = ({ expand, setExpand, company, translate, ...props }) => {
     const [hoverFijo, setHoverFijo] = React.useState(false);
     const [text, setText] = React.useState("");
+    const [draftModal, setDraftModal] = React.useState(false);
+    const actData = React.useContext(ActContext);
+    const editor = React.useRef();
 
 
-    // const loadDraft = async draft => {
-    //     const correctedText = await changeVariablesToValues(draft.text, {
-    //         company: 569,
-    //         council: 7021
-    //     }, translate);
+    const loadDraft = async draft => {
+        const correctedText = await changeVariablesToValues(draft.text, {
+            company: actData.data.council.companyId,
+            council: actData.data.council
+        }, translate);
 
-    //     this[state.load].paste(correctedText);
-    //     setState({
-    //         loadDraft: false
-    //     });
-    // };
+        props.updateCouncilActa(props.id, correctedText);
+        editor.current.paste(correctedText);
+        setDraftModal(false);
+    };
+
+    const openDraftModal = () => {
+        setDraftModal(true);
+    }
+
+    const closeDraftModal = () => {
+        setDraftModal(false);
+    }
 
 
     const hoverAndSave = id => {
@@ -50,6 +64,37 @@ const Block = ({ expand, setExpand, ...props }) => {
             </CajaBorderIzq>
         )
 
+    }
+
+    const renderEditor = () => {
+        return (
+            <RichTextInput
+                noBordes={true}
+                ref={editor}
+                value={props.value.text || ''}
+                translate={translate}
+                // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
+                //errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
+                onChange={value => setText(value)}
+                loadDraft={
+                    <BasicButton
+                        text={translate.load_draft}
+                        color={getSecondary()}
+                        textStyle={{
+                            color: "white",
+                            fontWeight: "600",
+                            fontSize: "0.8em",
+                            textTransform: "none",
+                            marginLeft: "0.4em",
+                            minHeight: 0,
+                            lineHeight: "1em"
+                        }}
+                        textPosition="after"
+                        onClick={openDraftModal}
+                    />
+                }
+            />
+        )
     }
 
 
@@ -87,74 +132,14 @@ const Block = ({ expand, setExpand, ...props }) => {
                         }}>
                         </div>
                         <div>
-                            <RichTextInput
-                                noBordes={true}
-                                value={props.value.text || ''}
-                                translate={props.translate}
-                                // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
-                                //errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
-                                onChange={value => setText(value)}
-                                loadDraft={
-                                    <BasicButton
-                                        text={props.translate.load_draft}
-                                        color={getSecondary()}
-                                        textStyle={{
-                                            color: "white",
-                                            fontWeight: "600",
-                                            fontSize: "0.8em",
-                                            textTransform: "none",
-                                            marginLeft: "0.4em",
-                                            minHeight: 0,
-                                            lineHeight: "1em"
-                                        }}
-                                        textPosition="after"
-                                        onClick={() =>
-                                            props.setState({
-                                                loadDraft: true,
-                                                load: props.name,
-                                                draftType: DRAFT_TYPES[props.name.toUpperCase()]
-                                            })
-                                        }
-                                    />
-                                }
-                            />
+                            {renderEditor()}
                         </div>
                     </React.Fragment>
                 </Collapse>
                 :
                 hoverFijo ?
                     <div style={{ marginTop: "1em", cursor: "default" }} className="editorText" >
-                        <RichTextInput
-                            noBordes={true}
-                            value={props.value.text || ''}
-                            translate={props.translate}
-                            // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
-                            //errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
-                            onChange={value => setText(value)}
-                            loadDraft={
-                                <BasicButton
-                                    text={props.translate.load_draft}
-                                    color={getSecondary()}
-                                    textStyle={{
-                                        color: "white",
-                                        fontWeight: "600",
-                                        fontSize: "0.8em",
-                                        textTransform: "none",
-                                        marginLeft: "0.4em",
-                                        minHeight: 0,
-                                        lineHeight: "1em"
-                                    }}
-                                    textPosition="after"
-                                    onClick={() =>
-                                        props.setState({
-                                            loadDraft: true,
-                                            load: props.name,
-                                            draftType: DRAFT_TYPES[props.name.toUpperCase()]
-                                        })
-                                    }
-                                />
-                            }
-                        />
+                        {renderEditor()}
                     </div>
                 :
                     <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
@@ -174,26 +159,29 @@ const Block = ({ expand, setExpand, ...props }) => {
                     </Button>
                 }
             </div>
-            {/* <Dialog
-                open={!!state.loadDraft}
-                maxWidth={false}
-                onClose={() => setState({ loadDraft: false })}
-            >
-                <DialogTitle>{translate.load_draft}</DialogTitle>
-                <DialogContent style={{ width: "800px" }}>
-                    <LoadDraft
-                        translate={translate}
-                        companyId={props.match.params.company}
-                        loadDraft={loadDraft}
-                        statute={data.data.council.statute}
-                        statutes={data.data.companyStatutes}
-                        draftType={state.draftType}
-                    />
-                </DialogContent>
-            </Dialog> */}
+            {draftModal &&
+                <Dialog
+                    open={draftModal}
+                    maxWidth={false}
+                    onClose={closeDraftModal}
+                >
+                    <DialogTitle>{translate.load_draft}</DialogTitle>
+                    <DialogContent style={{ width: "800px" }}>
+                        <LoadDraft
+                            translate={translate}
+                            companyId={actData.data.council.companyId}
+                            loadDraft={loadDraft}
+                            statute={actData.data.council.statute}
+                            statutes={actData.data.companyStatutes}
+                            //draftType={state.draftType}
+                        />
+                    </DialogContent>
+                </Dialog>
+            }
         </div>
     )
 }
+
 
 export const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar, removeBlock, id }) => {
 
@@ -243,4 +231,4 @@ export const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, 
     );
 }
 
-export default Block
+export default withSharedProps()(Block);

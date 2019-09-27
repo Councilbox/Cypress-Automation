@@ -1,14 +1,12 @@
 import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { Card, MenuItem, Dialog, DialogTitle, DialogContent, FormControlLabel, Switch } from 'material-ui';
+import { Card, MenuItem, FormControlLabel, Switch } from 'material-ui';
 import { Grid, Scrollbar, SelectInput, LoadingSection, BasicButton } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
-
-import LoadDraft from '../../company/drafts/LoadDraft';
 import { changeVariablesToValues, checkForUnclosedBraces } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
@@ -31,6 +29,8 @@ const defaultTemplates = {
     "default1": ["intro", "constitution", "conclusion"],
     "default2": ["intro", "constitution", "conclusion"]
 }
+
+export const ActContext = React.createContext();
 
 
 const OrdenarPrueba = ({ translate, company, client, ...props }) => {
@@ -71,8 +71,8 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         const response = await client.query({
             query: CouncilActData,
             variables: {
-                companyId: 569, //props.companyID,
-                councilID: 7021,//props.councilID,
+                companyId: 375, //props.companyID,
+                councilID: 5231,//props.councilID,
                 options: {
                     limit: 10000,
                     offset: 0
@@ -296,225 +296,227 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 
 
     return (
-        <div style={{ width: "100%", height: "100%" }}>
-            {loading ?
-                <LoadingSection></LoadingSection>
-                :
-                <React.Fragment>
-                    <div style={{ borderBottom: "1px solid gainsboro" }}>{/* height: "3em" */}
-                        <div style={{ display: "flex", alignItems: "center", padding: "0px 1em", justifyContent: "space-between" }}>
-                            <div>
-                                <SelectInput
-                                    value={template}
-                                    floatingText={'Plantillas'}
-                                    onChange={(event) => changeTemplate(event, agendas)}
-                                >
-                                    <MenuItem value={'none'}> </MenuItem>
-                                    <MenuItem value={0}>Default</MenuItem>
-                                </SelectInput>
-                            </div>
-                            <div style={{ display: "flex", }}>
-                                <div style={{ marginRight: "2em", marginTop: "0.4em", }}>
-                                    <i className={colapse ? "fa fa-eye-slash" : "fa fa-eye"} style={{ cursor: "pointer" }} onClick={() => setColapse(!colapse)} ></i>
+        <ActContext.Provider value={data}>
+            <div style={{ width: "100%", height: "100%" }}>
+                {loading ?
+                    <LoadingSection></LoadingSection>
+                    :
+                    <React.Fragment>
+                        <div style={{ borderBottom: "1px solid gainsboro" }}>{/* height: "3em" */}
+                            <div style={{ display: "flex", alignItems: "center", padding: "0px 1em", justifyContent: "space-between" }}>
+                                <div>
+                                    <SelectInput
+                                        value={template}
+                                        floatingText={'Plantillas'}
+                                        onChange={(event) => changeTemplate(event, agendas)}
+                                    >
+                                        <MenuItem value={'none'}> </MenuItem>
+                                        <MenuItem value={0}>Default</MenuItem>
+                                    </SelectInput>
                                 </div>
-                                <FormControlLabel control={<Switch checked={edit} onChange={event => handleChange(event)} value="edit" />} label="Edit" />
+                                <div style={{ display: "flex", }}>
+                                    <div style={{ marginRight: "2em", marginTop: "0.4em", }}>
+                                        <i className={colapse ? "fa fa-eye-slash" : "fa fa-eye"} style={{ cursor: "pointer" }} onClick={() => setColapse(!colapse)} ></i>
+                                    </div>
+                                    <FormControlLabel control={<Switch checked={edit} onChange={event => handleChange(event)} value="edit" />} label="Edit" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div style={{ display: "flex", height: "100%" }}>
-                        <div style={{ width: "40%", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
-                            <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
-                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
-                                    help
-										</i>
-                                {ocultar &&
-                                    <div style={{
-                                        fontSize: '13px',
-                                        color: '#a09aa0'
-                                    }}>
-                                        Personaliza y exporta el acta de la reunión a través de los bloques inferiores. Desplázalos hasta el acta y edita el texto que necesites
+                        <div style={{ display: "flex", height: "100%" }}>
+                            <div style={{ width: "40%", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
+                                <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
+                                    <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
+                                        help
+                                            </i>
+                                    {ocultar &&
+                                        <div style={{
+                                            fontSize: '13px',
+                                            color: '#a09aa0'
+                                        }}>
+                                            Personaliza y exporta el acta de la reunión a través de los bloques inferiores. Desplázalos hasta el acta y edita el texto que necesites
+                                        </div>
+                                    }
+                                </div>
+                                <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
+                                    <Scrollbar>
+                                        <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
+                                            <React.Fragment>
+                                                {arrastrables.items.filter(item => !item.logic).map((item, index) => {
+                                                    // .filter(item => item.logic === true).map((item, index) => {
+                                                    return (
+                                                        <CajaBorderIzq
+                                                            key={item.id}
+                                                            addItem={addItem}
+                                                            itemInfo={item.id}
+                                                        >
+                                                            <div >
+                                                                <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
+                                                            </div>
+                                                        </CajaBorderIzq>
+                                                    )
+                                                })}
+                                                <BloquesAutomaticos
+                                                    addItem={addItem}
+                                                    automaticos={arrastrables}
+                                                    translate={translate}
+                                                >
+                                                </BloquesAutomaticos>
+                                            </React.Fragment>
+                                        </Grid>
+                                    </Scrollbar>
+                                </div>
+                            </div>
+                            <div style={{ width: colapse ? "100%" : "60%", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
+                                {!colapse &&
+                                    <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
+                                        <div style={{ display: "flex" }}>
+                                            <DownloadActPDF
+                                                translate={translate}
+                                                council={7021} // cambiar a council
+                                                inEditorActa={true}
+                                                text={"Exportar a PDF"}// TRADUCCION
+                                            />
+                                            <BasicButton
+                                                text={translate.save}
+                                                color={getPrimary()}
+                                                textStyle={{
+                                                    color: "white",
+                                                    fontSize: "0.9em",
+                                                    textTransform: "none"
+                                                }}
+                                                textPosition="after"
+                                                iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                                buttonStyle={{
+                                                    marginRight: "1em",
+                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                    borderRadius: '3px'
+                                                }}
+                                            />
+                                            <BasicButton
+                                                text={'Enviar a revision'}
+                                                color={getPrimary()}
+                                                textStyle={{
+                                                    color: "white",
+                                                    fontSize: "0.9em",
+                                                    textTransform: "none",
+                                                    whiteSpace: "nowrap"
+                                                }}
+                                                textPosition="after"
+                                                iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                                onClick={() => setState({
+                                                    sendActDraft: true
+                                                })}
+                                                buttonStyle={{
+                                                    marginRight: "1em",
+                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                    borderRadius: '3px'
+                                                }}
+                                            />
+                                            <BasicButton
+                                                text={'Finalizar'}
+                                                color={getSecondary()}
+                                                textStyle={{
+                                                    color: "white",
+                                                    fontSize: "0.9em",
+                                                    textTransform: "none"
+                                                }}
+                                                textPosition="after"
+                                                iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                                buttonStyle={{
+                                                    marginRight: "1em",
+                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                    borderRadius: '3px'
+                                                }}
+                                            />
+                                        </div>
+                                        <div style={{ display: "flex" }}>
+                                            <BasicButton
+                                                text={''}
+                                                color={"white"}
+                                                textStyle={{
+                                                    color: "black",
+                                                    fontWeight: "700",
+                                                    fontSize: "0.9em",
+                                                    textTransform: "none"
+                                                }}
+                                                textPosition="after"
+                                                iconInit={<img src={preview} />}
+                                                onClick={() => setColapse(!colapse)}
+                                                buttonStyle={{
+                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                    borderRadius: '3px',
+                                                    borderTopRightRadius: '0px',
+                                                    borderBottomRightRadius: '0px',
+                                                    borderRight: '1px solid #e8eaeb'
+                                                }}
+                                            /><BasicButton
+                                                text={''}
+                                                color={"white"}
+                                                textStyle={{
+                                                    color: "black",
+                                                    fontWeight: "700",
+                                                    fontSize: "0.9em",
+                                                    textTransform: "none"
+                                                }}
+                                                textPosition="after"
+                                                iconInit={<img src={textool} />}
+                                                onClick={() => setEdit(!edit)}
+                                                buttonStyle={{
+                                                    marginRight: "1em",
+                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                    borderRadius: '3px',
+                                                    borderTopLeftRadius: '0px',
+                                                    borderBottomLeftRadius: '0px'
+                                                }}
+                                            />
+                                        </div>
                                     </div>
                                 }
-                            </div>
-                            <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
-                                <Scrollbar>
-                                    <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
-                                        <React.Fragment>
-                                            {arrastrables.items.filter(item => !item.logic).map((item, index) => {
-                                                // .filter(item => item.logic === true).map((item, index) => {
-                                                return (
-                                                    <CajaBorderIzq
-                                                        key={item.id}
-                                                        addItem={addItem}
-                                                        itemInfo={item.id}
-                                                    >
-                                                        <div >
-                                                            <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
-                                                        </div>
-                                                    </CajaBorderIzq>
-                                                )
-                                            })}
-                                            <BloquesAutomaticos
-                                                addItem={addItem}
-                                                automaticos={arrastrables}
-                                                translate={translate}
-                                            >
-                                            </BloquesAutomaticos>
-                                        </React.Fragment>
-                                    </Grid>
-                                </Scrollbar>
-                            </div>
-                        </div>
-                        <div style={{ width: colapse ? "100%" : "60%", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
-                            {!colapse &&
-                                <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
-                                    <div style={{ display: "flex" }}>
-                                        <DownloadActPDF
-                                            translate={translate}
-                                            council={7021} // cambiar a council
-                                            inEditorActa={true}
-                                            text={"Exportar a PDF"}// TRADUCCION
-                                        />
-                                        <BasicButton
-                                            text={translate.save}
-                                            color={getPrimary()}
-                                            textStyle={{
-                                                color: "white",
-                                                fontSize: "0.9em",
-                                                textTransform: "none"
-                                            }}
-                                            textPosition="after"
-                                            iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                            buttonStyle={{
-                                                marginRight: "1em",
-                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                borderRadius: '3px'
-                                            }}
-                                        />
-                                        <BasicButton
-                                            text={'Enviar a revision'}
-                                            color={getPrimary()}
-                                            textStyle={{
-                                                color: "white",
-                                                fontSize: "0.9em",
-                                                textTransform: "none",
-                                                whiteSpace: "nowrap"
-                                            }}
-                                            textPosition="after"
-                                            iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                            onClick={() => setState({
-                                                sendActDraft: true
-                                            })}
-                                            buttonStyle={{
-                                                marginRight: "1em",
-                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                borderRadius: '3px'
-                                            }}
-                                        />
-                                        <BasicButton
-                                            text={'Finalizar'}
-                                            color={getSecondary()}
-                                            textStyle={{
-                                                color: "white",
-                                                fontSize: "0.9em",
-                                                textTransform: "none"
-                                            }}
-                                            textPosition="after"
-                                            iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                            buttonStyle={{
-                                                marginRight: "1em",
-                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                borderRadius: '3px'
-                                            }}
-                                        />
-                                    </div>
-                                    <div style={{ display: "flex" }}>
-                                        <BasicButton
-                                            text={''}
-                                            color={"white"}
-                                            textStyle={{
-                                                color: "black",
-                                                fontWeight: "700",
-                                                fontSize: "0.9em",
-                                                textTransform: "none"
-                                            }}
-                                            textPosition="after"
-                                            iconInit={<img src={preview} />}
-                                            onClick={() => setColapse(!colapse)}
-                                            buttonStyle={{
-                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                borderRadius: '3px',
-                                                borderTopRightRadius: '0px',
-                                                borderBottomRightRadius: '0px',
-                                                borderRight: '1px solid #e8eaeb'
-                                            }}
-                                        /><BasicButton
-                                            text={''}
-                                            color={"white"}
-                                            textStyle={{
-                                                color: "black",
-                                                fontWeight: "700",
-                                                fontSize: "0.9em",
-                                                textTransform: "none"
-                                            }}
-                                            textPosition="after"
-                                            iconInit={<img src={textool} />}
-                                            onClick={() => setEdit(!edit)}
-                                            buttonStyle={{
-                                                marginRight: "1em",
-                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                borderRadius: '3px',
-                                                borderTopLeftRadius: '0px',
-                                                borderBottomLeftRadius: '0px'
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            }
-                            <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
-                                <Scrollbar>
-                                    <div style={{ display: "flex", height: "100%" }} >
-                                        <div style={{ width: "20%", maxWidth: "95px" }}>
-                                            {new Array(state.imgIzqCbx).fill(0).map(index =>
-                                                <img style={{ width: "100%", }} src={imgIzq} key={index + "cbx" + Math.floor(Math.random() * 100)}></img>
-                                            )}
-                                        </div>
-                                        <div style={{ width: "100%" }}>
-                                            <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                                                <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                                                    <img style={{ width: "100%" }} src={company.logo}></img>
+                                <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
+                                    <Scrollbar>
+                                        <div style={{ display: "flex", height: "100%" }} >
+                                            <div style={{ width: "20%", maxWidth: "95px" }}>
+                                                {new Array(state.imgIzqCbx).fill(0).map(index =>
+                                                    <img style={{ width: "100%", }} src={imgIzq} key={index + "cbx" + Math.floor(Math.random() * 100)}></img>
+                                                )}
+                                            </div>
+                                            <div style={{ width: "100%" }}>
+                                                <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+                                                    <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
+                                                        <img style={{ width: "100%" }} src={company.logo}></img>
+                                                    </div>
+                                                </div>
+                                                <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
+                                                    <SortableList
+                                                        axis={"y"}
+                                                        lockAxis={"y"}
+                                                        items={agendas.items}
+                                                        updateCouncilActa={updateCouncilActa}
+                                                        updateBlock={updateBlock}
+                                                        editInfo={editInfo}
+                                                        state={state}
+                                                        setState={setState}
+                                                        edit={edit}
+                                                        translate={translate}
+                                                        offset={0}
+                                                        onSortEnd={onSortEnd}
+                                                        helperClass="draggable"
+                                                        shouldCancelStart={event => shouldCancelStart(event)}
+                                                        moveUp={moveUp}
+                                                        moveDown={moveDown}
+                                                        remove={remove}
+                                                    />
                                                 </div>
                                             </div>
-                                            <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
-                                                <SortableList
-                                                    axis={"y"}
-                                                    lockAxis={"y"}
-                                                    items={agendas.items}
-                                                    updateCouncilActa={updateCouncilActa}
-                                                    updateBlock={updateBlock}
-                                                    editInfo={editInfo}
-                                                    state={state}
-                                                    setState={setState}
-                                                    edit={edit}
-                                                    translate={translate}
-                                                    offset={0}
-                                                    onSortEnd={onSortEnd}
-                                                    helperClass="draggable"
-                                                    shouldCancelStart={event => shouldCancelStart(event)}
-                                                    moveUp={moveUp}
-                                                    moveDown={moveDown}
-                                                    remove={remove}
-                                                />
-                                            </div>
                                         </div>
-                                    </div>
-                                </Scrollbar>
+                                    </Scrollbar>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </React.Fragment>
-            }
-        </div>
+                    </React.Fragment>
+                }
+            </div>
+        </ActContext.Provider>
     )
 
 }
@@ -689,12 +691,7 @@ const NoDraggableBlock = (props) => {
                 }}
             >
                 <div style={{}}>
-                    <div style={{}}
-                        dangerouslySetInnerHTML={{
-                            __html: props.value.text
-                        }}>
-                    </div>
-
+                    {props.translate[props.value.label] || props.value.label}
                 </div>
             </Card>
         );
@@ -876,11 +873,12 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
 
 const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
-                council(id: $councilID) {
-                id
+        council(id: $councilID) {
+            id
 			businessName
 			country
-			countryState
+            countryState
+            companyId
 			currentQuorum
 			quorumPrototype
 			secretary
@@ -898,16 +896,16 @@ const CouncilActData = gql`
 			act {
                 id
 				intro
-            constitution
-            conclusion
-        }
+                constitution
+                conclusion
+            }
 			statute {
                 id
 				statuteId
-            prototype
-            existsQualityVote
+                prototype
+                existsQualityVote
+            }
         }
-    }
 
 		agendas(councilId: $councilID) {
                 id
