@@ -9,21 +9,21 @@ export const getBlocks = translate => ({
         id: Math.random().toString(36).substr(2, 9),
         label: "Bloque de texto",
         text: 'Inserte el texto',
-        originalName: "text",
+        type: "text",
         editButton: true
     },
     ACT_TITLE: {
         id: Math.random().toString(36).substr(2, 9),
         label: "Titulo de la reunion",
         text: "<b>Titulo de la reunion</b>",
-        originalName: 'title',
+        type: 'title',
         noBorrar: true
     },
     ACT_INTRO: intro => ({
         id: Math.random().toString(36).substr(2, 9),
         label: 'intro',
         text: intro,
-        originalName: 'intro',
+        type: 'intro',
         editButton: true,
         noBorrar: true
     }),
@@ -31,7 +31,7 @@ export const getBlocks = translate => ({
         id: Math.random().toString(36).substr(2, 9),
         label: 'constitution',
         text: constitution,
-        originalName: 'constitution',
+        type: 'constitution',
         editButton: true,
         noBorrar: true
     }),
@@ -39,7 +39,7 @@ export const getBlocks = translate => ({
         id: Math.random().toString(36).substr(2, 9),
         label: 'conclusion',
         text: conclusion,
-        originalName: 'conclusion',
+        type: 'conclusion',
         editButton: true,
         noBorrar: true
     }),
@@ -52,7 +52,7 @@ export const getBlocks = translate => ({
             id: Math.random().toString(36).substr(2, 9),
             label: translate.agenda,
             text: puntos,
-            originalName: 'agenda',
+            type: 'agenda',
             noBorrar: true,
             expand: true
         }
@@ -61,7 +61,7 @@ export const getBlocks = translate => ({
         id: Math.random().toString(36).substr(2, 9),
         label: "entrar",
         text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",
-        originalName: 'introAgenda',
+        type: 'introAgenda',
         noBorrar: false,
         editButton: true
     },
@@ -71,7 +71,7 @@ export const getBlocks = translate => ({
         text: '',
         editButton: false,
         logic: true,
-        originalName: 'attendants',
+        type: 'attendants',
         icon: iconAsistentes,
         colorBorder: "#61abb7"
     },
@@ -80,7 +80,7 @@ export const getBlocks = translate => ({
         label: "Lista de delegaciones",
         text: "",
         editButton: false,
-        originalName: 'delegations',
+        type: 'delegations',
         logic: true,
         icon: iconDelegaciones,
         colorBorder: '#7f94b6'
@@ -104,7 +104,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                 label: "Punto " + (index + 1) + " - " + translate.title,
                 text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
                 editButton: true,
-                originalName: 'agendaSubject',
+                type: 'agendaSubject',
                 noBorrar: false,
                 editButton: false
             },
@@ -113,7 +113,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                 label: "Punto " + (index + 1) + " - " + translate.description,
                 text: element.description,
                 editButton: true,
-                originalName: 'description',
+                type: 'description',
                 noBorrar: true,
                 editButton: false
             },
@@ -122,7 +122,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                 label: "Punto " + (index + 1) + " - Toma de acuerdos",
                 text: element.comment,
                 editButton: true,
-                originalName: 'comment',
+                type: 'comment',
                 noBorrar: true
             }
         ]);
@@ -133,7 +133,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                     id: Math.random().toString(36).substr(2, 9),
                     label: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN",
                     editButton: false,
-                    originalName: "votes",
+                    type: "votes",
                     noBorrar: true,
                     editButton: false,
                     logic: false,
@@ -150,7 +150,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                     label: "Punto " + (index + 1) + " - Listado de votantes",
                     text: "",
                     editButton: false,
-                    originalName: 'voting',
+                    type: 'voting',
                     noBorrar: false,
                     editButton: false,
                     logic: true,
@@ -166,7 +166,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                 label: "Punto " + (index + 1) + " - Comentarios",
                 text: "<b>Comentarios</b> </br>" + element.description,
                 editButton: false,
-                originalName: 'agendaComments',
+                type: 'agendaComments',
                 noBorrar: true,
                 editButton: false
             }
@@ -177,7 +177,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
         id: Math.random().toString(36).substr(2, 9),
         label: "agreements",
         editButton: true,
-        originalName: 'agreements',
+        type: 'agreements',
         noBorrar: true,
         editButton: false,
         text: '',

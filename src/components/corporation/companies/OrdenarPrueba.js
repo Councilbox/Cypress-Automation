@@ -114,11 +114,11 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         }
         let resultado = arrastrables.items.find(arrastrable => arrastrable.id === id);
         let arrayArrastrables
-        if (resultado.originalName !== "bloqueDeTexto") {
+        if (resultado.type !== "bloqueDeTexto") {
             arrayArrastrables = arrastrables.items.filter(arrastrable => arrastrable.id !== id)
         } else {
             arrayArrastrables = arrastrables.items
-            resultado = { id: Math.random().toString(36).substr(2, 9), name: "Bloque de texto", text: 'Inserte el texto', originalName: "bloqueDeTexto", editButton: true }
+            resultado = { id: Math.random().toString(36).substr(2, 9), name: "Bloque de texto", text: 'Inserte el texto', type: "bloqueDeTexto", editButton: true }
         }
         setArrastrables({ items: arrayArrastrables });
         agendas.items.push(resultado);
@@ -189,7 +189,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         let resultado = agendas.items.find(agendas => agendas.id === id);
         let arrayAgendas;
 
-        if (resultado.originalName !== "bloqueDeTexto") {
+        if (resultado.type !== "bloqueDeTexto") {
             arrayAgendas = agendas.items.filter(agendas => agendas.id !== id)
             arrastrables.items.push(resultado)
         } else {
@@ -208,9 +208,23 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     };
 
     const generatePreview = async () => {
-        console.log(agendas.items.reduce((acc, curr) => {
-            return [...acc, ...(curr.items? curr.items : [curr])];
-        }, []))
+        const response = await client.mutate({
+            mutation: gql`
+                mutation ACTHTML($doc: Document){
+                    generateActHTML(document: $doc)
+                }
+            `,
+            variables: {
+                doc: {
+                    fragments: agendas.items.reduce((acc, curr) => curr.items? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
+                        type: item.type,
+                        text: item.text
+                    }))
+                }
+            }
+        });
+
+        console.log(response);
     }
 
     const moveDown = (id, index) => {
@@ -244,7 +258,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                     const bloques = agendaBlocks.map(block => {
                         return arrastrables.items.find(
                             arrastrable =>
-                                arrastrable.originalName === block
+                                arrastrable.type === block
                         )
                     });
                     auxTemplate = [...auxTemplate, ...bloques];
@@ -252,12 +266,12 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                     auxTemplate.push(
                         arrastrables.items.find(
                             arrastrable =>
-                                arrastrable.originalName === element
+                                arrastrable.type === element
                         )
                     );
                 }
             })
-            setArrastrables({ items: [...arrastrables.items.filter(value => !agendaBlocks.includes(value.originalName) && !orden.includes(value.originalName)),] })
+            setArrastrables({ items: [...arrastrables.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] })
             setAgendas({ items: auxTemplate })
         } else {
             setAgendas({ items: [] })
@@ -273,14 +287,14 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                 if (element === 'agreements') {
                     auxTemplate = [...auxTemplate, generateAgendaBlocks(translate, agendas)];
                 } else {
-                    const block = array.find(item => item.originalName === element);
+                    const block = array.find(item => item.type === element);
                     if(block){
                         auxTemplate.push(block);
                     }
                 }
             });
 
-            setArrastrables({ items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.originalName) && !orden.includes(value.originalName)),] })
+            setArrastrables({ items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] })
             setAgendas({ items: auxTemplate })
         } else {
             setAgendas({ items: [] })
@@ -658,7 +672,7 @@ const DraggableBlock = SortableElement(props => {
                         />
                     </div>
                 </div>
-                {props.value.originalName === 'agreements'?
+                {props.value.type === 'agreements'?
                     <AgreementsBlock
                         item={props.value}
                         updateBlock={props.updateBlock}
@@ -698,7 +712,7 @@ const NoDraggableBlock = props => {
         return (
             props.value !== undefined && props.value.text !== undefined &&
             <React.Fragment>
-                {props.value.originalName === 'agreements'?
+                {props.value.type === 'agreements'?
                     <Card
                         key={props.id}
                         style={{
