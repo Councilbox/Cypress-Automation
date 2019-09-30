@@ -10,7 +10,7 @@ import withWindowSize from "../../HOCs/withWindowSize";
 import withTranslations from "../../HOCs/withTranslations";
 import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem } from "../../displayComponents";
 import { useOldState } from "../../hooks";
-import { useSubdomain } from "../../utils/subdomain";
+import { useSubdomain, getCustomLogo } from "../../utils/subdomain";
 import { isMobile } from "react-device-detect";
 
 
@@ -28,7 +28,6 @@ const Login = ({ translate, windowSize, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const subdomain = useSubdomain();
-
 
 	const login = async () => {
 		const { user, password } = state;
@@ -246,10 +245,32 @@ const Login = ({ translate, windowSize, ...props }) => {
 								paddingBottom: 0,
 								fontWeight: "700",
 								fontSize: "1.5em",
-								color: primary
+								color: primary,
+								...(isMobile? {
+									display: 'flex',
+									alignItems: 'center',
+									flexDirection: 'column'
+								} : {})
 							}}
 						>
-							{`${translate.login_signin_header} Councilbox`}
+							{(subdomain.logo && isMobile) &&
+								<React.Fragment>
+									<img
+										src={getCustomLogo()}
+										className="App-logo"
+										style={{
+											height: "1.5em",
+											marginLeft: "1em",
+											// marginLeft: "2em",
+											alignSelf: 'center',
+											userSelect: 'none'
+										}}
+										alt="logo"
+									/>
+									<br />
+								</React.Fragment>
+							}
+							{`${translate.login_signin_header} ${subdomain.title? subdomain.title : 'Councilbox'}`}
 						</div>
 						<form>
 							<div
