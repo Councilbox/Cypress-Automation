@@ -33,6 +33,7 @@ export const loadSubdomainConfig = () => {
 						icon
 						background
 						roomBackground
+						hideSignUp
 					}
 				}
 			`,

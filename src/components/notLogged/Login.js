@@ -10,6 +10,8 @@ import withWindowSize from "../../HOCs/withWindowSize";
 import withTranslations from "../../HOCs/withTranslations";
 import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem } from "../../displayComponents";
 import { useOldState } from "../../hooks";
+import { useSubdomain } from "../../utils/subdomain";
+import { isMobile } from "react-device-detect";
 
 
 const Login = ({ translate, windowSize, ...props }) => {
@@ -25,6 +27,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 	});
 	const primary = getPrimary();
 	const secondary = getSecondary();
+	const subdomain = useSubdomain();
+
 
 	const login = async () => {
 		const { user, password } = state;
@@ -134,12 +138,11 @@ const Login = ({ translate, windowSize, ...props }) => {
 						paddingLeft: "3%",
 						flexDirection: "column",
 						alignItems: "center",
+						...((subdomain.hideSignUp && isMobile)? { display: 'none' } : {}),
 						paddingTop: windowSize === "xs" ? "8%" : "12em"
 					}}
 				>
-					{window.location.origin.includes('conpaas')?
-						<COELeftSide translate={translate} windowSize={windowSize} />
-					:
+					{!subdomain.hideSignUp &&
 						<div
 							style={{
 								width: "70%",
@@ -338,10 +341,6 @@ const Login = ({ translate, windowSize, ...props }) => {
 	);
 }
 
-
-const COELeftSide = ({ translate, windowSize }) => {
-	return <span />
-}
 
 function mapDispatchToProps(dispatch) {
 	return {
