@@ -108,7 +108,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         ordenarTemplateInit(defaultTemplates[template], items, agendas, act);
     }
 
-    const addItem = (id) => {
+    const addItem = id => {
         if (agendas.items[0] === undefined) {
             agendas.items = new Array;
         }
@@ -120,9 +120,9 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             arrayArrastrables = arrastrables.items
             resultado = { id: Math.random().toString(36).substr(2, 9), name: "Bloque de texto", text: 'Inserte el texto', originalName: "bloqueDeTexto", editButton: true }
         }
-        setArrastrables({ items: arrayArrastrables })
-        agendas.items.push(resultado)
-        setAgendas(agendas)
+        setArrastrables({ items: arrayArrastrables });
+        agendas.items.push(resultado);
+        setAgendas(agendas);
     }
 
 
@@ -195,7 +195,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         } else {
             arrayAgendas = agendas.items.filter(agendas => agendas.id !== id)
         }
-        setAgendas({ items: arrayAgendas })
+        setAgendas({ items: arrayAgendas });
         setArrastrables(arrastrables)
     };
 
@@ -206,6 +206,12 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             }));
         }
     };
+
+    const generatePreview = async () => {
+        console.log(agendas.items.reduce((acc, curr) => {
+            return [...acc, ...(curr.items? curr.items : [curr])];
+        }, []))
+    }
 
     const moveDown = (id, index) => {
         if ((index + 1) < agendas.items.length) {
@@ -376,6 +382,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             <BasicButton
                                                 text={translate.save}
                                                 color={primary}
+                                                onClick={generatePreview}
                                                 textStyle={{
                                                     color: "white",
                                                     fontSize: "0.9em",
