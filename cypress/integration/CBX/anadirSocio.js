@@ -1,7 +1,3 @@
-export default () => {
-    cy.get('#user-menu-trigger').click();
-    cy.get('#user-menu-logout').click();
-}
 const nombre = "nombre"
 const Apellidos = "Apellidos"
 const DNINIF = Math.floor((Math.random() * 1000) + 100).toString()
@@ -23,6 +19,10 @@ const Localidad = "Localidad"
 const cp = "56456"
 let Observaciones = "Observaciones Observaciones Observaciones"
 
+// export default () => {
+//     cy.get('#user-menu-trigger').click();
+//     cy.get('#user-menu-logout').click();
+// }
 export default () => {
 
     cy.url().should('contain', '/company/');

@@ -44,7 +44,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 	const secondary = getSecondary();
 
 	React.useEffect(() => {
-		if(data.council){
+		if (data.council) {
 			CBX.checkCouncilState(
 				{
 					state: data.council.state,
@@ -60,7 +60,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 	const goToPrepareRoom = () => {
 		bHistory.push(
 			`/company/${company.id}/council/${
-				props.match.params.id
+			props.match.params.id
 			}/live`
 		);
 	}
@@ -81,9 +81,9 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				text: translate.convene,
 				component: () => {
 					return (
-						<div style={{height: 'calc(100% - 38px)'}}>
+						<div style={{ height: 'calc(100% - 38px)' }}>
 							<Scrollbar>
-								<div style={{width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em'}}>
+								<div style={{ width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em' }}>
 									<Convene
 										council={council}
 										translate={translate}
@@ -98,7 +98,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				text: translate.new_list_called,
 				component: () => {
 					return (
-						<div style={{height: 'calc(100% - 38px)'}}>
+						<div style={{ height: 'calc(100% - 38px)' }}>
 							<Scrollbar>
 								<div
 									style={{
@@ -122,12 +122,12 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 			},
 		];
 
-		if(config.councilDelegates && council.statute.existsDelegatedVote){
+		if (config.councilDelegates && council.statute.existsDelegatedVote) {
 			tabs.push({
 				text: 'Delegación',
 				component: () => {
 					return (
-						<div style={{height: 'calc(100% - 38px)'}}>
+						<div style={{ height: 'calc(100% - 38px)' }}>
 							<Scrollbar>
 								<div
 									style={{
@@ -149,9 +149,9 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 
 	return (
 		<CardPageLayout title={translate.prepare_room} disableScroll>
-			<div style={{height: '100%'}}>
-				<div style={{height: 'calc(100% - 3.5em)', padding: '1em', paddingTop: 0, paddingBottom: 0, overflow: 'hidden', position: 'relative'}}>
-					<div style={{height: 'calc(100% - 1em)', borderBottom: '1px solid gainsboro'}}>
+			<div style={{ height: '100%' }}>
+				<div style={{ height: 'calc(100% - 3.5em)', padding: '1em', paddingTop: 0, paddingBottom: 0, overflow: 'hidden', position: 'relative' }}>
+					<div style={{ height: 'calc(100% - 1em)', borderBottom: '1px solid gainsboro' }}>
 						<TabsScreen
 							uncontrolled={true}
 							tabsInfo={getTabs()}
@@ -196,10 +196,11 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						borderTop: '1px solid gainsboro'
 					}}
 				>
-					<div style={{display: 'flex', alignItems: 'center'}}>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
 						<div>
 							<BasicButton
 								text={translate.prepare_room}
+								id={'prepararSalaNew'}
 								color={primary}
 								buttonStyle={{
 									margin: "0",
@@ -295,25 +296,25 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 											{translate.send_reminder}
 										</MenuItem>
 									) : (
-										<MenuItem
-											onClick={() =>
-												setState({
-													sendConvene: true
-												})
-											}
-										>
-											<Icon
-												className="material-icons"
-												style={{
-													color: secondary,
-													marginRight: "0.4em"
-												}}
+											<MenuItem
+												onClick={() =>
+													setState({
+														sendConvene: true
+													})
+												}
 											>
-												notifications
+												<Icon
+													className="material-icons"
+													style={{
+														color: secondary,
+														marginRight: "0.4em"
+													}}
+												>
+													notifications
 											</Icon>
-											{translate.new_send}
-										</MenuItem>
-									)}
+												{translate.new_send}
+											</MenuItem>
+										)}
 									<MenuItem
 										onClick={() =>
 											setState({

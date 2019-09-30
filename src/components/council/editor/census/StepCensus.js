@@ -332,6 +332,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						}}
 						textPosition="after"
 						onClick={nextPage}
+						id={'censoSiguienteNew'}
 					/>
 				</React.Fragment>
 			}

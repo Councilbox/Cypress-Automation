@@ -8,10 +8,11 @@ export default () => {
     cy.get('#create-council-block').click();
     cy.url().should('contain', '/council/new');
 
-    cy.get('#reunionConSesionModal').click();
-    cy.url().should('contain', '/council/');
+    // cy.get('#reunionConSesionModal').click();
+    // cy.url().should('contain', '/council/');
 
     //Rellenamos titulo
+    cy.get('#TituloReunionEnConvocatoria').clear()        
     cy.get('#TituloReunionEnConvocatoria')
         .type("Titulo Reunion Cypress").should('have.value', "Titulo Reunion Cypress")
         .type('{leftarrow}{rightarrow}{uparrow}{downarrow}')
@@ -25,7 +26,7 @@ export default () => {
     cy.url().should('contain', '/council/');
 
     //Rellenamos info y no comprobamos!
-    cy.get('.ql-editor.ql-blank').
+    cy.get('.ql-editor.ql-blank').eq(0).
         type("Info Reunion Cypress")
     cy.url().should('contain', '/council/');
 
@@ -113,11 +114,12 @@ export default () => {
     cy.wait(2000)
     //click en añadir punto del dia
     cy.get('#newPuntoDelDiaOrdenDelDiaNew').click();
-
+    
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
+    cy.get('#puntoSiNoAbstencion').click();
     //click en añadir punto del dia
     cy.get('#tituloPuntoDelDiaModal')
         .type("Nuevo Punto del dia").should('have.value', "Nuevo Punto del dia")
@@ -141,16 +143,13 @@ export default () => {
     cy.get('#attachmentSiguienteNew').click();
 
     cy.wait(2000)
+    
     // //click siguiente opciones
     cy.get('#optionsNewSiguiente').click();
 
     //click en desplegable
-    cy.get('#desplegablePrevisualizacionNew').click();
-
-    //click en desplegable
+    cy.get('#desplegablePrevisualizacionNew').click();    
     cy.get('#convocarSinNotificarNew').click();
-
-    //click en desplegable
     cy.get('#buttonAceptarDeModalAlert').click();
 
     //click en desplegable

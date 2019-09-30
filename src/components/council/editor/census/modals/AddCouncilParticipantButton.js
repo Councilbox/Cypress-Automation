@@ -266,6 +266,7 @@ class AddCouncilParticipantButton extends React.Component {
 					buttonStyle={{
 						border: `2px solid ${primary}`
 					}}
+					id={'anadirParticipanteEnCensoNewReunion'}
 				/>
 				<AlertConfirm
 					requestClose={() => this.setState({

@@ -1,4 +1,4 @@
-/// <reference types="Cypress" />
+
 import loginTest from './login';
 import logoutTest from './logout';
 import dashboardTest from './dashboard';
@@ -11,6 +11,7 @@ import anadirSocio from './anadirSocio';
 import addSociedad from './addSociedad';
 import anadirSocioPersonaJuridica from './anadirSocioPersonaJuridica';
 import crearCorreos from './crearCorreos';
+import loginFast from './loginFast';
 
 
 context('Actions', () => {
@@ -25,10 +26,11 @@ context('Actions', () => {
 
   it('Type and login user', () => {
     // https://on.cypress.io/type
+    loginFast();
     // loginTest();
+    dashboardNewSesion();
     
-    
-    addSociedad()
+    // addSociedad()
 
     // dashboardTest();
 
