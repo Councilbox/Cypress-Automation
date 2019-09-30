@@ -1,6 +1,7 @@
 import iconVotaciones from '../../../../assets/img/handshake.svg';
 import iconAsistentes from '../../../../assets/img/meeting.svg';
 import iconDelegaciones from '../../../../assets/img/networking.svg';
+import { getAgendaResult, hasVotation } from '../../../../utils/CBX';
 
 //TRADUCCION
 export const getBlocks = translate => ({
@@ -123,28 +124,43 @@ export const generateAgendaBlocks = (translate, agenda) => {
                 editButton: true,
                 originalName: 'comment',
                 noBorrar: true
-            },
-            {
-                id: Math.random().toString(36).substr(2, 9),
-                label: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN",
-                editButton: false,
-                originalName: "votes",
-                noBorrar: true,
-                editButton: false,
-                logic: true
-            },
-            {
-                id: Math.random().toString(36).substr(2, 9),
-                label: "Punto " + (index + 1) + " - Votaciones",
-                text: "",
-                editButton: false,
-                originalName: 'voting',
-                noBorrar: false,
-                editButton: false,
-                logic: true,
-                icon: iconVotaciones,
-                colorBorder: '#866666'
-            },
+            }
+        ]);
+
+        if(hasVotation(element.subjectType)){
+            newArray = newArray.concat([
+                {
+                    id: Math.random().toString(36).substr(2, 9),
+                    label: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN",
+                    editButton: false,
+                    originalName: "votes",
+                    noBorrar: true,
+                    editButton: false,
+                    logic: false,
+                    text: `
+                        <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+                            <b>Votaciones: </b>
+                            <br> A FAVOR: ${getAgendaResult(element, 'POSITIVE')} | EN CONTRA: ${getAgendaResult(element, 'NEGATIVE')} | ABSTENCIONES:
+                            ${getAgendaResult(element, 'ABSTENTION')} | NO VOTAN: ${getAgendaResult(element, 'NO_VOTE')}
+                            <br>
+                        </div>`
+                },
+                {
+                    id: Math.random().toString(36).substr(2, 9),
+                    label: "Punto " + (index + 1) + " - Listado de votantes",
+                    text: "",
+                    editButton: false,
+                    originalName: 'voting',
+                    noBorrar: false,
+                    editButton: false,
+                    logic: true,
+                    icon: iconVotaciones,
+                    colorBorder: '#866666'
+                }
+            ])
+        }
+
+        newArray = newArray.concat([
             {
                 id: Math.random().toString(36).substr(2, 9),
                 label: "Punto " + (index + 1) + " - Comentarios",

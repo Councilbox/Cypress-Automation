@@ -1,11 +1,8 @@
 import React from 'react';
-import { getPrimary } from '../../../../styles/colors';
-import { IconsDragActions } from '../OrdenarPrueba';
 import Block from './Block';
 
 const AgreementsBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, setText, ...props }) => {
     const updateBlock = (index, text) => {
-        console.log(text);
         const newItems = item.items;
         newItems[index].text = text;
         props.updateBlock(item.id, {

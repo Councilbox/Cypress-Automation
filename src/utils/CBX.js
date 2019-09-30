@@ -91,6 +91,28 @@ export const showAgendaVotingsTable = agenda => {
 	)
 }
 
+export const getAgendaResult = (agenda, type) => {
+	console.log(agenda);
+	const types = {
+		POSITIVE: `${agenda.positiveVotings + agenda.positiveManual} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`,
+		NEGATIVE: `${agenda.negativeVotings + agenda.negativeManual} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`,
+		ABSTENTION: `${agenda.abstentionVotings + agenda.abstentionManual} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`,
+		NO_VOTE: `${agenda.noVoteVotings + agenda.noVoteManual} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`
+	}
+
+	return types[type];
+};
+
+export const getPercentage = (num, total) => {
+    let percentage = ((num * 100) / (total)).toFixed(3);
+    let zero = 0;
+    if (isNaN(percentage)) {
+        return zero.toFixed(3)
+    } else {
+        return percentage;
+    }
+}
+
 export const userCanCreateCompany = (user, companies) => {
 	if (user.actived === USER_ACTIVATIONS.FREE_TRIAL) {
 		if (companies) {

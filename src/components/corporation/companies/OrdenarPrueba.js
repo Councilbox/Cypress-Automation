@@ -15,7 +15,7 @@ import textool from '../../../assets/img/text-tool.svg'
 import DownloadActPDF from '../../council/writing/actViewer/DownloadActPDF';
 import { getBlocks, generateAgendaBlocks } from './documentEditor/EditorBlocks';
 import AgreementsBlock from './documentEditor/AgreementsBlock';
-import Block, { CajaBorderIzq } from './documentEditor/Block';
+import Block, { BorderBox } from './documentEditor/Block';
 import AgreementsPreview from './documentEditor/AgreementsPreview';
 
 
@@ -36,16 +36,14 @@ export const ActContext = React.createContext();
 
 const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 
-    const [template, setTemplate] = React.useState(0)
-    const [data, setData] = React.useState(false)
-    const [colapse, setColapse] = React.useState(false)
-    const [edit, setEdit] = React.useState(false)
-    const [editInfo, setEditInfo] = React.useState(false)
-    const [loading, setLoading] = React.useState(true)
-    const [ocultar, setOcultar] = React.useState(true)
+    const [template, setTemplate] = React.useState(0);
+    const [data, setData] = React.useState(false);
+    const [colapse, setColapse] = React.useState(false);
+    const [edit, setEdit] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
+    const [ocultar, setOcultar] = React.useState(true);
     const [agendas, setAgendas] = React.useState({ items: [], });
     const [arrastrables, setArrastrables] = React.useState({ items: [] });
-    const [bloque, setBloque] = React.useState("info")
     const [state, setState] = React.useState({
         loadDraft: false,
         load: 'intro',
@@ -57,7 +55,10 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         imgIzqCbx: 2,
         sendActDraft: false,
         finishActModal: false
-    })
+    });
+
+    const primary = getPrimary();
+    const secondary = getSecondary();
 
     const handleChange = event => {
         setEdit(event.target.checked);
@@ -131,7 +132,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         }));
     };
 
-    const shouldCancelStart = (event) => {
+    const shouldCancelStart = event => {
         if (event.target.tagName.toLowerCase() === 'i' && event.target.classList[2] !== undefined) {
             return true
         }
@@ -179,7 +180,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 
     const updateBlock = (id, block) => {
         let indexItemToEdit = agendas.items.findIndex(item => item.id === id);
-        console.log(block);
         agendas.items[indexItemToEdit] = block;
         setAgendas({...agendas});
     }
@@ -262,7 +262,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     const ordenarTemplateInit = (orden, array, agendas, act) => {
         let auxTemplate = [];
         let auxTemplate2 = { items: array }
-        //const blocks = getBlocks(translate);
         if (orden !== undefined) {
             orden.forEach(element => {
                 if (element === 'agreements') {
@@ -273,8 +272,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                         auxTemplate.push(block);
                     }
                 }
-            })
-            console.log(auxTemplate, auxTemplate2);
+            });
 
             setArrastrables({ items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.originalName) && !orden.includes(value.originalName)),] })
             setAgendas({ items: auxTemplate })
@@ -283,8 +281,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             setArrastrables({ items: [...agendas.items, ...arrastrables.items] })
         }
     }
-
-
 
 
     React.useEffect(() => {
@@ -326,7 +322,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                         <div style={{ display: "flex", height: "100%" }}>
                             <div style={{ width: "40%", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
                                 <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
-                                    <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
+                                    <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
                                         help
                                             </i>
                                     {ocultar &&
@@ -345,7 +341,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                 {arrastrables.items.filter(item => !item.logic).map((item, index) => {
                                                     // .filter(item => item.logic === true).map((item, index) => {
                                                     return (
-                                                        <CajaBorderIzq
+                                                        <BorderBox
                                                             key={item.id}
                                                             addItem={addItem}
                                                             itemInfo={item.id}
@@ -353,7 +349,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                             <div >
                                                                 <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
                                                             </div>
-                                                        </CajaBorderIzq>
+                                                        </BorderBox>
                                                     )
                                                 })}
                                                 <BloquesAutomaticos
@@ -379,7 +375,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             />
                                             <BasicButton
                                                 text={translate.save}
-                                                color={getPrimary()}
+                                                color={primary}
                                                 textStyle={{
                                                     color: "white",
                                                     fontSize: "0.9em",
@@ -395,7 +391,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             />
                                             <BasicButton
                                                 text={'Enviar a revision'}
-                                                color={getPrimary()}
+                                                color={primary}
                                                 textStyle={{
                                                     color: "white",
                                                     fontSize: "0.9em",
@@ -415,7 +411,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             />
                                             <BasicButton
                                                 text={'Finalizar'}
-                                                color={getSecondary()}
+                                                color={secondary}
                                                 textStyle={{
                                                     color: "white",
                                                     fontSize: "0.9em",
@@ -494,7 +490,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                         items={agendas.items}
                                                         updateCouncilActa={updateCouncilActa}
                                                         updateBlock={updateBlock}
-                                                        editInfo={editInfo}
                                                         state={state}
                                                         setState={setState}
                                                         edit={edit}
@@ -523,7 +518,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 }
 
 
-const SortableList = SortableContainer(({ items, updateCouncilActa, updateBlock, editInfo, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
+const SortableList = SortableContainer(({ items, updateCouncilActa, updateBlock, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
     if (edit) {
         return (
             <div >
@@ -536,7 +531,6 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, updateBlock,
                             state={state}
                             setState={setState}
                             edit={edit}
-                            editInfo={editInfo}
                             translate={translate}
                             index={offset + index}
                             value={item}
@@ -680,7 +674,7 @@ const NoDraggableBlock = props => {
     if (props.logic) {
         return (
             props.value !== undefined && props.value.text !== undefined &&
-                <CajaBorderIzq
+                <BorderBox
                     itemInfo={288}
                     icon={props.value.icon}
                     id={props.id}
@@ -691,7 +685,7 @@ const NoDraggableBlock = props => {
                     <div >
                         <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
                     </div>
-                </CajaBorderIzq>
+                </BorderBox>
         );
     } else {
         return (

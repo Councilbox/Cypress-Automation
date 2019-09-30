@@ -49,7 +49,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
     if(props.value.originalName === 'voting'){
         return (
-            <CajaBorderIzq
+            <BorderBox
                 itemInfo={288}
                 icon={iconVotaciones}
                 id={props.id}
@@ -61,7 +61,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 <div >
                     <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
                 </div>
-            </CajaBorderIzq>
+            </BorderBox>
         )
 
     }
@@ -142,9 +142,12 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                         {renderEditor()}
                     </div>
                 :
-                    <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
-                        __html: props.value.text
-                    }}></div>
+                    <div
+                        style={{ marginTop: "1em" }}
+                        dangerouslySetInnerHTML={{
+                            __html: props.value.text
+                        }}
+                    />
             }
 
             <div style={{ marginTop: "1em", }}>
@@ -183,10 +186,10 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 }
 
 
-export const CajaBorderIzq = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar, removeBlock, id, noIcon }) => {
+export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar, removeBlock, id, noIcon }) => {
 
     return (
-        <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", ...stylesBody }}>
+        <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px", ...stylesBody }}>
             <div style={{ width: "100%", display: "flex", }}>
                 <div style={{ paddingRight: "4px", background: colorBorder ? colorBorder : getPrimary(), borderRadius: "15px", }}></div>
                 <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
