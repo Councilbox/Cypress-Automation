@@ -387,7 +387,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 							{!state.fullScreen &&
 								<Tabs value={state.participants? 0 : 1}>
 									<Tab label={translate.participants} onClick={() => toggleScreens(true)} />
-									<Tab label={translate.agenda} onClick={() => toggleScreens(false)} />
+									<Tab label={translate.agenda} onClick={() => toggleScreens(false)} id={'ordenDelDiaParticipantesButton'}/>
 									<div style={{
 										width: '100%',
 										display: 'flex',

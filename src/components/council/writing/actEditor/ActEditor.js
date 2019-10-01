@@ -694,6 +694,7 @@ class ActEditor extends Component {
 											text={isMobile? translate.finish : translate.end_writing_act}
 											loading={this.state.updating}
 											loadingColor={primary}
+											id={'finalizarRedaccionDeActa'}
 											disabled={this.state.updating || this.state.disableButtons}
 											color={"white"}
 											textStyle={{

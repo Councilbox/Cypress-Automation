@@ -28,7 +28,10 @@ context('Actions', () => {
     // https://on.cypress.io/type
     loginFast();
     // loginTest();
-    dashboardNewSesion();
+    
+    anadirSocioPersonaJuridica()
+    // anadirSocio();//COMPLETADO
+    // dashboardNewSesion();//COMPLETADO
     
     // addSociedad()
 

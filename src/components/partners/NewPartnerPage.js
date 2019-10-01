@@ -215,6 +215,7 @@ class NewPartnerPage extends React.Component {
                             />
                         }
                         <BasicButton
+                            id={'guardarAnadirSocio'}
                             text={this.props.translate.save_changes}
                             color={getPrimary()}
                             textStyle={{ color: 'white', fontWeight: '700', textTransform: 'none' }}

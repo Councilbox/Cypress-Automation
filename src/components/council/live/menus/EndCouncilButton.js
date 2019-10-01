@@ -48,6 +48,7 @@ class EndCouncilButton extends React.Component {
 				<div>
 					<BasicButton
 						text={translate.finish_council}
+						id={'finalizarReunionEnReunion'}
 						color={lastPointClosed? primary : secondary}
 						onClick={() => this.setState({ confirmModal: true })}
 						textPosition="before"

@@ -16,7 +16,8 @@ const DateTimePickerWrapper = ({
 	minDateMessage,
 	acceptText,
 	cancelText,
-	errorText
+	errorText,
+	idIcon
 }) => (
 	onlyDate?
 		<React.Fragment>
@@ -35,7 +36,7 @@ const DateTimePickerWrapper = ({
 						endAdornment: (
 							<InputAdornment position="end">
 								<IconButton style={{outline: 0}}>
-									<Icon color="primary">event</Icon>
+									<Icon id={idIcon} color="primary">event</Icon>
 								</IconButton>
 							</InputAdornment>
 						)
@@ -73,7 +74,7 @@ const DateTimePickerWrapper = ({
 					endAdornment: (
 						<InputAdornment position="end">
 							<IconButton style={{outline: 0}}>
-								<Icon color="primary">event</Icon>
+								<Icon id={idIcon} color="primary">event</Icon>
 							</IconButton>
 						</InputAdornment>
 					)

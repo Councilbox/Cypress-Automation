@@ -165,7 +165,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 			}
 		});
 
-		if(response.data.startAutoCouncil.success){
+		if (response.data.startAutoCouncil.success) {
 			await props.refetch();
 		}
 	}
@@ -245,50 +245,51 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 						{loading ? (
 							<LoadingSection />
 						) : (
-							<Scrollbar option={{ suppressScrollX: true }}>
-								{participants.length > 0 ? (
-									<div style={{padding: '0.2em'}}>
-										{participants.map(participant => (
-											<ParticipantRow
-												participant={participant}
-												key={`participant_${
-													participant.id
-												}`}
-												onClick={() =>
-													actionSwitch()(
-														participant.id,
-														`${participant.name} ${
+								<Scrollbar option={{ suppressScrollX: true }}>
+									{participants.length > 0 ? (
+										<div style={{ padding: '0.2em' }}>
+											{participants.map(participant => (
+												<ParticipantRow
+													clases={'itemsSeleccionEnModalUsersEnReunion'}
+													participant={participant}
+													key={`participant_${
+														participant.id
+														}`}
+													onClick={() =>
+														actionSwitch()(
+															participant.id,
+															`${participant.name} ${
 															participant.surname
-														}`
-													)
-												}
-											/>
-										))}
-										{participants.length < total - 1 && (
-											<div onClick={loadMore} style={{
-												display: 'flex',
-												alignItems: 'center',
-												padding: '0.45em',
-												marginTop: '0.5em',
-												cursor: 'pointer',
-												justifyContent: 'center',
-												border: '1px solid gainsboro'
-											}} className="withShadow">
-												{`Descargar ${
-													rest > DELEGATION_USERS_LOAD
-														? `${DELEGATION_USERS_LOAD} de ${rest} restantes`
-														: translate.all_plural.toLowerCase()
-												}`}
-											</div>
+															}`
+														)
+													}
+												/>
+											))}
+											{participants.length < total - 1 && (
+												<div onClick={loadMore} style={{
+													display: 'flex',
+													alignItems: 'center',
+													padding: '0.45em',
+													marginTop: '0.5em',
+													cursor: 'pointer',
+													justifyContent: 'center',
+													border: '1px solid gainsboro'
+												}} className="withShadow">
+													{`Descargar ${
+														rest > DELEGATION_USERS_LOAD
+															? `${DELEGATION_USERS_LOAD} de ${rest} restantes`
+															: translate.all_plural.toLowerCase()
+														}`}
+												</div>
+											)}
+										</div>
+									) : (
+											<Typography>
+												{translate.no_results}
+											</Typography>
 										)}
-									</div>
-								) : (
-									<Typography>
-										{translate.no_results}
-									</Typography>
-								)}
-							</Scrollbar>
-						)}
+								</Scrollbar>
+							)}
 					</div>
 				</div>
 			);
@@ -301,6 +302,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 				</GridItem>
 				<GridItem xs={4} md={4} lg={4}>
 					<button
+						id={'seleccionaAlPresidenteEnReunion'}
 						style={buttonStyle(primary)}
 						onClick={() => setState({ selecting: 1 })}
 					>
@@ -311,16 +313,16 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 					{!!state.data.president ? (
 						state.data.president
 					) : (
-						<span
-							style={{
-								color: state.errors.president
-									? "red"
-									: "inherit"
-							}}
-						>
-							{translate.not_selected}
-						</span>
-					)}
+							<span
+								style={{
+									color: state.errors.president
+										? "red"
+										: "inherit"
+								}}
+							>
+								{translate.not_selected}
+							</span>
+						)}
 				</GridItem>
 
 				<GridItem xs={3} md={3} lg={3}>
@@ -328,6 +330,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 				</GridItem>
 				<GridItem xs={4} md={4} lg={4}>
 					<button
+						id={'seleccionaAlSecretarioEnReunion'}
 						style={buttonStyle(primary)}
 						onClick={() => setState({ selecting: 2 })}
 					>
@@ -338,16 +341,16 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 					{!!state.data.secretary ? (
 						state.data.secretary
 					) : (
-						<span
-							style={{
-								color: state.errors.secretary
-									? "red"
-									: "inherit"
-							}}
-						>
-							{translate.not_selected}
-						</span>
-					)}
+							<span
+								style={{
+									color: state.errors.secretary
+										? "red"
+										: "inherit"
+								}}
+							>
+								{translate.not_selected}
+							</span>
+						)}
 				</GridItem>
 
 				{existsQualityVote(council.statute) && (
@@ -367,16 +370,16 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 							{!!state.data.qualityVoteName ? (
 								state.data.qualityVoteName
 							) : (
-								<span
-									style={{
-										color: state.errors.qualityVote
-											? "red"
-											: "inherit"
-									}}
-								>
-									{translate.not_selected}
-								</span>
-							)}
+									<span
+										style={{
+											color: state.errors.qualityVote
+												? "red"
+												: "inherit"
+										}}
+									>
+										{translate.not_selected}
+									</span>
+								)}
 						</GridItem>
 					</React.Fragment>
 				)}
@@ -395,7 +398,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 		return <LoadingSection />;
 	}
 
-	if(council.councilType > 1){
+	if (council.councilType > 1) {
 		return (
 			<React.Fragment>
 				<BasicButton
@@ -445,6 +448,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 			<BasicButton
 				text={translate.start_council}
 				color={primary}
+				id={'iniciarReunionDentroDeReunion'}
 				textPosition="before"
 				onClick={() =>
 					setState({

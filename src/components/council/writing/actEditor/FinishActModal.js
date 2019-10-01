@@ -122,7 +122,7 @@ const FinishActModal = ({ requestClose, translate, council, ...props }) => {
 								<GridItem xs={12} md={5} lg={5} style={{ height: "100%" }} >
 									<ButtonInModal
 										click={goToCBXAct}
-										img={<img src={logo} alt="councilbox_icon" style={{ height: '4em', width: 'auto' }} />}
+										img={<img src={logo} id={'UsarActaGeneradaPorCouncilbox'} alt="councilbox_icon" style={{ height: '4em', width: 'auto' }} />}
 										body={'Usar acta generada por Councilbox'}
 									/>
 								</GridItem>

@@ -242,6 +242,7 @@ class Page extends React.PureComponent {
                             />
                         }
                         <BasicButton
+                            id={'guardarAnadirSocio'}
                             text={this.props.translate.save_changes}
                             color={getPrimary()}
                             success={this.state.success}

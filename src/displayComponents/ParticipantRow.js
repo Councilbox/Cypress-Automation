@@ -4,7 +4,7 @@ import { delegatedVotesLimitReached } from '../utils/CBX';
 import { Paper } from 'material-ui';
 import withTranslations from "../HOCs/withTranslations";
 
-const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate }) => {
+const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases }) => {
 	let limitReached = null;
 	if (toDelegate) {
 		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.filter(p => p.type !== 3).length);
@@ -36,6 +36,7 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 						fontWeight: "700",
 						fontSize: "0.9rem"
 					}}
+					className={clases}
 				>
 					{`${participant.name} ${participant.surname} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`}
 				</div>

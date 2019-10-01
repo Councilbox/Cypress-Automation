@@ -35,6 +35,7 @@ class PartnerForm extends React.PureComponent {
                             name="personOrEntity"
                         />
                         <Radio
+                            id={'addSocioPersonaJuridica'}
                             checked={participant.personOrEntity === 1}
                             label={translate.entity}
                             onChange={event =>
@@ -58,6 +59,7 @@ class PartnerForm extends React.PureComponent {
                         {participant.personOrEntity ? (
                             <GridItem xs={6} md={8} lg={6}>
                                 <TextInput
+                                    id={'anadirSocioRazonSocial'}
                                     floatingText={translate.entity_name}
                                     type="text"
                                     errorText={errors.name}
@@ -73,6 +75,7 @@ class PartnerForm extends React.PureComponent {
                                 <React.Fragment>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioNombre'}
                                             floatingText={translate.name}
                                             type="text"
                                             errorText={errors.name}
@@ -86,6 +89,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioApellido'}
                                             floatingText={translate.surname}
                                             type="text"
                                             errorText={errors.surname}
@@ -101,6 +105,7 @@ class PartnerForm extends React.PureComponent {
                             )}
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
+                                id={'anadirSocioDni'}
                                 floatingText={participant.personOrEntity === 1 ? translate.cif : translate.dni}
                                 type="text"
                                 errorText={errors.dni}
@@ -114,6 +119,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
+                                id={'anadirSocioNAcionalidad'}
                                 floatingText={translate.nationality}
                                 type="text"
                                 errorText={errors.nationality}
@@ -127,6 +133,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
+                                id={'anadirSocioMail'}
                                 floatingText={translate.email}
                                 {...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'participant') } : {})}
                                 type="text"
@@ -141,6 +148,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
+                                id={'anadirSocioTelefono'}
                                 floatingText={translate.phone}
                                 type="text"
                                 errorText={errors.phone}
@@ -154,6 +162,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
+                                id={'anadirSocioFijo'}
                                 floatingText={translate.landline_phone}
                                 type="text"
                                 errorText={errors.landlinePhone}
@@ -167,6 +176,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
+                                id={'anadirSocioTipoSocio'}
                                 floatingText={'Tipo de socio'}
                                 type="text"
                                 errorText={errors.position}
@@ -214,6 +224,7 @@ class PartnerForm extends React.PureComponent {
                     <Grid>
                         <GridItem xs={6} md={4} lg={4}>
                             <TextInput
+                                id={'anadirSocioActaAlta'}
                                 floatingText={translate.subscribe_act_number}
                                 type="text"
                                 errorText={errors.subscribeActNumber}
@@ -227,6 +238,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={4} lg={4}>
                             <TextInput
+                                id={'anadirSocioActaBaja'}
                                 floatingText={translate.unsubscribe_act_number}
                                 type="text"
                                 errorText={errors.unsubscribeActNumber}
@@ -240,13 +252,14 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
+                                idIcon={'anadirSocioAperturaFicha'}
                                 required
                                 onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        openDate: date? dateString : date
+                                        openDate: date ? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -259,13 +272,14 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
+                                idIcon={'anadirSocioFechaAlta'}
                                 required
                                 onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        subscribeDate: date? dateString : date
+                                        subscribeDate: date ? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -278,13 +292,14 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
+                                idIcon={'anadirSocioFechaActaAlta2'}
                                 required
                                 onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        subscribeActDate: date? dateString : date
+                                        subscribeActDate: date ? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -297,13 +312,14 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
+                                idIcon={'anadirSocioFechaActaBaja'}
                                 required
                                 onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        unsubscribeDate: date? dateString : date
+                                        unsubscribeDate: date ? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -316,13 +332,14 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
+                                idIcon={'anadirSocioFechaActaBaja2'}
                                 required
                                 onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        unsubscribeActDate: date? dateString : date
+                                        unsubscribeActDate: date ? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -341,6 +358,7 @@ class PartnerForm extends React.PureComponent {
                     <Grid>
                         <GridItem xs={6} md={6} lg={5}>
                             <TextInput
+                                id={'anadirSocioDireccion'}
                                 floatingText={translate.address}
                                 type="text"
                                 errorText={errors.address}
@@ -354,6 +372,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={6} lg={3}>
                             <TextInput
+                                id={'anadirSocioLocalidad'}
                                 floatingText={translate.company_new_locality}
                                 type="text"
                                 errorText={errors.city}
@@ -379,6 +398,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={4} lg={2}>
                             <TextInput
+                                id={'anadirSocioProvincia'}
                                 floatingText={translate.company_new_country_state}
                                 type="text"
                                 errorText={errors.countryState}
@@ -392,6 +412,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={6} lg={3}>
                             <TextInput
+                                id={'anadirSocioCP'}
                                 floatingText={translate.company_new_zipcode || ''}
                                 type="text"
                                 errorText={errors.zipcode}
@@ -406,7 +427,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={2}>
                             <SelectInput
                                 floatingText={translate.language}
-                                value={participant.language? participant.language : '-1'}
+                                value={participant.language ? participant.language : '-1'}
                                 onChange={event =>
                                     updateState({
                                         language: event.target.value
@@ -447,6 +468,7 @@ class PartnerForm extends React.PureComponent {
                                 <Grid>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteNombre'}
                                             floatingText={translate.name}
                                             type="text"
                                             value={representative.name || ''}
@@ -459,6 +481,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteApellido'}
                                             floatingText={translate.surname}
                                             type="text"
                                             value={representative.surname || ''}
@@ -471,6 +494,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteDNI'}
                                             floatingText={translate.dni}
                                             type="text"
                                             value={representative.dni || ''}
@@ -483,6 +507,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteNacionalidad'}
                                             floatingText={translate.nationality}
                                             type="text"
                                             value={representative.nationality || ''}
@@ -495,6 +520,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteEmail'}
                                             floatingText={translate.email}
                                             {...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'representative') } : {})}
                                             type="text"
@@ -508,6 +534,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteTelefono'}
                                             floatingText={translate.phone}
                                             type="text"
                                             value={representative.phone || ''}
@@ -520,6 +547,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteTelefonoFijo'}
                                             floatingText={translate.landline_phone}
                                             type="text"
                                             value={representative.landlinePhone || ''}
@@ -532,6 +560,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteCargo'}
                                             floatingText={translate.position}
                                             type="text"
                                             value={representative.position || ''}
@@ -549,6 +578,7 @@ class PartnerForm extends React.PureComponent {
                                 <Grid>
                                     <GridItem xs={6} md={6} lg={5}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteDireccion'}
                                             floatingText={translate.address}
                                             type="text"
                                             value={representative.address || ''}
@@ -561,6 +591,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={6} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteLocalidad'}
                                             floatingText={translate.company_new_locality}
                                             type="text"
                                             value={representative.city || ''}
@@ -585,6 +616,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={2}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteProvincia'}
                                             floatingText={translate.company_new_country_state}
                                             type="text"
                                             value={representative.countryState || ''}
@@ -597,6 +629,7 @@ class PartnerForm extends React.PureComponent {
                                     </GridItem>
                                     <GridItem xs={6} md={6} lg={3}>
                                         <TextInput
+                                            id={'anadirSocioRepresentanteCP'}
                                             floatingText={translate.company_new_zipcode}
                                             type="text"
                                             value={representative.zipcode || ''}
@@ -610,7 +643,7 @@ class PartnerForm extends React.PureComponent {
                                     <GridItem xs={6} md={4} lg={2}>
                                         <SelectInput
                                             floatingText={translate.language}
-                                            value={representative.language? representative.language : '-1'}
+                                            value={representative.language ? representative.language : '-1'}
                                             onChange={event =>
                                                 updateRepresentative({
                                                     language: event.target.value
