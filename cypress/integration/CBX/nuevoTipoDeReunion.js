@@ -1,7 +1,7 @@
 
 
 export default () => {
-    
+
     cy.url().should('contain', '/company/');
 
     cy.get('#edit-statutes-block').click();
@@ -22,11 +22,20 @@ export default () => {
 
     cy.wait(500)
 
-    cy.get('.ant-tabs-tab').last().click();
+    // cy.get('.ant-tabs-tab').click();
 
-    cy.wait(1000)
+    // cy.wait(1000)
 
-    cy.get('.buttonGuardarEnStatusPage').last().click();
-    
+    // cy.get('.buttonGuardarEnStatusPage').last().click();
+
+    cy.get('.ant-tabs-tab').last().trigger('mouseover');
+    // cy.get('tr').eq(1).hover(false, false);
+    // cy.get('tr').eq(1).mouseover();
+    cy.get('.ant-tabs-tab').last().trigger("hover");
+    cy.get('.ant-tabs-tab').last().trigger("mouseover");
+    cy.wait(500)
+    cy.get('.closeIcon').last().click({ force: true })
+    cy.wait(500)
+    cy.get('.buttonAceptarDeModalAlert').click();
 
 }
