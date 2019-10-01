@@ -42,6 +42,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     const [edit, setEdit] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const [ocultar, setOcultar] = React.useState(true);
+    const [preview, setPreview] = React.useState('');
     const [agendas, setAgendas] = React.useState({ items: [], });
     const [arrastrables, setArrastrables] = React.useState({ items: [] });
     const [state, setState] = React.useState({
@@ -225,6 +226,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         });
 
         console.log(response);
+        setPreview(response.data.generateActHTML);
     }
 
     const moveDown = (id, index) => {
@@ -490,42 +492,46 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                         </div>
                                     </div>
                                 }
-                                <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
+                                <div style={{ height: "calc( 100% - 6em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
                                     <Scrollbar>
-                                        <div style={{ display: "flex", height: "100%" }} >
-                                            <div style={{ width: "20%", maxWidth: "95px" }}>
-                                                {new Array(state.imgIzqCbx).fill(0).map(index =>
-                                                    <img style={{ width: "100%", }} src={imgIzq} key={index + "cbx" + Math.floor(Math.random() * 100)}></img>
-                                                )}
-                                            </div>
-                                            <div style={{ width: "100%" }}>
-                                                <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                                                    <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                                                        <img style={{ width: "100%" }} src={company.logo}></img>
+                                        {preview?
+                                            <div dangerouslySetInnerHTML={{__html: preview }} />
+                                        :
+                                            <div style={{ display: "flex", height: "100%" }} >
+                                                <div style={{ width: "20%", maxWidth: "95px" }}>
+                                                    {new Array(state.imgIzqCbx).fill(0).map(index =>
+                                                        <img style={{ width: "100%", }} src={imgIzq} key={index + "cbx" + Math.floor(Math.random() * 100)}></img>
+                                                    )}
+                                                </div>
+                                                <div style={{ width: "100%" }}>
+                                                    <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+                                                        <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
+                                                            <img style={{ width: "100%" }} src={company.logo}></img>
+                                                        </div>
+                                                    </div>
+                                                    <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
+                                                        <SortableList
+                                                            axis={"y"}
+                                                            lockAxis={"y"}
+                                                            items={agendas.items}
+                                                            updateCouncilActa={updateCouncilActa}
+                                                            updateBlock={updateBlock}
+                                                            state={state}
+                                                            setState={setState}
+                                                            edit={edit}
+                                                            translate={translate}
+                                                            offset={0}
+                                                            onSortEnd={onSortEnd}
+                                                            helperClass="draggable"
+                                                            shouldCancelStart={event => shouldCancelStart(event)}
+                                                            moveUp={moveUp}
+                                                            moveDown={moveDown}
+                                                            remove={remove}
+                                                        />
                                                     </div>
                                                 </div>
-                                                <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
-                                                    <SortableList
-                                                        axis={"y"}
-                                                        lockAxis={"y"}
-                                                        items={agendas.items}
-                                                        updateCouncilActa={updateCouncilActa}
-                                                        updateBlock={updateBlock}
-                                                        state={state}
-                                                        setState={setState}
-                                                        edit={edit}
-                                                        translate={translate}
-                                                        offset={0}
-                                                        onSortEnd={onSortEnd}
-                                                        helperClass="draggable"
-                                                        shouldCancelStart={event => shouldCancelStart(event)}
-                                                        moveUp={moveUp}
-                                                        moveDown={moveDown}
-                                                        remove={remove}
-                                                    />
-                                                </div>
                                             </div>
-                                        </div>
+                                        }
                                     </Scrollbar>
                                 </div>
                             </div>
