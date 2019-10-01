@@ -333,6 +333,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 						additionalTab={
 							<BasicButton
 								text={translate.add_council_type}
+								id={'anadirTipoDeReunion'}
 								fullWidth
 								loading={state.newLoading}
 								textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
@@ -488,6 +489,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 				buttonCancel={translate.cancel}
 				bodyText={
 					<TextInput
+						id={'anadirTipoDeReunionInputEnModal'}
 						floatingText={translate.council_type}
 						required
 						type="text"

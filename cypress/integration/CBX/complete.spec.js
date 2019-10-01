@@ -2,7 +2,7 @@
 import loginTest from './login';
 import logoutTest from './logout';
 import dashboardTest from './dashboard';
-import dashboardNewSesion from './dashboardNewSesion';
+import dashboardNewSesion from './dashboamrdNewSesion';
 import dashboardNewSesion2 from './dashboardNewSesion2';
 import dashboardNewSinSesion from './dashboardNewSinSesion';
 import comprobarActa from './comprobarActa';
@@ -28,8 +28,9 @@ context('Actions', () => {
     // https://on.cypress.io/type
     loginFast();
     // loginTest();
-    
-    anadirSocioPersonaJuridica()
+
+    nuevoTipoDeReunion()
+    // anadirSocioPersonaJuridica()//COMPLETADO
     // anadirSocio();//COMPLETADO
     // dashboardNewSesion();//COMPLETADO
     

@@ -18,7 +18,7 @@ export default () => {
         .type('{shift}')
     cy.get('#anadirTipoDeReunionInputEnModal')
         .type("Nuevo tipo de reunion").should('have.value', "Nuevo tipo de reunion")
-    cy.get('#buttonAceptarDeModalAlert').click();
+    cy.get('.buttonAceptarDeModalAlert').click();
 
     cy.wait(500)
 
