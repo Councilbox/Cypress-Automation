@@ -1,7 +1,7 @@
 import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { Card, MenuItem, FormControlLabel, Switch } from 'material-ui';
+import { Card, MenuItem, FormControlLabel, Switch, SvgIcon } from 'material-ui';
 import { Grid, Scrollbar, SelectInput, LoadingSection, BasicButton } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -10,13 +10,14 @@ import gql from 'graphql-tag';
 import { changeVariablesToValues, checkForUnclosedBraces } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
-import preview from '../../../assets/img/preview-1.svg'
+import previewImg from '../../../assets/img/preview-1.svg'
 import textool from '../../../assets/img/text-tool.svg'
 import DownloadActPDF from '../../council/writing/actViewer/DownloadActPDF';
 import { getBlocks, generateAgendaBlocks } from './documentEditor/EditorBlocks';
 import AgreementsBlock from './documentEditor/AgreementsBlock';
 import Block, { BorderBox } from './documentEditor/Block';
 import AgreementsPreview from './documentEditor/AgreementsPreview';
+
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -184,7 +185,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     const updateBlock = (id, block) => {
         let indexItemToEdit = agendas.items.findIndex(item => item.id === id);
         agendas.items[indexItemToEdit] = block;
-        setAgendas({...agendas});
+        setAgendas({ ...agendas });
     }
 
 
@@ -219,7 +220,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             `,
             variables: {
                 doc: {
-                    fragments: agendas.items.reduce((acc, curr) => curr.items? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
+                    fragments: agendas.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
                         type: item.type,
                         text: item.text,
                         data: item.data
@@ -294,7 +295,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                     auxTemplate = [...auxTemplate, generateAgendaBlocks(translate, agendas)];
                 } else {
                     const block = array.find(item => item.type === element);
-                    if(block){
+                    if (block) {
                         auxTemplate.push(block);
                     }
                 }
@@ -464,7 +465,14 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                     textTransform: "none"
                                                 }}
                                                 textPosition="after"
-                                                iconInit={<img src={preview} />}
+                                                iconInit={
+                                                    <Ic svg={previewImg} />
+                                                }
+                                                // iconInit={
+                                                //     <object type="image/svg+xml" data={previewImg} className="PRUEBA">
+                                                //         <img src={previewImg} style={{ color: 'red' }}></img>
+                                                //     </object>
+                                                // }
                                                 onClick={() => setColapse(!colapse)}
                                                 buttonStyle={{
                                                     boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
@@ -483,7 +491,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                     textTransform: "none"
                                                 }}
                                                 textPosition="after"
-                                                iconInit={<img src={textool} />}
+                                                iconInit={<object type="image/svg+xml" data={textool} />}
                                                 onClick={() => setEdit(!edit)}
                                                 buttonStyle={{
                                                     marginRight: "1em",
@@ -498,9 +506,9 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                 }
                                 <div style={{ height: "calc( 100% - 6em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
                                     <Scrollbar>
-                                        {preview?
-                                            <div dangerouslySetInnerHTML={{__html: preview }} />
-                                        :
+                                        {preview ?
+                                            <div dangerouslySetInnerHTML={{ __html: preview }} />
+                                            :
                                             <div style={{ display: "flex", height: "100%" }} >
                                                 <div style={{ width: "20%", maxWidth: "95px" }}>
                                                     {new Array(state.imgIzqCbx).fill(0).map(index =>
@@ -682,14 +690,14 @@ const DraggableBlock = SortableElement(props => {
                         />
                     </div>
                 </div>
-                {props.value.type === 'agreements'?
+                {props.value.type === 'agreements' ?
                     <AgreementsBlock
                         item={props.value}
                         updateBlock={props.updateBlock}
                         translate={props.translate}
                         remove={props.remove}
                     />
-                :
+                    :
                     <Block
                         {...props}
                     />
@@ -705,24 +713,24 @@ const NoDraggableBlock = props => {
     if (props.logic) {
         return (
             props.value !== undefined && props.value.text !== undefined &&
-                <BorderBox
-                    itemInfo={288}
-                    icon={props.value.icon}
-                    id={props.id}
-                    colorBorder={props.value.colorBorder}
-                    stylesBody={{ width: "98%" }}
-                    noIcon={true}
-                >
-                    <div >
-                        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
-                    </div>
-                </BorderBox>
+            <BorderBox
+                itemInfo={288}
+                icon={props.value.icon}
+                id={props.id}
+                colorBorder={props.value.colorBorder}
+                stylesBody={{ width: "98%" }}
+                noIcon={true}
+            >
+                <div >
+                    <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
+                </div>
+            </BorderBox>
         );
     } else {
         return (
             props.value !== undefined && props.value.text !== undefined &&
             <React.Fragment>
-                {props.value.type === 'agreements'?
+                {props.value.type === 'agreements' ?
                     <Card
                         key={props.id}
                         style={{
@@ -737,7 +745,7 @@ const NoDraggableBlock = props => {
                             translate={props.translate}
                         />
                     </Card>
-                :
+                    :
                     <Card
                         key={props.id}
                         style={{
@@ -894,6 +902,12 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
     }
 }
 
+const Ic = ({svg}) => {
+    console.log(svg)
+    return (
+      <div style={{ mask: 'url('+ svg +')'}}></div>
+    )
+}
 
 const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
