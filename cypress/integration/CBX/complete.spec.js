@@ -29,16 +29,16 @@ context('Actions', () => {
     loginFast();
     // loginTest();
 
-    nuevoTipoDeReunion()
+    // nuevoTipoDeReunion()//COMPLETADO
     // anadirSocioPersonaJuridica()//COMPLETADO
     // anadirSocio();//COMPLETADO
     // dashboardNewSesion();//COMPLETADO
-    
-    // addSociedad()
+    // addSociedad()//COMPLETADO
+
 
     // dashboardTest();
 
-    // logoutTest();
+    logoutTest();
   })
 
   /* it('.focus() - focus on a DOM element', () => {
