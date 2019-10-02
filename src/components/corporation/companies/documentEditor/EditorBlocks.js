@@ -153,6 +153,9 @@ export const generateAgendaBlocks = (translate, agenda) => {
                     type: 'voting',
                     noBorrar: false,
                     editButton: false,
+                    data: {
+                        agendaId: element.id
+                    },
                     logic: true,
                     icon: iconVotaciones,
                     colorBorder: '#866666'
@@ -168,6 +171,9 @@ export const generateAgendaBlocks = (translate, agenda) => {
                 editButton: false,
                 type: 'agendaComments',
                 noBorrar: true,
+                data: {
+                    agendaId: element.id
+                },
                 editButton: false
             }
         ])

@@ -33,6 +33,8 @@ const defaultTemplates = {
 
 export const ActContext = React.createContext();
 
+const councilId = 7113;
+
 
 const OrdenarPrueba = ({ translate, company, client, ...props }) => {
 
@@ -75,7 +77,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             query: CouncilActData,
             variables: {
                 companyId: 375, //props.companyID,
-                councilID: 5231,//props.councilID,
+                councilID: councilId,//props.councilID,
                 options: {
                     limit: 10000,
                     offset: 0
@@ -211,17 +213,19 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     const generatePreview = async () => {
         const response = await client.mutate({
             mutation: gql`
-                mutation ACTHTML($doc: Document){
-                    generateActHTML(document: $doc)
+                mutation ACTHTML($doc: Document, $councilId: Int!){
+                    generateActHTML(document: $doc, councilId: $councilId)
                 }
             `,
             variables: {
                 doc: {
                     fragments: agendas.items.reduce((acc, curr) => curr.items? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
                         type: item.type,
-                        text: item.text
+                        text: item.text,
+                        data: item.data
                     }))
-                }
+                },
+                councilId
             }
         });
 
