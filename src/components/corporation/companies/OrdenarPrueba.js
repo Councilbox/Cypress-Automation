@@ -7,7 +7,7 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
-import { changeVariablesToValues, checkForUnclosedBraces } from '../../../utils/CBX';
+import { changeVariablesToValues, checkForUnclosedBraces, downloadFile } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
 import previewImg from '../../../assets/img/preview-1.svg'
@@ -228,9 +228,39 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                 councilId
             }
         });
+        setPreview(response.data.generateActHTML);
+    }
+
+    const downloadPDF = async () => {
+        const response = await client.mutate({
+            mutation: gql`
+                mutation ACTHTML($doc: Document, $councilId: Int!){
+                    generateDocPDF(document: $doc, councilId: $councilId)
+                }
+            `,
+            variables: {
+                doc: {
+                    fragments: agendas.items.reduce((acc, curr) => curr.items? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
+                        type: item.type,
+                        text: item.text,
+                        data: item.data
+                    }))
+                },
+                councilId
+            }
+        });
 
         console.log(response);
-        setPreview(response.data.generateActHTML);
+
+        if (response) {
+            if (response.data.generateDocPDF) {
+                downloadFile(
+                    response.data.generateDocPDF,
+                    "application/pdf",
+                    'Prueba de doc'
+                );
+            }
+        }
     }
 
     const moveDown = (id, index) => {
@@ -388,11 +418,22 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                 {!colapse &&
                                     <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
                                         <div style={{ display: "flex" }}>
-                                            <DownloadActPDF
-                                                translate={translate}
-                                                council={7021} // cambiar a council
-                                                inEditorActa={true}
-                                                text={"Exportar a PDF"}// TRADUCCION
+                                            <BasicButton
+                                                text={'Prueba descargar doc'}
+                                                color={primary}
+                                                onClick={downloadPDF}
+                                                textStyle={{
+                                                    color: "white",
+                                                    fontSize: "0.9em",
+                                                    textTransform: "none"
+                                                }}
+                                                textPosition="after"
+                                                iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                                buttonStyle={{
+                                                    marginRight: "1em",
+                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                    borderRadius: '3px'
+                                                }}
                                             />
                                             <BasicButton
                                                 text={translate.save}
