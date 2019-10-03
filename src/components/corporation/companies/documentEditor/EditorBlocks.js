@@ -171,7 +171,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                 editButton: false,
                 type: 'agendaComments',
                 colorBorder:"#b39a5b",
-                noBorrar: true,
+                noBorrar: false,
                 data: {
                     agendaId: element.id
                 },

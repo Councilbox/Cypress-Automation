@@ -240,7 +240,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             `,
             variables: {
                 doc: {
-                    fragments: agendas.items.reduce((acc, curr) => curr.items? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
+                    fragments: agendas.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
                         type: item.type,
                         text: item.text,
                         data: item.data
@@ -702,6 +702,17 @@ const DraggableBlock = SortableElement(props => {
     const onMouseLeave = () => {
         setHover(false)
     }
+    const blockFijoTomadeAcuerdos = {
+        value:{
+        id: Math.random().toString(36).substr(2, 9),
+        label: "Toma de acuerdos",
+        editButton: true,
+        type: 'Toma de acuerdos',
+        noBorrar: true,
+        editButton: false,
+        text: '',
+        expand: true}
+    }
 
     return (
         props.value !== undefined && props.value.text !== undefined &&
@@ -734,6 +745,7 @@ const DraggableBlock = SortableElement(props => {
                             click={() => setExpand(!expand)}
                             id={props.id}
                             indexItem={props.indexItem}
+                            expand={expand}
                         />
                     }
                 </div>
@@ -778,7 +790,9 @@ const DraggableBlock = SortableElement(props => {
                             remove={props.remove}
                         />
                         :
-                        'Collapse????????'
+                        <Block
+                            {...blockFijoTomadeAcuerdos}
+                        />
                     :
                     <Block
                         {...props}
@@ -916,7 +930,7 @@ const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo
 
 
 
-export const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
+export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) => {
     const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
@@ -946,7 +960,7 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={"fa fa-compress"}
-                style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0", padding: "5px", fontSize: "16px" }}
+                style={{ background: hover && "gainsboro", borderRadius: "20px", color: expand ? "black": "#a09aa0", padding: "5px", fontSize: "16px",  }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >

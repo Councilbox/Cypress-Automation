@@ -58,7 +58,8 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     colorBorder={props.value.colorBorder}
                     stylesBody={{ width: "100%", margin: "0em", }}
                     removeBlock={props.removeBlock}
-                    borrar={true}
+                    borrar={props.value.type === 'agendaComments' ? false : true}
+                    noIcon={true}
                 >
                     <div >
                         <div style={{ fontSize: '16px', fontWeight: 'bold',  }}>{props.value.label}</div>
