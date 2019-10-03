@@ -8,6 +8,7 @@ const AgreementsPreview = ({ item, translate }) => {
                 return (
                     block.logic?
                         <BorderBox
+                            key={block.id}
                             itemInfo={288}
                             icon={block.icon}
                             id={block.id}
@@ -21,7 +22,7 @@ const AgreementsPreview = ({ item, translate }) => {
                         </BorderBox>
                     :
 
-                    <div dangerouslySetInnerHTML={{__html: block.text}} style={{marginTop: '2em'}} />
+                    <div dangerouslySetInnerHTML={{__html: block.text}} style={{marginTop: '2em'}} key={block.id}/>
                 )
             })}
         </div>

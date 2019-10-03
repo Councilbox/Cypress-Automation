@@ -18,11 +18,12 @@ const AgreementsBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, set
             items: item.items
         });
     }
-
+    
     return (
         <React.Fragment>
             {item.items.map((item, index) => (
                 <Block
+                    key={index}
                     value={item}
                     hoverFijo={hoverFijo}
                     hoverAndSave={hoverAndSave}

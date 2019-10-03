@@ -4,6 +4,7 @@ import RichTextInput from '../../../../displayComponents/RichTextInput';
 import { Button, Collapse } from 'material-ui';
 import { DRAFT_TYPES } from '../../../../constants';
 import iconVotaciones from '../../../../assets/img/handshake.svg';
+import iconAgendaComments from '../../../../assets/img/speech-bubbles-comment-option.svg';
 import { BasicButton } from '../../../../displayComponents';
 import { Dialog, DialogTitle, DialogContent } from 'material-ui';
 import LoadDraft from '../../../company/drafts/LoadDraft';
@@ -46,22 +47,24 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
         }
         setHoverFijo(!hoverFijo)
     }
-
-    if(props.value.originalName === 'voting'){
+    
+    if (props.value.type === 'voting' || props.value.type === 'agendaComments') { 
         return (
-            <BorderBox
-                itemInfo={288}
-                icon={iconVotaciones}
-                id={props.id}
-                colorBorder={props.value.colorBorder}
-                stylesBody={{ width: "98%" }}
-                removeBlock={props.removeBlock}
-                borrar={true}
-            >
-                <div >
-                    <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
-                </div>
-            </BorderBox>
+            <div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%', }}>
+                <BorderBox
+                    itemInfo={288}
+                    icon={props.value.type === 'voting' ? iconVotaciones : iconAgendaComments }
+                    id={props.id}
+                    colorBorder={props.value.colorBorder}
+                    stylesBody={{ width: "100%", margin: "0em", }}
+                    removeBlock={props.removeBlock}
+                    borrar={true}
+                >
+                    <div >
+                        <div style={{ fontSize: '16px', fontWeight: 'bold',  }}>{props.value.label}</div>
+                    </div>
+                </BorderBox>
+            </div>
         )
 
     }
@@ -99,8 +102,8 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
 
     return (
-        <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%", }}>
-            <div style={{ display: "flex", fontSize: '19px' }}>
+        <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%" }}>
+            <div style={{ display: "flex", fontSize: '19px', }}>
                 <div style={{ color: getPrimary(), fontWeight: "bold", display: "flex", paddingRight: "1em", }}>
                     {props.value.icon ?
                         <React.Fragment>
@@ -141,7 +144,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     <div style={{ marginTop: "1em", cursor: "default" }} className="editorText" >
                         {renderEditor()}
                     </div>
-                :
+                    :
                     <div
                         style={{ marginTop: "1em" }}
                         dangerouslySetInnerHTML={{
@@ -176,7 +179,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                             loadDraft={loadDraft}
                             statute={actData.data.council.statute}
                             statutes={actData.data.companyStatutes}
-                            //draftType={state.draftType}
+                        //draftType={state.draftType}
                         />
                     </DialogContent>
                 </Dialog>
@@ -216,14 +219,14 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                             <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
                                 {children}
                             </div>
-                            <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
+                            <div style={{ marginLeft: "0.3em", marginRight: "0.8em" }}>
                                 {borrar ?
                                     <i className="fa fa-trash-o" style={{ cursor: "pointer", color: colorBorder }} onClick={() => removeBlock(id)}>
                                     </i>
                                     :
                                     !noIcon &&
-                                        <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
-                                            arrow_right_alt
+                                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
+                                        arrow_right_alt
                                         </i>
                                 }
                             </div>

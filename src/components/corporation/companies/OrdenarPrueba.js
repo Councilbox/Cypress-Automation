@@ -1,7 +1,7 @@
 import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { Card, MenuItem, FormControlLabel, Switch, SvgIcon } from 'material-ui';
+import { Card, MenuItem, FormControlLabel, Switch } from 'material-ui';
 import { Grid, Scrollbar, SelectInput, LoadingSection, BasicButton } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -17,7 +17,6 @@ import { getBlocks, generateAgendaBlocks } from './documentEditor/EditorBlocks';
 import AgreementsBlock from './documentEditor/AgreementsBlock';
 import Block, { BorderBox } from './documentEditor/Block';
 import AgreementsPreview from './documentEditor/AgreementsPreview';
-
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -56,7 +55,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         disableButtons: false,
         text: "",
         errors: {},
-        imgIzqCbx: 2,
         sendActDraft: false,
         finishActModal: false
     });
@@ -155,6 +153,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
         if (event.target.tagName.toLowerCase() === 'i' && event.target.classList[2] === undefined) {
             return true
         }
+
         if (event.target.tagName.toLowerCase() === 'button' ||
             event.target.tagName.toLowerCase() === 'span' ||
             event.target.tagName.toLowerCase() === 'polyline' ||
@@ -165,7 +164,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             event.target.tagName.toLowerCase() === 'li' ||
             event.target.tagName.toLowerCase() === 's' ||
             event.target.tagName.toLowerCase() === 'a' ||
-            event.target.tagName.toLowerCase() === 'p' ||
+            (event.target.tagName.toLowerCase() === 'p' && event.target.parentElement.classList.value === "ql-editor ql-blank") ||
             event.target.tagName.toLowerCase() === 'u' ||
             event.target.tagName.toLowerCase() === 'line' ||
             event.target.tagName.toLowerCase() === 'strong' ||
@@ -310,13 +309,8 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     }
 
 
-    React.useEffect(() => {
-        if (document.getElementsByClassName("actaLienzo")[0]) {
-            if (Math.ceil(document.getElementsByClassName("actaLienzo")[0].scrollHeight / 995) >= 2) {
-                setState({ imgIzqCbx: Math.ceil(document.getElementsByClassName("actaLienzo")[0].scrollHeight / 995) })
-            }
-        }
-    }, [document.getElementsByClassName("actaLienzo")[0], colapse, edit])
+
+
 
 
     return (
@@ -326,7 +320,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                     <LoadingSection></LoadingSection>
                     :
                     <React.Fragment>
-                        <div style={{ borderBottom: "1px solid gainsboro" }}>{/* height: "3em" */}
+                        {/* <div style={{ borderBottom: "1px solid gainsboro" }}>
                             <div style={{ display: "flex", alignItems: "center", padding: "0px 1em", justifyContent: "space-between" }}>
                                 <div>
                                     <SelectInput
@@ -345,9 +339,9 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                     <FormControlLabel control={<Switch checked={edit} onChange={event => handleChange(event)} value="edit" />} label="Edit" />
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div style={{ display: "flex", height: "100%" }}>
-                            <div style={{ width: "40%", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
+                            <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
                                 <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
                                     <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
                                         help
@@ -390,7 +384,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                     </Scrollbar>
                                 </div>
                             </div>
-                            <div style={{ width: colapse ? "100%" : "60%", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
+                            <div style={{ width: "100%", position: colapse && "relative", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
                                 {!colapse &&
                                     <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
                                         <div style={{ display: "flex" }}>
@@ -466,14 +460,11 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                 }}
                                                 textPosition="after"
                                                 iconInit={
-                                                    <Ic svg={previewImg} />
+                                                    <object type="image/svg+xml" data={previewImg} className="PRUEBA">
+                                                        <img src={previewImg} style={{ color: 'red' }}></img>
+                                                    </object>
                                                 }
-                                                // iconInit={
-                                                //     <object type="image/svg+xml" data={previewImg} className="PRUEBA">
-                                                //         <img src={previewImg} style={{ color: 'red' }}></img>
-                                                //     </object>
-                                                // }
-                                                onClick={() => setColapse(!colapse)}
+                                                onClick={() => { setColapse(!colapse); setEdit(false) }}
                                                 buttonStyle={{
                                                     boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                                     borderRadius: '3px',
@@ -504,16 +495,46 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                         </div>
                                     </div>
                                 }
-                                <div style={{ height: "calc( 100% - 6em )", borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
+                                <div style={{ position: "absolute", top: "7px", right: "15px" }}>
+                                    {colapse &&
+                                        < BasicButton
+                                            text={''}
+                                            color={"white"}
+                                            textStyle={{
+                                                color: "black",
+                                                fontWeight: "700",
+                                                fontSize: "0.9em",
+                                                textTransform: "none"
+                                            }}
+                                            textPosition="after"
+                                            iconInit={
+                                                <object type="image/svg+xml" data={previewImg} className="PRUEBA">
+                                                    <img src={previewImg} style={{ color: 'red' }}></img>
+                                                </object>
+                                            }
+                                            onClick={() => setColapse(!colapse)}
+                                            buttonStyle={{
+                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                borderRadius: '3px',
+                                                borderTopRightRadius: '0px',
+                                                borderBottomRightRadius: '0px',
+                                                borderRight: '1px solid #e8eaeb'
+                                            }}
+                                        />
+                                    }
+                                </div>
+                                <div style={{ height: "100%", marginTop: colapse && '2em', borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
                                     <Scrollbar>
                                         {preview ?
                                             <div dangerouslySetInnerHTML={{ __html: preview }} />
                                             :
                                             <div style={{ display: "flex", height: "100%" }} >
                                                 <div style={{ width: "20%", maxWidth: "95px" }}>
-                                                    {new Array(state.imgIzqCbx).fill(0).map(index =>
-                                                        <img style={{ width: "100%", }} src={imgIzq} key={index + "cbx" + Math.floor(Math.random() * 100)}></img>
-                                                    )}
+                                                    <Timbrado
+                                                        colapse={colapse}
+                                                        edit={edit}
+                                                    />
+
                                                 </div>
                                                 <div style={{ width: "100%" }}>
                                                     <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
@@ -553,7 +574,24 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
             </div>
         </ActContext.Provider>
     )
+}
 
+const Timbrado = ({ colapse, edit }) => {
+    const [imgIzqCbx, setImgIzqCbx] = React.useState(2)
+
+    React.useEffect(() => {
+        if (document.getElementsByClassName("actaLienzo")[0]) {
+            if (Math.ceil(document.getElementsByClassName("actaLienzo")[0].scrollHeight / 995) >= 2) {
+                setImgIzqCbx(Math.ceil(document.getElementsByClassName("actaLienzo")[0].scrollHeight / 995))
+            }
+        }
+    }, [document.getElementsByClassName("actaLienzo")[0], colapse, edit])
+
+    return (
+        new Array(imgIzqCbx).fill(0).map((option, index) =>
+            <img style={{ width: "100%", }} src={imgIzq} key={index}></img>
+        )
+    )
 }
 
 
@@ -691,12 +729,15 @@ const DraggableBlock = SortableElement(props => {
                     </div>
                 </div>
                 {props.value.type === 'agreements' ?
-                    <AgreementsBlock
-                        item={props.value}
-                        updateBlock={props.updateBlock}
-                        translate={props.translate}
-                        remove={props.remove}
-                    />
+                    !expand ?
+                        <AgreementsBlock
+                            item={props.value}
+                            updateBlock={props.updateBlock}
+                            translate={props.translate}
+                            remove={props.remove}
+                        />
+                        :
+                        'Collapse????????'
                     :
                     <Block
                         {...props}
@@ -707,7 +748,6 @@ const DraggableBlock = SortableElement(props => {
         </div>
     );
 });
-
 
 const NoDraggableBlock = props => {
     if (props.logic) {
@@ -902,12 +942,6 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn }) => {
     }
 }
 
-const Ic = ({svg}) => {
-    console.log(svg)
-    return (
-      <div style={{ mask: 'url('+ svg +')'}}></div>
-    )
-}
 
 const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {

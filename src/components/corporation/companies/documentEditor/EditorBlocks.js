@@ -4,6 +4,7 @@ import iconDelegaciones from '../../../../assets/img/networking.svg';
 import { getAgendaResult, hasVotation } from '../../../../utils/CBX';
 
 //TRADUCCION
+// expand: true
 export const getBlocks = translate => ({
     TEXT: {
         id: Math.random().toString(36).substr(2, 9),
@@ -54,7 +55,6 @@ export const getBlocks = translate => ({
             text: puntos,
             type: 'agenda',
             noBorrar: true,
-            expand: true
         }
     },
     AGENDA_INTRO: {
@@ -170,6 +170,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                 text: "<b>Comentarios</b> </br>" + element.description,
                 editButton: false,
                 type: 'agendaComments',
+                colorBorder:"#b39a5b",
                 noBorrar: true,
                 data: {
                     agendaId: element.id
@@ -187,7 +188,8 @@ export const generateAgendaBlocks = (translate, agenda) => {
         noBorrar: true,
         editButton: false,
         text: '',
-        items: newArray
+        items: newArray,
+        expand: true
     }
 
     return block;
