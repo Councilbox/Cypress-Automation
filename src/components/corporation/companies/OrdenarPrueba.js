@@ -10,7 +10,8 @@ import gql from 'graphql-tag';
 import { changeVariablesToValues, checkForUnclosedBraces, downloadFile } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
-import previewImg from '../../../assets/img/preview-1.svg'
+import previewImg from '../../../assets/img/preview-1.svg';
+import Lupa from '../../../displayComponents/Lupa';
 import textool from '../../../assets/img/text-tool.svg'
 import DownloadActPDF from '../../council/writing/actViewer/DownloadActPDF';
 import { getBlocks, generateAgendaBlocks } from './documentEditor/EditorBlocks';
@@ -501,9 +502,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                                 }}
                                                 textPosition="after"
                                                 iconInit={
-                                                    <object type="image/svg+xml" data={previewImg} className="PRUEBA">
-                                                        <img src={previewImg} style={{ color: 'red' }}></img>
-                                                    </object>
+                                                    <Lupa color={'blue'} width={'20px'} height={'20px'} />
                                                 }
                                                 onClick={() => { setColapse(!colapse); setEdit(false) }}
                                                 buttonStyle={{
@@ -549,9 +548,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                                             }}
                                             textPosition="after"
                                             iconInit={
-                                                <object type="image/svg+xml" data={previewImg} className="PRUEBA">
-                                                    <img src={previewImg} style={{ color: 'red' }}></img>
-                                                </object>
+                                                <Lupa color={'red'} width={'60px'} height={'60px'} />
                                             }
                                             onClick={() => setColapse(!colapse)}
                                             buttonStyle={{
