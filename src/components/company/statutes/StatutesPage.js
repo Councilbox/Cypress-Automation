@@ -33,7 +33,7 @@ import { isMobile } from "react-device-detect";
 
 
 const StatutesPage = ({ data, translate, client, ...props }) => {
-	const [state, setState] = useOldState({
+	const [state, setState] = React.useState({
 		selectedStatute: 0,
 		newStatute: false,
 		newStatuteName: "",
@@ -54,9 +54,10 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 
 	React.useEffect(() => {
 		if(!data.loading){
-			setState({
+			setState(state => ({
+				...state,
 				statute: data.companyStatutes[state.selectedStatute]
-			});
+			}));
 			setTabs(data.companyStatutes.map(statute => ({
 				title: translate[statute.title] || statute.title,
 				data: statute
@@ -66,9 +67,10 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 
 	React.useEffect(() => {
 		if(state.statute === null){
-			setState({
+			setState(state => ({
+				...state,
 				statute: data.companyStatutes[state.selectedStatute]
-			});
+			}));
 		}
 	}, [state.statute]);
 
@@ -161,16 +163,18 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 			);
 		}
 
-		setState({
+		setState(state => ({
+			...state,
 			errors,
 			error: hasError
-		});
+		}));
 
 		return hasError;
 	}
 
 	const openDeleteModal = id => {
 		setState({
+			...state,
 			deleteModal: true,
 			deleteID: id
 		});
@@ -178,12 +182,14 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 
 	const openEditModal = index => {
 		setState({
+			...state,
 			editModal: index
 		})
 	}
 
 	const resetButtonStates = () => {
 		setState({
+			...state,
 			error: false,
 			loading: false,
 			success: false
@@ -193,6 +199,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 	const updateStatute = async () => {
 		if (!checkRequiredFields()) {
 			setState({
+				...state,
 				loading: true
 			});
 			const { __typename, ...statute } = state.statute;
@@ -204,12 +211,14 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 			});
 			if (response.errors) {
 				setState({
+					...state,
 					error: true,
 					loading: false,
 					success: false
 				});
 			} else {
 				setState({
+					...state,
 					error: false,
 					loading: false,
 					success: true,
@@ -230,6 +239,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 		if (response) {
 			data.refetch();
 			setState({
+				...state,
 				statute: data.companyStatutes[0],
 				selectedStatute: 0,
 				deleteModal: false
@@ -240,6 +250,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 	const createStatute = async () => {
 		if (state.newStatuteName) {
 			setState({
+				...state,
 				newLoading: true
 			});
 			const statute = {
@@ -255,17 +266,20 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 				const updated = await data.refetch();
 				if (updated) {
 					setState({
+						...state,
 						newStatute: false
 					});
 					handleStatuteChange(data.companyStatutes.length - 1);
 				}
 				setState({
+					...state,
 					newStatute: false,
 					newLoading: false
 				});
 			}
 		} else {
 			setState({
+				...state,
 				errors: {
 					...state.errors,
 					newStatuteName: translate.required_field
@@ -278,34 +292,39 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 		if(!state.unsavedChanges){
 			store.dispatch(setUnsavedChanges(true));
 		}
- 		setState({
+
+ 		setState(state => ({
+			...state,
 			statute: {
 				...state.statute,
 				...object
 			},
 			unsavedChanges: true
-		});
+		}));
 	};
 
 	const handleStatuteChange = index => {
 		if(index !== 'new'){
 			if (!state.unsavedChanges) {
 				setState({
+					...state,
 					selectedStatute: index,
 					statute: null
 				})
 			} else{
 				setState({
+					...state,
 					unsavedAlert: true
 				});
 			}
 		}
 	};
 
-	const showNewStatute = () => setState({ newStatute: true });
+	const showNewStatute = () => setState({ ...state, newStatute: true });
 
 	const restoreStatute = () => {
 		setState({
+			...state,
 			statute: null,
 			unsavedChanges: false,
 			rollbackAlert: false
@@ -392,6 +411,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 													marginRight: '0.8em'
 												}}
 												onClick={() => setState({
+													...state,
 													rollbackAlert: true
 												})}
 												icon={
@@ -463,10 +483,10 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 				buttonCancel={translate.cancel}
 				modal={true}
 				acceptAction={deleteStatute}
-				requestClose={() => setState({ deleteModal: false })}
+				requestClose={() => setState({ ...state, eleteModal: false })}
 			/>
 			<UnsavedChangesModal
-				requestClose={() => setState({ unsavedAlert: false })}
+				requestClose={() => setState({ ...state, unsavedAlert: false })}
 				open={state.unsavedAlert}
 			/>
 			<AlertConfirm
@@ -477,11 +497,11 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 				acceptAction={restoreStatute}
 				buttonCancel={translate.cancel}
 				modal={true}
-				requestClose={() => setState({ rollbackAlert: false })}
+				requestClose={() => setState({ ...state, rollbackAlert: false })}
 			/>
 			<AlertConfirm
 				requestClose={() =>
-					setState({ newStatute: false })
+					setState({ ...state, newStatute: false })
 				}
 				open={state.newStatute}
 				acceptAction={createStatute}
@@ -497,6 +517,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 						value={statute? statute.newStatuteName : state.newStatuteName}
 						onChange={event =>
 							setState({
+								...state,
 								newStatuteName:
 									event.target.value
 							})
@@ -508,7 +529,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 			{state.editModal !== false &&
 				<StatuteNameEditor
 					requestClose={() =>
-						setState({ editModal: false })
+						setState({ ...state, editModal: false })
 					}
 					key={companyStatutes[state.editModal].id}
 					statute={companyStatutes[state.editModal]}
