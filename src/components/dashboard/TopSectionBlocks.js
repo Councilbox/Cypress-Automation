@@ -14,6 +14,8 @@ import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
 import { Avatar } from "antd";
 import { primary } from "../../styles/colors";
+import Calendar from 'react-calendar';
+
 
 const TopSectionBlocks = ({ translate, company, user }) => {
 	const [open, setOpen] = React.useState(false);
@@ -49,9 +51,9 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					textAlign: "left",
 					overflow: "hidden"
 				}}>
-					<GridItem xs={8} md={8} lg={8} style={{ overflow: "hidden", minHeight: "100px" }}>
-						<div style={{ marginBottom: "1em" }}>Reuniones en curso</div>
-						<Grid style={{ overflow: "hidden", height: "200px", }}>
+					<GridItem xs={8} md={8} lg={8} style={{ overflow: "hidden" }}>
+						<div style={{ marginBottom: "1em", fontWeight: 'bold', color:"#a09b9e"  }}>Reuniones en curso</div>
+						<Grid style={{ overflow: "hidden", height: "100%" }}>
 							<Scrollbar>
 								<GridItem style={{ background: "#edf4fb", padding: "1em" }} xs={12} md={12} lg={12}>
 									<Grid style={{ alignItems: "center" }} >
@@ -123,8 +125,14 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 						</Grid>
 					</GridItem>
 					<GridItem xs={4} md={4} lg={4}>
-						<div>Calendario</div>
-						<div>asdassdas</div>
+						<div style={{ padding: "1em"}}>
+							<Calendar
+								// onChange={this.onChange}
+								value={new Date()}
+								minDetail={'month'}
+								
+							/>
+						</div>
 					</GridItem>
 				</Grid>
 				<Grid

@@ -38,6 +38,7 @@
     "react-autosuggest": "^9.3.4",
     "react-big-calendar": "^0.20.3",
     "react-bootstrap": "^0.32.1",
+    "react-calendar": "^2.19.2",
     "react-chartjs-2": "^2.7.4",
     "react-codemirror2": "^5.1.0",
     "react-collapse": "^4.0.3",
