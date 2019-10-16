@@ -51,7 +51,9 @@ const Dashboard = ({ translate, company, user }) => {
 						}}
 					>
 					</div>
-					<div style={{display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center'}}>
+
+					{/* Imagen de compañia quitada */}
+					{/* <div style={{display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center'}}>
 						<div>
 							{company.logo &&
 								<img src={company.logo} alt="company-logo" style={{height: '4.5em', width: 'auto'}} />
@@ -61,7 +63,7 @@ const Dashboard = ({ translate, company, user }) => {
 							{company.businessName}
 							{company.demo === 1 && ` (${translate.free_trial_remaining} ${trialDays <= 0? 0 : trialDays} ${translate.input_group_days})`}
 						</div>
-					</div>
+					</div> */}
 					<TopSectionBlocks
 						translate={translate}
 						company={company}
