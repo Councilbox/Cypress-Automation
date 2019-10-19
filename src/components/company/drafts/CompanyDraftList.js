@@ -333,6 +333,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 												translate={translate}
 												renderDeleteIcon={_renderDeleteIcon}
 												draft={draft}
+												companyStatutes={vars.companyStatutes}
 												draftTypes={draftTypes}
 												company={company}
 												info={props}
@@ -361,7 +362,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 	);
 }
 
-const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props }) => {
+const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, info, ...props }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 	const [showActions, setShowActions] = React.useState(false);
@@ -380,12 +381,32 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, ...props })
 		)
 	}
 
+	const formatLabelFromName = tag => {
+		if (tag.type === 1) {
+			const title = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]).title;
+			return translate[title] || title;
+		}
+
+		return tag.segments ?
+			`${tag.segments.reduce((acc, curr) => {
+				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
+				return acc;
+			}, '')}`
+			:
+			translate[tag.name] ? translate[tag.name] : tag.name
+	}
+
 	const buildTagColumns = tags => {
 		const columns = {};
 		if(tags){
 			Object.keys(tags).forEach(key => {
 				const tag = tags[key];
-				columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
+				const formatted = {
+					...draft.tags[key],
+					label: formatLabelFromName(draft.tags[key])
+				}
+
+				columns[tag.type] = columns[tag.type] ? [...columns[tag.type], formatted] : [formatted]
 			});
 		}
 

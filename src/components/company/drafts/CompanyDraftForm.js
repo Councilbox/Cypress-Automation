@@ -44,6 +44,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	const [companyT, setCompanyT] = React.useState([]);
 	const [openSelectorEtiquetas, setOpenSelectorEtiquetas] = React.useState(true);
 
+	console.log(testTags);
+
 
 	const removeTag = tag => {
 		delete testTags[tag];
