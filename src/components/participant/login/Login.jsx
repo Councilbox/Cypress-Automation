@@ -54,7 +54,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 				<Card style={styles.cardContainer} elevation={6}>
 					<Scrollbar>
 						<React.Fragment>
-							{councilIsLive(council) ? (
+							{(councilIsLive(council) && !participant.hasVoted) ? (
 								<LoginForm
 									participant={participant}
 									council={council}

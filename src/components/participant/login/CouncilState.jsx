@@ -248,7 +248,7 @@ class CouncilState extends React.Component {
 						</StateContainer>
 					)}
 
-					{councilIsFinished(council) && (
+					{(councilIsFinished(council) || this.props.participant.hasVoted) && (
 						<React.Fragment>
 							<StateContainer
 								widths={this.state.width}
@@ -257,7 +257,7 @@ class CouncilState extends React.Component {
 							>
 								<div style={{ width: "410px" }}>
 									<TextRender
-										title={translate.concil_finished}
+										title={this.props.participant.hasVoted? 'Voto remoto ya registrado' : translate.concil_finished}
 										council={council}
 										company={company}
 										translate={translate}

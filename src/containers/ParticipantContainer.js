@@ -264,6 +264,7 @@ const participantQuery = gql`
 			surname
 			id
 			type
+			hasVoted
 			phone
 			numParticipations
 			delegatedVotes {
