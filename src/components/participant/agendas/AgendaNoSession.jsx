@@ -16,6 +16,7 @@ import { moment, store } from "../../../containers/App";
 import { logoutParticipant } from "../../../actions/mainActions";
 
 
+export const VotingContext = React.createContext({});
 
 const styles = {
     container: {
@@ -41,6 +42,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     const scrollbar = React.useRef();
     let agendas = [];
     const [timelineSeeId, settimelineSeeId] = React.useState(0);
+    const [responses, setResponses] = React.useState(new Map());
+
+    console.log(responses);
 
     const renderAgendaCard = agenda => {
         return (
@@ -50,9 +54,23 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 translate={translate}
                 participant={participant}
                 refetch={data.refetch}
+                responses={responses}
+                setResponse={setResponses}
             />
         )
     }
+
+    React.useEffect(() => {
+        // const showUnfinishedVoting = ev => {
+        //     ev.preventDefault();
+        //     return ev.returnValue = 'No ha enviado su voto, está seguro de querer salir, ¿confirmar?';
+        // }
+
+        // window.addEventListener("beforeunload", showUnfinishedVoting);
+
+        // return () => window.removeEventListener("beforeunload", showUnfinishedVoting);
+    }, [council.id]);
+
 
     const scrollToBottom = () => {
         scrollbar.current.scrollToBottom();
@@ -91,7 +109,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
     if (props.inPc) {
         return (
-            <React.Fragment>
+            <VotingContext.Provider value={{
+                responses,
+                setResponses
+            }}>
                 <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
                     <div style={{ height: "100%" }}>
                         {!props.sinCabecera &&
@@ -194,82 +215,87 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                         </Button>
                     </div>
                 }
-            </React.Fragment>
+            </VotingContext.Provider>
         );
     }
 
     return (
-        <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
-            {!props.sinCabecera &&
-                <React.Fragment>
-                    <div style={styles.agendasHeader}>
-                        <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
-                        <div style={{ width: '3em' }}>
-                            <CouncilInfoMenu
-                                {...props}
-                                translate={translate}
-                                participant={participant}
-                                council={council}
-                                noSession={noSession}
-                            />
+        <VotingContext.Provider value={{
+            setResponses,
+            responses
+        }}>
+            <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
+                {!props.sinCabecera &&
+                    <React.Fragment>
+                        <div style={styles.agendasHeader}>
+                            <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
+                            <div style={{ width: '3em' }}>
+                                <CouncilInfoMenu
+                                    {...props}
+                                    translate={translate}
+                                    participant={participant}
+                                    council={council}
+                                    noSession={noSession}
+                                />
+                            </div>
                         </div>
+                        <Divider />
+                    </React.Fragment>
+                }
+                {props.sinCabecera &&
+                    <div style={{ position: "relative", top: '5px',  width: "100%", height: "32px", }}>
+                        <CouncilInfoMenu
+                        noSession={noSession}
+                            {...props}
+                            translate={translate}
+                            participant={participant}
+                            council={council}
+                        />
                     </div>
-                    <Divider />
-                </React.Fragment>
-            }
-            {props.sinCabecera &&
-                <div style={{ position: "relative", top: '5px',  width: "100%", height: "32px", }}>
-                    <CouncilInfoMenu
-                     noSession={noSession}
-                        {...props}
-                        translate={translate}
-                        participant={participant}
-                        council={council}
-                    />
-                </div>
-            }
-            {!councilStarted(council) &&
-                <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-                    {translate.council_not_started_yet}
-                </div>
-            }
-            <div style={{ padding: '0.6em', height: "100%" }}> {/*marginTop: '10px',*/}
-                {data.agendas ?
-                    agendas.map((agenda, index) => {
-                        return (
-                            <React.Fragment key={`agenda_card_${index}`}>
-                                {renderAgendaCard(agenda)}
-                            </React.Fragment>
-                        )
+                }
+                {!councilStarted(council) &&
+                    <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+                        {translate.council_not_started_yet}
+                    </div>
+                }
+                <div style={{ padding: '0.6em', height: "100%" }}> {/*marginTop: '10px',*/}
+                    {data.agendas ?
+                        agendas.map((agenda, index) => {
+                            return (
+                                <React.Fragment key={`agenda_card_${index}`}>
+                                    {renderAgendaCard(agenda)}
+                                </React.Fragment>
+                            )
 
-                    })
-                    :
-                    <LoadingSection />
+                        })
+                        :
+                        <LoadingSection />
+                    }
+                </div>
+                {!noSession &&
+                    <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
+                        <Button
+                            onClick={() => logout}
+                            style={{
+                                borderRadius: "25px",
+                                background: "white",
+                                color: getPrimary(),
+                                height: "25px",
+                                fontSize: "13px",
+                                textTransform: "none",
+                                minHeight: "0px",
+                                lineHeight: '0.5',
+                                borderColor: getPrimary(),
+                                border: '2px solid',
+                                marginRight: "0.5em"
+                            }}
+                        >
+                            <b> Salir </b>
+                        </Button>
+                    </div>
                 }
             </div>
-            {!noSession &&
-                <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
-                    <Button
-                        onClick={() => logout}
-                        style={{
-                            borderRadius: "25px",
-                            background: "white",
-                            color: getPrimary(),
-                            height: "25px",
-                            fontSize: "13px",
-                            textTransform: "none",
-                            minHeight: "0px",
-                            lineHeight: '0.5',
-                            borderColor: getPrimary(),
-                            border: '2px solid',
-                            marginRight: "0.5em"
-                        }}
-                    >
-                        <b> Salir </b>
-                    </Button>
-                </div>
-            }
-        </div>
+        </VotingContext.Provider>
     );
 }
 
@@ -361,15 +387,14 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                 <Collapse in={true} timeout="auto" unmountOnExit>
                     <CardContent>
                         <AgendaDescription agenda={agenda} translate={translate} />
-
-                        <AgendaMenu
-                            horizontal={true}
-                            agenda={agenda}
-                            council={council}
-                            participant={participant}
-                            translate={translate}
-                            refetch={refetch}
-                        />
+                            <AgendaMenu
+                                horizontal={true}
+                                agenda={agenda}
+                                council={council}
+                                participant={participant}
+                                translate={translate}
+                                refetch={refetch}
+                            />
                     </CardContent>
                 </Collapse>
 

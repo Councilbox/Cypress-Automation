@@ -218,6 +218,10 @@ export const isQuorumNumber = quorumType => {
 	return quorumType === 3;
 };
 
+export const voteAllAtOnce = data => {
+	return data.council.councilType === 3;
+}
+
 export const hasAct = statute => {
 	return statute.existsAct === 1;
 };

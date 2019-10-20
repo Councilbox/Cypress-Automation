@@ -5,6 +5,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import VoteConfirmationModal from './VoteConfirmationModal';
 import { isMobile } from 'react-device-detect';
+import { VotingContext } from './AgendaNoSession';
+import { voteAllAtOnce } from '../../../utils/CBX';
 
 
 const styles = {
@@ -20,15 +22,23 @@ const styles = {
     }
 }
 
-const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
+const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) => {
     const [loading, setLoading] = React.useState(false);
     const [modal, setModal] = React.useState(false);
     const [vote, setVote] = React.useState(-1);
     const primary = getPrimary();
+    const votingContext = React.useContext(VotingContext);
+    const voteAtTheEnd = voteAllAtOnce({ council });
 
-    const showModal = vote => {
-        setModal(true);
-        setVote(vote);
+    console.log(voteAtTheEnd);
+
+    console.log(votingContext);
+
+    const setAgendaVoting = vote => {
+        //setModal(true);
+        //setVote(vote);
+        votingContext.responses.set(agenda.votings[0].id, vote);
+        votingContext.setResponses(new Map(votingContext.responses));
     }
 
     const closeModal = () => {
@@ -38,6 +48,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
 
     const updateAgendaVoting = async vote => {
         setLoading(vote);
+
         const response = await Promise.all(agenda.votings.map(voting =>
             props.updateAgendaVoting({
                 variables: {
@@ -69,11 +80,11 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
             <VotingButton
                 text={translate.in_favor_btn}
                 loading={loading === 1}
-                selected={agenda.votings[0].vote === 1}
+                selected={voteAtTheEnd? votingContext.responses.get(agenda.votings[0].id) === 1 : agenda.votings[0].vote === 1}
                 icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 1? primary : 'silver' }}></i>}
                 onClick={() => {
-                    if (singleVoteMode) {
-                        showModal(1)
+                    if (voteAtTheEnd) {
+                        setAgendaVoting(1)
                     } else {
                         updateAgendaVoting(1)
                     }
@@ -85,8 +96,8 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 selected={agenda.votings[0].vote === 0}
                 icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 0? primary : 'silver' }}></i>}
                 onClick={() => {
-                    if (singleVoteMode) {
-                        showModal(0)
+                    if (voteAtTheEnd) {
+                        setAgendaVoting(0)
                     } else {
                         updateAgendaVoting(0)
                     }
@@ -99,8 +110,8 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 2? primary : 'silver' }}></i>}
                 selected={agenda.votings[0].vote === 2}
                 onClick={() => {
-                    if (singleVoteMode) {
-                        showModal(2)
+                    if (voteAtTheEnd) {
+                        setAgendaVoting(2)
                     } else {
                         updateAgendaVoting(2)
                     }
@@ -110,14 +121,14 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 text={translate.dont_vote}
                 selected={agenda.votings[0].vote === -1}
                 onClick={() => {
-                    if (singleVoteMode) {
-                        showModal(-1)
+                    if (voteAtTheEnd) {
+                        setAgendaVoting(-1)
                     } else {
                         updateAgendaVoting(-1)
                     }
                 }}
             />
-            {singleVoteMode &&
+            {voteAtTheEnd &&
                 <VoteConfirmationModal
                     open={modal}
                     requestClose={closeModal}

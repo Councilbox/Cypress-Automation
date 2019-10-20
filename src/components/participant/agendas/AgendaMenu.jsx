@@ -11,7 +11,6 @@ import VotingSection from './VotingSection';
 import CustomPointVotingMenu from './CustomPointVotingMenu';
 
 
-
 class AgendaMenu extends React.Component {
 
     state = {
@@ -137,7 +136,7 @@ class AgendaMenu extends React.Component {
                                         {checkVotings(agenda.votings) &&
                                             <React.Fragment>
                                                 {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
-                                                    translate.your_vote_is_delegated
+                                                        translate.your_vote_is_delegated
                                                     :
                                                         <React.Fragment>
                                                             {CBX.isCustomPoint(agenda.subjectType)?

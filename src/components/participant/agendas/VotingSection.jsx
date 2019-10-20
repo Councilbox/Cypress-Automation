@@ -34,6 +34,7 @@ const VotingSection = ({ translate, agenda, council, ...props }) => {
             <VotingMenu
                 translate={translate}
                 close={props.toggle}
+                council={council}
                 singleVoteMode={false}
                 refetch={props.refetch}
                 agenda={agenda}
