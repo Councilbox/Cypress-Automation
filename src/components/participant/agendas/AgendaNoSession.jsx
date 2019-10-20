@@ -37,6 +37,16 @@ const styles = {
     }
 };
 
+const updateAgendaVoting = gql`
+    mutation UpdateAgendaVoting($agendaVoting: AgendaVotingInput!){
+        updateAgendaVoting(agendaVoting: $agendaVoting){
+            success
+            message
+        }
+    }
+`;
+
+
 const AgendaNoSession = ({ translate, council, participant, data, noSession, client, updateComment, ...props }) => {
     const primary = getPrimary();
     const scrollbar = React.useRef();
@@ -60,7 +70,36 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         )
     }
 
+    const sendVoteAndExit = async () => {
+        console.log(Array.from(responses));    
+        const response = await Promise.all(Array.from(responses).map(response =>
+            client.mutate({
+                mutation: updateAgendaVoting,
+                variables: {
+                    agendaVoting: {
+                        id: response[0],
+                        vote: response[1],
+                    }
+                }
+            })
+        ));
+
+        if (response) {
+            logout();
+        }
+    }
+
     React.useEffect(() => {
+        if(data.participantVotings && responses.size === 0){
+            data.participantVotings.forEach(voting => {
+                responses.set(voting.id, -1);
+            });
+            setResponses(new Map(responses));
+        }
+    }, [data]);
+
+    React.useEffect(() => {
+
         // const showUnfinishedVoting = ev => {
         //     ev.preventDefault();
         //     return ev.returnValue = 'No ha enviado su voto, está seguro de querer salir, ¿confirmar?';
@@ -197,22 +236,44 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 </Paper>
                 {!noSession &&
                     <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
-                        <Button
-                            onClick={logout}
-                            style={{
-                                borderRadius: "25px",
-                                background: "white",
-                                color: getPrimary(),
-                                height: "25px",
-                                fontSize: "13px",
-                                textTransform: "none",
-                                minHeight: "0px",
-                                lineHeight: '0.8',
+                        {CBX.voteAllAtOnce({ council })?
+                            <Button
+                                //onClick={logout}
+                                onClick={sendVoteAndExit}
+                                style={{
+                                    borderRadius: "25px",
+                                    background: "white",
+                                    color: getPrimary(),
+                                    height: "25px",
+                                    fontSize: "13px",
+                                    userSelect: 'none',
+                                    textTransform: "none",
+                                    minHeight: "0px",
+                                    lineHeight: '0.8',
 
-                            }}
-                        >
-                            <b> Salir </b>
-                        </Button>
+                                }}
+                            >
+                                <b> Enviar voto y salir {/**TRADUCCION*/} </b>
+                            </Button>
+                        :
+                            <Button
+                                onClick={logout}
+                                style={{
+                                    borderRadius: "25px",
+                                    background: "white",
+                                    color: getPrimary(),
+                                    height: "25px",
+                                    fontSize: "13px",
+                                    textTransform: "none",
+                                    minHeight: "0px",
+                                    lineHeight: '0.8',
+
+                                }}
+                            >
+                                <b>{translate.exit}</b>
+                            </Button>
+                        }
+
                     </div>
                 }
             </VotingContext.Provider>

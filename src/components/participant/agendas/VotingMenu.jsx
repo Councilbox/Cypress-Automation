@@ -68,6 +68,10 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
         }
     }
 
+    const getSelected = value => {
+        return voteAtTheEnd? votingContext.responses.get(agenda.votings[0].id) === value : agenda.votings[0].vote === value;
+    }
+
     return (
         <Grid
             style={{
@@ -80,7 +84,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             <VotingButton
                 text={translate.in_favor_btn}
                 loading={loading === 1}
-                selected={voteAtTheEnd? votingContext.responses.get(agenda.votings[0].id) === 1 : agenda.votings[0].vote === 1}
+                selected={getSelected(1)}
                 icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 1? primary : 'silver' }}></i>}
                 onClick={() => {
                     if (voteAtTheEnd) {
@@ -93,7 +97,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             <VotingButton
                 text={translate.against_btn}
                 loading={loading === 0}
-                selected={agenda.votings[0].vote === 0}
+                selected={getSelected(0)}
                 icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 0? primary : 'silver' }}></i>}
                 onClick={() => {
                     if (voteAtTheEnd) {
@@ -108,7 +112,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
                 text={translate.abstention_btn}
                 loading={loading === 2}
                 icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 2? primary : 'silver' }}></i>}
-                selected={agenda.votings[0].vote === 2}
+                selected={getSelected(2)}
                 onClick={() => {
                     if (voteAtTheEnd) {
                         setAgendaVoting(2)
@@ -119,7 +123,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             />
             <VotingButton
                 text={translate.dont_vote}
-                selected={agenda.votings[0].vote === -1}
+                selected={getSelected(-1)}
                 onClick={() => {
                     if (voteAtTheEnd) {
                         setAgendaVoting(-1)
