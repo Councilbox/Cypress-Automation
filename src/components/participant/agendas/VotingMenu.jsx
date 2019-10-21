@@ -37,7 +37,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
     const setAgendaVoting = vote => {
         //setModal(true);
         //setVote(vote);
-        votingContext.responses.set(agenda.votings[0].id, vote);
+        votingContext.responses.set(props.ownVote.id, vote);
         votingContext.setResponses(new Map(votingContext.responses));
     }
 

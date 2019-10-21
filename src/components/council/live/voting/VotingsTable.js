@@ -123,6 +123,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 									translate={translate}
 									agendaVoting={vote}
 									active={vote.vote}
+									council={props.council}
 									refetch={refreshTable}
 								/>
 								:

@@ -219,7 +219,16 @@ export const isQuorumNumber = quorumType => {
 };
 
 export const voteAllAtOnce = data => {
+	return true;
 	return data.council.councilType === 3;
+}
+
+export const findOwnVote = (votings, participant) => {
+	return votings.find(voting => (
+		voting.participantId === participant.id
+		|| voting.delegateId === participant.id ||
+		voting.author.representative.id === participant.id
+	));
 }
 
 export const hasAct = statute => {

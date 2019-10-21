@@ -14,6 +14,7 @@ import gql from 'graphql-tag';
 import CommentModal from "./CommentModal";
 import { moment, store } from "../../../containers/App";
 import { logoutParticipant } from "../../../actions/mainActions";
+import { updateCustomPointVoting } from "./CustomPointVotingMenu";
 
 
 export const VotingContext = React.createContext({});
@@ -71,9 +72,18 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     }
 
     const sendVoteAndExit = async () => {
-        console.log(Array.from(responses));    
-        const response = await Promise.all(Array.from(responses).map(response =>
-            client.mutate({
+        const response = await Promise.all(Array.from(responses).filter(response => response[1] !== -1).map(response => {
+            if(Array.isArray(response[1])){
+                return client.mutate({
+                    mutation: updateCustomPointVoting,
+                    variables: {
+                        selections: response[1],
+                        votingId: response[0]
+                    }
+                })
+            }
+
+            return client.mutate({
                 mutation: updateAgendaVoting,
                 variables: {
                     agendaVoting: {
@@ -82,16 +92,19 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     }
                 }
             })
-        ));
+        }));
 
         if (response) {
-            logout();
+            //logout();
         }
     }
 
     React.useEffect(() => {
         if(data.participantVotings && responses.size === 0){
-            data.participantVotings.forEach(voting => {
+            data.participantVotings.filter(voting => (
+                voting.participantId === participant.id
+                || voting.delegateId === participant.id ||
+                voting.author.representative.id === participant.id)).forEach(voting => {
                 responses.set(voting.id, -1);
             });
             setResponses(new Map(responses));

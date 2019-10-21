@@ -4,7 +4,7 @@ import { getSecondary } from "../../../../styles/colors";
 import CustomPointVotingMenu from '../../../participant/agendas/CustomPointVotingMenu';
 import { isMobile } from 'react-device-detect';
 
-const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, ...props }) => {
+const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council, ...props }) => {
     const [modal, setModal] = React.useState(false);
     const secondary = getSecondary();
 
@@ -23,6 +23,7 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, ...prop
                     agenda={agenda}
                     translate={translate}
                     refetch={refetch}
+                    council={council}
                     ownVote={agendaVoting}
                 />
             </div>

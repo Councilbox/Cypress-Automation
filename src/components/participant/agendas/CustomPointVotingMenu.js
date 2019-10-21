@@ -3,6 +3,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { AGENDA_TYPES } from '../../../constants';
 import { VotingButton } from './VotingMenu';
+import { VotingContext } from './AgendaNoSession';
+import { voteAllAtOnce } from '../../../utils/CBX';
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
     return ballots
@@ -20,9 +22,12 @@ const asbtentionOption = {
     value: 'Abstention'
 }
 
-const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVoting, ...props }) => {
+const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCustomPointVoting, ...props }) => {
     const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
+    const votingContext = React.useContext(VotingContext);
 
+
+    
     const addSelection = item => {
         let newSelections = [...selections, cleanObject(item)]; ;
         if(selections.length === 1){
@@ -65,13 +70,19 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     }
 
     const sendCustomAgendaVote = async selected => {
-        await updateCustomPointVoting({
-            variables: {
-                selections: selected,
-                votingId: ownVote.id
-            }
-        });
-        await props.refetch();
+        if(voteAllAtOnce({council})){
+            votingContext.responses.set(ownVote.id, selected);
+            votingContext.setResponses(new Map(votingContext.responses));
+        } else {
+            await updateCustomPointVoting({
+                variables: {
+                    selections: selected,
+                    votingId: ownVote.id
+                }
+            });
+            await props.refetch();
+        }
+
     }
 
     const getRemainingOptions = () => {
@@ -160,7 +171,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
 }
 
 
-const updateCustomPointVoting = gql`
+export const updateCustomPointVoting = gql`
     mutation updateCustomPointVoting($selections: [PollItemInput]!, $votingId: Int!){
         updateCustomPointVoting(selections: $selections, votingId: $votingId){
             success

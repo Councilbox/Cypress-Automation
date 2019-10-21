@@ -9,11 +9,8 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
     return (
         <div>
             <Grid style={{width: '100%', display: 'flex'}}>
-                {agenda.subjectType === 7 && agenda.votingState !== AGENDA_STATES.CLOSED?
-					<PrivateRecountMessage translate={translate} />
-				:
+
                     <CustomAgendaRecount agenda={agenda} translate={translate} />
-                }
 
                 <GridItem xs={12} md={12} lg={12}>
                     <VotingsTableFiltersContainer
