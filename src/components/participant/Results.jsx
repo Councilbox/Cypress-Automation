@@ -7,7 +7,7 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import { AGENDA_TYPES } from '../../constants';
 
 
-const Results = ({ data, translate, requestClose, open, participant, council, endPage }) => {
+const Results = ({ data, translate, requestClose, open, participant, council, stylesHead, endPage }) => {
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -29,7 +29,7 @@ const Results = ({ data, translate, requestClose, open, participant, council, en
 
     if (endPage) {
         return (
-            <div>
+            <div style={{ ...stylesHead }}>
                 {agendas.map((agenda, index) => {
                     return (
                         <div style={{ marginBottom: '1.2em' }} key={`agenda_${agenda.id}`}>
@@ -58,11 +58,11 @@ const Results = ({ data, translate, requestClose, open, participant, council, en
                                     {agenda.agendaSubject}
                                 </span>
                             </div>
-                            <div style={{ textAlign: "left", paddingLeft:" 33px" }}>
+                            <div style={{ textAlign: "left", paddingLeft: " 33px" }}>
                                 {`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
                             </div>
                             {(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
-                                <div style={{ textAlign: "left", paddingLeft:" 33px" }}>
+                                <div style={{ textAlign: "left", paddingLeft: " 33px" }}>
                                     {agenda.voting ?
                                         <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={endPage} />
                                         :
@@ -71,7 +71,7 @@ const Results = ({ data, translate, requestClose, open, participant, council, en
                                 </div>
                             }
                             {agenda.subjectType === getActPointSubjectType() &&
-                                <div style={{ textAlign: "left" , paddingLeft:" 33px"}}>
+                                <div style={{ textAlign: "left", paddingLeft: " 33px" }}>
                                     {agenda.voting ?
                                         <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={endPage} />
                                         :

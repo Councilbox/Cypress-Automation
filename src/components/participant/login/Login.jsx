@@ -67,7 +67,14 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 				languageSelector={false}
 			>
 				<div style={styles.mainContainer}>
-					<Card style={styles.cardContainer} elevation={6}>
+					<Card style={{
+						...styles.cardContainer,
+						...((councilIsLive(council) && !participant.hasVoted) ? {
+							minWidth: window.innerWidth > 450 ? '550px' : '100%'
+						} : {
+							minWidth: width
+						})
+					}} elevation={6}>
 						{councilIsFinished(council) ?
 							<React.Fragment>
 								{(councilIsLive(council) && !participant.hasVoted) ? (
@@ -81,19 +88,20 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 									)}
 							</React.Fragment>
 							:
-							<Scrollbar>
-								<React.Fragment>
-									{(councilIsLive(council) && !participant.hasVoted) ? (
+							<React.Fragment>
+								{(councilIsLive(council) && !participant.hasVoted) ? (
+									<Scrollbar>
 										<LoginForm
 											participant={participant}
 											council={council}
 											company={company}
 										/>
-									) : (
-											<CouncilState council={council} company={company} participant={participant} />
-										)}
-								</React.Fragment>
-							</Scrollbar>
+									</Scrollbar>
+
+								) : (
+										<CouncilState council={council} company={company} participant={participant} />
+									)}
+							</React.Fragment>
 						}
 					</Card>
 				</div>

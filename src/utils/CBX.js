@@ -219,6 +219,7 @@ export const isQuorumNumber = quorumType => {
 };
 
 export const voteAllAtOnce = data => {
+	return true;
 	return data.council.councilType === 3;
 }
 

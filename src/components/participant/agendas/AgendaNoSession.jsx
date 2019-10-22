@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button } from "material-ui";
-import { LoadingSection, Scrollbar } from '../../../displayComponents';
+import { LoadingSection, Scrollbar, AlertConfirm } from '../../../displayComponents';
 import { getPrimary } from "../../../styles/colors";
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
@@ -16,6 +16,7 @@ import { moment, store } from "../../../containers/App";
 import { logoutParticipant } from "../../../actions/mainActions";
 import { updateCustomPointVoting } from "./CustomPointVotingMenu";
 import FinishModal from "./FinishModal";
+import Results from "../Results";
 
 
 export const VotingContext = React.createContext({});
@@ -56,6 +57,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     const [timelineSeeId, settimelineSeeId] = React.useState(0);
     const [responses, setResponses] = React.useState(new Map());
     const [finishModal, setFinishModal] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false);
 
     //console.log(responses);
 
@@ -140,6 +142,29 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     }, [council.id]);
 
 
+
+    const _renderModalBody = () => {
+        return (
+            <div style={{ width: "100%", height: "100%" }}>
+                <div style={{ height: "100%", marginTop: "1em", overflow: "hidden", padding: "1em" }}>
+                    {/* TRADUCCION */}
+                    <div style={{ marginBottom: "1em" }}>Mi participanción - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
+                    <div style={{ height: "calc( 100% - 2.5em )", }}>
+                        <Scrollbar>
+                            <Results
+                                stylesHead={{ marginTop: "1em", }}
+                                council={council}
+                                participant={participant}
+                                translate={translate}
+                                endPage={true}
+                            />
+                        </Scrollbar>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     const scrollToBottom = () => {
         scrollbar.current.scrollToBottom();
     }
@@ -166,6 +191,69 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     };
 
 
+    const renderExitModal = () => (
+        <AlertConfirm
+            requestClose={() => setShowModal(false)}
+            open={showModal}
+            acceptAction={logout}
+            buttonCancel={translate.cancel}
+            buttonAccept={"Finalizar"}
+            bodyText={_renderModalBody()}
+            bodyStyle={{ height: "60vh", overflow: "hidden" }}
+            title={translate.summary}
+        ></AlertConfirm>
+    )
+
+    const renderFinishModal = () => (
+        <FinishModal
+            open={finishModal}
+            translate={translate}
+            requestClose={() => setFinishModal(false)}
+            action={sendVoteAndExit}
+        />
+    )
+
+    const renderExitButton = () => (
+        CBX.voteAllAtOnce({ council })?
+            <Button
+                onClick={showFinishModal}
+                style={{
+                    borderRadius: "25px",
+                    background: "white",
+                    color: primary,
+                    height: "25px",
+                    fontSize: "13px",
+                    userSelect: 'none',
+                    textTransform: "none",
+                    minHeight: "0px",
+                    lineHeight: '0.8',
+
+                }}
+            >
+                <b> Enviar voto y salir {/**TRADUCCION*/} </b>
+            </Button>
+        :
+            <Button
+                onClick={() => setShowModal(true)}
+                style={{
+                    borderRadius: "25px",
+                    background: "white",
+                    color: primary,
+                    height: "25px",
+                    fontSize: "13px",
+                    textTransform: "none",
+                    minHeight: "0px",
+                    lineHeight: '0.5',
+                    borderColor: primary,
+                    border: '2px solid',
+                    marginRight: "0.5em"
+                }}
+            >
+                <b> Finalizar{/**TRADUCCION*/}  </b>
+            </Button>
+    )
+
+
     if (data.agendas) {
         agendas = data.agendas.map(agenda => {
             return {
@@ -181,19 +269,22 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 responses,
                 setResponses
             }}>
-                <FinishModal
-                    open={finishModal}
-                    translate={translate}
-                    requestClose={() => setFinishModal(false)}
-                    action={sendVoteAndExit}
-                />
+                {renderFinishModal()}
                 <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
                     <div style={{ height: "100%" }}>
                         {!props.sinCabecera &&
                             <React.Fragment>
-                                <div style={styles.agendasHeader}>
-                                    <div style={{ width: '3em' }}>
-
+                                <div style={{
+                                    // display: 'flex',
+                                    // alignItems: 'center',
+                                    padding: '8px',
+                                    // justifyContent: 'space-between'
+                                    position: "relative",
+                                    textAlign: "center"
+                                }}>
+                                    {/* <div style={styles.agendasHeader}> */}
+                                    <div style={{}}>
+                                        {/* <div style={{ width: '8em' }}> */}
                                     </div>
                                     {props.timeline ?
                                         (
@@ -206,8 +297,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             </React.Fragment>
                                         )
                                     }
-                                    <div style={{ width: '7em' }}>
-
+                                    <div style={{ position: "absolute", top:"3px", right:"5px" }}>
+                                        {/* <div style={{ width: '9em' }}> */}
                                         <CouncilInfoMenu
                                             {...props}
                                             translate={translate}
@@ -269,46 +360,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                         </Scrollbar>
                     </div>
                 </Paper>
+                {renderExitModal()}
                 {!noSession &&
                     <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
-                        {CBX.voteAllAtOnce({ council })?
-                            <Button
-                                //onClick={logout}
-                                onClick={showFinishModal}
-                                style={{
-                                    borderRadius: "25px",
-                                    background: "white",
-                                    color: getPrimary(),
-                                    height: "25px",
-                                    fontSize: "13px",
-                                    userSelect: 'none',
-                                    textTransform: "none",
-                                    minHeight: "0px",
-                                    lineHeight: '0.8',
-
-                                }}
-                            >
-                                <b> Enviar voto y salir {/**TRADUCCION*/} </b>
-                            </Button>
-                        :
-                            <Button
-                                onClick={logout}
-                                style={{
-                                    borderRadius: "25px",
-                                    background: "white",
-                                    color: getPrimary(),
-                                    height: "25px",
-                                    fontSize: "13px",
-                                    textTransform: "none",
-                                    minHeight: "0px",
-                                    lineHeight: '0.8',
-
-                                }}
-                            >
-                                <b>{translate.exit}</b>
-                            </Button>
-                        }
-
+                        {renderExitButton()}
                     </div>
                 }
             </VotingContext.Provider>
@@ -320,6 +375,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             setResponses,
             responses
         }}>
+            {renderFinishModal()}
             <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
                 {!props.sinCabecera &&
                     <React.Fragment>
@@ -370,26 +426,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 </div>
                 {!noSession &&
                     <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
-                        <Button
-                            onClick={() => logout}
-                            style={{
-                                borderRadius: "25px",
-                                background: "white",
-                                color: getPrimary(),
-                                height: "25px",
-                                fontSize: "13px",
-                                textTransform: "none",
-                                minHeight: "0px",
-                                lineHeight: '0.5',
-                                borderColor: getPrimary(),
-                                border: '2px solid',
-                                marginRight: "0.5em"
-                            }}
-                        >
-                            <b> Salir </b>
-                        </Button>
+                        {renderExitButton()}
                     </div>
                 }
+                {renderExitModal()}
             </div>
         </VotingContext.Provider>
     );
