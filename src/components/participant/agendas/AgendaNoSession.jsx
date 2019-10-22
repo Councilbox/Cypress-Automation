@@ -223,11 +223,12 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     color: primary,
                     height: "25px",
                     fontSize: "13px",
-                    userSelect: 'none',
                     textTransform: "none",
                     minHeight: "0px",
-                    lineHeight: '0.8',
-
+                    lineHeight: '0.5',
+                    borderColor: primary,
+                    border: '2px solid',
+                    marginRight: "0.5em"
                 }}
             >
                 <b> Enviar voto y salir {/**TRADUCCION*/} </b>
@@ -341,7 +342,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             isMobile={isMobile}
                                         />
                                     ) : (
-                                            agendas.map((agenda, index) => {
+                                            <React.Fragment>
+                                                {agendas.map((agenda, index) => {
                                                 // agenda.options =  {
                                                 //     maxSelections: 2,
                                                 //     id: 140
@@ -350,8 +352,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                                     <React.Fragment key={`agenda_card_${index}`}>
                                                         {renderAgendaCard(agenda)}
                                                     </React.Fragment>
-                                                )
-                                            })
+                                                )})}
+                                            </React.Fragment>
                                         )
                                     :
                                     <LoadingSection />
@@ -360,12 +362,12 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                         </Scrollbar>
                     </div>
                 </Paper>
-                {renderExitModal()}
                 {!noSession &&
                     <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
                         {renderExitButton()}
                     </div>
                 }
+                {renderExitModal()}
             </VotingContext.Provider>
         );
     }
@@ -410,25 +412,29 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                         {translate.council_not_started_yet}
                     </div>
                 }
-                <div style={{ padding: '0.6em', height: "100%" }}> {/*marginTop: '10px',*/}
+                <div style={{ padding: '0.6em' }}> {/*marginTop: '10px',*/}
                     {data.agendas ?
-                        agendas.map((agenda, index) => {
-                            return (
-                                <React.Fragment key={`agenda_card_${index}`}>
-                                    {renderAgendaCard(agenda)}
-                                </React.Fragment>
-                            )
+                        <React.Fragment>
+                            {agendas.map((agenda, index) => {
+                                return (
+                                    <React.Fragment key={`agenda_card_${index}`}>
+                                        {renderAgendaCard(agenda)}
+                                    </React.Fragment>
+                                )
 
-                        })
+                            })}
+                            {!noSession &&
+                                <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
+                                    {renderExitButton()}
+                                </div>
+                            }
+                        </React.Fragment>
+
                         :
                         <LoadingSection />
                     }
                 </div>
-                {!noSession &&
-                    <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
-                        {renderExitButton()}
-                    </div>
-                }
+
                 {renderExitModal()}
             </div>
         </VotingContext.Provider>
