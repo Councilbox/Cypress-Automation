@@ -5,7 +5,7 @@ import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain
 import LoadingMainApp from './LoadingMainApp';
 
 
-const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) => {
+const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished }) => {
     const [loadingImg, setLoadingImg] = React.useState(true);
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
@@ -45,6 +45,9 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
                 translate={translate}
                 helpIcon={helpIcon}
                 languageSelector={languageSelector}
+                councilIsFinished={councilIsFinished}
+                setSelectHeadFinished={setSelectHeadFinished}
+                selectHeadFinished={selectHeadFinished}
             />
             <div
                 className="row"
