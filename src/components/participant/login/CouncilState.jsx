@@ -118,8 +118,6 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 		return () => window.removeEventListener('resize', updateDimensions);
 	}, [council.id]);
 
-	console.log(props.participant);
-
 	return (
 		<div
 			style={

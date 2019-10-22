@@ -56,7 +56,6 @@ const ContactForm = ({ participant, translate, council, client, ...props }) => {
                 }
             });
             if (response.data.sendAdminEmail) {
-                console.log(response);
                 setEmailEnviado(true)
             }
         }

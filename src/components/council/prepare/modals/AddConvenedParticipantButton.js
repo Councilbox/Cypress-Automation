@@ -91,7 +91,6 @@ class AddConvenedParticipantButton extends React.Component {
 
 		if(!onlyEmail){
 			let hasSocialCapital = participations;
-			console.log('checkea al paisano');
 			errorsParticipant = checkRequiredFieldsParticipant(
 				participant,
 				translate,

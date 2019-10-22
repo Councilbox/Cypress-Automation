@@ -40,8 +40,6 @@ const styles = {
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
 
-	console.log(participant);
-
 	if ((councilIsFinished(council) || participant.hasVoted) && isMobile) {
 		return (
 			<NotLoggedLayout
