@@ -9,7 +9,6 @@ import {
 } from "material-ui";
 import FontAwesome from "react-fontawesome";
 import { Grid, GridItem, Scrollbar, BasicButton, Link } from '../../../displayComponents';
-import { Grid, GridItem, Scrollbar, BasicButton } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -34,7 +33,6 @@ import TimelineSection from "../timeline/TimelineSection";
 import { isMobile } from "react-device-detect";
 import ContactModal from "./ContactModal";
 import ContactForm from "./ContactForm";
-import TouchRipple from "material-ui/ButtonBase/TouchRipple";
 
 const styles = {
 	container: {
@@ -119,6 +117,8 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 
 		return () => window.removeEventListener('resize', updateDimensions);
 	}, [council.id]);
+
+	console.log(props.participant);
 
 	return (
 		<div
@@ -240,7 +240,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					</StateContainer>
 				)}
 
-				{(councilIsFinished(council) || this.props.participant.hasVoted) && (
+				{(councilIsFinished(council) || props.participant.hasVoted) && (
 					<React.Fragment>
 						{isMobile ?
 							<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
@@ -252,7 +252,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 											paddingTop: "0.5em"
 										}}
 										>
-											{translate.concil_finished}
+											{props.participant.hasVoted? 'Resumen de participación' : translate.concil_finished}
 										</h3>
 									</div>
 									<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>
@@ -276,7 +276,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 								</div>
 								<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 									<div>
-										{moment(council.dateEnd).format('LLL')}
+										{council.dateEnd? moment(council.dateEnd).format('LLL') : '-'}
 									</div>
 								</div>
 								<div style={{ overflow: "hidden", height: "calc( 100% - 15em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
@@ -327,7 +327,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 							>
 								<div style={{ width: "815px", height: "100%" }}>
 									<TextRenderFinished
-										title={translate.concil_finished}
+										title={props.participant.hasVoted? 'Resumen de participación' : translate.concil_finished}
 										council={council}
 										company={company}
 										translate={translate}
@@ -360,7 +360,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 													border: 'solid 1px #d7d7d7',
 													display: "flex"
 												}}>
-												{moment(council.dateEnd).format('LLL')}
+												{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
 											</Card>
 											<BasicButton
 												onClick={showContactModal}

@@ -40,7 +40,9 @@ const styles = {
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
 
-	if (councilIsFinished(council) && isMobile) {
+	console.log(participant);
+
+	if ((councilIsFinished(council) || participant.hasVoted) && isMobile) {
 		return (
 			<NotLoggedLayout
 				translate={props.translate}
@@ -68,7 +70,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 					<Card style={styles.cardContainer} elevation={6}>
 						{councilIsFinished(council) ?
 							<React.Fragment>
-								{councilIsLive(council) ? (
+								{(councilIsLive(council) && !participant.hasVoted) ? (
 									<LoginForm
 										participant={participant}
 										council={council}
@@ -81,7 +83,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 							:
 							<Scrollbar>
 								<React.Fragment>
-									{councilIsLive(council) ? (
+									{(councilIsLive(council) && !participant.hasVoted) ? (
 										<LoginForm
 											participant={participant}
 											council={council}
