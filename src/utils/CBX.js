@@ -219,11 +219,16 @@ export const isQuorumNumber = quorumType => {
 };
 
 export const voteAllAtOnce = data => {
-	return true;
 	return data.council.councilType === 3;
 }
 
 export const findOwnVote = (votings, participant) => {
+	if(participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE){
+		return votings.find(voting => (
+			voting.participantId === participant.id
+		));
+	}
+
 	return votings.find(voting => (
 		voting.participantId === participant.id
 		|| voting.delegateId === participant.id ||

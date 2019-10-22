@@ -103,9 +103,9 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                         />
                                     :
                                         <React.Fragment>
-                                            {/* {agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
+                                            {agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
                                                 <PrivateRecountMessage translate={translate} />
-                                            : */}
+                                            :
                                                 <RecountSection
                                                     agenda={agenda}
                                                     key={`agendaRecount_${agenda.id}`}
@@ -115,7 +115,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                                     refetch={refetch}
                                                     majorityTypes={props.majorityTypes}
                                                 />
-                                            
+                                            }
                                             <Votings
                                                 key={`agendaVotings_${agenda.id}`}
                                                 refetch={refetch}

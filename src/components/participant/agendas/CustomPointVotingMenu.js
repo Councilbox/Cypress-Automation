@@ -26,8 +26,6 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
     const votingContext = React.useContext(VotingContext);
 
-
-    
     const addSelection = item => {
         let newSelections = [...selections, cleanObject(item)]; ;
         if(selections.length === 1){

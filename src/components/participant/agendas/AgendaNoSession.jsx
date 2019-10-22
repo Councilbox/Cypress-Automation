@@ -15,6 +15,7 @@ import CommentModal from "./CommentModal";
 import { moment, store } from "../../../containers/App";
 import { logoutParticipant } from "../../../actions/mainActions";
 import { updateCustomPointVoting } from "./CustomPointVotingMenu";
+import FinishModal from "./FinishModal";
 
 
 export const VotingContext = React.createContext({});
@@ -54,8 +55,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     let agendas = [];
     const [timelineSeeId, settimelineSeeId] = React.useState(0);
     const [responses, setResponses] = React.useState(new Map());
+    const [finishModal, setFinishModal] = React.useState(false);
 
-    console.log(responses);
+    //console.log(responses);
 
     const renderAgendaCard = agenda => {
         return (
@@ -69,6 +71,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 setResponse={setResponses}
             />
         )
+    }
+
+    const showFinishModal = () => {
+        setFinishModal(true);
     }
 
     const sendVoteAndExit = async () => {
@@ -95,7 +101,17 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         }));
 
         if (response) {
-            //logout();
+            await client.mutate({
+                mutation: gql`
+                    mutation participantFinishedVoting{
+                        participantFinishedVoting{
+                            success
+                        }
+                    }
+                `
+            });
+            await data.refetch();
+            logout();
         }
     }
 
@@ -165,6 +181,12 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 responses,
                 setResponses
             }}>
+                <FinishModal
+                    open={finishModal}
+                    translate={translate}
+                    requestClose={() => setFinishModal(false)}
+                    action={sendVoteAndExit}
+                />
                 <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
                     <div style={{ height: "100%" }}>
                         {!props.sinCabecera &&
@@ -252,7 +274,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                         {CBX.voteAllAtOnce({ council })?
                             <Button
                                 //onClick={logout}
-                                onClick={sendVoteAndExit}
+                                onClick={showFinishModal}
                                 style={{
                                     borderRadius: "25px",
                                     background: "white",

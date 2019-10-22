@@ -44,7 +44,6 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 		setIsCompatible(isCompatible)
 	}, [props.detectRTC, council, participant]);
 
-	console.log(participant);
 
 	return (
 		<NotLoggedLayout

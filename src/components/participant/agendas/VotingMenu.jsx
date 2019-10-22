@@ -30,13 +30,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
     const votingContext = React.useContext(VotingContext);
     const voteAtTheEnd = voteAllAtOnce({ council });
 
-    console.log(voteAtTheEnd);
-
-    console.log(votingContext);
-
     const setAgendaVoting = vote => {
-        //setModal(true);
-        //setVote(vote);
         votingContext.responses.set(props.ownVote.id, vote);
         votingContext.setResponses(new Map(votingContext.responses));
     }
@@ -69,7 +63,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
     }
 
     const getSelected = value => {
-        return voteAtTheEnd? votingContext.responses.get(agenda.votings[0].id) === value : agenda.votings[0].vote === value;
+        return voteAtTheEnd? votingContext.responses.get(props.ownVote.id) === value : props.ownVote.vote === value;
     }
 
     return (
@@ -85,7 +79,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
                 text={translate.in_favor_btn}
                 loading={loading === 1}
                 selected={getSelected(1)}
-                icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 1? primary : 'silver' }}></i>}
+                icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(1)? primary : 'silver' }}></i>}
                 onClick={() => {
                     if (voteAtTheEnd) {
                         setAgendaVoting(1)
@@ -98,8 +92,8 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
                 text={translate.against_btn}
                 loading={loading === 0}
                 selected={getSelected(0)}
-                icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 0? primary : 'silver' }}></i>}
-                onClick={() => {
+                icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(0)? primary : 'silver' }}></i>}
+                onClick={() => {0
                     if (voteAtTheEnd) {
                         setAgendaVoting(0)
                     } else {
@@ -111,7 +105,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             <VotingButton
                 text={translate.abstention_btn}
                 loading={loading === 2}
-                icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 2? primary : 'silver' }}></i>}
+                icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(2)? primary : 'silver' }}></i>}
                 selected={getSelected(2)}
                 onClick={() => {
                     if (voteAtTheEnd) {
