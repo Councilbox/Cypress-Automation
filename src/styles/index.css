@@ -728,6 +728,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     top: 88px!important ;
     z-index: 1300!important ;
     width: 150px!important ;
+    height: calc( 100% - 10.5em )!important;
 }
 .drawerUsers {
    display: none;

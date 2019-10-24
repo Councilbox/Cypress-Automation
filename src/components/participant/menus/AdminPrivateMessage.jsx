@@ -112,10 +112,10 @@ class AdminPrivateMessage extends React.Component {
                 <TextInputChat
                     floatingText={this.props.translate.message}
                     value={this.state.text}
-                    multiline={true}
+                    // multiline={true}
                     onChange={event => this.setState({ text: event.target.value, success: false })}
-                    onClick={this.props.activeInput}
-                    onBlur={this.props.onblur}
+                    // onClick={this.props.activeInput}
+                    // onBlur={this.props.onblur}
                     style={{
                         margin: "2.5px 0 2.5px 0 ",
                         border: "1px solid gainsboro",
