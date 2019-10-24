@@ -5,7 +5,8 @@ import {
 	GridItem,
 	BasicButton,
 	Scrollbar,
-	TextInput
+	TextInput,
+	LoadingSection
 } from "../../displayComponents";
 import logo from '../../assets/img/logo-icono.png';
 import { ConfigContext } from '../../containers/AppControl';
@@ -18,6 +19,9 @@ import { primary, getPrimary } from "../../styles/colors";
 import Calendar from 'react-calendar';
 import { InputAdornment, Icon, withStyles, Table, TableHead, TableRow, TableCell, TableBody, Paper } from "material-ui";
 import { Doughnut, Chart } from "react-chartjs-2";
+import { corporationUsers } from "../../queries/corporation";
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 var LineChart = require("react-chartjs-2").Line;
 
 
@@ -31,9 +35,36 @@ const styles = {
 	},
 };
 
+const DEFAULT_OPTIONS = {
+	limit: 10,
+	offset: 0,
+	// orderBy: 'lastConnectionDate',
+	orderDirection: 'DESC'
+}
 
-const TopSectionBlocks = ({ translate, company, user, ...props }) => {
+const corporationCompanies = gql`
+    query corporationCompanies($filters: [FilterInput], $options: OptionsInput){
+        corporationCompanies(filters: $filters, options: $options){
+            list{
+                id
+                businessName
+                logo
+            }
+            total
+        }
+    }
+`;
+
+
+const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 	const [open, setOpen] = React.useState(false);
+	const [users, setUsers] = React.useState(false);
+	const [companies, setCompanies] = React.useState(false);
+	const [reuniones, setReuniones] = React.useState(false);
+	const [state, setState] = React.useState({
+		filterText: "",
+		filterFecha: ""
+	});
 	const [usuariosEntidades, setUsuariosEntidades] = React.useState("usuarios");
 	const config = React.useContext(ConfigContext);
 
@@ -50,16 +81,91 @@ const TopSectionBlocks = ({ translate, company, user, ...props }) => {
 	}
 
 	const getTileClassName = ({ date }) => {
-
+		// console.log(moment().format("LLL"))
+		if (reuniones.length > 0) {
+			// let a = reuniones.find(
+			// 	reunion => {
+			// 		// console.log("----------------------------------")
+			// 		// console.log(moment(reunion.dateStart).format("LLL"))
+			// 		// console.log(moment(date).format("LLL"))
+			// 		// console.log("----------------------------------")
+			// 		return (
+			// 			moment(reunion.dateStart).format("LLL") === moment(date).format("LLL")
+			// 		)
+			// 	}
+			// )
+			// console.log(a)
+		}
 		return 'Wed Oct 23 2019 00:00:00 GMT+0200 (hora de verano de Europa central)' === date.toString() ? 'selectedDate' : '';
 	}
+
+	const selectDay = (date) => {
+		setState({ filterFecha: date })
+	}
+
+	const getUsers = async () => {
+		const response = await client.query({
+			query: corporationUsers,
+			variables: {
+				options: DEFAULT_OPTIONS, //falta limite
+				filter: [{ field: 'fullName', text: state.filterText }],
+			}
+		});
+
+		if (response.data.corporationUsers.list) {
+			setUsers(response.data.corporationUsers.list)
+		}
+	}
+
+	const getCompanies = async () => {
+		const response = await client.query({
+			query: corporationCompanies,
+			variables: {
+				options: DEFAULT_OPTIONS, //falta limite
+				// filter: [{ field: 'fullName', text: state.filterText }],
+			}
+		});
+
+		if (response.data.corporationCompanies.list) {
+			setCompanies(response.data.corporationCompanies.list)
+		}
+	}
+
+	React.useEffect(() => {
+		if (usuariosEntidades === "usuarios") {
+			getUsers();
+		} else {
+			getCompanies()
+		}
+	}, [company.id, state.filterTextUsuarios, usuariosEntidades]);
+
+
+	const getReuniones = async () => {
+		const response = await client.query({
+			query: corporationCouncils,
+			variables: {
+				// options: DEFAULT_OPTIONS, //falta limite
+				filters: [{ field: 'dateStart', text: state.filterFecha }],
+			}
+		});
+
+		let data = ""
+		console.log(response)
+		if (response.data.corporationConvenedCouncils) {
+			data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+			setReuniones(data)
+		}
+	}
+
+	React.useEffect(() => {
+		getReuniones()
+	}, [company.id, state.filterFecha ]);
+
 
 	const hasBook = companyHasBook();
 
 	const size = !hasBook ? 4 : 3;
 	const blankSize = !hasBook ? 2 : 3;
-
-
 
 	return (
 		<div style={{ width: "100%" }}>
@@ -78,104 +184,47 @@ const TopSectionBlocks = ({ translate, company, user, ...props }) => {
 						<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div>
 						<Grid style={{ overflow: "hidden", height: "90%" }}>
 							<Scrollbar>
-								<GridItem style={{ background: "", padding: "1em" }} xs={12} md={12} lg={12}>
-									<Grid style={{ alignItems: "center" }}>
-										<GridItem xs={1} md={1} lg={1}>
-											<Avatar alt="Foto" />
-										</GridItem>
-										<GridItem xs={4} md={4} lg={4}>
-											<b>Olivo ventyres kunuted</b>
-										</GridItem>
-										<GridItem xs={4} md={4} lg={4}>
-											Junta general extraordinaria - 2/10/2019
-									</GridItem>
-										<GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
-											<BasicButton
-												text="Convocatoria enviada"
-												//  onClick={create}
-												textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
-												backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
-											>
-											</BasicButton>
-										</GridItem>
-									</Grid>
-								</GridItem>
-								<GridItem style={{ background: "#edf4fb", padding: "1em" }} xs={12} md={12} lg={12}>
-									<Grid style={{ alignItems: "center" }} >
-										<GridItem xs={1} md={1} lg={1}>
-											<Avatar alt="Foto" />
-										</GridItem>
-										<GridItem xs={4} md={4} lg={4}>
-											<b>Olivo ventyres kunuted</b>
-										</GridItem>
-										<GridItem xs={4} md={4} lg={4}>
-											Junta general extraordinaria - 2/10/2019
-									</GridItem>
-										<GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
-											<BasicButton
-												text="Convocatoria enviada"
-												//  onClick={create}
-												textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
-												backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
-											>
-											</BasicButton>
-										</GridItem>
-									</Grid>
-								</GridItem>
-								<GridItem style={{ background: "", padding: "1em" }} xs={12} md={12} lg={12}>
-									<Grid style={{ alignItems: "center" }}>
-										<GridItem xs={1} md={1} lg={1}>
-											<Avatar alt="Foto" />
-										</GridItem>
-										<GridItem xs={4} md={4} lg={4}>
-											<b>Olivo ventyres kunuted</b>
-										</GridItem>
-										<GridItem xs={4} md={4} lg={4}>
-											Junta general extraordinaria - 2/10/2019
-									</GridItem>
-										<GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
-											<BasicButton
-												text="Convocatoria enviada"
-												//  onClick={create}
-												textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
-												backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
-											>
-											</BasicButton>
-										</GridItem>
-									</Grid>
-								</GridItem>
-								<GridItem style={{ background: "#edf4fb", padding: "1em" }} xs={12} md={12} lg={12}>
-									<Grid style={{ alignItems: "center" }} >
-										<GridItem xs={1} md={1} lg={1}>
-											<Avatar alt="Foto" />
-										</GridItem>
-										<GridItem xs={4} md={4} lg={4}>
-											<b>Olivo ventyres kunuted</b>
-										</GridItem>
-										<GridItem xs={4} md={4} lg={4}>
-											Junta general extraordinaria - 2/10/2019
-									</GridItem>
-										<GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
-											<BasicButton
-												text="Convocatoria enviada"
-												//  onClick={create}
-												textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
-												backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
-											>
-											</BasicButton>
-										</GridItem>
-									</Grid>
-								</GridItem>
+								{reuniones.length === undefined ?
+									<LoadingSection />
+									:
+									reuniones.map((item, index) => {
+										return (
+											<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
+												<Grid style={{ alignItems: "center" }}>
+													<GridItem xs={1} md={1} lg={1}>
+														<Avatar alt="Foto" />
+													</GridItem>
+													<GridItem xs={4} md={4} lg={4}>
+														<b>{item.company.businessName}</b>
+													</GridItem>
+													<GridItem xs={4} md={4} lg={4}>
+														{item.name} - {moment(item.dateStart).subtract(10, 'days').calendar()}
+													</GridItem>
+													<GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
+														<BasicButton
+															text="Convocatoria enviada"
+															//  onClick={create}
+															textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
+															backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
+														>
+														</BasicButton>
+													</GridItem>
+												</Grid>
+											</GridItem>
+										)
+									})
+								}
 							</Scrollbar>
 						</Grid>
 					</GridItem>
 					<GridItem xs={4} md={4} lg={4}>
-						<div style={{ padding: "1em", display:'flex', justifyContent:"center" }}>
+						<div style={{ padding: "1em", display: 'flex', justifyContent: "center" }}>
 							<Calendar
 								// onChange={this.onChange}
 								value={new Date()}
 								minDetail={'month'}
 								tileClassName={date => getTileClassName(date)}
+								onClickDay={ selectDay}
 							/>
 						</div>
 					</GridItem>
@@ -270,53 +319,34 @@ const TopSectionBlocks = ({ translate, company, user, ...props }) => {
 									placeholder={"Buscar"}
 									adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
 									type="text"
-									// value={searchModalPlantillas}
+									value={state.filterText}
 									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
 									disableUnderline={true}
 									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-								// onChange={event => {
-								// 	updateFilterText(event.target.value);
-								// }}
+									onChange={event => {
+										setState({
+											filterText: event.target.value
+										})
+									}}
 								/>
+
 							</div>
 						</div>
-						<div style={{ fontSize: "13px" }}>
-							<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-								<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-									Estado
-										</div>
-								<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-									Id
-										</div>
-								<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-									Nombre
-										</div>
-								<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-									Email
-										</div>
-								<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-									Últ.Conexión
-										</div>
-							</div>
-							<div style={{ height: "300px" }}>
-								<Scrollbar>
-									<div style={{ display: "flex", justifyContent: "space-between", padding: "1em" }}>
-										<Cell text={'Estado'} />
-										<Cell text={'Id'} />
-										<Cell text={'Nombre'} />
-										<Cell text={'Emaa fdf a'} />
-										<Cell text={'Últ.Conexión'} />
-									</div>
-									<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", background: 'rgb(237, 244, 251)' }}>
-										<Cell text={'Estado'} />
-										<Cell text={'Id'} />
-										<Cell text={'Nombre'} />
-										<Cell text={'Emaa'} />
-										<Cell text={'Últ.Conexión'} />
-									</div>
-								</Scrollbar>
-							</div>
-						</div>
+						{usuariosEntidades === 'usuarios' ?
+							users.length === undefined ?
+								<LoadingSection />
+								:
+								<TablaUsuarios
+									users={users}
+								/>
+							:
+							companies.length === undefined ?
+								<LoadingSection />
+								:
+								<TablaCompanies
+									companies={companies}
+								/>
+						}
 					</GridItem>
 				</Grid>
 
@@ -405,6 +435,92 @@ const TopSectionBlocks = ({ translate, company, user, ...props }) => {
 		// 	}
 		// </Grid>
 	);
+}
+
+
+const TablaUsuarios = (users) => {
+	return (
+		<div style={{ fontSize: "13px" }}>
+			<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
+				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					Estado
+				</div>
+				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					Id
+				</div>
+				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					Nombre
+				</div>
+				<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					Email
+				</div>
+				<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					Últ.Conexión
+				</div>
+			</div>
+			<div style={{ height: "300px" }}>
+				<Scrollbar>
+					{users.users.map(item => {
+						return (
+							<div
+								key={item.id}
+								style={{
+									display: "flex",
+									justifyContent: "space-between",
+									padding: "1em"
+								}}>
+								<Cell text={item.actived} />
+								<Cell text={item.id} />
+								<Cell text={item.name + " " + item.surname} />
+								<Cell text={item.email} />
+								<Cell text={moment(item.lastConnectionDate).format("LLL")} />
+							</div>
+
+						)
+					})}
+				</Scrollbar>
+			</div>
+		</div >
+	)
+}
+
+const TablaCompanies = (companies) => {
+	console.log(companies)
+	return (
+		<div style={{ fontSize: "13px" }}>
+			<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
+				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+
+				</div>
+				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+					Id
+				</div>
+				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+					Nombre
+				</div>
+			</div>
+			<div style={{ height: "300px" }}>
+				<Scrollbar>
+					{companies.companies.map(item => {
+						return (
+							<div
+								key={item.id}
+								style={{
+									display: "flex",
+									justifyContent: "space-between",
+									padding: "1em"
+								}}>
+								<CellAvatar width={3} avatar={item.logo} />
+								<Cell width={3} text={item.id} />
+								<Cell width={3} text={moment(item.businessName).format("LLL")} />
+							</div>
+
+						)
+					})}
+				</Scrollbar>
+			</div>
+		</div >
+	)
 }
 
 
@@ -595,13 +711,62 @@ const Grafica = ({ porcentaje, color }) => {
 	)
 }
 
-const Cell = ({ text }) => {
+const CellAvatar = ({ avatar }) => {
+	return (
+		<div style={{ overflow: "hidden", width: 'calc( 100% / 3 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
+			{avatar ?
+				<Avatar src={avatar} alt="Foto" />
+				:
+				<i style={{ color: 'lightgrey', fontSize: "1.7em", marginLeft: '6px' }} className={'fa fa-building-o'} />
+			}
+		</div >
+	)
+}
+const Cell = ({ text, avatar, width }) => {
 
 	return (
-		<div style={{ overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
+		<div style={{ overflow: "hidden", width: width ? `calc( 100% / ${width})` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
 			{text}
 		</div>
 	)
 }
 
-export default withStyles(styles)(TopSectionBlocks);
+const corporationCouncils = gql`
+    query corporationCouncils($filters: [FilterInput]){
+        corporationConvenedCouncils(filters: $filters){
+            id
+            name
+            state
+            dateStart
+            councilType
+            prototype
+            participants {
+                id
+            }
+            company{
+                id
+				businessName
+				logo
+            }
+        }
+
+        corporationLiveCouncils(filters: $filters){
+            id
+            name
+            state
+            dateStart
+            councilType
+            prototype
+            participants {
+                id
+            }
+            company{
+                id
+				businessName
+				logo
+            }
+        }
+    }
+`;
+
+export default withApollo(withStyles(styles)(TopSectionBlocks));
