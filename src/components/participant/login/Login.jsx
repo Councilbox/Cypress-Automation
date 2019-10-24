@@ -32,8 +32,9 @@ const styles = {
 		margin: isMobile ? "" : "20px",
 		minWidth: width,
 		maxWidth: "100%",
-		minHeight: '50vh'
-		// height: '70vh'
+		// height: '50vh'
+		// minHeight: '50vh'
+		height: '70vh'
 	}
 };
 
@@ -50,8 +51,8 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 				setSelectHeadFinished={setSelectHeadFinished}
 				selectHeadFinished={selectHeadFinished}
 			>
-				<div style={{width:"100%",background:"transparent", height: "100%"}} >
-					<div style={{width:"100%", background:"transparent", height: "100%"}}>
+				<div style={{ width: "100%", background: "transparent", height: "100%" }} >
+					<div style={{ width: "100%", background: "transparent", height: "100%" }}>
 						<CouncilState council={council} company={company} participant={participant} selectHeadFinished={selectHeadFinished} />
 					</div>
 				</div>
@@ -70,11 +71,11 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 						...((councilIsLive(council) && !participant.hasVoted) ? {
 							minWidth: window.innerWidth > 450 ? '550px' : '100%'
 						} : {
-							minWidth: width
-						})
+								minWidth: width
+							})
 					}} elevation={6}>
 						{councilIsFinished(council) ?
-							<React.Fragment>
+							<div style={{ height: '100%' }}>
 								{(councilIsLive(council) && !participant.hasVoted) ? (
 									<LoginForm
 										participant={participant}
@@ -84,9 +85,9 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 								) : (
 										<CouncilState council={council} company={company} participant={participant} />
 									)}
-							</React.Fragment>
+							</div>
 							:
-							<React.Fragment>
+							<div style={{ height: '100%' }}>
 								{(councilIsLive(council) && !participant.hasVoted) ? (
 									<Scrollbar>
 										<LoginForm
@@ -99,7 +100,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 								) : (
 										<CouncilState council={council} company={company} participant={participant} />
 									)}
-							</React.Fragment>
+							</div>
 						}
 					</Card>
 				</div>
