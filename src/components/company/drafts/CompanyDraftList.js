@@ -383,7 +383,8 @@ const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, 
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
-			const title = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]).title;
+			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
+			const title = statute? statute.title : 'Tipo no encontrado';
 			return translate[title] || title;
 		}
 

@@ -217,7 +217,6 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 				</div>
 			);
 		}
-		
 
 		return (
 			<div>
@@ -321,6 +320,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 															draft={item}
 															draftTypes={draftTypes}
 															company={company}
+															companyStatutes={vars.companyStatutes}
 															info={props}
 															onClick={() => {
 																sendGAevent({
@@ -351,7 +351,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 }))
 
 
-const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, ...props }) => {
+const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, companyStatutes, ...props }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 	const [showActions, setShowActions] = React.useState(false);
@@ -370,12 +370,36 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, ..
 		)
 	}
 
+	const formatLabelFromName = tag => {
+		if (tag.type === 1) {
+			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
+			const title = statute? statute.title : 'Tipo no encontrado';
+			return translate[title] || title;
+		}
+
+		return tag.segments ?
+			`${tag.segments.reduce((acc, curr) => {
+				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
+				return acc;
+			}, '')}`
+			:
+			translate[tag.name] ? translate[tag.name] : tag.name
+	}
+
+
 	const buildTagColumns = tags => {
 		const columns = {};
-		Object.keys(tags).forEach(key => {
-			const tag = tags[key];
-			columns[tag.type] = columns[tag.type] ? [...columns[tag.type], tag] : [tag]
-		});
+		if(tags){
+			Object.keys(tags).forEach(key => {
+				const tag = tags[key];
+				const formatted = {
+					...draft.tags[key],
+					label: formatLabelFromName(draft.tags[key])
+				}
+
+				columns[tag.type] = columns[tag.type] ? [...columns[tag.type], formatted] : [formatted]
+			});
+		}
 
 		return columns;
 	}
