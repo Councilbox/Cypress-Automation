@@ -11,7 +11,8 @@ const TextInputChat = ({
 	onBlur,
 	disabled,
 	onClick,
-	style
+	style,
+	onFocus
 }) => (
 		<FormControl
 			style={{
@@ -27,6 +28,7 @@ const TextInputChat = ({
 				variant="outlined"
 				onSelect={onClick}
 				onBlur={onBlur}
+				onFocus={onFocus}
 				value={value}
 				multiline={multiline}
 				style={{

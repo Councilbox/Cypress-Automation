@@ -44,6 +44,7 @@ export const useSubdomain = () => {
 }
 
 export const shouldLoadSubdomain = () => {
+    return false
     const validSubdomains = {
         'app': true,
         'localhost': true,

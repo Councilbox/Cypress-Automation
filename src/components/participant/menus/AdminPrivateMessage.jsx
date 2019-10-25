@@ -50,17 +50,17 @@ class AdminPrivateMessage extends React.Component {
                         loading: false,
                         text: ''
                     })
-                    if(this.props.setAdminMessage){
+                    if (this.props.setAdminMessage) {
                         this.props.setAdminMessage(false);
                     }
                     toast(
                         <LiveToast
                             message={this.props.translate.tooltip_sent}
                         />, {
-                            position: toast.POSITION.TOP_RIGHT,
-                            autoClose: true,
-                            className: "successToast"
-                        }
+                        position: toast.POSITION.TOP_RIGHT,
+                        autoClose: true,
+                        className: "successToast"
+                    }
                     );
                 }
             }
@@ -80,7 +80,7 @@ class AdminPrivateMessage extends React.Component {
     }
 
     renderMenu = () => {
-
+        
         return (
             <div>
                 <TextInput
@@ -108,14 +108,16 @@ class AdminPrivateMessage extends React.Component {
     }
     renderMenuMobil = () => {
         return (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", maxHeight: "130px", minHeight: "50px", width: '95%',  }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", maxHeight: "130px", minHeight: "50px", width: '95%', }}>
                 <TextInputChat
+                    key={"adminPivate"}
                     floatingText={this.props.translate.message}
                     value={this.state.text}
-                    // multiline={true}
+                    multiline={true}
                     onChange={event => this.setState({ text: event.target.value, success: false })}
-                    // onClick={this.props.activeInput}
-                    // onBlur={this.props.onblur}
+                    onClick={this.props.activeInput}
+                    onBlur={this.props.onblur}
+                    onFocus={this.props.onFocus}
                     style={{
                         margin: "2.5px 0 2.5px 0 ",
                         border: "1px solid gainsboro",
@@ -128,6 +130,16 @@ class AdminPrivateMessage extends React.Component {
                         backgroundColor: "white"
                     }}
                 />
+                {/* <TextInputChat
+                    floatingText={this.props.translate.message}
+                    value={this.state.text}
+                  
+                    onChange={event => this.setState({ text: event.target.value, success: false })}
+                    onClick={this.props.activeInput}
+                    onBlur={this.props.onblur}
+                    onFocus={this.props.onFocus}
+                   
+                /> */}
                 <BasicButton
                     text={
                         <i className="material-icons"
