@@ -1549,8 +1549,8 @@ export const downloadConvenePDF = gql`
 `;
 
 export const downloadAct = gql`
-	query downloadAct($councilId: Int!) {
-		downloadAct(councilId: $councilId)
+	query downloadAct($councilId: Int!, $clean: Boolean) {
+		downloadAct(councilId: $councilId, clean: $clean)
 	}
 `;
 
