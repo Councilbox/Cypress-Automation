@@ -107,6 +107,7 @@ class AdminPrivateMessage extends React.Component {
         )
     }
     renderMenuMobil = () => {
+    
         return (
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", maxHeight: "130px", minHeight: "50px", width: '95%', }}>
                 <TextInputChat
