@@ -6,7 +6,7 @@ import {
 	Scrollbar
 } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
-import { TextField, Input, Icon, Collapse } from "material-ui";
+import { Input, Icon, Collapse } from "material-ui";
 import * as CBX from "../../../utils/CBX";
 import { GOVERNING_BODY_TYPES } from "../../../constants";
 import { withStyles } from "material-ui";
@@ -43,9 +43,6 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	const [tagsSend, setTagsSend] = React.useState([]);
 	const [companyT, setCompanyT] = React.useState([]);
 	const [openSelectorEtiquetas, setOpenSelectorEtiquetas] = React.useState(true);
-
-	console.log(testTags);
-
 
 	const removeTag = tag => {
 		delete testTags[tag];
@@ -128,6 +125,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		}
 	}, []);
 
+	console.log(errors);
+
 	const renderTitle = () => {
 		return (
 			<React.Fragment>
@@ -135,13 +134,14 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 				<div>
 					<Input
 						placeholder={translate.title}
+						error={!!errors.title}
 						disableUnderline={true}
 						id={"titleDraft"}
 						style={{
 							color: "rgba(0, 0, 0, 0.65)",
 							fontSize: '15px',
 							boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-							border: "1px solid #d7d7d7",
+							border: `1px solid ${!!errors.title? 'red' : '#d7d7d7'}`,
 							width: "100%",
 							padding: '.5em 1.6em',
 							marginTop: "1em"
@@ -190,11 +190,11 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 		return (
 			<div style={{ display: isMobile ? "" : 'flex' }}>
-				{Object.keys(columns).map(key => (
-					<TagColumn key={`column_${key}`}>
+				{Object.keys(columns).map((key, index) => (
+					<TagColumn key={`column_${index}`}>
 						{columns[key].map(tag => (
 							<SelectedTag
-								key={`tag_${tag}`}
+								key={`tag_${tag.label}`}
 								text={translate[tag.label] || tag.label}
 								color={getTagColor(key)}
 								action={() => removeTag(tag.name)}
@@ -205,58 +205,6 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 				))}
 			</div>
 		);
-	}
-
-
-	const renderDescription = () => {
-		return (
-			<React.Fragment>
-				<div style={{ fontSize: "18px" }}>{translate.description}</div>
-				<div>
-					<TextField
-						error={errors.description}
-						value={draft.description}
-						id={"descripcionPlantilla"}
-						onChange={event =>
-							updateState({
-								description: event.nativeEvent.target.value
-							})
-						}
-						style={{
-							color: "rgba(0, 0, 0, 0.36)",
-							fontSize: '18px',
-							boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-							border: "1px solid #d7d7d7",
-							width: "100%",
-							padding: '.5em 1.6em',
-							marginTop: "1em",
-							minHeight: "86px",
-							resize: 'none',
-						}}
-						InputProps={{
-							disableUnderline: true,
-							style: {
-								color: "rgba(0, 0, 0, 0.36)",
-							}
-						}}
-						placeholder={'Añadir una descripcion detallada' /*TRADUCCION*/}
-						multiline={true}
-						rows={2}
-						rowsMax={4}
-					/>
-				</div>
-			</React.Fragment>
-		);
-	}
-
-	const handleEnter = event => {
-		if (event.keyCode === 13) {
-			addTag({
-				label: newTag,
-				type: 99
-			});
-			setNewTag('');
-		}
 	}
 
 	const renderRichEditor = () => {
@@ -453,7 +401,6 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	}
 
 	if (props.innerWidth > 960) {
-		console.log(testTags)
 		return (
 			<Scrollbar>
 				<Grid spacing={16} style={{ height: "100%", width: "100%", marginBottom: "1em" }}>

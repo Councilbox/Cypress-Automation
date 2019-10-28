@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -11,7 +11,28 @@ import { checkRequiredFields } from "../../../utils/CBX";
 import CompanyDraftForm from "./CompanyDraftForm";
 import { toast } from 'react-toastify';
 
-class CompanyDraftNew extends Component {
+
+class CompanyDraftNew extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			draft: {
+				title: "",
+				statuteId: -1,
+				type: -1,
+				description: "",
+				text: "",
+				votationType: -1,
+				majorityType: -1,
+				majority: null,
+				majorityDivider: null,
+				companyId: this.props.company.id
+			},
+
+			errors: {}
+		};
+	}
+
 	updateState = object => {
 		this.setState({
 			draft: {
@@ -31,19 +52,19 @@ class CompanyDraftNew extends Component {
 		const { translate } = this.props;
 		const { draft } = this.state;
 
-		// if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
-		this.setState({ loading: true });
-		const response = await this.props.createCompanyDraft({
-			variables: {
-				draft: this.state.draft
-			}
-		});
+		if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
+			this.setState({ loading: true });
+			const response = await this.props.createCompanyDraft({
+				variables: {
+					draft: this.state.draft
+				}
+			});
 
-		if (!response.errors) {
-			this.setState({ success: true });
-			this.timeout = setTimeout(() => this.resetAndClose(), 2000);
+			if (!response.errors) {
+				this.setState({ success: true });
+				this.timeout = setTimeout(() => this.resetAndClose(), 2000);
+			}
 		}
-		// }
 	};
 
 	resetAndClose = () => {
@@ -67,26 +88,6 @@ class CompanyDraftNew extends Component {
 		});
 		this.props.closeForm();
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			draft: {
-				title: "",
-				statuteId: -1,
-				type: -1,
-				description: "",
-				text: "",
-				votationType: -1,
-				majorityType: -1,
-				majority: null,
-				majorityDivider: null,
-				companyId: this.props.company.id
-			},
-
-			errors: {}
-		};
-	}
 
 	render() {
 		const { translate } = this.props;

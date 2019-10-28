@@ -1586,35 +1586,35 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		}
 	}
 
-	if (draft.type === -1) {
-		hasError = true;
-		errors.type = translate.required_field;
-	}
+	// if (draft.type === -1) {
+	// 	hasError = true;
+	// 	errors.type = translate.required_field;
+	// }
 
-	if (draft.statuteId === -1 && !corporation) {
-		hasError = true;
-		errors.statuteId = translate.required_field;
-	}
+	// if (draft.statuteId === -1 && !corporation) {
+	// 	hasError = true;
+	// 	errors.statuteId = translate.required_field;
+	// }
 
-	if (draft.type === 1 && draft.votationType === -1) {
-		hasError = true;
-		errors.votationType = translate.required_field;
-	}
+	// if (draft.type === 1 && draft.votationType === -1) {
+	// 	hasError = true;
+	// 	errors.votationType = translate.required_field;
+	// }
 
-	if (hasVotation(draft.votationType) && draft.type === 1 && draft.majorityType === -1) {
-		hasError = true;
-		errors.majorityType = translate.required_field;
-		if (majorityNeedsInput(draft.majorityType)) {
-			hasError = true;
-			errors.majority = translate.required_field;
-		}
+	// if (hasVotation(draft.votationType) && draft.type === 1 && draft.majorityType === -1) {
+	// 	hasError = true;
+	// 	errors.majorityType = translate.required_field;
+	// 	if (majorityNeedsInput(draft.majorityType)) {
+	// 		hasError = true;
+	// 		errors.majority = translate.required_field;
+	// 	}
 
-		if (isMajorityFraction(draft.majorityType) && !draft.majorityDivider) {
-			hasError = true;
-			errors.majorityDivider = translate.required_field;
-		}
-	}
-	console.log(errors)
+	// 	if (isMajorityFraction(draft.majorityType) && !draft.majorityDivider) {
+	// 		hasError = true;
+	// 		errors.majorityDivider = translate.required_field;
+	// 	}
+	// }
+	// console.log(errors)
 	updateErrors(errors);
 	return hasError;
 };

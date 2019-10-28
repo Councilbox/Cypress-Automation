@@ -53,7 +53,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				companyId: props.match.params.company
 			}
 		});
-		
+
 		setVars(response.data);
 		setData(response.data.companyDraft);
 		setFetching(false);
@@ -77,7 +77,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 
 	const updateCompanyDraft = async () => {
 
-		// if (!checkRequiredFields(translate, data, updateErrors)) {
+		if (!checkRequiredFields(translate, data, updateErrors)) {
 			setLoading(true);
 			const { __typename, ...cleanData } = data;
 			const response = await props.updateCompanyDraft({
@@ -100,7 +100,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				setSuccess(true);
 				setLoading(false);
 			}
-		// }
+		}
 	}
 
 	return (
