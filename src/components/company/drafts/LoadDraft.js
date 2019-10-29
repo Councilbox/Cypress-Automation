@@ -55,7 +55,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 	const [vars, setVars] = React.useState({});
 	const [varsLoading, setVarsLoading] = React.useState(true);
 
-	const plantillasFiltradas = async () => {
+	const getData = async (variables = {}) => {
 		setDraftLoading(true);
 		const response = await client.query({
 			query: companyDrafts,
@@ -75,6 +75,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 					offset: 0
 				},
 				tags: Object.keys(testTags).map(key => testTags[key].name),
+				...variables
 			}
 		});
 		setDraftsRender(response.data.companyDrafts.list);
@@ -85,11 +86,11 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 
 	React.useEffect(() => {
 		if (testTags !== null) {
-			plantillasFiltradas();
+			getData();
 		}
 	}, [searchModalPlantillas, testTags]);
 
-	const getData = async () => {
+	const getVars = async () => {
 		const response = await client.query({
 			query: getCompanyDraftDataNoCompany,
 			variables: {
@@ -102,7 +103,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 	};
 
 	React.useEffect(() => {
-		getData();
+		getVars();
 		setTestTags(defaultTags ? { ...defaultTags } : {});
 	}, []);
 
@@ -262,12 +263,13 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 						<Grid style={{ width: "100%", margin: "0 auto", height: "calc( 100% - 3em )" }}>
 							<GridItem xs={12} lg={12} md={12} style={{ width: "100%", height: "100%" }}>
 								<div id={"contenedorPlantillasEnModal"} style={{ width: "100%", height: "100%" }}>
-									{!draftLoading &&
+									{!!drafts.list &&
 										<EnhancedTable
 											hideTextFilter={true}
 											translate={translate}
 											defaultFilter={"title"}
 											page={1}
+											refetch={getData}
 											defaultLimit={DRAFTS_LIMITS[0]}
 											loading={draftLoading}
 											length={drafts.list.length}
