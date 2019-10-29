@@ -6,7 +6,8 @@ import {
 	BasicButton,
 	Scrollbar,
 	TextInput,
-	LoadingSection
+	LoadingSection,
+	PaginationFooter
 } from "../../displayComponents";
 import logo from '../../assets/img/logo-icono.png';
 import { ConfigContext } from '../../containers/AppControl';
@@ -42,6 +43,11 @@ const DEFAULT_OPTIONS = {
 	orderDirection: 'DESC'
 }
 
+// {
+// 	limit: 10,
+// 	offset: (usersPage - 1) * 10,
+// 	orderDirection: 'DESC'
+// }
 const corporationCompanies = gql`
     query corporationCompanies($filters: [FilterInput], $options: OptionsInput){
         corporationCompanies(filters: $filters, options: $options){
@@ -59,10 +65,16 @@ const corporationCompanies = gql`
 const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 	const [open, setOpen] = React.useState(false);
 	const [users, setUsers] = React.useState(false);
+	const [usersPage, setUsersPage] = React.useState(1);
+	const [usersTotal, setUsersTotal] = React.useState(false);
 	const [companies, setCompanies] = React.useState(false);
+	const [companiesPage, setCompaniesPage] = React.useState(1);
+	const [companiesTotal, setCompaniesTotal] = React.useState(false);
 	const [reuniones, setReuniones] = React.useState(false);
+	const [reunionesPage, setReunionesPage] = React.useState(1);
 	const [state, setState] = React.useState({
-		filterText: "",
+		filterTextCompanies: "",
+		filterTextUsuarios: "",
 		filterFecha: ""
 	});
 	const [usuariosEntidades, setUsuariosEntidades] = React.useState("usuarios");
@@ -100,20 +112,28 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 	}
 
 	const selectDay = (date) => {
-		setState({ filterFecha: date })
+		setState({
+			...state,
+			filterFecha: date
+		})
 	}
 
 	const getUsers = async () => {
 		const response = await client.query({
 			query: corporationUsers,
 			variables: {
-				options: DEFAULT_OPTIONS, //falta limite
-				filter: [{ field: 'fullName', text: state.filterText }],
+				filters: [{ field: 'fullName', text: state.filterTextUsuarios }],
+				options: {
+					limit: 10,
+					offset: (usersPage - 1) * 10,
+					orderDirection: 'DESC'
+				}
 			}
 		});
 
 		if (response.data.corporationUsers.list) {
 			setUsers(response.data.corporationUsers.list)
+			setUsersTotal(response.data.corporationUsers.total)
 		}
 	}
 
@@ -121,15 +141,35 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 		const response = await client.query({
 			query: corporationCompanies,
 			variables: {
-				options: DEFAULT_OPTIONS, //falta limite
+				filters: [{ field: 'businessName', text: state.filterTextCompanies }],
+				options: {
+					limit: 10,
+					offset: (companiesPage - 1) * 10,
+					orderDirection: 'DESC'
+				}
+				// options: DEFAULT_OPTIONS, //falta limite
 				// filter: [{ field: 'fullName', text: state.filterText }],
 			}
 		});
 
 		if (response.data.corporationCompanies.list) {
 			setCompanies(response.data.corporationCompanies.list)
+			setCompaniesTotal(response.data.corporationCompanies.total)
 		}
 	}
+
+	const changePageUsuarios = value => {
+		setUsersPage(value)
+	}
+
+	const changePageCompanies = value => {
+		setCompaniesPage(value)
+	}
+
+	const changePageReuniones = value => {
+		reunionesPage(value)
+	}
+
 
 	React.useEffect(() => {
 		if (usuariosEntidades === "usuarios") {
@@ -137,15 +177,23 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 		} else {
 			getCompanies()
 		}
-	}, [company.id, state.filterTextUsuarios, usuariosEntidades]);
+	}, [company.id, state.filterTextUsuarios, state.filterTextCompanies, usuariosEntidades, usersPage, companiesPage]);
+
 
 
 	const getReuniones = async () => {
+		console.log(state.filterFecha)
 		const response = await client.query({
 			query: corporationCouncils,
 			variables: {
+				options: {
+					limit: 5,
+					offset: (reunionesPage - 1) * 5,
+					orderDirection: 'DESC'
+				}
+
 				// options: DEFAULT_OPTIONS, //falta limite
-				filters: [{ field: 'dateStart', text: state.filterFecha }],
+				// filters: [{ field: 'dateStart', text: moment(state.filterFecha) }],
 			}
 		});
 
@@ -159,13 +207,14 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 
 	React.useEffect(() => {
 		getReuniones()
-	}, [company.id, state.filterFecha ]);
+	}, [company.id, state.filterFecha]);
 
 
 	const hasBook = companyHasBook();
 
 	const size = !hasBook ? 4 : 3;
 	const blankSize = !hasBook ? 2 : 3;
+
 
 	return (
 		<div style={{ width: "100%" }}>
@@ -182,7 +231,7 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 				}}>
 					<GridItem xs={8} md={8} lg={8} style={{ overflow: "hidden" }}>
 						<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div>
-						<Grid style={{ overflow: "hidden", height: "90%" }}>
+						<Grid style={{ overflow: "hidden", height: "80%" }}>
 							<Scrollbar>
 								{reuniones.length === undefined ?
 									<LoadingSection />
@@ -216,6 +265,16 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 								}
 							</Scrollbar>
 						</Grid>
+						<Grid style={{ marginTop: "0.3em" }}>
+							<PaginationFooter
+								page={reunionesPage}
+								translate={translate}
+								length={reuniones.length}
+								total={reuniones.length}
+								limit={10}
+								changePage={changePageReuniones}
+							/>
+						</Grid>
 					</GridItem>
 					<GridItem xs={4} md={4} lg={4}>
 						<div style={{ padding: "1em", display: 'flex', justifyContent: "center" }}>
@@ -224,7 +283,7 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 								value={new Date()}
 								minDetail={'month'}
 								tileClassName={date => getTileClassName(date)}
-								onClickDay={ selectDay}
+								onClickDay={selectDay}
 							/>
 						</div>
 					</GridItem>
@@ -315,20 +374,39 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 									text="Añadir"
 								// onClick={addException}
 								/>
-								<TextInput
-									placeholder={"Buscar"}
-									adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-									type="text"
-									value={state.filterText}
-									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-									disableUnderline={true}
-									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-									onChange={event => {
-										setState({
-											filterText: event.target.value
-										})
-									}}
-								/>
+								{usuariosEntidades === 'usuarios' ?
+									<TextInput
+										placeholder={"Buscar"}
+										adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+										type="text"
+										value={state.filterTextUsuarios || ""}
+										styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+										disableUnderline={true}
+										stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+										onChange={event => {
+											setState({
+												...state,
+												filterTextUsuarios: event.target.value
+											})
+										}}
+									/>
+									:
+									<TextInput
+										placeholder={"Buscar"}
+										adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+										type="text"
+										value={state.filterTextCompanies || ""}
+										styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+										disableUnderline={true}
+										stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+										onChange={event => {
+											setState({
+												...state,
+												filterTextCompanies: event.target.value
+											})
+										}}
+									/>
+								}
 
 							</div>
 						</div>
@@ -338,6 +416,10 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 								:
 								<TablaUsuarios
 									users={users}
+									translate={translate}
+									total={usersTotal}
+									changePageUsuarios={changePageUsuarios}
+									usersPage={usersPage}
 								/>
 							:
 							companies.length === undefined ?
@@ -345,6 +427,10 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 								:
 								<TablaCompanies
 									companies={companies}
+									translate={translate}
+									total={companiesTotal}
+									changePageCompanies={changePageCompanies}
+									companiesPage={companiesPage}
 								/>
 						}
 					</GridItem>
@@ -438,54 +524,69 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 }
 
 
-const TablaUsuarios = (users) => {
-	return (
-		<div style={{ fontSize: "13px" }}>
-			<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-					Estado
-				</div>
-				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-					Id
-				</div>
-				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-					Nombre
-				</div>
-				<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-					Email
-				</div>
-				<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-					Últ.Conexión
-				</div>
-			</div>
-			<div style={{ height: "300px" }}>
-				<Scrollbar>
-					{users.users.map(item => {
-						return (
-							<div
-								key={item.id}
-								style={{
-									display: "flex",
-									justifyContent: "space-between",
-									padding: "1em"
-								}}>
-								<Cell text={item.actived} />
-								<Cell text={item.id} />
-								<Cell text={item.name + " " + item.surname} />
-								<Cell text={item.email} />
-								<Cell text={moment(item.lastConnectionDate).format("LLL")} />
-							</div>
+const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage }) => {
 
-						)
-					})}
-				</Scrollbar>
-			</div>
+
+	return (
+		<div style={{}}>
+			<div style={{ fontSize: "13px" }}>
+				<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
+					<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+						Estado
+				</div>
+					<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+						Id
+				</div>
+					<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+						Nombre
+				</div>
+					<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+						Email
+				</div>
+					<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+						Últ.Conexión
+				</div>
+				</div>
+				<div style={{ height: "300px" }}>
+					<Scrollbar>
+						{users.map(item => {
+							return (
+								<div
+									key={item.id}
+									style={{
+										display: "flex",
+										justifyContent: "space-between",
+										padding: "1em"
+									}}>
+									<Cell text={item.actived} />
+									<Cell text={item.id} />
+									<Cell text={item.name + " " + item.surname} />
+									<Cell text={item.email} />
+									<Cell text={moment(item.lastConnectionDate).format("LLL")} />
+								</div>
+
+							)
+						})}
+					</Scrollbar>
+				</div>
+			</div >
+			<Grid style={{ marginTop: "1em" }}>
+				<PaginationFooter
+					page={usersPage}
+					translate={translate}
+					length={users.length}
+					total={total}
+					limit={10}
+					changePage={changePageUsuarios}
+				/>
+			</Grid>
 		</div >
 	)
 }
 
-const TablaCompanies = (companies) => {
-	console.log(companies)
+const TablaCompanies = ({ companies, translate, total, changePageCompanies, companiesPage }) => {
+
+
 	return (
 		<div style={{ fontSize: "13px" }}>
 			<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
@@ -501,7 +602,7 @@ const TablaCompanies = (companies) => {
 			</div>
 			<div style={{ height: "300px" }}>
 				<Scrollbar>
-					{companies.companies.map(item => {
+					{companies.map(item => {
 						return (
 							<div
 								key={item.id}
@@ -512,13 +613,23 @@ const TablaCompanies = (companies) => {
 								}}>
 								<CellAvatar width={3} avatar={item.logo} />
 								<Cell width={3} text={item.id} />
-								<Cell width={3} text={moment(item.businessName).format("LLL")} />
+								<Cell width={3} text={item.businessName} />
 							</div>
 
 						)
 					})}
 				</Scrollbar>
 			</div>
+			<Grid style={{ marginTop: "1em" }}>
+				<PaginationFooter
+					page={companiesPage}
+					translate={translate}
+					length={companies.length}
+					total={total}
+					limit={10}
+					changePage={changePageCompanies}
+				/>
+			</Grid>
 		</div >
 	)
 }
@@ -732,8 +843,8 @@ const Cell = ({ text, avatar, width }) => {
 }
 
 const corporationCouncils = gql`
-    query corporationCouncils($filters: [FilterInput]){
-        corporationConvenedCouncils(filters: $filters){
+    query corporationCouncils($filters: [FilterInput], $options: OptionsInput){
+        corporationConvenedCouncils(filters: $filters, options: $options){
             id
             name
             state
@@ -750,7 +861,7 @@ const corporationCouncils = gql`
             }
         }
 
-        corporationLiveCouncils(filters: $filters){
+        corporationLiveCouncils(filters: $filters, options: $options){
             id
             name
             state

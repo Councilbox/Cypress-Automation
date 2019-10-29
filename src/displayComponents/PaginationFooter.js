@@ -32,18 +32,18 @@ const PaginationFooter = ({
 
 	return (
 		<React.Fragment>
-			<GridItem xs={window.innerWidth < 480? 12: 5} lg={5} md={6} style={{fontSize: '0.7rem'}}>
+			<GridItem xs={window.innerWidth < 480 ? 12 : 5} lg={5} md={6} style={{ fontSize: '0.7rem' }}>
 				{length > 0
 					? `${translate.table_showing_part1} ${(page - 1) * limit +
-							1} ${translate.table_showing_part2} ${(page - 1) *
-							limit +
-							length} ${translate.table_showing_part3} ${total} ${
-							translate.table_showing_part4
-					  }`
+					1} ${translate.table_showing_part2} ${(page - 1) *
+					limit +
+					length} ${translate.table_showing_part3} ${total} ${
+					translate.table_showing_part4
+					}`
 					: translate.table_no_results}
 			</GridItem>
-			<GridItem xs={window.innerWidth < 480? 12: 7} lg={7} md={6} style={{display: 'flex', justifyContent: 'flex-end'}}>
-				<div style={{display: 'flex', justifyContent: 'flex-end'}}>
+			<GridItem xs={window.innerWidth < 480 ? 12 : 7} lg={7} md={7} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 					{page > 1 && (
 						<React.Fragment>
 							<span
@@ -60,7 +60,7 @@ const PaginationFooter = ({
 							</span>
 						</React.Fragment>
 					)}
-					<div style={{display: 'flex'}}>
+					<div style={{ display: 'flex' }}>
 						{showPages(totalPages, page, changePage)}
 					</div>
 					{hasMorePages(page, total, limit) && (
@@ -94,7 +94,7 @@ const showPages = (numPages, active, changePage) => {
 		pages.push(
 			<span
 				key={`page_${index}`}
-				onClick={active !== index ? () => changePage(index) : () => {}}
+				onClick={active !== index ? () => changePage(index) : () => { }}
 				style={{
 					...paginationButtonStyle,
 					borderColor: active === index ? primary : secondary,
@@ -105,14 +105,15 @@ const showPages = (numPages, active, changePage) => {
 				{index}
 			</span>
 		);
-		if(i === 3 && numPages > 6){
-			const value = (active > 3 && active < numPages - 3)? active : '...';
+		if (i === 3 && numPages > 6) {
+			const value = (active > 3 && active < numPages - 3) ? active : '...';
 			const options = [];
-			for(let j = 4; j < (numPages - 3); j++){
+			for (let j = 4; j < (numPages - 3); j++) {
 				options.push(<Select.Option key={`pagination_${j}`} value={j}><span>{j}</span></Select.Option>)
 			}
 			pages.push(
 				<Select
+					key={value}
 					size="small"
 					defaultValue="..."
 					dropdownMatchSelectWidth={false}
@@ -126,7 +127,7 @@ const showPages = (numPages, active, changePage) => {
 					{options}
 				</Select>
 			);
-			i = numPages-3;
+			i = numPages - 3;
 		}
 	}
 	return pages;
