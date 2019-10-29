@@ -328,7 +328,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 										value: 'all',
 										label: translate.all_plural
 									}]}
-									refetch={data.refetch}
+									refetch={getDrafts}
 									headers={[
 										{
 											text: translate.name,
@@ -404,7 +404,6 @@ const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, 
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
-			console.log(companyStatutes);
 			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
 			const title = statute? statute.title : 'Tipo no encontrado';
 			return translate[title] || title;
