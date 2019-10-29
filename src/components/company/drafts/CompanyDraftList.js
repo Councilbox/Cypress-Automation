@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { companyDrafts, deleteDraft, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts.js";
+import { companyDrafts as query, deleteDraft, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts.js";
 import { compose, graphql, withApollo } from "react-apollo";
 import CompanyDraftNew from "./CompanyDraftNew";
 import {
@@ -14,6 +14,7 @@ import {
 	GridItem,
 	EnhancedTable,
 	ErrorWrapper,
+	LoadingSection,
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { Card, Collapse, IconButton, Icon } from 'material-ui';
@@ -34,7 +35,8 @@ import { DropdownEtiquetas } from "./LoadDraft.js";
 
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
-const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
+const CompanyDraftList = ({ translate, company, client, ...props }) => {
+	const [data, setData] = React.useState({});
 	const [state, setState] = useOldState({
 		deleteModal: false,
 		draftID: null,
@@ -47,8 +49,24 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 
 	const primary = getPrimary();
 
+	const getDrafts = async variables => {
+		const response = await client.query({
+			query,
+			variables: {
+				companyId: company.id,
+				options: {
+					limit: DRAFTS_LIMITS[0],
+					offset: 0
+				},
+				...variables
+			}
+
+		});
+
+		setData(response.data);
+	}
+
 	React.useEffect(() => {
-		data.refetch();
 		sendGAevent({
 			category: 'Borradores',
 			action: `Entrada a la lista`,
@@ -108,7 +126,7 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 	}
 
 	React.useEffect(() => {
-		data.refetch({
+		getDrafts({
 			companyId: company.id,
 			...(search ? {
 				filters: [
@@ -196,6 +214,10 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 		matchSearch = tagsSearch.filter(tag => {
 			return tag.label.toLowerCase().includes(search.toLowerCase())
 		});
+	}
+
+	if(!vars.companyStatutes){
+		return <LoadingSection />
 	}
 
 
@@ -343,7 +365,6 @@ const CompanyDraftList = ({ data, translate, company, client, ...props }) => {
 								</EnhancedTable>
 							))}
 				</div>
-				
 				<AlertConfirm
 					title={translate.attention}
 					bodyText={translate.question_delete}
@@ -383,6 +404,7 @@ const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, 
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
+			console.log(companyStatutes);
 			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
 			const title = statute? statute.title : 'Tipo no encontrado';
 			return translate[title] || title;
@@ -423,7 +445,7 @@ const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, 
 		setShowActions(false)
 	}
 
-	const desplegarEtiquetas = (event) => {
+	const desplegarEtiquetas = event => {
 		event.preventDefault()
 		event.stopPropagation()
 		setExpanded(!expanded)
@@ -472,7 +494,7 @@ const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, 
 			>
 				{draft.title}
 			</TableCell>
-			<TableCell >
+			<TableCell>
 				<div style={{ display: "flex" }}>
 					{columns &&
 						Object.keys(columns).map(key => {
@@ -529,19 +551,6 @@ export default withApollo((withSharedProps()(
 			options: {
 				errorPolicy: "all"
 			}
-		}),
-		graphql(companyDrafts, {
-			name: "data",
-			options: props => ({
-				variables: {
-					companyId: props.company.id,
-					options: {
-						limit: DRAFTS_LIMITS[0],
-						offset: 0
-					}
-				},
-				notifyOnNetworkStatusChange: true
-			})
 		})
 	)(withWindowSize(CompanyDraftList)))
 ));
