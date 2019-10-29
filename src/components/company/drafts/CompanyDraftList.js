@@ -111,14 +111,13 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 	}
 
 	const deleteDraft = async () => {
-		data.loading = true;
 		const response = await props.deleteDraft({
 			variables: {
 				id: state.draftID
 			}
 		});
 		if (!response.errors) {
-			data.refetch();
+			getDrafts();
 			setState({
 				deleteModal: false
 			});
@@ -190,7 +189,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 				translate={translate}
 				closeForm={() => {
 					setState({ newForm: false });
-					data.refetch();
+					getDrafts();
 				}}
 				company={company}
 			/>
@@ -353,6 +352,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 											<HoverableRow
 												key={`draft${draft.id}`}
 												translate={translate}
+												action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
 												renderDeleteIcon={_renderDeleteIcon}
 												draft={draft}
 												companyStatutes={vars.companyStatutes}
@@ -459,7 +459,7 @@ const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, 
 				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 			>
 				<Grid>
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700', cursor: 'pointer' }} onClick={props.action}>
 						{translate.name}
 					</GridItem>
 					<GridItem xs={7} md={7}>
