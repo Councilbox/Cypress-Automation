@@ -19,6 +19,7 @@ import SelectedTag from './draftTags/SelectedTag';
 import { createTag, TAG_TYPES, getTagColor } from './draftTags/utils';
 import Tag from './draftTags/Tag';
 import withSharedProps from "../../../HOCs/withSharedProps";
+import { FormControlLabel } from "material-ui";
 
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
@@ -125,8 +126,6 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		}
 	}, []);
 
-	console.log(errors);
-
 	const renderTitle = () => {
 		return (
 			<React.Fragment>
@@ -141,7 +140,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 							color: "rgba(0, 0, 0, 0.65)",
 							fontSize: '15px',
 							boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-							border: `1px solid ${!!errors.title? 'red' : '#d7d7d7'}`,
+							border: !!errors.title? '2px solid red' : '1px solid #d7d7d7',
 							width: "100%",
 							padding: '.5em 1.6em',
 							marginTop: "1em"
@@ -155,6 +154,9 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						classes={{ input: props.classes.input }}
 					>
 					</Input>
+					{!!errors.title &&
+						<span style={{color: 'red'}}>{errors.title}</span>
+					}
 				</div>
 			</React.Fragment>
 		);
