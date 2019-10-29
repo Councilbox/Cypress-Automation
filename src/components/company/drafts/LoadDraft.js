@@ -133,21 +133,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 			tag.label
 	}
 
-	const _renderEyeIcon = () => {
-		return (
-			<IconButton
-				style={{
-					color: primary,
-					height: "32px",
-					width: "32px",
-					outline: 0
-				}}
-			>
-				<i className="fa fa-eye">
-				</i>
-			</IconButton>
-		);
-	}
+	console.log(drafts, draftsRender);
 
 	if (!varsLoading) {
 		let tagsSearch = [];
@@ -282,6 +268,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 											translate={translate}
 											defaultFilter={"title"}
 											page={1}
+											defaultLimit={DRAFTS_LIMITS[0]}
 											loading={draftLoading}
 											length={drafts.list.length}
 											total={drafts.total}
@@ -306,7 +293,6 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 													text: ''
 												}
 											]}
-											action={_renderEyeIcon}
 											companyID={company.id}
 											stylesDivSuperior={{ height: "100%" }}
 										>
@@ -315,7 +301,6 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 													return (
 														<HoverableRow
 															key={'key__' + item.id}
-															renderDeleteIcon={_renderEyeIcon}
 															translate={translate}
 															draft={item}
 															draftTypes={draftTypes}
@@ -384,6 +369,22 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 			}, '')}`
 			:
 			translate[tag.name] ? translate[tag.name] : tag.name
+	}
+
+	const _renderEyeIcon = () => {
+		return (
+			<IconButton
+				style={{
+					color: primary,
+					height: "32px",
+					width: "32px",
+					outline: 0
+				}}
+			>
+				<i className="fa fa-eye">
+				</i>
+			</IconButton>
+		);
 	}
 
 
@@ -504,7 +505,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 			</TableCell>
 			<TableCell>
 				<div style={{ width: '3em' }}>
-					{show && props.renderDeleteIcon()}
+					{show && _renderEyeIcon()}
 				</div>
 			</TableCell>
 		</TableRow>
@@ -513,7 +514,6 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 
 
 export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, ...props }) => {
-
 	return (
 		<DropDownMenu
 			id={"cargarPlantillasSelectorEtiquetas"}

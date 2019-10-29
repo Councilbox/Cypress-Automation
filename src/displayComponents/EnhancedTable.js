@@ -156,17 +156,6 @@ class EnhancedTable extends React.Component {
 			headers,
 			children,
 			categories,
-			search,
-			setSearch,
-			vars,
-			testTags,
-			addTag,
-			styleBody,
-			anchorOrigin,
-			transformOrigin,
-			removeTag,
-			stylesDivSuperior,
-			matchSearch
 		} = this.props;
 		const {
 			filterText,
