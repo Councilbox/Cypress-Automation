@@ -204,11 +204,25 @@ class RichTextInput extends React.Component {
 
 
 const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client }) => {
-	const secondary = getSecondary();
+	const primary = getPrimary();
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 	const [ocultar, setOcultar] = React.useState(false);
 	const [searchModal, setSearchModal] = React.useState("");
+	const [filteredTags, setFilteredTags] = React.useState(tags);
+
+
+	React.useEffect(() => {
+		if(searchModal){
+			setFilteredTags([...tags, ...companyTags].filter(tag => (tag.label && tag.label.toLowerCase().includes(searchModal)) || (tag.key && tag.key.toLowerCase().includes(searchModal))));
+		} else {
+			let newTags = tags;
+			if(companyTags){
+				newTags = [...newTags, ...companyTags];
+			}
+			setFilteredTags(newTags);
+		}
+	}, [searchModal, companyTags]);
 
 	const loadCompanyTags = React.useCallback(async () => {
 		const response = await client.query({
@@ -258,7 +272,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 				vertical: 'top',
 				horizontal: 'right',
 			}}
-			color={getPrimary()}
+			color={primary}
 			requestClose={requestClose}
 			open={open}
 			loading={false}
@@ -289,9 +303,9 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 									adornment={<Icon>search</Icon>}
 									id={"buscarEtiquetasEnModal"}
 									type="text"
-									stylesAdornment={{ color: getPrimary() }}
+									stylesAdornment={{ color: primary }}
 									value={searchModal}
-									styleInInput={{ fontSize: "12px", color: getPrimary() }}
+									styleInInput={{ fontSize: "12px", color: primary }}
 									styles={{ marginBottom: "0" }}
 									onChange={event => {
 										setSearchModal(event.target.value);
@@ -299,12 +313,12 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 									disableUnderline={true}
 								/>
 							</div>
-							<div style={{ color: getPrimary() }}>
+							<div style={{ color: primary }}>
 								&lt;tags&gt;
 							</div>
 						</div>
 					</div>
-					<Divider style={{ background: getPrimary() }} />
+					<Divider style={{ background: primary }} />
 					<div
 						style={{
 							width: "100%",
@@ -315,14 +329,14 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 					>
 						{/* //TRADUCCION */}
 						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth: "700px", marginBottom: "0.5em" }} >
-							<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em" }} onClick={() => setOcultar(false)}>
+							<i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em" }} onClick={() => setOcultar(false)}>
 								help
 										</i>
 							{!ocultar &&
 								<div>Los &lt;tags&gt; son marcas inteligentes que añaden el nombre o elemento personalizado al documento <u style={{ cursor: "pointer" }} onClick={() => setOcultar(true)}>(Ocultar)</u></div>
 							}
 						</div>
-						<div style={{ width: "97%", height: "16vh" }} >
+						<div style={{ width: "97%", height: "30vh" }} >
 							<div style={{ width: "100%", height: '100%' }}>
 								<Scrollbar>
 									<div style={{ height: '100%' }}>
@@ -334,25 +348,25 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 														Clave
                                                      </TableCell>
 													<TableCell style={{ color: "black", fontSize: "16px" }}>
-														Descripcion
+														Valor
                                                     </TableCell>
 												</TableRow>
 											</TableHead>
 											<TableBody>
-												{tags.map(tag => {
+												{filteredTags.map((tag, index) => {
 													return (
 														<HoverableRow
-															key={`tag_${tag.id}`}
+															key={`tag_${tag.index}`}
 															tag={tag}
 															translate={translate}
 															onClick={() => {
-																paste(`<span id="${tag.label}">${tag.getValue ? tag.getValue() : tag.value}</span>`);
+																paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
 																requestClose();
 															}}
 														/>
 													);
 												})}
-												{(!loading && companyTags) && companyTags.map(tag => {
+												{/* {(!loading && companyTags) && companyTags.map(tag => {
 													return (
 														<HoverableRow
 															key={`tag_${tag.id}`}
@@ -364,7 +378,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 															}}
 														/>
 													)
-												})}
+												})} */}
 											</TableBody>
 										</Table>
 									</div>
@@ -395,7 +409,7 @@ const HoverableRow = ({ tag, onClick }) => {
 			<TableCell style={{ color: "black" }}>
 				{tag.key || tag.label}
 			</TableCell>
-			<TableCell style={{ color: getPrimary() }}>
+			<TableCell style={{ color: primary }}>
 				{tag.description || tag.value }
 			</TableCell>
 		</TableRow>
