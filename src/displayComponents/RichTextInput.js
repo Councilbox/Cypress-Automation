@@ -16,7 +16,6 @@ import { query } from "../components/company/drafts/companyTags/CompanyTags";
 import TextInput from "./TextInput";
 import { Divider } from "material-ui";
 import Scrollbar from "./Scrollbar";
-import CloseIcon from "./CloseIcon";
 import { useHoverRow } from "../hooks";
 
 
@@ -222,7 +221,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 			}
 			setFilteredTags(newTags);
 		}
-	}, [searchModal, companyTags]);
+	}, [searchModal, companyTags, tags]);
 
 	const loadCompanyTags = React.useCallback(async () => {
 		const response = await client.query({
@@ -360,7 +359,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 												{filteredTags.map((tag, index) => {
 													return (
 														<HoverableRow
-															key={`tag_${tag.index}`}
+															key={`tag_${index}`}
 															tag={tag}
 															translate={translate}
 															onClick={() => {

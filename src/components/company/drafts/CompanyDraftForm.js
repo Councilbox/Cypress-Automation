@@ -8,7 +8,7 @@ import {
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import { Input, Icon, Collapse } from "material-ui";
 import * as CBX from "../../../utils/CBX";
-import { GOVERNING_BODY_TYPES } from "../../../constants";
+import { GOVERNING_BODY_TYPES, DRAFT_TYPES } from "../../../constants";
 import { withStyles } from "material-ui";
 import PropTypes from "prop-types";
 import withWindowSize from "../../../HOCs/withWindowSize";
@@ -210,6 +210,21 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	}
 
 	const renderRichEditor = () => {
+		const types = Object.keys(testTags).filter(key => testTags[key].type === TAG_TYPES.DRAFT_TYPE).map(key => {
+			return draftTypes.find(type => testTags[key].name === type.label);
+		});
+
+		const tags = types.reduce((acc, curr) => {
+			const draftTags = CBX.getTagVariablesByDraftType(curr.value, translate);
+
+			draftTags.forEach(tag => {
+				if(!acc.has(tag.value)){
+					acc.set(tag.value, tag);
+				}
+			})
+			return acc;
+		}, new Map());
+
 		return (
 			<React.Fragment>
 				<div>
@@ -224,7 +239,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 								text: value
 							})
 						}
-						tags={CBX.getTagVariablesByDraftType(draft.type, translate)}
+						tags={Array.from(tags.values())}
 					/>
 				</div>
 			</React.Fragment>
