@@ -69,7 +69,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
         setResendLoading(null);
         getData();
     }
-
+    console.log(data)
     if (isMobile) {
         return (
             <div style={{ height: "100%" }}>
