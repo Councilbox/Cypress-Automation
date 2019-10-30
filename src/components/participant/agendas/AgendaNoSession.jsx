@@ -231,7 +231,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     marginRight: "0.5em"
                 }}
             >
-                <b> Enviar voto y salir {/**TRADUCCION*/} </b>
+                <b> Votar {/**TRADUCCION*/} </b>
             </Button>
         :
             <Button
