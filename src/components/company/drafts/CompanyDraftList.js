@@ -181,6 +181,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		});
 	}
 
+
 	const { companyDrafts, draftTypes, loading, error } = data;
 
 	if (state.newForm) {
@@ -218,8 +219,6 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 	if(!vars.companyStatutes){
 		return <LoadingSection />
 	}
-
-
 
 	return (
 		<React.Fragment>
@@ -265,6 +264,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 							search={search}
 							setSearchModal={setSearch}
 							matchSearch={matchSearch}
+							company={company}
 							vars={vars}
 							testTags={testTags}
 							addTag={addTag}

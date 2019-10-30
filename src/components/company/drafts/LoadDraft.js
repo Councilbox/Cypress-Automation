@@ -217,6 +217,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 										search={search}
 										setSearchModal={setSearchModal}
 										matchSearch={matchSearch}
+										company={company}
 										addTag={addTag}
 										vars={vars}
 										testTags={testTags}
@@ -680,7 +681,7 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSea
 
 									</div>
 								</GridItem>
-								<GridItem xs={6} lg={6} md={6} style={{
+								<GridItem xs={3} lg={3} md={3} style={{
 									width: "100%",
 								}}>
 									<div style={{ display: "flex", width: "100%" }}>
@@ -706,6 +707,34 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSea
 										}
 									</div>
 								</GridItem>
+								{(props.company && props.company.id === props.company.corporationId) &&
+									<GridItem xs={3} lg={3} md={3} style={{
+										width: "100%",
+									}}>
+										<div style={{ display: "flex", width: "100%" }}>
+											{!!vars.companyTypes &&
+												<EtiquetasModal
+													color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
+													addTag={addTag}
+													title={translate.company_type}
+													stylesContent={{
+														border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
+														color: getTagColor(TAG_TYPES.COMPANY_TYPE),
+													}}
+													tags={vars.companyTypes.map(draft => (
+														{
+															name: draft.label,
+															label: translate[draft.label],
+															type: TAG_TYPES.COMPANY_TYPE,
+														}
+													))}
+													testTags={testTags}
+													removeTag={removeTag}
+												/>
+											}
+										</div>
+									</GridItem>
+								}
 							</Grid>
 						}
 					</div>
@@ -713,7 +742,6 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSea
 			}
 		/>
 	)
-
 })
 
 
@@ -731,7 +759,7 @@ const regularCardStyle = {
 }
 
 
-const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate, testTags, removeTag }) => {
+const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => {
 
 	const styles = {
 		borderRadius: '20px',
@@ -753,14 +781,14 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 				<div style={{
 					display: 'flex',
 					flexFlow: 'wrap column',
-					maxHeight: '150px',
+					//maxHeight: '150px',
 					width: "100%"
 				}}
 				id={'tipoDeReunion'}
 				>
 					{tags.map((tag, index) => {
 						return (
-							< div
+							<div
 								style={{
 									width: "100%",
 									marginRight: "1em",

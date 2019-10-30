@@ -133,6 +133,10 @@ export const getCompanyDraftDataNoCompany = gql`
 			label
 			value
 		}
+		companyTypes {
+			label
+			value
+		}
 		draftTypes {
 			label
 			value

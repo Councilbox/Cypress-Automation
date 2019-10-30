@@ -211,7 +211,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 	const renderRichEditor = () => {
 		const types = Object.keys(testTags).filter(key => testTags[key].type === TAG_TYPES.DRAFT_TYPE).map(key => {
-			return draftTypes.find(type => testTags[key].name === type.label);
+			const result = draftTypes.find(type => testTags[key].name === type.label);
+			return result;
 		});
 
 		const tags = types.reduce((acc, curr) => {
@@ -337,7 +338,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 											color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
 											translate={translate}
 											addTag={addTag}
-											title={"Tipo de organización"}
+											title={translate.company_type}
 											stylesContent={{
 												border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
 												color: getTagColor(TAG_TYPES.COMPANY_TYPE),
