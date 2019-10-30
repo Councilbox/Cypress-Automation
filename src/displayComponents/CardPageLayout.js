@@ -90,7 +90,6 @@ const CardPageLayout = ({
 						<Scrollbar>
 							<div
 								style={{
-									height: "100%",
 									paddingTop: "2.5em",
 									paddingBottom: "0.5em",
 									paddingLeft: windowSize === "xl" && "2vw",

@@ -543,9 +543,9 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSea
 				>
 					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
 						local_offer
-												</i>
-					Etiquetas
-											</MenuItem>
+					</i>
+					{translate.filter_by}
+				</MenuItem>
 			}
 			text={translate.add_agenda_point}
 			textStyle={"ETIQUETA"}
