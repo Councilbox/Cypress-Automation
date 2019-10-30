@@ -382,6 +382,10 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 					width: "32px",
 					outline: 0
 				}}
+				onClick={event => {
+					event.stopPropagation();
+					setExpanded(!expanded);
+				}}
 			>
 				<i className="fa fa-eye">
 				</i>
@@ -459,12 +463,17 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 			{...handlers}
 			onClick={onClick}
 		>
-			<TableCell
-			// style={TableStyles.TD}
-			>
+			<TableCell>
 				{draft.title}
+
+				{expanded &&
+					<React.Fragment>
+						<div style={{fontWeight: '700', marginTop: '1em'}}>{translate.content}</div>
+						<div dangerouslySetInnerHTML={{ __html: draft.text }} />
+					</React.Fragment>
+				}
 			</TableCell>
-			<TableCell >
+			<TableCell>
 				<div style={{ display: "flex" }}>
 					{columns &&
 						Object.keys(columns).map(key => {
@@ -575,9 +584,9 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSea
 							>
 								<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
 									local_offer
-															</i>
+								</i>
 								Etiquetas
-														</div>
+							</div>
 							<div>
 								<TextInput
 									placeholder={"Buscar Etiquetas"}
@@ -642,13 +651,6 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSea
 												))}
 												testTags={testTags}
 												removeTag={removeTag}
-											// tags={vars.companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => (
-											// 	{
-											// 		label: translate[statute.title] || statute.title,
-											// 		name: `statute_${statute.id}`,
-											// 		type: TAG_TYPES.STATUTE
-											// 	}
-											// ))}
 											/>
 										}
 									</div>
@@ -674,13 +676,6 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSea
 											))}
 											testTags={testTags}
 											removeTag={removeTag}
-										// tags={Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label]).map(key => (
-										// 	{
-										// 		name: governingBodyTypes[key].label,
-										// 		label: translate[governingBodyTypes[key].label],
-										// 		type: TAG_TYPES.GOVERNING_BODY
-										// 	}
-										// ))}
 										/>
 
 									</div>
@@ -707,13 +702,6 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSea
 												))}
 												testTags={testTags}
 												removeTag={removeTag}
-											// tags={vars.draftTypes.filter(type => !testTags[type.label]).map(draft => (
-											// 	{
-											// 		name: draft.label,
-											// 		label: translate[draft.label],
-											// 		type: TAG_TYPES.DRAFT_TYPE,
-											// 	}
-											// ))}
 											/>
 										}
 									</div>
@@ -743,97 +731,6 @@ const regularCardStyle = {
 }
 
 
-
-const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate, onClick }) => {
-	const [expanded, setExpanded] = React.useState(false);
-	const [hover, setHover] = React.useState(false);
-
-	const toggleExpanded = (event) => {
-		event.stopPropagation()
-		event.preventDefault()
-		setExpanded(!expanded)
-	}
-	const mouseEnterHandler = () => {
-		setHover(true)
-	}
-
-	const mouseLeaveHandler = () => {
-		setHover(false)
-	}
-
-	return (
-		<GridItem xs={12} lg={12} md={12}
-
-		>
-			<Card
-				style={{
-					boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-					marginBottom: "1em"
-				}}>
-				<CardHeader
-					onMouseOver={mouseEnterHandler}
-					onMouseLeave={mouseLeaveHandler}
-					style={{
-						color: "#000000",
-						padding: "1.5em",
-						whiteSpace: 'nowrap',
-						overflow: 'hidden',
-						textOverflow: 'ellipsis',
-						cursor: "pointer",
-						background: hover && "gainsboro"
-					}}
-					title={
-						<div
-							style={{
-								whiteSpace: 'nowrap',
-								overflow: 'hidden',
-								textOverflow: 'ellipsis',
-								width: "100%"
-							}}
-						>
-							{item.title}
-						</div>
-					}
-					classes={{
-						title: classes.cardTitle,
-						content: classes.content,
-					}}
-
-					onClick={onClick}
-					action={
-						<IconButton
-							style={{ top: '5px', width: "35px" }}
-							onClick={(event) => toggleExpanded(event)}
-							aria-expanded={expanded}
-							aria-label="Show more"
-							className={"expandButtonModal"}
-						>
-							<i
-								className={"fa fa-angle-down"}
-								style={{
-									transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
-									transition: "all 0.3s"
-								}}
-							/>
-						</IconButton>
-					}
-				></CardHeader>
-				<Collapse in={expanded} timeout="auto" unmountOnExit >
-					<div style={{ padding: "1.5em" }}>
-						<div>{translate.title}: {item.title}</div>
-						<div style={{ display: "flex" }}>{translate.description}:
-						<div style={{ paddingLeft: "0.3em" }} dangerouslySetInnerHTML={{
-								__html: item.text
-							}} ></div>
-						</div>
-					</div>
-				</Collapse>
-			</Card>
-		</GridItem>
-	)
-});
-
-
 const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, translate, testTags, removeTag }) => {
 
 	const styles = {
@@ -849,7 +746,7 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 
 	return (
 		<div style={{ width: "100%" }}>
-			<div style={{ fontWeight: "700" }} >
+			<div style={{ fontWeight: "700" }}>
 				<div>{title}</div>
 			</div>
 			<div style={{ color: color, width: "100%" }}>
@@ -885,7 +782,7 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 					})}
 				</div>
 			</div>
-		</div >
+		</div>
 	);
 }
 

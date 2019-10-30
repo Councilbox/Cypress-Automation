@@ -213,7 +213,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		return (
 			<React.Fragment>
 				<div>
-					<div style={{ fontSize: "18px", marginBottom: "1em" }}>Contenido</div>
+					<div style={{ fontSize: "18px", marginBottom: "1em" }}>{translate.content}</div>
 					<RichTextInput
 						id={"draftRichEditor"}
 						value={draft.text || ""}
@@ -412,7 +412,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 								{renderTitle()}
 							</GridItem>
 							{Object.keys(testTags).length > 0 &&
-								< GridItem xs={12} lg={12} md={12} style={{}}>
+								<GridItem xs={12} lg={12} md={12} style={{}}>
 									{renderEtiquetasSeleccionadas()}
 								</GridItem>
 							}
@@ -435,7 +435,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						</Fade>
 					}
 				</Grid>
-			</Scrollbar >
+			</Scrollbar>
 		);
 	} else {
 		return (
