@@ -248,6 +248,10 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	}, [loadCompanyTags]);
 
 	const getTextToPaste = tag => {
+		if(tag.getValue){
+			return tag.getValue();
+		}
+
 		let draftMode = false;
 		if (tags) {
 			if (tags[0].value.includes('{{')) {
