@@ -53,14 +53,15 @@ class Page extends React.PureComponent {
                 participant: this.state.data
             }
 
-            if (this.state.data.personOrEntity === 1) {
+            if (this.state.data.personOrEntity === 1 && this.state.representative ) {
                 const { __typename, ...cleanedRepresentative } = this.state.representative;
                 variables.representative = {
                     ...cleanedRepresentative,
                     companyId: this.state.data.companyId
                 }
             }
-
+            console.log(variables)
+            
             const { participant, representative } = variables;
             let trimmedData = {};
             let trimmedRepresentative = {};
