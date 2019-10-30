@@ -178,7 +178,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                     </TableBody>
                                 </Table>
                             </Scrollbar>
-                            <div style={{ display: "flex", width: "100%", padding: "1em", }}>
+                            <div style={{ display: "flex", width: "100%", padding: "0.5em", }}>
                                 {loading ?
                                     <div></div>
                                     :
@@ -233,7 +233,9 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
                 value={value}
                 onChange={updateValue}
                 className={'inputTableSMS'}
-                styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
+                styleInInput={{ border: "1px solid #0000006b", padding:"5px" }}
+                disableUnderline={true}
+                // styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
             />
         </React.Fragment>
     )

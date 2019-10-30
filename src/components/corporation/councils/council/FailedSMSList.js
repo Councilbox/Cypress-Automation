@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { BasicButton, AlertConfirm } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 import LiveSMS from '../../../council/live/councilMenu/LiveSMS';
+import { isMobile } from 'react-device-detect';
 
 
 const FailedSMSList = ({ council, translate }) => {
@@ -22,10 +23,22 @@ const FailedSMSList = ({ council, translate }) => {
             <BasicButton
                 text="Ver envios SMS"
                 color={secondary}
-				textStyle={{ fontWeight: '700', color: 'white' }}
+                textStyle={{ fontWeight: '700', color: 'white' }}
                 onClick={showModal}
             />
             <AlertConfirm
+                title={'Lista de SMS'}
+                bodyText={<LiveSMS council={council} translate={translate} />}
+                open={modal}
+                // buttonAccept={translate.accept}
+                // buttonCancel={translate.cancel}
+                modal={true}
+                requestClose={closeModal}
+                classNameDialog={isMobile ? "noMarginM" : 'noMargin'}
+                bodyStyle={{ overflowY: "hidden", height: "50vh", width: "100%", maxWidth: isMobile && "100vw" }}
+            />
+
+            {/* <AlertConfirm
                 requestClose={closeModal}
                 open={modal}
                 buttonCancel={'Cancelar'}
@@ -37,7 +50,7 @@ const FailedSMSList = ({ council, translate }) => {
                     />
                 }
                 title={'Lista de SMS'}
-            />
+            /> */}
         </React.Fragment>
     )
 }
