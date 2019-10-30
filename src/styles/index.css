@@ -777,14 +777,18 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 /* ESTO CAMBIA LA APARIENCIA DEL BOTON TAGS EN RICH-QUILL tambien se quita el color de los bordes */
 .ql-custom:before {
     display: inline-block;
-    font: normal normal normal 15px FontAwesome;
-    font-size: inherit;
+    font: normal normal normal 15px Lato;
+    font-size: 14px;
     text-rendering: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transform: translate(0, 0);
     content: "<tags>";
     color: rgb(125, 33, 128);
     border: 1px solid rgb(125, 33, 128);
     padding: 3px 7px;
+    box-shadow: 0px 1px 2px 0px;
     border-radius: 3px
 }
 
