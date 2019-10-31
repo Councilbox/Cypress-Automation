@@ -542,6 +542,7 @@ export const platformDrafts = gql`
 				councilType
 				description
 				id
+				tags
 				language
 				majority
 				majorityDivider
