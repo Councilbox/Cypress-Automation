@@ -19,7 +19,8 @@ import {
 	councilIsNotLiveYet,
 	councilIsNotCelebrated,
 	councilIsFinished,
-	councilIsLive
+	councilIsLive,
+	checkHybridConditions
 } from "../../../utils/CBX";
 import {
 	getPrimary,
@@ -238,7 +239,8 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					</StateContainer>
 				)}
 
-				{(councilIsFinished(council) || props.participant.hasVoted) && (
+
+				{(councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) && (
 					<React.Fragment>
 						{isMobile ?
 							<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
@@ -250,7 +252,12 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 											paddingTop: "0.5em"
 										}}
 										>
-											{props.participant.hasVoted? 'Resumen de participación' : translate.concil_finished}
+											{props.participant.hasVoted? 'Resumen de participación' //TRADUCCION
+											:
+												checkHybridConditions(council)?
+													'Votaciones remotas finalizadas'
+												:
+											 	translate.concil_finished}
 										</h3>
 									</div>
 									<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>

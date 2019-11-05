@@ -1634,6 +1634,16 @@ export const cleanAgendaObject = agenda => {
 	return clean;
 }
 
+export const checkHybridConditions = council => {
+	if(council.councilType !== 3){
+		return false;
+	}
+
+	if(checkSecondDateAfterFirst(council.closeDate, new Date())){
+		return true;
+	}
+}
+
 export const formatSize = size => {
 	let mb = Math.pow(1024, 2);
 	let kb = 1024;
