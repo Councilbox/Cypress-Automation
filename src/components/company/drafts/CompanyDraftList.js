@@ -31,9 +31,66 @@ import SelectedTag from "./draftTags/SelectedTag.js";
 import withWindowSize from "../../../HOCs/withWindowSize.js";
 import { DropdownEtiquetas } from "./LoadDraft.js";
 
-
-
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
+
+export const useTags = translate => {
+	const [testTags, setTestTags] = React.useState({});
+	const [vars, setVars] = React.useState({});
+
+	const formatTagLabel = tag => {
+		return tag.segments ?
+			`${tag.segments.reduce((acc, curr) => {
+				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
+				return acc;
+			}, '')}`
+			:
+			tag.label
+	};
+
+	const removeTag = tag => {
+		delete testTags[tag.name];
+		setTestTags({ ...testTags });
+	}
+
+	const addTag = tag => {
+		setTestTags({
+			...testTags,
+			[tag.name]: {
+				...tag,
+				label: formatTagLabel(tag),
+				active: true,
+				selected: 1
+			}
+		});
+	}
+
+	const filterTags = (data, search) => {
+		let tagsSearch = [];
+		data.companyStatutes.map(statute => (
+			tagsSearch.push(createTag(statute, 1, translate))
+		));
+		Object.keys(governingBodyTypes).map(key => (
+			tagsSearch.push(createTag(governingBodyTypes[key], 2, translate))
+		));
+		data.draftTypes.map(draft => tagsSearch.push(createTag({
+			...draft,
+			addTag,
+		}, 3, translate)));
+		return tagsSearch.filter(tag => {
+			return tag.label.toLowerCase().includes(search.toLowerCase())
+		});
+	}
+
+	return {
+		testTags,
+		vars,
+		setVars,
+		removeTag,
+		addTag,
+		filterTags
+	}
+
+}
 
 const CompanyDraftList = ({ translate, company, client, ...props }) => {
 	const [data, setData] = React.useState({});
@@ -43,9 +100,9 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		tags: true,
 		newForm: false,
 	});
-	const [search, setSearch] = React.useState("")
-	const [vars, setVars] = React.useState({});
-	const [testTags, setTestTags] = React.useState({});
+	const [search, setSearch] = React.useState("");
+
+	const { testTags, vars, setVars, removeTag, addTag, filterTags } = useTags(translate);
 
 	const primary = getPrimary();
 
@@ -154,33 +211,6 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		getData();
 	}, [company.id]);
 
-	const formatTagLabel = tag => {
-		return tag.segments ?
-			`${tag.segments.reduce((acc, curr) => {
-				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
-				return acc;
-			}, '')}`
-			:
-			tag.label
-	}
-
-	const removeTag = tag => {
-		delete testTags[tag.name];
-		setTestTags({ ...testTags });
-	}
-
-	const addTag = tag => {
-		setTestTags({
-			...testTags,
-			[tag.name]: {
-				...tag,
-				label: formatTagLabel(tag),
-				active: true,
-				selected: 1
-			}
-		});
-	}
-
 
 	const { companyDrafts, draftTypes, loading, error } = data;
 
@@ -198,22 +228,10 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 	}
 
 
-	let tagsSearch = [];
 	let matchSearch = [];
-	if (search) {
-		vars.companyStatutes.map(statute => (
-			tagsSearch.push(createTag(statute, 1, translate))
-		));
-		Object.keys(governingBodyTypes).map(key => (
-			tagsSearch.push(createTag(governingBodyTypes[key], 2, translate))
-		));
-		vars.draftTypes.map(draft => tagsSearch.push(createTag({
-			...draft,
-			addTag,
-		}, 3, translate)));
-		matchSearch = tagsSearch.filter(tag => {
-			return tag.label.toLowerCase().includes(search.toLowerCase())
-		});
+
+	if(search){
+		matchSearch = filterTags(vars, search);
 	}
 
 	if(!vars.companyStatutes){
@@ -349,7 +367,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 								>
 									{companyDrafts.list.map(draft => {
 										return (
-											<HoverableRow
+											<DraftRow
 												key={`draft${draft.id}`}
 												translate={translate}
 												action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
@@ -383,7 +401,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 	);
 }
 
-const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, info, ...props }) => {
+export const DraftRow = ({ draft, draftTypes, company, companyStatutes, translate, info, ...props }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 	const [showActions, setShowActions] = React.useState(false);
@@ -474,7 +492,7 @@ const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, 
 					</GridItem>
 				</Grid>
 				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
-					{props.renderDeleteIcon(draft.id)}
+					{props.renderDeleteIcon? props.renderDeleteIcon(draft.id) : ''}
 				</div>
 			</Card>
 		)
@@ -490,6 +508,7 @@ const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, 
 		>
 			<TableCell
 				style={TableStyles.TD}
+				onClick={props.action}
 			>
 				{draft.title}
 			</TableCell>
@@ -536,7 +555,7 @@ const HoverableRow = ({ draft, draftTypes, company, companyStatutes, translate, 
 			</TableCell>
 			<TableCell>
 				<div style={{ width: '3em' }}>
-					{show && props.renderDeleteIcon(draft.id)}
+					{(show && props.renderDeleteIcon)?props.renderDeleteIcon(draft.id) : ''}
 				</div>
 			</TableCell>
 		</TableRow>
