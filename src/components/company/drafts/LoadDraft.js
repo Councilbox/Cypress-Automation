@@ -525,7 +525,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 }
 
 
-export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, ...props }) => {
+export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, ...props }) => {
 	return (
 		<DropDownMenu
 			id={"cargarPlantillasSelectorEtiquetas"}
@@ -707,7 +707,7 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, search, setSea
 										}
 									</div>
 								</GridItem>
-								{(props.company && props.company.id === props.company.corporationId) &&
+								{((props.company && props.company.id === props.company.corporationId) || corporation) &&
 									<GridItem xs={3} lg={3} md={3} style={{
 										width: "100%",
 									}}>

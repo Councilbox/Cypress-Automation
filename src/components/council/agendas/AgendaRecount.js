@@ -117,9 +117,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                     </GridItem>
                     <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                         <div style={itemStyle}>
-                            {`${
-                                translate.votes_in_favor_for_approve
-                                }: ${agendaNeededMajority}`}
+                            {`${translate.votes_in_favor_for_approve}: ${agendaNeededMajority}`}
                             {agendaNeededMajority > (agenda.positiveVotings + agenda.positiveManual) ? (
                                 <FontAwesome
                                     name={"times"}

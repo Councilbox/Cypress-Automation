@@ -528,12 +528,14 @@ export const platformDrafts = gql`
 		$filters: [FilterInput]
 		$options: OptionsInput
 		$companyType: Int
+		$tags: [String]
 	) {
 		platformDrafts(
 			companyId: $companyId
 			filters: $filters
 			options: $options
 			companyType: $companyType
+			tags: $tags
 		) {
 			list {
 				categories
