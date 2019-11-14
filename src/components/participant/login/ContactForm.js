@@ -6,6 +6,7 @@ import { getPrimary } from '../../../styles/colors';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Input, withStyles } from 'material-ui';
+import { checkValidEmail } from '../../../utils';
 
 
 
@@ -74,7 +75,7 @@ const ContactForm = ({ participant, translate, council, client, ...props }) => {
             newErrors.replyTo = translate.required_field;
             hasError = true;
         } else {
-            if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(state.replyTo))) {
+            if (!checkValidEmail(state.replyTo)) {
                 newErrors.replyTo = "El email esta mal";
                 hasError = true;
             }
