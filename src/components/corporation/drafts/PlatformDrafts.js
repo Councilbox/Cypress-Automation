@@ -42,7 +42,6 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 	const { testTags, vars, setVars, removeTag, addTag, filterTags } = useTags(translate);
 	const [search, setSearch] = React.useState('');
 
-
 	const getData = async variables => {
 		const response = await client.query({
 			query,
@@ -375,10 +374,13 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 													translate={translate}
 													action={() => { showDraftDetails(draft) }}
 													draft={draft}
+													selectable={true}
 													companyStatutes={vars.companyStatutes}
 													draftTypes={draftTypes}
 													company={company}
-													//info={props}
+													isChecked={isChecked}
+													alreadySaved={alreadySaved}
+													updateSelectedValues={updateSelectedValues}
 												/>
 											);
 										}
@@ -409,3 +411,135 @@ export default withSharedProps()(
 		})
 	)(withRouter(withApollo(PlatformDrafts)))
 );
+
+
+class HoverableRow extends React.Component {
+
+	state = {
+		showCheck: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showCheck: true
+		});
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showCheck: false
+		});
+	}
+
+
+
+	render() {
+		const { draft, translate, draftTypes } = this.props;
+		let isChecked = this.props.isChecked(draft.id);
+
+		if(isMobile){
+            return(
+                <Card
+                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+					onClick={() => this.props.updateSelectedValues(draft.id)}
+                >
+                    <Grid>
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.name}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{draft.title}
+                        </GridItem>
+
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.type}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{translate[draftTypes[draft.type].label]}
+                        </GridItem>
+                    </Grid>
+                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
+						{isChecked &&
+							<Checkbox
+								value={isChecked}
+								checked={isChecked}
+								onChange={() =>
+									this.props.updateSelectedValues(
+										draft.id
+									)
+								}
+							/>
+						}
+                    </div>
+                </Card>
+            )
+        }
+
+		return (
+			<TableRow
+				key={`draft${draft.id}`}
+				hover={true}
+				onMouseOver={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+			>
+				<TableCell
+					style={TableStyles.TD}
+				>
+					{(isChecked || this.state.showCheck)?
+						<Checkbox
+							value={isChecked}
+							checked={isChecked}
+							onChange={() =>
+								this.props.updateSelectedValues(
+									draft.id
+								)
+							}
+						/>
+					:
+						<div style={{width: '3em'}} />
+					}
+				</TableCell>
+				<TableCell
+					style={
+						TableStyles.TD
+					}
+				>
+					{this.props.alreadySaved(
+						draft.id
+					) && (
+						<FontAwesome
+							name={
+								"save"
+							}
+							style={{
+								cursor:
+									"pointer",
+								fontSize:
+									"2em",
+								color: getSecondary()
+							}}
+						/>
+					)}
+				</TableCell>
+				<TableCell
+					style={{...TableStyles.TD, cursor: 'pointer'}}
+					onClick={() =>
+						this.props.showDraftDetails(draft)
+					}
+				>
+					{draft.title}
+				</TableCell>
+				<TableCell>
+					{
+						translate[
+							draftTypes[
+								draft
+									.type
+							].label
+						]
+					}
+				</TableCell>
+			</TableRow>
+		)
+	}
+}

@@ -3,9 +3,6 @@ import { AlertConfirm, Grid, GridItem } from '../../../displayComponents';
 import { hasVotation, majorityNeedsInput, isMajorityFraction, isMajorityPercentage } from '../../../utils/CBX';
 
 const DraftDetailsModal = ({ draft, requestClose, translate, companyTypes, draftTypes, votingTypes, majorityTypes }) => {
-
-    console.log(companyTypes, draftTypes, votingTypes, majorityTypes);
-
     const getMajorityType = majorityType => {
         return majorityTypes.find(majority => majority.value === draft.majorityType);
     }
@@ -71,21 +68,3 @@ const DraftDetailsModal = ({ draft, requestClose, translate, companyTypes, draft
 }
 
 export default DraftDetailsModal;
-
-/* <MajorityInput
-        type={draft.majorityType}
-        value={draft.majority}
-        divider={draft.majorityDivider}
-        majorityError={errors.majority}
-        dividerError={errors.majorityDivider}
-        onChange={value =>
-            updateState({
-                majority: +value
-            })
-        }
-        onChangeDivider={value =>
-            updateState({
-                majorityDivider: +value
-            })
-        }
-    /> */

@@ -15,6 +15,7 @@ import {
 	EnhancedTable,
 	ErrorWrapper,
 	LoadingSection,
+	Checkbox,
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { Card, Collapse, IconButton, Icon } from 'material-ui';
@@ -80,6 +81,8 @@ export const useTags = translate => {
 			return tag.label.toLowerCase().includes(search.toLowerCase())
 		});
 	}
+
+
 
 	return {
 		testTags,
@@ -401,7 +404,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 	);
 }
 
-export const DraftRow = ({ draft, draftTypes, company, companyStatutes, translate, info, ...props }) => {
+export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatutes, translate, info, ...props }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 	const [showActions, setShowActions] = React.useState(false);
@@ -422,8 +425,8 @@ export const DraftRow = ({ draft, draftTypes, company, companyStatutes, translat
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
-			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
-			const title = statute? statute.title : 'Tipo no encontrado';
+			//const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
+			const title = tag.label;
 			return translate[title] || title;
 		}
 
@@ -471,41 +474,48 @@ export const DraftRow = ({ draft, draftTypes, company, companyStatutes, translat
 	const columns = buildTagColumns(draft.tags);
 
 
-	if (isMobile) {
-		return (
-			<Card
-				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
-			>
-				<Grid>
-					<GridItem xs={4} md={4} style={{ fontWeight: '700', cursor: 'pointer' }} onClick={props.action}>
-						{translate.name}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{draft.title}
-					</GridItem>
+	const getCheckbox = () => {
+		const isChecked = props.isChecked(draft.id);
 
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.type}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{translate[draftTypes[draft.type].label]}
-					</GridItem>
-				</Grid>
-				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
-					{props.renderDeleteIcon? props.renderDeleteIcon(draft.id) : ''}
-				</div>
-			</Card>
+		return (
+			<Checkbox
+				value={isChecked}
+				checked={isChecked}
+				onChange={() =>
+					props.updateSelectedValues(draft.id)
+				}
+			/>
 		)
+
 	}
 
 	return (
 		<TableRow
 			{...handlers}
 			hover
-		// onClick={() => {
-		// 	bHistory.push(`/company/${company.id}/draft/${draft.id}`);
-		// }}
 		>
+			{selectable &&
+				<TableCell
+				style={TableStyles.TD}
+				//onClick={props.action}
+			>
+				<div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+					{getCheckbox()}
+					{props.alreadySaved(draft.id) &&
+						<i className="fa fa-floppy-o"
+							style={{
+								cursor:
+									"pointer",
+								fontSize:
+									"2em",
+								color: getSecondary()
+							}}
+						/>
+					}
+				</div>
+
+			</TableCell>
+			}
 			<TableCell
 				style={TableStyles.TD}
 				onClick={props.action}
