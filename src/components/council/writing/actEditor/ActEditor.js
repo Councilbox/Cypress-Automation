@@ -209,9 +209,9 @@ export const generateCouncilSmartTagsValues = data => {
 	const numParticipationsRepresented = (data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0));
 
 
-	const percentageSCPresent = `${((numParticipationsPresent / data.councilRecount.partTotal) * 100).toFixed(3)}%`;
+	const percentageSCPresent = ((numParticipationsPresent / data.councilRecount.partTotal) * 100).toFixed(3);
 
-	const percentageSCDelegated = `${((numParticipationsRepresented / data.councilRecount.partTotal) * 100).toFixed(3)}%`;
+	const percentageSCDelegated = ((numParticipationsRepresented / data.councilRecount.partTotal) * 100).toFixed(3);
 
 	const calculatedObject = {
 		...data.council,
@@ -226,7 +226,7 @@ export const generateCouncilSmartTagsValues = data => {
 		percentageSCDelegated,
 		numParticipationsPresent,
 		numParticipationsRepresented,
-		percentageSCTotal: `${(+percentageSCDelegated + (+percentageSCPresent)).toFixed(3)}%`
+		percentageSCTotal: (+percentageSCDelegated + (+percentageSCPresent)).toFixed(3)
 	}
 
 	cache.set(string, calculatedObject);
@@ -697,6 +697,7 @@ class ActEditor extends Component {
 											text={isMobile? translate.finish : translate.end_writing_act}
 											loading={this.state.updating}
 											loadingColor={primary}
+											id={'finalizarRedaccionDeActa'}
 											disabled={this.state.updating || this.state.disableButtons}
 											color={"white"}
 											textStyle={{

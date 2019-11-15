@@ -168,6 +168,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 								type="text"
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
+								id={'tituloPuntoDelDiaModal'}
 								onChange={event =>
 									updateState({
 										agendaSubject: event.target.value

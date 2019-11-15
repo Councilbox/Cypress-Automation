@@ -33,6 +33,7 @@ export const loadSubdomainConfig = () => {
 						icon
 						background
 						roomBackground
+						hideSignUp
 					}
 				}
 			`,
@@ -124,52 +125,36 @@ export const logoutParticipant = (participant, council) => {
 };
 
 export const setLanguage = language => {
-	const translationsString = null; //localStorage.getItem(language);
-
-	if(!translationsString){
-		return async dispatch => {
-			const response = await client.query({
-				query: getTranslations,
-				variables: { language: language }
-			});
-			if(!response.errors){
-				const translationObject = {};
-
-
-				response.data.translations.forEach(translation => {
-					translationObject[translation.label] = translation.text;
-				});
-				let locale = language;
-				if (language === "cat" || language === "gal") {
-					locale = "es";
-				}
-				moment.updateLocale(locale, {
-					months: translationObject.datepicker_months.split(","),
-					monthsShort: translationObject.datepicker_months
-						.split(",")
-						.map(month => month.substring(0, 3))
-				});
-				localStorage.setItem(language, JSON.stringify(translationObject));
-				dispatch({
-					type: "LOADED_LANG",
-					value: translationObject,
-					selected: language
-				});
+	return async dispatch => {
+		const response = await client.query({
+			query: getTranslations,
+			variables: {
+				language
 			}
-		};
-	} else {
-		const translations = JSON.parse(translationsString);
-		moment.locale(translations.selectedLanguage, {
-			months: translations.datepicker_months.split(","),
-			monthsShort: translations.datepicker_months
-				.split(",")
-				.map(month => month.substring(0, 3))
 		});
-		return({
-			type: 'LOADED_LANG',
-			value: translations,
-			selected: language
-		})
+		if(!response.errors){
+			const translationObject = {};
+
+			response.data.translations.forEach(translation => {
+				translationObject[translation.label] = translation.text;
+			});
+			let locale = language;
+			if (language === "cat" || language === "gal") {
+				locale = "es";
+			}
+			moment.updateLocale(locale, {
+				months: translationObject.datepicker_months.split(","),
+				monthsShort: translationObject.datepicker_months
+					.split(",")
+					.map(month => month.substring(0, 3))
+			});
+			localStorage.setItem(language, JSON.stringify(translationObject));
+			dispatch({
+				type: "LOADED_LANG",
+				value: translationObject,
+				selected: language
+			});
+		}
 	}
 };
 

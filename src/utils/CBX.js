@@ -219,6 +219,24 @@ export const isQuorumNumber = quorumType => {
 	return quorumType === 3;
 };
 
+export const voteAllAtOnce = data => {
+	return data.council.councilType === 3;
+}
+
+export const findOwnVote = (votings, participant) => {
+	if(participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE){
+		return votings.find(voting => (
+			voting.participantId === participant.id
+		));
+	}
+
+	return votings.find(voting => (
+		voting.participantId === participant.id
+		|| voting.delegateId === participant.id ||
+		voting.author.representative.id === participant.id
+	));
+}
+
 export const hasAct = statute => {
 	return statute.existsAct === 1;
 };
@@ -615,14 +633,16 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{numPresentOrRemote}}/g, data.council.numPresentAttendance + data.council.numRemoteAttendance);
 	text = text.replace(/{{numRepresented}}/g, data.council.numDelegatedAttendance);
 	text = text.replace(/{{numParticipants}}/g, data.council.numTotalAttendance);
-	text = text.replace(/{{percentageSCPresent}}/g, data.council.percentageSCPresent);
-	text = text.replace(/{{percentageSCRepresented}}/g, data.council.percentageSCDelegated);
-	text = text.replace(/{{percentageSCTotal}}/g, data.council.percentageSCTotal);
+	text = text.replace(/{{percentageSCPresent}}/g, `${data.council.percentageSCPresent}%`);
+	text = text.replace(/{{percentageSCRepresented}}/g, `${data.council.percentageSCDelegated}%`);
+	text = text.replace(/{{percentageSCTotal}}/g, `${data.council.percentageSCTotal}%`);
 	text = text.replace(/{{numParticipationsPresent}}/g, data.council.numParticipationsPresent);
 	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
 
 
 	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
+		moment.ISO_8601).format("LLL") : '');
+	text = text.replace(/{{dateSecondCall}}/g, !!data.council.dateStart2NdCall ? moment(new Date(data.council.dateStart2NdCall).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
 	text = text.replace(/{{dateEnd}}/g, !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
@@ -1625,6 +1645,16 @@ export const cleanAgendaObject = agenda => {
 	return clean;
 }
 
+export const checkHybridConditions = council => {
+	if(council.councilType !== 3){
+		return false;
+	}
+
+	if(checkSecondDateAfterFirst(council.closeDate, new Date())){
+		return true;
+	}
+}
+
 export const formatSize = size => {
 	let mb = Math.pow(1024, 2);
 	let kb = 1024;
@@ -1663,6 +1693,6 @@ export const calculateQuorum = (council, recount) => {
 
 
 export const councilHasSession = council => {
-	return !((council.councilType === 2) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
+	return !((council.councilType > 1) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
 }
 

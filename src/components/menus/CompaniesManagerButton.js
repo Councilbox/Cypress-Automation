@@ -27,6 +27,7 @@ const CompaniesManagerButton = props => {
                         <BasicButton
                             text={props.translate.companies_add}
                             color={secondary}
+                            id={'entidadesAddSociedad'}
                             onClick={() => sendGAevent({
                                 category: 'Editar entidades',
                                 action: 'Acceso añadir sociedad',
@@ -40,6 +41,7 @@ const CompaniesManagerButton = props => {
                     <BasicButton
                         text={props.translate.companies_add}
                         color={'#A0A0A0'}
+                        id={'entidadesAddSociedad'}
                         onClick={showCantCreateModal}
                         icon={<ButtonIcon type="add" color="white" />}
                         textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em',  color: 'white'}}

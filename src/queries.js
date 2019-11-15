@@ -1430,6 +1430,7 @@ export const councilLiveQuery = gql`
 			neededQuorum
 			noCelebrateComment
 			president
+			presidentId
 			proposedActSent
 			prototype
 			qualityVoteId
@@ -1440,6 +1441,7 @@ export const councilLiveQuery = gql`
 			}
 			satisfyQuorum
 			secretary
+			secretaryId
 			securityKey
 			securityType
 			selectedCensusId
@@ -1554,8 +1556,8 @@ export const downloadConvenePDF = gql`
 `;
 
 export const downloadAct = gql`
-	query downloadAct($councilId: Int!) {
-		downloadAct(councilId: $councilId)
+	query downloadAct($councilId: Int!, $clean: Boolean) {
+		downloadAct(councilId: $councilId, clean: $clean)
 	}
 `;
 
@@ -1907,7 +1909,7 @@ export const addGuest = gql`
 `;
 
 export const sendVideoEmails = gql`
-	mutation sendVideoEmails($councilId: Int!, $timezone: String!, $type: String) {
+	mutation sendVideoEmails($councilId: Int!, $timezone: String, $type: String) {
 		sendRoomEmails(councilId: $councilId, timezone: $timezone, type: $type) {
 			success
 			message

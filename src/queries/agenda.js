@@ -146,6 +146,9 @@ export const agendaVotings = gql`
 			}
 			total
 		}
+		votingsRecount(agendaId: $agendaId){
+			availableVotes
+		}
 	}
 `;
 

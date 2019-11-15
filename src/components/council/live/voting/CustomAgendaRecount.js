@@ -43,7 +43,7 @@ const CustomAgendaRecount = ({ agenda, translate }) => {
                     <TableBody>
                         {agenda.items.map(item => (
                             <TableRow key={`custom_item_${item.id}`}>
-                                <TableCell >
+                                <TableCell style={{ whiteSpace: 'pre-wrap'}}>
                                     {item.value}
                                 </TableCell>
                                 <TableCell >

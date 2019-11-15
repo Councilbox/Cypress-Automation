@@ -356,6 +356,7 @@ class Sidebar extends React.Component {
 				>
 					<i
 						className="material-icons"
+						id={"entidadesSideBar"}
 						style={{ color: this.state.companyMenu && this.showVerticalLayout() ? getSecondary() : 'rgba(255, 255, 255, 0.8)', fontSize: '1.em' }}
 					>
 						apps

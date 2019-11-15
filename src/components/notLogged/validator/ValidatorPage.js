@@ -232,7 +232,7 @@ const UserSection = ({ evidence, translate }) => {
                     <div style={{ width: '100px' }}>
                         <b>{translate.email}:</b>
                     </div>
-                    <div style={blur}>
+                    <div>
                         {evidence.data.user.email}
                     </div>
                 </div>
@@ -240,7 +240,7 @@ const UserSection = ({ evidence, translate }) => {
                     <div style={{ width: '100px' }}>
                         <b>{translate.name}:</b>
                     </div>
-                    <div style={blur}>
+                    <div>
                         {evidence.data.user.name}
                     </div>
                 </div>
@@ -248,7 +248,7 @@ const UserSection = ({ evidence, translate }) => {
                     <div style={{ width: '100px' }}>
                         <b>{translate.surname}:</b>
                     </div>
-                    <div style={blur}>
+                    <div>
                         {evidence.data.user.surname}
                     </div>
                 </div>
@@ -346,7 +346,7 @@ const CouncilSection = ({ evidence, translate }) => {
                                 <div style={{ width: '100px' }}>
                                     <b>{`${translate.company}:`}</b>
                                 </div>
-                                <div style={blur}>
+                                <div>
                                     {evidence.agendaPoint.company.businessName}
                                 </div>
                             </div>
@@ -355,7 +355,7 @@ const CouncilSection = ({ evidence, translate }) => {
                             <div style={{ width: '100px' }}>
                                 <b>{translate.name}:</b>
                             </div>
-                            <div style={blur}>
+                            <div>
                                 {evidence.agendaPoint.council.name}
                             </div>
                         </div>
@@ -376,7 +376,7 @@ const CouncilSection = ({ evidence, translate }) => {
                                 <div style={{ width: '100px' }}>
                                     <b>{`${translate.company}:`}</b>
                                 </div>
-                                <div style={blur}>
+                                <div>
                                     {evidence.council.company.businessName}
                                 </div>
                             </div>
@@ -385,7 +385,7 @@ const CouncilSection = ({ evidence, translate }) => {
                             <div style={{ width: '100px' }}>
                                 <b>{translate.name}:</b>
                             </div>
-                            <div style={blur}>
+                            <div>
                                 {evidence.council.name}
                             </div>
                         </div>

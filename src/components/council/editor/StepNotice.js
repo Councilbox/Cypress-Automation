@@ -533,6 +533,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										required
 										floatingText={translate.meeting_title}
 										type="text"
+										id={'TituloReunionEnConvocatoria'}
 										placeholder="Título que será el que aparezca en el acta"
 										errorText={errors.name}
 										value={council.name || ""}
@@ -666,6 +667,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 						<BasicButton
 							floatRight
 							text={translate.save}
+							id={'botonGuardarNuevasReunionesAbajo'}
 							loading={state.loading}
 							success={state.success}
 							reset={resetButtonStates}
@@ -685,6 +687,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 							floatRight
 							text={translate.next}
 							color={primary}
+							id={'botonSiguienteNuevasReunionesAbajo'}
 							disabled={data.loading}
 							loading={state.loading}
 							icon={

@@ -68,7 +68,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			}
 		});
 
-		if(response.data){
+		if (response.data) {
 			setData(response.data);
 		}
 
@@ -81,7 +81,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 
 	const conveneWithNotice = async () => {
 		const { __typename, ...council } = data.council;
-		if(!checkInvalidDates()){
+		if (!checkInvalidDates()) {
 			setLoading(true);
 			const response = await props.conveneWithNotice({
 				variables: {
@@ -90,7 +90,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 				}
 			});
 
-			if(!response.errors){
+			if (!response.errors) {
 				setLoading(false);
 				if (response.data.conveneWithNotice.success) {
 					toast(
@@ -228,7 +228,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 	}
 
 	const sendConveneWithoutNotice = async () => {
-		if(!checkInvalidDates()){
+		if (!checkInvalidDates()) {
 			setLoading(true);
 			const response = await props.conveneWithoutNotice({
 				variables: {
@@ -274,20 +274,20 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 	};
 
 	const _renderErrorModalBody = () => {
-		if(Object.keys(errors).length === 0){
+		if (Object.keys(errors).length === 0) {
 			return <div />
 		}
 
 		return (
 			<div>
 				{Object.keys(errors).map(key => (
-					<div style={{display: 'flex', justifyContent: 'space-between'}}>
+					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 						<div>{errors[key].message}</div>
 						<BasicButton
 							onClick={errors[key].action}
 							text={'Ir'}
 							color="white"
-							buttonStyle={{border: `1px solid ${secondary}`}}
+							buttonStyle={{ border: `1px solid ${secondary}` }}
 						/>
 					</div>
 				))}
@@ -374,7 +374,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 						title={translate.send_test_convene}
 					/>
 					<AlertConfirm
-						requestClose={() => setState({ preConveneModal: false})}
+						requestClose={() => setState({ preConveneModal: false })}
 						open={state.preConveneModal}
 						loadingAction={loading}
 						acceptAction={
@@ -408,13 +408,13 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 						acceptAction={
 							state.sendWithoutNoticeSuccess
 								? () => {
-										setState(
-											{
-												sendConveneWithoutNoticeModal: false,
-												sendWithoutNoticeSuccess: false
-											},
-											() => bHistory.push(`/`)
-										);
+									setState(
+										{
+											sendConveneWithoutNoticeModal: false,
+											sendWithoutNoticeSuccess: false
+										},
+										() => bHistory.push(`/`)
+									);
 								}
 								: sendConveneWithoutNotice
 						}
@@ -424,7 +424,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 								: translate.send
 						}
 						buttonCancel={translate.close}
-						bodyText={<div/>}
+						bodyText={<div />}
 						title={translate.new_save_convene}
 					/>
 				</div>
@@ -446,6 +446,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 								}}
 							>
 								<DropDownMenu
+									id={'desplegablePrevisualizacionNew'}
 									color="transparent"
 									Component={() =>
 										<Paper
@@ -534,6 +535,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 												{translate.send_preconvene}
 											</MenuItem>
 											<MenuItem
+												id={'convocarSinNotificarNew'}
 												onClick={() =>
 													setState({
 														sendConveneWithoutNoticeModal: true

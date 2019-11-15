@@ -123,6 +123,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 									translate={translate}
 									agendaVoting={vote}
 									active={vote.vote}
+									council={props.council}
 									refetch={refreshTable}
 								/>
 								:
@@ -588,12 +589,12 @@ const PrivateVotingDisplay = compose(
 
 const setAllPresentVotingsMutation = gql`
 	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
-					setAllPresentVotings(agendaId: $agendaId, vote: $vote){
-					success
+			setAllPresentVotings(agendaId: $agendaId, vote: $vote){
+			success
 			message
-				}
-			}
-		`;
+		}
+	}
+`;
 
 const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 	name: 'setAllPresentVotings'

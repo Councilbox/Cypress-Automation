@@ -68,42 +68,45 @@ const ParticipantForm = ({
 					/>
 				</GridItem>
 			) : (
-				<React.Fragment>
-					<GridItem xs={6} md={4} lg={3}>
-						<TextInput
-							floatingText={translate.name}
-							type="text"
-							errorText={errors.name}
-							value={participant.name}
-							onChange={event =>
-								updateState({
-									name: event.nativeEvent.target.value
-								})
-							}
-						/>
-					</GridItem>
-					<GridItem xs={6} md={4} lg={3}>
-						<TextInput
-							floatingText={translate.surname}
-							type="text"
-							errorText={errors.surname}
-							value={participant.surname}
-							onChange={event =>
-								updateState({
-									surname: event.nativeEvent.target.value
-								})
-							}
-						/>
-					</GridItem>
-				</React.Fragment>
-			)}
+					<React.Fragment>
+						<GridItem xs={6} md={4} lg={3}>
+							<TextInput
+								floatingText={translate.name}
+								type="text"
+								errorText={errors.name}
+								value={participant.name}
+								id={'textAnadirParticipanteNombre'}
+								onChange={event =>
+									updateState({
+										name: event.nativeEvent.target.value
+									})
+								}
+							/>
+						</GridItem>
+						<GridItem xs={6} md={4} lg={3}>
+							<TextInput
+								id={'textAnadirParticipanteApellido'}
+								floatingText={translate.surname}
+								type="text"
+								errorText={errors.surname}
+								value={participant.surname}
+								onChange={event =>
+									updateState({
+										surname: event.nativeEvent.target.value
+									})
+								}
+							/>
+						</GridItem>
+					</React.Fragment>
+				)}
 
 			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
-					floatingText={participant.personOrEntity === 1? translate.cif : translate.dni}
+					floatingText={participant.personOrEntity === 1 ? translate.cif : translate.dni}
 					type="text"
 					errorText={errors.dni}
-					value={participant.dni}
+					value={participant.dni || ''}
+					id={'textAnadirParticipanteDni'}
 					onChange={event =>
 						updateState({
 							dni: event.nativeEvent.target.value
@@ -117,7 +120,8 @@ const ParticipantForm = ({
 						floatingText={translate.position}
 						type="text"
 						errorText={errors.position}
-						value={participant.position}
+						value={participant.position || ''}
+						id={'textAnadirParticipanteCargo'}
 						onChange={event =>
 							updateState({
 								position: event.nativeEvent.target.value
@@ -129,10 +133,11 @@ const ParticipantForm = ({
 			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
 					floatingText={translate.email}
-					{...(checkEmail? {onKeyUp: (event) => checkEmail(event, 'participant')} : {})}
+					{...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'participant') } : {})}
 					type="text"
 					errorText={errors.email}
-					value={participant.email}
+					value={participant.email || ''}
+					id={'textAnadirParticipanteEmail'}
 					onChange={event =>
 						updateState({
 							email: event.nativeEvent.target.value
@@ -144,8 +149,9 @@ const ParticipantForm = ({
 				<TextInput
 					floatingText={translate.phone}
 					type="text"
+					id={'textAnadirParticipanteTelefono'}
 					errorText={errors.phone}
-					value={participant.phone}
+					value={participant.phone || ''}
 					onChange={event =>
 						updateState({
 							phone: event.nativeEvent.target.value
@@ -175,7 +181,7 @@ const ParticipantForm = ({
 									language.columnName
 										? language.columnName
 										: language.column_name
-								}`}
+									}`}
 							>
 								{language.desc}
 							</MenuItem>
@@ -189,9 +195,9 @@ const ParticipantForm = ({
 					type="tel"
 					min={1}
 					errorText={errors.numParticipations}
-					value={participant.numParticipations}
+					value={participant.numParticipations || ''}
 					onChange={event => {
-						if(!isNaN(event.target.value) || +event.target.value > 0){
+						if (!isNaN(event.target.value) || +event.target.value > 0) {
 							updateState({
 								numParticipations: event.target.value
 							})
@@ -206,9 +212,9 @@ const ParticipantForm = ({
 						type="tel"
 						min={1}
 						errorText={errors.socialCapital}
-						value={participant.socialCapital}
+						value={participant.socialCapital || ''}
 						onChange={event => {
-							if(!isNaN(event.target.value) || +event.target.value > 0){
+							if (!isNaN(event.target.value) || +event.target.value > 0) {
 								updateState({
 									socialCapital: event.target.value
 								})

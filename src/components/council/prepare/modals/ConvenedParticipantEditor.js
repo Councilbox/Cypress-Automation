@@ -11,6 +11,7 @@ import {
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
 import { upsertConvenedParticipant, checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
 import { PARTICIPANT_STATES } from "../../../../constants";
+import withSharedProps from "../../../../HOCs/withSharedProps";
 
 class ConvenedParticipantEditor extends React.Component {
 
@@ -101,7 +102,7 @@ class ConvenedParticipantEditor extends React.Component {
 	async checkRequiredFields(onlyEmail) {
 		const participant = this.state.data;
 		const representative = this.state.representative;
-		const { translate, participations } = this.props;
+		const { translate, participations, company } = this.props;
 
 		let errorsParticipant = {
 			errors: {},
@@ -113,7 +114,8 @@ class ConvenedParticipantEditor extends React.Component {
 			errorsParticipant = checkRequiredFieldsParticipant(
 				participant,
 				translate,
-				hasSocialCapital
+				hasSocialCapital,
+				company
 			);
 		}
 		let errorsRepresentative = {
@@ -133,7 +135,7 @@ class ConvenedParticipantEditor extends React.Component {
 		}
 
 
-		if(participant.email && participant.email !== this.props.participant.email){
+		if(participant.email && participant.email !== this.props.participant.email && company.type !== 10){
 			let emailsToCheck = [participant.email];
 
 			if(representative.email && ((this.props.participant.representative && representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)){
@@ -258,7 +260,8 @@ export default compose(
 			errorPolicy: "all"
 		}
 	}),
-	graphql(languages)
+	graphql(languages),
+	withSharedProps()
 )(withApollo(ConvenedParticipantEditor));
 
 const initialRepresentative = {

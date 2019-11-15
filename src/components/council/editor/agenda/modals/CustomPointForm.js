@@ -112,7 +112,7 @@ const CustomPointForm = ({
                     />
                 </Grid>
                 <SectionTitle
-                    text={'Selección'}//TRADUCCION
+                    text={translate.selection_type}
                     color={primary}
                     style={{
                         marginTop: '1em'
@@ -126,7 +126,7 @@ const CustomPointForm = ({
                             maxSelections: 2
                         })}
                         name="security"
-                        label={'Múltiple'}//TRADUCCION
+                        label={translate.multiple}
                     />
                     <Radio
                         checked={!options.multiselect}
@@ -135,13 +135,13 @@ const CustomPointForm = ({
                             maxSelections: 1
                         })}
                         name="security"
-                        label={'Única'}//TRADUCCION
+                        label={translate.single}
                     />
                 </div>
                 {options.multiselect &&
                     <React.Fragment>
                         <TextInput
-                            floatingText="Máximo de elecciones por usuario"//TRADUCCION
+                            floatingText={translate.max_selections}
                             value={options.maxSelections}
                             onChange={event => updateOptions({ maxSelections: validateNumber(event.target.value)})}
                         />
@@ -151,7 +151,7 @@ const CustomPointForm = ({
                             </div>
                         }
                         <TextInput
-                            floatingText="Elecciones mínimas"//TRADUCCION
+                            floatingText={translate.minimum_selection}
                             value={options.minSelections}
                             onChange={event => updateOptions({ minSelections: validateNumber(event.target.value) })}
                         />
@@ -163,14 +163,14 @@ const CustomPointForm = ({
                     </React.Fragment>
                 }
                 <SectionTitle
-                    text={'Respuestas posibles'}//TRADUCCION
+                    text={translate.choices}
                     color={primary}
                     style={{marginTop: '1.3em'}}
                 />
                 <BasicButton
                     onClick={addOption}
                     color="white"
-                    text="Añadir opción"//TRADUCCION
+                    text={translate.add_choice}
                     buttonStyle={{
                         color: 'white',
                         border: `1px solid ${secondary}`,
@@ -193,8 +193,9 @@ const CustomPointForm = ({
                     >
                         <TextInput
                             value={item.value}
-                            placeholder="Escribe el valor de la opción"
-                            floatingText="Valor"
+                            //placeholder="Escribe el valor de la opción"
+                            floatingText={translate.value}
+                            multiline
                             errorText={errors.items && errors.items[index] && errors.items[index].error}
                             onChange={event => updateItem(index, event.target.value)}
                         />

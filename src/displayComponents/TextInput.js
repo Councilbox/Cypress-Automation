@@ -85,6 +85,7 @@ const TextInput = ({
 					shrink: true
 				}}
 				InputProps={{
+					disableUnderline:disableUnderline,
 					startAdornment: "",
 					disableUnderline: disableUnderline,
 					inputProps: {

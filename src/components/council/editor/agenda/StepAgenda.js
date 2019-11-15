@@ -53,7 +53,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 
 	React.useEffect(() => {
 		getData();
-	},[props.councilID]);
+	}, [props.councilID]);
 
 
 	const getData = async () => {
@@ -182,7 +182,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 				body={
 					<React.Fragment>
 						<Grid>
-							{agendas === null? (
+							{agendas === null ? (
 								<div
 									style={{
 										height: "300px",
@@ -252,15 +252,15 @@ const StepAgenda = ({ client, translate, ...props }) => {
 													key={`agenda${index}`}
 													typeText={
 														translate[
-															votingTypes.find(
-																item =>
-																	item.value ===
-																	agenda.subjectType
-															)? votingTypes.find(
-																item =>
-																	item.value ===
-																	agenda.subjectType
-															).label : ''
+														votingTypes.find(
+															item =>
+																item.value ===
+																agenda.subjectType
+														) ? votingTypes.find(
+															item =>
+																item.value ===
+																agenda.subjectType
+														).label : ''
 														]
 													}
 													removeAgenda={removeAgenda}
@@ -272,46 +272,46 @@ const StepAgenda = ({ client, translate, ...props }) => {
 									</div>
 								</React.Fragment>
 							) : (
-								<div
-									style={{
-										width: "100%",
-										display: "flex",
-										flexDirection: "column",
-										alignItems: "center",
-										marginTop: "2em",
-										marginBottom: "3em"
-									}}
-								>
-									<Typography variant="subheading">
-										{translate.empty_agendas}
-									</Typography>
-									<br />
-									<div>
-										<AddAgendaPoint
-											translate={translate}
-											agendas={council.agendas}
-											votingTypes={votingTypes}
-											majorityTypes={majorityTypes}
-											draftTypes={draftTypes}
-											statute={council.statute}
-											company={props.company}
-											council={council}
-											companyStatutes={data.companyStatutes}
-											refetch={getData}
-										/>
-									</div>
-									<Typography
-										variant="subheading"
-										style={{
-											color: "red",
-											fontWeight: "700",
-											marginTop: "1.2em"
-										}}
-									>
-										{errors.emptyAgendas}
-									</Typography>
-								</div>
-							)}
+										<div
+											style={{
+												width: "100%",
+												display: "flex",
+												flexDirection: "column",
+												alignItems: "center",
+												marginTop: "2em",
+												marginBottom: "3em"
+											}}
+										>
+											<Typography variant="subheading">
+												{translate.empty_agendas}
+											</Typography>
+											<br />
+											<div>
+												<AddAgendaPoint
+													translate={translate}
+													agendas={council.agendas}
+													votingTypes={votingTypes}
+													majorityTypes={majorityTypes}
+													draftTypes={draftTypes}
+													statute={council.statute}
+													company={props.company}
+													council={council}
+													companyStatutes={data.companyStatutes}
+													refetch={getData}
+												/>
+											</div>
+											<Typography
+												variant="subheading"
+												style={{
+													color: "red",
+													fontWeight: "700",
+													marginTop: "1.2em"
+												}}
+											>
+												{errors.emptyAgendas}
+											</Typography>
+										</div>
+									)}
 						</Grid>
 						{!loading && (
 							<React.Fragment>
@@ -423,6 +423,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 						/>
 						<BasicButton
 							text={translate.next}
+							id={'ordenDelDiaNext'}
 							color={primary}
 							disable={loading}
 							loadingColor={"white"}
@@ -489,10 +490,10 @@ export const AddAgendaPoint = ({
 
 	return (
 		<React.Fragment>
-			{config.customPoints? (
+			{config.customPoints ? (
 				<DropDownMenu
 					color={primary}
-					id={"new-agenda-trigger"}
+					id={"newPuntoDelDiaOrdenDelDiaNew"}
 					loading={false}
 					{...(!!Component ? (Component = { Component }) : {})}
 					text={translate.add_agenda_point}
@@ -506,6 +507,7 @@ export const AddAgendaPoint = ({
 						<React.Fragment>
 							<MenuItem onClick={showYesNoModal}>
 								<div
+									id={'puntoSiNoAbstencion'}
 									style={{
 										width: "100%",
 										display: "flex",
@@ -528,13 +530,14 @@ export const AddAgendaPoint = ({
 											marginRight: "0.8em"
 										}}
 									>
-										Punto si / no / abstención
+										{translate.approving_point}
 									</span>
 								</div>
 							</MenuItem>
 							<Divider />
 							<MenuItem onClick={showCustomPointModal}>
 								<div
+									id={'puntoPersonalizado'}
 									style={{
 										width: "100%",
 										display: "flex",
@@ -557,7 +560,7 @@ export const AddAgendaPoint = ({
 											marginRight: "0.8em"
 										}}
 									>
-										Punto personalizado
+										{translate.custom_point}
 									</span>
 								</div>
 							</MenuItem>
@@ -567,15 +570,15 @@ export const AddAgendaPoint = ({
 			) : !!Component ? (
 				<Component onClick={showYesNoModal} />
 			) : (
-				<BasicButton
-					text={translate.add_agenda_point}
-					color={primary}
-					onClick={showYesNoModal}
-					textStyle={buttonStyle}
-					icon={<ButtonIcon type="add" color="white" />}
-					textPosition="after"
-				/>
-			)}
+						<BasicButton
+							text={translate.add_agenda_point}
+							color={primary}
+							onClick={showYesNoModal}
+							textStyle={buttonStyle}
+							icon={<ButtonIcon type="add" color="white" />}
+							textPosition="after"
+						/>
+					)}
 			{state.yesNoModal && (
 				<NewAgendaPointModal
 					translate={translate}

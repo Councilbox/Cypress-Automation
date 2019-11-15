@@ -2,7 +2,7 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import DelegationsRestrictionModal from './DelegationsRestrictionModal';
-import { AlertConfirm, BasicButton, Checkbox, SectionTitle } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, Checkbox, SectionTitle, ButtonIcon } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { Table, TableBody, TableCell, TableRow } from 'material-ui';
 import { TableHead, Card } from 'material-ui';
@@ -40,11 +40,9 @@ const removeCouncilDelegateMutation = gql`
 const DelegationRestriction = ({ translate, council, client, fullScreen, ...props }) => {
     const [participants, setParticipants] = React.useState([]);
     const [modal, setModal] = React.useState(false);
-    const [loading, setLoading] = React.useState(true);
     const [selectedIds, setselectedIds] = React.useState(new Map());
     const [warningModal, setWarningModal] = React.useState(false);
     const primary = getPrimary();
-    const secondary = getSecondary();
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -55,8 +53,6 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         });
 
         setParticipants(response.data.councilDelegates.map(item => item.participant));
-
-        setLoading(false);
     }, [council.id]);
 
     const openSelectModal = () => {
@@ -67,8 +63,8 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         setModal(false);
     }
 
-    const openDeleteWarning = participantId => {
-        setWarningModal(participantId);
+    const openDeleteWarning = participant => {
+        setWarningModal(participant);
     }
 
     const closeDeleteWarning = () => {
@@ -80,7 +76,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
             mutation: addCouncilDelegateMutation,
             variables: {
                 councilId: council.id,
-                participantId: participantId
+                participantId
             }
         });
 
@@ -93,7 +89,11 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         //TRADUCCION
         return (
             <div>
-                Si quita a este usuario de la lista se le borrarán todos las posibles delegaciones que tenga asignadas. ¿Continuar?
+                {warningModal.id?
+                    <text>Si quita a <strong>{`${warningModal.name} ${warningModal.surname}`}</strong> de la lista se le borrarán todos las posibles delegaciones que tenga asignadas. ¿Continuar?</text>
+                :
+                    'Esta opción eliminará a los usuarios seleccionados y permitirá a todos los participantes recibir delegaciones.'//TRADUCCION
+                }
             </div>
         )
     }
@@ -118,16 +118,6 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         }
     }
 
-    const select = id => {
-        if (selectedIds.has(id)) {
-            selectedIds.delete(id);
-        } else {
-            selectedIds.set(id, 'selected');
-        }
-
-        setselectedIds(new Map(selectedIds));
-    }
-
     const selectAll = () => {
         const newSelected = new Map();
         if (selectedIds.size !== participants.length) {
@@ -149,82 +139,87 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
             return (
                 <div style={{ width: "100%", height: "100%" }}>
                     <SectionTitle
-						text={'Limitar quien puede recibir delegaciones a:' /*TRADUCCION*/}
-						color={primary}
-						style={{
-							marginTop: '1.6em'
-						}}
-					/>
+                        text={'Pueden recibir delegaciones: ' /*TRADUCCION*/}
+                        color={primary}
+                        style={{
+                            marginTop: '1.6em'
+                        }}
+                    />
                     <div style={{ paddingBottom: "1em" }}>
-                        <BasicButton
-                            color={"white"}
-                            textStyle={{
-                                color: primary,
-                                fontWeight: "700",
-                                fontSize: "0.9em",
-                                textTransform: "none"
-                            }}
-                            textPosition="after"
-                            buttonStyle={{
-                                marginRight: "1em",
-                                border: `2px solid ${primary}`
-                            }}
-                            onClick={openSelectModal}
-                            text={translate.add}
-                        >
-                        </BasicButton>
-                        {selectedIds.size > 0 &&
-                            <BasicButton
-                                color={secondary}
-                                textStyle={{
-                                    color: 'white',
-                                    fontWeight: "700",
-                                    fontSize: "0.9em",
-                                    textTransform: "none"
-                                }}
-                                textPosition="after"
-                                buttonStyle={{
-                                    marginRight: "1em",
-                                    border: `2px solid ${secondary}`
-                                }}
-                                onClick={() => setWarningModal(true)}
-                                text={selectedIds.size === 1? translate.remove_one_participant : `${translate.remove_one_participant.replace('1', selectedIds.size)}s`}
-                            >
-                            </BasicButton>
-                        }
-                    </div>
-                    {
-                        !!participants.length &&
-                        <Table style={{ maxWidth: "100%", paddingRight: "1.2em" }}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>
-                                        <Checkbox
-                                            onChange={selectAll}
-                                            value={selectedIds.size > 0 &&
-                                                selectedIds.size === (participants ? participants.length : -1)}
-                                        />
-                                    </TableCell>
-                                    <TableCell>{translate.name}</TableCell>
-                                    <TableCell>{translate.surname}</TableCell>
-                                    <TableCell>{translate.delete}</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
+                        <div style={{ display: "flex" }}>
+                            <div style={{ width: "135px" }}>
+                                <BasicButton
+                                    color={'transparent'}
+                                    textStyle={{
+                                        color: getPrimary(),
+                                        fontWeight: "700",
+                                        fontSize: "0.9em",
+                                        textTransform: "none",
+                                        fontWeight: "500",
+                                        minWidth: "100px"
+                                    }}
+                                    icon={<ButtonIcon type="person_add" color={getPrimary()} />}
+                                    textPosition="after"
+                                    buttonStyle={{
+                                        marginRight: "1em",
+                                        borderRadius: "1px",
+                                        marginBottom: "0.5em",
+                                        border: `2px solid ${getPrimary()}`
+                                    }}
+                                    onClick={openSelectModal}
+                                    text={"Seleccionar"} //TRADUCCION
+                                >
+                                </BasicButton>
+                                {participants.length > 0 &&
+                                    <BasicButton
+                                        color={'white'}
+                                        textStyle={{
+                                            color: primary,
+                                            fontWeight: "700",
+                                            fontSize: "0.9em",
+                                            textTransform: "none",
+                                            fontWeight: "500",
+                                            borderRadius: '2px',
+                                            border: `solid 2px ${primary}`,
+                                            minWidth: "125px"
+                                        }}
+                                        textPosition="after"
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            borderRadius: "1px",
+                                            boxShadow: "none"
+                                        }}
+                                        icon={<ButtonIcon type="people_alt" color={getPrimary()} />}
+                                        text={translate.all_plural} //TRADUCCION
+                                        onClick={() => {
+                                            selectAll()
+                                            setWarningModal(true);
+                                        }}
+                                    >
+                                    </BasicButton>
+                                }
+                            </div>
+                            <div style={{ width: "100%" }}>
                                 {participants.map(participant => (
-                                    <HoverRow
-                                        selected={selectedIds.has(participant.id)}
-                                        select={select}
-                                        key={`participant_${participant.id}`}
+                                    <Etiqueta
                                         participant={participant}
-                                        council={council}
                                         removeCouncilDelegate={removeCouncilDelegate}
                                         openDeleteWarning={openDeleteWarning}
+                                        council={council}
+                                        key={`participant_${participant.id}`}
+                                        translate={translate}
                                     />
                                 ))}
-                            </TableBody>
-                        </Table>
-                    }
+                                {participants.length === 0 &&
+                                    <Etiqueta
+                                        empty={true}
+                                        council={council}
+                                        translate={translate}
+                                    />
+                                }
+                            </div>
+                        </div>
+                    </div>
                     <DelegationsRestrictionModal
                         translate={translate}
                         council={council}
@@ -237,7 +232,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                         requestClose={closeDeleteWarning}
                         open={!!warningModal}
                         title={translate.warning}
-                        acceptAction={() => removeCouncilDelegate(warningModal)}
+                        acceptAction={() => removeCouncilDelegate(warningModal.id)}
                         buttonAccept={translate.accept}
                         buttonCancel={translate.cancel}
                         bodyText={renderWarningText()}
@@ -248,12 +243,12 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
             return (
                 <div style={{ width: "100%", height: "100%" }}>
                     <SectionTitle
-						text={'Limitar quien puede recibir delegaciones a:' /*TRADUCCION*/}
-						color={primary}
-						style={{
-							marginTop: '1.6em'
-						}}
-					/>
+                        text={'Pueden recibir delegaciones: ' /*TRADUCCION*/}
+                        color={primary}
+                        style={{
+                            marginTop: '1.6em'
+                        }}
+                    />
                     <div style={{ paddingBottom: "1em" }}>
                         <BasicButton
                             color={"white"}
@@ -334,53 +329,83 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
 
 }
 
+const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, council, empty, translate }) => {
 
-const HoverRow = ({ children, participant, council, removeCouncilDelegate, openDeleteWarning, select, selected }) => {
-    const [hover, setHover] = React.useState(false)
-
-    const onMouseEnterHandler = () => {
-        setHover(true)
-    }
-
-    const onMouseLeaveHandler = () => {
-        setHover(false)
-    }
-
-    return (
-        <TableRow
-            style={{ background: hover && "#ededed", }}
-            onMouseEnter={() => onMouseEnterHandler()}
-            onMouseLeave={() => onMouseLeaveHandler()}
-
-        >
-            <TableCell style={{ opacity: hover ? "1" : selected ? "1" : "0" }}>
-                <Checkbox
-                    value={selected}
-                    onChange={() =>
-                        select(participant.id)
-                    }
-                />
-            </TableCell>
-            <TableCell>{participant.name}</TableCell>
-            <TableCell>{participant.surname}</TableCell>
-            <TableCell
-                onClick={() => {
-                    if (council.state < 5) {
-                        removeCouncilDelegate(participant.id)
-                    } else {
-                        openDeleteWarning(participant.id);
-                    }
+    if (empty) {
+        return (
+            <div
+                color={"white"}
+                style={{
+                    background: "white",
+                    color: "black",
+                    fontWeight: "700",
+                    fontSize: "0.9em",
+                    textTransform: "none",
+                    fontWeight: "500",
+                    cursor: 'initial',
+                    marginRight: "1em",
+                    borderRadius: "1px",
+                    //border: 'solid 1px #f0f3f6',
+                    display: "inline-block",
+                    marginBottom: "0.5em",
+                    minWidth: "100px"
                 }}
-                style={{ opacity: hover ? "1" : "0", cursor: "pointer", }}
             >
-                <i
-                    className={"fa fa-times"}
-                    style={{ color: "#000000de" }}
-                >
-                </i>
-            </TableCell>
-        </TableRow>
-    )
+                <div style={{ padding: "8px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div style={{ marginLeft: "15px", marginRight: "15px", }}>
+                        {translate.all_plural}
+                    </div>
+                </div>
+            </div>
+        );
+    } else {
+        return (
+            <div
+                color={"white"}
+                style={{
+                    background: "white",
+                    color: "black",
+                    fontWeight: "700",
+                    fontSize: "0.9em",
+                    textTransform: "none",
+                    fontWeight: "500",
+                    cursor: 'initial',
+                    marginRight: "1em",
+                    borderRadius: "1px",
+                    boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+                    border: 'solid 1px #f0f3f6',
+                    display: "inline-block",
+                    marginBottom: "0.5em",
+                    minWidth: "100px"
+                }}
+            >
+                <div style={{ padding: "8px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div style={{
+                        marginLeft: "15px",
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        maxWidth: "160px"
+                    }}>
+                        {participant.name + " " + participant.surname}
+                    </div>
+                    <div style={{ marginLeft: "5px", marginRight: "3px", display: "flex" }}>
+                        <ButtonIcon
+                            type="cancel"
+                            style={{ cursor: "pointer" }}
+                            color={getPrimary()}
+                            onClick={() => {
+                                if (council.state !== 0) {
+                                    openDeleteWarning(participant);
+                                } else {
+                                    removeCouncilDelegate(participant.id)
+                                }
+                            }} />
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
 
