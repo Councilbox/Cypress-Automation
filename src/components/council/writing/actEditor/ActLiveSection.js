@@ -8,6 +8,7 @@ import { graphql } from 'react-apollo';
 import LoadDraftModal from '../../../company/drafts/LoadDraftModal';
 import { updateCouncilAct } from '../../../../queries';
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
+import withSharedProps from "../../../../HOCs/withSharedProps";
 
 
 class ActLiveSection extends React.Component {
@@ -163,13 +164,9 @@ class ActLiveSection extends React.Component {
 		const correctedText = await changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council,
-			votings: {
-				positive: 1,
-				negative: 43
-			}
 		}, this.props.translate);
 		this.editor.setValue(correctedText);
-		this.updateAct(correctedText);
+		this.updateCouncilAct(correctedText);
 		this.modal.close();
 	};
 
@@ -195,4 +192,4 @@ class ActLiveSection extends React.Component {
 
 export default graphql(updateCouncilAct, {
 	name: 'updateCouncilAct'
-})(ActLiveSection);
+})(withSharedProps()(ActLiveSection));

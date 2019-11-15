@@ -160,7 +160,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						onClick={changeSelectedPoint}
 						translate={translate}
 						councilID={council.id}
-						refetch={data.refetch}
+						refetch={getData}
 					/>
 				</Scrollbar>
 			</div>
@@ -197,7 +197,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						onClick={changeSelectedPoint}
 						translate={translate}
 						councilID={council.id}
-						refetch={data.refetch}
+						refetch={getData}
 					/>
 				</Scrollbar>
 			</Card>
@@ -230,7 +230,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 					councilID={props.councilID}
 					translate={translate}
 					refetchCouncil={props.refetch}
-					refetch={data.refetch}
+					refetch={getData}
 				/>
 			</div>
 			<AlertConfirm
