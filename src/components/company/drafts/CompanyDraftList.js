@@ -35,7 +35,8 @@ import { DropdownEtiquetas } from "./LoadDraft.js";
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
 export const useTags = translate => {
-	const [testTags, setTestTags] = React.useState({});
+	const [testTags, setTestTags] = React.useState({})
+	const [tagText, setTagText] = React.useState('');
 	const [vars, setVars] = React.useState({});
 
 	const formatTagLabel = tag => {
@@ -65,30 +66,40 @@ export const useTags = translate => {
 		});
 	}
 
-	const filterTags = (data, search) => {
+	const filterTags = () => {
 		let tagsSearch = [];
-		data.companyStatutes.map(statute => (
+		vars.companyStatutes.map(statute => (
 			tagsSearch.push(createTag(statute, 1, translate))
+		));
+		vars.companyTypes.map(type => (
+			tagsSearch.push(createTag(type, 0, translate))
 		));
 		Object.keys(governingBodyTypes).map(key => (
 			tagsSearch.push(createTag(governingBodyTypes[key], 2, translate))
 		));
-		data.draftTypes.map(draft => tagsSearch.push(createTag({
+		vars.draftTypes.map(draft => tagsSearch.push(createTag({
 			...draft,
 			addTag,
 		}, 3, translate)));
 		return tagsSearch.filter(tag => {
-			return tag.label.toLowerCase().includes(search.toLowerCase())
+			return tag.label.toLowerCase().includes(tagText.toLowerCase())
 		});
 	}
 
+	let filteredTags = [];
 
+	if(tagText){
+		filteredTags = filterTags();
+	}
 
 	return {
 		testTags,
 		vars,
+		tagText,
+		setTagText,
 		setVars,
 		removeTag,
+		filteredTags,
 		addTag,
 		filterTags
 	}
@@ -105,7 +116,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 	});
 	const [search, setSearch] = React.useState("");
 
-	const { testTags, vars, setVars, removeTag, addTag, filterTags } = useTags(translate);
+	const { testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText } = useTags(translate);
 
 	const primary = getPrimary();
 
@@ -230,13 +241,6 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		);
 	}
 
-
-	let matchSearch = [];
-
-	if(search){
-		matchSearch = filterTags(vars, search);
-	}
-
 	if(!vars.companyStatutes){
 		return <LoadingSection />
 	}
@@ -282,9 +286,9 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 					<div style={{ marginRight: "3em" }}>
 						<DropdownEtiquetas
 							translate={translate}
-							search={search}
-							setSearchModal={setSearch}
-							matchSearch={matchSearch}
+							search={tagText}
+							setSearchModal={setTagText}
+							matchSearch={filteredTags}
 							company={company}
 							vars={vars}
 							testTags={testTags}

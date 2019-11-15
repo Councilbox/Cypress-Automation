@@ -29,7 +29,32 @@ import { useOldState } from "../../../hooks";
 import { useTags, DraftRow } from "../../company/drafts/CompanyDraftList";
 import { DropdownEtiquetas } from "../../company/drafts/LoadDraft";
 import gql from "graphql-tag";
-import { company_types } from "./NewCorporationDraft";
+
+export const statute_types = [
+	{
+        prototype: 1,
+        title: 'ordinary_general_assembly',
+    }, {
+        prototype: 2,
+        title: 'special_general_assembly'
+    }, {
+        prototype: 3,
+        title: 'board_of_directors',
+    },
+    {
+        prototype: 10,
+        title: 'ordinary_general_assembly_association',
+    }, {
+        prototype: 11,
+        title: 'special_general_assembly_association',
+    }, {
+        prototype: 12,
+        title: 'council_of_directors_association',
+    }, {
+        prototype: 13,
+        title: 'executive_committee',
+    }];
+
 
 
 const PlatformDrafts = ({ client, company, translate, ...props }) => {
@@ -39,7 +64,7 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 		draft: null
 	});
 	const [data, setData] = React.useState(null);
-	const { testTags, vars, setVars, removeTag, addTag, filterTags } = useTags(translate);
+	const { testTags, vars, setVars, removeTag, addTag, filteredTags, tagText, setTagText, } = useTags(translate);
 	const [search, setSearch] = React.useState('');
 
 	const getData = async variables => {
@@ -98,7 +123,7 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 		});
 		setVars({
 			...response.data,
-			companyStatutes: company_types[0].statutes
+			companyStatutes: statute_types
 		});
 	};
 
@@ -222,12 +247,6 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 		});
 	}
 
-	const updateState = object =>  {
-		setState({
-			...object
-		});
-	}
-
 	const updateSelectedValues = id => {
 		let { selectedValues } = state;
 		const item = selectedValues.find(selectedValue => id === selectedValue);
@@ -240,12 +259,6 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 		setState({
 			selectedValues: [...selectedValues]
 		});
-	}
-
-	let matchSearch = [];
-
-	if(search){
-		matchSearch = filterTags();
 	}
 
 	const { loading, error, platformDrafts, draftTypes } = data;
@@ -320,9 +333,9 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 									<div style={{ marginRight: "3em" }}>
 										<DropdownEtiquetas
 											translate={translate}
-											search={search}
-											setSearchModal={setSearch}
-											matchSearch={matchSearch}
+											search={tagText}
+											setSearchModal={setTagText}
+											matchSearch={filteredTags}
 											corporation={true}
 											company={company}
 											vars={vars}

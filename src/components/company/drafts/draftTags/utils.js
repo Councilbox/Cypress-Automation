@@ -30,7 +30,7 @@ export const createTag = (data, type, translate) => {
 		}),
 		1: () => ({
 			label: translate[data.title] || data.title,
-			name: `statute_${data.id}`,
+			name: data.id? `statute_${data.id}` : data.title,
 			type
 		}),
 		2: () => ({

@@ -643,13 +643,7 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 													border: '1px solid #c196c3',
 													color: getTagColor(TAG_TYPES.STATUTE),
 												}}
-												tags={vars.companyStatutes.map(statute => (
-													{
-														label: translate[statute.title] || statute.title,
-														name: `statute_${statute.id}`,
-														type: TAG_TYPES.STATUTE
-													}
-												))}
+												tags={vars.companyStatutes.map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
 												testTags={testTags}
 												removeTag={removeTag}
 											/>
@@ -668,13 +662,8 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 												border: '1px solid #7fa5b6',
 												color: getTagColor(TAG_TYPES.GOVERNING_BODY),
 											}}
-											tags={Object.keys(governingBodyTypes).map(key => (
-												{
-													name: governingBodyTypes[key].label,
-													label: translate[governingBodyTypes[key].label],
-													type: TAG_TYPES.GOVERNING_BODY
-												}
-											))}
+											tags={Object.keys(governingBodyTypes)
+												.map(key => createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))}
 											testTags={testTags}
 											removeTag={removeTag}
 										/>
@@ -694,13 +683,7 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 													border: '1px solid #7fa5b6',
 													color: getTagColor(TAG_TYPES.DRAFT_TYPE),
 												}}
-												tags={vars.draftTypes.map(draft => (
-													{
-														name: draft.label,
-														label: translate[draft.label],
-														type: TAG_TYPES.DRAFT_TYPE,
-													}
-												))}
+												tags={vars.draftTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
 												testTags={testTags}
 												removeTag={removeTag}
 											/>
@@ -721,13 +704,7 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 														border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
 														color: getTagColor(TAG_TYPES.COMPANY_TYPE),
 													}}
-													tags={vars.companyTypes.map(draft => (
-														{
-															name: draft.label,
-															label: translate[draft.label],
-															type: TAG_TYPES.COMPANY_TYPE,
-														}
-													))}
+													tags={vars.companyTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
 													testTags={testTags}
 													removeTag={removeTag}
 												/>
