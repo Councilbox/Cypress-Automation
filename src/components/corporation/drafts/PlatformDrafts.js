@@ -409,6 +409,7 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 				requestClose={closeDraftDetails}
 				translate={translate}
 				draftTypes={draftTypes}
+				companyStatutes={vars.companyStatutes}
 				companyTypes={vars.companyTypes}
 				votingTypes={vars.votingTypes}
 				majorityTypes={vars.majorityTypes}
