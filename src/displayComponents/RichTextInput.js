@@ -321,11 +321,11 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 					>
 						{/* //TRADUCCION */}
 						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth: "700px", marginBottom: "0.5em" }} >
-							<i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em" }} onClick={() => setOcultar(false)}>
+							<i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em" }} onClick={() => setOcultar(!ocultar)}>
 								help
-										</i>
+							</i>
 							{!ocultar &&
-								<div>Los &lt;tags&gt; son marcas inteligentes que añaden el nombre o elemento personalizado al documento <u style={{ cursor: "pointer" }} onClick={() => setOcultar(true)}>(Ocultar)</u></div>
+								<div>{translate.tags_description.split('.')[0]}. <u style={{ cursor: "pointer" }} onClick={() => setOcultar(true)}>({translate.hide})</u></div>
 							}
 						</div>
 						<div style={{ width: "97%", height: "30vh" }} >
