@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
 import { AGENDA_STATES } from "../../../constants";
 import { getSecondary } from "../../../styles/colors";
+import { TAG_TYPES } from "../../company/drafts/draftTags/utils";
 
 
 export const agendaRecountQuery = gql`
@@ -280,7 +281,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 								{
 									"comments_and_agreements": {
 									active: true,
-									type: 2,
+									type: TAG_TYPES.DRAFT_TYPE,
 									name: 'comments_and_agreements',
 									label: translate.comments_and_agreements
 								},

@@ -182,6 +182,8 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 
 			const columns = buildTagColumns(testTags);
 
+			console.log(testTags);
+
 			return (
 				<div style={{ display: isMobile ? "" : 'flex' }}>
 					{Object.keys(columns).map(key => (
@@ -486,7 +488,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 													<SelectedTag
 														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
 														text={translate[tag.label] || tag.label}
-														color={getTagColor(key)}
+														color={getTagColor(tag.type)}
 														props={props}
 														list={true}
 														count={""}
@@ -496,7 +498,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 												<SelectedTag
 													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
 													text={translate[tag.label] || tag.label}
-													color={getTagColor(key)}
+													color={getTagColor(tag.type)}
 													props={props}
 													list={true}
 													count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}

@@ -27,6 +27,7 @@ import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../company/drafts/draftTags/utils";
+import { DRAFT_TYPES } from "../../../constants";
 
 
 const StepNotice = ({ data, translate, company, ...props }) => {
@@ -563,16 +564,10 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 														active: true,
 														label: translate.convene_header,
 														name: 'convene_header',
-														type: 2
+														type: TAG_TYPES.DRAFT_TYPE
 													},
 													...CBX.generateStatuteTag(statute, translate)
 												}}
-												draftType={
-													draftTypes.filter(
-														draft =>
-															draft.label === "convene_header"
-													)[0].value
-												}
 											/>
 										}
 										tags={tags}
