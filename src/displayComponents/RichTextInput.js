@@ -250,17 +250,6 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 		if(tag.getValue){
 			return tag.getValue();
 		}
-
-		let draftMode = false;
-		if (tags) {
-			if (tags[0].value.includes('{{')) {
-				draftMode = true;
-			}
-		}
-
-		if (draftMode) {
-			return `{{${tag.key}}}`;
-		}
 		return tag.value;
 	}
 
