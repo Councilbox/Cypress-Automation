@@ -281,11 +281,11 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		return (
 			<React.Fragment>
 				<div style={{ fontSize: "18px", display: "flex" }}>
-					<div style={{ marginRight: "0.6em" }}>Etiquetas</div>
+					<div style={{ marginRight: "0.6em" }}>{translate.tags}</div>
 					<div>
 						<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px" }}>
 							local_offer
-							</i>
+						</i>
 					</div>
 				</div>
 				<div style={{ minHeight: props.innerWidth > 960 ? "300px" : "", height: "calc( 100% - 4em )" }}>
@@ -294,7 +294,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 							<div style={{ marginBottom: "1em", display: "flex" }}>
 								<TextInput
 									id={"buscadorEtiqueta"}
-									placeholder={"Busca una etiqueta" /*TRADUCCION*/}
+									placeholder={translate.search_template_tag}
 									adornment={<Icon>search</Icon>}
 									type="text"
 									value={search}
@@ -302,21 +302,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 									classes={{ input: props.classes.input }}
 									onChange={event => {
 										setSearch(event.target.value);
-										// setOpenSelectorEtiquetas(true)
 									}}
 								/>
-								{/* <div style={{ color: "#a09aa0", display: "flex", alignItems: "center", cursor: "pointer" }} onClick={() => setOpenSelectorEtiquetas(!openSelectorEtiquetas)}>
-									{openSelectorEtiquetas ?
-										<i className="material-icons" style={{ fontSize: "40px" }}>
-											arrow_drop_up
-											</i>
-										:
-										<i className="material-icons" style={{ fontSize: "40px" }}>
-											arrow_drop_down
-										</i>
-									}
-								</div> */}
-
 							</div>
 							<Collapse in={openSelectorEtiquetas} timeout="auto" unmountOnExit >
 								<div style={{ display: matchSearch.length > 0 ? "block" : "none" }}>

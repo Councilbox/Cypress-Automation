@@ -12,13 +12,13 @@ const CompanyDraftsPage = ({ translate, ...props }) => {
                 <TabsScreen
                     uncontrolled={true}
                     tabsInfo={[{
-                        text: "Plantillas",
+                        text: translate.drafts,
                         // TRADUCCION
                         component: () => {
                             return <div style={{width: '100%', height: '100%', padding: '1em'}}><CompanyDraftList /></div>;
                         },
                     },{
-                        text: 'Etiquetas',
+                        text: '<Tags>',
                         component: () => {
                             return <div style={{width: '100%', height: '100%', padding: '1em'}}><CompanyTags /></div>;
                         },

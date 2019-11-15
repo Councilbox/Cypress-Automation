@@ -31,16 +31,14 @@ const deleteCompanyTag = gql`
     }
 `;
 
-const CompanyTags = ({ client, translate, company, ...props }) => {
+const CompanyTags = ({ client, translate, company }) => {
     const [data, setData] = React.useState(null);
     const [editTag, setEditTag] = React.useState(null);
-    const [buscar, setBuscar] = React.useState("");
     const [buscarTags, setBuscarTags] = React.useState("");
     const [toggleText, setToggleText] = React.useState(true);
     const primary = getPrimary();
 
     const getData = async () => {
-        console.log(buscarTags)
         const response = await client.query({
             query,
             variables: {
@@ -59,9 +57,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
     }
 
     React.useEffect(() => {
-        // if (!data) {
         getData();
-        // }
     }, [company.id, buscarTags]);
 
     React.useEffect(() => {
@@ -93,11 +89,6 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
 
     return (
         <div style={{ height: "calc( 100% - 5em )" }}>
-            <SectionTitle
-                color={primary}
-                title="Etiquetas de compañía" //TRADUCCION
-            />
-
             <AddCompanyTag
                 translate={translate}
                 company={company}
@@ -121,10 +112,11 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                             <div style={{}} onClick={() => setToggleText(!toggleText)}>
                                 <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }} >
                                     help
-										</i></div>
+								</i>
+                            </div>
                             <div style={{ height: "100%" }}>
                                 {toggleText &&
-                                    <div>Los &lt;tags&gt; son marcas inteligentes que añaden el nombre o elemento personalizado al documento. En el lado derecho podrás ver un preview.</div>
+                                    <div>{translate.tags_description}</div>
                                 }
                             </div>
                         </div>
@@ -139,7 +131,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                                         type="text"
                                         value={""}
                                         value={buscarTags}
-                                        placeholder={"Buscar tags"}
+                                        placeholder={translate.search_tags}
                                         onChange={event => {
                                             setBuscarTags(event.target.value);
                                         }}
@@ -156,16 +148,15 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                                                 <Table style={{ maxWidth: "100%", width: "100%" }}>
                                                     <TableHead>
                                                         <TableRow style={{ color: "black" }}>
-                                                            {/* TRADUCCION */}
                                                             <TableCell style={{ color: "black", fontSize: "16px" }}>
-                                                                Clave
-                                                     </TableCell>
+                                                                {translate.key}
+                                                            </TableCell>
                                                             <TableCell style={{ color: "black", fontSize: "16px" }}>
-                                                                Valor
-                                                    </TableCell>
+                                                                {translate.value}
+                                                            </TableCell>
                                                             <TableCell style={{ color: "black", fontSize: "16px" }}>
-                                                                Descripcion
-                                                    </TableCell>
+                                                                {translate.description}
+                                                            </TableCell>
                                                             <TableCell style={{ width: "2em" }} />
                                                         </TableRow>
                                                     </TableHead>
@@ -184,7 +175,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                                                     </TableBody>
                                                 </Table>
                                                 :
-                                                translate.no_results
+                                                <div style={{padding: '1em'}}>{translate.no_results}</div>
                                             }
                                         </div>
                                     </Scrollbar>
@@ -245,10 +236,6 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                             <CloseIcon
                                 style={{ color: primary }}
                                 onClick={() => setModal(true)}
-                            // onClick={event => {
-                            //     deleteTag(tag.id);
-                            //     event.stopPropagation();
-                            // }}
                             />
                         </React.Fragment>
 
@@ -264,8 +251,8 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                     }}
                     bodyText={
                         <div>
-                            Quieres eliminar esta Etiqueta?
-                    </div>
+                            {translate.delete_tag_warning}
+                        </div>
                     }
                     buttonAccept={translate.accept}
                     buttonCancel={translate.cancel}

@@ -80,7 +80,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					link={`/company/${company.id}/drafts`}
 					icon="class"
 					id={'edit-drafts-block'}
-					text={'Base Conocimiento'}//TRADUCCION
+					text={translate.tooltip_knowledge_base}
 				/>
 			</GridItem>
 			<GridItem xs={12} md={blankSize} lg={blankSize}>

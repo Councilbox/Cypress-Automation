@@ -250,7 +250,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		<React.Fragment>
 			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em' }}>
 				<BasicButton
-					text={"Nueva plantilla"} //TRANSLATE
+					text={translate.drafts_new}
 					color={primary}
 					id={"newDraft"}
 					textStyle={{
@@ -271,7 +271,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 				>
 					<BasicButton
 						//TRADUCCION
-						text={"Plantillas predeterminadas"}
+						text={translate.general_drafts}
 						color={getSecondary()}
 						textStyle={{
 							color: "white",

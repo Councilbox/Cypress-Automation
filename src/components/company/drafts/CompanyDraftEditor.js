@@ -104,7 +104,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	}
 
 	return (
-		<CardPageLayout title={'Editar Plantillas'} disableScroll={true}>{/*TRADUCCION*/}
+		<CardPageLayout title={translate.edit_draft} disableScroll={true}>
 			{!fetching && (
 				<div style={{ height: 'calc( 100% - 5em )' }}>
 					<div style={{ marginTop: "1.8em", height: "100%", overflow: "hidden", padding: "0px 25px" }}>

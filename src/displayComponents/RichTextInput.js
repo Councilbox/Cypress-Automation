@@ -302,7 +302,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 						>
 							<div>
 								<TextInput
-									placeholder={"Buscar Etiquetas"}
+									placeholder={`${translate.search} <Tags>`}
 									adornment={<Icon>search</Icon>}
 									id={"buscarEtiquetasEnModal"}
 									type="text"
@@ -348,10 +348,10 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 												<TableRow style={{ color: "black" }}>
 													{/* TRADUCCION */}
 													<TableCell style={{ color: "black", fontSize: "16px" }}>
-														Clave
+														{translate.key}
                                                      </TableCell>
 													<TableCell style={{ color: "black", fontSize: "16px" }}>
-														Valor
+														{translate.value}
                                                     </TableCell>
 												</TableRow>
 											</TableHead>

@@ -134,8 +134,6 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 			tag.label
 	}
 
-	console.log(drafts, draftsRender);
-
 	if (!varsLoading) {
 		let tagsSearch = [];
 
@@ -288,7 +286,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 												},
 												{
 													name: "type",
-													text: 'Etiquetas',
+													text: translate.tags,
 													canOrder: true
 												},
 												{
@@ -586,11 +584,11 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 								<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
 									local_offer
 								</i>
-								Etiquetas
+								{translate.tags}
 							</div>
 							<div>
 								<TextInput
-									placeholder={"Buscar Etiquetas"}
+									placeholder={translate.search_template_tags}
 									adornment={<Icon>search</Icon>}
 									id={"buscarEtiquetasEnModal"}
 									type="text"
@@ -657,7 +655,7 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 										<EtiquetasModal
 											color={getTagColor(TAG_TYPES.GOVERNING_BODY)}
 											addTag={addTag}
-											title={'Órganos de gobierno'/*TRADUCCION*/}
+											title={translate.governing_body}
 											stylesContent={{
 												border: '1px solid #7fa5b6',
 												color: getTagColor(TAG_TYPES.GOVERNING_BODY),
