@@ -27,9 +27,10 @@ const styleImageIcon = (ratio) => {
 const _renderIcon = (color, reqCode, number, translate, ratio) => {
 	let translation = translate[getTranslationReqCode(reqCode)];
 	let src = getEmailIconByReqCode(reqCode);
+	// console.log(translation)
 	if (reqCode === 'ALL') {
 		return (
-			<Tooltip title={translate.all_plural}>
+			<Tooltip title={translation}>
 				<div style={{ padding: "0.5em" }}>
 					<FontAwesome
 						name={"users"}
@@ -42,7 +43,7 @@ const _renderIcon = (color, reqCode, number, translate, ratio) => {
 	}
 	return (
 		<Tooltip
-			title={translate.all_plural}
+			title={translation}
 		>
 			<div style={{ padding: "0.5em" }}>
 				<img
