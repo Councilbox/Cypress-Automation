@@ -368,12 +368,14 @@ const StepAgenda = ({ client, translate, ...props }) => {
 													[`statute_${council.statute.statuteId}`]: {
 														label: translate[council.statute.title] || council.statute.title,
 														name: `statute_${council.statute.statuteId}`,
-														type: TAG_TYPES.STATUTE
+														type: TAG_TYPES.STATUTE,
+														active: true
 													},
 													'agenda': {
 														type: TAG_TYPES.DRAFT_TYPE,
 														label: translate['agenda'],
-														name: 'agenda'
+														name: 'agenda',
+														active: true
 													}
 												},
 												statuteId: council.statute.statuteId

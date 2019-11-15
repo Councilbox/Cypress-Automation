@@ -831,10 +831,12 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 									[`statute_${statute.id}`]: {
 										label: translate[statute.title] || statute.title,
 										name: `statute_${statute.id}`,
+										active: true,
 										type: TAG_TYPES.STATUTE
 									},
 									[saveDraft.toLowerCase()]: {
 										type: TAG_TYPES.DRAFT_TYPE,
+										active: true,
 										label: translate[saveDraft.toLowerCase()],
 										name: saveDraft.toLowerCase()
 									}
