@@ -51,6 +51,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 selectHeadFinished={selectHeadFinished}
             />
             <div
+                className="row"
                 style={{
                     width: "100%",
                     margin: 0,
