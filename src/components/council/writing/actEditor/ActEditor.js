@@ -22,9 +22,18 @@ import { updateCouncilAct } from '../../../../queries';
 import DownloadActPDF from '../actViewer/DownloadActPDF';
 import ExportActToMenu from '../actViewer/ExportActToMenu';
 import { ConfigContext } from '../../../../containers/AppControl';
-import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues, hasSecondCall, generateAgendaText, getGoverningBodySignatories } from '../../../../utils/CBX';
+import {
+	getActPointSubjectType,
+	checkForUnclosedBraces,
+	changeVariablesToValues,
+	hasSecondCall,
+	generateAgendaText,
+	getGoverningBodySignatories,
+	generateStatuteTag
+} from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
+import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 
 export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
@@ -56,13 +65,13 @@ export const CouncilActData = gql`
 			}
 			statute {
 				id
+				title
 				statuteId
 				prototype
 				existsSecondCall
 				existsQualityVote
 			}
 		}
-
 		agendas(councilId: $councilID) {
 			id
 			orderIndex
@@ -109,7 +118,6 @@ export const CouncilActData = gql`
 			socialCapitalNoParticipate
 			comment
 		}
-
 		councilRecount(councilId: $councilID){
 			socialCapitalTotal
 			partTotal
@@ -126,7 +134,6 @@ export const CouncilActData = gql`
 			weighedPartTotal
 			numTotal
 		}
-
 		participantsWithDelegatedVote(councilId: $councilID){
 			id
 			name
@@ -140,12 +147,10 @@ export const CouncilActData = gql`
 				surname
 			}
 		}
-
 		votingTypes {
 			label
 			value
 		}
-
 		councilAttendants(
 			councilId: $councilID
 			options: $options
@@ -170,13 +175,11 @@ export const CouncilActData = gql`
 				lastDateConnection
 			}
 		}
-
 		companyStatutes(companyId: $companyId) {
 			id
 			title
 			censusId
 		}
-
 		majorityTypes {
 			label
 			value
@@ -727,6 +730,15 @@ class ActEditor extends Component {
 									companyId={this.props.company.id}
 									loadDraft={this.loadDraft}
 									statute={council.statute}
+									defaultTags={{
+										[this.state.load]: {
+											active: true,
+											type: TAG_TYPES.DRAFT_TYPE,
+											name: this.state.load,
+											label: translate[this.state.load]
+										},
+										...generateStatuteTag(council.statute, translate)
+									}}
 									statutes={this.state.data.companyStatutes}
 									draftType={this.state.draftType}
 								/>
@@ -973,7 +985,7 @@ export const generateActTags = (type, data, translate) => {
 
 			return tags;
 
-		case 'certHeader': 
+		case 'certHeader':
 			tags = [
 				smartTags.businessName,
 				smartTags.dateStart

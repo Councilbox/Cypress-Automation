@@ -12,6 +12,14 @@ class PartnerForm extends React.PureComponent {
         provinces: []
     }
 
+    onParse(event) {
+        var text = event
+        var tempDiv = document.createElement("DIV");
+        tempDiv.innerHTML = text;
+        return tempDiv.innerHTML;
+    }
+
+
     render() {
         const { participant, translate, updateState, errors, checkEmail, representative, updateRepresentative } = this.props;
         const primary = getPrimary();
@@ -66,7 +74,7 @@ class PartnerForm extends React.PureComponent {
                                     value={participant.name || ''}
                                     onChange={event =>
                                         updateState({
-                                            name: event.nativeEvent.target.value
+                                            name: this.onParse(event.nativeEvent.target.value) 
                                         })
                                     }
                                 />
@@ -82,7 +90,7 @@ class PartnerForm extends React.PureComponent {
                                             value={participant.name || ''}
                                             onChange={event =>
                                                 updateState({
-                                                    name: event.nativeEvent.target.value
+                                                    name: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -96,7 +104,7 @@ class PartnerForm extends React.PureComponent {
                                             value={participant.surname || ''}
                                             onChange={event =>
                                                 updateState({
-                                                    surname: event.nativeEvent.target.value
+                                                    surname: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -112,7 +120,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.dni || ''}
                                 onChange={event =>
                                     updateState({
-                                        dni: event.nativeEvent.target.value
+                                        dni: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -126,7 +134,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.nationality || ''}
                                 onChange={event =>
                                     updateState({
-                                        nationality: event.nativeEvent.target.value
+                                        nationality: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -141,7 +149,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.email || ''}
                                 onChange={event =>
                                     updateState({
-                                        email: event.nativeEvent.target.value
+                                        email: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -155,7 +163,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.phone || ''}
                                 onChange={event =>
                                     updateState({
-                                        phone: event.nativeEvent.target.value
+                                        phone: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -169,7 +177,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.landlinePhone || ''}
                                 onChange={event =>
                                     updateState({
-                                        landlinePhone: event.nativeEvent.target.value
+                                        landlinePhone: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -183,7 +191,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.position || ''}
                                 onChange={event =>
                                     updateState({
-                                        position: event.nativeEvent.target.value
+                                        position: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -231,7 +239,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.subscribeActNumber}
                                 onChange={event =>
                                     updateState({
-                                        subscribeActNumber: event.nativeEvent.target.value
+                                        subscribeActNumber: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -245,7 +253,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.unsubscribeActNumber}
                                 onChange={event =>
                                     updateState({
-                                        unsubscribeActNumber: event.nativeEvent.target.value
+                                        unsubscribeActNumber: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -365,7 +373,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.address || ''}
                                 onChange={event =>
                                     updateState({
-                                        address: event.nativeEvent.target.value
+                                        address: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -379,7 +387,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.city || ''}
                                 onChange={event =>
                                     updateState({
-                                        city: event.nativeEvent.target.value
+                                        city: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -391,7 +399,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.country || ''}
                                 onChange={event =>
                                     updateState({
-                                        country: event.nativeEvent.target.value
+                                        country: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -405,7 +413,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.countryState || ''}
                                 onChange={event =>
                                     updateState({
-                                        countryState: event.nativeEvent.target.value
+                                        countryState: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -419,7 +427,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.zipcode}
                                 onChange={event =>
                                     updateState({
-                                        zipcode: event.nativeEvent.target.value
+                                        zipcode: this.onParse(event.nativeEvent.target.value) 
                                     })
                                 }
                             />
@@ -474,7 +482,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.name || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    name: event.nativeEvent.target.value
+                                                    name: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -487,7 +495,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.surname || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    surname: event.nativeEvent.target.value
+                                                    surname: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -500,7 +508,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.dni || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    dni: event.nativeEvent.target.value
+                                                    dni: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -513,7 +521,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.nationality || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    nationality: event.nativeEvent.target.value
+                                                    nationality: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -527,7 +535,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.email || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    email: event.nativeEvent.target.value
+                                                    email: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -540,7 +548,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.phone || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    phone: event.nativeEvent.target.value
+                                                    phone: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -553,7 +561,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.landlinePhone || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    landlinePhone: event.nativeEvent.target.value
+                                                    landlinePhone: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -566,7 +574,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.position || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    position: event.nativeEvent.target.value
+                                                    position: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -584,7 +592,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.address || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    address: event.nativeEvent.target.value
+                                                    address: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -597,7 +605,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.city || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    city: event.nativeEvent.target.value
+                                                    city: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -609,7 +617,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.country || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    country: event.nativeEvent.target.value
+                                                    country: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -622,7 +630,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.countryState || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    countryState: event.nativeEvent.target.value
+                                                    countryState: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />
@@ -635,7 +643,7 @@ class PartnerForm extends React.PureComponent {
                                             value={representative.zipcode || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    zipcode: event.nativeEvent.target.value
+                                                    zipcode: this.onParse(event.nativeEvent.target.value) 
                                                 })
                                             }
                                         />

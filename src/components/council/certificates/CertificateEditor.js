@@ -6,13 +6,14 @@ import { graphql, withApollo } from 'react-apollo';
 import { createCertificate } from '../../../queries';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { toast } from 'react-toastify';
-import { checkForUnclosedBraces, changeVariablesToValues } from '../../../utils/CBX';
+import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag } from '../../../utils/CBX';
 import gql from 'graphql-tag';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
 import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
+import { TAG_TYPES } from '../../company/drafts/draftTags/utils';
 
 const initialState = {
     loadingDraftData: true,
@@ -248,7 +249,15 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                                                 loadDraft={loadHeaderDraft}
                                                 statute={draftData.council.statute}
                                                 statutes={draftData.companyStatutes}
-                                                draftType={7}
+                                                defaultTags={{
+                                                    "cert_header": {
+                                                        active: true,
+                                                        type: TAG_TYPES.DRAFT_TYPE,
+                                                        name: 'cert_header',
+                                                        label: translate.cert_header
+                                                    },
+                                                    ...generateStatuteTag(draftData.council.statute, translate)
+                                                }}
                                             />
                                         }
                                         onChange={value => updateCertificateDate({
@@ -292,7 +301,15 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                                                 loadDraft={loadFooterDraft}
                                                 statute={draftData.council.statute}
                                                 statutes={draftData.companyStatutes}
-                                                draftType={8}
+                                                defaultTags={{
+                                                    "cert_footer": {
+                                                        active: true,
+                                                        type: TAG_TYPES.DRAFT_TYPE,
+                                                        name: 'cert_footer',
+                                                        label: translate.cert_footer
+                                                    },
+                                                    ...generateStatuteTag(draftData.council.statute, translate)
+                                                }}
                                             />
                                         }
                                     onChange={value => updateCertificateDate({

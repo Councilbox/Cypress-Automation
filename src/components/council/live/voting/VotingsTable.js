@@ -210,7 +210,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					<React.Fragment>
 						<div style={{ display: isMobile ? "block" : "flex", flexDirection: "row", alignItems: 'center', width: "100%", padding: "0px", }}>
 							<div   >
-								<span >Filtrar por:</span>
+								<span>{translate.filter_by}</span>
 							</div>
 							<div style={{ display: "flex" }}>
 								<FilterButton

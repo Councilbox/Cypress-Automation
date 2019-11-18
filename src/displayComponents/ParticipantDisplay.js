@@ -33,7 +33,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 					/>
 				</div>
 				<Typography variant="subheading" className="truncate">
-					<b>{`${participant.name} ${participant.surname}`}</b>
+					<b>{`${participant.name} ${participant.surname || ''}`}</b>
 				</Typography>
 			</div>
 			<div
@@ -59,7 +59,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 						}}
 					/>
 				</div>
-				<Typography variant="body1" className="truncate">{`${participant.dni}`}</Typography>
+				<Typography variant="body1" className="truncate">{`${participant.dni || '-'}`}</Typography>
 			</div>
 			<div
 				style={{
@@ -112,7 +112,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 					/>
 				</div>
 				<Typography variant="body1" className="truncate">
-				{`${participant.email}`}
+				{`${participant.email || '-'}`}
 				</Typography>
 			</div>
 			{!CBX.participantIsGuest(participant) &&!CBX.participantIsRepresentative(participant) &&

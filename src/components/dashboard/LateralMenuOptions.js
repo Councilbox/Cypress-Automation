@@ -74,7 +74,8 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 					<LateralOption
 						link={`/company/${company.id}/drafts`}
 						icon={'class'}
-						text={translate.drafts}
+						text={translate.tooltip_knowledge_base}
+						// text={translate.drafts}
 					/>
 					<LateralOption
 						link={`/company/${company.id}/council/new`}

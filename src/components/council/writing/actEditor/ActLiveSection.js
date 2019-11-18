@@ -3,10 +3,12 @@ import { LoadingSection, Icon } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { darkGrey } from "../../../../styles/colors";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../../styles/constants";
-import { changeVariablesToValues, checkForUnclosedBraces } from "../../../../utils/CBX";
+import { changeVariablesToValues, checkForUnclosedBraces, generateStatuteTag } from "../../../../utils/CBX";
 import { graphql } from 'react-apollo';
 import LoadDraftModal from '../../../company/drafts/LoadDraftModal';
 import { updateCouncilAct } from '../../../../queries';
+import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
+import withSharedProps from "../../../../HOCs/withSharedProps";
 
 
 class ActLiveSection extends React.Component {
@@ -124,7 +126,15 @@ class ActLiveSection extends React.Component {
 							loadDraft={this.loadDraft}
 							statute={council.statute}
 							statutes={this.props.data.companyStatutes}
-							draftType={4}
+							defaultTags={{
+								"conclusion": {
+									active: true,
+									type: TAG_TYPES.DRAFT_TYPE,
+									name: 'conclusion',
+									label: translate.conclusion
+								},
+								...generateStatuteTag(council.statute, translate)
+							}}
 						/>
 					}
 					tags={[
@@ -154,13 +164,9 @@ class ActLiveSection extends React.Component {
 		const correctedText = await changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council,
-			votings: {
-				positive: 1,
-				negative: 43
-			}
 		}, this.props.translate);
 		this.editor.setValue(correctedText);
-		this.updateAct(correctedText);
+		this.updateCouncilAct(correctedText);
 		this.modal.close();
 	};
 
@@ -186,4 +192,4 @@ class ActLiveSection extends React.Component {
 
 export default graphql(updateCouncilAct, {
 	name: 'updateCouncilAct'
-})(ActLiveSection);
+})(withSharedProps()(ActLiveSection));

@@ -11,10 +11,11 @@ import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
 import { checkValidEmail } from "../../../utils/validation";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover } from "../../../displayComponents";
-import { councilStarted, participantNeverConnected } from '../../../utils/CBX';
+import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection } from "../../../displayComponents";
+import { councilStarted, participantNeverConnected, getSMSStatusByCode } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
+import { withApollo } from 'react-apollo';
 
 
 
@@ -72,8 +73,10 @@ const styles = {
     }
 };
 
+/////////Quitar
+const limitPerPage = 10;
 
-const LoginForm = ({ participant, translate, company, council, ...props }) => {
+const LoginForm = ({ participant, translate, company, council, client, ...props }) => {
     const [state, setState] = useOldState({
         email: participant.email,
         password: "",
@@ -86,9 +89,43 @@ const LoginForm = ({ participant, translate, company, council, ...props }) => {
         hover: false,
         helpPopover: true
     });
+
+    const [data, setData] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const [filter, setFilter] = React.useState(null);
+    // const [filter, setFilter] = React.useState(showAll ? null : 'failed');
+
     const primary = getPrimary();
     const secondary = getSecondary();
 
+    ////////////////////////////////////
+
+    const getData = React.useCallback(async (value) => {
+        const response = await client.query({
+            query: participantSend,
+            variables: {
+                councilId: council.id,
+                filter,
+                options: {
+                    limit: limitPerPage,
+                    offset: limitPerPage * (value - 1)
+                },
+                participantId: participant.id
+            }
+        });
+
+        if (response.data.participantSend.list) {
+            setData(response.data.participantSend.list[0]);
+            setLoading(false);
+        }
+    }, [council.id, filter]);
+
+    React.useEffect(() => {
+        getData();
+    }, [getData]);
+
+
+    ////////////////////////////////////
 
     const checkFieldsValidationState = () => {
         let errors = {
@@ -182,19 +219,45 @@ const LoginForm = ({ participant, translate, company, council, ...props }) => {
     };
 
     const _sendPassModalBody = () => {
+        // console.log(data[0].reqCode)
         return (
             <div>
                 {council.securityType === 1 &&
                     translate.receive_access_key_email
                 }
                 {council.securityType === 2 &&
-                    translate.receive_access_key_phone
+                    data ?
+                    <div>
+                        {renderStatusSMS(data.reqCode)}
+                    </div>
+                    :
+                    <LoadingSection></LoadingSection>
                 }
                 {!!state.phoneError &&
                     <div style={{ color: 'red' }}>{state.phoneError}</div>
                 }
             </div>
         )
+    }
+
+    const renderStatusSMS = (reqCode) => {
+        switch (reqCode) {
+            case 22:
+                return (<div>El SMS ha sido enviado</div>)
+                break;
+
+            case 20:
+                return (<div>El SMS ha sido enviado</div>)
+                break;
+
+            case -2:
+                return (<div>El SMS no se ha podido enviar porque el número no es válido. Por favor contacte con el administrador</div>)
+                break;
+
+            default:
+                return (<div>El SMS ha fallado.</div>)
+        }
+
     }
 
     const _tooltipContent = () => {
@@ -246,6 +309,7 @@ const LoginForm = ({ participant, translate, company, council, ...props }) => {
             hover: false
         })
     }
+
 
     const { email, password, errors, showPassword } = state;
 
@@ -370,16 +434,18 @@ const LoginForm = ({ participant, translate, company, council, ...props }) => {
                                     >
                                         {translate.didnt_receive_access_key}
                                     </span>
-                                    <AlertConfirm
-                                        requestClose={closeSendPassModal}
-                                        open={state.sendPassModal}
-                                        loadingAction={state.loading}
-                                        acceptAction={sendParticipantRoomKey}
-                                        buttonAccept={translate.accept}
-                                        buttonCancel={translate.cancel}
-                                        bodyText={_sendPassModalBody()}
-                                        title={translate.resend_access_key}
-                                    />
+                                    {data &&
+                                        <AlertConfirm
+                                            requestClose={closeSendPassModal}
+                                            open={state.sendPassModal}
+                                            loadingAction={state.loading}
+                                            acceptAction={sendParticipantRoomKey}
+                                            buttonAccept={data.reqCode === -2 ? "" : translate.accept }
+                                            buttonCancel={translate.cancel}
+                                            bodyText={_sendPassModalBody()}
+                                            title={translate.resend_access_key}
+                                        />
+                                    }
                                 </React.Fragment>
                             )}
 
@@ -435,6 +501,29 @@ const sendParticipantRoomKey = gql`
     }
 `;
 
+const participantSend = gql`
+    query participantSend($councilId: Int!, $filter: String,  $options: OptionsInput, $participantId: Int!,){
+        participantSend(councilId: $councilId, filter: $filter, options: $options, participantId: $participantId){
+            list{
+                liveParticipantId
+                sendType
+                id
+                reqCode
+                councilId
+                recipient{
+                    name
+                    id
+                    surname
+                    phone
+                    email
+                }
+            }
+            total
+        }
+    }
+`;
+
+
 export default compose(
     graphql(checkParticipantKey, {
         name: 'checkParticipantKey'
@@ -445,4 +534,4 @@ export default compose(
 )(connect(
     null,
     mapDispatchToProps
-)(withTranslations()(withWindowOrientation(withWindowSize(LoginForm)))));
+)(withTranslations()(withWindowOrientation(withWindowSize(withApollo(LoginForm))))));

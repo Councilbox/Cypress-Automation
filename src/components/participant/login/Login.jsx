@@ -2,7 +2,7 @@ import React from "react";
 import { Card } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
-import { councilIsLive, councilIsFinished } from "../../../utils/CBX";
+import { councilIsLive, councilIsFinished, checkHybridConditions } from "../../../utils/CBX";
 import { checkIsCompatible } from '../../../utils/webRTC';
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
@@ -76,7 +76,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 					}} elevation={6}>
 						{councilIsFinished(council) ?
 							<div style={{ height: '100%' }}>
-								{(councilIsLive(council) && !participant.hasVoted) ? (
+								{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 									<LoginForm
 										participant={participant}
 										council={council}
@@ -88,7 +88,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 							</div>
 							:
 							<div style={{ height: '100%' }}>
-								{(councilIsLive(council) && !participant.hasVoted) ? (
+								{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 									<Scrollbar>
 										<LoginForm
 											participant={participant}
@@ -108,5 +108,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 		);
 	}
 }
+
+
 
 export default withTranslations()(withDetectRTC()(ParticipantLogin));
