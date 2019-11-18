@@ -38,7 +38,8 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
                 padding: 0,
-                margin: 0
+                margin: 0,
+                width: '100%'
             }}
         >
             <Header
@@ -50,7 +51,6 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 selectHeadFinished={selectHeadFinished}
             />
             <div
-                className="row"
                 style={{
                     width: "100%",
                     margin: 0,

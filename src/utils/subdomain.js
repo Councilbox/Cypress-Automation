@@ -47,7 +47,8 @@ export const shouldLoadSubdomain = () => {
     const validSubdomains = {
         'app': true,
         'localhost': true,
-        'app-pre': true
+        'app-pre': true,
+        '172': true
     }
     const subdomain = window.location.hostname.split('.')[0];
     return validSubdomains[subdomain]? false : true;
