@@ -32,7 +32,7 @@ const styles = {
 		margin: isMobile ? "" : "20px",
 		minWidth: width,
 		maxWidth: "100%",
-		height: '50vh',
+		//height: '50vh',
 		minHeight: '50vh'
 		// height: '70vh'
 	}
