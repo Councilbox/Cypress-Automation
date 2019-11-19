@@ -25,9 +25,8 @@ const styleImageIcon = (ratio) => {
 }
 
 const _renderIcon = (color, reqCode, number, translate, ratio) => {
-	let translation = translate[getTranslationReqCode(reqCode)];
+	let translation = reqCode === -2 ? translate['tooltip_dropped'] : translate[getTranslationReqCode(reqCode)];
 	let src = getEmailIconByReqCode(reqCode);
-	// console.log(translation)
 	if (reqCode === 'ALL') {
 		return (
 			<Tooltip title={translation}>
