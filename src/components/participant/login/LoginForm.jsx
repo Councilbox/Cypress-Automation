@@ -93,6 +93,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [filter, setFilter] = React.useState(null);
+    const [modalSecurity, setModalSecurity] = React.useState(council.securityType !== 0 ? true : false);
     // const [filter, setFilter] = React.useState(showAll ? null : 'failed');
 
     const primary = getPrimary();
@@ -116,8 +117,8 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
         if (response.data.participantSend.list) {
             setData(response.data.participantSend.list[0]);
-            setLoading(false);
         }
+        setLoading(false);
     }, [council.id, filter]);
 
     React.useEffect(() => {
@@ -241,7 +242,11 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }
 
     const renderStatusSMS = (reqCode) => {
+        // 288 estado de no enviado inventado
         switch (reqCode) {
+            case 288:
+                return (<div>Para entrar en esta reunión es necesario una clave que se envía por SMS a este número</div>)
+                break;
             case 22:
                 return (<div>El SMS ha sido enviado</div>)
                 break;
@@ -295,6 +300,13 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                 phoneError: ''
             });
             closeSendPassModal();
+            checkSend()
+        }
+    }
+
+    const checkSend = () => {
+        if (data.reqCode === 20) {
+            setModalSecurity(false)
         }
     }
 
@@ -310,10 +322,18 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         })
     }
 
+    const formatPhone = (phone) => {
+        if (phone.length >= 4) {
+            return "*".repeat(phone.length - 4) + phone.slice(-4);
+        }
+    }
+
 
     const { email, password, errors, showPassword } = state;
-
-
+    console.log(council.securityType)
+    if (data && data.reqCode === 20) {
+        console.log('DSASD')
+    }
     return (
         <div style={styles.loginContainerMax}>
             <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: 'center', alignItems: 'center' }}>
@@ -375,79 +395,200 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 }
                                 disabled={true}
                             />
-
                             {council.securityType !== 0 && (
-                                <React.Fragment>
-                                    <TextInput
-                                        onKeyUp={handleKeyUp}
-                                        helpPopoverInLabel={true}
-                                        floatingText={council.securityType === 2 ?
-                                            (
-                                                <div style={{ display: "flex" }}>
-                                                    {translate.key_by_sms}
-                                                    <div>
-                                                        <HelpPopover
-                                                            errorText={!!errors.password}
-                                                            title={translate.key_by_sms}
-                                                            content={_tooltipContent()}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            )
-                                            :
-                                            (
-                                                <div style={{ display: "flex" }}>
-                                                    {translate.key_by_email}
-                                                    <div>
-                                                        <HelpPopover
-                                                            errorText={!!errors.password}
-                                                            title={translate.key_by_email}
-                                                            content={_tooltipContent()}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
-                                        type={showPassword ? "text" : "password"}
-                                        errorText={errors.password}
-                                        value={password}
-                                        onChange={event =>
-                                            handleChange("password", event)
-                                        }
-                                        required={true}
-                                        showPassword={showPassword}
-                                        passwordToggler={() =>
-                                            setState({
-                                                showPassword: !showPassword
-                                            })
-                                        }
-                                    />
-                                    <span
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: state.hover ? secondary : "",
-                                            borderBottom: state.hover ? `1px solid ${secondary}` : ""
-                                        }}
-                                        onClick={showSendPassModal}
-                                        onMouseEnter={onMouseEnter}
-                                        onMouseLeave={onMouseLeave}
-                                    >
-                                        {translate.didnt_receive_access_key}
-                                    </span>
-                                    {data &&
+                                    <React.Fragment>
                                         <AlertConfirm
-                                            requestClose={closeSendPassModal}
-                                            open={state.sendPassModal}
-                                            loadingAction={state.loading}
-                                            acceptAction={sendParticipantRoomKey}
-                                            buttonAccept={data.reqCode === -2 ? "" : translate.accept }
-                                            buttonCancel={translate.cancel}
-                                            bodyText={_sendPassModalBody()}
-                                            title={translate.resend_access_key}
+                                            requestClose={() => setModalSecurity(false)}
+                                            open={modalSecurity}
+                                            bodyText={
+                                                <div>
+                                                    {council.securityType === 1 &&
+                                                        <React.Fragment>
+                                                            {loading ?
+                                                                <LoadingSection></LoadingSection>
+                                                                :
+                                                                data === undefined ?
+                                                                    <div>
+                                                                        <div style={{ display: "flex" }}>
+                                                                            <div>Para entrar en esta reunión es necesario una clave que se envía por email </div>
+                                                                            {/* <div style={{ fontWeight: "bold", marginLeft: "1em" }}> {formatPhone(participant.phone)}</div> */}
+                                                                        </div>
+                                                                        <br></br>
+                                                                        <div style={{ marginTop: "1em" }}>
+                                                                            <BasicButton
+                                                                                text={'Enviar Email'}
+                                                                                color={secondary}
+                                                                                textStyle={{
+                                                                                    maxWidth: '200px',
+                                                                                    color: "white",
+                                                                                    fontWeight: "700"
+                                                                                }}
+                                                                                textPosition="before"
+                                                                                fullWidth={true}
+                                                                                // onClick={sendParticipantRoomKey}
+                                                                                loading={state.loading}
+                                                                            ></BasicButton>
+                                                                        </div>
+                                                                    </div>
+                                                                    :
+                                                                    <div>
+                                                                        <div style={{ display: "flex" }}>
+                                                                            <div>Email enviado corretamente </div>
+                                                                            {/* {renderStatusSMS(data.reqCode)} */}
+                                                                            {/* <div style={{ fontWeight: "bold", marginLeft: "1em" }}> {formatPhone(data.recipient.phone)}</div> */}
+                                                                        </div>
+                                                                        <br></br>
+                                                                        <div style={{ marginTop: "1em" }}>
+                                                                            <BasicButton
+                                                                                text={'Enviar Email'}
+                                                                                color={secondary}
+                                                                                textStyle={{
+                                                                                    maxWidth: '200px',
+                                                                                    color: "white",
+                                                                                    fontWeight: "700"
+                                                                                }}
+                                                                                textPosition="before"
+                                                                                fullWidth={true}
+                                                                                // onClick={sendParticipantRoomKey}
+                                                                                loading={state.loading}
+                                                                            ></BasicButton>
+                                                                        </div>
+                                                                    </div>
+                                                            }
+                                                        </React.Fragment>
+                                                    }
+                                                    {/* Esto es SMS */}
+                                                    {council.securityType === 2 &&
+                                                        <React.Fragment>
+                                                            {loading ?
+                                                                <LoadingSection></LoadingSection>
+                                                                :
+                                                                data === undefined ?
+                                                                    <div>
+                                                                        <div style={{ display: "flex" }}>
+                                                                            {renderStatusSMS(288)}
+                                                                            <div style={{ fontWeight: "bold", marginLeft: "1em" }}> {formatPhone(participant.phone)}</div>
+                                                                        </div>
+                                                                        <br></br>
+                                                                        <div style={{ marginTop: "1em" }}>
+                                                                            <BasicButton
+                                                                                text={'Enviar SMS'}
+                                                                                color={secondary}
+                                                                                textStyle={{
+                                                                                    maxWidth: '200px',
+                                                                                    color: "white",
+                                                                                    fontWeight: "700"
+                                                                                }}
+                                                                                textPosition="before"
+                                                                                fullWidth={true}
+                                                                                onClick={sendParticipantRoomKey}
+                                                                                loading={state.loading}
+                                                                            ></BasicButton>
+                                                                        </div>
+                                                                    </div>
+                                                                    :
+                                                                    <div>
+                                                                        <div style={{ display: "flex" }}>
+                                                                            {renderStatusSMS(data.reqCode)}
+                                                                            <div style={{ fontWeight: "bold", marginLeft: "1em" }}> {formatPhone(data.recipient.phone)}</div>
+                                                                        </div>
+                                                                        <br></br>
+                                                                        <div style={{ marginTop: "1em" }}>
+                                                                            <BasicButton
+                                                                                text={'Enviar SMS'}
+                                                                                color={secondary}
+                                                                                textStyle={{
+                                                                                    maxWidth: '200px',
+                                                                                    color: "white",
+                                                                                    fontWeight: "700"
+                                                                                }}
+                                                                                textPosition="before"
+                                                                                fullWidth={true}
+                                                                                onClick={sendParticipantRoomKey}
+                                                                                loading={state.loading}
+                                                                            ></BasicButton>
+                                                                        </div>
+                                                                    </div>
+                                                            }
+                                                        </React.Fragment>
+                                                    }
+                                                    {!!state.phoneError &&
+                                                        <div style={{ color: 'red' }}>{state.phoneError}</div>
+                                                    }
+                                                </div>
+                                            }
+                                            title={council.securityType === 2 ? translate.key_by_sms : translate.key_by_email}
                                         />
-                                    }
-                                </React.Fragment>
-                            )}
+                                        <TextInput
+                                            onKeyUp={handleKeyUp}
+                                            helpPopoverInLabel={true}
+                                            floatingText={council.securityType === 2 ?
+                                                (
+                                                    <div style={{ display: "flex" }}>
+                                                        {translate.key_by_sms}
+                                                        <div>
+                                                            <HelpPopover
+                                                                errorText={!!errors.password}
+                                                                title={translate.key_by_sms}
+                                                                content={_tooltipContent()}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )
+                                                :
+                                                (
+                                                    <div style={{ display: "flex" }}>
+                                                        {translate.key_by_email}
+                                                        <div>
+                                                            <HelpPopover
+                                                                errorText={!!errors.password}
+                                                                title={translate.key_by_email}
+                                                                content={_tooltipContent()}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                            type={showPassword ? "text" : "password"}
+                                            errorText={errors.password}
+                                            value={password}
+                                            onChange={event =>
+                                                handleChange("password", event)
+                                            }
+                                            required={true}
+                                            showPassword={showPassword}
+                                            passwordToggler={() =>
+                                                setState({
+                                                    showPassword: !showPassword
+                                                })
+                                            }
+                                        />
+                                        <span
+                                            style={{
+                                                cursor: 'pointer',
+                                                color: state.hover ? secondary : "",
+                                                borderBottom: state.hover ? `1px solid ${secondary}` : ""
+                                            }}
+                                            onClick={showSendPassModal}
+                                            onMouseEnter={onMouseEnter}
+                                            onMouseLeave={onMouseLeave}
+                                        >
+                                            {translate.didnt_receive_access_key}
+                                        </span>
+                                        {data &&
+                                            <AlertConfirm
+                                                requestClose={closeSendPassModal}
+                                                open={state.sendPassModal}
+                                                loadingAction={state.loading}
+                                                acceptAction={sendParticipantRoomKey}
+                                                buttonAccept={data.reqCode === -2 ? "" : translate.accept}
+                                                buttonCancel={translate.cancel}
+                                                bodyText={_sendPassModalBody()}
+                                                title={translate.resend_access_key}
+                                            />
+                                        }
+                                    </React.Fragment>
+                                )}
 
                             <div style={styles.enterButtonContainer}>
                                 <BasicButton
@@ -486,25 +627,25 @@ const mapDispatchToProps = dispatch => {
 
 const checkParticipantKey = gql`
     mutation CheckParticipantKey($participantId: Int!, $key: Int!){
-        checkParticipantKey(participantId: $participantId, key: $key){
-            success
+                    checkParticipantKey(participantId: $participantId, key: $key){
+                    success
             message
-        }
-    }
-`;
+                }
+            }
+        `;
 
 const sendParticipantRoomKey = gql`
     mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
-        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
-            success
-        }
-    }
-`;
+                    sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
+                    success
+                }
+                }
+            `;
 
 const participantSend = gql`
     query participantSend($councilId: Int!, $filter: String,  $options: OptionsInput, $participantId: Int!,){
-        participantSend(councilId: $councilId, filter: $filter, options: $options, participantId: $participantId){
-            list{
+                    participantSend(councilId: $councilId, filter: $filter, options: $options, participantId: $participantId){
+                    list{
                 liveParticipantId
                 sendType
                 id
@@ -513,14 +654,14 @@ const participantSend = gql`
                 recipient{
                     name
                     id
-                    surname
-                    phone
-                    email
-                }
+                surname
+                phone
+                email
             }
-            total
         }
+        total
     }
+}
 `;
 
 

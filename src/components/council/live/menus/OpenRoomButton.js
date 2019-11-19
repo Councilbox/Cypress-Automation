@@ -62,7 +62,8 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 		return (
 			<React.Fragment>
 				<div>{translate.open_room_continue}</div>
-				<Checkbox
+				{/* Falta quitarlo bien */}
+				{/* <Checkbox
 					label={translate.send_video_credentials}
 					value={state.sendCredentials}
 					onChange={(event, isInputChecked) =>
@@ -71,7 +72,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 						})
 					}
 					id={'checkEnviarEmail'}
-				/>
+				/> */}
 				{council.videoEmailsDate &&
 					<span>{`Enviadas por última vez ${moment(council.videoEmailsDate).format('LLL')}`/*TRADUCCION*/}</span>
 				}
