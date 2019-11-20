@@ -110,6 +110,8 @@ export const agendaVotings = gql`
 						name
 						surname
 						position
+						voteDenied
+						voteDeniedReason
 						numParticipations
 						state
 						type
