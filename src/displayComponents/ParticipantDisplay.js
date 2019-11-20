@@ -180,8 +180,45 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 								</Typography>
 							</div>
 						)}
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center"
+							}}
+						>
+							<div
+								style={{
+									width: "2em",
+									display: "flex",
+									justifyContent: "center"
+								}}
+							>
+								<FontAwesome
+									name={"times"}
+									style={{
+										color: secondary,
+										fontSize: "0.8em",
+										marginRight: "0.3em"
+									}}
+								/>
+							</div>
+							{participant.voteDenied?
+								<Tooltip title={participant.voteDeniedReason}>
+									<Typography variant="body1" className="truncate" style={{color: 'red', fontWeight: '700'}}>
+										Voto denegado
+									</Typography>
+								</Tooltip>
+							:
+								<Typography variant="body1" className="truncate">
+									Denegar voto
+								</Typography>
+							}
+
+						</div>
 					</React.Fragment>
-				)}
+				)
+			}
 		</div>
 	);
 };

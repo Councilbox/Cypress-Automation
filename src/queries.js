@@ -2024,6 +2024,8 @@ export const liveParticipant = gql`
 			requestWord
 			numParticipations
 			surname
+			voteDenied
+			voteDeniedReason
 			assistanceComment
 			assistanceLastDateConfirmed
 			assistanceIntention
