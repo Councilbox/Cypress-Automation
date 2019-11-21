@@ -544,6 +544,8 @@ const agendas = gql`
             author {
                 id
                 state
+                voteDenied
+                voteDeniedReason
                 name
                 type
                 surname

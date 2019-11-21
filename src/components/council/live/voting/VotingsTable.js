@@ -163,9 +163,28 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 			<div style={{ minWidth: '7em', fontSize: '0.9em' }}>
 				<span style={{ fontWeight: '700' }}>
 					{!!vote.authorRepresentative ?
-						`${vote.author.name} ${vote.author.surname} - ${translate.represented_by}: ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''} ${vote.author.voteDenied? ' Voto denegado' : ''}`
+						<React.Fragment>
+						{`${vote.author.name} ${vote.author.surname} - ${translate.represented_by}: ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
+							{vote.author.voteDenied &&
+								<Tooltip title={vote.author.voteDeniedReason}>
+									<span style={{color: 'red', fontWeight: '700'}}>
+										(Voto denegado)
+									</span>
+								</Tooltip>
+							}
+						</React.Fragment>
 						:
-						`${vote.author.name} ${vote.author.surname} ${vote.author.position ? ` - ${vote.author.position}` : ''} ${vote.author.voteDenied? ' Voto denegado' : ''}`
+						<React.Fragment>
+							{`${vote.author.name} ${vote.author.surname} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
+							{vote.author.voteDenied &&
+								<Tooltip title={vote.author.voteDeniedReason}>
+									<span style={{color: 'red', fontWeight: '700'}}>
+										(Voto denegado)
+									</span>
+								</Tooltip>
+							}
+						</React.Fragment>
+
 					}
 				</span>
 				<React.Fragment>

@@ -7,6 +7,7 @@ import VoteConfirmationModal from './VoteConfirmationModal';
 import { isMobile } from 'react-device-detect';
 import { VotingContext } from './AgendaNoSession';
 import { voteAllAtOnce } from '../../../utils/CBX';
+import { ConfigContext } from '../../../containers/AppControl';
 
 
 const styles = {
@@ -24,6 +25,7 @@ const styles = {
 
 const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) => {
     const [loading, setLoading] = React.useState(false);
+    const config = React.useContext(ConfigContext);
     const [modal, setModal] = React.useState(false);
     const [vote, setVote] = React.useState(-1);
     const primary = getPrimary();
@@ -66,6 +68,42 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
         return voteAtTheEnd? votingContext.responses.get(props.ownVote.id) === value : props.ownVote.vote === value;
     }
 
+    let voteDenied = false;
+    let denied = []
+
+    console.log(config);
+
+
+    if(config.denyVote){
+        console.log(agenda.votings);
+
+        denied = agenda.votings.filter(voting => voting.author.voteDenied);
+
+
+        if(denied.length === agenda.votings.length){
+            voteDenied = true;
+        }
+        console.log(denied);
+    }
+
+    if(voteDenied){
+        //TRADUCCION
+        return (
+            <div>
+                No puede ejercer su derecho a voto
+                <br/>
+                {denied.map(deniedVote => (
+                    <React.Fragment>
+                        <br/>
+                        {`${deniedVote.author.name} ${deniedVote.author.surname} ${deniedVote.author.voteDeniedReason? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
+                    </React.Fragment>
+                ))}
+
+            </div>
+        )
+
+    }
+
     return (
         <Grid
             style={{
@@ -75,6 +113,9 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
                 flexDirection: 'row'
             }}
         >
+            {denied.length > 0 &&
+                'Dentro de los votos depositados en usted, tiene votos denegados'
+            }
             <VotingButton
                 text={translate.in_favor_btn}
                 loading={loading === 1}
