@@ -69,37 +69,21 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
     }
 
     let voteDenied = false;
-    let denied = []
-
-    console.log(config);
+    let denied = [];
 
 
-    if(config.denyVote){
-        console.log(agenda.votings);
-
+    if(config.denyVote && agenda.votings.length > 0){
         denied = agenda.votings.filter(voting => voting.author.voteDenied);
 
 
         if(denied.length === agenda.votings.length){
             voteDenied = true;
         }
-        console.log(denied);
     }
 
     if(voteDenied){
-        //TRADUCCION
         return (
-            <div>
-                No puede ejercer su derecho a voto
-                <br/>
-                {denied.map(deniedVote => (
-                    <React.Fragment>
-                        <br/>
-                        {`${deniedVote.author.name} ${deniedVote.author.surname} ${deniedVote.author.voteDeniedReason? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
-                    </React.Fragment>
-                ))}
-
-            </div>
+            <DeniedDisplay translate={translate} denied={denied} />
         )
 
     }
@@ -114,7 +98,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             }}
         >
             {denied.length > 0 &&
-                'Dentro de los votos depositados en usted, tiene votos denegados'
+                'Dentro de los votos depositados en usted, tiene votos denegados' //TRADUCCION
             }
             <VotingButton
                 text={translate.in_favor_btn}
@@ -178,6 +162,23 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
         </Grid>
     )
 
+}
+
+export const DeniedDisplay = ({ translate, denied }) => {
+    //TRADUCCION
+    return (
+        <div>
+            No puede ejercer su derecho a voto
+            <br/>
+            {denied.map(deniedVote => (
+                <React.Fragment>
+                    <br/>
+                    {`${deniedVote.author.name} ${deniedVote.author.surname} ${deniedVote.author.voteDeniedReason? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
+                </React.Fragment>
+            ))}
+
+        </div>
+    )
 }
 
 export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color }) => {

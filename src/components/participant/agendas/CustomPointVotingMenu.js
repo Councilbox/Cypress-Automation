@@ -2,9 +2,10 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { AGENDA_TYPES } from '../../../constants';
-import { VotingButton } from './VotingMenu';
+import { VotingButton, DeniedDisplay } from './VotingMenu';
 import { VotingContext } from './AgendaNoSession';
 import { voteAllAtOnce } from '../../../utils/CBX';
+import { ConfigContext } from '../../../containers/AppControl';
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
     return ballots
@@ -25,6 +26,7 @@ const asbtentionOption = {
 const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCustomPointVoting, ...props }) => {
     const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
     const votingContext = React.useContext(VotingContext);
+    const config = React.useContext(ConfigContext);
 
     const addSelection = item => {
         let newSelections = [...selections, cleanObject(item)];;
@@ -96,6 +98,19 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
         //return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
     }
 
+    let voteDenied = false;
+    let denied = [];
+
+
+    if(config.denyVote && agenda.votings.length > 0){
+        denied = agenda.votings.filter(voting => voting.author.voteDenied);
+
+
+        if(denied.length === agenda.votings.length){
+            voteDenied = true;
+        }
+    }
+
     const renderCommonButtons = () => {
         return (
             <div style={{ paddingTop: "20px" }}>
@@ -117,8 +132,18 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
         )
     }
 
+    if(voteDenied){
+        return (
+            <DeniedDisplay translate={translate} denied={denied} />
+        )
+
+    }
+
     return (
         <div>
+            {denied.length > 0 &&
+                'Dentro de los votos depositados en usted, tiene votos denegados' //TRADUCCION
+            }
             {agenda.options.maxSelections === 1 ?
                 <React.Fragment>
                     {agenda.items.map((item, index) => (

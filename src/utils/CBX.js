@@ -231,10 +231,10 @@ export const findOwnVote = (votings, participant) => {
 	}
 
 	return votings.find(voting => (
-		voting.participantId === participant.id
+		(voting.participantId === participant.id
 		|| voting.delegateId === participant.id ||
 		voting.author.representative.id === participant.id
-	));
+	) && !voting.author.voteDenied));
 }
 
 export const hasAct = statute => {
