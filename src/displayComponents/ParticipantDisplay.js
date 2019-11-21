@@ -3,8 +3,10 @@ import { getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
 import { Typography, Tooltip } from "material-ui";
 import * as CBX from "../utils/CBX";
+import { withApollo } from 'react-apollo';
+import DenyVote from "../components/council/live/participants/DenyVote";
 
-const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
+const ParticipantDisplay = ({ participant, translate, refetch, council, delegate }) => {
 	const secondary = getSecondary();
 
 	return (
@@ -180,42 +182,11 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 								</Typography>
 							</div>
 						)}
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center"
-							}}
-						>
-							<div
-								style={{
-									width: "2em",
-									display: "flex",
-									justifyContent: "center"
-								}}
-							>
-								<FontAwesome
-									name={"times"}
-									style={{
-										color: secondary,
-										fontSize: "0.8em",
-										marginRight: "0.3em"
-									}}
-								/>
-							</div>
-							{participant.voteDenied?
-								<Tooltip title={participant.voteDeniedReason}>
-									<Typography variant="body1" className="truncate" style={{color: 'red', fontWeight: '700'}}>
-										Voto denegado
-									</Typography>
-								</Tooltip>
-							:
-								<Typography variant="body1" className="truncate">
-									Denegar voto
-								</Typography>
-							}
-
-						</div>
+						<DenyVote
+							participant={participant}
+							translate={translate}
+							refetch={refetch}
+						/>
 					</React.Fragment>
 				)
 			}
@@ -223,4 +194,4 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 	);
 };
 
-export default ParticipantDisplay;
+export default withApollo(ParticipantDisplay);
