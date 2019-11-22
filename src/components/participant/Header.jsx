@@ -77,6 +77,9 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
 		const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 
+		console.log(participant);
+
+		//TRADUCCION
 		return (
 			<div>
 				<Card style={{ padding: "20px" }}>
@@ -86,12 +89,24 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					<div style={{ marginBottom: '1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
 					</div>
+					{participant.voteDenied &&
+                    	<div style={{marginBottom: '1em'}}>
+							Su derecho a voto <strong>ha sido denegado</strong>
+							{participant.voteDeniedReason &&
+								<div>{`El motivo indicado es: ${participant.voteDeniedReason}`}</div>
+							}
+						</div>
+					}
+
 					{delegations.length > 0 &&
 						translate.you_have_following_delegated_votes
 					}
 					{delegations.map(vote => (
-						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
 							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							{vote.voteDenied &&
+								<span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
+							}
 						</div>
 					)
 					)}
@@ -99,8 +114,11 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						'Está representando a:'
 					}
 					{representations.map(vote => (
-						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
 							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							{vote.voteDenied &&
+								<span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
+							}
 						</div>
 					)
 					)}
@@ -360,45 +378,8 @@ const mapDispatchToProps = dispatch => {
 	};
 }
 
-
-const participantQuery = gql`
-	query info {
-		participant {
-			name
-			surname
-			id
-			type
-			phone
-			numParticipations
-			delegatedVotes {
-				id
-				name
-				surname
-				numParticipations
-				state
-				type
-			}
-			email
-			state
-			requestWord
-			language
-			online
-			roomType
-		}
-	}
-`;
-
-export default compose(
-	graphql(participantQuery, {
-		name: 'info',
-		options: props => ({
-			fetchPolicy: "network-only",
-			notifyOnNetworkStatusChange: true,
-			pollInterval: 10000
-		})
-	})
-)(withApollo(
+export default withApollo(
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)(withWindowSize(withStyles(styles)(withSharedProps()(Header))))));
+)(withWindowSize(withStyles(styles)(withSharedProps()(Header)))));

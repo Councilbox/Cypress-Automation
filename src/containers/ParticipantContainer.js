@@ -247,6 +247,8 @@ const participantQuery = gql`
 			surname
 			id
 			type
+			voteDenied
+			voteDeniedReason
 			hasVoted
 			phone
 			numParticipations
@@ -255,6 +257,8 @@ const participantQuery = gql`
 				name
 				surname
 				numParticipations
+				voteDenied
+				voteDeniedReason
 				state
 				type
 			}
