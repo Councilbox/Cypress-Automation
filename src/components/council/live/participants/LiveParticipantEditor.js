@@ -113,8 +113,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 	participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
 
-	console.log(participant);
-
 	return (
 		<div
 			style={{
@@ -615,13 +613,13 @@ const ParticipantTable = ({
 		<TableHead>
 			<TableRow>
 				<TableCell style={{ padding: "0.2em" }}>
-					{translate.name}
+					{translate.name || ''}
 				</TableCell>
 				<TableCell style={{ padding: "0.2em" }}>
-					{translate.dni}
+					{translate.dni || ''}
 				</TableCell>
 				<TableCell style={{ padding: "0.2em" }}>
-					{translate.position}
+					{translate.position || ''}
 				</TableCell>
 				<TableCell style={{ padding: "0.2em" }}>
 					{!representative && translate.votes}
@@ -652,13 +650,13 @@ const HoverableRow = ({ primary, participant, quitDelegatedVote, enableActions, 
 	return (
 		<TableRow {...rowHandlers}>
 			<TableCell style={{ padding: "0.2em" }}>
-				{`${participant.name} ${participant.surname}`}
+				{`${participant.name} ${participant.surname || ''}`}
 			</TableCell>
 			<TableCell style={{ padding: "0.2em" }}>{`${
-				participant.dni
+				participant.dni || ''
 				}`}</TableCell>
 			<TableCell style={{ padding: "0.2em" }}>{`${
-				participant.position
+				participant.position || ''
 				}`}</TableCell>
 			<TableCell style={{ padding: "0.2em" }}>{!representative && participant.numParticipations}</TableCell>
 			<TableCell style={{ padding: "0.2em" }}>

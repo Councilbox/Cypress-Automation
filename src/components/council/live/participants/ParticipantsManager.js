@@ -394,6 +394,10 @@ const getQuery = type => {
                         position
                         email
                     }
+                    representative {
+                        name
+                        surname
+                    }
                     assistanceIntention
                     assistanceLastDateConfirmed
                     online
