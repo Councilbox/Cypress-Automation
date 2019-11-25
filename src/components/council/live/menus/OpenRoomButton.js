@@ -17,7 +17,6 @@ import { isMobile } from "react-device-detect";
 
 const OpenRoomButton = ({ council, translate, ...props }) => {
 	const [state, setState] = useOldState({
-		sendCredentials: !council.videoEmailsDate,
 		confirmModal: false,
 		showSMS: false
 	});
@@ -31,7 +30,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 			variables: {
 				councilId: council.id,
 				timezone: moment().utcOffset(),
-				sendCredentials: state.sendCredentials
+				sendCredentials: true
 			}
 		});
 		if (response.data.openCouncilRoom.success) {
@@ -61,18 +60,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 
 		return (
 			<React.Fragment>
-				<div>{translate.open_room_continue}</div>
-				{/* Falta quitarlo bien */}
-				{/* <Checkbox
-					label={translate.send_video_credentials}
-					value={state.sendCredentials}
-					onChange={(event, isInputChecked) =>
-						setState({
-							sendCredentials: isInputChecked
-						})
-					}
-					id={'checkEnviarEmail'}
-				/> */}
+				<div style={{ paddingBottom: "0.6em" }}>{translate.open_room_continue}</div>
 				{council.videoEmailsDate &&
 					<span>{`Enviadas por última vez ${moment(council.videoEmailsDate).format('LLL')}`/*TRADUCCION*/}</span>
 				}
