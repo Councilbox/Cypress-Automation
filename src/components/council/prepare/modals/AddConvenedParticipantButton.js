@@ -20,7 +20,7 @@ import withSharedProps from "../../../../HOCs/withSharedProps";
 
 
 
-const AddConvenedParticipantButton = ({ translate, participations, client, ...props }) => {
+const AddConvenedParticipantButton = ({ translate, participations, client, company, ...props }) => {
 	const [state, setState] = useOldState({
 		modal: false,
 		data: { ...initialParticipant },

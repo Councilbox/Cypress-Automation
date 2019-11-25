@@ -395,6 +395,7 @@ const getQuery = type => {
                         email
                     }
                     representative {
+                        id
                         name
                         surname
                     }
