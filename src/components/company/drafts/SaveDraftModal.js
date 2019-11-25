@@ -31,6 +31,7 @@ const SaveDraftModal = ({ translate, ...props }) => {
 						type: data.type,
 						description: data.description,
 						text: data.text,
+						tags: data.tags,
 						votationType: data.votationType,
 						majorityType: data.majorityType,
 						majority: data.majority,
@@ -48,7 +49,7 @@ const SaveDraftModal = ({ translate, ...props }) => {
 
 	const _renderNewPointBody = () => {
 		return (
-			<div style={{ width: "800px" }}>
+			<div style={{ width: "800px", height: '60vh' }}>
 				<CompanyDraftForm
 					translate={translate}
 					errors={errors}

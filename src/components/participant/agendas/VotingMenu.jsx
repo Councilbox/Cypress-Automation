@@ -5,6 +5,9 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import VoteConfirmationModal from './VoteConfirmationModal';
 import { isMobile } from 'react-device-detect';
+import { VotingContext } from './AgendaNoSession';
+import { voteAllAtOnce } from '../../../utils/CBX';
+import { ConfigContext } from '../../../containers/AppControl';
 
 
 const styles = {
@@ -20,15 +23,18 @@ const styles = {
     }
 }
 
-const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
+const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) => {
     const [loading, setLoading] = React.useState(false);
+    const config = React.useContext(ConfigContext);
     const [modal, setModal] = React.useState(false);
     const [vote, setVote] = React.useState(-1);
     const primary = getPrimary();
+    const votingContext = React.useContext(VotingContext);
+    const voteAtTheEnd = voteAllAtOnce({ council });
 
-    const showModal = vote => {
-        setModal(true);
-        setVote(vote);
+    const setAgendaVoting = vote => {
+        votingContext.responses.set(props.ownVote.id, vote);
+        votingContext.setResponses(new Map(votingContext.responses));
     }
 
     const closeModal = () => {
@@ -38,6 +44,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
 
     const updateAgendaVoting = async vote => {
         setLoading(vote);
+
         const response = await Promise.all(agenda.votings.map(voting =>
             props.updateAgendaVoting({
                 variables: {
@@ -57,6 +64,30 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
         }
     }
 
+    const getSelected = value => {
+        return voteAtTheEnd? votingContext.responses.get(props.ownVote.id) === value : props.ownVote.vote === value;
+    }
+
+    let voteDenied = false;
+    let denied = [];
+
+
+    if(config.denyVote && agenda.votings.length > 0){
+        denied = agenda.votings.filter(voting => voting.author.voteDenied);
+
+
+        if(denied.length === agenda.votings.length){
+            voteDenied = true;
+        }
+    }
+
+    if(voteDenied){
+        return (
+            <DeniedDisplay translate={translate} denied={denied} />
+        )
+
+    }
+
     return (
         <Grid
             style={{
@@ -66,14 +97,17 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 flexDirection: 'row'
             }}
         >
+            {denied.length > 0 &&
+                'Dentro de los votos depositados en usted, tiene votos denegados' //TRADUCCION
+            }
             <VotingButton
                 text={translate.in_favor_btn}
                 loading={loading === 1}
-                selected={agenda.votings[0].vote === 1}
-                icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 1? primary : 'silver' }}></i>}
+                selected={getSelected(1)}
+                icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(1)? primary : 'silver' }}></i>}
                 onClick={() => {
-                    if (singleVoteMode) {
-                        showModal(1)
+                    if (voteAtTheEnd) {
+                        setAgendaVoting(1)
                     } else {
                         updateAgendaVoting(1)
                     }
@@ -82,11 +116,11 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
             <VotingButton
                 text={translate.against_btn}
                 loading={loading === 0}
-                selected={agenda.votings[0].vote === 0}
-                icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 0? primary : 'silver' }}></i>}
-                onClick={() => {
-                    if (singleVoteMode) {
-                        showModal(0)
+                selected={getSelected(0)}
+                icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(0)? primary : 'silver' }}></i>}
+                onClick={() => {0
+                    if (voteAtTheEnd) {
+                        setAgendaVoting(0)
                     } else {
                         updateAgendaVoting(0)
                     }
@@ -96,11 +130,11 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
             <VotingButton
                 text={translate.abstention_btn}
                 loading={loading === 2}
-                icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 2? primary : 'silver' }}></i>}
-                selected={agenda.votings[0].vote === 2}
+                icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(2)? primary : 'silver' }}></i>}
+                selected={getSelected(2)}
                 onClick={() => {
-                    if (singleVoteMode) {
-                        showModal(2)
+                    if (voteAtTheEnd) {
+                        setAgendaVoting(2)
                     } else {
                         updateAgendaVoting(2)
                     }
@@ -108,16 +142,16 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
             />
             <VotingButton
                 text={translate.dont_vote}
-                selected={agenda.votings[0].vote === -1}
+                selected={getSelected(-1)}
                 onClick={() => {
-                    if (singleVoteMode) {
-                        showModal(-1)
+                    if (voteAtTheEnd) {
+                        setAgendaVoting(-1)
                     } else {
                         updateAgendaVoting(-1)
                     }
                 }}
             />
-            {singleVoteMode &&
+            {voteAtTheEnd &&
                 <VoteConfirmationModal
                     open={modal}
                     requestClose={closeModal}
@@ -128,6 +162,23 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
         </Grid>
     )
 
+}
+
+export const DeniedDisplay = ({ translate, denied }) => {
+    //TRADUCCION
+    return (
+        <div>
+            No puede ejercer su derecho a voto
+            <br/>
+            {denied.map(deniedVote => (
+                <React.Fragment>
+                    <br/>
+                    {`${deniedVote.author.name} ${deniedVote.author.surname} ${deniedVote.author.voteDeniedReason? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
+                </React.Fragment>
+            ))}
+
+        </div>
+    )
 }
 
 export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color }) => {
@@ -149,6 +200,7 @@ export const VotingButton = ({ onClick, text, selected, icon, loading, onChange,
                 }}
                 buttonStyle={{
                     width: '100%',
+                    whiteSpace: 'pre-wrap',
                     border: (selected || selectCheckBox) && `2px solid ${primary}`,
                     ...styleButton
                 }}

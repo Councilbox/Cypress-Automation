@@ -69,15 +69,28 @@ class NewPartnerPage extends React.Component {
 
     createPartner = async () => {
         if (!await this.checkRequiredFields()) {
+            const { data, representative } = this.state;
+            let trimmedData = {};
+            let trimmedRepresentative = {};
+
+            Object.keys(data).forEach(key => {
+                trimmedData[key] = (data[key] && data[key].trim)? data[key].trim() : data[key];
+            })
+            Object.keys(representative).forEach(key => {
+                trimmedRepresentative[key] = (representative[key] && representative[key].trim)? representative[key].trim() : representative[key];
+            })
+
             const response = await this.props.createPartner({
                 variables: {
                     participant: {
-                        ...this.state.data,
+                        ...trimmedData,
+                        // ...this.state.data,
                         companyId: this.props.company.id
                     },
                     ...(this.state.data.personOrEntity === 1? {
                         representative: {
-                            ...this.state.representative,
+                            ...trimmedRepresentative,
+                            // ...this.state.representative,
                             companyId: this.props.company.id
                         }
                     } : {})
@@ -215,6 +228,7 @@ class NewPartnerPage extends React.Component {
                             />
                         }
                         <BasicButton
+                            id={'guardarAnadirSocio'}
                             text={this.props.translate.save_changes}
                             color={getPrimary()}
                             textStyle={{ color: 'white', fontWeight: '700', textTransform: 'none' }}

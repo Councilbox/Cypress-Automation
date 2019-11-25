@@ -37,8 +37,9 @@ const TextInput = ({
 	helpPopoverInLabel,
 	styles,
 	styleInInput,
-	labelNone,
-	disableUnderline
+	disableUnderline,
+	stylesAdornment,
+	labelNone
 }) => (
 		<FormControl
 			style={{
@@ -86,6 +87,7 @@ const TextInput = ({
 				InputProps={{
 					disableUnderline:disableUnderline,
 					startAdornment: "",
+					disableUnderline: disableUnderline,
 					inputProps: {
 						min: min,
 						id: id,
@@ -111,7 +113,9 @@ const TextInput = ({
 							</IconButton>
 						</InputAdornment>
 					) : adornment ? (
-						<InputAdornment position="end">
+						<InputAdornment position="end"
+						style={{...stylesAdornment}} 
+						>
 							{adornment}
 						</InputAdornment>
 					) : (

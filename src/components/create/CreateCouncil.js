@@ -195,9 +195,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 								isMobile={isMobile}
 								list={
 									<ul>
-										<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
+										{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
 										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li>
+										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
 									</ul>
 								}
 							/>
@@ -209,9 +209,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 								isMobile={isMobile}
 								list={
 									<ul>
-										<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
+										{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
 										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li>
+										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
 									</ul>
 								}
 							/>
@@ -223,9 +223,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 									isMobile={isMobile}
 									list={
 										<ul>
-											<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
+											{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
 											<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-											<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li>
+											<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
 										</ul>
 									}
 								/>

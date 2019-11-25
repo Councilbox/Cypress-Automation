@@ -37,6 +37,7 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
         { name: translate.name },
         { name: '' }
     ]
+    
     return (
         <Table
             headers={headers}

@@ -82,15 +82,20 @@ class AddCensusParticipantButton extends React.Component {
 	async checkRequiredFields() {
 		const participant = this.state.data;
 		const representative = this.state.representative;
-		const { translate } = this.props;
+		const { translate, company } = this.props;
 		let hasSocialCapital = censusHasParticipations(this.props.census);
 		let errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
 			translate,
-			hasSocialCapital
+			hasSocialCapital,
+			company
 		);
 
-		const emailsToCheck = [participant.email];
+		const emailsToCheck = [];
+
+		if(this.props.company.type !== 10){
+			emailsToCheck.push(participant.email);
+		}
 
 		let errorsRepresentative = {
 			errors: {},
@@ -105,33 +110,36 @@ class AddCensusParticipantButton extends React.Component {
 			emailsToCheck.push(representative.email);
 		}
 
-		const response = await this.props.client.query({
-			query: checkUniqueCensusEmails,
-			variables: {
-				censusId: this.props.census.id,
-				emailList: emailsToCheck
+		if(emailsToCheck.length > 0){
+			const response = await this.props.client.query({
+				query: checkUniqueCensusEmails,
+				variables: {
+					censusId: this.props.census.id,
+					emailList: emailsToCheck
+				}
+			});
+
+			if(!response.data.checkUniqueCensusEmails.success){
+				const data = JSON.parse(response.data.checkUniqueCensusEmails.message);
+				data.duplicatedEmails.forEach(email => {
+					if(participant.email === email){
+						errorsParticipant.errors.email = translate.register_exists_email;
+						errorsParticipant.hasError = true;
+					}
+					if(representative.email === email){
+						errorsRepresentative.errors.email = translate.register_exists_email;
+						errorsRepresentative.hasError = true;
+					}
+				})
 			}
-		});
 
-		if(!response.data.checkUniqueCensusEmails.success){
-			const data = JSON.parse(response.data.checkUniqueCensusEmails.message);
-			data.duplicatedEmails.forEach(email => {
-				if(participant.email === email){
-					errorsParticipant.errors.email = translate.register_exists_email;
-					errorsParticipant.hasError = true;
-				}
-				if(representative.email === email){
-					errorsRepresentative.errors.email = translate.register_exists_email;
-					errorsRepresentative.hasError = true;
-				}
-			})
+			if(participant.email === representative.email){
+				errorsRepresentative.errors.email = translate.repeated_email;
+				errorsParticipant.errors.email = translate.repeated_email;
+				errorsParticipant.hasError = true;
+			}
 		}
 
-		if(participant.email === representative.email){
-			errorsRepresentative.errors.email = translate.repeated_email;
-			errorsParticipant.errors.email = translate.repeated_email;
-			errorsParticipant.hasError = true;
-		}
 
 		this.setState({
 			...this.state,

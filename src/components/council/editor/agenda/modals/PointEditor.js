@@ -17,6 +17,7 @@ import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
+import { TAG_TYPES } from "../../../../company/drafts/draftTags/utils";
 
 class PointEditor extends React.Component {
 
@@ -51,12 +52,25 @@ class PointEditor extends React.Component {
 			company: this.props.company,
 			council: this.props.council
 		}, this.props.translate);
+
+		const { segments } = draft.tags.agenda;
+		let majorityType = 0, subjectType = 0;
+
+		if(segments[1]){
+			subjectType = this.props.votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
+		}
+
+		if(segments[2]){
+			majorityType = this.props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
+		}
+
+
 		this.updateState({
 			description: correctedText,
 			majority: draft.majority,
-			majorityType: draft.majorityType,
+			majorityType,
 			majorityDivider: draft.majorityDivider,
-			subjectType: draft.votationType,
+			subjectType,
 			agendaSubject: draft.title
 		});
 		this.editor.setValue(correctedText);
@@ -102,7 +116,6 @@ class PointEditor extends React.Component {
 		} = this.props;
 		const errors = this.state.errors;
 		const agenda = this.state.data;
-
 		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 
 		return (
@@ -117,6 +130,15 @@ class PointEditor extends React.Component {
 						companyId={company.id}
 						loadDraft={this.loadDraft}
 						statute={statute}
+						defaultTags={{
+							"agenda": {
+								active: true,
+								type: TAG_TYPES.DRAFT_TYPE,
+								name: 'agenda',
+								label: translate.agenda
+							},
+							...CBX.generateStatuteTag(statute, translate)
+						}}
 						statutes={companyStatutes}
 						draftTypes={draftTypes}
 						draftType={1}

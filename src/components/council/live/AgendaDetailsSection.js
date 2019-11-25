@@ -223,7 +223,7 @@ class AgendaDetailsSection extends React.Component {
 												council={council}
 												nextPoint={this.props.nextPoint}
 												translate={translate}
-												refetch={this.props.data.refetch}
+												refetch={this.props.refetch}
 												active={agenda.orderIndex === this.state.openIndex}
 											/>
 										}

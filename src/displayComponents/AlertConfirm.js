@@ -60,6 +60,7 @@ const AlertConfirm = ({
 						buttonStyle={{ marginLeft: "1em" }}
 						color={primary}
 						onClick={acceptAction}
+						claseHover={'buttonAceptarDeModalAlert'}
 					/>
 				)}
 		</Fragment>

@@ -3,8 +3,10 @@ import { getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
 import { Typography, Tooltip } from "material-ui";
 import * as CBX from "../utils/CBX";
+import { withApollo } from 'react-apollo';
+import DenyVote from "../components/council/live/participants/DenyVote";
 
-const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
+const ParticipantDisplay = ({ participant, translate, refetch, council, delegate }) => {
 	const secondary = getSecondary();
 
 	return (
@@ -59,7 +61,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 						}}
 					/>
 				</div>
-				<Typography variant="body1" className="truncate">{`${participant.dni || ''}`}</Typography>
+				<Typography variant="body1" className="truncate">{`${participant.dni || '-'}`}</Typography>
 			</div>
 			<div
 				style={{
@@ -112,7 +114,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 					/>
 				</div>
 				<Typography variant="body1" className="truncate">
-				{`${participant.email || ''}`}
+				{`${participant.email || '-'}`}
 				</Typography>
 			</div>
 			{!CBX.participantIsGuest(participant) &&!CBX.participantIsRepresentative(participant) &&
@@ -180,10 +182,16 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 								</Typography>
 							</div>
 						)}
+						<DenyVote
+							participant={participant}
+							translate={translate}
+							refetch={refetch}
+						/>
 					</React.Fragment>
-				)}
+				)
+			}
 		</div>
 	);
 };
 
-export default ParticipantDisplay;
+export default withApollo(ParticipantDisplay);

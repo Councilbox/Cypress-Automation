@@ -24,10 +24,10 @@ export const useOldState = initialValue => {
 	const [state, setState] = React.useState(initialValue);
 
 	const oldSetState = object => {
-		setState({
+		setState(state => ({
 			...state,
 			...object
-		});
+		}));
 	}
 
 	return [state, oldSetState];

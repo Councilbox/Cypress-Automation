@@ -16,6 +16,7 @@ import RepresentativeForm from "../../../company/census/censusEditor/Representat
 import { checkUniqueCouncilEmails, addConvenedParticipant } from "../../../../queries/councilParticipant";
 import { isMobile } from 'react-device-detect';
 import { useOldState } from "../../../../hooks";
+import withSharedProps from "../../../../HOCs/withSharedProps";
 
 
 
@@ -95,7 +96,8 @@ const AddConvenedParticipantButton = ({ translate, participations, client, ...pr
 			errorsParticipant = checkRequiredFieldsParticipant(
 				participant,
 				translate,
-				hasSocialCapital
+				hasSocialCapital,
+				company
 			);
 		}
 		let errorsRepresentative = {
@@ -115,7 +117,7 @@ const AddConvenedParticipantButton = ({ translate, participations, client, ...pr
 		}
 
 
-		if(participant.email){
+		if(participant.email && company.type !== 10){
 			let emailsToCheck = [participant.email];
 
 			if(representative.email){
@@ -267,7 +269,8 @@ export default compose(
 			errorPolicy: "all"
 		}
 	}),
-	graphql(languages)
+	graphql(languages),
+	withSharedProps()
 )(withApollo(AddConvenedParticipantButton));
 
 const initialParticipant = {

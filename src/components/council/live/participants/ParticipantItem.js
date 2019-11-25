@@ -177,13 +177,14 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			md={4}
 			lg={4}
 		>
-			{`${participant.name} ${participant.surname}`}
+			{`${participant.name} ${participant.surname || ''}`}
 		</GridItem>
 		<GridItem
 			xs={3}
 			md={2}
 			lg={2}
 		>
+			{`${participant.dni || '-'}`}
 			{`${participant.dni || ''}`}
 		</GridItem>
 		<GridItem

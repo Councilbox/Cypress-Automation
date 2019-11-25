@@ -26,6 +26,8 @@ import * as CBX from "../../../utils/CBX";
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
+import { TAG_TYPES } from "../../company/drafts/draftTags/utils";
+import { DRAFT_TYPES } from "../../../constants";
 
 
 const StepNotice = ({ data, translate, company, ...props }) => {
@@ -532,6 +534,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										required
 										floatingText={translate.meeting_title}
 										type="text"
+										id={'TituloReunionEnConvocatoria'}
 										placeholder="Título que será el que aparezca en el acta"
 										errorText={errors.name}
 										value={council.name || ""}
@@ -556,12 +559,15 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 												loadDraft={loadDraft}
 												statute={statute}
 												statutes={companyStatutes}
-												draftType={
-													draftTypes.filter(
-														draft =>
-															draft.label === "convene_header"
-													)[0].value
-												}
+												defaultTags={{
+													"convene_header": {
+														active: true,
+														label: translate.convene_header,
+														name: 'convene_header',
+														type: TAG_TYPES.DRAFT_TYPE
+													},
+													...CBX.generateStatuteTag(statute, translate)
+												}}
 											/>
 										}
 										tags={tags}
@@ -588,6 +594,15 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 												loadDraft={loadFooterDraft}
 												statute={statute}
 												statutes={companyStatutes}
+												defaultTags={{
+													"convene_footer": {
+														active: true,
+														type: TAG_TYPES.DRAFT_TYPE,
+														name: 'convene_footer',
+														label: translate.convene_footer
+													},
+													...CBX.generateStatuteTag(statute, translate)
+												}}
 												draftType={
 													draftTypes.filter(draft => draft.label === "convene_footer")[0].value
 												}
@@ -647,6 +662,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 						<BasicButton
 							floatRight
 							text={translate.save}
+							id={'botonGuardarNuevasReunionesAbajo'}
 							loading={state.loading}
 							success={state.success}
 							reset={resetButtonStates}
@@ -666,6 +682,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 							floatRight
 							text={translate.next}
 							color={primary}
+							id={'botonSiguienteNuevasReunionesAbajo'}
 							disabled={data.loading}
 							loading={state.loading}
 							icon={

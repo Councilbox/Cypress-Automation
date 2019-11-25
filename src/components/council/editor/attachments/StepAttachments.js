@@ -276,6 +276,7 @@ class StepAttachments extends React.Component {
 						<BasicButton
 							text={translate.next}
 							loading={this.props.data.loading || this.state.uploading}
+							id={'attachmentSiguienteNew'}
 							loadingColor={'white'}
 							color={primary}
 							textStyle={{

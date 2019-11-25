@@ -63,7 +63,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 								}`/*TRADUCCION*/}
 								<ul>
 									{agenda.items.map(item => (
-										<li key={`agenda_item_${item.id}`}>
+										<li key={`agenda_item_${item.id}`} style={{ whiteSpace: 'pre-wrap', marginTop: '0.3em' }}>
 											{item.value}
 										</li>
 									))}
