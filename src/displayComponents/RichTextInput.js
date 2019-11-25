@@ -251,7 +251,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 
 	const getTextToPaste = tag => {
 		if(tag.id){
-			if(tags[0].value.includes('{{')){
+			if(window.location.href.includes('draft')){
 				return `{{${tag.key}}}`;
 			}
 		}
