@@ -250,6 +250,12 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	}, [loadCompanyTags]);
 
 	const getTextToPaste = tag => {
+		if(tag.id){
+			if(tags[0].value.includes('{{')){
+				return `{{${tag.key}}}`;
+			}
+		}
+
 		if(tag.getValue){
 			return tag.getValue();
 		}
@@ -353,6 +359,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 														<HoverableRow
 															key={`tag_${index}`}
 															tag={tag}
+															value={getTextToPaste(tag)}
 															translate={translate}
 															onClick={() => {
 																paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
@@ -388,7 +395,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 }))
 
 
-const HoverableRow = ({ tag, onClick }) => {
+const HoverableRow = ({ tag, onClick, value }) => {
 	const [show, handlers] = useHoverRow();
 	const primary = getPrimary();
 
@@ -405,7 +412,7 @@ const HoverableRow = ({ tag, onClick }) => {
 				{tag.key || tag.label}
 			</TableCell>
 			<TableCell style={{ color: primary }}>
-				{tag.description || tag.value }
+				{tag.description || value }
 			</TableCell>
 		</TableRow>
 	)
