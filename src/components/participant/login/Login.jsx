@@ -65,45 +65,46 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 				helpIcon={true}
 				languageSelector={false}
 			>
-				<div style={styles.mainContainer}>
-					<Card style={{
-						...styles.cardContainer,
-						...((councilIsLive(council) && !participant.hasVoted) ? {
-							minWidth: window.innerWidth > 450 ? '550px' : '100%'
-						} : {
-								minWidth: width
+				<Scrollbar>
+					<div style={styles.mainContainer}>
+						<Card style={{
+							...styles.cardContainer,
+							...((councilIsLive(council) && !participant.hasVoted) ? {
+								minWidth: window.innerWidth > 450 ? '550px' : '100%'
+							} : {
+									minWidth: width
 							})
-					}} elevation={6}>
-						{councilIsFinished(council) ?
-							<div style={{ height: '100%' }}>
-								{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-									<LoginForm
-										participant={participant}
-										council={council}
-										company={company}
-									/>
-								) : (
-										<CouncilState council={council} company={company} participant={participant} />
-									)}
-							</div>
-							:
-							<div style={{ height: '100%' }}>
-								{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-									<Scrollbar>
+						}} elevation={6}>
+							{councilIsFinished(council) ?
+								<div>
+									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										<LoginForm
 											participant={participant}
 											council={council}
 											company={company}
 										/>
-									</Scrollbar>
+									) : (
+											<CouncilState council={council} company={company} participant={participant} />
+										)}
+								</div>
+								:
+								<div>
+									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
+										<LoginForm
+											participant={participant}
+											council={council}
+											company={company}
+										/>
 
-								) : (
-										<CouncilState council={council} company={company} participant={participant} />
-									)}
-							</div>
-						}
-					</Card>
-				</div>
+									) : (
+											<CouncilState council={council} company={company} participant={participant} />
+										)}
+								</div>
+							}
+						</Card>
+					</div>
+				</Scrollbar>
+				
 			</NotLoggedLayout>
 		);
 	}
