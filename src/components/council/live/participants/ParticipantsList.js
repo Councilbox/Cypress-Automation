@@ -113,7 +113,6 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 										/>
 									</div>
 								}
-
 							/>
 						}
 					</Scrollbar>
