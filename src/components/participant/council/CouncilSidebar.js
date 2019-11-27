@@ -293,62 +293,39 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                         </div>
                     }
                 />
-                {isIOS ?
-                    <AlertConfirm
-                        requestClose={() => props.setAdminMessage(false)}
-                        title={''}
-                        open={props.adminMessage}
-                        classNameDialog={'livePArticipants'}
-                        bodyStyle={{ padding: '0.3em', maxWidth: "100%" }}
-                        fullWidth={true}
-                        bodyText={
-                            <div>
-                                <div style={{
-                                    display: 'flex',
-                                    marginTop: '2.5em'
-                                }}>
-                                    {props.comentario}
-                                </div>
-                            </div>
+                <AlertConfirm
+                    open={props.adminMessage}
+                    classNameDialog={'modal100Comentario'}
+                    bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0' }}
+                    PaperProps={{
+                        style: {
+                            margin: "0",
+                            transition: "bottom 0.4s",
+                            display: "flex",
+                            position: "fixed",
+                            minHeight: '50px',
+                            width: "100vw",
+                            bottom: props.click ? "0" : "3.7rem",
+                            left: "0",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderTop: "1px solid gainsboro"
                         }
-                    />
-                    :
-                    <AlertConfirm
-                        open={props.adminMessage}
-                        classNameDialog={'modal100Comentario'}
-                        bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0' }}
-                        PaperProps={{
-                            style: {
-                                margin: "0",
-                                transition: "bottom 0.4s",
-                                display: "flex",
-                                position: "fixed",
-                                minHeight: '50px',
-                                width: "100vw",
-                                bottom: props.click ? "0" : "3.7rem",
-                                left: "0",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                borderTop: "1px solid gainsboro"
-                            }
-                        }}
-                        bodyText={
-                            <div style={{
-                                borderRadiusTopLeft: "5px",
-                                position: "relative",
-                                width: "100%",
-                                height: "100%",
-                                background: "#f1f1f1"
-                            }}>
-                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                                    {props.comentario}
-                                </div>
+                    }}
+                    bodyText={
+                        <div style={{
+                            borderRadiusTopLeft: "5px",
+                            position: "relative",
+                            width: "100%",
+                            height: "100%",
+                            background: "#f1f1f1"
+                        }}>
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                                {props.comentario}
                             </div>
-                        }
-                    />
-                }
-
-               
+                        </div>
+                    }
+                />
             </div>
         );
     } else {
