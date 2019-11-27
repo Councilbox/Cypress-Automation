@@ -256,7 +256,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								items={
 									<React.Fragment>
 										<ParticipantStateList
-											participant={getActualParticipant(participant, representative).state}
+											participant={getActualParticipant(participant, representative)}
 											council={council}
 											refetch={refetch}
 											translate={translate}
