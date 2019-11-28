@@ -220,25 +220,32 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								</Grid>
 							</GridItem>
 						</Grid>
-						{//(participant.representatives && participant.representatives.length > 0) &&
-						}
 
-
-						{CBX.isRepresented(participant) &&
+						{CBX.isRepresented(participant)?
 							<ParticipantBlock
 								{...props}
-								participant={participant}
+								participant={participant.representative}
 								translate={translate}
 								openSignModal={openSignModal}
 								data={data}
 								stateText={translate.represented_by}
 							/>
+							:
+							(participant.representatives && participant.representatives.length > 0) &&
+								<ParticipantBlock
+									{...props}
+									participant={participant.representatives[0]}
+									translate={translate}
+									openSignModal={openSignModal}
+									data={data}
+									stateText={translate.represented_by}
+								/>
 						}
 
 						{CBX.hasHisVoteDelegated(participant) &&
 							<ParticipantBlock
 								{...props}
-								participant={participant}
+								participant={participant.representative}
 								translate={translate}
 								openSignModal={openSignModal}
 								data={data}
@@ -276,7 +283,7 @@ const ParticipantBlock = ({ children, translate, data, openSignModal, stateText,
 						textOverflow: 'ellipsis'
 					}}>
 						{`${stateText}:`}
-						<b>{`${participant.representative.name} ${participant.representative.surname || ''}`}</b>
+						<b>{`${participant.name} ${participant.surname || ''}`}</b>
 					</div>
 				</div>
 			</GridItem>
@@ -285,7 +292,7 @@ const ParticipantBlock = ({ children, translate, data, openSignModal, stateText,
 					<div style={{ display: "flex" }}>
 						<StateIcon
 							translate={translate}
-							state={participant.representative.state}
+							state={participant.state}
 							ratio={0.9}
 							styles={{ display: "flex", alignItems: "center", paddingLeft: "0px" }}
 						/>
@@ -296,7 +303,7 @@ const ParticipantBlock = ({ children, translate, data, openSignModal, stateText,
 						overflow: 'hidden',
 						textOverflow: 'ellipsis'
 					}}>
-						{translate[CBX.getParticipantStateField(participant.representative)]}
+						{translate[CBX.getParticipantStateField(participant)]}
 					</div>
 				</div>
 			</GridItem>
