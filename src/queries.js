@@ -2053,6 +2053,7 @@ export const liveParticipant = gql`
 				surname
 				dni
 				email
+				state
 				phone
 				position
 				language

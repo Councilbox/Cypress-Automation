@@ -4,18 +4,16 @@ import { PARTICIPANT_STATES } from "../../../../constants";
 import { Icon } from "../../../../displayComponents";
 import { Tooltip } from "material-ui";
 
-class StateIcon extends React.PureComponent {
-	render() {
-		const {
-			color = "grey",
-			state,
-			number,
-			translate,
-			ratio = 1,
-			hideTooltip = false
-		} = this.props;
-		return _renderIcon(color, state, number, translate, ratio, hideTooltip);
-	}
+const StateIcon = ({
+	color = "grey",
+	state,
+	number,
+	translate,
+	ratio = 1,
+	hideTooltip = false
+}) => {
+	return _renderIcon(color, state, number, translate, ratio, hideTooltip);
+
 }
 
 const styleMainIcon = (color, ratio) => {

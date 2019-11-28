@@ -220,85 +220,116 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								</Grid>
 							</GridItem>
 						</Grid>
+						{//(participant.representatives && participant.representatives.length > 0) &&
+						}
+
+
+						{CBX.isRepresented(participant) &&
+							<ParticipantBlock
+								{...props}
+								participant={participant}
+								translate={translate}
+								openSignModal={openSignModal}
+								data={data}
+								stateText={translate.represented_by}
+							/>
+						}
 
 						{CBX.hasHisVoteDelegated(participant) &&
-							<Grid style={{ marginBottom: "1em", display: "flex", alignItems: "center", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: 'solid 1px #61abb7', borderRadius: '4px', padding: "1em", marginTop: "1em", justifyContent: "space-between" }}>
-								<GridItem xs={12} md={4} lg={3}>
-									<div style={{ display: "flex" }}>
-										<div style={{ color: secondary, position: "relative", width: "1.5em" }}>
-											<i
-												className={"fa fa-user-o"}
-												style={{ position: "absolute", left: "0", top: "0", fontSize: "19px" }}
-											/>
-											<i
-												className={"fa fa-user"}
-												style={{ position: "absolute", right: "4px", bottom: "4px" }}
-											/>
-										</div>
-										<div style={{
-											whiteSpace: 'nowrap',
-											overflow: 'hidden',
-											textOverflow: 'ellipsis'
-										}}>
-											Representado por : <b>{participant.representative.name + " " + participant.representative.surname} </b>
-										</div>
-									</div>
-								</GridItem>
-								<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
-									<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
-										<div style={{ display: "flex" }}>
-											<StateIcon
-												translate={translate}
-												state={participant.representative.state}
-												ratio={0.9}
-												styles={{ display: "flex", alignItems: "center", paddingLeft: "0px" }}
-											/>
-										</div>
-										<div style={{
-											width: "100%",
-											whiteSpace: 'nowrap',
-											overflow: 'hidden',
-											textOverflow: 'ellipsis'
-										}}>
-											{translate[CBX.getParticipantStateField(participant.representative)]}
-										</div>
-									</div>
-								</GridItem>
-								<GridItem xs={12} md={5} lg={6}>
-									<Grid style={{}}>
-										<GridItem xs={12} md={9} lg={6} style={{}}>
-											<div style={{ marginRight: "1em", borderRadius: "4px", }}>
-												<ResendCredentialsModal
-													participant={participant}
-													council={props.council}
-													translate={translate}
-													security={props.council.securityType > 0}
-													refetch={data.refetch}
-												/>
-											</div>
-										</GridItem>
-										<GridItem xs={12} md={5} lg={5}>
-											<div>
-												<BasicButton
-													text={participant.signed ? translate.user_signed : translate.to_sign}
-													fullWidth
-													buttonStyle={{ borderRadius: "4px", marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
-													type="flat"
-													color={secondary}
-													onClick={openSignModal}
-													textStyle={{ color: "white", fontWeight: '700' }}
-												/>
-											</div>
-										</GridItem>
-									</Grid>
-								</GridItem>
-							</Grid>
+							<ParticipantBlock
+								{...props}
+								participant={participant}
+								translate={translate}
+								openSignModal={openSignModal}
+								data={data}
+								stateText={translate.delegated_in}
+							/>
 						}
 					</div>
 				</div>
 			</Scrollbar>
 		</div>
 	);
+}
+
+const ParticipantBlock = ({ children, translate, data, openSignModal, stateText, participant, ...props }) => {
+	const secondary = getSecondary();
+	const primary = getPrimary();
+
+	return (
+		<Grid style={{ marginBottom: "1em", display: "flex", alignItems: "center", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: 'solid 1px #61abb7', borderRadius: '4px', padding: "1em", marginTop: "1em", justifyContent: "space-between" }}>
+			<GridItem xs={12} md={4} lg={3}>
+				<div style={{ display: "flex" }}>
+					<div style={{ color: secondary, position: "relative", width: "1.5em" }}>
+						<i
+							className={"fa fa-user-o"}
+							style={{ position: "absolute", left: "0", top: "0", fontSize: "19px" }}
+						/>
+						<i
+							className={"fa fa-user"}
+							style={{ position: "absolute", right: "4px", bottom: "4px" }}
+						/>
+					</div>
+					<div style={{
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis'
+					}}>
+						{`${stateText}:`}
+						<b>{`${participant.representative.name} ${participant.representative.surname || ''}`}</b>
+					</div>
+				</div>
+			</GridItem>
+			<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
+				<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
+					<div style={{ display: "flex" }}>
+						<StateIcon
+							translate={translate}
+							state={participant.representative.state}
+							ratio={0.9}
+							styles={{ display: "flex", alignItems: "center", paddingLeft: "0px" }}
+						/>
+					</div>
+					<div style={{
+						width: "100%",
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis'
+					}}>
+						{translate[CBX.getParticipantStateField(participant.representative)]}
+					</div>
+				</div>
+			</GridItem>
+			<GridItem xs={12} md={5} lg={6}>
+				<Grid style={{}}>
+					<GridItem xs={12} md={9} lg={6} style={{}}>
+						<div style={{ marginRight: "1em", borderRadius: "4px", }}>
+							<ResendCredentialsModal
+								participant={participant}
+								council={props.council}
+								translate={translate}
+								security={props.council.securityType > 0}
+								refetch={data.refetch}
+							/>
+						</div>
+					</GridItem>
+					<GridItem xs={12} md={5} lg={5}>
+						<div>
+							<BasicButton
+								text={participant.signed ? translate.user_signed : translate.to_sign}
+								fullWidth
+								buttonStyle={{ borderRadius: "4px", marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
+								type="flat"
+								color={secondary}
+								onClick={openSignModal}
+								textStyle={{ color: "white", fontWeight: '700' }}
+							/>
+						</div>
+					</GridItem>
+				</Grid>
+			</GridItem>
+		</Grid>
+	)
 }
 
 

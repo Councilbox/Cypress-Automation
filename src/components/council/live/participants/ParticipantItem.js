@@ -410,7 +410,6 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									</Tooltip>
 								</div>
 						}
-						
 						<div
 							style={{
 								display: "flex",
