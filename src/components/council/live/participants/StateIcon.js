@@ -47,15 +47,17 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 		case PARTICIPANT_STATES.NO_PARTICIPATE:
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.no_participate}>
-					<div style={{ padding: "0.5em" }}>
-						<FontAwesome
-							name={"user-o"}
-							style={styleMainIcon(color, ratio)}
-						/>
-						<FontAwesome
-							name={"times"}
-							style={styleSubIcon(color, ratio)}
-						/>
+					<div style={{ padding: "0.5em" }}>	
+							<FontAwesome
+								name={"user-o"}
+								style={styleMainIcon(color, ratio)}
+							/>
+
+							<FontAwesome
+								name={"times"}
+								style={styleSubIcon(color, ratio)}
+							/>
+						
 						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>

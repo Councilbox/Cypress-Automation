@@ -1537,7 +1537,7 @@ export const getParticipantStateField = participant => {
 			return "physically_present_assistance";
 
 		case 6:
-			return "no_assist_assistance";
+			return "no_participate";
 
 		case 7:
 			return "physically_present_with_remote_vote";

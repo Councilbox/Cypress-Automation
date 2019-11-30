@@ -40,6 +40,7 @@ import { useOldState, useHoverRow } from "../../../../hooks";
 import SignatureButton from "./SignatureButton";
 import { client } from "../../../../containers/App";
 import gql from "graphql-tag";
+import ParticipantStateIcon from "./ParticipantStateIcon";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const [state, setState] = useOldState({
@@ -229,7 +230,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								active={true}
 								openSignModal={openSignModal}
 								data={data}
-								stateText={translate.represented_by}
+								type={PARTICIPANT_STATES.REPRESENTATED}
 							/>
 							:
 							(participant.representatives && participant.representatives.length > 0) &&
@@ -248,7 +249,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										/>
 									}
 									data={data}
-									stateText={translate.represented_by}
+									type={PARTICIPANT_STATES.REPRESENTATED}
 								/>
 						}
 
@@ -260,7 +261,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								translate={translate}
 								openSignModal={openSignModal}
 								data={data}
-								stateText={translate.delegated_in}
+								type={PARTICIPANT_STATES.DELEGATED}
 							/>
 						}
 					</div>
@@ -270,9 +271,16 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	);
 }
 
-const ParticipantBlock = ({ children, translate, data, action, active, openSignModal, stateText, participant, ...props }) => {
+const ParticipantBlock = ({ children, translate, type, data, action, active, openSignModal, participant, ...props }) => {
 	const secondary = getSecondary();
 	const primary = getPrimary();
+
+	const texts = {
+		[PARTICIPANT_STATES.DELEGATED]: translate.delegated_in,
+		[PARTICIPANT_STATES.REPRESENTATED]: translate.represented_by
+	}
+
+	const text = texts[type]
 
 	return (
 		<Grid style={{ marginBottom: "1em", display: "flex", alignItems: "center", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: 'solid 1px #61abb7', borderRadius: '4px', padding: "1em", marginTop: "1em", justifyContent: "space-between" }}>
@@ -280,7 +288,7 @@ const ParticipantBlock = ({ children, translate, data, action, active, openSignM
 				<div style={{ display: "flex" }}>
 					<div style={{ color: secondary, position: "relative", width: "1.5em" }}>
 						<i
-							className={"fa fa-user-o"}
+							className={type === PARTICIPANT_STATES.REPRESENTATED? "fa fa-user-o" : 'fa fa-user'}
 							style={{ position: "absolute", left: "0", top: "0", fontSize: "19px" }}
 						/>
 						<i
@@ -293,19 +301,18 @@ const ParticipantBlock = ({ children, translate, data, action, active, openSignM
 						overflow: 'hidden',
 						textOverflow: 'ellipsis'
 					}}>
-						{`${stateText}:`}
+						{`${text}:`}
 						<b>{`${participant.name} ${participant.surname || ''}`}</b>
 					</div>
 				</div>
 			</GridItem>
 			<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
 				<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
-					<div style={{ display: "flex" }}>
-						<StateIcon
+					<div>
+						<ParticipantStateIcon
 							translate={translate}
-							state={participant.state}
-							ratio={0.9}
-							styles={{ display: "flex", alignItems: "center", paddingLeft: "0px" }}
+							participant={participant}
+							ratio={1.1}
 						/>
 					</div>
 					<div style={{
