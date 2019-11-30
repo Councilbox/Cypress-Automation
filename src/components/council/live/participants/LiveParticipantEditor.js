@@ -226,6 +226,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								{...props}
 								participant={participant.representative}
 								translate={translate}
+								active={true}
 								openSignModal={openSignModal}
 								data={data}
 								stateText={translate.represented_by}
@@ -236,7 +237,16 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									{...props}
 									participant={participant.representatives[0]}
 									translate={translate}
+									active={false}
 									openSignModal={openSignModal}
+									action={
+										<GrantVoteButton
+											participant={participant}
+											refetch={data.refetch}
+											representative={participant.representatives[0]}
+											translate={translate}
+										/>
+									}
 									data={data}
 									stateText={translate.represented_by}
 								/>
@@ -245,6 +255,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						{CBX.hasHisVoteDelegated(participant) &&
 							<ParticipantBlock
 								{...props}
+								active={true}
 								participant={participant.representative}
 								translate={translate}
 								openSignModal={openSignModal}
@@ -259,7 +270,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	);
 }
 
-const ParticipantBlock = ({ children, translate, data, openSignModal, stateText, participant, ...props }) => {
+const ParticipantBlock = ({ children, translate, data, action, active, openSignModal, stateText, participant, ...props }) => {
 	const secondary = getSecondary();
 	const primary = getPrimary();
 
@@ -309,29 +320,34 @@ const ParticipantBlock = ({ children, translate, data, openSignModal, stateText,
 			</GridItem>
 			<GridItem xs={12} md={5} lg={6}>
 				<Grid style={{}}>
-					<GridItem xs={12} md={9} lg={6} style={{}}>
-						<div style={{ marginRight: "1em", borderRadius: "4px", }}>
-							<ResendCredentialsModal
-								participant={participant}
-								council={props.council}
-								translate={translate}
-								security={props.council.securityType > 0}
-								refetch={data.refetch}
-							/>
-						</div>
-					</GridItem>
+					{active &&
+						<GridItem xs={12} md={9} lg={6} style={{}}>
+							<div style={{ marginRight: "1em", borderRadius: "4px", }}>
+								<ResendCredentialsModal
+									participant={participant}
+									council={props.council}
+									translate={translate}
+									security={props.council.securityType > 0}
+									refetch={data.refetch}
+								/>
+							</div>
+						</GridItem>
+					}
+					
 					<GridItem xs={12} md={5} lg={5}>
-						<div>
-							<BasicButton
-								text={participant.signed ? translate.user_signed : translate.to_sign}
-								fullWidth
-								buttonStyle={{ borderRadius: "4px", marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
-								type="flat"
-								color={secondary}
-								onClick={openSignModal}
-								textStyle={{ color: "white", fontWeight: '700' }}
-							/>
-						</div>
+						{action ||
+							<div>
+								<BasicButton
+									text={participant.signed ? translate.user_signed : translate.to_sign}
+									fullWidth
+									buttonStyle={{ borderRadius: "4px", marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
+									type="flat"
+									color={secondary}
+									onClick={openSignModal}
+									textStyle={{ color: "white", fontWeight: '700' }}
+								/>
+							</div>
+						}
 					</GridItem>
 				</Grid>
 			</GridItem>
@@ -347,9 +363,8 @@ const setMainRepresentative = gql`
 	}
 }`;
 
-const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
-	const [signatureModal, setSignatureModal] = React.useState(false);
-	const representative = CBX.getMainRepresentative(participant);
+
+const GrantVoteButton = ({ participant, representative, refetch }) => {
 	const secondary = getSecondary();
 
 	const appointRepresentative = async () => {
@@ -362,183 +377,19 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 		});
 
 		if (response.data) {
-			data.refetch();
+			refetch();
 		}
 	}
 
-	if (!representative) {
-		return <span />
-	}
-
 	return (
-		<div style={{ marginBottom: '1em' }}>
-			<Typography variant="subheading">
-				{translate.representative}
-			</Typography>
-			<div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
-				{`${representative.name} ${representative.surname}`}
-				{participant.state !== PARTICIPANT_STATES.DELEGATED ?
-					<React.Fragment>
-						{CBX.showSendCredentials(representative.state) &&
-							<div>
-								<ResendCredentialsModal
-									participant={representative}
-									council={props.council}
-									translate={translate}
-									security={props.council.securityType > 0}
-									refetch={data.refetch}
-								/>
-							</div>
-						}
-
-						{/* <div style={{ paddingLeft: '1em', display: isMobile ? "none" : "block" }}>
-							<ParticipantStateSelector
-								inDropDown={true}
-								participant={{
-									...representative,
-									delegatedVotes: participant.delegatedVotes
-								}}
-								council={props.council}
-								translate={translate}
-								refetch={data.refetch}
-							/>
-						</div> */}
-						{!CBX.isRepresented(representative) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(representative) &&
-							<div>
-								<SignatureButton
-									participant={representative}
-									open={() => setSignatureModal(true)}
-									translate={translate}
-								/>
-							</div>
-						}
-						<DropDownMenu
-							claseHover={"classHover"}
-							color="transparent"
-							id={'dropdownEstados'}
-							style={{ paddingLeft: '0px', paddingRight: '0px' }}
-							icon={
-								<StateIcon
-									translate={translate}
-									state={representative.state}
-									ratio={1.3}
-								/>
-							}
-							items={
-								<React.Fragment>
-									<ParticipantStateList
-										participant={representative}
-										council={props.council}
-										translate={translate}
-										refetch={data.refetch}
-										inDropDown={true}
-									/>
-								</React.Fragment>
-							}
-							anchorOrigin={{
-								vertical: 'bottom',
-								horizontal: 'left',
-							}}
-						/>
-						{signatureModal &&
-							<SignatureModal
-								show={signatureModal}
-								council={props.council}
-								participant={representative}
-								refetch={data.refetch}
-								requestClose={() => setSignatureModal(false)}
-								translate={translate}
-							/>
-						}
-					</React.Fragment>
-					:
-					<BasicButton
-						text="Otogar voto"
-						color="white"
-						textStyle={{ color: secondary }}
-						onClick={appointRepresentative}
-						buttonStyle={{ border: `1px solid ${secondary}` }}
-					/>
-				}
-			</div>
-		</div>
+		<BasicButton
+			text="Otogar voto"
+			color="white"
+			textStyle={{ color: secondary }}
+			onClick={appointRepresentative}
+			buttonStyle={{ border: `1px solid ${secondary}` }}
+		/>
 	)
-}
-
-
-const ParticipantTable = ({
-	participants,
-	representative,
-	translate,
-	enableActions,
-	quitDelegatedVote,
-	primary
-}) => (
-		<Table style={{ maxWidth: "100%", width: "100%" }}>
-			<TableHead>
-				<TableRow>
-					<TableCell style={{ padding: "0.2em" }}>
-						{translate.name}
-					</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>
-						{translate.dni}
-					</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>
-						{translate.position}
-					</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>
-						{!representative && translate.votes}
-					</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>
-					</TableCell>
-				</TableRow>
-			</TableHead>
-			<TableBody style={{ height: "100px", overflowY: 'auto', overflowX: 'hidden' }}>
-				{participants.map((participant, index) => (
-					<HoverableRow
-						key={`del_${index}`}
-						primary={primary}
-						participant={participant}
-						enableActions={enableActions}
-						representative={representative}
-						quitDelegatedVote={quitDelegatedVote}
-					/>
-				))}
-			</TableBody>
-		</Table>
-	);
-
-
-const HoverableRow = ({ primary, participant, quitDelegatedVote, enableActions, representative }) => {
-	const [showActions, rowHandlers] = useHoverRow();
-
-	return (
-		<TableRow {...rowHandlers}>
-			<TableCell style={{ padding: "0.2em" }}>
-				{`${participant.name} ${participant.surname}`}
-			</TableCell>
-			<TableCell style={{ padding: "0.2em" }}>{`${
-				participant.dni
-				}`}</TableCell>
-			<TableCell style={{ padding: "0.2em" }}>{`${
-				participant.position
-				}`}</TableCell>
-			<TableCell style={{ padding: "0.2em" }}>{!representative && participant.numParticipations}</TableCell>
-			<TableCell style={{ padding: "0.2em" }}>
-				<div style={{ width: '4em' }}>
-					{(showActions && enableActions) && (
-						<CloseIcon
-							style={{ color: primary }}
-							onClick={event => {
-								quitDelegatedVote(participant.id);
-								event.stopPropagation();
-							}}
-						/>
-					)}
-				</div>
-			</TableCell>
-		</TableRow>
-	);
 }
 
 export default compose(
