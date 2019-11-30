@@ -2054,6 +2054,7 @@ export const liveParticipant = gql`
 				dni
 				email
 				state
+				signed
 				phone
 				position
 				language
@@ -2081,6 +2082,7 @@ export const liveParticipant = gql`
 				dni
 				email
 				state
+				signed
 				phone
 				position
 				language

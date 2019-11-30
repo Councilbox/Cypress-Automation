@@ -1,21 +1,35 @@
 import React from 'react';
 import { BasicButton } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
+import SignatureModal from './modals/SignatureModal';
 
-const SignatureButton = ({ participant, translate, open }) => {
+const SignatureButton = ({ participant, translate, council, refetch }) => {
+    const [modal, setModal] = React.useState(false);
+
     const primary = getPrimary();
     const secondary = getSecondary();
 
     return (
-        <BasicButton
-            text={participant.signed ? translate.user_signed : translate.to_sign}
-            fullWidth
-            buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
-            type="flat"
-            color={"white"}
-            onClick={open}
-            textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-        />
+        <React.Fragment>
+            <SignatureModal
+                show={modal}
+                council={council}
+                participant={participant}
+                refetch={refetch}
+                requestClose={() => setModal(false)}
+                translate={translate}
+            />
+            <BasicButton
+                text={participant.signed ? translate.user_signed : translate.to_sign}
+                fullWidth
+                buttonStyle={{ borderRadius: "4px", marginRight: "10px", width: "150px", border: `1px solid ${secondary}` }}
+                type="flat"
+                color={participant.signed ? secondary : 'white'}
+                onClick={() => setModal(true)}
+                textStyle={{ color: participant.signed ? "white" : secondary }}
+            />
+        </React.Fragment>
+
     )
 }
 

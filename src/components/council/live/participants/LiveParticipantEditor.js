@@ -344,14 +344,11 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, ope
 					<GridItem xs={12} md={5} lg={5}>
 						{action ||
 							<div>
-								<BasicButton
-									text={participant.signed ? translate.user_signed : translate.to_sign}
-									fullWidth
-									buttonStyle={{ borderRadius: "4px", marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
-									type="flat"
-									color={secondary}
-									onClick={openSignModal}
-									textStyle={{ color: "white", fontWeight: '700' }}
+								<SignatureButton
+									participant={participant}
+									council={props.council}
+									refetch={data.refetch}
+									translate={translate}
 								/>
 							</div>
 						}
@@ -391,6 +388,7 @@ const GrantVoteButton = ({ participant, representative, refetch }) => {
 	return (
 		<BasicButton
 			text="Otogar voto"
+			type="flat"
 			color="white"
 			textStyle={{ color: secondary }}
 			onClick={appointRepresentative}

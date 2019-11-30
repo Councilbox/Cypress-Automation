@@ -33,8 +33,8 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 		props.requestClose();
 	};
 
-	React.useEffect(() => {
-		if (!data.loading && !signature.current) {
+	React.useLayoutEffect(() => {
+		if (signature.current && !data.loading) {
 			setSignature();
 		}
 	}, [data.loading]);
