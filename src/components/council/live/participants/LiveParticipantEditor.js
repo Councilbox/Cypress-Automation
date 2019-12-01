@@ -45,24 +45,11 @@ import ParticipantStateIcon from "./ParticipantStateIcon";
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const [state, setState] = useOldState({
 		loadingSends: false,
-		showSignatureModal: false,
 		visib: false
 	});
-	const primary = getPrimary();
-	const secondary = getSecondary();
+
 	const landscape = isLandscape() || window.innerWidth > 700;
 
-	const openSignModal = () => {
-		setState({
-			showSignatureModal: true
-		});
-	}
-
-	const closeSignModal = () => {
-		setState({
-			showSignatureModal: false
-		});
-	}
 
 	const refreshEmailStates = async () => {
 		setState({
@@ -81,6 +68,14 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 			});
 		}
 	};
+
+	let participant = { ...data.liveParticipant };
+
+	React.useEffect(() => {
+		if(participant.id){
+			refreshEmailStates();
+		}
+	}, [participant.id]);
 
 	const removeDelegatedVote = async id => {
 		const response = await props.changeParticipantState({
@@ -104,7 +99,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		return <LoadingSection />;
 	}
 
-	let participant = { ...data.liveParticipant };
+
 	participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 	participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
 
@@ -206,14 +201,11 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									<GridItem xs={12} md={5} lg={5}>
 										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 											<div>
-												<BasicButton
-													text={participant.signed ? translate.user_signed : translate.to_sign}
-													fullWidth
-													buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}`, borderRadius: '4px', }}
-													type="flat"
-													color={secondary}
-													onClick={openSignModal}
-													textStyle={{ color: 'white', fontWeight: '700' }} //color: participant.signed ? primary : secondary
+												<SignatureButton
+													participant={participant}
+													council={props.council}
+													refetch={data.refetch}
+													translate={translate}
 												/>
 											</div>
 										}
@@ -228,7 +220,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								participant={participant.representative}
 								translate={translate}
 								active={true}
-								openSignModal={openSignModal}
 								data={data}
 								type={PARTICIPANT_STATES.REPRESENTATED}
 							/>
@@ -239,7 +230,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									participant={participant.representatives[0]}
 									translate={translate}
 									active={false}
-									openSignModal={openSignModal}
 									action={
 										<GrantVoteButton
 											participant={participant}
@@ -259,7 +249,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								active={true}
 								participant={participant.representative}
 								translate={translate}
-								openSignModal={openSignModal}
 								data={data}
 								type={PARTICIPANT_STATES.DELEGATED}
 							/>
@@ -276,7 +265,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	);
 }
 
-const ParticipantBlock = ({ children, translate, type, data, action, active, openSignModal, participant, ...props }) => {
+const ParticipantBlock = ({ children, translate, type, data, action, active, participant, ...props }) => {
 	const secondary = getSecondary();
 	const primary = getPrimary();
 
