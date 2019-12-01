@@ -41,6 +41,7 @@ import SignatureButton from "./SignatureButton";
 import { client } from "../../../../containers/App";
 import gql from "graphql-tag";
 import ParticipantStateIcon from "./ParticipantStateIcon";
+import RemoveDelegationButton from "./RemoveDelegationButton";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
@@ -68,18 +69,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		return () => clearInterval(interval);
 	}, [participant.id]);
 
-	const removeDelegatedVote = async id => {
-		const response = await props.changeParticipantState({
-			variables: {
-				participantId: id,
-				state: 0
-			}
-		});
-
-		if (response) {
-			data.refetch();
-		}
-	}
 
 	const showStateMenu = () => {
 		return !(participant.representatives && participant.representatives.length > 0);
@@ -235,16 +224,18 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						}
 
 						{(participant.delegatedVotes && participant.delegatedVotes.length > 0) &&
-							participant.delegatedVotes.map(participant => (
+							participant.delegatedVotes.map(delegatedVote => (
 								<ParticipantBlock
 									{...props}
 									active={false}
-									participant={participant}
+									participant={delegatedVote}
 									translate={translate}
 									action={
-										<BasicButton
-											text={'Quitar voto delegado'} //TRADUCCION
-											onClick={() => removeDelegatedVote(participant.id)}
+										<RemoveDelegationButton
+											delegatedVote={delegatedVote}
+											participant={participant}
+											translate={translate}
+											refetch={data.refetch}
 										/>
 									}
 									data={data}

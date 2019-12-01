@@ -81,19 +81,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		}
 	};
 
-	const removeDelegatedVote = async id => {
-		const response = await props.changeParticipantState({
-			variables: {
-				participantId: id,
-				state: 0
-			}
-		});
-
-		if (response) {
-			data.refetch();
-		}
-	}
-
 	const showStateMenu = () => {
 		return !(participant.representatives && participant.representatives.length > 0);
 	}
@@ -526,19 +513,6 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 								/>
 							</div>
 						}
-
-						{/* <div style={{ paddingLeft: '1em', display: isMobile ? "none" : "block" }}>
-							<ParticipantStateSelector
-								inDropDown={true}
-								participant={{
-									...representative,
-									delegatedVotes: participant.delegatedVotes
-								}}
-								council={props.council}
-								translate={translate}
-								refetch={data.refetch}
-							/>
-						</div> */}
 						{!CBX.isRepresented(representative) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(representative) &&
 							<div>
 								<SignatureButton
@@ -685,9 +659,6 @@ export default compose(
 			},
 			notifyOnNetworkStatusChange: true
 		})
-	}),
-	graphql(changeParticipantState, {
-		name: "changeParticipantState"
 	}),
 	graphql(updateParticipantSends, {
 		name: "updateParticipantSends"
