@@ -5,8 +5,6 @@ import SignatureModal from './modals/SignatureModal';
 
 const SignatureButton = ({ participant, translate, council, refetch }) => {
     const [modal, setModal] = React.useState(false);
-
-    const primary = getPrimary();
     const secondary = getSecondary();
 
     return (

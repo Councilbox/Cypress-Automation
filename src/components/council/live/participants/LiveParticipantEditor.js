@@ -264,6 +264,11 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								type={PARTICIPANT_STATES.DELEGATED}
 							/>
 						}
+						<NotificationsTable
+							liveMobil={isMobile}
+							notifications={participant.notifications}
+							translate={translate}
+						/>
 					</div>
 				</div>
 			</Scrollbar>
@@ -387,7 +392,7 @@ const GrantVoteButton = ({ participant, representative, refetch }) => {
 
 	return (
 		<BasicButton
-			text="Otogar voto"
+			text="Otogar voto" //TRADUCCION
 			type="flat"
 			color="white"
 			textStyle={{ color: secondary }}
