@@ -43,18 +43,9 @@ import gql from "graphql-tag";
 import ParticipantStateIcon from "./ParticipantStateIcon";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
-	const [state, setState] = useOldState({
-		loadingSends: false,
-		visib: false
-	});
-
 	const landscape = isLandscape() || window.innerWidth > 700;
 
-
 	const refreshEmailStates = async () => {
-		setState({
-			loadingSends: true
-		});
 		const response = await props.updateParticipantSends({
 			variables: {
 				participantId: data.liveParticipant.id
@@ -63,18 +54,18 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 
 		if (response.data.updateParticipantSends.success) {
 			data.refetch();
-			setState({
-				loadingSends: false
-			});
 		}
 	};
 
 	let participant = { ...data.liveParticipant };
 
 	React.useEffect(() => {
+		let interval;
 		if(participant.id){
 			refreshEmailStates();
+			interval = setInterval(refreshEmailStates, 15000);
 		}
+		return () => clearInterval(interval);
 	}, [participant.id]);
 
 	const removeDelegatedVote = async id => {
@@ -267,7 +258,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 
 const ParticipantBlock = ({ children, translate, type, data, action, active, participant, ...props }) => {
 	const secondary = getSecondary();
-	const primary = getPrimary();
 
 	const texts = {
 		[PARTICIPANT_STATES.DELEGATED]: translate.delegated_in,
