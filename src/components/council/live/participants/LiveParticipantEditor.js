@@ -176,8 +176,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									/>
 								</div>
 								<Grid style={{ marginTop: "1em", display: "flex" }}>
-									<GridItem xs={12} md={7} lg={5} style={{}}>
-										{CBX.showSendCredentials(participant.state) &&
+									{CBX.showSendCredentials(participant.state) &&
+										<GridItem xs={12} md={7} lg={5} style={{}}>
 											<div style={{}}>
 												<ResendCredentialsModal
 													participant={participant}
@@ -187,8 +187,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 													refetch={data.refetch}
 												/>
 											</div>
-										}
-									</GridItem>
+										</GridItem>
+									}
 									<GridItem xs={12} md={5} lg={5}>
 										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 											<div>
@@ -234,6 +234,25 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								/>
 						}
 
+						{(participant.delegatedVotes && participant.delegatedVotes.length > 0) &&
+							participant.delegatedVotes.map(participant => (
+								<ParticipantBlock
+									{...props}
+									active={false}
+									participant={participant}
+									translate={translate}
+									action={
+										<BasicButton
+											text={'Quitar voto delegado'} //TRADUCCION
+											onClick={() => removeDelegatedVote(participant.id)}
+										/>
+									}
+									data={data}
+									type={3}
+								/>
+							))
+						}
+
 						{CBX.hasHisVoteDelegated(participant) &&
 							<ParticipantBlock
 								{...props}
@@ -261,7 +280,8 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 
 	const texts = {
 		[PARTICIPANT_STATES.DELEGATED]: translate.delegated_in,
-		[PARTICIPANT_STATES.REPRESENTATED]: translate.represented_by
+		[PARTICIPANT_STATES.REPRESENTATED]: translate.represented_by,
+		3: translate.delegated_vote_from.capitalize()
 	}
 
 	const text = texts[type]
@@ -290,25 +310,27 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 					</div>
 				</div>
 			</GridItem>
-			<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
-				<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
-					<div>
-						<ParticipantStateIcon
-							translate={translate}
-							participant={participant}
-							ratio={1.1}
-						/>
+			{active && 
+				<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
+					<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
+						<div>
+							<ParticipantStateIcon
+								translate={translate}
+								participant={participant}
+								ratio={1.1}
+							/>
+						</div>
+						<div style={{
+							width: "100%",
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis'
+						}}>
+							{translate[CBX.getParticipantStateField(participant)]}
+						</div>
 					</div>
-					<div style={{
-						width: "100%",
-						whiteSpace: 'nowrap',
-						overflow: 'hidden',
-						textOverflow: 'ellipsis'
-					}}>
-						{translate[CBX.getParticipantStateField(participant)]}
-					</div>
-				</div>
-			</GridItem>
+				</GridItem>
+			}
 			<GridItem xs={12} md={5} lg={6}>
 				<Grid style={{}}>
 					{active &&
@@ -328,12 +350,15 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 					<GridItem xs={12} md={5} lg={5}>
 						{action ||
 							<div>
-								<SignatureButton
-									participant={participant}
-									council={props.council}
-									refetch={data.refetch}
-									translate={translate}
-								/>
+								{active &&
+									<SignatureButton
+										participant={participant}
+										council={props.council}
+										refetch={data.refetch}
+										translate={translate}
+									/>
+								}
+								
 							</div>
 						}
 					</GridItem>
