@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { BasicButton, AlertConfirm } from '../../../../displayComponents';
-import { changeParticipantState } from '../../../../queries/liveParticipant';
+import gql from 'graphql-tag';
 import { getSecondary } from '../../../../styles/colors';
 
 const RemoveDelegationButton = ({ participant, delegatedVote, translate, client, refetch }) => {
@@ -10,15 +10,23 @@ const RemoveDelegationButton = ({ participant, delegatedVote, translate, client,
     const secondary = getSecondary();
 
 	const removeDelegatedVote = async id => {
+        setLoading(true);
 		const response = await client.mutate({
-            mutation: changeParticipantState,
+            mutation: gql`
+                mutation RemoveDelegation($participantId: Int!){
+                    removeDelegation(participantId: $participantId){
+                        success
+                        message
+                    }
+                }
+            `,
 			variables: {
-				participantId: id,
-				state: 0
+				participantId: id
 			}
 		});
 
 		if (response) {
+            setLoading(false);
 			refetch();
 		}
     }
@@ -35,6 +43,7 @@ const RemoveDelegationButton = ({ participant, delegatedVote, translate, client,
                 acceptAction={() => removeDelegatedVote(delegatedVote.id)}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
+                loadingAction={loading}
                 requestClose={() => setModal(false)}
                 title={translate.warning}
                 bodyText={renderModalBody()}
