@@ -314,7 +314,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     const landscape = isLandscape() && window.innerWidth < 700;
 
     if (isMobile) {
-        if (landscape && false) {
+        if (landscape) {
             return (
                 <div style={{ height: "100vh", overflow: "hidden", position: " fixed", width: "100vw" }}>
                     {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
