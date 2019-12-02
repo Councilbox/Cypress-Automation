@@ -128,7 +128,6 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	}))
 
 	if (!data.agendas || state.selectedPoint === null) {
-		console.log('entra por este');
 		return <LoadingSection />;
 	}
 

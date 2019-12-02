@@ -64,7 +64,6 @@ class ConvenedParticipantEditor extends React.Component {
 			  }
 			: null;
 
-		console.log(representative);
 
 		if (!await this.checkRequiredFields()) {
 			const { representatives, ...participant } = this.state.data;
@@ -78,7 +77,6 @@ class ConvenedParticipantEditor extends React.Component {
 					sendConvene
 				}
 			});
-			console.log(response);
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
@@ -190,7 +188,6 @@ class ConvenedParticipantEditor extends React.Component {
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
-		console.log(this.state);
 
 
 		return (

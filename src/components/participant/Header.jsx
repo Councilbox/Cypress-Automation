@@ -77,8 +77,6 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
 		const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 
-		console.log(participant);
-
 		//TRADUCCION
 		return (
 			<div>

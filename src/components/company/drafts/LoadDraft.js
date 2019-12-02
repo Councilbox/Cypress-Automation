@@ -182,8 +182,6 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 
 			const columns = buildTagColumns(testTags);
 
-			console.log(testTags);
-
 			return (
 				<div style={{ display: isMobile ? "" : 'flex' }}>
 					{Object.keys(columns).map(key => (

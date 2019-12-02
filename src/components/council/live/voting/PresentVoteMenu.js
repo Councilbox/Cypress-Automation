@@ -26,8 +26,6 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 		props.refetch();
 	};
 
-	console.log(agendaVoting.author);
-
 	const _block = (value, active) => {
 		if(!agendaVotingsOpened(agenda)){
 			if(!active){

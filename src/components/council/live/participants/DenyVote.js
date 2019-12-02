@@ -60,8 +60,6 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
             }
         });
 
-        console.log(response);
-
         refetch();
         setModal(false);
     }
