@@ -256,7 +256,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						}
 						<NotificationsTable
 							liveMobil={isMobile}
-							notifications={participant.notifications}
+							notifications={(participant.representatives && participant.representatives.length > 0)? participant.representatives[0].notifications : participant.notifications}
 							translate={translate}
 						/>
 					</div>

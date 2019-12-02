@@ -2074,6 +2074,14 @@ export const liveParticipant = gql`
 				language
 				numParticipations
 				socialCapital
+				notifications {
+					participantId
+					email
+					reqCode
+					refreshDate
+					sendDate
+					sendType
+				}
 			}
 			delegatedVotes {
 				id
