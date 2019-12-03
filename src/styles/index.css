@@ -764,12 +764,13 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     color: #3a2464!important
 }
 
-.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day > abbr{
+.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day>abbr {
     background: #8dc5ec!important;
     /* background: gainsboro!important; */
     color: #3a2464!important
 }
-.react-calendar__tile.react-calendar__month-view__days__day:hover{
+
+.react-calendar__tile.react-calendar__month-view__days__day:hover {
     background: white!important;
 }
 

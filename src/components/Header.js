@@ -14,6 +14,8 @@ import Paper from 'material-ui/Paper';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION, variant } from "../config";
 import { getCustomLogo, getCustomIcon } from "../utils/subdomain";
+import gorro from "../assets/img/navidadGorro.png";
+
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, ...props }) => {
 	const goBack = () => {
@@ -79,15 +81,26 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					</Tooltip>
 				)}
 				<Link to="/">
-					<div>
+					<div style={{position: "relative"}}>
 						<img
-							src={!showVerticalLayout() ? customLogo? customLogo : logo : customIcon? customIcon : icono}
+							src={!showVerticalLayout() ? customLogo ? customLogo : logo : customIcon ? customIcon : icono}
 							className="App-logo"
 							style={{
 								height: "1.5em",
 								marginLeft: "1em",
 								// marginLeft: "2em",
 								userSelect: 'none'
+							}}
+							alt="logo"
+						/>
+						<img
+							src={gorro}
+							style={{
+								height: "1.5em",
+								position: 'absolute',
+								top: '-7px',
+								right: '-8px',
+								transform: 'rotate(17deg)',
 							}}
 							alt="logo"
 						/>
@@ -107,7 +120,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 				}}
 			>
 				{languageSelector &&
-					<span style={{fontSize: '0.85em'}}>
+					<span style={{ fontSize: '0.85em' }}>
 						{`v${CLIENT_VERSION}`}
 					</span>
 				}

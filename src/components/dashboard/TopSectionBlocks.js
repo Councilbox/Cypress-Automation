@@ -216,7 +216,7 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 	const blankSize = !hasBook ? 2 : 3;
 
 	const changeMonth = ( e ) => {
-		console.log(e  )
+		console.log( e )
 	}
 
 	return (

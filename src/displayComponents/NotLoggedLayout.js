@@ -3,6 +3,18 @@ import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
+import '../../src/styles/snow.css';
+
+
+const Snow = () => {
+	return (
+		< div class="snowfall" >
+			{Array(99).fill(1).map((el, i) =>
+				<div class="snowflake"></div>
+			)}
+		</div >
+	)
+}
 
 
 const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) => {
@@ -10,10 +22,10 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
 
-    const imgUrl =  window.location.pathname.includes('participant')?
-        customRoomBackground? customRoomBackground : customBackground? customBackground : bg
+    const imgUrl = window.location.pathname.includes('participant') ?
+        customRoomBackground ? customRoomBackground : customBackground ? customBackground : bg
         :
-        customBackground? customBackground : bg
+        customBackground ? customBackground : bg
 
     React.useEffect(() => {
         let img = new Image();
@@ -21,7 +33,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
         img.onload = () => setLoadingImg(false);
     }, [customBackground, customRoomBackground]);
 
-    if(loadingImg){
+    if (loadingImg) {
         return <LoadingMainApp />
     }
 
@@ -56,6 +68,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
                     height: "100%",
                 }}
             >
+                <Snow ></Snow>
                 {children}
             </div>
         </div>

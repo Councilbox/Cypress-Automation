@@ -12,6 +12,7 @@ import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridIt
 import { useOldState } from "../../hooks";
 
 
+
 const Login = ({ translate, windowSize, ...props }) => {
 	const [state, setState] = useOldState({
 		user: "",
@@ -77,7 +78,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 					}
 				}
 
-				return errors[response.errors[0].message]? errors[response.errors[0].message]() : null;
+				return errors[response.errors[0].message] ? errors[response.errors[0].message]() : null;
 			}
 			if (response.data.login) {
 				setState({
@@ -120,13 +121,14 @@ const Login = ({ translate, windowSize, ...props }) => {
 		return hasError;
 	}
 
+
 	return (
 		<NotLoggedLayout
 			translate={translate}
 			helpIcon={true}
 			languageSelector={true}
 		>
-			<Grid style={{width: '100%', overflowX: 'hidden', padding: '0', margin: '0'}}>
+			<Grid style={{ width: '100%', overflowX: 'hidden', padding: '0', margin: '0' }}>
 				<GridItem xs={12} md={7} lg={7}
 					style={{
 						color: "white",
@@ -137,9 +139,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 						paddingTop: windowSize === "xs" ? "8%" : "12em"
 					}}
 				>
-					{window.location.origin.includes('conpaas')?
+					{window.location.origin.includes('conpaas') ?
 						<COELeftSide translate={translate} windowSize={windowSize} />
-					:
+						:
 						<div
 							style={{
 								width: "70%",
@@ -188,8 +190,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 											text={translate.start_conference_test}
 											color={'transparent'}
 											fullWidth
-											buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-											textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none'}}
+											buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
+											textStyle={{ color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none' }}
 										/>
 									</Link>
 								</div>
