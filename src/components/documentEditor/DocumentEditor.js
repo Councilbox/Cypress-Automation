@@ -35,12 +35,10 @@ export const ActContext = React.createContext();
 const councilId = 7113;
 
 
-const DocumentEditor = ({ translate, company, client, ...props }) => {
+const DocumentEditor = ({ translate, company, data, client, ...props }) => {
     const [template, setTemplate] = React.useState(0);
-    const [data, setData] = React.useState(false);
     const [colapse, setColapse] = React.useState(false);
     const [edit, setEdit] = React.useState(true);
-    const [loading, setLoading] = React.useState(true);
     const [ocultar, setOcultar] = React.useState(true);
     const [preview, setPreview] = React.useState('');
     const [agendas, setAgendas] = React.useState({ items: [], });
@@ -65,29 +63,8 @@ const DocumentEditor = ({ translate, company, client, ...props }) => {
     };
 
     React.useEffect(() => {
-        getData();
-    }, []) //Poner datos de la url
-
-
-    const getData = async () => {
-        const response = await client.query({
-            query: CouncilActData,
-            variables: {
-                companyId: 375, //props.companyID,
-                councilID: councilId,//props.councilID,
-                options: {
-                    limit: 10000,
-                    offset: 0
-                }
-            }
-        });
-
-        if (response) {
-            setData(response);
-            setLoading(false);
-            generateDraggable(response.data.council.act, response.data.agendas, response.data.councilAttendants.list);
-        }
-    }
+        generateDraggable(data.council.act, data.agendas, data.councilAttendants.list);
+    }, [data.council.id])
 
 
     const generateDraggable = (act, agendas, attendants) => {
@@ -221,9 +198,14 @@ const DocumentEditor = ({ translate, company, client, ...props }) => {
                         type: item.type,
                         text: item.text,
                         data: item.data
+                    })),
+                    secondaryColumn: agendas.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
+                        type: item.type,
+                        text: item.text,
+                        data: item.data
                     }))
                 },
-                councilId
+                councilId: data.council.id
             }
         });
         setPreview(response.data.generateActHTML);
@@ -242,9 +224,14 @@ const DocumentEditor = ({ translate, company, client, ...props }) => {
                         type: item.type,
                         text: item.text,
                         data: item.data
+                    })),
+                    secondaryColumn: agendas.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
+                        type: item.type,
+                        text: item.text,
+                        data: item.data
                     }))
                 },
-                councilId
+                councilId: data.council.id
             }
         });
 
@@ -253,7 +240,7 @@ const DocumentEditor = ({ translate, company, client, ...props }) => {
                 downloadFile(
                     response.data.generateDocPDF,
                     "application/pdf",
-                    'Prueba de doc'
+                    `${translate.act.replace(/ /g, '_')}-${data.council.name.replace(/ /g, '_').replace(/\./g, '_')}`
                 );
             }
         }
@@ -342,268 +329,241 @@ const DocumentEditor = ({ translate, company, client, ...props }) => {
     return (
         <ActContext.Provider value={data}>
             <div style={{ width: "100%", height: "100%" }}>
-                {loading ?
-                    <LoadingSection></LoadingSection>
-                    :
-                    <React.Fragment>
-                        {/* <div style={{ borderBottom: "1px solid gainsboro" }}>
-                            <div style={{ display: "flex", alignItems: "center", padding: "0px 1em", justifyContent: "space-between" }}>
-                                <div>
-                                    <SelectInput
-                                        value={template}
-                                        floatingText={'Plantillas'}
-                                        onChange={(event) => changeTemplate(event, agendas)}
-                                    >
-                                        <MenuItem value={'none'}> </MenuItem>
-                                        <MenuItem value={0}>Default</MenuItem>
-                                    </SelectInput>
+                <div style={{ display: "flex", height: "100%" }}>
+                    <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
+                        <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
+                            <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
+                                help
+                                    </i>
+                            {ocultar &&
+                                <div style={{
+                                    fontSize: '13px',
+                                    color: '#a09aa0'
+                                }}>
+                                    Personaliza y exporta el acta de la reunión a través de los bloques inferiores. Desplázalos hasta el acta y edita el texto que necesites
                                 </div>
-                                <div style={{ display: "flex", }}>
-                                    <div style={{ marginRight: "2em", marginTop: "0.4em", }}>
-                                        <i className={colapse ? "fa fa-eye-slash" : "fa fa-eye"} style={{ cursor: "pointer" }} onClick={() => setColapse(!colapse)} ></i>
-                                    </div>
-                                    <FormControlLabel control={<Switch checked={edit} onChange={event => handleChange(event)} value="edit" />} label="Edit" />
-                                </div>
-                            </div>
-                        </div> */}
-                        <div style={{ display: "flex", height: "100%" }}>
-                            <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
-                                <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
-                                    <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
-                                        help
-                                            </i>
-                                    {ocultar &&
-                                        <div style={{
-                                            fontSize: '13px',
-                                            color: '#a09aa0'
-                                        }}>
-                                            Personaliza y exporta el acta de la reunión a través de los bloques inferiores. Desplázalos hasta el acta y edita el texto que necesites
-                                        </div>
-                                    }
-                                </div>
-                                <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
-                                    <Scrollbar>
-                                        <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
-                                            <React.Fragment>
-                                                {arrastrables.items.filter(item => !item.logic).map((item, index) => {
-                                                    // .filter(item => item.logic === true).map((item, index) => {
-                                                    return (
-                                                        <BorderBox
-                                                            key={item.id}
-                                                            addItem={addItem}
-                                                            itemInfo={item.id}
-                                                        >
-                                                            <div >
-                                                                <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
-                                                            </div>
-                                                        </BorderBox>
-                                                    )
-                                                })}
-                                                <BloquesAutomaticos
+                            }
+                        </div>
+                        <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
+                            <Scrollbar>
+                                <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
+                                    <React.Fragment>
+                                        {arrastrables.items.filter(item => !item.logic).map((item, index) => {
+                                            return (
+                                                <BorderBox
+                                                    key={item.id}
                                                     addItem={addItem}
-                                                    automaticos={arrastrables}
-                                                    translate={translate}
+                                                    itemInfo={item.id}
                                                 >
-                                                </BloquesAutomaticos>
-                                            </React.Fragment>
-                                        </Grid>
-                                    </Scrollbar>
+                                                    <div >
+                                                        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
+                                                    </div>
+                                                </BorderBox>
+                                            )
+                                        })}
+                                        <BloquesAutomaticos
+                                            addItem={addItem}
+                                            automaticos={arrastrables}
+                                            translate={translate}
+                                        >
+                                        </BloquesAutomaticos>
+                                    </React.Fragment>
+                                </Grid>
+                            </Scrollbar>
+                        </div>
+                    </div>
+                    <div style={{ width: "100%", position: colapse && "relative", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
+                        {!colapse &&
+                            <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
+                                <div style={{ display: "flex" }}>
+                                    <BasicButton
+                                        text={'Prueba descargar doc'}
+                                        color={primary}
+                                        onClick={downloadPDF}
+                                        textStyle={{
+                                            color: "white",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px'
+                                        }}
+                                    />
+                                    <BasicButton
+                                        text={translate.save}
+                                        color={primary}
+                                        onClick={generatePreview}
+                                        textStyle={{
+                                            color: "white",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px'
+                                        }}
+                                    />
+                                    <BasicButton
+                                        text={'Enviar a revision'}
+                                        color={primary}
+                                        textStyle={{
+                                            color: "white",
+                                            fontSize: "0.9em",
+                                            textTransform: "none",
+                                            whiteSpace: "nowrap"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                        onClick={() => setState({
+                                            sendActDraft: true
+                                        })}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px'
+                                        }}
+                                    />
+                                    <BasicButton
+                                        text={'Finalizar'}
+                                        color={secondary}
+                                        textStyle={{
+                                            color: "white",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px'
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ display: "flex" }}>
+                                    <BasicButton
+                                        text={''}
+                                        color={"white"}
+                                        textStyle={{
+                                            color: "black",
+                                            fontWeight: "700",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={
+                                            <Lupa color={'blue'} width={'20px'} height={'20px'} />
+                                        }
+                                        onClick={() => { setColapse(!colapse); setEdit(false) }}
+                                        buttonStyle={{
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px',
+                                            borderTopRightRadius: '0px',
+                                            borderBottomRightRadius: '0px',
+                                            borderRight: '1px solid #e8eaeb'
+                                        }}
+                                    /><BasicButton
+                                        text={''}
+                                        color={"white"}
+                                        textStyle={{
+                                            color: "black",
+                                            fontWeight: "700",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={<object type="image/svg+xml" data={textool} onClick={() => setEdit(!edit)} />}
+                                        onClick={() => setEdit(!edit)}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px',
+                                            borderTopLeftRadius: '0px',
+                                            borderBottomLeftRadius: '0px'
+                                        }}
+                                    />
                                 </div>
                             </div>
-                            <div style={{ width: "100%", position: colapse && "relative", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
-                                {!colapse &&
-                                    <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
-                                        <div style={{ display: "flex" }}>
-                                            <BasicButton
-                                                text={'Prueba descargar doc'}
-                                                color={primary}
-                                                onClick={downloadPDF}
-                                                textStyle={{
-                                                    color: "white",
-                                                    fontSize: "0.9em",
-                                                    textTransform: "none"
-                                                }}
-                                                textPosition="after"
-                                                iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                                buttonStyle={{
-                                                    marginRight: "1em",
-                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                    borderRadius: '3px'
-                                                }}
+                        }
+                        <div style={{ position: "absolute", top: "7px", right: "15px" }}>
+                            {colapse &&
+                                <BasicButton
+                                    text={''}
+                                    color={"white"}
+                                    textStyle={{
+                                        color: "black",
+                                        fontWeight: "700",
+                                        fontSize: "0.9em",
+                                        textTransform: "none"
+                                    }}
+                                    textPosition="after"
+                                    iconInit={
+                                        <Lupa color={'red'} width={'60px'} height={'60px'} />
+                                    }
+                                    onClick={() => setColapse(!colapse)}
+                                    buttonStyle={{
+                                        boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                        borderRadius: '3px',
+                                        borderTopRightRadius: '0px',
+                                        borderBottomRightRadius: '0px',
+                                        borderRight: '1px solid #e8eaeb'
+                                    }}
+                                />
+                            }
+                        </div>
+                        <div style={{ height: "100%", marginTop: colapse && '2em', borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
+                            <Scrollbar>
+                                {preview ?
+                                    <div dangerouslySetInnerHTML={{ __html: preview }} />
+                                    :
+                                    <div style={{ display: "flex", height: "100%" }} >
+                                        <div style={{ width: "20%", maxWidth: "95px" }}>
+                                            <Timbrado
+                                                colapse={colapse}
+                                                edit={edit}
                                             />
-                                            <BasicButton
-                                                text={translate.save}
-                                                color={primary}
-                                                onClick={generatePreview}
-                                                textStyle={{
-                                                    color: "white",
-                                                    fontSize: "0.9em",
-                                                    textTransform: "none"
-                                                }}
-                                                textPosition="after"
-                                                iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                                buttonStyle={{
-                                                    marginRight: "1em",
-                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                    borderRadius: '3px'
-                                                }}
-                                            />
-                                            <BasicButton
-                                                text={'Enviar a revision'}
-                                                color={primary}
-                                                textStyle={{
-                                                    color: "white",
-                                                    fontSize: "0.9em",
-                                                    textTransform: "none",
-                                                    whiteSpace: "nowrap"
-                                                }}
-                                                textPosition="after"
-                                                iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                                onClick={() => setState({
-                                                    sendActDraft: true
-                                                })}
-                                                buttonStyle={{
-                                                    marginRight: "1em",
-                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                    borderRadius: '3px'
-                                                }}
-                                            />
-                                            <BasicButton
-                                                text={'Finalizar'}
-                                                color={secondary}
-                                                textStyle={{
-                                                    color: "white",
-                                                    fontSize: "0.9em",
-                                                    textTransform: "none"
-                                                }}
-                                                textPosition="after"
-                                                iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                                buttonStyle={{
-                                                    marginRight: "1em",
-                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                    borderRadius: '3px'
-                                                }}
-                                            />
+
                                         </div>
-                                        <div style={{ display: "flex" }}>
-                                            <BasicButton
-                                                text={''}
-                                                color={"white"}
-                                                textStyle={{
-                                                    color: "black",
-                                                    fontWeight: "700",
-                                                    fontSize: "0.9em",
-                                                    textTransform: "none"
-                                                }}
-                                                textPosition="after"
-                                                iconInit={
-                                                    <Lupa color={'blue'} width={'20px'} height={'20px'} />
-                                                }
-                                                onClick={() => { setColapse(!colapse); setEdit(false) }}
-                                                buttonStyle={{
-                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                    borderRadius: '3px',
-                                                    borderTopRightRadius: '0px',
-                                                    borderBottomRightRadius: '0px',
-                                                    borderRight: '1px solid #e8eaeb'
-                                                }}
-                                            /><BasicButton
-                                                text={''}
-                                                color={"white"}
-                                                textStyle={{
-                                                    color: "black",
-                                                    fontWeight: "700",
-                                                    fontSize: "0.9em",
-                                                    textTransform: "none"
-                                                }}
-                                                textPosition="after"
-                                                iconInit={<object type="image/svg+xml" data={textool} />}
-                                                onClick={() => setEdit(!edit)}
-                                                buttonStyle={{
-                                                    marginRight: "1em",
-                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                    borderRadius: '3px',
-                                                    borderTopLeftRadius: '0px',
-                                                    borderBottomLeftRadius: '0px'
-                                                }}
-                                            />
+                                        <div style={{ width: "100%" }}>
+                                            <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+                                                <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
+                                                    <img style={{ width: "100%" }} src={company.logo}></img>
+                                                </div>
+                                            </div>
+                                            <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
+                                                <SortableList
+                                                    axis={"y"}
+                                                    lockAxis={"y"}
+                                                    items={agendas.items}
+                                                    updateCouncilActa={updateCouncilActa}
+                                                    updateBlock={updateBlock}
+                                                    state={state}
+                                                    setState={setState}
+                                                    edit={edit}
+                                                    translate={translate}
+                                                    offset={0}
+                                                    onSortEnd={onSortEnd}
+                                                    helperClass="draggable"
+                                                    shouldCancelStart={event => shouldCancelStart(event)}
+                                                    moveUp={moveUp}
+                                                    moveDown={moveDown}
+                                                    remove={remove}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 }
-                                <div style={{ position: "absolute", top: "7px", right: "15px" }}>
-                                    {colapse &&
-                                        < BasicButton
-                                            text={''}
-                                            color={"white"}
-                                            textStyle={{
-                                                color: "black",
-                                                fontWeight: "700",
-                                                fontSize: "0.9em",
-                                                textTransform: "none"
-                                            }}
-                                            textPosition="after"
-                                            iconInit={
-                                                <Lupa color={'red'} width={'60px'} height={'60px'} />
-                                            }
-                                            onClick={() => setColapse(!colapse)}
-                                            buttonStyle={{
-                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                borderRadius: '3px',
-                                                borderTopRightRadius: '0px',
-                                                borderBottomRightRadius: '0px',
-                                                borderRight: '1px solid #e8eaeb'
-                                            }}
-                                        />
-                                    }
-                                </div>
-                                <div style={{ height: "100%", marginTop: colapse && '2em', borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
-                                    <Scrollbar>
-                                        {preview ?
-                                            <div dangerouslySetInnerHTML={{ __html: preview }} />
-                                            :
-                                            <div style={{ display: "flex", height: "100%" }} >
-                                                <div style={{ width: "20%", maxWidth: "95px" }}>
-                                                    <Timbrado
-                                                        colapse={colapse}
-                                                        edit={edit}
-                                                    />
-
-                                                </div>
-                                                <div style={{ width: "100%" }}>
-                                                    <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                                                        <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                                                            <img style={{ width: "100%" }} src={company.logo}></img>
-                                                        </div>
-                                                    </div>
-                                                    <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
-                                                        <SortableList
-                                                            axis={"y"}
-                                                            lockAxis={"y"}
-                                                            items={agendas.items}
-                                                            updateCouncilActa={updateCouncilActa}
-                                                            updateBlock={updateBlock}
-                                                            state={state}
-                                                            setState={setState}
-                                                            edit={edit}
-                                                            translate={translate}
-                                                            offset={0}
-                                                            onSortEnd={onSortEnd}
-                                                            helperClass="draggable"
-                                                            shouldCancelStart={event => shouldCancelStart(event)}
-                                                            moveUp={moveUp}
-                                                            moveDown={moveDown}
-                                                            remove={remove}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    </Scrollbar>
-                                </div>
-                            </div>
+                            </Scrollbar>
                         </div>
-                    </React.Fragment>
-                }
+                    </div>
+                </div>
             </div>
         </ActContext.Provider>
     )

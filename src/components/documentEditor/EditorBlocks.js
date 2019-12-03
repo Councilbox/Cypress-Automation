@@ -18,7 +18,7 @@ export const getBlocks = translate => ({
         label: "Titulo de la reunion",
         text: "<b>Titulo de la reunion</b>",
         type: 'title',
-        noBorrar: true
+        noBorrar: false
     },
     ACT_INTRO: intro => ({
         id: Math.random().toString(36).substr(2, 9),
@@ -26,7 +26,7 @@ export const getBlocks = translate => ({
         text: intro,
         type: 'intro',
         editButton: true,
-        noBorrar: true
+        noBorrar: false
     }),
     ACT_CONSTITUTION: constitution => ({
         id: Math.random().toString(36).substr(2, 9),
@@ -34,7 +34,7 @@ export const getBlocks = translate => ({
         text: constitution,
         type: 'constitution',
         editButton: true,
-        noBorrar: true
+        noBorrar: false
     }),
     ACT_CONCLUSION: conclusion => ({
         id: Math.random().toString(36).substr(2, 9),
@@ -42,10 +42,10 @@ export const getBlocks = translate => ({
         text: conclusion,
         type: 'conclusion',
         editButton: true,
-        noBorrar: true
+        noBorrar: false
     }),
     AGENDA_LIST: agenda => {
-        let puntos = "<b>Para tratar el siguiente Orden de Día </b> </br>"
+        let puntos = "<b>Para tratar el siguiente Orden de Día </b> </br>"//TRADUCCION
         agenda.forEach((element, index) => {
             puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
         });
@@ -54,13 +54,13 @@ export const getBlocks = translate => ({
             label: translate.agenda,
             text: puntos,
             type: 'agenda',
-            noBorrar: true,
+            noBorrar: false,
         }
     },
     AGENDA_INTRO: {
         id: Math.random().toString(36).substr(2, 9),
         label: "entrar",
-        text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",
+        text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
         type: 'introAgenda',
         noBorrar: false,
         editButton: true

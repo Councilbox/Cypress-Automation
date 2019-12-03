@@ -423,7 +423,7 @@ class ActEditor extends Component {
 
 		return (
 			<DocumentEditor
-
+				data={data}
 			/>
 		)
 
