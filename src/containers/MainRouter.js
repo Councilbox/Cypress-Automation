@@ -29,7 +29,6 @@ import PartnerEditorPage from '../components/partners/PartnerEditorPage';
 import NewPartnerPage from '../components/partners/NewPartnerPage';
 import Loadable from 'react-loadable';
 import { bHistory } from './App';
-import OrdenarPrueba from '../components/corporation/companies/OrdenarPrueba';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),
@@ -185,11 +184,6 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 exact
                 path="/company/:company/statutes"
                 component={StatutesPage}
-            />
-            <Route
-                exact
-                path="/company/:company/ordenar"
-                component={OrdenarPrueba}
             />
             <Route
                 exact

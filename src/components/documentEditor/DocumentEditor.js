@@ -42,7 +42,7 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
     const [template, setTemplate] = React.useState(0);
     const [data, setData] = React.useState(false);
     const [colapse, setColapse] = React.useState(false);
-    const [edit, setEdit] = React.useState(false);
+    const [edit, setEdit] = React.useState(true);
     const [loading, setLoading] = React.useState(true);
     const [ocultar, setOcultar] = React.useState(true);
     const [preview, setPreview] = React.useState('');
