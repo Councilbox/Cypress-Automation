@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pie, Polar, HorizontalBar, Bar } from 'react-chartjs-2';
+import { HorizontalBar } from 'react-chartjs-2';
 import { Grid, GridItem } from '../../../../displayComponents';
 import { Table, TableCell, TableRow, TableHead, TableBody } from 'material-ui';
 
@@ -43,7 +43,7 @@ const CustomAgendaRecount = ({ agenda, translate }) => {
                     <TableBody>
                         {agenda.items.map(item => (
                             <TableRow key={`custom_item_${item.id}`}>
-                                <TableCell >
+                                <TableCell style={{ whiteSpace: 'pre-wrap'}}>
                                     {item.value}
                                 </TableCell>
                                 <TableCell >

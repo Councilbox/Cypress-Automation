@@ -24,13 +24,13 @@ class Page extends React.PureComponent {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.data.loading) {
-            if(!prevState.data.id){
+            if (!prevState.data.id) {
                 let { __typename, representative, ...bookParticipant } = nextProps.data.bookParticipant;
                 return {
                     data: {
                         ...bookParticipant
                     },
-                    ...(representative? {
+                    ...(representative ? {
                         representative: representative
                     } : {})
                 }
@@ -53,17 +53,49 @@ class Page extends React.PureComponent {
                 participant: this.state.data
             }
 
-            if(this.state.data.personOrEntity === 1){
+            if (this.state.data.personOrEntity === 1 && this.state.representative ) {
                 const { __typename, ...cleanedRepresentative } = this.state.representative;
                 variables.representative = {
                     ...cleanedRepresentative,
                     companyId: this.state.data.companyId
                 }
             }
+            console.log(variables)
+            
+            const { participant, representative } = variables;
+            let trimmedData = {};
+            let trimmedRepresentative = {};
+            
+            if (participant) {
+                Object.keys(participant).forEach(key => {
+                    trimmedData[key] = (participant[key] && participant[key].trim) ? participant[key].trim() : participant[key];
+                })
+            }
+            if (representative) {
+                Object.keys(representative).forEach(key => {
+                    trimmedRepresentative[key] = (representative[key] && representative[key].trim) ? representative[key].trim() : representative[key];
+                })
+            }
 
             const response = await this.props.updateBookParticipant({
-                variables
+                variables: {
+                    participant: {
+                        ...trimmedData,
+                        companyId: this.state.data.companyId
+                    },
+                    ...(this.state.data.personOrEntity === 1 ? {
+                        representative: {
+                            ...trimmedRepresentative,
+                            companyId: this.state.data.companyId
+                        }
+                    } : {})
+                }
             });
+
+            // const response = await this.props.updateBookParticipant({
+            //     // data
+            //     variables
+            // });
 
             if (response.data) {
                 if (response.data.updateBookParticipant.success) {
@@ -116,21 +148,21 @@ class Page extends React.PureComponent {
             hasError = true;
             errors.surname = translate.required_field;
         }
-/*
-        if (!data.dni) {
-            hasError = true;
-            errors.dni = translate.required_field;
-        }
-
-         if (!data.phone) {
-            hasError = true;
-            errors.phone = translate.required_field;
-        }
-
-        if (!data.email) {
-            hasError = true;
-            errors.email = translate.required_field;
-        } */
+        /*
+                if (!data.dni) {
+                    hasError = true;
+                    errors.dni = translate.required_field;
+                }
+        
+                 if (!data.phone) {
+                    hasError = true;
+                    errors.phone = translate.required_field;
+                }
+        
+                if (!data.email) {
+                    hasError = true;
+                    errors.email = translate.required_field;
+                } */
 
         if (!data.email) {
             hasError = true;
@@ -175,7 +207,7 @@ class Page extends React.PureComponent {
 
         let representative = this.state.representative;
 
-        if(this.state.data.personOrEntity === 1 && !representative){
+        if (this.state.data.personOrEntity === 1 && !representative) {
             representative = {
                 name: '',
                 surname: '',
@@ -242,6 +274,7 @@ class Page extends React.PureComponent {
                             />
                         }
                         <BasicButton
+                            id={'guardarAnadirSocio'}
                             text={this.props.translate.save_changes}
                             color={getPrimary()}
                             success={this.state.success}

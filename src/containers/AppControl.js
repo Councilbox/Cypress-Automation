@@ -1,10 +1,9 @@
 import React from 'react';
-import { graphql, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from "react-redux";
 import * as mainActions from '../actions/mainActions';
 import { store } from '../containers/App';
-import { company } from '../queries';
 
 const ConfigContext = React.createContext({
     video: true,
@@ -14,7 +13,7 @@ const ConfigContext = React.createContext({
 
 export { ConfigContext };
 
-const AppControl = ({ subscribeToAppControl, companies, user = {}, children, client }) => {
+const AppControl = ({ companies, user = {}, children, client }) => {
     const [config, setConfig] = React.useState(null);
 
     const getData = React.useCallback(async companyId => {
@@ -48,7 +47,7 @@ const AppControl = ({ subscribeToAppControl, companies, user = {}, children, cli
 
     React.useEffect(() => {
         if(!!user && !!user.id){
-            const subscribir = async () => {
+            const subscribe = async () => {
                 const response = await client.subscribe({
                     query: appControlChange,
                     variables: {
@@ -75,7 +74,7 @@ const AppControl = ({ subscribeToAppControl, companies, user = {}, children, cli
                     });
                 });
             }
-            subscribir();
+            subscribe();
 
         }
     }, [user.id]);

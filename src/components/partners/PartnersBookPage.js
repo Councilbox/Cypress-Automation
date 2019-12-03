@@ -247,6 +247,7 @@ class PartnersBookPage extends React.Component {
                                 color={'white'}
                                 buttonStyle={{ border: `2px solid ${primary}`, marginRight: "0.9em" }}
                                 textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
+                                id={'anadirSocioLibroSocios'}
                             />
                             <BasicButton
                                 text={"Exportar a XLSX"} //TRADUCCION
@@ -440,6 +441,7 @@ class HoverableRow extends React.PureComponent {
         return (
             <TableRow
                 hover={true}
+                className={'rowLibroSocios'}
                 onMouseOver={this.mouseEnterHandler}
                 onMouseLeave={this.mouseLeaveHandler}
                 onClick={() => bHistory.push(`/company/${this.props.companyId}/book/${participant.id}`)}

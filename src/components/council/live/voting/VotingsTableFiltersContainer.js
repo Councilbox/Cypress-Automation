@@ -3,9 +3,12 @@ import VotingsTable from './VotingsTable';
 import { withApollo } from 'react-apollo';
 import { agendaVotings } from "../../../../queries/agenda";
 import { useOldState } from '../../../../hooks';
+import { canEditPresentVotings, agendaVotingsOpened, isCustomPoint } from '../../../../utils/CBX';
+import ManualVotingsMenu from './ManualVotingsMenu';
+import CustomAgendaManualVotings from './CustomAgendaManualVotings';
 const pageLimit = 10;
 
-const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
+const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => {
 	const [state, setState] = useOldState({
 		open: false,
 		voteFilter: "all",
@@ -114,20 +117,50 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 	}
 
 	return (
-		<VotingsTable
-			{...props}
-			changePage={changePage}
-			page={state.page}
-			state={state}
-			pageLimit={pageLimit}
-			data={data}
-			refetch={getData}
-			agenda={agenda}
-			loading={state.loading}
-			changeStateFilter={changeStateFilter}
-			changeVoteFilter={changeVoteFilter}
-			updateFilterText={updateFilterText}
-		/>
+		<React.Fragment>
+			{!isCustomPoint(agenda.subjectType)?
+				<React.Fragment>
+					{((canEditPresentVotings(agenda) && agendaVotingsOpened(agenda) && council.councilType !== 3)
+					|| (council.councilType === 3 && agenda.votingState === 4)) &&
+						<ManualVotingsMenu
+							refetch={props.refetch}
+							changeEditedVotings={props.changeEditedVotings}
+							editedVotings={props.editedVotings}
+							translate={props.translate}
+							agenda={agenda}
+							votingsRecount={data.votingsRecount}
+						/>
+					}
+				</React.Fragment>
+			:
+				<React.Fragment>
+					{((canEditPresentVotings(agenda) &&
+						agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
+						<CustomAgendaManualVotings
+							agenda={agenda}
+							translate={props.translate}
+							votingsRecount={data.votingsRecount}
+							changeEditedVotings={props.changeEditedVotings}
+						/>
+					}
+				</React.Fragment>
+			}
+			<VotingsTable
+				{...props}
+				changePage={changePage}
+				page={state.page}
+				state={state}
+				pageLimit={pageLimit}
+				data={data}
+				council={council}
+				refetch={getData}
+				agenda={agenda}
+				loading={state.loading}
+				changeStateFilter={changeStateFilter}
+				changeVoteFilter={changeVoteFilter}
+				updateFilterText={updateFilterText}
+			/>
+		</React.Fragment>
 	)
 
 }

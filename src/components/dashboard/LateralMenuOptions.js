@@ -3,7 +3,6 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import LateralOption from "./LateralOption";
 import { darkGrey } from "../../styles/styles";
 import logo from '../../assets/img/logo-icono.png';
-import { isLandscape } from "../../utils/screen";
 import { isMobile } from "react-device-detect";
 
 
@@ -75,7 +74,8 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 					<LateralOption
 						link={`/company/${company.id}/drafts`}
 						icon={'class'}
-						text={translate.drafts}
+						text={translate.tooltip_knowledge_base}
+						// text={translate.drafts}
 					/>
 					<LateralOption
 						link={`/company/${company.id}/council/new`}

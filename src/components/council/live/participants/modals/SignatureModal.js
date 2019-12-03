@@ -211,7 +211,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 
 }
 
-const removeLiveParticipantSignature = gql`
+export const removeLiveParticipantSignature = gql`
 	mutation RemoveLiveParticipantSignature($participantId: Int!){
 		removeLiveParticipantSignature(participantId: $participantId){
 			success

@@ -4,7 +4,6 @@ import { hasParticipations } from '../../../../utils/CBX';
 import { Scrollbar } from '../../../../displayComponents';
 
 const ActConvenedParticipants = ({ council, translate, totalVotes, socialCapital }) => {
-
     return(
         <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
             <Scrollbar>

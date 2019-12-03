@@ -24,7 +24,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 	}
 
 	const companyHasBook = () => {
-		return company.category === 'society';
+		return company.type !== 10;
 	}
 
 	const hasBook = companyHasBook();
@@ -80,7 +80,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					link={`/company/${company.id}/drafts`}
 					icon="class"
 					id={'edit-drafts-block'}
-					text={translate.drafts}
+					text={translate.tooltip_knowledge_base}
 				/>
 			</GridItem>
 			<GridItem xs={12} md={blankSize} lg={blankSize}>

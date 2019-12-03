@@ -27,6 +27,7 @@ import ConfirmCompanyButton from "../../corporation/companies/ConfirmCompanyButt
 import DeleteCompanyButton from "./DeleteCompanyButton";
 import { sendGAevent } from "../../../utils/analytics";
 import GoverningBodyForm from "./GoverningBodyForm";
+import NewUser from "../../corporation/users/NewUser";
 
 export const info = gql`
 	query info {
@@ -59,7 +60,7 @@ class CompanySettingsPage extends React.Component {
 		errors: {}
 	};
 
-	componentDidMount(){
+	componentDidMount() {
 		this.props.info.refetch();
 		sendGAevent({
 			category: 'Editar Datos básico de la empresa',
@@ -130,11 +131,11 @@ class CompanySettingsPage extends React.Component {
 				councilId: this.props.councilID
 			};
 
-			if(fileInfo.filesize > 2000){
+			if (fileInfo.filesize > 2000) {
 				this.setState({
 					fileSizeError: true
 				});
-			}else{
+			} else {
 				this.setState({
 					uploading: true,
 					data: {
@@ -257,7 +258,7 @@ class CompanySettingsPage extends React.Component {
 
 		return (
 			<CardPageLayout title={translate.company_settings}>
-				<div style={{width: '100%', height: '100%', padding: '1.5em', paddingBottom: '6em'}}>
+				<div style={{ width: '100%', height: '100%', padding: '1.5em', paddingBottom: '6em' }}>
 					<SectionTitle
 						text={translate.fiscal_data}
 						color={primary}
@@ -270,7 +271,7 @@ class CompanySettingsPage extends React.Component {
 									<TextInput
 										floatingText={translate.business_name}
 										type="text"
-										id="business-name"
+										id={"business-name"}
 										value={data.businessName}
 										errorText={errors.businessName}
 										onChange={event =>
@@ -302,7 +303,7 @@ class CompanySettingsPage extends React.Component {
 													>
 														{
 															translate[
-																companyType.label
+															companyType.label
 															]
 														}
 													</MenuItem>
@@ -314,6 +315,7 @@ class CompanySettingsPage extends React.Component {
 								<GridItem xs={12} md={6} lg={4}>
 									<TextInput
 										floatingText={translate.entity_cif}
+										id={'addSociedadCIF'}
 										type="text"
 										value={data.tin}
 										errorText={errors.tin}
@@ -329,6 +331,7 @@ class CompanySettingsPage extends React.Component {
 									<TextInput
 										floatingText={translate.company_new_domain}
 										type="text"
+										id={'addSociedadDominio'}
 										value={data.domain}
 										errorText={errors.domain}
 										onChange={event =>
@@ -343,6 +346,7 @@ class CompanySettingsPage extends React.Component {
 										floatingText={translate.company_new_key}
 										type="text"
 										value={data.linkKey}
+										id={'addSociedadClaveMaestra'}
 										helpPopover={true}
 										helpTitle={translate.company_new_key}
 										helpDescription={translate.company_link_key_desc}
@@ -428,6 +432,7 @@ class CompanySettingsPage extends React.Component {
 								floatingText={translate.address}
 								type="text"
 								value={data.address}
+								id={'addSociedadDireccion'}
 								errorText={errors.address}
 								onChange={event =>
 									this.updateState({
@@ -440,6 +445,7 @@ class CompanySettingsPage extends React.Component {
 							<TextInput
 								floatingText={translate.company_new_locality}
 								type="text"
+								id={'addSociedadLocalidad'}
 								value={data.city}
 								errorText={errors.city}
 								onChange={event =>
@@ -470,6 +476,7 @@ class CompanySettingsPage extends React.Component {
 						</GridItem>
 						<GridItem xs={12} md={6} lg={3}>
 							<SelectInput
+								id={'addSociedadProvincia'}
 								floatingText={translate.company_new_country_state}
 								value={data.countryState}
 								errorText={errors.countryState}
@@ -482,6 +489,7 @@ class CompanySettingsPage extends React.Component {
 								{this.state.provinces.map(province => {
 									return (
 										<MenuItem
+											className={"addSociedadProvinciaOptions"}
 											key={province.deno}
 											value={province.deno}
 										>
@@ -494,6 +502,7 @@ class CompanySettingsPage extends React.Component {
 						<GridItem xs={12} md={6} lg={3}>
 							<TextInput
 								floatingText={translate.company_new_zipcode}
+								id={'addSociedadCP'}
 								type="text"
 								value={data.zipcode}
 								errorText={errors.zipcode}
@@ -596,6 +605,23 @@ class CompanySettingsPage extends React.Component {
 							company={this.props.company}
 						/>
 					}
+					{this.props.company.corporationId !== 1 &&
+						<BasicButton
+							text={'Añadir administrador'}
+							color={getPrimary()}
+							floatRight
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							buttonStyle={{ marginRight: "1.2em" }}
+							onClick={() =>
+								this.setState({
+									addAdminModal: true
+								})
+							}
+						/>
+					}
 					<AlertConfirm
 						requestClose={() => this.setState({ unlinkModal: false })}
 						open={this.state.unlinkModal}
@@ -604,6 +630,14 @@ class CompanySettingsPage extends React.Component {
 						buttonCancel={translate.cancel}
 						bodyText={<div>{translate.companies_unlink}</div>}
 						title={translate.edit}
+					/>
+					<AddAdmin
+						open={this.state.addAdminModal}
+						company={this.props.company}
+						requestClose={() => this.setState({
+							addAdminModal: false
+						})}
+						translate={translate}
 					/>
 					<AlertConfirm
 						requestClose={() => this.setState({ fileSizeError: false })}
@@ -616,6 +650,28 @@ class CompanySettingsPage extends React.Component {
 			</CardPageLayout>
 		);
 	}
+}
+
+const AddAdmin = ({ translate, company, open, requestClose }) => {
+	const renderBody = () => {
+		return (
+			<NewUser
+				fixedCompany={company}
+				translate={translate}
+				requestClose={requestClose}
+			/>
+		)
+	}
+
+	return (
+		<AlertConfirm
+			requestClose={requestClose}
+			open={open}
+			buttonCancel={translate.accept}
+			bodyText={renderBody()}
+			title={'Añadir admin'}//TRADUCCION
+		/>
+	)
 }
 
 export default compose(

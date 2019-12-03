@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, Grid, GridItem, BasicButton } from '../../../../displayComponents';
+import { TextInput, Grid, GridItem, BasicButton, LoadingSection } from '../../../../displayComponents';
 import { graphql } from 'react-apollo';
 import { getSecondary } from '../../../../styles/colors';
 import { updateAgenda } from "../../../../queries/agenda";
@@ -59,7 +59,11 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
         });
     }
 
-    const votesLeft = (agenda.presentCensus - state.noVoteManual - state.abstentionManual - state.negativeManual - state.positiveManual);
+    if(agenda.votingState === 4 && !props.votingsRecount){
+        return <span />
+    }
+
+    const votesLeft = ((agenda.votingState === 4? props.votingsRecount.availableVotes : agenda.presentCensus) - state.noVoteManual - state.abstentionManual - state.negativeManual - state.positiveManual);
     const maxVoteManual = votesLeft <= 0 ? 0 : votesLeft;
 
     const width = window.innerWidth ;
@@ -147,7 +151,8 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
                                 loading={state.loading}
                                 success={state.success}
                                 reset={resetButtonStates}
-                                text={translate.save}
+                                text={state.loading || state.success  ? "Guardado" : translate.save}
+                                // text={translate.save}
                                 textStyle={{ color: 'white', fontWeight: '700' }}
                                 color={getSecondary()}
                                 onClick={saveManualVotings}

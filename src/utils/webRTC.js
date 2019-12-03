@@ -65,7 +65,7 @@ export const checkIsCompatible = (detectRTC, council, participant) => {
 	}
 
 	if (isWebRTCCompatibleBrowser) {
-		return COMPATIBLE;;
+		return COMPATIBLE;
 	} else {
 		return isCompatible;
 	}

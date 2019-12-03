@@ -86,7 +86,7 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
         });
 
         if(response.errors){
-            if(response.errors[0].message = 'Invalid phone number'){
+            if(response.errors[0].message === 'Invalid phone number'){
                 setState({
                     phoneError: translate.invalid_phone_number,
                     loading: false

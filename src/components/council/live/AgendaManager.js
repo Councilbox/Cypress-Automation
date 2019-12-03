@@ -2,14 +2,32 @@ import React from "react";
 import AgendaDetailsSection from "./AgendaDetailsSection";
 import AgendaSelector from "./AgendaSelector";
 import { Card } from "material-ui";
-import { graphql } from "react-apollo";
+import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
 import { LoadingSection, Scrollbar, AlertConfirm } from "../../../displayComponents";
 import { AGENDA_STATES } from '../../../constants';
 import { isMobile } from 'react-device-detect';
 import { useOldState } from "../../../hooks";
 
-const AgendaManager = ({ data, translate, council, company, stylesDiv, ...props }, ref) => {
+const reducer = (state, action) => {
+	const actions = {
+		'LOAD_DATA': () => ({
+			...state,
+			data: action.value,
+			loading: false
+		})
+	}
+
+	return actions[action.type]? actions[action.type]() : state;
+}
+
+
+
+const AgendaManager = ({ translate, council, company, stylesDiv, client, ...props }, ref) => {
+	const [{ data, loading}, dispatch] = React.useReducer(reducer, {
+		data: {},
+		loading: true
+	});
 	const [state, setState] = useOldState({
 		selectedPoint: null,
 		loaded: false,
@@ -18,13 +36,31 @@ const AgendaManager = ({ data, translate, council, company, stylesDiv, ...props 
 	});
 	const agendaDetails = React.useRef();
 
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: agendaManager,
+			variables: {
+				companyId: company.id,
+				councilId: council.id
+			}
+		});
+		dispatch({ type: 'LOAD_DATA', value: response.data });
+	}, [council.id]);
+
+
 	React.useEffect(() => {
-		if(!data.loading){
+		getData();
+		let interval = setInterval(getData, 5000);
+		return () => clearInterval(interval);
+	}, [getData]);
+
+	React.useEffect(() => {
+		if(!loading){
 			setState({
 				loaded: true
 			});
 		}
-	}, [data.loading]);
+	}, [loading]);
 
 
 	React.useEffect(() => {
@@ -86,34 +122,13 @@ const AgendaManager = ({ data, translate, council, company, stylesDiv, ...props 
 		}
 	}
 
-	const handleKeyPress = event => {
-		const key = event.nativeEvent;
-		const { selectedPoint } = state;
-
-		if (!key.altKey) {
-			switch (key.keyCode) {
-				case 38:
-					if (selectedPoint > 0) {
-						changeSelectedPoint(selectedPoint - 1);
-					}
-					break;
-				case 40:
-					if (selectedPoint < data.agendas.length - 1) {
-						changeSelectedPoint(selectedPoint + 1);
-					}
-					break;
-				default:
-					return;
-			}
-		}
-	}
-
 	React.useImperativeHandle(ref, () => ({
 		showVotingsAlert,
 		state
 	}))
 
 	if (!data.agendas || state.selectedPoint === null) {
+		console.log('entra por este');
 		return <LoadingSection />;
 	}
 
@@ -145,7 +160,7 @@ const AgendaManager = ({ data, translate, council, company, stylesDiv, ...props 
 						onClick={changeSelectedPoint}
 						translate={translate}
 						councilID={council.id}
-						refetch={data.refetch}
+						refetch={getData}
 					/>
 				</Scrollbar>
 			</div>
@@ -182,7 +197,7 @@ const AgendaManager = ({ data, translate, council, company, stylesDiv, ...props 
 						onClick={changeSelectedPoint}
 						translate={translate}
 						councilID={council.id}
-						refetch={data.refetch}
+						refetch={getData}
 					/>
 				</Scrollbar>
 			</Card>
@@ -215,7 +230,7 @@ const AgendaManager = ({ data, translate, council, company, stylesDiv, ...props 
 					councilID={props.councilID}
 					translate={translate}
 					refetchCouncil={props.refetch}
-					refetch={data.refetch}
+					refetch={getData}
 				/>
 			</div>
 			<AlertConfirm
@@ -342,15 +357,4 @@ export const agendaManager = gql`
 	}
 `;
 
-export default graphql(agendaManager, {
-	options: props => ({
-		variables: {
-			companyId: props.company.id,
-			councilId: props.council.id
-		},
-		pollInterval: 5000,
-		fetchPolicy: 'network-only',
-		forceFetch: true
-	}),
-	withRef: true
-})(React.forwardRef(AgendaManager));
+export default withApollo(React.forwardRef(AgendaManager));

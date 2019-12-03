@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { companyFragment } from "./queries/company";
 
 export const setCompanyAsSelected = gql`
 	mutation setCompanyAsSelected($userId: Int!, $companyId: Int!) {
@@ -88,26 +89,7 @@ export const getTranslations = gql`
 export const company = gql`
 	query company($id: Int!) {
 		company(id: $id) {
-			alias
-			tin
-			balance
-			logo
-			id
-			category
-			businessName
-			address
-			city
-			zipcode
-			country
-			countryState
-			linkKey
-			creatorId
-			domain
-			demo
-			type
-			language
-			creationDate
-			corporationId
+			${companyFragment}
 		}
 	}
 `;
@@ -117,36 +99,16 @@ export const companies = gql`
 		userCompanies(userId: $userId) {
 			actived
 			company {
-				alias
-				tin
-				logo
-				id
-				category
-				businessName
-				address
-				city
-				zipcode
-				governingBodyType
-				governingBodyData
-				country
-				demo
-				countryState
-				linkKey
-				creatorId
-				domain
-				demo
-				type
-				language
-				creationDate
-				corporationId
+				${companyFragment}
 			}
 		}
 	}
 `;
 
 export const councils = gql`
-	query Councils($companyId: Int!, $state: [Int], $filters: [FilterInput]) {
-		councils(companyId: $companyId, state: $state, filters: $filters) {
+	query Councils($companyId: Int!, $state: [Int], $filters: [FilterInput], $options: OptionsInput) {
+		councils(companyId: $companyId, state: $state, filters: $filters, options: $options) {
+		list{	
 			id
 			dateStart
 			companyId
@@ -156,6 +118,9 @@ export const councils = gql`
 			name
 			step
 		}
+		total
+	}
+	
 	}
 `;
 
@@ -369,6 +334,7 @@ export const changeStatute = gql`
 	mutation changeCouncilStatute($councilId: Int!, $statuteId: Int!) {
 		changeCouncilStatute(councilId: $councilId, statuteId: $statuteId) {
 			id
+			title
 			conveneFooter
 			conveneHeader
 		}
@@ -562,12 +528,14 @@ export const platformDrafts = gql`
 		$filters: [FilterInput]
 		$options: OptionsInput
 		$companyType: Int
+		$tags: [String]
 	) {
 		platformDrafts(
 			companyId: $companyId
 			filters: $filters
 			options: $options
 			companyType: $companyType
+			tags: $tags
 		) {
 			list {
 				categories
@@ -576,6 +544,7 @@ export const platformDrafts = gql`
 				councilType
 				description
 				id
+				tags
 				language
 				majority
 				majorityDivider
@@ -1071,6 +1040,7 @@ export const councilStepFive = gql`
 				councilId
 				existPublicUrl
 				existsAct
+				existsDelegatedVote
 				existsAdvanceNoticeDays
 				existsSecondCall
 				id
@@ -1420,6 +1390,7 @@ export const councilLiveQuery = gql`
 			}
 			active
 			autoClose
+			initialQuorum
 			approveActDraft
 			attachments {
 				councilId
@@ -1459,6 +1430,7 @@ export const councilLiveQuery = gql`
 			neededQuorum
 			noCelebrateComment
 			president
+			presidentId
 			proposedActSent
 			prototype
 			qualityVoteId
@@ -1469,6 +1441,7 @@ export const councilLiveQuery = gql`
 			}
 			satisfyQuorum
 			secretary
+			secretaryId
 			securityKey
 			securityType
 			selectedCensusId
@@ -1512,6 +1485,7 @@ export const councilLiveQuery = gql`
 				includeParticipantsList
 				existsComments
 				conveneHeader
+				quorumPrototype
 				intro
 				constitution
 				conclusion
@@ -1535,6 +1509,7 @@ export const councilLiveQuery = gql`
 			weighedPartTotal
 			socialCapitalRightVoting
 			numRightVoting
+			partRightVoting
 		}
 	}
 `;
@@ -1581,8 +1556,8 @@ export const downloadConvenePDF = gql`
 `;
 
 export const downloadAct = gql`
-	query downloadAct($councilId: Int!) {
-		downloadAct(councilId: $councilId)
+	query downloadAct($councilId: Int!, $clean: Boolean) {
+		downloadAct(councilId: $councilId, clean: $clean)
 	}
 `;
 
@@ -1934,7 +1909,7 @@ export const addGuest = gql`
 `;
 
 export const sendVideoEmails = gql`
-	mutation sendVideoEmails($councilId: Int!, $timezone: String!, $type: String) {
+	mutation sendVideoEmails($councilId: Int!, $timezone: String, $type: String) {
 		sendRoomEmails(councilId: $councilId, timezone: $timezone, type: $type) {
 			success
 			message
@@ -2049,6 +2024,8 @@ export const liveParticipant = gql`
 			requestWord
 			numParticipations
 			surname
+			voteDenied
+			voteDeniedReason
 			assistanceComment
 			assistanceLastDateConfirmed
 			assistanceIntention

@@ -15,7 +15,7 @@ const mutation = gql`
 `;
 
 const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, client, requestClose, ...props }) => {
-    const [tag, setTag] = React.useState(initialValue? initialValue : { key: '', value: '' });
+    const [tag, setTag] = React.useState(initialValue? initialValue : { key: '', value: '', description: "" });
     const [errors, setErrors] = React.useState({});
 
     const updateTagData = object => {
@@ -28,7 +28,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
     const updateTag = async () => {
         if(!await checkRequiredFields()){
             const { __typename, ...data } = tag;
-            const response = await client.mutate({
+            await client.mutate({
                 mutation,
                 variables: {
                     tag: data
@@ -56,7 +56,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
             });
 
             if(response.data.companyTagKeyUsed && tag.key !== initialValue.key){
-                errors.key = 'Clave ya usada en otra etiqueta' //TRADUCCION
+                errors.key = translate.key_already_used;
             }
         }
 
@@ -82,7 +82,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
 
     return (
         <AlertConfirm
-            title="Editar etiqueta" //TRADUCCION
+            title={translate.edit_tag}
             buttonAccept={translate.save}
             open={open}
             bodyText={renderBody()}

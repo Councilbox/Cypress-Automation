@@ -1,14 +1,5 @@
 import React from "react";
-import {
-	FormControl,
-	IconButton,
-	InputAdornment,
-	TextField
-} from "material-ui";
-import Visibility from "material-ui-icons/Visibility";
-import VisibilityOff from "material-ui-icons/VisibilityOff";
-import FontAwesome from 'react-fontawesome';
-import HelpPopover from './HelpPopover';
+import { FormControl, TextField } from "material-ui";
 
 const TextInputChat = ({
 	type,
@@ -20,7 +11,8 @@ const TextInputChat = ({
 	onBlur,
 	disabled,
 	onClick,
-	style
+	style,
+	onFocus
 }) => (
 		<FormControl
 			style={{
@@ -36,6 +28,7 @@ const TextInputChat = ({
 				variant="outlined"
 				onSelect={onClick}
 				onBlur={onBlur}
+				onFocus={onFocus}
 				value={value}
 				multiline={multiline}
 				style={{

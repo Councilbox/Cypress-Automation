@@ -3,7 +3,6 @@ import "../styles/react-tabs.css";
 import Link from './LinkWithoutStyling';
 import 'antd/lib/tabs/style/index.css';
 import Tabs from 'antd/lib/tabs';
-import CBXFooter from './CBXFooter';
 import { bHistory } from "../containers/App";
 
 const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowSize, styles }) => {

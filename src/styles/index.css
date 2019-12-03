@@ -12,8 +12,7 @@
     background: var(--secondary);
 }
 
-h1, h2, h3,
-h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-family);
 }
 
@@ -392,7 +391,8 @@ h4 {
 
 .modal100Comentario {
     height: 3.5rem!important;
-    top: calc( 100% - 7.5em)!important;
+    top: 0%!important;
+    /* top: calc( 100% - 7.5em)!important; */
 }
 
 .modal100Comentario>div:first-child {
@@ -430,15 +430,18 @@ h4 {
     top: 45px!important;
     display: block
 }
+
 .modal100none {
     height: calc( 100% - 6.5rem)!important;
     top: 45px!important;
     display: none!important
 }
+
 .modal100block>div:first-child {
     width: 0;
     height: 0;
 }
+
 .modal100none>div:first-child {
     width: 0;
     height: 0;
@@ -721,16 +724,95 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 .drawerConveneRoot {
-    top: 44px!important ;
-    z-index: 1300!important ;
+    top: 44px!important;
+    z-index: 1300!important;
 }
+
+.drawerUsersRoot {
+    top: 88px!important ;
+    z-index: 1300!important ;
+    width: 150px!important ;
+    height: calc( 100% - 10.5em )!important;
+}
+
+.drawerUsers {
+    display: none;
+}
+
+.drawerUsersRootPc {
+    top: 104px!important;
+    left: 10px!important;
+    z-index: 1300!important;
+    width: 150px!important;
+}
+
+.drawerUsers {
+    display: none;
+}
+
 .drawerConvene {
-    top: 44px!important ;
-    
+    top: 44px!important;
 }
 .text-editor-sinBordes .ql-toolbar {
     border: none!important
 }
 .text-editor-sinBordes .ql-container {
     border: none!important
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.ql-formats {
+    margin-top: 0.8em;
+}
+
+/* ESTO CAMBIA LA APARIENCIA DEL BOTON TAGS EN RICH-QUILL tambien se quita el color de los bordes */
+.ql-custom:before {
+    display: inline-block;
+    font: normal normal normal 15px Lato;
+    font-size: 14px;
+    text-rendering: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(0, 0);
+    content: "<tags>";
+    color: rgb(125, 33, 128);
+    border: 1px solid rgb(125, 33, 128);
+    padding: 3px 7px;
+    box-shadow: 0px 1px 2px 0px;
+    border-radius: 3px
+}
+
+.ql-snow.ql-toolbar button.ql-custom:focus{
+    color: none;
+    border: none;
+    background: none;
+    outline: none;
+}
+/*********************************************************/
+
+
+.hoverTags:hover {
+    box-shadow: 0px 2px 6px 0px;
+}
+
+.ql-custom{
+    min-width: 65px;
 }

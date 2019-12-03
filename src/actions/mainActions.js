@@ -1,8 +1,9 @@
 import { getCompanies } from "./companyActions";
-import { client, bHistory, store } from "../containers/App";
+import { client, bHistory } from "../containers/App";
 import { getMe, getTranslations } from "../queries";
 import DetectRTC from "detectrtc";
 import { moment } from '../containers/App';
+import gql from 'graphql-tag';
 export let language = "es";
 
 export const loginSuccess = (token, refreshToken) => {
@@ -18,6 +19,50 @@ export const loginSuccess = (token, refreshToken) => {
 export const setUnsavedChanges = value => (
 	{ type: 'UNSAVED_CHANGES', value: value }
 )
+
+export const loadSubdomainConfig = () => {
+	return async dispatch => {
+		const response = await client.query({
+			query: gql`
+				query SubdomainConfig($subdomain: String!) {
+					subdomainConfig(subdomain: $subdomain){
+						title
+						primary
+						secondary
+						logo
+						icon
+						background
+						roomBackground
+						hideSignUp
+					}
+				}
+			`,
+			variables: {
+				subdomain: window.location.hostname.split('.')[0]
+			}
+		});
+
+		if(response.errors){
+			window.location.replace('https://app.councilbox.com');
+		}
+
+		const config = response.data.subdomainConfig;
+
+		if(config.primary){
+			document.documentElement.style.setProperty('--primary', config.primary);
+		}
+
+		if(config.secondary){
+			document.documentElement.style.setProperty('--secondary', config.secondary);
+		}
+
+		if(config.title){
+			document.title = config.title;
+		}
+
+		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: response.data.subdomainConfig });
+	}
+}
 
 export const participantLoginSuccess = () => {
 	return dispatch => {
@@ -80,52 +125,36 @@ export const logoutParticipant = (participant, council) => {
 };
 
 export const setLanguage = language => {
-	const translationsString = null; //localStorage.getItem(language);
-
-	if(!translationsString){
-		return async dispatch => {
-			const response = await client.query({
-				query: getTranslations,
-				variables: { language: language }
-			});
-			if(!response.errors){
-				const translationObject = {};
-
-
-				response.data.translations.forEach(translation => {
-					translationObject[translation.label] = translation.text;
-				});
-				let locale = language;
-				if (language === "cat" || language === "gal") {
-					locale = "es";
-				}
-				moment.updateLocale(locale, {
-					months: translationObject.datepicker_months.split(","),
-					monthsShort: translationObject.datepicker_months
-						.split(",")
-						.map(month => month.substring(0, 3))
-				});
-				localStorage.setItem(language, JSON.stringify(translationObject));
-				dispatch({
-					type: "LOADED_LANG",
-					value: translationObject,
-					selected: language
-				});
+	return async dispatch => {
+		const response = await client.query({
+			query: getTranslations,
+			variables: {
+				language
 			}
-		};
-	} else {
-		const translations = JSON.parse(translationsString);
-		moment.locale(translations.selectedLanguage, {
-			months: translations.datepicker_months.split(","),
-			monthsShort: translations.datepicker_months
-				.split(",")
-				.map(month => month.substring(0, 3))
 		});
-		return({
-			type: 'LOADED_LANG',
-			value: translations,
-			selected: language
-		})
+		if(!response.errors){
+			const translationObject = {};
+
+			response.data.translations.forEach(translation => {
+				translationObject[translation.label] = translation.text;
+			});
+			let locale = language;
+			if (language === "cat" || language === "gal") {
+				locale = "es";
+			}
+			moment.updateLocale(locale, {
+				months: translationObject.datepicker_months.split(","),
+				monthsShort: translationObject.datepicker_months
+					.split(",")
+					.map(month => month.substring(0, 3))
+			});
+			localStorage.setItem(language, JSON.stringify(translationObject));
+			dispatch({
+				type: "LOADED_LANG",
+				value: translationObject,
+				selected: language
+			});
+		}
 	}
 };
 

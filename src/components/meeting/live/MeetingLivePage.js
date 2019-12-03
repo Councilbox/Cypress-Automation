@@ -4,7 +4,6 @@ import { bHistory } from '../../../containers/App';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { Icon } from '../../../displayComponents';
-import { ConfigContext } from "../../../containers/AppControl";
 import { useOldState } from "../../../hooks";
 //import { useAdom } from 'adom-client';
 
@@ -18,14 +17,6 @@ const rand = Date.now();
 
 const MeetingLivePage = ({ data }) => {
 	const [state, setState] = useOldState({
-		participants: false,
-		confirmModal: false,
-		selectedPoint: 0,
-		addParticipantModal: false,
-		showParticipants: false,
-		videoWidth: minVideoWidth,
-		videoHeight: minVideoHeight,
-		fullScreen: false,
 		url: sessionStorage.getItem('meetingUrl'),
 	});
 
@@ -36,21 +27,10 @@ const MeetingLivePage = ({ data }) => {
 		return () => sessionStorage.removeItem('meetingUrl');
 	}, [state.url]);
 
-	const closeAddParticipantModal = () => {
-		setState({
-			addParticipantModal: false
-		});
-	};
-
-	const checkVideoFlags = () => {
-		const council = data.council;
-		return council.state === 20 && council.councilType === 0;
-	};
-
 	return (
 		<div
 			style={{
-				height: "100vh",
+				height: "100%",
 				overflow: "hidden",
 				backgroundColor: lightGrey,
 				fontSize: "1em"
@@ -123,7 +103,7 @@ const MeetingLivePage = ({ data }) => {
 				style={{
 					display: "flex",
 					width: "100%",
-					height: "calc(100vh - 3em)",
+					height: "calc(100% - 3em)",
 					flexDirection: "row"
 				}}
 			>

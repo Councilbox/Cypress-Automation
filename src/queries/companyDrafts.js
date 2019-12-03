@@ -29,11 +29,13 @@ export const companyDrafts = gql`
 		$companyId: Int!
 		$filters: [FilterInput]
 		$options: OptionsInput
+		$tags: [String]
 	) {
 		companyDrafts(
 			companyId: $companyId
 			filters: $filters
 			options: $options
+			tags: $tags
 		) {
 			list {
 				id
@@ -44,6 +46,7 @@ export const companyDrafts = gql`
 				majorityType
 				majorityDivider
 				votationType
+				tags
 				type
 			}
 			total
@@ -100,12 +103,37 @@ export const getCompanyDraftData = gql`
 			lastModificationDate
 			corporationId
 			majorityDivider
+			tags
 		}
 		companyStatutes(companyId: $companyId) {
 			id
 			title
 		}
 		majorityTypes {
+			label
+			value
+		}
+		draftTypes {
+			label
+			value
+		}
+		votingTypes {
+			label
+			value
+		}
+	}
+`;
+export const getCompanyDraftDataNoCompany = gql`
+	query getData($companyId: Int!) {
+		companyStatutes(companyId: $companyId) {
+			id
+			title
+		}
+		majorityTypes {
+			label
+			value
+		}
+		companyTypes {
 			label
 			value
 		}

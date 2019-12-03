@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button } from "material-ui";
-import { LoadingSection, Scrollbar } from '../../../displayComponents';
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { LoadingSection, Scrollbar, AlertConfirm } from '../../../displayComponents';
+import { getPrimary } from "../../../styles/colors";
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
 import { getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';
@@ -14,8 +14,12 @@ import gql from 'graphql-tag';
 import CommentModal from "./CommentModal";
 import { moment, store } from "../../../containers/App";
 import { logoutParticipant } from "../../../actions/mainActions";
+import { updateCustomPointVoting } from "./CustomPointVotingMenu";
+import FinishModal from "./FinishModal";
+import Results from "../Results";
 
 
+export const VotingContext = React.createContext({});
 
 const styles = {
     container: {
@@ -36,11 +40,26 @@ const styles = {
     }
 };
 
+const updateAgendaVoting = gql`
+    mutation UpdateAgendaVoting($agendaVoting: AgendaVotingInput!){
+        updateAgendaVoting(agendaVoting: $agendaVoting){
+            success
+            message
+        }
+    }
+`;
+
+
 const AgendaNoSession = ({ translate, council, participant, data, noSession, client, updateComment, ...props }) => {
     const primary = getPrimary();
     const scrollbar = React.useRef();
     let agendas = [];
     const [timelineSeeId, settimelineSeeId] = React.useState(0);
+    const [responses, setResponses] = React.useState(new Map());
+    const [finishModal, setFinishModal] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false);
+
+    //console.log(responses);
 
     const renderAgendaCard = agenda => {
         return (
@@ -50,7 +69,99 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 translate={translate}
                 participant={participant}
                 refetch={data.refetch}
+                responses={responses}
+                setResponse={setResponses}
             />
+        )
+    }
+
+    const showFinishModal = () => {
+        setFinishModal(true);
+    }
+
+    const sendVoteAndExit = async () => {
+        const response = await Promise.all(Array.from(responses).filter(response => response[1] !== -1).map(response => {
+            if(Array.isArray(response[1])){
+                return client.mutate({
+                    mutation: updateCustomPointVoting,
+                    variables: {
+                        selections: response[1],
+                        votingId: response[0]
+                    }
+                })
+            }
+
+            return client.mutate({
+                mutation: updateAgendaVoting,
+                variables: {
+                    agendaVoting: {
+                        id: response[0],
+                        vote: response[1],
+                    }
+                }
+            })
+        }));
+
+        if (response) {
+            await client.mutate({
+                mutation: gql`
+                    mutation participantFinishedVoting{
+                        participantFinishedVoting{
+                            success
+                        }
+                    }
+                `
+            });
+            await data.refetch();
+            logout();
+        }
+    }
+
+    React.useEffect(() => {
+        if(data.participantVotings && responses.size === 0){
+            data.participantVotings.filter(voting => (
+                voting.participantId === participant.id
+                || voting.delegateId === participant.id ||
+                voting.author.representative.id === participant.id)).forEach(voting => {
+                responses.set(voting.id, -1);
+            });
+            setResponses(new Map(responses));
+        }
+    }, [data]);
+
+    React.useEffect(() => {
+
+        // const showUnfinishedVoting = ev => {
+        //     ev.preventDefault();
+        //     return ev.returnValue = 'No ha enviado su voto, está seguro de querer salir, ¿confirmar?';
+        // }
+
+        // window.addEventListener("beforeunload", showUnfinishedVoting);
+
+        // return () => window.removeEventListener("beforeunload", showUnfinishedVoting);
+    }, [council.id]);
+
+
+
+    const _renderModalBody = () => {
+        return (
+            <div style={{ width: "100%", height: "100%" }}>
+                <div style={{ height: "100%", marginTop: "1em", overflow: "hidden", padding: "1em" }}>
+                    {/* TRADUCCION */}
+                    <div style={{ marginBottom: "1em" }}>Mi participanción - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
+                    <div style={{ height: "calc( 100% - 2.5em )", }}>
+                        <Scrollbar>
+                            <Results
+                                stylesHead={{ marginTop: "1em", }}
+                                council={council}
+                                participant={participant}
+                                translate={translate}
+                                endPage={true}
+                            />
+                        </Scrollbar>
+                    </div>
+                </div>
+            </div>
         )
     }
 
@@ -80,6 +191,71 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     };
 
 
+    const renderExitModal = () => (
+        <AlertConfirm
+            requestClose={() => setShowModal(false)}
+            open={showModal}
+            acceptAction={logout}
+            buttonCancel={translate.cancel}
+            buttonAccept={"Finalizar"}
+            bodyText={_renderModalBody()}
+            bodyStyle={{ height: "60vh", overflow: "hidden" }}
+            title={translate.summary}
+        ></AlertConfirm>
+    )
+
+    const renderFinishModal = () => (
+        <FinishModal
+            open={finishModal}
+            translate={translate}
+            requestClose={() => setFinishModal(false)}
+            action={sendVoteAndExit}
+        />
+    )
+
+    const renderExitButton = () => (
+        CBX.voteAllAtOnce({ council })?
+            <Button
+                onClick={showFinishModal}
+                style={{
+                    borderRadius: "25px",
+                    background: "white",
+                    color: primary,
+                    height: "25px",
+                    fontSize: "13px",
+                    userSelect: 'none',
+                    textTransform: "none",
+                    minHeight: "0px",
+                    lineHeight: '0.5',
+                    borderColor: primary,
+                    border: '2px solid',
+                    marginRight: "0.5em"
+                }}
+            >
+                <b> Votar {/**TRADUCCION*/} </b>
+            </Button>
+        :
+            <Button
+                onClick={() => setShowModal(true)}
+                style={{
+                    borderRadius: "25px",
+                    background: "white",
+                    color: primary,
+                    height: "25px",
+                    fontSize: "13px",
+                    textTransform: "none",
+                    minHeight: "0px",
+                    lineHeight: '0.5',
+                    borderColor: primary,
+                    border: '2px solid',
+                    marginRight: "0.5em"
+                }}
+            >
+                <b> Finalizar{/**TRADUCCION*/}  </b>
+            </Button>
+    )
+
+
     if (data.agendas) {
         agendas = data.agendas.map(agenda => {
             return {
@@ -91,19 +267,31 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
     if (props.inPc) {
         return (
-            <React.Fragment>
+            <VotingContext.Provider value={{
+                responses,
+                setResponses
+            }}>
+                {renderFinishModal()}
                 <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
                     <div style={{ height: "100%" }}>
                         {!props.sinCabecera &&
                             <React.Fragment>
-                                <div style={styles.agendasHeader}>
-                                    <div style={{ width: '3em' }}>
-
+                                <div style={{
+                                    // display: 'flex',
+                                    // alignItems: 'center',
+                                    padding: '8px',
+                                    // justifyContent: 'space-between'
+                                    position: "relative",
+                                    textAlign: "center"
+                                }}>
+                                    {/* <div style={styles.agendasHeader}> */}
+                                    <div style={{}}>
+                                        {/* <div style={{ width: '8em' }}> */}
                                     </div>
                                     {props.timeline ?
                                         (
                                             <React.Fragment>
-                                                <Typography variant="title" style={{ fontWeight: '700' }}>Resumen</Typography>{/*TRADUCCION*/}
+                                                <Typography variant="title" style={{ fontWeight: '700' }}>{translate.summary}</Typography>
                                             </React.Fragment>
                                         ) : (
                                             <React.Fragment>
@@ -111,8 +299,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             </React.Fragment>
                                         )
                                     }
-                                    <div style={{ width: '7em' }}>
-
+                                    <div style={{ position: "absolute", top:"3px", right:"5px" }}>
+                                        {/* <div style={{ width: '9em' }}> */}
                                         <CouncilInfoMenu
                                             {...props}
                                             translate={translate}
@@ -155,7 +343,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             isMobile={isMobile}
                                         />
                                     ) : (
-                                            agendas.map((agenda, index) => {
+                                            <React.Fragment>
+                                                {agendas.map((agenda, index) => {
                                                 // agenda.options =  {
                                                 //     maxSelections: 2,
                                                 //     id: 140
@@ -164,8 +353,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                                     <React.Fragment key={`agenda_card_${index}`}>
                                                         {renderAgendaCard(agenda)}
                                                     </React.Fragment>
-                                                )
-                                            })
+                                                )})}
+                                            </React.Fragment>
                                         )
                                     :
                                     <LoadingSection />
@@ -176,109 +365,85 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 </Paper>
                 {!noSession &&
                     <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
-                        <Button
-                            onClick={logout}
-                            style={{
-                                borderRadius: "25px",
-                                background: "white",
-                                color: getPrimary(),
-                                height: "25px",
-                                fontSize: "13px",
-                                textTransform: "none",
-                                minHeight: "0px",
-                                lineHeight: '0.8',
-
-                            }}
-                        >
-                            <b> Salir </b>
-                        </Button>
+                        {renderExitButton()}
                     </div>
                 }
-            </React.Fragment>
+                {renderExitModal()}
+            </VotingContext.Provider>
         );
     }
 
     return (
-        <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
-            {!props.sinCabecera &&
-                <React.Fragment>
-                    <div style={styles.agendasHeader}>
-                        <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
-                        <div style={{ width: '3em' }}>
-                            <CouncilInfoMenu
-                                {...props}
-                                translate={translate}
-                                participant={participant}
-                                council={council}
-                                noSession={noSession}
-                            />
+        <VotingContext.Provider value={{
+            setResponses,
+            responses
+        }}>
+            {renderFinishModal()}
+            <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
+                {!props.sinCabecera &&
+                    <React.Fragment>
+                        <div style={styles.agendasHeader}>
+                            <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
+                            <div style={{ width: '3em' }}>
+                                <CouncilInfoMenu
+                                    {...props}
+                                    translate={translate}
+                                    participant={participant}
+                                    council={council}
+                                    noSession={noSession}
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <Divider />
-                </React.Fragment>
-            }
-            {props.sinCabecera &&
-                <div style={{ position: "relative", top: '5px',  width: "100%", height: "32px", }}>
-                    <CouncilInfoMenu
-                     noSession={noSession}
-                        {...props}
-                        translate={translate}
-                        participant={participant}
-                        council={council}
-                    />
-                </div>
-            }
-            {!councilStarted(council) &&
-                <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-                    {translate.council_not_started_yet}
-                </div>
-            }
-            <div style={{ padding: '0.6em', height: "100%" }}> {/*marginTop: '10px',*/}
-                {data.agendas ?
-                    agendas.map((agenda, index) => {
-                        return (
-                            <React.Fragment key={`agenda_card_${index}`}>
-                                {renderAgendaCard(agenda)}
-                            </React.Fragment>
-                        )
-
-                    })
-                    :
-                    <LoadingSection />
+                        <Divider />
+                    </React.Fragment>
                 }
-            </div>
-            {!noSession &&
-                <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
-                    <Button
-                        onClick={() => logout}
-                        style={{
-                            borderRadius: "25px",
-                            background: "white",
-                            color: getPrimary(),
-                            height: "25px",
-                            fontSize: "13px",
-                            textTransform: "none",
-                            minHeight: "0px",
-                            lineHeight: '0.5',
-                            borderColor: getPrimary(),
-                            border: '2px solid',
-                            marginRight: "0.5em"
-                        }}
-                    >
-                        <b> Salir </b>
-                    </Button>
+                {props.sinCabecera &&
+                    <div style={{ position: "relative", top: '5px',  width: "100%", height: "32px", }}>
+                        <CouncilInfoMenu
+                        noSession={noSession}
+                            {...props}
+                            translate={translate}
+                            participant={participant}
+                            council={council}
+                        />
+                    </div>
+                }
+                {!councilStarted(council) &&
+                    <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+                        {translate.council_not_started_yet}
+                    </div>
+                }
+                <div style={{ padding: '0.6em' }}> {/*marginTop: '10px',*/}
+                    {data.agendas ?
+                        <React.Fragment>
+                            {agendas.map((agenda, index) => {
+                                return (
+                                    <React.Fragment key={`agenda_card_${index}`}>
+                                        {renderAgendaCard(agenda)}
+                                    </React.Fragment>
+                                )
+
+                            })}
+                            {!noSession &&
+                                <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
+                                    {renderExitButton()}
+                                </div>
+                            }
+                        </React.Fragment>
+
+                        :
+                        <LoadingSection />
+                    }
                 </div>
-            }
-        </div>
+
+                {renderExitModal()}
+            </div>
+        </VotingContext.Provider>
     );
 }
 
 const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props }) => {
-    const ownVote = agenda.votings.find(voting => (
-        voting.participantId === participant.id
-        || voting.delegateId === participant.id ||
-        voting.author.representative.id === participant.id
-    ));
+    const ownVote = CBX.findOwnVote(agenda.votings, participant);
     const primary = getPrimary();
 
 
@@ -361,15 +526,14 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                 <Collapse in={true} timeout="auto" unmountOnExit>
                     <CardContent>
                         <AgendaDescription agenda={agenda} translate={translate} />
-
-                        <AgendaMenu
-                            horizontal={true}
-                            agenda={agenda}
-                            council={council}
-                            participant={participant}
-                            translate={translate}
-                            refetch={refetch}
-                        />
+                            <AgendaMenu
+                                horizontal={true}
+                                agenda={agenda}
+                                council={council}
+                                participant={participant}
+                                translate={translate}
+                                refetch={refetch}
+                            />
                     </CardContent>
                 </Collapse>
 

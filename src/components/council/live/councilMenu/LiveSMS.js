@@ -69,7 +69,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
         setResendLoading(null);
         getData();
     }
-
+    console.log(data)
     if (isMobile) {
         return (
             <div style={{ height: "100%" }}>
@@ -80,7 +80,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                         <div style={{ marginBottom: "1em", marginLeft: "5px" }}>
                             <BasicButton
                                 color="transparent"
-                                text={filter ? 'Todos' : 'Ver fallidos' /*TRADUCCION*/}
+                                text={filter ? translate.all_plural : translate.browse_failed_sms}
                                 onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
                                 textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
                             />
@@ -128,7 +128,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                         <div style={{ marginBottom: "1em" }}>
                             <BasicButton
                                 color="transparent"
-                                text={filter ? 'Todos' : 'Ver fallidos' /*TRADUCCION*/}
+                                text={filter ? translate.all_plural : translate.browse_failed_sms}
                                 onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
                                 textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
                             />
@@ -178,7 +178,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                     </TableBody>
                                 </Table>
                             </Scrollbar>
-                            <div style={{ display: "flex", width: "100%", padding: "1em", }}>
+                            <div style={{ display: "flex", width: "100%", padding: "0.5em", }}>
                                 {loading ?
                                     <div></div>
                                     :
@@ -233,7 +233,9 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
                 value={value}
                 onChange={updateValue}
                 className={'inputTableSMS'}
-                styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
+                styleInInput={{ border: "1px solid #0000006b", padding:"5px" }}
+                disableUnderline={true}
+                // styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
             />
         </React.Fragment>
     )

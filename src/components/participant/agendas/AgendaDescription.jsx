@@ -1,40 +1,39 @@
 import React from 'react';
 import { CollapsibleSection } from '../../../displayComponents';
 
-class AgendaDescription extends React.Component {
+const AgendaDescription = ({ agenda }) => {
+    const [open, setOpen] = React.useState(true);
 
-    state = {
-        open: false
+    const toggle = () => {
+        setOpen(!open);
     }
 
-    toggle = () => {
-        const newValue = !this.state.open;
-        this.setState({
-            open: newValue
-        });
-    }
+    return (
+        <CollapsibleSection
+            controlled
+            open={open}
+            trigger={() =>
+                open?
+                <span/>
+                :
+                <div
+                    dangerouslySetInnerHTML={{ __html: agenda.description}}
+                    style={{ width: '100%', height: '2em', overflow: 'hidden'}} className={"overflowEllipsisDangerousHtml"}
+                    onClick={toggle}
+                ></div>
+            }
+            collapse={() =>
+                <div
+                    dangerouslySetInnerHTML={{ __html: agenda.description}}
+                    style={{ width: '100%'}}
+                    onClick={toggle}
+                ></div>
+            }
+        >
 
-    render() {
-        // if (!this.props.agenda.description) {
-        //     return this.props.translate.no_description;
-        // }
+        </CollapsibleSection>
 
-        return (
-            //TODO CREAR BIEN LA ANIMACI
-            <div dangerouslySetInnerHTML={{ __html: this.props.agenda.description}} style={{ width: '100%'}} className={this.state.open? 'overflowNoEllipsisDangerousHtml' : "overflowEllipsisDangerousHtml"} onClick={this.toggle} ></div>
-
-            // <CollapsibleSection
-            //     trigger={() =>
-            //         <span onClick={this.toggle} style={{fontSize: '14px'}}>{this.props.translate.show_description}</span>
-            //     }
-            //     open={this.state.open}
-            //     onTriggerClick={() => {}}
-            //     collapse={() =>
-            //         <div dangerouslySetInnerHTML={{__html: this.props.agenda.description}}></div>
-            //     }
-            // />
-        )
-    }
+    )
 }
 
 export default AgendaDescription;

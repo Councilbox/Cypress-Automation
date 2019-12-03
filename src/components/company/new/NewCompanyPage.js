@@ -11,7 +11,8 @@ import {
 	GridItem,
 	LoadingSection,
 	SelectInput,
-	TextInput
+	TextInput,
+	SectionTitle
 } from "../../../displayComponents";
 import { checkCifExists } from "../../../queries/userAndCompanySignUp";
 import { USER_ACTIVATIONS } from '../../../constants';
@@ -23,6 +24,7 @@ import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
 import { toast } from "react-toastify";
 import { sendGAevent } from "../../../utils/analytics";
+import GoverningBodyForm from "../settings/GoverningBodyForm";
 
 
 class NewCompanyPage extends React.PureComponent {
@@ -266,9 +268,13 @@ class NewCompanyPage extends React.PureComponent {
 			<CardPageLayout title={translate.companies_add}>
 				{this.state.step === 1 ? (
 					<React.Fragment>
-						<Typography variant="title" style={{ color: primary }}>
-							{translate.fiscal_data}
-						</Typography>
+						<SectionTitle
+							text={translate.fiscal_data}
+							color={primary}
+							style={{
+								marginTop: '2em'
+							}}
+						/>
 						<br />
 						<Grid spacing={0} onKeyUp={this.handleKeyUp}>
 							<GridItem xs={12} md={9} lg={9}>
@@ -279,6 +285,7 @@ class NewCompanyPage extends React.PureComponent {
 												translate.business_name
 											}
 											type="text"
+											id={"business-name"}
 											value={data.businessName}
 											errorText={errors.businessName}
 											onChange={event =>
@@ -331,6 +338,7 @@ class NewCompanyPage extends React.PureComponent {
 											}
 											type="text"
 											value={data.tin}
+											id={'addSociedadCIF'}
 											errorText={errors.tin}
 											onChange={event =>
 												this.updateState({
@@ -347,6 +355,7 @@ class NewCompanyPage extends React.PureComponent {
 											}
 											type="text"
 											value={data.domain}
+											id={'addSociedadDominio'}
 											errorText={errors.domain}
 											onChange={event =>
 												this.updateState({
@@ -363,6 +372,7 @@ class NewCompanyPage extends React.PureComponent {
 											type="text"
 											value={data.linkKey}
 											errorText={errors.linkKey}
+											id={'addSociedadClaveMaestra'}
 											onChange={event =>
 												this.updateState({
 													linkKey: event.target.value
@@ -414,14 +424,24 @@ class NewCompanyPage extends React.PureComponent {
 							</GridItem>
 						</Grid>
 						<br />
-						<Typography variant="title" style={{ color: primary }}>
-							{translate.contact_data}
-						</Typography>
+						<Grid spacing={16}>
+							<GridItem xs={12} md={12} lg={12}>
+								<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
+							</GridItem>
+						</Grid>
+						<SectionTitle
+							text={translate.contact_data}
+							color={primary}
+							style={{
+								marginTop: '2em'
+							}}
+						/>
 						<br />
 						<Grid spacing={16} onKeyUp={this.handleKeyUp}>
 							<GridItem xs={12} md={6} lg={6}>
 								<TextInput
 									floatingText={translate.address}
+									id={'addSociedadDireccion'}
 									type="text"
 									value={data.address}
 									errorText={errors.address}
@@ -438,6 +458,7 @@ class NewCompanyPage extends React.PureComponent {
 										translate.company_new_locality
 									}
 									type="text"
+									id={'addSociedadLocalidad'}
 									value={data.city}
 									errorText={errors.city}
 									onChange={event =>
@@ -473,6 +494,7 @@ class NewCompanyPage extends React.PureComponent {
 									}
 									value={data.countryState}
 									errorText={errors.countryState}
+									id={'addSociedadProvincia'}
 									onChange={event => {
 										this.updateState({
 											countryState: event.target.value
@@ -483,6 +505,7 @@ class NewCompanyPage extends React.PureComponent {
 										return (
 											<MenuItem
 												key={province.deno}
+												className={"addSociedadProvinciaOptions"}
 												value={province.deno}
 											>
 												{province.deno}
@@ -495,6 +518,7 @@ class NewCompanyPage extends React.PureComponent {
 								<TextInput
 									floatingText={translate.company_new_zipcode}
 									type="text"
+									id={'addSociedadCP'}
 									value={data.zipcode}
 									errorText={errors.zipcode}
 									onChange={event =>
@@ -534,6 +558,7 @@ class NewCompanyPage extends React.PureComponent {
 						<br />
 						<BasicButton
 							text={translate.companies_add}
+							id="save-button"
 							color={getPrimary()}
 							error={requestError}
 							success={success}

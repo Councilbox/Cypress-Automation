@@ -26,7 +26,8 @@ const AlertConfirm = ({
 	hideAccept,
 	classNameDialog,
 	PaperProps,
-	widthModal
+	widthModal,
+	titleRigth
 }) => {
 	const primary = getPrimary();
 	const buttons = (
@@ -59,6 +60,7 @@ const AlertConfirm = ({
 						buttonStyle={{ marginLeft: "1em" }}
 						color={primary}
 						onClick={acceptAction}
+						claseHover={'buttonAceptarDeModalAlert'}
 					/>
 				)}
 		</Fragment>
@@ -74,7 +76,7 @@ const AlertConfirm = ({
 			open={open}
 			onClose={requestClose}
 			PaperProps={{
-				style: {...widthModal, ...(PaperProps? PaperProps.style : {})},
+				style: { ...widthModal, ...(PaperProps ? PaperProps.style : {}) },
 			}}
 		>
 			{!!requestClose && (
@@ -90,7 +92,7 @@ const AlertConfirm = ({
 					}}
 					onClick={requestClose}
 				/>
-				)}
+			)}
 			{!!title && (
 				<DialogTitle
 					style={{
@@ -98,11 +100,24 @@ const AlertConfirm = ({
 						padding: "1.1em 2em 1.1em 1em",
 						fontSize: "1.2em",
 						borderBottom: "1px solid gainsboro",
+						overflow:"hidden"
 					}}
 				>
-					{title}
+					{!!titleRigth ?
+						(
+							<div style={{ display: "flex",width:"95%", justifyContent: "space-between" }}>
+								<div>{title}</div>
+								<div  style={{color:' rgba(0, 0, 0, 0.37)', fontSize:"17px"}}>{titleRigth}</div>
+							</div>
+						)
+						:
+						(
+							title
+						)
+					}
 				</DialogTitle>
 			)}
+
 			<DialogContent
 				style={{
 					minWidth: "40vw",

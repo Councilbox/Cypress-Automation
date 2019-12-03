@@ -1,5 +1,4 @@
 import React from 'react';
-import { getSecondary } from '../../../styles/colors';
 import { Button } from 'material-ui';
 import NewTranslationModal from './NewTranslationModal';
 

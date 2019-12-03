@@ -5,7 +5,7 @@ import { LiveToast } from '../displayComponents';
 
 export const checkValidEmail = email => {
 	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	return re.test(email);
+	return re.test(email) && !/\'|\"|\\|\//.test(email);
 };
 
 
@@ -36,7 +36,8 @@ export const checkValidMajority = (majority, divider, type, translate) => {
 export const checkRequiredFieldsParticipant = (
 	participant,
 	translate,
-	hasSocialCapital
+	hasSocialCapital,
+	company
 ) => {
 	let errors = {
 		name: "",
@@ -56,39 +57,41 @@ export const checkRequiredFieldsParticipant = (
 		errors.name = translate.field_required;
 	}
 
-	if (!participant.surname && participant.personOrEntity === 0) {
-		hasError = true;
-		errors.surname = translate.field_required;
-	}
+	if(company && company.type !== 10){
+		if (!participant.surname && participant.personOrEntity === 0) {
+			hasError = true;
+			errors.surname = translate.field_required;
+		}
 
-	if (!participant.dni) {
-		hasError = true;
-		errors.dni = translate.field_required;
-	}
+		if (!participant.dni) {
+			hasError = true;
+			errors.dni = translate.field_required;
+		}
 
-	if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
-		hasError = true;
-		errors.email = translate.valid_email_required;
-	}
+		if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
+			hasError = true;
+			errors.email = translate.valid_email_required;
+		}
 
-	if (!participant.phone) {
-		hasError = true;
-		errors.phone = translate.field_required;
-	}
+		if (!participant.phone) {
+			hasError = true;
+			errors.phone = translate.field_required;
+		}
 
-	if (!participant.language) {
-		hasError = true;
-		errors.language = translate.field_required;
-	}
+		if (!participant.language) {
+			hasError = true;
+			errors.language = translate.field_required;
+		}
 
-	if (!participant.numParticipations && participant.numParticipations !== 0) {
-		hasError = true;
-		errors.numParticipations = translate.field_required;
-	}
+		if (!participant.numParticipations && participant.numParticipations !== 0) {
+			hasError = true;
+			errors.numParticipations = translate.field_required;
+		}
 
-	if (hasSocialCapital && !participant.socialCapital && participant.socialCapital !== 0) {
-		hasError = true;
-		errors.socialCapital = translate.field_required;
+		if (hasSocialCapital && !participant.socialCapital && participant.socialCapital !== 0) {
+			hasError = true;
+			errors.socialCapital = translate.field_required;
+		}
 	}
 
 	return {

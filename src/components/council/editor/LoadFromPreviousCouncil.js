@@ -2,7 +2,7 @@ import React from 'react';
 import { AlertConfirm, BasicButton, LoadingSection } from '../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getSecondary, getPrimary } from '../../../styles/colors';
+import { getSecondary } from '../../../styles/colors';
 import { Paper } from 'material-ui';
 import { councils } from '../../../queries';
 import { COUNCIL_STATES } from '../../../constants';
@@ -71,7 +71,7 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
 
         return (
             <div>
-                {data.councils.map(council => (
+                {data.councils.list.map(council => (
                     <Paper
                         key={`loadFromCouncil_${council.id}`}
                         style={{

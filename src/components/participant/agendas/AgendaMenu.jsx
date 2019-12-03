@@ -1,16 +1,14 @@
 import React from 'react';
-import { CollapsibleSection, BasicButton, ButtonIcon, AlertConfirm } from '../../../displayComponents';
+import { BasicButton, AlertConfirm } from '../../../displayComponents';
 import ActHTML from '../../council/writing/actViewer/ActHTML';
 import CommentMenu from './CommentMenu';
 import * as CBX from '../../../utils/CBX';
 import { Typography } from 'material-ui';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { getSecondary } from '../../../styles/colors';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
 import { PARTICIPANT_TYPE } from '../../../constants';
 import VotingSection from './VotingSection';
-import VotingMenu from './VotingMenu';
 import CustomPointVotingMenu from './CustomPointVotingMenu';
-
 
 
 class AgendaMenu extends React.Component {
@@ -74,14 +72,6 @@ class AgendaMenu extends React.Component {
         return <i className={icon} aria-hidden="true" style={{ marginRight: '0.6em' }}></i>;
     }
 
-    findOwnVote = (votings, participant) => {
-        return votings.find(voting => (
-            voting.participantId === participant.id
-            || voting.delegateId === participant.id ||
-            voting.author.representative.id === participant.id
-        ));
-    }
-
     agendaVotingIcon = () => {
         const { agenda } = this.props;
         let icon = 'fa fa-lock colorRed';
@@ -110,8 +100,7 @@ class AgendaMenu extends React.Component {
     render() {
         const { translate, agenda } = this.props;
         const secondary = getSecondary();
-        const primary = getPrimary();
-        const ownVote = this.findOwnVote(agenda.votings, this.props.participant);
+        const ownVote = CBX.findOwnVote(agenda.votings, this.props.participant);
 
         return (
             <div>
@@ -139,7 +128,7 @@ class AgendaMenu extends React.Component {
                                         {checkVotings(agenda.votings) &&
                                             <React.Fragment>
                                                 {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
-                                                    translate.your_vote_is_delegated
+                                                        translate.your_vote_is_delegated
                                                     :
                                                         <React.Fragment>
                                                             {CBX.isCustomPoint(agenda.subjectType)?
@@ -147,6 +136,7 @@ class AgendaMenu extends React.Component {
                                                                     agenda={agenda}
                                                                     refetch={this.props.refetch}
                                                                     ownVote={ownVote}
+                                                                    council={this.props.council}
                                                                     translate={translate}
                                                                 />
                                                             :
@@ -212,6 +202,7 @@ class AgendaMenu extends React.Component {
                                                 {checkVotings(agenda.votings) &&
                                                     <VotingSection
                                                         agenda={agenda}
+                                                        ownVote={ownVote}
                                                         open={this.state.open}
                                                         council={this.props.council}
                                                         voting={this.state.voting}

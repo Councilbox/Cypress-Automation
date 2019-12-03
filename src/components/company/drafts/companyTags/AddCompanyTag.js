@@ -2,7 +2,7 @@ import React from 'react';
 import { BasicButton, AlertConfirm, ButtonIcon } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getSecondary, getPrimary } from '../../../../styles/colors';
+import { getPrimary } from '../../../../styles/colors';
 import CompanyTagForm from './CompanyTagForm';
 import { sendGAevent } from '../../../../utils/analytics';
 
@@ -29,13 +29,14 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
     const [modal, setModal] = React.useState(false);
     const [errors, setErrors] = React.useState({
         key: '',
-        value: ''
+        value: '',
+        description: ""
     });
-    const secondary = getSecondary();
     const primary = getPrimary();
     const [tag, setTag] = React.useState({
         key: '',
-        value: ''
+        value: '',
+        description: ""
     });
 
 
@@ -48,6 +49,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
                     tag: {
                         value: tag.value,
                         key: tag.key,
+                        description: tag.description,
                         companyId: company.id
                     }
                 }
@@ -63,7 +65,8 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
                 setModal(false);
                 setTag({
                     key: '',
-                    value: ''
+                    value: '',
+                    description: '',
                 })
             }
         }
@@ -85,7 +88,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
             });
 
             if(response.data.companyTagKeyUsed){
-                errors.key = 'Clave ya usada en otra etiqueta' //TRADUCCION
+                errors.key = translate.key_already_used;
             }
         }
 
@@ -135,6 +138,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
                     color: 'white',
                     fontWeight: '700'
                 }}
+                id={'idAddEtiqueta'}
             />
             <AlertConfirm
                 open={modal}

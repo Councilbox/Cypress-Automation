@@ -1,6 +1,6 @@
 import React from "react";
 import { councils, deleteCouncil } from "../../queries.js";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import {
 	AlertConfirm,
 	ErrorWrapper,
@@ -10,6 +10,7 @@ import {
 	GridItem,
 	LoadingSection,
 	MainTitle,
+	PaginationFooter,
 } from "../../displayComponents/index";
 import { isLandscape } from '../../utils/screen';
 import { getSecondary } from '../../styles/colors';
@@ -19,34 +20,64 @@ import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
 import CouncilsFilters from './CouncilsFilters';
 import { useOldState } from '../../hooks';
+import { DRAFTS_LIMITS } from "../../constants.js";
 
-const Councils = ({ data, translate, ...props }) => {
+
+
+const Councils = ({ translate, client, ...props }) => {
+	const [loading, setLoading] = React.useState(true);
+	const [councilsData, setCouncilsData] = React.useState(true);
+	const [error, setError] = React.useState(false);
 	const [state, setState] = useOldState({
 		councilToDelete: "",
 		deleteModal: false,
-		selectedIds: new Map()
+		selectedIds: new Map(),
+		limit: DRAFTS_LIMITS[0],
+		page: 1,
 	});
 
+	const getData = async (filters) => {
+		const response = await client.query({
+			query: councils,
+			variables: {
+				state: props.state,
+				companyId: props.company.id,
+				isMeeting: false,
+				active: 1,
+				options: {
+					limit: DRAFTS_LIMITS[0],
+					offset: DRAFTS_LIMITS[0] * (state.page - 1)
+				},
+				...filters
+			},
+			errorPolicy: 'all',
+			notifyOnNetworkStatusChange: true
+		});
+		setCouncilsData(response.data.councils)
+		setLoading(false)
+	}
+
 	React.useEffect(() => {
-		data.refetch();
-	}, [props.link])
+		setLoading(true)
+		getData()
+	}, [props.link, state.page])
 
 	const select = id => {
-        if(state.selectedIds.has(id)){
-            state.selectedIds.delete(id);
-        } else {
-            state.selectedIds.set(id, 'selected');
-        }
+		if (state.selectedIds.has(id)) {
+			state.selectedIds.delete(id);
+		} else {
+			state.selectedIds.set(id, 'selected');
+		}
 
-        setState({
-            selectedIds: new Map(state.selectedIds)
-        });
+		setState({
+			selectedIds: new Map(state.selectedIds)
+		});
 	}
 
 	const selectAll = () => {
 		const newSelected = new Map();
-		if(state.selectedIds.size !== data.councils.length){
-			data.councils.forEach(council => {
+		if (state.selectedIds.size !== councilsData.length) {
+			councilsData.list.forEach(council => {
 				newSelected.set(council.id, 'selected');
 			})
 		}
@@ -57,8 +88,8 @@ const Councils = ({ data, translate, ...props }) => {
 	}
 
 	const openDeleteModal = councilID => {
-		if(Number.isInteger(councilID)){
-			if(!state.selectedIds.has(councilID)){
+		if (Number.isInteger(councilID)) {
+			if (!state.selectedIds.has(councilID)) {
 				state.selectedIds.set(councilID, 'selected');
 			}
 		}
@@ -69,7 +100,7 @@ const Councils = ({ data, translate, ...props }) => {
 	};
 
 	const deleteCouncil = async () => {
-		data.loading = true;
+		setLoading(true)
 		const response = await props.mutate({
 			variables: {
 				councilId: Array.from(state.selectedIds.keys())
@@ -80,7 +111,7 @@ const Councils = ({ data, translate, ...props }) => {
 				deleteModal: false,
 				selectedIds: new Map()
 			});
-			data.refetch();
+			getData()
 		}
 	};
 
@@ -88,7 +119,12 @@ const Councils = ({ data, translate, ...props }) => {
 		return props.windowSize === 'xs' && isLandscape();
 	}
 
-	const { loading, councils, error } = data;
+
+	const changePage = page => {
+		setState({
+			page: page,
+		});
+	};
 
 
 	return (
@@ -107,19 +143,19 @@ const Councils = ({ data, translate, ...props }) => {
 					size={props.windowSize}
 					subtitle={props.desc}
 				/>
-				<Grid style={{marginTop: '0.6em'}}>
+				<Grid style={{ marginTop: '0.6em' }}>
 					<GridItem xs={4} md={8} lg={9}>
 						{state.selectedIds.size > 0 &&
 							<BasicButton
-								text={state.selectedIds.size === 1? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
+								text={state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
 								color={getSecondary()}
-								textStyle={{color: 'white', fontWeight: '700'}}
+								textStyle={{ color: 'white', fontWeight: '700' }}
 								onClick={openDeleteModal}
 							/>
 						}
 					</GridItem>
 					<GridItem xs={8} md={4} lg={3}>
-						<CouncilsFilters refetch={data.refetch} />
+						<CouncilsFilters refetch={getData} />
 					</GridItem>
 				</Grid>
 				{loading ? (
@@ -133,9 +169,9 @@ const Councils = ({ data, translate, ...props }) => {
 						<LoadingSection />
 					</div>
 				) : (
-						<div style={{ height: `calc(100% - ${mobileLandscape()? '7em' : '13.5em'})`, overflow: 'hidden' }}>
+						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '13.5em'})`, overflow: 'hidden' }}>
 							<Scrollbar>
-								<div style={{ padding: "1em", paddingTop: '2em'}}>
+								<div style={{ padding: "1em", paddingTop: '2em' }}>
 									{false ? (
 										<div>
 											{error.graphQLErrors.map((error, index) => {
@@ -148,26 +184,49 @@ const Councils = ({ data, translate, ...props }) => {
 												);
 											})}
 										</div>
-									) : councils.length > 0 ? (
+									) : councilsData.list.length > 0 ? (
 										props.link === "/history" || props.link === "/finished" ?
-											<CouncilsHistory
-												councils={councils}
-												openDeleteModal={openDeleteModal}
-												translate={translate}
-												company={props.company}
-											/>
-											: (
-
-												<CouncilsList
+											<div>
+												<CouncilsHistory
+													councils={councilsData.list}
 													openDeleteModal={openDeleteModal}
 													translate={translate}
-													select={select}
-													selectAll={selectAll}
-													selectedIds={state.selectedIds}
-													councils={councils}
 													company={props.company}
-													link={props.link}
 												/>
+												<Grid style={{ padding: '2em 3em 1em 2em' }}>
+													<PaginationFooter
+														page={state.page}
+														translate={translate}
+														length={councilsData.list.length}
+														limit={state.limit}
+														total={councilsData.total}
+														changePage={changePage}
+													/>
+												</Grid>
+											</div>
+											: (
+												<div>
+													<CouncilsList
+														openDeleteModal={openDeleteModal}
+														translate={translate}
+														select={select}
+														selectAll={selectAll}
+														selectedIds={state.selectedIds}
+														councils={councilsData.list}
+														company={props.company}
+														link={props.link}
+													/>
+													<Grid style={{ padding: '2em 3em 1em 2em' }}>
+														<PaginationFooter
+															page={state.page}
+															translate={translate}
+															length={councilsData.list.length}
+															limit={state.limit}
+															total={councilsData.total}
+															changePage={changePage}
+														/>
+													</Grid>
+												</div>
 											)
 									) : (
 												<span>{translate.no_results}</span>
@@ -195,16 +254,4 @@ const Councils = ({ data, translate, ...props }) => {
 
 export default compose(
 	graphql(deleteCouncil),
-	graphql(councils, {
-		options: props => ({
-			variables: {
-				state: props.state,
-				companyId: props.company.id,
-				isMeeting: false,
-				active: 1
-			},
-			errorPolicy: 'all',
-			notifyOnNetworkStatusChange: true
-		})
-	})
-)(withWindowSize(Councils));
+)(withWindowSize(withApollo(Councils)));

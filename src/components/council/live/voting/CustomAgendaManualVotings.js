@@ -1,9 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import { BasicButton, TextInput } from '../../../../displayComponents';
+import { BasicButton, TextInput, LoadingSection } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
-import { Table, TableHead, Card, TableBody, TableCell, TableRow, CardHeader } from 'material-ui';
+import { Table, TableBody, TableCell, TableRow } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 
 
@@ -20,8 +20,13 @@ const createManualBallotsMutation = gql`
 const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...props }) => {
     const [state, setState] = React.useState(false)
     const [ballots, setBallots] = React.useState(new Map(agenda.ballots.filter(ballot => ballot.admin === 1).map(ballot => [ballot.itemId, ballot])));
-    const maxBallot = agenda.presentCensus;
-    const maxTotal = agenda.presentCensus * agenda.options.maxSelections;
+
+    if(!props.votingsRecount){
+        return <LoadingSection />
+    }
+
+    const maxBallot = agenda.votingState === 4 ? props.votingsRecount.availableVotes : agenda.presentCensus;
+    const maxTotal = maxBallot * agenda.options.maxSelections;
     const totalWeight = getActualRecount(ballots);
 
     const updateBallotValue = (itemId, value) => {
@@ -29,12 +34,18 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         let ballot = {
             ...ballots.get(itemId)
         };
-        if(((totalWeight - ballot.weight) + value) > maxTotal){
-            correctedValue = maxTotal - (totalWeight - ballot.weight);
+
+        if(totalWeight == maxTotal){
+            correctedValue = 0;
+        } else {
+            if(((totalWeight - ballot.weight) + value) > maxTotal){
+                correctedValue = maxTotal - (totalWeight - ballot.weight);
+            }
+            if(correctedValue > maxBallot){
+                correctedValue = maxBallot;
+            }
         }
-        if(correctedValue > maxBallot){
-            correctedValue = maxBallot;
-        }
+
         ballot.weight = correctedValue;
         ballot.itemId = itemId;
         ballots.set(itemId, ballot);
@@ -45,7 +56,6 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
     function getActualRecount(ballotsMap) {
         return Array.from(ballotsMap.values()).reduce((acc, item) => item.weight + acc, 0);
     }
-
 
     const sendBallots = async () => {
         setState({
@@ -158,6 +168,28 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                         </TableCell>
                                     </TableRow>
                                 ))}
+                                <TableRow>
+                                    <TableCell style={{padding: '5px 10px'}}>
+                                        <div
+                                            style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                                maxWidth: isMobile ? "50px" : "150px"
+                                            }}
+                                        >
+                                            {translate.abstention_btn}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell style={{padding: '5px 10px'}}>
+                                        <TextInput
+                                            styles={{ width: isMobile ? "50px" : "100px" }}
+                                            // styleInInput={{ textAlign: 'center' }}
+                                            value={ballots.get(-1) ? ballots.get(-1).weight : 0}
+                                            onChange={event => updateBallotValue(-1, +event.target.value)}
+                                        />
+                                    </TableCell>
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </div>

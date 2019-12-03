@@ -15,6 +15,7 @@ const CloseIcon = ({ style, onClick, loading }) => (
 					width: "32px",
 					outline: 0
 				}}
+				className={'closeIcon'}
 			>
 				<Close />
 			</IconButton>

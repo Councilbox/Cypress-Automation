@@ -22,6 +22,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 		singleId: null
 	});
 	const primary = getPrimary();
+	const secondary = getSecondary();
 
 	const closeParticipantEditor = () => {
 		setState({ editingParticipant: false });
@@ -164,10 +165,10 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				totalSocialCapital={totalSocialCapital}
 			/>
 			<AlertConfirm
-				title={translate.send_to_trash}
+				title={translate.warning}
 				bodyText={translate.delete_items}
 				open={state.deleteModal}
-				buttonAccept={translate.send_to_trash}
+				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				modal={true}
 				acceptAction={deleteParticipant}
@@ -197,8 +198,8 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 						menuButtons={
 							state.selectedIds.size > 0 &&
 								<BasicButton
-									text={state.selectedIds.size === 1? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
-									color={getSecondary()}
+									text={state.selectedIds.size === 1? translate.remove_one_participant : translate.remove_one_participant.replace('1', state.selectedIds.size) + 's'}
+									color={secondary}
 									buttonStyle={{marginRight: '0.6em'}}
 									textStyle={{color: 'white', fontWeight: '700'}}
 									onClick={openDeleteModal}

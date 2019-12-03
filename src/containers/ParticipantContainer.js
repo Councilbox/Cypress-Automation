@@ -4,7 +4,6 @@ import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
 import { store } from './App';
 import { setDetectRTC } from '../actions/mainActions';
-import withTranslations from "../HOCs/withTranslations";
 import withDetectRTC from '../HOCs/withDetectRTC';
 import { PARTICIPANT_ERRORS } from "../constants";
 import { LoadingMainApp } from "../displayComponents";
@@ -16,6 +15,9 @@ import Meet from '../components/participant/meet/Meet';
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import { checkSecondDateAfterFirst } from "../utils/CBX";
+import { shouldLoadSubdomain } from "../utils/subdomain";
+import withTranslations from "../HOCs/withTranslations";
+import CouncilState from "../components/participant/login/CouncilState";
 
 
 class ParticipantContainer extends React.PureComponent {
@@ -30,10 +32,25 @@ class ParticipantContainer extends React.PureComponent {
 				this.props.actions.setLanguage(this.props.data.participant.language);
 			}
 		}
+
+		if(this.props.state.councilState){
+			const { subdomain } = this.props.state.councilState;
+			const actualSubdomain = window.location.hostname.split('.')[0];
+
+			if(subdomain){
+				if(subdomain !== actualSubdomain){
+					window.location.replace(window.location.origin.replace(actualSubdomain, subdomain) + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
+				}
+			} else {
+				if(shouldLoadSubdomain()){
+					window.location.replace(window.location.origin.replace(actualSubdomain, 'app') + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
+				}
+			}
+		}
 	}
 
 	render() {
-		const { data, detectRTC, main, match, state } = this.props;
+		const { data, detectRTC, main, match } = this.props;
 
 		if (data.error && data.error.graphQLErrors["0"]) {
 			const code = data.error.graphQLErrors["0"].code;
@@ -58,15 +75,6 @@ class ParticipantContainer extends React.PureComponent {
 
 		if (!data.participant || !this.props.council.councilVideo || !this.props.state.councilState || Object.keys(detectRTC).length === 0) {
 			return <LoadingMainApp />;
-		}
-
-		if(checkHybridConditions(this.props.council.councilVideo)){
-			return (
-				<ErrorState
-					code={'REMOTE_CLOSED'}
-					data={{ council: this.props.council.councilVideo }}
-				/>
-			);
 		}
 
 		return (
@@ -125,22 +133,15 @@ class ParticipantContainer extends React.PureComponent {
 	}
 }
 
-const checkHybridConditions = council => {
-	if(council.councilType !== 3){
-		return false;
-	}
-
-	if(checkSecondDateAfterFirst(council.closeDate, new Date())){
-		return true;
-	}
-}
 
 const councilQuery = gql`
 	query info($councilId: Int!) {
 		councilVideo(id: $councilId) {
 			active
+			subdomain
 			autoClose
 			businessName
+			subdomain
 			city
 			closeDate
 			companyId
@@ -234,6 +235,7 @@ const stateQuery = gql`
 			state
 			councilStarted
 			id
+			subdomain
 		}
 	}
 `;
@@ -245,6 +247,9 @@ const participantQuery = gql`
 			surname
 			id
 			type
+			voteDenied
+			voteDeniedReason
+			hasVoted
 			phone
 			numParticipations
 			delegatedVotes {
@@ -252,6 +257,8 @@ const participantQuery = gql`
 				name
 				surname
 				numParticipations
+				voteDenied
+				voteDeniedReason
 				state
 				type
 			}

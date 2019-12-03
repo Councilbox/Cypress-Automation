@@ -1,8 +1,6 @@
 import React from 'react';
 import { TextInput, Grid, GridItem } from '../../../displayComponents';
-import ButtonCopy from './ButtonCopy';
-import FontAwesome from "react-fontawesome";
-import { Tooltip, InputAdornment } from 'material-ui';
+import { Tooltip } from 'material-ui';
 import * as CBX from '../../../utils/CBX';
 
 const TranslationForm = ({ data, errors, translate, updateState, values, flagEdit }) => {

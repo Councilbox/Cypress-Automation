@@ -2,16 +2,15 @@ import React from "react";
 import { Card } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
-import { councilIsLive } from "../../../utils/CBX";
-import { checkIsCompatible, COMPATIBLE } from '../../../utils/webRTC';
+import { councilIsLive, councilIsFinished, checkHybridConditions } from "../../../utils/CBX";
+import { checkIsCompatible } from '../../../utils/webRTC';
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
-import IncompatibleDeviceBrowser from '../IncompatibleDeviceBrowser';
 import { isMobile } from "react-device-detect";
 
-
-const width = window.innerWidth > 450 ? '550px' : '100%'
+// '850px'
+const width = window.innerWidth > 450 ? '850px' : '100%'
 
 const styles = {
 	viewContainer: {
@@ -33,43 +32,84 @@ const styles = {
 		margin: isMobile ? "" : "20px",
 		minWidth: width,
 		maxWidth: "100%",
-		height: '70vh'
+		//height: '50vh',
+		minHeight: '50vh'
+		// height: '70vh'
 	}
 };
 
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
-	const [isCompatible, setIsCompatible] = React.useState(null);
+	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
 
-	React.useEffect(() => {
-		let isCompatible = checkIsCompatible(props.detectRTC, council, participant);
-		setIsCompatible(isCompatible)
-	}, [props.detectRTC, council, participant]);
+	if ((councilIsFinished(council) || participant.hasVoted) && isMobile) {
+		return (
+			<NotLoggedLayout
+				translate={props.translate}
+				helpIcon={true}
+				languageSelector={false}
+				councilIsFinished={true}
+				setSelectHeadFinished={setSelectHeadFinished}
+				selectHeadFinished={selectHeadFinished}
+			>
+				<div style={{ width: "100%", background: "transparent", height: "100%" }} >
+					<div style={{ width: "100%", background: "transparent", height: "100%" }}>
+						<CouncilState council={council} company={company} participant={participant} selectHeadFinished={selectHeadFinished} />
+					</div>
+				</div>
+			</NotLoggedLayout>
+		);
+	} else {
+		return (
+			<NotLoggedLayout
+				translate={props.translate}
+				helpIcon={true}
+				languageSelector={false}
+			>
+				<Scrollbar>
+					<div style={styles.mainContainer}>
+						<Card style={{
+							...styles.cardContainer,
+							...((councilIsLive(council) && !participant.hasVoted) ? {
+								minWidth: window.innerWidth > 450 ? '550px' : '100%'
+							} : {
+									minWidth: width
+							})
+						}} elevation={6}>
+							{councilIsFinished(council) ?
+								<div>
+									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
+										<LoginForm
+											participant={participant}
+											council={council}
+											company={company}
+										/>
+									) : (
+											<CouncilState council={council} company={company} participant={participant} />
+										)}
+								</div>
+								:
+								<div>
+									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
+										<LoginForm
+											participant={participant}
+											council={council}
+											company={company}
+										/>
 
-	return (
-		<NotLoggedLayout
-			translate={props.translate}
-			helpIcon={true}
-			languageSelector={false}
-		>
-			<div style={styles.mainContainer}>
-				<Card style={styles.cardContainer} elevation={6}>
-					<Scrollbar>
-						<React.Fragment>
-							{councilIsLive(council) ? (
-								<LoginForm
-									participant={participant}
-									council={council}
-									company={company}
-								/>
-							) : (
-									<CouncilState council={council} company={company} participant={participant} />
-								)}
-						</React.Fragment>
-					</Scrollbar>
-				</Card>
-			</div>
-		</NotLoggedLayout>
-	);
+									) : (
+											<CouncilState council={council} company={company} participant={participant} />
+										)}
+								</div>
+							}
+						</Card>
+					</div>
+				</Scrollbar>
+				
+			</NotLoggedLayout>
+		);
+	}
 }
+
+
 
 export default withTranslations()(withDetectRTC()(ParticipantLogin));

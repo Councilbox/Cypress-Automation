@@ -1,11 +1,11 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection } from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
 import { AGENDA_TYPES } from '../../../constants';
-import { VotingButton } from './VotingMenu';
-import { moment } from "../../../containers/App";
+import { VotingButton, DeniedDisplay } from './VotingMenu';
+import { VotingContext } from './AgendaNoSession';
+import { voteAllAtOnce } from '../../../utils/CBX';
+import { ConfigContext } from '../../../containers/AppControl';
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
     return ballots
@@ -23,19 +23,20 @@ const asbtentionOption = {
     value: 'Abstention'
 }
 
-const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVoting, ...props }) => {
+const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCustomPointVoting, ...props }) => {
     const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
-    const [loading, setLoading] = React.useState(false);
+    const votingContext = React.useContext(VotingContext);
+    const config = React.useContext(ConfigContext);
 
     const addSelection = item => {
-        let newSelections = [...selections, cleanObject(item)]; ;
-        if(selections.length === 1){
-            if(selections[0].id === -1){
+        let newSelections = [...selections, cleanObject(item)];;
+        if (selections.length === 1) {
+            if (selections[0].id === -1) {
                 newSelections = [cleanObject(item)];
             }
         }
         setSelections(newSelections);
-        if(newSelections.length >= agenda.options.minSelections){
+        if (newSelections.length >= agenda.options.minSelections) {
             sendCustomAgendaVote(newSelections);
         }
     }
@@ -47,7 +48,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     const removeSelection = item => {
         const newSelections = selections.filter(selection => selection.id !== item.id);
         setSelections(newSelections);
-        if(newSelections.length < agenda.options.minSelections){
+        if (newSelections.length < agenda.options.minSelections) {
             return sendCustomAgendaVote([]);
         }
         return sendCustomAgendaVote(newSelections);
@@ -69,20 +70,24 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     }
 
     const sendCustomAgendaVote = async selected => {
-        setLoading(true);
-        const response = await updateCustomPointVoting({
-            variables: {
-                selections: selected,
-                votingId: ownVote.id
-            }
-        });
-        await props.refetch();
-        setLoading(false);
+        if(voteAllAtOnce({council})){
+            votingContext.responses.set(ownVote.id, selected);
+            votingContext.setResponses(new Map(votingContext.responses));
+        } else {
+            await updateCustomPointVoting({
+                variables: {
+                    selections: selected,
+                    votingId: ownVote.id
+                }
+            });
+            await props.refetch();
+        }
+
     }
 
     const getRemainingOptions = () => {
-        if(selections.length === 1){
-            if(selections[0].id === -1){
+        if (selections.length === 1) {
+            if (selections[0].id === -1) {
                 return agenda.options.minSelections;
             }
         }
@@ -91,6 +96,19 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
 
     if (ownVote.vote !== -1 && ownVote.ballots.length === 0 && agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE) {
         //return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
+    }
+
+    let voteDenied = false;
+    let denied = [];
+
+
+    if(config.denyVote && agenda.votings.length > 0){
+        denied = agenda.votings.filter(voting => voting.author.voteDenied);
+
+
+        if(denied.length === agenda.votings.length){
+            voteDenied = true;
+        }
     }
 
     const renderCommonButtons = () => {
@@ -104,7 +122,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                         selectCheckBox={getSelectedRadio(-1)}
                     />
                     <VotingButton
-                        text={"No votar"} //TRADUCCION
+                        text={translate.dont_vote}
                         styleButton={{ width: "90%" }}
                         selectCheckBox={selections.length === 0}
                         onClick={resetSelections}
@@ -114,8 +132,18 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
         )
     }
 
+    if(voteDenied){
+        return (
+            <DeniedDisplay translate={translate} denied={denied} />
+        )
+
+    }
+
     return (
         <div>
+            {denied.length > 0 &&
+                'Dentro de los votos depositados en usted, tiene votos denegados' //TRADUCCION
+            }
             {agenda.options.maxSelections === 1 ?
                 <React.Fragment>
                     {agenda.items.map((item, index) => (
@@ -134,9 +162,12 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                 </React.Fragment>
                 :
                 <React.Fragment>
-                    <div style={{fontSize: '0.85em', height: '1.2em', textAlign: 'left'}}>
+                    <div style={{ fontSize: '0.85em',textAlign: 'left' }}>
                         {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) &&
-                            `Tiene que marcar ${getRemainingOptions()} opciones más`
+                            <React.Fragment>Tiene que marcar {getRemainingOptions()} opciones más. </React.Fragment>
+                        }
+                        {(agenda.options.maxSelections > 1) && //TRADUCCION
+                            <React.Fragment>En esta votación puede elegir entre {agenda.options.minSelections} y {agenda.options.maxSelections} opciones</React.Fragment>
                         }
                     </div>
                     {agenda.items.map((item, index) => (
@@ -166,7 +197,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
 }
 
 
-const updateCustomPointVoting = gql`
+export const updateCustomPointVoting = gql`
     mutation updateCustomPointVoting($selections: [PollItemInput]!, $votingId: Int!){
         updateCustomPointVoting(selections: $selections, votingId: $votingId){
             success

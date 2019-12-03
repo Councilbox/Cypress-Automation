@@ -1,5 +1,7 @@
-const loginUser = 'aaron.fuentes.cocodin+969@gmail.com';
-const password = 'aaron';
+const loginUser = 'anxo.rodriguez.cocodin@gmail.com';
+const password = '502437casa';
+// const loginUser = 'aaron.fuentes.cocodin+969@gmail.com';
+// const password = 'aaron';
 
 export default () => {
     cy.get('#username')

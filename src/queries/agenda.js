@@ -110,6 +110,8 @@ export const agendaVotings = gql`
 						name
 						surname
 						position
+						voteDenied
+						voteDeniedReason
 						numParticipations
 						state
 						type
@@ -121,6 +123,8 @@ export const agendaVotings = gql`
 					surname
 					numParticipations
 					state
+					voteDenied
+					voteDeniedReason
 					type
 					socialCapital
 					position
@@ -145,6 +149,9 @@ export const agendaVotings = gql`
 				vote
 			}
 			total
+		}
+		votingsRecount(agendaId: $agendaId){
+			availableVotes
 		}
 	}
 `;

@@ -57,16 +57,13 @@ const getSelectionIcon = value => {
 }
 
 const getSecurityTypeText = (type, translate) => {
-    switch (type) {
-        case 0:
-            return translate.new_security_none
-
-        case 1:
-            return translate.new_security_email
-
-        case 2:
-            return translate.new_security_sms
+    const texts = {
+        0: translate.new_security_none,
+        1: translate.new_security_email,
+        2: translate.new_security_sms
     }
+
+    return texts[type];
 }
 
 export default OptionsDisplay

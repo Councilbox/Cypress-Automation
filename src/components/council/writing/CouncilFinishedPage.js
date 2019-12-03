@@ -5,7 +5,7 @@ import {
 } from "../../../displayComponents";
 import { bHistory } from "../../../containers/App";
 import { checkCouncilState } from "../../../utils/CBX";
-import { graphql, withApollo } from "react-apollo";
+import { withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { withRouter } from 'react-router-dom';
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -132,6 +132,7 @@ export const councilDetails = gql`
 			countryState
 			street
 			zipcode
+			quorumPrototype
 			dateStart2NdCall
 			state
 			sendActDate
@@ -201,13 +202,29 @@ export const councilDetails = gql`
 			majorityType
 			majority
 			majorityDivider
+			items {
+				id
+				value
+			}
+			options {
+				id
+				maxSelections
+			}
+			ballots {
+				id
+				participantId
+				weight
+				value
+				itemId
+			}
+			numNoVoteVotings
+			numPositiveVotings
+			numNegativeVotings
+			numAbstentionVotings
 			numPresentCensus
 			presentCensus
 			numCurrentRemoteCensus
 			currentRemoteCensus
-			socialCapitalPresent
-			socialCapitalRemote
-			socialCapitalNoParticipate
 			comment
 		}
 

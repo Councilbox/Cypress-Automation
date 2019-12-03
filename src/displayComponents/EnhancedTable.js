@@ -17,6 +17,8 @@ import Table, {
 import TableStyles from "../styles/table";
 import PaginationFooter from "./PaginationFooter";
 import { isMobile } from 'react-device-detect';
+import Scrollbar from "./Scrollbar";
+import LoadDraft, { DropdownEtiquetas } from "../components/company/drafts/LoadDraft";
 
 class EnhancedTable extends React.Component {
 	state = {
@@ -154,7 +156,6 @@ class EnhancedTable extends React.Component {
 			headers,
 			children,
 			categories,
-			exporXLSX
 		} = this.props;
 		const {
 			filterText,
@@ -164,7 +165,7 @@ class EnhancedTable extends React.Component {
 		} = this.state;
 
 		return (
-			<div>
+			<div style={{ height: "100%" }}>
 				{isMobile && !!this.props.menuButtons &&
 					this.props.menuButtons
 				}

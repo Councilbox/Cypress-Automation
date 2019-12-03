@@ -1,7 +1,20 @@
-/// <reference types="Cypress" />
+
 import loginTest from './login';
 import logoutTest from './logout';
 import dashboardTest from './dashboard';
+import dashboardNewSesion from './dashboardNewSesion';
+import dashboardNewSesion2 from './dashboardNewSesion2';
+import dashboardNewSinSesion from './dashboardNewSinSesion';
+import comprobarActa from './comprobarActa';
+import nuevoTipoDeReunion from './nuevoTipoDeReunion';
+import anadirSocio from './anadirSocio';
+import addSociedad from './addSociedad';
+import anadirSocioPersonaJuridica from './anadirSocioPersonaJuridica';
+import crearCorreos from './crearCorreos';
+import loginFast from './loginFast';
+import plantillasTest from './plantillas';
+import plantillasEtiquetas from './plantillasEtiquetas';
+
 
 context('Actions', () => {
   beforeEach(() => {
@@ -15,8 +28,17 @@ context('Actions', () => {
 
   it('Type and login user', () => {
     // https://on.cypress.io/type
-    loginTest();
-    dashboardTest();
+    loginFast();
+    // loginTest();
+
+    // nuevoTipoDeReunion()//COMPLETADO
+    // anadirSocioPersonaJuridica()//COMPLETADO
+    // anadirSocio();//COMPLETADO
+    // dashboardNewSesion();//COMPLETADO
+    // addSociedad()//COMPLETADO
+
+
+    // dashboardTest();
 
     logoutTest();
   })

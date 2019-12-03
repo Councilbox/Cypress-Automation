@@ -62,7 +62,7 @@ class CensusParticipantEditor extends React.Component {
 			  }
 			: null;
 
-		if (!this.checkRequiredFields()) {
+		if (!await this.checkRequiredFields()) {
 			const response = await this.props.updateCensusParticipant({
 				variables: {
 					participant: {
@@ -98,15 +98,16 @@ class CensusParticipantEditor extends React.Component {
 		});
 	};
 
-	checkRequiredFields() {
+	async checkRequiredFields() {
 		const participant = this.state.data;
 		const representative = this.state.representative;
-		const { translate } = this.props;
+		const { translate, company } = this.props;
 		let hasSocialCapital = censusHasParticipations(this.props.census);
 		let errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
 			translate,
-			hasSocialCapital
+			hasSocialCapital,
+			company
 		);
 
 		let errorsRepresentative = {

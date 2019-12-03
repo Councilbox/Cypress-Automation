@@ -1,12 +1,10 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { AlertConfirm, BasicButton } from "../../../../displayComponents";
 import { getSecondary } from "../../../../styles/colors";
 import CustomPointVotingMenu from '../../../participant/agendas/CustomPointVotingMenu';
 import { isMobile } from 'react-device-detect';
 
-const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, ...props }) => {
+const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council, ...props }) => {
     const [modal, setModal] = React.useState(false);
     const secondary = getSecondary();
 
@@ -25,6 +23,7 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, ...prop
                     agenda={agenda}
                     translate={translate}
                     refetch={refetch}
+                    council={council}
                     ownVote={agendaVoting}
                 />
             </div>
@@ -77,7 +76,7 @@ export const DisplayVoting = ({ ballots, translate }) => {
         <div style={{display: 'flex', flexDirection: 'column', marginTop: isMobile? '0.6em' : 'inherit'}}>
             {isMobile && 'Selección:'}
             {ballots.map(ballot => (
-                <div className="truncate" style={{marginTop: '0.3em', maxWidth: '20em', fontWeight: isMobile? '700' : '400'}}>
+                <div className="truncate" style={{marginTop: '0.3em', maxWidth: '20em', fontWeight: isMobile? '700' : '400', whiteSpace: 'pre-wrap'}}>
                     {getVoteValueText(ballot.value)}
                 </div>
             ))}

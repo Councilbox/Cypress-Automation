@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -11,7 +11,28 @@ import { checkRequiredFields } from "../../../utils/CBX";
 import CompanyDraftForm from "./CompanyDraftForm";
 import { toast } from 'react-toastify';
 
-class CompanyDraftNew extends Component {
+
+class CompanyDraftNew extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			draft: {
+				title: "",
+				statuteId: -1,
+				type: -1,
+				description: "",
+				text: "",
+				votationType: -1,
+				majorityType: -1,
+				majority: null,
+				majorityDivider: null,
+				companyId: this.props.company.id
+			},
+
+			errors: {}
+		};
+	}
+
 	updateState = object => {
 		this.setState({
 			draft: {
@@ -30,6 +51,7 @@ class CompanyDraftNew extends Component {
 	createCompanyDraft = async () => {
 		const { translate } = this.props;
 		const { draft } = this.state;
+
 		if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
 			this.setState({ loading: true });
 			const response = await this.props.createCompanyDraft({
@@ -67,26 +89,6 @@ class CompanyDraftNew extends Component {
 		this.props.closeForm();
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			draft: {
-				title: "",
-				statuteId: -1,
-				type: -1,
-				description: "",
-				text: "",
-				votationType: -1,
-				majorityType: -1,
-				majority: null,
-				majorityDivider: null,
-				companyId: this.props.company.id
-			},
-
-			errors: {}
-		};
-	}
-
 	render() {
 		const { translate } = this.props;
 		const { draft, errors } = this.state;
@@ -98,7 +100,7 @@ class CompanyDraftNew extends Component {
 
 		return (
 			<React.Fragment>
-				<div style={{ marginTop: "1.8em" }}>
+				<div style={{ marginTop: "1.8em", height: 'calc( 100% - 8em )' }}>
 					<CompanyDraftForm
 						draft={draft}
 						errors={errors}
@@ -108,6 +110,7 @@ class CompanyDraftNew extends Component {
 					/>
 					<br />
 					<BasicButton
+						id={"saveDraft"}
 						floatRight
 						text={translate.save}
 						color={getPrimary()}
@@ -120,7 +123,7 @@ class CompanyDraftNew extends Component {
 						onClick={() => this.createCompanyDraft()}
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
-					<br/><br/>
+					<br /><br />
 				</div>
 			</React.Fragment>
 		);

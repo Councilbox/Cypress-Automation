@@ -177,14 +177,14 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			md={4}
 			lg={4}
 		>
-			{`${participant.name} ${participant.surname}`}
+			{`${participant.name} ${participant.surname || ''}`}
 		</GridItem>
 		<GridItem
 			xs={3}
 			md={2}
 			lg={2}
 		>
-			{`${participant.dni}`}
+			{`${participant.dni || '-'}`}
 		</GridItem>
 		<GridItem
 			xs={3}
@@ -306,7 +306,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								}}
 							/>
 						</div>
-						<Tooltip title={`${participant.name} ${participant.surname}`}>
+						<Tooltip title={`${participant.name} ${participant.surname || ''}`}>
 							<Typography
 								variant="body1"
 								className="truncate"
@@ -315,7 +315,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									width: 'calc(100% - 2.2em)'
 								}}
 							>
-								{`${participant.name} ${participant.surname}`}
+								{`${participant.name} ${participant.surname || ''}`}
 							</Typography>
 						</Tooltip>
 					</div>
@@ -346,7 +346,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 							variant="body1"
 							style={{ color: "grey", fontSize: "0.75rem" }}
 						>
-							{`${participant.dni}`}
+							{`${participant.dni || '-'}`}
 						</Typography>
 					</div>
 					<div

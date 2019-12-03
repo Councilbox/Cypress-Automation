@@ -4,7 +4,7 @@ import { FormControlLabel } from "material-ui/Form";
 import HelpPopover from './HelpPopover';
 import LoadingSection from './LoadingSection';
 
-const CheckBox = ({ value, label, onChange, style, loading, disabled, helpPopover, helpTitle, helpDescription, styleLabel }) => (
+const CheckBox = ({ value, label, onChange, style, loading, disabled, helpPopover, helpTitle, helpDescription, styleLabel, id }) => (
 	<div
 		style={{
 			display: 'flex',
@@ -16,7 +16,7 @@ const CheckBox = ({ value, label, onChange, style, loading, disabled, helpPopove
 				loading?
 					<LoadingSection />
 				:
-				<Checkbox checked={value} onChange={onChange} disabled={disabled} />
+				<Checkbox checked={value} onChange={onChange} disabled={disabled} id={id} />
 			}
 			label={
 				<React.Fragment>

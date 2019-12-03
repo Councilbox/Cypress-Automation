@@ -5,12 +5,13 @@ import { connect } from "react-redux";
 import { Card } from "material-ui";
 import { graphql } from "react-apollo";
 import { login } from "../../queries";
-import { getPrimary, getSecondary, darkGrey } from "../../styles/colors";
+import { getPrimary, getSecondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
 import withTranslations from "../../HOCs/withTranslations";
 import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem } from "../../displayComponents";
 import { useOldState } from "../../hooks";
-import { variant } from "../../config";
+import { useSubdomain, getCustomLogo } from "../../utils/subdomain";
+import { isMobile } from "react-device-detect";
 
 
 const Login = ({ translate, windowSize, ...props }) => {
@@ -26,6 +27,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 	});
 	const primary = getPrimary();
 	const secondary = getSecondary();
+	const subdomain = useSubdomain();
 
 	const login = async () => {
 		const { user, password } = state;
@@ -40,36 +42,45 @@ const Login = ({ translate, windowSize, ...props }) => {
 				}
 			});
 			if (response.errors) {
-				switch (response.errors[0].message) {
-					case "Incorrect password":
+				const errors = {
+					'Incorrect password': () => {
 						setState({
 							loading: false,
 							errors: {
 								password: translate.password_err
 							}
 						});
-						break;
+					},
 
-					case 'Not actived':
+					'Not actived': () => {
 						setState({
 							loading: false,
 							errors: {
 								user: translate.email_not_found
 							}
 						})
-						break;
-					case "Not found":
+					},
+
+					'Not found': () => {
 						setState({
 							loading: false,
 							errors: {
 								user: translate.email_not_found
 							}
 						});
-						break;
+					},
 
-					default:
-						return;
+					'Invalid domain': () => {
+						setState({
+							loading: false,
+							errors: {
+								user: translate.domain_invalid_creds
+							}
+						})
+					}
 				}
+
+				return errors[response.errors[0].message]? errors[response.errors[0].message]() : null;
 			}
 			if (response.data.login) {
 				setState({
@@ -126,12 +137,11 @@ const Login = ({ translate, windowSize, ...props }) => {
 						paddingLeft: "3%",
 						flexDirection: "column",
 						alignItems: "center",
+						...((subdomain.hideSignUp && isMobile)? { display: 'none' } : {}),
 						paddingTop: windowSize === "xs" ? "8%" : "12em"
 					}}
 				>
-					{variant === 'COE'?
-						<COELeftSide translate={translate} windowSize={windowSize} />
-					:
+					{!subdomain.hideSignUp &&
 						<div
 							style={{
 								width: "70%",
@@ -235,10 +245,32 @@ const Login = ({ translate, windowSize, ...props }) => {
 								paddingBottom: 0,
 								fontWeight: "700",
 								fontSize: "1.5em",
-								color: primary
+								color: primary,
+								...(isMobile? {
+									display: 'flex',
+									alignItems: 'center',
+									flexDirection: 'column'
+								} : {})
 							}}
 						>
-							{`${translate.login_signin_header} Councilbox`}
+							{(subdomain.logo && isMobile) &&
+								<React.Fragment>
+									<img
+										src={getCustomLogo()}
+										className="App-logo"
+										style={{
+											height: "1.5em",
+											marginLeft: "1em",
+											// marginLeft: "2em",
+											alignSelf: 'center',
+											userSelect: 'none'
+										}}
+										alt="logo"
+									/>
+									<br />
+								</React.Fragment>
+							}
+							{`${translate.login_signin_header} ${subdomain.title? subdomain.title : 'Councilbox'}`}
 						</div>
 						<form>
 							<div
@@ -330,90 +362,6 @@ const Login = ({ translate, windowSize, ...props }) => {
 	);
 }
 
-
-const COELeftSide = ({ translate, windowSize }) => {
-	const primary = getPrimary();
-
-	return <span />
-
-	return (
-		<Card
-			style={{
-				width: "70%",
-				fontSize: "0.9em",
-				textAlign: 'center',
-				padding: '2em'
-			}}
-		>
-			<h6
-				style={{
-					fontWeight: "300",
-					marginBottom: "1.2em",
-					fontSize: "1.7em"
-				}}
-			>
-				{translate.account_question}
-			</h6>
-			{windowSize !== "xs" && (
-				<span
-					style={{
-						fontSize: "0.76rem",
-						marginBottom: "1em",
-						color: darkGrey,
-						marginTop: "0.7em",
-						textAlign: 'center',
-						alignSelf: 'center'
-					}}
-				>
-					{translate.login_desc}
-				</span>
-			)}
-			<br />
-			<div
-				className="row"
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					marginTop: windowSize === "xs" ? 0 : "1em"
-				}}
-			>
-				<div
-					className="col-lg-6 col-md-6 col-xs-6"
-					style={{ padding: "1em" }}
-				>
-					<Link to="/meeting/new">
-						<BasicButton
-							text={translate.start_conference_test}
-							color={'transparent'}
-							fullWidth
-							buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-							textStyle={{ fontWeight: '700', fontSize: '0.8rem', textTransform: 'none'}}
-						/>
-					</Link>
-				</div>
-				<div
-					className="col-lg-6 col-md-6 col-xs-6"
-					style={{ padding: "1em" }}
-				>
-					<Link to="/signup">
-						<BasicButton
-							text={translate.login_check_in}
-							color={"white"}
-							fullWidth
-							textStyle={{
-								color: primary,
-								fontWeight: "700",
-								fontSize: "0.8rem",
-								textTransform: "none"
-							}}
-							textPosition="before"
-						/>
-					</Link>
-				</div>
-			</div>
-		</Card>
-	)
-}
 
 function mapDispatchToProps(dispatch) {
 	return {

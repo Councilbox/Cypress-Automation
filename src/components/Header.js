@@ -1,25 +1,22 @@
 import React from "react";
 import logo from "../assets/img/logo.png";
-import conpaasLogo from "../assets/img/conpaas_logo.png";
-import coeLogo from "../assets/img/coe.png";
 import icono from "../assets/img/logo-icono.png";
 import { Link } from "react-router-dom";
 import LanguageSelector from "./menus/LanguageSelector";
 import UserMenu from "./menus/UserMenu";
 import CommandLine from './dashboard/CommandLine';
-import { Icon } from "../displayComponents";
+import { Icon, DropDownMenu } from "../displayComponents";
 import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
-import { getSecondary } from "../styles/colors";
+import { getSecondary, getPrimary } from "../styles/colors";
 import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION, variant } from "../config";
-import { ConfigContext } from "../containers/AppControl";
+import { getCustomLogo, getCustomIcon } from "../utils/subdomain";
+import { MenuItem } from "material-ui";
 
-const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, ...props }) => {
-	const config = React.useContext(ConfigContext);
-
+const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props }) => {
 	const goBack = () => {
 		bHistory.goBack();
 	};
@@ -30,6 +27,8 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 
 	const secondary = getSecondary();
 	const language = translate && translate.selectedLanguage;
+	const customIcon = getCustomIcon();
+	const customLogo = getCustomLogo();
 
 	return (
 		<Paper
@@ -81,34 +80,9 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					</Tooltip>
 				)}
 				<Link to="/">
-					{variant === 'COE'?
-						<div>
-							<img
-								src={!showVerticalLayout() ? conpaasLogo : icono}
-								className="App-logo"
-								style={{
-									height: "1.5em",
-									marginLeft: "1em",
-									// marginLeft: "2em",
-									userSelect: 'none'
-								}}
-								alt="logo"
-							/>
-							<img
-								src={!showVerticalLayout() ? coeLogo : icono}
-								className="App-logo"
-								style={{
-									height: "1.5em",
-									marginLeft: "1em",
-									// marginLeft: "2em",
-									userSelect: 'none'
-								}}
-								alt="logo"
-							/>
-						</div>
-					:
+					<div>
 						<img
-							src={!showVerticalLayout() ? logo : icono}
+							src={!showVerticalLayout() ? customLogo ? customLogo : logo : customIcon ? customIcon : icono}
 							className="App-logo"
 							style={{
 								height: "1.5em",
@@ -118,8 +92,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 							}}
 							alt="logo"
 						/>
-					}
-
+					</div>
 				</Link>
 			</div>
 
@@ -134,8 +107,53 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					alignItems: "center"
 				}}
 			>
+				{councilIsFinished &&
+					<DropDownMenu
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'left',
+						}}
+						color="transparent"
+						Component={() =>
+							<div style={{ color: getPrimary(), marginRight: "1em", marginTop: "0.5em", cursor: "pointer" }}>
+								<div>
+									<i className="material-icons" >
+										dehaze
+									</i>
+								</div>
+							</div>
+						}
+						textStyle={{ color: getPrimary() }}
+						type="flat"
+						items={
+							<div style={{ color: getPrimary() }}>
+								{selectHeadFinished !== 'participacion' &&
+									<MenuItem onClick={() => setSelectHeadFinished("participacion")} >
+										Mi participación
+									</MenuItem>
+								}
+								{selectHeadFinished !== 'reunion' &&
+									<MenuItem onClick={() => setSelectHeadFinished("reunion")} >
+										{translate.summary}
+									</MenuItem>
+								}
+								{selectHeadFinished !== 'contactAdmin' &&
+									<MenuItem onClick={() => setSelectHeadFinished("contactAdmin")} >
+										{
+											//TRADUCCION
+										}
+										Contacta al admin
+									</MenuItem>
+								}
+								<MenuItem onClick={() => bHistory.push('/')}>
+									{translate.exit}
+								</MenuItem>
+							</div>
+						}
+					/>
+				}
 				{languageSelector &&
-					<span style={{fontSize: '0.85em'}}>
+					<span style={{ fontSize: '0.85em' }}>
 						{`v${CLIENT_VERSION}`}
 					</span>
 				}

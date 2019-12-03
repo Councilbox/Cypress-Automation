@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Icon } from './';
+import { Icon } from './';
 import { getSecondary, darkGrey } from '../styles/colors';
 import { Card, MenuItem } from 'material-ui';
 import { sendGAevent } from '../utils/analytics';

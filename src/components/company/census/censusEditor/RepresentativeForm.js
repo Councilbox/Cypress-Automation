@@ -37,7 +37,7 @@ const RepresentativeForm = ({
 							floatingText={translate.name}
 							type="text"
 							errorText={errors.name}
-							value={representative.name}
+							value={representative.name || ''}
 							onChange={event =>
 								updateState({
 									name: event.nativeEvent.target.value
@@ -50,7 +50,7 @@ const RepresentativeForm = ({
 							floatingText={translate.surname}
 							type="text"
 							errorText={errors.surname}
-							value={representative.surname}
+							value={representative.surname || ''}
 							onChange={event =>
 								updateState({
 									surname: event.nativeEvent.target.value
@@ -63,7 +63,7 @@ const RepresentativeForm = ({
 							floatingText={translate.new_dni}
 							type="text"
 							errorText={errors.dni}
-							value={representative.dni}
+							value={representative.dni || ''}
 							onChange={event =>
 								updateState({
 									dni: event.nativeEvent.target.value
@@ -76,7 +76,7 @@ const RepresentativeForm = ({
 							floatingText={translate.position}
 							type="text"
 							errorText={errors.position}
-							value={representative.position}
+							value={representative.position || ''}
 							onChange={event =>
 								updateState({
 									position: event.nativeEvent.target.value
@@ -90,7 +90,7 @@ const RepresentativeForm = ({
 							floatingText={translate.email}
 							type="text"
 							errorText={errors.email}
-							value={representative.email}
+							value={representative.email || ''}
 							onChange={event =>
 								updateState({
 									email: event.nativeEvent.target.value
@@ -103,7 +103,7 @@ const RepresentativeForm = ({
 							floatingText={translate.phone}
 							type="text"
 							errorText={errors.phone}
-							value={representative.phone}
+							value={representative.phone || ''}
 							onChange={event =>
 								updateState({
 									phone: event.nativeEvent.target.value

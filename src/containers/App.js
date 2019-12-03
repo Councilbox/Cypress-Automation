@@ -5,9 +5,10 @@ import createHistory from "history/createBrowserHistory";
 import LoadingMainApp from '../displayComponents/LoadingMainApp';
 import Loadable from 'react-loadable';
 import configureStore from "../store/store";
+import ThemeProvider from "../displayComponents/ThemeProvider";
 import ErrorHandler from '../components/ErrorHandler';
 import { Provider } from "react-redux";
-import { initUserData, loadingFinished, setLanguage, noServerResponse, serverRestored } from "../actions/mainActions";
+import { initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored } from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
 import { RetryLink } from 'apollo-link-retry';
 import AppControl from './AppControl';
@@ -29,7 +30,7 @@ import moment from "moment/min/moment-with-locales.min";
 import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
 import ConveneDisplay from "../components/council/convene/ConveneDisplay";
 import { pageView } from "../utils/analytics";
-import withSharedProps from "../HOCs/withSharedProps";
+import { shouldLoadSubdomain } from "../utils/subdomain";
 export { moment as moment };
 
 const httpLink = new HttpLink({
@@ -180,15 +181,20 @@ export const client = new ApolloClient({
 		}
 	}
 });
-
-export const store = configureStore();
-store.dispatch(setLanguage("es"));
 export const bHistory = createHistory();
+export const store = configureStore();
+
+
 if (sessionStorage.getItem("token")) {
 	store.dispatch({ type: "LOGIN_SUCCESS" });
 	store.dispatch(initUserData());
 } else {
+	store.dispatch(setLanguage(getDefaultLanguage()));
 	store.dispatch(loadingFinished());
+}
+
+if(shouldLoadSubdomain()){
+	store.dispatch(loadSubdomainConfig());
 }
 
 if(sessionStorage.getItem("participantLoginSuccess")){
@@ -199,15 +205,17 @@ const App = () => {
 	return (
 		<ApolloProvider client={client}>
 			<Provider store={store}>
-				<ErrorHandler>
-					<AppControl>
-						<AdomWrapper>
-							<Router history={bHistory}>
-								<RouterWrapper />
-							</Router>
-						</AdomWrapper>
-					</AppControl>
-				</ErrorHandler>
+				<ThemeProvider>
+					<ErrorHandler>
+						<AppControl>
+							<AdomWrapper>
+								<Router history={bHistory}>
+									<RouterWrapper />
+								</Router>
+							</AdomWrapper>
+						</AppControl>
+					</ErrorHandler>
+				</ThemeProvider>
 			</Provider>
 		</ApolloProvider>
 	);
@@ -281,3 +289,18 @@ const RouterWrapper = props => {
 };
 
 export default App;
+
+
+function getDefaultLanguage() {
+	const languages = {
+		'es': 'es',
+		'ca': 'cat',
+		'en': 'en',
+		'gl': 'gal',
+		'pt': 'pt'
+	}
+
+	const languageCode = navigator.language || navigator.userLanguage;
+	const language = languageCode.split('-')[0];
+	return languages[language]? languages[language] : 'en';
+}

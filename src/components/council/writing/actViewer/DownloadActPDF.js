@@ -1,99 +1,133 @@
 import React from 'react';
-import { BasicButton } from '../../../../displayComponents';
+import { BasicButton, DropDownMenu } from '../../../../displayComponents';
 import { downloadFile } from '../../../../utils/CBX';
 import { downloadAct } from '../../../../queries';
 import { withApollo } from 'react-apollo';
+import { MenuItem, Divider } from 'material-ui';
 import FontAwesome from "react-fontawesome";
 import { getSecondary } from '../../../../styles/colors';
 
 
-class DownloadActPDF extends React.Component {
+const DownloadActPDF = ({ client, council, translate }) => {
+    const [downloading, setDownloading] = React.useState(false);
+    const secondary = getSecondary();
 
-    state = {
-        downloadingPDF: false
-    }
-
-    downloadPDF = async () => {
-        this.setState({
-            downloadingPDF: true
-        })
-        const response = await this.props.client.query({
-            query: downloadAct,
-            variables: {
-                councilId: this.props.council.id
-            }
+    const downloadPDF = async clean => {
+        setDownloading(true);
+		const response = await client.query({
+			query: downloadAct,
+			variables: {
+                councilId: council.id,
+                clean
+			}
         });
 
-        if (response) {
-            if (response.data.downloadAct) {
-                this.setState({
-                    downloadingPDF: false
-                });
-                downloadFile(
-                    response.data.downloadAct,
-                    "application/pdf",
-                    `${this.props.translate.act.replace(/ /g, '_')}-${
-                    this.props.council.name.replace(/ /g, '_').replace(/\./g, '_')
-                    }`
-                );
-            }
-        }
+		if (response) {
+			if (response.data.downloadAct) {
+				setDownloading(false);
+				downloadFile(
+					response.data.downloadAct,
+					"application/pdf",
+					`${translate.act.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '_')
+					}`
+				);
+			}
+		}
     };
 
-    render() {
-        const secondary = getSecondary();
-        const { translate, inEditorActa, text } = this.props;
-        if (inEditorActa) {
-            return (
-                <BasicButton
-                    text={text}
-                    color={"white"}
-                    textStyle={{
-                        color: "black",
-                        fontSize: "0.9em",
-                        textTransform: "none",
-                        whiteSpace: "nowrap"
-                    }}
-                    loading={this.state.downloadingPDF}
-                    textPosition="after"
-                    iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-file-pdf-o" aria-hidden="true"></i>}
-                    onClick={this.downloadPDF}
-                    buttonStyle={{
-                        marginRight: "1em",
-                        boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                        borderRadius: '3px'
+    return (
+        <DropDownMenu
+            color="transparent"
+            id={'user-menu-trigger'}
+            loading={downloading}
+            loadingColor={secondary}
+            text={translate.export_act_to}
+            textStyle={{ color: secondary }}
+            type="flat"
+            buttonStyle={{border: `1px solid ${secondary}`}}
+            icon={
+                <i className="fa fa-download" style={{
+                        fontSize: "1em",
+                        color: secondary,
+                        marginLeft: "0.3em"
                     }}
                 />
-            )
-        } else {
-            return (
-                <BasicButton
-                    text={translate.export_original_act}
-                    color={secondary}
-                    loading={this.state.downloadingPDF}
-                    buttonStyle={{ marginTop: "0.5em" }}
-                    textStyle={{
-                        color: "white",
-                        fontWeight: "700",
-                        fontSize: "0.9em",
-                        textTransform: "none"
-                    }}
-                    icon={
-                        <FontAwesome
-                            name={"file-pdf-o"}
+            }
+            items={
+                <React.Fragment>
+                    <MenuItem onClick={() => downloadPDF(false)}>
+                        <div
                             style={{
-                                fontSize: "1em",
-                                color: "white",
-                                marginLeft: "0.3em"
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
                             }}
-                        />
-                    }
-                    textPosition="after"
-                    onClick={this.downloadPDF}
-                />
-            )
-        }
-    }
+                        >
+                            <i className="fa fa-file-pdf-o" style={{
+                                    fontSize: "1em",
+                                    color: secondary,
+                                    marginLeft: "0.3em"
+                                }}
+                            />
+                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                                Acta Councilbox
+                            </span>
+                        </div>
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem onClick={() => downloadPDF(true)}>
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }}
+                        >
+                            <i className="fa fa-file-pdf-o" style={{
+                                    fontSize: "1em",
+                                    color: secondary,
+                                    marginLeft: "0.3em"
+                                }}
+                            />
+                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                                Acta en limpio
+                            </span>
+                        </div>
+                    </MenuItem>
+                </React.Fragment>
+            }
+        />
+    )
 }
+
+/*
+<BasicButton
+    text={translate.export_original_act}
+    color={secondary}
+    loading={downloading}
+    buttonStyle={{ marginTop: "0.5em" }}
+    textStyle={{
+        color: "white",
+        fontWeight: "700",
+        fontSize: "0.9em",
+        textTransform: "none"
+    }}
+    icon={
+        <FontAwesome
+            name={"file-pdf-o"}
+            style={{
+                fontSize: "1em",
+                color: "white",
+                marginLeft: "0.3em"
+            }}
+        />
+    }
+    textPosition="after"
+    onClick={downloadPDF}
+/>
+
+*/
 
 export default withApollo(DownloadActPDF);

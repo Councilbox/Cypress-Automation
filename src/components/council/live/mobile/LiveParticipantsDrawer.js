@@ -71,8 +71,7 @@ const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
                                 overflow: "hidden",
                                 paddingBottom: "3em",
                                 backgroundColor: darkGrey,
-                                position: "relative",
-                                overflow: 'hidden'
+                                position: "relative"
                             }}
                         >
                             <ParticipantsLive

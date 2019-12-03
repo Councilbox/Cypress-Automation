@@ -274,6 +274,11 @@ class AppRouter extends React.Component {
 					/>
 					<Route
 						exact
+						path="/participant/redirect/:creds"
+						component={ParticipantTokenContainer}
+					/>
+					<Route
+						exact
 						path="/attendance/token/:token/"
 						component={AssistanceTokenContainer}
 					/>

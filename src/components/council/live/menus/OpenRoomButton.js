@@ -70,6 +70,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 							sendCredentials: isInputChecked
 						})
 					}
+					id={'checkEnviarEmail'}
 				/>
 				{council.videoEmailsDate &&
 					<span>{`Enviadas por última vez ${moment(council.videoEmailsDate).format('LLL')}`/*TRADUCCION*/}</span>
@@ -99,6 +100,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 						text={translate.open_room}
 						color={primary}
 						loading={loading}
+						id={'abrirSalaEnReunion'}
 						onClick={() => setState({ confirmModal: true })}
 						textPosition="before"
 						icon={

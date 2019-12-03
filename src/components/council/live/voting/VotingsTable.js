@@ -1,6 +1,6 @@
 import React from 'react';
 import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES } from "../../../../constants";
-import { TableRow, TableCell, withStyles, Card, CardContent, CardHeader } from "material-ui";
+import { TableRow, TableCell, withStyles, Card, CardContent } from "material-ui";
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from "../../../../styles/colors";
@@ -17,7 +17,6 @@ import {
 	GridItem,
 	AlertConfirm
 } from "../../../../displayComponents";
-import { updateAgendaVoting } from "../../../../queries/agenda";
 import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
@@ -124,6 +123,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 									translate={translate}
 									agendaVoting={vote}
 									active={vote.vote}
+									council={props.council}
 									refetch={refreshTable}
 								/>
 								:
@@ -159,36 +159,32 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 	)
 
 	const renderParticipantInfo = vote => {
-
-		<div style={{ display: "flex", fontSize: "15px" }}>
-			<div style={{ marginRight: "0.5em" }}>
-				<span >
-					{!!vote.authorRepresentative ?
-						`${vote.author.name} ${vote.author.surname} - Representado por: ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`
-						:
-						`${vote.author.name} ${vote.author.surname} ${vote.author.position ? ` - ${vote.author.position}` : ''}`
-					}
-				</span>
-				<React.Fragment>
-					{!!vote.delegatedVotes &&
-						vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-								<br />
-								{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} ${`(Ha delegado su voto)`}`}
-							</React.Fragment>
-						))
-					}
-				</React.Fragment>
-			</div>
-		</div>
-
 		return (
 			<div style={{ minWidth: '7em', fontSize: '0.9em' }}>
 				<span style={{ fontWeight: '700' }}>
 					{!!vote.authorRepresentative ?
-						`${vote.author.name} ${vote.author.surname} - Representado por: ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`
+						<React.Fragment>
+						{`${vote.author.name} ${vote.author.surname} - ${translate.represented_by}: ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
+							{vote.author.voteDenied &&
+								<Tooltip title={vote.author.voteDeniedReason}>
+									<span style={{color: 'red', fontWeight: '700'}}>
+										(Voto denegado)
+									</span>
+								</Tooltip>
+							}
+						</React.Fragment>
 						:
-						`${vote.author.name} ${vote.author.surname} ${vote.author.position ? ` - ${vote.author.position}` : ''}`
+						<React.Fragment>
+							{`${vote.author.name} ${vote.author.surname} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
+							{vote.author.voteDenied &&
+								<Tooltip title={vote.author.voteDeniedReason}>
+									<span style={{color: 'red', fontWeight: '700'}}>
+										(Voto denegado)
+									</span>
+								</Tooltip>
+							}
+						</React.Fragment>
+
 					}
 				</span>
 				<React.Fragment>
@@ -196,7 +192,15 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 						vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 								<br />
-								{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} ${`(Ha delegado su voto)`} ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
+								{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
+								{delegatedVote.author.voteDenied &&
+									<Tooltip title={delegatedVote.author.voteDeniedReason}>
+										<span style={{color: 'red', fontWeight: '700'}}>
+											(Voto denegado)
+										</span>
+									</Tooltip>
+								}
+
 							</React.Fragment>
 						))
 					}
@@ -233,7 +237,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					<React.Fragment>
 						<div style={{ display: isMobile ? "block" : "flex", flexDirection: "row", alignItems: 'center', width: "100%", padding: "0px", }}>
 							<div   >
-								<span >Filtrar por:</span>
+								<span>{translate.filter_by}</span>
 							</div>
 							<div style={{ display: "flex" }}>
 								<FilterButton
@@ -440,8 +444,8 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 							</div>
 						</React.Fragment>
 				) : (
-							translate.no_results
-						)}
+					translate.no_results
+				)}
 			</div>
 
 		</Grid>
@@ -494,7 +498,6 @@ const PrivateVotingDisplay = compose(
 )(({ translate, agenda, vote, refetch, togglePresentVote, cancelRemoteVote, council, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [modal, setModal] = React.useState(false);
-	const secondary = getSecondary();
 
 	const closeModal = () => {
 		setModal(false);
@@ -613,22 +616,22 @@ const PrivateVotingDisplay = compose(
 
 const setAllPresentVotingsMutation = gql`
 	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
-					setAllPresentVotings(agendaId: $agendaId, vote: $vote){
-					success
+			setAllPresentVotings(agendaId: $agendaId, vote: $vote){
+			success
 			message
-				}
-			}
-		`;
+		}
+	}
+`;
 
 const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 	name: 'setAllPresentVotings'
-})(({ translate, agenda, setAllPresentVotings, refetch }) => {
+})(({ agenda, setAllPresentVotings, refetch }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const setAllPresents = async vote => {
 		setLoading(true);
 
-		const response = await setAllPresentVotings({
+		await setAllPresentVotings({
 			variables: {
 				agendaId: agenda.id,
 				vote
@@ -640,6 +643,7 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 		setLoading(false);
 	}
 
+	//TRADUCCION
 	return (
 		<DropDownMenu
 			color="transparent"
@@ -665,7 +669,6 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 		/>
 	)
 })
-
 
 const regularCardStyle = {
 	cardTitle: {

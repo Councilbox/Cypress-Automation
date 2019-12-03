@@ -1,10 +1,9 @@
 import React from "react";
-import { lightGrey, getPrimary, getSecondary, primary, secondary } from "../styles/colors";
+import { lightGrey, getPrimary } from "../styles/colors";
 //import Scrollbar from "react-perfect-scrollbar";
 import Scrollbar from './Scrollbar';
 import withWindowSize from "../HOCs/withWindowSize";
 import { Paper } from "material-ui";
-import { isMobile } from 'react-device-detect';
 import CBXFooter from './CBXFooter';
 
 
@@ -97,7 +96,7 @@ const CardPageLayout = ({
 									paddingRight: windowSize === "xl" && "2vw"
 								}}
 							>
-								<div className="container-fluid">
+								<div className="container-fluid" style={{height: "100%", overflow:"hidden"}}>
 									{children}
 								</div>
 							</div>

@@ -84,7 +84,7 @@ class Convene extends React.Component {
 	}
 
 	togglePublicConvene = async () => {
-		const response = await this.props.updateCouncil({
+		await this.props.updateCouncil({
 			variables: {
 				council: {
 					id: this.props.data.council.id,
@@ -351,11 +351,11 @@ class Convene extends React.Component {
 											color="primary"
 										/>
 									}
-									label={council.publicConvene === 1 ? 'Convocatoria pública' : 'Convocatoria privada'}
+									label={council.publicConvene === 1 ? translate.public_convene : translate.private_convene}
 								/>
 								{council.publicConvene === 1 &&
 									<div style={{ userSelect: 'text' }}>
-										{`Enlace para compartir: ${window.location.origin}/convene/${this.props.data.council.id}`/*TRADUCCION*/}
+										{`${translate.link}: ${window.location.origin}/convene/${this.props.data.council.id}`/*TRADUCCION*/}
 									</div>
 								}
 
@@ -394,7 +394,7 @@ class Convene extends React.Component {
 						buttonAccept={translate.accept}
 						buttonCancel={translate.cancel}
 						bodyText={<div>
-							Al realizar está acción se mostrará un link el cual cualquier persona podrá ver la convocatoria, para deshacer está acción puede volver a configurar su convocatoria como privada.
+							{translate.public_convene_warning}
 					</div>}
 						title={translate.warning}
 					/>
