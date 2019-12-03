@@ -34,6 +34,7 @@ import {
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
+import DocumentEditor from "../../../documentEditor/DocumentEditor";
 
 export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
@@ -418,6 +419,13 @@ class ActEditor extends Component {
 
 		council.attendants = this.state.data.councilAttendants.list;
 		council.delegatedVotes = this.state.data.participantsWithDelegatedVote;
+
+
+		return (
+			<DocumentEditor
+
+			/>
+		)
 
 		return (
 			<ConfigContext.Consumer>

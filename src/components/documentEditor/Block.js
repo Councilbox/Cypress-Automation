@@ -1,16 +1,16 @@
 import React from 'react';
-import { getPrimary, getSecondary } from '../../../../styles/colors';
-import RichTextInput from '../../../../displayComponents/RichTextInput';
+import { getPrimary, getSecondary } from '../../styles/colors';
+import RichTextInput from '../../displayComponents/RichTextInput';
 import { Button, Collapse } from 'material-ui';
-import { DRAFT_TYPES } from '../../../../constants';
-import iconVotaciones from '../../../../assets/img/handshake.svg';
-import iconAgendaComments from '../../../../assets/img/speech-bubbles-comment-option.svg';
-import { BasicButton } from '../../../../displayComponents';
+import { DRAFT_TYPES } from '../../constants';
+import iconVotaciones from '../../assets/img/handshake.svg';
+import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
+import { BasicButton } from '../../displayComponents';
 import { Dialog, DialogTitle, DialogContent } from 'material-ui';
-import LoadDraft from '../../../company/drafts/LoadDraft';
-import { ActContext } from '../OrdenarPrueba';
-import withSharedProps from '../../../../HOCs/withSharedProps';
-import { changeVariablesToValues } from '../../../../utils/CBX';
+import LoadDraft from '../company/drafts/LoadDraft';
+import { ActContext } from './DocumentEditor';
+import withSharedProps from '../../HOCs/withSharedProps';
+import { changeVariablesToValues } from '../../utils/CBX';
 
 
 const Block = ({ expand, setExpand, company, translate, ...props }) => {

@@ -1,7 +1,7 @@
-import iconVotaciones from '../../../../assets/img/handshake.svg';
-import iconAsistentes from '../../../../assets/img/meeting.svg';
-import iconDelegaciones from '../../../../assets/img/networking.svg';
-import { getAgendaResult, hasVotation } from '../../../../utils/CBX';
+import iconVotaciones from '../../assets/img/handshake.svg';
+import iconAsistentes from '../../assets/img/meeting.svg';
+import iconDelegaciones from '../../assets/img/networking.svg';
+import { getAgendaResult, hasVotation } from '../../utils/CBX';
 
 //TRADUCCION
 // expand: true

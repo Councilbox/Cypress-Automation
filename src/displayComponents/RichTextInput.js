@@ -89,7 +89,7 @@ class RichTextInput extends React.Component {
 	};
 
 	render() {
-		const { tags, loadDraft, errorText, required, translate, styles } = this.props;
+		const { tags, loadDraft, errorText, required, noBordes, translate, styles } = this.props;
 		const modules = {
 			toolbar: {
 				container: [

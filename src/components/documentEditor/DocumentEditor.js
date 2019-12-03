@@ -1,23 +1,21 @@
 import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { Card, MenuItem, FormControlLabel, Switch } from 'material-ui';
-import { Grid, Scrollbar, SelectInput, LoadingSection, BasicButton } from '../../../displayComponents';
-import { getPrimary, getSecondary } from '../../../styles/colors';
-import withSharedProps from '../../../HOCs/withSharedProps';
+import { Card } from 'material-ui';
+import { Grid, Scrollbar, LoadingSection, BasicButton } from '../../displayComponents';
+import { getPrimary, getSecondary } from '../../styles/colors';
+import withSharedProps from '../../HOCs/withSharedProps';
 import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
-import { changeVariablesToValues, checkForUnclosedBraces, downloadFile } from '../../../utils/CBX';
+import { changeVariablesToValues, checkForUnclosedBraces, downloadFile } from '../../utils/CBX';
 import { toast } from 'react-toastify';
-import imgIzq from "../../../assets/img/TimbradoCBX.jpg";
-import previewImg from '../../../assets/img/preview-1.svg';
-import Lupa from '../../../displayComponents/Lupa';
-import textool from '../../../assets/img/text-tool.svg'
-import DownloadActPDF from '../../council/writing/actViewer/DownloadActPDF';
-import { getBlocks, generateAgendaBlocks } from './documentEditor/EditorBlocks';
-import AgreementsBlock from './documentEditor/AgreementsBlock';
-import Block, { BorderBox } from './documentEditor/Block';
-import AgreementsPreview from './documentEditor/AgreementsPreview';
+import imgIzq from "../../assets/img/TimbradoCBX.jpg";
+import Lupa from '../../displayComponents/Lupa';
+import textool from '../../assets/img/text-tool.svg'
+import { getBlocks, generateAgendaBlocks } from './EditorBlocks';
+import AgreementsBlock from './AgreementsBlock';
+import Block, { BorderBox } from './Block';
+import AgreementsPreview from './AgreementsPreview';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -37,8 +35,7 @@ export const ActContext = React.createContext();
 const councilId = 7113;
 
 
-const OrdenarPrueba = ({ translate, company, client, ...props }) => {
-
+const DocumentEditor = ({ translate, company, client, ...props }) => {
     const [template, setTemplate] = React.useState(0);
     const [data, setData] = React.useState(false);
     const [colapse, setColapse] = React.useState(false);
@@ -250,8 +247,6 @@ const OrdenarPrueba = ({ translate, company, client, ...props }) => {
                 councilId
             }
         });
-
-        console.log(response);
 
         if (response) {
             if (response.data.generateDocPDF) {
@@ -1127,4 +1122,4 @@ const CouncilActData = gql`
 	}
 `;
 
-export default withApollo(withSharedProps()(OrdenarPrueba)); 
+export default withApollo(withSharedProps()(DocumentEditor)); 
