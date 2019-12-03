@@ -212,6 +212,27 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								/>
 						}
 
+						{(participant.representatives && participant.representatives.length > 0 && participant.representatives[0].delegatedVotes) &&
+							participant.representatives[0].delegatedVotes.map(delegatedVote => (
+								<ParticipantBlock
+									{...props}
+									active={false}
+									participant={delegatedVote}
+									translate={translate}
+									action={
+										<RemoveDelegationButton
+											delegatedVote={delegatedVote}
+											participant={participant}
+											translate={translate}
+											refetch={data.refetch}
+										/>
+									}
+									data={data}
+									type={3}
+								/>
+							))
+						}
+
 						{(participant.delegatedVotes && participant.delegatedVotes.length > 0) &&
 							participant.delegatedVotes.map(delegatedVote => (
 								<ParticipantBlock
