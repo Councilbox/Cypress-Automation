@@ -270,6 +270,11 @@
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.5.3.tgz#91b728599544efbb7386d8b6633693a3c2e7ade5"
 
+"@wojtekmaj/date-utils@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@wojtekmaj/date-utils/-/date-utils-1.0.0.tgz#97aebf5ab317cf40d56492642f921480d4f89342"
+  integrity sha512-tHzSlWCmb1GjxjiPRTju7i2bQigYriFDmCpaf1dC4SebFRjhBiuRpIxy5oI3b3ZMg9OzqGnApdZJrlYSwEUJAg==
+
 abab@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -8321,15 +8326,15 @@ react-bootstrap@^0.32.1:
     uncontrollable "^4.1.0"
     warning "^3.0.0"
 
-react-calendar@^2.19.2:
-  version "2.19.2"
-  resolved "https://registry.yarnpkg.com/react-calendar/-/react-calendar-2.19.2.tgz#496e78eb11a00aee1ae6b5d02d221ed1ca2db952"
-  integrity sha512-zKbWxwmYEg84grFsCJz9EYpnGqsZy0iV67dHzkVE0EhBdXMg2eISBQYvw4+t8zdy5ySxQkDhUW8X8ERbSyZPVw==
+react-calendar@3.0.0-beta.2:
+  version "3.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/react-calendar/-/react-calendar-3.0.0-beta.2.tgz#1792919bdabc6fa8ad146b733b6e7f7dce8cd1de"
+  integrity sha512-aPBPwilXndRsRQtKi4xZSIK6rGE61a4ndp6CQ0uin3Bakvk1t6NV+ITc8cIcFuES+akFJ03KyGFLrdlrPLZXFA==
   dependencies:
+    "@wojtekmaj/date-utils" "^1.0.0"
     get-user-locale "^1.2.0"
     merge-class-names "^1.1.1"
     prop-types "^15.6.0"
-    react-lifecycles-compat "^3.0.4"
 
 react-chartjs-2@^2.7.4:
   version "2.7.4"
@@ -8520,7 +8525,7 @@ react-lifecycles-compat@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-2.0.2.tgz#00a23160eec17a43b94dd74f95d44a1a2c3c5ec1"
 
-react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 

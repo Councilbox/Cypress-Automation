@@ -215,6 +215,9 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 	const size = !hasBook ? 4 : 3;
 	const blankSize = !hasBook ? 2 : 3;
 
+	const changeMonth = ( e ) => {
+		console.log(e  )
+	}
 
 	return (
 		<div style={{ width: "100%" }}>
@@ -279,11 +282,17 @@ const TopSectionBlocks = ({ translate, company, user, client, ...props }) => {
 					<GridItem xs={4} md={4} lg={4}>
 						<div style={{ padding: "1em", display: 'flex', justifyContent: "center" }}>
 							<Calendar
-								// onChange={this.onChange}
+								// onClickMonth={()=>changeMonth()}
+								// onChange={()=>changeMonth()}
+								// onDrillDown={()=>changeMonth()}
+								// onViewChange={()=>changeMonth()}
+								// onDrillUp={()=>changeMonth()}
+								prevLabel={ <span onClick={changeMonth}><i className="fa fa-github-alt" ></i></span> }
+								nextLabel={ <span onClick={(e)=>changeMonth(e)}><i className="fa fa-github-alt" ></i></span> }
 								value={new Date()}
 								minDetail={'month'}
 								tileClassName={date => getTileClassName(date)}
-								onClickDay={selectDay}
+								// onClickDay={selectDay}
 							/>
 						</div>
 					</GridItem>
