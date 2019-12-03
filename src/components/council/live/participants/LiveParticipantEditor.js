@@ -28,7 +28,6 @@ import { PARTICIPANT_STATES } from "../../../../constants";
 import SignatureButton from "./SignatureButton";
 import { client } from "../../../../containers/App";
 import gql from "graphql-tag";
-import ParticipantStateIcon from "./ParticipantStateIcon";
 import RemoveDelegationButton from "./RemoveDelegationButton";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
@@ -37,7 +36,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const refreshEmailStates = async () => {
 		const response = await props.updateParticipantSends({
 			variables: {
-				participantId: data.liveParticipant.id
+				participantId: showStateMenu()? data.liveParticipant.id : participant.representatives[0].id
 			}
 		});
 
