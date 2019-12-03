@@ -3,14 +3,9 @@ import { compose, graphql } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
 import { isLandscape } from "../../../../utils/screen";
 import { isMobile } from 'react-device-detect';
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { getSecondary } from "../../../../styles/colors";
 import {
 	Typography,
-	Table,
-	TableHead,
-	TableBody,
-	TableRow,
-	TableCell
 } from "material-ui";
 import {
 	Grid,
@@ -19,24 +14,17 @@ import {
 	LoadingSection,
 	DropDownMenu,
 	ParticipantDisplay,
-	RefreshButton,
-	CloseIcon,
 	Scrollbar
 } from "../../../../displayComponents";
 import * as CBX from "../../../../utils/CBX";
-import SignatureModal from "./modals/SignatureModal";
 import withWindowSize from '../../../../HOCs/withWindowSize';
-import ParticipantStateSelector from "./ParticipantStateSelector";
 import ParticipantStateList from "./ParticipantStateList";
 import NotificationsTable from "../../../notifications/NotificationsTable";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
 import StateIcon from "./StateIcon";
-import TypeIcon from "./TypeIcon";
 import ParticipantSelectActions from "./ParticipantSelectActions";
-import DownloadCBXDataButton from "../../prepare/DownloadCBXDataButton";
 import ResendCredentialsModal from "./modals/ResendCredentialsModal";
-import { PARTICIPANT_STATES, PARTICIPANT_ERRORS, PARTICIPANT_TYPE } from "../../../../constants";
-import { useOldState, useHoverRow } from "../../../../hooks";
+import { PARTICIPANT_STATES } from "../../../../constants";
 import SignatureButton from "./SignatureButton";
 import { client } from "../../../../containers/App";
 import gql from "graphql-tag";
@@ -111,6 +99,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											participant={participant}
 											translate={translate}
 											council={props.council}
+											refetch={data.refetch}
 										/>
 									</div>
 								</Typography>
@@ -301,14 +290,39 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 					</div>
 				</div>
 			</GridItem>
-			{active && 
+			{active &&
 				<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
 					<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
 						<div>
-							<ParticipantStateIcon
-								translate={translate}
-								participant={participant}
-								ratio={1.1}
+							<DropDownMenu
+								claseHover={"classHover"}
+								color="transparent"
+								textStyle={{ boxShadow: "none", margin: "0px" }}
+								// textStyle={{ boxShadow: "none", height: '100%', fontSize: "24px", minWidth: "24px", padding: "0", margin: "0px" }}
+								buttonStyle={{ background: "white" }}
+								style={{ paddingLeft: '0px', paddingRight: '0px' }}
+								icon={
+									<StateIcon
+										translate={translate}
+										state={participant.state}
+										ratio={1.3}
+									/>
+								}
+								items={
+									<React.Fragment>
+										<ParticipantStateList
+											participant={participant}
+											council={props.council}
+											translate={translate}
+											refetch={props.refetch}
+											inDropDown={true}
+										/>
+									</React.Fragment>
+								}
+								anchorOrigin={{
+									vertical: 'bottom',
+									horizontal: 'left',
+								}}
 							/>
 						</div>
 						<div style={{
@@ -337,7 +351,6 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 							</div>
 						</GridItem>
 					}
-					
 					<GridItem xs={12} md={5} lg={5}>
 						{action ||
 							<div>
@@ -349,7 +362,6 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 										translate={translate}
 									/>
 								}
-								
 							</div>
 						}
 					</GridItem>

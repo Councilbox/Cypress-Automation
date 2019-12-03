@@ -45,7 +45,7 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
     }
 
     const toggleDeniedVote = async value => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation SetParticipantVoteDenied($participantId: Int, $value: Boolean!, $text: String){
                     setParticipantVoteDenied(participantId: $participantId, value: $value, text: $text){
