@@ -1,4 +1,4 @@
-export const buildDocVariable = doc => {
+export const buildDocVariable = (doc, options) => {
     return ({
         fragments: doc.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
             type: item.type,
@@ -9,6 +9,9 @@ export const buildDocVariable = doc => {
             type: item.type,
             text: item.text,
             data: item.data
-        }))
+        })),
+        options: {
+            stamp: options.stamp
+        }
     })
 }

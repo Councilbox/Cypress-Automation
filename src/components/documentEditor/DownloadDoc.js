@@ -8,7 +8,7 @@ import FileSaver from 'file-saver';
 import { buildDocVariable } from './utils';
 
 
-const DownloadDoc = ({ client, doc, council, translate }) => {
+const DownloadDoc = ({ client, doc, council, options, translate }) => {
     const [loading, setLoading] = React.useState(false);
 
     const downloadPDF = async () => {
@@ -19,7 +19,7 @@ const DownloadDoc = ({ client, doc, council, translate }) => {
                 }
             `,
             variables: {
-                doc: buildDocVariable(doc),
+                doc: buildDocVariable(doc, options),
                 councilId: council.id
             }
         });
@@ -43,7 +43,7 @@ const DownloadDoc = ({ client, doc, council, translate }) => {
                 }
             `,
             variables: {
-                doc: buildDocVariable(doc),
+                doc: buildDocVariable(doc, options),
                 councilId: council.id
             }
         });

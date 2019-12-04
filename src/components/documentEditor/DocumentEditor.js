@@ -18,6 +18,7 @@ import Block, { BorderBox } from './Block';
 import AgreementsPreview from './AgreementsPreview';
 import DownloadDoc from './DownloadDoc';
 import OptionsMenu from './OptionsMenu';
+import { buildDocVariable } from './utils';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -197,18 +198,7 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
                 }
             `,
             variables: {
-                doc: {
-                    fragments: doc.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
-                        type: item.type,
-                        text: item.text,
-                        data: item.data
-                    })),
-                    secondaryColumn: doc.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
-                        type: item.type,
-                        text: item.text,
-                        data: item.data
-                    }))
-                },
+                doc: buildDocVariable(doc, options),
                 councilId: data.council.id
             }
         });
@@ -354,6 +344,7 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
                                     <DownloadDoc
                                         translate={translate}
                                         doc={doc}
+                                        options={options}
                                         council={data.council}
                                     />
                                     <BasicButton
