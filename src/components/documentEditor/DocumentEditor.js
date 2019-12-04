@@ -17,6 +17,7 @@ import AgreementsBlock from './AgreementsBlock';
 import Block, { BorderBox } from './Block';
 import AgreementsPreview from './AgreementsPreview';
 import DownloadDoc from './DownloadDoc';
+import OptionsMenu from './OptionsMenu';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -316,6 +317,12 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
                             <Scrollbar>
                                 <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
                                     <React.Fragment>
+                                        {/*TRADUCCION*/}
+                                        <OptionsMenu
+                                            translate={translate}
+                                            options={options}
+                                            setOptions={setOptions}
+                                        />
                                         {arrastrables.items.filter(item => !item.logic).map((item, index) => {
                                             return (
                                                 <BorderBox
@@ -905,138 +912,5 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
         )
     }
 }
-
-
-const CouncilActData = gql`
-	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
-        council(id: $councilID) {
-            id
-			businessName
-			country
-            countryState
-            companyId
-			currentQuorum
-			quorumPrototype
-			secretary
-			president
-			street
-			city
-			name
-			remoteCelebration
-			dateStart
-			dateStart2NdCall
-			dateRealStart
-			dateEnd
-			qualityVoteId
-			firstOrSecondConvene
-			act {
-                id
-				intro
-                constitution
-                conclusion
-            }
-			statute {
-                id
-				statuteId
-                prototype
-                existsQualityVote
-            }
-        }
-
-		agendas(councilId: $councilID) {
-                id
-			orderIndex
-			agendaSubject
-			subjectType
-			abstentionVotings
-			abstentionManual
-			noVoteVotings
-			noVoteManual
-			positiveVotings
-			positiveManual
-			negativeVotings
-			negativeManual
-			description
-			majorityType
-			majority
-			majorityDivider
-			items {
-                id
-				value
-        }
-			options {
-                id
-				maxSelections
-        }
-			ballots {
-                id
-				participantId
-            weight
-            value
-            itemId
-        }
-        numNoVoteVotings
-        numPositiveVotings
-        numNegativeVotings
-        numAbstentionVotings
-        numPresentCensus
-        presentCensus
-        numCurrentRemoteCensus
-        currentRemoteCensus
-        comment
-    }
-
-		councilRecount(councilId: $councilID){
-                socialCapitalTotal
-			partTotal
-			partPresent
-			partRemote
-			weighedPartTotal
-			numTotal
-		}
-
-		participantsWithDelegatedVote(councilId: $councilID){
-                id
-			name
-            surname
-            dni
-			state
-			representative {
-                id
-				name
-            surname
-        }
-    }
-
-		votingTypes {
-                label
-			value
-		}
-
-		councilAttendants(
-			councilId: $councilID
-			options: $options
-		) {
-                list {
-                id
-				name
-            surname
-            lastDateConnection
-            dni
-        }
-    }
-
-		companyStatutes(companyId: $companyId) {
-                id
-			title
-			censusId
-		}
-
-		majorityTypes {
-                label
-			value
-		}
-	}
-`;
 
 export default withApollo(withSharedProps()(DocumentEditor)); 

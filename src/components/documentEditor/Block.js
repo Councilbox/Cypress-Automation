@@ -191,7 +191,6 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
 
 export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar, removeBlock, id, noIcon }) => {
-
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px", ...stylesBody }}>
             <div style={{ width: "100%", display: "flex", }}>
