@@ -11,6 +11,7 @@ import LoadDraft from '../company/drafts/LoadDraft';
 import { ActContext } from './DocumentEditor';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { changeVariablesToValues } from '../../utils/CBX';
+import CheckBox from '../../displayComponents/CheckBox';
 
 
 const Block = ({ expand, setExpand, company, translate, ...props }) => {
@@ -52,13 +53,13 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
         return (
             <div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%', }}>
                 <BorderBox
-                    itemInfo={288}
+                    itemInfo={props.value}
                     icon={props.value.type === 'voting' ? iconVotaciones : iconAgendaComments }
                     id={props.id}
                     colorBorder={props.value.colorBorder}
                     stylesBody={{ width: "100%", margin: "0em", }}
                     removeBlock={props.removeBlock}
-                    borrar={props.value.type === 'agendaComments' ? false : true}
+                    toggle={props.value.type === 'agendaComments' ? false : true}
                     noIcon={true}
                 >
                     <div >
@@ -190,7 +191,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 }
 
 
-export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, borrar, removeBlock, id, noIcon }) => {
+export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, toggle, removeBlock, id, noIcon }) => {
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px", ...stylesBody }}>
             <div style={{ width: "100%", display: "flex", }}>
@@ -219,13 +220,18 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                             <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
                                 {children}
                             </div>
-                            <div style={{ marginLeft: "0.3em", marginRight: "0.8em" }}>
-                                {borrar ?
-                                    <i className="fa fa-trash-o" style={{ cursor: "pointer", color: colorBorder }} onClick={() => removeBlock(id)}>
-                                    </i>
-                                    :
+                            <div style={{ marginLeft: "0.3em", marginRight: "0.8em", height: '100%', display: 'flex', alignItems: 'center' }}>
+                                {toggle ?
+                                    <span style={{ cursor: "pointer",color: colorBorder }} onClick={() => removeBlock(id)}>
+                                        {itemInfo.active?
+                                            <i class="fa fa-check-square-o" aria-hidden="true" style={{color: 'green', fontSize: '20px', }}></i>
+                                         :
+                                            <i class="fa fa-square-o" aria-hidden="true" style={{color: 'grey', fontSize: '20px' }}></i>
+                                         }
+                                    </span>
+                                :
                                     !noIcon &&
-                                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
+                                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(id)}>
                                         arrow_right_alt
                                         </i>
                                 }

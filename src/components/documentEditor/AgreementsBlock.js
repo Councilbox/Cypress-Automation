@@ -4,7 +4,12 @@ import Block from './Block';
 const AgreementsBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, setText, ...props }) => {
     const updateBlock = (index, text) => {
         const newItems = item.items;
-        newItems[index].text = text;
+        const newItem = {
+            ...newItems[index]
+        }
+        newItem.text = text;
+        newItems[index] = newItem;
+
         props.updateBlock(item.id, {
             ...item,
             items: newItems
@@ -12,13 +17,20 @@ const AgreementsBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, set
     }
 
     const removeBlock = index => {
-        item.items.splice(index, 1);
+        const items = [...item.items];
+        let newItem = {
+            ...items[index]
+        };
+        newItem.active = !newItem.active;
+
+        items[index] = newItem;
+
         props.updateBlock(item.id, {
             ...item,
-            items: item.items
+            items
         });
     }
-    
+
     return (
         <React.Fragment>
             {item.items.map((item, index) => (

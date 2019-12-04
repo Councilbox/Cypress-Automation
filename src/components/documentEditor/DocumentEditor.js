@@ -34,7 +34,7 @@ const defaultTemplates = {
 }
 
 export const ActContext = React.createContext();
-const DocumentEditor = ({ translate, company, data, client, ...props }) => {
+const DocumentEditor = ({ translate, company, data, updateDocument, client, ...props }) => {
     const [template, setTemplate] = React.useState(0);
     const [colapse, setColapse] = React.useState(false);
     const [options, setOptions] = React.useState({
@@ -84,8 +84,48 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
             blocks.ATTENDANTS_LIST,
             blocks.DELEGATION_LIST
         ];
+
         setArrastrables({ items });
-        ordenarTemplateInit(defaultTemplates[template], items, agendas, act);
+
+        let template = defaultTemplates[0];
+
+        if(act.document) {
+            template = act.document.items.map(item => item.type);
+        }
+
+        ordenarTemplateInit(template, items, agendas, act);
+    }
+
+    const ordenarTemplateInit = (orden, array, agendas, act) => {
+        if(act.document) {
+            setArrastrables({ items: [...array.filter(value => (
+                value.type === 'text' ||
+                (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
+            )] })
+            setDoc({ items: [...act.document.items] })
+        } else {
+            let auxTemplate = [];
+            let auxTemplate2 = { items: array }
+
+            if (orden !== undefined) {
+                orden.forEach(element => {
+                    if (element === 'agreements') {
+                        auxTemplate = [...auxTemplate, generateAgendaBlocks(translate, agendas)];
+                    } else {
+                        const block = array.find(item => item.type === element);
+                        if (block) {
+                            auxTemplate.push(block);
+                        }
+                    }
+                });
+
+                setArrastrables({ items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] })
+                setDoc({ items: auxTemplate })
+            } else {
+                setDoc({ items: [] })
+                setArrastrables({ items: [...doc.items, ...arrastrables.items] })
+            }
+        }
     }
 
     const addItem = id => {
@@ -257,33 +297,6 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
         }
     }
 
-    const ordenarTemplateInit = (orden, array, agendas, act) => {
-        let auxTemplate = [];
-        let auxTemplate2 = { items: array }
-        if (orden !== undefined) {
-            orden.forEach(element => {
-                if (element === 'agreements') {
-                    auxTemplate = [...auxTemplate, generateAgendaBlocks(translate, agendas)];
-                } else {
-                    const block = array.find(item => item.type === element);
-                    if (block) {
-                        auxTemplate.push(block);
-                    }
-                }
-            });
-
-            setArrastrables({ items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] })
-            setDoc({ items: auxTemplate })
-        } else {
-            setDoc({ items: [] })
-            setArrastrables({ items: [...doc.items, ...arrastrables.items] })
-        }
-    }
-
-
-
-
-
 
     return (
         <ActContext.Provider value={data}>
@@ -350,7 +363,10 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
                                     <BasicButton
                                         text={translate.save}
                                         color={primary}
-                                        onClick={generatePreview}
+                                        onClick={() => updateDocument({
+                                            items: doc.items,
+                                            options
+                                        })}
                                         textStyle={{
                                             color: "white",
                                             fontSize: "0.9em",
@@ -364,6 +380,23 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
                                             borderRadius: '3px'
                                         }}
                                     />
+                                    {/* <BasicButton
+                                        text={translate.save}
+                                        color={primary}
+                                        onClick={generatePreview}
+                                        textStyle={{
+                                            color: "white",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        textPosition="after"
+                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+                                        buttonStyle={{
+                                            marginRight: "1em",
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px'
+                                        }}
+                                    /> */}
                                     <BasicButton
                                         text={'Enviar a revision'}
                                         color={primary}

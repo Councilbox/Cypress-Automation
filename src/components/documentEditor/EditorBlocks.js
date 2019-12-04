@@ -151,6 +151,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                     text: "",
                     editButton: false,
                     type: 'voting',
+                    active: true,
                     noBorrar: false,
                     editButton: false,
                     data: {
