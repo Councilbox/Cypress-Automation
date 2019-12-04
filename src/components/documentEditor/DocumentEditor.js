@@ -7,7 +7,7 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
-import { changeVariablesToValues, checkForUnclosedBraces, downloadFile } from '../../utils/CBX';
+import { changeVariablesToValues, checkForUnclosedBraces } from '../../utils/CBX';
 import { toast } from 'react-toastify';
 import imgIzq from "../../assets/img/TimbradoCBX.jpg";
 import Lupa from '../../displayComponents/Lupa';
@@ -16,6 +16,7 @@ import { getBlocks, generateAgendaBlocks } from './EditorBlocks';
 import AgreementsBlock from './AgreementsBlock';
 import Block, { BorderBox } from './Block';
 import AgreementsPreview from './AgreementsPreview';
+import DownloadDoc from './DownloadDoc';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -31,17 +32,17 @@ const defaultTemplates = {
 }
 
 export const ActContext = React.createContext();
-
-const councilId = 7113;
-
-
 const DocumentEditor = ({ translate, company, data, client, ...props }) => {
     const [template, setTemplate] = React.useState(0);
     const [colapse, setColapse] = React.useState(false);
+    const [options, setOptions] = React.useState({
+        stamp: true,
+        doubleColumn: false
+    });
     const [edit, setEdit] = React.useState(true);
     const [ocultar, setOcultar] = React.useState(true);
     const [preview, setPreview] = React.useState('');
-    const [agendas, setAgendas] = React.useState({ items: [], });
+    const [doc, setDoc] = React.useState({ items: [], });
     const [arrastrables, setArrastrables] = React.useState({ items: [] });
     const [state, setState] = React.useState({
         loadDraft: false,
@@ -86,8 +87,8 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
     }
 
     const addItem = id => {
-        if (agendas.items[0] === undefined) {
-            agendas.items = new Array;
+        if (doc.items[0] === undefined) {
+            doc.items = new Array;
         }
         let resultado = arrastrables.items.find(arrastrable => arrastrable.id === id);
         let arrayArrastrables
@@ -98,19 +99,21 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
             resultado = { id: Math.random().toString(36).substr(2, 9), name: "Bloque de texto", text: 'Inserte el texto', type: "bloqueDeTexto", editButton: true }
         }
         setArrastrables({ items: arrayArrastrables });
-        agendas.items.push(resultado);
-        setAgendas(agendas);
+        doc.items.push(resultado);
+        setDoc(doc);
     }
 
 
     const onSortEnd = ({ oldIndex, newIndex }) => {
-        setAgendas(({ items }) => ({
+        setDoc(({ items }) => ({
             items: arrayMove(items, oldIndex, newIndex),
         }));
     };
 
     const shouldCancelStart = event => {
-        if (event.target.tagName.toLowerCase() === 'i' && event.target.classList[2] !== undefined) {
+        const tagName = event.target.tagName.toLowerCase();
+
+        if (tagName === 'i' && event.target.classList[2] !== undefined) {
             return true
         }
         if (event.target.classList.value === "ql-syntax") {
@@ -125,61 +128,61 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
         if (event.path[1].classList.value === "ql-editor" && event.path[0].tagName.toLowerCase() === "p") {
             return true
         }
-        if (event.target.tagName.toLowerCase() === 'i' && event.target.classList[2] === undefined) {
+        if (tagName === 'i' && event.target.classList[2] === undefined) {
             return true
         }
 
-        if (event.target.tagName.toLowerCase() === 'button' ||
-            event.target.tagName.toLowerCase() === 'span' ||
-            event.target.tagName.toLowerCase() === 'polyline' ||
-            event.target.tagName.toLowerCase() === 'path' ||
-            event.target.tagName.toLowerCase() === 'pre' ||
-            event.target.tagName.toLowerCase() === 'h1' ||
-            event.target.tagName.toLowerCase() === 'h2' ||
-            event.target.tagName.toLowerCase() === 'li' ||
-            event.target.tagName.toLowerCase() === 's' ||
-            event.target.tagName.toLowerCase() === 'a' ||
-            (event.target.tagName.toLowerCase() === 'p' && event.target.parentElement.classList.value === "ql-editor ql-blank") ||
-            event.target.tagName.toLowerCase() === 'u' ||
-            event.target.tagName.toLowerCase() === 'line' ||
-            event.target.tagName.toLowerCase() === 'strong' ||
-            event.target.tagName.toLowerCase() === 'em' ||
-            event.target.tagName.toLowerCase() === 'blockquote' ||
-            event.target.tagName.toLowerCase() === 'svg') {
+        if (tagName === 'button' ||
+            tagName === 'span' ||
+            tagName === 'polyline' ||
+            tagName === 'path' ||
+            tagName === 'pre' ||
+            tagName === 'h1' ||
+            tagName === 'h2' ||
+            tagName === 'li' ||
+            tagName === 's' ||
+            tagName === 'a' ||
+            (tagName === 'p' && event.target.parentElement.classList.value === "ql-editor ql-blank") ||
+            tagName === 'u' ||
+            tagName === 'line' ||
+            tagName === 'strong' ||
+            tagName === 'em' ||
+            tagName === 'blockquote' ||
+            tagName === 'svg') {
             return true
         }
     };
 
 
     const updateCouncilActa = (id, newText) => {
-        let indexItemToEdit = agendas.items.findIndex(item => item.id === id);
-        agendas.items[indexItemToEdit].text = newText;
+        let indexItemToEdit = doc.items.findIndex(item => item.id === id);
+        doc.items[indexItemToEdit].text = newText;
     }
 
     const updateBlock = (id, block) => {
-        let indexItemToEdit = agendas.items.findIndex(item => item.id === id);
-        agendas.items[indexItemToEdit] = block;
-        setAgendas({ ...agendas });
+        let indexItemToEdit = doc.items.findIndex(item => item.id === id);
+        doc.items[indexItemToEdit] = block;
+        setDoc({ ...doc });
     }
 
 
     const remove = (id, index) => {
-        let resultado = agendas.items.find(agendas => agendas.id === id);
-        let arrayAgendas;
+        let resultado = doc.items.find(item => item.id === id);
+        let arrayDoc;
 
         if (resultado.type !== "bloqueDeTexto") {
-            arrayAgendas = agendas.items.filter(agendas => agendas.id !== id)
+            arrayDoc = doc.items.filter(item => item.id !== id)
             arrastrables.items.push(resultado)
         } else {
-            arrayAgendas = agendas.items.filter(agendas => agendas.id !== id)
+            arrayDoc = doc.items.filter(item => item.id !== id)
         }
-        setAgendas({ items: arrayAgendas });
+        setDoc({ items: arrayDoc });
         setArrastrables(arrastrables)
     };
 
     const moveUp = (id, index) => {
         if (index > 0) {
-            setAgendas(({ items }) => ({
+            setDoc(({ items }) => ({
                 items: arrayMove(items, index, (index - 1)),
             }));
         }
@@ -194,12 +197,12 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
             `,
             variables: {
                 doc: {
-                    fragments: agendas.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
+                    fragments: doc.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
                         type: item.type,
                         text: item.text,
                         data: item.data
                     })),
-                    secondaryColumn: agendas.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
+                    secondaryColumn: doc.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
                         type: item.type,
                         text: item.text,
                         data: item.data
@@ -211,44 +214,9 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
         setPreview(response.data.generateActHTML);
     }
 
-    const downloadPDF = async () => {
-        const response = await client.mutate({
-            mutation: gql`
-                mutation ACTHTML($doc: Document, $councilId: Int!){
-                    generateDocPDF(document: $doc, councilId: $councilId)
-                }
-            `,
-            variables: {
-                doc: {
-                    fragments: agendas.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
-                        type: item.type,
-                        text: item.text,
-                        data: item.data
-                    })),
-                    secondaryColumn: agendas.items.reduce((acc, curr) => curr.items ? [...acc, ...curr.items] : [...acc, curr], []).map(item => ({
-                        type: item.type,
-                        text: item.text,
-                        data: item.data
-                    }))
-                },
-                councilId: data.council.id
-            }
-        });
-
-        if (response) {
-            if (response.data.generateDocPDF) {
-                downloadFile(
-                    response.data.generateDocPDF,
-                    "application/pdf",
-                    `${translate.act.replace(/ /g, '_')}-${data.council.name.replace(/ /g, '_').replace(/\./g, '_')}`
-                );
-            }
-        }
-    }
-
     const moveDown = (id, index) => {
-        if ((index + 1) < agendas.items.length) {
-            setAgendas(({ items }) => ({
+        if ((index + 1) < doc.items.length) {
+            setDoc(({ items }) => ({
                 items: arrayMove(items, index, (index + 1)),
             }));
         }
@@ -291,10 +259,10 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
                 }
             })
             setArrastrables({ items: [...arrastrables.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] })
-            setAgendas({ items: auxTemplate })
+            setDoc({ items: auxTemplate })
         } else {
-            setAgendas({ items: [] })
-            setArrastrables({ items: [...agendas.items, ...arrastrables.items] })
+            setDoc({ items: [] })
+            setArrastrables({ items: [...doc.items, ...arrastrables.items] })
         }
     }
 
@@ -314,10 +282,10 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
             });
 
             setArrastrables({ items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] })
-            setAgendas({ items: auxTemplate })
+            setDoc({ items: auxTemplate })
         } else {
-            setAgendas({ items: [] })
-            setArrastrables({ items: [...agendas.items, ...arrastrables.items] })
+            setDoc({ items: [] })
+            setArrastrables({ items: [...doc.items, ...arrastrables.items] })
         }
     }
 
@@ -376,22 +344,10 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
                         {!colapse &&
                             <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
                                 <div style={{ display: "flex" }}>
-                                    <BasicButton
-                                        text={'Prueba descargar doc'}
-                                        color={primary}
-                                        onClick={downloadPDF}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
+                                    <DownloadDoc
+                                        translate={translate}
+                                        doc={doc}
+                                        council={data.council}
                                     />
                                     <BasicButton
                                         text={translate.save}
@@ -525,11 +481,12 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
                                     :
                                     <div style={{ display: "flex", height: "100%" }} >
                                         <div style={{ width: "20%", maxWidth: "95px" }}>
-                                            <Timbrado
-                                                colapse={colapse}
-                                                edit={edit}
-                                            />
-
+                                            {options.stamp &&
+                                                <Timbrado
+                                                    colapse={colapse}
+                                                    edit={edit}
+                                                />
+                                            }
                                         </div>
                                         <div style={{ width: "100%" }}>
                                             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
@@ -541,7 +498,7 @@ const DocumentEditor = ({ translate, company, data, client, ...props }) => {
                                                 <SortableList
                                                     axis={"y"}
                                                     lockAxis={"y"}
-                                                    items={agendas.items}
+                                                    items={doc.items}
                                                     updateCouncilActa={updateCouncilActa}
                                                     updateBlock={updateBlock}
                                                     state={state}
