@@ -223,10 +223,10 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                             <div style={{ marginLeft: "0.3em", marginRight: "0.8em", height: '100%', display: 'flex', alignItems: 'center' }}>
                                 {toggle ?
                                     <span style={{ cursor: "pointer",color: colorBorder }} onClick={() => removeBlock(id)}>
-                                        {itemInfo.active?
-                                            <i class="fa fa-check-square-o" aria-hidden="true" style={{color: 'green', fontSize: '20px', }}></i>
+                                        {!itemInfo.hide?
+                                            <i className="fa fa-check-square-o" aria-hidden="true" style={{color: 'green', fontSize: '20px', }}></i>
                                          :
-                                            <i class="fa fa-square-o" aria-hidden="true" style={{color: 'grey', fontSize: '20px' }}></i>
+                                            <i className="fa fa-square-o" aria-hidden="true" style={{color: 'grey', fontSize: '20px' }}></i>
                                          }
                                     </span>
                                 :

@@ -5,25 +5,28 @@ import { getAgendaResult, hasVotation } from '../../utils/CBX';
 
 //TRADUCCION
 // expand: true
-export const getBlocks = translate => ({
+export const getBlocks = (translate, secondaryTranslate = {}) => ({
     TEXT: {
         id: Math.random().toString(36).substr(2, 9),
         label: "Bloque de texto",
         text: 'Inserte el texto',
+        secondaryText: 'Insert text',
         type: "text",
         editButton: true
     },
-    ACT_TITLE: {
+    ACT_TITLE: council => ({
         id: Math.random().toString(36).substr(2, 9),
-        label: "Titulo de la reunion",
-        text: "<b>Titulo de la reunion</b>",
+        label: translate.title,
+        text: council.name,
+        secondaryText: council.name,
         type: 'title',
         noBorrar: false
-    },
+    }),
     ACT_INTRO: intro => ({
         id: Math.random().toString(36).substr(2, 9),
         label: 'intro',
         text: intro,
+        secondaryText: intro,
         type: 'intro',
         editButton: true,
         noBorrar: false
@@ -32,6 +35,7 @@ export const getBlocks = translate => ({
         id: Math.random().toString(36).substr(2, 9),
         label: 'constitution',
         text: constitution,
+        secondaryText: constitution,
         type: 'constitution',
         editButton: true,
         noBorrar: false
@@ -40,6 +44,7 @@ export const getBlocks = translate => ({
         id: Math.random().toString(36).substr(2, 9),
         label: 'conclusion',
         text: conclusion,
+        secondaryText: conclusion,
         type: 'conclusion',
         editButton: true,
         noBorrar: false
@@ -90,7 +95,7 @@ export const getBlocks = translate => ({
 
 
 
-export const generateAgendaBlocks = (translate, agenda) => {
+export const generateAgendaBlocks = (translate, agenda, secondaryLanguage = {}) => {
     const blocks = getBlocks(translate);
 
     //TRADUCCION
@@ -101,8 +106,9 @@ export const generateAgendaBlocks = (translate, agenda) => {
         newArray = newArray.concat([
             {
                 id: Math.random().toString(36).substr(2, 9),
-                label: "Punto " + (index + 1) + " - " + translate.title,
+                label: `${translate.agenda_point} ${(index + 1)} - ${translate.title}`,
                 text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
+                secondaryText: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
                 editButton: true,
                 type: 'agendaSubject',
                 noBorrar: false,
@@ -110,7 +116,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
             },
             {
                 id: Math.random().toString(36).substr(2, 9),
-                label: "Punto " + (index + 1) + " - " + translate.description,
+                label: `${translate.agenda_point} ${(index + 1)} - ${translate.description}`,
                 text: element.description,
                 editButton: true,
                 type: 'description',
@@ -119,8 +125,8 @@ export const generateAgendaBlocks = (translate, agenda) => {
             },
             {
                 id: Math.random().toString(36).substr(2, 9),
-                label: "Punto " + (index + 1) + " - Toma de acuerdos",
-                text: element.comment,
+                label: `${translate.agenda_point} ${(index + 1)} - ${translate.comments_and_agreements}`,
+                text: 'comment',
                 editButton: true,
                 type: 'comment',
                 noBorrar: true
@@ -151,7 +157,7 @@ export const generateAgendaBlocks = (translate, agenda) => {
                     text: "",
                     editButton: false,
                     type: 'voting',
-                    active: true,
+                    hide: false,
                     noBorrar: false,
                     editButton: false,
                     data: {

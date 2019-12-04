@@ -19,6 +19,8 @@ import AgreementsPreview from './AgreementsPreview';
 import DownloadDoc from './DownloadDoc';
 import OptionsMenu from './OptionsMenu';
 import { buildDocVariable } from './utils';
+import { getTranslations } from '../../queries';
+import { buildTranslateObject } from '../../actions/mainActions';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -33,14 +35,17 @@ const defaultTemplates = {
     "default2": ["intro", "constitution", "conclusion"]
 }
 
+
 export const ActContext = React.createContext();
 const DocumentEditor = ({ translate, company, data, updateDocument, client, ...props }) => {
     const [template, setTemplate] = React.useState(0);
     const [colapse, setColapse] = React.useState(false);
-    const [options, setOptions] = React.useState({
+    const [options, setOptions] = React.useState(data.council.act.document? { ...data.council.act.document.options } : {
         stamp: true,
         doubleColumn: false
     });
+    const [secondaryTranslate, setSecondaryTranslate] = React.useState(null);
+    const [column, setColumn] = React.useState(1);
     const [edit, setEdit] = React.useState(true);
     const [ocultar, setOcultar] = React.useState(true);
     const [preview, setPreview] = React.useState('');
@@ -66,16 +71,54 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
     };
 
     React.useEffect(() => {
-        generateDraggable(data.council.act, data.agendas, data.councilAttendants.list);
+        const { draggables, doc } = generateDraggable(data, translate);
+        setDoc(doc);
+        setArrastrables(draggables);
     }, [data.council.id])
 
+    React.useEffect(() => {
+        if(options.doubleColumn){
+            getSecondaryLanguage('en');
+        }
 
-    const generateDraggable = (act, agendas, attendants) => {
+    }, [options.doubleColumn])
+
+    const changeToColumn = index => {
+        if(index === 1){
+            const { draggables, doc } = generateDraggable(data, translate);
+            setDoc(doc);
+            setArrastrables(draggables);
+        }
+        if(index === 2) {
+            const { draggables, doc } = generateDraggable(data, secondaryTranslate);
+            setDoc(doc);
+            setArrastrables(draggables);
+        }
+        setColumn(index);
+    }
+
+
+    const getSecondaryLanguage = async language => {
+        const response = await client.query({
+            query: getTranslations,
+            variables: {
+                language
+            }
+        });
+
+        const secondaryTranslate = buildTranslateObject(response.data.translations);
+        setSecondaryTranslate(secondaryTranslate);
+    }
+
+
+    const generateDraggable = (data, translate) => {
         const blocks = getBlocks(translate);
+        const { agendas, council } = data;
+        const { act } = council;
         ///let objetoArrayAct = Object.entries(act);
         let items = [
             blocks.TEXT,
-            blocks.ACT_TITLE,
+            blocks.ACT_TITLE(data.council),
             blocks.ACT_INTRO(act.intro),
             blocks.ACT_CONSTITUTION(act.constitution),
             blocks.ACT_CONCLUSION(act.conclusion),
@@ -85,24 +128,46 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
             blocks.DELEGATION_LIST
         ];
 
-        setArrastrables({ items });
-
         let template = defaultTemplates[0];
 
-        if(act.document) {
-            template = act.document.items.map(item => item.type);
+        if(doc.items.length > 0){
+            template = doc.items.map(item => item.type);
+        } else {
+            if(act.document) {
+                template = act.document.items.map(item => item.type);
+            }
         }
 
-        ordenarTemplateInit(template, items, agendas, act);
+        return buildDocModules(template, items, agendas, act, translate);
     }
 
-    const ordenarTemplateInit = (orden, array, agendas, act) => {
+    const buildDocModules = (orden, array, agendas, act, translate) => {
+        if(doc.items.length > 0){
+            return {
+                draggables: {
+                    items: [...array.filter(value => (
+                        value.type === 'text' ||
+                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
+                    )]
+                },
+                doc: {
+                    items: [...doc.items]
+                }
+            };
+        }
+
         if(act.document) {
-            setArrastrables({ items: [...array.filter(value => (
-                value.type === 'text' ||
-                (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
-            )] })
-            setDoc({ items: [...act.document.items] })
+            return {
+                draggables: {
+                    items: [...array.filter(value => (
+                        value.type === 'text' ||
+                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
+                    )]
+                },
+                doc: {
+                    items: [...act.document.items]
+                }
+            };
         } else {
             let auxTemplate = [];
             let auxTemplate2 = { items: array }
@@ -119,11 +184,19 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                     }
                 });
 
-                setArrastrables({ items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] })
-                setDoc({ items: auxTemplate })
+                return {
+                    draggables: { items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] },
+                    doc: {
+                        items: auxTemplate
+                    }
+                };
             } else {
-                setDoc({ items: [] })
-                setArrastrables({ items: [...doc.items, ...arrastrables.items] })
+                return {
+                    draggables: { items: [...doc.items, ...arrastrables.items] },
+                    doc: {
+                        items: auxTemplate
+                    }
+                };
             }
         }
     }
@@ -397,7 +470,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                             borderRadius: '3px'
                                         }}
                                     /> */}
-                                    <BasicButton
+                                    {/* <BasicButton
                                         text={'Enviar a revision'}
                                         color={primary}
                                         textStyle={{
@@ -416,7 +489,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                             boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                             borderRadius: '3px'
                                         }}
-                                    />
+                                    /> */}
                                     <BasicButton
                                         text={'Finalizar'}
                                         color={secondary}
@@ -435,6 +508,48 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                     />
                                 </div>
                                 <div style={{ display: "flex" }}>
+                                    {options.doubleColumn &&
+                                        <React.Fragment>
+                                            <BasicButton
+                                                text={'Columna 1'}
+                                                color={column === 1? secondary : 'white'}
+                                                textStyle={{
+                                                    color: column === 1? 'white' : "black",
+                                                    fontWeight: "700",
+                                                    fontSize: "0.9em",
+                                                    textTransform: "none"
+                                                }}
+                                                textPosition="after"
+                                                onClick={() => changeToColumn(1) }
+                                                buttonStyle={{
+                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                    borderRadius: '3px',
+                                                    borderTopRightRadius: '0px',
+                                                    borderBottomRightRadius: '0px',
+                                                    borderRight: '1px solid #e8eaeb'
+                                                }}
+                                            />
+                                            <BasicButton
+                                                text={'Columna 2'}
+                                                color={column === 2? secondary : 'white'}
+                                                textStyle={{
+                                                    color: column === 2? 'white' : "black",
+                                                    fontWeight: "700",
+                                                    fontSize: "0.9em",
+                                                    textTransform: "none"
+                                                }}
+                                                textPosition="after"
+                                                onClick={() => changeToColumn(2) }
+                                                buttonStyle={{
+                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                    borderRadius: '3px',
+                                                    borderTopRightRadius: '0px',
+                                                    borderBottomRightRadius: '0px',
+                                                    borderRight: '1px solid #e8eaeb'
+                                                }}
+                                            />
+                                        </React.Fragment>
+                                    }
                                     <BasicButton
                                         text={''}
                                         color={"white"}
@@ -537,6 +652,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                                     edit={edit}
                                                     translate={translate}
                                                     offset={0}
+                                                    column={column}
                                                     onSortEnd={onSortEnd}
                                                     helperClass="draggable"
                                                     shouldCancelStart={event => shouldCancelStart(event)}

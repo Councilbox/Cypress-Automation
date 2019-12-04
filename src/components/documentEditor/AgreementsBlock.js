@@ -21,7 +21,7 @@ const AgreementsBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, set
         let newItem = {
             ...items[index]
         };
-        newItem.active = !newItem.active;
+        newItem.hide = !newItem.hide;
 
         items[index] = newItem;
 
