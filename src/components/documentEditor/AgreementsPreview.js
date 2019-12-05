@@ -1,7 +1,7 @@
 import React from 'react';
 import { BorderBox } from './Block';
 
-const AgreementsPreview = ({ item, translate }) => {
+const AgreementsPreview = ({ item, translate, column }) => {
     return (
         <div>
             {item.items.map(block => {
@@ -22,7 +22,7 @@ const AgreementsPreview = ({ item, translate }) => {
                         </BorderBox>
                     :
 
-                    <div dangerouslySetInnerHTML={{__html: block.text}} style={{marginTop: '2em'}} key={block.id}/>
+                    <div dangerouslySetInnerHTML={{__html: column === 2? block.secondaryText : block.text}} style={{marginTop: '2em'}} key={block.id}/>
                 )
             })}
         </div>

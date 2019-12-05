@@ -26,7 +26,7 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
         id: Math.random().toString(36).substr(2, 9),
         label: 'intro',
         text: intro,
-        secondaryText: intro,
+        secondaryText: 'Jibiri de prueba',
         type: 'intro',
         editButton: true,
         noBorrar: false
@@ -58,6 +58,7 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
             id: Math.random().toString(36).substr(2, 9),
             label: translate.agenda,
             text: puntos,
+            secondaryText: puntos,
             type: 'agenda',
             noBorrar: false,
         }
@@ -66,6 +67,7 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
         id: Math.random().toString(36).substr(2, 9),
         label: "entrar",
         text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
+        secondaryText: "<b>Next, the first item on the agenda will be discussed</b>",//TRADUCCION
         type: 'introAgenda',
         noBorrar: false,
         editButton: true
@@ -76,6 +78,8 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
         text: '',
         editButton: false,
         logic: true,
+        language: 'es',
+        secondaryLanguage: 'en',
         type: 'attendants',
         icon: iconAsistentes,
         colorBorder: "#61abb7"
@@ -86,6 +90,8 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
         text: "",
         editButton: false,
         type: 'delegations',
+        language: 'es',
+        secondaryLanguage: 'en',
         logic: true,
         icon: iconDelegaciones,
         colorBorder: '#7f94b6'
@@ -118,15 +124,17 @@ export const generateAgendaBlocks = (translate, agenda, secondaryLanguage = {}) 
                 id: Math.random().toString(36).substr(2, 9),
                 label: `${translate.agenda_point} ${(index + 1)} - ${translate.description}`,
                 text: element.description,
+                secondaryText: element.description,
                 editButton: true,
                 type: 'description',
-                noBorrar: true,
-                editButton: false
+                noBorrar: false,
+                editButton: true
             },
             {
                 id: Math.random().toString(36).substr(2, 9),
                 label: `${translate.agenda_point} ${(index + 1)} - ${translate.comments_and_agreements}`,
-                text: 'comment',
+                text: '',
+                secondaryText: '',
                 editButton: true,
                 type: 'comment',
                 noBorrar: true
@@ -149,6 +157,13 @@ export const generateAgendaBlocks = (translate, agenda, secondaryLanguage = {}) 
                             <br> A FAVOR: ${getAgendaResult(element, 'POSITIVE')} | EN CONTRA: ${getAgendaResult(element, 'NEGATIVE')} | ABSTENCIONES:
                             ${getAgendaResult(element, 'ABSTENTION')} | NO VOTAN: ${getAgendaResult(element, 'NO_VOTE')}
                             <br>
+                        </div>`,
+                    secondaryText: `
+                        <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+                            <b>Votaciones: </b>
+                            <br> A FAVOR: ${getAgendaResult(element, 'POSITIVE')} | EN CONTRA: ${getAgendaResult(element, 'NEGATIVE')} | ABSTENCIONES:
+                            ${getAgendaResult(element, 'ABSTENTION')} | NO VOTAN: ${getAgendaResult(element, 'NO_VOTE')}
+                            <br>
                         </div>`
                 },
                 {
@@ -164,6 +179,8 @@ export const generateAgendaBlocks = (translate, agenda, secondaryLanguage = {}) 
                         agendaId: element.id
                     },
                     logic: true,
+                    language: 'es',
+                    secondaryLanguage: 'en',
                     icon: iconVotaciones,
                     colorBorder: '#866666'
                 }
@@ -177,6 +194,9 @@ export const generateAgendaBlocks = (translate, agenda, secondaryLanguage = {}) 
                 text: "<b>Comentarios</b> </br>" + element.description,
                 editButton: false,
                 type: 'agendaComments',
+                logic: true,
+                language: 'es',
+                secondaryLanguage: 'en',
                 colorBorder:"#b39a5b",
                 noBorrar: false,
                 data: {

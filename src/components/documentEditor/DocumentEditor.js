@@ -271,7 +271,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
 
     const updateCouncilActa = (id, newText) => {
         let indexItemToEdit = doc.items.findIndex(item => item.id === id);
-        doc.items[indexItemToEdit].text = newText;
+        doc.items[indexItemToEdit][column === 2? 'secondaryText' : 'text'] = newText;
     }
 
     const updateBlock = (id, block) => {
@@ -335,42 +335,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
     };
 
 
-    const renderTemplate = (numTemp, agendas) => {
-        ordenarTemplate(defaultTemplates[numTemp], agendas)
-    };
-
-
-
-    const ordenarTemplate = (orden, agendas) => {
-        let auxTemplate = []
-        if (orden !== undefined) {
-            orden.forEach(element => {
-                if (element === 'AGREEMENTS') {
-                    const bloques = agendaBlocks.map(block => {
-                        return arrastrables.items.find(
-                            arrastrable =>
-                                arrastrable.type === block
-                        )
-                    });
-                    auxTemplate = [...auxTemplate, ...bloques];
-                } else {
-                    auxTemplate.push(
-                        arrastrables.items.find(
-                            arrastrable =>
-                                arrastrable.type === element
-                        )
-                    );
-                }
-            })
-            setArrastrables({ items: [...arrastrables.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] })
-            setDoc({ items: auxTemplate })
-        } else {
-            setDoc({ items: [] })
-            setArrastrables({ items: [...doc.items, ...arrastrables.items] })
-        }
-    }
-
-
     return (
         <ActContext.Provider value={data}>
             <div style={{ width: "100%", height: "100%" }}>
@@ -379,7 +343,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                         <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
                             <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
                                 help
-                                    </i>
+                            </i>
                             {ocultar &&
                                 <div style={{
                                     fontSize: '13px',
@@ -692,7 +656,9 @@ const Timbrado = ({ colapse, edit }) => {
 }
 
 
-const SortableList = SortableContainer(({ items, updateCouncilActa, updateBlock, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
+const SortableList = SortableContainer(({ items, column, updateCouncilActa, updateBlock, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
+    console.log(column);
+    
     if (edit) {
         return (
             <div >
@@ -703,6 +669,7 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, updateBlock,
                             updateCouncilActa={updateCouncilActa}
                             updateBlock={updateBlock}
                             state={state}
+                            column={column}
                             setState={setState}
                             edit={edit}
                             translate={translate}
@@ -733,6 +700,7 @@ const SortableList = SortableContainer(({ items, updateCouncilActa, updateBlock,
                             translate={translate}
                             index={offset + index}
                             value={item}
+                            column={column}
                             id={item.id}
                             indexItem={index}
                             moveUp={moveUp}
@@ -841,6 +809,7 @@ const DraggableBlock = SortableElement(props => {
                     !expand ?
                         <AgreementsBlock
                             item={props.value}
+                            column={props.column}
                             updateBlock={props.updateBlock}
                             translate={props.translate}
                             remove={props.remove}
@@ -892,6 +861,7 @@ const NoDraggableBlock = props => {
                         }}
                     >
                         <AgreementsPreview
+                            column={props.column}
                             item={props.value}
                             translate={props.translate}
                         />
@@ -909,7 +879,7 @@ const NoDraggableBlock = props => {
                         <div style={{}}>
                             <div style={{}}
                                 dangerouslySetInnerHTML={{
-                                    __html: props.value.text
+                                    __html: props.column === 2? props.value.secondaryText : props.value.text
                                 }}>
                             </div>
 

@@ -7,18 +7,19 @@ const flatItems = (acc, curr) => {
     ] : [...acc, curr];
 }
 
-const prepareColumn = column => {
+const prepareColumn = (column, secondary) => {
     return column.reduce(flatItems, []).map(item => ({
         type: item.type,
-        text: item.text,
-        data: item.data
+        text: secondary? item.secondaryText : item.text,
+        data: item.data,
+        language: secondary? item.secondaryLanguage : item.language
     }));
 }
 
 export const buildDocVariable = (doc, options) => {
     return ({
         fragments: prepareColumn(doc.items),
-        secondaryColumn: prepareColumn(doc.items),
+        secondaryColumn: prepareColumn(doc.items, true),
         options: {
             stamp: options.stamp
         }

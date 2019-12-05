@@ -48,14 +48,15 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
         }
         setHoverFijo(!hoverFijo)
     }
-    
-    if (props.value.type === 'voting' || props.value.type === 'agendaComments') { 
+
+    if (props.value.type === 'voting' || props.value.type === 'agendaComments') {
         return (
             <div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%', }}>
                 <BorderBox
                     itemInfo={props.value}
                     icon={props.value.type === 'voting' ? iconVotaciones : iconAgendaComments }
                     id={props.id}
+                    column={props.column}
                     colorBorder={props.value.colorBorder}
                     stylesBody={{ width: "100%", margin: "0em", }}
                     removeBlock={props.removeBlock}
@@ -76,7 +77,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
             <RichTextInput
                 noBordes={true}
                 ref={editor}
-                value={props.value.text || ''}
+                value={props.column === 2? props.value.secondaryText || '' : props.value.text || ''}
                 translate={translate}
                 // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
                 //errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
@@ -101,6 +102,8 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
             />
         )
     }
+
+    console.log(props.column);
 
 
     return (
@@ -133,7 +136,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 <Collapse in={expand} timeout="auto" unmountOnExit>
                     <React.Fragment>
                         <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
-                            __html: props.value.text
+                            __html: props.column === 2? props.value.secondaryText : props.value.text
                         }}>
                         </div>
                         <div>
@@ -150,7 +153,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     <div
                         style={{ marginTop: "1em" }}
                         dangerouslySetInnerHTML={{
-                            __html: props.value.text
+                            __html: props.column === 2? props.value.secondaryText : props.value.text
                         }}
                     />
             }

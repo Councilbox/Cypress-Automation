@@ -7,7 +7,7 @@ const AgreementsBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, set
         const newItem = {
             ...newItems[index]
         }
-        newItem.text = text;
+        newItem[props.column === 2? 'secondaryText' : 'text'] = text;
         newItems[index] = newItem;
 
         props.updateBlock(item.id, {
@@ -41,6 +41,7 @@ const AgreementsBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, set
                     hoverAndSave={hoverAndSave}
                     setText={setText}
                     removeBlock={removeBlock}
+                    column={props.column}
                     translate={translate}
                     id={index}
                     updateCouncilActa={updateBlock}
