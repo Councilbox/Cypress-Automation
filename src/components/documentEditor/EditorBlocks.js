@@ -9,6 +9,7 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
     TEXT: {
         id: Math.random().toString(36).substr(2, 9),
         label: "Bloque de texto",
+        defaultValue: translate => translate.title,
         text: 'Inserte el texto',
         secondaryText: 'Insert text',
         type: "text",
@@ -50,15 +51,24 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
         noBorrar: false
     }),
     AGENDA_LIST: agenda => {
-        let puntos = "<b>Para tratar el siguiente Orden de Día </b> </br>"//TRADUCCION
+        let puntos = `<b>${translate.agenda}</b> </br>`//TRADUCCION
         agenda.forEach((element, index) => {
             puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
         });
         return {
             id: Math.random().toString(36).substr(2, 9),
             label: translate.agenda,
+            defaultValue: translate => `<b>${translate.agenda}</b> </br>
+                ${agenda.forEach((element, index) => {
+                    puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
+                })}`
+            ,
             text: puntos,
-            secondaryText: puntos,
+            secondaryText: `<b>${secondaryTranslate.agenda}</b> </br>
+                ${agenda.forEach((element, index) => {
+                    puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
+                })}`
+            ,
             type: 'agenda',
             noBorrar: false,
         }

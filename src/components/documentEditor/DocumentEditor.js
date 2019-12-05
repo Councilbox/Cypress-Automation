@@ -108,6 +108,27 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
 
         const secondaryTranslate = buildTranslateObject(response.data.translations);
         setSecondaryTranslate(secondaryTranslate);
+        rebuildBlockSecondaryTranslation(translate, secondaryTranslate);
+    }
+
+    console.log(doc.items);
+
+
+    const rebuildBlockSecondaryTranslation = (translate, secondaryTranslate) => {
+        const newItems = doc.items.map(item => {
+            console.log(item);
+            console.log({
+                ...item,
+                secondaryText: item.buildDefaultValue? item.buildDefaultValue(secondaryTranslate) : item.secondaryText
+            })
+            return {
+                ...item,
+                secondaryText: item.buildDefaultValue? item.buildDefaultValue(secondaryTranslate) : item.secondaryText
+            }
+        })
+
+        console.log(newItems);
+        setDoc({ items: newItems });
     }
 
 
