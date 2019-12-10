@@ -17,6 +17,8 @@ import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
 import { withApollo } from 'react-apollo';
 import CouncilKeyModal from "./CouncilKeyModal";
+import CouncilKeyButton from "./CouncilKeyButton";
+
 
 
 
@@ -78,6 +80,7 @@ const styles = {
 const limitPerPage = 10;
 
 const LoginForm = ({ participant, translate, company, council, client, ...props }) => {
+    const [loading, setLoading] = React.useState(true);
     const [state, setState] = useOldState({
         password: "",
         sendPassModal: council.securityType !== 0 ? true : false,
@@ -89,9 +92,36 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         hover: false,
         helpPopover: true
     });
+    const [sends, setSends] = React.useState(null);
+    const [error, setError] = React.useState('');
 
     const primary = getPrimary();
     const secondary = getSecondary();
+
+    const getData = React.useCallback(async value => {
+        const response = await client.query({
+            query: participantSend,
+            variables: {
+                councilId: council.id,
+                participantId: participant.id,
+                options: {
+                    offset: 0,
+                    limit: 20
+                }
+            }
+        });
+
+        if (response.data.participantSend.list) {
+            setSends(response.data.participantSend.list);
+        }
+        setLoading(false);
+    }, [council.id]);
+
+    React.useEffect(() => {
+        if(council.securityType !== 0){
+            getData();
+        }
+    }, [getData, council.id]);
 
 
     const checkFieldsValidationState = () => {
@@ -325,13 +355,18 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                     >
                                         {translate.didnt_receive_access_key}
                                     </span>
-                                    <CouncilKeyModal
+                                    <CouncilKeyButton
                                         participant={participant}
                                         council={council}
                                         translate={translate}
+                                        setError={setError}
                                         open={state.sendPassModal}
                                         requestclose={closeSendPassModal}
                                     />
+                                    {error &&
+                                        <span style={{color: 'red'}}>{error}</span>
+
+                                    }
                                 </React.Fragment>
 
                             }
@@ -388,6 +423,29 @@ const sendParticipantRoomKey = gql`
 `;
 
 
+const participantSend = gql`
+    query participantSend($councilId: Int!, $filter: String,  $options: OptionsInput, $participantId: Int!,){
+        participantSend(councilId: $councilId, filter: $filter, options: $options, participantId: $participantId){
+            list{
+                liveParticipantId
+                sendType
+                id
+                reqCode
+                councilId
+                recipient{
+                    name
+                    id
+                surname
+                phone
+                email
+            }
+        }
+        total
+    }
+}
+`;
+
+
 
 
 export default compose(
@@ -401,135 +459,3 @@ export default compose(
     null,
     mapDispatchToProps
 )(withTranslations()(withWindowOrientation(withWindowSize(withApollo(LoginForm))))));
-
-
-
-/*
-{council.securityType !== 0 && (
-                                <React.Fragment>
-                                    <AlertConfirm
-                                        requestClose={() => setModalSecurity(false)}
-                                        open={modalSecurity}
-                                        bodyText={
-                                            <div>
-                                                {council.securityType === 1 &&
-                                                    <React.Fragment>
-                                                        {loading ?
-                                                            <LoadingSection></LoadingSection>
-                                                            :
-                                                            data === undefined ?
-                                                                <div>
-                                                                    <div style={{ display: "flex" }}>
-                                                                        <div>Para entrar en esta reunión es necesario una clave que se envía por email </div>
-                                                                    </div>
-                                                                    <br></br>
-                                                                    <div style={{ marginTop: "1em" }}>
-                                                                        <BasicButton
-                                                                            text={'Enviar Email'}
-                                                                            color={secondary}
-                                                                            textStyle={{
-                                                                                maxWidth: '200px',
-                                                                                color: "white",
-                                                                                fontWeight: "700"
-                                                                            }}
-                                                                            textPosition="before"
-                                                                            fullWidth={true}
-                                                                            onClick={sendParticipantRoomKey}
-                                                                            loading={state.loading}
-                                                                        ></BasicButton>
-                                                                    </div>
-                                                                </div>
-                                                                :
-                                                                <div>
-                                                                    <div style={{ display: "flex" }}>
-                                                                        <div>Email enviado corretamente </div>
-                                                                    </div>
-                                                                    <br></br>
-                                                                    <div style={{ marginTop: "1em" }}>
-                                                                        <BasicButton
-                                                                            text={'Enviar Email'}
-                                                                            color={secondary}
-                                                                            textStyle={{
-                                                                                maxWidth: '200px',
-                                                                                color: "white",
-                                                                                fontWeight: "700"
-                                                                            }}
-                                                                            textPosition="before"
-                                                                            fullWidth={true}
-                                                                            onClick={sendParticipantRoomKey}
-                                                                            loading={state.loading}
-                                                                        ></BasicButton>
-                                                                    </div>
-                                                                </div>
-                                                        }
-                                                    </React.Fragment>
-                                                }
-                                                {council.securityType === 2 &&
-                                                    <React.Fragment>
-                                                        {loading ?
-                                                            <LoadingSection></LoadingSection>
-                                                            :
-                                                            data === undefined ?
-                                                                <div>
-                                                                    <div style={{ display: "flex" }}>
-                                                                        {renderStatusSMS(288)}
-                                                                        <div style={{ fontWeight: "bold", marginLeft: "1em" }}> {formatPhone(participant.phone)}</div>
-                                                                    </div>
-                                                                    <br></br>
-                                                                    <div style={{ marginTop: "1em" }}>
-                                                                        <BasicButton
-                                                                            text={'Enviar SMS'}
-                                                                            color={secondary}
-                                                                            textStyle={{
-                                                                                maxWidth: '200px',
-                                                                                color: "white",
-                                                                                fontWeight: "700"
-                                                                            }}
-                                                                            textPosition="before"
-                                                                            fullWidth={true}
-                                                                            onClick={sendParticipantRoomKey}
-                                                                            loading={state.loading}
-                                                                        ></BasicButton>
-                                                                    </div>
-                                                                </div>
-                                                                :
-                                                                <div>
-                                                                    <div style={{ display: "flex" }}>
-                                                                        {renderStatusSMS(data.reqCode)}
-                                                                        <div style={{ fontWeight: "bold", marginLeft: "1em" }}> {formatPhone(data.recipient.phone)}</div>
-                                                                    </div>
-                                                                    <br></br>
-                                                                    {data.reqCode !== -2 &&
-                                                                        <div style={{ marginTop: "1em" }}>
-                                                                            <BasicButton
-                                                                                text={'Enviar SMS'}
-                                                                                color={secondary}
-                                                                                textStyle={{
-                                                                                    maxWidth: '200px',
-                                                                                    color: "white",
-                                                                                    fontWeight: "700"
-                                                                                }}
-                                                                                textPosition="before"
-                                                                                fullWidth={true}
-                                                                                onClick={sendParticipantRoomKey}
-                                                                                loading={state.loading}
-                                                                            ></BasicButton>
-                                                                        </div>
-                                                                    }
-                                                                </div>
-                                                        }
-                                                    </React.Fragment>
-                                                }
-                                                {!!state.phoneError &&
-                                                    <div style={{ color: 'red' }}>{state.phoneError}</div>
-                                                }
-                                            </div>
-                                        }
-                                        title={council.securityType === 2 ? translate.key_by_sms : translate.key_by_email}
-                                    />
-                                    
-                                </React.Fragment>
-                            )}
-
-
-*/

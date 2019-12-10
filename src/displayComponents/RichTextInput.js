@@ -277,7 +277,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 			requestClose={requestClose}
 			open={open}
 			loading={false}
-			paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
+			paperPropsStyles={{ border: `solid 1px ${primary}`, borderRadius: '3px', }}
 			styleBody={{}}
 			Component={() => <span />}
 			text={translate.add_agenda_point}

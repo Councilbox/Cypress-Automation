@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import { moment } from './containers/App';
+import gql from 'graphql-tag';
 
 export const useInterval = (callback, delay) => {
     const savedCallback = useRef();
@@ -46,4 +48,51 @@ export const useHoverRow = () => {
 
 
 	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
+}
+
+
+export const useSendRoomKey = (client, participant) => {
+	const [loading, setLoading] = React.useState(false);
+
+	const sendKey = async () => {
+		setLoading(true);
+		const response = await client.mutate({
+            mutation: gql`
+                mutation SendParticipantRoomKey($participantId: Int!, $timezone: String!){
+                    sendParticipantRoomKey(participantId: $participantId, timezone: $timezone){
+                        success
+                        message
+                    }
+                }
+            `,
+            variables: {
+                participantId: participant.id,
+                timezone: moment().utcOffset()
+            }
+		});
+		
+		setLoading(false);
+		return response;
+	}
+
+
+	return [loading, sendKey];
+}
+
+
+export const useCountdown = () => {
+	const [secondsLeft, setCountdown] = React.useState(0);
+
+	React.useEffect(() => {
+        let timeout;
+        if(secondsLeft > 0){
+            timeout = setTimeout(() => setCountdown(secondsLeft - 1), 1000);
+        }
+        return () => clearTimeout(timeout);
+    }, [secondsLeft]);
+
+	return {
+		secondsLeft,
+		setCountdown
+	}
 }

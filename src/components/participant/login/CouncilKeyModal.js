@@ -1,87 +1,13 @@
 import React from 'react';
+import { useSendRoomKey, useCountdown } from '../../../hooks';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm, LoadingSection, BasicButton } from '../../../displayComponents';
-import { moment } from '../../../containers/App';
-import gql from 'graphql-tag';
-import { getSecondary } from '../../../styles/colors';
-
-const CouncilKeyModal = ({ participant, council, open, requestClose, translate, client }) => {
-    const [loading, setLoading] = React.useState(true);
-    const [sends, setSends] = React.useState(null);
-    const secondary = getSecondary();
-
-    const getData = React.useCallback(async value => {
-        const response = await client.query({
-            query: participantSend,
-            variables: {
-                councilId: council.id,
-                participantId: participant.id,
-                options: {
-                    offset: 0,
-                    limit: 20
-                }
-            }
-        });
-
-        console.log(response);
-
-        if (response.data.participantSend.list) {
-            setSends(response.data.participantSend.list);
-        }
-        setLoading(false);
-    }, [council.id]);
-
-    React.useEffect(() => {
-        if(council.securityType !== 0){
-            getData();
-        }
-    }, [getData, council.id]);
+import { AlertConfirm } from '../../../displayComponents';
 
 
-
-    const checkSend = () => {
-        //setModalSecurity(false);
-        getData();
-    }
-
-
-    const sendParticipantRoomKey = async () => {
-        // setState({
-        //     loading: true
-        // });
-        const response = await client.mutate({
-            mutation: gql`
-                mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
-                    sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
-                        success
-                    }
-                }
-            `,
-            variables: {
-                councilId: council.id,
-                participantIds: [participant.id],
-                timezone: moment().utcOffset()
-            }
-        });
-
-        console.log(response);
-
-        // if (response.errors) {
-        //     if (response.errors[0].message === 'Invalid phone number') {
-        //         // setState({
-        //         //     phoneError: translate.invalid_phone_number,
-        //         //     loading: false
-        //         // });
-        //     }
-        // } else {
-        //     // setState({
-        //     //     loading: false,
-        //     //     phoneError: ''
-        //     // });
-        //     closeSendPassModal();
-        //     checkSend()
-        // }
-    }
+const CouncilKeyModal = ({ client, participant, council, translate, open, requestClose }) => {
+    const [error, setError] = React.useState('');
+    const { secondsLeft, setCountdown } = useCountdown();
+    const [loading, sendKey] = useSendRoomKey(client, participant);
 
     const renderStatusSMS = (reqCode) => {
         switch (reqCode) {
@@ -97,6 +23,19 @@ const CouncilKeyModal = ({ participant, council, open, requestClose, translate, 
 
     }
 
+    const sendParticipantRoomKey = async () => {
+        const response = await sendKey();
+
+        if(!response.data.sendParticipantRoomKey.success){
+            setError('No se ha podido enviar la clave al número de teléfono indicado. Puede ponerse en contacto con el administrador en caso de que el teléfono registrado tenga algún problema');
+        } else {
+            setCountdown(60);
+        }
+
+    }
+
+    
+
     const formatPhone = phone => {
         if (phone.length >= 4) {
             return "*".repeat(phone.length - 4) + phone.slice(-4);
@@ -110,7 +49,7 @@ const CouncilKeyModal = ({ participant, council, open, requestClose, translate, 
                 {council.securityType === 1 &&
                     translate.receive_access_key_email
                 }
-                {council.securityType === 2 &&
+                {/* {council.securityType === 2 &&
                     <React.Fragment>
                         {
                             sends ?
@@ -134,10 +73,10 @@ const CouncilKeyModal = ({ participant, council, open, requestClose, translate, 
                                 <LoadingSection />
                         }
                     </React.Fragment>
-                }
-                {/* {!!state.phoneError &&
-                    <div style={{ color: 'red' }}>{state.phoneError}</div>
                 } */}
+                {!!error &&
+                    <div style={{ color: 'red' }}>{error}</div>
+                }
             </div>
         )
     }
@@ -155,28 +94,5 @@ const CouncilKeyModal = ({ participant, council, open, requestClose, translate, 
         />
     )
 }
-
-const participantSend = gql`
-    query participantSend($councilId: Int!, $filter: String,  $options: OptionsInput, $participantId: Int!,){
-        participantSend(councilId: $councilId, filter: $filter, options: $options, participantId: $participantId){
-            list{
-                liveParticipantId
-                sendType
-                id
-                reqCode
-                councilId
-                recipient{
-                    name
-                    id
-                surname
-                phone
-                email
-            }
-        }
-        total
-    }
-}
-`;
-
 
 export default withApollo(CouncilKeyModal);
