@@ -202,6 +202,7 @@ class AgendaMenu extends React.Component {
                                                 {checkVotings(agenda.votings) &&
                                                     <VotingSection
                                                         agenda={agenda}
+                                                        ownVote={ownVote}
                                                         open={this.state.open}
                                                         council={this.props.council}
                                                         voting={this.state.voting}

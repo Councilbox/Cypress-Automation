@@ -1,5 +1,5 @@
 export const isLandscape = () => {
-    const { orientation } = window.screen;
+    let { orientation } = window.screen;
 
     if(orientation){
         if(orientation.type.includes('portrait')){
@@ -7,11 +7,7 @@ export const isLandscape = () => {
         } else {
             return true;
         }
-    } else {
-        if (window.innerWidth < window.innerHeight) {
-            return false;
-        } else {
-            return true;
-        }
     }
+
+    return Math.abs(window.orientation) === 90? true : false;
 }
