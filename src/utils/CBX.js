@@ -1366,7 +1366,7 @@ export const getEmailIconByReqCode = reqCode => {
 		case 37:
 			return dropped;
 		default:
-			return dropped;
+			return null;
 	}
 };
 
