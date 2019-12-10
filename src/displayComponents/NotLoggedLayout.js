@@ -8,11 +8,11 @@ import '../../src/styles/snow.css';
 
 const Snow = () => {
     return (
-        < div class="snowfall" >
+        <div className="snowfall" >
             {Array(99).fill(1).map((el, i) =>
-                <div class="snowflake"></div>
+                <div class="snowflake" id={i}></div>
             )}
-        </div >
+        </div>
     )
 }
 
