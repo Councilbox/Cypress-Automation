@@ -101,7 +101,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
     ////////////////////////////////////
 
-    const getData = React.useCallback(async (value) => {
+    const getData = React.useCallback(async value => {
         const response = await client.query({
             query: participantSend,
             variables: {
@@ -115,6 +115,8 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             }
         });
 
+        console.log('se piden los envíos');
+
         if (response.data.participantSend.list) {
             setData(response.data.participantSend.list[0]);
             if (response.data.participantSend.list[0] && response.data.participantSend.list[0].reqCode === -2) {
@@ -126,8 +128,10 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }, [council.id, filter]);
 
     React.useEffect(() => {
-        getData();
-    }, [getData]);
+        if(council.securityType !== 0){
+            getData();
+        }
+    }, [getData, council]);
 
 
     ////////////////////////////////////
@@ -501,7 +505,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                                                     </div>
                                                                     <br></br>
                                                                     {data.reqCode !== -2 &&
-                                                                        < div style={{ marginTop: "1em" }}>
+                                                                        <div style={{ marginTop: "1em" }}>
                                                                             <BasicButton
                                                                                 text={'Enviar SMS'}
                                                                                 color={secondary}
