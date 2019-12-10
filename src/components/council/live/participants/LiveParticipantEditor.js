@@ -127,7 +127,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 					<Grid >
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
 							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", marginBottom: "0.8em" }}>
-								<h4 style={{ width: '100%' }}>Info</h4>{/**TRADUCCION */}
+								<h4 style={{ width: '100%' }}>Info</h4>
 							</div>
 							<div style={{ display: "flex", padding: "5px" }} >
 								<GridItem xs={landscape ? 2 : 12} md={2} style={{ textAlign: "center" }}>

@@ -121,11 +121,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     fontSize: '0.55rem',
                     textTransform: "none"
                 }}>
-                    {props.isMobile ?
-                        translate.message
-                        :
-                        'Mensaje al admin'/*TRADUCCION*/
-                    }
+                    {translate.message}
                 </div>
             </div>
         </Button>

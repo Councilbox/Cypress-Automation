@@ -111,7 +111,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					)
 					)}
 					{representations.length > 0 &&
-						'Está representando a:'
+						translate.representative_of
 					}
 					{representations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>

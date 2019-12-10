@@ -108,7 +108,6 @@ const CompanyTags = ({ client, translate, company }) => {
                 <Grid style={{ width: "100%", height: "100%", marginTop: "1em" }}>
                     <GridItem xs={12} md={12} lg={12} style={{ width: "100%", height: "100%" }}>
                         <div style={{ display: "flex", alignItems: "center", color: "#969696", minHeight: "42px", marginBottom: "0.5em" }}>
-                            {/* TRADUCCION */}
                             <div style={{}} onClick={() => setToggleText(!toggleText)}>
                                 <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }} >
                                     help

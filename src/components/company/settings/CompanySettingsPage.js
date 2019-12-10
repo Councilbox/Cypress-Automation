@@ -669,7 +669,7 @@ const AddAdmin = ({ translate, company, open, requestClose }) => {
 			open={open}
 			buttonCancel={translate.accept}
 			bodyText={renderBody()}
-			title={'Añadir admin'}//TRADUCCION
+			title={translate.users_add}
 		/>
 	)
 }
