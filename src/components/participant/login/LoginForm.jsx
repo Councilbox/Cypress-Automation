@@ -16,6 +16,7 @@ import { councilStarted, participantNeverConnected, getSMSStatusByCode } from '.
 import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
 import { withApollo } from 'react-apollo';
+import CouncilKeyModal from "./CouncilKeyModal";
 
 
 
@@ -78,9 +79,8 @@ const limitPerPage = 10;
 
 const LoginForm = ({ participant, translate, company, council, client, ...props }) => {
     const [state, setState] = useOldState({
-        email: participant.email,
         password: "",
-        sendPassModal: false,
+        sendPassModal: council.securityType !== 0 ? true : false,
         showPassword: false,
         errors: {
             email: "",
@@ -90,61 +90,14 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         helpPopover: true
     });
 
-    const [data, setData] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
-    const [filter, setFilter] = React.useState(null);
-    const [modalSecurity, setModalSecurity] = React.useState(council.securityType !== 0 ? true : false);
-    // const [filter, setFilter] = React.useState(showAll ? null : 'failed');
-
     const primary = getPrimary();
     const secondary = getSecondary();
 
-    ////////////////////////////////////
-
-    const getData = React.useCallback(async value => {
-        const response = await client.query({
-            query: participantSend,
-            variables: {
-                councilId: council.id,
-                filter,
-                options: {
-                    limit: limitPerPage,
-                    offset: limitPerPage * (value - 1)
-                },
-                participantId: participant.id
-            }
-        });
-
-        console.log('se piden los envíos');
-
-        if (response.data.participantSend.list) {
-            setData(response.data.participantSend.list[0]);
-            if (response.data.participantSend.list[0] && response.data.participantSend.list[0].reqCode === -2) {
-                //Si es fallido el envio de sms se levanta el modal para mostrar error
-                setModalSecurity(true)
-            }
-        }
-        setLoading(false);
-    }, [council.id, filter]);
-
-    React.useEffect(() => {
-        if(council.securityType !== 0){
-            getData();
-        }
-    }, [getData, council]);
-
-
-    ////////////////////////////////////
 
     const checkFieldsValidationState = () => {
         let errors = {
-            email: "",
             password: ""
         };
-
-        //CHECK REQUIRED
-        errors.email =
-            !(state.email.length > 0) ? translate.field_required : "";
 
         if (council.securityType === 0) {
             errors.password = "";
@@ -153,19 +106,19 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                 !(state.password.length > 0) ? translate.field_required : "";
         }
 
-        // CHECK VALID EMAIL
-        const validEmail = checkValidEmail(state.email);
-        errors.email = !validEmail
-            ? translate.tooltip_invalid_email_address
-            : "";
-
         setState({
             ...state,
             errors
         });
 
-        return errors.email === "" && errors.password === "";
+        return errors.password === "";
     };
+
+    const handleChange = (field, event) => {
+        const newState = {};
+        newState[field] = event.target.value;
+        setState(newState, checkFieldsValidationState);
+    }
 
     const showSendPassModal = () => {
         setState({
@@ -178,12 +131,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             sendPassModal: false,
             phoneError: ''
         })
-    }
-
-    const handleChange = (field, event) => {
-        const newState = {};
-        newState[field] = event.target.value;
-        setState(newState, checkFieldsValidationState);
     }
 
     const login = async () => {
@@ -227,55 +174,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         }
     };
 
-    const _sendPassModalBody = () => {
-
-        return (
-            <div>
-                {council.securityType === 1 &&
-                    translate.receive_access_key_email
-                }
-                {council.securityType === 2 &&
-                    <React.Fragment>
-                        {
-                            data ?
-                                <div>
-                                    {renderStatusSMS(data.reqCode)}
-                                </div>
-                                :
-                                <LoadingSection></LoadingSection>
-                        }
-                    </React.Fragment>
-                }
-                {!!state.phoneError &&
-                    <div style={{ color: 'red' }}>{state.phoneError}</div>
-                }
-            </div>
-        )
-    }
-
-    const renderStatusSMS = (reqCode) => {
-        // 288 estado de no enviado inventado
-        switch (reqCode) {
-            case 288:
-                return (<div>Para entrar en esta reunión es necesario una clave que se envía por SMS a este número</div>)
-                break;
-            case 22:
-                return (<div>El SMS ha sido enviado</div>)
-                break;
-
-            case 20:
-                return (<div>El SMS ha sido enviado</div>)
-                break;
-
-            case -2:
-                return (<div>El SMS no se ha podido enviar porque el número no es válido. Por favor contacte con el administrador</div>)
-                break;
-
-            default:
-                return (<div>El SMS ha fallado.</div>)
-        }
-
-    }
 
     const _tooltipContent = () => {
         const securityTypes = {
@@ -287,39 +185,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
     }
 
-    const sendParticipantRoomKey = async () => {
-        setState({
-            loading: true
-        });
-        const response = await props.sendParticipantRoomKey({
-            variables: {
-                councilId: council.id,
-                participantIds: [participant.id],
-                timezone: moment().utcOffset()
-            }
-        });
-
-        if (response.errors) {
-            if (response.errors[0].message === 'Invalid phone number') {
-                setState({
-                    phoneError: translate.invalid_phone_number,
-                    loading: false
-                });
-            }
-        } else {
-            setState({
-                loading: false,
-                phoneError: ''
-            });
-            closeSendPassModal();
-            checkSend()
-        }
-    }
-
-    const checkSend = () => {
-        setModalSecurity(false)
-        getData()
-    }
 
     const onMouseEnter = () => {
         setState({
@@ -332,13 +197,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             hover: false
         })
     }
-
-    const formatPhone = (phone) => {
-        if (phone.length >= 4) {
-            return "*".repeat(phone.length - 4) + phone.slice(-4);
-        }
-    }
-
 
     const { email, password, errors, showPassword } = state;
 
@@ -409,7 +267,145 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 }
                                 disabled={true}
                             />
-                            {council.securityType !== 0 && (
+                            {council.securityType !== 0 &&
+                                <React.Fragment>
+                                    <TextInput
+                                        onKeyUp={handleKeyUp}
+                                        helpPopoverInLabel={true}
+                                        floatingText={council.securityType === 2 ?
+                                            (
+                                                <div style={{ display: "flex" }}>
+                                                    {translate.key_by_sms}
+                                                    <div>
+                                                        <HelpPopover
+                                                            errorText={!!errors.password}
+                                                            title={translate.key_by_sms}
+                                                            content={_tooltipContent()}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )
+                                            :
+                                            (
+                                                <div style={{ display: "flex" }}>
+                                                    {translate.key_by_email}
+                                                    <div>
+                                                        <HelpPopover
+                                                            errorText={!!errors.password}
+                                                            title={translate.key_by_email}
+                                                            content={_tooltipContent()}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                        type={showPassword ? "text" : "password"}
+                                        errorText={errors.password}
+                                        value={password}
+                                        onChange={event =>
+                                            handleChange("password", event)
+                                        }
+                                        required={true}
+                                        showPassword={showPassword}
+                                        passwordToggler={() =>
+                                            setState({
+                                                showPassword: !showPassword
+                                            })
+                                        }
+                                    />
+                                    <span
+                                        style={{
+                                            cursor: 'pointer',
+                                            color: state.hover ? secondary : "",
+                                            borderBottom: state.hover ? `1px solid ${secondary}` : ""
+                                        }}
+                                        onClick={showSendPassModal}
+                                        onMouseEnter={onMouseEnter}
+                                        onMouseLeave={onMouseLeave}
+                                    >
+                                        {translate.didnt_receive_access_key}
+                                    </span>
+                                    <CouncilKeyModal
+                                        participant={participant}
+                                        council={council}
+                                        translate={translate}
+                                        open={state.sendPassModal}
+                                        requestclose={closeSendPassModal}
+                                    />
+                                </React.Fragment>
+
+                            }
+                            <div style={styles.enterButtonContainer}>
+                                <BasicButton
+                                    text={translate.enter_room}
+                                    color={primary}
+                                    textStyle={{
+                                        color: "white",
+                                        fontWeight: "700"
+                                    }}
+                                    textPosition="before"
+                                    fullWidth={true}
+                                    icon={
+                                        <ButtonIcon
+                                            color="white"
+                                            type="directions_walk"
+                                        />
+                                    }
+                                    onClick={login}
+                                />
+                            </div>
+                        </form>
+                    </Card>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: bindActionCreators(mainActions, dispatch)
+    };
+}
+
+const checkParticipantKey = gql`
+    mutation CheckParticipantKey($participantId: Int!, $key: Int!){
+        checkParticipantKey(participantId: $participantId, key: $key){
+                success
+                message
+            }
+        }
+    `;
+
+const sendParticipantRoomKey = gql`
+    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
+        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
+            success
+        }
+    }
+`;
+
+
+
+
+export default compose(
+    graphql(checkParticipantKey, {
+        name: 'checkParticipantKey'
+    }),
+    graphql(sendParticipantRoomKey, {
+        name: 'sendParticipantRoomKey'
+    })
+)(connect(
+    null,
+    mapDispatchToProps
+)(withTranslations()(withWindowOrientation(withWindowSize(withApollo(LoginForm))))));
+
+
+
+/*
+{council.securityType !== 0 && (
                                 <React.Fragment>
                                     <AlertConfirm
                                         requestClose={() => setModalSecurity(false)}
@@ -468,7 +464,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                                         }
                                                     </React.Fragment>
                                                 }
-                                                {/* Esto es SMS */}
                                                 {council.securityType === 2 &&
                                                     <React.Fragment>
                                                         {loading ?
@@ -532,160 +527,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                         }
                                         title={council.securityType === 2 ? translate.key_by_sms : translate.key_by_email}
                                     />
-                                    <TextInput
-                                        onKeyUp={handleKeyUp}
-                                        helpPopoverInLabel={true}
-                                        floatingText={council.securityType === 2 ?
-                                            (
-                                                <div style={{ display: "flex" }}>
-                                                    {translate.key_by_sms}
-                                                    <div>
-                                                        <HelpPopover
-                                                            errorText={!!errors.password}
-                                                            title={translate.key_by_sms}
-                                                            content={_tooltipContent()}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            )
-                                            :
-                                            (
-                                                <div style={{ display: "flex" }}>
-                                                    {translate.key_by_email}
-                                                    <div>
-                                                        <HelpPopover
-                                                            errorText={!!errors.password}
-                                                            title={translate.key_by_email}
-                                                            content={_tooltipContent()}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
-                                        type={showPassword ? "text" : "password"}
-                                        errorText={errors.password}
-                                        value={password}
-                                        onChange={event =>
-                                            handleChange("password", event)
-                                        }
-                                        required={true}
-                                        showPassword={showPassword}
-                                        passwordToggler={() =>
-                                            setState({
-                                                showPassword: !showPassword
-                                            })
-                                        }
-                                    />
-                                    <span
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: state.hover ? secondary : "",
-                                            borderBottom: state.hover ? `1px solid ${secondary}` : ""
-                                        }}
-                                        onClick={showSendPassModal}
-                                        onMouseEnter={onMouseEnter}
-                                        onMouseLeave={onMouseLeave}
-                                    >
-                                        {translate.didnt_receive_access_key}
-                                    </span>
-                                    {data &&
-                                        <AlertConfirm
-                                            requestClose={closeSendPassModal}
-                                            open={state.sendPassModal}
-                                            loadingAction={state.loading}
-                                            acceptAction={sendParticipantRoomKey}
-                                            buttonAccept={data.reqCode === -2 ? "" : translate.accept}
-                                            buttonCancel={translate.cancel}
-                                            bodyText={_sendPassModalBody()}
-                                            title={translate.resend_access_key}
-                                        />
-                                    }
+                                    
                                 </React.Fragment>
                             )}
 
-                            <div style={styles.enterButtonContainer}>
-                                <BasicButton
-                                    text={translate.enter_room}
-                                    color={primary}
-                                    textStyle={{
-                                        color: "white",
-                                        fontWeight: "700"
-                                    }}
-                                    textPosition="before"
-                                    fullWidth={true}
-                                    icon={
-                                        <ButtonIcon
-                                            color="white"
-                                            type="directions_walk"
-                                        />
-                                    }
-                                    onClick={login}
-                                />
-                            </div>
-                        </form>
-                    </Card>
-                </div>
-            </div>
-        </div>
-    );
-}
 
-
-
-const mapDispatchToProps = dispatch => {
-    return {
-        actions: bindActionCreators(mainActions, dispatch)
-    };
-}
-
-const checkParticipantKey = gql`
-    mutation CheckParticipantKey($participantId: Int!, $key: Int!){
-                    checkParticipantKey(participantId: $participantId, key: $key){
-                    success
-            message
-                }
-            }
-        `;
-
-const sendParticipantRoomKey = gql`
-    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
-                    sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
-                    success
-                }
-                }
-            `;
-
-const participantSend = gql`
-    query participantSend($councilId: Int!, $filter: String,  $options: OptionsInput, $participantId: Int!,){
-                    participantSend(councilId: $councilId, filter: $filter, options: $options, participantId: $participantId){
-                    list{
-                liveParticipantId
-                sendType
-                id
-                reqCode
-                councilId
-                recipient{
-                    name
-                    id
-                surname
-                phone
-                email
-            }
-        }
-        total
-    }
-}
-`;
-
-
-export default compose(
-    graphql(checkParticipantKey, {
-        name: 'checkParticipantKey'
-    }),
-    graphql(sendParticipantRoomKey, {
-        name: 'sendParticipantRoomKey'
-    })
-)(connect(
-    null,
-    mapDispatchToProps
-)(withTranslations()(withWindowOrientation(withWindowSize(withApollo(LoginForm))))));
+*/
