@@ -158,14 +158,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 			body={
 				<React.Fragment>
 					<Grid>
-						<GridItem xs={12} md={10}>
-							<Typography
-								variant="subheading"
-								style={{ marginTop: "0.5em" }}
-							>
-								{translate.new_files_desc.replace('10', '15')}
-							</Typography>
-
+						<GridItem xs={12} md={10} style={{marginTop: '2.5em'}}>
 							<ProgressBar
 								value={
 									totalSize > 0
@@ -178,7 +171,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 							/>
 
 							<Typography variant="caption">
-								{formatSize(totalSize * 1000)}
+								{`${formatSize(totalSize * 1000)} (${translate.max}. 15Mb)`}
 							</Typography>
 						</GridItem>
 						<GridItem xs={12} md={2}>
