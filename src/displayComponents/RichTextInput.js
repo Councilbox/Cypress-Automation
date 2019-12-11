@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, GridItem } from "./index";
-import { Typography, MenuItem } from "material-ui";
-import { getSecondary } from "../styles/colors";
+import { Typography, MenuItem, TableRow, TableHead, Table, TableBody, TableCell, IconButton } from "material-ui";
+import { getSecondary, getPrimary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 // import RichTextEditor from 'react-rte';
@@ -13,6 +13,11 @@ import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import withSharedProps from "../HOCs/withSharedProps";
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
+import TextInput from "./TextInput";
+import { Divider } from "material-ui";
+import Scrollbar from "./Scrollbar";
+import { useHoverRow } from "../hooks";
+
 
 if (isChrome) {
 	let style = document.createElement("style");
@@ -26,7 +31,8 @@ Quill.register(AlignStyle, true);
 
 class RichTextInput extends React.Component {
 	state = {
-		value: this.props.value
+		value: this.props.value,
+		showTags: false
 	};
 
 	componentDidMount() {
@@ -36,7 +42,7 @@ class RichTextInput extends React.Component {
 	}
 
 	shouldComponentUpdate(prevProps, prevState) {
-		return prevProps.value !== this.props.value || prevProps.tags !== this.props.tags;
+		return (prevProps.value !== this.props.value || prevProps.tags !== this.props.tags) || prevState !== this.state;
 	}
 
 	changeShowTags = () => {
@@ -46,7 +52,7 @@ class RichTextInput extends React.Component {
 	};
 
 	onChange = value => {
-		if(!this.rtEditor){
+		if (!this.rtEditor) {
 			return;
 		}
 		this.setState({ value });
@@ -82,23 +88,35 @@ class RichTextInput extends React.Component {
 		}, 500);
 	};
 
-
-
 	render() {
-		const { tags, loadDraft, errorText, required, translate } = this.props;
+		const { tags, loadDraft, errorText, required, translate, styles } = this.props;
 		const modules = {
 			toolbar: {
 				container: [
-					[{ 'color': [] }, { 'background': [] }], [ 'bold', 'italic', 'underline', 'link', 'strike'],
+					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify'}]
+					[{ 'align': 'justify' }], ['custom']
 				],
+				handlers: {
+					// 'custom': (...args) => {
+					// 	console.log(args);
+					// 	console.log(document.getElementById('pruebas'));
+					// 	//this.setState({ showTags: true })
+					// }
+				}
 			},
 			clipboard: {
 				matchVisual: false,
 			}
 		};
+
+		if (styles) {
+			let style = document.createElement("style");
+			style.innerHTML = `.ql-editor{ ${styles} }`;
+			document.head.appendChild(style);
+		}
+
 
 		return (
 			<React.Fragment>
@@ -144,7 +162,9 @@ class RichTextInput extends React.Component {
 											{!!tags &&
 												<SmartTags
 													tags={tags}
+													open={this.state.showTags}
 													translate={translate}
+													requestClose={() => this.setState({ showTags: false })}
 													paste={this.paste}
 												/>
 											}
@@ -159,15 +179,24 @@ class RichTextInput extends React.Component {
 								</React.Fragment>
 							}
 						</div>
-						{
-							<ReactQuill value={this.state.value}
+						<div
+							onClick={event => {
+								if (event.target.className === 'ql-custom') {
+									this.setState({
+										showTags: event.target
+									})
+								}
+							}}
+						>
+							<ReactQuill
+								value={this.state.value}
 								onChange={this.onChange}
 								modules={modules}
 								ref={editor => this.rtEditor = editor}
 								id={this.props.id}
 								className={`text-editor ${!!errorText ? 'text-editor-error' : ''}`}
 							/>
-						}
+						</div>
 					</GridItem>
 				</Grid>
 			</React.Fragment>
@@ -176,83 +205,215 @@ class RichTextInput extends React.Component {
 }
 
 
-const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, paste, client }) => {
-	const secondary = getSecondary();
+const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client }) => {
+	const primary = getPrimary();
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
+	const [ocultar, setOcultar] = React.useState(false);
+	const [searchModal, setSearchModal] = React.useState("");
+	const [filteredTags, setFilteredTags] = React.useState(tags);
+
+
+	React.useEffect(() => {
+		if(searchModal){
+			setFilteredTags([...tags, ...companyTags].filter(tag => (tag.label && tag.label.toLowerCase().includes(searchModal)) || (tag.key && tag.key.toLowerCase().includes(searchModal))));
+		} else {
+			let newTags = tags;
+			if(companyTags){
+				newTags = [...newTags, ...companyTags];
+			}
+			setFilteredTags(newTags);
+		}
+	}, [searchModal, companyTags, tags]);
 
 	const loadCompanyTags = React.useCallback(async () => {
 		const response = await client.query({
 			query,
 			variables: {
-				companyId: company.id
+				companyId: company.id,
+				...(searchModal ? {
+					filters: [
+						{
+							field: "key",
+							text: searchModal
+						},
+					]
+				} : {}),
 			}
 		});
 		setLoading(false);
 		setCompanyTags(response.data.companyTags);
-	}, [company.id]);
+	}, [company.id, searchModal]);
 
 	React.useEffect(() => {
 		loadCompanyTags();
 	}, [loadCompanyTags]);
 
 	const getTextToPaste = tag => {
-		let draftMode = false;
-		if(tags){
-			if(tags[0].value.includes('{{')){
-				draftMode = true;
+		if(tag.id){
+			if(window.location.href.includes('draft')){
+				return `{{${tag.key}}}`;
 			}
 		}
 
-		if(draftMode) {
-			return `{{${tag.key}}}`;
+		if(tag.getValue){
+			return tag.getValue();
 		}
-
 		return tag.value;
 	}
 
 
 	return (
 		<DropDownMenu
-			color="transparent"
-			text={translate.markers}
-			textStyle={{ color: secondary, paddingTop: '0px' }}
-			type="flat"
-			icon={
-				<Icon className="material-icons" style={{ color: secondary }}>
-					keyboard_arrow_down
-				</Icon>
-			}
+			anchorOrigin={{
+				vertical: 'top',
+				horizontal: 'right',
+			}}
+			transformOrigin={{
+				vertical: 'top',
+				horizontal: 'right',
+			}}
+			color={primary}
+			requestClose={requestClose}
+			open={open}
+			loading={false}
+			paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
+			styleBody={{}}
+			Component={() => <span />}
+			text={translate.add_agenda_point}
+			textStyle={"ETIQUETA"}
 			items={
-				<React.Fragment>
-					{tags.map(tag => {
-						return (
-							<MenuItem
-								key={`tag_${tag.label}`}
-								onClick={() =>
-									paste(`<span id="${tag.label}">${tag.getValue? tag.getValue() : tag.value}</span>`)
-								}
-
-							>
-								{tag.label}
-							</MenuItem>
-						);
-					})}
-					{(!loading && companyTags) && companyTags.map(tag => (
-						<MenuItem
-								key={`tag_${tag.id}`}
-								onClick={() =>
-									paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
-								}
-
-							>
-								{tag.key}
-						</MenuItem>
-					))}
-				</React.Fragment>
+				<div style={{}}
+					onClick={event => {
+						event.stopPropagation();
+					}}
+				>
+					<div style={{
+						margin: "0px 1em",
+					}}>
+						<div style={{
+							width: "100%",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "space-between"
+						}}
+						>
+							<div>
+								<TextInput
+									placeholder={`${translate.search} <Tags>`}
+									adornment={<Icon>search</Icon>}
+									id={"buscarEtiquetasEnModal"}
+									type="text"
+									stylesAdornment={{ color: primary }}
+									value={searchModal}
+									styleInInput={{ fontSize: "12px", color: primary }}
+									styles={{ marginBottom: "0" }}
+									onChange={event => {
+										setSearchModal(event.target.value);
+									}}
+									disableUnderline={true}
+								/>
+							</div>
+							<div style={{ color: primary }}>
+								&lt;tags&gt;
+							</div>
+						</div>
+					</div>
+					<Divider style={{ background: primary }} />
+					<div
+						style={{
+							width: "100%",
+							flexDirection: "row",
+							justifyContent: "space-between",
+							margin: "1em"
+						}}
+					>
+						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth: "700px", marginBottom: "0.5em" }} >
+							<i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em" }} onClick={() => setOcultar(!ocultar)}>
+								help
+							</i>
+							{!ocultar &&
+								<div>{translate.tags_description.split('.')[0]}. <u style={{ cursor: "pointer" }} onClick={() => setOcultar(true)}>({translate.hide})</u></div>
+							}
+						</div>
+						<div style={{ width: "97%", height: "30vh" }} >
+							<div style={{ width: "100%", height: '100%' }}>
+								<Scrollbar>
+									<div style={{ height: '100%' }}>
+										<Table style={{ maxWidth: "100%", width: "100%" }}>
+											<TableHead>
+												<TableRow style={{ color: "black" }}>
+													<TableCell style={{ color: "black", fontSize: "16px" }}>
+														{translate.key}
+                                                     </TableCell>
+													<TableCell style={{ color: "black", fontSize: "16px" }}>
+														{translate.value}
+                                                    </TableCell>
+												</TableRow>
+											</TableHead>
+											<TableBody>
+												{filteredTags.map((tag, index) => {
+													return (
+														<HoverableRow
+															key={`tag_${index}`}
+															tag={tag}
+															value={getTextToPaste(tag)}
+															translate={translate}
+															onClick={() => {
+																paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
+																requestClose();
+															}}
+														/>
+													);
+												})}
+												{/* {(!loading && companyTags) && companyTags.map(tag => {
+													return (
+														<HoverableRow
+															key={`tag_${tag.id}`}
+															tag={tag}
+															translate={translate}
+															onClick={() => {
+																paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
+																requestClose();
+															}}
+														/>
+													)
+												})} */}
+											</TableBody>
+										</Table>
+									</div>
+								</Scrollbar>
+							</div>
+						</div>
+					</div>
+				</div>
 			}
 		/>
 	)
 }))
+
+
+const HoverableRow = ({ tag, onClick, value }) => {
+	const [show, handlers] = useHoverRow();
+	const primary = getPrimary();
+
+	return (
+		<TableRow
+			{...handlers}
+			style={{
+				background: show && "rgba(0, 0, 0, 0.07)",
+				cursor:"pointer"
+			}}
+			onClick={onClick}
+		>
+			<TableCell style={{ color: "black" }}>
+				{tag.key || tag.label}
+			</TableCell>
+			<TableCell style={{ color: primary }}>
+				{tag.description || value }
+			</TableCell>
+		</TableRow>
+	)
+}
 
 export default RichTextInput;

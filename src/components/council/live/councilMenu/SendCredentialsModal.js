@@ -93,7 +93,6 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 				</div>
 			);
 		}
-		//TRADUCCION
 		return (
 			<div>
 				{translate.send_to}

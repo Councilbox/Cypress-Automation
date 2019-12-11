@@ -1,15 +1,17 @@
 import React from "react";
-import { LiveToast } from "../../../displayComponents";
+import { LiveToast, BasicButton } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import { compose, graphql, withApollo } from "react-apollo";
 import { updateAgenda } from "../../../queries/agenda";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
-import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText } from "../../../utils/CBX";
+import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText, generateStatuteTag } from "../../../utils/CBX";
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
 import { AGENDA_STATES } from "../../../constants";
+import { getSecondary } from "../../../styles/colors";
+import { TAG_TYPES } from "../../company/drafts/draftTags/utils";
 
 
 export const agendaRecountQuery = gql`
@@ -34,10 +36,11 @@ export const agendaRecountQuery = gql`
 const ActAgreements = ({ translate, council, company, agenda, recount, ...props }) => {
 	const [error, setError] = React.useState(false);
 	const timeout = React.useRef(null);
-	const editor = React.useRef(null);
+ 	const editor = React.useRef(null);
 	const [comment, setComment] = React.useState(agenda.comment);
 	const modal = React.useRef(null);
 	const [data, setData] = React.useState(null);
+	const secondary = getSecondary();
 
 	React.useEffect(() => {
 		if(comment !== agenda.comment){
@@ -93,7 +96,6 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 
 
 	const updateAgreement = async value => {
-
 		if(checkForUnclosedBraces(value)){
 			toast.dismiss();
 			toast(
@@ -158,7 +160,6 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		const correctedText = await getCorrectedText(draft.text);
 		editor.current.paste(correctedText);
 		updateAgreement(correctedText);
-		modal.current.close();
 	}
 
 
@@ -265,24 +266,34 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 					backgroundColor: "white"
 				}}
 			>
+
 				<RichTextInput
 					ref={editor}
 					errorText={error}
 					translate={translate}
 					loadDraft={
 						<LoadDraftModal
-							ref={modal}
 							translate={translate}
 							companyId={company.id}
 							loadDraft={loadDraft}
 							statute={council.statute}
-							statutes={props.data.companyStatutes}
-							draftType={5}
+							defaultTags={
+								{
+									"comments_and_agreements": {
+									active: true,
+									type: TAG_TYPES.DRAFT_TYPE,
+									name: 'comments_and_agreements',
+									label: translate.comments_and_agreements
+								},
+								...generateStatuteTag(council.statute, translate)
+							}}
 						/>
 					}
 					tags={tags}
 					value={comment || ""}
-					onChange={value => updateComment(value)}
+					onChange={value => {
+						updateComment(value)
+					}}
 				/>
 			</div>
 		)

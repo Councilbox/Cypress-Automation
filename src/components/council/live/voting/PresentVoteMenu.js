@@ -4,7 +4,7 @@ import { agendaVotingsOpened } from '../../../../utils/CBX';
 import VotingValueIcon from "./VotingValueIcon";
 import { graphql } from "react-apollo";
 import { updateAgendaVoting } from "../../../../queries/agenda";
-import { MenuItem } from "material-ui";
+import { MenuItem, Tooltip } from "material-ui";
 import { CircularProgress } from "material-ui/Progress";
 
 const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
@@ -25,6 +25,8 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 		setLoading(false);
 		props.refetch();
 	};
+
+	console.log(agendaVoting.author);
 
 	const _block = (value, active) => {
 		if(!agendaVotingsOpened(agenda)){
@@ -82,9 +84,20 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 				marginRight: "0.7em"
 			}}
 		>
-			{_block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
-			{_block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
-			{_block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}
+			{agendaVoting.author.voteDenied? //TRADUCCION
+				<React.Fragment>
+					<Tooltip title={agendaVoting.author.voteDeniedReason}>
+						<div>Derecho a voto denegado</div>
+					</Tooltip>
+				</React.Fragment>
+
+			:
+				<React.Fragment>
+					{_block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
+					{_block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
+					{_block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}
+				</React.Fragment>
+			}
 		</div>
 	);
 

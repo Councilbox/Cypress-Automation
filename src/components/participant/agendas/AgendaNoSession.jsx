@@ -147,8 +147,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         return (
             <div style={{ width: "100%", height: "100%" }}>
                 <div style={{ height: "100%", marginTop: "1em", overflow: "hidden", padding: "1em" }}>
-                    {/* TRADUCCION */}
-                    <div style={{ marginBottom: "1em" }}>Mi participanción - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
+                    <div style={{ marginBottom: "1em" }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
                     <div style={{ height: "calc( 100% - 2.5em )", }}>
                         <Scrollbar>
                             <Results
@@ -197,7 +196,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             open={showModal}
             acceptAction={logout}
             buttonCancel={translate.cancel}
-            buttonAccept={"Finalizar"}
+            buttonAccept={translate.finish}
             bodyText={_renderModalBody()}
             bodyStyle={{ height: "60vh", overflow: "hidden" }}
             title={translate.summary}
@@ -223,6 +222,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     color: primary,
                     height: "25px",
                     fontSize: "13px",
+                    userSelect: 'none',
                     textTransform: "none",
                     minHeight: "0px",
                     lineHeight: '0.5',
@@ -231,7 +231,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     marginRight: "0.5em"
                 }}
             >
-                <b> Enviar voto y salir {/**TRADUCCION*/} </b>
+                <b>{translate.to_vote}</b>
             </Button>
         :
             <Button
@@ -250,7 +250,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     marginRight: "0.5em"
                 }}
             >
-                <b> Finalizar{/**TRADUCCION*/}  </b>
+                <b>{translate.finish}</b>
             </Button>
     )
 
@@ -442,11 +442,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 }
 
 const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props }) => {
-    const ownVote = agenda.votings.find(voting => (
-        voting.participantId === participant.id
-        || voting.delegateId === participant.id ||
-        voting.author.representative.id === participant.id
-    ));
+    const ownVote = CBX.findOwnVote(agenda.votings, participant);
     const primary = getPrimary();
 
 

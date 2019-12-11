@@ -19,7 +19,8 @@ import {
 	councilIsNotLiveYet,
 	councilIsNotCelebrated,
 	councilIsFinished,
-	councilIsLive
+	councilIsLive,
+	checkHybridConditions
 } from "../../../utils/CBX";
 import {
 	getPrimary,
@@ -132,7 +133,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					...(windowSize === "xs" &&
 						windowOrientation === "portrait"
 						? { maxWidth: "100%", width: "100%" }
-						: { maxWidth: "85%", minWidth: "50%" }),
+						: { maxWidth: "85%", minWidth: "100%" }),
 					// : { maxWidth: "50%", minWidth: "50%" }),
 				}}
 			>
@@ -238,54 +239,60 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					</StateContainer>
 				)}
 
-				{(councilIsFinished(council) || props.participant.hasVoted) && (
+
+				{(councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) && (
 					<React.Fragment>
 						{isMobile ?
 							<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
-								<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
-									<div>
-										<h3 style={{
-											color: primary,
-											fontSize: "28px",
-											paddingTop: "0.5em"
-										}}
-										>
-											{props.participant.hasVoted? 'Resumen de participación' : translate.concil_finished}
-										</h3>
-									</div>
-									<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>
+								<Scrollbar>
+									<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
 										<div>
-											<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900" }} >
-												{council.name}
-											</div>
-											<div style={{ display: "flex" }} >
-												-
-												</div>
-										</div>
-										<div>
-											<Image
-												src={emptyMeetingTable}
-												styles={{ width: '77px', minWidth: "", marginLeft: "2em" }}
-												windowOrientation={windowOrientation}
+											<h3 style={{
+												color: primary,
+												fontSize: "28px",
+												paddingTop: "0.5em"
+											}}
 											>
-											</Image>
+												{props.participant.hasVoted? translate.participation_summary
+												:
+													checkHybridConditions(council)?
+														'Votaciones remotas finalizadas' //TRADUCCION
+													:
+													translate.concil_finished}
+											</h3>
+										</div>
+										<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>
+											<div>
+												<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900" }} >
+													{council.name}
+												</div>
+												<div style={{ display: "flex" }} >
+													-
+													</div>
+											</div>
+											<div>
+												<Image
+													src={emptyMeetingTable}
+													styles={{ width: '77px', minWidth: "", marginLeft: "2em" }}
+													windowOrientation={windowOrientation}
+												>
+												</Image>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
-									<div>
-										{council.dateEnd? moment(council.dateEnd).format('LLL') : '-'}
-									</div>
-								</div>
-								<div style={{ overflow: "hidden", height: "calc( 100% - 15em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
-									<div style={{ padding: "1em 1em", height: " 100% ", overflow: "hidden", }}>
-										<div style={{ textAlign: "center" }}>{/**TRADUCCION */}
-											Mi participacion - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span>
+									<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+										<div>
+											{council.dateEnd? moment(council.dateEnd).format('LLL') : '-'}
 										</div>
-										<div style={{ marginTop: "1em", height: " 100% ", overflow: "hidden" }}>
-											{selectHeadFinished === "participacion" &&
-												<Scrollbar>
-													<div style={{ height: " 100% ", overflow: "hidden", paddingBottom: "1em" }}>
+									</div>
+									<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+										<div style={{ padding: "1em 1em" }}>
+											<div style={{ textAlign: "center" }}>
+												{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span>
+											</div>
+											<div style={{ marginTop: "1em" }}>
+												{selectHeadFinished === "participacion" &&
+													<div style={{ paddingBottom: "1em" }}>
 														<Results
 															council={council}
 															participant={props.participant}
@@ -293,29 +300,25 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 															endPage={true}
 														/>
 													</div>
-												</Scrollbar>
-											}
-											{selectHeadFinished === "reunion" &&
-												<Scrollbar>
-													<div style={{ height: " 100% ", overflow: "hidden", paddingBottom: "1em" }}>
+												}
+												{selectHeadFinished === "reunion" &&
+													<div style={{ paddingBottom: "1em" }}>
 														<TimelineSection council={council} translate={translate} endPage={true} />
 													</div>
-												</Scrollbar>
-											}
-											{selectHeadFinished === "contactAdmin" &&
-												<Scrollbar>
-													<div style={{ height: " 100% ", overflow: "hidden", paddingBottom: "1em" }}>
+												}
+												{selectHeadFinished === "contactAdmin" &&
+													<div style={{ paddingBottom: "1em" }}>
 														<ContactForm
 															participant={props.participant}
 															translate={translate}
 															council={council}
 														/>
 													</div>
-												</Scrollbar>
-											}
+												}
+											</div>
 										</div>
 									</div>
-								</div>
+								</Scrollbar>
 							</div>
 							:
 							<StateContainer
@@ -325,7 +328,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 							>
 								<div style={{ width: "815px", height: "100%" }}>
 									<TextRenderFinished
-										title={props.participant.hasVoted? 'Resumen de participación' : translate.concil_finished}
+										title={props.participant.hasVoted? translate.participation_summary : translate.concil_finished}
 										council={council}
 										company={company}
 										translate={translate}
@@ -366,7 +369,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 													color: ` ${primary}`,
 												}}
 												backgroundColor={{ background: "white", justifyContent:"inherit"}}
-												text={'Contactar con el administrador'}
+												text={'Contactar con el administrador'}//TRADUCCION
 												buttonStyle={{
 													width:"100%",
 													borderRadius: "0px",
@@ -390,7 +393,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 													width: "100%",
 												}}>
 													<div onClick={() => setState({ expanded: !state.expanded })} style={{ padding: "0.5em", justifyContent: "space-between", display: "flex", cursor: "pointer", width: "100%", }}>
-														<div>Ver resumen</div>{/**TRADUCCION */}
+														<div>{translate.summary}</div>
 														<i className="material-icons" style={{ color: 'rgba(10, 10, 10, 0.49)', width: '18px', height: '10px' }}>
 															arrow_drop_down
 													</i>
@@ -415,8 +418,8 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 													border: 'solid 1px #d7d7d7',
 													height: "100%"
 												}}>
-												<div style={{ width: "100%", height: "100%" }}>{/**TRADUCCION */}
-													<div style={{ display: "flex" }}>Mi participacion - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span></div>
+												<div style={{ width: "100%", height: "100%" }}>
+													<div style={{ display: "flex" }}>{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span></div>
 													<div style={{ marginTop: "1em", height: "calc( 100% - 2em )" }}>
 														<Scrollbar>
 															<div style={{ height: '165px', }}>

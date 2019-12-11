@@ -12,6 +12,8 @@ import addSociedad from './addSociedad';
 import anadirSocioPersonaJuridica from './anadirSocioPersonaJuridica';
 import crearCorreos from './crearCorreos';
 import loginFast from './loginFast';
+import plantillasTest from './plantillas';
+import plantillasEtiquetas from './plantillasEtiquetas';
 
 
 context('Actions', () => {

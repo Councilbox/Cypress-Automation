@@ -17,14 +17,6 @@ const rand = Date.now();
 
 const MeetingLivePage = ({ data }) => {
 	const [state, setState] = useOldState({
-		participants: false,
-		confirmModal: false,
-		selectedPoint: 0,
-		addParticipantModal: false,
-		showParticipants: false,
-		videoWidth: minVideoWidth,
-		videoHeight: minVideoHeight,
-		fullScreen: false,
 		url: sessionStorage.getItem('meetingUrl'),
 	});
 
@@ -38,7 +30,7 @@ const MeetingLivePage = ({ data }) => {
 	return (
 		<div
 			style={{
-				height: "100vh",
+				height: "100%",
 				overflow: "hidden",
 				backgroundColor: lightGrey,
 				fontSize: "1em"
@@ -111,7 +103,7 @@ const MeetingLivePage = ({ data }) => {
 				style={{
 					display: "flex",
 					width: "100%",
-					height: "calc(100vh - 3em)",
+					height: "calc(100% - 3em)",
 					flexDirection: "row"
 				}}
 			>

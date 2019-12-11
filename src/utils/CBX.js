@@ -28,6 +28,7 @@ import LiveUtil from './live';
 import { LiveToast } from '../displayComponents';
 import { moment, client, store } from '../containers/App';
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
+import { TAG_TYPES } from "../components/company/drafts/draftTags/utils";
 
 export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
@@ -230,10 +231,10 @@ export const findOwnVote = (votings, participant) => {
 	}
 
 	return votings.find(voting => (
-		voting.participantId === participant.id
+		(voting.participantId === participant.id
 		|| voting.delegateId === participant.id ||
 		voting.author.representative.id === participant.id
-	));
+	) && !voting.author.voteDenied));
 }
 
 export const hasAct = statute => {
@@ -1064,6 +1065,16 @@ export const getActPointSubjectType = () => {
 	return 2;
 };
 
+export const generateStatuteTag = (statute, translate) => {
+	return {
+		[`statute_${statute.statuteId}`]: {
+			label: translate[statute.title] || statute.title,
+			name: `statute_${statute.statuteId}`,
+			type: TAG_TYPES.STATUTE
+		}
+	}
+}
+
 export const generateInitialDates = (statute) => {
 	if (statute.existsAdvanceNoticeDays === 1) {
 		const momentDate = moment(new Date().toISOString());
@@ -1595,35 +1606,35 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		}
 	}
 
-	if (draft.type === -1) {
-		hasError = true;
-		errors.type = translate.required_field;
-	}
+	// if (draft.type === -1) {
+	// 	hasError = true;
+	// 	errors.type = translate.required_field;
+	// }
 
-	if (draft.statuteId === -1 && !corporation) {
-		hasError = true;
-		errors.statuteId = translate.required_field;
-	}
+	// if (draft.statuteId === -1 && !corporation) {
+	// 	hasError = true;
+	// 	errors.statuteId = translate.required_field;
+	// }
 
-	if (draft.type === 1 && draft.votationType === -1) {
-		hasError = true;
-		errors.votationType = translate.required_field;
-	}
+	// if (draft.type === 1 && draft.votationType === -1) {
+	// 	hasError = true;
+	// 	errors.votationType = translate.required_field;
+	// }
 
-	if (hasVotation(draft.votationType) && draft.type === 1 && draft.majorityType === -1) {
-		hasError = true;
-		errors.majorityType = translate.required_field;
-		if (majorityNeedsInput(draft.majorityType)) {
-			hasError = true;
-			errors.majority = translate.required_field;
-		}
+	// if (hasVotation(draft.votationType) && draft.type === 1 && draft.majorityType === -1) {
+	// 	hasError = true;
+	// 	errors.majorityType = translate.required_field;
+	// 	if (majorityNeedsInput(draft.majorityType)) {
+	// 		hasError = true;
+	// 		errors.majority = translate.required_field;
+	// 	}
 
-		if (isMajorityFraction(draft.majorityType) && !draft.majorityDivider) {
-			hasError = true;
-			errors.majorityDivider = translate.required_field;
-		}
-	}
-
+	// 	if (isMajorityFraction(draft.majorityType) && !draft.majorityDivider) {
+	// 		hasError = true;
+	// 		errors.majorityDivider = translate.required_field;
+	// 	}
+	// }
+	// console.log(errors)
 	updateErrors(errors);
 	return hasError;
 };
@@ -1632,6 +1643,16 @@ export const cleanAgendaObject = agenda => {
 	const { attachments, ballots, items, options, __typename, votings, ...clean } = agenda;
 
 	return clean;
+}
+
+export const checkHybridConditions = council => {
+	if(council.councilType !== 3){
+		return false;
+	}
+
+	if(checkSecondDateAfterFirst(council.closeDate, new Date())){
+		return true;
+	}
 }
 
 export const formatSize = size => {

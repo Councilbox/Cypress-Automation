@@ -9,9 +9,6 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 
 
-
-
-
 const TimelineSection = ({ translate, participant, council, scrollToBottom, isMobile, client, endPage, ...props }) => {
     const [timeline, setTimeline] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
@@ -185,6 +182,7 @@ const getTimelineTranslationReverse = (type, content, translate) => {
         'START_AUTO_COUNCIL': () => translate.council_started,
         'OPEN_VOTING': () => <span><span style={{color:getPrimary()}}>{translate.voting_open}</span> - <b>{content.data.agendaPoint.name}</b></span>,
         'END_COUNCIL': () =>  <b>{translate.end_council}</b>,
+        'CLOSE_REMOTE_VOTINGS': () => 'Cierre votaciones remotas',//TRADUCCION
         'OPEN_POINT_DISCUSSION': () => <span><span style={{color:getPrimary()}}>{translate.agenda_begin_discussed}</span> - <b>{content.data.agendaPoint.name}</b></span>,
         'CLOSE_POINT_DISCUSSION': () => <span><span style={{color:getPrimary()}}>{translate.close_point}</span> - <b>{content.data.agendaPoint.name}</b></span>,
         'CLOSE_VOTING': () => <span><span style={{color:getPrimary()}}>{translate.closed_votings}</span> -  <b>{content.data.agendaPoint.name}</b></span>,

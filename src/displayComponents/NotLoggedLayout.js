@@ -3,6 +3,19 @@ import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
+import '../../src/styles/snow.css';
+
+
+const Snow = () => {
+    return (
+        < div class="snowfall" >
+            {Array(99).fill(1).map((el, i) =>
+                <div class="snowflake"></div>
+            )}
+        </div >
+    )
+}
+
 
 
 const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished }) => {
@@ -10,10 +23,10 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
 
-    const imgUrl =  window.location.pathname.includes('participant')?
-        customRoomBackground? customRoomBackground : customBackground? customBackground : bg
+    const imgUrl = window.location.pathname.includes('participant') ?
+        customRoomBackground ? customRoomBackground : customBackground ? customBackground : bg
         :
-        customBackground? customBackground : bg
+        customBackground ? customBackground : bg
 
     React.useEffect(() => {
         let img = new Image();
@@ -21,7 +34,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
         img.onload = () => setLoadingImg(false);
     }, [customBackground, customRoomBackground]);
 
-    if(loadingImg){
+    if (loadingImg) {
         return <LoadingMainApp />
     }
 
@@ -38,7 +51,8 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
                 padding: 0,
-                margin: 0
+                margin: 0,
+                width: '100%'
             }}
         >
             <Header
@@ -59,6 +73,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                     height: "100%",
                 }}
             >
+                <Snow ></Snow>
                 {children}
             </div>
         </div>

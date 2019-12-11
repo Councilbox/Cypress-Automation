@@ -7,7 +7,7 @@ import { checkRequiredFields } from "../../../utils/CBX";
 import { createCorporationDraft } from "../../../queries";
 
 
-const company_types = [ {
+export const company_types = [ {
     company_type: 0,//'s_a'
     statutes: [ {
         prototype: 1,

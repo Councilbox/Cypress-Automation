@@ -57,7 +57,6 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         return Array.from(ballotsMap.values()).reduce((acc, item) => item.weight + acc, 0);
     }
 
-
     const sendBallots = async () => {
         setState({
             loading: true
@@ -169,6 +168,28 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                         </TableCell>
                                     </TableRow>
                                 ))}
+                                <TableRow>
+                                    <TableCell style={{padding: '5px 10px'}}>
+                                        <div
+                                            style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                                maxWidth: isMobile ? "50px" : "150px"
+                                            }}
+                                        >
+                                            {translate.abstention_btn}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell style={{padding: '5px 10px'}}>
+                                        <TextInput
+                                            styles={{ width: isMobile ? "50px" : "100px" }}
+                                            // styleInInput={{ textAlign: 'center' }}
+                                            value={ballots.get(-1) ? ballots.get(-1).weight : 0}
+                                            onChange={event => updateBallotValue(-1, +event.target.value)}
+                                        />
+                                    </TableCell>
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </div>

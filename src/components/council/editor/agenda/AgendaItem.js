@@ -3,8 +3,9 @@ import { CloseIcon, Grid, GridItem } from "../../../../displayComponents";
 import { isCustomPoint } from "../../../../utils/CBX";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { IconButton, Paper } from "material-ui";
+import withTranslations from "../../../../HOCs/withTranslations";
 
-const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft }) => {
+const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
@@ -58,9 +59,9 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 						</GridItem>
 						{agenda.items.length > 0 &&
 							<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>
-								{`Respuestas posibles: Máximo: ${agenda.options.maxSelections}${
-									agenda.options.minSelections > 1? ` - Mínimo: ${agenda.options.minSelections}` : ''
-								}`/*TRADUCCION*/}
+								{`${translate.answers_options}: ${translate.max}: ${agenda.options.maxSelections}${
+									agenda.options.minSelections > 1? ` - ${translate.min}: ${agenda.options.minSelections}` : ''
+								}`}
 								<ul>
 									{agenda.items.map(item => (
 										<li key={`agenda_item_${item.id}`} style={{ whiteSpace: 'pre-wrap', marginTop: '0.3em' }}>
@@ -120,4 +121,4 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 	)
 };
 
-export default AgendaItem;
+export default withTranslations()(AgendaItem);

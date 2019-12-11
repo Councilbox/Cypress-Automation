@@ -240,6 +240,18 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         console.log(response);
     }
 
+    const getDrafts = async () => {
+        const response = await client.query({
+            query: queryTags,
+            variables: {
+               companyId: 375,
+               tags: ['ordinaria']
+            }
+        });
+
+        console.log(response);
+    }
+
     const convene = async () => {
         const response = await client.mutate({
             mutation: sendConvene,
@@ -302,6 +314,10 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
             <BasicButton
                 text="Enviar convocatoria"
                 onClick={convene}
+            />
+            <BasicButton
+                text="Pedir"
+                onClick={getDrafts}
             />
             <BasicButton
                 text="Crear censos"
@@ -403,6 +419,17 @@ const Features = ({ value, toggleFeature }) => {
         </React.Fragment>
     )
 }
+
+const queryTags = gql`
+    query draftTagSearch($companyId: Int!, $tags: [String]){
+        draftTagSearch(companyId: $companyId, tags: $tags){
+            list {
+                id
+                title
+            }
+        }
+    }
+`;
 
 const toggleFeature = gql`
     mutation ToggleFeature($name: String!){

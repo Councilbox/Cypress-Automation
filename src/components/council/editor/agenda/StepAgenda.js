@@ -23,6 +23,7 @@ import NewCustomPointModal from "./modals/NewCustomPointModal";
 import CustomPointEditor from "./modals/CustomPointEditor";
 import { ConfigContext } from "../../../../containers/AppControl";
 import { useOldState } from "../../../../hooks";
+import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 
 const buttonStyle = {
 	color: "white",
@@ -358,14 +359,26 @@ const StepAgenda = ({ client, translate, ...props }) => {
 												text: newDraft.description,
 												description: "",
 												title: newDraft.agendaSubject,
-												votationType:
-													newDraft.subjectType,
+												votationType: newDraft.subjectType,
 												type: draftTypes.filter(
 													draft =>
 														draft.label === "agenda"
 												)[0].value,
-												statuteId:
-													council.statute.statuteId
+												tags: {
+													[`statute_${council.statute.statuteId}`]: {
+														label: translate[council.statute.title] || council.statute.title,
+														name: `statute_${council.statute.statuteId}`,
+														type: TAG_TYPES.STATUTE,
+														active: true
+													},
+													'agenda': {
+														type: TAG_TYPES.DRAFT_TYPE,
+														label: translate['agenda'],
+														name: 'agenda',
+														active: true
+													}
+												},
+												statuteId: council.statute.statuteId
 											}}
 											company={props.company}
 											requestClose={() =>

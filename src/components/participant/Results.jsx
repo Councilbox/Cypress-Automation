@@ -100,6 +100,8 @@ const Results = ({ data, translate, requestClose, open, participant, council, st
                                     <div
                                         style={{
                                             display: 'flex',
+                                            width: '22px',
+                                            height: '22px'
                                         }}
                                     >
                                         <AgendaNumber

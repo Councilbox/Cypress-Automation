@@ -96,7 +96,7 @@ const CardPageLayout = ({
 									paddingRight: windowSize === "xl" && "2vw"
 								}}
 							>
-								<div className="container-fluid">
+								<div className="container-fluid" style={{height: "100%", overflow:"hidden"}}>
 									{children}
 								</div>
 							</div>
