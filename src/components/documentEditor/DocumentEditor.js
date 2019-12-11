@@ -111,23 +111,14 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
         rebuildBlockSecondaryTranslation(translate, secondaryTranslate);
     }
 
-    console.log(doc.items);
-
 
     const rebuildBlockSecondaryTranslation = (translate, secondaryTranslate) => {
         const newItems = doc.items.map(item => {
-            console.log(item);
-            console.log({
-                ...item,
-                secondaryText: item.buildDefaultValue? item.buildDefaultValue(secondaryTranslate) : item.secondaryText
-            })
             return {
                 ...item,
-                secondaryText: item.buildDefaultValue? item.buildDefaultValue(secondaryTranslate) : item.secondaryText
+                secondaryText: item.buildDefaultValue? item.buildDefaultValue(data, secondaryTranslate) : item.secondaryText
             }
-        })
-
-        console.log(newItems);
+        });
         setDoc({ items: newItems });
     }
 
@@ -225,14 +216,22 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
     const addItem = id => {
         if (doc.items[0] === undefined) {
             doc.items = new Array;
-        }
+        };
         let resultado = arrastrables.items.find(arrastrable => arrastrable.id === id);
         let arrayArrastrables
-        if (resultado.type !== "bloqueDeTexto") {
+        if (resultado.type !== "text") {
             arrayArrastrables = arrastrables.items.filter(arrastrable => arrastrable.id !== id)
         } else {
             arrayArrastrables = arrastrables.items
-            resultado = { id: Math.random().toString(36).substr(2, 9), name: "Bloque de texto", text: 'Inserte el texto', type: "bloqueDeTexto", editButton: true }
+            resultado = {
+                id: Math.random().toString(36).substr(2, 9),
+                label: "Bloque de texto",
+                defaultValue: translate => translate.title,
+                text: 'Inserte el texto',
+                secondaryText: 'Insert text',
+                type: "text",
+                editButton: true
+            }
         }
         setArrastrables({ items: arrayArrastrables });
         doc.items.push(resultado);
@@ -389,7 +388,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                                 <BorderBox
                                                     key={item.id}
                                                     addItem={addItem}
-                                                    itemInfo={item.id}
+                                                    id={item.id}
                                                 >
                                                     <div >
                                                         <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
