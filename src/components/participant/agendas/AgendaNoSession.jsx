@@ -557,7 +557,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                                 fontWeight: '700'
                             }}
                         >
-                            {`Voto registrado (${moment(ownVote.date).format('LLL')})`}
+                            {`${translate.vote_registered} (${moment(ownVote.date).format('LLL')})`}
                         </Button>
                     }
                 </CardActions>
