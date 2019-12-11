@@ -26,13 +26,15 @@ const PaginationFooter = ({
 	length,
 	total,
 	limit,
+	md,
+	xs,
 	changePage
 }) => {
 	const totalPages = Math.ceil(total / limit);
 
 	return (
 		<React.Fragment>
-			<GridItem xs={window.innerWidth < 480 ? 12 : 5} lg={5} md={6} style={{ fontSize: '0.7rem' }}>
+			<GridItem xs={window.innerWidth < 480 ? 12 : xs ? xs : 5} lg={5} md={md ? md : 6} style={{ fontSize: '0.7rem' }}>
 				{length > 0
 					? `${translate.table_showing_part1} ${(page - 1) * limit +
 					1} ${translate.table_showing_part2} ${(page - 1) *
@@ -42,7 +44,7 @@ const PaginationFooter = ({
 					}`
 					: translate.table_no_results}
 			</GridItem>
-			<GridItem xs={window.innerWidth < 480 ? 12 : 7} lg={7} md={7} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+			<GridItem xs={window.innerWidth < 480 ? 12 : xs ? xs : 7} lg={7} md={md ? md : 7} style={{ display: 'flex', justifyContent: 'flex-end' }}>
 				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 					{page > 1 && (
 						<React.Fragment>

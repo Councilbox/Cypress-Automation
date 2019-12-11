@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import * as mainActions from "../../actions/mainActions";
 import logo from "../../assets/img/logo.png";
 import icon from "../../assets/img/logo-icono.png";
-import gorro from "../../assets/img/navidadGorro.png";
 import { Icon, AlertConfirm } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
@@ -133,33 +132,18 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					alignItems: "center",
 				}}
 			>
-				<div style={{position: "relative"}}>
-					<img
-						src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
-						className="App-logo"
-						style={{
-							height: "1.5em",
-							marginLeft: "1em",
-							// marginLeft: "2em",
-							userSelect: 'none'
-						}}
-						alt="logo"
-					>
-					</img>
-					<img
-						src={gorro}
-						style={{
-							height: "1.5em",
-							position: 'absolute',
-							top: '-7px',
-							right: '-8px',
-							// top: '2px',
-							// right: '10%',
-							transform: 'rotate(17deg)',
-						}}
-						alt="logo"
-					/>
-				</div>
+				<img
+					src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
+					className="App-logo"
+					style={{
+						height: "1.5em",
+						marginLeft: "1em",
+						// marginLeft: "2em",
+						userSelect: 'none'
+					}}
+					alt="logo"
+				>
+				</img>
 			</div>
 			{(council && council.autoClose !== 1) &&
 				<Marquee

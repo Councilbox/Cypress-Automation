@@ -3,19 +3,6 @@ import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
-import '../../src/styles/snow.css';
-
-
-const Snow = () => {
-	return (
-		< div class="snowfall" >
-			{Array(99).fill(1).map((el, i) =>
-				<div class="snowflake"></div>
-			)}
-		</div >
-	)
-}
-
 
 const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) => {
     const [loadingImg, setLoadingImg] = React.useState(true);
@@ -68,7 +55,6 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
                     height: "100%",
                 }}
             >
-                <Snow ></Snow>
                 {children}
             </div>
         </div>

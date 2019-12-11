@@ -38,6 +38,7 @@ const TextInput = ({
 	styles,
 	styleInInput,
 	labelNone,
+	stylesAdornment,
 	disableUnderline
 }) => (
 		<FormControl
@@ -111,7 +112,7 @@ const TextInput = ({
 							</IconButton>
 						</InputAdornment>
 					) : adornment ? (
-						<InputAdornment position="end">
+						<InputAdornment position="end" style={{...stylesAdornment }}>
 							{adornment}
 						</InputAdornment>
 					) : (

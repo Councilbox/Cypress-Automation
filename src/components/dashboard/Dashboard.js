@@ -2,18 +2,36 @@ import React from "react";
 import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
-import { Scrollbar, CBXFooter } from '../../displayComponents';
+import { Scrollbar, CBXFooter, CardPageLayout } from '../../displayComponents';
 import { moment, store } from '../../containers/App';
 import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft } from '../../utils/CBX';
 import { addSpecificTranslations } from "../../actions/companyActions";
+import NewCompanyPage from "../company/new/NewCompanyPage";
+import NewUser from "../corporation/users/NewUser";
 
 const Dashboard = ({ translate, company, user }) => {
 	const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
+	const [addUser, setAddUser] = React.useState(false);
+	const [addEntidades, setEntidades] = React.useState(false);
 
 	React.useEffect(() => {
 		store.dispatch(addSpecificTranslations(company.category));
 	}, [store, company.category]);
+
+	if (addUser) {
+		return <NewUser translate={translate} requestClose={() => setAddUser(false)} styles={{
+			width: "100%",
+			height: '100%',
+			display: 'flex',
+			width: '100%',
+			overflow: 'hidden'
+		}} />
+	}
+
+	if (addEntidades) {
+		return <NewCompanyPage requestClose={() => setEntidades(false)} buttonBack={true} />
+	}
 
 	return (
 		<div
@@ -34,12 +52,13 @@ const Dashboard = ({ translate, company, user }) => {
 					style={{
 						width: "100%",
 						backgroundColor: lightGrey,
-						display: "flex",
+						// Probar si hay k kitarlo o no 
+						// display: "flex",
 						alignItems: "center",
 						flexDirection: "column",
 						padding: '1em',
 						textAlign: 'center',
-						paddingBottom: "4em"
+						paddingBottom: "1em"
 					}}
 				>
 					<div
@@ -68,6 +87,8 @@ const Dashboard = ({ translate, company, user }) => {
 						translate={translate}
 						company={company}
 						user={user}
+						setAddUser={setAddUser}
+						setEntidades={setEntidades}
 					/>
 				</div>
 				<CBXFooter />

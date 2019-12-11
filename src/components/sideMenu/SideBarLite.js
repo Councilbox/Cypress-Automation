@@ -16,6 +16,11 @@ import { isMobile } from 'react-device-detect';
 import CompanyMenu from "../sideMenu/CompanyMenu";
 import FontAwesome from "react-fontawesome";
 import LateralMenuOptions from "../dashboard/LateralMenuOptions";
+import contactSuport from "../../../src/assets/img/contact-support.svg"
+import plantillasIcon from "../../../src/assets/img/plantillasIcon.svg"
+import entidadesIcon from "../../../src/assets/img/shape.svg"
+
+// contact-support.svg
 
 
 class Sidebar extends React.Component {
@@ -53,11 +58,32 @@ class Sidebar extends React.Component {
 			icon: 'import_contacts'
 		},
 		{
+			path: `/company/${this.props.company.id}/companies`,
+			name: "companies",
+			sidebarName: 'Entidades',
+			// sidebarName: this.props.translate.councils_link,
+			icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
+		},
+		{
+			path: `/company/${this.props.company.id}/drafts`,
+			name: "Plantillas",
+			sidebarName: 'Plantillas',
+			// sidebarName: this.props.translate.councils_link,
+			icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
+		},
+		{
 			path: `/company/${this.props.company.id}/signatures/drafts`,
 			name: "signature",
-			sidebarName: this.props.translate.signatures_link,
-			icon: 'border_color'
+			sidebarName: "Soporte",
+			// sidebarName: this.props.translate.signatures_link,
+			icon: <img src={contactSuport} style={{ width: '100%', height: 'auto' }} />
 		}
+		// {
+		// 	path: `/company/${this.props.company.id}/signatures/drafts`,
+		// 	name: "signature",
+		// 	sidebarName: this.props.translate.signatures_link,
+		// 	icon: 'border_color'
+		// }
 	];
 
 	componentDidMount() {
@@ -80,21 +106,59 @@ class Sidebar extends React.Component {
 				{
 					path: `/company/${this.props.company.id}`,
 					sidebarName: 'Dashboard',
-					name: 'dashboard',
+					name: "dashboard",
 					icon: 'dashboard'
 				},
 				{
 					path: `/company/${this.props.company.id}/councils/drafts`,
 					name: "council",
-					sidebarName: this.props.translate.councils_sidebar,
+					sidebarName: this.props.translate.councils_link,
 					icon: 'import_contacts'
+				},
+				{
+					path: `/company/${this.props.company.id}/companies`,
+					name: "companies",
+					sidebarName: 'Entidades',
+					icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
+				},
+				{
+					path: `/company/${this.props.company.id}/drafts`,
+					name: "Plantillas",
+					sidebarName: 'Plantillas',
+					icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
 				},
 				{
 					path: `/company/${this.props.company.id}/signatures/drafts`,
 					name: "signature",
-					sidebarName: this.props.translate.signatures_sidebar,
-					icon: 'border_color'
+					sidebarName: "Soporte",
+					// sidebarName: this.props.translate.signatures_link,
+					icon: <img src={contactSuport} style={{ width: '100%', height: 'auto' }} />
 				}
+				// {
+				// 	path: `/company/${this.props.company.id}/signatures/drafts`,
+				// 	name: "signature",
+				// 	sidebarName: this.props.translate.signatures_link,
+				// 	icon: 'border_color'
+				// }
+				// ----------------
+				// {
+				// 	path: `/company/${this.props.company.id}`,
+				// 	sidebarName: 'Dashboard',
+				// 	name: 'dashboard',
+				// 	icon: 'dashboard'
+				// },
+				// {
+				// 	path: `/company/${this.props.company.id}/councils/drafts`,
+				// 	name: "council",
+				// 	sidebarName: this.props.translate.councils_sidebar,
+				// 	icon: 'import_contacts'
+				// },
+				// {
+				// 	path: `/company/${this.props.company.id}/signatures/drafts`,
+				// 	name: "signature",
+				// 	sidebarName: this.props.translate.signatures_sidebar,
+				// 	icon: 'border_color'
+				// }
 			];
 		}
 	}
@@ -116,7 +180,7 @@ class Sidebar extends React.Component {
 	links = () => (
 		<div className={this.props.classes.list}
 			style={{
-				zIndex:"99999",
+				zIndex: "99999",
 				display: 'flex',
 				flexDirection: 'column',
 				position: isMobile ? "" : "absolute",
@@ -129,7 +193,7 @@ class Sidebar extends React.Component {
 					<div
 						className={this.props.classes.logoLink}
 						style={{
-							zIndex:"99999",
+							zIndex: "99999",
 							display: "flex",
 							flexDirection: "row",
 							width: '100%',
@@ -139,7 +203,7 @@ class Sidebar extends React.Component {
 					>
 						<div
 							style={{
-								zIndex:"99999",
+								zIndex: "99999",
 								width: '100%',
 								display: 'flex',
 								alignItems: 'center',
@@ -147,7 +211,7 @@ class Sidebar extends React.Component {
 								padding: '0.5em'
 							}}
 						>
-							<Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
+							{/* <Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
 								<div>
 									<Link to={`/company/${this.props.company.id}/settings`}>
 										{!!this.props.company.logo ? (
@@ -164,7 +228,7 @@ class Sidebar extends React.Component {
 										}
 									</Link>
 								</div>
-							</Tooltip>
+							</Tooltip> */}
 						</div>
 					</div>
 					{this.routes.map((route, key) => {
@@ -177,7 +241,8 @@ class Sidebar extends React.Component {
 						});
 						return (
 							<div
-								className={`${this.props.classes.item} dropdown-wrapper`}
+								className={`${this.props.classes.item} `}
+								// className={`${this.props.classes.item} dropdown-wrapper`} //clase para activar el menu flotante lateral
 								key={key}
 							>
 								<NavLink
@@ -328,9 +393,7 @@ class Sidebar extends React.Component {
 						);
 					})}
 				</div>
-
 			}
-
 		</div>
 	);
 
@@ -363,6 +426,42 @@ class Sidebar extends React.Component {
 				</div>
 			</div>
 		</React.Fragment>
+	);
+
+	brandNew = () => (
+		<Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
+			<div style={{
+				borderRadius: '8px',
+				border: '1px solid rgb(151, 151, 151)',
+				marginTop: '1em',
+				width: '100%',
+				borderLeftStyle: 'none',
+				borderTopLeftRadius: '0',
+				borderBottomLeftRadius: '0',
+				display: "flex",
+				justifyContent: 'center',
+				marginRight: "7px",
+				alignItems:"center"
+			}}>
+				<div style={{ padding: "0.5em", minHeight: "3.5em", display:"flex", alignItems:"center" }}>
+					<Link to={`/company/${this.props.company.id}/settings`}>
+						{!!this.props.company.logo ? (
+							<img
+								src={this.props.company.logo}
+								alt="logo"
+								className={this.props.classes.img}
+								style={{marginLeft:"7px"}}
+							/>
+						) : (
+								<FontAwesome
+									name={"building-o"}
+								/>
+							)
+						}
+					</Link>
+				</div>
+			</div>
+		</Tooltip>
 	);
 
 	activeRoute(index) {
@@ -408,8 +507,11 @@ class Sidebar extends React.Component {
 						),
 						alignItems: 'center',
 					}}>
-						{!this.showVerticalLayout() &&
+						{/* {!this.showVerticalLayout() &&
 							this.brand()
+						} */}
+						{!this.showVerticalLayout() &&
+							this.brandNew()
 						}
 						<div
 							className={classes.sidebarWrapper}

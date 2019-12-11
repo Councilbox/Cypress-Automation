@@ -29,6 +29,7 @@ import PartnerEditorPage from '../components/partners/PartnerEditorPage';
 import NewPartnerPage from '../components/partners/NewPartnerPage';
 import Loadable from 'react-loadable';
 import { bHistory } from './App';
+import TablaCompanies from '../components/dashboard/TablaCompanies';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),
@@ -68,6 +69,11 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 exact
                 path="/company/:company"
                 component={Dashboard}
+            />
+            <Route
+                exact
+                path="/company/:company/companies"
+                component={TablaCompanies}
             />
             <Route
                 exact
