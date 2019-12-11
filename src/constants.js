@@ -1,5 +1,5 @@
-export const MAX_FILE_SIZE = 10240;
-export const MAX_COUNCIL_FILE_SIZE = 10240;
+export const MAX_FILE_SIZE = 15360;
+export const MAX_COUNCIL_FILE_SIZE = 15360;
 export const MAX_COUNCIL_ATTACHMENTS = 5;
 export const ALPHA_RELEASE_DATE = '10/26/2018';
 

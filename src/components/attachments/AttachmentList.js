@@ -129,4 +129,10 @@ class AttachmentList extends React.Component {
 	}
 }
 
-export default compose(graphql(updateCouncilAttachment, { name: "updateCouncilAttachment" }), graphql(updateAgendaAttachment, { name: "updateAgendaAttachment" }))(AttachmentList);
+export default compose(
+	graphql(updateCouncilAttachment, {
+		name: "updateCouncilAttachment"
+	}),
+	graphql(updateAgendaAttachment, {
+		name: "updateAgendaAttachment"
+	}))(AttachmentList);
