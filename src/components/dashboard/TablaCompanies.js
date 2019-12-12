@@ -13,13 +13,11 @@ import { getPrimary } from "../../styles/colors";
 import { Avatar, Icon } from "material-ui";
 import gql from 'graphql-tag';
 import { withApollo } from "react-apollo";
-import withTranslations from "../../HOCs/withTranslations";
+import withSharedProps from "../../HOCs/withSharedProps";
 import NewCompanyPage from "../company/new/NewCompanyPage";
 
 
-
-
-const TablaCompanies = ({ client, translate }) => {
+const TablaCompanies = ({ client, translate, company }) => {
 	const [companies, setCompanies] = React.useState(false);
 	const [companiesPage, setCompaniesPage] = React.useState(1);
 	const [companiesTotal, setCompaniesTotal] = React.useState(false);
@@ -38,10 +36,11 @@ const TablaCompanies = ({ client, translate }) => {
 					limit: 20,
 					offset: (companiesPage - 1) * 20,
 					orderDirection: 'DESC'
-				}
+				},
+				corporationId: company.id
 			}
 		});
-		
+
 		if (response.data.corporationCompanies.list) {
 			setCompanies(response.data.corporationCompanies.list)
 			setCompaniesTotal(response.data.corporationCompanies.total)
@@ -137,7 +136,7 @@ const TablaCompanies = ({ client, translate }) => {
 							changePage={changePageCompanies}
 						/>
 					</Grid>
-				</div >
+				</div>
 			</CardPageLayout>
 	)
 }
@@ -150,7 +149,7 @@ const CellAvatar = ({ avatar }) => {
 				:
 				<i style={{ color: 'lightgrey', fontSize: "1.7em", marginLeft: '6px' }} className={'fa fa-building-o'} />
 			}
-		</div >
+		</div>
 	)
 }
 
@@ -165,8 +164,8 @@ const Cell = ({ text, avatar, width }) => {
 
 
 const corporationCompanies = gql`
-    query corporationCompanies($filters: [FilterInput], $options: OptionsInput){
-        corporationCompanies(filters: $filters, options: $options){
+    query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
+        corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
             list{
                 id
                 businessName
@@ -177,4 +176,4 @@ const corporationCompanies = gql`
     }
 `;
 
-export default withApollo(withTranslations()(TablaCompanies));
+export default withApollo(withSharedProps()(TablaCompanies));
