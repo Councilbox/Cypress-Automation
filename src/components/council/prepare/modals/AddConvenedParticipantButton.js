@@ -15,12 +15,12 @@ import {
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
 import { checkUniqueCouncilEmails, addConvenedParticipant } from "../../../../queries/councilParticipant";
 import { isMobile } from 'react-device-detect';
-import withSharedProps from "../../../../HOCs/withSharedProps";
 import { useOldState } from "../../../../hooks";
+import withSharedProps from "../../../../HOCs/withSharedProps";
 
 
 
-const AddConvenedParticipantButton = ({ translate, participations, client, ...props }) => {
+const AddConvenedParticipantButton = ({ translate, participations, client, company, ...props }) => {
 	const [state, setState] = useOldState({
 		modal: false,
 		data: { ...initialParticipant },
@@ -82,10 +82,6 @@ const AddConvenedParticipantButton = ({ translate, participations, client, ...pr
 		});
 	};
 
-	async checkRequiredFields(onlyEmail) {
-		const participant = this.state.data;
-		const representative = this.state.representative;
-		const { translate, participations, company } = this.props;
 	async function checkRequiredFields(onlyEmail) {
 		const participant = state.data;
 		const representative = state.representative;

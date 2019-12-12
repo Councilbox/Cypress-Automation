@@ -185,6 +185,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			lg={2}
 		>
 			{`${participant.dni || '-'}`}
+			{`${participant.dni || ''}`}
 		</GridItem>
 		<GridItem
 			xs={3}
@@ -214,6 +215,14 @@ const participantRepresentativeSigned = participant => {
 	return participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
 }
 
+const getActualParticipant = (participant, representative) => {
+	if(hasHisVoteDelegated(participant)){
+		return participant;
+	}
+
+	return representative? representative : participant;
+}
+
 const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => {
 	const representative = getMainRepresentative(participant);
 
@@ -240,14 +249,14 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								icon={
 									<StateIcon
 										translate={translate}
-										state={representative? representative.state : participant.state}
+										state={getActualParticipant(participant, representative).state}
 										ratio={1.3}
 									/>
 								}
 								items={
 									<React.Fragment>
 										<ParticipantStateList
-											participant={representative? representative : participant}
+											participant={getActualParticipant(participant, representative)}
 											council={council}
 											refetch={refetch}
 											translate={translate}
@@ -261,11 +270,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								}}
 
 							/>
-						</div>
-						<Tooltip title={`${participant.name} ${participant.surname || ''}`}>
-							<Typography
-								variant="body1"
-								className="truncate"
+						:
+							<div
 								style={{
 									width: '88px',
 									height: '100%',
@@ -276,9 +282,9 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									justifyContent: 'center'
 								}}
 							>
-								{`${participant.name} ${participant.surname || ''}`}
-							</Typography>
-						</Tooltip>
+								{_getIcon(mode, participant, translate)}
+							</div>
+						}
 					</div>
 
 					<div
@@ -316,7 +322,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									}}
 								/>
 							</div>
-							<Tooltip title={`${participant.name} ${participant.surname}`}>
+							<Tooltip title={`${participant.name} ${participant.surname || ''}`}>
 								<Typography
 									variant="body1"
 									className="truncate"
@@ -325,24 +331,85 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 										width: 'calc(100% - 2.2em)'
 									}}
 								>
-									{`${participant.name} ${participant.surname}`}
+									{`${participant.name} ${participant.surname || ''}`}
 								</Typography>
 							</Tooltip>
 						</div>
-						<Typography
-							variant="body1"
-							style={{ color: "grey", fontSize: "0.75rem" }}
-						>
-							{`${participant.dni || '-'}`}
-						</Typography>
-					</div>
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							alignItems: "center"
-						}}
-					>
+						{hasHisVoteDelegated(participant)?
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									alignItems: "center"
+								}}
+							>
+								<div
+									style={{
+										width: "2.2em",
+										display: "flex",
+										justifyContent: "center"
+									}}
+								>
+									<FontAwesome
+										name={"user-circle-o"}
+										style={{
+											color: secondary,
+											fontSize: "1em",
+											marginRight: 0
+										}}
+									/>
+								</div>
+								<Tooltip title={`${participant.representative.name} ${participant.representative.surname || ''}`}>
+									<Typography
+										variant="body1"
+										className="truncate"
+										style={{
+											width: 'calc(100% - 2.2em)'
+										}}
+									>
+										{`${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname || ''}`}
+									</Typography>
+								</Tooltip>
+							</div>
+
+						:
+							(participant.representatives && participant.representatives.length > 0) &&
+								<div
+									style={{
+										display: "flex",
+										flexDirection: "row",
+										alignItems: "center"
+									}}
+								>
+									<div
+										style={{
+											width: "2.2em",
+											display: "flex",
+											justifyContent: "center"
+										}}
+									>
+										<FontAwesome
+											name={"user-circle-o"}
+											style={{
+												color: secondary,
+												fontSize: "1em",
+												marginRight: 0
+											}}
+										/>
+									</div>
+									<Tooltip title={`${representative.name} ${representative.surname || ''}`}>
+										<Typography
+											variant="body1"
+											className="truncate"
+											style={{
+												width: 'calc(100% - 2.2em)'
+											}}
+										>
+											{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
+										</Typography>
+									</Tooltip>
+								</div>
+						}
 						<div
 							style={{
 								display: "flex",
@@ -370,7 +437,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								variant="body1"
 								style={{ color: "grey", fontSize: "0.75rem" }}
 							>
-								{`${participant.dni}`}
+								{`${participant.dni || ''}`}
 							</Typography>
 						</div>
 						<div
