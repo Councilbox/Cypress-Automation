@@ -39,8 +39,8 @@ const DEFAULT_OPTIONS = {
 }
 
 const corporationCompanies = gql`
-    query corporationCompanies($filters: [FilterInput], $options: OptionsInput){
-        corporationCompanies(filters: $filters, options: $options){
+    query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int!){
+        corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
             list{
                 id
                 businessName
@@ -125,7 +125,8 @@ const TopSectionBlocks = ({ translate, company, user, client, setAddUser, setEnt
 					limit: 10,
 					offset: (companiesPage - 1) * 10,
 					orderDirection: 'DESC'
-				}
+				},
+				corporationId: company.id
 			}
 		});
 
