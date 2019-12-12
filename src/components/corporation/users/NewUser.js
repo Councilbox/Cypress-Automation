@@ -9,8 +9,9 @@ import gql from 'graphql-tag';
 import { bHistory } from '../../../containers/App';
 import { checkValidEmail } from '../../../utils/validation';
 import { useOldState } from '../../../hooks';
+import withSharedProps from '../../../HOCs/withSharedProps';
 
-const NewUser = ({ fixedCompany, translate, ...props }) => {
+const NewUser = ({ fixedCompany, translate, company, ...props }) => {
     const [state, setState] = useOldState({
         data: {
             email: '',
@@ -122,6 +123,7 @@ const NewUser = ({ fixedCompany, translate, ...props }) => {
                     <CompanyLinksManager
                         linkedCompanies={state.companies}
                         translate={translate}
+                        company={company}
                         addCheckedCompanies={companies => setState({
                             companies
                         })}
@@ -195,5 +197,6 @@ export default compose(
     graphql(languages),
     graphql(createUserWithoutPassword, {
         name: 'createUserWithoutPassword'
-    })
+    }),
+    withSharedProps()
 )(NewUser);

@@ -221,8 +221,8 @@ class CompanyLinksManager extends React.PureComponent {
 }
 
 const corporationCompanies = gql`
-    query corporationCompanies($filters: [FilterInput], $options: OptionsInput){
-        corporationCompanies(filters: $filters, options: $options){
+    query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
+        corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
             list{
                 id
                 businessName
@@ -236,7 +236,8 @@ const corporationCompanies = gql`
 export default graphql(corporationCompanies, {
     options: props => ({
         variables: {
-            options: DEFAULT_OPTIONS
+            options: DEFAULT_OPTIONS,
+            corporationId: props.company.id
         }
     })
 })(CompanyLinksManager);
