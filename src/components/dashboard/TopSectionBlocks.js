@@ -105,7 +105,8 @@ const TopSectionBlocks = ({ translate, company, user, client, setAddUser, setEnt
 					limit: 10,
 					offset: (usersPage - 1) * 10,
 					orderDirection: 'DESC'
-				}
+				},
+				corporationId: company.id
 			}
 		});
 
@@ -357,7 +358,7 @@ const TopSectionBlocks = ({ translate, company, user, client, setAddUser, setEnt
 						{reuniones.length === undefined ?
 							<LoadingSection />
 							:
-							<div >
+							<div>
 								<Grid>
 									<GridItem xs={12} md={6} lg={4}>
 										<div style={{ color: "black", marginBottom: "1em" }}>Convocada</div>
@@ -541,7 +542,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 			<Grid style={{ alignItems: "center" }}>
 				<GridItem xs={1} md={1} lg={1}>
 					{item.logo ?
-						< Avatar alt="Foto" src={item.logo} />
+						<Avatar alt="Foto" src={item.logo} />
 						:
 						<i
 							className={'fa fa-building-o'}
@@ -676,8 +677,8 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 						xs={12}
 					/>
 				</Grid>
-			</div >
-		</div >
+			</div>
+		</div>
 	)
 }
 
@@ -726,7 +727,7 @@ const TablaCompanies = ({ companies, translate, total, changePageCompanies, comp
 					changePage={changePageCompanies}
 				/>
 			</Grid>
-		</div >
+		</div>
 	)
 }
 
@@ -877,11 +878,10 @@ const CellAvatar = ({ avatar }) => {
 				:
 				<i style={{ color: 'lightgrey', fontSize: "1.7em", marginLeft: '6px' }} className={'fa fa-building-o'} />
 			}
-		</div >
+		</div>
 	)
 }
 const Cell = ({ text, avatar, width }) => {
-
 	return (
 		<div style={{ overflow: "hidden", width: width ? `calc( 100% / ${width})` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
 			{text}
@@ -891,40 +891,40 @@ const Cell = ({ text, avatar, width }) => {
 
 const corporationCouncils = gql`
     query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String ){
-				corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin){
-				id
-            name
+		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin){
+			id
+			name
 			state
-            dateStart
-            councilType
-            prototype
-            participants {
+			dateStart
+			councilType
+			prototype
+			participants {
 				id
 			}
 			company{
 				id
 				businessName
-			logo
+				logo
+			}
 		}
-	}
 
-        corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin){
-				id
-            name
+		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin){
+			id
+			name
 			state
-            dateStart
-            councilType
-            prototype
-            participants {
+			dateStart
+			councilType
+			prototype
+			participants {
 				id
 			}
 			company{
 				id
 				businessName
-			logo
+				logo
+			}
 		}
 	}
-}
 `;
 
 export default withApollo(withStyles(styles)(TopSectionBlocks));
