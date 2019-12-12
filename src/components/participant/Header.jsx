@@ -15,9 +15,12 @@ import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { PARTICIPANT_STATES } from "../../constants";
 import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
+import gorro from "../../assets/img/navidadGorro.png";
+import { graphql, withApollo, compose } from "react-apollo";
+import gql from "graphql-tag";
 
 
-const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, ...props }) => {
+const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props }) => {
 	const [state, setState] = useOldState({
 		showConvene: false,
 		showCouncilInfo: false,
@@ -74,30 +77,48 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
 		const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 
+		console.log(participant);
+
+		//TRADUCCION
 		return (
 			<div>
 				<Card style={{ padding: "20px" }}>
-					<div>
+					<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
 					</div>
-					<div style={{ marginBottom: '1em' }}>
+					<div style={{ marginBottom: '1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
 					</div>
+					{participant.voteDenied &&
+						<div style={{ marginBottom: '1em' }}>
+							Su derecho a voto <strong>ha sido denegado</strong>
+							{participant.voteDeniedReason &&
+								<div>{`El motivo indicado es: ${participant.voteDeniedReason}`}</div>
+							}
+						</div>
+					}
+
 					{delegations.length > 0 &&
 						translate.you_have_following_delegated_votes
 					}
 					{delegations.map(vote => (
-						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
 							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							{vote.voteDenied &&
+								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
+							}
 						</div>
 					)
 					)}
 					{representations.length > 0 &&
-						'Está representando a:'
+						translate.representative_of
 					}
 					{representations.map(vote => (
-						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
 							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							{vote.voteDenied &&
+								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
+							}
 						</div>
 					)
 					)}
@@ -106,7 +127,6 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 			</div>
 		)
 	}
-
 
 	return (
 		<header
@@ -132,18 +152,33 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					alignItems: "center",
 				}}
 			>
-				<img
-					src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
-					className="App-logo"
-					style={{
-						height: "1.5em",
-						marginLeft: "1em",
-						// marginLeft: "2em",
-						userSelect: 'none'
-					}}
-					alt="logo"
-				>
-				</img>
+				<div style={{ position: "relative" }}>
+					<img
+						src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
+						className="App-logo"
+						style={{
+							height: "1.5em",
+							marginLeft: "1em",
+							// marginLeft: "2em",
+							userSelect: 'none'
+						}}
+						alt="logo"
+					>
+					</img>
+					<img
+						src={gorro}
+						style={{
+							height: "1.5em",
+							position: 'absolute',
+							top: '-7px',
+							right: '-8px',
+							// top: '2px',
+							// right: '10%',
+							transform: 'rotate(17deg)',
+						}}
+						alt="logo"
+					/>
+				</div>
 			</div>
 			{(council && council.autoClose !== 1) &&
 				<Marquee
@@ -201,23 +236,25 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						alignItems: "center"
 					}}
 				>
-					<Tooltip title={translate.participant_data}>
-						<Icon
-							onClick={() =>
-								setState({
-									showParticipantInfo: true
-								})
-							}
-							className="material-icons"
-							style={{
-								cursor: 'pointer',
-								color: primary,
-								marginRight: "0.4em"
-							}}
-						>
-							person
+					{participant &&
+						<Tooltip title={translate.participant_data}>
+							<Icon
+								onClick={() =>
+									setState({
+										showParticipantInfo: true
+									})
+								}
+								className="material-icons"
+								style={{
+									cursor: 'pointer',
+									color: primary,
+									marginRight: "0.4em"
+								}}
+							>
+								person
 						</Icon>
-					</Tooltip>
+						</Tooltip>
+					}
 					{(council && logoutButton) && (
 						<IconButton
 							style={{
@@ -242,7 +279,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 				</div>
 			}
 
-			{(council && state.drawerTop) &&
+			{(council) &&
 				<Drawer
 					className={"drawerConveneRoot"}
 					BackdropProps={{
@@ -253,6 +290,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}}
 					anchor="top"
 					open={state.drawerTop}
+					transitionDuration={0}
 					onClose={() => setState({ drawerTop: false })}
 				>
 					{_renderConveneBody()}
@@ -356,7 +394,8 @@ const mapDispatchToProps = dispatch => {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(withWindowSize(withStyles(styles)(withSharedProps()(Header))));
+export default withApollo(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(withWindowSize(withStyles(styles)(withSharedProps()(Header)))));

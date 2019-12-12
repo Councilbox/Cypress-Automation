@@ -72,7 +72,8 @@ const getSpecificTranslations = (language, category) => {
 	const specificTranslations = {
 		society: {},
 		realEstate: {
-			censuses: 'Propietarios'
+			censuses: 'Propietarios',
+			entity_name: 'Propiedad'
 		}
 	}
 

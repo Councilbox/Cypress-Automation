@@ -544,6 +544,7 @@ const StepOptions = ({ translate, data, ...props }) => {
 						text={translate.next}
 						color={primary}
 						disable={data.loading}
+						id={'optionsNewSiguiente'}
 						textStyle={{
 							color: "white",
 							fontWeight: "700",

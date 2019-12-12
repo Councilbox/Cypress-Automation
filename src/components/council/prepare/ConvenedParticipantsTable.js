@@ -384,7 +384,7 @@ class HoverableRow extends React.Component {
 				return 1;
 			}
 
-			if(b.sendDate > a.sendDate){
+			if((b.sendDate > a.sendDate) || a.reqCode === 25){
 				return -1;
 			}
 
@@ -393,6 +393,8 @@ class HoverableRow extends React.Component {
 		if(participant.live && participant.live.representative){
 			representative = participant.live.representative;
 		}
+
+		console.log(notifications);
 
 		if(isMobile){
             return(

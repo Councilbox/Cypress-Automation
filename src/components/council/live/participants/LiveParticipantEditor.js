@@ -329,6 +329,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 												<ParticipantDisplay
 													participant={participant}
 													translate={translate}
+													refetch={data.refetch}
 													council={props.council}
 												/>
 											</div>

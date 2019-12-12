@@ -98,7 +98,7 @@ const CardPageLayout = ({
 									...stylesNoScroll
 								}}
 							>
-									<div className="container-fluid" style={{ ...stylesNoScroll}}>
+								<div className="container-fluid" style={{height: "100%", overflow:"hidden"}}>
 									{children}
 								</div>
 							</div>

@@ -6,14 +6,16 @@ import {
 	CardPageLayout,
 	Checkbox,
 	Grid,
+	LoadingSection,
 	GridItem,
 	EnhancedTable,
-	ErrorWrapper
+	ErrorWrapper,
+	TextInput
 } from "../../../displayComponents";
-import { Card } from 'material-ui';
+import { Card, Icon } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { compose, graphql, withApollo } from "react-apollo";
-import { cloneDrafts, platformDrafts } from "../../../queries";
+import { cloneDrafts, platformDrafts as query } from "../../../queries";
 import { TableCell, TableRow } from "material-ui/Table";
 import FontAwesome from "react-fontawesome";
 import { getPrimary, getSecondary } from "../../../styles/colors";
@@ -23,28 +25,128 @@ import PlatformDraftDetails from "./PlatformDraftDetails";
 import DraftDetailsModal from './DraftDetailsModal';
 import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
+import { useOldState } from "../../../hooks";
+import { useTags, DraftRow } from "../../company/drafts/CompanyDraftList";
+import { DropdownEtiquetas } from "../../company/drafts/LoadDraft";
+import gql from "graphql-tag";
 
-class PlatformDrafts extends React.Component {
+export const statute_types = [
+	{
+        prototype: 1,
+        title: 'ordinary_general_assembly',
+    }, {
+        prototype: 2,
+        title: 'special_general_assembly'
+    }, {
+        prototype: 3,
+        title: 'board_of_directors',
+    },
+    {
+        prototype: 10,
+        title: 'ordinary_general_assembly_association',
+    }, {
+        prototype: 11,
+        title: 'special_general_assembly_association',
+    }, {
+        prototype: 12,
+        title: 'council_of_directors_association',
+    }, {
+        prototype: 13,
+        title: 'executive_committee',
+    }];
 
-	state = {
+
+
+const PlatformDrafts = ({ client, company, translate, ...props }) => {
+	const [state, setState] = useOldState({
 		selectedIndex: -1,
 		selectedValues: [],
 		draft: null
-	};
+	});
+	const [data, setData] = React.useState(null);
+	const { testTags, vars, setVars, removeTag, addTag, filteredTags, tagText, setTagText, } = useTags(translate);
+	const [search, setSearch] = React.useState('');
 
-	componentDidMount() {
-		this.props.data.refetch();
+	const getData = async variables => {
+		const response = await client.query({
+			query,
+			variables: {
+				companyId: company.id,
+				options: {
+					limit: DRAFTS_LIMITS[0],
+					offset: 0
+				},
+				...variables
+			}
+		});
+
+		setData(response.data);
 	}
 
-	alreadySaved = id => {
-		const { companyDrafts } = this.props.data;
-		const item = companyDrafts.list.find(draft => draft.draftId === id);
-		return !!item;
+	React.useEffect(() => {
+		getData({
+			companyId: company.id,
+			...(search ? {
+				filters: [
+					{
+						field: "title",
+						text: search
+					},
+				]
+			} : {}),
+			tags: Object.keys(testTags).map(key => testTags[key].name),
+		})
+	}, [testTags, search]);
+
+	const getVars = async () => {
+		const response = await client.query({
+			query: gql`
+			query getVars {
+				majorityTypes {
+					label
+					value
+				}
+				companyTypes {
+					label
+					value
+				}
+				draftTypes {
+					label
+					value
+				}
+				votingTypes {
+					label
+					value
+				}
+			}
+		`,
+		});
+		setVars({
+			...response.data,
+			companyStatutes: statute_types
+		});
 	};
 
-	anySelected = () => {
-		const { platformDrafts } = this.props.data;
-		const { selectedValues } = this.state;
+	React.useEffect(() => {
+		getData();
+		getVars();
+	}, [company.id]);
+
+
+	if(!data){
+		return <LoadingSection />
+	}
+
+	const alreadySaved = id => {
+		const { companyDrafts } = data;
+		const item = companyDrafts.list.find(draft => draft.draftId === id);
+		return !!item;
+	}
+
+
+	const anySelected = () => {
+		const { platformDrafts } = data;
+		const { selectedValues } = state;
 		for (let i = 0; i < selectedValues.length; i++) {
 			const selectedValue = selectedValues[i];
 			const item = platformDrafts.list.find(
@@ -55,23 +157,23 @@ class PlatformDrafts extends React.Component {
 			}
 		}
 		return false;
-	};
+	}
 
-	showDraftDetails = draft => {
-		this.setState({
+	const showDraftDetails = draft => {
+		setState({
 			draftModal: draft
 		});
 	}
 
-	closeDraftDetails = () => {
-		this.setState({
+	const closeDraftDetails = () => {
+		setState({
 			draftModal: null
-		})
+		});
 	}
 
-	allSelected = () => {
-		const { platformDrafts } = this.props.data;
-		const { selectedValues } = this.state;
+	const allSelected = () => {
+		const { platformDrafts } = data;
+		const { selectedValues } = state;
 
 		for (let i = 0; i < platformDrafts.list.length; i++) {
 			const draft = platformDrafts.list[i];
@@ -85,36 +187,36 @@ class PlatformDrafts extends React.Component {
 		return true;
 	};
 
-	isChecked = id => {
-		let item = this.state.selectedValues.find(
+	const isChecked = id => {
+		let item = state.selectedValues.find(
 			selectedValue => selectedValue === id
 		);
 		return !!item;
 	};
 
-	cloneDrafts = async () => {
-		const { selectedValues } = this.state;
+	const cloneDrafts = async () => {
+		const { selectedValues } = state;
 
 		if (selectedValues.length > 0) {
-			const response = await this.props.cloneDrafts({
+			const response = await props.cloneDrafts({
 				variables: {
 					ids: selectedValues,
-					companyId: this.props.company.id
+					companyId: company.id
 				}
 			});
 			if (response) {
-				this.setState({
+				setState({
 					selectedValues: []
 				});
-				this.props.data.refetch();
+				getData();
 			}
 		}
-	};
+	}
 
-	selectAll = () => {
-		const { list } = this.props.data.platformDrafts;
-		const { selectedValues } = this.state;
-		let values = this.state.selectedValues;
+	const selectAll = () => {
+		const { list } = data.platformDrafts;
+		const { selectedValues } = state;
+		let values = state.selectedValues;
 
 		for (let i = 0; i < list.length; i++) {
 			const id = list[i].id;
@@ -126,35 +228,27 @@ class PlatformDrafts extends React.Component {
 			}
 		}
 
-		this.setState({
+		setState({
 			selectedValues: [...values],
-			data: { ...this.state.data }
 		});
-	};
+	}
 
-	deselectAll = () => {
-		const { list } = this.props.data.platformDrafts;
-		let values = this.state.selectedValues;
+	const deselectAll = () => {
+		const { list } = data.platformDrafts;
+		let values = state.selectedValues;
 
 		for (let i = 0; i < list.length; i++) {
 			const id = list[i].id;
 			values = values.filter(value => value !== id);
 		}
 
-		this.setState({
+		setState({
 			selectedValues: [...values],
-			data: { ...this.state.data }
-		});
-	};
-
-	updateState = object =>  {
-		this.setState({
-			...object
 		});
 	}
 
-	updateSelectedValues = id => {
-		let { selectedValues } = this.state;
+	const updateSelectedValues = id => {
+		let { selectedValues } = state;
 		const item = selectedValues.find(selectedValue => id === selectedValue);
 		if (!item) {
 			selectedValues.push(id);
@@ -162,334 +256,170 @@ class PlatformDrafts extends React.Component {
 			selectedValues = selectedValues.filter(value => value !== id);
 		}
 
-		this.setState({
+		setState({
 			selectedValues: [...selectedValues]
 		});
-	};
+	}
 
-	render() {
-		const { translate } = this.props;
-		const { loading, error, platformDrafts, draftTypes } = this.props.data;
-		const { selectedIndex, selectedValues } = this.state;
-		const primary = getPrimary();
+	const { loading, error, platformDrafts, draftTypes } = data;
+	const { selectedIndex, selectedValues } = state;
+	const primary = getPrimary();
 
-		return (
-			<CardPageLayout title={translate.general_drafts}>
-				{selectedIndex >= 0 ? (
-					<PlatformDraftDetails
-						close={() => this.setState({ selectedIndex: -1 })}
-						draft={platformDrafts.list[selectedIndex]}
-						translate={translate}
-					/>
-				) : (
-					<React.Fragment>
-						{error ? (
-							<div>
-								{error.graphQLErrors.map((error, index) => {
-									return (
-										<ErrorWrapper
-											key={`error_${index}`}
-											error={error}
-											translate={translate}
-										/>
-									);
-								})}
-							</div>
-						) : (
-							!!platformDrafts && (
-								<React.Fragment>
-									<div style={{ display: 'flex' }}>
-										<AllSelector
-											selectAll={this.selectAll}
-											deselectAll={this.deselectAll}
-											anySelected={this.anySelected()}
-											allSelected={this.allSelected()}
-											translate={translate}
-										/>
-										{selectedValues.length > 0 && (
-											<div>
-												<BasicButton
-													text={`${translate.download} ${
-														selectedValues.length
-														} ${translate.drafts} ${
-															translate.to
-														} '${translate.my_drafts}'`
-													}
-													color={"white"}
-													textStyle={{
-														color: primary,
-														fontWeight: "700",
-														textTransform: "none"
-													}}
-													textPosition="after"
-													icon={
-														<ButtonIcon
-															type="add"
-															color={primary}
-														/>
-													}
-													onClick={() => this.cloneDrafts()}
-													buttonStyle={{
-														marginRight: "1em",
-														border: `2px solid ${primary}`,
-													}}
-												/>
-											</div>
-										)}
-									</div>
-									<EnhancedTable
-										translate={translate}
-										defaultLimit={DRAFTS_LIMITS[0]}
-										defaultFilter={"title"}
-										defaultOrder={["title", "asc"]}
-										limits={DRAFTS_LIMITS}
-										page={1}
-										selectedCategories={[{
-											field: "type",
-											value: 'all',
-											label: translate.all_plural
-										},{
-											field: "companyType",
-											value: this.props.company.type,
-											label: translate.all_plural
-										}]}
-										categories={[[
-											{
-												field: "type",
-												value: 'all',
-												label: translate.all_plural
-											},
-											...(draftTypes.map(draft => {
-												return {
-													field: "type",
-													value: draft.value,
-													label: translate[draftTypes[draft.value].label]
-												};
-											}))
-										], [{
-												field: 'companyType',
-												value: 'all',
-												label: translate.all_plural
-											},
-											...(this.props.data.companyTypes.map(type => {
-												return {
-													field: 'companyType',
-													value: type.value,
-													label: translate[this.props.data.companyTypes[type.value].label]
-												}
-											}))
-											]
-										]}
-										loading={loading}
-										length={platformDrafts.list.length}
-										total={platformDrafts.total}
-										refetch={this.props.data.refetch}
-										headers={[
-											{ name: "" },
-											{ name: "" },
-											{
-												name: "title",
-												text: translate.name,
-												canOrder: true
-											},
-											{
-												name: "type",
-												text: translate.type,
-												canOrder: true
-											}
-										]}
-									>
-										{platformDrafts.list.map(
-											(draft, index) => {
-												return (
-													<HoverableRow
-														draft={draft}
-														key={`draft_${draft.id}`}
-														translate={translate}
-														index={index}
-														showDraftDetails={this.showDraftDetails}
-														isChecked={this.isChecked}
-														alreadySaved={this.alreadySaved}
-														updateState={this.updateState}
-														updateSelectedValues={this.updateSelectedValues}
-														draftTypes={draftTypes}
-													/>
-												);
-											}
-										)}
-									</EnhancedTable>
-								</React.Fragment>
-							)
-						)}
-					</React.Fragment>
-				)}
-				<DraftDetailsModal
-					draft={this.state.draftModal}
-					requestClose={this.closeDraftDetails}
+	return (
+		<CardPageLayout title={translate.general_drafts}>
+			{selectedIndex >= 0 ? (
+				<PlatformDraftDetails
+					close={() => setState({ selectedIndex: -1 })}
+					draft={platformDrafts.list[selectedIndex]}
 					translate={translate}
-					draftTypes={draftTypes}
-					companyTypes={this.props.data.companyTypes}
-					votingTypes={this.props.data.votingTypes}
-					majorityTypes={this.props.data.majorityTypes}
 				/>
-			</CardPageLayout>
-		);
-	}
-}
-
-class HoverableRow extends React.Component {
-
-	state = {
-		showCheck: false
-	}
-
-	mouseEnterHandler = () => {
-		this.setState({
-			showCheck: true
-		});
-	}
-
-	mouseLeaveHandler = () => {
-		this.setState({
-			showCheck: false
-		});
-	}
-
-
-
-	render() {
-		const { draft, translate, draftTypes } = this.props;
-		let isChecked = this.props.isChecked(
-			draft.id
-		);
-
-		if(isMobile){
-            return(
-                <Card
-                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
-					onClick={() => this.props.updateSelectedValues(draft.id)}
-                >
-                    <Grid>
-                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
-                            {translate.name}
-                        </GridItem>
-                        <GridItem xs={7} md={7}>
-							{draft.title}
-                        </GridItem>
-
-						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
-                            {translate.type}
-                        </GridItem>
-                        <GridItem xs={7} md={7}>
-							{translate[draftTypes[draft.type].label]}
-                        </GridItem>
-                    </Grid>
-                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
-						{isChecked &&
-							<Checkbox
-								value={isChecked}
-								checked={isChecked}
-								onChange={() =>
-									this.props.updateSelectedValues(
-										draft.id
-									)
-								}
-							/>
-						}
-                    </div>
-                </Card>
-            )
-        }
-
-		return (
-			<TableRow
-				key={`draft${draft.id}`}
-				hover={true}
-				onMouseOver={this.mouseEnterHandler}
-				onMouseLeave={this.mouseLeaveHandler}
-			>
-				<TableCell
-					style={TableStyles.TD}
-				>
-					{(isChecked || this.state.showCheck)?
-						<Checkbox
-							value={isChecked}
-							checked={isChecked}
-							onChange={() =>
-								this.props.updateSelectedValues(
-									draft.id
-								)
-							}
-						/>
-					:
-						<div style={{width: '3em'}} />
-					}
-				</TableCell>
-				<TableCell
-					style={
-						TableStyles.TD
-					}
-				>
-					{this.props.alreadySaved(
-						draft.id
-					) && (
-						<FontAwesome
-							name={
-								"save"
-							}
-							style={{
-								cursor:
-									"pointer",
-								fontSize:
-									"2em",
-								color: getSecondary()
-							}}
-						/>
+			) : (
+				<React.Fragment>
+					{error ? (
+						<div>
+							{error.graphQLErrors.map((error, index) => {
+								return (
+									<ErrorWrapper
+										key={`error_${index}`}
+										error={error}
+										translate={translate}
+									/>
+								);
+							})}
+						</div>
+					) : (
+						!!platformDrafts && (
+							<React.Fragment>
+								<div style={{ display: 'flex' }}>
+									<AllSelector
+										selectAll={selectAll}
+										deselectAll={deselectAll}
+										anySelected={anySelected()}
+										allSelected={allSelected()}
+										translate={translate}
+									/>
+									{selectedValues.length > 0 && (
+										<div>
+											<BasicButton
+												text={`${translate.download} ${
+													selectedValues.length
+													} ${translate.drafts} ${
+														translate.to
+													} '${translate.my_drafts}'`
+												}
+												color={"white"}
+												textStyle={{
+													color: primary,
+													fontWeight: "700",
+													textTransform: "none"
+												}}
+												textPosition="after"
+												icon={
+													<ButtonIcon
+														type="add"
+														color={primary}
+													/>
+												}
+												onClick={cloneDrafts}
+												buttonStyle={{
+													marginRight: "1em",
+													border: `2px solid ${primary}`,
+												}}
+											/>
+										</div>
+									)}
+								</div>
+								<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end' }}>
+									<div style={{ marginRight: "3em" }}>
+										<DropdownEtiquetas
+											translate={translate}
+											search={tagText}
+											setSearchModal={setTagText}
+											matchSearch={filteredTags}
+											corporation={true}
+											company={company}
+											vars={vars}
+											testTags={testTags}
+											addTag={addTag}
+											styleBody={{ minWidth: '50vw' }}
+											anchorOrigin={{
+												vertical: 'top',
+												horizontal: 'right',
+											}}
+											transformOrigin={{
+												vertical: 'top',
+												horizontal: 'right',
+											}}
+											removeTag={removeTag}
+										/>
+									</div>
+									<div>
+										<TextInput
+											disableUnderline={true}
+											styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding:"4px 5px" }}
+											stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+											adornment={<Icon>search</Icon>}
+											floatingText={" "}
+											type="text"
+											value={search}
+											placeholder={"Buscar plantillas"}
+											onChange={event => {
+												setSearch(event.target.value);
+											}}
+										/>
+									</div>
+								</div>
+								<EnhancedTable
+									translate={translate}
+									page={1}
+									hideTextFilter
+									loading={loading}
+									length={platformDrafts.list.length}
+									total={platformDrafts.total}
+									refetch={getData}
+									headers={[]}
+								>
+									{platformDrafts.list.map(
+										(draft, index) => {
+											return (
+												<DraftRow
+													key={`draft${draft.id}`}
+													translate={translate}
+													action={() => { showDraftDetails(draft) }}
+													draft={draft}
+													selectable={true}
+													companyStatutes={vars.companyStatutes}
+													draftTypes={draftTypes}
+													company={company}
+													isChecked={isChecked}
+													alreadySaved={alreadySaved}
+													updateSelectedValues={updateSelectedValues}
+												/>
+											);
+										}
+									)}
+								</EnhancedTable>
+							</React.Fragment>
+						)
 					)}
-				</TableCell>
-				<TableCell
-					style={{...TableStyles.TD, cursor: 'pointer'}}
-					onClick={() =>
-						this.props.showDraftDetails(draft)
-					}
-				>
-					{draft.title}
-				</TableCell>
-				<TableCell>
-					{
-						translate[
-							draftTypes[
-								draft
-									.type
-							].label
-						]
-					}
-				</TableCell>
-			</TableRow>
-		)
-	}
+				</React.Fragment>
+			)}
+			<DraftDetailsModal
+				draft={state.draftModal}
+				requestClose={closeDraftDetails}
+				translate={translate}
+				draftTypes={draftTypes}
+				companyStatutes={vars.companyStatutes}
+				companyTypes={vars.companyTypes}
+				votingTypes={vars.votingTypes}
+				majorityTypes={vars.majorityTypes}
+			/>
+		</CardPageLayout>
+	);
 }
 
 export default withSharedProps()(
 	compose(
-		graphql(platformDrafts, {
-			options: props => ({
-				variables: {
-					companyId: props.company.id,
-					options: {
-						limit: DRAFTS_LIMITS[0],
-						offset: 0
-					},
-					filters: [
-						{
-							field: 'companyType',
-							text: props.company.type
-						}
-					]
-				},
-				notifyOnNetworkStatusChange: true
-			})
-		}),
 		graphql(cloneDrafts, {
 			name: "cloneDrafts"
 		})

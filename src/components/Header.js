@@ -5,18 +5,20 @@ import { Link } from "react-router-dom";
 import LanguageSelector from "./menus/LanguageSelector";
 import UserMenu from "./menus/UserMenu";
 import CommandLine from './dashboard/CommandLine';
-import { Icon } from "../displayComponents";
+import { Icon, DropDownMenu } from "../displayComponents";
 import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
-import { getSecondary } from "../styles/colors";
+import { getSecondary, getPrimary } from "../styles/colors";
 import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION, variant } from "../config";
 import { getCustomLogo, getCustomIcon } from "../utils/subdomain";
+import { MenuItem } from "material-ui";
+import gorro from "../assets/img/navidadGorro.png";
 
 
-const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, ...props }) => {
+const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props }) => {
 	const goBack = () => {
 		bHistory.goBack();
 	};
@@ -80,7 +82,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					</Tooltip>
 				)}
 				<Link to="/">
-					<div>
+					<div style={{ position: "relative" }}>
 						<img
 							src={!showVerticalLayout() ? customLogo ? customLogo : logo : customIcon ? customIcon : icono}
 							className="App-logo"
@@ -89,6 +91,17 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 								marginLeft: "1em",
 								// marginLeft: "2em",
 								userSelect: 'none'
+							}}
+							alt="logo"
+						/>
+						<img
+							src={gorro}
+							style={{
+								height: "1.5em",
+								position: 'absolute',
+								top: '-7px',
+								right: '-8px',
+								transform: 'rotate(17deg)',
 							}}
 							alt="logo"
 						/>
@@ -107,6 +120,51 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					alignItems: "center"
 				}}
 			>
+				{councilIsFinished &&
+					<DropDownMenu
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'left',
+						}}
+						color="transparent"
+						Component={() =>
+							<div style={{ color: getPrimary(), marginRight: "1em", marginTop: "0.5em", cursor: "pointer" }}>
+								<div>
+									<i className="material-icons" >
+										dehaze
+									</i>
+								</div>
+							</div>
+						}
+						textStyle={{ color: getPrimary() }}
+						type="flat"
+						items={
+							<div style={{ color: getPrimary() }}>
+								{selectHeadFinished !== 'participacion' &&
+									<MenuItem onClick={() => setSelectHeadFinished("participacion")} >
+										Mi participación
+									</MenuItem>
+								}
+								{selectHeadFinished !== 'reunion' &&
+									<MenuItem onClick={() => setSelectHeadFinished("reunion")} >
+										{translate.summary}
+									</MenuItem>
+								}
+								{selectHeadFinished !== 'contactAdmin' &&
+									<MenuItem onClick={() => setSelectHeadFinished("contactAdmin")} >
+										{
+											//TRADUCCION
+										}
+										Contacta al admin
+									</MenuItem>
+								}
+								<MenuItem onClick={() => bHistory.push('/')}>
+									{translate.exit}
+								</MenuItem>
+							</div>
+						}
+					/>
+				}
 				{languageSelector &&
 					<span style={{ fontSize: '0.85em' }}>
 						{`v${CLIENT_VERSION}`}

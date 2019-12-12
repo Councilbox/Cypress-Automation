@@ -142,6 +142,19 @@ const ParticipantForm = ({
 			</GridItem>
 			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
+					floatingText={translate.administrative_email}
+					min={1}
+					errorText={errors.secondaryEmail}
+					value={participant.secondaryEmail}
+					onChange={event => {
+						updateState({
+							secondaryEmail: event.target.value
+						})
+					}}
+				/>
+			</GridItem>
+			<GridItem xs={6} md={4} lg={2}>
+				<TextInput
 					floatingText={translate.phone}
 					type="text"
 					errorText={errors.phone}
@@ -183,7 +196,7 @@ const ParticipantForm = ({
 					})}
 				</SelectInput>
 			</GridItem>
-			<GridItem xs={6} md={4} lg={2}>
+			<GridItem xs={6} md={4} lg={1}>
 				<TextInput
 					floatingText={translate.votes}
 					type="tel"
@@ -199,7 +212,7 @@ const ParticipantForm = ({
 					}}
 				/>
 			</GridItem>
-			<GridItem xs={6} md={4} lg={2}>
+			<GridItem xs={6} md={4} lg={1}>
 				{participations && (
 					<TextInput
 						floatingText={translate.social_capital}

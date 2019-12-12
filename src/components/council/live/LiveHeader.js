@@ -106,7 +106,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, toggleSc
 						buttonAccept={translate.accept}
 						open={showConfirm}
 						requestClose={() =>
-							showConfirm(false)
+							setShowConfirm(false)
 						}
 					/>
 				</div>

@@ -7,6 +7,7 @@ import TimelineSection from '../timeline/TimelineSection';
 import gql from 'graphql-tag';
 import { darkGrey, secondary, primary } from '../../../styles/colors';
 import { AlertConfirm, Badge, Scrollbar } from '../../../displayComponents';
+import { isMobile, isIOS } from 'react-device-detect';
 
 
 const styles = {
@@ -24,6 +25,7 @@ const styles = {
 
 const CouncilSidebar = ({ translate, council, participant, ...props }) => {
     const scrollbar = React.useRef();
+    const [modal, setModal] = React.useState(false)
     const closeAll = () => {
         props.setContent(null);
         // props.toggl;
@@ -119,11 +121,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     fontSize: '0.55rem',
                     textTransform: "none"
                 }}>
-                    {props.isMobile ?
-                        translate.message
-                        :
-                        'Mensaje al admin'/*TRADUCCION*/
-                    }
+                    {translate.message}
                 </div>
             </div>
         </Button>
@@ -297,7 +295,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0' }}
                     PaperProps={{
                         style: {
-                            margin:"0",
+                            margin: "0",
                             transition: "bottom 0.4s",
                             display: "flex",
                             position: "fixed",
@@ -311,17 +309,17 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                         }
                     }}
                     bodyText={
-                            <div style={{
-                                borderRadiusTopLeft: "5px",
-                                position: "relative",
-                                width: "100%",
-                                height: "100%",
-                                background: "#f1f1f1"
-                            }}>
-                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                                    {props.comentario}
-                                </div>
-                         </div>
+                        <div style={{
+                            borderRadiusTopLeft: "5px",
+                            position: "relative",
+                            width: "100%",
+                            height: "100%",
+                            background: "#f1f1f1"
+                        }}>
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                                {props.comentario}
+                            </div>
+                        </div>
                     }
                 />
             </div>

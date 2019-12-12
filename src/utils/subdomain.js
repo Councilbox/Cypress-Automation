@@ -37,6 +37,12 @@ export const getCustomRoomBackground = () => {
     return null;
 }
 
+export const useSubdomain = () => {
+    const state = store.getState();
+
+    return state.subdomain;
+}
+
 export const shouldLoadSubdomain = () => {
     const validSubdomains = {
         'app': true,

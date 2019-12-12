@@ -71,7 +71,7 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
 
         return (
             <div>
-                {data.councils.map(council => (
+                {data.councils.list.map(council => (
                     <Paper
                         key={`loadFromCouncil_${council.id}`}
                         style={{

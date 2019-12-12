@@ -106,8 +106,9 @@ export const companies = gql`
 `;
 
 export const councils = gql`
-	query Councils($companyId: Int!, $state: [Int], $filters: [FilterInput]) {
-		councils(companyId: $companyId, state: $state, filters: $filters) {
+	query Councils($companyId: Int!, $state: [Int], $filters: [FilterInput], $options: OptionsInput) {
+		councils(companyId: $companyId, state: $state, filters: $filters, options: $options) {
+		list{	
 			id
 			dateStart
 			companyId
@@ -117,6 +118,9 @@ export const councils = gql`
 			name
 			step
 		}
+		total
+	}
+	
 	}
 `;
 
@@ -524,12 +528,14 @@ export const platformDrafts = gql`
 		$filters: [FilterInput]
 		$options: OptionsInput
 		$companyType: Int
+		$tags: [String]
 	) {
 		platformDrafts(
 			companyId: $companyId
 			filters: $filters
 			options: $options
 			companyType: $companyType
+			tags: $tags
 		) {
 			list {
 				categories
@@ -538,6 +544,7 @@ export const platformDrafts = gql`
 				councilType
 				description
 				id
+				tags
 				language
 				majority
 				majorityDivider
@@ -1423,6 +1430,7 @@ export const councilLiveQuery = gql`
 			neededQuorum
 			noCelebrateComment
 			president
+			presidentId
 			proposedActSent
 			prototype
 			qualityVoteId
@@ -1433,6 +1441,7 @@ export const councilLiveQuery = gql`
 			}
 			satisfyQuorum
 			secretary
+			secretaryId
 			securityKey
 			securityType
 			selectedCensusId
@@ -1547,8 +1556,8 @@ export const downloadConvenePDF = gql`
 `;
 
 export const downloadAct = gql`
-	query downloadAct($councilId: Int!) {
-		downloadAct(councilId: $councilId)
+	query downloadAct($councilId: Int!, $clean: Boolean) {
+		downloadAct(councilId: $councilId, clean: $clean)
 	}
 `;
 
@@ -1900,7 +1909,7 @@ export const addGuest = gql`
 `;
 
 export const sendVideoEmails = gql`
-	mutation sendVideoEmails($councilId: Int!, $timezone: String!, $type: String) {
+	mutation sendVideoEmails($councilId: Int!, $timezone: String, $type: String) {
 		sendRoomEmails(councilId: $councilId, timezone: $timezone, type: $type) {
 			success
 			message
@@ -2015,6 +2024,8 @@ export const liveParticipant = gql`
 			requestWord
 			numParticipations
 			surname
+			voteDenied
+			voteDeniedReason
 			assistanceComment
 			assistanceLastDateConfirmed
 			assistanceIntention

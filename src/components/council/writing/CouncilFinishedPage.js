@@ -132,6 +132,7 @@ export const councilDetails = gql`
 			countryState
 			street
 			zipcode
+			quorumPrototype
 			dateStart2NdCall
 			state
 			sendActDate
@@ -201,13 +202,29 @@ export const councilDetails = gql`
 			majorityType
 			majority
 			majorityDivider
+			items {
+				id
+				value
+			}
+			options {
+				id
+				maxSelections
+			}
+			ballots {
+				id
+				participantId
+				weight
+				value
+				itemId
+			}
+			numNoVoteVotings
+			numPositiveVotings
+			numNegativeVotings
+			numAbstentionVotings
 			numPresentCensus
 			presentCensus
 			numCurrentRemoteCensus
 			currentRemoteCensus
-			socialCapitalPresent
-			socialCapitalRemote
-			socialCapitalNoParticipate
 			comment
 		}
 

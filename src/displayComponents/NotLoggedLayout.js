@@ -3,8 +3,22 @@ import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
+import '../../src/styles/snow.css';
 
-const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) => {
+
+const Snow = () => {
+    return (
+        < div class="snowfall" >
+            {Array(99).fill(1).map((el, i) =>
+                <div class="snowflake"></div>
+            )}
+        </div >
+    )
+}
+
+
+
+const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished }) => {
     const [loadingImg, setLoadingImg] = React.useState(true);
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
@@ -37,13 +51,17 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
                 padding: 0,
-                margin: 0
+                margin: 0,
+                width: '100%'
             }}
         >
             <Header
                 translate={translate}
                 helpIcon={helpIcon}
                 languageSelector={languageSelector}
+                councilIsFinished={councilIsFinished}
+                setSelectHeadFinished={setSelectHeadFinished}
+                selectHeadFinished={selectHeadFinished}
             />
             <div
                 className="row"
@@ -55,6 +73,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
                     height: "100%",
                 }}
             >
+                <Snow ></Snow>
                 {children}
             </div>
         </div>

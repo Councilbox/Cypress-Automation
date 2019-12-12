@@ -182,13 +182,14 @@ export const client = new ApolloClient({
 	}
 });
 export const bHistory = createHistory();
-
 export const store = configureStore();
-store.dispatch(setLanguage("es"));
+
+
 if (sessionStorage.getItem("token")) {
 	store.dispatch({ type: "LOGIN_SUCCESS" });
 	store.dispatch(initUserData());
 } else {
+	store.dispatch(setLanguage(getDefaultLanguage()));
 	store.dispatch(loadingFinished());
 }
 
@@ -288,3 +289,18 @@ const RouterWrapper = props => {
 };
 
 export default App;
+
+
+function getDefaultLanguage() {
+	const languages = {
+		'es': 'es',
+		'ca': 'cat',
+		'en': 'en',
+		'gl': 'gal',
+		'pt': 'pt'
+	}
+
+	const languageCode = navigator.language || navigator.userLanguage;
+	const language = languageCode.split('-')[0];
+	return languages[language]? languages[language] : 'en';
+}

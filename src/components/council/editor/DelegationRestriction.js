@@ -40,11 +40,9 @@ const removeCouncilDelegateMutation = gql`
 const DelegationRestriction = ({ translate, council, client, fullScreen, ...props }) => {
     const [participants, setParticipants] = React.useState([]);
     const [modal, setModal] = React.useState(false);
-    const [loading, setLoading] = React.useState(true);
     const [selectedIds, setselectedIds] = React.useState(new Map());
     const [warningModal, setWarningModal] = React.useState(false);
     const primary = getPrimary();
-    const secondary = getSecondary();
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -55,8 +53,6 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         });
 
         setParticipants(response.data.councilDelegates.map(item => item.participant));
-
-        setLoading(false);
     }, [council.id]);
 
     const openSelectModal = () => {

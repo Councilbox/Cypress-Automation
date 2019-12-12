@@ -177,14 +177,14 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			md={4}
 			lg={4}
 		>
-			{`${participant.name} ${participant.surname}`}
+			{`${participant.name} ${participant.surname || ''}`}
 		</GridItem>
 		<GridItem
 			xs={3}
 			md={2}
 			lg={2}
 		>
-			{`${participant.dni}`}
+			{`${participant.dni || '-'}`}
 		</GridItem>
 		<GridItem
 			xs={3}
@@ -261,8 +261,11 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								}}
 
 							/>
-						:
-							<div
+						</div>
+						<Tooltip title={`${participant.name} ${participant.surname || ''}`}>
+							<Typography
+								variant="body1"
+								className="truncate"
 								style={{
 									width: '88px',
 									height: '100%',
@@ -273,9 +276,9 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									justifyContent: 'center'
 								}}
 							>
-								{_getIcon(mode, participant, translate)}
-							</div>
-						}
+								{`${participant.name} ${participant.surname || ''}`}
+							</Typography>
+						</Tooltip>
 					</div>
 
 					<div
@@ -326,43 +329,20 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								</Typography>
 							</Tooltip>
 						</div>
-						{(participant.representatives && participant.representatives.length > 0) &&
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center"
-								}}
-							>
-								<div
-									style={{
-										width: "2.2em",
-										display: "flex",
-										justifyContent: "center"
-									}}
-								>
-									<FontAwesome
-										name={"user-circle-o"}
-										style={{
-											color: secondary,
-											fontSize: "1em",
-											marginRight: 0
-										}}
-									/>
-								</div>
-								<Tooltip title={`${representative.name} ${representative.surname}`}>
-									<Typography
-										variant="body1"
-										className="truncate"
-										style={{
-											width: 'calc(100% - 2.2em)'
-										}}
-									>
-										{`Representado por: ${representative.name} ${representative.surname}`}
-									</Typography>
-								</Tooltip>
-							</div>
-						}
+						<Typography
+							variant="body1"
+							style={{ color: "grey", fontSize: "0.75rem" }}
+						>
+							{`${participant.dni || '-'}`}
+						</Typography>
+					</div>
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center"
+						}}
+					>
 						<div
 							style={{
 								display: "flex",

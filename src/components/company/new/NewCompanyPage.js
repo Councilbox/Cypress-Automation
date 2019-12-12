@@ -268,23 +268,66 @@ class NewCompanyPage extends React.PureComponent {
 		return (
 			<CardPageLayout title={translate.companies_add}>
 				{this.state.step === 1 ? (
-					<div>
-						<div>
-							<SectionTitle
-								text={translate.fiscal_data}
-								color={primary}
-								style={{
-									marginTop: '2em'
-								}}
-							/>
-							<br />
-							<Grid spacing={0} onKeyUp={this.handleKeyUp}>
-								<GridItem xs={12} md={9} lg={9}>
-									<Grid spacing={16}>
-										<GridItem xs={12} md={6} lg={5}>
-											<TextInput
-												floatingText={
-													translate.business_name
+					<React.Fragment>
+						<SectionTitle
+							text={translate.fiscal_data}
+							color={primary}
+							style={{
+								marginTop: '2em'
+							}}
+						/>
+						<br />
+						<Grid spacing={0} onKeyUp={this.handleKeyUp}>
+							<GridItem xs={12} md={9} lg={9}>
+								<Grid spacing={16}>
+									<GridItem xs={12} md={6} lg={5}>
+										<TextInput
+											floatingText={
+												translate.business_name
+											}
+											type="text"
+											id={"business-name"}
+											value={data.businessName}
+											errorText={errors.businessName}
+											onChange={event =>
+												this.updateState({
+													businessName:
+														event.target.value
+												})
+											}
+											required
+										/>
+									</GridItem>
+									<GridItem xs={12} md={6} lg={3}>
+										<SelectInput
+											floatingText={translate.company_type}
+											value={data.type}
+											onChange={event =>
+												this.updateState({
+													type: event.target.value
+												})
+											}
+											errorText={errors.type}
+										>
+											{this.props.info.companyTypes.map(
+												companyType => {
+													return (
+														<MenuItem
+															key={
+																companyType.label
+															}
+															value={
+																companyType.value
+															}
+														>
+															{
+																translate[
+																companyType
+																	.label
+																]
+															}
+														</MenuItem>
+													);
 												}
 												type="text"
 												value={data.businessName}
@@ -416,13 +459,58 @@ class NewCompanyPage extends React.PureComponent {
 													color="white"
 												/>
 											}
-											onChange={this.cbxFile}
+											type="text"
+											value={data.tin}
+											id={'addSociedadCIF'}
+											errorText={errors.tin}
+											onChange={event =>
+												this.updateState({
+													tin: event.target.value
+												})
+											}
+											required
 										/>
 									</GridItem>
-								</GridItem>
-							</Grid>
-							<br />
-							<Grid spacing={16}>
+									<GridItem xs={12} md={6} lg={4}>
+										<TextInput
+											floatingText={
+												translate.company_new_domain
+											}
+											type="text"
+											value={data.domain}
+											id={'addSociedadDominio'}
+											errorText={errors.domain}
+											onChange={event =>
+												this.updateState({
+													domain: event.target.value
+												})
+											}
+										/>
+									</GridItem>
+									<GridItem xs={12} md={6} lg={4}>
+										<TextInput
+											floatingText={
+												translate.company_new_key
+											}
+											type="text"
+											value={data.linkKey}
+											errorText={errors.linkKey}
+											id={'addSociedadClaveMaestra'}
+											onChange={event =>
+												this.updateState({
+													linkKey: event.target.value
+												})
+											}
+										/>
+									</GridItem>
+								</Grid>
+							</GridItem>
+							<GridItem
+								xs={12}
+								md={3}
+								lg={3}
+								style={{ textAlign: "center" }}
+							>
 								<GridItem xs={12} md={12} lg={12}>
 									<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
 								</GridItem>
@@ -449,30 +537,127 @@ class NewCompanyPage extends React.PureComponent {
 										}
 									/>
 								</GridItem>
-								<GridItem xs={12} md={6} lg={6}>
-									<TextInput
-										floatingText={
-											translate.company_new_locality
-										}
-										type="text"
-										value={data.city}
-										errorText={errors.city}
-										onChange={event =>
-											this.updateState({
-												city: event.target.value
-											})
-										}
-									/>
-								</GridItem>
-								<GridItem xs={12} md={6} lg={3}>
-									<SelectInput
-										floatingText={translate.company_new_country}
-										value={data.country}
-										onChange={this.cbxCountryChange}
-										errorText={errors.country}
-									>
-										{this.props.info.countries.map(country => {
-											return (
+							</GridItem>
+						</Grid>
+						<br />
+						<Grid spacing={16}>
+							<GridItem xs={12} md={12} lg={12}>
+								<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
+							</GridItem>
+						</Grid>
+						<SectionTitle
+							text={translate.contact_data}
+							color={primary}
+							style={{
+								marginTop: '2em'
+							}}
+						/>
+						<br />
+						<Grid spacing={16} onKeyUp={this.handleKeyUp}>
+							<GridItem xs={12} md={6} lg={6}>
+								<TextInput
+									floatingText={translate.address}
+									id={'addSociedadDireccion'}
+									type="text"
+									value={data.address}
+									errorText={errors.address}
+									onChange={event =>
+										this.updateState({
+											address: event.target.value
+										})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={6}>
+								<TextInput
+									floatingText={
+										translate.company_new_locality
+									}
+									type="text"
+									id={'addSociedadLocalidad'}
+									value={data.city}
+									errorText={errors.city}
+									onChange={event =>
+										this.updateState({
+											city: event.target.value
+										})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={3}>
+								<SelectInput
+									floatingText={translate.company_new_country}
+									value={data.country}
+									onChange={this.cbxCountryChange}
+									errorText={errors.country}
+								>
+									{this.props.info.countries.map(country => {
+										return (
+											<MenuItem
+												key={country.deno}
+												value={country.deno}
+											>
+												{country.deno}
+											</MenuItem>
+										);
+									})}
+								</SelectInput>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={3}>
+								<SelectInput
+									floatingText={
+										translate.company_new_country_state
+									}
+									value={data.countryState}
+									errorText={errors.countryState}
+									id={'addSociedadProvincia'}
+									onChange={event => {
+										this.updateState({
+											countryState: event.target.value
+										}, () => this.handleKeyUp(event))
+									}}
+								>
+									{this.state.provinces.map(province => {
+										return (
+											<MenuItem
+												key={province.deno}
+												className={"addSociedadProvinciaOptions"}
+												value={province.deno}
+											>
+												{province.deno}
+											</MenuItem>
+										);
+									})}
+								</SelectInput>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={3}>
+								<TextInput
+									floatingText={translate.company_new_zipcode}
+									type="text"
+									id={'addSociedadCP'}
+									value={data.zipcode}
+									errorText={errors.zipcode}
+									onChange={event =>
+										this.updateState({
+											zipcode: event.target.value
+										})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={3}>
+								<SelectInput
+									floatingText={translate.language}
+									value={data.language}
+									onChange={event =>
+										this.updateState({
+											language: event.target.value
+										})
+									}
+									errorText={errors.language}
+								>
+									{this.props.info.languages &&
+										this.props.info.languages.map(
+											language => (
 												<MenuItem
 													key={country.deno}
 													value={country.deno}
@@ -550,60 +735,22 @@ class NewCompanyPage extends React.PureComponent {
 							</Grid>
 						</div>
 						<br />
-						<div style={{ marginTop: "3em" }}>
-							<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "2em" }} >
-								{buttonBack ?
-									<React.Fragment>
-										<BasicButton
-											text={translate.back}
-											textStyle={{ textTransform: 'none', color: 'black', fontWeight: '700' }}
-											onClick={requestClose}
-											buttonStyle={{ marginRight: '1em' }}
-
-											textStyle={{
-												textTransform: "none",
-												fontWeight: "700",
-											}}
-											primary={true}
-											color='transparent'
-											type="flat"
-										/>
-										<BasicButton
-											text={translate.companies_add}
-											color={getPrimary()}
-											error={requestError}
-											success={success}
-											loading={request}
-											floatRight
-											textStyle={{
-												color: "white",
-												fontWeight: "700",
-
-											}}
-											onClick={this.createCompany}
-											icon={<ButtonIcon type="add" color="white" />}
-										/>
-									</React.Fragment>
-									:
-									<BasicButton
-										text={translate.companies_add}
-										color={getPrimary()}
-										error={requestError}
-										success={success}
-										loading={request}
-										floatRight
-										textStyle={{
-											color: "white",
-											fontWeight: "700",
-											marginBottom: "2em"
-										}}
-										onClick={this.createCompany}
-										icon={<ButtonIcon type="add" color="white" />}
-									/>
-								}
-							</div>
-						</div>
-					</div>
+						<BasicButton
+							text={translate.companies_add}
+							id="save-button"
+							color={getPrimary()}
+							error={requestError}
+							success={success}
+							loading={request}
+							floatRight
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							onClick={this.createCompany}
+							icon={<ButtonIcon type="add" color="white" />}
+						/>
+					</React.Fragment>
 				) : (
 						<React.Fragment>STEP 2</React.Fragment>
 					)}

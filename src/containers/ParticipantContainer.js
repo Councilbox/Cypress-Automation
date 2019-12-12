@@ -4,7 +4,6 @@ import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
 import { store } from './App';
 import { setDetectRTC } from '../actions/mainActions';
-import withTranslations from "../HOCs/withTranslations";
 import withDetectRTC from '../HOCs/withDetectRTC';
 import { PARTICIPANT_ERRORS } from "../constants";
 import { LoadingMainApp } from "../displayComponents";
@@ -17,6 +16,8 @@ import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import { checkSecondDateAfterFirst } from "../utils/CBX";
 import { shouldLoadSubdomain } from "../utils/subdomain";
+import withTranslations from "../HOCs/withTranslations";
+import CouncilState from "../components/participant/login/CouncilState";
 
 
 class ParticipantContainer extends React.PureComponent {
@@ -77,15 +78,6 @@ class ParticipantContainer extends React.PureComponent {
 			return <LoadingMainApp />;
 		}
 
-		if(checkHybridConditions(this.props.council.councilVideo)){
-			return (
-				<ErrorState
-					code={'REMOTE_CLOSED'}
-					data={{ council: this.props.council.councilVideo }}
-				/>
-			);
-		}
-
 		return (
 			<div
 				id={"mainContainer"}
@@ -142,15 +134,6 @@ class ParticipantContainer extends React.PureComponent {
 	}
 }
 
-const checkHybridConditions = council => {
-	if(council.councilType !== 3){
-		return false;
-	}
-
-	if(checkSecondDateAfterFirst(council.closeDate, new Date())){
-		return true;
-	}
-}
 
 const councilQuery = gql`
 	query info($councilId: Int!) {
@@ -265,6 +248,9 @@ const participantQuery = gql`
 			surname
 			id
 			type
+			voteDenied
+			voteDeniedReason
+			hasVoted
 			phone
 			numParticipations
 			delegatedVotes {
@@ -272,6 +258,8 @@ const participantQuery = gql`
 				name
 				surname
 				numParticipations
+				voteDenied
+				voteDeniedReason
 				state
 				type
 			}
