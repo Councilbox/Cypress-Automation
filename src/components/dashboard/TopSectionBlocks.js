@@ -166,6 +166,7 @@ const TopSectionBlocks = ({ translate, company, user, client, setAddUser, setEnt
 			variables: {
 				fechaInicio: fechaInicio ? fechaFin : moment().endOf('month').toDate(),
 				fechaFin: fechaFin ? fechaInicio : moment().startOf('month').toDate(),
+				corporationId: company.id
 			}
 		});
 
@@ -890,8 +891,8 @@ const Cell = ({ text, avatar, width }) => {
 }
 
 const corporationCouncils = gql`
-    query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String ){
-		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin){
+    query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
+		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
 			id
 			name
 			state
@@ -908,7 +909,7 @@ const corporationCouncils = gql`
 			}
 		}
 
-		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin){
+		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
 			id
 			name
 			state
