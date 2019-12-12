@@ -5,10 +5,12 @@ const OptionsMenu = ({ setOptions, translate, options }) => {
     //TRADUCCION
     return (
         <div style={{ display: "flex", width: '100%', }} >
-            <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px", marginRight: "1em" }}>
+            <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px", marginRight: "1.5em" }}>
                 <div style={{ width: "100%", display: "flex", marginLeft: 'calc( 0.5em + 4px )', paddingTop: '0.3em', paddingBottom: '0.3em' }}>
                     <CheckBox
                         label={'Incluir sello certificado'}
+                        styleInLabel={{ fontWeight: 'bold', color: '#a09aa0' }}
+                        colorCheckbox={"primary"}
                         value={options.stamp}
                         onChange={(event, isInputChecked) =>
                             setOptions({
@@ -19,10 +21,12 @@ const OptionsMenu = ({ setOptions, translate, options }) => {
                     />
                 </div>
             </div>
-            <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px"}}>
+            <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px" }}>
                 <div style={{ width: "100%", display: "flex", marginLeft: 'calc( 0.5em + 4px )', paddingTop: '0.3em', paddingBottom: '0.3em' }}>
                     <CheckBox
                         label={'Crear dos columnas'}
+                        styleInLabel={{ fontWeight: 'bold', color: '#a09aa0' }}
+                        colorCheckbox={"primary"}
                         value={options.doubleColumn}
                         onChange={(event, isInputChecked) =>
                             setOptions({

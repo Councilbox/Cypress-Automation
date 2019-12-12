@@ -82,8 +82,8 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
             loading={loading}
             loadingColor={'black'}
             text={translate.export_act_to}
-            textStyle={{ color: 'black' }}
-            buttonStyle={{border: `1px solid ${'black'}`, marginRight: '1em'}}
+            textStyle={{ color: '#464646' }}
+            buttonStyle={{border: `1px solid ${'#969696'}`, marginRight: '1em'}}
             icon={
                 <i className="fa fa-download" style={{
                         fontSize: "1em",

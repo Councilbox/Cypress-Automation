@@ -545,7 +545,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                         }}
                                         textPosition="after"
                                         iconInit={
-                                            <Lupa color={'blue'} width={'20px'} height={'20px'} />
+                                            <Lupa color={'black'} width={'20px'} height={'20px'} />
                                         }
                                         onClick={() => { setColapse(!colapse); setEdit(false) }}
                                         buttonStyle={{
