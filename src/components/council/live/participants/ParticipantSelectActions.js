@@ -47,8 +47,6 @@ class ParticipantSelectActions extends React.Component {
 	render() {
 		const { translate, participant, council } = this.props;
 		const { loading } = this.state;
-		const secondary = getSecondary();
-		const primary = getPrimary();
 		return (
 			<Grid
 				style={{
@@ -64,30 +62,29 @@ class ParticipantSelectActions extends React.Component {
 						<GridItem xs={12} md={6} lg={4}>
 							<ButtonActions
 								loading={loading === 4}
+								onClick={() =>
+									this.setState({
+										addRepresentative: true
+									})
+								}
+
 							>
-								<Tooltip title={participant.representative ? translate.change_representative : translate.add_representative}>
-									<div
-										style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
-										onClick={() =>
-											this.setState({
-												addRepresentative: true
-											})
-										}
-									>
-										<div style={{ width: "3em" }}>
-											<StateIcon
-												translate={translate}
-												state={PARTICIPANT_STATES.REPRESENTATED}
-												color={'#9d9d9d'}
-												hideTooltip={true}
-												styles={{ padding: "0em" }}
-											/>
-										</div>
-										<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-											<span style={{ fontSize: '0.9em' }}>{participant.representative ? translate.change_representative : translate.add_representative}</span>
-										</div>
+								<div
+									style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
+								>
+									<div style={{ width: "3em" }}>
+										<StateIcon
+											translate={translate}
+											state={PARTICIPANT_STATES.REPRESENTATED}
+											color={'black'}
+											hideTooltip={true}
+											styles={{ padding: "0em" }}
+										/>
 									</div>
-								</Tooltip>
+									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+										<span style={{ fontSize: '0.9em' }}>{participant.representative ? translate.change_representative : translate.add_representative}</span>
+									</div>
+								</div>
 							</ButtonActions>
 						</GridItem>
 					)
@@ -97,21 +94,19 @@ class ParticipantSelectActions extends React.Component {
 						<ButtonActions
 							loading={loading === 5}
 							active={participant.state === PARTICIPANT_STATES.DELEGATED}
+							onClick={() =>
+								this.setState({
+									delegateOwnVote: true
+								})
+							}
 						>
-							<Tooltip title={translate.to_delegate_vote}>
-								<div
-									style={{ display: "flex", alignItems: "center" }}
-									onClick={() =>
-										this.setState({
-											delegateOwnVote: true
-										})
-									}
-								>
-									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-										<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
-									</div>
+							<div
+								style={{ display: "flex", alignItems: "center" }}
+							>
+								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+									<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
 								</div>
-							</Tooltip>
+							</div>
 						</ButtonActions>
 					</GridItem>
 				)}
@@ -119,26 +114,20 @@ class ParticipantSelectActions extends React.Component {
 					<GridItem xs={12} md={6} lg={4}>
 						<ButtonActions
 							loading={loading === 6}
-							active={
-								participant.state ===
-								PARTICIPANT_STATES.DELEGATED
-							}
+							active={participant.state === PARTICIPANT_STATES.DELEGATED}
+							onClick={() => {
+								this.setState({
+									delegateVote: true
+								})
+							}}
 						>
-							<Tooltip title={translate.add_delegated}>
-								<div
-									style={{ display: "flex", alignItems: "center" }}
-									onClick={() => {
-										this.setState({
-											delegateVote: true
-										})
-									}
-									}
-								>
-									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-										<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
-									</div>
+							<div
+								style={{ display: "flex", alignItems: "center" }}
+							>
+								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
 								</div>
-							</Tooltip>
+							</div>
 						</ButtonActions>
 					</GridItem>
 				)}
@@ -190,21 +179,24 @@ class ParticipantSelectActions extends React.Component {
 }
 
 
-const ButtonActions = ({ children, loading, active }) => {
+const ButtonActions = ({ children, loading, onClick, active }) => {
 	// active poner background
 	return (
-		<div style={{
-			display: 'flex',
-			alignItems: 'center',
-			height: "37px",
-			borderRadius: '4px',
-			border: 'solid 1px #a09aa0',
-			color: "#9d9d9d",
-			padding: "0.3em 1.3em",
-			cursor: "pointer",
-			marginRight: "0.5em",
-			backgroundColor: active ? getLightGrey() : "transparent",
-		}}>
+		<div
+			style={{
+				display: 'flex',
+				alignItems: 'center',
+				height: "37px",
+				borderRadius: '4px',
+				border: 'solid 1px #a09aa0',
+				color: 'black',
+				padding: "0.3em 1.3em",
+				cursor: "pointer",
+				marginRight: "0.5em",
+				backgroundColor: active ? getLightGrey() : "transparent",
+			}}
+			onClick={onClick}
+		>
 			{loading ? (
 				<div
 					style={{

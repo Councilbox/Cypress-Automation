@@ -2053,6 +2053,8 @@ export const liveParticipant = gql`
 				surname
 				dni
 				email
+				state
+				signed
 				phone
 				position
 				language
@@ -2072,6 +2074,28 @@ export const liveParticipant = gql`
 				language
 				numParticipations
 				socialCapital
+				delegatedVotes {
+					id
+					name
+					surname
+					dni
+					email
+					state
+					signed
+					phone
+					position
+					language
+					numParticipations
+					socialCapital
+				}
+				notifications {
+					participantId
+					email
+					reqCode
+					refreshDate
+					sendDate
+					sendType
+				}
 			}
 			delegatedVotes {
 				id
@@ -2080,6 +2104,7 @@ export const liveParticipant = gql`
 				dni
 				email
 				state
+				signed
 				phone
 				position
 				language

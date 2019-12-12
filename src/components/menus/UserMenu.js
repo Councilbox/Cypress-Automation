@@ -32,20 +32,32 @@ const UserMenu = ({ user, actions, translate, company }) => {
 								marginRight: "10px"
 							}}
 						>
-							<img
-								src={!company.logo ? "" : company.logo}
-								className={
-									!company.logo ? "imageAfterHeader" : ""
-								}
-								alt="company-logo"
-								style={{
+							{company.logo?
+								<img
+									src={!company.logo ? "" : company.logo}
+									className={
+										!company.logo ? "imageAfterHeader" : ""
+									}
+									alt="company-logo"
+									style={{
+										width: "auto",
+										height: "auto",
+										borderRadius: "6px",
+										maxHeight: "33px",
+										maxWidth: "100px"
+									}}
+								/>
+							:
+								<i className="fa fa-building-o" style={{
+									fontSize: '2em',
 									width: "auto",
+									color: 'grey',
 									height: "auto",
 									borderRadius: "6px",
 									maxHeight: "33px",
 									maxWidth: "100px"
-								}}
-							/>
+								}}></i>
+							}
 						</div>
 						<Icon
 							className="material-icons"
@@ -289,14 +301,14 @@ const UserMenu = ({ user, actions, translate, company }) => {
 				text={
 					<Icon className="material-icons" style={{ color: secondary }}>
 						account_circle
-				</Icon>
+					</Icon>
 				}
 				textStyle={{ color: secondary }}
 				type="flat"
 				icon={
 					<Icon className="material-icons" style={{ color: secondary }}>
 						keyboard_arrow_down
-				</Icon>
+					</Icon>
 				}
 				items={
 					<Fragment>

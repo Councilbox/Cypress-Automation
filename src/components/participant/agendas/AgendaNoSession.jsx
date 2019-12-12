@@ -59,7 +59,6 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     const [finishModal, setFinishModal] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
 
-    //console.log(responses);
 
     const renderAgendaCard = agenda => {
         return (

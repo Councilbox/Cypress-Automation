@@ -542,7 +542,6 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 	}
 
 	if (search) {
-		console.log(tags);
 		return (
 			<div style={{
 				fontSize: "12px",

@@ -82,7 +82,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		}
 	}
 
-	console.log(participant);
 
 	React.useEffect(() => {
 		setState({

@@ -60,7 +60,6 @@ class Page extends React.PureComponent {
                     companyId: this.state.data.companyId
                 }
             }
-            console.log(variables)
             
             const { participant, representative } = variables;
             let trimmedData = {};

@@ -192,6 +192,16 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 						vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 								<br />
+								{delegatedVote.fixed &&
+									<Tooltip
+										title={getTooltip(delegatedVote.vote)}
+									>
+										<VotingValueIcon
+											vote={delegatedVote.vote}
+											fixed
+										/>
+									</Tooltip>
+								}
 								{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
 								{delegatedVote.author.voteDenied &&
 									<Tooltip title={delegatedVote.author.voteDeniedReason}>
@@ -200,7 +210,6 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 										</span>
 									</Tooltip>
 								}
-
 							</React.Fragment>
 						))
 					}
@@ -620,7 +629,7 @@ const PrivateVotingDisplay = compose(
 
 const setAllPresentVotingsMutation = gql`
 	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
-			setAllPresentVotings(agendaId: $agendaId, vote: $vote){
+		setAllPresentVotings(agendaId: $agendaId, vote: $vote){
 			success
 			message
 		}
