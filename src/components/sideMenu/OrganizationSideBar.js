@@ -67,9 +67,8 @@ class Sidebar extends React.Component {
 		},
 		{
 			path: `/company/${this.props.company.id}/drafts`,
-			name: "drafts",
-			sidebarName: this.props.translate.drafts,
-			// sidebarName: this.props.translate.councils_link,
+            name: 'templates',
+            sidebarName: this.props.translate.drafts,
 			icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
 		}
 	];
@@ -111,8 +110,8 @@ class Sidebar extends React.Component {
 				},
 				{
 					path: `/company/${this.props.company.id}/drafts`,
-					name: "Plantillas",
-					sidebarName: 'Plantillas',
+					name: 'templates',
+                    sidebarName: this.props.translate.drafts,
 					icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
 				}
 			];

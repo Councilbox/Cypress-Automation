@@ -24,7 +24,7 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 	}
 
 	const getSignatureParticipant = participant => {
-		if (participant.state === PARTICIPANT_STATES.REPRESENTATED) {
+		if(participant.state === PARTICIPANT_STATES.REPRESENTATED){
 			return getMainRepresentative(participant);
 		}
 		return participant;
@@ -48,7 +48,7 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 				:
 				participants.list.length > 0 ? (
 					<Scrollbar>
-						<Grid spacing={0} style={{ paddingBottom: '6em', padding: '1em' }}>
+						<Grid spacing={0} style={{paddingBottom: '6em', padding: '1em'}}>
 							{participants.list.map(
 								participant =>
 									<React.Fragment key={`participant_${participant.id}`}>
@@ -82,8 +82,7 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 								participant={state.participantToSign}
 								refetch={refetch}
 								requestClose={() => {
-									setState({ showSignatureModal: false, participantToSign: null })
-								}
+									setState({ showSignatureModal: false, participantToSign: null })}
 								}
 								translate={translate}
 							/>
@@ -91,11 +90,11 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 						{state.editParticipant &&
 							<AlertConfirm
 								open={!!state.editParticipant}
-								// classNameDialog={isMobile? 'livePArticipants' : ""}
+								classNameDialog={isMobile? 'livePArticipants' : ""}
 								bodyStyle={
-									isMobile ? { padding: '0.3em', } : { overflowY: 'hidden' }
+									isMobile? { padding: '0.3em', maxWidth: "100%"} : { minWidth: "90vw",  overflowY: 'hidden' }
 								}
-								bodyStyle={{ minWidth: "70vw" }}
+								fullWidth={true}
 								// fullScreen={true}
 								requestClose={() => {
 									setState({
@@ -104,7 +103,7 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 									refetch();
 								}}
 								bodyText={
-									<div style={{ height: "40vh" }}>
+									<div style={{height: '70vh'}}>
 										<LiveParticipantEditor
 											translate={translate}
 											council={council}
