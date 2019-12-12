@@ -555,7 +555,8 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                             borderBottomRightRadius: '0px',
                                             borderRight: '1px solid #e8eaeb'
                                         }}
-                                    /><BasicButton
+                                    />
+                                    <BasicButton
                                         text={''}
                                         color={"white"}
                                         textStyle={{
@@ -565,7 +566,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                             textTransform: "none"
                                         }}
                                         textPosition="after"
-                                        iconInit={<object type="image/svg+xml" data={textool} onClick={() => setEdit(!edit)} />}
+                                        iconInit={<img type="image/svg+xml" src={textool} onClick={() => setEdit(!edit)} />}
                                         onClick={() => setEdit(!edit)}
                                         buttonStyle={{
                                             marginRight: "1em",
