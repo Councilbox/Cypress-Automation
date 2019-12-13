@@ -27,6 +27,8 @@ const TablaCompanies = ({ client, translate, company }) => {
 		filterTextUsuarios: "",
 		filterFecha: ""
 	});
+	const primary = getPrimary();
+
 	const getCompanies = async () => {
 		const response = await client.query({
 			query: corporationCompanies,
@@ -68,7 +70,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 					<div style={{ display:"flex", justifyContent:"flex-end" }}>
 						<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
 							<BasicButton
-								buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+								buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 								backgroundColor={{ backgroundColor: "white" }}
 								text={translate.add}
 							// onClick={() => setEntidades(true)}
@@ -96,15 +98,18 @@ const TablaCompanies = ({ client, translate, company }) => {
 						</div>
 					</div>
 					<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+						<div style={{ color: primary, fontWeight: "bold", width: 'calc( 5% )', textAlign: 'left' }}>
 
 						</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+						<div style={{ color: primary, fontWeight: "bold", width: 'calc( 5% )', textAlign: 'left' }}>
 							Id
 						</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
-							Nombre
-					</div>
+						<div style={{ color: primary, fontWeight: "bold", width: 'calc( 40% )', textAlign: 'left' }}>
+							{translate.name}
+						</div>
+						<div style={{ color: primary, fontWeight: "bold", width: 'calc( 40% )', textAlign: 'left' }}>
+							{translate.actions}
+						</div>
 					</div>
 					<div style={{ height: "calc( 100% - 13em )" }}>
 						<Scrollbar>
@@ -117,9 +122,16 @@ const TablaCompanies = ({ client, translate, company }) => {
 											justifyContent: "space-between",
 											padding: "1em"
 										}}>
-										<CellAvatar width={3} avatar={item.logo} />
-										<Cell width={3} text={item.id} />
-										<Cell width={3} text={item.businessName} />
+										<CellAvatar width={5} avatar={item.logo} />
+										<Cell width={5}>
+											{item.id}
+										</Cell>
+										<Cell width={40}>
+											{item.businessName}
+										</Cell>
+										<Cell width={40}>
+											{item.businessName}
+										</Cell>
 									</div>
 
 								)
@@ -141,9 +153,9 @@ const TablaCompanies = ({ client, translate, company }) => {
 	)
 }
 
-const CellAvatar = ({ avatar }) => {
+const CellAvatar = ({ avatar, width }) => {
 	return (
-		<div style={{ overflow: "hidden", width: 'calc( 100% / 3 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
+		<div style={{ overflow: "hidden", width: `calc(${width}%)`, textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
 			{avatar ?
 				<Avatar src={avatar} alt="Foto" />
 				:
@@ -153,11 +165,10 @@ const CellAvatar = ({ avatar }) => {
 	)
 }
 
-const Cell = ({ text, avatar, width }) => {
-
+const Cell = ({ text, avatar, width, children }) => {
 	return (
-		<div style={{ overflow: "hidden", width: width ? `calc( 100% / ${width})` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
-			{text}
+		<div style={{ overflow: "hidden", width: width ?`calc(${width}%)` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
+			{children}
 		</div>
 	)
 }
