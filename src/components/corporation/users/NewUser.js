@@ -38,7 +38,8 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
             const response = await props.createUserWithoutPassword({
                 variables: {
                     user: state.data,
-                    companies: state.companies.map(company => company.id)
+                    companies: state.companies.map(company => company.id),
+                    corporationId: company.id
                 }
             });
 
@@ -184,8 +185,8 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
 
 
 const createUserWithoutPassword = gql`
-    mutation CreateUserWithoutPassword($user: UserInput!, $companies: [Int]){
-        createUserWithoutPassword(user: $user, companies: $companies){
+    mutation CreateUserWithoutPassword($user: UserInput!, $companies: [Int], $corporationId: Int){
+        createUserWithoutPassword(user: $user, companies: $companies, corporationId: $corporationId){
             id
         }
     }
