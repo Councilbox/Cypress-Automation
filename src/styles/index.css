@@ -810,3 +810,38 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .ql-custom{
     min-width: 65px;
 }
+
+
+.stepperAcceso svg { 
+    color:#7d217f!important; 
+}
+.stepperAcceso svg text{ 
+    fill:#7d217f!important; 
+}
+.stepperAccesoFail svg { 
+    color:red!important; 
+}
+.stepperAccesoFail svg text{ 
+    fill:red!important; 
+}
+.stepperAccesoNoActived svg { 
+    color:white!important;
+    border: 1px solid #7d217f;
+    border-radius: 50px; 
+}
+.stepperAccesoNoActived svg text{ 
+    fill:white!important; 
+}
+.stepperAcceso div span { 
+    border-color:#7d217f!important; 
+}
+.stepperAccesoFail div span { 
+    border-color:#7d217f!important; 
+}
+.stepperAccesoNoActived div span { 
+    border-color:#7d217f!important; 
+}
+
+
+
+

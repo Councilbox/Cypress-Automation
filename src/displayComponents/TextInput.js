@@ -39,6 +39,7 @@ const TextInput = ({
 	styleInInput,
 	disableUnderline,
 	stylesAdornment,
+	styleFloatText,
 	labelNone
 }) => (
 		<FormControl
@@ -54,7 +55,7 @@ const TextInput = ({
 				label={
 					labelNone? "" :
 					helpPopoverInLabel ? floatingText :
-					<div style={{ display: 'flex' }}>
+					<div style={{ display: 'flex', ...styleFloatText }}>
 						{`${floatingText}${required ? "*" : ""}`}
 						{!!errorText &&
 							<FontAwesome

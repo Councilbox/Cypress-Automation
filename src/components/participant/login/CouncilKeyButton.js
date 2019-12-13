@@ -31,7 +31,8 @@ const CouncilKeyButton = ({ participant, setError, translate, client }) => {
             loading={loading}
             disabled={secondsLeft !== 0}
             color={primary}
-            textStyle={{ color: 'white' }}
+            textStyle={{ color: getPrimary() }}
+            backgroundColor={{ borderRadius: '4px', border: `solid 1px ${getPrimary()}`, backgroundColor: "white",  minWidth: "200px" }}
         />
     )
 }

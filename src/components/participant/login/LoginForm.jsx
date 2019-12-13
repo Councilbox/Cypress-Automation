@@ -1,5 +1,5 @@
 import React from "react";
-import { Tooltip, Card } from "material-ui";
+import { Tooltip, Card, Stepper, Step, StepButton } from "material-ui";
 import * as mainActions from "../../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -18,6 +18,7 @@ import { useOldState } from "../../../hooks";
 import { withApollo } from 'react-apollo';
 import CouncilKeyModal from "./CouncilKeyModal";
 import CouncilKeyButton from "./CouncilKeyButton";
+import SteperAcceso from "./SteperAcceso";
 
 
 
@@ -81,6 +82,7 @@ const limitPerPage = 10;
 
 const LoginForm = ({ participant, translate, company, council, client, ...props }) => {
     const [loading, setLoading] = React.useState(true);
+    const [contador, setContador] = React.useState(60);
     const [state, setState] = useOldState({
         password: "",
         sendPassModal: council.securityType !== 0 ? true : false,
@@ -118,7 +120,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }, [council.id]);
 
     React.useEffect(() => {
-        if(council.securityType !== 0){
+        if (council.securityType !== 0) {
             getData();
         }
     }, [getData, council.id]);
@@ -228,6 +230,15 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         })
     }
 
+    const cuentaAtras = () => {
+        setTimeout(() => {
+            setContador(contador - 1);
+            cuentaAtras()
+        }, 1000);
+
+
+    }
+
     const { email, password, errors, showPassword } = state;
 
     return (
@@ -281,12 +292,19 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 </span>
                             </p>
                         }
+                        {/* //comprobar bien que esta sea la validacion */}
+                        {council.securityType !== 0 &&
+                            <div style={{ color: '#61abb7', fontWeight: 'bold', margin: "1em" }}>
+                                Esta reunión es privada y el administrador ha protegido el acceso con doble verificación. Recibirás la clave en tu móvil
+                            </div>
+                        }
                     </div>
 
                     {/* <div style={styles.loginFormContainer}> */}
                     <Card elevation={1} style={{ padding: "1.5em", border: "1px solid gainsboro" }}>
                         <form style={{ width: '100%' }}>
                             <TextInput
+                                styleFloatText={{ fontSize: "20px" }}
                                 floatingText={translate.email}
                                 type="email"
                                 fullWidth
@@ -304,7 +322,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                         helpPopoverInLabel={true}
                                         floatingText={council.securityType === 2 ?
                                             (
-                                                <div style={{ display: "flex" }}>
+                                                <div style={{ display: "flex", fontSize: "20px" }}>
                                                     {translate.key_by_sms}
                                                     <div>
                                                         <HelpPopover
@@ -343,7 +361,8 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                             })
                                         }
                                     />
-                                    <span
+                                    {/* Esto es el modal de que si no te llego el email */}
+                                    {/* <span
                                         style={{
                                             cursor: 'pointer',
                                             color: state.hover ? secondary : "",
@@ -354,43 +373,89 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                         onMouseLeave={onMouseLeave}
                                     >
                                         {translate.didnt_receive_access_key}
-                                    </span>
-                                    <CouncilKeyButton
-                                        participant={participant}
-                                        council={council}
-                                        translate={translate}
-                                        setError={setError}
-                                        open={state.sendPassModal}
-                                        requestclose={closeSendPassModal}
-                                    />
+                                    </span> */}
+                                    {/* boton de Recivir clave de acceso / tiene que rotar nombre y lo k hace */}
+                                    <div style={{ margin: "0 auto", marginTop: "1em", display: "flex", justifyContent: "space-between", width: "90%", }}>
+                                        <CouncilKeyButton
+                                            participant={participant}
+                                            council={council}
+                                            translate={translate}
+                                            setError={setError}
+                                            open={state.sendPassModal}
+                                            requestclose={closeSendPassModal}
+                                        />
+                                        <BasicButton
+                                            text={`SMS Enviado. Reenviar en (${contador}sec)`}
+                                            backgroundColor={{ border: `solid 1px ${getPrimary()}`, borderRadius: '4px', minWidth: "200px", backgroundColor: "rgba(124, 39, 130, 0.34)" }}
+                                            textStyle={{
+                                                width: "auto",
+                                                color: "#7d2180",
+                                                fontWeight: "700"
+                                            }}
+                                            textPosition="before"
+                                            fullWidth={true}
+                                            onClick={cuentaAtras}
+                                        // onClick={login}
+                                        />
+                                        {/* <BasicButton
+                                            text={translate.enter_room}
+                                            color={primary}
+                                            backgroundColor={{ borderRadius: '4px', minWidth: "200px" }}
+                                            textStyle={{
+                                                width: "auto",
+                                                color: "white",
+                                                fontWeight: "700"
+                                            }}
+                                            textPosition="before"
+                                            fullWidth={true}
+                                            onClick={login}
+                                        /> */}
+                                    </div>
                                     {error &&
-                                        <span style={{color: 'red'}}>{error}</span>
+                                        <span style={{ color: 'red' }}>{error}</span>
 
                                     }
                                 </React.Fragment>
 
                             }
-                            <div style={styles.enterButtonContainer}>
-                                <BasicButton
-                                    text={translate.enter_room}
-                                    color={primary}
-                                    textStyle={{
-                                        color: "white",
-                                        fontWeight: "700"
-                                    }}
-                                    textPosition="before"
-                                    fullWidth={true}
-                                    icon={
-                                        <ButtonIcon
-                                            color="white"
-                                            type="directions_walk"
-                                        />
-                                    }
-                                    onClick={login}
-                                />
-                            </div>
+                            {/* //Boton de entrar a sala, si se no hay clave mantener si no quitar  / /  COMPROBAR VALIDACION    */}
+                            {council.securityType === 0 &&
+                                <div style={styles.enterButtonContainer}>
+                                    <BasicButton
+                                        text={translate.enter_room}
+                                        color={primary}
+                                        textStyle={{
+                                            color: "white",
+                                            fontWeight: "700"
+                                        }}
+                                        textPosition="before"
+                                        fullWidth={true}
+                                        icon={
+                                            <ButtonIcon
+                                                color="white"
+                                                type="directions_walk"
+                                            />
+                                        }
+                                        onClick={login}
+                                    />
+                                </div>
+                            }
                         </form>
                     </Card>
+                    {/* Si hay error */}
+                    <div style={{ fontWeight: "bold", color: "#f11a1a", marginTop: "2em", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <div style={{  width: "90%",}}>
+                            Hay un error con la entrega de SMS a tu teléfono. Contacta con el admin para confirmar que tus datos son correctos antes de volver a enviarlo.
+                        </div>
+                    </div>
+                    <div style={{ marginTop: "1em", marginBottom: "3em", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <div style={{ width: "100%" }}>
+                            {/* width: "90%" */}
+                            <SteperAcceso
+
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
