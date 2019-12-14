@@ -30,7 +30,7 @@ import NewPartnerPage from '../components/partners/NewPartnerPage';
 import Loadable from 'react-loadable';
 import { bHistory, store } from './App';
 import { addSpecificTranslations } from '../actions/companyActions';
-import TablaCompanies from '../components/dashboard/TablaCompanies';
+import TablaCompanies from '../components/corporation/companies/TablaCompanies';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),

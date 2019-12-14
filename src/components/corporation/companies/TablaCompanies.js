@@ -8,13 +8,14 @@ import {
 	LoadingSection,
 	PaginationFooter,
 	CardPageLayout,
-} from "../../displayComponents";
-import { getPrimary } from "../../styles/colors";
+} from "../../../displayComponents";
+import { getPrimary } from "../../../styles/colors";
 import { Avatar, Icon } from "material-ui";
 import gql from 'graphql-tag';
 import { withApollo } from "react-apollo";
-import withSharedProps from "../../HOCs/withSharedProps";
-import NewCompanyPage from "../company/new/NewCompanyPage";
+import withSharedProps from "../../../HOCs/withSharedProps";
+import NewCompanyPage from "../../company/new/NewCompanyPage";
+import RemoveCompany from './RemoveCompany';
 
 
 const TablaCompanies = ({ client, translate, company }) => {
@@ -130,7 +131,23 @@ const TablaCompanies = ({ client, translate, company }) => {
 											{item.businessName}
 										</Cell>
 										<Cell width={40}>
-											{item.businessName}
+											<RemoveCompany
+												translate={translate}
+												refetch={getCompanies}
+												company={item}
+												render={
+													<span>
+														Editar
+													</span>
+												}
+											/>	
+
+											<span>
+												Expulsar
+											</span>
+											<span>
+												Eliminar
+											</span>
 										</Cell>
 									</div>
 
