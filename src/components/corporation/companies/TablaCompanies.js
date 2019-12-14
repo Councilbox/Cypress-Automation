@@ -16,6 +16,7 @@ import { withApollo } from "react-apollo";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import NewCompanyPage from "../../company/new/NewCompanyPage";
 import RemoveCompany from './RemoveCompany';
+import DeleteCompany from './DeleteCompany';
 
 
 const TablaCompanies = ({ client, translate, company }) => {
@@ -130,23 +131,29 @@ const TablaCompanies = ({ client, translate, company }) => {
 										<Cell width={40}>
 											{item.businessName}
 										</Cell>
-										<Cell width={40}>
+										<Cell width={40} style={{display: 'flex'}}>
 											<RemoveCompany
 												translate={translate}
 												refetch={getCompanies}
 												company={item}
 												render={
-													<span>
-														Editar
+													<span style={{marginRight: '1em'}}>
+														Expulsar
 													</span>
 												}
-											/>	
-
+											/>
+											<DeleteCompany	
+												translate={translate}
+												refetch={getCompanies}
+												company={item}
+												render={
+													<span style={{marginRight: '1em'}}>
+														Eliminar
+													</span>
+												}
+											/>
 											<span>
-												Expulsar
-											</span>
-											<span>
-												Eliminar
+												Editar
 											</span>
 										</Cell>
 									</div>
@@ -182,9 +189,18 @@ const CellAvatar = ({ avatar, width }) => {
 	)
 }
 
-const Cell = ({ text, avatar, width, children }) => {
+const Cell = ({ text, avatar, width, children, style }) => {
 	return (
-		<div style={{ overflow: "hidden", width: width ?`calc(${width}%)` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
+		<div style={{
+				overflow: "hidden",
+				width: width ?`calc(${width}%)` : 'calc( 100% / 5 )',
+				textAlign: 'left',
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis',
+				paddingRight: "10px",
+				...style
+			}}>
 			{children}
 		</div>
 	)
