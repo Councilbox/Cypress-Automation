@@ -21,6 +21,7 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
         text: council.name,
         secondaryText: council.name,
         type: 'title',
+        editButton: true,
         noBorrar: false
     }),
     ACT_INTRO: intro => ({
@@ -66,8 +67,7 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
                         return acc += (index + 1) + "- " + element.agendaSubject + "</br>";
                     }, '')}`
                 )
-            }
-            ,
+            },
             text: puntos,
             secondaryText: `<b>${secondaryTranslate.agenda}</b> </br>
                 ${agenda.forEach((element, index) => {
@@ -76,6 +76,7 @@ export const getBlocks = (translate, secondaryTranslate = {}) => ({
             ,
             type: 'agenda',
             noBorrar: false,
+            editButton: true,
         }
     },
     AGENDA_INTRO: {
@@ -133,7 +134,7 @@ export const generateAgendaBlocks = (translate, agenda, secondaryLanguage = {}) 
                 editButton: true,
                 type: 'agendaSubject',
                 noBorrar: false,
-                editButton: false
+                editButton: true
             },
             {
                 id: Math.random().toString(36).substr(2, 9),
@@ -166,6 +167,11 @@ export const generateAgendaBlocks = (translate, agenda, secondaryLanguage = {}) 
                     noBorrar: true,
                     editButton: false,
                     logic: false,
+                    buildDefaultValue: (data, translate) => {
+                        return (
+                            'JIBIRI JIBIRI'
+                        )
+                    },
                     text: `
                         <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
                             <b>Votaciones: </b>
@@ -175,9 +181,9 @@ export const generateAgendaBlocks = (translate, agenda, secondaryLanguage = {}) 
                         </div>`,
                     secondaryText: `
                         <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-                            <b>Votaciones: </b>
-                            <br> A FAVOR: ${getAgendaResult(element, 'POSITIVE')} | EN CONTRA: ${getAgendaResult(element, 'NEGATIVE')} | ABSTENCIONES:
-                            ${getAgendaResult(element, 'ABSTENTION')} | NO VOTAN: ${getAgendaResult(element, 'NO_VOTE')}
+                            <b>Votings: </b>
+                            <br> IN FAVOR: ${getAgendaResult(element, 'POSITIVE')} | AGAINST: ${getAgendaResult(element, 'NEGATIVE')} | ABSTENTIONS:
+                            ${getAgendaResult(element, 'ABSTENTION')} | NO VOTE: ${getAgendaResult(element, 'NO_VOTE')}
                             <br>
                         </div>`
                 },

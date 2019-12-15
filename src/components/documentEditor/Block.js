@@ -24,8 +24,8 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
     const loadDraft = async draft => {
         const correctedText = await changeVariablesToValues(draft.text, {
-            company: actData.data.council.companyId,
-            council: actData.data.council
+            company: company,
+            council: actData.council
         }, translate);
 
         props.updateCouncilActa(props.id, correctedText);
@@ -69,8 +69,9 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 </BorderBox>
             </div>
         )
-
     }
+
+    console.log(actData);
 
     const renderEditor = () => {
         return (
@@ -102,9 +103,6 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
             />
         )
     }
-
-    console.log(props.column);
-
 
     return (
         <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%" }}>
@@ -180,10 +178,10 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     <DialogContent style={{ width: "800px" }}>
                         <LoadDraft
                             translate={translate}
-                            companyId={actData.data.council.companyId}
+                            companyId={actData.council.companyId}
                             loadDraft={loadDraft}
-                            statute={actData.data.council.statute}
-                            statutes={actData.data.companyStatutes}
+                            statute={actData.council.statute}
+                            statutes={actData.companyStatutes}
                         //draftType={state.draftType}
                         />
                     </DialogContent>

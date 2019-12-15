@@ -19,7 +19,7 @@ const prepareColumn = (column, secondary) => {
 export const buildDocVariable = (doc, options) => {
     return ({
         fragments: prepareColumn(doc.items),
-        secondaryColumn: prepareColumn(doc.items, true),
+        secondaryColumn: options.doubleColumn? prepareColumn(doc.items, true) : undefined,
         options: {
             stamp: options.stamp
         }

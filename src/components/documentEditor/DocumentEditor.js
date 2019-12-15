@@ -290,14 +290,18 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
 
 
     const updateCouncilActa = (id, newText) => {
-        let indexItemToEdit = doc.items.findIndex(item => item.id === id);
-        doc.items[indexItemToEdit][column === 2? 'secondaryText' : 'text'] = newText;
+        let newItems = [...doc.items];
+        let indexItemToEdit = newItems.findIndex(item => item.id === id);
+        const newItem = {...newItems[indexItemToEdit], [column === 2? 'secondaryText' : 'text']: newText}
+        newItems[indexItemToEdit] = newItem;
+        setDoc({...doc, items: newItems})
     }
 
     const updateBlock = (id, block) => {
-        let indexItemToEdit = doc.items.findIndex(item => item.id === id);
-        doc.items[indexItemToEdit] = block;
-        setDoc({ ...doc });
+        const newItems = [...doc.items];
+        let indexItemToEdit = newItems.findIndex(item => item.id === id);
+        newItems[indexItemToEdit] = block;
+        setDoc({ ...doc, items: newItems });
     }
 
 
