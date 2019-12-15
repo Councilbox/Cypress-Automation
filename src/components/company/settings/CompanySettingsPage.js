@@ -187,7 +187,8 @@ class CompanySettingsPage extends React.Component {
 						className: "successToast"
 					}
 				);
-				store.dispatch(setCompany(response.data.updateCompany));
+				bHistory.goBack();
+				//store.dispatch(setCompany(response.data.updateCompany));
 			}
 		}
 	};
@@ -212,7 +213,7 @@ class CompanySettingsPage extends React.Component {
 						className: "successToast"
 					}
 				);
-				bHistory.push("/");
+				bHistory.goBack();
 			}
 		}
 	};

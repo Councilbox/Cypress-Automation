@@ -4,6 +4,7 @@ import {
 	GridItem,
 	BasicButton,
 	Scrollbar,
+	Link,
 	TextInput,
 	LoadingSection,
 	PaginationFooter,
@@ -12,6 +13,7 @@ import {
 import { getPrimary } from "../../../styles/colors";
 import { Avatar, Icon } from "material-ui";
 import gql from 'graphql-tag';
+import { withRouter } from 'react-router-dom';
 import { withApollo } from "react-apollo";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import NewCompanyPage from "../../company/new/NewCompanyPage";
@@ -19,11 +21,12 @@ import RemoveCompany from './RemoveCompany';
 import DeleteCompany from './DeleteCompany';
 
 
-const TablaCompanies = ({ client, translate, company }) => {
+const TablaCompanies = ({ client, translate, company, match }) => {
 	const [companies, setCompanies] = React.useState(false);
 	const [companiesPage, setCompaniesPage] = React.useState(1);
 	const [companiesTotal, setCompaniesTotal] = React.useState(false);
 	const [addEntidades, setEntidades] = React.useState(false);
+	const [selectedCompany, setSelectedCompany] = React.useState(null);
 	const [state, setState] = React.useState({
 		filterTextCompanies: "",
 		filterTextUsuarios: "",
@@ -75,7 +78,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 								buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 								backgroundColor={{ backgroundColor: "white" }}
 								text={translate.add}
-							// onClick={() => setEntidades(true)}
+								onClick={() => setEntidades(true)}
 							/>
 
 							<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
@@ -115,7 +118,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 					</div>
 					<div style={{ height: "calc( 100% - 13em )" }}>
 						<Scrollbar>
-							{companies.map(item => {
+							{companies.filter(item => item.id !== company.id).map(item => {
 								return (
 									<div
 										key={item.id}
@@ -152,9 +155,9 @@ const TablaCompanies = ({ client, translate, company }) => {
 													</span>
 												}
 											/>
-											<span>
+											<Link to={`/company/${company.id}/edit/${item.id}`}>
 												Editar
-											</span>
+											</Link>
 										</Cell>
 									</div>
 
@@ -181,7 +184,9 @@ const CellAvatar = ({ avatar, width }) => {
 	return (
 		<div style={{ overflow: "hidden", width: `calc(${width}%)`, textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
 			{avatar ?
-				<Avatar src={avatar} alt="Foto" />
+				<div style={{height: '1.7em', width: '1.7em', borderRadius: '0.9em'}}>
+					<img src={avatar} alt="Foto" style={{height: '100%', width: '100%'}} />
+				</div>
 				:
 				<i style={{ color: 'lightgrey', fontSize: "1.7em", marginLeft: '6px' }} className={'fa fa-building-o'} />
 			}
@@ -220,4 +225,4 @@ const corporationCompanies = gql`
     }
 `;
 
-export default withApollo(withSharedProps()(TablaCompanies));
+export default withApollo(withSharedProps()(withRouter(TablaCompanies)));
