@@ -27,6 +27,7 @@ export const councilParticipants = gql`
 				position
 				email
 				phone
+				secondaryEmail
 				dni
 				type
 				numParticipations
@@ -44,6 +45,7 @@ export const councilParticipants = gql`
 					name
 					surname
 					dni
+					secondaryEmail
 					email
 					phone
 					position
@@ -79,6 +81,7 @@ export const councilParticipantsFilterIds = gql`
 				email
 				phone
 				dni
+				secondaryEmail
 				type
 				numParticipations
 				socialCapital
@@ -90,6 +93,7 @@ export const councilParticipantsFilterIds = gql`
 					name
 					surname
 					dni
+					secondaryEmail
 					email
 					phone
 					position
@@ -198,6 +202,7 @@ export const convenedcouncilParticipants = gql`
 				phone
 				dni
 				type
+				secondaryEmail
 				numParticipations
 				socialCapital
 				uuid
@@ -221,6 +226,7 @@ export const convenedcouncilParticipants = gql`
 					surname
 					dni
 					email
+					secondaryEmail
 					phone
 					position
 					language

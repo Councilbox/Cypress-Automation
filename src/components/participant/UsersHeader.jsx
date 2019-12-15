@@ -493,7 +493,7 @@ const Modal = withApollo(({ translate, showModal, requestClose, council: { id },
 							{!state.loading &&
 								state.data.presents.total !== state.data.presents.list.length &&
 								<BasicButton
-									text="Ver más" //TRADUCCION
+									text={translate.see_more}
 									type="flat"
 									onClick={() => { dispatch({ type: 'PRESENTS_OFFSET', value: presentOffset + participantHeaderLimit }) }}
 									loading={loading}

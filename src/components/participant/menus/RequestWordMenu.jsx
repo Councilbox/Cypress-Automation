@@ -192,7 +192,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                                 fontSize: '0.55rem',
                                 textTransform: "none"
                             }}>
-                                Palabra {/*TRADUCCION*/}
+                                {translate.ask_word_short}
                             </div>
                         </div>
                     </Button>
@@ -249,7 +249,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                             textTransform: "none",
                             color: isSafari ? 'grey' : "#ffffffcc",
                         }}>
-                            Palabra {/*TRADUCCION*/}
+                            {translate.ask_word_short}
                         </div>
                     </div>
                 </Button>
@@ -258,7 +258,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     }
 
     const grantedWord = CBX.haveGrantedWord(participant);
-    const fixedURLMode = props.videoURL && !props.videoURL.includes('councilbox');
+    const fixedURLMode = (props.videoURL && !props.videoURL.includes('councilbox') || props.videoURL.includes('rivulet') );
 
     return (
         <React.Fragment>

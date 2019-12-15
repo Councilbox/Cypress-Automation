@@ -270,7 +270,6 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 					style={{ marginLeft: "1em" }}
 				>
 					<BasicButton
-						//TRADUCCION
 						text={translate.general_drafts}
 						color={getSecondary()}
 						textStyle={{

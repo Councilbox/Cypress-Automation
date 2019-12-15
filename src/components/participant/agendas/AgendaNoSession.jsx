@@ -146,8 +146,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         return (
             <div style={{ width: "100%", height: "100%" }}>
                 <div style={{ height: "100%", marginTop: "1em", overflow: "hidden", padding: "1em" }}>
-                    {/* TRADUCCION */}
-                    <div style={{ marginBottom: "1em" }}>Mi participanción - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
+                    <div style={{ marginBottom: "1em" }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
                     <div style={{ height: "calc( 100% - 2.5em )", }}>
                         <Scrollbar>
                             <Results
@@ -196,7 +195,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             open={showModal}
             acceptAction={logout}
             buttonCancel={translate.cancel}
-            buttonAccept={"Finalizar"}
+            buttonAccept={translate.finish}
             bodyText={_renderModalBody()}
             bodyStyle={{ height: "60vh", overflow: "hidden" }}
             title={translate.summary}
@@ -231,7 +230,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     marginRight: "0.5em"
                 }}
             >
-                <b> Votar {/**TRADUCCION*/} </b>
+                <b>{translate.to_vote}</b>
             </Button>
         :
             <Button
@@ -250,7 +249,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     marginRight: "0.5em"
                 }}
             >
-                <b> Finalizar{/**TRADUCCION*/}  </b>
+                <b>{translate.finish}</b>
             </Button>
     )
 
@@ -557,7 +556,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                                 fontWeight: '700'
                             }}
                         >
-                            {`Voto registrado (${moment(ownVote.date).format('LLL')})`}
+                            {`${translate.vote_registered} (${moment(ownVote.date).format('LLL')})`}
                         </Button>
                     }
                 </CardActions>
