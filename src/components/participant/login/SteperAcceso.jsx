@@ -35,7 +35,7 @@ const SteperAcceso = () => {
                     <span style={{ color: getPrimary() }}>  SMS enviado</span>
                 </StepLabel>
             </Step>
-            <Step className={'stepperAccesoNoActived'}>
+            <Step className={'stepperAccesoFail'}>
                 <StepLabel>
                     <span style={{ color: getPrimary() }}>   SMS Entregado</span>
                 </StepLabel>

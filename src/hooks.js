@@ -3,15 +3,15 @@ import { moment } from './containers/App';
 import gql from 'graphql-tag';
 
 export const useInterval = (callback, delay) => {
-    const savedCallback = useRef();
+	const savedCallback = useRef();
 
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback;
-    });
+	// Remember the latest callback.
+	useEffect(() => {
+		savedCallback.current = callback;
+	});
 
-    // Set up the interval.
-    useEffect(() => {
+	// Set up the interval.
+	useEffect(() => {
 		function tick() {
 			savedCallback.current();
 		}
@@ -19,7 +19,7 @@ export const useInterval = (callback, delay) => {
 			let id = setInterval(tick, delay);
 			return () => clearInterval(id);
 		}
-    }, [delay]);
+	}, [delay]);
 }
 
 export const useOldState = initialValue => {
@@ -57,7 +57,7 @@ export const useSendRoomKey = (client, participant) => {
 	const sendKey = async () => {
 		setLoading(true);
 		const response = await client.mutate({
-            mutation: gql`
+			mutation: gql`
                 mutation SendParticipantRoomKey($participantId: Int!, $timezone: String!){
                     sendParticipantRoomKey(participantId: $participantId, timezone: $timezone){
                         success
@@ -65,12 +65,12 @@ export const useSendRoomKey = (client, participant) => {
                     }
                 }
             `,
-            variables: {
-                participantId: participant.id,
-                timezone: moment().utcOffset()
-            }
+			variables: {
+				participantId: participant.id,
+				timezone: moment().utcOffset()
+			}
 		});
-		
+
 		setLoading(false);
 		return response;
 	}
@@ -80,16 +80,16 @@ export const useSendRoomKey = (client, participant) => {
 }
 
 
-export const useCountdown = () => {
-	const [secondsLeft, setCountdown] = React.useState(0);
+export const useCountdown = (time) => {
+	const [secondsLeft, setCountdown] = React.useState(time ? time : 0);
 
 	React.useEffect(() => {
-        let timeout;
-        if(secondsLeft > 0){
-            timeout = setTimeout(() => setCountdown(secondsLeft - 1), 1000);
-        }
-        return () => clearTimeout(timeout);
-    }, [secondsLeft]);
+		let timeout;
+		if (secondsLeft > 0) {
+			timeout = setTimeout(() => setCountdown(secondsLeft - 1), 1000);
+		}
+		return () => clearTimeout(timeout);
+	}, [secondsLeft]);
 
 	return {
 		secondsLeft,

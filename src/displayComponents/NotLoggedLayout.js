@@ -10,7 +10,7 @@ const Snow = () => {
     return (
         <div className="snowfall" >
             {Array(99).fill(1).map((el, i) =>
-                <div class="snowflake" id={i}></div>
+                <div className="snowflake" key={i} id={i}></div>
             )}
         </div>
     )

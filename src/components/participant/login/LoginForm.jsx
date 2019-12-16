@@ -14,7 +14,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection } from "../../../displayComponents";
 import { councilStarted, participantNeverConnected, getSMSStatusByCode } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
-import { useOldState } from "../../../hooks";
+import { useOldState, useCountdown } from "../../../hooks";
 import { withApollo } from 'react-apollo';
 import CouncilKeyModal from "./CouncilKeyModal";
 import CouncilKeyButton from "./CouncilKeyButton";
@@ -96,6 +96,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     });
     const [sends, setSends] = React.useState(null);
     const [error, setError] = React.useState('');
+    const { secondsLeft, setCountdown } = useCountdown(60);
 
     const primary = getPrimary();
     const secondary = getSecondary();
@@ -231,12 +232,12 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }
 
     const cuentaAtras = () => {
-        setTimeout(() => {
-            setContador(contador - 1);
-            cuentaAtras()
-        }, 1000);
+        setCountdown(60);
+    }
 
-
+    const acortarNumeroTelf = (num) => {
+        let str = num.toString().replace(/\d(?=\d{4})/g, "");
+        return str
     }
 
     const { email, password, errors, showPassword } = state;
@@ -385,7 +386,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                             requestclose={closeSendPassModal}
                                         />
                                         <BasicButton
-                                            text={`SMS Enviado. Reenviar en (${contador}sec)`}
+                                            text={`SMS Enviado. Reenviar en (${secondsLeft}sec)`}
                                             backgroundColor={{ border: `solid 1px ${getPrimary()}`, borderRadius: '4px', minWidth: "200px", backgroundColor: "rgba(124, 39, 130, 0.34)" }}
                                             textStyle={{
                                                 width: "auto",
@@ -411,6 +412,61 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                             onClick={login}
                                         /> */}
                                     </div>
+                                    {/* no recibi el sms, un state para abrir y modal */}
+                                    <AlertConfirm
+                                        open={true}
+                                        bodyText={
+                                            <div style={{ margin: "4em", marginBottom: "2em" }}>
+                                                {loading ?
+                                                    <LoadingSection />
+                                                    :
+                                                    <React.Fragment>
+                                                        <div style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>
+                                                            {/* Cambiar el numero de telefono por el que sea */}
+                                                            El SMS se ha enviado con éxito al número terminado en ...{acortarNumeroTelf(sends[0].recipient.phone)}
+                                                        </div>
+                                                        <div style={{ marginTop: "3em", display: "flex", justifyContent: "center" }}>
+                                                            <BasicButton
+                                                                text={
+                                                                    <div>
+                                                                        <span>Volver a enviar SMS</span>
+                                                                        <span style={{ fontWeight: "300", marginLeft: "5px" }}>(20seg)</span>
+                                                                    </div>
+                                                                }
+                                                                color={primary}
+                                                                backgroundColor={{ borderRadius: '4px', minWidth: "200px" }}
+                                                                textStyle={{
+                                                                    width: "auto",
+                                                                    color: "white",
+                                                                    fontWeight: "700",
+                                                                    marginRight: "1em"
+                                                                }}
+                                                                textPosition="before"
+                                                                fullWidth={true}
+                                                            // onClick={login}
+                                                            />
+                                                            <BasicButton
+                                                                text={"Contactar con el admin"}
+                                                                color={primary}
+                                                                backgroundColor={{ borderRadius: '4px', minWidth: "200px" }}
+                                                                textStyle={{
+                                                                    width: "auto",
+                                                                    color: "white",
+                                                                    fontWeight: "700"
+                                                                }}
+                                                                textPosition="before"
+                                                                fullWidth={true}
+                                                            // onClick={login}
+                                                            />
+                                                        </div>
+                                                    </React.Fragment>
+                                                }
+                                            </div>
+                                        }
+                                    // title={translate.edit}
+                                    />
+
+
                                     {error &&
                                         <span style={{ color: 'red' }}>{error}</span>
 
@@ -442,9 +498,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                             }
                         </form>
                     </Card>
-                    {/* Si hay error */}
+                    {/* Si hay error y no es 0*/}
                     <div style={{ fontWeight: "bold", color: "#f11a1a", marginTop: "2em", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <div style={{  width: "90%",}}>
+                        <div style={{ width: "90%", }}>
                             Hay un error con la entrega de SMS a tu teléfono. Contacta con el admin para confirmar que tus datos son correctos antes de volver a enviarlo.
                         </div>
                     </div>

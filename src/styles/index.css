@@ -729,10 +729,10 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 .drawerUsersRoot {
-    top: 88px!important ;
-    z-index: 1300!important ;
-    width: 150px!important ;
-    height: calc( 100% - 10.5em )!important;
+    top: 88px!important;
+    z-index: 1300!important;
+    width: 150px!important;
+    height: calc( 100% - 10.5em)!important;
 }
 
 .drawerUsers {
@@ -777,6 +777,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 /* ESTO CAMBIA LA APARIENCIA DEL BOTON TAGS EN RICH-QUILL tambien se quita el color de los bordes */
+
 .ql-custom:before {
     display: inline-block;
     font: normal normal normal 15px Lato;
@@ -794,54 +795,89 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     border-radius: 3px
 }
 
-.ql-snow.ql-toolbar button.ql-custom:focus{
+.ql-snow.ql-toolbar button.ql-custom:focus {
     color: none;
     border: none;
     background: none;
     outline: none;
 }
-/*********************************************************/
 
+/*********************************************************/
 
 .hoverTags:hover {
     box-shadow: 0px 2px 6px 0px;
 }
 
-.ql-custom{
+.ql-custom {
     min-width: 65px;
 }
 
-
-.stepperAcceso svg { 
-    color:#7d217f!important; 
-}
-.stepperAcceso svg text{ 
-    fill:#7d217f!important; 
-}
-.stepperAccesoFail svg { 
-    color:red!important; 
-}
-.stepperAccesoFail svg text{ 
-    fill:red!important; 
-}
-.stepperAccesoNoActived svg { 
-    color:white!important;
-    border: 1px solid #7d217f;
-    border-radius: 50px; 
-}
-.stepperAccesoNoActived svg text{ 
-    fill:white!important; 
-}
-.stepperAcceso div span { 
-    border-color:#7d217f!important; 
-}
-.stepperAccesoFail div span { 
-    border-color:#7d217f!important; 
-}
-.stepperAccesoNoActived div span { 
-    border-color:#7d217f!important; 
+.stepperAcceso svg {
+    color: #7d217f!important;
 }
 
+.stepperAcceso svg text {
+    fill: #7d217f!important;
+}
 
+.stepperAccesoFail svg {
+    color: red!important;
+    border: 2px solid #7d217f;
+    border-radius: 50px;
+}
 
+.stepperAccesoFail svg text {
+    fill: red!important;
+}
 
+.stepperAccesoNoActived svg {
+    color: white!important;
+    border: 2px solid #7d217f;
+    border-radius: 50px;
+}
+
+.stepperAccesoNoActived svg text {
+    fill: white!important;
+}
+
+.stepperAcceso div span {
+    border-color: #7d217f!important;
+    border: 1px solid;
+}
+
+.stepperAccesoFail div span {
+    border-color: #7d217f!important;
+    border: 1px solid;
+}
+
+.stepperAccesoNoActived div span {
+    border-color: #7d217f!important;
+    border: 1px solid;
+}
+
+.stepperAcceso span span {
+    z-index: 1;
+}
+
+.stepperAccesoFail span span {
+    z-index: 1;
+}
+
+.stepperAccesoNoActived span span {
+    z-index: 1;
+}
+
+.stepperAcceso div {
+    left: calc(50% + 7px)!important;
+    right: calc(-50% + 7px)!important;
+}
+
+.stepperAccesoFail div {
+    left: calc(50% + 7px)!important;
+    right: calc(-50% + 7px)!important;
+}
+
+.stepperAccesoNoActived div {
+    left: calc(50% + 7px)!important;
+    right: calc(-50% + 7px)!important;
+}
