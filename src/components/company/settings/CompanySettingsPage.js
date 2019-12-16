@@ -607,12 +607,12 @@ class CompanySettingsPage extends React.Component {
 							company={this.props.company}
 						/>
 					}
-					{this.props.company.corporationId !== 1 &&
+					{/* {this.props.company.corporationId !== 1 &&
 						<AdminManager
 							translate={translate}
 							company={this.props.company}
 						/>
-					}
+					} */}
 					<AlertConfirm
 						requestClose={() => this.setState({ unlinkModal: false })}
 						open={this.state.unlinkModal}

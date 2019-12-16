@@ -66,6 +66,12 @@ class Sidebar extends React.Component {
 			icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
 		},
 		{
+			path: `/company/${this.props.company.id}/users`,
+            name: 'users',
+            sidebarName: 'Usuarios',
+			icon: 'person'
+		},
+		{
 			path: `/company/${this.props.company.id}/drafts`,
             name: 'templates',
             sidebarName: this.props.translate.drafts,
@@ -106,12 +112,19 @@ class Sidebar extends React.Component {
 					path: `/company/${this.props.company.id}/companies`,
 					name: "companies",
 					sidebarName: 'Entidades',
+					// sidebarName: this.props.translate.councils_link,
 					icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
+				},
+				{
+					path: `/company/${this.props.company.id}/users`,
+					name: 'users',
+					sidebarName: 'Usuarios',
+					icon: 'person'
 				},
 				{
 					path: `/company/${this.props.company.id}/drafts`,
 					name: 'templates',
-                    sidebarName: this.props.translate.drafts,
+					sidebarName: this.props.translate.drafts,
 					icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
 				}
 			];
