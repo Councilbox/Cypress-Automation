@@ -3,10 +3,12 @@ import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { AlertConfirm, BasicButton, LoadingSection } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
+import AddAdmin from './AddAdmin';
 
 const AdminManager = ({ company, translate, client }) => {
     const [modal, setModal] = React.useState(false);
     const [admins, setAdmins] = React.useState(null);
+    const [page, setPage] = React.useState(1);
     const primary = getPrimary();
 
     const getAdmins = React.useCallback(async () => {
@@ -41,9 +43,56 @@ const AdminManager = ({ company, translate, client }) => {
             return <LoadingSection />
         }
 
+        if(page === 2){
+            return 'Crear admin';
+        }
+
+        if(page === 3){
+            return (
+                <AddAdmin
+                    company={company}
+                    admins={admins}
+                    translate={translate}
+                    refetch={getAdmins}
+                />
+            );
+        }
+
         return (
             <div>
-                {admins.map(admin => <div>{`${admin.name} ${admin.surname}`}</div>)}
+                <div>
+                    <BasicButton
+                        text={'Añadir usuario existente'}//TRADUCCION
+                        color={primary}
+                        floatRight
+                        textStyle={{
+                            color: "white",
+                            fontWeight: "700"
+                        }}
+                        buttonStyle={{ marginRight: "1.2em" }}
+                        onClick={() => setPage(3)}
+                    />
+                </div>
+
+                {/* <BasicButton
+                    text={'Crear nuevo usuario'}//TRADUCCION
+                    color={primary}
+                    floatRight
+                    textStyle={{
+                        color: "white",
+                        fontWeight: "700"
+                    }}
+                    buttonStyle={{ marginRight: "1.2em" }}
+                    onClick={() => setPage(2)}
+                /> */}
+                <div>
+                    {admins.length > 0?
+                        admins.map(admin => <div>{`${admin.name} ${admin.surname} - ${admin.email}`}</div>)
+                    :
+                        'No hay ningún usuario asignado a esta entidad' //TRADUCCION
+                    }
+                </div>
+
             </div>
         )
     }
@@ -51,7 +100,7 @@ const AdminManager = ({ company, translate, client }) => {
     return (
         <React.Fragment>
             <BasicButton
-                text={'Ver administradores'}
+                text={'Gestor de administradores'}//TRADUCCION
                 color={primary}
                 floatRight
                 textStyle={{
@@ -65,10 +114,11 @@ const AdminManager = ({ company, translate, client }) => {
                 open={modal}
                 bodyText={renderModalBody()}
                 title={'Administradores'}
-                requestClose={() => setModal(false)}
+                requestClose={() => {
+                    page === 1? setModal(false) : setPage(1)}
+                }
             />
         </React.Fragment>
-        
     )
 }
 
