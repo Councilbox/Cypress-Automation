@@ -30,12 +30,14 @@ export const companyDrafts = gql`
 		$filters: [FilterInput]
 		$options: OptionsInput
 		$tags: [String]
+		$showCorporationResults: Boolean
 	) {
 		companyDrafts(
 			companyId: $companyId
 			filters: $filters
 			options: $options
 			tags: $tags
+			showCorporationResults: $showCorporationResults
 		) {
 			list {
 				id

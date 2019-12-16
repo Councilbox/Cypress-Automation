@@ -75,6 +75,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 					offset: 0
 				},
 				tags: Object.keys(testTags).map(key => testTags[key].name),
+				showCorporationResults: true,
 				...variables
 			}
 		});
