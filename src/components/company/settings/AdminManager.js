@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm, BasicButton } from "../../../displayComponents";
+import { AlertConfirm, BasicButton, LoadingSection } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 
 const AdminManager = ({ company, translate, client }) => {
@@ -13,23 +13,21 @@ const AdminManager = ({ company, translate, client }) => {
         const response = await client.query({
             query: gql`
                 query company($companyId: Int!){
-                    company(id: $companyId){
+                    companyAdmins(companyId: $companyId){
+                        name
+                        surname
+                        email
                         id
-                        users {
-                            name
-                            email
-                            id
-                            lastConnectionDate
-                        }
+                        lastConnectionDate
                     }
                 }
             `,
             variables: {
                 companyId: company.id
             }
-        })
+        });
 
-        console.log(response);
+        setAdmins(response.data.companyAdmins);
     }, [company.id]);
 
     React.useEffect(() => {
@@ -37,6 +35,18 @@ const AdminManager = ({ company, translate, client }) => {
             getAdmins();
         }
     }, [getAdmins, modal]);
+
+    const renderModalBody = () => {
+        if(!admins){
+            return <LoadingSection />
+        }
+
+        return (
+            <div>
+                {admins.map(admin => <div>{`${admin.name} ${admin.surname}`}</div>)}
+            </div>
+        )
+    }
 
     return (
         <React.Fragment>
@@ -52,7 +62,10 @@ const AdminManager = ({ company, translate, client }) => {
                 onClick={() => setModal(true)}
             />
             <AlertConfirm
-
+                open={modal}
+                bodyText={renderModalBody()}
+                title={'Administradores'}
+                requestClose={() => setModal(false)}
             />
         </React.Fragment>
         

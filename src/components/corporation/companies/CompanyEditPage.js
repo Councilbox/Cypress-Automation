@@ -23,7 +23,7 @@ const CompanyEditPage = ({ data, user, match, translate }) => {
                 key={`company_${company.id}`}
                 company={data.company}
                 translate={translate}
-                confirmCompany={true}
+                confirmCompany={user.roles === 'root'}
                 root={user.roles === 'root'}
                 refetch={data.refetch}
             />
