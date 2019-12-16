@@ -15,6 +15,7 @@ import MeetingCreateContainer from "../components/meeting/MeetingCreateContainer
 import NewCompanyPage from "../components/company/new/NewCompanyPage";
 import LinkCompanyPage from "../components/company/link/LinkCompanyPage";
 import PlatformDrafts from "../components/corporation/drafts/PlatformDrafts";
+import CompanyEditPage from "../components/corporation/companies/CompanyEditPage";
 import CensusEditorPage from "../components/company/census/censusEditor/CensusEditorPage";
 import CompanyDraftEditor from "../components/company/drafts/CompanyDraftEditor";
 import CouncilFinishedPage from "../components/council/writing/CouncilFinishedPage";
@@ -30,6 +31,7 @@ import NewPartnerPage from '../components/partners/NewPartnerPage';
 import Loadable from 'react-loadable';
 import { bHistory, store } from './App';
 import { addSpecificTranslations } from '../actions/companyActions';
+import TablaCompanies from '../components/corporation/companies/TablaCompanies';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),
@@ -72,6 +74,16 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 exact
                 path="/company/:company"
                 component={Dashboard}
+            />
+            <Route
+                exact
+                path="/company/:company/companies"
+                component={TablaCompanies}
+            />
+            <Route
+                exact
+                path="/company/:company/edit/:id"
+                component={CompanyEditPage}
             />
             <Route
                 exact
