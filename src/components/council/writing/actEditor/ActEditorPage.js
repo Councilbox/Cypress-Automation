@@ -17,6 +17,8 @@ import GoverningBodyDisplay from './GoverningBodyDisplay';
 import EvidencesPage from '../evindences/EvidencesPage';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { COUNCIL_STATES } from '../../../../constants';
+import DocumentEditor from '../../../documentEditor/DocumentEditor';
+import NavigationHeader from './NavigationHeader';
 
 
 const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
@@ -25,6 +27,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         sendReminder: false,
         sendConvene: false,
         cancel: false,
+        tab: 'editor',
         rescheduleCouncil: false,
         infoMenu: false
     });
@@ -54,81 +57,61 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     if(withoutAct){
         tabs = [
             {
-                text: translate.wizard_agenda,
+                label: translate.wizard_agenda,
+                value: 'agenda',
                 component: () => {
                     return (
-                        <TabContainer>
-                            <AgendaTab
-                                council={council}
-                                translate={translate}
-                                data={{...props}}
-                            />
-                        </TabContainer>
+                        <AgendaTab
+                            council={council}
+                            translate={translate}
+                            data={{...props}}
+                        />
                     );
                 }
             }
         ];
     }else {
         tabs.push({
-            text: translate.act,
+            label: translate.act,
+            value: 'editor',
+            persistent: true,
             component: () => {
                 return (
-                    <TabContainer>
-                        {props.confirmed?
-                            <div style={{ height: '100%'}}>
-                                <div style={{ height: "calc(100%)", overflow: 'hidden', position: 'relative', }}>
-                                    <Scrollbar>
-                                        <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
-                                            <ActHTMLTab council={council} translate={translate} />
-                                        </div>
-                                    </Scrollbar>
-                                </div>
-                                {/*<div
-                                    style={{
-                                        height: '3.5em',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        borderTop: '1px solid gainsboro',
-                                        borderBottom: '1px solid gainsboro',
-                                        justifyContent: 'flex-end'
-                                    }}
-                                >
-                                    <BasicButton
-                                        text={translate.export_act_to_pdf}
-                                    />
-                                </div>*/}
+                    props.confirmed?
+                        <div style={{ height: '100%'}}>
+                            <div style={{ height: "calc(100%)", overflow: 'hidden', position: 'relative', }}>
+                                <Scrollbar>
+                                    <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
+                                        <ActHTMLTab council={council} translate={translate} />
+                                    </div>
+                                </Scrollbar>
                             </div>
-                        :
-                            <div style={{height: '100%'}}>
-                                <ActEditor
-                                    toggleInfoMenu={toggleInfoMenu}
-                                    councilID={council.id}
-                                    companyID={props.company.id}
-                                    company={props.company}
-                                    translate={translate}
-                                    {...props}
-                                    refetch={props.refetch}
-                                />
-                            </div>
-                        }
-                    </TabContainer>
+                        </div>
+                    :
+                        <div style={{height: '100%'}}>
+                            <ActEditor
+                                translate={translate}
+                                councilID={council.id}
+                                companyID={props.company.id}
+                                company={props.company}
+                            />
+                        </div>
                 );
             }
         })
         if(props.confirmed){
             tabs.push({
-                text: translate.sending_the_minutes,
+                label: translate.sending_the_minutes,
+                value: 'sendAct',
                 component: () => {
                     return (
-                        <TabContainer>
-                            <Scrollbar>
-                                <SendActPage
-                                    council={council}
-                                    translate={translate}
-                                    refetch={props.refetch}
-                                />
-                            </Scrollbar>
-                        </TabContainer>
+                        <Scrollbar>
+                            <SendActPage
+                                council={council}
+                                translate={translate}
+                                refetch={props.refetch}
+                            />
+                        </Scrollbar>
                     );
                 }
             });
@@ -136,63 +119,59 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     }
     tabs = [...tabs,
         {
-            text: translate.new_list_called,
+            label: translate.new_list_called,
+            value: 'convened',
             component: () => {
                 return (
-                    <TabContainer>
-                        <ActConvenedParticipants
-                            council={council}
-                            totalVotes={props.totalVotes}
-                            socialCapital={props.socialCapital}
-                            translate={translate}
-                        />
-                    </TabContainer>
+                    <ActConvenedParticipants
+                        council={council}
+                        totalVotes={props.totalVotes}
+                        socialCapital={props.socialCapital}
+                        translate={translate}
+                    />
                 );
             }
         },
         {
-            text: translate.show_assistants_list,
+            label: translate.show_assistants_list,
+            value: 'attendants',
             component: () => {
                 return (
-                    <TabContainer>
-                        <ActAttendantsTable
-                            council={council}
-                            translate={translate}
-                        />
-                    </TabContainer>
+                    <ActAttendantsTable
+                        council={council}
+                        translate={translate}
+                    />
                 );
             }
         },
         {
-            text: translate.attachment_files,
+            label: translate.attachment_files,
+            value: 'attachments',
             component: () => {
                 return (
-                    <TabContainer>
-                        <Scrollbar>
-                            <ActAttachments
+                    <Scrollbar>
+                        <ActAttachments
+                            council={council}
+                            translate={translate}
+                        />
+                    </Scrollbar>
+                );
+            }
+        },
+        {
+            label: translate.convene,
+            value: 'convene',
+            component: () => {
+                return (
+                    <Scrollbar>
+                        <div style={{paddingBottom: '2em'}}>
+                            <Convene
                                 council={council}
+                                hideAttachments
                                 translate={translate}
                             />
-                        </Scrollbar>
-                    </TabContainer>
-                );
-            }
-        },
-        {
-            text: translate.convene,
-            component: () => {
-                return (
-                    <TabContainer style={{position: 'relative', width: '100%', padding: '1.2em'}}>
-                        <Scrollbar>
-                            <div style={{paddingBottom: '2em'}}>
-                                <Convene
-                                    council={council}
-                                    hideAttachments
-                                    translate={translate}
-                                />
-                            </div>
-                        </Scrollbar>
-                    </TabContainer>
+                        </div>
+                    </Scrollbar>
                 );
             }
         }
@@ -201,19 +180,18 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
     if(config.blockchain){
         tabs.push({
-            text: translate.evidences,
+            label: translate.evidences,
+            value: 'evidences',
             component: () => {
                 return (
-                    <TabContainer>
-                        <Scrollbar>
-                            <EvidencesPage
-                                council={council}
-                                totalVotes={props.totalVotes}
-                                socialCapital={props.socialCapital}
-                                translate={translate}
-                            />
-                        </Scrollbar>
-                    </TabContainer>
+                    <Scrollbar>
+                        <EvidencesPage
+                            council={council}
+                            totalVotes={props.totalVotes}
+                            socialCapital={props.socialCapital}
+                            translate={translate}
+                        />
+                    </Scrollbar>
                 );
             }
         })
@@ -221,51 +199,50 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
 
     tabs.push({
-        text: translate.recordings_tab,
+        label: translate.recordings_tab,
+        value: 'recordings',
         component: () => {
             return (
-                <TabContainer>
-                    <RecordingsSection
-                        data={props.data}
-                        council={council}
-                        translate={translate}
-                    />
-                </TabContainer>
+                <RecordingsSection
+                    data={props.data}
+                    council={council}
+                    translate={translate}
+                />
             );
         }
     });
 
-    return(
-        <div style={{width: '100%', height: '100%', display: 'flex'}}>
-            <div style={{width: state.infoMenu? '65%' : '100%', height: '100%', transition: 'width 0.6s'}}>
-                <CardPageLayout title={council.name} disableScroll={true}>
-                    <div style={{width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%'}}>
-                        <TabsScreen
-                            uncontrolled={true}
-                            tabsInfo={tabs}
-                        />
-                    </div>
-                </CardPageLayout>
-            </div>
-            <div style={{backgroundColor: 'white', width: state.infoMenu? '35%' : '0', transition: 'width 0.6s', height: '100%'}}>
-                <GoverningBodyDisplay
-                    translate={translate}
-                    company={props.company}
-                    open={state.infoMenu}
-                />
-                {/* <CouncilSideMenu
-                    council={council}
-                    open={state.infoMenu}
-                    translate={translate}
-                    company={props.company}
-                    agendas={props.agendas}
-                    participantsWithDelegatedVote={props.participantsWithDelegatedVote}
-                    councilAttendants={props.councilAttendants}
-                    councilRecount={props.councilRecount}
-                /> */}
-            </div>
-        </div>
+    return (
+        <div style={{width: '100%', height: '100%'}}>
+            <NavigationHeader
+                translate={translate}
+                active={state.tab}
+                setTab={tab => setState({
+                    ...state,
+                    tab
+                })}
+                tabs={tabs}
+            />
+            {tabs.map(tab => {
+                if(tab.persistent){
+                    return (
+                        <div style={{width: '100%', height: state.tab === tab.value ? 'calc(100% - 2em)' : '0', overflow: 'hidden'}}>
+                            {tab.component()}
+                        </div>
+                    )
+                }
 
+                if(state.tab === tab.value){
+                    return(
+                        <div style={{width: '100%', height: 'calc(100% - 2em)'}}>
+                            {tab.component()}
+                        </div>
+                    )
+                }
+
+                return null
+            })}
+        </div>
     )
 }
 

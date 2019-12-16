@@ -124,6 +124,15 @@ export const logoutParticipant = (participant, council) => {
 	return { type: "PARTICIPANT_LOGOUT" };
 };
 
+export const buildTranslateObject = translations => {
+	let translationObject = {};
+	translations.forEach(translation => {
+		translationObject[translation.label] = translation.text;
+	});
+
+	return translationObject;
+}
+
 export const setLanguage = language => {
 	return async dispatch => {
 		const response = await client.query({
@@ -133,11 +142,7 @@ export const setLanguage = language => {
 			}
 		});
 		if(!response.errors){
-			const translationObject = {};
-
-			response.data.translations.forEach(translation => {
-				translationObject[translation.label] = translation.text;
-			});
+			const translationObject = buildTranslateObject(response.data.translations);
 			let locale = language;
 			if (language === "cat" || language === "gal") {
 				locale = "es";
