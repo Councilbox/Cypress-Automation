@@ -147,7 +147,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					flexDirection: "row",
 					height: "100%",
 					width: windowSize === "xs" ? '5em' : '15em',
-					alignItems: "center"
+					alignItems: "center",
 				}}
 			>
 				<div style={{ position: "relative" }}>

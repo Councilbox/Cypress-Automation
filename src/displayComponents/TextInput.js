@@ -113,9 +113,7 @@ const TextInput = ({
 							</IconButton>
 						</InputAdornment>
 					) : adornment ? (
-						<InputAdornment position="end"
-						style={{...stylesAdornment}} 
-						>
+						<InputAdornment position="end" style={{...stylesAdornment }}>
 							{adornment}
 						</InputAdornment>
 					) : (

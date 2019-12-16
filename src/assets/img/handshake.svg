@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="27" height="25" viewBox="0 0 27 25">
+    <defs>
+        <rect id="b" width="481" height="193" rx="4"/>
+        <filter id="a" width="106%" height="115%" x="-3%" y="-6.5%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="2.5" result="shadowSpreadOuter1"/>
+            <feOffset dy="2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.104895105 0"/>
+        </filter>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#F2F4F7" d="M-61-463h1326V568H-61z"/>
+        <g transform="translate(-22 -138)">
+            <use fill="#000" filter="url(#a)" xlink:href="#b"/>
+            <use fill="#FFF" xlink:href="#b"/>
+        </g>
+        <g fill="#866666" fill-rule="nonzero">
+            <path d="M13 0c-.553 0-1 .358-1 .8v2.4c0 .442.447.8 1 .8.553 0 1-.358 1-.8V.8c0-.442-.447-.8-1-.8zM8.78 4.72l-1.5-1.5a.75.75 0 1 0-1.06 1.06l1.5 1.5a.75.75 0 1 0 1.06-1.06zM20.78 3.22a.75.75 0 0 0-1.06 0l-1.5 1.5a.75.75 0 1 0 1.06 1.06l1.5-1.5a.75.75 0 0 0 0-1.06zM26.262 11H24v11h2.262c.408 0 .738-.351.738-.786v-9.428c0-.435-.33-.786-.738-.786zM.738 11C.33 11 0 11.351 0 11.786v9.428c0 .435.33.786.738.786H3V11H.738zM12.786 12c-.598 0-1.135.318-1.402.83L9 17.395c.4.168.822.253 1.253.253 1.192 0 2.266-.636 2.8-1.662L13.57 15h1.516c.412 0 .816.16 1.108.44L22 21v-9h-9.214z"/>
+            <path d="M15.395 16.61h-.552l-.046.09c-.745 1.48-2.199 2.523-3.86 2.658-1.223.1-2.07-.25-3.074-.703a.785.785 0 0 1-.386-1.066l2.777-5.51a3.16 3.16 0 0 1 2.824-1.73h3.406a3.76 3.76 0 0 0 .353-1.566.786.786 0 0 0-.789-.783H9.921a2.37 2.37 0 0 0-2.118 1.298l-.705 1.4a.79.79 0 0 1-.706.433H5v10.958h3.619l2.236 2.218a2.354 2.354 0 0 0 2.386.578l6.74-2.1A2.286 2.286 0 0 0 21 22.17l-5.605-5.56z"/>
+        </g>
+    </g>
+</svg>

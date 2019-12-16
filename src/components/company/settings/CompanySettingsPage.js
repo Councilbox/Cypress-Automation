@@ -28,6 +28,7 @@ import DeleteCompanyButton from "./DeleteCompanyButton";
 import { sendGAevent } from "../../../utils/analytics";
 import GoverningBodyForm from "./GoverningBodyForm";
 import NewUser from "../../corporation/users/NewUser";
+import AdminManager from './AdminManager';
 
 export const info = gql`
 	query info {
@@ -187,7 +188,8 @@ class CompanySettingsPage extends React.Component {
 						className: "successToast"
 					}
 				);
-				store.dispatch(setCompany(response.data.updateCompany));
+				bHistory.goBack();
+				//store.dispatch(setCompany(response.data.updateCompany));
 			}
 		}
 	};
@@ -212,7 +214,7 @@ class CompanySettingsPage extends React.Component {
 						className: "successToast"
 					}
 				);
-				bHistory.push("/");
+				bHistory.goBack();
 			}
 		}
 	};
@@ -606,20 +608,9 @@ class CompanySettingsPage extends React.Component {
 						/>
 					}
 					{this.props.company.corporationId !== 1 &&
-						<BasicButton
-							text={'Añadir administrador'}
-							color={getPrimary()}
-							floatRight
-							textStyle={{
-								color: "white",
-								fontWeight: "700"
-							}}
-							buttonStyle={{ marginRight: "1.2em" }}
-							onClick={() =>
-								this.setState({
-									addAdminModal: true
-								})
-							}
+						<AdminManager
+							translate={translate}
+							company={this.props.company}
 						/>
 					}
 					<AlertConfirm

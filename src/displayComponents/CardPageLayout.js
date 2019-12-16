@@ -12,6 +12,7 @@ const CardPageLayout = ({
 	title,
 	footer,
 	windowSize,
+	stylesNoScroll,
 	disableScroll = false
 }) => (
 	<div
@@ -93,7 +94,8 @@ const CardPageLayout = ({
 									paddingTop: "2.5em",
 									paddingBottom: "0.5em",
 									paddingLeft: windowSize === "xl" && "2vw",
-									paddingRight: windowSize === "xl" && "2vw"
+									paddingRight: windowSize === "xl" && "2vw",
+									...stylesNoScroll
 								}}
 							>
 								<div className="container-fluid" style={{height: "100%", overflow:"hidden"}}>
