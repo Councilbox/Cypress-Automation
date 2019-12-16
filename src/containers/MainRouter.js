@@ -32,6 +32,9 @@ import Loadable from 'react-loadable';
 import { bHistory, store } from './App';
 import { addSpecificTranslations } from '../actions/companyActions';
 import TablaCompanies from '../components/corporation/companies/TablaCompanies';
+import UserEdit from '../components/corporation/users/UserEdit';
+import UsersDashboard from '../components/corporation/users/UsersDashboard';
+import OrganizationUsers from '../components/corporation/users/OrganizationUsers';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),
@@ -85,6 +88,13 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 path="/company/:company/edit/:id"
                 component={CompanyEditPage}
             />
+            <Route
+                exact
+                path="/company/:company/users"
+                component={OrganizationUsers}
+            />
+            <Route exact path="/company/:company/users/:id" component={UserEdit} />
+
             <Route
                 exact
                 path="/company/:company/settings"

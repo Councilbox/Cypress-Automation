@@ -6,7 +6,7 @@ import CompanyLinksManager from './CompanyLinksManager';
 import UserSendsList from './UserSendsList';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import withTranslations from '../../../HOCs/withTranslations';
+import withSharedProps from '../../../HOCs/withSharedProps';
 import UserItem from './UserItem';
 
 class UserEdit extends React.PureComponent {
@@ -65,6 +65,7 @@ class UserEdit extends React.PureComponent {
                             linkedCompanies={this.props.data.user.companies}
                             translate={translate}
                             addCheckedCompanies={this.linkCompanies}
+                            company={this.props.company}
                         />
                         <div>
                             <UserSendsList
@@ -130,4 +131,4 @@ export default compose(
     graphql(linkCompanies, {
         name: 'linkCompanies'
     })
-)(withRouter(withTranslations()(UserEdit)));
+)(withRouter(withSharedProps()(UserEdit)));
