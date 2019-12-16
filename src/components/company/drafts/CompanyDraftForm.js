@@ -63,7 +63,11 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
-			const title = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]).title;
+			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
+			let title = tag.label;
+			if(statute){
+				const title = statute.title;
+			}
 			return translate[title] || title;
 		}
 
