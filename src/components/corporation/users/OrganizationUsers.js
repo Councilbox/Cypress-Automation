@@ -7,6 +7,10 @@ import { getPrimary } from '../../../styles/colors';
 import { Icon } from 'material-ui';
 import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
+import DeactivateAccount from './DeactivateAccount';
+import RestoreAccount from './RestoreAccount';
+import { USER_ACTIVATIONS } from '../../../constants';
+
 
 
 
@@ -24,7 +28,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
 	});
 	const primary = getPrimary();
 
-	const getCompanies = async () => {
+	const getUsers = async () => {
 		const response = await client.query({
 			query: corporationUsers,
 			variables: {
@@ -45,7 +49,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
 	}
 
 	React.useEffect(() => {
-		getCompanies()
+		getUsers()
 	}, [state.filterTextCompanies, usersPage]);
 
 	const changePageUsuarios = value => {
@@ -95,21 +99,21 @@ const OrganizationUsers = ({ client, translate, company }) => {
                 </div> */}
                 <div style={{ fontSize: "13px", height: '100%' }}>
                     <div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+                        <div style={{ color: primary, fontWeight: "bold", width: 'calc(10% )', textAlign: 'left' }}>
                             Estado
-                    </div>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-                            Id
-                    </div>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+                        </div>
+                        <div style={{ color: primary, fontWeight: "bold", width: 'calc(20% )', textAlign: 'left' }}>
                             Nombre
-                    </div>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+                        </div>
+                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: 'calc(20% )', textAlign: 'left' }}>
                             Email
-                    </div>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+                        </div>
+                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: 'calc(20% )', textAlign: 'left' }}>
                             Últ.Conexión
-                    </div>
+                        </div>
+                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: 'calc(20% )', textAlign: 'left' }}>
+                            Acciones
+                        </div>
                     </div>
                     <div style={{ height: '100%'}}>
                         <Scrollbar>
@@ -122,11 +126,36 @@ const OrganizationUsers = ({ client, translate, company }) => {
                                             justifyContent: "space-between",
                                             padding: "1em"
                                         }}>
-                                        <Cell text={item.actived} width={20}/>
-                                        <Cell text={item.id} width={20}/>
-                                        <Cell text={item.name + " " + item.surname} width={20}/>
-                                        <Cell text={item.email} width={20}/>
-                                        <Cell text={moment(item.lastConnectionDate).format("LLL")} width={20}/>
+                                        <Cell width={10}>
+                                            {getActivationText(item.actived)}
+                                        </Cell>
+                                        <Cell width={20}>
+                                            {item.name + " " + item.surname}
+                                        </Cell>
+                                        <Cell width={20}>
+                                            {item.email}
+                                        </Cell>
+                                        <Cell width={20}>
+                                            {moment(item.lastConnectionDate).format("LLL")}
+                                        </Cell>
+                                        <Cell width={20}>
+                                            {item.actived === USER_ACTIVATIONS.DEACTIVATED?
+                                                <RestoreAccount
+                                                    translate={translate}
+                                                    refetch={getUsers}
+                                                    user={item}
+                                                    render={'Restaurar usuario'}
+                                                />
+                                            :
+                                                <DeactivateAccount
+                                                    translate={translate}
+                                                    refetch={getUsers}
+                                                    user={item}
+                                                    render={'Deshabilitar usuario'}
+                                                />
+                                            }
+
+                                        </Cell>
                                     </div>
 
                                 )
@@ -149,6 +178,16 @@ const OrganizationUsers = ({ client, translate, company }) => {
             </div>
         </CardPageLayout>
 	)
+}
+
+const getActivationText = value => {
+    const activations = {
+        [USER_ACTIVATIONS.NOT_CONFIRMED]: 'Sin confirmar',
+        [USER_ACTIVATIONS.CONFIRMED]: 'Confirmado',
+        [USER_ACTIVATIONS.DEACTIVATED]: 'Deshabilitada'
+    }
+
+    return activations[value]? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
 }
 
 const CellAvatar = ({ avatar, width }) => {
