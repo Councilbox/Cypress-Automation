@@ -12,7 +12,7 @@ import { moment } from '../../../../containers/App';
 import { useOldState } from "../../../../hooks";
 import LiveSMS from "../councilMenu/LiveSMS";
 import FailedSMSMessage from "../councilMenu/FailedSMSMessage";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../../utils/screen";
 
 
 const OpenRoomButton = ({ council, translate, ...props }) => {

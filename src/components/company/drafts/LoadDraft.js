@@ -11,7 +11,7 @@ import { MenuItem, Card, CardHeader, Tooltip, TableCell, TableRow } from "materi
 import { levelColor, ContenedorEtiquetas } from "./CompanyDraftForm";
 import { Divider } from "material-ui";
 import { primary } from "../../../styles/colors";
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 import { withStyles } from "material-ui";
 import { IconButton } from "material-ui";
 import { Collapse } from "material-ui";

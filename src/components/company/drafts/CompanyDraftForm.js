@@ -13,7 +13,7 @@ import { withStyles } from "material-ui";
 import PropTypes from "prop-types";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import { withApollo } from 'react-apollo';
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 import { companyTypes } from "../../../queries";
 import SelectedTag from './draftTags/SelectedTag';
 import { createTag, TAG_TYPES, getTagColor } from './draftTags/utils';

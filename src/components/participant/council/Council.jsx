@@ -14,7 +14,7 @@ import { isLandscape, isMobile } from '../../../utils/screen';
 import VideoContainer from '../VideoContainer';
 import { API_URL } from "../../../config";
 import AdminAnnouncement from './AdminAnnouncement';
-// import { isMobile } from "react-device-detect";
+// import { isMobile } from '../../../utils/screen';
 import CouncilSidebar from './CouncilSidebar';
 import AdminPrivateMessage from "../menus/AdminPrivateMessage";
 import * as CBX from '../../../utils/CBX';
