@@ -22,7 +22,9 @@ import { withStyles } from "material-ui";
 
 
 const SteperAcceso = () => {
-
+//  1- Marcado - stepperAcceso
+//  2- Fail - stepperAccesoFail
+//  1- No activado - stepperAccesoNoActived
     return (
         <Stepper nonLinear alternativeLabel style={{ height: '8em' }} >
             <Step className={'stepperAcceso'}>
@@ -30,12 +32,12 @@ const SteperAcceso = () => {
                     <span style={{ color: getPrimary() }}>  Acceso previo</span>
                 </StepLabel>
             </Step>
-            <Step className={'stepperAcceso'}>
+            <Step className={'stepperAccesoNoActived'}>
                 <StepLabel>
                     <span style={{ color: getPrimary() }}>  SMS enviado</span>
                 </StepLabel>
             </Step>
-            <Step className={'stepperAccesoFail'}>
+            <Step className={'stepperAccesoNoActived'}>
                 <StepLabel>
                     <span style={{ color: getPrimary() }}>   SMS Entregado</span>
                 </StepLabel>

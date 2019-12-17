@@ -241,7 +241,8 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }
 
     const { email, password, errors, showPassword } = state;
-
+    console.log(council)
+    console.log(error)
     return (
         <div style={{
             ...styles.loginContainerMax,
@@ -398,7 +399,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                             onClick={cuentaAtras}
                                         // onClick={login}
                                         />
-                                        {/* <BasicButton
+                                        <BasicButton
                                             text={translate.enter_room}
                                             color={primary}
                                             backgroundColor={{ borderRadius: '4px', minWidth: "200px" }}
@@ -410,11 +411,11 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                             textPosition="before"
                                             fullWidth={true}
                                             onClick={login}
-                                        /> */}
+                                        />
                                     </div>
                                     {/* no recibi el sms, un state para abrir y modal */}
                                     <AlertConfirm
-                                        open={true}
+                                        open={false}
                                         bodyText={
                                             <div style={{ margin: "4em", marginBottom: "2em" }}>
                                                 {loading ?
@@ -499,11 +500,11 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                         </form>
                     </Card>
                     {/* Si hay error y no es 0*/}
-                    <div style={{ fontWeight: "bold", color: "#f11a1a", marginTop: "2em", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {/* <div style={{ fontWeight: "bold", color: "#f11a1a", marginTop: "2em", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <div style={{ width: "90%", }}>
                             Hay un error con la entrega de SMS a tu teléfono. Contacta con el admin para confirmar que tus datos son correctos antes de volver a enviarlo.
                         </div>
-                    </div>
+                    </div> */}
                     <div style={{ marginTop: "1em", marginBottom: "3em", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <div style={{ width: "100%" }}>
                             {/* width: "90%" */}
