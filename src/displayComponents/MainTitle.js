@@ -1,8 +1,7 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
 import { getPrimary } from "../styles/colors";
-import { isLandscape } from '../utils/screen';
-import { isMobile } from "react-device-detect";
+import { isLandscape, isMobile } from '../utils/screen';
 import { Typography } from "material-ui";
 
 

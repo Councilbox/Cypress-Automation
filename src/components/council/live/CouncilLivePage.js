@@ -15,7 +15,7 @@ import { checkCouncilState } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
 import { useOldState } from "../../../hooks";
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 const calcMinWidth = () => window.innerWidth * 0.33 > 450 ? 33 : 100 / (window.innerWidth / 450);
 const calcMinHeight = () => window.innerHeight * 0.42 > 300 ? "42vh" : '300px';
 

@@ -9,7 +9,6 @@ import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { IconButton, Tooltip, Card, Drawer, withStyles } from "material-ui";
 import { councilIsFinished } from '../../utils/CBX';
-import { isMobile } from "react-device-detect";
 import Convene from "../council/convene/Convene";
 import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
@@ -18,6 +17,7 @@ import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
 import gorro from "../../assets/img/navidadGorro.png";
 import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
+import { isMobile } from "../../utils/screen";
 
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props }) => {

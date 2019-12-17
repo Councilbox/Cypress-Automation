@@ -29,7 +29,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { checkForUnclosedBraces } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { useOldState } from "../../../hooks";
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 
 
 const StatutesPage = ({ data, translate, client, ...props }) => {

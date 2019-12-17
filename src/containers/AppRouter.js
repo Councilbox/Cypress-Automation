@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import withWindowSize from '../HOCs/withWindowSize';
 import appStyle from "../styles/appStyle.jsx";
-import { isLandscape } from '../utils/screen';
+import { isLandscape, isMobile } from '../utils/screen';
 import image from "../assets/img/sidebar-2.jpg";
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
-import { isMobile } from "react-device-detect";
+
 
 
 const LoadRecommendations = Loadable({

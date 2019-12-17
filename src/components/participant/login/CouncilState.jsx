@@ -31,7 +31,7 @@ import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 import logoIcon from "../../../assets/img/logo-icono.png";
 import { moment } from '../../../containers/App';
 import TimelineSection from "../timeline/TimelineSection";
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 import ContactModal from "./ContactModal";
 import ContactForm from "./ContactForm";
 

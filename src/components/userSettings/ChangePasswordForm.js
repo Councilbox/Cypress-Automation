@@ -11,7 +11,7 @@ import {
 import { getPrimary } from "../../styles/colors";
 import { updatePassword } from "../../queries";
 import { LinearProgress } from "material-ui/Progress";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../utils/screen";
 
 
 class ChangePasswordForm extends React.Component {

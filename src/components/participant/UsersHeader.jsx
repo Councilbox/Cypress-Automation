@@ -1,12 +1,12 @@
 import React from "react";
 import { Drawer, withStyles, Divider } from "material-ui";
-import { isMobile } from "react-device-detect";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, AlertConfirm, Grid, GridItem, Scrollbar, TextInput, Icon, BasicButton } from "../../displayComponents";
 import * as CBX from '../../utils/CBX';
 import { useInterval } from "../../hooks";
 import { getPrimary } from "../../styles/colors";
+import { isMobile } from "../../utils/screen";
 
 
 const participantHeaderLimit = 15;
