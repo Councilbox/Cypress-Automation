@@ -62,8 +62,11 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 		return (
 			<React.Fragment>
 				<div>{translate.open_room_continue}</div>
+				{council.videoEmailsDate &&
+					<div style={{marginTop: '1.4em', fontSize: '0.9em'}}>{`${translate.creds_send_date} ${moment(council.videoEmailsDate).format('LLL')}`}</div>
+				}
 				<Checkbox
-					label={translate.send_video_credentials}
+					label={council.videoEmailsDate? translate.resend : translate.send_video_credentials}
 					value={state.sendCredentials}
 					onChange={(event, isInputChecked) =>
 						setState({
@@ -72,9 +75,6 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 					}
 					id={'checkEnviarEmail'}
 				/>
-				{council.videoEmailsDate &&
-					<span>{`Enviadas por última vez ${moment(council.videoEmailsDate).format('LLL')}`/*TRADUCCION*/}</span>
-				}
 				<a
 					href={`https://app.councilbox.com/recommendations/${council.language}`}
 					rel="noopener noreferrer"

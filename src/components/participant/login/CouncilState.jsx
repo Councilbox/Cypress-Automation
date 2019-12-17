@@ -369,7 +369,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 													color: ` ${primary}`,
 												}}
 												backgroundColor={{ background: "white", justifyContent:"inherit"}}
-												text={'Contactar con el administrador'}//TRADUCCION
+												text={translate.mail_contact_admin}
 												buttonStyle={{
 													width:"100%",
 													borderRadius: "0px",
