@@ -31,6 +31,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
     const primary = getPrimary();
     const votingContext = React.useContext(VotingContext);
     const voteAtTheEnd = voteAllAtOnce({ council });
+    const fixed = props.ownVote.fixed;
 
     const setAgendaVoting = vote => {
         votingContext.responses.set(props.ownVote.id, vote);
@@ -85,7 +86,6 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
         return (
             <DeniedDisplay translate={translate} denied={denied} />
         )
-
     }
 
     return (
@@ -100,9 +100,13 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             {denied.length > 0 &&
                 'Dentro de los votos depositados en usted, tiene votos denegados' //TRADUCCION
             }
+            {fixed &&
+                'El sentido de voto ya fue fijado.'
+            }
             <VotingButton
                 text={translate.in_favor_btn}
                 loading={loading === 1}
+                disabled={fixed}
                 selected={getSelected(1)}
                 icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(1)? primary : 'silver' }}></i>}
                 onClick={() => {
@@ -116,6 +120,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             <VotingButton
                 text={translate.against_btn}
                 loading={loading === 0}
+                disabled={fixed}
                 selected={getSelected(0)}
                 icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(0)? primary : 'silver' }}></i>}
                 onClick={() => {0
@@ -130,6 +135,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             <VotingButton
                 text={translate.abstention_btn}
                 loading={loading === 2}
+                disabled={fixed}
                 icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(2)? primary : 'silver' }}></i>}
                 selected={getSelected(2)}
                 onClick={() => {
@@ -142,6 +148,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             />
             <VotingButton
                 text={translate.dont_vote}
+                disabled={fixed}
                 selected={getSelected(-1)}
                 onClick={() => {
                     if (voteAtTheEnd) {

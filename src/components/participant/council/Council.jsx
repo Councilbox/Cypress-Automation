@@ -540,6 +540,7 @@ const agendas = gql`
                 id
             }
             agendaId
+            fixed
             numParticipations
             author {
                 id
