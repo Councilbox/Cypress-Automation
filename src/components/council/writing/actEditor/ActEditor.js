@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { graphql, compose } from "react-apollo";
+import { graphql, compose, withApollo } from "react-apollo";
 import { getSecondary, getPrimary } from "../../../../styles/colors";
 import gql from "graphql-tag";
 import {
@@ -236,8 +236,33 @@ export const generateCouncilSmartTagsValues = data => {
 }
 
 
-const ActEditor = ({ translate, data, updateCouncilAct }) => {
+const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }) => {
 	const [saving, setSaving] = React.useState(false);
+	const [data, setData] = React.useState(null);
+	const [loading, setLoading] = React.useState(true);
+
+
+
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: CouncilActData,
+			variables: {
+				councilID,
+				companyId: companyID,
+				options: {
+					limit: 10000,
+					offset: 0
+				}
+			}
+		});
+
+		setData(response.data);
+		setLoading(false);
+	}, [councilID]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
 	// const [{
 	// 	loading,
 	// }, setState] = React.useState({
@@ -356,15 +381,13 @@ const ActEditor = ({ translate, data, updateCouncilAct }) => {
 		return !!votingType? translate[votingType.label] : '';
 	}
 
-
-	const { error, loading } = data;
 	if (loading) {
 		return <LoadingSection />;
 	}
 
-	if (error) {
-		return <ErrorWrapper error={error} translate={translate} />;
-	}
+	// if (error) {
+	// 	return <ErrorWrapper error={error} translate={translate} />;
+	// }
 
 	let council = { ...data.council };
 	council.attendants = data.councilAttendants.list;
@@ -379,24 +402,10 @@ const ActEditor = ({ translate, data, updateCouncilAct }) => {
 }
 
 export default compose(
-	graphql(CouncilActData, {
-		name: "data",
-		options: props => ({
-			variables: {
-				councilID: props.councilID,
-				companyId: props.companyID,
-				options: {
-					limit: 10000,
-					offset: 0
-				}
-			},
-			fetchPolicy: 'network-only',
-			notifyOnNetworkStatusChange: true
-		})
-	}),
 	graphql(updateCouncilAct, {
 		name: 'updateCouncilAct'
-	})
+	}),
+	withApollo
 )(withSharedProps()(ActEditor));
 
 
