@@ -11,7 +11,7 @@ import withTranslations from "../../HOCs/withTranslations";
 import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem } from "../../displayComponents";
 import { useOldState } from "../../hooks";
 import { useSubdomain, getCustomLogo } from "../../utils/subdomain";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../utils/screen";
 
 
 

@@ -32,8 +32,8 @@ import {
 	generateStatuteTag
 } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
-import { isMobile } from "react-device-detect";
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
+import { isMobile } from "../../../../utils/screen";
 import DocumentEditor from "../../../documentEditor/DocumentEditor";
 
 export const CouncilActData = gql`
