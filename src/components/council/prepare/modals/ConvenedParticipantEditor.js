@@ -66,7 +66,7 @@ class ConvenedParticipantEditor extends React.Component {
 
 
 		if (!await this.checkRequiredFields()) {
-			const { representatives, ...participant } = this.state.data;
+			const { representatives, delegate, ...participant } = this.state.data;
 			const response = await this.props.updateConvenedParticipant({
 				variables: {
 					participant: {
