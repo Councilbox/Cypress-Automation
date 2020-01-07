@@ -100,6 +100,19 @@ const RepresentativeForm = ({
 					</GridItem>
 					<GridItem xs={6} md={4} lg={3}>
 						<TextInput
+							floatingText={translate.administrative_email}
+							min={1}
+							errorText={errors.secondaryEmail}
+							value={representative.secondaryEmail}
+							onChange={event => {
+								updateState({
+									secondaryEmail: event.target.value
+								})
+							}}
+						/>
+					</GridItem>
+					<GridItem xs={6} md={4} lg={3}>
+						<TextInput
 							floatingText={translate.phone}
 							type="text"
 							errorText={errors.phone}

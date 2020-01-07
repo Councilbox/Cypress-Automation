@@ -31,7 +31,7 @@ import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 import logoIcon from "../../../assets/img/logo-icono.png";
 import { moment } from '../../../containers/App';
 import TimelineSection from "../timeline/TimelineSection";
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 import ContactModal from "./ContactModal";
 import ContactForm from "./ContactForm";
 
@@ -253,7 +253,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 												paddingTop: "0.5em"
 											}}
 											>
-												{props.participant.hasVoted? 'Resumen de participación' //TRADUCCION
+												{props.participant.hasVoted? translate.participation_summary
 												:
 													checkHybridConditions(council)?
 														'Votaciones remotas finalizadas' //TRADUCCION
@@ -287,8 +287,8 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 									</div>
 									<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 										<div style={{ padding: "1em 1em" }}>
-											<div style={{ textAlign: "center" }}>{/**TRADUCCION */}
-												Mi participacion - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span>
+											<div style={{ textAlign: "center" }}>
+												{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span>
 											</div>
 											<div style={{ marginTop: "1em" }}>
 												{selectHeadFinished === "participacion" &&
@@ -328,7 +328,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 							>
 								<div style={{ width: "815px", height: "100%" }}>
 									<TextRenderFinished
-										title={props.participant.hasVoted? 'Resumen de participación'/*TRADUCCION**/ : translate.concil_finished}
+										title={props.participant.hasVoted? translate.participation_summary : translate.concil_finished}
 										council={council}
 										company={company}
 										translate={translate}
@@ -369,7 +369,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 													color: ` ${primary}`,
 												}}
 												backgroundColor={{ background: "white", justifyContent:"inherit"}}
-												text={'Contactar con el administrador'}//TRADUCCION
+												text={translate.mail_contact_admin}
 												buttonStyle={{
 													width:"100%",
 													borderRadius: "0px",
@@ -393,7 +393,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 													width: "100%",
 												}}>
 													<div onClick={() => setState({ expanded: !state.expanded })} style={{ padding: "0.5em", justifyContent: "space-between", display: "flex", cursor: "pointer", width: "100%", }}>
-														<div>Ver resumen</div>{/**TRADUCCION */}
+														<div>{translate.summary}</div>
 														<i className="material-icons" style={{ color: 'rgba(10, 10, 10, 0.49)', width: '18px', height: '10px' }}>
 															arrow_drop_down
 													</i>
@@ -418,8 +418,8 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 													border: 'solid 1px #d7d7d7',
 													height: "100%"
 												}}>
-												<div style={{ width: "100%", height: "100%" }}>{/**TRADUCCION */}
-													<div style={{ display: "flex" }}>Mi participacion - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span></div>
+												<div style={{ width: "100%", height: "100%" }}>
+													<div style={{ display: "flex" }}>{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span></div>
 													<div style={{ marginTop: "1em", height: "calc( 100% - 2em )" }}>
 														<Scrollbar>
 															<div style={{ height: '165px', }}>

@@ -9,15 +9,14 @@ import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { IconButton, Tooltip, Card, Drawer, withStyles } from "material-ui";
 import { councilIsFinished } from '../../utils/CBX';
-import { isMobile } from "react-device-detect";
 import Convene from "../council/convene/Convene";
 import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { PARTICIPANT_STATES } from "../../constants";
 import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
-
 import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
+import { isMobile } from "../../utils/screen";
 
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props }) => {
@@ -81,14 +80,14 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		return (
 			<div>
 				<Card style={{ padding: "20px" }}>
-					<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+					<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
 					</div>
 					<div style={{ marginBottom: '1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
 					</div>
 					{participant.voteDenied &&
-                    	<div style={{marginBottom: '1em'}}>
+						<div style={{ marginBottom: '1em' }}>
 							Su derecho a voto <strong>ha sido denegado</strong>
 							{participant.voteDeniedReason &&
 								<div>{`El motivo indicado es: ${participant.voteDeniedReason}`}</div>
@@ -103,19 +102,19 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
 							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
 							{vote.voteDenied &&
-								<span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
+								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
 						</div>
 					)
 					)}
 					{representations.length > 0 &&
-						'Está representando a:'
+						translate.representative_of
 					}
 					{representations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
 							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
 							{vote.voteDenied &&
-								<span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
+								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
 						</div>
 					)
@@ -150,17 +149,20 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					alignItems: "center"
 				}}
 			>
-				<img
-					src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
-					className="App-logo"
-					style={{
-						height: "1.5em",
-						marginLeft: "1em",
-						// marginLeft: "2em",
-						userSelect: 'none'
-					}}
-					alt="logo"
-				/>
+				<div style={{ position: "relative" }}>
+					<img
+						src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
+						className="App-logo"
+						style={{
+							height: "1.5em",
+							marginLeft: "1em",
+							// marginLeft: "2em",
+							userSelect: 'none'
+						}}
+						alt="logo"
+					>
+					</img>
+				</div>
 			</div>
 			{(council && council.autoClose !== 1) &&
 				<Marquee
@@ -380,4 +382,4 @@ export default withApollo(
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-)(withWindowSize(withStyles(styles)(withSharedProps()(Header)))));
+	)(withWindowSize(withStyles(styles)(withSharedProps()(Header)))));

@@ -19,7 +19,7 @@ import { getPrimary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
 import { sendActDraft } from '../../../../queries';
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../../utils/screen";
 
 
 

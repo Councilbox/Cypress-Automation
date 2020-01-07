@@ -5,7 +5,7 @@ import DelegationsModal from './DelegationsModal';
 import { agendaPointOpened, agendaVotingsOpened } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import AgendaNoSession from "./AgendaNoSession";
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 
 
 class Agendas extends React.Component {

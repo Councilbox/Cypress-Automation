@@ -88,7 +88,7 @@ const CMPVideoIFrame = props => {
             />
             {!!data.roomVideoURL && config.video?
                 <React.Fragment>
-                    {data.roomVideoURL.includes('councilbox') &&
+                    {(data.roomVideoURL.includes('councilbox') && !data.roomVideoURL.includes('rivulet')) &&
                         <RecordingButton
                             config={config}
                             council={props.council}

@@ -46,7 +46,7 @@ export const splitExtensionFilename = (filename) => {
 }
 
 export const showAddCouncilAttachment = attachments => {
-	return attachments.length < MAX_COUNCIL_ATTACHMENTS;
+	return true;
 };
 
 export const canAddCouncilAttachment = (council, filesize) => {

@@ -3,7 +3,8 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import LateralOption from "./LateralOption";
 import { darkGrey } from "../../styles/styles";
 import logo from '../../assets/img/logo-icono.png';
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../utils/screen";
+
 
 
 const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType }) => {
