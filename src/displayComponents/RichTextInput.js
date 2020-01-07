@@ -10,7 +10,7 @@ import { withApollo } from 'react-apollo';
 import DropDownMenu from './DropDownMenu';
 import Icon from './Icon';
 import ReactQuill, { Quill } from 'react-quill';
-//import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.snow.css';
 import withSharedProps from "../HOCs/withSharedProps";
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
 import TextInput from "./TextInput";
