@@ -8,32 +8,33 @@ import { sendActToVote, openAgendaVoting } from '../../../../queries';
 import ActHTML from "../../writing/actViewer/ActHTML";
 
 
-class SendActToVote extends React.Component {
+const SendActToVote = ({ requestClose, translate, agenda, council, refetch, ...props }) => {
+	const [loading, setLoading] = React.useState(false);
 
-	close = () => {
-		this.props.requestClose();
-	};
+	const close = () => {
+		requestClose();
+	}
 
-    sendActToVote = async () => {
-		const { agenda } = this.props;
-		const response = await this.props.openAgendaVoting({
+	const sendActToVote = async () => {
+		setLoading(true);
+		const response = await props.openAgendaVoting({
 			variables: {
 				agendaId: agenda.id
 			}
 		});
 		if (response) {
-			this.props.refetch();
+			setLoading(false);
+			refetch();
 		}
 	}
 
-	_modalBody() {
+	const _modalBody = () => {
         return (
 			<div style={{width: '650px', maxHeight: '75vh', height: '40em'}}>
 				<Scrollbar>
-					{this.props.show &&
+					{props.show &&
 						<ActHTML
-							ref={(ref => this.actViewer = ref)}
-							council={this.props.council}
+							council={council}
 						/>
 					}
 				</Scrollbar>
@@ -41,22 +42,21 @@ class SendActToVote extends React.Component {
 		);
 	}
 
-	render() {
-		const { translate } = this.props;
+	return (
+		<AlertConfirm
+			requestClose={close}
+			open={props.show}
+			acceptAction={sendActToVote}
+			loadingAction={loading}
+			buttonAccept={translate.save_preview_act}
+			buttonCancel={translate.close}
+			bodyText={_modalBody()}
+			title={translate.save_preview_act}
+		/>
+	);
 
-		return (
-			<AlertConfirm
-				requestClose={this.close}
-				open={this.props.show}
-				acceptAction={this.sendActToVote}
-				buttonAccept={translate.save_preview_act}
-				buttonCancel={translate.close}
-				bodyText={this._modalBody()}
-				title={translate.save_preview_act}
-			/>
-		);
-	}
 }
+
 
 export default compose(
 	graphql(sendActToVote, {
