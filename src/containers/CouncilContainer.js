@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { TabsScreen, FabButton, Icon, CBXFooter } from "../displayComponents";
-import { Tooltip } from 'material-ui';
+import { TabsScreen, FabButton, Icon, CBXFooter, CardPageLayout, Scrollbar, Grid, PaginationFooter } from "../displayComponents";
+import { Tooltip, Avatar } from 'material-ui';
 import Councils from "../components/dashboard/Councils";
-import { lightGrey } from '../styles/colors';
+import { lightGrey, getPrimary } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
 import { bHistory } from '../containers/App';
 import { TRIAL_DAYS } from "../config";
@@ -14,6 +14,8 @@ import { isLandscape } from '../utils/screen';
 import { isMobile } from 'react-device-detect';
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
 import { sendGAevent } from "../utils/analytics";
+import MenuSuperiorTabs from "../components/dashboard/MenuSuperiorTabs";
+
 
 const CouncilContainer = ({ match, company, translate, windowSize }) => {
 	const [noPremiumModal, setNoPremiumModal] = React.useState(false);
@@ -163,26 +165,38 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 	const cantAccessPremium = company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0;
 
 	return (
-		<div
-			style={{
-				width: '100%',
-				height: '100%',
-				padding: windowSize === 'xs' ? '0.8em' : '1.6em',
-				position: 'relative',
-				...(windowSize === 'xs' && !isLandscape()? { padding: 0, paddingTop: '1em', height: '100%' } : {}),// height: 'calc(100vh - 6.5em)
-				backgroundColor: lightGrey,
-				paddingBottom: 0,
-			}}
-		>
-			{/* <div style={{ height: 'calc(100% - 3.5rem)', marginBottom: '0.6em'}}> */}
-			<div style={{ height: 'calc(100% - 1.6rem)', width:'98%', margin: '0 auto'}}>
-					<TabsScreen
-						tabsIndex={tabsIndex}
-						tabsInfo={tabsInfo}
-						controlled={true}
-						linked={true}
-						selected={match.params.section}
+		<CardPageLayout title={translate.councils_sidebar} disableScroll>
+			<div
+				style={{
+					// width: '100%',
+					height: '100%',
+					// padding: windowSize === 'xs' ? '0.8em' : '1.6em',
+					// position: 'relative',
+					// ...(windowSize === 'xs' && !isLandscape() ? { padding: 0, paddingTop: '1em', height: '100%' } : {}),// height: 'calc(100vh - 6.5em)
+					// backgroundColor: lightGrey,
+					// paddingBottom: 0,
+					fontSize: "13px", padding: '1.5em 1.5em 1.5em',
+					height: '100%'
+				}}
+			>
+				{/* <div style={{ height: 'calc(100% - 3.5rem)', marginBottom: '0.6em'}}> */}
+				<div style={{ height: 'calc(100% - 1.6rem)', width: '98%', margin: '0 auto' }}>
+					
+					<Councils
+						company={company}
+						translate={translate}
+						state={[-1, 40, 60, 70, 80, 90]}
+						link={"/history"}
+						title={translate.dashboard_historical}
+						icon={"history"}
 					/>
+					{/* <TabsScreen
+					tabsIndex={tabsIndex}
+					tabsInfo={tabsInfo}
+					controlled={true}
+					linked={true}
+					selected={match.params.section}
+				/> */}
 					{!isMobile &&
 						<div
 							style={{
@@ -194,16 +208,16 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 							<Tooltip title={`${translate.dashboard_new}`}>
 								<div style={{ marginBottom: "0.3em" }}>
 									<FabButton
-										{...(cantAccessPremium? { color: 'grey'} : {})}
+										{...(cantAccessPremium ? { color: 'grey' } : {})}
 										icon={
 											<Icon className="material-icons">
 												add
 											</Icon>
 										}
 										onClick={() =>
-											cantAccessPremium?
+											cantAccessPremium ?
 												showCantAccessPremiumModal()
-											:
+												:
 												bHistory.push(`/company/${company.id}/council/new`)
 										}
 									/>
@@ -217,10 +231,12 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 						translate={translate}
 					/>
 				</div>
-			<CBXFooter />
-		</div>
+			</div>
+		</CardPageLayout >
 	);
 }
+
+
 
 
 const mapStateToProps = state => ({

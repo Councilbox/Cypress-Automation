@@ -248,7 +248,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 
 	return (
 		<React.Fragment>
-			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em' }}>
+			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em', marginLeft: "1em" }}>
 				<BasicButton
 					text={translate.drafts_new}
 					color={primary}

@@ -11,6 +11,7 @@ import {
 	LoadingSection,
 	MainTitle,
 	PaginationFooter,
+	CardPageLayout,
 } from "../../displayComponents/index";
 import { isLandscape } from '../../utils/screen';
 import { getSecondary } from '../../styles/colors';
@@ -21,6 +22,8 @@ import CouncilsHistory from './CouncilsHistory';
 import CouncilsFilters from './CouncilsFilters';
 import { useOldState } from '../../hooks';
 import { DRAFTS_LIMITS } from "../../constants.js";
+import MenuSuperiorTabs from "./MenuSuperiorTabs.js";
+import { bHistory } from "../../containers/App.js";
 
 
 
@@ -35,12 +38,34 @@ const Councils = ({ translate, client, ...props }) => {
 		limit: DRAFTS_LIMITS[0],
 		page: 1,
 	});
+	const statesTabLink = {
+		[translate.companies_draft]: `/company/${props.company.id}/councils/drafts`,
+		[translate.companies_calendar]: `/company/${props.company.id}/councils/calendar`,
+		[translate.companies_live]: `/company/${props.company.id}/councils/live`,
+		[translate.companies_writing]: `/company/${props.company.id}/councils/act`,
+		[translate.act_book]: `/company/${props.company.id}/councils/confirmed`,
+		[translate.dashboard_historical]: `/company/${props.company.id}/councils/history`,
+	}
+	const statesTabInfo = {
+		[translate.companies_draft]: [0, 3],
+		[translate.companies_calendar]: [10, 5],
+		[translate.companies_live]: [20, 30],
+		[translate.companies_writing]: [40],
+		[translate.act_book]: [60, 70],
+		[translate.dashboard_historical]: [-1, 40, 60, 70, 80, 90]
+	}
+
+	const [selecteReuniones, setSelecteReuniones] = React.useState(translate.companies_draft);
+	const [selecteReunionesLink, setSelecteReunionesLink] = React.useState(statesTabLink[translate.companies_draft]);
+
+
 
 	const getData = async (filters) => {
 		const response = await client.query({
 			query: councils,
 			variables: {
-				state: props.state,
+				state: statesTabInfo[selecteReuniones],
+				// state: props.state,
 				companyId: props.company.id,
 				isMeeting: false,
 				active: 1,
@@ -55,12 +80,14 @@ const Councils = ({ translate, client, ...props }) => {
 		});
 		setCouncilsData(response.data.councils)
 		setLoading(false)
+		setSelecteReunionesLink(statesTabLink[selecteReuniones]);
+		handleChange();
 	}
 
 	React.useEffect(() => {
 		setLoading(true)
 		getData()
-	}, [props.link, state.page])
+	}, [selecteReuniones])
 
 	const select = id => {
 		if (state.selectedIds.has(id)) {
@@ -126,6 +153,11 @@ const Councils = ({ translate, client, ...props }) => {
 		});
 	};
 
+	const handleChange = () => {
+		// if (linked) {
+			bHistory.push(statesTabLink[selecteReuniones]);
+		// }
+	}
 
 	return (
 		<div
@@ -137,12 +169,25 @@ const Councils = ({ translate, client, ...props }) => {
 			}}
 		>
 			<div style={{ width: '100%', height: '100%', padding: '1em' }}>
-				<MainTitle
+				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+					<div>
+						<MenuSuperiorTabs
+							items={[translate.companies_draft, translate.companies_calendar,
+							translate.companies_live, translate.companies_writing, translate.act_book,
+							translate.dashboard_historical]}
+							setSelect={setSelecteReuniones}
+						/>
+					</div>
+					<div>
+						<CouncilsFilters refetch={getData} translate={translate} />
+					</div>
+				</div>
+				{/* <MainTitle
 					icon={props.icon}
 					title={props.title}
 					size={props.windowSize}
 					subtitle={props.desc}
-				/>
+				/> */}
 				<Grid style={{ marginTop: '0.6em' }}>
 					<GridItem xs={4} md={8} lg={9}>
 						{state.selectedIds.size > 0 &&
@@ -153,9 +198,6 @@ const Councils = ({ translate, client, ...props }) => {
 								onClick={openDeleteModal}
 							/>
 						}
-					</GridItem>
-					<GridItem xs={8} md={4} lg={3}>
-						<CouncilsFilters refetch={getData} />
 					</GridItem>
 				</Grid>
 				{loading ? (
@@ -169,7 +211,7 @@ const Councils = ({ translate, client, ...props }) => {
 						<LoadingSection />
 					</div>
 				) : (
-						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '13.5em'})`, overflow: 'hidden' }}>
+						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '3em'})`, overflow: 'hidden' }}>
 							<Scrollbar>
 								<div style={{ padding: "1em", paddingTop: '2em' }}>
 									{false ? (
@@ -214,7 +256,8 @@ const Councils = ({ translate, client, ...props }) => {
 														selectedIds={state.selectedIds}
 														councils={councilsData.list}
 														company={props.company}
-														link={props.link}
+														link={selecteReunionesLink}
+													// link={props.link}
 													/>
 													<Grid style={{ padding: '2em 3em 1em 2em' }}>
 														<PaginationFooter

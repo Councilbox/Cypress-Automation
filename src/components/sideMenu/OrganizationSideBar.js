@@ -66,17 +66,23 @@ class Sidebar extends React.Component {
 			icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
 		},
 		{
+			path: `/company/${this.props.company.id}/drafts`,
+			name: 'templates',
+			sidebarName: 'Base de conocimiento',
+			icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
+		},
+		{
+			path: `/company/`,
+			name: 'support',
+			sidebarName: 'Soporte',
+			icon: <img src={contactSuport} style={{ width: '19px', height: 'auto' }} />
+		},
+		{
 			path: `/company/${this.props.company.id}/users`,
             name: 'users',
             sidebarName: 'Usuarios',
 			icon: 'person'
 		},
-		{
-			path: `/company/${this.props.company.id}/drafts`,
-            name: 'templates',
-            sidebarName: this.props.translate.drafts,
-			icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
-		}
 	];
 
 	componentDidMount() {
@@ -116,17 +122,23 @@ class Sidebar extends React.Component {
 					icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
 				},
 				{
+					path: `/company/${this.props.company.id}/drafts`,
+					name: 'templates',
+					sidebarName: 'Base de conocimiento',
+					icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
+				},
+				{
+					path: `/company/`,
+					name: 'support',
+					sidebarName: 'Soporte',
+					icon: <img src={contactSuport} style={{ width: '19px', height: 'auto' }} />
+				},
+				{
 					path: `/company/${this.props.company.id}/users`,
 					name: 'users',
 					sidebarName: 'Usuarios',
 					icon: 'person'
 				},
-				{
-					path: `/company/${this.props.company.id}/drafts`,
-					name: 'templates',
-					sidebarName: this.props.translate.drafts,
-					icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
-				}
 			];
 		}
 	}
@@ -246,14 +258,17 @@ class Sidebar extends React.Component {
 												color: "rgba(255, 255, 255, 0.8)"
 											}}
 										>
-											<Icon>
+											<Icon style={{display:"flex", justifyContent:"center"}}>
 												{route.icon}
 											</Icon>
 										</div>
 										<span
 											style={{
 												color: 'white',
-												fontSize: '0.55em'
+												fontSize: '0.55em',
+												textAlign:"center",
+												lineHeight: '13px',
+												marginTop:"4px"
 											}}
 										>
 											{route.sidebarName}

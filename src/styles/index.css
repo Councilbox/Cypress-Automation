@@ -729,10 +729,10 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 .drawerUsersRoot {
-    top: 88px!important ;
-    z-index: 1300!important ;
-    width: 150px!important ;
-    height: calc( 100% - 10.5em )!important;
+    top: 88px!important;
+    z-index: 1300!important;
+    width: 150px!important;
+    height: calc( 100% - 10.5em)!important;
 }
 
 .drawerUsers {
@@ -760,7 +760,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     cursor: default!important;
 }
 
-.react-calendar__month-view__days__day--neighboringMonth abbr{
+.react-calendar__month-view__days__day--neighboringMonth abbr {
     background-color: #cecece!important;
     cursor: default!important;
 }
@@ -848,16 +848,16 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     border-radius: 5px;
 }
 
-.react-calendar__tile:enabled:hover,.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day {
+.react-calendar__tile:enabled:hover, .react-calendar__tile.react-calendar__tile--active.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day {
     background: #c7dae8!important;
     border-radius: 5px;
 }
 
- .react-calendar__tile:enabled:focus {
+.react-calendar__tile:enabled:focus {
     background-color: white!important;
 }
 
-.react-calendar__navigation{
+.react-calendar__navigation {
     align-items: start;
     height: 20px!important;
 }
@@ -890,6 +890,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 /* ESTO CAMBIA LA APARIENCIA DEL BOTON TAGS EN RICH-QUILL tambien se quita el color de los bordes */
+
 .ql-custom:before {
     display: inline-block;
     font: normal normal normal 15px Lato;
@@ -907,19 +908,29 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     border-radius: 3px
 }
 
-.ql-snow.ql-toolbar button.ql-custom:focus{
+.ql-snow.ql-toolbar button.ql-custom:focus {
     color: none;
     border: none;
     background: none;
     outline: none;
 }
-/*********************************************************/
 
+/*********************************************************/
 
 .hoverTags:hover {
     box-shadow: 0px 2px 6px 0px;
 }
 
-.ql-custom{
+.ql-custom {
     min-width: 65px;
+}
+
+.hearderReunionesTabla tr th {
+    border-bottom: none;
+    color: rgb(125, 33, 128);
+    font-weight: bold;
+}
+
+.tableReuniones tbody tr td {
+    border-bottom: none;
 }
