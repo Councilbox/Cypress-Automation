@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 import { LoadingSection, Scrollbar, AlertConfirm } from "../../../displayComponents";
 import { AGENDA_STATES } from '../../../constants';
 import { isMobile } from 'react-device-detect';
-import { useOldState } from "../../../hooks";
+import { useOldState, usePolling } from "../../../hooks";
 
 const reducer = (state, action) => {
 	const actions = {
@@ -20,7 +20,6 @@ const reducer = (state, action) => {
 
 	return actions[action.type]? actions[action.type]() : state;
 }
-
 
 
 const AgendaManager = ({ translate, council, company, stylesDiv, client, ...props }, ref) => {
@@ -48,11 +47,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	}, [council.id]);
 
 
-	React.useEffect(() => {
-		getData();
-		let interval = setInterval(getData, 5000);
-		return () => clearInterval(interval);
-	}, [getData]);
+	usePolling(getData, 5000);
 
 	React.useEffect(() => {
 		if(!loading){

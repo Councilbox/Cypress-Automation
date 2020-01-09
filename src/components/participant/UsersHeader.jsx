@@ -4,7 +4,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, AlertConfirm, Grid, GridItem, Scrollbar, TextInput, Icon, BasicButton } from "../../displayComponents";
 import * as CBX from '../../utils/CBX';
-import { useInterval } from "../../hooks";
+import { useInterval, usePolling } from "../../hooks";
 import { getPrimary } from "../../styles/colors";
 import { isMobile } from "../../utils/screen";
 
@@ -35,7 +35,7 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 		getData();
 	}, [council.id]);
 
-	useInterval(getData, 9000);
+	usePolling(getData, 8000);
 
 
 	const getarticipantsOnline = async () => {
