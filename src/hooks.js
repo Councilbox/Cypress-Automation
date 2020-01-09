@@ -55,18 +55,15 @@ export const usePolling = (cb, interval) => {
     function handleVisibilityChange(){
         setVisible(!document.hidden);
 	}
-	
+
 	function handleConnectionChange(event){
+		console.log(event);
 		if(event.type === 'online'){
-			if(online !== true){
-				setOnline(true);
-			}
+			setOnline(true);
 		}
 
 		if(event.type === 'offline'){
-			if(online !== false){
-				setOnline(false);
-			}
+			setOnline(false);
 		}
 	}
 
@@ -79,13 +76,13 @@ export const usePolling = (cb, interval) => {
 			window.removeEventListener('online', handleConnectionChange);
 			window.removeEventListener('offline', handleConnectionChange);
 		}
-    }, []);
+	}, []);
 
     React.useEffect(() => {
         if(visible && online){
             cb();
         }
-	}, [visible]);
+	}, [visible, online]);
 
-	useInterval(cb, !online? interval * 1000 : visible? interval : interval * 100);
+	useInterval(cb, !online? interval * 1000 : visible? interval : interval * 10);
 }
