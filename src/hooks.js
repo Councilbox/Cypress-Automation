@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-export const useInterval = (callback, delay) => {
+export const useInterval = (callback, delay, deps = []) => {
     const savedCallback = useRef();
 
     // Remember the latest callback.
@@ -17,7 +17,7 @@ export const useInterval = (callback, delay) => {
 			let id = setInterval(tick, delay);
 			return () => clearInterval(id);
 		}
-    }, [delay]);
+    }, [delay, ...deps]);
 }
 
 export const useOldState = initialValue => {
@@ -48,7 +48,7 @@ export const useHoverRow = () => {
 	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
 }
 
-export const usePolling = (cb, interval) => {
+export const usePolling = (cb, interval, deps = []) => {
 	const [visible, setVisible] = React.useState(!document.hidden);
 	const [online, setOnline] = React.useState(navigator.onLine);
 
@@ -82,7 +82,7 @@ export const usePolling = (cb, interval) => {
         if(visible && online){
             cb();
         }
-	}, [visible, online]);
+	}, [visible, online, ...deps]);
 
-	useInterval(cb, !online? interval * 1000 : visible? interval : interval * 10);
+	useInterval(cb, !online? interval * 1000 : visible? interval : interval * 10, deps);
 }
