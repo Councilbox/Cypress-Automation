@@ -2,7 +2,7 @@ import React from 'react';
 import VotingsTable from './VotingsTable';
 import { withApollo } from 'react-apollo';
 import { agendaVotings } from "../../../../queries/agenda";
-import { useOldState } from '../../../../hooks';
+import { useOldState, usePolling } from '../../../../hooks';
 import { canEditPresentVotings, agendaVotingsOpened, isCustomPoint } from '../../../../utils/CBX';
 import ManualVotingsMenu from './ManualVotingsMenu';
 import CustomAgendaManualVotings from './CustomAgendaManualVotings';
@@ -21,16 +21,7 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 
 	const [data, setData] = React.useState({});
 
-	React.useEffect(() => {
-		let timeout = setTimeout(getData, 200);
-		let interval = setInterval(getData, 7000);
-		return () => {
-			clearTimeout(timeout);
-			clearInterval(interval);
-		}
-	}, [state.voteFilter, state.stateFilter, state.filterText, state.page]);
-
-	const getData = async() => {
+	const getData = async () => {
 		const response = await client.query({
 			query: agendaVotings,
 			variables: {
@@ -38,9 +29,11 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 				...buildVariables()
 			}
 		});
-
 		setData(response.data);
 	}
+
+	usePolling(getData, 2000, [state.voteFilter, state.stateFilter, state.filterText, state.page]);
+
 
 	const updateFilterText = value => {
 		setState({
