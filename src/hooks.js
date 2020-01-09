@@ -47,3 +47,45 @@ export const useHoverRow = () => {
 
 	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
 }
+
+export const usePolling = (cb, interval) => {
+	const [visible, setVisible] = React.useState(!document.hidden);
+	const [online, setOnline] = React.useState(navigator.onLine);
+
+    function handleVisibilityChange(){
+        setVisible(!document.hidden);
+	}
+	
+	function handleConnectionChange(event){
+		if(event.type === 'online'){
+			if(online !== true){
+				setOnline(true);
+			}
+		}
+
+		if(event.type === 'offline'){
+			if(online !== false){
+				setOnline(false);
+			}
+		}
+	}
+
+    React.useEffect(() => {
+		document.addEventListener("visibilitychange", handleVisibilityChange, false);
+		window.addEventListener('online', handleConnectionChange);
+		window.addEventListener('offline', handleConnectionChange);
+        return () => {
+			document.removeEventListener("visibilitychange", handleVisibilityChange);
+			window.removeEventListener('online', handleConnectionChange);
+			window.removeEventListener('offline', handleConnectionChange);
+		}
+    }, []);
+
+    React.useEffect(() => {
+        if(visible && online){
+            cb();
+        }
+	}, [visible]);
+
+	useInterval(cb, !online? interval * 1000 : visible? interval : interval * 100);
+}
