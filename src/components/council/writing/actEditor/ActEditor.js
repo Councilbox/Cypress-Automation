@@ -806,12 +806,16 @@ export const generateActTags = (type, data, translate) => {
 		attendantsString = council.attendants.reduce((acc, attendant) => {
 			if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
 				const represented = attendant.delegationsAndRepresentations.find(p => p.state === PARTICIPANT_STATES.REPRESENTATED);
-				return acc + `
-				<p style="border: 1px solid black; padding: 5px;">-
-					${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
-						represented.name + ' ' + represented.surname
-					}${(council.statute.quorumPrototype === 1)? ` titular de ${represented.numParticipations} acciones` : ''}
-				<p><br/>`;
+				if(represented){
+					return acc + `
+					<p style="border: 1px solid black; padding: 5px;">-
+						${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
+							represented.name + ' ' + represented.surname
+						}${(council.statute.quorumPrototype === 1)? ` titular de ${represented.numParticipations} acciones` : ''}
+					<p><br/>`;
+				}
+				return '';
+
 			}
 			return acc + `
 			<p style="border: 1px solid black; padding: 5px;">-
