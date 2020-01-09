@@ -18,23 +18,25 @@ import { checkSecondDateAfterFirst } from "../utils/CBX";
 import { shouldLoadSubdomain } from "../utils/subdomain";
 import withTranslations from "../HOCs/withTranslations";
 import CouncilState from "../components/participant/login/CouncilState";
+import { usePolling } from "../hooks";
 
 
-class ParticipantContainer extends React.PureComponent {
+const ParticipantContainer = ({ client, match, detectRTC, main, actions, translate }) => {
+	const [council, setCouncil] = React.useState(null);
+	const [state, setState] = React.useState(null);
+	const [data, setData] = React.useState(null);
 
-	componentDidMount(){
-		store.dispatch(setDetectRTC());
-	}
-
-	componentDidUpdate(){
-		if(this.props.data.participant){
-			if(this.props.data.participant.language !== this.props.translate.selectedLanguage){
-				this.props.actions.setLanguage(this.props.data.participant.language);
+	React.useEffect(() => {
+		if(data && data.participant){
+			if(data.participant.language !== translate.selectedLanguage){
+				actions.setLanguage(data.participant.language);
 			}
 		}
+	}, [data]);
 
-		if(this.props.state.councilState){
-			const { subdomain } = this.props.state.councilState;
+	React.useEffect(() => {
+		if(state && state.councilState){
+			const { subdomain } = state.councilState;
 			const actualSubdomain = window.location.hostname.split('.')[0];
 
 			if(subdomain){
@@ -47,91 +49,132 @@ class ParticipantContainer extends React.PureComponent {
 				}
 			}
 		}
-	}
+	}, [state]);
 
-	render() {
-		const { data, detectRTC, main, match } = this.props;
-
-		if (data.error && data.error.graphQLErrors["0"]) {
-			const code = data.error.graphQLErrors["0"].code;
-			if (
-				code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
-				code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
-				code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED ||
-				code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
-			) {
-				if (!this.props.council.councilVideo) {
-					return <LoadingMainApp />;
-				}
-				return (
-					<ErrorState
-						code={code}
-						data={{ council: this.props.council.councilVideo }}
-					/>
-				);
-			} else {
-				return <InvalidUrl />;
+	const getCouncil = async () => {
+		const response = await client.query({
+			query: councilQuery,
+			variables: {
+				councilId: match.params.councilId
 			}
-		}
+		});
 
-		if (!data.participant || !this.props.council.councilVideo || !this.props.state.councilState || Object.keys(detectRTC).length === 0) {
-			return <LoadingMainApp />;
-		}
-
-		return (
-			<div
-				id={"mainContainer"}
-				style={{
-					display: "flex",
-					flex: 1,
-					height: '100%',
-					flexDirection: "column",
-					overflow: "auto",
-					padding: 0,
-					margin: 0
-				}}
-			>
-                <React.Fragment>
-                    {main.isParticipantLogged ?
-                            <React.Fragment>
-                                {match.path.includes('meet') ?
-                                        <Meet
-                                            participant={data.participant}
-                                            council={{
-												...this.props.council.councilVideo,
-												state: this.props.state.councilState.state,
-												councilStarted: this.props.state.councilState.councilStarted,
-											}}
-                                            company={this.props.council.councilVideo.company}
-                                        />
-                                    :
-                                        <Council
-                                            participant={data.participant}
-                                            council={{
-												...this.props.council.councilVideo,
-												state: this.props.state.councilState.state,
-												councilStarted: this.props.state.councilState.councilStarted,
-											}}
-                                            company={this.props.council.councilVideo.company}
-											refetchParticipant={data.refetch}
-                                        />
-                                }
-                            </React.Fragment>
-                        :
-                            <ParticipantLogin
-                                participant={data.participant}
-                                council={{
-									...this.props.council.councilVideo,
-									state: this.props.state.councilState.state,
-									councilStarted: this.props.state.councilState.councilStarted,
-								}}
-                                company={this.props.council.councilVideo.company}
-                            />
-                    }
-                </React.Fragment>
-			</div>
-		);
+		setCouncil(response.data);
 	}
+
+	usePolling(getCouncil, 60000);
+
+	const getState = async () => {
+		const response = await client.query({
+			query: stateQuery,
+			variables: {
+				councilId: match.params.councilId
+			}
+		});
+		setState(response.data);
+	}
+
+	usePolling(getState, 1000);
+
+	const getData = async () => {
+		const response = await client.query({
+			query: participantQuery
+		});
+
+		setData(response.data);
+	}
+	usePolling(getData, 10000);
+
+
+	React.useEffect(() => {
+		store.dispatch(setDetectRTC());
+	}, [])
+
+	if(!data || !council || !state){
+		return <LoadingMainApp />;
+	}
+
+
+	if (data.error && data.error.graphQLErrors["0"]) {
+		const code = data.error.graphQLErrors["0"].code;
+		if (
+			code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
+			code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
+			code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED ||
+			code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
+		) {
+			if (!council.councilVideo) {
+				return <LoadingMainApp />;
+			}
+			return (
+				<ErrorState
+					code={code}
+					data={{ council: council.councilVideo }}
+				/>
+			);
+		} else {
+			return <InvalidUrl />;
+		}
+	}
+
+	if (!data.participant || !council.councilVideo || !state.councilState || Object.keys(detectRTC).length === 0) {
+		return <LoadingMainApp />;
+	}
+
+
+	return (
+		<div
+			id={"mainContainer"}
+			style={{
+				display: "flex",
+				flex: 1,
+				height: '100%',
+				flexDirection: "column",
+				overflow: "auto",
+				padding: 0,
+				margin: 0
+			}}
+		>
+			<React.Fragment>
+				{main.isParticipantLogged ?
+						<React.Fragment>
+							{match.path.includes('meet') ?
+									<Meet
+										participant={data.participant}
+										council={{
+											...council.councilVideo,
+											state: state.councilState.state,
+											councilStarted: state.councilState.councilStarted,
+										}}
+										company={council.councilVideo.company}
+									/>
+								:
+									<Council
+										participant={data.participant}
+										council={{
+											...council.councilVideo,
+											state: state.councilState.state,
+											councilStarted: state.councilState.councilStarted,
+										}}
+										company={council.councilVideo.company}
+										refetchParticipant={getData}
+									/>
+							}
+						</React.Fragment>
+					:
+						<ParticipantLogin
+							participant={data.participant}
+							council={{
+								...council.councilVideo,
+								state: state.councilState.state,
+								councilStarted: state.councilState.councilStarted,
+							}}
+							company={council.councilVideo.company}
+						/>
+				}
+			</React.Fragment>
+		</div>
+	);
 }
 
 
@@ -284,34 +327,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default compose(
-	graphql(councilQuery, {
-		name: 'council',
-		options: props => ({
-			variables: {
-				councilId: props.match.params.councilId
-			},
-			fetchPolicy: "network-only",
-			notifyOnNetworkStatusChange: true,
-			pollInterval: 60000
-		})
-	}),
-	graphql(stateQuery, {
-		name: 'state',
-		options: props => ({
-			variables: {
-				councilId: props.match.params.councilId
-			},
-			fetchPolicy: "network-only",
-			notifyOnNetworkStatusChange: true,
-			pollInterval: 6000
-		})
-	}),
-	graphql(participantQuery, {
-		options: props => ({
-			fetchPolicy: "network-only",
-			notifyOnNetworkStatusChange: true,
-			pollInterval: 10000
-		})
-	})
-)(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));
+export default withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer))));
