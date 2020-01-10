@@ -5,7 +5,7 @@ import { Grid, Button } from "material-ui";
 import { withApollo } from 'react-apollo';
 import TimelineSection from '../timeline/TimelineSection';
 import gql from 'graphql-tag';
-import { darkGrey, secondary, primary } from '../../../styles/colors';
+import { darkGrey, secondary, primary, getSecondary } from '../../../styles/colors';
 import { AlertConfirm, Badge, Scrollbar } from '../../../displayComponents';
 import { isMobile, isIOS } from 'react-device-detect';
 
@@ -23,14 +23,18 @@ const styles = {
 }
 
 
-const CouncilSidebar = ({ translate, council, participant, ...props }) => {
+const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) => {
     const scrollbar = React.useRef();
     const [modal, setModal] = React.useState(false)
+    const [agendasVotingState, setAgendasVotingState] = React.useState(false)
+    
     const closeAll = () => {
         props.setContent(null);
         // props.toggl;
     }
-
+    // console.log(Ccouncil)
+    // console.log(cpropsouncil)
+    // votingState -> 1 Activado agendas.agendas[0].votingState
     const renderVideoButton = () => {
         return (
             <Button
@@ -65,14 +69,76 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
         )
     }
 
-    const renderAgendaButton = () => (
-        <Button
-            className={"NoOutline"}
-            style={styles.button}
-            onClick={() => props.setContent('agenda')}
-        >
-            <div style={{ display: "unset" }}>
-                <Badge badgeContent={8} dot color="primary" styleDot={{ color: primary }} hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
+    const openAviso= () => {
+        //Hacer un objeto de id de votacion y y votingState. Si cambiar hacer k se abra el modal
+        // setAgendasVotingState()
+    }
+
+    const renderAgendaAvisoAbiertaVotacion = () => {
+        let activeVoteCount = 0;
+        let showAlert = false;
+        let nameLastAgenda = "";
+        
+        if (agendas) {
+            agendas.agendas.map(item => {
+                activeVoteCount = item.votingState === 1 ? activeVoteCount + 1 : 0;
+                showAlert = item.votingState === 1 ? true : false
+                nameLastAgenda = item.agendaSubject
+            })
+        }
+        let hideEnterModal = props.modalContent === "agenda" ? true : false;
+        return (
+            showAlert && !hideEnterModal &&
+            <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
+                <div style={{
+                    background: "white",
+                    width: '100%',
+                    fontWeight: "bold",
+                    padding: "0.7em",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: "14px"
+                }}>
+                    {/* calcular cuantas votaciones estan abiertas */}
+                    <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: "10px" }}>
+                        Votaciones abiertas ({activeVoteCount})
+                </div>
+                    {/* nombre de la empresa  */}
+                    <div style={{ color: "#3b3b3b", marginRight: "10px" }}>
+                        COAG
+                </div>
+                    {/* nombre de la votacion */}
+                    <div style={{ color: "#3b3b3b", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis" }}>
+                        {nameLastAgenda}
+                    </div>
+                </div>
+                <div style={{
+                    width: '0',
+                    height: '0',
+                    borderLeft: '5px solid transparent',
+                    borderRight: '5px solid transparent',
+                    borderTop: '11px solid white',
+                    left: '28.8%',
+                    position: 'relative'
+                }}></div>
+            </div>
+        )
+    }
+
+    const renderAgendaButton = () => {
+        let activeIcon = false;
+        if (agendas) {
+            agendas.agendas.map(item => {
+                activeIcon = item.votingState === 1 ? true : false
+            })
+        }
+        return (
+            <Button
+                className={"NoOutline"}
+                style={styles.button}
+                onClick={() => props.setContent('agenda')}
+            >
+                <div style={{ display: "unset" }}>
                     <div>
                         <i className="material-icons" style={{
                             color: props.modalContent === "agenda" ? secondary : "",
@@ -81,21 +147,27 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                             height: '1em',
                             overflow: 'hidden',
                             userSelect: 'none',
+                            position: "relative"
                         }}>
                             calendar_today
+                            {activeIcon &&
+                                <i className="material-icons" style={{ color: secondary, position: "absolute", fontSize: "20px", left: "2px" }}>
+                                    how_to_vote
+                                </i>
+                            }
                         </i>
                     </div>
-                </Badge>
-                <div style={{
-                    color: 'white',
-                    fontSize: '0.55rem',
-                    textTransform: "none"
-                }}>
-                    {translate.agenda}
+                    <div style={{
+                        color: 'white',
+                        fontSize: '0.55rem',
+                        textTransform: "none"
+                    }}>
+                        {translate.agenda}
+                    </div>
                 </div>
-            </div>
-        </Button>
-    )
+            </Button>
+        )
+    }
 
     const renderPrivateMessageButton = () => (
         <Button
@@ -244,6 +316,9 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 renderVideoButton()
                             }
                         </div>
+                        {isMobile &&
+                            renderAgendaAvisoAbiertaVotacion()
+                        }
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             {renderAgendaButton()}
                         </div>
