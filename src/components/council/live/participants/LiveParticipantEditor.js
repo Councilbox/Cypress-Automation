@@ -256,7 +256,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						{CBX.hasHisVoteDelegated(participant) &&
 							<ParticipantBlock
 								{...props}
-								active={true}
+								active={false}
 								participant={participant.representative}
 								translate={translate}
 								data={data}
