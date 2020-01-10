@@ -120,7 +120,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 	}, [council.id]);
 
 	return (
-		<div
+		<div 
 			style={
 				(windowSize === "xs" && windowOrientation === "portrait"
 					? styles.container
