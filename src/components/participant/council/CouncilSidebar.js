@@ -153,10 +153,12 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
 
     const setAvisosVistos = () => {
         let agendasObject = [];
-        agendas.agendas.map(item => {
-            agendasObject.push({ [item.id]: 0 })
-        })
-        setAgendasVotingState(agendasObject)
+        if (agendas) {
+            agendas.agendas.map(item => {
+                agendasObject.push({ [item.id]: 0 })
+            })
+            setAgendasVotingState(agendasObject)
+        }
     }
 
     const selectAgenda = () => {
