@@ -45,136 +45,175 @@ class ParticipantSelectActions extends React.Component {
 	};
 
 	render() {
-		const { translate, participant, council } = this.props;
+		const { translate, participant, council, onlyButtonDelegateVote } = this.props;
 		const { loading } = this.state;
-		return (
-			<Grid
-				style={{
-					marginTop: "1em",
-					width: "100%",
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center"
-				}}
-			>
-				{CBX.canHaveRepresentative(participant) &&
-					!(participant.delegatedVotes.length > 0) && (
-						<GridItem xs={12} md={6} lg={4}>
-							<ButtonActions
-								loading={loading === 4}
-								onClick={() =>
-									this.setState({
-										addRepresentative: true
-									})
-								}
-
-							>
-								<div
-									style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
-								>
-									<div style={{ width: "3em" }}>
-										<StateIcon
-											translate={translate}
-											state={PARTICIPANT_STATES.REPRESENTATED}
-											color={'black'}
-											hideTooltip={true}
-											styles={{ padding: "0em" }}
-										/>
-									</div>
-									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-										<span style={{ fontSize: '0.9em' }}>{participant.representative ? translate.change_representative : translate.add_representative}</span>
-									</div>
-								</div>
-							</ButtonActions>
-						</GridItem>
-					)
-				}
-				{CBX.canDelegateVotes(council.statute, participant) && (
-					<GridItem xs={12} md={6} lg={4}>
-						<ButtonActions
-							loading={loading === 5}
-							active={participant.state === PARTICIPANT_STATES.DELEGATED}
-							onClick={() =>
-								this.setState({
-									delegateOwnVote: true
-								})
-							}
+		if (onlyButtonDelegateVote) {
+			// console.log(participant)
+			return (
+				// CBX.canAddDelegateVotes(council.statute, participant) && (
+				// <GridItem xs={12} md={6} lg={4}>
+				<div>
+					<ButtonActions
+						loading={loading === 6}
+						active={participant.state === PARTICIPANT_STATES.DELEGATED}
+						onClick={() => {
+							this.setState({
+								delegateVote: true
+							})
+						}}
+					>
+						<div
+							style={{ display: "flex", alignItems: "center" }}
 						>
-							<div
-								style={{ display: "flex", alignItems: "center" }}
-							>
-								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-									<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
-								</div>
+							<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+								<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
 							</div>
-						</ButtonActions>
-					</GridItem>
-				)}
-				{CBX.canAddDelegateVotes(council.statute, participant) && (
-					<GridItem xs={12} md={6} lg={4}>
-						<ButtonActions
-							loading={loading === 6}
-							active={participant.state === PARTICIPANT_STATES.DELEGATED}
-							onClick={() => {
-								this.setState({
-									delegateVote: true
-								})
-							}}
-						>
-							<div
-								style={{ display: "flex", alignItems: "center" }}
-							>
-								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
-								</div>
-							</div>
-						</ButtonActions>
-					</GridItem>
-				)}
-
-				<AddRepresentativeModal
-					show={this.state.addRepresentative}
-					council={council}
-					participant={participant}
-					refetch={this.props.refetch}
-					requestClose={() =>
-						this.setState({ addRepresentative: false })
-					}
-					translate={translate}
-				/>
-				{this.state.delegateOwnVote &&
-					<DelegateOwnVoteModal
-						show={this.state.delegateOwnVote}
+						</div>
+					</ButtonActions>
+					<DelegateVoteModal
+						show={this.state.delegateVote}
 						council={council}
 						participant={participant}
 						refetch={this.props.refetch}
 						requestClose={() =>
-							this.setState({ delegateOwnVote: false })
+							this.setState({ delegateVote: false })
 						}
 						translate={translate}
 					/>
-				}
+				</div>
+				// </GridItem>
+				// )
+			);
+		} else {
+			return (
+				<Grid
+					style={{
+						marginTop: "1em",
+						width: "100%",
+						display: "flex",
+						flexDirection: "row",
+						alignItems: "center"
+					}}
+				>
+					{CBX.canHaveRepresentative(participant) &&
+						!(participant.delegatedVotes.length > 0) && (
+							<GridItem xs={12} md={6} lg={4}>
+								<ButtonActions
+									loading={loading === 4}
+									onClick={() =>
+										this.setState({
+											addRepresentative: true
+										})
+									}
 
-				{(participant.state === PARTICIPANT_STATES.REMOTE ||
-					participant.state === PARTICIPANT_STATES.NO_PARTICIPATE ||
-					participant.state ===
-					PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
-					participant.state ===
-					PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
-						<DelegateVoteModal
-							show={this.state.delegateVote}
+								>
+									<div
+										style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
+									>
+										<div style={{ width: "3em" }}>
+											<StateIcon
+												translate={translate}
+												state={PARTICIPANT_STATES.REPRESENTATED}
+												color={'black'}
+												hideTooltip={true}
+												styles={{ padding: "0em" }}
+											/>
+										</div>
+										<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+											<span style={{ fontSize: '0.9em' }}>{participant.representative ? translate.change_representative : translate.add_representative}</span>
+										</div>
+									</div>
+								</ButtonActions>
+							</GridItem>
+						)
+					}
+					{CBX.canDelegateVotes(council.statute, participant) && (
+						<GridItem xs={12} md={6} lg={4}>
+							<ButtonActions
+								loading={loading === 5}
+								active={participant.state === PARTICIPANT_STATES.DELEGATED}
+								onClick={() =>
+									this.setState({
+										delegateOwnVote: true
+									})
+								}
+							>
+								<div
+									style={{ display: "flex", alignItems: "center" }}
+								>
+									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+										<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
+									</div>
+								</div>
+							</ButtonActions>
+						</GridItem>
+					)}
+					{CBX.canAddDelegateVotes(council.statute, participant) && (
+						<GridItem xs={12} md={6} lg={4}>
+							<ButtonActions
+								loading={loading === 6}
+								active={participant.state === PARTICIPANT_STATES.DELEGATED}
+								onClick={() => {
+									this.setState({
+										delegateVote: true
+									})
+								}}
+							>
+								<div
+									style={{ display: "flex", alignItems: "center" }}
+								>
+									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+										<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
+									</div>
+								</div>
+							</ButtonActions>
+						</GridItem>
+					)}
+
+					<AddRepresentativeModal
+						show={this.state.addRepresentative}
+						council={council}
+						participant={participant}
+						refetch={this.props.refetch}
+						requestClose={() =>
+							this.setState({ addRepresentative: false })
+						}
+						translate={translate}
+					/>
+					{this.state.delegateOwnVote &&
+						<DelegateOwnVoteModal
+							show={this.state.delegateOwnVote}
 							council={council}
 							participant={participant}
 							refetch={this.props.refetch}
 							requestClose={() =>
-								this.setState({ delegateVote: false })
+								this.setState({ delegateOwnVote: false })
 							}
 							translate={translate}
 						/>
-					)}
+					}
 
-			</Grid>
-		);
+					{(participant.state === PARTICIPANT_STATES.REMOTE ||
+						participant.state === PARTICIPANT_STATES.NO_PARTICIPATE ||
+						participant.state ===
+						PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
+						participant.state ===
+						PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
+							<DelegateVoteModal
+								show={this.state.delegateVote}
+								council={council}
+								participant={participant}
+								refetch={this.props.refetch}
+								requestClose={() =>
+									this.setState({ delegateVote: false })
+								}
+								translate={translate}
+							/>
+						)}
+
+				</Grid>
+			);
+		}
 	}
 }
 
