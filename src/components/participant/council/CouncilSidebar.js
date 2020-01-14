@@ -193,10 +193,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                         }}>
                             calendar_today
                             {activeIcon &&
-                                <img src={iconVoteInsert} style={{ color: secondary, position: "absolute", left: "6px", width: "13px" }}></img>
-                                // <i className="material-icons" style={{ color: secondary, position: "absolute", fontSize: "20px", left: "2px" }}>
-                                //     how_to_vote
-                                // </i>
+                                <img src={iconVoteInsert} style={{ color: secondary, position: "absolute", left: "5.2px", width: "13px" }}></img>
                             }
                         </i>
                     </div>
