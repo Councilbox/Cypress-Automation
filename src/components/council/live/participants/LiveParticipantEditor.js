@@ -69,7 +69,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 
 	participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 	participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
-	
+
 	return (
 		<div
 			style={{
@@ -285,7 +285,7 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 	}
 
 	const text = texts[type]
-
+	
 	return (
 		<Grid style={{ marginBottom: "1em", display: "flex", alignItems: "center", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: 'solid 1px #61abb7', borderRadius: '4px', padding: "1em", marginTop: "1em", justifyContent: "space-between" }}>
 			<GridItem xs={12} md={4} lg={3}>
@@ -386,13 +386,15 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 						}
 					</GridItem>
 					<GridItem xs={12} md={9} lg={6} style={{ display: 'flex' }}>
-						<ParticipantSelectActions
-							participant={participant}
-							council={props.council}
-							translate={translate}
-							refetch={data.refetch}
-							onlyButtonDelegateVote={true}
-						/>
+						{active &&
+							<ParticipantSelectActions
+								participant={participant}
+								council={props.council}
+								translate={translate}
+								refetch={data.refetch}
+								onlyButtonDelegateVote={true}
+							/>
+						}
 					</GridItem>
 				</Grid>
 			</GridItem>
