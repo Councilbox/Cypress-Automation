@@ -6,7 +6,7 @@ import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
 import { getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
-import { isMobile } from '../../../utils/screen';
+import { isMobile } from "react-device-detect";
 import TimelineSection from "../timeline/TimelineSection";
 import * as CBX from '../../../utils/CBX';
 import { withApollo } from 'react-apollo';
