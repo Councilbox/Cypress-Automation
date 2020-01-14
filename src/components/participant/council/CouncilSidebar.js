@@ -7,7 +7,8 @@ import TimelineSection from '../timeline/TimelineSection';
 import gql from 'graphql-tag';
 import { darkGrey, secondary, primary, getSecondary } from '../../../styles/colors';
 import { AlertConfirm, Badge, Scrollbar } from '../../../displayComponents';
-import { isMobile, isIOS } from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
+import iconVoteInsert from '../../../../src/assets/img/dropping-vote-in-box2.svg';
 
 
 const styles = {
@@ -26,15 +27,15 @@ const styles = {
 const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) => {
     const scrollbar = React.useRef();
     const [modal, setModal] = React.useState(false)
-    const [agendasVotingState, setAgendasVotingState] = React.useState(false)
-    
+    const [agendasVotingState, setAgendasVotingState] = React.useState([])
+    const [agendasVotingStatePasado, setAgendasVotingStatePasado] = React.useState([])
+    const [entraAgendasVotingState, setEntraAgendasVotingState] = React.useState(false)
+    const [cambio, setCambio] = React.useState(false)
+
     const closeAll = () => {
         props.setContent(null);
-        // props.toggl;
     }
-    // console.log(Ccouncil)
-    // console.log(cpropsouncil)
-    // votingState -> 1 Activado agendas.agendas[0].votingState
+
     const renderVideoButton = () => {
         return (
             <Button
@@ -69,26 +70,54 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
         )
     }
 
-    const openAviso= () => {
-        //Hacer un objeto de id de votacion y y votingState. Si cambiar hacer k se abra el modal
-        // setAgendasVotingState()
+    const setAvisos = () => {
+        let agendasObject = [];
+        agendas.agendas.map(item => {
+            agendasObject.push({ [item.id]: item.votingState })
+        })
+        setAgendasVotingState(agendasObject)
+        setAgendasVotingStatePasado(agendasObject)
     }
+
+    React.useEffect(() => {
+        if (!entraAgendasVotingState && agendas) {
+            setAvisos();
+        }
+        if (agendas) {
+            agendas.agendas.map((item, i) => {
+                if (agendasVotingStatePasado[i]) {
+                    if (item.votingState !== parseInt(Object.values(agendasVotingStatePasado[i]))) {
+                        setCambio(true)
+                    }
+                }
+            })
+        }
+        if (cambio) {
+            setAvisos();
+        }
+    }, [agendas]);
 
     const renderAgendaAvisoAbiertaVotacion = () => {
         let activeVoteCount = 0;
         let showAlert = false;
         let nameLastAgenda = "";
-        
+        let estaLeido = true;
+
         if (agendas) {
+            agendasVotingState.map((currentValue) => {
+                if (parseInt(Object.values(currentValue))) {
+                    estaLeido = false
+                }
+                activeVoteCount += parseInt(Object.values(currentValue)) === 1 ? 1 : 0;
+            });
             agendas.agendas.map(item => {
-                activeVoteCount = item.votingState === 1 ? activeVoteCount + 1 : 0;
-                showAlert = item.votingState === 1 ? true : false
+                showAlert = item.votingState === 1 || showAlert ? true : false
                 nameLastAgenda = item.agendaSubject
             })
         }
         let hideEnterModal = props.modalContent === "agenda" ? true : false;
         return (
-            showAlert && !hideEnterModal &&
+            showAlert && !hideEnterModal && !estaLeido &&
             <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
                 <div style={{
                     background: "white",
@@ -99,15 +128,12 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                     justifyContent: "space-between",
                     fontSize: "14px"
                 }}>
-                    {/* calcular cuantas votaciones estan abiertas */}
                     <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: "10px" }}>
                         Votaciones abiertas ({activeVoteCount})
-                </div>
-                    {/* nombre de la empresa  */}
-                    <div style={{ color: "#3b3b3b", marginRight: "10px" }}>
-                        COAG
-                </div>
-                    {/* nombre de la votacion */}
+                    </div>
+                    <div style={{ color: "#3b3b3b", marginRight: "10px", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis", maxWidth: "30%" }}>
+                        {council.businessName}
+                    </div>
                     <div style={{ color: "#3b3b3b", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis" }}>
                         {nameLastAgenda}
                     </div>
@@ -125,18 +151,34 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
         )
     }
 
+    const setAvisosVistos = () => {
+        let agendasObject = [];
+        agendas.agendas.map(item => {
+            agendasObject.push({ [item.id]: 0 })
+        })
+        setAgendasVotingState(agendasObject)
+    }
+
+    const selectAgenda = () => {
+        props.setContent('agenda')
+        setAvisosVistos()
+        setEntraAgendasVotingState(true)
+        setCambio(false)
+    }
+
     const renderAgendaButton = () => {
         let activeIcon = false;
         if (agendas) {
             agendas.agendas.map(item => {
-                activeIcon = item.votingState === 1 ? true : false
+                activeIcon = item.votingState === 1 || activeIcon ? true : false
             })
         }
+
         return (
             <Button
                 className={"NoOutline"}
                 style={styles.button}
-                onClick={() => props.setContent('agenda')}
+                onClick={() => selectAgenda()}
             >
                 <div style={{ display: "unset" }}>
                     <div>
@@ -151,9 +193,10 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                         }}>
                             calendar_today
                             {activeIcon &&
-                                <i className="material-icons" style={{ color: secondary, position: "absolute", fontSize: "20px", left: "2px" }}>
-                                    how_to_vote
-                                </i>
+                                <img src={iconVoteInsert} style={{ color: secondary, position: "absolute", left: "6px", width: "13px" }}></img>
+                                // <i className="material-icons" style={{ color: secondary, position: "absolute", fontSize: "20px", left: "2px" }}>
+                                //     how_to_vote
+                                // </i>
                             }
                         </i>
                     </div>
