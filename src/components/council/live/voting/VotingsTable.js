@@ -159,19 +159,13 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 	)
 
 	const renderParticipantInfo = vote => {
+		console.log(vote.delegatedVotes);
 		return (
 			<div style={{ minWidth: '7em', fontSize: '0.9em' }}>
 				<span style={{ fontWeight: '700' }}>
 					{!!vote.authorRepresentative ?
 						<React.Fragment>
-						{`${vote.author.name} ${vote.author.surname} - ${translate.represented_by}: ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
-							{vote.author.voteDenied &&
-								<Tooltip title={vote.author.voteDeniedReason}>
-									<span style={{color: 'red', fontWeight: '700'}}>
-										(Voto denegado)
-									</span>
-								</Tooltip>
-							}
+							{`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
 						</React.Fragment>
 						:
 						<React.Fragment>
@@ -187,6 +181,33 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 
 					}
 				</span>
+				<React.Fragment>
+					{!!vote.delegatedVotes &&
+						vote.delegatedVotes.filter(vote => vote.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+								<br />
+								{delegatedVote.fixed &&
+									<Tooltip
+										title={getTooltip(delegatedVote.vote)}
+									>
+										<VotingValueIcon
+											vote={delegatedVote.vote}
+											fixed
+										/>
+									</Tooltip>
+								}
+								{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (${translate.represented_by}) ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
+								{delegatedVote.author.voteDenied &&
+									<Tooltip title={delegatedVote.author.voteDeniedReason}>
+										<span style={{color: 'red', fontWeight: '700'}}>
+											(Voto denegado)
+										</span>
+									</Tooltip>
+								}
+							</React.Fragment>
+						))
+					}
+				</React.Fragment>
 				<React.Fragment>
 					{!!vote.delegatedVotes &&
 						vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
@@ -417,10 +438,17 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 											{renderParticipantInfo(vote)}
 										</TableCell>
 										<TableCell>
-											{vote.numParticipations > 0 ? `${vote.numParticipations}` : 0}
-											{!!vote.representing &&
-												`${vote.numParticipations > 0 ? vote.numParticipations : 0}`
-											}
+											
+											<React.Fragment>
+												{!!vote.delegatedVotes &&
+													vote.delegatedVotes.filter(vote => vote.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+															<br />
+															{`${delegatedVote.author.numParticipations > 0 ? delegatedVote.author.numParticipations : 0}`}
+														</React.Fragment>
+													))
+												}
+											</React.Fragment>
 											<React.Fragment>
 												{!!vote.delegatedVotes &&
 													vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
