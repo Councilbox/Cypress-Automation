@@ -9,7 +9,6 @@ import { Table, TableHead, TableRow, TableCell, TableBody, IconButton, Icon, Div
 import AddCompanyTag from './AddCompanyTag';
 import EditTagModal from './EditTagModal';
 import { sendGAevent } from '../../../../utils/analytics';
-import RichTextInput from '../../../../displayComponents/RichTextInput';
 
 export const query = gql`
     query companyTags($companyId: Int!, $filters: [FilterInput]){
@@ -89,6 +88,14 @@ const CompanyTags = ({ client, translate, company }) => {
 
     return (
         <div style={{ height: "calc( 100% - 5em )" }}>
+            {/* <div style={{ display: "flex", padding: '1em' }}>
+                <div style={{ fontSize: "13px" }} >
+                    <MenuSuperiorTabs
+                        items={[translate.drafts, '<Tags>']}
+                        setSelect={setSelecteDraftPadre}
+                    />
+                </div>
+            </div> */}
             <AddCompanyTag
                 translate={translate}
                 company={company}
@@ -174,7 +181,7 @@ const CompanyTags = ({ client, translate, company }) => {
                                                     </TableBody>
                                                 </Table>
                                                 :
-                                                <div style={{padding: '1em'}}>{translate.no_results}</div>
+                                                <div style={{ padding: '1em' }}>{translate.no_results}</div>
                                             }
                                         </div>
                                     </Scrollbar>

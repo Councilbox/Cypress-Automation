@@ -89,7 +89,7 @@ export const useTags = translate => {
 
 	let filteredTags = [];
 
-	if(tagText){
+	if (tagText) {
 		filteredTags = filterTags();
 	}
 
@@ -107,7 +107,7 @@ export const useTags = translate => {
 
 }
 
-const CompanyDraftList = ({ translate, company, client, ...props }) => {
+const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [state, setState] = useOldState({
 		deleteModal: false,
@@ -116,7 +116,6 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		newForm: false,
 	});
 	const [search, setSearch] = React.useState("");
-
 	const { testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText } = useTags(translate);
 
 	const primary = getPrimary();
@@ -226,10 +225,10 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		getData();
 	}, [company.id]);
 
-
 	const { companyDrafts, draftTypes, loading, error } = data;
 
 	if (state.newForm) {
+		setMostrarMenu(false)
 		return (
 			<CompanyDraftNew
 				translate={translate}
@@ -242,7 +241,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		);
 	}
 
-	if(!vars.companyStatutes){
+	if (!vars.companyStatutes) {
 		return <LoadingSection />
 	}
 
@@ -308,7 +307,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 					<div>
 						<TextInput
 							disableUnderline={true}
-							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding:"4px 5px" }}
+							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding: "4px 5px" }}
 							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
 							adornment={<Icon>search</Icon>}
 							floatingText={" "}
@@ -322,86 +321,86 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 					</div>
 				</div>
 				<Scrollbar>
-				<div style={{height: '100%', paddingRight: '1em'}}>
-					{error ? (
-						<div>
-							{error.graphQLErrors.map((error, index) => {
-								return (
-									<ErrorWrapper
-										key={`error_${index}`}
-										error={error}
+					<div style={{ height: '100%', paddingRight: '1em' }}>
+						{error ? (
+							<div>
+								{error.graphQLErrors.map((error, index) => {
+									return (
+										<ErrorWrapper
+											key={`error_${index}`}
+											error={error}
+											translate={translate}
+										/>
+									);
+								})}
+							</div>
+						) : (
+								!!companyDrafts && (
+									<EnhancedTable
+										hideTextFilter={true}
 										translate={translate}
-									/>
-								);
-							})}
-						</div>
-					) : (
-							!!companyDrafts && (
-								<EnhancedTable
-									hideTextFilter={true}
-									translate={translate}
-									defaultLimit={DRAFTS_LIMITS[0]}
-									defaultFilter={"title"}
-									limits={DRAFTS_LIMITS}
-									page={1}
-									loading={loading}
-									length={companyDrafts.list.length}
-									total={companyDrafts.total}
-									selectedCategories={[{
-										field: "type",
-										value: 'all',
-										label: translate.all_plural
-									}]}
-									refetch={getDrafts}
-									headers={[
-										{
-											text: translate.name,
-											name: "title",
-											canOrder: true
-										},
-										{
-											name: "type",
-											text: 'Etiquetas',
-											canOrder: true
-										},
-										{
-											name: '',
-											text: ''
-										}
-									]}
-									action={_renderDeleteIcon}
-									companyID={company.id}
-								>
-									{companyDrafts.list.map(draft => {
-										return (
-											<DraftRow
-												key={`draft${draft.id}`}
-												translate={translate}
-												action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
-												renderDeleteIcon={_renderDeleteIcon}
-												draft={draft}
-												companyStatutes={vars.companyStatutes}
-												draftTypes={draftTypes}
-												company={company}
-												info={props}
-											/>
-										);
-									})}
-								</EnhancedTable>
-							))}
-				</div>
-				<AlertConfirm
-					title={translate.attention}
-					bodyText={translate.question_delete}
-					open={state.deleteModal}
-					buttonAccept={translate.delete}
-					buttonCancel={translate.cancel}
-					modal={true}
-					acceptAction={deleteDraft}
-					requestClose={() =>
-						setState({ deleteModal: false })
-					}
-				/>
+										defaultLimit={DRAFTS_LIMITS[0]}
+										defaultFilter={"title"}
+										limits={DRAFTS_LIMITS}
+										page={1}
+										loading={loading}
+										length={companyDrafts.list.length}
+										total={companyDrafts.total}
+										selectedCategories={[{
+											field: "type",
+											value: 'all',
+											label: translate.all_plural
+										}]}
+										refetch={getDrafts}
+										headers={[
+											{
+												text: translate.name,
+												name: "title",
+												canOrder: true
+											},
+											{
+												name: "type",
+												text: 'Etiquetas',
+												canOrder: true
+											},
+											{
+												name: '',
+												text: ''
+											}
+										]}
+										action={_renderDeleteIcon}
+										companyID={company.id}
+									>
+										{companyDrafts.list.map(draft => {
+											return (
+												<DraftRow
+													key={`draft${draft.id}`}
+													translate={translate}
+													action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
+													renderDeleteIcon={_renderDeleteIcon}
+													draft={draft}
+													companyStatutes={vars.companyStatutes}
+													draftTypes={draftTypes}
+													company={company}
+													info={props}
+												/>
+											);
+										})}
+									</EnhancedTable>
+								))}
+					</div>
+					<AlertConfirm
+						title={translate.attention}
+						bodyText={translate.question_delete}
+						open={state.deleteModal}
+						buttonAccept={translate.delete}
+						buttonCancel={translate.cancel}
+						modal={true}
+						acceptAction={deleteDraft}
+						requestClose={() =>
+							setState({ deleteModal: false })
+						}
+					/>
 				</Scrollbar>
 			</div>
 		</React.Fragment>
@@ -466,24 +465,24 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 		>
 			{selectable &&
 				<TableCell
-				style={TableStyles.TD}
-			>
-				<div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-					{getCheckbox()}
-					{props.alreadySaved(draft.id) &&
-						<i className="fa fa-floppy-o"
-							style={{
-								cursor:
-									"pointer",
-								fontSize:
-									"2em",
-								color: getSecondary()
-							}}
-						/>
-					}
-				</div>
+					style={TableStyles.TD}
+				>
+					<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+						{getCheckbox()}
+						{props.alreadySaved(draft.id) &&
+							<i className="fa fa-floppy-o"
+								style={{
+									cursor:
+										"pointer",
+									fontSize:
+										"2em",
+									color: getSecondary()
+								}}
+							/>
+						}
+					</div>
 
-			</TableCell>
+				</TableCell>
 			}
 			<TableCell
 				style={{
@@ -537,7 +536,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 			</TableCell>
 			<TableCell>
 				<div style={{ width: '3em' }}>
-					{(show && props.renderDeleteIcon)?props.renderDeleteIcon(draft.id) : ''}
+					{(show && props.renderDeleteIcon) ? props.renderDeleteIcon(draft.id) : ''}
 				</div>
 			</TableCell>
 		</TableRow>
