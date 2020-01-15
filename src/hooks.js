@@ -57,7 +57,6 @@ export const usePolling = (cb, interval, deps = []) => {
 	}
 
 	function handleConnectionChange(event){
-		console.log(event);
 		if(event.type === 'online'){
 			setOnline(true);
 		}

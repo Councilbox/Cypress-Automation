@@ -159,7 +159,6 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 	)
 
 	const renderParticipantInfo = vote => {
-		console.log(vote.delegatedVotes);
 		return (
 			<div style={{ minWidth: '7em', fontSize: '0.9em' }}>
 				<span style={{ fontWeight: '700' }}>
