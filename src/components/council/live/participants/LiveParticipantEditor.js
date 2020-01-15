@@ -36,7 +36,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const refreshEmailStates = async () => {
 		const response = await props.updateParticipantSends({
 			variables: {
-				participantId: showStateMenu()? data.liveParticipant.id : participant.representatives[0].id
+				participantId: showStateMenu() ? data.liveParticipant.id : participant.representatives[0].id
 			}
 		});
 
@@ -49,7 +49,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 
 	React.useEffect(() => {
 		let interval;
-		if(participant.id){
+		if (participant.id) {
 			refreshEmailStates();
 			interval = setInterval(refreshEmailStates, 15000);
 		}
@@ -181,8 +181,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								</Grid>
 							</GridItem>
 						</Grid>
-
-						{CBX.isRepresented(participant)?
+						{/* Representado */}
+						{CBX.isRepresented(participant) ?
 							<ParticipantBlock
 								{...props}
 								participant={participant.representative}
@@ -193,22 +193,22 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							/>
 							:
 							(participant.representatives && participant.representatives.length > 0) &&
-								<ParticipantBlock
-									{...props}
-									participant={participant.representatives[0]}
-									translate={translate}
-									active={false}
-									action={
-										<GrantVoteButton
-											participant={participant}
-											refetch={data.refetch}
-											representative={participant.representatives[0]}
-											translate={translate}
-										/>
-									}
-									data={data}
-									type={PARTICIPANT_STATES.REPRESENTATED}
-								/>
+							<ParticipantBlock
+								{...props}
+								participant={participant.representatives[0]}
+								translate={translate}
+								active={false}
+								action={
+									<GrantVoteButton
+										participant={participant}
+										refetch={data.refetch}
+										representative={participant.representatives[0]}
+										translate={translate}
+									/>
+								}
+								data={data}
+								type={PARTICIPANT_STATES.REPRESENTATED}
+							/>
 						}
 
 						{(participant.representatives && participant.representatives.length > 0 && participant.representatives[0].delegatedVotes) &&
@@ -221,7 +221,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									action={
 										<RemoveDelegationButton
 											delegatedVote={delegatedVote}
-											participant={participant}
+											participant={participant.representatives[0]? participant.representatives[0] : participant}
 											translate={translate}
 											refetch={data.refetch}
 										/>
@@ -265,7 +265,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						}
 						<NotificationsTable
 							liveMobil={isMobile}
-							notifications={(participant.representatives && participant.representatives.length > 0)? participant.representatives[0].notifications : participant.notifications}
+							notifications={(participant.representatives && participant.representatives.length > 0) ? participant.representatives[0].notifications : participant.notifications}
 							translate={translate}
 						/>
 					</div>
@@ -285,14 +285,14 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 	}
 
 	const text = texts[type]
-
+	
 	return (
 		<Grid style={{ marginBottom: "1em", display: "flex", alignItems: "center", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: 'solid 1px #61abb7', borderRadius: '4px', padding: "1em", marginTop: "1em", justifyContent: "space-between" }}>
 			<GridItem xs={12} md={4} lg={3}>
 				<div style={{ display: "flex" }}>
 					<div style={{ color: secondary, position: "relative", width: "1.5em" }}>
 						<i
-							className={type === PARTICIPANT_STATES.REPRESENTATED? "fa fa-user-o" : 'fa fa-user'}
+							className={type === PARTICIPANT_STATES.REPRESENTATED ? "fa fa-user-o" : 'fa fa-user'}
 							style={{ position: "absolute", left: "0", top: "0", fontSize: "19px" }}
 						/>
 						<i
@@ -383,6 +383,17 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 									/>
 								}
 							</div>
+						}
+					</GridItem>
+					<GridItem xs={12} md={9} lg={6} style={{ display: 'flex' }}>
+						{active &&
+							<ParticipantSelectActions
+								participant={participant}
+								council={props.council}
+								translate={translate}
+								refetch={data.refetch}
+								onlyButtonDelegateVote={true}
+							/>
 						}
 					</GridItem>
 				</Grid>
