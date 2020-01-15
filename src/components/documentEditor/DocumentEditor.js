@@ -2,7 +2,7 @@ import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { Card } from 'material-ui';
-import { Grid, Scrollbar, LoadingSection, BasicButton } from '../../displayComponents';
+import { Grid, Scrollbar, LoadingSection, BasicButton, AlertConfirm } from '../../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { withApollo } from "react-apollo";
@@ -21,6 +21,7 @@ import OptionsMenu from './OptionsMenu';
 import { buildDocVariable } from './utils';
 import { getTranslations } from '../../queries';
 import { buildTranslateObject } from '../../actions/mainActions';
+import FinishActModal from '../council/writing/actEditor/FinishActModal';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -342,6 +343,16 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
         setPreview(response.data.generateActHTML);
     }
 
+    const finishAct = async () => {
+        await generatePreview();
+        setState({
+            ...state,
+            finishActModal: true
+        })
+    }
+
+    console.log(state);
+
     const moveDown = (id, index) => {
         if ((index + 1) < doc.items.length) {
             setDoc(({ items }) => ({
@@ -361,6 +372,16 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
 
     return (
         <ActContext.Provider value={data}>
+            <FinishActModal
+                show={state.finishActModal}
+                preview={preview}
+                translate={translate}
+                council={data.council}
+                requestClose={() => {
+                    setPreview(null)
+                    setState({ ...state, finishActModal: false })
+                }}
+            />
             <div style={{ width: "100%", height: "100%" }}>
                 <div style={{ display: "flex", height: "100%" }}>
                     <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
@@ -441,51 +462,15 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                             borderRadius: '3px'
                                         }}
                                     />
-                                    {/* <BasicButton
-                                        text={translate.save}
-                                        color={primary}
-                                        onClick={generatePreview}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    /> */}
-                                    {/* <BasicButton
-                                        text={'Enviar a revision'}
-                                        color={primary}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none",
-                                            whiteSpace: "nowrap"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                        onClick={() => setState({
-                                            sendActDraft: true
-                                        })}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    /> */}
                                     <BasicButton
-                                        text={'Finalizar'}
+                                        text={translate.finish_and_aprove_act}
                                         color={secondary}
                                         textStyle={{
                                             color: "white",
                                             fontSize: "0.9em",
                                             textTransform: "none"
                                         }}
+                                        onClick={finishAct}
                                         textPosition="after"
                                         iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
                                         buttonStyle={{

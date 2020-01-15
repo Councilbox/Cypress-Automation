@@ -16,7 +16,7 @@ import logo from '../../../../assets/img/logo-icono.png';
 import { isMobile } from "react-device-detect";
 
 
-const FinishActModal = ({ requestClose, translate, council, ...props }) => {
+const FinishActModal = ({ requestClose, translate, preview, council, ...props }) => {
 	const [state, setState] = useOldState({
 		loading: false,
 		step: 1,
@@ -107,52 +107,7 @@ const FinishActModal = ({ requestClose, translate, council, ...props }) => {
 		return (
 			<div style={{marginTop: '12px'}}>
 				{props.show &&
-					props.config.exportActToWord ?
-					<React.Fragment>
-						{state.step === 1 &&
-							<Grid style={{ marginTop: "5px", height: '12em', justifyContent: 'center', alignItems: 'center' }}>
-								<GridItem xs={12} md={5} lg={5} style={{ height: "100%", }} >
-									<ButtonInModal
-										click={goToDropZone}
-										img={<i className="fa fa-upload" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
-										body={'Subir acta en PDF'}
-									/>
-								</GridItem>
-								<GridItem xs={12} md={1} lg={1}></GridItem>
-								<GridItem xs={12} md={5} lg={5} style={{ height: "100%" }} >
-									<ButtonInModal
-										click={goToCBXAct}
-										img={<img src={logo} id={'UsarActaGeneradaPorCouncilbox'} alt="councilbox_icon" style={{ height: '4em', width: 'auto' }} />}
-										body={'Usar acta generada por Councilbox'}
-									/>
-								</GridItem>
-							</Grid>
-
-						}
-						{state.step === 2 &&
-							<ActHTML
-								key="preview"
-								ref={actViewer}
-								council={council}
-							/>
-						}
-						{state.step === 3 &&
-							<div>
-								{state.file ?
-									<div>
-										{state.filename}
-									</div>
-									:
-									<UploadAct council={council} setFile={setFile} />
-								}
-							</div>
-						}
-					</React.Fragment>
-					:
-					<ActHTML
-						ref={actViewer}
-						council={council}
-					/>
+					<div dangerouslySetInnerHTML={{__html: preview}} />
 				}
 			</div>
 		);
@@ -163,14 +118,7 @@ const FinishActModal = ({ requestClose, translate, council, ...props }) => {
 			bodyStyle={{ minWidth: "50vw", height: isMobile ? '26em' : "" }}
 			requestClose={close}
 			open={props.show}
-			{...(props.config.exportActToWord ?
-				{
-					hideAccept: state.step === 1 || (state.step === 3 && !state.file),
-					acceptAction: state.step === 3 ? approveActWithUserPDF : approveAct
-				}
-				:
-				{ acceptAction: approveAct }
-			)}
+			acceptAction={approveAct}
 			loadingAction={state.loading}
 			buttonAccept={translate.finish_and_aprove_act}
 			buttonCancel={translate.close}
