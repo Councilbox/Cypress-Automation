@@ -221,7 +221,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									action={
 										<RemoveDelegationButton
 											delegatedVote={delegatedVote}
-											participant={participant}
+											participant={participant.representatives[0]? participant.representatives[0] : participant}
 											translate={translate}
 											refetch={data.refetch}
 										/>
