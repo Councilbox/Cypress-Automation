@@ -181,7 +181,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 
 					}
 				</span>
-				<React.Fragment>
+				<b>
 					{!!vote.delegatedVotes &&
 						vote.delegatedVotes.filter(vote => vote.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
@@ -196,7 +196,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 										/>
 									</Tooltip>
 								}
-								{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (${translate.represented_by}) ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
+								{`${translate.representative_of} ${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
 								{delegatedVote.author.voteDenied &&
 									<Tooltip title={delegatedVote.author.voteDeniedReason}>
 										<span style={{color: 'red', fontWeight: '700'}}>
@@ -207,7 +207,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 							</React.Fragment>
 						))
 					}
-				</React.Fragment>
+				</b>
 				<React.Fragment>
 					{!!vote.delegatedVotes &&
 						vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
@@ -371,8 +371,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 												<div
 													style={{
 														display: "flex",
-														flexDirection:
-															"row",
+														flexDirection: "row",
 														alignItems: "center",
 														fontSize: "0.8rem"
 													}}
@@ -438,7 +437,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 											{renderParticipantInfo(vote)}
 										</TableCell>
 										<TableCell>
-											
+											{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED) &&
+												(vote.numParticipations > 0 ? `${vote.numParticipations}` : 0)
+											}
+
 											<React.Fragment>
 												{!!vote.delegatedVotes &&
 													vote.delegatedVotes.filter(vote => vote.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
