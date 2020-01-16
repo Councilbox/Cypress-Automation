@@ -9,7 +9,6 @@ import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
 import { changeVariablesToValues, checkForUnclosedBraces } from '../../utils/CBX';
 import { toast } from 'react-toastify';
-import imgIzq from "../../assets/img/TimbradoCBX.jpg";
 import Lupa from '../../displayComponents/Lupa';
 import textool from '../../assets/img/text-tool.svg'
 import { getBlocks, generateAgendaBlocks } from './EditorBlocks';
@@ -22,6 +21,8 @@ import { buildDocVariable } from './utils';
 import { getTranslations } from '../../queries';
 import { buildTranslateObject } from '../../actions/mainActions';
 import FinishActModal from '../council/writing/actEditor/FinishActModal';
+import Timbrado from './Timbrado';
+import DocumentPreview from './DocumentPreview';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -40,7 +41,7 @@ const defaultTemplates = {
 export const ActContext = React.createContext();
 const DocumentEditor = ({ translate, company, data, updateDocument, client, ...props }) => {
     const [template, setTemplate] = React.useState(0);
-    const [colapse, setColapse] = React.useState(false);
+    const [collapse, setCollapse] = React.useState(false);
     const [options, setOptions] = React.useState(data.council.act.document? { ...data.council.act.document.options } : {
         stamp: true,
         doubleColumn: false
@@ -351,8 +352,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
         })
     }
 
-    console.log(state);
-
     const moveDown = (id, index) => {
         if ((index + 1) < doc.items.length) {
             setDoc(({ items }) => ({
@@ -378,13 +377,13 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                 translate={translate}
                 council={data.council}
                 requestClose={() => {
-                    setPreview(null)
+                    //setPreview(null)
                     setState({ ...state, finishActModal: false })
                 }}
             />
             <div style={{ width: "100%", height: "100%" }}>
                 <div style={{ display: "flex", height: "100%" }}>
-                    <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: colapse ? "none" : "" }}>
+                    <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: collapse ? "none" : "" }}>
                         <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
                             <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
                                 help
@@ -432,8 +431,8 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                             </Scrollbar>
                         </div>
                     </div>
-                    <div style={{ width: "100%", position: colapse && "relative", height: "calc( 100% - 3em )", justifyContent: colapse ? 'center' : "", display: colapse ? 'flex' : "" }}>
-                        {!colapse &&
+                    <div style={{ width: "100%", position: collapse && "relative", height: "calc( 100% - 3em )", justifyContent: collapse ? 'center' : "", display: collapse ? 'flex' : "" }}>
+                        {!collapse &&
                             <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
                                 <div style={{ display: "flex" }}>
                                     <DownloadDoc
@@ -536,7 +535,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                         iconInit={
                                             <Lupa color={'black'} width={'20px'} height={'20px'} />
                                         }
-                                        onClick={() => { setColapse(!colapse); setEdit(false) }}
+                                        onClick={() => { setCollapse(!collapse); setEdit(false) }}
                                         buttonStyle={{
                                             boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                             borderRadius: '3px',
@@ -569,7 +568,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                             </div>
                         }
                         <div style={{ position: "absolute", top: "7px", right: "15px" }}>
-                            {colapse &&
+                            {collapse &&
                                 <BasicButton
                                     text={''}
                                     color={"white"}
@@ -583,7 +582,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                     iconInit={
                                         <Lupa color={'red'} width={'60px'} height={'60px'} />
                                     }
-                                    onClick={() => setColapse(!colapse)}
+                                    onClick={() => setCollapse(!collapse)}
                                     buttonStyle={{
                                         boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                         borderRadius: '3px',
@@ -594,16 +593,22 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                                 />
                             }
                         </div>
-                        <div style={{ height: "100%", marginTop: colapse && '2em', borderRadius: "8px", background: "white", maxWidth: colapse ? "210mm" : "", width: colapse ? "100%" : "" }}>
+                        <div style={{ height: "100%", marginTop: collapse && '2em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
                             <Scrollbar>
                                 {preview ?
-                                    <div dangerouslySetInnerHTML={{ __html: preview }} />
+                                    <DocumentPreview
+                                        preview={preview}
+                                        translate={translate}
+                                        options={options}
+                                        collapse={collapse}
+                                        company={company}
+                                    />
                                     :
                                     <div style={{ display: "flex", height: "100%" }} >
                                         <div style={{ width: "20%", maxWidth: "95px" }}>
                                             {options.stamp &&
                                                 <Timbrado
-                                                    colapse={colapse}
+                                                    collapse={collapse}
                                                     edit={edit}
                                                 />
                                             }
@@ -644,25 +649,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                 </div>
             </div>
         </ActContext.Provider>
-    )
-}
-
-const Timbrado = ({ colapse, edit }) => {
-    const [imgIzqCbx, setImgIzqCbx] = React.useState(2)
-
-    React.useEffect(() => {
-        if (document.getElementsByClassName("actaLienzo")[0]) {
-            //el if es para que minimo monte 2 paginas
-            // if (Math.ceil(document.getElementsByClassName("actaLienzo")[0].scrollHeight / 995) >= 2) {
-                setImgIzqCbx(Math.ceil(document.getElementsByClassName("actaLienzo")[0].scrollHeight / 995))
-            // }
-        }
-    }, [document.getElementsByClassName("actaLienzo")[0], colapse, edit])
-
-    return (
-        new Array(imgIzqCbx).fill(0).map((option, index) =>
-            <img style={{ width: "100%", }} src={imgIzq} key={index}></img>
-        )
     )
 }
 
