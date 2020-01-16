@@ -5,7 +5,7 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import { corporationUsers } from '../../../queries/corporation';
 import { getPrimary } from '../../../styles/colors';
 import { Icon, Avatar } from 'material-ui';
-import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput } from '../../../displayComponents';
+import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import DeactivateAccount from './DeactivateAccount';
 import RestoreAccount from './RestoreAccount';
@@ -105,16 +105,16 @@ const OrganizationUsers = ({ client, translate, company }) => {
     return (
         <CardPageLayout title={translate.users} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
             <div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    {/* <div>
                         <div>
                             <MenuSuperiorTabs
                                 items={['Usuarios', 'Entidades']}
                                 setSelect={setSelecteEntUsu}
                             />
                         </div>
-                    </div>
-                    <div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+                    </div> */}
+                    <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                         <BasicButton
                             buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
                             backgroundColor={{ backgroundColor: "white" }}
@@ -186,7 +186,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
                     <div style={{ color: getPrimary(), fontWeight: "bold", width: '10%', textAlign: 'left' }}>
                         Id
 				</div>
-                    <div style={{ color: getPrimary(), fontWeight: "bold", width: '30%', textAlign: 'left' }}>
+                    <div style={{ color: getPrimary(), fontWeight: "bold", width: '20%', textAlign: 'left' }}>
                         Nombre
 				</div>
                     <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '30%', textAlign: 'left' }}>
@@ -195,6 +195,8 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
                     <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                         Últ.Conexión
 				</div>
+                    <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '10%', textAlign: 'left' }}>
+                    </div>
                 </div>
                 <div style={{ height: "calc( 100% - 13em )" }}>
                     <Scrollbar>
@@ -205,13 +207,52 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
                                     style={{
                                         display: "flex",
                                         justifyContent: "space-between",
-                                        padding: "1em"
+                                        padding: "1em",
+                                        alignItems: "center"
                                     }}>
                                     <Cell text={item.actived} width={10} />
                                     <Cell text={item.id} width={10} />
-                                    <Cell text={item.name + " " + item.surname} width={30} />
+                                    <Cell text={item.name + " " + item.surname} width={20} />
                                     <Cell text={item.email} width={30} />
                                     <Cell text={moment(item.lastConnectionDate).format("LLL")} width={20} />
+                                    <Cell width={10}
+                                        styles={{ padding: "3px" }}
+                                        text={
+                                            <div style={{ display: "flex" }}>
+                                                <Link
+                                                    to={`/edit/${item.id}`}
+                                                    styles={{
+                                                        color: getPrimary(),
+                                                        background: 'white',
+                                                        borderRadius: '4px',
+                                                        boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        padding: "0.3em",
+                                                        marginRight: "1em",
+                                                        width: "100px"
+                                                    }}>
+                                                    {translate.edit}
+                                                </Link>
+                                                <Link
+                                                    to={`/edit/${item.id}`}
+                                                    styles={{
+                                                        color: getPrimary(),
+                                                        background: 'white',
+                                                        borderRadius: '4px',
+                                                        boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        padding: "0.3em",
+                                                        marginRight: "1em",
+                                                        width: "100px"
+                                                    }}>
+                                                    Bloquear
+                                                </Link>
+                                            </div>
+                                        } />
                                 </div>
 
                             )
@@ -238,7 +279,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 const TablaCompanies = ({ companies, translate, total, changePageCompanies, companiesPage }) => {
 
     return (
-        <div style={{ fontSize: "13px",  height: '100%' }}>
+        <div style={{ fontSize: "13px", height: '100%' }}>
             <div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
                 <div style={{ color: getPrimary(), fontWeight: "bold", width: '33%', textAlign: 'left' }}>
 
@@ -250,7 +291,7 @@ const TablaCompanies = ({ companies, translate, total, changePageCompanies, comp
                     Nombre
 				</div>
             </div>
-            <div style={{ height: "calc( 100% - 13em )"  }}>
+            <div style={{ height: "calc( 100% - 13em )" }}>
                 <Scrollbar>
                     {companies.map(item => {
                         return (
@@ -307,9 +348,9 @@ const CellAvatar = ({ avatar, width }) => {
     )
 }
 
-const Cell = ({ text, width }) => {
+const Cell = ({ text, width, styles }) => {
     return (
-        <div style={{ overflow: "hidden", width: `${width}%`, textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
+        <div style={{ overflow: "hidden", width: `${width}%`, textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px", ...styles }}>
             {text}
         </div>
     )

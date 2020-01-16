@@ -73,15 +73,15 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 			:
 			<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
 				<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
-					<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-						<div>
+					<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+						{/* <div>
 							<div>
 								<MenuSuperiorTabs
 									items={['Lista de entidades', 'Usuarios de entidades']}
 									setSelect={setSelectedCompany}
 								/>
 							</div>
-						</div>
+						</div> */}
 						<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
 							<BasicButton
 								buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
