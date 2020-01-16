@@ -1,6 +1,9 @@
 import React from 'react';
 
-const GenCatLogin = () => {
+const GenCatLogin = ({ loginSuccess }) => {
+    window.setToken = creds => {
+       loginSuccess(creds.token, creds.refreshToken)
+    }
 
     const gicarRedirect = () => {
         //dades de l aplicacio a integrar
@@ -40,7 +43,11 @@ const GenCatLogin = () => {
         let targeturl=endpointGICAR+samlrequest;
 
         //fem el redirect
-        window.location.replace(targeturl);
+        window.open(targeturl, "width=800,height=600", "width=800,height=600");
+    }
+
+    const openNewWindow = () => {
+        //window.open("", "", "width=200,height=100")
     }
 
     return (

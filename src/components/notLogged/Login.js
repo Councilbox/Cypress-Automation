@@ -347,7 +347,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 							/>
 						</div>
 						<div style={{ marginTop: "3em" }}>
-							<GenCatLogin />
+							<GenCatLogin
+								loginSuccess={props.actions.loginSuccess}
+							/>
 						</div>
 						<div
 							style={{

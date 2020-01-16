@@ -241,7 +241,7 @@ class AppRouter extends React.Component {
 			<Switch>
 					<Route exact path="/" component={Login} />
 					<Route path="/signup" component={SignUpPage} />
-					<Route path="/sso/gicar" component={GicarLoginContainer} />
+					<Route path="/sso/gicar/token/:token/refresh/:refresh" component={GicarLoginContainer} />
 					<Route path="/forgetPwd" component={ForgetPwd} />
 					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
 					<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
