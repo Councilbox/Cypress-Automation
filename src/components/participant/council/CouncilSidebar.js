@@ -26,11 +26,9 @@ const styles = {
 
 const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) => {
     const scrollbar = React.useRef();
-    const [modal, setModal] = React.useState(false)
-    const [agendasVotingState, setAgendasVotingState] = React.useState([])
-    const [agendasVotingStatePasado, setAgendasVotingStatePasado] = React.useState([])
-    const [entraAgendasVotingState, setEntraAgendasVotingState] = React.useState(false)
-    const [cambio, setCambio] = React.useState(false)
+    const [modal, setModal] = React.useState(false);
+    const prevAgendas = React.useRef(null);
+    const [votingsWarning, setVotingsWarning] = React.useState(checkAgendas());
 
     const closeAll = () => {
         props.setContent(null);
@@ -70,102 +68,95 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
         )
     }
 
-    const setAvisos = () => {
-        let agendasObject = [];
-        agendas.agendas.map(item => {
-            agendasObject.push({ [item.id]: item.votingState })
-        })
-        setAgendasVotingState(agendasObject)
-        setAgendasVotingStatePasado(agendasObject)
+    function checkAgendas() {
+        const read = votingsWarning? votingsWarning.read : null;
+
+        const opened = agendas.agendas.reduce((acc, agenda) => {
+            if(agenda.votingState === 1){
+                acc.push(agenda);
+            }
+            return acc;
+        }, []);
+        if(!votingsWarning){
+            return {
+                opened,
+                read: new Set(),
+                show: opened.length > 0
+            }
+        }
+
+        return {
+            ...votingsWarning,
+            opened,
+            show: opened.filter(item => !votingsWarning.read.has(item.id)).length > 0,
+            read: (opened.length > votingsWarning.opened.length)? new Set(opened) : votingsWarning.read
+        }
+        prevAgendas.current = agendas.agendas;
     }
 
     React.useEffect(() => {
-        if (!entraAgendasVotingState && agendas) {
-            setAvisos();
-        }
-        if (agendas) {
-            agendas.agendas.map((item, i) => {
-                if (agendasVotingStatePasado[i]) {
-                    if (item.votingState !== parseInt(Object.values(agendasVotingStatePasado[i]))) {
-                        setCambio(true)
-                    }
-                }
-            })
-        }
-        if (cambio) {
-            setAvisos();
+        if(agendas){
+            if(JSON.stringify(agendas.agendas) !== JSON.stringify(prevAgendas.current)){
+                setVotingsWarning(checkAgendas())
+            }
         }
     }, [agendas]);
 
     const renderAgendaAvisoAbiertaVotacion = () => {
-        let activeVoteCount = 0;
-        let showAlert = false;
-        let nameLastAgenda = "";
-        let estaLeido = true;
-
-        if (agendas) {
-            agendasVotingState.map((currentValue) => {
-                if (parseInt(Object.values(currentValue))) {
-                    estaLeido = false
-                }
-                activeVoteCount += parseInt(Object.values(currentValue)) === 1 ? 1 : 0;
-            });
-            agendas.agendas.map(item => {
-                showAlert = item.votingState === 1 || showAlert ? true : false
-                nameLastAgenda = item.agendaSubject
-            })
-        }
         let hideEnterModal = props.modalContent === "agenda" ? true : false;
         return (
-            showAlert && !hideEnterModal && !estaLeido &&
-            <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
-                <div style={{
-                    background: "white",
-                    width: '100%',
-                    fontWeight: "bold",
-                    padding: "0.7em",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontSize: "14px"
-                }}>
-                    <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: "10px" }}>
-                        Votaciones abiertas ({activeVoteCount})
+            (votingsWarning.show && !hideEnterModal) (
+                    <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
+                        <div style={{
+                            background: "white",
+                            width: '100%',
+                            fontWeight: "bold",
+                            padding: "0.7em",
+                            paddingRight: '1em',
+                            display: "flex",
+                            justifyContent: "space-between",
+                            fontSize: "14px"
+                        }}>
+                            <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: "10px" }}>
+                                {translate.opened_votings} ({votingsWarning.opened.length})
+                            </div>
+                            {/* <div style={{ color: "#3b3b3b", marginRight: "10px", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis", maxWidth: "30%" }}>
+                                {council.businessName}
+                            </div> */}
+                            <div style={{ maxWidth: '40%', color: "#3b3b3b", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis" }}>
+                                {'klsdjflskdjf lksjdfl ksdjfl skjsdlf kjsdlfk jlskddfj lskdjflk sjdfl ksdjfl skdfjs ldfkjs dlfkjs dlfkjs dlfkjs dlfksjd lfksjdf lksjdf lksdjf lskdjf slkdfj slkdfj sldfkjs ldfkjsd f'}
+                            </div>
+                        </div>
+                        <div style={{
+                            width: '0',
+                            height: '0',
+                            borderLeft: '5px solid transparent',
+                            borderRight: '5px solid transparent',
+                            borderTop: '11px solid white',
+                            left: '28.8%',
+                            position: 'relative'
+                        }}></div>
                     </div>
-                    <div style={{ color: "#3b3b3b", marginRight: "10px", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis", maxWidth: "30%" }}>
-                        {council.businessName}
-                    </div>
-                    <div style={{ color: "#3b3b3b", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis" }}>
-                        {nameLastAgenda}
-                    </div>
-                </div>
-                <div style={{
-                    width: '0',
-                    height: '0',
-                    borderLeft: '5px solid transparent',
-                    borderRight: '5px solid transparent',
-                    borderTop: '11px solid white',
-                    left: '28.8%',
-                    position: 'relative'
-                }}></div>
-            </div>
+                )
         )
     }
 
-    const setAvisosVistos = () => {
-        let agendasObject = [];
-        if (agendas) {
-            agendas.agendas.map(item => {
-                agendasObject.push({ [item.id]: 0 })
-            })
-            setAgendasVotingState(agendasObject)
-        }
+    const buildReadArray = (read, opened) => {
+        return new Set([...Array.from(read), ...opened.map(agenda => agenda.id)])
+    }
+
+
+    const updateReadVotings = () => {
+        setVotingsWarning({
+            ...votingsWarning,
+            read: buildReadArray(votingsWarning.read, votingsWarning.opened),
+            show: false
+        });
     }
 
     const selectAgenda = () => {
         props.setContent('agenda')
-        setAvisosVistos()
-        setEntraAgendasVotingState(true)
-        setCambio(false)
+        updateReadVotings();
     }
 
     const renderAgendaButton = () => {
@@ -180,7 +171,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
             <Button
                 className={"NoOutline"}
                 style={styles.button}
-                onClick={() => selectAgenda()}
+                onClick={selectAgenda}
             >
                 <div style={{ display: "unset" }}>
                     <div>
@@ -358,9 +349,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                                 renderVideoButton()
                             }
                         </div>
-                        {isMobile &&
-                            renderAgendaAvisoAbiertaVotacion()
-                        }
+                        {renderAgendaAvisoAbiertaVotacion()}
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             {renderAgendaButton()}
                         </div>
