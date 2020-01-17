@@ -105,7 +105,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     const renderAgendaAvisoAbiertaVotacion = () => {
         let hideEnterModal = props.modalContent === "agenda" ? true : false;
         return (
-            (votingsWarning.show && !hideEnterModal) (
+            (votingsWarning.show && !hideEnterModal) && (
                     <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
                         <div style={{
                             background: "white",
@@ -155,7 +155,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     }
 
     const selectAgenda = () => {
-        props.setContent('agenda')
+        props.setContent('agenda');
         updateReadVotings();
     }
 

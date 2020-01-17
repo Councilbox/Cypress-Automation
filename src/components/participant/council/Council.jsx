@@ -476,6 +476,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                 <CouncilSidebar
                                     isMobile={isMobile}
                                     council={council}
+                                    agendas={agendas}
                                     translate={translate}
                                     setAgendaBadge={setAgendaBadge}
                                     agendaBadge={agendaBadge}
