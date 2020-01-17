@@ -346,11 +346,13 @@ const Login = ({ translate, windowSize, ...props }) => {
 								}
 							/>
 						</div>
-						<div style={{ marginTop: "3em" }}>
-							<GenCatLogin
-								loginSuccess={props.actions.loginSuccess}
-							/>
-						</div>
+						{(!!subdomain.name && subdomain.name.includes('gencat')) &&
+							<div style={{ marginTop: "1em" }}>
+								<GenCatLogin
+									loginSuccess={props.actions.loginSuccess}
+								/>
+							</div>
+						}
 						<div
 							style={{
 								marginTop: "2em",

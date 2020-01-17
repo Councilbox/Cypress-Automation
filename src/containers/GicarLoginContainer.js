@@ -19,7 +19,7 @@ const GicarLoginContainer = ({ match }) => {
                 <LoadingSection />
             </div>
             <div style={{width: '100%', textAlign: 'center'}}>
-                Estableciendo conexión segura...
+                Validant credencials...
             </div>
         </div>
 

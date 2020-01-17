@@ -1,11 +1,16 @@
 import React from 'react';
+import { BasicButton, ButtonIcon } from "../../displayComponents";
 
 const GenCatLogin = ({ loginSuccess }) => {
+    const [loading, setLoading] = React.useState(false);
+
     window.setToken = creds => {
-       loginSuccess(creds.token, creds.refreshToken)
+        setLoading(false);
+        loginSuccess(creds.token, creds.refreshToken)
     }
 
     const gicarRedirect = () => {
+        setLoading(true);
         //dades de l aplicacio a integrar
         let entityid="COUNCILBOX";
         let AssertionConsumerServiceURL="http://localhost:3000/sso/gicar";
@@ -46,14 +51,26 @@ const GenCatLogin = ({ loginSuccess }) => {
         window.open(targeturl, "width=800,height=600", "width=800,height=600");
     }
 
-    const openNewWindow = () => {
-        //window.open("", "", "width=200,height=100")
-    }
-
     return (
-        <button onClick={gicarRedirect}>
-            LOGIN GENCAT_GICAR
-        </button>
+        <BasicButton
+            text={'Accés amb GICAR'}
+            color={'#BF0000'}
+            loading={loading}
+            id={'login-button'}
+            textStyle={{
+                color: "white",
+                fontWeight: "700"
+            }}
+            textPosition="before"
+            onClick={gicarRedirect}
+            fullWidth={true}
+            icon={
+                <ButtonIcon
+                    color="white"
+                    type="arrow_forward"
+                />
+            }
+        />
     )
 }
 
