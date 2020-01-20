@@ -188,10 +188,10 @@ class CompanySettingsPage extends React.Component {
 					<LiveToast
 						message={this.props.translate.changes_saved}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "successToast"
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: "successToast"
+					}
 				);
 				bHistory.goBack();
 				//store.dispatch(setCompany(response.data.updateCompany));
@@ -214,10 +214,10 @@ class CompanySettingsPage extends React.Component {
 					<LiveToast
 						message={this.props.translate.company_link_unliked_title}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "successToast"
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: "successToast"
+					}
 				);
 				bHistory.goBack();
 			}
@@ -732,6 +732,9 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId }) => {
 							client={client}
 							corporationId={corporationId}
 							companyId={companyId}
+							usersCompany={users}
+							getUsersCompany={getUsers}
+							closeModal={() => setAddAdmins(false)}
 						/>
 					}
 					title={translate.add}
@@ -799,7 +802,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId }) => {
 }
 
 
-const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId }) => {
+const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, usersCompany, getUsersCompany, closeModal }) => {
 	const [users, setUsers] = React.useState(false);
 	const [usersPage, setUsersPage] = React.useState(1);
 	const [usersTotal, setUsersTotal] = React.useState(false);
@@ -821,16 +824,25 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId }) => 
 				corporationId: corporationId
 			}
 		});
-		
+
+		let filtrado = response.data.corporationUsers.list.filter(comparer(usersCompany));
 		if (response.data.corporationUsers.list) {
-			setUsers(response.data.corporationUsers.list)
+			setUsers(filtrado)
 			setUsersTotal(response.data.corporationUsers.total)
+		}
+	}
+
+	const comparer = (otherArray) => {
+		return function (current) {
+			return otherArray.filter(function (other) {
+				return (other.id == current.id)
+			}).length == 0;
 		}
 	}
 
 	React.useEffect(() => {
 		getUsersModal()
-	}, [state.filterTextUsuarios, usersPage]);
+	}, [state.filterTextUsuarios, usersPage, usersCompany]);
 
 	const saveUsersInCompany = async () => {
 		const response = await client.mutate({
@@ -840,7 +852,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId }) => 
 				usersIds: state.checked.map(check => check.id),
 			}
 		});
-
+		getUsersCompany();
 	}
 
 
@@ -956,13 +968,35 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId }) => 
 					</Grid>
 				</div>
 			</div>
-			<div>
+			<div style={{
+				display: "flex",
+				justifyContent: "flex-end",
+				paddingRight: '0.6em',
+				borderTop: '1px solid gainsboro',
+				paddingTop: '0.5em',
+				marginTop: "2em"
+			}}>
 				<BasicButton
-					buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
-					backgroundColor={{ backgroundColor: "white" }}
+					text={translate.cancel}
+					onClick={() => closeModal()}
+					textStyle={{
+						textTransform: "none",
+						fontWeight: "700",
+					}}
+					primary={true}
+					color='transparent'
+					type="flat"
+				/>
+				<BasicButton
 					text={translate.add}
-					// Falta añadir usuarios
 					onClick={() => saveUsersInCompany()}
+					textStyle={{
+						color: "white",
+						textTransform: "none",
+						fontWeight: "700"
+					}}
+					buttonStyle={{ marginLeft: "1em" }}
+					color={primary}
 				/>
 			</div>
 		</div>

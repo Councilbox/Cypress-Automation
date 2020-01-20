@@ -244,7 +244,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 const Table = () => {
 
 	return(
-		
+		<div></div>
 	)
 }
 
