@@ -38,7 +38,7 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 	}, [filters.text, participant.id]);
 
 	const getMore = React.useCallback(async () => {
-		if(options.offset !== 0){
+		if (options.offset !== 0) {
 			const response = await client.query({
 				query: participantsWhoCanDelegate,
 				variables: buildVariables()
@@ -71,7 +71,7 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 			participantId: participant.id,
 		}
 
-		if(filters.text){
+		if (filters.text) {
 			variables.filters = [{
 				field: "fullName",
 				text: filters.text.trim()
@@ -153,7 +153,7 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 		const { total } = loading ? 0 : data.liveParticipantsWhoCanDelegate;
 		const rest = total - participants.length - 1;
 
-		if (delegatedVotesLimitReached(council.statute, participant.delegatedVotes.filter(p => p.type !== 3).length)) {
+		if (participants !== undefined && participants.delegatedVotes !== undefined && delegatedVotesLimitReached(council.statute, participant.delegatedVotes.filter(p => p.type !== 3).length)) {
 			return (
 				<div>
 					{translate.number_of_delegated_votes_exceeded}
@@ -216,12 +216,12 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 												elevation={1}
 												onClick={loadMore}
 											>
-												<MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+												<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
 													{`DESCARGAR ${
-													rest > DELEGATION_USERS_LOAD
-														? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-														: translate.all_plural.toLowerCase()
-													}`}
+														rest > DELEGATION_USERS_LOAD
+															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+															: translate.all_plural.toLowerCase()
+														}`}
 													{loading &&
 														<div>
 															<LoadingSection size={25} />

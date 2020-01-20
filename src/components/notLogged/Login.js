@@ -12,6 +12,7 @@ import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridIt
 import { useOldState } from "../../hooks";
 import { useSubdomain, getCustomLogo } from "../../utils/subdomain";
 import { isMobile } from "../../utils/screen";
+import GenCatLogin from "./GenCatLogin";
 
 
 
@@ -347,6 +348,13 @@ const Login = ({ translate, windowSize, ...props }) => {
 								}
 							/>
 						</div>
+						{(!!subdomain.name && subdomain.name.includes('gencat')) &&
+							<div style={{ marginTop: "1em" }}>
+								<GenCatLogin
+									loginSuccess={props.actions.loginSuccess}
+								/>
+							</div>
+						}
 						<div
 							style={{
 								marginTop: "2em",

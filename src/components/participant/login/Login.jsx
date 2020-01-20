@@ -76,7 +76,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 							})
 						}} elevation={6}>
 							{councilIsFinished(council) ?
-								<div>
+								<div style={{height:"100%"}}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										<LoginForm
 											participant={participant}
@@ -88,7 +88,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 										)}
 								</div>
 								:
-								<div>
+								<div style={{height:"100%"}}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										<LoginForm
 											participant={participant}

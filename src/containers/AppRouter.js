@@ -8,6 +8,7 @@ import { isLandscape, isMobile } from '../utils/screen';
 import image from "../assets/img/sidebar-2.jpg";
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
+import GicarLoginContainer from "./GicarLoginContainer";
 
 
 
@@ -240,6 +241,7 @@ class AppRouter extends React.Component {
 			<Switch>
 					<Route exact path="/" component={Login} />
 					<Route path="/signup" component={SignUpPage} />
+					<Route path="/sso/gicar/token/:token/refresh/:refresh" component={GicarLoginContainer} />
 					<Route path="/forgetPwd" component={ForgetPwd} />
 					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
 					<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />

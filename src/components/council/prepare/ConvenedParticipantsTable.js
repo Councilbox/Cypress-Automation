@@ -14,7 +14,7 @@ import {
 import { compose, graphql } from "react-apollo";
 import { downloadCBXData, updateConveneSends } from "../../../queries";
 import { convenedcouncilParticipants } from "../../../queries/councilParticipant";
-import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from "../../../constants";
+import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
 import NotificationFilters from "./NotificationFilters";
 import DownloadCBXDataButton from "./DownloadCBXDataButton";
 import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";
@@ -377,7 +377,8 @@ class HoverableRow extends React.Component {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 		let representative = this.props.representative;
 		const { delegate } = participant;
-		let { notifications } = !!representative? representative : participant;
+
+		let { notifications } = participant.type === PARTICIPANT_TYPE.PARTICIPANT? participant : !!representative? representative : participant;
 		notifications = [...notifications].sort((a, b) => {
 			if(a.sendDate > b.sendDate){
 				return 1;
@@ -403,10 +404,7 @@ class HoverableRow extends React.Component {
 						<br/>
 						{`${translate.represented_by}: ${representative.name} ${representative.surname}`}
 					</React.Fragment>
-					
 		);
-
-		console.log(notifications);
 
 		if(isMobile){
             return(

@@ -17,326 +17,274 @@ import PointEditorLive from './PointEditorLive';
 import { useOldState } from "../../../hooks";
 import CouncilStateButton from './menus/CouncilStateButton';
 
+const calculateOpenIndex = agendas => {
+	const openAgenda = agendas.find(
+		(agenda, index) => agenda.pointState === 1 || (agenda.pointState === 0 && agendas[index > 0 ? index - 1 : 0].pointState === 2)
+	);
+	return openAgenda? openAgenda.orderIndex : 1;
+}
 
-class AgendaDetailsSection extends React.Component {
-	state = {
-		openIndex: 1,
-		expanded: false,
-		pointEditor: false
-	};
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.agendas) {
-			const openAgenda = nextProps.agendas.find(
-				(agenda, index) =>
-					agenda.pointState === 1 ||
-					(agenda.pointState === 0 &&
-						nextProps.agendas[index > 0 ? index - 1 : 0]
-							.pointState === 2)
-			);
-			if (openAgenda) {
-				this.setState({
-					openIndex: openAgenda.orderIndex,
-					expanded: false,
-					subjectType: nextProps.agendas[nextProps.selectedPoint].subjectType
-				});
-			} else {
-				this.setState({
-					openIndex: 1,
-					expanded: false,
-					subjectType: nextProps.agendas[nextProps.selectedPoint].subjectType
-				});
-			}
-		}
+const AgendaDetailsSection = ({ agendas, translate, council, participants, refetch, ...props }) => {
+	const [openIndex, setOpenIndex] = React.useState(calculateOpenIndex(agendas));
+	const [expanded, setExpanded] = React.useState(false);
+	const [pointEditor, setPointEditor] = React.useState(false);
+
+	React.useEffect(() => {
+		setOpenIndex(calculateOpenIndex(agendas));
+	}, [agendas]);
+
+
+	const showEditPointModal = () => {
+		setPointEditor(true);
 	}
 
-	showEditPointModal = () => {
-		this.setState({
-			pointEditor: true
-		});
+	const closePointEditor = () => {
+		setPointEditor(false);
 	}
 
-	closePointEditor = () => {
-		this.setState({
-			pointEditor: false
-		})
-	}
-
-	changeSubjectType = subjectType => {
-		this.setState({
-			subjectType: subjectType
-		}, () => this.updateSubjectType())
-	}
-
-	toggleDescription = () => {
+	const toggleDescription = () => {
 		const newValue = !this.state.expanded;
-		this.setState({
-			expanded: newValue
-		});
+		setExpanded(newValue);
 	}
 
-	updateSubjectType = async () => {
-		const response = await this.props.updateAgenda({
-			variables: {
-				agenda: {
-					id: this.props.agendas[this.props.selectedPoint].id,
-					councilId: this.props.agendas[this.props.selectedPoint].councilId,
-					subjectType: this.state.subjectType
-				}
-			}
-		});
-		if (response) {
-			this.props.refetch();
-		}
-	};
+	const councilStarted = CBX.councilStarted(council);
+	const agenda = agendas[props.selectedPoint];
+	const smallLayout = window.innerWidth < 500;
+	const normalLayout = window.innerWidth > 750;
 
-	render() {
-		const {
-			translate,
-			council,
-			agendas,
-			participants,
-			refetch
-		} = this.props;
-		const councilStarted = CBX.councilStarted(council);
-		const agenda = agendas[this.props.selectedPoint];
-		const smallLayout = window.innerWidth < 500;
-		const normalLayout = window.innerWidth > 750;
-
-		return (
-			<div
+	return (
+		<div
+			style={{
+				width: "100%",
+				height: "100%",
+				margin: 0,
+				paddingLeft: "1px",
+				overflow: "hidden",
+				overflowX: 'hidden',
+				outline: 0
+			}}
+			tabIndex="0"
+		>
+			<Grid
 				style={{
 					width: "100%",
-					height: "100%",
-					margin: 0,
-					paddingLeft: "1px",
-					overflow: "hidden",
-					overflowX: 'hidden',
-					outline: 0
+					padding: "1em 0 1em 1em",
 				}}
-				tabIndex="0"
-				onKeyUp={this.handleKeyPress}
 			>
-				<Grid
-					style={{
-						width: "100%",
-						padding: "1em 0 1em 1em",
-					}}
-				>
 
-					{smallLayout &&
-						<GridItem xs={smallLayout? 12 : 4} md={3} style={{ display: 'flex', marginBottom: '0.6em', flexDirection: 'row', justifyContent: 'flex-end' }}>
-							<div>
-								<CouncilStateButton
-									council={council}
-									translate={translate}
-									recount={this.props.recount}
-									agendas={this.props.agendas}
-									participants={participants}
-									refetch={this.props.refetchCouncil}
-								/>
-							</div>
-							<div>
-								<CouncilMenu
-									council={council}
-									translate={translate}
-								/>
-							</div>
-						</GridItem>
-
-					}
-					<GridItem xs={smallLayout? 12 : 8} md={9} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between' }}>
-						<div style={{ fontWeight: '700',  width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-							<div>
-								{`${agenda.orderIndex} - ${agenda.agendaSubject}`}
-							</div>
-							<div style={{paddingRight: '1em'}}>
-								{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL && agenda.subjectType !== CBX.getActPointSubjectType())?
-									<React.Fragment>
-										<span style={{cursor: 'pointer'}} onClick={this.showEditPointModal}>{translate[CBX.getAgendaTypeLabel(agenda)]}</span>
-										<i
-											className="fa fa-pencil-square-o"
-											aria-hidden="true"
-											onClick={this.showEditPointModal}
-											style={{
-												color: secondary,
-												fontSize: '1.3em',
-												cursor: 'pointer',
-												marginLeft: '0.2em'
-											}}
-										></i>
-										<PointEditorLive
-											translate={translate}
-											agenda={agenda}
-											key={`point_editor_${agenda.id}`}
-											votingTypes={this.props.votingTypes}
-											council={council}
-											refetch={this.props.refetch}
-											majorityTypes={this.props.majorityTypes}
-											open={this.state.pointEditor}
-											requestClose={this.closePointEditor}
-										/>
-									</React.Fragment>
-								:
-									translate[CBX.getAgendaTypeLabel(agenda)]
-								}
-							</div>
+				{smallLayout &&
+					<GridItem xs={smallLayout? 12 : 4} md={3} style={{ display: 'flex', marginBottom: '0.6em', flexDirection: 'row', justifyContent: 'flex-end' }}>
+						<div>
+							<CouncilStateButton
+								council={council}
+								translate={translate}
+								recount={props.recount}
+								agendas={agendas}
+								participants={participants}
+								refetch={props.refetchCouncil}
+							/>
 						</div>
-						<Grid>
-							<GridItem xs={normalLayout? 3 : 12} md={normalLayout? 3 : 12} lg={3} style={{display: 'flex', alignItems: 'center'}}>
-								{agenda.subjectType !== CBX.getActPointSubjectType() &&
-									<React.Fragment>
-										{agenda.description?
-											<BasicButton
-												text={translate.description}
-												color={'white'}
-												textStyle={{
-													textTransform: 'none',
-													fontWeight: '700',
-													color: getSecondary(),
-													fontSize: "0.85em",
-												}}
-												onClick={() => this.setState({
-													expanded: !this.state.expanded
-												})}
-											/>
-										:
-											translate.no_description
-										}
-									</React.Fragment>
-								}
-							</GridItem>
-							<GridItem xs={normalLayout? 4 : 6} md={normalLayout? 4 : 5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
-								{councilStarted && !CBX.agendaClosed(agenda) && (
-									<React.Fragment>
-										{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT ?
-											<ActPointStateManager
-												council={council}
-												agenda={agenda}
-												translate={translate}
-												refetch={this.props.refetchCouncil}
-												active={agenda.orderIndex === this.state.openIndex}
-											/>
-											:
-											<ToggleAgendaButton
-												agenda={agenda}
-												council={council}
-												nextPoint={this.props.nextPoint}
-												translate={translate}
-												refetch={this.props.refetch}
-												active={agenda.orderIndex === this.state.openIndex}
-											/>
-										}
-									</React.Fragment>
-								)}
-							</GridItem>
-							<GridItem xs={normalLayout? 5 : 6} md={normalLayout? 5 : 7} lg={5} style={{ display: 'flex', alignItems: 'center' }}>
-								{(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE && agenda.subjectType !== CBX.getActPointSubjectType()) && councilStarted ? (
-									<ToggleVotingsButton
-										council={council}
-										showVotingsAlert={this.props.showVotingsAlert}
-										editedVotings={this.props.editedVotings}
-										agenda={agenda}
-										translate={translate}
-										refetch={refetch}
-									/>
-								) : <div />}
-							</GridItem>
-						</Grid>
+						<div>
+							<CouncilMenu
+								council={council}
+								translate={translate}
+							/>
+						</div>
 					</GridItem>
-					{!smallLayout &&
-						<GridItem xs={smallLayout? 12 : 4} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
-							<div style={{marginLeft: 'auto'}}>
-								<CouncilStateButton
-									council={council}
-									translate={translate}
-									participants={participants}
-									recount={this.props.recount}
-									agendas={this.props.agendas}
-									refetch={this.props.refetchCouncil}
-								/>
-							</div>
-							<div style={{marginLeft: 'auto', marginTop: '0.5em' }}>
-								<CouncilMenu
-									council={council}
-									translate={translate}
-								/>
-							</div>
+
+				}
+				<GridItem xs={smallLayout? 12 : 8} md={9} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between' }}>
+					<div style={{ fontWeight: '700',  width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+						<div>
+							{`${agenda.orderIndex} - ${agenda.agendaSubject}`}
+						</div>
+						<div style={{paddingRight: '1em'}}>
+							{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL && agenda.subjectType !== CBX.getActPointSubjectType())?
+								<React.Fragment>
+									<span style={{cursor: 'pointer'}} onClick={showEditPointModal}>{translate[CBX.getAgendaTypeLabel(agenda)]}</span>
+									<i
+										className="fa fa-pencil-square-o"
+										aria-hidden="true"
+										onClick={showEditPointModal}
+										style={{
+											color: secondary,
+											fontSize: '1.3em',
+											cursor: 'pointer',
+											marginLeft: '0.2em'
+										}}
+									></i>
+									<PointEditorLive
+										translate={translate}
+										agenda={agenda}
+										key={`point_editor_${agenda.id}`}
+										votingTypes={props.votingTypes}
+										council={council}
+										refetch={refetch}
+										majorityTypes={props.majorityTypes}
+										open={pointEditor}
+										requestClose={closePointEditor}
+									/>
+								</React.Fragment>
+							:
+								translate[CBX.getAgendaTypeLabel(agenda)]
+							}
+						</div>
+					</div>
+					<Grid>
+						<GridItem xs={normalLayout? 3 : 12} md={normalLayout? 3 : 12} lg={3} style={{display: 'flex', alignItems: 'center'}}>
+							{agenda.subjectType !== CBX.getActPointSubjectType() &&
+								<React.Fragment>
+									{agenda.description?
+										<BasicButton
+											text={translate.description}
+											color={'white'}
+											textStyle={{
+												textTransform: 'none',
+												fontWeight: '700',
+												color: getSecondary(),
+												fontSize: "0.85em",
+											}}
+											onClick={() => setExpanded(!expanded)}
+										/>
+									:
+										translate.no_description
+									}
+								</React.Fragment>
+							}
 						</GridItem>
-					}
-				</Grid>
-				<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout? '100vh' : '100%' } - ${smallLayout? '14em' : '6.5em'})`, overflow: 'hidden' }}>
-						<Collapse isOpened={this.state.expanded}>
-							<div
-								style={{
-									visibility: this.state.expanded? 'visible' : 'hidden',
-									cursor: 'pointer',
-									marginLeft: '0.2em',
-									position: 'absolute',
-									top: 5,
-									left: '0.5em'
-								}}
-							>
-								<AgendaDescriptionModal
+						<GridItem xs={normalLayout? 4 : 6} md={normalLayout? 4 : 5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
+							{councilStarted && !CBX.agendaClosed(agenda) && (
+								<React.Fragment>
+									{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT ?
+										<ActPointStateManager
+											council={council}
+											agenda={agenda}
+											translate={translate}
+											refetch={props.refetchCouncil}
+											active={agenda.orderIndex === openIndex}
+										/>
+										:
+										<ToggleAgendaButton
+											agenda={agenda}
+											council={council}
+											nextPoint={props.nextPoint}
+											translate={translate}
+											refetch={refetch}
+											active={agenda.orderIndex === openIndex}
+										/>
+									}
+								</React.Fragment>
+							)}
+						</GridItem>
+						<GridItem xs={normalLayout? 5 : 6} md={normalLayout? 5 : 7} lg={5} style={{ display: 'flex', alignItems: 'center' }}>
+							{(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE && agenda.subjectType !== CBX.getActPointSubjectType()) && councilStarted ? (
+								<ToggleVotingsButton
+									council={council}
+									showVotingsAlert={props.showVotingsAlert}
+									editedVotings={props.editedVotings}
 									agenda={agenda}
 									translate={translate}
-									council={council}
-									companyStatutes={this.props.companyStatutes}
-									majorityTypes={this.props.majorityTypes}
-									draftTypes={this.props.draftTypes}
-									refetch={this.props.refetch}
+									refetch={refetch}
 								/>
-							</div>
-							<div
-								style={{
-									fontSize: "0.9em",
-									padding: '1em',
-									marginTop: '0.8em',
-									paddingBottom: '1.5em',
-									lineHeight: '1.2em',
-									width: '100%',
-									backgroundColor: 'white',
-								}}
-								onClick={this.toggleDescription}
-								dangerouslySetInnerHTML={{
-									__html: agenda.description
-								}}
-							/>
-						</Collapse>
-						{agenda.subjectType !== CBX.getActPointSubjectType() ?
-							<AgendaDetailsTabs
-								key={`agenda_${agenda.id}`}
-								translate={translate}
-								agenda={agenda}
+							) : <div />}
+						</GridItem>
+					</Grid>
+				</GridItem>
+				{!smallLayout &&
+					<GridItem xs={smallLayout? 12 : 4} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
+						<div style={{marginLeft: 'auto'}}>
+							<CouncilStateButton
 								council={council}
-								showVotingsAlert={this.props.showVotingsAlert}
-								changeEditedVotings={this.props.changeEditedVotings}
-								editedVotings={this.props.editedVotings}
-								refetch={this.props.refetch}
-                        		data={this.props.data}
-								recount={this.props.recount}
-								majorityTypes={this.props.majorityTypes}
-							/>
-						:
-							<ActPointInfoDisplay
-								council={council}
-								data={this.props.data}
-								agenda={agenda}
-								companyID={this.props.council.companyId}
 								translate={translate}
-								recount={this.props.recount}
-								showVotingsAlert={this.props.showVotingsAlert}
-								changeEditedVotings={this.props.changeEditedVotings}
-								majorityTypes={this.props.majorityTypes}
-								refetch={this.props.refetch}
+								participants={participants}
+								recount={props.recount}
+								agendas={agendas}
+								refetch={props.refetchCouncil}
 							/>
-						}
-				</div>
-
+						</div>
+						<div style={{marginLeft: 'auto', marginTop: '0.5em' }}>
+							<CouncilMenu
+								council={council}
+								translate={translate}
+							/>
+						</div>
+					</GridItem>
+				}
+			</Grid>
+			<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout? '100vh' : '100%' } - ${smallLayout? '14em' : '6.5em'})`, overflow: 'hidden' }}>
+					<Collapse isOpened={expanded}>
+						<div
+							style={{
+								visibility: expanded? 'visible' : 'hidden',
+								cursor: 'pointer',
+								marginLeft: '0.2em',
+								position: 'absolute',
+								top: 5,
+								left: '0.5em'
+							}}
+						>
+							<AgendaDescriptionModal
+								agenda={agenda}
+								translate={translate}
+								council={council}
+								companyStatutes={props.companyStatutes}
+								majorityTypes={props.majorityTypes}
+								draftTypes={props.draftTypes}
+								refetch={refetch}
+							/>
+						</div>
+						<div
+							style={{
+								fontSize: "0.9em",
+								padding: '1em',
+								marginTop: '0.8em',
+								paddingBottom: '1.5em',
+								lineHeight: '1.2em',
+								width: '100%',
+								backgroundColor: 'white',
+							}}
+							onClick={toggleDescription}
+							dangerouslySetInnerHTML={{
+								__html: agenda.description
+							}}
+						/>
+					</Collapse>
+					{agenda.subjectType !== CBX.getActPointSubjectType() ?
+						<AgendaDetailsTabs
+							key={`agenda_${agenda.id}`}
+							translate={translate}
+							agenda={agenda}
+							council={council}
+							showVotingsAlert={props.showVotingsAlert}
+							changeEditedVotings={props.changeEditedVotings}
+							editedVotings={props.editedVotings}
+							refetch={refetch}
+							data={props.data}
+							recount={props.recount}
+							majorityTypes={props.majorityTypes}
+						/>
+					:
+						<ActPointInfoDisplay
+							council={council}
+							data={props.data}
+							agenda={agenda}
+							companyID={council.companyId}
+							translate={translate}
+							recount={props.recount}
+							showVotingsAlert={props.showVotingsAlert}
+							changeEditedVotings={props.changeEditedVotings}
+							majorityTypes={props.majorityTypes}
+							refetch={refetch}
+						/>
+					}
 			</div>
-		);
-	}
+
+		</div>
+	);
 }
+
+
 
 export default graphql(updateAgenda, {
 	name: 'updateAgenda'
