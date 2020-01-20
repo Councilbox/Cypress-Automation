@@ -1,8 +1,10 @@
 import React from 'react';
 import { BasicButton, ButtonIcon } from "../../displayComponents";
+import { ConfigContext } from '../../containers/AppControl';
 
 const GenCatLogin = ({ loginSuccess }) => {
     const [loading, setLoading] = React.useState(false);
+    const config = React.useContext(ConfigContext);
 
     window.setToken = creds => {
         setLoading(false);
@@ -49,6 +51,10 @@ const GenCatLogin = ({ loginSuccess }) => {
 
         //fem el redirect
         window.open(targeturl, "width=800,height=600", "width=800,height=600");
+    }
+
+    if(!config.gicarLogin){
+        return <span />
     }
 
     return (
