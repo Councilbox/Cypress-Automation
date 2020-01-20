@@ -34,7 +34,6 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 
 	usePolling(getData, 2000, [state.voteFilter, state.stateFilter, state.filterText, state.page]);
 
-
 	const updateFilterText = value => {
 		setState({
 			page: 1,

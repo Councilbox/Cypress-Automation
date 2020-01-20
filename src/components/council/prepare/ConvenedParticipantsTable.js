@@ -406,8 +406,6 @@ class HoverableRow extends React.Component {
 					</React.Fragment>
 		);
 
-		console.log(notifications);
-
 		if(isMobile){
             return(
                 <Card

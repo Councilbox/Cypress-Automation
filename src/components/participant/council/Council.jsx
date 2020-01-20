@@ -359,6 +359,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                     {!landscape &&
                         <React.Fragment>
                             <CouncilSidebar
+                                agendas={agendas}
                                 noSession={noSession}
                                 isMobile={isMobile}
                                 council={council}
@@ -475,6 +476,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                 <CouncilSidebar
                                     isMobile={isMobile}
                                     council={council}
+                                    agendas={agendas}
                                     translate={translate}
                                     setAgendaBadge={setAgendaBadge}
                                     agendaBadge={agendaBadge}

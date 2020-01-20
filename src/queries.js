@@ -1974,10 +1974,12 @@ export const participantsWhoCanDelegate = gql`
 		$councilId: Int!
 		$filters: [FilterInput]
 		$options: OptionsInput
+		$participantId: Int
 	) {
 		liveParticipantsWhoCanDelegate(
 			councilId: $councilId
 			filters: $filters
+			participantId: $participantId
 			options: $options
 		) {
 			list {
