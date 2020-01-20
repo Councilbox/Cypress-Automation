@@ -706,7 +706,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`)
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
-	text = text.replace(/{{attendants}}/g, data.council.attendants? data.council.attendants.reduce(buildAttendantsString(data.council, base), '') : '');
+	text = text.replace(/{{attendants||Attendants}}/g, data.council.attendants? data.council.attendants.reduce(buildAttendantsString(data.council, base), '') : '');
 
 	if (data.council.street) {
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
