@@ -4,13 +4,14 @@ import { withApollo } from 'react-apollo';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { corporationUsers } from '../../../queries/corporation';
 import { getPrimary } from '../../../styles/colors';
-import { Icon, Avatar } from 'material-ui';
-import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link } from '../../../displayComponents';
+import { Icon, Avatar, Card } from 'material-ui';
+import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link, GridItem } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import DeactivateAccount from './DeactivateAccount';
 import RestoreAccount from './RestoreAccount';
 import { USER_ACTIVATIONS } from '../../../constants';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import { isMobile } from 'react-device-detect';
 
 
 
@@ -144,28 +145,16 @@ const OrganizationUsers = ({ client, translate, company }) => {
                     </div>
                 </div>
                 <div style={{ fontSize: "13px", height: '100%' }}>
-                    {selecteEntUsu === 'Usuarios' ?
-                        users.length === undefined ?
-                            <LoadingSection />
-                            :
-                            <TablaUsuarios
-                                users={users}
-                                translate={translate}
-                                total={usersTotal}
-                                changePageUsuarios={changePageUsuarios}
-                                usersPage={usersPage}
-                            />
+                    {users.length === undefined ?
+                        <LoadingSection />
                         :
-                        companies.length === undefined ?
-                            <LoadingSection />
-                            :
-                            <TablaCompanies
-                                companies={companies}
-                                translate={translate}
-                                total={companiesTotal}
-                                changePageCompanies={changePageCompanies}
-                                companiesPage={companiesPage}
-                            />
+                        <TablaUsuarios
+                            users={users}
+                            translate={translate}
+                            total={usersTotal}
+                            changePageUsuarios={changePageUsuarios}
+                            usersPage={usersPage}
+                        />
                     }
                 </div>
             </div>
@@ -175,86 +164,70 @@ const OrganizationUsers = ({ client, translate, company }) => {
 
 
 const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage }) => {
-
-    return (
-        <div style={{ height: '100%' }}>
-            <div style={{ fontSize: "13px", height: '100%' }}>
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-                    <div style={{ color: getPrimary(), fontWeight: "bold", width: '10%', textAlign: 'left' }}>
-                        Estado
-				</div>
-                    <div style={{ color: getPrimary(), fontWeight: "bold", width: '10%', textAlign: 'left' }}>
-                        Id
-				</div>
-                    <div style={{ color: getPrimary(), fontWeight: "bold", width: '20%', textAlign: 'left' }}>
-                        Nombre
-				</div>
-                    <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '30%', textAlign: 'left' }}>
-                        Email
-				</div>
-                    <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
-                        Últ.Conexión
-				</div>
-                    <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '10%', textAlign: 'left' }}>
-                    </div>
-                </div>
-                <div style={{ height: "calc( 100% - 13em )" }}>
+    if (isMobile) {
+        return (
+            <div style={{ height: "calc( 100% - 9em )" }}>
+                <div style={{ height: "100%" }}>
                     <Scrollbar>
                         {users.map(item => {
                             return (
-                                <div
-                                    key={item.id}
-                                    style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        padding: "1em",
-                                        alignItems: "center"
-                                    }}>
-                                    <Cell text={item.actived} width={10} />
-                                    <Cell text={item.id} width={10} />
-                                    <Cell text={item.name + " " + item.surname} width={20} />
-                                    <Cell text={item.email} width={30} />
-                                    <Cell text={moment(item.lastConnectionDate).format("LLL")} width={20} />
-                                    <Cell width={10}
-                                        styles={{ padding: "3px" }}
-                                        text={
-                                            <div style={{ display: "flex" }}>
-                                                <Link
-                                                    to={`/edit/${item.id}`}
-                                                    styles={{
-                                                        color: getPrimary(),
-                                                        background: 'white',
-                                                        borderRadius: '4px',
-                                                        boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        padding: "0.3em",
-                                                        marginRight: "1em",
-                                                        width: "100px"
-                                                    }}>
-                                                    {translate.edit}
-                                                </Link>
-                                                <Link
-                                                    to={`/edit/${item.id}`}
-                                                    styles={{
-                                                        color: getPrimary(),
-                                                        background: 'white',
-                                                        borderRadius: '4px',
-                                                        boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        padding: "0.3em",
-                                                        marginRight: "1em",
-                                                        width: "100px"
-                                                    }}>
-                                                    Bloquear
-                                                </Link>
-                                            </div>
-                                        } />
-                                </div>
-
+                                <Card style={{ marginTop: "1em", marginBottom: "1em", marginLeft: "0.3em", marginRight: "0.3em", padding: "1em" }}>
+                                    <Grid>
+                                        <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+                                            {translate.state}
+                                        </GridItem>
+                                        <GridItem xs={8} md={8} lg={8} style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {item.actived}
+                                        </GridItem>
+                                        <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+                                            Id
+                            </GridItem>
+                                        <GridItem xs={8} md={8} lg={8} style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {item.id}
+                                        </GridItem>
+                                        <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+                                            {translate.name}
+                                        </GridItem>
+                                        <GridItem xs={8} md={8} lg={8} style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {item.name + " " + item.surname}
+                                        </GridItem>
+                                        <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+                                            {translate.email}
+                                        </GridItem>
+                                        <GridItem xs={8} md={8} lg={8} style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {item.email}
+                                        </GridItem>
+                                        <GridItem xs={4} md={4} lg={4} style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                        </GridItem>
+                                        <GridItem xs={8} md={8} lg={8} style={{
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {moment(item.lastConnectionDate).format("LLL")}
+                                        </GridItem>
+                                    </Grid>
+                                </Card>
                             )
                         })}
                     </Scrollbar>
@@ -271,9 +244,108 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
                         xs={12}
                     />
                 </Grid>
+            </div >
+        )
+    } else {
+        return (
+            <div style={{ height: '100%' }}>
+                <div style={{ fontSize: "13px", height: '100%' }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
+                        <div style={{ color: getPrimary(), fontWeight: "bold", width: '10%', textAlign: 'left' }}>
+                            Estado
+				</div>
+                        <div style={{ color: getPrimary(), fontWeight: "bold", width: '10%', textAlign: 'left' }}>
+                            Id
+				</div>
+                        <div style={{ color: getPrimary(), fontWeight: "bold", width: '20%', textAlign: 'left' }}>
+                            Nombre
+				</div>
+                        <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '30%', textAlign: 'left' }}>
+                            Email
+				</div>
+                        <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
+                            Últ.Conexión
+				</div>
+                        <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '10%', textAlign: 'left' }}>
+                        </div>
+                    </div>
+                    <div style={{ height: "calc( 100% - 13em )" }}>
+                        <Scrollbar>
+                            {users.map(item => {
+                                return (
+                                    <div
+                                        key={item.id}
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            padding: "1em",
+                                            alignItems: "center"
+                                        }}>
+                                        <Cell text={item.actived} width={10} />
+                                        <Cell text={item.id} width={10} />
+                                        <Cell text={item.name + " " + item.surname} width={20} />
+                                        <Cell text={item.email} width={30} />
+                                        <Cell text={moment(item.lastConnectionDate).format("LLL")} width={20} />
+                                        <Cell width={10}
+                                            styles={{ padding: "3px" }}
+                                            text={
+                                                <div style={{ display: "flex" }}>
+                                                    <Link
+                                                        to={`/edit/${item.id}`}
+                                                        styles={{
+                                                            color: getPrimary(),
+                                                            background: 'white',
+                                                            borderRadius: '4px',
+                                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            padding: "0.3em",
+                                                            marginRight: "1em",
+                                                            width: "100px"
+                                                        }}>
+                                                        {translate.edit}
+                                                    </Link>
+                                                    <Link
+                                                        to={`/edit/${item.id}`}
+                                                        styles={{
+                                                            color: getPrimary(),
+                                                            background: 'white',
+                                                            borderRadius: '4px',
+                                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                            padding: "0.3em",
+                                                            marginRight: "1em",
+                                                            width: "100px"
+                                                        }}>
+                                                        Bloquear
+                                                </Link>
+                                                </div>
+                                            } />
+                                    </div>
+
+                                )
+                            })}
+                        </Scrollbar>
+                    </div>
+                    <Grid style={{ marginTop: "1em" }}>
+                        <PaginationFooter
+                            page={usersPage}
+                            translate={translate}
+                            length={users.length}
+                            total={total}
+                            limit={10}
+                            changePage={changePageUsuarios}
+                            md={12}
+                            xs={12}
+                        />
+                    </Grid>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 const TablaCompanies = ({ companies, translate, total, changePageCompanies, companiesPage }) => {
@@ -358,9 +430,9 @@ const Cell = ({ text, width, styles }) => {
 
 const corporationCompanies = gql`
     query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int!){
-        corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
-            list{
-                id
+                    corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
+                    list{
+                    id
                 businessName
                 logo
             }

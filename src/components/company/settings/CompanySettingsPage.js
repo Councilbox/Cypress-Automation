@@ -188,10 +188,10 @@ class CompanySettingsPage extends React.Component {
 					<LiveToast
 						message={this.props.translate.changes_saved}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "successToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "successToast"
+				}
 				);
 				bHistory.goBack();
 				//store.dispatch(setCompany(response.data.updateCompany));
@@ -214,10 +214,10 @@ class CompanySettingsPage extends React.Component {
 					<LiveToast
 						message={this.props.translate.company_link_unliked_title}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "successToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "successToast"
+				}
 				);
 				bHistory.goBack();
 			}
@@ -690,11 +690,6 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId }) => {
 		getUsers()
 	}, [state.filterTextUsuarios, usersPage]);
 
-	const linkCompanytoUsers = (checked) => {
-		setCheckedItems(checked)
-        console.log(checked)
-    }
-
 
 	return (
 		<div>
@@ -731,15 +726,12 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId }) => {
 					bodyStyle={{ minWidth: '70vw' }}
 					requestClose={() => setAddAdmins(false)}
 					open={addAdmins}
-					acceptAction={()=>linkCompanytoUsers()}
-					buttonAccept={translate.accept}
-					buttonCancel={translate.cancel}
 					bodyText={
 						<TablaUsuariosAdmin
 							translate={translate}
 							client={client}
 							corporationId={corporationId}
-							linkCompanytoUsers={linkCompanytoUsers}
+							companyId={companyId}
 						/>
 					}
 					title={translate.add}
@@ -807,7 +799,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId }) => {
 }
 
 
-const TablaUsuariosAdmin = ({ translate, client, corporationId, linkCompanytoUsers }) => {
+const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId }) => {
 	const [users, setUsers] = React.useState(false);
 	const [usersPage, setUsersPage] = React.useState(1);
 	const [usersTotal, setUsersTotal] = React.useState(false);
@@ -829,7 +821,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, linkCompanytoUse
 				corporationId: corporationId
 			}
 		});
-
+		
 		if (response.data.corporationUsers.list) {
 			setUsers(response.data.corporationUsers.list)
 			setUsersTotal(response.data.corporationUsers.total)
@@ -840,24 +832,35 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, linkCompanytoUse
 		getUsersModal()
 	}, [state.filterTextUsuarios, usersPage]);
 
-	const checkUser = (user, check) => {
-        let checked = [...state.checked];
-        if (check) {
-            checked = [...checked, user];
-        } else {
-            const index = checked.findIndex(item => item.id === user.id);
-            checked.splice(index, 1);
-        }
-        setState({
-			...state,
-            checked: checked
+	const saveUsersInCompany = async () => {
+		const response = await client.mutate({
+			mutation: linkCompanyUsers,
+			variables: {
+				companyTin: companyId,
+				usersIds: state.checked.map(check => check.id),
+			}
 		});
-		linkCompanytoUsers(state.checked)
+
 	}
-	
+
+
+	const checkUser = (user, check) => {
+		let checked = [...state.checked];
+		if (check) {
+			checked = [...checked, user];
+		} else {
+			const index = checked.findIndex(item => item.id === user.id);
+			checked.splice(index, 1);
+		}
+		setState({
+			...state,
+			checked: checked
+		});
+	}
+
 	const isChecked = (id) => {
-        const item = state.checked.find(item => item.id === id);
-        return !!item;
+		const item = state.checked.find(item => item.id === id);
+		return !!item;
 	}
 
 	return (
@@ -953,6 +956,15 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, linkCompanytoUse
 					</Grid>
 				</div>
 			</div>
+			<div>
+				<BasicButton
+					buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
+					backgroundColor={{ backgroundColor: "white" }}
+					text={translate.add}
+					// Falta añadir usuarios
+					onClick={() => saveUsersInCompany()}
+				/>
+			</div>
 		</div>
 	)
 }
@@ -986,9 +998,9 @@ const AddAdmin = ({ translate, company, open, requestClose }) => {
 		/>
 	)
 }
-const linkCompanyUsers = `
-    mutation linkCompanyUsers($companyTin: String!, $userId: Int!){
-        linkCompanyUsers(companyTin: $companyTin, userId: $userId){
+const linkCompanyUsers = gql`
+    mutation linkCompanyUsers($companyTin: String!, $usersIds: [Int]){
+        linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
             success
             message
         }
