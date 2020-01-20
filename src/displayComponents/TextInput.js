@@ -39,7 +39,8 @@ const TextInput = ({
 	styleInInput,
 	disableUnderline,
 	stylesAdornment,
-	labelNone
+	labelNone,
+	autoComplete = true
 }) => (
 		<FormControl
 			style={{
@@ -85,9 +86,8 @@ const TextInput = ({
 					shrink: true
 				}}
 				InputProps={{
-					disableUnderline:disableUnderline,
+					disableUnderline,
 					startAdornment: "",
-					disableUnderline: disableUnderline,
 					inputProps: {
 						min: min,
 						id: id,
@@ -128,6 +128,7 @@ const TextInput = ({
 				}}
 				color="secondary"
 				type={type}
+				autoComplete={autoComplete}
 				disabled={!!disabled}
 				onKeyUp={onKeyUp}
 				onChange={onChange}
