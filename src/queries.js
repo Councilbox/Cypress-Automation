@@ -1462,6 +1462,8 @@ export const councilLiveQuery = gql`
 				existsAdvanceNoticeDays
 				advanceNoticeDays
 				existsSecondCall
+				hasPresident
+				hasSecretary
 				minimumSeparationBetweenCall
 				canEditConvene
 				firstCallQuorumType
