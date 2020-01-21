@@ -131,27 +131,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	};
 
 	const nextPage = async () => {
-		if (checkConditions()) {
-			await updateCouncil(4);
-			props.nextStep();
-		}
-	};
-
-	const checkConditions = () => {
-		const { errors } = state;
-		const agendas = data.council.agendas;
-
-		if (agendas.length !== 0) {
-			return true;
-		} else {
-			setState({
-				errors: {
-					...errors,
-					emptyAgendas: translate.required_agendas
-				}
-			});
-			return false;
-		}
+		await updateCouncil(4);
+		props.nextStep();
 	};
 
 	const previousPage = async () => {
