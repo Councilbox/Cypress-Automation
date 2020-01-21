@@ -69,8 +69,6 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     }
 
     function checkAgendas() {
-        const read = votingsWarning? votingsWarning.read : null;
-
         const opened = agendas.agendas.reduce((acc, agenda) => {
             if(agenda.votingState === 1){
                 acc.push(agenda);
@@ -84,6 +82,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                 show: opened.length > 0
             }
         }
+        prevAgendas.current = agendas.agendas;
 
         return {
             ...votingsWarning,
@@ -91,7 +90,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
             show: opened.filter(item => !votingsWarning.read.has(item.id)).length > 0,
             read: (opened.length > votingsWarning.opened.length)? new Set(opened) : votingsWarning.read
         }
-        prevAgendas.current = agendas.agendas;
+
     }
 
     React.useEffect(() => {
@@ -102,12 +101,14 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
         }
     }, [agendas]);
 
-    const renderAgendaAvisoAbiertaVotacion = () => {
+    const renderVotingsWarning = () => {
         let hideEnterModal = props.modalContent === "agenda" ? true : false;
         return (
             (votingsWarning.show && !hideEnterModal) && (
-                    <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
-                        <div style={{
+                <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
+                    <div
+                        onClick={selectAgenda}
+                        style={{
                             background: "white",
                             width: '100%',
                             fontWeight: "bold",
@@ -116,28 +117,29 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                             display: "flex",
                             justifyContent: "space-between",
                             fontSize: "14px"
-                        }}>
-                            <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: "10px" }}>
-                                {translate.opened_votings} ({votingsWarning.opened.length})
-                            </div>
-                            {/* <div style={{ color: "#3b3b3b", marginRight: "10px", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis", maxWidth: "30%" }}>
-                                {council.businessName}
-                            </div> */}
-                            <div style={{ maxWidth: '40%', color: "#3b3b3b", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis" }}>
-                                {'klsdjflskdjf lksjdfl ksdjfl skjsdlf kjsdlfk jlskddfj lskdjflk sjdfl ksdjfl skdfjs ldfkjs dlfkjs dlfkjs dlfkjs dlfksjd lfksjdf lksjdf lksdjf lskdjf slkdfj slkdfj sldfkjs ldfkjsd f'}
-                            </div>
+                        }}
+                    >
+                        <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: "10px" }}>
+                            {translate.opened_votings} ({votingsWarning.opened.length})
                         </div>
-                        <div style={{
-                            width: '0',
-                            height: '0',
-                            borderLeft: '5px solid transparent',
-                            borderRight: '5px solid transparent',
-                            borderTop: '11px solid white',
-                            left: '28.8%',
-                            position: 'relative'
-                        }}></div>
+                        {/* <div style={{ color: "#3b3b3b", marginRight: "10px", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis", maxWidth: "30%" }}>
+                            {council.businessName}
+                        </div> */}
+                        <div style={{ maxWidth: '40%', color: "#3b3b3b", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis" }}>
+                            {votingsWarning.opened[votingsWarning.opened.length - 1].agendaSubject}
+                        </div>
                     </div>
-                )
+                    <div style={{
+                        width: '0',
+                        height: '0',
+                        borderLeft: '5px solid transparent',
+                        borderRight: '5px solid transparent',
+                        borderTop: '11px solid white',
+                        left: '28.8%',
+                        position: 'relative'
+                    }}></div>
+                </div>
+            )
         )
     }
 
@@ -154,7 +156,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
         });
     }
 
-    const selectAgenda = () => {
+    function selectAgenda(){
         props.setContent('agenda');
         updateReadVotings();
     }
@@ -349,7 +351,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                                 renderVideoButton()
                             }
                         </div>
-                        {renderAgendaAvisoAbiertaVotacion()}
+                        {renderVotingsWarning()}
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             {renderAgendaButton()}
                         </div>

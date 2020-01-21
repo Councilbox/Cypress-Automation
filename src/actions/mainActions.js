@@ -21,6 +21,7 @@ export const setUnsavedChanges = value => (
 )
 
 export const loadSubdomainConfig = () => {
+	const subdomain = window.location.hostname.split('.')[0];
 	return async dispatch => {
 		const response = await client.query({
 			query: gql`
@@ -38,7 +39,7 @@ export const loadSubdomainConfig = () => {
 				}
 			`,
 			variables: {
-				subdomain: window.location.hostname.split('.')[0]
+				subdomain
 			}
 		});
 
@@ -60,7 +61,10 @@ export const loadSubdomainConfig = () => {
 			document.title = config.title;
 		}
 
-		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: response.data.subdomainConfig });
+		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: {
+			...response.data.subdomainConfig,
+			name: subdomain
+		}});
 	}
 }
 
