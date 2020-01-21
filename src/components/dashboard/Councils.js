@@ -24,6 +24,7 @@ import { useOldState } from '../../hooks';
 import { DRAFTS_LIMITS } from "../../constants.js";
 import MenuSuperiorTabs from "./MenuSuperiorTabs.js";
 import { bHistory } from "../../containers/App.js";
+import { isMobile } from "react-device-detect";
 
 
 
@@ -87,7 +88,7 @@ const Councils = ({ translate, client, ...props }) => {
 	React.useEffect(() => {
 		setLoading(true)
 		getData()
-	}, [selecteReuniones])
+	}, [selecteReuniones, state.page])
 
 	const select = id => {
 		if (state.selectedIds.has(id)) {
@@ -97,6 +98,7 @@ const Councils = ({ translate, client, ...props }) => {
 		}
 
 		setState({
+			...state,
 			selectedIds: new Map(state.selectedIds)
 		});
 	}
@@ -110,6 +112,7 @@ const Councils = ({ translate, client, ...props }) => {
 		}
 
 		setState({
+			...state,
 			selectedIds: newSelected
 		});
 	}
@@ -121,6 +124,7 @@ const Councils = ({ translate, client, ...props }) => {
 			}
 		}
 		setState({
+			...state,
 			deleteModal: true,
 			selectedIds: new Map(state.selectedIds)
 		});
@@ -135,6 +139,7 @@ const Councils = ({ translate, client, ...props }) => {
 		});
 		if (response) {
 			setState({
+				...state,
 				deleteModal: false,
 				selectedIds: new Map()
 			});
@@ -149,13 +154,14 @@ const Councils = ({ translate, client, ...props }) => {
 
 	const changePage = page => {
 		setState({
+			...state,
 			page: page,
 		});
 	};
 
 	const handleChange = () => {
 		// if (linked) {
-			bHistory.push(statesTabLink[selecteReuniones]);
+		bHistory.push(statesTabLink[selecteReuniones]);
 		// }
 	}
 
@@ -169,7 +175,7 @@ const Councils = ({ translate, client, ...props }) => {
 			}}
 		>
 			<div style={{ width: '100%', height: '100%', padding: '1em' }}>
-				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+				<div style={{ display: !isMobile && "flex", justifyContent: "space-between", alignItems: "center" }}>
 					<div>
 						<MenuSuperiorTabs
 							items={[translate.companies_draft, translate.companies_calendar,
@@ -211,7 +217,7 @@ const Councils = ({ translate, client, ...props }) => {
 						<LoadingSection />
 					</div>
 				) : (
-						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '3em'})`, overflow: 'hidden' }}>
+						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '8em'})`, overflow: 'hidden' }}>
 							<Scrollbar>
 								<div style={{ padding: "1em", paddingTop: '2em' }}>
 									{false ? (
@@ -235,7 +241,7 @@ const Councils = ({ translate, client, ...props }) => {
 													translate={translate}
 													company={props.company}
 												/>
-												<Grid style={{ padding: '2em 3em 1em 2em' }}>
+												<Grid style={{ padding: isMobile ? "1em 0em 0em 0em" : '2em 3em 1em 2em' }}>
 													<PaginationFooter
 														page={state.page}
 														translate={translate}
@@ -259,7 +265,7 @@ const Councils = ({ translate, client, ...props }) => {
 														link={selecteReunionesLink}
 													// link={props.link}
 													/>
-													<Grid style={{ padding: '2em 3em 1em 2em' }}>
+													<Grid style={{ padding: isMobile ? "1em 0em 0em 0em" : '2em 3em 1em 2em' }}>
 														<PaginationFooter
 															page={state.page}
 															translate={translate}
@@ -283,7 +289,7 @@ const Councils = ({ translate, client, ...props }) => {
 										modal={true}
 										acceptAction={deleteCouncil}
 										requestClose={() =>
-											setState({ deleteModal: false })
+											setState({ ...state, deleteModal: false })
 										}
 									/>
 								</div>

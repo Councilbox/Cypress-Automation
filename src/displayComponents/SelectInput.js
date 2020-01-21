@@ -65,6 +65,7 @@ const SelectInput = ({
 	noLabel,
 	autoWidth,
 	colorText,
+	styles,
 	...props
 }) => {
 
@@ -91,9 +92,9 @@ const SelectInput = ({
 				}}
 				input={
 					<Input
-						// classes={{
-						// 	underline: props.classes[colorText],
-						// }}
+					// classes={{
+					// 	underline: props.classes[colorText],
+					// }}
 					/>
 				}
 				// classes={{ select: props.classes[colorText], icon: props.classes[colorText] }}
@@ -102,6 +103,7 @@ const SelectInput = ({
 				value={value}
 				onChange={onChange}
 				error={!!errorText}
+				style={{ ...styles }}
 			// color={'red'}
 			>
 				{children}

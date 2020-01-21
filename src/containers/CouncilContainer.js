@@ -180,7 +180,8 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 				}}
 			>
 				{/* <div style={{ height: 'calc(100% - 3.5rem)', marginBottom: '0.6em'}}> */}
-				<div style={{ height: 'calc(100% - 1.6rem)', width: '98%', margin: '0 auto' }}>
+				{/* <div style={{ height: 'calc(100% - 1.6rem)', width: '98%', margin: '0 auto' }}> */}
+				<div style={{ height: '100%', width: '98%', margin: '0 auto' }}>
 					
 					<Councils
 						company={company}

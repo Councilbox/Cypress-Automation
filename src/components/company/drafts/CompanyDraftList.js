@@ -247,7 +247,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 
 	return (
 		<React.Fragment>
-			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em', marginLeft: "1em" }}>
+			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em', marginLeft: isMobile ? "0em" : "1em" }}>
 				<BasicButton
 					text={translate.drafts_new}
 					color={primary}
@@ -255,14 +255,18 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 					textStyle={{
 						color: "white",
 						fontWeight: "700",
-						textTransform: 'none'
+						textTransform: 'none',
+						whiteSpace: isMobile && 'nowrap',
+						overflow: isMobile && 'hidden',
+						textOverflow: isMobile && 'ellipsis',
+						padding: isMobile && "8px 8px"
 					}}
 					onClick={() =>
 						setState({
 							newForm: true
 						})
 					}
-					icon={<ButtonIcon type="add" color="white" />}
+				// icon={<ButtonIcon type="add" color="white" />}
 				/>
 				<Link
 					to={`/company/${company.id}/platform/drafts/`}
@@ -274,9 +278,13 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 						textStyle={{
 							color: "white",
 							fontWeight: "700",
-							textTransform: 'none'
+							textTransform: 'none',
+							whiteSpace: isMobile && 'nowrap',
+							overflow: isMobile && 'hidden',
+							textOverflow: isMobile && 'ellipsis',
+							padding: isMobile && "8px 8px"
 						}}
-						icon={<ButtonIcon type="add" color="white" />}
+					// icon={<ButtonIcon type="add" color="white" />}
 					/>
 				</Link>
 			</div>
@@ -302,10 +310,12 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 								horizontal: 'right',
 							}}
 							removeTag={removeTag}
+							stylesMenuItem={{ padding: "3px 3px" }}
 						/>
 					</div>
 					<div>
 						<TextInput
+							className={isMobile && "openInput"}
 							disableUnderline={true}
 							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding: "4px 5px" }}
 							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
@@ -313,7 +323,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 							floatingText={" "}
 							type="text"
 							value={search}
-							placeholder={"Buscar plantillas"}
+							placeholder={isMobile ? "Buscar" : "Buscar plantillas"}
 							onChange={event => {
 								setSearch(event.target.value);
 							}}
@@ -336,57 +346,58 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 							</div>
 						) : (
 								!!companyDrafts && (
-									<EnhancedTable
-										hideTextFilter={true}
-										translate={translate}
-										defaultLimit={DRAFTS_LIMITS[0]}
-										defaultFilter={"title"}
-										limits={DRAFTS_LIMITS}
-										page={1}
-										loading={loading}
-										length={companyDrafts.list.length}
-										total={companyDrafts.total}
-										selectedCategories={[{
-											field: "type",
-											value: 'all',
-											label: translate.all_plural
-										}]}
-										refetch={getDrafts}
-										headers={[
-											{
-												text: translate.name,
-												name: "title",
-												canOrder: true
-											},
-											{
-												name: "type",
-												text: 'Etiquetas',
-												canOrder: true
-											},
-											{
-												name: '',
-												text: ''
-											}
-										]}
-										action={_renderDeleteIcon}
-										companyID={company.id}
-									>
-										{companyDrafts.list.map(draft => {
-											return (
-												<DraftRow
-													key={`draft${draft.id}`}
-													translate={translate}
-													action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
-													renderDeleteIcon={_renderDeleteIcon}
-													draft={draft}
-													companyStatutes={vars.companyStatutes}
-													draftTypes={draftTypes}
-													company={company}
-													info={props}
-												/>
-											);
-										})}
-									</EnhancedTable>
+									<div>adasdasdasdas</div>
+									// <EnhancedTable
+									// 	hideTextFilter={true}
+									// 	translate={translate}
+									// 	defaultLimit={DRAFTS_LIMITS[0]}
+									// 	defaultFilter={"title"}
+									// 	limits={DRAFTS_LIMITS}
+									// 	page={1}
+									// 	loading={loading}
+									// 	length={companyDrafts.list.length}
+									// 	total={companyDrafts.total}
+									// 	selectedCategories={[{
+									// 		field: "type",
+									// 		value: 'all',
+									// 		label: translate.all_plural
+									// 	}]}
+									// 	refetch={getDrafts}
+									// 	headers={[
+									// 		{
+									// 			text: translate.name,
+									// 			name: "title",
+									// 			canOrder: true
+									// 		},
+									// 		{
+									// 			name: "type",
+									// 			text: 'Etiquetas',
+									// 			canOrder: true
+									// 		},
+									// 		{
+									// 			name: '',
+									// 			text: ''
+									// 		}
+									// 	]}
+									// 	action={_renderDeleteIcon}
+									// 	companyID={company.id}
+									// >
+									// 	{companyDrafts.list.map(draft => {
+									// 		return (
+									// 			<DraftRow
+									// 				key={`draft${draft.id}`}
+									// 				translate={translate}
+									// 				action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
+									// 				renderDeleteIcon={_renderDeleteIcon}
+									// 				draft={draft}
+									// 				companyStatutes={vars.companyStatutes}
+									// 				draftTypes={draftTypes}
+									// 				company={company}
+									// 				info={props}
+									// 			/>
+									// 		);
+									// 	})}
+									// </EnhancedTable>
 								))}
 					</div>
 					<AlertConfirm

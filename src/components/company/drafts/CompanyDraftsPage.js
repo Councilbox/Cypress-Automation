@@ -4,6 +4,7 @@ import CompanyDraftList from './CompanyDraftList';
 import CompanyTags from './companyTags/CompanyTags';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import { isMobile } from 'react-device-detect';
 
 const CompanyDraftsPage = ({ translate, ...props }) => {
     const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(translate.drafts);
@@ -23,7 +24,7 @@ const CompanyDraftsPage = ({ translate, ...props }) => {
                     </div>
                 }
                 {selecteDraftPadre !== '<Tags>' ?
-                    <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em" }}><CompanyDraftList setMostrarMenu={setMostrarMenu} /></div>
+                    <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em", paddingTop: isMobile && "0em" }}><CompanyDraftList setMostrarMenu={setMostrarMenu} /></div>
                     :
                     <div style={{ width: '100%', height: '100%', padding: '1em' }}><CompanyTags /></div>
                 }

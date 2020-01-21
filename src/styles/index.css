@@ -934,3 +934,13 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .tableReuniones tbody tr td {
     border-bottom: none;
 }
+
+.openInput div input {
+    width: 35px;
+    border-radius: 4px;
+    transition: width 0.4s ease-in-out;
+}
+
+.openInput div input:focus {
+    width: 100%;
+}

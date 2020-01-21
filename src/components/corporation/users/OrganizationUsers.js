@@ -128,6 +128,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
                         </div>
 
                         <TextInput
+                            className={isMobile && "openInput"}
                             placeholder={translate.search}
                             adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
                             type="text"
@@ -166,84 +167,86 @@ const OrganizationUsers = ({ client, translate, company }) => {
 const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage }) => {
     if (isMobile) {
         return (
-            <div style={{ height: "calc( 100% - 9em )" }}>
+            <div style={{ height: "calc( 100% - 5em )" }}>
                 <div style={{ height: "100%" }}>
                     <Scrollbar>
-                        {users.map(item => {
-                            return (
-                                <Card style={{ marginTop: "1em", marginBottom: "1em", marginLeft: "0.3em", marginRight: "0.3em", padding: "1em" }}>
-                                    <Grid>
-                                        <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-                                            {translate.state}
-                                        </GridItem>
-                                        <GridItem xs={8} md={8} lg={8} style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis'
-                                        }}>
-                                            {item.actived}
-                                        </GridItem>
-                                        <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-                                            Id
+                        <Grid style={{ padding: '2em 2em 1em 2em', height: "100%" }}>
+                            {users.map(item => {
+                                return (
+                                    <Card style={{ marginTop: "1em", marginBottom: "1em", marginLeft: "0.3em", marginRight: "0.3em", padding: "1em" }}>
+                                        <Grid>
+                                            <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+                                                {translate.state}
+                                            </GridItem>
+                                            <GridItem xs={8} md={8} lg={8} style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis'
+                                            }}>
+                                                {item.actived}
+                                            </GridItem>
+                                            <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+                                                Id
                             </GridItem>
-                                        <GridItem xs={8} md={8} lg={8} style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis'
-                                        }}>
-                                            {item.id}
-                                        </GridItem>
-                                        <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-                                            {translate.name}
-                                        </GridItem>
-                                        <GridItem xs={8} md={8} lg={8} style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis'
-                                        }}>
-                                            {item.name + " " + item.surname}
-                                        </GridItem>
-                                        <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-                                            {translate.email}
-                                        </GridItem>
-                                        <GridItem xs={8} md={8} lg={8} style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis'
-                                        }}>
-                                            {item.email}
-                                        </GridItem>
-                                        <GridItem xs={4} md={4} lg={4} style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis'
-                                        }}>
-                                        </GridItem>
-                                        <GridItem xs={8} md={8} lg={8} style={{
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis'
-                                        }}>
-                                            {moment(item.lastConnectionDate).format("LLL")}
-                                        </GridItem>
-                                    </Grid>
-                                </Card>
-                            )
-                        })}
+                                            <GridItem xs={8} md={8} lg={8} style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis'
+                                            }}>
+                                                {item.id}
+                                            </GridItem>
+                                            <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+                                                {translate.name}
+                                            </GridItem>
+                                            <GridItem xs={8} md={8} lg={8} style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis'
+                                            }}>
+                                                {item.name + " " + item.surname}
+                                            </GridItem>
+                                            <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+                                                {translate.email}
+                                            </GridItem>
+                                            <GridItem xs={8} md={8} lg={8} style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis'
+                                            }}>
+                                                {item.email}
+                                            </GridItem>
+                                            <GridItem xs={4} md={4} lg={4} style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis'
+                                            }}>
+                                            </GridItem>
+                                            <GridItem xs={8} md={8} lg={8} style={{
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis'
+                                            }}>
+                                                {moment(item.lastConnectionDate).format("LLL")}
+                                            </GridItem>
+                                        </Grid>
+                                    </Card>
+                                )
+                            })}
+                            <Grid style={{ marginTop: "1em" }}>
+                                <PaginationFooter
+                                    page={usersPage}
+                                    translate={translate}
+                                    length={users.length}
+                                    total={total}
+                                    limit={10}
+                                    changePage={changePageUsuarios}
+                                    md={12}
+                                    xs={12}
+                                />
+                            </Grid>
+                        </Grid>
                     </Scrollbar>
                 </div>
-                <Grid style={{ marginTop: "1em" }}>
-                    <PaginationFooter
-                        page={usersPage}
-                        translate={translate}
-                        length={users.length}
-                        total={total}
-                        limit={10}
-                        changePage={changePageUsuarios}
-                        md={12}
-                        xs={12}
-                    />
-                </Grid>
             </div >
         )
     } else {

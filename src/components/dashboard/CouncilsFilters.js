@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextInput, Icon } from '../../displayComponents';
+import { isMobile } from 'react-device-detect';
 
 
 class CouncilsFilters extends React.Component {
@@ -21,7 +22,7 @@ class CouncilsFilters extends React.Component {
 
     render() {
         return (
-            <div style={{ width: '100%', float: 'right', paddingRight: '1.2em' }}>
+            <div style={{ width: '100%', float: 'right', paddingRight: !isMobile && '1.2em' }}>
                 <TextInput
                     placeholder={this.props.translate.search}
                     adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}

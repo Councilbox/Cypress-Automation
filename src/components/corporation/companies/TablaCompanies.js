@@ -11,7 +11,7 @@ import {
 	CardPageLayout,
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
-import { Avatar, Icon } from "material-ui";
+import { Avatar, Icon, Card, CardActions, Button, CardContent } from "material-ui";
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { withApollo } from "react-apollo";
@@ -70,9 +70,144 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 
 	if (isMobile) {
 		return (
-			<div>
-				
-			</div>
+			companies.length === undefined ?
+				<LoadingSection />
+				:
+				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
+					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
+						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+								<BasicButton
+									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
+									backgroundColor={{ backgroundColor: "white" }}
+									text={translate.add}
+									onClick={() => setEntidades(true)}
+								/>
+
+								<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+									<i className="fa fa-filter"></i>
+								</div>
+
+								<TextInput
+									className={isMobile && "openInput"}
+									placeholder={translate.search}
+									adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+									type="text"
+									value={state.filterTextCompanies || ""}
+									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+									disableUnderline={true}
+									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+									onChange={event => {
+										setState({
+											...state,
+											filterTextCompanies: event.target.value
+										})
+									}}
+								/>
+							</div>
+						</div>
+						<div style={{ height: "calc( 100% - 5em )" }}>
+							<Scrollbar>
+								<Grid style={{ padding: '2em 2em 1em 2em', height: "100%" }}>
+									{companies.filter(item => item.id !== company.id).map(item => {
+										return (
+											<Card
+												style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative', width: "100%" }}
+											>
+												<CardContent>
+													<Grid>
+														<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+															{translate.name}
+														</GridItem>
+														<GridItem xs={7} md={7}>
+															{item.businessName}
+														</GridItem>
+														<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+															Id
+														</GridItem>
+														<GridItem xs={7} md={7}>
+															{item.id}
+														</GridItem>
+														<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+															{translate.company_type}
+														</GridItem>
+														<GridItem xs={7} md={7}>
+															S.L.
+											{/* {item.companyType} */}
+														</GridItem>
+													</Grid>
+												</CardContent>
+												<CardActions>
+													<RemoveCompany
+														translate={translate}
+														refetch={getCompanies}
+														company={item}
+														styles={{
+															color: getPrimary(),
+															background: 'white',
+															display: "flex",
+															alignItems: "center",
+															justifyContent: "center",
+															padding: "0.3em",
+															width: "100px"
+														}}
+														render={
+															<span style={{}}>
+																Expulsar
+													</span>
+														}
+													/>
+													<DeleteCompany
+														translate={translate}
+														refetch={getCompanies}
+														company={item}
+														styles={{
+															color: getPrimary(),
+															background: 'white',
+															display: "flex",
+															alignItems: "center",
+															justifyContent: "center",
+															padding: "0.3em",
+															width: "100px"
+														}}
+														render={
+															<span style={{}}>
+																Eliminar
+													</span>
+														}
+													/>
+													<Link to={`/company/${company.id}/edit/${item.id}`}
+														styles={{
+															color: getPrimary(),
+															background: 'white',
+															display: "flex",
+															alignItems: "center",
+															justifyContent: "center",
+															padding: "0.3em",
+															width: "100px"
+														}}>
+														Editar
+											</Link>
+												</CardActions>
+											</Card>
+
+										)
+									})}
+									<Grid style={{ marginTop: "1em" }}>
+										<PaginationFooter
+											page={companiesPage}
+											translate={translate}
+											length={companies.length}
+											total={companiesTotal}
+											limit={10}
+											changePage={changePageCompanies}
+										/>
+									</Grid>
+								</Grid>
+							</Scrollbar>
+						</div>
+					</div>
+				</CardPageLayout >
 		)
 	} else {
 		return (
@@ -82,14 +217,6 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
 					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
 						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-							{/* <div>
-							<div>
-								<MenuSuperiorTabs
-									items={['Lista de entidades', 'Usuarios de entidades']}
-									setSelect={setSelectedCompany}
-								/>
-							</div>
-						</div> */}
 							<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
 								<BasicButton
 									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
@@ -241,12 +368,6 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 	}
 }
 
-const Table = () => {
-
-	return(
-		<div></div>
-	)
-}
 
 const CellAvatar = ({ avatar, width }) => {
 	return (
@@ -282,15 +403,15 @@ const Cell = ({ text, avatar, width, children, style }) => {
 
 const corporationCompanies = gql`
     query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
-        corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
-            list{
-                id
-                businessName
-				logo
-            }
-            total
-        }
-    }
-`;
+						corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
+						list{
+					id
+					businessName
+					logo
+				}
+				total
+			}
+		}
+	`;
 
 export default withApollo(withSharedProps()(withRouter(TablaCompanies)));
