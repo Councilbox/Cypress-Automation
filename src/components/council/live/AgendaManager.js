@@ -206,26 +206,29 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 				}}
 				tabIndex="0"
 			>
-				<AgendaDetailsSection
-					ref={agendaDetails}
-					recount={props.recount}
-					council={council}
-					agendas={agendas}
-					editedVotings={state.editedVotings}
-					changeEditedVotings={changeEditedVotings}
-					showVotingsAlert={showVotingsAlert}
-					nextPoint={nextPoint}
-					data={data}
-					selectedPoint={state.selectedPoint}
-					majorityTypes={data.majorityTypes}
-					votingTypes={data.votingTypes}
-					companyStatutes={data.companyStatutes}
-					participants={props.participants}
-					councilID={props.councilID}
-					translate={translate}
-					refetchCouncil={props.refetch}
-					refetch={getData}
-				/>
+				{agendas.length > 0 &&
+					<AgendaDetailsSection
+						ref={agendaDetails}
+						recount={props.recount}
+						council={council}
+						agendas={agendas}
+						editedVotings={state.editedVotings}
+						changeEditedVotings={changeEditedVotings}
+						showVotingsAlert={showVotingsAlert}
+						nextPoint={nextPoint}
+						data={data}
+						selectedPoint={state.selectedPoint}
+						majorityTypes={data.majorityTypes}
+						votingTypes={data.votingTypes}
+						companyStatutes={data.companyStatutes}
+						participants={props.participants}
+						councilID={props.councilID}
+						translate={translate}
+						refetchCouncil={props.refetch}
+						refetch={getData}
+					/>
+				}
+
 			</div>
 			<AlertConfirm
 				requestClose={closeVotingsAlert}
