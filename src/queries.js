@@ -758,6 +758,8 @@ export const statutes = gql`
 			canUnblock
 			includeParticipantsList
 			existsWhoSignTheAct
+			hasPresident
+			hasSecretary
 			prototype
 			intro
 			constitution
