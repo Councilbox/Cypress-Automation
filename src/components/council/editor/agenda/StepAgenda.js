@@ -131,8 +131,27 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	};
 
 	const nextPage = async () => {
-		await updateCouncil(4);
-		props.nextStep();
+		if(data.council.statute.canAddPoints === 1 || checkConditions()){
+			await updateCouncil(4);
+			props.nextStep();
+		}
+	};
+
+	const checkConditions = () => {
+		const { errors } = state;
+		const agendas = data.council.agendas;
+
+		if (agendas.length !== 0) {
+			return true;
+		} else {
+			setState({
+				errors: {
+					...errors,
+					emptyAgendas: translate.required_agendas
+				}
+			});
+			return false;
+		}
 	};
 
 	const previousPage = async () => {
