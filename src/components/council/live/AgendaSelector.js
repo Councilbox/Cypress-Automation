@@ -4,7 +4,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import ReorderPointsModal from "../agendas/ReorderPointsModal";
 import * as CBX from "../../../utils/CBX";
 import { Tooltip } from "material-ui";
-import { AGENDA_TYPES, AGENDA_STATES } from "../../../constants";
+import { AGENDA_TYPES, AGENDA_STATES, COUNCIL_STATES } from "../../../constants";
 import { AddAgendaPoint } from "../editor/agenda/StepAgenda";
 
 const AgendaSelector = ({ agendas, translate, council, onClick, selected, stylesDiv, ...props }) => {
@@ -65,7 +65,7 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 					);
 				})}
 			</div>
-			{council.councilType < 2 &&
+			{(council.councilType < 2 || council.state < COUNCIL_STATES.ROOM_OPENED) &&
 				<React.Fragment>
 					{canAddPoints(council) &&  (
 						<div style={{ marginBottom: "0.8em" }}>

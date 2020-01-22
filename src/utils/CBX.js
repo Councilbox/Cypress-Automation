@@ -1527,7 +1527,7 @@ export const getMainRepresentative = participant => {
 }
 
 export const canAddPoints = council => {
-	return council.statute.canAddPoints === 1 && council.councilType < 2;
+	return council.statute.canAddPoints === 1;
 };
 
 export const hasHisVoteDelegated = participant => {
