@@ -46,11 +46,9 @@ export const info = gql`
 	}
 `;
 
-
-class CompanySettingsPage extends React.Component {
-
-	state = {
-		data: this.props.company,
+const CompanySettingsPage = ({ company, client, translate, ...props }) => {
+	const [state, setState] = React.useState({
+		data: company,
 		success: false,
 		error: false,
 		fileSizeError: false,
@@ -58,48 +56,53 @@ class CompanySettingsPage extends React.Component {
 		request: false,
 		provinces: [],
 		errors: {}
-	};
+	});
+	const primary = getPrimary();
+	const secondary = getSecondary();
 
-	componentDidMount() {
-		this.props.info.refetch();
+	React.useEffect(() => {
+		props.info.refetch();
 		sendGAevent({
 			category: 'Editar Datos básico de la empresa',
 			action: 'Entrada',
-			label: this.props.company.businessName
+			label: company.businessName
 		});
-	}
+	}, [company.id]);
 
-	componentDidUpdate() {
-		if (!this.props.info.loading && this.state.provinces.length === 0) {
-			const selectedCountry = this.props.info.countries.find(
-				country => country.deno === this.props.company.country
+	React.useEffect(() => {
+		if (!props.info.loading && state.provinces.length === 0) {
+			const selectedCountry = props.info.countries.find(
+				country => country.deno === company.country
 			);
 
-			this.updateProvinces(selectedCountry.id);
+			if(selectedCountry){
+				updateProvinces(selectedCountry.id);
+			}
 		}
-	}
+	}, [props.info]);
 
-	updateState = newValues => {
-		this.setState({
+	const updateState = newValues => {
+		setState({
+			...state,
 			data: {
-				...this.state.data,
+				...state.data,
 				...newValues
 			},
 			success: false
 		});
 	}
 
-
-	handleCountryChange = event => {
-		this.updateState({ country: event.target.value });
-		const selectedCountry = this.props.info.countries.find(
+	const handleCountryChange = event => {
+		updateState({ country: event.target.value });
+		const selectedCountry = props.info.countries.find(
 			country => country.deno === event.target.value
 		);
-		this.updateProvinces(selectedCountry.id);
+		updateProvinces(selectedCountry.id);
 	};
 
-	updateProvinces = async countryID => {
-		const response = await this.props.client.query({
+
+	const updateProvinces = async countryID => {
+		const response = await client.query({
 			query: provinces,
 			variables: {
 				countryId: countryID
@@ -107,13 +110,14 @@ class CompanySettingsPage extends React.Component {
 		});
 
 		if (!response.errors) {
-			this.setState({
+			setState({
+				...state,
 				provinces: response.data.provinces
 			});
 		}
 	};
 
-	handleFile = event => {
+	const handleFile = event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
 			return;
@@ -128,18 +132,20 @@ class CompanySettingsPage extends React.Component {
 				filetype: file.type,
 				filesize: Math.round(file.size / 1000),
 				base64: reader.result,
-				councilId: this.props.councilID
+				councilId: props.councilID
 			};
 
 			if (fileInfo.filesize > 2000) {
-				this.setState({
+				setState({
+					...state,
 					fileSizeError: true
 				});
 			} else {
-				this.setState({
+				setState({
+					...state,
 					uploading: true,
 					data: {
-						...this.state.data,
+						...state.data,
 						logo: fileInfo.base64
 					},
 					success: false
@@ -148,39 +154,37 @@ class CompanySettingsPage extends React.Component {
 		};
 	};
 
-	saveCompany = async () => {
-		if (!this.checkRequiredFields()) {
+
+	const saveCompany = async () => {
+		if (!checkRequiredFields()) {
 			sendGAevent({
 				category: 'Editar Datos básico de la empresa',
 				action: 'Actualización de datos',
-				label: this.props.company.businessName
+				label: company.businessName
 			});
 
-			this.setState({
+			setState({
+				...state,
 				loading: true
 			});
-			const { __typename, creatorId, creationDate, corporationId, ...data } = this.state.data;
+			const { __typename, creatorId, creationDate, corporationId, ...data } = state.data;
 
-			const response = await this.props.updateCompany({
+			const response = await props.updateCompany({
 				variables: {
 					company: data
 				}
 			});
 			if (response.errors) {
-				this.setState({
+				setState({
+					...state,
 					error: true,
 					loading: false,
 					success: false
 				});
 			} else {
-				this.setState({
-					error: false,
-					loading: false,
-					success: true
-				}, () => bHistory.push('/'));
 				toast(
 					<LiveToast
-						message={this.props.translate.changes_saved}
+						message={translate.changes_saved}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
@@ -188,24 +192,25 @@ class CompanySettingsPage extends React.Component {
 					}
 				);
 				store.dispatch(setCompany(response.data.updateCompany));
+				bHistory.push('/');
 			}
 		}
 	};
 
-	unlinkCompany = async () => {
-		const response = await this.props.unlinkCompany({
+	const unlinkCompany = async () => {
+		const response = await props.unlinkCompany({
 			variables: {
-				userId: this.props.user.id,
-				companyTin: this.props.company.tin
+				userId: props.user.id,
+				companyTin: company.tin
 			}
 		});
 
 		if (!response.errors) {
 			if (response.data.unlinkCompany.success) {
-				store.dispatch(getCompanies(this.props.user.id));
+				store.dispatch(getCompanies(props.user.id));
 				toast(
 					<LiveToast
-						message={this.props.translate.company_link_unliked_title}
+						message={translate.company_link_unliked_title}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
@@ -217,15 +222,13 @@ class CompanySettingsPage extends React.Component {
 		}
 	};
 
-	checkRequiredFields() {
-		const { translate } = this.props;
-
+	function checkRequiredFields() {
 		let errors = {
 			businessName: "",
 			tin: ""
 		};
 
-		const data = this.state.data;
+		const { data } = state;
 		let hasError = false;
 
 		if (!data.businessName) {
@@ -238,419 +241,423 @@ class CompanySettingsPage extends React.Component {
 			errors.tin = translate.field_required;
 		}
 
-		this.setState({
+		setState({
+			...state,
 			errors: errors
 		});
 		return hasError;
 	}
 
-	render() {
-		const primary = getPrimary();
-		const secondary = getSecondary();
-		const { translate } = this.props;
-		const { data, errors, success, request } = this.state;
-		const updateError = this.state.error;
-		const { loading } = this.props.info;
 
-		if (loading) {
-			return <LoadingSection />;
-		}
+	const { data, errors, success, request } = state;
+	const updateError = state.error;
+	const { loading } = props.info;
 
-		return (
-			<CardPageLayout title={translate.company_settings}>
-				<div style={{ width: '100%', height: '100%', padding: '1.5em', paddingBottom: '6em' }}>
-					<SectionTitle
-						text={translate.fiscal_data}
-						color={primary}
-					/>
-					<br />
-					<Grid spacing={0}>
-						<GridItem xs={12} md={9} lg={9}>
-							<Grid spacing={16}>
-								<GridItem xs={12} md={6} lg={5}>
-									<TextInput
-										floatingText={translate.business_name}
-										type="text"
-										id={"business-name"}
-										value={data.businessName}
-										errorText={errors.businessName}
-										onChange={event =>
-											this.updateState({
-												businessName: event.target.value
-											})
-										}
-										required
-									/>
-								</GridItem>
-								<GridItem xs={12} md={6} lg={3}>
-									<SelectInput
-										floatingText={translate.company_type}
-										value={data.type}
-										disabled
-										onChange={event =>
-											this.updateState({
-												type: event.target.value
-											})
-										}
-										errorText={errors.type}
-									>
-										{this.props.info.companyTypes.map(
-											companyType => {
-												return (
-													<MenuItem
-														key={companyType.label}
-														value={companyType.value}
-													>
-														{
-															translate[
-															companyType.label
-															]
-														}
-													</MenuItem>
-												);
-											}
-										)}
-									</SelectInput>
-								</GridItem>
-								<GridItem xs={12} md={6} lg={4}>
-									<TextInput
-										floatingText={translate.entity_cif}
-										id={'addSociedadCIF'}
-										type="text"
-										value={data.tin}
-										errorText={errors.tin}
-										onChange={event =>
-											this.updateState({
-												tin: event.target.value
-											})
-										}
-										required
-									/>
-								</GridItem>
-								<GridItem xs={12} md={6} lg={4}>
-									<TextInput
-										floatingText={translate.company_new_domain}
-										type="text"
-										id={'addSociedadDominio'}
-										value={data.domain}
-										errorText={errors.domain}
-										onChange={event =>
-											this.updateState({
-												domain: event.target.value
-											})
-										}
-									/>
-								</GridItem>
-								<GridItem xs={12} md={6} lg={4}>
-									<TextInput
-										floatingText={translate.company_new_key}
-										type="text"
-										value={data.linkKey}
-										id={'addSociedadClaveMaestra'}
-										helpPopover={true}
-										helpTitle={translate.company_new_key}
-										helpDescription={translate.company_link_key_desc}
-										errorText={errors.linkKey}
-										onChange={event =>
-											this.updateState({
-												linkKey: event.target.value
-											})
-										}
-									/>
-								</GridItem>
-								{this.props.root &&
-									<GridItem xs={12} md={6} lg={4}>
-										<TextInput
-											floatingText={'Saldo'}
-											type="text"
-											value={data.balance || ''}
-											onChange={event =>
-												this.updateState({
-													balance: event.target.value
-												})
-											}
-										/>
-									</GridItem>
-								}
-							</Grid>
-						</GridItem>
-						<GridItem
-							xs={12}
-							md={3}
-							lg={3}
-							style={{ textAlign: "center" }}
-						>
-							<GridItem xs={12} md={12} lg={12}>
-								{!!data.logo && (
-									<img
-										src={data.logo}
-										alt="logo"
-										style={{
-											marginBottom: "0.6em",
-											maxHeight: "4em",
-											maxWidth: "100%"
-										}}
-									/>
-								)}
-							</GridItem>
-							<GridItem xs={12} md={12} lg={12}>
-								<FileUploadButton
-									text={translate.company_logotype}
-									image
-									color={secondary}
-									textStyle={{
-										color: "white",
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									icon={
-										<ButtonIcon type="publish" color="white" />
+	if (loading) {
+		return <LoadingSection />;
+	}
+
+	return (
+		<CardPageLayout title={translate.company_settings}>
+			<div style={{ width: '100%', height: '100%', padding: '1.5em', paddingBottom: '6em' }}>
+				<SectionTitle
+					text={translate.fiscal_data}
+					color={primary}
+				/>
+				<br />
+				<Grid spacing={0}>
+					<GridItem xs={12} md={9} lg={9}>
+						<Grid spacing={16}>
+							<GridItem xs={12} md={6} lg={5}>
+								<TextInput
+									floatingText={translate.business_name}
+									type="text"
+									id={"business-name"}
+									value={data.businessName}
+									errorText={errors.businessName}
+									onChange={event =>
+										updateState({
+											businessName: event.target.value
+										})
 									}
-									onChange={this.handleFile}
+									required
 								/>
 							</GridItem>
-						</GridItem>
-					</Grid>
-					<br />
-					<Grid spacing={16}>
+							<GridItem xs={12} md={6} lg={3}>
+								<SelectInput
+									floatingText={translate.company_type}
+									value={data.type}
+									disabled
+									onChange={event =>
+										updateState({
+											type: event.target.value
+										})
+									}
+									errorText={errors.type}
+								>
+									{props.info.companyTypes.map(
+										companyType => {
+											return (
+												<MenuItem
+													key={companyType.label}
+													value={companyType.value}
+												>
+													{
+														translate[
+														companyType.label
+														]
+													}
+												</MenuItem>
+											);
+										}
+									)}
+								</SelectInput>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={4}>
+								<TextInput
+									floatingText={translate.entity_cif}
+									id={'addSociedadCIF'}
+									type="text"
+									value={data.tin}
+									errorText={errors.tin}
+									onChange={event =>
+										updateState({
+											tin: event.target.value
+										})
+									}
+									required
+								/>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={4}>
+								<TextInput
+									floatingText={translate.company_new_domain}
+									type="text"
+									id={'addSociedadDominio'}
+									value={data.domain}
+									errorText={errors.domain}
+									onChange={event =>
+										updateState({
+											domain: event.target.value
+										})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={4}>
+								<TextInput
+									floatingText={translate.company_new_key}
+									type="text"
+									value={data.linkKey}
+									id={'addSociedadClaveMaestra'}
+									helpPopover={true}
+									helpTitle={translate.company_new_key}
+									helpDescription={translate.company_link_key_desc}
+									errorText={errors.linkKey}
+									onChange={event =>
+										updateState({
+											linkKey: event.target.value
+										})
+									}
+								/>
+							</GridItem>
+							{props.root &&
+								<GridItem xs={12} md={6} lg={4}>
+									<TextInput
+										floatingText={'Saldo'}
+										type="text"
+										value={data.balance || ''}
+										onChange={event =>
+											updateState({
+												balance: event.target.value
+											})
+										}
+									/>
+								</GridItem>
+							}
+						</Grid>
+					</GridItem>
+					<GridItem
+						xs={12}
+						md={3}
+						lg={3}
+						style={{ textAlign: "center" }}
+					>
 						<GridItem xs={12} md={12} lg={12}>
-							<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
+							{!!data.logo && (
+								<img
+									src={data.logo}
+									alt="logo"
+									style={{
+										marginBottom: "0.6em",
+										maxHeight: "4em",
+										maxWidth: "100%"
+									}}
+								/>
+							)}
 						</GridItem>
-					</Grid>
-					<SectionTitle
-						text={translate.contact_data}
-						color={primary}
-						style={{
-							marginTop: '2em'
-						}}
-					/>
-					<br />
-					<Grid spacing={16}>
-						<GridItem xs={12} md={6} lg={6}>
-							<TextInput
-								floatingText={translate.address}
-								type="text"
-								value={data.address}
-								id={'addSociedadDireccion'}
-								errorText={errors.address}
-								onChange={event =>
-									this.updateState({
-										address: event.target.value
-									})
+						<GridItem xs={12} md={12} lg={12}>
+							<FileUploadButton
+								text={translate.company_logotype}
+								image
+								color={secondary}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								icon={
+									<ButtonIcon type="publish" color="white" />
 								}
+								onChange={handleFile}
 							/>
 						</GridItem>
-						<GridItem xs={12} md={6} lg={6}>
-							<TextInput
-								floatingText={translate.company_new_locality}
-								type="text"
-								id={'addSociedadLocalidad'}
-								value={data.city}
-								errorText={errors.city}
-								onChange={event =>
-									this.updateState({
-										city: event.target.value
-									})
-								}
-							/>
-						</GridItem>
+					</GridItem>
+				</Grid>
+				<br />
+				<Grid spacing={16}>
+					<GridItem xs={12} md={12} lg={12}>
+						<GoverningBodyForm translate={translate} state={data} updateState={updateState} />
+					</GridItem>
+				</Grid>
+				<SectionTitle
+					text={translate.contact_data}
+					color={primary}
+					style={{
+						marginTop: '2em'
+					}}
+				/>
+				<br />
+				<Grid spacing={16}>
+					<GridItem xs={12} md={6} lg={6}>
+						<TextInput
+							floatingText={translate.address}
+							type="text"
+							value={data.address}
+							id={'addSociedadDireccion'}
+							errorText={errors.address}
+							onChange={event =>
+								updateState({
+									address: event.target.value
+								})
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						<TextInput
+							floatingText={translate.company_new_locality}
+							type="text"
+							id={'addSociedadLocalidad'}
+							value={data.city}
+							errorText={errors.city}
+							onChange={event =>
+								updateState({
+									city: event.target.value
+								})
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={3}>
+						<SelectInput
+							floatingText={translate.company_new_country}
+							value={data.country}
+							onChange={handleCountryChange}
+							errorText={errors.country}
+						>
+							{props.info.countries.map(country => {
+								return (
+									<MenuItem
+										key={country.deno}
+										value={country.deno}
+									>
+										{country.deno}
+									</MenuItem>
+								);
+							})}
+						</SelectInput>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={3}>
+						<SelectInput
+							id={'addSociedadProvincia'}
+							floatingText={translate.company_new_country_state}
+							value={data.countryState}
+							errorText={errors.countryState}
+							onChange={event =>
+								updateState({
+									countryState: event.target.value
+								})
+							}
+						>
+							{state.provinces.map(province => {
+								return (
+									<MenuItem
+										className={"addSociedadProvinciaOptions"}
+										key={province.deno}
+										value={province.deno}
+									>
+										{province.deno}
+									</MenuItem>
+								);
+							})}
+						</SelectInput>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={3}>
+						<TextInput
+							floatingText={translate.company_new_zipcode}
+							id={'addSociedadCP'}
+							type="text"
+							value={data.zipcode}
+							errorText={errors.zipcode}
+							onChange={event =>
+								updateState({
+									zipcode: event.target.value
+								})
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={3}>
+						<SelectInput
+							floatingText={translate.language}
+							value={data.language}
+							onChange={event =>
+								updateState({
+									language: event.target.value
+								})
+							}
+							errorText={errors.language}
+						>
+							{props.info.languages &&
+								props.info.languages.map(language => (
+									<MenuItem
+										key={`language_${language.columnName}`}
+										value={language.columnName}
+									>
+										{language.desc}
+									</MenuItem>
+								))}
+						</SelectInput>
+					</GridItem>
+					{props.root &&
 						<GridItem xs={12} md={6} lg={3}>
 							<SelectInput
-								floatingText={translate.company_new_country}
-								value={data.country}
-								onChange={this.handleCountryChange}
-								errorText={errors.country}
-							>
-								{this.props.info.countries.map(country => {
-									return (
-										<MenuItem
-											key={country.deno}
-											value={country.deno}
-										>
-											{country.deno}
-										</MenuItem>
-									);
-								})}
-							</SelectInput>
-						</GridItem>
-						<GridItem xs={12} md={6} lg={3}>
-							<SelectInput
-								id={'addSociedadProvincia'}
-								floatingText={translate.company_new_country_state}
-								value={data.countryState}
-								errorText={errors.countryState}
+								floatingText={'Categoría'}
+								value={data.category}
 								onChange={event =>
-									this.updateState({
-										countryState: event.target.value
-									})
-								}
-							>
-								{this.state.provinces.map(province => {
-									return (
-										<MenuItem
-											className={"addSociedadProvinciaOptions"}
-											key={province.deno}
-											value={province.deno}
-										>
-											{province.deno}
-										</MenuItem>
-									);
-								})}
-							</SelectInput>
-						</GridItem>
-						<GridItem xs={12} md={6} lg={3}>
-							<TextInput
-								floatingText={translate.company_new_zipcode}
-								id={'addSociedadCP'}
-								type="text"
-								value={data.zipcode}
-								errorText={errors.zipcode}
-								onChange={event =>
-									this.updateState({
-										zipcode: event.target.value
-									})
-								}
-							/>
-						</GridItem>
-						<GridItem xs={12} md={6} lg={3}>
-							<SelectInput
-								floatingText={translate.language}
-								value={data.language}
-								onChange={event =>
-									this.updateState({
-										language: event.target.value
+									updateState({
+										category: event.target.value
 									})
 								}
 								errorText={errors.language}
 							>
-								{this.props.info.languages &&
-									this.props.info.languages.map(language => (
-										<MenuItem
-											key={`language_${language.columnName}`}
-											value={language.columnName}
-										>
-											{language.desc}
-										</MenuItem>
-									))}
+								<MenuItem value="society">
+									Sociedad
+								</MenuItem>
+								<MenuItem value="realEstate">
+									Administración de fincas
+								</MenuItem>
 							</SelectInput>
 						</GridItem>
-						{this.props.root &&
-							<GridItem xs={12} md={6} lg={3}>
-								<SelectInput
-									floatingText={'Categoría'}
-									value={data.category}
-									onChange={event =>
-										this.updateState({
-											category: event.target.value
-										})
-									}
-									errorText={errors.language}
-								>
-									<MenuItem value="society">
-										Sociedad
-									</MenuItem>
-									<MenuItem value="realEstate">
-										Administración de fincas
-									</MenuItem>
-								</SelectInput>
-							</GridItem>
-						}
-					</Grid>
-					<br />
+					}
+				</Grid>
+				<br />
+				<BasicButton
+					text={translate.save}
+					id="save-button"
+					color={primary}
+					error={updateError}
+					success={success}
+					loading={request}
+					floatRight
+					textStyle={{
+						color: "white",
+						fontWeight: "700"
+					}}
+					onClick={saveCompany}
+					icon={<ButtonIcon type="save" color="white" />}
+				/>
+				{props.linkButton &&
 					<BasicButton
-						text={translate.save}
-						id="save-button"
-						color={getPrimary()}
-						error={updateError}
-						success={success}
-						loading={request}
+						text={translate.unlink}
+						color={primary}
 						floatRight
 						textStyle={{
 							color: "white",
 							fontWeight: "700"
 						}}
-						onClick={this.saveCompany}
-						icon={<ButtonIcon type="save" color="white" />}
+						buttonStyle={{ marginRight: "1.2em" }}
+						onClick={() =>
+							setState({
+								...state,
+								unlinkModal: true
+							})
+						}
+						icon={<ButtonIcon type="link_off" color="white" />}
 					/>
-					{this.props.linkButton &&
-						<BasicButton
-							text={translate.unlink}
-							color={getPrimary()}
-							floatRight
-							textStyle={{
-								color: "white",
-								fontWeight: "700"
-							}}
-							buttonStyle={{ marginRight: "1.2em" }}
-							onClick={() =>
-								this.setState({
-									unlinkModal: true
-								})
-							}
-							icon={<ButtonIcon type="link_off" color="white" />}
-						/>
-					}
+				}
 
-					{this.props.confirmCompany &&
-						<ConfirmCompanyButton
-							translate={translate}
-							company={this.props.company}
-							refetch={this.props.refetch}
-						/>
-					}
-					{this.props.root &&
-						<DeleteCompanyButton
-							translate={translate}
-							company={this.props.company}
-						/>
-					}
-					{this.props.company.corporationId !== 1 &&
-						<BasicButton
-							text={'Añadir administrador'}
-							color={getPrimary()}
-							floatRight
-							textStyle={{
-								color: "white",
-								fontWeight: "700"
-							}}
-							buttonStyle={{ marginRight: "1.2em" }}
-							onClick={() =>
-								this.setState({
-									addAdminModal: true
-								})
-							}
-						/>
-					}
-					<AlertConfirm
-						requestClose={() => this.setState({ unlinkModal: false })}
-						open={this.state.unlinkModal}
-						acceptAction={this.unlinkCompany}
-						buttonAccept={translate.accept}
-						buttonCancel={translate.cancel}
-						bodyText={<div>{translate.companies_unlink}</div>}
-						title={translate.edit}
-					/>
-					<AddAdmin
-						open={this.state.addAdminModal}
-						company={this.props.company}
-						requestClose={() => this.setState({
-							addAdminModal: false
-						})}
+				{props.confirmCompany &&
+					<ConfirmCompanyButton
 						translate={translate}
+						company={company}
+						refetch={props.refetch}
 					/>
-					<AlertConfirm
-						requestClose={() => this.setState({ fileSizeError: false })}
-						open={this.state.fileSizeError}
-						buttonCancel={translate.accept}
-						bodyText={<div>{translate.file_exceeds}</div>}
-						title={translate.error}
+				}
+				{props.root &&
+					<DeleteCompanyButton
+						translate={translate}
+						company={company}
 					/>
-				</div>
-			</CardPageLayout>
-		);
-	}
+				}
+				{company.corporationId !== 1 &&
+					<BasicButton
+						text={'Añadir administrador'}
+						color={primary}
+						floatRight
+						textStyle={{
+							color: "white",
+							fontWeight: "700"
+						}}
+						buttonStyle={{ marginRight: "1.2em" }}
+						onClick={() =>
+							setState({
+								...state,
+								addAdminModal: true
+							})
+						}
+					/>
+				}
+				<AlertConfirm
+					requestClose={() => setState({ ...state, unlinkModal: false })}
+					open={state.unlinkModal}
+					acceptAction={unlinkCompany}
+					buttonAccept={translate.accept}
+					buttonCancel={translate.cancel}
+					bodyText={<div>{translate.companies_unlink}</div>}
+					title={translate.edit}
+				/>
+				<AddAdmin
+					open={state.addAdminModal}
+					company={company}
+					requestClose={() => setState({
+						...state,
+						addAdminModal: false
+					})}
+					translate={translate}
+				/>
+				<AlertConfirm
+					requestClose={() => setState({ ...state, fileSizeError: false })}
+					open={state.fileSizeError}
+					buttonCancel={translate.accept}
+					bodyText={<div>{translate.file_exceeds}</div>}
+					title={translate.error}
+				/>
+			</div>
+		</CardPageLayout>
+	);
+
+
 }
+
+
 
 const AddAdmin = ({ translate, company, open, requestClose }) => {
 	const renderBody = () => {
