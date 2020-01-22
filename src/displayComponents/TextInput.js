@@ -40,7 +40,7 @@ const TextInput = ({
 	disableUnderline,
 	stylesAdornment,
 	labelNone,
-	autoComplete = true
+	autoComplete = "true"
 }) => (
 		<FormControl
 			style={{
