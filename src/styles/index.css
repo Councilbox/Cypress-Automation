@@ -153,7 +153,7 @@ h4 {
 
 .liveToast {
     border-radius: 4px !important;
-    background-color: purple !important;
+    background-color: var(--primary) !important;
     color: white !important;
     margin-top: 4.2em !important;
 }

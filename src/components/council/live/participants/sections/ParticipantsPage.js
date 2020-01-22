@@ -220,6 +220,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 							adornment={<Icon>search</Icon>}
 							floatingText={" "}
 							type="text"
+							autoComplete="off"
 							value={filters.filterText}
 							onChange={event => {
 								updateFilterText(event.target.value);

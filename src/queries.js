@@ -758,6 +758,8 @@ export const statutes = gql`
 			canUnblock
 			includeParticipantsList
 			existsWhoSignTheAct
+			hasPresident
+			hasSecretary
 			prototype
 			intro
 			constitution
@@ -1460,6 +1462,8 @@ export const councilLiveQuery = gql`
 				existsAdvanceNoticeDays
 				advanceNoticeDays
 				existsSecondCall
+				hasPresident
+				hasSecretary
 				minimumSeparationBetweenCall
 				canEditConvene
 				firstCallQuorumType
@@ -1974,10 +1978,12 @@ export const participantsWhoCanDelegate = gql`
 		$councilId: Int!
 		$filters: [FilterInput]
 		$options: OptionsInput
+		$participantId: Int
 	) {
 		liveParticipantsWhoCanDelegate(
 			councilId: $councilId
 			filters: $filters
+			participantId: $participantId
 			options: $options
 		) {
 			list {

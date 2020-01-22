@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="25px" viewBox="0 0 16 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>dropping-vote-in-box</title>
+    <desc>Created with Sketch.</desc>
+    <g id="votacion-movil" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mobile-votacion-abierta" transform="translate(-117.000000, -553.000000)" fill="#61ABB7" fill-rule="nonzero">
+            <g id="dropping-vote-in-box" transform="translate(117.000000, 553.000000)">
+                <polygon id="Path" points="9.44693866 0 15 5.5526633 7.55306134 13 4.76563066 10.2125207 2 7.44690318"></polygon>
+                <path d="M4.0692314,11.0000578 L4.57916034,11.0000578 L7.35778141,13.7434697 C7.38991536,13.7755432 7.42866341,13.8006819 7.47162574,13.8183079 C7.51423688,13.8358761 7.55965755,13.8448336 7.60501969,13.8448336 L10.6246747,13.8448336 C10.8178296,13.8448336 10.9739338,13.6903606 10.9739338,13.5 C10.9739338,13.3096394 10.8178296,13.1551664 10.6246747,13.1551664 L8.44811157,13.1551664 L10.6309376,11 L12.9307686,11 L16,16 L1,16 L4.0692314,11.0000578 Z" id="Path"></path>
+                <rect id="Rectangle" x="0" y="17" width="16" height="8"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
