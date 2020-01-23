@@ -17,6 +17,7 @@ import { getPrimary } from "../../../styles/colors";
 import { sendGAevent } from "../../../utils/analytics";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { bHistory } from "../../../containers/App";
+import { isMobile } from "react-device-detect";
 
 
 const CompanyDraftEditor = ({ translate, client, ...props }) => {
@@ -134,6 +135,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 						display: 'flex',
 						justifyContent: 'flex-end',
 						alignItems: 'center',
+						paddingTop: isMobile && "0.5em"
 					}}>
 						<BasicButton
 							// id={"saveDraft"}

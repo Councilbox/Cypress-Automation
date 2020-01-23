@@ -479,7 +479,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 					Object.keys(columns).map(key => {
 						let columnaLength = columns[key].length;
 						return (
-							<Card style={{ marginBottom: "0.5em", width: "100%" }}>
+							<Card style={{ marginBottom: "0.8em", width: "100%" }}>
 								<CardContent>
 									<Grid>
 										<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>

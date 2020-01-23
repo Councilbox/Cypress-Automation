@@ -105,7 +105,7 @@ class CompanyDraftNew extends React.Component {
 		
 		return (
 			<React.Fragment>
-				<div style={{ marginTop: "1.8em", height: 'calc( 100% - 8em )' }}>
+				<div style={{ marginTop: "1.8em", height: 'calc( 100% - 3em )' }}>
 					<CompanyDraftForm
 						draft={draft}
 						errors={errors}

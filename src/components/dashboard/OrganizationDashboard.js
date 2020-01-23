@@ -23,6 +23,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import GraficaEstadisiticas from "./GraficaEstadisiticas";
 import { sendGAevent } from "../../utils/analytics";
+import { isMobile } from "react-device-detect";
 var LineChart = require("react-chartjs-2").Line;
 
 
@@ -68,6 +69,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const [daySelected, setDaySelected] = React.useState(new Date());
 	const [reunionesPage, setReunionesPage] = React.useState(1);
 	const [reunionesLoading, setReunionesLoading] = React.useState(true);
+	const [inputSearch, setInputSearch] = React.useState(false);
+	const [inputSearchE, setInputSearchE] = React.useState(false);
+	const [toggleReunionesCalendario, setToggleReunionesCalendario] = React.useState("reuniones");
 	const [state, setState] = React.useState({
 		filterTextCompanies: "",
 		filterTextUsuarios: "",
@@ -260,6 +264,11 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		})
 	}
 
+	const changeReuniones = () => {
+		console.log("asdasd")
+	}
+
+
 	const onChangeDay = (date) => {
 		if (String(date) === String(day)) {
 			setDaySelected(new Date('01/01/1970'))
@@ -268,6 +277,282 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			setDay(date)
 			setDaySelected(date)
 		}
+	}
+	if (isMobile) {
+		console.log(toggleReunionesCalendario)
+		return (
+			<div style={{ width: "100%", height: "100%" }}>
+				<div style={{
+					width: "100%",
+					padding: "1em",
+					background: "white",
+					borderRadius: "5px",
+					height: "100%",
+					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+					marginBottom: "0.5em"
+				}}>
+					<div style={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignContent: "center"
+					}}>
+						<div style={{ fontWeight: 'bold', color: "#a09b9e", }}>Reuniones en curso</div>
+						<div style={{
+							display: "flex",
+							alignContent: "inherit",
+							justifyContent: "center"
+						}}
+						>
+							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em" }} onClick={changeReuniones}>Convocadas</div>
+							<div style={{ color: "#c196c3", marginRight: "0.5em" }}>
+								<i class="fa fa-filter" ></i>
+							</div>
+							{toggleReunionesCalendario === "reuniones" ?
+								<div style={{}} onClick={() => setToggleReunionesCalendario("calendario")} >Ir</div>
+								:
+								<div style={{}} onClick={() => setToggleReunionesCalendario("reuniones")} >IC</div>
+							}
+						</div>
+					</div>
+					{toggleReunionesCalendario === "reuniones" ?
+						<div style={{ height: "20em" }}>
+							<Scrollbar>
+								{day ?
+									reunionesPorDia.length === undefined || reunionesLoading ?
+										<LoadingSection />
+										:
+										reunionesPorDia.map((item, index) => {
+											return (
+												<TablaReunionesEnCurso
+													key={index + "_reunionesPorDia"}
+													item={item}
+													index={index}
+													translate={translate}
+												/>
+											)
+										})
+									:
+									reuniones.length === undefined || reunionesLoading ?
+										<LoadingSection />
+										:
+										reuniones.map((item, index) => {
+											return (
+												<TablaReunionesEnCurso
+													key={index + "_reuniones"}
+													item={item}
+													index={index}
+													translate={translate}
+												/>
+											)
+										})
+								}
+							</Scrollbar>
+						</div>
+						:
+						<div style={{ padding: "1em", display: 'flex', justifyContent: "center" }}>
+							{reuniones.length === undefined ?
+								<LoadingSection />
+								:
+								<Calendar
+									showNeighboringMonth={false}
+									prevLabel={
+										<div style={{}} onClick={changeMonthBack}>
+											<i className="fa fa-angle-left" ></i>
+										</div>
+									}
+									nextLabel={
+										<div style={{}} onClick={changeMonthFront}>
+											<i className="fa fa-angle-right" >
+											</i>
+										</div>
+									}
+									onChange={onChangeDay}
+									value={daySelected}
+									minDetail={'month'}
+									tileClassName={date => getTileClassName(date)}
+									onClickDay={(value) => clickDay(value)}
+								/>
+							}
+						</div>
+					}
+				</div>
+				<div style={{
+					width: "100%",
+					padding: "1em",
+					background: "white",
+					borderRadius: "5px",
+					height: "100%",
+					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+					marginBottom: "0.5em"
+				}}>
+					<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e", textAlign: "left" }}>Estadísticas</div>
+					{reuniones.length === undefined ?
+						<LoadingSection />
+						:
+						<div>
+							<Grid>
+								<GridItem xs={12} md={6} lg={4}>
+									<div style={{ color: "black", marginBottom: "1em" }}>Convocada</div>
+									<div style={{ width: '100%', }}>
+										<GraficaDoughnut
+											porcentaje={porcentajes.convocadaPorcentaje || 0}
+											color={'#e77153'}
+											max={porcentajes.max}
+										/>
+									</div>
+								</GridItem>
+								<GridItem xs={12} md={6} lg={4}>
+									<div style={{ color: "black", marginBottom: "1em" }}>En celebración</div>
+									<div style={{ width: '100%', }}>
+										<GraficaDoughnut
+											porcentaje={porcentajes.celebracionPorcentaje || 0}
+											color={'#e77153'}
+											max={porcentajes.max}
+										/>
+									</div>
+								</GridItem>
+								<GridItem xs={12} md={6} lg={4}>
+									<div style={{ color: "black", marginBottom: "1em" }}>Redact. Acta</div>
+									<div style={{ width: '100%', }}>
+										<GraficaDoughnut
+											porcentaje={porcentajes.redActaPorcentaje || 0}
+											color={'#85a9ca'}
+											max={porcentajes.max}
+										/>
+									</div>
+								</GridItem>
+							</Grid>
+							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: '3em' }}>
+								<GraficaEstadisiticas
+									porcentaje={'75'}
+									color={'#85a9ca'}
+								/>
+							</div>
+						</div>
+					}
+				</div>
+				<div style={{
+					width: "100%",
+					padding: "1em",
+					background: "white",
+					borderRadius: "5px",
+					height: "100%",
+					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+				}}>
+					<Grid style={{ justifyContent: "space-between", alignItems: "center" }}>
+						<GridItem xs={12} md={6} lg={4} style={{ display: "flex" }}>
+							<div style={{ height: "100%", fontWeight: "bold", padding: "0.5em", display: "flex", borderRadius: "5px", boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)", }}>
+								<div style={{
+									cursor: "pointer",
+									paddingRight: "0.5em",
+									color: usuariosEntidades === 'usuarios' ? getPrimary() : "#9f9a9d",
+									borderRight: "1px solid gainsboro"
+								}}
+									onClick={() => setUsuariosEntidades("usuarios")}
+								>
+									Usuarios
+										</div>
+								<div
+									style={{
+										cursor: "pointer",
+										paddingLeft: "0.5em",
+										color: usuariosEntidades === 'entidades' ? getPrimary() : "#9f9a9d"
+									}}
+									onClick={() => setUsuariosEntidades("entidades")}
+								>
+									Entidades
+										</div>
+							</div>
+						</GridItem>
+						<GridItem xs={12} md={6} lg={8} style={{ display: 'flex', justifyContent: "flex-end" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+								{usuariosEntidades === 'usuarios' ?
+									<BasicButton
+										buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+										backgroundColor={{ backgroundColor: "white" }}
+										text={translate.add}
+										onClick={() => setAddUser(true)}
+									/>
+									:
+									<BasicButton
+										buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+										backgroundColor={{ backgroundColor: "white" }}
+										text={translate.add}
+										onClick={() => setEntidades(true)}
+									/>
+								}
+
+								<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+									<i className="fa fa-filter"></i>
+								</div>
+								{usuariosEntidades === 'usuarios' ?
+									<TextInput
+										className={isMobile && !inputSearch ? "openInput" : ""}
+										disableUnderline={true}
+										styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+										stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+										floatingText={" "}
+										placeholder={translate.search}
+										adornment={<Icon onClick={() => setInputSearch(!inputSearch)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+										type="text"
+										value={state.filterTextUsuarios || ""}
+										onChange={event => {
+											setState({
+												...state,
+												filterTextUsuarios: event.target.value
+											})
+										}}
+									/>
+									:
+									<TextInput
+										className={isMobile && !inputSearchE ? "openInput" : ""}
+										disableUnderline={true}
+										styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+										stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+										floatingText={" "}
+										placeholder={translate.search}
+										adornment={<Icon onClick={() => setInputSearchE(!inputSearchE)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+										type="text"
+										value={state.filterTextCompanies || ""}
+										onChange={event => {
+											setState({
+												...state,
+												filterTextCompanies: event.target.value
+											})
+										}}
+									/>
+								}
+							</div>
+						</GridItem>
+					</Grid>
+					<div style={{}}>
+						{usuariosEntidades === 'usuarios' ?
+							users.length === undefined ?
+								<LoadingSection />
+								:
+								<TablaUsuarios
+									users={users}
+									translate={translate}
+									total={usersTotal}
+									changePageUsuarios={changePageUsuarios}
+									usersPage={usersPage}
+								/>
+							:
+							companies.length === undefined ?
+								<LoadingSection />
+								:
+								<TablaCompanies
+									companies={companies}
+									translate={translate}
+									total={companiesTotal}
+									changePageCompanies={changePageCompanies}
+									companiesPage={companiesPage}
+								/>
+						}
+					</div>
+				</div>
+			</div>
+		);
 	}
 
 	return (
@@ -325,7 +610,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 								<LoadingSection />
 								:
 								<Calendar
-								showNeighboringMonth={false}
+									showNeighboringMonth={false}
 									prevLabel={
 										<div style={{}} onClick={changeMonthBack}>
 											<i className="fa fa-angle-left" ></i>
@@ -541,6 +826,31 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 		return texts[type];
 	}
 
+	if (isMobile) {
+
+		return (
+			<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
+				<div style={{ display: "flex", justifyContent: "space-between" }}>
+					<div>
+						{item.logo ?
+							<Avatar alt="Foto" src={item.logo} />
+							:
+							<i
+								className={'fa fa-building-o'}
+								style={{ fontSize: '1.7em', color: 'lightgrey' }}
+							/>
+						}
+					</div>
+					<div>
+						{item.name}
+					</div>
+					<div>
+						{moment(item.dateStart).subtract(10, 'days').calendar()}
+					</div>
+				</div>
+			</GridItem>
+		)
+	}
 
 	return (
 		<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
@@ -896,35 +1206,35 @@ const Cell = ({ text, avatar, width }) => {
 
 const corporationCouncils = gql`
     query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
-		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
-			id
+					corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
+					id
 			name
-			state
-			dateStart
-			councilType
-			prototype
+				state
+				dateStart
+				councilType
+				prototype
 			participants {
-				id
-			}
-			company{
-				id
+					id
+				}
+				company{
+					id
 				businessName
 				logo
 			}
 		}
 
 		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
-			id
+					id
 			name
-			state
-			dateStart
-			councilType
-			prototype
+				state
+				dateStart
+				councilType
+				prototype
 			participants {
-				id
-			}
-			company{
-				id
+					id
+				}
+				company{
+					id
 				businessName
 				logo
 			}
