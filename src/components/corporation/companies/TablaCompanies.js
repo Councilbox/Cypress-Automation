@@ -28,6 +28,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 	const [companiesPage, setCompaniesPage] = React.useState(1);
 	const [companiesTotal, setCompaniesTotal] = React.useState(false);
 	const [addEntidades, setEntidades] = React.useState(false);
+	const [inputSearch, setInputSearch] = React.useState(false);
 	const [selectedCompany, setSelectedCompany] = React.useState('Lista de entidades');
 	const [state, setState] = React.useState({
 		filterTextCompanies: "",
@@ -75,8 +76,8 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 				:
 				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
 					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
-						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-							<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%", overflow:"hidden" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", width: "100%", justifyContent: "flex-end", width: "100%", overflow:"hidden" }}>
 								<BasicButton
 									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 									backgroundColor={{ backgroundColor: "white" }}
@@ -87,23 +88,25 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 								<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
 									<i className="fa fa-filter"></i>
 								</div>
-
-								<TextInput
-									className={isMobile && "openInput"}
-									placeholder={translate.search}
-									adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-									type="text"
-									value={state.filterTextCompanies || ""}
-									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-									disableUnderline={true}
-									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-									onChange={event => {
-										setState({
-											...state,
-											filterTextCompanies: event.target.value
-										})
-									}}
-								/>
+								<div>
+									<TextInput
+										className={isMobile && !inputSearch ? "openInput" : ""}
+										disableUnderline={true}
+										styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+										stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+										adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
+										floatingText={" "}
+										placeholder={isMobile ? "" : translate.search}
+										type="text"
+										value={state.filterTextCompanies || ""}
+										onChange={event => {
+											setState({
+												...state,
+												filterTextCompanies: event.target.value
+											})
+										}}
+									/>
+								</div>
 							</div>
 						</div>
 						<div style={{ height: "calc( 100% - 5em )" }}>

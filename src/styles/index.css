@@ -936,9 +936,10 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 .openInput div input {
-    width: 35px;
+    width: 0px;
     border-radius: 4px;
     transition: width 0.4s ease-in-out;
+    padding: 0px
 }
 
 .openInput div input:focus {
