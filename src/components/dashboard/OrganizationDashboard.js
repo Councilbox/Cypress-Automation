@@ -390,9 +390,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						<LoadingSection />
 						:
 						<div>
+							{/* TRADUCCION */}
 							<Grid>
-								<GridItem xs={12} md={6} lg={4}>
-									<div style={{ color: "black", marginBottom: "1em" }}>Convocada</div>
+								<GridItem xs={4} md={6} lg={4}>
 									<div style={{ width: '100%', }}>
 										<GraficaDoughnut
 											porcentaje={porcentajes.convocadaPorcentaje || 0}
@@ -401,8 +401,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										/>
 									</div>
 								</GridItem>
-								<GridItem xs={12} md={6} lg={4}>
-									<div style={{ color: "black", marginBottom: "1em" }}>En celebración</div>
+								<GridItem xs={4} md={6} lg={4}>
 									<div style={{ width: '100%', }}>
 										<GraficaDoughnut
 											porcentaje={porcentajes.celebracionPorcentaje || 0}
@@ -411,8 +410,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										/>
 									</div>
 								</GridItem>
-								<GridItem xs={12} md={6} lg={4}>
-									<div style={{ color: "black", marginBottom: "1em" }}>Redact. Acta</div>
+								<GridItem xs={4} md={6} lg={4}>
 									<div style={{ width: '100%', }}>
 										<GraficaDoughnut
 											porcentaje={porcentajes.redActaPorcentaje || 0}
@@ -422,7 +420,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									</div>
 								</GridItem>
 							</Grid>
-							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: '3em' }}>
+							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: '3em', padding: '1em' }}>
 								<GraficaEstadisiticas
 									porcentaje={'75'}
 									color={'#85a9ca'}
@@ -439,8 +437,63 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					height: "100%",
 					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
 				}}>
+					<div style={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignContent: "center"
+					}}>
+						<div style={{ fontWeight: 'bold', color: "#a09b9e", }}>Usuarios</div>
+						<div style={{
+							display: "flex",
+							alignContent: "inherit",
+							justifyContent: "center"
+						}}
+						>
+							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em" }} onClick={changeReuniones}>Conectados</div>
+							<div style={{ color: "#c196c3", marginRight: "0.5em" }}>
+								<i class="fa fa-filter" ></i>
+							</div>
+							{usuariosEntidades === 'usuarios' ?
+								<TextInput
+									className={isMobile && !inputSearch ? "openInput" : ""}
+									disableUnderline={true}
+									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px", marginTop: '0px' }}
+									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+									floatingText={" "}
+									adornment={<Icon onClick={() => setInputSearch(!inputSearch)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+									type="text"
+									styles={{ marginTop: '-16px' }}
+									value={state.filterTextUsuarios || ""}
+									onChange={event => {
+										setState({
+											...state,
+											filterTextUsuarios: event.target.value
+										})
+									}}
+								/>
+								:
+								<TextInput
+									className={isMobile && !inputSearchE ? "openInput" : ""}
+									disableUnderline={true}
+									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+									floatingText={" "}
+									styles={{ marginTop: '-16px' }}
+									adornment={<Icon onClick={() => setInputSearchE(!inputSearchE)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+									type="text"
+									value={state.filterTextCompanies || ""}
+									onChange={event => {
+										setState({
+											...state,
+											filterTextCompanies: event.target.value
+										})
+									}}
+								/>
+							}
+						</div>
+					</div>
 					<Grid style={{ justifyContent: "space-between", alignItems: "center" }}>
-						<GridItem xs={12} md={6} lg={4} style={{ display: "flex" }}>
+						<GridItem xs={6} md={6} lg={4} style={{ display: "flex" }}>
 							<div style={{ height: "100%", fontWeight: "bold", padding: "0.5em", display: "flex", borderRadius: "5px", boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)", }}>
 								<div style={{
 									cursor: "pointer",
@@ -464,64 +517,24 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 							</div>
 						</GridItem>
-						<GridItem xs={12} md={6} lg={8} style={{ display: 'flex', justifyContent: "flex-end" }}>
-							<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+						<GridItem xs={6} md={6} lg={8} style={{ display: 'flex', justifyContent: "flex-end" }}>
+							<div style={{ display: "flex", alignItems: "center" }}>
 								{usuariosEntidades === 'usuarios' ?
 									<BasicButton
-										buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+										buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
 										backgroundColor={{ backgroundColor: "white" }}
 										text={translate.add}
 										onClick={() => setAddUser(true)}
 									/>
 									:
 									<BasicButton
-										buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+										buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
 										backgroundColor={{ backgroundColor: "white" }}
 										text={translate.add}
 										onClick={() => setEntidades(true)}
 									/>
 								}
 
-								<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
-									<i className="fa fa-filter"></i>
-								</div>
-								{usuariosEntidades === 'usuarios' ?
-									<TextInput
-										className={isMobile && !inputSearch ? "openInput" : ""}
-										disableUnderline={true}
-										styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
-										stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
-										floatingText={" "}
-										placeholder={translate.search}
-										adornment={<Icon onClick={() => setInputSearch(!inputSearch)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-										type="text"
-										value={state.filterTextUsuarios || ""}
-										onChange={event => {
-											setState({
-												...state,
-												filterTextUsuarios: event.target.value
-											})
-										}}
-									/>
-									:
-									<TextInput
-										className={isMobile && !inputSearchE ? "openInput" : ""}
-										disableUnderline={true}
-										styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
-										stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
-										floatingText={" "}
-										placeholder={translate.search}
-										adornment={<Icon onClick={() => setInputSearchE(!inputSearchE)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-										type="text"
-										value={state.filterTextCompanies || ""}
-										onChange={event => {
-											setState({
-												...state,
-												filterTextCompanies: event.target.value
-											})
-										}}
-									/>
-								}
 							</div>
 						</GridItem>
 					</Grid>
