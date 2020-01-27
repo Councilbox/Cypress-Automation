@@ -75,7 +75,7 @@ class SignUpUser extends React.Component {
 		let hasError = false;
 
 
-		if (!data.termsCheck) {
+		if (!this.state.termsAccepted) {
 			hasError = true;
 			errors.termsCheck = translate.acept_terms;
 		}
