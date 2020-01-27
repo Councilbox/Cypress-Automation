@@ -12,15 +12,12 @@ import RestoreAccount from './RestoreAccount';
 import { USER_ACTIVATIONS } from '../../../constants';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import { isMobile } from 'react-device-detect';
+import NewUser from './NewUser';
 
 
 
 
 const OrganizationUsers = ({ client, translate, company }) => {
-    const [total, setTotal] = React.useState(null);
-    const [addEntidades, setEntidades] = React.useState(false);
-    const [selectedCompany, setSelectedCompany] = React.useState(null);
-    const [selecteEntUsu, setSelecteEntUsu] = React.useState('Usuarios');
 	const [inputSearch, setInputSearch] = React.useState(false);
     const [state, setState] = React.useState({
         filterTextCompanies: "",
@@ -30,10 +27,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
     const [users, setUsers] = React.useState(false);
     const [usersPage, setUsersPage] = React.useState(1);
     const [usersTotal, setUsersTotal] = React.useState(false);
-    const [companies, setCompanies] = React.useState(false);
-    const [companiesPage, setCompaniesPage] = React.useState(1);
-    const [companiesTotal, setCompaniesTotal] = React.useState(false);
-
+    const [addUser, setAddUser] = React.useState(false);
     const primary = getPrimary();
 
     const getUsers = async () => {
@@ -56,40 +50,13 @@ const OrganizationUsers = ({ client, translate, company }) => {
         }
     }
 
-    const getCompanies = async () => {
-        const response = await client.query({
-            query: corporationCompanies,
-            variables: {
-                filters: [{ field: 'businessName', text: state.filterTextCompanies }],
-                options: {
-                    limit: 10,
-                    offset: (companiesPage - 1) * 10,
-                    orderDirection: 'DESC'
-                },
-                corporationId: company.id
-            }
-        });
-
-        if (response.data.corporationCompanies.list) {
-            setCompanies(response.data.corporationCompanies.list)
-            setCompaniesTotal(response.data.corporationCompanies.total)
-        }
-    }
-    const changePageCompanies = value => {
-        setCompaniesPage(value)
-    }
-
     React.useEffect(() => {
         getUsers()
     }, [state.filterTextCompanies, usersPage]);
 
     React.useEffect(() => {
-        if (selecteEntUsu === "Usuarios") {
-            getUsers();
-        } else {
-            getCompanies()
-        }
-    }, [company.id, state.filterTextUsuarios, state.filterTextCompanies, selecteEntUsu, usersPage, companiesPage]);
+        getUsers();
+    }, [company.id, state.filterTextUsuarios, state.filterTextCompanies, usersPage]);
 
 
     const changePageUsuarios = value => {
@@ -100,28 +67,32 @@ const OrganizationUsers = ({ client, translate, company }) => {
         return <LoadingSection />;
     }
 
-    // if (addEntidades) {
-    // 	return <NewCompanyPage requestClose={() => setEntidades(false)} buttonBack={true} />
-    // }
+	if (addUser) {
+		return (
+            <NewUser
+                translate={translate}
+                requestClose={() => setAddUser(false)}
+                styles={{
+                    width: "100%",
+                    height: '100%',
+                    display: 'flex',
+                    width: '100%',
+                    overflow: 'hidden'
+                }}
+            />
+        )
+	}
 
     return (
         <CardPageLayout title={translate.users} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
             <div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    {/* <div>
-                        <div>
-                            <MenuSuperiorTabs
-                                items={['Usuarios', 'Entidades']}
-                                setSelect={setSelecteEntUsu}
-                            />
-                        </div>
-                    </div> */}
                     <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                         <BasicButton
                             buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
                             backgroundColor={{ backgroundColor: "white" }}
+                            onClick={() => setAddUser(true)}
                             text={translate.add}
-                            onClick={() => setEntidades(true)}
                         />
 
                         <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
@@ -152,6 +123,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
                         :
                         <TablaUsuarios
                             users={users}
+                            company={company}
                             translate={translate}
                             total={usersTotal}
                             changePageUsuarios={changePageUsuarios}
@@ -165,7 +137,9 @@ const OrganizationUsers = ({ client, translate, company }) => {
 }
 
 
-const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage }) => {
+const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, usersPage }) => {
+    const primary = getPrimary();
+
     if (isMobile) {
         return (
             <div style={{ height: "calc( 100% - 5em )" }}>
@@ -188,7 +162,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
                                             </GridItem>
                                             <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
                                                 Id
-                            </GridItem>
+                                            </GridItem>
                                             <GridItem xs={8} md={8} lg={8} style={{
                                                 whiteSpace: 'nowrap',
                                                 overflow: 'hidden',
@@ -248,29 +222,29 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
                         </Grid>
                     </Scrollbar>
                 </div>
-            </div >
+            </div>
         )
     } else {
         return (
             <div style={{ height: '100%' }}>
                 <div style={{ fontSize: "13px", height: '100%' }}>
                     <div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", width: '10%', textAlign: 'left' }}>
+                        <div style={{ color: primary, fontWeight: "bold", width: '10%', textAlign: 'left' }}>
                             Estado
-				</div>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", width: '10%', textAlign: 'left' }}>
+				        </div>
+                        <div style={{ color: primary, fontWeight: "bold", width: '10%', textAlign: 'left' }}>
                             Id
-				</div>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", width: '20%', textAlign: 'left' }}>
+				        </div>
+                        <div style={{ color: primary, fontWeight: "bold", width: '20%', textAlign: 'left' }}>
                             Nombre
-				</div>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '30%', textAlign: 'left' }}>
+				        </div>
+                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '30%', textAlign: 'left' }}>
                             Email
-				</div>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
+				        </div>
+                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                             Últ.Conexión
-				</div>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: '10%', textAlign: 'left' }}>
+				        </div>
+                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '10%', textAlign: 'left' }}>
                         </div>
                     </div>
                     <div style={{ height: "calc( 100% - 13em )" }}>
@@ -295,9 +269,9 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
                                             text={
                                                 <div style={{ display: "flex" }}>
                                                     <Link
-                                                        to={`/edit/${item.id}`}
+                                                        to={`company/${company.id}/user/${item.id}/edit`}
                                                         styles={{
-                                                            color: getPrimary(),
+                                                            color: primary,
                                                             background: 'white',
                                                             borderRadius: '4px',
                                                             boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
@@ -313,7 +287,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
                                                     <Link
                                                         to={`/edit/${item.id}`}
                                                         styles={{
-                                                            color: getPrimary(),
+                                                            color: primary,
                                                             background: 'white',
                                                             borderRadius: '4px',
                                                             boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
@@ -353,17 +327,18 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 }
 
 const TablaCompanies = ({ companies, translate, total, changePageCompanies, companiesPage }) => {
+    const primary = getPrimary();
 
     return (
         <div style={{ fontSize: "13px", height: '100%' }}>
             <div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-                <div style={{ color: getPrimary(), fontWeight: "bold", width: '33%', textAlign: 'left' }}>
+                <div style={{ color: primary, fontWeight: "bold", width: '33%', textAlign: 'left' }}>
 
                 </div>
-                <div style={{ color: getPrimary(), fontWeight: "bold", width: '33%', textAlign: 'left' }}>
+                <div style={{ color: primary, fontWeight: "bold", width: '33%', textAlign: 'left' }}>
                     Id
 				</div>
-                <div style={{ color: getPrimary(), fontWeight: "bold", width: '33%', textAlign: 'left' }}>
+                <div style={{ color: primary, fontWeight: "bold", width: '33%', textAlign: 'left' }}>
                     Nombre
 				</div>
             </div>

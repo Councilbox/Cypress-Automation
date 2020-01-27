@@ -264,11 +264,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		})
 	}
 
-	const changeReuniones = () => {
-		console.log("asdasd")
-	}
-
-
 	const onChangeDay = (date) => {
 		if (String(date) === String(day)) {
 			setDaySelected(new Date('01/01/1970'))
@@ -279,7 +274,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		}
 	}
 	if (isMobile) {
-		console.log(toggleReunionesCalendario)
 		return (
 			<div style={{ width: "100%", height: "100%" }}>
 				<div style={{
@@ -303,7 +297,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							justifyContent: "center"
 						}}
 						>
-							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em" }} onClick={changeReuniones}>Convocadas</div>
+							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em" }}>Convocadas</div>
 							<div style={{ color: "#c196c3", marginRight: "0.5em" }}>
 								<i class="fa fa-filter" ></i>
 							</div>
@@ -442,14 +436,14 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						justifyContent: "space-between",
 						alignContent: "center"
 					}}>
-						<div style={{ fontWeight: 'bold', color: "#a09b9e", }}>Usuarios</div>
+						<div style={{ fontWeight: 'bold', color: "#a09b9e", }}>{translate.users}</div>
 						<div style={{
 							display: "flex",
 							alignContent: "inherit",
 							justifyContent: "center"
 						}}
 						>
-							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em" }} onClick={changeReuniones}>Conectados</div>
+							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em" }}>{translate.connecteds}</div>
 							<div style={{ color: "#c196c3", marginRight: "0.5em" }}>
 								<i class="fa fa-filter" ></i>
 							</div>
@@ -503,8 +497,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 								}}
 									onClick={() => setUsuariosEntidades("usuarios")}
 								>
-									Usuarios
-										</div>
+									{translate.users}
+								</div>
 								<div
 									style={{
 										cursor: "pointer",
@@ -513,8 +507,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									}}
 									onClick={() => setUsuariosEntidades("entidades")}
 								>
-									Entidades
-										</div>
+									{translate.entities}
+								</div>
 							</div>
 						</GridItem>
 						<GridItem xs={6} md={6} lg={8} style={{ display: 'flex', justifyContent: "flex-end" }}>
@@ -951,23 +945,24 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 }
 
 const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage }) => {
+	const primary = getPrimary();
 	return (
 		<div style={{}}>
 			<div style={{ fontSize: "13px" }}>
 				<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-					<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Estado
 				</div>
-					<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Id
 				</div>
-					<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Nombre
 				</div>
-					<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Email
 				</div>
-					<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Últ.Conexión
 				</div>
 				</div>
@@ -1011,17 +1006,18 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 }
 
 const TablaCompanies = ({ companies, translate, total, changePageCompanies, companiesPage }) => {
+	const primary = getPrimary();
 
 	return (
 		<div style={{ fontSize: "13px" }}>
 			<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
 
 				</div>
-				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
 					Id
 				</div>
-				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
 					Nombre
 				</div>
 			</div>
