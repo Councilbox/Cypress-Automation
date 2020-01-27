@@ -9,15 +9,14 @@ import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { IconButton, Tooltip, Card, Drawer, withStyles } from "material-ui";
 import { councilIsFinished } from '../../utils/CBX';
-import { isMobile } from "react-device-detect";
 import Convene from "../council/convene/Convene";
 import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { PARTICIPANT_STATES } from "../../constants";
 import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
-import gorro from "../../assets/img/navidadGorro.png";
 import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
+import { isMobile } from "../../utils/screen";
 
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props }) => {
@@ -163,19 +162,6 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						alt="logo"
 					>
 					</img>
-					<img
-						src={gorro}
-						style={{
-							height: "1.5em",
-							position: 'absolute',
-							top: '-7px',
-							right: '-8px',
-							// top: '2px',
-							// right: '10%',
-							transform: 'rotate(17deg)',
-						}}
-						alt="logo"
-					/>
 				</div>
 			</div>
 			{(council && council.autoClose !== 1) &&

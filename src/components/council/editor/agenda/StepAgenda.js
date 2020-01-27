@@ -131,7 +131,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	};
 
 	const nextPage = async () => {
-		if (checkConditions()) {
+		if(data.council.statute.canAddPoints === 1 || checkConditions()){
 			await updateCouncil(4);
 			props.nextStep();
 		}

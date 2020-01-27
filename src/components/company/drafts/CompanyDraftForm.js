@@ -13,7 +13,7 @@ import { withStyles } from "material-ui";
 import PropTypes from "prop-types";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import { withApollo } from 'react-apollo';
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 import { companyTypes } from "../../../queries";
 import SelectedTag from './draftTags/SelectedTag';
 import { createTag, TAG_TYPES, getTagColor } from './draftTags/utils';
@@ -63,11 +63,11 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
-			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
-			let title = tag.label;
-			if(statute){
-				const title = statute.title;
+			let statute = null;
+			if(companyStatutes){
+				statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
 			}
+			const title = statute? translate[statute.title]? translate[statute.title] : statute.title : tag.label;
 			return translate[title] || title;
 		}
 

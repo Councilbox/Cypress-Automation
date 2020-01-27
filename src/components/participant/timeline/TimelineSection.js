@@ -7,6 +7,7 @@ import { moment } from '../../../containers/App';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary, getPrimary } from '../../../styles/colors';
+import { usePolling } from '../../../hooks';
 
 
 const TimelineSection = ({ translate, participant, council, scrollToBottom, isMobile, client, endPage, ...props }) => {
@@ -31,11 +32,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
         getTimeline();
     }, [council.id, setLoading, setLoaded, setTimeline, client]);
 
-    React.useEffect(() => {
-        getData();
-        let interval = setInterval(() => getData(), 6000);
-        return () => clearInterval(interval);
-    }, [getData]);
+    usePolling(getData, 6000);
 
     React.useEffect(() => {
         if (loaded && scrollToBottom) {

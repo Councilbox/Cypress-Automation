@@ -11,7 +11,7 @@ import { MenuItem, Card, CardHeader, Tooltip, TableCell, TableRow } from "materi
 import { levelColor, ContenedorEtiquetas } from "./CompanyDraftForm";
 import { Divider } from "material-ui";
 import { primary } from "../../../styles/colors";
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 import { withStyles } from "material-ui";
 import { IconButton } from "material-ui";
 import { Collapse } from "material-ui";
@@ -360,7 +360,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
 			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
-			const title = statute? statute.title : 'Tipo no encontrado';
+			const title = statute? statute.title : tag.label;
 			return translate[title] || title;
 		}
 

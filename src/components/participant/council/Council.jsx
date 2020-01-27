@@ -10,11 +10,11 @@ import Header from "../Header";
 import { darkGrey } from '../../../styles/colors';
 import RequestWordMenu from '../menus/RequestWordMenu';
 import { councilHasVideo } from '../../../utils/CBX';
-import { isLandscape } from '../../../utils/screen';
+import { isLandscape, isMobile } from '../../../utils/screen';
 import VideoContainer from '../VideoContainer';
 import { API_URL } from "../../../config";
 import AdminAnnouncement from './AdminAnnouncement';
-import { isMobile } from "react-device-detect";
+// import { isMobile } from '../../../utils/screen';
 import CouncilSidebar from './CouncilSidebar';
 import AdminPrivateMessage from "../menus/AdminPrivateMessage";
 import * as CBX from '../../../utils/CBX';
@@ -22,6 +22,8 @@ import UsersHeader from "../UsersHeader";
 import { ConfigContext } from "../../../containers/AppControl";
 import TextInputChat from "../../../displayComponents/TextInputChat";
 import { TextField } from "material-ui";
+import { usePolling } from "../../../hooks";
+import { LoadingSection } from "../../../displayComponents";
 
 
 const styles = {
@@ -111,7 +113,7 @@ const stylesVideo = {
     }],
 }
 
-const ParticipantCouncil = ({ translate, participant, data, council, agendas, ...props }) => {
+const ParticipantCouncil = ({ translate, participant, council, client, ...props }) => {
     const [state, setState] = React.useState({
         agendasAnchor: 'right',
         hasVideo: councilHasVideo(council),
@@ -127,6 +129,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     const [agendaBadge, setAgendaBadge] = React.useState(false);
     const grantedWord = React.useRef(participant.grantedWord);
     const config = React.useContext(ConfigContext);
+    const [agendas, setData] = React.useState(null);
 
     const leaveRoom = React.useCallback(() => {
         let request = new XMLHttpRequest();
@@ -142,7 +145,24 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                 online: 2
             }
         }));
-    });
+    }, [participant.id]);
+
+    const getData = async () => {
+        const response = await client.query({
+            query: agendasQuery,
+            variables: {
+                councilId: council.id,
+                participantId: participant.id
+            }
+        });
+
+        setData({
+            ...response.data,
+            refetch: getData
+        });
+    }
+
+    usePolling(getData, 7000);
 
     React.useEffect(() => {
         props.changeParticipantOnlineState({
@@ -307,8 +327,10 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     let type = "agenda";
     let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
     let titleHeader = null
-    if (!agendas.loading) {
+    if (agendas) {
         titleHeader = agendas.agendas.filter(item => { return CBX.agendaPointOpened(item) })
+    } else {
+        return <LoadingSection />
     }
 
     const landscape = isLandscape() && window.innerWidth < 700;
@@ -337,6 +359,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                     {!landscape &&
                         <React.Fragment>
                             <CouncilSidebar
+                                agendas={agendas}
                                 noSession={noSession}
                                 isMobile={isMobile}
                                 council={council}
@@ -453,6 +476,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                                 <CouncilSidebar
                                     isMobile={isMobile}
                                     council={council}
+                                    agendas={agendas}
                                     translate={translate}
                                     setAgendaBadge={setAgendaBadge}
                                     agendaBadge={agendaBadge}
@@ -492,7 +516,7 @@ const participantPing = gql`
         participantPing
     }
 `;
-const agendas = gql`
+const agendasQuery = gql`
     query Agendas($councilId: Int!, $participantId: Int!){
         agendas(councilId: $councilId){
             agendaSubject
@@ -540,6 +564,7 @@ const agendas = gql`
                 id
             }
             agendaId
+            fixed
             numParticipations
             author {
                 id
@@ -568,15 +593,5 @@ export default compose(
     }),
     graphql(changeParticipantOnlineState, {
         name: 'changeParticipantOnlineState'
-    }),
-    graphql(agendas, {
-        options: props => ({
-            variables: {
-                councilId: props.council.id,
-                participantId: props.participant.id
-            },
-            pollInterval: 7000
-        }),
-        name: 'agendas'
     })
 )(withApollo(withTranslations()(withDetectRTC()(ParticipantCouncil))));

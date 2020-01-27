@@ -7,7 +7,7 @@ import { MenuItem, Divider } from "material-ui";
 import { DropDownMenu, Icon, Link } from "../../displayComponents";
 import FontAwesome from "react-fontawesome";
 import { Tooltip } from "material-ui";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../utils/screen";
 
 const styles = {
 	whiteSpace: "nowrap",

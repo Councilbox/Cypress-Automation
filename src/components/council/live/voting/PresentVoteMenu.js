@@ -9,6 +9,8 @@ import { CircularProgress } from "material-ui/Progress";
 
 const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
+	const [fixedAlert, setFixedAlert] = React.useState(false);
+	const fixed = agendaVoting.fixed;
 
 	const updateAgendaVoting = async value => {
 		setLoading(value);
@@ -46,10 +48,13 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 					alignItems: "center",
 					justifyContent: "center"
 				}}
-				onClick={() => updateAgendaVoting(value)}
+				onClick={() => {
+					return agendaVoting.fixed? setFixedAlert(true) : updateAgendaVoting(value)
+				}}
 			>
 				<MenuItem
 					selected={active}
+					disabled={fixed}
 					style={{
 						display: "flex",
 						fontSize: "0.9em",
@@ -75,28 +80,30 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 	};
 
 	return (
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "row",
-				marginRight: "0.7em"
-			}}
-		>
-			{agendaVoting.author.voteDenied? //TRADUCCION
-				<React.Fragment>
-					<Tooltip title={agendaVoting.author.voteDeniedReason}>
-						<div>Derecho a voto denegado</div>
-					</Tooltip>
-				</React.Fragment>
+		<Tooltip title="El voto ya ha sido fijado" open={fixedAlert}>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					marginRight: "0.7em"
+				}}
+			>
+				{agendaVoting.author.voteDenied? //TRADUCCION
+					<React.Fragment>
+						<Tooltip title={agendaVoting.author.voteDeniedReason}>
+							<div>Derecho a voto denegado</div>
+						</Tooltip>
+					</React.Fragment>
 
-			:
-				<React.Fragment>
-					{_block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
-					{_block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
-					{_block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}
-				</React.Fragment>
-			}
-		</div>
+				:
+					<React.Fragment>
+						{_block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
+						{_block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
+						{_block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}
+					</React.Fragment>
+				}
+			</div>
+		</Tooltip>
 	);
 
 }

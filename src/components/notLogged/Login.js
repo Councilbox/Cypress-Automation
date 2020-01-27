@@ -8,10 +8,11 @@ import { login } from "../../queries";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
 import withTranslations from "../../HOCs/withTranslations";
-import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem } from "../../displayComponents";
+import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem, CBXFooter } from "../../displayComponents";
 import { useOldState } from "../../hooks";
 import { useSubdomain, getCustomLogo } from "../../utils/subdomain";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../utils/screen";
+import GenCatLogin from "./GenCatLogin";
 
 
 
@@ -236,7 +237,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 							minHeight: "60%",
 							width: windowSize === "xs" ? "100vw" : "70%",
 							padding: "8%",
+							paddingBottom: '1em',
 							margin: '0',
+							position: 'relative',
 							marginBottom: windowSize === "xs" ? 0 : "5em",
 							marginRight: windowSize === "xs" ? 0 : "5em"
 						}}
@@ -347,6 +350,13 @@ const Login = ({ translate, windowSize, ...props }) => {
 								}
 							/>
 						</div>
+						{(!!subdomain.name && subdomain.name.includes('gencat')) &&
+							<div style={{ marginTop: "1em" }}>
+								<GenCatLogin
+									loginSuccess={props.actions.loginSuccess}
+								/>
+							</div>
+						}
 						<div
 							style={{
 								marginTop: "2em",
@@ -357,6 +367,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 								{translate.login_forgot}
 							</Link>
 						</div>
+						<CBXFooter style={{marginTop: '5em'}} />
 					</Card>
 				</GridItem>
 			</Grid>
