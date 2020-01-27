@@ -197,8 +197,10 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 						className: "successToast"
 					}
 				);
-				store.dispatch(setCompany(response.data.updateCompany));
-				bHistory.push('/');
+				if(!props.organization){
+					store.dispatch(setCompany(response.data.updateCompany));
+				}
+				bHistory.goBack();
 			}
 		}
 	};
@@ -563,6 +565,14 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							</SelectInput>
 						</GridItem>
 					}
+					<GridItem xs={12} md={12} lg={12}>
+						<TablaUsuarios
+							translate={translate}
+							client={client}
+							companyId={company.id}
+							corporationId={company.corporationId}
+						/>
+					</GridItem>
 				</Grid>
 				<br />
 				<BasicButton
@@ -661,6 +671,360 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 	);
 
 
+}
+
+const TablaUsuarios = ({ translate, client, companyId, corporationId }) => {
+	const [users, setUsers] = React.useState(false);
+	const [usersPage, setUsersPage] = React.useState(1);
+	const [usersTotal, setUsersTotal] = React.useState(false);
+	const [addAdmins, setAddAdmins] = React.useState(false);
+	const [checkedItems, setCheckedItems] = React.useState([]);
+	const [state, setState] = React.useState({
+		filterTextUsuarios: "",
+	});
+
+	const getUsers = async () => {
+		const response = await client.query({
+			query: companyUsers,
+			variables: {
+				companyId: companyId,
+				options: {
+					limit: 20,
+					offset: (usersPage - 1) * 20,
+					orderDirection: 'DESC'
+				},
+				filters: [{ field: 'fullName', text: state.filterTextUsuarios }],
+			}
+		});
+
+		if (response.data.companyUsers.list) {
+			setUsers(response.data.companyUsers.list)
+			setUsersTotal(response.data.companyUsers.total)
+		}
+	}
+
+	React.useEffect(() => {
+		getUsers()
+	}, [state.filterTextUsuarios, usersPage]);
+
+
+	return (
+		<div>
+			<div style={{ display: "flex", justifyContent: "flex-end" }}>
+				<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+					<BasicButton
+						buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
+						backgroundColor={{ backgroundColor: "white" }}
+						text={translate.add}
+						// Falta añadir usuarios
+						onClick={() => setAddAdmins(true)}
+					/>
+
+					<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+						<i className="fa fa-filter"></i>
+					</div>
+					<TextInput
+						placeholder={translate.search}
+						adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+						type="text"
+						value={state.filterTextUsuarios || ""}
+						styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+						disableUnderline={true}
+						stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+						onChange={event => {
+							setState({
+								...state,
+								filterTextUsuarios: event.target.value
+							})
+						}}
+					/>
+				</div>
+				<AlertConfirm
+					bodyStyle={{ minWidth: '70vw' }}
+					requestClose={() => setAddAdmins(false)}
+					open={addAdmins}
+					bodyText={
+						<TablaUsuariosAdmin
+							translate={translate}
+							client={client}
+							corporationId={corporationId}
+							companyId={companyId}
+							usersCompany={users}
+							getUsersCompany={getUsers}
+							closeModal={() => setAddAdmins(false)}
+						/>
+					}
+					title={translate.add}
+				/>
+			</div>
+			<div style={{}}>
+				<div style={{ fontSize: "13px" }}>
+					<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
+						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Estado
+				</div>
+						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Id
+				</div>
+						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Nombre
+				</div>
+						<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Email
+				</div>
+						<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Últ.Conexión
+				</div>
+					</div>
+					<div style={{ height: "300px" }}>
+						<Scrollbar>
+							{users &&
+								users.map(item => {
+									return (
+										<div
+											key={item.id}
+											style={{
+												display: "flex",
+												justifyContent: "space-between",
+												padding: "1em",
+												alignItems: "center"
+											}}>
+											<Cell text={item.actived} />
+											<Cell text={item.id} />
+											<Cell text={item.name + " " + item.surname} />
+											<Cell text={item.email} />
+											<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
+										</div>
+
+									)
+								})}
+						</Scrollbar>
+					</div>
+					<Grid style={{ marginTop: "1em" }}>
+						<PaginationFooter
+							page={usersPage}
+							translate={translate}
+							length={users.length}
+							total={usersTotal}
+							limit={10}
+							changePage={setUsersPage}
+							md={12}
+							xs={12}
+						/>
+					</Grid>
+				</div>
+			</div>
+		</div>
+	)
+}
+
+const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, usersCompany, getUsersCompany, closeModal }) => {
+	const [users, setUsers] = React.useState(false);
+	const [usersPage, setUsersPage] = React.useState(1);
+	const [usersTotal, setUsersTotal] = React.useState(false);
+	const [state, setState] = React.useState({
+		filterTextUsuarios: "",
+		checked: [],
+	});
+
+	const getUsersModal = async () => {
+		const response = await client.query({
+			query: corporationUsers,
+			variables: {
+				filters: [{ field: 'fullName', text: state.filterTextUsuarios }],
+				options: {
+					limit: 10,
+					offset: (usersPage - 1) * 10,
+					orderDirection: 'DESC'
+				},
+				corporationId: corporationId
+			}
+		});
+
+		let filtrado = response.data.corporationUsers.list.filter(comparer(usersCompany));
+		if (response.data.corporationUsers.list) {
+			setUsers(filtrado)
+			setUsersTotal(response.data.corporationUsers.total)
+		}
+	}
+
+	const comparer = (otherArray) => {
+		return function (current) {
+			return otherArray.filter(function (other) {
+				return (other.id == current.id)
+			}).length == 0;
+		}
+	}
+
+	React.useEffect(() => {
+		getUsersModal()
+	}, [state.filterTextUsuarios, usersPage, usersCompany]);
+
+	const saveUsersInCompany = async () => {
+		const response = await client.mutate({
+			mutation: linkCompanyUsers,
+			variables: {
+				companyTin: companyId,
+				usersIds: state.checked.map(check => check.id),
+			}
+		});
+		getUsersCompany();
+	}
+
+
+	const checkUser = (user, check) => {
+		let checked = [...state.checked];
+		if (check) {
+			checked = [...checked, user];
+		} else {
+			const index = checked.findIndex(item => item.id === user.id);
+			checked.splice(index, 1);
+		}
+		setState({
+			...state,
+			checked: checked
+		});
+	}
+
+	const isChecked = (id) => {
+		const item = state.checked.find(item => item.id === id);
+		return !!item;
+	}
+
+	return (
+		<div>
+			<div style={{ display: "flex", justifyContent: "flex-end" }}>
+				<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+					<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+						<i className="fa fa-filter"></i>
+					</div>
+					<TextInput
+						placeholder={translate.search}
+						adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+						type="text"
+						value={state.filterTextUsuarios || ""}
+						styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+						disableUnderline={true}
+						stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+						onChange={event => {
+							setState({
+								...state,
+								filterTextUsuarios: event.target.value
+							})
+						}}
+					/>
+				</div>
+			</div>
+			<div style={{}}>
+				<div style={{ fontSize: "13px" }}>
+					<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
+						<div style={{ color: getPrimary(), fontWeight: "bold", width: '3em', textAlign: 'left' }}></div>
+						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Estado
+				</div>
+						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Id
+				</div>
+						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Nombre
+				</div>
+						<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Email
+				</div>
+						<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+							Últ.Conexión
+				</div>
+					</div>
+					<div style={{ height: "300px" }}>
+						<Scrollbar>
+							{users &&
+								users.map(item => {
+									return (
+										<div
+											key={item.id}
+											style={{
+												display: "flex",
+												justifyContent: "space-between",
+												padding: "1em",
+												alignItems: "center"
+											}}>
+											<Cell
+												styles={{ width: '3em' }}
+												text={
+													<Checkbox
+														value={isChecked(item.id)}
+														onChange={(event, isInputChecked) => {
+															checkUser(item, isInputChecked)
+														}}
+													/>
+												}
+											/>
+											<Cell text={item.actived} />
+											<Cell text={item.id} />
+											<Cell text={item.name + " " + item.surname} />
+											<Cell text={item.email} />
+											<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
+										</div>
+
+									)
+								})}
+						</Scrollbar>
+					</div>
+					<Grid style={{ marginTop: "1em" }}>
+						<PaginationFooter
+							page={usersPage}
+							translate={translate}
+							length={users.length}
+							total={usersTotal}
+							limit={10}
+							changePage={setUsersPage}
+							md={12}
+							xs={12}
+						/>
+					</Grid>
+				</div>
+			</div>
+			<div style={{
+				display: "flex",
+				justifyContent: "flex-end",
+				paddingRight: '0.6em',
+				borderTop: '1px solid gainsboro',
+				paddingTop: '0.5em',
+				marginTop: "2em"
+			}}>
+				<BasicButton
+					text={translate.cancel}
+					onClick={() => closeModal()}
+					textStyle={{
+						textTransform: "none",
+						fontWeight: "700",
+					}}
+					primary={true}
+					color='transparent'
+					type="flat"
+				/>
+				<BasicButton
+					text={translate.add}
+					onClick={() => saveUsersInCompany()}
+					textStyle={{
+						color: "white",
+						textTransform: "none",
+						fontWeight: "700"
+					}}
+					buttonStyle={{ marginLeft: "1em" }}
+					color={primary}
+				/>
+			</div>
+		</div>
+	)
+}
+
+const Cell = ({ text, width, styles }) => {
+	return (
+		<div style={{ overflow: "hidden", width: width ? `calc( 100% / ${width})` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px", ...styles }}>
+			{text}
+		</div>
+	)
 }
 
 

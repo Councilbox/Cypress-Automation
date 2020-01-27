@@ -7,7 +7,7 @@ import { graphql } from 'react-apollo';
 import { company } from '../../../queries';
 import { bHistory } from '../../../containers/App';
 
-const CompanyEditPage = ({ data, user, match, translate }) => {
+const CompanyEditPage = ({ data, user, match, company, translate }) => {
 
     if(data.loading){
         return <LoadingSection />
@@ -24,6 +24,7 @@ const CompanyEditPage = ({ data, user, match, translate }) => {
                 company={data.company}
                 translate={translate}
                 confirmCompany={user.roles === 'root'}
+                organization={company.id !== data.company.id && company.id === data.company.corporationId}
                 root={user.roles === 'root'}
                 refetch={data.refetch}
             />

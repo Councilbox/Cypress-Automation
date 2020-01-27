@@ -146,7 +146,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 														refetch={getCompanies}
 														company={item}
 														styles={{
-															color: getPrimary(),
+															color: primary,
 															background: 'white',
 															display: "flex",
 															alignItems: "center",
@@ -165,7 +165,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 														refetch={getCompanies}
 														company={item}
 														styles={{
-															color: getPrimary(),
+															color: primary,
 															background: 'white',
 															display: "flex",
 															alignItems: "center",
@@ -181,7 +181,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 													/>
 													<Link to={`/company/${company.id}/edit/${item.id}`}
 														styles={{
-															color: getPrimary(),
+															color: primary,
 															background: 'white',
 															display: "flex",
 															alignItems: "center",
@@ -210,7 +210,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 							</Scrollbar>
 						</div>
 					</div>
-				</CardPageLayout >
+				</CardPageLayout>
 		)
 	} else {
 		return (
@@ -294,7 +294,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 													refetch={getCompanies}
 													company={item}
 													styles={{
-														color: getPrimary(),
+														color: primary,
 														background: 'white',
 														borderRadius: '4px',
 														boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
@@ -316,7 +316,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 													refetch={getCompanies}
 													company={item}
 													styles={{
-														color: getPrimary(),
+														color: primary,
 														background: 'white',
 														borderRadius: '4px',
 														boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
@@ -335,7 +335,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 												/>
 												<Link to={`/company/${company.id}/edit/${item.id}`}
 													styles={{
-														color: getPrimary(),
+														color: primary,
 														background: 'white',
 														borderRadius: '4px',
 														boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
