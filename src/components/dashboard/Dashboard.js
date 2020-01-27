@@ -108,9 +108,8 @@ const Dashboard = ({ translate, company, user }) => {
 						</React.Fragment>
 
 					}
-
+					<CBXFooter style={company.id === company.corporationId? {} : { marginTop : '3em' }} />
 				</div>
-				<CBXFooter />
 			</Scrollbar>
 		</div>
 	);
