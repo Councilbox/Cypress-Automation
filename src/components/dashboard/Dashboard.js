@@ -2,17 +2,20 @@ import React from "react";
 import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
-import { Scrollbar, CBXFooter, CardPageLayout } from '../../displayComponents';
+import { Scrollbar, CBXFooter, CardPageLayout, LoadingMainApp } from '../../displayComponents';
 import { moment, store } from '../../containers/App';
 import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft } from '../../utils/CBX';
 import { addSpecificTranslations } from "../../actions/companyActions";
 import NewCompanyPage from "../company/new/NewCompanyPage";
 import NewUser from "../corporation/users/NewUser";
-import OrganizationDashboard from './OrganizationDashboard';
 import { isMobile } from "react-device-detect";
+import Loadable from 'react-loadable';
 
-
+const OrganizationDashboard = Loadable({
+	loader: () => import('./OrganizationDashboard'),
+	loading: LoadingMainApp
+});
 
 const Dashboard = ({ translate, company, user }) => {
 	const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);

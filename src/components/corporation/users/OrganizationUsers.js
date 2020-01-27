@@ -7,10 +7,7 @@ import { getPrimary } from '../../../styles/colors';
 import { Icon, Avatar, Card } from 'material-ui';
 import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link, GridItem } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
-import DeactivateAccount from './DeactivateAccount';
-import RestoreAccount from './RestoreAccount';
 import { USER_ACTIVATIONS } from '../../../constants';
-import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import { isMobile } from 'react-device-detect';
 import NewUser from './NewUser';
 
