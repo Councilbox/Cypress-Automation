@@ -45,45 +45,49 @@ class Sidebar extends React.Component {
 		})
 	}
 
-	routes = [
-		{
-			path: `/company/${this.props.company.id}`,
-			sidebarName: 'Dashboard',
-			name: "dashboard",
-			icon: 'dashboard'
-		},
-		{
-			path: `/company/${this.props.company.id}/councils/drafts`,
-			name: "council",
-			sidebarName: this.props.translate.councils_link,
-			icon: 'import_contacts'
-		},
-		{
-			path: `/company/${this.props.company.id}/companies`,
-			name: "companies",
-			sidebarName: 'Entidades',
-			// sidebarName: this.props.translate.councils_link,
-			icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
-		},
-		{
-			path: `/company/${this.props.company.id}/drafts`,
-			name: 'templates',
-			sidebarName: 'Base de conocimiento',
-			icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
-		},
-		{
-			path: `/company/`,
-			name: 'support',
-			sidebarName: 'Soporte',
-			icon: <img src={contactSuport} style={{ width: '19px', height: 'auto' }} />
-		},
-		{
-			path: `/company/${this.props.company.id}/users`,
-            name: 'users',
-            sidebarName: 'Usuarios',
-			icon: 'person'
-		},
-	];
+	buildRoutes = () => {
+		return [
+			{
+				path: `/company/${this.props.company.id}`,
+				sidebarName: 'Dashboard',
+				name: "dashboard",
+				icon: 'dashboard'
+			},
+			{
+				path: `/company/${this.props.company.id}/councils/drafts`,
+				name: "council",
+				sidebarName: this.props.translate.councils_link,
+				icon: 'import_contacts'
+			},
+			{
+				path: `/company/${this.props.company.id}/companies`,
+				name: "companies",
+				sidebarName: 'Entidades',
+				// sidebarName: this.props.translate.councils_link,
+				icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
+			},
+			{
+				path: `/company/${this.props.company.id}/drafts`,
+				name: 'drafts',
+				sidebarName: this.props.translate.tooltip_knowledge_base,
+				icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
+			},
+			// {
+			// 	path: `/company/`,
+			// 	name: 'support',
+			// 	sidebarName: 'Soporte',
+			// 	icon: <img src={contactSuport} style={{ width: '19px', height: 'auto' }} />
+			// },
+			{
+				path: `/company/${this.props.company.id}/users`,
+				name: 'users',
+				sidebarName: 'Usuarios',
+				icon: 'person'
+			},
+		];
+	}
+
+	routes = this.buildRoutes();
 
 	componentDidMount() {
 		const index = this.findActiveRoute(this.props.location.pathname);
@@ -101,55 +105,20 @@ class Sidebar extends React.Component {
 				selectedRoute: this.findActiveRoute(this.props.location.pathname)
 			});
 
-			this.routes = [
-				{
-					path: `/company/${this.props.company.id}`,
-					sidebarName: 'Dashboard',
-					name: "dashboard",
-					icon: 'dashboard'
-				},
-				{
-					path: `/company/${this.props.company.id}/councils/drafts`,
-					name: "council",
-					sidebarName: this.props.translate.councils_link,
-					icon: 'import_contacts'
-				},
-				{
-					path: `/company/${this.props.company.id}/companies`,
-					name: "companies",
-					sidebarName: 'Entidades',
-					// sidebarName: this.props.translate.councils_link,
-					icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
-				},
-				{
-					path: `/company/${this.props.company.id}/drafts`,
-					name: 'templates',
-					sidebarName: 'Base de conocimiento',
-					icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
-				},
-				{
-					path: `/company/`,
-					name: 'support',
-					sidebarName: 'Soporte',
-					icon: <img src={contactSuport} style={{ width: '19px', height: 'auto' }} />
-				},
-				{
-					path: `/company/${this.props.company.id}/users`,
-					name: 'users',
-					sidebarName: 'Usuarios',
-					icon: 'person'
-				},
-			];
+			this.routes = this.buildRoutes();
 		}
 	}
 
 	findActiveRoute = (pathname, routes) => {
 		let routeIndex = 0;
-		this.routes.forEach((route, index) => {
-			if (pathname.includes(route.name)) {
-				routeIndex = index;
-			}
+		const found = this.routes.findIndex((route, index) => {
+			return pathname.includes(route.name);
 		});
+
+		if(found !== -1){
+			routeIndex = found;
+		}
+		
 		return routeIndex;
 	};
 
