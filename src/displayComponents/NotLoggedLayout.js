@@ -36,7 +36,9 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 background: `url(${imgUrl})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center center',
+                ...((customBackground || customRoomBackground)? {} : {
+                    backgroundPosition: 'center center',
+                }),
                 padding: 0,
                 margin: 0,
                 width: '100%'
