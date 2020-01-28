@@ -205,10 +205,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const size = !hasBook ? 4 : 3;
 	const blankSize = !hasBook ? 2 : 3;
 
-	const prueba = (e) => {
-		console.log(e)
-	}
-
 	const clickDay = (value) => {
 		let fechaInicio = value
 		let fechaFin = moment(value).add(24, 'hours');
@@ -288,23 +284,29 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					<div style={{
 						display: "flex",
 						justifyContent: "space-between",
-						alignContent: "center"
+						alignContent: "center",
+						marginBottom: "0.3em"
 					}}>
-						<div style={{ fontWeight: 'bold', color: "#a09b9e", }}>Reuniones en curso</div>
+						<div style={{ fontWeight: 'bold', color: "#a09b9e", display: 'flex', alignItems: 'center' }}>Reuniones en curso</div>
 						<div style={{
 							display: "flex",
 							alignContent: "inherit",
 							justifyContent: "center"
 						}}
 						>
-							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em" }}>Convocadas</div>
-							<div style={{ color: "#c196c3", marginRight: "0.5em" }}>
+							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>Convocadas</div>
+							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
 								<i class="fa fa-filter" ></i>
 							</div>
 							{toggleReunionesCalendario === "reuniones" ?
-								<div style={{}} onClick={() => setToggleReunionesCalendario("calendario")} >Ir</div>
+								<div style={{ position: "relative", color: "black", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario("calendario")} >
+									<i className={'fa fa-calendar-o'} style={{ position: "relative", fontSize: "18px" }}></i>
+									<i className={'fa fa-clock-o'} style={{ position: "relative", left: "-5px", bottom: "-5px" }}></i>
+								</div>
 								:
-								<div style={{}} onClick={() => setToggleReunionesCalendario("reuniones")} >IC</div>
+								<div style={{ color: "black", fontSize: "18px", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario("reuniones")} >
+									<i className={"fa fa-list"}></i>
+								</div>
 							}
 						</div>
 					</div>
@@ -434,17 +436,18 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					<div style={{
 						display: "flex",
 						justifyContent: "space-between",
-						alignContent: "center"
+						alignContent: "center",
+						marginBottom: "0.3em"
 					}}>
-						<div style={{ fontWeight: 'bold', color: "#a09b9e", }}>{translate.users}</div>
+						<div style={{ fontWeight: 'bold', color: "#a09b9e", display: 'flex', alignItems: 'center' }}>{usuariosEntidades === 'usuarios' ? translate.users : translate.entities}</div>
 						<div style={{
 							display: "flex",
 							alignContent: "inherit",
 							justifyContent: "center"
 						}}
 						>
-							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em" }}>{translate.connecteds}</div>
-							<div style={{ color: "#c196c3", marginRight: "0.5em" }}>
+							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>{translate.connecteds}</div>
+							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
 								<i class="fa fa-filter" ></i>
 							</div>
 							{usuariosEntidades === 'usuarios' ?
@@ -456,7 +459,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									floatingText={" "}
 									adornment={<Icon onClick={() => setInputSearch(!inputSearch)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
 									type="text"
-									styles={{ marginTop: '-16px' }}
+									styles={{ marginTop: '-16px', marginBottom: "-8px" }}
 									value={state.filterTextUsuarios || ""}
 									onChange={event => {
 										setState({
@@ -472,7 +475,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
 									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
 									floatingText={" "}
-									styles={{ marginTop: '-16px' }}
+									styles={{ marginTop: '-16px', marginBottom: "-8px" }}
 									adornment={<Icon onClick={() => setInputSearchE(!inputSearchE)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
 									type="text"
 									value={state.filterTextCompanies || ""}
@@ -838,7 +841,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 		return (
 			<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
 				<div style={{ display: "flex", justifyContent: "space-between" }}>
-					<div>
+					<div style={{ marginRight: '0.2em' }}>
 						{item.logo ?
 							<Avatar alt="Foto" src={item.logo} />
 							:
@@ -848,10 +851,10 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 							/>
 						}
 					</div>
-					<div>
+					<div style={{ marginRight: '0.2em' }}>
 						{item.name}
 					</div>
-					<div>
+					<div style={{ marginRight: '0.2em' }}>
 						{moment(item.dateStart).subtract(10, 'days').calendar()}
 					</div>
 				</div>
@@ -968,14 +971,15 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 				</div>
 				<div style={{ height: "300px" }}>
 					<Scrollbar>
-						{users.map(item => {
+						{users.map((item, index) => {
 							return (
 								<div
 									key={item.id}
 									style={{
 										display: "flex",
 										justifyContent: "space-between",
-										padding: "1em"
+										padding: "1em",
+										background: index % 2 ? "#edf4fb" : "",
 									}}>
 									<Cell text={item.actived} />
 									<Cell text={item.id} />
@@ -1023,20 +1027,20 @@ const TablaCompanies = ({ companies, translate, total, changePageCompanies, comp
 			</div>
 			<div style={{ height: "300px" }}>
 				<Scrollbar>
-					{companies.map(item => {
+					{companies.map((item, index) => {
 						return (
 							<div
 								key={item.id}
 								style={{
 									display: "flex",
 									justifyContent: "space-between",
-									padding: "1em"
+									padding: "1em",
+									background: index % 2 ? "#edf4fb" : "",
 								}}>
 								<CellAvatar width={3} avatar={item.logo} />
 								<Cell width={3} text={item.id} />
 								<Cell width={3} text={item.businessName} />
 							</div>
-
 						)
 					})}
 				</Scrollbar>

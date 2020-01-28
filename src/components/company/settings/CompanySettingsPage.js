@@ -17,7 +17,7 @@ import {
 	Link,
 	Checkbox
 } from "../../../displayComponents";
-import { MenuItem, Icon } from "material-ui";
+import { MenuItem, Icon, Card, CardActions } from "material-ui";
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { compose, graphql, withApollo } from "react-apollo";
 import { provinces } from "../../../queries/masters";
@@ -34,6 +34,9 @@ import GoverningBodyForm from "./GoverningBodyForm";
 import NewUser from "../../corporation/users/NewUser";
 import AdminManager from './AdminManager';
 import { corporationUsers } from "../../../queries/corporation";
+import { isMobile } from "../../../utils/screen";
+import { USER_ACTIVATIONS } from "../../../constants";
+
 
 export const info = gql`
 	query info {
@@ -81,7 +84,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 				country => country.deno === company.country
 			);
 
-			if(selectedCountry){
+			if (selectedCountry) {
 				updateProvinces(selectedCountry.id);
 			}
 		}
@@ -197,7 +200,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 						className: "successToast"
 					}
 				);
-				if(!props.organization){
+				if (!props.organization) {
 					store.dispatch(setCompany(response.data.updateCompany));
 				}
 				bHistory.goBack();
@@ -267,7 +270,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 
 	return (
 		<CardPageLayout title={translate.company_settings}>
-			<div style={{ width: '100%', height: '100%', padding: '1.5em', paddingBottom: '6em' }}>
+			<div style={{ width: '100%', height: '100%', padding: '1.5em', paddingBottom: isMobile ? "3em" : '6em' }}>
 				<SectionTitle
 					text={translate.fiscal_data}
 					color={primary}
@@ -570,77 +573,82 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							translate={translate}
 							client={client}
 							companyId={company.id}
+							companyTin={company.tin}
 							corporationId={company.corporationId}
+							unlinkCompany={props.unlinkCompany}
 						/>
 					</GridItem>
 				</Grid>
 				<br />
-				<BasicButton
-					text={translate.save}
-					id="save-button"
-					color={primary}
-					error={updateError}
-					success={success}
-					loading={request}
-					floatRight
-					textStyle={{
-						color: "white",
-						fontWeight: "700"
-					}}
-					onClick={saveCompany}
-					icon={<ButtonIcon type="save" color="white" />}
-				/>
-				{props.linkButton &&
+				<div style={{ display: "flex", justifyContent: "flex-end" }}>
 					<BasicButton
-						text={translate.unlink}
+						text={translate.save}
+						id="save-button"
 						color={primary}
+						error={updateError}
+						success={success}
+						loading={request}
 						floatRight
+						buttonStyle={{ marginRight: "1.2em" }}
 						textStyle={{
 							color: "white",
 							fontWeight: "700"
 						}}
-						buttonStyle={{ marginRight: "1.2em" }}
-						onClick={() =>
-							setState({
-								...state,
-								unlinkModal: true
-							})
-						}
-						icon={<ButtonIcon type="link_off" color="white" />}
+						onClick={saveCompany}
+						icon={<ButtonIcon type="save" color="white" />}
 					/>
-				}
+					{company.corporationId !== 1 &&
+						<BasicButton
+							text={'Añadir administrador'}
+							color={primary}
+							floatRight
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							buttonStyle={{ marginRight: "1.2em" }}
+							onClick={() =>
+								setState({
+									...state,
+									addAdminModal: true
+								})
+							}
+						/>
+					}
+					{props.linkButton &&
+						<BasicButton
+							text={translate.unlink}
+							color={primary}
+							floatRight
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							buttonStyle={{ marginRight: "1.2em" }}
+							onClick={() =>
+								setState({
+									...state,
+									unlinkModal: true
+								})
+							}
+							icon={<ButtonIcon type="link_off" color="white" />}
+						/>
+					}
 
-				{props.confirmCompany &&
-					<ConfirmCompanyButton
-						translate={translate}
-						company={company}
-						refetch={props.refetch}
-					/>
-				}
-				{props.root &&
-					<DeleteCompanyButton
-						translate={translate}
-						company={company}
-					/>
-				}
-				{company.corporationId !== 1 &&
-					<BasicButton
-						text={'Añadir administrador'}
-						color={primary}
-						floatRight
-						textStyle={{
-							color: "white",
-							fontWeight: "700"
-						}}
-						buttonStyle={{ marginRight: "1.2em" }}
-						onClick={() =>
-							setState({
-								...state,
-								addAdminModal: true
-							})
-						}
-					/>
-				}
+					{props.confirmCompany &&
+						<ConfirmCompanyButton
+							translate={translate}
+							company={company}
+							refetch={props.refetch}
+						/>
+					}
+					{props.root &&
+						<DeleteCompanyButton
+							translate={translate}
+							company={company}
+						/>
+					}
+				</div>
 				<AlertConfirm
 					requestClose={() => setState({ ...state, unlinkModal: false })}
 					open={state.unlinkModal}
@@ -673,12 +681,15 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 
 }
 
-const TablaUsuarios = ({ translate, client, companyId, corporationId }) => {
+const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkCompany, companyTin }) => {
 	const [users, setUsers] = React.useState(false);
 	const [usersPage, setUsersPage] = React.useState(1);
 	const [usersTotal, setUsersTotal] = React.useState(false);
 	const [addAdmins, setAddAdmins] = React.useState(false);
 	const [checkedItems, setCheckedItems] = React.useState([]);
+	const [unlink, setUnlink] = React.useState(false)
+	const [unlinkIdRemove, setUnlinkIdRemove] = React.useState(false)
+	const [inputSearch, setInputSearch] = React.useState(false);
 	const [state, setState] = React.useState({
 		filterTextUsuarios: "",
 	});
@@ -707,115 +718,313 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId }) => {
 		getUsers()
 	}, [state.filterTextUsuarios, usersPage]);
 
+	const unlinkId = (id) => {
+		setUnlink(true);
+		setUnlinkIdRemove(id);
+	}
 
-	return (
-		<div>
-			<div style={{ display: "flex", justifyContent: "flex-end" }}>
-				<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
-					<BasicButton
-						buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
-						backgroundColor={{ backgroundColor: "white" }}
-						text={translate.add}
-						// Falta añadir usuarios
-						onClick={() => setAddAdmins(true)}
-					/>
+	const unlinkCompanyU = async () => {
+		const response = await client.mutate({
+			mutation: unlinkCompanyUser,
+			variables: {
+				userId: unlinkIdRemove,
+				companyTin: companyTin
+			}
+		});
+		getUsers()
+		setUnlink(false);
+	};
 
-					<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
-						<i className="fa fa-filter"></i>
-					</div>
-					<TextInput
-						placeholder={translate.search}
-						adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-						type="text"
-						value={state.filterTextUsuarios || ""}
-						styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-						disableUnderline={true}
-						stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-						onChange={event => {
-							setState({
-								...state,
-								filterTextUsuarios: event.target.value
-							})
-						}}
-					/>
-				</div>
-				<AlertConfirm
-					bodyStyle={{ minWidth: '70vw' }}
-					requestClose={() => setAddAdmins(false)}
-					open={addAdmins}
-					bodyText={
-						<TablaUsuariosAdmin
-							translate={translate}
-							client={client}
-							corporationId={corporationId}
-							companyId={companyId}
-							usersCompany={users}
-							getUsersCompany={getUsers}
-							closeModal={() => setAddAdmins(false)}
-						/>
-					}
-					title={translate.add}
-				/>
-			</div>
+
+	if (isMobile) {
+		return (
 			<div style={{}}>
-				<div style={{ fontSize: "13px" }}>
-					<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Estado
-				</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Id
-				</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Nombre
-				</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Email
-				</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Últ.Conexión
-				</div>
+				<div style={{ display: "flex", justifyContent: "flex-end", height: "100%" }}>
+					<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+						<BasicButton
+							buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
+							backgroundColor={{ backgroundColor: "white" }}
+							text={translate.add}
+							// Falta añadir usuarios
+							onClick={() => setAddAdmins(true)}
+						/>
+
+						<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+							<i className="fa fa-filter"></i>
+						</div>
+						<TextInput
+							className={isMobile && !inputSearch ? "openInput" : ""}
+							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+							adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
+							placeholder={isMobile ? "" : translate.search}
+							type="text"
+							value={state.filterTextUsuarios || ""}
+							disableUnderline={true}
+							onChange={event => {
+								setState({
+									...state,
+									filterTextUsuarios: event.target.value
+								})
+							}}
+						/>
 					</div>
-					<div style={{ height: "300px" }}>
-						<Scrollbar>
+					<AlertConfirm
+						bodyStyle={{ minWidth: '70vw' }}
+						requestClose={() => setAddAdmins(false)}
+						open={addAdmins}
+						bodyText={
+							<TablaUsuariosAdmin
+								translate={translate}
+								client={client}
+								corporationId={corporationId}
+								companyId={companyId}
+								usersCompany={users}
+								getUsersCompany={getUsers}
+								closeModal={() => setAddAdmins(false)}
+							/>
+						}
+						title={translate.add}
+					/>
+				</div>
+				<div style={{ height: "15em" }}>
+					<Scrollbar>
+						<Grid style={{ padding: '1em', height: "100%" }}>
 							{users &&
 								users.map(item => {
 									return (
-										<div
-											key={item.id}
-											style={{
-												display: "flex",
-												justifyContent: "space-between",
-												padding: "1em",
-												alignItems: "center"
-											}}>
-											<Cell text={item.actived} />
-											<Cell text={item.id} />
-											<Cell text={item.name + " " + item.surname} />
-											<Cell text={item.email} />
-											<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
-										</div>
-
+										<Card style={{ marginBottom: "0.5em", padding: "1em" }} key={item.id}>
+											<Grid>
+												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+													{translate.state}
+												</GridItem>
+												<GridItem xs={8} md={8} lg={8} style={{
+													whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													{getActivationText(item.actived)}
+												</GridItem>
+												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+													{translate.name}
+												</GridItem>
+												<GridItem xs={8} md={8} lg={8} style={{
+													whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													{item.name + " " + item.surname}
+												</GridItem>
+												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+													{translate.email}
+												</GridItem>
+												<GridItem xs={8} md={8} lg={8} style={{
+													whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													{item.email}
+												</GridItem>
+												<GridItem xs={4} md={4} lg={4} style={{
+													fontWeight: '700', whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													Últ.Conexión
+												</GridItem>
+												<GridItem xs={8} md={8} lg={8} style={{
+													whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													{moment(item.lastConnectionDate).format("LLL")}
+												</GridItem>
+											</Grid>
+											<CardActions>
+												<BasicButton
+													text={translate.unlink}
+													color={"white"}
+													textStyle={{
+														color: primary,
+														marginRight: "1em",
+														boxShadow: "none",
+														padding: "0px"
+													}}
+													onClick={() => unlinkId(item.id)}
+												/>
+											</CardActions>
+										</Card>
 									)
 								})}
-						</Scrollbar>
-					</div>
-					<Grid style={{ marginTop: "1em" }}>
-						<PaginationFooter
-							page={usersPage}
-							translate={translate}
-							length={users.length}
-							total={usersTotal}
-							limit={10}
-							changePage={setUsersPage}
-							md={12}
-							xs={12}
-						/>
-					</Grid>
+							<AlertConfirm
+								requestClose={() => setUnlink(false)}
+								open={unlink}
+								acceptAction={unlinkCompanyU}
+								buttonAccept={translate.accept}
+								buttonCancel={translate.cancel}
+								bodyText={
+									<div>Desea desvincular </div>
+								}
+								title={translate.unlink}
+							/>
+							<Grid style={{ marginTop: "1em" }}>
+								<PaginationFooter
+									page={usersPage}
+									translate={translate}
+									length={users.length}
+									total={usersTotal}
+									limit={10}
+									changePage={setUsersPage}
+									md={12}
+									xs={12}
+								/>
+							</Grid>
+						</Grid>
+					</Scrollbar>
 				</div>
 			</div>
-		</div>
-	)
+		)
+	} else {
+		return (
+			<div>
+				<div style={{ display: "flex", justifyContent: "flex-end" }}>
+					<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+						<BasicButton
+							buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
+							backgroundColor={{ backgroundColor: "white" }}
+							text={translate.add}
+							// Falta añadir usuarios
+							onClick={() => setAddAdmins(true)}
+						/>
+
+						<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+							<i className="fa fa-filter"></i>
+						</div>
+						<TextInput
+							placeholder={translate.search}
+							adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+							type="text"
+							value={state.filterTextUsuarios || ""}
+							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+							disableUnderline={true}
+							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+							onChange={event => {
+								setState({
+									...state,
+									filterTextUsuarios: event.target.value
+								})
+							}}
+						/>
+					</div>
+					<AlertConfirm
+						bodyStyle={{ minWidth: '70vw' }}
+						requestClose={() => setAddAdmins(false)}
+						open={addAdmins}
+						bodyText={
+							<TablaUsuariosAdmin
+								translate={translate}
+								client={client}
+								corporationId={corporationId}
+								companyId={companyId}
+								usersCompany={users}
+								getUsersCompany={getUsers}
+								closeModal={() => setAddAdmins(false)}
+							/>
+						}
+						title={translate.add}
+					/>
+				</div>
+				<div style={{}}>
+					<div style={{ fontSize: "13px" }}>
+						<div style={{ display: "flex", justifyContent: "space-between", padding: isMobile ? "0" : "1em", }}>
+							<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+								{translate.state}
+							</div>
+							<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+								{translate.name}
+							</div>
+							<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+								{translate.email}
+							</div>
+							<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+								Últ.Conexión
+				</div>
+							<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+
+							</div>
+						</div>
+						<div style={{ height: "300px" }}>
+							<Scrollbar>
+								{users &&
+									users.map(item => {
+										return (
+											<div
+												key={item.id}
+												style={{
+													display: "flex",
+													justifyContent: "space-between",
+													padding: "1em",
+													alignItems: "center"
+												}}>
+												<Cell text={getActivationText(item.actived)} />
+												<Cell text={item.name + " " + item.surname} />
+												<Cell text={item.email} />
+												<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
+												<Cell
+													styles={{ padding: "3px" }}
+													text={
+														<BasicButton
+															text={translate.unlink}
+															color={"white"}
+															textStyle={{
+																color: primary,
+																background: 'white',
+																borderRadius: '4px',
+																boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+																display: "flex",
+																alignItems: "center",
+																justifyContent: "center",
+																padding: "0.3em",
+																marginRight: "1em",
+																width: "100px"
+															}}
+															onClick={() => unlinkId(item.id)}
+														/>
+													} />
+											</div>
+										)
+									})}
+							</Scrollbar>
+						</div>
+						{/* TRADUCCION */}
+						<AlertConfirm
+							requestClose={() => setUnlink(false)}
+							open={unlink}
+							acceptAction={unlinkCompanyU}
+							buttonAccept={translate.accept}
+							buttonCancel={translate.cancel}
+							bodyText={
+								<div>Desea desvincular </div>
+							}
+							title={translate.unlink}
+						/>
+						<Grid style={{ marginTop: "1em" }}>
+							<PaginationFooter
+								page={usersPage}
+								translate={translate}
+								length={users.length}
+								total={usersTotal}
+								limit={10}
+								changePage={setUsersPage}
+								md={12}
+								xs={12}
+							/>
+						</Grid>
+					</div>
+				</div>
+			</div>
+		)
+	}
 }
 
 const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, usersCompany, getUsersCompany, closeModal }) => {
@@ -890,133 +1099,268 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 		const item = state.checked.find(item => item.id === id);
 		return !!item;
 	}
-
-	return (
-		<div>
-			<div style={{ display: "flex", justifyContent: "flex-end" }}>
-				<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
-					<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
-						<i className="fa fa-filter"></i>
-					</div>
-					<TextInput
-						placeholder={translate.search}
-						adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-						type="text"
-						value={state.filterTextUsuarios || ""}
-						styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-						disableUnderline={true}
-						stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-						onChange={event => {
-							setState({
-								...state,
-								filterTextUsuarios: event.target.value
-							})
-						}}
-					/>
-				</div>
-			</div>
+	
+	if (isMobile) {
+		return (
 			<div style={{}}>
-				<div style={{ fontSize: "13px" }}>
-					<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: '3em', textAlign: 'left' }}></div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Estado
-				</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Id
-				</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Nombre
-				</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Email
-				</div>
-						<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-							Últ.Conexión
-				</div>
+				<div style={{ display: "flex", justifyContent: "flex-end" }}>
+					<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+						<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+							<i className="fa fa-filter"></i>
+						</div>
+						<TextInput
+							placeholder={translate.search}
+							adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+							type="text"
+							value={state.filterTextUsuarios || ""}
+							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+							disableUnderline={true}
+							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+							onChange={event => {
+								setState({
+									...state,
+									filterTextUsuarios: event.target.value
+								})
+							}}
+						/>
 					</div>
-					<div style={{ height: "300px" }}>
-						<Scrollbar>
+				</div>
+				<div style={{ height: "15em" }}>
+					<Scrollbar>
+						<Grid style={{ padding: '1em', height: "100%" }}>
 							{users &&
 								users.map(item => {
 									return (
-										<div
-											key={item.id}
-											style={{
-												display: "flex",
-												justifyContent: "space-between",
-												padding: "1em",
-												alignItems: "center"
-											}}>
-											<Cell
-												styles={{ width: '3em' }}
-												text={
+										<Card style={{ marginBottom: "0.5em", padding: "1em" }} key={item.id}>
+											<Grid style={{ position: "relative" }}>
+												<div style={{ display: 'flex', justifyContent: "flex-end", position: "absolute", right: "-18px", top: "-14px" }}>
 													<Checkbox
 														value={isChecked(item.id)}
 														onChange={(event, isInputChecked) => {
 															checkUser(item, isInputChecked)
 														}}
 													/>
-												}
-											/>
-											<Cell text={item.actived} />
-											<Cell text={item.id} />
-											<Cell text={item.name + " " + item.surname} />
-											<Cell text={item.email} />
-											<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
-										</div>
-
+												</div>
+												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+													{translate.state}
+												</GridItem>
+												<GridItem xs={8} md={8} lg={8} style={{
+													whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													{getActivationText(item.actived)}
+												</GridItem>
+												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+													{translate.name}
+												</GridItem>
+												<GridItem xs={8} md={8} lg={8} style={{
+													whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													{item.name + " " + item.surname}
+												</GridItem>
+												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+													{translate.email}
+												</GridItem>
+												<GridItem xs={8} md={8} lg={8} style={{
+													whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													{item.email}
+												</GridItem>
+												<GridItem xs={4} md={4} lg={4} style={{
+													fontWeight: '700', whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													Últ.Conexión
+												</GridItem>
+												<GridItem xs={8} md={8} lg={8} style={{
+													whiteSpace: 'nowrap',
+													overflow: 'hidden',
+													textOverflow: 'ellipsis'
+												}}>
+													{moment(item.lastConnectionDate).format("LLL")}
+												</GridItem>
+											</Grid>
+										</Card>
 									)
 								})}
-						</Scrollbar>
-					</div>
-					<Grid style={{ marginTop: "1em" }}>
-						<PaginationFooter
-							page={usersPage}
-							translate={translate}
-							length={users.length}
-							total={usersTotal}
-							limit={10}
-							changePage={setUsersPage}
-							md={12}
-							xs={12}
-						/>
-					</Grid>
+							<Grid style={{ marginTop: "1em" }}>
+								<PaginationFooter
+									page={usersPage}
+									translate={translate}
+									length={users.length}
+									total={usersTotal}
+									limit={10}
+									changePage={setUsersPage}
+									md={12}
+									xs={12}
+								/>
+							</Grid>
+						</Grid>
+					</Scrollbar>
+				</div>
+				<div style={{
+					display: "flex",
+					justifyContent: "flex-end",
+					paddingRight: '0.6em',
+					borderTop: '1px solid gainsboro',
+					paddingTop: '0.5em',
+					marginTop: "2em"
+				}}>
+					<BasicButton
+						text={translate.cancel}
+						onClick={() => closeModal()}
+						textStyle={{
+							textTransform: "none",
+							fontWeight: "700",
+						}}
+						primary={true}
+						color='transparent'
+						type="flat"
+					/>
+					<BasicButton
+						text={translate.add}
+						onClick={() => saveUsersInCompany()}
+						textStyle={{
+							color: "white",
+							textTransform: "none",
+							fontWeight: "700"
+						}}
+						buttonStyle={{ marginLeft: "1em" }}
+						color={primary}
+					/>
 				</div>
 			</div>
-			<div style={{
-				display: "flex",
-				justifyContent: "flex-end",
-				paddingRight: '0.6em',
-				borderTop: '1px solid gainsboro',
-				paddingTop: '0.5em',
-				marginTop: "2em"
-			}}>
-				<BasicButton
-					text={translate.cancel}
-					onClick={() => closeModal()}
-					textStyle={{
-						textTransform: "none",
-						fontWeight: "700",
-					}}
-					primary={true}
-					color='transparent'
-					type="flat"
-				/>
-				<BasicButton
-					text={translate.add}
-					onClick={() => saveUsersInCompany()}
-					textStyle={{
-						color: "white",
-						textTransform: "none",
-						fontWeight: "700"
-					}}
-					buttonStyle={{ marginLeft: "1em" }}
-					color={primary}
-				/>
+		)
+	} else {
+		return (
+			<div>
+				<div style={{ display: "flex", justifyContent: "flex-end" }}>
+					<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+						<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+							<i className="fa fa-filter"></i>
+						</div>
+						<TextInput
+							placeholder={translate.search}
+							adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+							type="text"
+							value={state.filterTextUsuarios || ""}
+							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+							disableUnderline={true}
+							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+							onChange={event => {
+								setState({
+									...state,
+									filterTextUsuarios: event.target.value
+								})
+							}}
+						/>
+					</div>
+				</div>
+				<div style={{}}>
+					<div style={{ fontSize: "13px" }}>
+						<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
+							<div style={{ color: getPrimary(), fontWeight: "bold", width: '3em', textAlign: 'left' }}></div>
+							<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+								{translate.state}
+							</div>
+							<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+								{translate.name}
+							</div>
+							<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+								{translate.email}
+							</div>
+							<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+								Últ.Conexión
+							</div>
+						</div>
+						<div style={{ height: "300px" }}>
+							<Scrollbar>
+								{users &&
+									users.map(item => {
+										return (
+											<div
+												key={item.id}
+												style={{
+													display: "flex",
+													justifyContent: "space-between",
+													padding: "1em",
+													alignItems: "center"
+												}}>
+												<Cell
+													styles={{ width: '3em' }}
+													text={
+														<Checkbox
+															value={isChecked(item.id)}
+															onChange={(event, isInputChecked) => {
+																checkUser(item, isInputChecked)
+															}}
+														/>
+													}
+												/>
+												<Cell text={getActivationText(item.actived)} />
+												<Cell text={item.name + " " + item.surname} />
+												<Cell text={item.email} />
+												<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
+											</div>
+
+										)
+									})}
+							</Scrollbar>
+						</div>
+						<Grid style={{ marginTop: "1em" }}>
+							<PaginationFooter
+								page={usersPage}
+								translate={translate}
+								length={users.length}
+								total={usersTotal}
+								limit={10}
+								changePage={setUsersPage}
+								md={12}
+								xs={12}
+							/>
+						</Grid>
+					</div>
+				</div>
+				<div style={{
+					display: "flex",
+					justifyContent: "flex-end",
+					paddingRight: '0.6em',
+					borderTop: '1px solid gainsboro',
+					paddingTop: '0.5em',
+					marginTop: "2em"
+				}}>
+					<BasicButton
+						text={translate.cancel}
+						onClick={() => closeModal()}
+						textStyle={{
+							textTransform: "none",
+							fontWeight: "700",
+						}}
+						primary={true}
+						color='transparent'
+						type="flat"
+					/>
+					<BasicButton
+						text={translate.add}
+						onClick={() => saveUsersInCompany()}
+						textStyle={{
+							color: "white",
+							textTransform: "none",
+							fontWeight: "700"
+						}}
+						buttonStyle={{ marginLeft: "1em" }}
+						color={primary}
+					/>
+				</div>
 			</div>
-		</div>
-	)
+		)
+	}
 }
 
 const Cell = ({ text, width, styles }) => {
@@ -1050,28 +1394,49 @@ const AddAdmin = ({ translate, company, open, requestClose }) => {
 		/>
 	)
 }
+
+export const getActivationText = value => {
+    const activations = {
+        [USER_ACTIVATIONS.NOT_CONFIRMED]: 'Sin confirmar',
+        [USER_ACTIVATIONS.CONFIRMED]: 'Confirmado',
+        [USER_ACTIVATIONS.DEACTIVATED]: 'Deshabilitada'
+    }
+
+    return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
+}
+
 const linkCompanyUsers = gql`
     mutation linkCompanyUsers($companyTin: String!, $usersIds: [Int]){
-        linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
-            success
+					linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
+					success
             message
-        }
-    }
-`;
+				}
+			}
+		`;
 
 
 const companyUsers = gql`
 query CompanyUsers($companyId: Int!, $filters: [FilterInput], $options: OptionsInput,) {
-	companyUsers(companyId: $companyId, filters: $filters, options: $options,) {
-		list {
-			id
-			name
-			surname
-			actived
-			email
-			lastConnectionDate
+					companyUsers(companyId: $companyId, filters: $filters, options: $options,) {
+					list {
+				id
+				name
+				surname
+				actived
+				email
+				lastConnectionDate
+			}
+			total
 		}
-		total
+	}
+	`;
+
+
+const unlinkCompanyUser = gql`
+mutation unlinkCompanyUser($companyTin: String!, $userId: Int!){
+	unlinkCompanyUser(companyTin: $companyTin, userId: $userId){
+		success
+		message
 	}
 }
 `;

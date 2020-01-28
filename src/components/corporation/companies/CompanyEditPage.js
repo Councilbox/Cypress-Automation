@@ -18,7 +18,7 @@ const CompanyEditPage = ({ data, user, match, company, translate }) => {
     }
 
     return(
-        <div style={{height: 'calc(100% - 3em)', width: '100%'}}>
+        <div style={{height: '100%', width: '100%'}}>
             <CompanySettingsPage
                 key={`company_${company.id}`}
                 company={data.company}

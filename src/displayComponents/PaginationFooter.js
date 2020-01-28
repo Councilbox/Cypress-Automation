@@ -179,7 +179,7 @@ const showPages = (numPages, active, changePage) => {
 
 
 const showPagesMobile = (numPages, active, changePage) => {
-	console.log(numPages)
+	
 	if (numPages > 1) {
 		return (
 			<div>
