@@ -4,8 +4,8 @@ import { withApollo } from 'react-apollo';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { corporationUsers } from '../../../queries/corporation';
 import { getPrimary } from '../../../styles/colors';
-import { Icon, Avatar, Card } from 'material-ui';
-import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link, GridItem } from '../../../displayComponents';
+import { Icon, Avatar, Card, CardActions } from 'material-ui';
+import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link, GridItem, AlertConfirm } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import { USER_ACTIVATIONS } from '../../../constants';
 import { isMobile } from 'react-device-detect';
@@ -15,7 +15,7 @@ import NewUser from './NewUser';
 
 
 const OrganizationUsers = ({ client, translate, company }) => {
-	const [inputSearch, setInputSearch] = React.useState(false);
+    const [inputSearch, setInputSearch] = React.useState(false);
     const [state, setState] = React.useState({
         filterTextCompanies: "",
         filterTextUsuarios: "",
@@ -64,8 +64,8 @@ const OrganizationUsers = ({ client, translate, company }) => {
         return <LoadingSection />;
     }
 
-	if (addUser) {
-		return (
+    if (addUser) {
+        return (
             <NewUser
                 translate={translate}
                 requestClose={() => setAddUser(false)}
@@ -78,7 +78,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
                 }}
             />
         )
-	}
+    }
 
     return (
         <CardPageLayout title={translate.users} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
@@ -136,6 +136,18 @@ const OrganizationUsers = ({ client, translate, company }) => {
 
 const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, usersPage }) => {
     const primary = getPrimary();
+    const [modalBloquear, setModalBloquear] = React.useState(false);
+    const [infoloquear, setInfoModalBloquear] = React.useState(false);
+
+    const setUserBloquear = (data) => {
+        setModalBloquear(true)
+        setInfoModalBloquear(data)
+    }
+
+    const userBloquear = () => {
+        console.log('userBloquear')
+    }
+
 
     if (isMobile) {
         return (
@@ -145,7 +157,7 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                         <Grid style={{ padding: '2em 2em 1em 2em', height: "100%" }}>
                             {users.map(item => {
                                 return (
-                                    <Card style={{ marginBottom: "0.5em", padding: "1em" }}>
+                                    <Card style={{ marginBottom: "0.5em", padding: "1em" }}  key={item.id}>
                                         <Grid>
                                             <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
                                                 {translate.state}
@@ -200,10 +212,45 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                                             }}>
                                                 {moment(item.lastConnectionDate).format("LLL")}
                                             </GridItem>
+                                            <CardActions>
+                                                <Link
+                                                    to={`/company/${company.id}/users/${item.id}/edit`}
+                                                    styles={{
+                                                        color: primary,
+                                                        background: 'white',
+                                                        marginRight: "1em"
+                                                    }}>
+                                                    {translate.edit}
+                                                </Link>
+                                                <BasicButton
+                                                    onClick={() => setUserBloquear(item)}
+                                                    backgroundColor={{
+                                                        color: primary,
+                                                        background: 'white',
+                                                        padding: '0',
+                                                        margin: '0',
+                                                        boxShadow: 'none',
+                                                        color: primary,
+                                                        minHeight: '0',
+                                                    }}
+                                                    text="Bloquear">
+                                                </BasicButton>
+                                            </CardActions>
                                         </Grid>
                                     </Card>
                                 )
                             })}
+                            <AlertConfirm
+                                requestClose={() => setModalBloquear(false)}
+                                open={modalBloquear}
+                                acceptAction={userBloquear}
+                                buttonAccept={translate.accept}
+                                buttonCancel={translate.cancel}
+                                bodyText={
+                                    <div>Desactivar cuenta de usuario {infoloquear.name + " " + infoloquear.surname}</div>
+                                }
+                                title={'Bloquear'}
+                            />
                             <Grid style={{ marginTop: "1em" }}>
                                 <PaginationFooter
                                     page={usersPage}
@@ -235,13 +282,13 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                         <div style={{ color: primary, fontWeight: "bold", width: '20%', textAlign: 'left' }}>
                             Nombre
 				        </div>
-                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '30%', textAlign: 'left' }}>
+                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                             Email
 				        </div>
                         <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                             Últ.Conexión
 				        </div>
-                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '10%', textAlign: 'left' }}>
+                        <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                         </div>
                     </div>
                     <div style={{ height: "calc( 100% - 13em )" }}>
@@ -259,14 +306,15 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                                         <Cell text={item.actived} width={10} />
                                         <Cell text={item.id} width={10} />
                                         <Cell text={item.name + " " + item.surname} width={20} />
-                                        <Cell text={item.email} width={30} />
+                                        <Cell text={item.email} width={20} />
                                         <Cell text={moment(item.lastConnectionDate).format("LLL")} width={20} />
-                                        <Cell width={10}
+                                        <Cell
+                                            width={20}
                                             styles={{ padding: "3px" }}
                                             text={
                                                 <div style={{ display: "flex" }}>
                                                     <Link
-                                                        to={`company/${company.id}/user/${item.id}/edit`}
+                                                        to={`/company/${company.id}/users/${item.id}/edit`}
                                                         styles={{
                                                             color: primary,
                                                             background: 'white',
@@ -281,9 +329,9 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                                                         }}>
                                                         {translate.edit}
                                                     </Link>
-                                                    <Link
-                                                        to={`/edit/${item.id}`}
-                                                        styles={{
+                                                    <BasicButton
+                                                        onClick={() => setUserBloquear(item)}
+                                                        backgroundColor={{
                                                             color: primary,
                                                             background: 'white',
                                                             borderRadius: '4px',
@@ -293,10 +341,12 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                                                             justifyContent: "center",
                                                             padding: "0.3em",
                                                             marginRight: "1em",
-                                                            width: "100px"
-                                                        }}>
-                                                        Bloquear
-                                                </Link>
+                                                            width: "100px",
+                                                            minHeight: "0"
+                                                        }}
+                                                        text="Bloquear">
+
+                                                    </BasicButton>
                                                 </div>
                                             } />
                                     </div>
@@ -305,6 +355,17 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                             })}
                         </Scrollbar>
                     </div>
+                    <AlertConfirm
+                        requestClose={() => setModalBloquear(false)}
+                        open={modalBloquear}
+                        acceptAction={userBloquear}
+                        buttonAccept={translate.accept}
+                        buttonCancel={translate.cancel}
+                        bodyText={
+                            <div>Desactivar cuenta de usuario {infoloquear.name + " " + infoloquear.surname}</div>
+                        }
+                        title={'Bloquear'}
+                    />
                     <Grid style={{ marginTop: "1em" }}>
                         <PaginationFooter
                             page={usersPage}
