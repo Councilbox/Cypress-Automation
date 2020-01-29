@@ -168,21 +168,12 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 		<CardPageLayout title={translate.councils_sidebar} disableScroll>
 			<div
 				style={{
-					// width: '100%',
 					height: '100%',
-					// padding: windowSize === 'xs' ? '0.8em' : '1.6em',
-					// position: 'relative',
-					// ...(windowSize === 'xs' && !isLandscape() ? { padding: 0, paddingTop: '1em', height: '100%' } : {}),// height: 'calc(100vh - 6.5em)
-					// backgroundColor: lightGrey,
-					// paddingBottom: 0,
 					fontSize: "13px", padding: '1.5em 1.5em 1.5em',
 					height: '100%'
 				}}
 			>
-				{/* <div style={{ height: 'calc(100% - 3.5rem)', marginBottom: '0.6em'}}> */}
-				{/* <div style={{ height: 'calc(100% - 1.6rem)', width: '98%', margin: '0 auto' }}> */}
 				<div style={{ height: '100%', width: '98%', margin: '0 auto' }}>
-					
 					<Councils
 						company={company}
 						translate={translate}
@@ -191,13 +182,6 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 						title={translate.dashboard_historical}
 						icon={"history"}
 					/>
-					{/* <TabsScreen
-					tabsIndex={tabsIndex}
-					tabsInfo={tabsInfo}
-					controlled={true}
-					linked={true}
-					selected={match.params.section}
-				/> */}
 					{!isMobile &&
 						<div
 							style={{
@@ -233,7 +217,7 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 					/>
 				</div>
 			</div>
-		</CardPageLayout >
+		</CardPageLayout>
 	);
 }
 

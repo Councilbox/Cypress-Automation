@@ -164,6 +164,7 @@ const Councils = ({ translate, client, ...props }) => {
 		bHistory.push(statesTabLink[selecteReuniones]);
 		// }
 	}
+	
 
 	return (
 		<div
@@ -233,7 +234,7 @@ const Councils = ({ translate, client, ...props }) => {
 											})}
 										</div>
 									) : councilsData.list.length > 0 ? (
-										props.link === "/history" || props.link === "/finished" ?
+										selecteReuniones === translate.companies_writing || selecteReuniones === translate.act_book || selecteReuniones === translate.dashboard_historical ?
 											<div>
 												<CouncilsHistory
 													councils={councilsData.list}
