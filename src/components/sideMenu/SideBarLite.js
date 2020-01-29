@@ -4,15 +4,15 @@ import OrganizationSideBar from './OrganizationSideBar';
 import { ConfigContext } from '../../containers/AppControl';
 import { showOrganizationDashboard } from '../../utils/CBX';
 
-const SideBarLite = ({ company, user, ...props }) => {
+const SideBarLite = props => {
 	const config = React.useContext(ConfigContext);
 
-	if(showOrganizationDashboard(company, config, user)){
-		return <OrganizationSideBar {...props} company={company} />
+	if(showOrganizationDashboard(props.company, config, props.user)){
+		return <OrganizationSideBar {...props} />
 	}
 
 	return (
-		<CompanySideBar {...props} company={company} />
+		<CompanySideBar {...props} />
 	)
 }
 

@@ -8,6 +8,7 @@ import { DropDownMenu, Icon, Link } from "../../displayComponents";
 import FontAwesome from "react-fontawesome";
 import { Tooltip } from "material-ui";
 import { isMobile } from "../../utils/screen";
+import { isAdmin } from "../../utils/CBX";
 
 const styles = {
 	whiteSpace: "nowrap",
@@ -141,7 +142,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 							</MenuItem>
 						</Link>
 						<Divider />
-						{(user.roles === 'devAdmin' || user.roles === 'admin') &&
+						{isAdmin(user) &&
 							<Link to={`/company/${company.id}/settings`}>
 								<MenuItem style={{ height: "100%", maxWidth: "270px" }}>
 									<div
