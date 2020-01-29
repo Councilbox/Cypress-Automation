@@ -113,7 +113,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                             action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                             label: company.businessName
                         })
-                    bHistory.push(`/company/${company.id}/council/${council.id}${link}`)
+                    bHistory.push(`/company/${company.id}/council/${council.id}`)
                 }}
             >
                 <Grid>
@@ -181,7 +181,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                         label: company.businessName
                     })
                 bHistory.push(
-                    `/company/${company.id}/council/${council.id}${link}`
+                    `/company/${company.id}/council/${council.id}`
                 )
             }}
         >

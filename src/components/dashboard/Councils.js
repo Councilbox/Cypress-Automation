@@ -280,7 +280,6 @@ const Councils = ({ translate, client, ...props }) => {
 														councils={councilsData.list}
 														company={props.company}
 														link={selecteReunionesLink}
-													// link={props.link}
 													/>
 													<Grid style={{ padding: isMobile ? "1em 0em 0em 0em" : '2em 3em 1em 2em' }}>
 														<PaginationFooter
