@@ -10,6 +10,7 @@ import { bHistory } from '../../../containers/App';
 import { checkValidEmail } from '../../../utils/validation';
 import { useOldState } from '../../../hooks';
 import withSharedProps from '../../../HOCs/withSharedProps';
+import { isMobile } from 'react-device-detect';
 
 const NewUser = ({ fixedCompany, translate, company, ...props }) => {
     const [state, setState] = useOldState({
@@ -106,7 +107,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
 
 
     const body = () => (
-        <div style={{ height: "100%", padding: '1.5em 1.5em 6em' }}>
+        <div style={{ height: "100%", padding: isMobile ? '1.5em 1.5em 1em' : '1.5em 1.5em 6em' }}>
             <div style={{ height: "100%" }} >
                 <UserForm
                     translate={translate}

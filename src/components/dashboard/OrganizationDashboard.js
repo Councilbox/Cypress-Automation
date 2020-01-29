@@ -10,13 +10,15 @@ import {
 	TextInput,
 	LoadingSection,
 	PaginationFooter,
+	DropDownMenu,
+	MenuItem,
 } from "../../displayComponents";
 import { ConfigContext } from '../../containers/AppControl';
 import { moment, bHistory } from "../../containers/App";
 import { Avatar } from "antd";
 import { primary, getPrimary } from "../../styles/colors";
 import Calendar from 'react-calendar';
-import { Icon, withStyles, } from "material-ui";
+import { Icon, withStyles, Divider, } from "material-ui";
 import { Doughnut, Chart } from "react-chartjs-2";
 import { corporationUsers } from "../../queries/corporation";
 import { withApollo } from 'react-apollo';
@@ -294,9 +296,54 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							justifyContent: "center"
 						}}
 						>
-							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>Convocadas</div>
+							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
+								<DropDownMenu
+									color={'white'}
+									loading={false}
+									// // {...(!!Component ? (Component = { Component }) : {})}
+									text={'Convocada'}
+									textStyle={{ fontWeight: 'bold', color: "#a09b9e", boxShadow: "none", padding: "0", margin: "0", minWidth: "0" }}
+									// icon={<ButtonIcon type="add" color="white" />}
+									backgroundColor={{ color: "#a09b9e" }}
+									anchorOrigin={{
+										vertical: 'bottom',
+										horizontal: 'left',
+									}}
+									items={
+										<React.Fragment>
+											<MenuItem >
+												<div
+													style={{
+														width: "100%",
+														display: "flex",
+														flexDirection: "row",
+														justifyContent: "space-between",
+														color: "#c196c3",
+													}}
+												>
+													Convocada
+												</div>
+											</MenuItem>
+											<Divider />
+											<MenuItem >
+												<div
+													style={{
+														width: "100%",
+														display: "flex",
+														flexDirection: "row",
+														justifyContent: "space-between",
+														color: "#c196c3",
+													}}
+												>
+													Convocada
+												</div>
+											</MenuItem>
+										</React.Fragment>
+									}
+								/>
+							</div>
 							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
-								<i class="fa fa-filter" ></i>
+								<i className="fa fa-filter" ></i>
 							</div>
 							{toggleReunionesCalendario === "reuniones" ?
 								<div style={{ position: "relative", color: "black", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario("calendario")} >
@@ -448,7 +495,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						>
 							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>{translate.connecteds}</div>
 							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
-								<i class="fa fa-filter" ></i>
+								<i className="fa fa-filter" ></i>
 							</div>
 							{usuariosEntidades === 'usuarios' ?
 								<TextInput

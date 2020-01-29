@@ -20,6 +20,7 @@ const DropDownMenu = ({
 	claseHover,
 	paperPropsStyles,
 	transformOrigin,
+	backgroundColor,
 	...props
 }) => {
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -67,6 +68,7 @@ const DropDownMenu = ({
 						icon={icon}
 						buttonStyle={buttonStyle}
 						text={text}
+						backgroundColor={backgroundColor}
 					/>
 				)}
 			<Popover

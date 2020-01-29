@@ -76,36 +76,37 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 				:
 				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
 					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
-						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%", overflow:"hidden" }}>
-							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", width: "100%", justifyContent: "flex-end", width: "100%", overflow:"hidden" }}>
+						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%", overflow: "hidden" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between", width: "100%", overflow: "hidden" }}>
 								<BasicButton
 									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
-									backgroundColor={{ backgroundColor: "white" }}
+									backgroundColor={{ backgroundColor: getPrimary(), color: "white", minHeight: "0", fontWeight: "bold" }}
 									text={translate.add}
 									onClick={() => setEntidades(true)}
 								/>
-
-								<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
-									<i className="fa fa-filter"></i>
-								</div>
-								<div>
-									<TextInput
-										className={isMobile && !inputSearch ? "openInput" : ""}
-										disableUnderline={true}
-										styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
-										stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
-										adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
-										floatingText={" "}
-										placeholder={isMobile ? "" : translate.search}
-										type="text"
-										value={state.filterTextCompanies || ""}
-										onChange={event => {
-											setState({
-												...state,
-												filterTextCompanies: event.target.value
-											})
-										}}
-									/>
+								<div style={{ display: "flex", alignItems: "center" }}>
+									<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+										<i className="fa fa-filter"></i>
+									</div>
+									<div>
+										<TextInput
+											className={isMobile && !inputSearch ? "openInput" : ""}
+											disableUnderline={true}
+											styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+											stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+											adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
+											floatingText={" "}
+											placeholder={isMobile ? "" : translate.search}
+											type="text"
+											value={state.filterTextCompanies || ""}
+											onChange={event => {
+												setState({
+													...state,
+													filterTextCompanies: event.target.value
+												})
+											}}
+										/>
+									</div>
 								</div>
 							</div>
 						</div>

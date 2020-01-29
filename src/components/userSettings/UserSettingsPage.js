@@ -32,7 +32,7 @@ const UserSettingsPage = ({ data, user, translate, match, client }) => {
 
 	let changePassword = match.params.company && match.params.id ? false : true;
 
-
+	// El usuario no se puede editar porque no tiene permisos!!
 	return (
 		<CardPageLayout title={translate.settings}>
 			<div style={{ margin: 0, marginTop: '0.6em' }}>
@@ -40,6 +40,7 @@ const UserSettingsPage = ({ data, user, translate, match, client }) => {
 					translate={translate}
 					user={match.params.company && match.params.id ? dataUser : user }
 					languages={data.languages}
+					edit={true}
 				/>
 			</div>
 			{changePassword &&
@@ -62,7 +63,6 @@ const userquery = gql`
             id
             name
             surname
-            lastConnectionDate
         }
     }
 `;

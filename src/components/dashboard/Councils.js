@@ -175,7 +175,7 @@ const Councils = ({ translate, client, ...props }) => {
 			}}
 		>
 			<div style={{ width: '100%', height: '100%', padding: '1em' }}>
-				<div style={{ display: !isMobile && "flex", justifyContent: "space-between", alignItems: "center" }}>
+				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 					<div>
 						<MenuSuperiorTabs
 							items={[translate.companies_draft, translate.companies_calendar,
@@ -184,8 +184,26 @@ const Councils = ({ translate, client, ...props }) => {
 							setSelect={setSelecteReuniones}
 						/>
 					</div>
-					<div>
-						<CouncilsFilters refetch={getData} translate={translate} />
+					<div style={{ display: "flex" }}>
+						<div style={{
+							position: 'relative',
+							color: 'black',
+							display: 'flex',
+							alignItems: 'center'
+						}}>
+							<i style={{
+								position: 'relative',
+								fontSize: '18px',
+							}} className={'fa fa-calendar-o'}></i>
+							<i style={{
+								position: 'relative',
+								left: ' -5px',
+								bottom: '-5px',
+							}} className={'fa fa-clock-o'}></i>
+						</div>
+						<div>
+							<CouncilsFilters refetch={getData} translate={translate} />
+						</div>
 					</div>
 				</div>
 				{/* <MainTitle
@@ -217,7 +235,7 @@ const Councils = ({ translate, client, ...props }) => {
 						<LoadingSection />
 					</div>
 				) : (
-						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '8em'})`, overflow: 'hidden' }}>
+						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '3em'})`, overflow: 'hidden' }}>
 							<Scrollbar>
 								<div style={{ padding: "1em", paddingTop: '2em' }}>
 									{false ? (

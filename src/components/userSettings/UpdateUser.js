@@ -26,8 +26,8 @@ class UpdateUserForm extends React.Component {
 		modal: false
 	};
 
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(nextProps.user.id !== prevState.data.id){
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.user.id !== prevState.data.id) {
 			return {
 				data: nextProps.user
 			}
@@ -42,8 +42,8 @@ class UpdateUserForm extends React.Component {
 				loading: true
 			});
 			const { __typename, type, actived, roles, ...data } = this.state.data;
-			
-			if(this.props.user.email !== data.email) {
+
+			if (this.props.user.email !== data.email) {
 				this.setState({
 					modal: true
 				});
@@ -111,9 +111,9 @@ class UpdateUserForm extends React.Component {
 		if (!checkValidEmail(data.email.toLowerCase())) {
 			hasError = true;
 			errors.email = translate.email_not_valid;
-		}else{
-			if(data.email.toLowerCase() !== this.props.user.email.toLowerCase()){
-				if(await this.checkEmailExists()){
+		} else {
+			if (data.email.toLowerCase() !== this.props.user.email.toLowerCase()) {
+				if (await this.checkEmailExists()) {
 					errors.email = translate.register_exists_email
 				}
 			}
@@ -133,7 +133,7 @@ class UpdateUserForm extends React.Component {
 			hasError = true;
 			errors.email = translate.field_required;
 		}
-		
+
 		if (!(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(data.email))) {
 			hasError = true;
 			errors.email = "invalid email";
@@ -167,15 +167,17 @@ class UpdateUserForm extends React.Component {
 	}
 
 	render() {
-		const { translate } = this.props;
+		const { translate, edit } = this.props;
 		const { data, errors, error, success, loading } = this.state;
 		const primary = getPrimary();
 
 		return (
 			<React.Fragment>
-				<div style={{paddingTop: 0}} {...(error? {onKeyUp: this.onKeyUp} : {})}>
+				<div style={{ paddingTop: 0 }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
 					<SectionTitle
-						text={translate.user_data}
+						// TRADUCCION
+						// text={translate.user_data}
+						text={edit ? "Editar Usuario" : translate.user_data}
 						color={primary}
 					/>
 					<br />
@@ -200,7 +202,7 @@ class UpdateUserForm extends React.Component {
 							color: "white",
 							fontWeight: "700"
 						}}
-						onClick={error? () => {} : this.saveUser}
+						onClick={error ? () => { } : this.saveUser}
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
 				</div>

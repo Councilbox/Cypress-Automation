@@ -184,7 +184,7 @@ class CompanyLinksManager extends React.PureComponent {
                             </TableRow>
                         </TableHead>
                     </Table>
-                    <div style={{ height: "calc( 100% - 10em )", overflow: "hidden" }}>
+                    <div style={{ height: "10em", overflow: "hidden" }}>
                         <Scrollbar>
                             {this.props.data.loading ?
                                 <LoadingSection />

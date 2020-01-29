@@ -69,7 +69,9 @@ class Sidebar extends React.Component {
 			{
 				path: `/company/${this.props.company.id}/drafts`,
 				name: 'drafts',
-				sidebarName: this.props.translate.tooltip_knowledge_base,
+				//TRADUCCION
+				sidebarName: 'B. conocimiento',
+				// sidebarName: this.props.translate.tooltip_knowledge_base,
 				icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
 			},
 			// {
@@ -83,7 +85,7 @@ class Sidebar extends React.Component {
 				name: 'users',
 				sidebarName: 'Usuarios',
 				icon: 'person'
-			},
+			}
 		];
 	}
 
@@ -115,10 +117,10 @@ class Sidebar extends React.Component {
 			return pathname.includes(route.name);
 		});
 
-		if(found !== -1){
+		if (found !== -1) {
 			routeIndex = found;
 		}
-		
+
 		return routeIndex;
 	};
 
@@ -227,7 +229,7 @@ class Sidebar extends React.Component {
 												color: "rgba(255, 255, 255, 0.8)"
 											}}
 										>
-											<Icon style={{display:"flex", justifyContent:"center"}}>
+											<Icon style={{ display: "flex", justifyContent: "center" }}>
 												{route.icon}
 											</Icon>
 										</div>
@@ -235,9 +237,9 @@ class Sidebar extends React.Component {
 											style={{
 												color: 'white',
 												fontSize: '0.55em',
-												textAlign:"center",
+												textAlign: "center",
 												lineHeight: '13px',
-												marginTop:"4px"
+												marginTop: "4px"
 											}}
 										>
 											{route.sidebarName}
@@ -263,7 +265,7 @@ class Sidebar extends React.Component {
 						height: '100%'
 					}}
 				>
-					<div
+					{/* <div
 						style={{
 							width: '25%',
 							height: '100%',
@@ -274,7 +276,7 @@ class Sidebar extends React.Component {
 						}}
 					>
 						{this.brand()}
-					</div>
+					</div> */}
 					{this.routes.map((route, key) => {
 						if (route.redirect) {
 							return null;
@@ -381,8 +383,8 @@ class Sidebar extends React.Component {
 	);
 
 	brandNew = () => (
-        <React.Fragment>
-            <div onClick={this.toggleCompanyMenu}>
+		<React.Fragment>
+			<div onClick={this.toggleCompanyMenu}>
 				<div
 					className={`${this.props.classes.logo} intento`}
 					style={{
@@ -402,41 +404,41 @@ class Sidebar extends React.Component {
 					</i>
 				</div>
 			</div>
-            <Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
-            
-                <div style={{
-                    borderRadius: '8px',
-                    border: '1px solid rgb(151, 151, 151)',
-                    marginTop: '1em',
-                    width: '100%',
-                    borderLeftStyle: 'none',
-                    borderTopLeftRadius: '0',
-                    borderBottomLeftRadius: '0',
-                    display: "flex",
-                    justifyContent: 'center',
-                    marginRight: "7px",
-                    alignItems:"center"
-                }}>
-                    <div style={{ padding: "0.5em", minHeight: "3.5em", display:"flex", alignItems:"center" }}>
-                        <Link to={`/company/${this.props.company.id}/settings`}>
-                            {!!this.props.company.logo ? (
-                                <img
-                                    src={this.props.company.logo}
-                                    alt="logo"
-                                    className={this.props.classes.img}
-                                    style={{marginLeft:"7px"}}
-                                />
-                            ) : (
-                                    <FontAwesome
-                                        name={"building-o"}
-                                    />
-                                )
-                            }
-                        </Link>
-                    </div>
-                </div>
-            </Tooltip>
-        </React.Fragment>
+			<Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
+
+				<div style={{
+					borderRadius: '8px',
+					border: '1px solid rgb(151, 151, 151)',
+					marginTop: '1em',
+					width: '100%',
+					borderLeftStyle: 'none',
+					borderTopLeftRadius: '0',
+					borderBottomLeftRadius: '0',
+					display: "flex",
+					justifyContent: 'center',
+					marginRight: "7px",
+					alignItems: "center"
+				}}>
+					<div style={{ padding: "0.5em", minHeight: "3.5em", display: "flex", alignItems: "center" }}>
+						<Link to={`/company/${this.props.company.id}/settings`}>
+							{!!this.props.company.logo ? (
+								<img
+									src={this.props.company.logo}
+									alt="logo"
+									className={this.props.classes.img}
+									style={{ marginLeft: "7px" }}
+								/>
+							) : (
+									<FontAwesome
+										name={"building-o"}
+									/>
+								)
+							}
+						</Link>
+					</div>
+				</div>
+			</Tooltip>
+		</React.Fragment>
 	);
 
 	activeRoute(index) {
