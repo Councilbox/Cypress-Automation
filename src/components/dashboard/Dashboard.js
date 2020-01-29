@@ -72,7 +72,7 @@ const Dashboard = ({ translate, company, user }) => {
 					}}
 				>
 
-					{showOrganizationDashboard(company, config) ?
+					{showOrganizationDashboard(company, config, user) ?
 						<OrganizationDashboard
 							translate={translate}
 							company={company}

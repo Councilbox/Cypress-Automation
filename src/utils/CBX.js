@@ -584,8 +584,8 @@ export const buildAttendantsString = (council, total) => (acc, curr, index) => {
 		.replace('PERCENTAGE', ((curr.socialCapital / total) * 100).toFixed(2))
 };
 
-export const showOrganizationDashboard = (company, config) => {
-	return (company.id === company.corporationId && config.organizationDashboard);
+export const showOrganizationDashboard = (company, config, user = {}) => {
+	return (company.id === company.corporationId && config.organizationDashboard && (user.roles === 'admin' || user.roles === 'devAdmin'));
 }
 
 
