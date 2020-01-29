@@ -5,7 +5,7 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import { Scrollbar, CBXFooter, CardPageLayout, LoadingMainApp } from '../../displayComponents';
 import { moment, store } from '../../containers/App';
 import { TRIAL_DAYS } from '../../config';
-import { trialDaysLeft } from '../../utils/CBX';
+import { trialDaysLeft, showOrganizationDashboard } from '../../utils/CBX';
 import { addSpecificTranslations } from "../../actions/companyActions";
 import NewCompanyPage from "../company/new/NewCompanyPage";
 import NewUser from "../corporation/users/NewUser";
@@ -23,8 +23,6 @@ const Dashboard = ({ translate, company, user }) => {
 	const [addUser, setAddUser] = React.useState(false);
 	const [addEntidades, setEntidades] = React.useState(false);
 	const config = React.useContext(ConfigContext);
-
-	console.log(config);
 
 	React.useEffect(() => {
 		store.dispatch(addSpecificTranslations(company.category));
@@ -74,7 +72,7 @@ const Dashboard = ({ translate, company, user }) => {
 					}}
 				>
 
-					{(company.id === company.corporationId && config.organizationDashboard) ?
+					{showOrganizationDashboard(company, config) ?
 						<OrganizationDashboard
 							translate={translate}
 							company={company}
