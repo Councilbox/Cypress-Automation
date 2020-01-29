@@ -5,18 +5,15 @@ import { MenuItem } from "material-ui";
 import { SelectInput } from "../../displayComponents";
 
 
-const MenuSuperiorTabs = ({ items, setSelect }) => {
-	const [toggle, setToggle] = React.useState(items[0]);
-
-	const set = (item) => {
-		setToggle(item)
-		setSelect(item)
+const MenuSuperiorTabs = ({ items, setSelect, selected }) => {
+	const set = item => {
+		setSelect(item);
 	}
 
 	if (isMobile) {
 		return (
 			<SelectInput
-				value={toggle}
+				value={selected}
 				onChange={event => set(event.target.value)}
 				styles={{ marginTop: "0px" }}
 			>
@@ -40,7 +37,7 @@ const MenuSuperiorTabs = ({ items, setSelect }) => {
 						cursor: "pointer",
 						paddingRight: "0.5em",
 						paddingLeft: "0.5em",
-						color: toggle === item ? getPrimary() : "#9f9a9d",
+						color: selected === item ? getPrimary() : "#9f9a9d",
 						borderRight: index === items.length - 1 ? "" : "1px solid gainsboro"
 					}}
 						onClick={() => set(item)}
