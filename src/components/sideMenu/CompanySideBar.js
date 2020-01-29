@@ -122,6 +122,7 @@ class Sidebar extends React.Component {
 				flexDirection: 'column',
 				position: isMobile ? "" : "absolute",
 				top: "0px",
+				width: '100%',
 				...(this.showVerticalLayout() ? { margin: 0 } : {}),
 			}}
 		>
@@ -311,6 +312,7 @@ class Sidebar extends React.Component {
 										flexDirection: "column",
 										alignItems: 'center',
 										margin: 0,
+										width: '100%',
 										height: '100%',
 										justifyContent: 'center',
 										padding: '0px'
