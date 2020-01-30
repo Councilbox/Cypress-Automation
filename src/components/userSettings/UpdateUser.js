@@ -54,6 +54,7 @@ class UpdateUserForm extends React.Component {
 					user: data
 				}
 			});
+
 			if (response.errors) {
 				this.setState({
 					error: true,
@@ -124,11 +125,6 @@ class UpdateUserForm extends React.Component {
 			errors.surname = translate.field_required;
 		}
 
-		if (!data.phone) {
-			hasError = true;
-			errors.phone = translate.field_required;
-		}
-
 		if (!data.email) {
 			hasError = true;
 			errors.email = translate.field_required;
@@ -175,8 +171,6 @@ class UpdateUserForm extends React.Component {
 			<React.Fragment>
 				<div style={{ paddingTop: 0 }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
 					<SectionTitle
-						// TRADUCCION
-						// text={translate.user_data}
 						text={edit ? "Editar Usuario" : translate.user_data}
 						color={primary}
 					/>

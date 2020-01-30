@@ -12,29 +12,28 @@ import gql from 'graphql-tag';
 const UserSettingsPage = ({ data, user, translate, match, client }) => {
 	const [dataUser, setDataUser] = React.useState([]);
 
-	const getData = async () => {
+	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: userquery,
 			variables: {
 				id: match.params.id
 			}
 		});
-		setDataUser(response.data.user)
-	};
-	
+		setDataUser(response.data.user);
+	}, [match.params.id]);
+
 	React.useEffect(() => {
 		getData();
-	}, []);
-	
+	}, [getData]);
+
 	if (data.loading) {
 		return <LoadingSection />;
 	}
 
-	let changePassword = match.params.company && match.params.id ? false : true;
+	let admin = (match.params.company && match.params.id) ? false : true;
 
-	// El usuario no se puede editar porque no tiene permisos!!
 	return (
-		<CardPageLayout title={translate.settings}>
+		<CardPageLayout title={translate.user_data}>
 			<div style={{ margin: 0, marginTop: '0.6em' }}>
 				<UpdateUser
 					translate={translate}
@@ -43,12 +42,12 @@ const UserSettingsPage = ({ data, user, translate, match, client }) => {
 					edit={true}
 				/>
 			</div>
-			{changePassword &&
+			{admin &&
 				<div style={{ marginTop: '3.5em' }}>
 					<ChangePasswordForm translate={translate} />
 				</div>
 			}
-		</CardPageLayout >
+		</CardPageLayout>
 	);
 }
 
