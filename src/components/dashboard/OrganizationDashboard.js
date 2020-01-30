@@ -183,26 +183,21 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		});
 
 		let data = ""
-		let dataFiltrado = []
 
 		if (fechaReunionConcreta) {
 			if (response.data.corporationConvenedCouncils) {
+				data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
 				if (filterReuniones !== translate.all) {
-					data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
 					data = filtrarLasReuniones(data)
-				} else {
-					data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
 				}
-				setReunionesPorDia(dataFiltrado)
+				setReunionesPorDia(data)
 				setReunionesLoading(false)
 			}
 		} else {
 			if (response.data.corporationConvenedCouncils) {
+				data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
 				if (filterReuniones !== translate.all) {
-					data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
 					data = filtrarLasReuniones(data)
-				} else {
-					data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
 				}
 				setReuniones(data)
 				calcularEstadisticas(data)
