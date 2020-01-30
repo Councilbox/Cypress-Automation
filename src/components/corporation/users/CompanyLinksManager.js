@@ -148,9 +148,8 @@ class CompanyLinksManager extends React.PureComponent {
         }
 
     }
-
-
-
+    
+    
     render() {
         const { translate } = this.props;
 

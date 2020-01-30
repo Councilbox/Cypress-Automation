@@ -13,6 +13,7 @@ import { setUserData } from "../../actions/mainActions";
 import { getPrimary } from "../../styles/colors";
 import UserForm from './UserForm';
 import { checkEmailExists } from "../../queries/userAndCompanySignUp";
+import CompanyLinksManager from "../corporation/users/CompanyLinksManager";
 
 
 
@@ -23,7 +24,9 @@ class UpdateUserForm extends React.Component {
 		loading: false,
 		success: false,
 		errors: {},
-		modal: false
+		modal: false,
+		companies: [],
+		// companies: fixedCompany ? [fixedCompany] : [],
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
@@ -167,10 +170,10 @@ class UpdateUserForm extends React.Component {
 	}
 
 	render() {
-		const { translate, edit } = this.props;
+		const { translate, edit, company } = this.props;
 		const { data, errors, error, success, loading } = this.state;
 		const primary = getPrimary();
-
+		
 		return (
 			<React.Fragment>
 				<div style={{ paddingTop: 0 }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
@@ -188,6 +191,15 @@ class UpdateUserForm extends React.Component {
 						onKeyUp={this.onKeyUp}
 						languages={this.props.languages}
 						translate={translate}
+					/>
+					<br />
+					<CompanyLinksManager
+						linkedCompanies={this.state.companies}
+						translate={translate}
+						company={{ id: company }}
+						addCheckedCompanies={companies => this.setState({
+							companies: companies
+						})}
 					/>
 					<br />
 					<BasicButton

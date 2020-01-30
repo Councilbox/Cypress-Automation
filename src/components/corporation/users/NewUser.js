@@ -104,8 +104,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
     if (props.data.loading) {
         return <LoadingSection />
     }
-
-
+    
     const body = () => (
         <div style={{ height: "100%", padding: isMobile ? '1.5em 1.5em 1em' : '1.5em 1.5em 6em' }}>
             <div style={{ height: "100%" }} >

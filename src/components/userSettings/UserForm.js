@@ -23,7 +23,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
         </GridItem> */}
         <GridItem xs={12} md={6} lg={5} style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ fontSize: "15px", width: "2em" }}>
-                <i class={'fa fa-info'}></i>
+                <i className={'fa fa-info'}></i>
             </div>
             <div style={{ width: "100%" }}>
                 <TextInput
@@ -59,7 +59,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
         </GridItem>
         <GridItem xs={12} md={6} lg={5} style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ fontSize: "15px", width: "2em" }}>
-                <i class={'fa fa-at'}></i>
+                <i className={'fa fa-at'}></i>
             </div>
             <div style={{ width: "100%" }}>
                 <TextInput
