@@ -26,6 +26,7 @@ import gql from 'graphql-tag';
 import GraficaEstadisiticas from "./GraficaEstadisiticas";
 import { sendGAevent } from "../../utils/analytics";
 import { isMobile } from "react-device-detect";
+import { getActivationText } from "../company/settings/CompanySettingsPage";
 var LineChart = require("react-chartjs-2").Line;
 
 
@@ -74,7 +75,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const [inputSearch, setInputSearch] = React.useState(false);
 	const [inputSearchE, setInputSearchE] = React.useState(false);
 	const [toggleReunionesCalendario, setToggleReunionesCalendario] = React.useState("reuniones");
-	const [filterReuniones, setFilterReuniones] = React.useState(translate.companies_calendar);
+	const [filterReuniones, setFilterReuniones] = React.useState(translate.all);
 	const [state, setState] = React.useState({
 		filterTextCompanies: "",
 		filterTextUsuarios: "",
@@ -182,15 +183,27 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		});
 
 		let data = ""
+		let dataFiltrado = []
+
 		if (fechaReunionConcreta) {
 			if (response.data.corporationConvenedCouncils) {
-				data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
-				setReunionesPorDia(data)
+				if (filterReuniones !== translate.all) {
+					data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+					data = filtrarLasReuniones(data)
+				} else {
+					data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+				}
+				setReunionesPorDia(dataFiltrado)
 				setReunionesLoading(false)
 			}
 		} else {
 			if (response.data.corporationConvenedCouncils) {
-				data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+				if (filterReuniones !== translate.all) {
+					data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+					data = filtrarLasReuniones(data)
+				} else {
+					data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+				}
 				setReuniones(data)
 				calcularEstadisticas(data)
 				setReunionesLoading(false)
@@ -198,9 +211,31 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		}
 	}
 
+	const filtrarLasReuniones = (data) => {
+		let dataFiltrado = []
+		data.map((item, index) => {
+			if (filterReuniones === translate.companies_calendar) {
+				if (item.state === 5 || item.state === 10) {
+					dataFiltrado.push(item)
+				}
+			}
+			if (filterReuniones === translate.companies_live) {
+				if (item.state === 20 || item.state === 30) {
+					dataFiltrado.push(item)
+				}
+			}
+			if (filterReuniones === translate.companies_writing) {
+				if (item.state === 40) {
+					dataFiltrado.push(item)
+				}
+			}
+		})
+		return dataFiltrado;
+	}
+
 	React.useEffect(() => {
 		getReuniones()
-	}, [company.id, state.filterFecha]);
+	}, [company.id, state.filterFecha, filterReuniones]);
 
 
 	const hasBook = companyHasBook();
@@ -255,6 +290,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			if (miLista[i] > mayor)
 				mayor = miLista[i];
 		}
+
 		setPorcentajes({
 			convocadaPorcentaje: convocada,
 			celebracionPorcentaje: celebracion,
@@ -312,6 +348,21 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									}}
 									items={
 										<React.Fragment>
+											<MenuItem onClick={() => setFilterReuniones(translate.all)} >
+												<div
+													style={{
+														width: "100%",
+														display: "flex",
+														flexDirection: "row",
+														justifyContent: "space-between",
+														color: "#c196c3",
+														fontWeight: "bold"
+													}}
+												>
+													{translate.all}
+												</div>
+											</MenuItem>
+											<Divider />
 											<MenuItem onClick={() => setFilterReuniones(translate.companies_calendar)} >
 												<div
 													style={{
@@ -511,7 +562,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							justifyContent: "center"
 						}}
 						>
-							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>{translate.connecteds}</div>
+							{/* <div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>{translate.connecteds}</div> */}
 							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
 								<i className="fa fa-filter" ></i>
 							</div>
@@ -1046,7 +1097,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 										padding: "1em",
 										background: index % 2 ? "#edf4fb" : "",
 									}}>
-									<Cell text={item.actived} />
+									<Cell text={getActivationText(item.actived)} />
 									<Cell text={item.id} />
 									<Cell text={item.name + " " + item.surname} />
 									<Cell text={item.email} />
