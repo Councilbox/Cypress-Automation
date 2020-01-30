@@ -39,6 +39,7 @@ const UserSettingsPage = ({ data, user, translate, match, client }) => {
 					translate={translate}
 					user={match.params.company && match.params.id ? dataUser : user }
 					languages={data.languages}
+					company={match.params.company}
 					edit={true}
 				/>
 			</div>

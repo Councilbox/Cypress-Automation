@@ -167,7 +167,7 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                                                 overflow: 'hidden',
                                                 textOverflow: 'ellipsis'
                                             }}>
-                                                {item.actived}
+                                                {getActivationText(item.actived)}
                                             </GridItem>
                                             <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
                                                 Id
@@ -303,7 +303,7 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                                             padding: "1em",
                                             alignItems: "center"
                                         }}>
-                                        <Cell text={item.actived} width={10} />
+                                        <Cell text={getActivationText(item.actived)} width={10} />
                                         <Cell text={item.id} width={10} />
                                         <Cell text={item.name + " " + item.surname} width={20} />
                                         <Cell text={item.email} width={20} />
