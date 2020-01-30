@@ -25,7 +25,7 @@ class UpdateUserForm extends React.Component {
 		success: false,
 		errors: {},
 		modal: false,
-		companies: [],
+		companies: this.props.user.companies,
 		// companies: fixedCompany ? [fixedCompany] : [],
 	};
 
@@ -40,11 +40,12 @@ class UpdateUserForm extends React.Component {
 	}
 
 	saveUser = async () => {
+
 		if (!await this.checkRequiredFields()) {
 			this.setState({
 				loading: true
 			});
-			const { __typename, type, actived, roles, ...data } = this.state.data;
+			const { __typename, type, actived, roles, companies, ...data } = this.state.data;
 
 			if (this.props.user.email !== data.email) {
 				this.setState({
@@ -54,7 +55,8 @@ class UpdateUserForm extends React.Component {
 
 			const response = await this.props.updateUser({
 				variables: {
-					user: data
+					user: data,
+					companies: this.state.companies.map(company => company.id),
 				}
 			});
 
@@ -187,14 +189,16 @@ class UpdateUserForm extends React.Component {
 						translate={translate}
 					/>
 					<br />
-					<CompanyLinksManager
-						linkedCompanies={this.state.companies}
-						translate={translate}
-						company={{ id: company }}
-						addCheckedCompanies={companies => this.setState({
-							companies: companies
-						})}
-					/>
+					{this.props.admin &&
+						<CompanyLinksManager
+							linkedCompanies={this.state.companies}
+							translate={translate}
+							company={{ id: company }}
+							addCheckedCompanies={companies => this.setState({
+								companies
+							})}
+						/>
+					}
 					<br />
 					<BasicButton
 						text={translate.save}

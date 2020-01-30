@@ -10,7 +10,7 @@ import gql from 'graphql-tag';
 
 
 const UserSettingsPage = ({ data, user, translate, match, client }) => {
-	const [dataUser, setDataUser] = React.useState([]);
+	const [dataUser, setDataUser] = React.useState(user.id !== match.params.id? null : user);
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -26,24 +26,25 @@ const UserSettingsPage = ({ data, user, translate, match, client }) => {
 		getData();
 	}, [getData]);
 
-	if (data.loading) {
+	if (!dataUser) {
 		return <LoadingSection />;
 	}
 
-	let admin = (match.params.company && match.params.id) ? false : true;
+	let admin = (match.params.company && match.params.id) ? true : false;
 
 	return (
 		<CardPageLayout title={translate.user_data}>
 			<div style={{ margin: 0, marginTop: '0.6em' }}>
 				<UpdateUser
 					translate={translate}
-					user={match.params.company && match.params.id ? dataUser : user }
+					user={dataUser}
+					admin={admin}
 					languages={data.languages}
 					company={match.params.company}
 					edit={true}
 				/>
 			</div>
-			{admin &&
+			{!admin &&
 				<div style={{ marginTop: '3.5em' }}>
 					<ChangePasswordForm translate={translate} />
 				</div>
@@ -60,7 +61,12 @@ const userquery = gql`
 			phone
 			preferredLanguage
 			roles
-            id
+			id
+			companies {
+				id
+				logo
+				businessName
+			}
             name
             surname
         }
