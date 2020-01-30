@@ -74,6 +74,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const [inputSearch, setInputSearch] = React.useState(false);
 	const [inputSearchE, setInputSearchE] = React.useState(false);
 	const [toggleReunionesCalendario, setToggleReunionesCalendario] = React.useState("reuniones");
+	const [filterReuniones, setFilterReuniones] = React.useState(translate.companies_calendar);
 	const [state, setState] = React.useState({
 		filterTextCompanies: "",
 		filterTextUsuarios: "",
@@ -301,8 +302,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									color={'white'}
 									loading={false}
 									// // {...(!!Component ? (Component = { Component }) : {})}
-									text={'Convocada'}
-									textStyle={{ fontWeight: 'bold', color: "#a09b9e", boxShadow: "none", padding: "0", margin: "0", minWidth: "0" }}
+									text={<span style={{ color: "#c196c3", }} >{filterReuniones}</span>}
+									textStyle={{ fontWeight: 'bold', color: "#c196c3", boxShadow: "none", padding: "0", margin: "0", minWidth: "0" }}
 									// icon={<ButtonIcon type="add" color="white" />}
 									backgroundColor={{ color: "#a09b9e" }}
 									anchorOrigin={{
@@ -311,7 +312,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									}}
 									items={
 										<React.Fragment>
-											<MenuItem >
+											<MenuItem onClick={() => setFilterReuniones(translate.companies_calendar)} >
 												<div
 													style={{
 														width: "100%",
@@ -319,13 +320,14 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 														flexDirection: "row",
 														justifyContent: "space-between",
 														color: "#c196c3",
+														fontWeight: "bold"
 													}}
 												>
-													Convocada
+													{translate.companies_calendar}
 												</div>
 											</MenuItem>
 											<Divider />
-											<MenuItem >
+											<MenuItem onClick={() => setFilterReuniones(translate.companies_live)}>
 												<div
 													style={{
 														width: "100%",
@@ -333,9 +335,25 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 														flexDirection: "row",
 														justifyContent: "space-between",
 														color: "#c196c3",
+														fontWeight: "bold"
 													}}
 												>
-													Convocada
+													{translate.companies_live}
+												</div>
+											</MenuItem>
+											<Divider />
+											<MenuItem onClick={() => setFilterReuniones(translate.companies_writing)}>
+												<div
+													style={{
+														width: "100%",
+														display: "flex",
+														flexDirection: "row",
+														justifyContent: "space-between",
+														color: "#c196c3",
+														fontWeight: "bold"
+													}}
+												>
+													{translate.companies_writing}
 												</div>
 											</MenuItem>
 										</React.Fragment>
