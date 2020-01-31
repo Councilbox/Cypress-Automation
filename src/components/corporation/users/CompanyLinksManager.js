@@ -236,7 +236,7 @@ export default graphql(corporationCompanies, {
     options: props => ({
         variables: {
             options: DEFAULT_OPTIONS,
-            corporationId: props.company.id
+            corporationId: props.company? props.company.corporationId : 1
         }
     })
 })(CompanyLinksManager);

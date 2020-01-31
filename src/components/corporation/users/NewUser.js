@@ -40,7 +40,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                 variables: {
                     user: state.data,
                     companies: state.companies.map(company => company.id),
-                    corporationId: company.id
+                    corporationId: company? company.corporationId : null
                 }
             });
 
