@@ -193,7 +193,7 @@ class UpdateUserForm extends React.Component {
 						<CompanyLinksManager
 							linkedCompanies={this.state.companies}
 							translate={translate}
-							company={{ id: company }}
+							company={company}
 							addCheckedCompanies={companies => this.setState({
 								companies
 							})}

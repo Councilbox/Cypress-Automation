@@ -9,7 +9,7 @@ import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
 
 
-const UserSettingsPage = ({ data, user, translate, match, client }) => {
+const UserSettingsPage = ({ data, user, translate, company, match, client }) => {
 	const [dataUser, setDataUser] = React.useState(user.id !== match.params.id? null : user);
 
 	const getData = React.useCallback(async () => {
@@ -39,8 +39,8 @@ const UserSettingsPage = ({ data, user, translate, match, client }) => {
 					translate={translate}
 					user={dataUser}
 					admin={admin}
+					company={company}
 					languages={data.languages}
-					company={match.params.company}
 					edit={true}
 				/>
 			</div>
