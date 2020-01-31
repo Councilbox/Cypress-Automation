@@ -1,15 +1,18 @@
 import React from 'react';
 import CompanySideBar from './CompanySideBar';
 import OrganizationSideBar from './OrganizationSideBar';
+import { ConfigContext } from '../../containers/AppControl';
+import { showOrganizationDashboard } from '../../utils/CBX';
 
-const SideBarLite = ({ company, ...props }) => {
+const SideBarLite = props => {
+	const config = React.useContext(ConfigContext);
 
-	if(company.id === company.corporationId){
-		return <OrganizationSideBar {...props} company={company} />
+	if(showOrganizationDashboard(props.company, config, props.user)){
+		return <OrganizationSideBar {...props} />
 	}
 
 	return (
-		<CompanySideBar {...props} company={company} />
+		<CompanySideBar {...props} />
 	)
 }
 

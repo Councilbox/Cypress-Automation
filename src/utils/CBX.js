@@ -584,6 +584,14 @@ export const buildAttendantsString = (council, total) => (acc, curr, index) => {
 		.replace('PERCENTAGE', ((curr.socialCapital / total) * 100).toFixed(2))
 };
 
+export const isAdmin = user => {
+	return user.roles === 'admin' || user.roles === 'devAdmin';
+}
+
+export const showOrganizationDashboard = (company, config, user = {}) => {
+	return (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
+}
+
 
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {

@@ -176,6 +176,7 @@ class AppRouter extends React.Component {
 					companies={this.props.companies.list}
 					company={this.props.companies.list[this.props.companies.selected]}
 					open={this.state.mobileOpen}
+					user={this.props.user}
 					handleDrawerToggle={this.handleDrawerToggle}
 					image={image}
 					translate={translate}

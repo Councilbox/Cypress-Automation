@@ -5,12 +5,13 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import { Scrollbar, CBXFooter, CardPageLayout, LoadingMainApp } from '../../displayComponents';
 import { moment, store } from '../../containers/App';
 import { TRIAL_DAYS } from '../../config';
-import { trialDaysLeft } from '../../utils/CBX';
+import { trialDaysLeft, showOrganizationDashboard } from '../../utils/CBX';
 import { addSpecificTranslations } from "../../actions/companyActions";
 import NewCompanyPage from "../company/new/NewCompanyPage";
 import NewUser from "../corporation/users/NewUser";
 import { isMobile } from "react-device-detect";
 import Loadable from 'react-loadable';
+import { ConfigContext } from "../../containers/AppControl";
 
 const OrganizationDashboard = Loadable({
 	loader: () => import('./OrganizationDashboard'),
@@ -21,6 +22,7 @@ const Dashboard = ({ translate, company, user }) => {
 	const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
 	const [addUser, setAddUser] = React.useState(false);
 	const [addEntidades, setEntidades] = React.useState(false);
+	const config = React.useContext(ConfigContext);
 
 	React.useEffect(() => {
 		store.dispatch(addSpecificTranslations(company.category));
@@ -60,7 +62,6 @@ const Dashboard = ({ translate, company, user }) => {
 					style={{
 						width: "100%",
 						backgroundColor: lightGrey,
-						// Probar si hay k kitarlo o no 
 						display: "flex",
 						alignItems: "center",
 						flexDirection: "column",
@@ -71,7 +72,7 @@ const Dashboard = ({ translate, company, user }) => {
 					}}
 				>
 
-					{company.id === company.corporationId ?
+					{showOrganizationDashboard(company, config, user) ?
 						<OrganizationDashboard
 							translate={translate}
 							company={company}

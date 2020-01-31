@@ -48,141 +48,18 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 			label: company.businessName
 		})
 	}, [match.params.section]);
-
-	const tabsIndex = {
-		drafts: 0,
-		calendar: 1,
-		live: 2,
-		act: 3,
-		confirmed: 4,
-		history: 5
-	};
-
-	const tabsInfo = [
-		{
-			text: translate.companies_draft,
-			link: `/company/${company.id}/councils/drafts`,
-			component: () => {
-				return (
-					<Councils
-						company={company}
-						translate={translate}
-						state={[0, 3]}
-						link={""}
-						title={translate.companies_draft}
-						desc={translate.companies_draft_desc}
-						icon={"pencil-square-o"}
-					/>
-				);
-			}
-		},
-		{
-			text: translate.companies_calendar,
-			link: `/company/${company.id}/councils/calendar`,
-			component: () => {
-				return (
-					<Councils
-						company={company}
-						translate={translate}
-						state={[10, 5]}
-						link={"/prepare"}
-						title={translate.companies_calendar}
-						desc={translate.companies_calendar_desc}
-						icon={"calendar-o"}
-					/>
-				);
-			}
-		},
-		{
-			text: translate.companies_live,
-			link: `/company/${company.id}/councils/live`,
-			component: () => {
-				return (
-					<Councils
-						company={company}
-						translate={translate}
-						state={[20, 30]}
-						link={"/live"}
-						title={translate.companies_live}
-						desc={translate.companies_live_desc}
-						icon={"users"}
-					/>
-				);
-			}
-		},
-		{
-			text: translate.companies_writing,
-			link: `/company/${company.id}/councils/act`,
-			component: () => {
-				return (
-					<Councils
-						company={company}
-						translate={translate}
-						state={[40]}
-						link={"/finished"}
-						title={translate.companies_writing}
-						desc={translate.companies_writing_desc}
-						icon={"clipboard"}
-					/>
-				);
-			}
-		},
-		{
-			text: translate.act_book,
-			link: `/company/${company.id}/councils/confirmed`,
-			component: () => {
-				return (
-					<Councils
-						company={company}
-						translate={translate}
-						state={[60, 70]}
-						link={"/finished"}
-						title={translate.act_book}
-						desc={translate.finished_council_act_approved}
-						icon={"clipboard"}
-					/>
-				);
-			}
-		},
-		{
-			text: translate.dashboard_historical,
-			link: `/company/${company.id}/councils/history`,
-			component: () => {
-				return (
-					<Councils
-						company={company}
-						translate={translate}
-						state={[-1, 40, 60, 70, 80, 90]}
-						link={"/history"}
-						title={translate.dashboard_historical}
-						icon={"history"}
-					/>
-				);
-			}
-		}
-	];
-
 	const cantAccessPremium = company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0;
 
 	return (
 		<CardPageLayout title={translate.councils_sidebar} disableScroll>
 			<div
 				style={{
-					// width: '100%',
 					height: '100%',
-					// padding: windowSize === 'xs' ? '0.8em' : '1.6em',
-					// position: 'relative',
-					// ...(windowSize === 'xs' && !isLandscape() ? { padding: 0, paddingTop: '1em', height: '100%' } : {}),// height: 'calc(100vh - 6.5em)
-					// backgroundColor: lightGrey,
-					// paddingBottom: 0,
 					fontSize: "13px", padding: '1.5em 1.5em 1.5em',
 					height: '100%'
 				}}
 			>
-				{/* <div style={{ height: 'calc(100% - 3.5rem)', marginBottom: '0.6em'}}> */}
-				{/* <div style={{ height: 'calc(100% - 1.6rem)', width: '98%', margin: '0 auto' }}> */}
 				<div style={{ height: '100%', width: '98%', margin: '0 auto' }}>
-					
 					<Councils
 						company={company}
 						translate={translate}
@@ -191,13 +68,6 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 						title={translate.dashboard_historical}
 						icon={"history"}
 					/>
-					{/* <TabsScreen
-					tabsIndex={tabsIndex}
-					tabsInfo={tabsInfo}
-					controlled={true}
-					linked={true}
-					selected={match.params.section}
-				/> */}
 					{!isMobile &&
 						<div
 							style={{
@@ -233,7 +103,7 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 					/>
 				</div>
 			</div>
-		</CardPageLayout >
+		</CardPageLayout>
 	);
 }
 

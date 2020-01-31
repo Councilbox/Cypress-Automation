@@ -24,7 +24,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 	}
 
 	const companyHasBook = () => {
-		return company.type !== 10;
+		return (config.partnerBook && company.type !== 10);
 	}
 
 	const hasBook = companyHasBook();

@@ -367,6 +367,11 @@ const Login = ({ translate, windowSize, ...props }) => {
 								{translate.login_forgot}
 							</Link>
 						</div>
+						{(!!subdomain.name && subdomain.name === 'madrid') &&
+							<div style={{ width: '100%', textAlign: 'center' }}>
+								<img src="/img/logo-1.png" style={{ marginTop: "2.5em", height: '3.5em', width: 'auto' }} alt="logo-seneca" />
+							</div>
+						}
 						<CBXFooter style={{marginTop: '5em'}} />
 					</Card>
 				</GridItem>

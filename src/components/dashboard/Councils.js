@@ -26,7 +26,19 @@ import MenuSuperiorTabs from "./MenuSuperiorTabs.js";
 import { bHistory } from "../../containers/App.js";
 import { isMobile } from "react-device-detect";
 
+const getSection = translate => {
+	const section = window.location.pathname.split('/').pop();
+	const sections = {
+		'drafts': translate.companies_draft,
+		'calendar': translate.companies_calendar,
+		'live': translate.companies_live,
+		'act': translate.companies_writing,
+		'confirmed': translate.act_book,
+		'history': translate.dashboard_historical
+	}
 
+	return sections[section];
+}
 
 const Councils = ({ translate, client, ...props }) => {
 	const [loading, setLoading] = React.useState(true);
@@ -56,10 +68,15 @@ const Councils = ({ translate, client, ...props }) => {
 		[translate.dashboard_historical]: [-1, 40, 60, 70, 80, 90]
 	}
 
-	const [selecteReuniones, setSelecteReuniones] = React.useState(translate.companies_draft);
-	const [selecteReunionesLink, setSelecteReunionesLink] = React.useState(statesTabLink[translate.companies_draft]);
+	const [selecteReuniones, setSelecteReuniones] = React.useState(getSection(translate));
+	const [selecteReunionesLink, setSelecteReunionesLink] = React.useState(statesTabLink[getSection(translate)]);
 
-
+	React.useEffect(() => {
+		const section = getSection(translate);
+		if(section !== selecteReuniones){
+			setSelecteReuniones(section);
+		}
+	}, [window.location.pathname]);
 
 	const getData = async (filters) => {
 		const response = await client.query({
@@ -86,8 +103,8 @@ const Councils = ({ translate, client, ...props }) => {
 	}
 
 	React.useEffect(() => {
-		setLoading(true)
-		getData()
+		setLoading(true);
+		getData();
 	}, [selecteReuniones, state.page])
 
 	const select = id => {
@@ -159,11 +176,10 @@ const Councils = ({ translate, client, ...props }) => {
 		});
 	};
 
-	const handleChange = () => {
-		// if (linked) {
-		bHistory.push(statesTabLink[selecteReuniones]);
-		// }
+	const handleChange = section => {
+		bHistory.push(statesTabLink[section]);
 	}
+	
 
 	return (
 		<div
@@ -181,7 +197,8 @@ const Councils = ({ translate, client, ...props }) => {
 							items={[translate.companies_draft, translate.companies_calendar,
 							translate.companies_live, translate.companies_writing, translate.act_book,
 							translate.dashboard_historical]}
-							setSelect={setSelecteReuniones}
+							setSelect={handleChange}
+							selected={selecteReuniones}
 						/>
 					</div>
 					<div style={{ display: "flex" }}>
@@ -251,7 +268,7 @@ const Councils = ({ translate, client, ...props }) => {
 											})}
 										</div>
 									) : councilsData.list.length > 0 ? (
-										props.link === "/history" || props.link === "/finished" ?
+										selecteReuniones === translate.companies_writing || selecteReuniones === translate.act_book || selecteReuniones === translate.dashboard_historical ?
 											<div>
 												<CouncilsHistory
 													councils={councilsData.list}
@@ -281,7 +298,6 @@ const Councils = ({ translate, client, ...props }) => {
 														councils={councilsData.list}
 														company={props.company}
 														link={selecteReunionesLink}
-													// link={props.link}
 													/>
 													<Grid style={{ padding: isMobile ? "1em 0em 0em 0em" : '2em 3em 1em 2em' }}>
 														<PaginationFooter
