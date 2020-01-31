@@ -17,7 +17,7 @@ import GoverningBodyDisplay from './GoverningBodyDisplay';
 import EvidencesPage from '../evindences/EvidencesPage';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { COUNCIL_STATES } from '../../../../constants';
-import DocumentEditor from '../../../documentEditor/DocumentEditor';
+import DocumentEditor2 from '../../../documentEditor/DocumentEditor2';
 import NavigationHeader from './NavigationHeader';
 
 

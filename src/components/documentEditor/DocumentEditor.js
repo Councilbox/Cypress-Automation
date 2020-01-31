@@ -11,7 +11,7 @@ import { changeVariablesToValues, checkForUnclosedBraces } from '../../utils/CBX
 import { toast } from 'react-toastify';
 import Lupa from '../../displayComponents/Lupa';
 import textool from '../../assets/img/text-tool.svg'
-import { getBlocks, generateAgendaBlocks } from './EditorBlocks';
+//import { getBlocks, generateAgendaBlocks } from './EditorBlocks';
 import AgreementsBlock from './AgreementsBlock';
 import Block, { BorderBox } from './Block';
 import AgreementsPreview from './AgreementsPreview';
@@ -38,618 +38,590 @@ const defaultTemplates = {
 }
 
 
-export const ActContext = React.createContext();
 const DocumentEditor = ({ translate, company, data, updateDocument, client, ...props }) => {
-    const [template, setTemplate] = React.useState(0);
-    const [collapse, setCollapse] = React.useState(false);
-    const [options, setOptions] = React.useState(data.council.act.document? { ...data.council.act.document.options } : {
-        stamp: true,
-        doubleColumn: false
-    });
-    const [secondaryTranslate, setSecondaryTranslate] = React.useState(null);
-    const [column, setColumn] = React.useState(1);
-    const [edit, setEdit] = React.useState(true);
-    const [ocultar, setOcultar] = React.useState(true);
-    const [preview, setPreview] = React.useState('');
-    const [doc, setDoc] = React.useState({ items: [], });
-    const [arrastrables, setArrastrables] = React.useState({ items: [] });
-    const [state, setState] = React.useState({
-        loadDraft: false,
-        load: 'intro',
-        draftType: null,
-        updating: false,
-        disableButtons: false,
-        text: "",
-        errors: {},
-        sendActDraft: false,
-        finishActModal: false
-    });
+    // const [template, setTemplate] = React.useState(0);
+    // const [options, setOptions] = React.useState(data.council.act.document? { ...data.council.act.document.options } : {
+    //     stamp: true,
+    //     doubleColumn: false
+    // });
+    // const [secondaryTranslate, setSecondaryTranslate] = React.useState(null);
+    // const [column, setColumn] = React.useState(1);
+    // const [edit, setEdit] = React.useState(true);
+    // const [ocultar, setOcultar] = React.useState(true);
+    // const [doc, setDoc] = React.useState({ items: [], });
+    // const [arrastrables, setArrastrables] = React.useState({ items: [] });
 
-    const primary = getPrimary();
-    const secondary = getSecondary();
+    // const handleChange = event => {
+    //     setEdit(event.target.checked);
+    // };
 
-    const handleChange = event => {
-        setEdit(event.target.checked);
-    };
+    // React.useEffect(() => {
+    //     const { draggables, doc } = generateDraggable(data, translate);
+    //     //const doc = buildDoc(items, data, translate)
 
-    React.useEffect(() => {
-        const { draggables, doc } = generateDraggable(data, translate);
-        setDoc(doc);
-        setArrastrables(draggables);
-    }, [data.council.id])
+    //     setDoc(doc);
+    //     setArrastrables(draggables);
+    // }, [data.council.id])
 
-    React.useEffect(() => {
-        if(options.doubleColumn){
-            getSecondaryLanguage('en');
-        }
+    // React.useEffect(() => {
+    //     if(options.doubleColumn){
+    //         getSecondaryLanguage('en');
+    //     }
 
-    }, [options.doubleColumn])
+    // }, [options.doubleColumn])
 
-    const changeToColumn = index => {
-        if(index === 1){
-            const { draggables, doc } = generateDraggable(data, translate);
-            setDoc(doc);
-            setArrastrables(draggables);
-        }
-        if(index === 2) {
-            const { draggables, doc } = generateDraggable(data, secondaryTranslate);
-            setDoc(doc);
-            setArrastrables(draggables);
-        }
-        setColumn(index);
-    }
+    // const changeToColumn = index => {
+    //     if(index === 1){
+    //         const { draggables, doc } = generateDraggable(data, translate);
+    //         setDoc(doc);
+    //         setArrastrables(draggables);
+    //     }
+    //     if(index === 2) {
+    //         const { draggables, doc } = generateDraggable(data, secondaryTranslate);
+    //         setDoc(doc);
+    //         setArrastrables(draggables);
+    //     }
+    //     setColumn(index);
+    // }
 
 
-    const getSecondaryLanguage = async language => {
-        const response = await client.query({
-            query: getTranslations,
-            variables: {
-                language
-            }
-        });
+    // const getSecondaryLanguage = async language => {
+    //     const response = await client.query({
+    //         query: getTranslations,
+    //         variables: {
+    //             language
+    //         }
+    //     });
 
-        const secondaryTranslate = buildTranslateObject(response.data.translations);
-        setSecondaryTranslate(secondaryTranslate);
-        rebuildBlockSecondaryTranslation(translate, secondaryTranslate);
-    }
-
-
-    const rebuildBlockSecondaryTranslation = (translate, secondaryTranslate) => {
-        const newItems = doc.items.map(item => {
-            return {
-                ...item,
-                secondaryText: item.buildDefaultValue? item.buildDefaultValue(data, secondaryTranslate) : item.secondaryText
-            }
-        });
-        setDoc({ items: newItems });
-    }
+    //     const secondaryTranslate = buildTranslateObject(response.data.translations);
+    //     setSecondaryTranslate(secondaryTranslate);
+    //     rebuildBlockSecondaryTranslation(translate, secondaryTranslate);
+    // }
 
 
-    const generateDraggable = (data, translate) => {
-        const blocks = getBlocks(translate);
-        const { agendas, council } = data;
-        const { act } = council;
-        ///let objetoArrayAct = Object.entries(act);
-        let items = [
-            blocks.TEXT,
-            blocks.ACT_TITLE(data.council),
-            blocks.ACT_INTRO(act.intro),
-            blocks.ACT_CONSTITUTION(act.constitution),
-            blocks.ACT_CONCLUSION(act.conclusion),
-            blocks.AGENDA_LIST(agendas),
-            generateAgendaBlocks(translate, agendas),
-            blocks.ATTENDANTS_LIST,
-            blocks.DELEGATION_LIST
-        ];
-
-        let template = defaultTemplates[0];
-
-        if(doc.items.length > 0){
-            template = doc.items.map(item => item.type);
-        } else {
-            if(act.document) {
-                template = act.document.items.map(item => item.type);
-            }
-        }
-
-        return buildDocModules(template, items, agendas, act, translate);
-    }
-
-    const buildDocModules = (orden, array, agendas, act, translate) => {
-        if(doc.items.length > 0){
-            return {
-                draggables: {
-                    items: [...array.filter(value => (
-                        value.type === 'text' ||
-                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
-                    )]
-                },
-                doc: {
-                    items: [...doc.items]
-                }
-            };
-        }
-
-        if(act.document) {
-            return {
-                draggables: {
-                    items: [...array.filter(value => (
-                        value.type === 'text' ||
-                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
-                    )]
-                },
-                doc: {
-                    items: [...act.document.items]
-                }
-            };
-        } else {
-            let auxTemplate = [];
-            let auxTemplate2 = { items: array }
-
-            if (orden !== undefined) {
-                orden.forEach(element => {
-                    if (element === 'agreements') {
-                        auxTemplate = [...auxTemplate, generateAgendaBlocks(translate, agendas)];
-                    } else {
-                        const block = array.find(item => item.type === element);
-                        if (block) {
-                            auxTemplate.push(block);
-                        }
-                    }
-                });
-
-                return {
-                    draggables: { items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] },
-                    doc: {
-                        items: auxTemplate
-                    }
-                };
-            } else {
-                return {
-                    draggables: { items: [...doc.items, ...arrastrables.items] },
-                    doc: {
-                        items: auxTemplate
-                    }
-                };
-            }
-        }
-    }
-
-    const addItem = id => {
-        if (doc.items[0] === undefined) {
-            doc.items = new Array;
-        };
-        let resultado = arrastrables.items.find(arrastrable => arrastrable.id === id);
-        let arrayArrastrables
-        if (resultado.type !== "text") {
-            arrayArrastrables = arrastrables.items.filter(arrastrable => arrastrable.id !== id)
-        } else {
-            arrayArrastrables = arrastrables.items
-            resultado = {
-                id: Math.random().toString(36).substr(2, 9),
-                label: "Bloque de texto",
-                defaultValue: translate => translate.title,
-                text: 'Inserte el texto',
-                secondaryText: 'Insert text',
-                type: "text",
-                editButton: true
-            }
-        }
-        setArrastrables({ items: arrayArrastrables });
-        doc.items.push(resultado);
-        setDoc(doc);
-    }
+    // const rebuildBlockSecondaryTranslation = (translate, secondaryTranslate) => {
+    //     const newItems = doc.items.map(item => {
+    //         return {
+    //             ...item,
+    //             secondaryText: item.buildDefaultValue? item.buildDefaultValue(data, secondaryTranslate) : item.secondaryText
+    //         }
+    //     });
+    //     setDoc({ items: newItems });
+    // }
 
 
-    const onSortEnd = ({ oldIndex, newIndex }) => {
-        setDoc(({ items }) => ({
-            items: arrayMove(items, oldIndex, newIndex),
-        }));
-    };
+    // const generateDraggable = (data, translate) => {
+    //     const blocks = getBlocks(translate);
+    //     const { agendas, council } = data;
+    //     const { act } = council;
+    //     ///let objetoArrayAct = Object.entries(act);
+    //     let items = [
+    //         blocks.TEXT,
+    //         blocks.ACT_TITLE(data.council),
+    //         blocks.ACT_INTRO(act.intro),
+    //         blocks.ACT_CONSTITUTION(act.constitution),
+    //         blocks.ACT_CONCLUSION(act.conclusion),
+    //         blocks.AGENDA_LIST(agendas),
+    //         generateAgendaBlocks(translate, agendas),
+    //         blocks.ATTENDANTS_LIST,
+    //         blocks.DELEGATION_LIST
+    //     ];
 
-    const shouldCancelStart = event => {
-        const tagName = event.target.tagName.toLowerCase();
+    //     let template = defaultTemplates[0];
 
-        if (tagName === 'i' && event.target.classList[2] !== undefined) {
-            return true
-        }
-        if (event.target.classList.value === "ql-syntax") {
-            return true
-        }
-        if (event.target.classList.value === "ql-picker-options") {
-            return true
-        }
-        if (event.target.classList.value === "ql-editor" || event.target.classList.value === "ql-toolbar ql-snow") {
-            return true
-        }
-        if (event.path[1].classList.value === "ql-editor" && event.path[0].tagName.toLowerCase() === "p") {
-            return true
-        }
-        if (tagName === 'i' && event.target.classList[2] === undefined) {
-            return true
-        }
+    //     if(doc.items.length > 0){
+    //         template = doc.items.map(item => item.type);
+    //     } else {
+    //         if(act.document) {
+    //             template = act.document.items.map(item => item.type);
+    //         }
+    //     }
 
-        if (tagName === 'button' ||
-            tagName === 'span' ||
-            tagName === 'polyline' ||
-            tagName === 'path' ||
-            tagName === 'pre' ||
-            tagName === 'h1' ||
-            tagName === 'h2' ||
-            tagName === 'li' ||
-            tagName === 's' ||
-            tagName === 'a' ||
-            (tagName === 'p' && event.target.parentElement.classList.value === "ql-editor ql-blank") ||
-            tagName === 'u' ||
-            tagName === 'line' ||
-            tagName === 'strong' ||
-            tagName === 'em' ||
-            tagName === 'blockquote' ||
-            tagName === 'svg') {
-            return true
-        }
-    };
+    //     return buildDocModules(template, items, agendas, act, translate);
+    // }
 
+    // const buildDocModules = (orden, array, agendas, act, translate) => {
+    //     if(doc.items.length > 0){
+    //         return {
+    //             draggables: {
+    //                 items: [...array.filter(value => (
+    //                     value.type === 'text' ||
+    //                     (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
+    //                 )]
+    //             },
+    //             doc: {
+    //                 items: [...doc.items]
+    //             }
+    //         };
+    //     }
 
-    const updateCouncilActa = (id, newText) => {
-        let newItems = [...doc.items];
-        let indexItemToEdit = newItems.findIndex(item => item.id === id);
-        const newItem = {...newItems[indexItemToEdit], [column === 2? 'secondaryText' : 'text']: newText}
-        newItems[indexItemToEdit] = newItem;
-        setDoc({...doc, items: newItems})
-    }
+    //     if(act.document) {
+    //         return {
+    //             draggables: {
+    //                 items: [...array.filter(value => (
+    //                     value.type === 'text' ||
+    //                     (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
+    //                 )]
+    //             },
+    //             doc: {
+    //                 items: [...act.document.items]
+    //             }
+    //         };
+    //     } else {
+    //         let auxTemplate = [];
+    //         let auxTemplate2 = { items: array }
 
-    const updateBlock = (id, block) => {
-        const newItems = [...doc.items];
-        let indexItemToEdit = newItems.findIndex(item => item.id === id);
-        newItems[indexItemToEdit] = block;
-        setDoc({ ...doc, items: newItems });
-    }
+    //         if (orden !== undefined) {
+    //             orden.forEach(element => {
+    //                 if (element === 'agreements') {
+    //                     auxTemplate = [...auxTemplate, generateAgendaBlocks(translate, agendas)];
+    //                 } else {
+    //                     const block = array.find(item => item.type === element);
+    //                     if (block) {
+    //                         auxTemplate.push(block);
+    //                     }
+    //                 }
+    //             });
 
+    //             return {
+    //                 draggables: { items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] },
+    //                 doc: {
+    //                     items: auxTemplate
+    //                 }
+    //             };
+    //         } else {
+    //             return {
+    //                 draggables: { items: [...doc.items, ...arrastrables.items] },
+    //                 doc: {
+    //                     items: auxTemplate
+    //                 }
+    //             };
+    //         }
+    //     }
+    // }
 
-    const remove = (id, index) => {
-        let resultado = doc.items.find(item => item.id === id);
-        let arrayDoc;
-
-        if (resultado.type !== "bloqueDeTexto") {
-            arrayDoc = doc.items.filter(item => item.id !== id)
-            arrastrables.items.push(resultado)
-        } else {
-            arrayDoc = doc.items.filter(item => item.id !== id)
-        }
-        setDoc({ items: arrayDoc });
-        setArrastrables(arrastrables)
-    };
-
-    const moveUp = (id, index) => {
-        if (index > 0) {
-            setDoc(({ items }) => ({
-                items: arrayMove(items, index, (index - 1)),
-            }));
-        }
-    };
-
-    const generatePreview = async () => {
-        const response = await client.mutate({
-            mutation: gql`
-                mutation ACTHTML($doc: Document, $councilId: Int!){
-                    generateActHTML(document: $doc, councilId: $councilId)
-                }
-            `,
-            variables: {
-                doc: buildDocVariable(doc, options),
-                councilId: data.council.id
-            }
-        });
-        setPreview(response.data.generateActHTML);
-    }
-
-    const finishAct = async () => {
-        await generatePreview();
-        setState({
-            ...state,
-            finishActModal: true
-        })
-    }
-
-    const moveDown = (id, index) => {
-        if ((index + 1) < doc.items.length) {
-            setDoc(({ items }) => ({
-                items: arrayMove(items, index, (index + 1)),
-            }));
-        }
-    };
+    // const addItem = id => {
+    //     if (doc.items[0] === undefined) {
+    //         doc.items = new Array;
+    //     };
+    //     let resultado = arrastrables.items.find(arrastrable => arrastrable.id === id);
+    //     let arrayArrastrables
+    //     if (resultado.type !== "text") {
+    //         arrayArrastrables = arrastrables.items.filter(arrastrable => arrastrable.id !== id)
+    //     } else {
+    //         arrayArrastrables = arrastrables.items
+    //         resultado = {
+    //             id: Math.random().toString(36).substr(2, 9),
+    //             label: "Bloque de texto",
+    //             defaultValue: translate => translate.title,
+    //             text: 'Inserte el texto',
+    //             secondaryText: 'Insert text',
+    //             type: "text",
+    //             editButton: true
+    //         }
+    //     }
+    //     setArrastrables({ items: arrayArrastrables });
+    //     doc.items.push(resultado);
+    //     setDoc(doc);
+    // }
 
 
-    const changeTemplate = (event, agendas) => {
-        // if (template !== event.target.value) {
-        //     setTemplate(event.target.value)
-        //     renderTemplate(event.target.value, agendas)
-        // }
-    };
+    // const onSortEnd = ({ oldIndex, newIndex }) => {
+    //     setDoc(({ items }) => ({
+    //         items: arrayMove(items, oldIndex, newIndex),
+    //     }));
+    // };
+
+    // const shouldCancelStart = event => {
+    //     const tagName = event.target.tagName.toLowerCase();
+
+    //     if (tagName === 'i' && event.target.classList[2] !== undefined) {
+    //         return true
+    //     }
+    //     if (event.target.classList.value === "ql-syntax") {
+    //         return true
+    //     }
+    //     if (event.target.classList.value === "ql-picker-options") {
+    //         return true
+    //     }
+    //     if (event.target.classList.value === "ql-editor" || event.target.classList.value === "ql-toolbar ql-snow") {
+    //         return true
+    //     }
+    //     if (event.path[1].classList.value === "ql-editor" && event.path[0].tagName.toLowerCase() === "p") {
+    //         return true
+    //     }
+    //     if (tagName === 'i' && event.target.classList[2] === undefined) {
+    //         return true
+    //     }
+
+    //     if (tagName === 'button' ||
+    //         tagName === 'span' ||
+    //         tagName === 'polyline' ||
+    //         tagName === 'path' ||
+    //         tagName === 'pre' ||
+    //         tagName === 'h1' ||
+    //         tagName === 'h2' ||
+    //         tagName === 'li' ||
+    //         tagName === 's' ||
+    //         tagName === 'a' ||
+    //         (tagName === 'p' && event.target.parentElement.classList.value === "ql-editor ql-blank") ||
+    //         tagName === 'u' ||
+    //         tagName === 'line' ||
+    //         tagName === 'strong' ||
+    //         tagName === 'em' ||
+    //         tagName === 'blockquote' ||
+    //         tagName === 'svg') {
+    //         return true
+    //     }
+    // };
 
 
-    return (
-        <ActContext.Provider value={data}>
-            <FinishActModal
-                show={state.finishActModal}
-                preview={preview}
-                translate={translate}
-                council={data.council}
-                requestClose={() => {
-                    //setPreview(null)
-                    setState({ ...state, finishActModal: false })
-                }}
-            />
-            <div style={{ width: "100%", height: "100%" }}>
-                <div style={{ display: "flex", height: "100%" }}>
-                    <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: collapse ? "none" : "" }}>
-                        <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
-                            <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
-                                help
-                            </i>
-                            {ocultar &&
-                                <div style={{
-                                    fontSize: '13px',
-                                    color: '#a09aa0'
-                                }}>
-                                    Personaliza y exporta el acta de la reunión a través de los bloques inferiores. Desplázalos hasta el acta y edita el texto que necesites
-                                </div>
-                            }
-                        </div>
-                        <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
-                            <Scrollbar>
-                                <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
-                                    <React.Fragment>
-                                        {/*TRADUCCION*/}
-                                        <OptionsMenu
-                                            translate={translate}
-                                            options={options}
-                                            setOptions={setOptions}
-                                        />
-                                        {arrastrables.items.filter(item => !item.logic).map((item, index) => {
-                                            return (
-                                                <BorderBox
-                                                    key={item.id}
-                                                    addItem={addItem}
-                                                    id={item.id}
-                                                >
-                                                    <div >
-                                                        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
-                                                    </div>
-                                                </BorderBox>
-                                            )
-                                        })}
-                                        <BloquesAutomaticos
-                                            addItem={addItem}
-                                            automaticos={arrastrables}
-                                            translate={translate}
-                                        >
-                                        </BloquesAutomaticos>
-                                    </React.Fragment>
-                                </Grid>
-                            </Scrollbar>
-                        </div>
-                    </div>
-                    <div style={{ width: "100%", position: collapse && "relative", height: "calc( 100% - 3em )", justifyContent: collapse ? 'center' : "", display: collapse ? 'flex' : "" }}>
-                        {!collapse &&
-                            <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
-                                <div style={{ display: "flex" }}>
-                                    <DownloadDoc
-                                        translate={translate}
-                                        doc={doc}
-                                        options={options}
-                                        council={data.council}
-                                    />
-                                    <BasicButton
-                                        text={translate.save}
-                                        color={primary}
-                                        onClick={() => updateDocument({
-                                            items: doc.items,
-                                            options
-                                        })}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    />
-                                    <BasicButton
-                                        text={translate.finish_and_aprove_act}
-                                        color={secondary}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        onClick={finishAct}
-                                        textPosition="after"
-                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    />
-                                </div>
-                                <div style={{ display: "flex" }}>
-                                    {options.doubleColumn &&
-                                        <React.Fragment>
-                                            <BasicButton
-                                                text={'Columna 1'}
-                                                color={column === 1? secondary : 'white'}
-                                                textStyle={{
-                                                    color: column === 1? 'white' : "black",
-                                                    fontWeight: "700",
-                                                    fontSize: "0.9em",
-                                                    textTransform: "none"
-                                                }}
-                                                textPosition="after"
-                                                onClick={() => changeToColumn(1) }
-                                                buttonStyle={{
-                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                    borderRadius: '3px',
-                                                    borderTopRightRadius: '0px',
-                                                    borderBottomRightRadius: '0px',
-                                                    borderRight: '1px solid #e8eaeb'
-                                                }}
-                                            />
-                                            <BasicButton
-                                                text={'Columna 2'}
-                                                color={column === 2? secondary : 'white'}
-                                                textStyle={{
-                                                    color: column === 2? 'white' : "black",
-                                                    fontWeight: "700",
-                                                    fontSize: "0.9em",
-                                                    textTransform: "none"
-                                                }}
-                                                textPosition="after"
-                                                onClick={() => changeToColumn(2) }
-                                                buttonStyle={{
-                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                                    borderRadius: '3px',
-                                                    borderTopRightRadius: '0px',
-                                                    borderBottomRightRadius: '0px',
-                                                    borderRight: '1px solid #e8eaeb'
-                                                }}
-                                            />
-                                        </React.Fragment>
-                                    }
-                                    <BasicButton
-                                        text={''}
-                                        color={"white"}
-                                        textStyle={{
-                                            color: "black",
-                                            fontWeight: "700",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={
-                                            <Lupa color={'black'} width={'20px'} height={'20px'} />
-                                        }
-                                        onClick={() => { setCollapse(!collapse); setEdit(false) }}
-                                        buttonStyle={{
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px',
-                                            borderTopRightRadius: '0px',
-                                            borderBottomRightRadius: '0px',
-                                            borderRight: '1px solid #e8eaeb'
-                                        }}
-                                    />
-                                    <BasicButton
-                                        text={''}
-                                        color={"white"}
-                                        textStyle={{
-                                            color: "black",
-                                            fontWeight: "700",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={<img type="image/svg+xml" src={textool} onClick={() => setEdit(!edit)} />}
-                                        onClick={() => setEdit(!edit)}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px',
-                                            borderTopLeftRadius: '0px',
-                                            borderBottomLeftRadius: '0px'
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        }
-                        <div style={{ position: "absolute", top: "7px", right: "15px" }}>
-                            {collapse &&
-                                <BasicButton
-                                    text={''}
-                                    color={"white"}
-                                    textStyle={{
-                                        color: "black",
-                                        fontWeight: "700",
-                                        fontSize: "0.9em",
-                                        textTransform: "none"
-                                    }}
-                                    textPosition="after"
-                                    iconInit={
-                                        <Lupa color={'red'} width={'60px'} height={'60px'} />
-                                    }
-                                    onClick={() => setCollapse(!collapse)}
-                                    buttonStyle={{
-                                        boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                        borderRadius: '3px',
-                                        borderTopRightRadius: '0px',
-                                        borderBottomRightRadius: '0px',
-                                        borderRight: '1px solid #e8eaeb'
-                                    }}
-                                />
-                            }
-                        </div>
-                        <div style={{ height: "100%", marginTop: collapse && '2em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
-                            <Scrollbar>
-                                {preview ?
-                                    <DocumentPreview
-                                        preview={preview}
-                                        translate={translate}
-                                        options={options}
-                                        collapse={collapse}
-                                        company={company}
-                                    />
-                                    :
-                                    <div style={{ display: "flex", height: "100%" }} >
-                                        <div style={{ width: "20%", maxWidth: "95px" }}>
-                                            {options.stamp &&
-                                                <Timbrado
-                                                    collapse={collapse}
-                                                    edit={edit}
-                                                />
-                                            }
-                                        </div>
-                                        <div style={{ width: "100%" }}>
-                                            <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                                                <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                                                    <img style={{ width: "100%" }} src={company.logo}></img>
-                                                </div>
-                                            </div>
-                                            <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
-                                                <SortableList
-                                                    axis={"y"}
-                                                    lockAxis={"y"}
-                                                    items={doc.items}
-                                                    updateCouncilActa={updateCouncilActa}
-                                                    updateBlock={updateBlock}
-                                                    state={state}
-                                                    setState={setState}
-                                                    edit={edit}
-                                                    translate={translate}
-                                                    offset={0}
-                                                    column={column}
-                                                    onSortEnd={onSortEnd}
-                                                    helperClass="draggable"
-                                                    shouldCancelStart={event => shouldCancelStart(event)}
-                                                    moveUp={moveUp}
-                                                    moveDown={moveDown}
-                                                    remove={remove}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </Scrollbar>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </ActContext.Provider>
-    )
+    // const updateCouncilActa = (id, newText) => {
+    //     let newItems = [...doc.items];
+    //     let indexItemToEdit = newItems.findIndex(item => item.id === id);
+    //     const newItem = {...newItems[indexItemToEdit], [column === 2? 'secondaryText' : 'text']: newText}
+    //     newItems[indexItemToEdit] = newItem;
+    //     setDoc({...doc, items: newItems})
+    // }
+
+    // const updateBlock = (id, block) => {
+    //     const newItems = [...doc.items];
+    //     let indexItemToEdit = newItems.findIndex(item => item.id === id);
+    //     newItems[indexItemToEdit] = block;
+    //     setDoc({ ...doc, items: newItems });
+    // }
+
+
+    // const remove = (id, index) => {
+    //     let resultado = doc.items.find(item => item.id === id);
+    //     let arrayDoc;
+
+    //     if (resultado.type !== "bloqueDeTexto") {
+    //         arrayDoc = doc.items.filter(item => item.id !== id)
+    //         arrastrables.items.push(resultado)
+    //     } else {
+    //         arrayDoc = doc.items.filter(item => item.id !== id)
+    //     }
+    //     setDoc({ items: arrayDoc });
+    //     setArrastrables(arrastrables)
+    // };
+
+    // const moveUp = (id, index) => {
+    //     if (index > 0) {
+    //         setDoc(({ items }) => ({
+    //             items: arrayMove(items, index, (index - 1)),
+    //         }));
+    //     }
+    // };
+
+    // const generatePreview = async () => {
+    //     const response = await client.mutate({
+    //         mutation: gql`
+    //             mutation ACTHTML($doc: Document, $councilId: Int!){
+    //                 generateActHTML(document: $doc, councilId: $councilId)
+    //             }
+    //         `,
+    //         variables: {
+    //             doc: buildDocVariable(doc, options),
+    //             councilId: data.council.id
+    //         }
+    //     });
+    //     setPreview(response.data.generateActHTML);
+    // }
+
+    // const finishAct = async () => {
+    //     await generatePreview();
+    //     setState({
+    //         ...state,
+    //         finishActModal: true
+    //     })
+    // }
+
+    // const moveDown = (id, index) => {
+    //     if ((index + 1) < doc.items.length) {
+    //         setDoc(({ items }) => ({
+    //             items: arrayMove(items, index, (index + 1)),
+    //         }));
+    //     }
+    // };
+
+
+    // const changeTemplate = (event, agendas) => {
+    //     // if (template !== event.target.value) {
+    //     //     setTemplate(event.target.value)
+    //     //     renderTemplate(event.target.value, agendas)
+    //     // }
+    // };
+
+
+    // return (
+
+    //         
+    //                         <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOcultar(!ocultar)}>
+    //                             help
+    //                         </i>
+    //                         {ocultar &&
+    //                             <div style={{
+    //                                 fontSize: '13px',
+    //                                 color: '#a09aa0'
+    //                             }}>
+    //                                 Personaliza y exporta el acta de la reunión a través de los bloques inferiores. Desplázalos hasta el acta y edita el texto que necesites
+    //                             </div>
+    //                         }
+    //                     </div>
+    //                     <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
+    //                         <Scrollbar>
+    //                             <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
+    //                                 <React.Fragment>
+    //                                     {/*TRADUCCION*/}
+    //                                     <OptionsMenu
+    //                                         translate={translate}
+    //                                         options={options}
+    //                                         setOptions={setOptions}
+    //                                     />
+    //                                     {arrastrables.items.filter(item => !item.logic).map((item, index) => {
+    //                                         return (
+    //                                             <BorderBox
+    //                                                 key={item.id}
+    //                                                 addItem={addItem}
+    //                                                 id={item.id}
+    //                                             >
+    //                                                 <div >
+    //                                                     <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
+    //                                                 </div>
+    //                                             </BorderBox>
+    //                                         )
+    //                                     })}
+    //                                     <BloquesAutomaticos
+    //                                         addItem={addItem}
+    //                                         automaticos={arrastrables}
+    //                                         translate={translate}
+    //                                     >
+    //                                     </BloquesAutomaticos>
+    //                                 </React.Fragment>
+    //                             </Grid>
+    //                         </Scrollbar>
+    //                     </div>
+    //                 </div>
+    //                 <div style={{ width: "100%", position: collapse && "relative", height: "calc( 100% - 3em )", justifyContent: collapse ? 'center' : "", display: collapse ? 'flex' : "" }}>
+    //                     {!collapse &&
+    //                         <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
+    //                             <div style={{ display: "flex" }}>
+    //                                 <DownloadDoc
+    //                                     translate={translate}
+    //                                     doc={doc}
+    //                                     options={options}
+    //                                     council={data.council}
+    //                                 />
+    //                                 <BasicButton
+    //                                     text={translate.save}
+    //                                     color={primary}
+    //                                     onClick={() => updateDocument({
+    //                                         items: doc.items,
+    //                                         options
+    //                                     })}
+    //                                     textStyle={{
+    //                                         color: "white",
+    //                                         fontSize: "0.9em",
+    //                                         textTransform: "none"
+    //                                     }}
+    //                                     textPosition="after"
+    //                                     iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+    //                                     buttonStyle={{
+    //                                         marginRight: "1em",
+    //                                         boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+    //                                         borderRadius: '3px'
+    //                                     }}
+    //                                 />
+    //                                 <BasicButton
+    //                                     text={translate.finish_and_aprove_act}
+    //                                     color={secondary}
+    //                                     textStyle={{
+    //                                         color: "white",
+    //                                         fontSize: "0.9em",
+    //                                         textTransform: "none"
+    //                                     }}
+    //                                     onClick={finishAct}
+    //                                     textPosition="after"
+    //                                     iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+    //                                     buttonStyle={{
+    //                                         marginRight: "1em",
+    //                                         boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+    //                                         borderRadius: '3px'
+    //                                     }}
+    //                                 />
+    //                             </div>
+    //                             <div style={{ display: "flex" }}>
+    //                                 {options.doubleColumn &&
+    //                                     <React.Fragment>
+    //                                         <BasicButton
+    //                                             text={'Columna 1'}
+    //                                             color={column === 1? secondary : 'white'}
+    //                                             textStyle={{
+    //                                                 color: column === 1? 'white' : "black",
+    //                                                 fontWeight: "700",
+    //                                                 fontSize: "0.9em",
+    //                                                 textTransform: "none"
+    //                                             }}
+    //                                             textPosition="after"
+    //                                             onClick={() => changeToColumn(1) }
+    //                                             buttonStyle={{
+    //                                                 boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+    //                                                 borderRadius: '3px',
+    //                                                 borderTopRightRadius: '0px',
+    //                                                 borderBottomRightRadius: '0px',
+    //                                                 borderRight: '1px solid #e8eaeb'
+    //                                             }}
+    //                                         />
+    //                                         <BasicButton
+    //                                             text={'Columna 2'}
+    //                                             color={column === 2? secondary : 'white'}
+    //                                             textStyle={{
+    //                                                 color: column === 2? 'white' : "black",
+    //                                                 fontWeight: "700",
+    //                                                 fontSize: "0.9em",
+    //                                                 textTransform: "none"
+    //                                             }}
+    //                                             textPosition="after"
+    //                                             onClick={() => changeToColumn(2) }
+    //                                             buttonStyle={{
+    //                                                 boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+    //                                                 borderRadius: '3px',
+    //                                                 borderTopRightRadius: '0px',
+    //                                                 borderBottomRightRadius: '0px',
+    //                                                 borderRight: '1px solid #e8eaeb'
+    //                                             }}
+    //                                         />
+    //                                     </React.Fragment>
+    //                                 }
+    //                                 <BasicButton
+    //                                     text={''}
+    //                                     color={"white"}
+    //                                     textStyle={{
+    //                                         color: "black",
+    //                                         fontWeight: "700",
+    //                                         fontSize: "0.9em",
+    //                                         textTransform: "none"
+    //                                     }}
+    //                                     textPosition="after"
+    //                                     iconInit={
+    //                                         <Lupa color={'black'} width={'20px'} height={'20px'} />
+    //                                     }
+    //                                     onClick={() => { setCollapse(!collapse); setEdit(false) }}
+    //                                     buttonStyle={{
+    //                                         boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+    //                                         borderRadius: '3px',
+    //                                         borderTopRightRadius: '0px',
+    //                                         borderBottomRightRadius: '0px',
+    //                                         borderRight: '1px solid #e8eaeb'
+    //                                     }}
+    //                                 />
+    //                                 <BasicButton
+    //                                     text={''}
+    //                                     color={"white"}
+    //                                     textStyle={{
+    //                                         color: "black",
+    //                                         fontWeight: "700",
+    //                                         fontSize: "0.9em",
+    //                                         textTransform: "none"
+    //                                     }}
+    //                                     textPosition="after"
+    //                                     iconInit={<img type="image/svg+xml" src={textool} onClick={() => setEdit(!edit)} />}
+    //                                     onClick={() => setEdit(!edit)}
+    //                                     buttonStyle={{
+    //                                         marginRight: "1em",
+    //                                         boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+    //                                         borderRadius: '3px',
+    //                                         borderTopLeftRadius: '0px',
+    //                                         borderBottomLeftRadius: '0px'
+    //                                     }}
+    //                                 />
+    //                             </div>
+    //                         </div>
+    //                     }
+    //                     <div style={{ position: "absolute", top: "7px", right: "15px" }}>
+    //                         {collapse &&
+    //                             <BasicButton
+    //                                 text={''}
+    //                                 color={"white"}
+    //                                 textStyle={{
+    //                                     color: "black",
+    //                                     fontWeight: "700",
+    //                                     fontSize: "0.9em",
+    //                                     textTransform: "none"
+    //                                 }}
+    //                                 textPosition="after"
+    //                                 iconInit={
+    //                                     <Lupa color={'red'} width={'60px'} height={'60px'} />
+    //                                 }
+    //                                 onClick={() => setCollapse(!collapse)}
+    //                                 buttonStyle={{
+    //                                     boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+    //                                     borderRadius: '3px',
+    //                                     borderTopRightRadius: '0px',
+    //                                     borderBottomRightRadius: '0px',
+    //                                     borderRight: '1px solid #e8eaeb'
+    //                                 }}
+    //                             />
+    //                         }
+    //                     </div>
+    //                     <div style={{ height: "100%", marginTop: collapse && '2em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
+    //                         <Scrollbar>
+    //                             {preview ?
+    //                                 <DocumentPreview
+    //                                     preview={preview}
+    //                                     translate={translate}
+    //                                     options={options}
+    //                                     collapse={collapse}
+    //                                     company={company}
+    //                                 />
+    //                                 :
+    //                                 <div style={{ display: "flex", height: "100%" }} >
+    //                                     <div style={{ width: "20%", maxWidth: "95px" }}>
+    //                                         {options.stamp &&
+    //                                             <Timbrado
+    //                                                 collapse={collapse}
+    //                                                 edit={edit}
+    //                                             />
+    //                                         }
+    //                                     </div>
+    //                                     <div style={{ width: "100%" }}>
+    //                                         <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+    //                                             <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
+    //                                                 <img style={{ width: "100%" }} src={company.logo}></img>
+    //                                             </div>
+    //                                         </div>
+    //                                         <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
+    //                                             <SortableList
+    //                                                 axis={"y"}
+    //                                                 lockAxis={"y"}
+    //                                                 items={doc.items}
+    //                                                 updateCouncilActa={updateCouncilActa}
+    //                                                 updateBlock={updateBlock}
+    //                                                 state={state}
+    //                                                 setState={setState}
+    //                                                 edit={edit}
+    //                                                 translate={translate}
+    //                                                 offset={0}
+    //                                                 column={column}
+    //                                                 onSortEnd={onSortEnd}
+    //                                                 helperClass="draggable"
+    //                                                 shouldCancelStart={event => shouldCancelStart(event)}
+    //                                                 moveUp={moveUp}
+    //                                                 moveDown={moveDown}
+    //                                                 remove={remove}
+    //                                             />
+    //                                         </div>
+    //                                     </div>
+    //                                 </div>
+    //                             }
+    //                         </Scrollbar>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     </ActContext.Provider>
+    // )
 }
 
 

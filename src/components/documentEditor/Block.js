@@ -8,10 +8,11 @@ import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.s
 import { BasicButton } from '../../displayComponents';
 import { Dialog, DialogTitle, DialogContent } from 'material-ui';
 import LoadDraft from '../company/drafts/LoadDraft';
-import { ActContext } from './DocumentEditor';
+import { ActContext } from '../council/writing/actEditor/ActEditor';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { changeVariablesToValues } from '../../utils/CBX';
 import CheckBox from '../../displayComponents/CheckBox';
+
 
 
 const Block = ({ expand, setExpand, company, translate, ...props }) => {

@@ -1,3 +1,9 @@
+import { blocks } from './EditorBlocks';
+import iconVotaciones from '../../assets/img/handshake.svg';
+import iconAsistentes from '../../assets/img/meeting.svg';
+import { getAgendaResult, hasVotation } from '../../utils/CBX';
+import iconDelegaciones from '../../assets/img/networking.svg';
+
 const filterHiddenItems = item => !item.hide;
 
 const flatItems = (acc, curr) => {
@@ -24,4 +30,113 @@ export const buildDocVariable = (doc, options) => {
             stamp: options.stamp
         }
     });
+}
+
+export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {}) => {
+    const blockTypes = {
+        text: () => ({
+            ...item,
+            id: Math.random().toString(36).substr(2, 9),
+            label: "Bloque de texto", //TRADUCCIÓN
+            text: 'Inserte el texto',
+            secondaryText: 'Insert text',
+        }),
+        title: () => ({
+            ...item,
+            id: Math.random().toString(36).substr(2, 9),
+            text: data.council.name,
+            secondaryText: data.council.name,
+        }),
+        intro: () => ({
+            ...item,
+            id: Math.random().toString(36).substr(2, 9),
+            label: 'intro',
+            text: data.council.act.intro,
+            secondaryText: data.council.act.intro,
+        }),
+        constitution: () => ({
+            ...item,
+            id: Math.random().toString(36).substr(2, 9),
+            label: 'constitution',
+            text: data.council.act.constitution,
+            secondaryText: data.council.act.constitution,
+        }),
+        conclusion: () => ({
+            ...item,
+            id: Math.random().toString(36).substr(2, 9),
+            label: 'conclusion',
+            text: data.council.act.conclusion,
+            secondaryText: data.council.act.conclusion,
+        }),
+        agendaList: () => {
+            let puntos = `<b>${translate.agenda}</b> </br>`//TRADUCCION
+            data.agendas.forEach((element, index) => {
+                puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
+            });
+            return {
+                ...item,
+                id: Math.random().toString(36).substr(2, 9),
+                label: translate.agenda,
+                text: puntos,
+                secondaryText: `<b>${secondaryTranslate.agenda}</b> </br>
+                    ${data.agendas.forEach((element, index) => {
+                        puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
+                    })}`
+            }
+        },
+        introAgenda: () => ({
+            ...item,
+            id: Math.random().toString(36).substr(2, 9),
+            label: "entrar",
+            text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
+            secondaryText: "<b>Next, the first item on the agenda will be discussed</b>",//TRADUCCION
+        }),
+        attendants: () => ({
+            ...item,
+            id: Math.random().toString(36).substr(2, 9),
+            label: translate.assistants_list,
+            text: '',
+            language: translate.selectedLanguage,
+            secondaryLanguage:  secondaryTranslate.selectedLanguage,
+            icon: iconAsistentes
+        }),
+        delegations: () => ({
+            ...item,
+            id: Math.random().toString(36).substr(2, 9),
+            label: "Lista de delegaciones",
+            text: "",
+            editButton: false,
+            type: 'delegations',
+            language: 'es',
+            secondaryLanguage: 'en',
+            logic: true,
+            icon: iconDelegaciones,
+            colorBorder: '#7f94b6'
+        })
+    }
+
+    if(!blockTypes[item.type]){
+        throw new Error('Invalid block type');
+    }
+
+    return blockTypes[item.type]();
+}
+
+
+export const buildDoc = (data, translate) => {
+    const items = [
+        blocks.ACT_TITLE,
+        blocks.ACT_INTRO,
+        blocks.ACT_CONSTITUTION,
+        blocks.ACT_CONCLUSION,
+        blocks.AGENDA_LIST,
+        //blocks.AGENDA,
+        blocks.ATTENDANTS_LIST,
+        blocks.DELEGATION_LIST
+    ];
+
+    const doc = items.map(item => buildDocBlock(item, data, translate));
+
+    return doc;
+
 }

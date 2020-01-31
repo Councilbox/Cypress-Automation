@@ -34,7 +34,7 @@ import {
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
-import DocumentEditor from "../../../documentEditor/DocumentEditor";
+import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
 
 export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
@@ -235,7 +235,7 @@ export const generateCouncilSmartTagsValues = data => {
 	return calculatedObject;
 }
 
-
+export const ActContext = React.createContext();
 const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }) => {
 	const [saving, setSaving] = React.useState(false);
 	const [data, setData] = React.useState(null);
@@ -394,8 +394,11 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 	council.delegatedVotes = data.participantsWithDelegatedVote;
 
 	return (
-		<DocumentEditor
+
+		<DocumentEditor2
 			data={data}
+			translate={translate}
+			document={data.council.act.document}
 			updateDocument={updateAct}
 		/>
 	)
