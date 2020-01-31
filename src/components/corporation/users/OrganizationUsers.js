@@ -134,18 +134,50 @@ const OrganizationUsers = ({ client, translate, company }) => {
 }
 
 
-const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, usersPage }) => {
+const TablaUsuarios = withApollo(({ users, translate, company, total, changePageUsuarios, usersPage, client }) => {
     const primary = getPrimary();
     const [modalBloquear, setModalBloquear] = React.useState(false);
-    const [infoloquear, setInfoModalBloquear] = React.useState(false);
+    const [loadingBlock, setLoadingBlock] = React.useState(false);
 
-    const setUserBloquear = (data) => {
-        setModalBloquear(true)
-        setInfoModalBloquear(data)
+    const setUserBloquear = data => {
+        setModalBloquear(data);
     }
 
-    const userBloquear = () => {
-        console.log('userBloquear')
+    const userBloquear = async () => {
+        setLoadingBlock(true);
+
+        const response = await client.mutate({
+            mutation: gql`
+                mutation unsubscribeUser($userId: Int!){
+                    unsubscribeUser(userId: $userId){
+                        success
+                        message
+                    }
+                }
+            `,
+            variables: {
+                userId: modalBloquear.id
+            }
+        });
+        setLoadingBlock(false);
+        setModalBloquear(false);
+    }
+
+    const renderModalBlockUser = () => {
+        return (
+            <AlertConfirm
+                requestClose={() => setModalBloquear(false)}
+                open={modalBloquear}
+                acceptAction={userBloquear}
+                buttonAccept={translate.accept}
+                loadingAction={loadingBlock}
+                buttonCancel={translate.cancel}
+                bodyText={
+                    <div>Desactivar cuenta de usuario {modalBloquear.name + " " + modalBloquear.surname}</div>
+                }
+                title={'Bloquear'}
+            />
+        )
     }
 
 
@@ -240,17 +272,7 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                                     </Card>
                                 )
                             })}
-                            <AlertConfirm
-                                requestClose={() => setModalBloquear(false)}
-                                open={modalBloquear}
-                                acceptAction={userBloquear}
-                                buttonAccept={translate.accept}
-                                buttonCancel={translate.cancel}
-                                bodyText={
-                                    <div>Desactivar cuenta de usuario {infoloquear.name + " " + infoloquear.surname}</div>
-                                }
-                                title={'Bloquear'}
-                            />
+                            {renderModalBlockUser()}
                             <Grid style={{ marginTop: "1em" }}>
                                 <PaginationFooter
                                     page={usersPage}
@@ -274,19 +296,19 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                 <div style={{ fontSize: "13px", height: '100%' }}>
                     <div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
                         <div style={{ color: primary, fontWeight: "bold", width: '10%', textAlign: 'left' }}>
-                            Estado
+                            {translate.state}
 				        </div>
                         <div style={{ color: primary, fontWeight: "bold", width: '10%', textAlign: 'left' }}>
                             Id
 				        </div>
                         <div style={{ color: primary, fontWeight: "bold", width: '20%', textAlign: 'left' }}>
-                            Nombre
+                            {translate.name}
 				        </div>
                         <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                             Email
 				        </div>
                         <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
-                            Últ.Conexión
+                            {translate.last_connection}
 				        </div>
                         <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                         </div>
@@ -329,7 +351,7 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                                                         }}>
                                                         {translate.edit}
                                                     </Link>
-                                                    <BasicButton
+                                                    {/* <BasicButton
                                                         onClick={() => setUserBloquear(item)}
                                                         backgroundColor={{
                                                             color: primary,
@@ -346,7 +368,7 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                                                         }}
                                                         text="Bloquear">
 
-                                                    </BasicButton>
+                                                    </BasicButton> */}
                                                 </div>
                                             } />
                                     </div>
@@ -355,17 +377,7 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
                             })}
                         </Scrollbar>
                     </div>
-                    <AlertConfirm
-                        requestClose={() => setModalBloquear(false)}
-                        open={modalBloquear}
-                        acceptAction={userBloquear}
-                        buttonAccept={translate.accept}
-                        buttonCancel={translate.cancel}
-                        bodyText={
-                            <div>Desactivar cuenta de usuario {infoloquear.name + " " + infoloquear.surname}</div>
-                        }
-                        title={'Bloquear'}
-                    />
+                    {renderModalBlockUser()}
                     <Grid style={{ marginTop: "1em" }}>
                         <PaginationFooter
                             page={usersPage}
@@ -382,7 +394,7 @@ const TablaUsuarios = ({ users, translate, company, total, changePageUsuarios, u
             </div>
         )
     }
-}
+})
 
 const TablaCompanies = ({ companies, translate, total, changePageCompanies, companiesPage }) => {
     const primary = getPrimary();
@@ -439,7 +451,8 @@ const getActivationText = value => {
     const activations = {
         [USER_ACTIVATIONS.NOT_CONFIRMED]: 'Sin confirmar',
         [USER_ACTIVATIONS.CONFIRMED]: 'Confirmado',
-        [USER_ACTIVATIONS.DEACTIVATED]: 'Deshabilitada'
+        [USER_ACTIVATIONS.DEACTIVATED]: 'Deshabilitada',
+        [USER_ACTIVATIONS.UNSUBSCRIBED]: 'Bloqueado'
     }
 
     return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
