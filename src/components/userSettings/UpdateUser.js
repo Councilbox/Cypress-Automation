@@ -201,8 +201,8 @@ class UpdateUserForm extends React.Component {
 					}
 					<br />
 					<BasicButton
-						text={translate.save}
-						color={getPrimary()}
+						text={translate.send}
+						color={primary}
 						error={error}
 						reset={this.resetButtonStates}
 						success={success}
