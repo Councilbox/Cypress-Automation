@@ -1,3 +1,4 @@
+import React from 'react';
 import { blocks } from './EditorBlocks';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
@@ -138,5 +139,79 @@ export const buildDoc = (data, translate) => {
     const doc = items.map(item => buildDocBlock(item, data, translate));
 
     return doc;
+
+}
+
+export const shouldCancelStart = event => {
+    const tagName = event.target.tagName.toLowerCase();
+
+    if (tagName === 'i' && event.target.classList[2] !== undefined) {
+        return true
+    }
+    if (event.target.classList.value === "ql-syntax") {
+        return true
+    }
+    if (event.target.classList.value === "ql-picker-options") {
+        return true
+    }
+    if (event.target.classList.value === "ql-editor" || event.target.classList.value === "ql-toolbar ql-snow") {
+        return true
+    }
+    if (event.path[1].classList.value === "ql-editor" && event.path[0].tagName.toLowerCase() === "p") {
+        return true
+    }
+    if (tagName === 'i' && event.target.classList[2] === undefined) {
+        return true
+    }
+
+    if (tagName === 'button' ||
+        tagName === 'span' ||
+        tagName === 'polyline' ||
+        tagName === 'path' ||
+        tagName === 'pre' ||
+        tagName === 'h1' ||
+        tagName === 'h2' ||
+        tagName === 'li' ||
+        tagName === 's' ||
+        tagName === 'a' ||
+        (tagName === 'p' && event.target.parentElement.classList.value === "ql-editor ql-blank") ||
+        tagName === 'u' ||
+        tagName === 'line' ||
+        tagName === 'strong' ||
+        tagName === 'em' ||
+        tagName === 'blockquote' ||
+        tagName === 'svg') {
+        return true
+    }
+}
+
+
+export const useDoc = () => {
+    const [{ doc, options }, setDoc] = React.useState({});
+
+    const setOptions = object => {
+		setDoc({
+			doc,
+			options: {
+				...options,
+				...object
+			}
+		});
+	}
+
+	const updateDoc = value => {
+		setDoc({
+			doc: value,
+			options
+		});
+    }
+    
+    return {
+        doc,
+        options,
+        setDoc,
+        setOptions,
+        updateDoc
+    }
 
 }

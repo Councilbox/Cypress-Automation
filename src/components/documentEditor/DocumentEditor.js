@@ -85,21 +85,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
 
     }, [options.doubleColumn])
 
-    const changeToColumn = index => {
-        if(index === 1){
-            const { draggables, doc } = generateDraggable(data, translate);
-            setDoc(doc);
-            setArrastrables(draggables);
-        }
-        if(index === 2) {
-            const { draggables, doc } = generateDraggable(data, secondaryTranslate);
-            setDoc(doc);
-            setArrastrables(draggables);
-        }
-        setColumn(index);
-    }
-
-
     const getSecondaryLanguage = async language => {
         const response = await client.query({
             query: getTranslations,
@@ -241,12 +226,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
     }
 
 
-    const onSortEnd = ({ oldIndex, newIndex }) => {
-        setDoc(({ items }) => ({
-            items: arrayMove(items, oldIndex, newIndex),
-        }));
-    };
-
     const shouldCancelStart = event => {
         const tagName = event.target.tagName.toLowerCase();
 
@@ -307,28 +286,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
     }
 
 
-    const remove = (id, index) => {
-        let resultado = doc.items.find(item => item.id === id);
-        let arrayDoc;
-
-        if (resultado.type !== "bloqueDeTexto") {
-            arrayDoc = doc.items.filter(item => item.id !== id)
-            arrastrables.items.push(resultado)
-        } else {
-            arrayDoc = doc.items.filter(item => item.id !== id)
-        }
-        setDoc({ items: arrayDoc });
-        setArrastrables(arrastrables)
-    };
-
-    const moveUp = (id, index) => {
-        if (index > 0) {
-            setDoc(({ items }) => ({
-                items: arrayMove(items, index, (index - 1)),
-            }));
-        }
-    };
-
     const generatePreview = async () => {
         const response = await client.mutate({
             mutation: gql`
@@ -343,22 +300,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
         });
         setPreview(response.data.generateActHTML);
     }
-
-    const finishAct = async () => {
-        await generatePreview();
-        setState({
-            ...state,
-            finishActModal: true
-        })
-    }
-
-    const moveDown = (id, index) => {
-        if ((index + 1) < doc.items.length) {
-            setDoc(({ items }) => ({
-                items: arrayMove(items, index, (index + 1)),
-            }));
-        }
-    };
 
 
     const changeTemplate = (event, agendas) => {

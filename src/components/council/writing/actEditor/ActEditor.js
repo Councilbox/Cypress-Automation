@@ -35,6 +35,8 @@ import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
+import { buildDoc, useDoc } from "../../../documentEditor/utils";
+import DownloadDoc from "../../../documentEditor/DownloadDoc";
 
 export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
@@ -238,10 +240,18 @@ export const generateCouncilSmartTagsValues = data => {
 export const ActContext = React.createContext();
 const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }) => {
 	const [saving, setSaving] = React.useState(false);
+	const [finishModal, setFinishModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
-
-
+	const primary = getPrimary();
+	const secondary = getSecondary();
+	const {
+		doc,
+        options,
+        setDoc,
+        setOptions,
+        updateDoc
+	} = useDoc();
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -256,29 +266,25 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 			}
 		});
 
+		const actDocument = response.data.council.act.document;
+
 		setData(response.data);
+		setDoc(actDocument? {
+			doc: actDocument.items,
+			options: actDocument.options
+		} : {
+			doc: buildDoc(response.data, translate),
+			options: {
+				stamp: true,
+				doubleColumn: false
+			}
+		});
 		setLoading(false);
 	}, [councilID]);
 
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
-	// const [{
-	// 	loading,
-	// }, setState] = React.useState({
-	// 	loading: false,
-	// 	data: {},
-	// 	updating: false,
-	// 	draftType: null,
-	// 	sendActDraft: false,
-	// 	disableButtons: false,
-	// 	agendaErrors: new Map(),
-	// 	finishActModal: false,
-	// 	loadDraft: false,
-	// 	errors: {}
-	// });
-
-	//timeout = null;
 
 	const loadDraft = async draft => {
 		// const { data } = this.state;
@@ -376,6 +382,11 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 		}
 	}
 
+	const finishAct = async () => {
+        //await generatePreview();
+        setFinishModal(true);
+    }
+
 	const getTypeText = subjectType => {
 		const votingType = data.votingTypes.find(item => item.value === subjectType)
 		return !!votingType? translate[votingType.label] : '';
@@ -385,22 +396,80 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 		return <LoadingSection />;
 	}
 
-	// if (error) {
-	// 	return <ErrorWrapper error={error} translate={translate} />;
-	// }
-
 	let council = { ...data.council };
 	council.attendants = data.councilAttendants.list;
 	council.delegatedVotes = data.participantsWithDelegatedVote;
 
-	return (
 
-		<DocumentEditor2
-			data={data}
-			translate={translate}
-			document={data.council.act.document}
-			updateDocument={updateAct}
-		/>
+	return (
+		<React.Fragment>
+			<DocumentEditor2
+				doc={doc}
+				setDoc={updateDoc}
+				setOptions={setOptions}
+				data={data}
+				options={options}
+				download={true}
+				documentMenu={
+					<React.Fragment>
+						<DownloadDoc
+							translate={translate}
+							doc={doc}
+							options={options}
+							council={data.council}
+						/>
+						<BasicButton
+							text={translate.save}
+							color={primary}
+							onClick={() => updateAct({
+								items: doc,
+								options
+							})}
+							textStyle={{
+								color: "white",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							textPosition="after"
+							iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+							buttonStyle={{
+								marginRight: "1em",
+								boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+								borderRadius: '3px'
+							}}
+						/>
+						<BasicButton
+							text={translate.finish_and_aprove_act}
+							color={secondary}
+							textStyle={{
+								color: "white",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							onClick={finishAct}
+							textPosition="after"
+							iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+							buttonStyle={{
+								marginRight: "1em",
+								boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+								borderRadius: '3px'
+							}}
+						/>
+
+					</React.Fragment>
+				}
+				translate={translate}
+			/>
+			<FinishActModal
+                show={finishModal}
+                //preview={preview}
+                translate={translate}
+                council={data.council}
+                requestClose={() => {
+                    setFinishModal(false)
+                }}
+            />
+		</React.Fragment>
 	)
 }
 

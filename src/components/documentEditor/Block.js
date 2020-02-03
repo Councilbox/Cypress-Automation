@@ -17,7 +17,7 @@ import CheckBox from '../../displayComponents/CheckBox';
 
 const Block = ({ expand, setExpand, company, translate, ...props }) => {
     const [hoverFijo, setHoverFijo] = React.useState(false);
-    const [text, setText] = React.useState("");
+    const [text, setText] = React.useState(props.column === 2? props.value.secondaryText : props.value.text);
     const [draftModal, setDraftModal] = React.useState(false);
     const actData = React.useContext(ActContext);
     const editor = React.useRef();
@@ -45,7 +45,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
     const hoverAndSave = id => {
         if (hoverFijo) {
-            props.updateCouncilActa(id, text);
+            props.editBlock(id, text);
         }
         setHoverFijo(!hoverFijo)
     }
@@ -71,8 +71,6 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
             </div>
         )
     }
-
-    console.log(actData);
 
     const renderEditor = () => {
         return (
@@ -159,12 +157,12 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
             <div style={{ marginTop: "1em", }}>
                 {props.value.editButton &&
-                    <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id)}>
+                    <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id, text)}>
                         {/* onClick={props.updateCouncilActa} */}
                         {hoverFijo ?
                             'Editando' //TRANSLATE
                             :
-                            'Editar' //TRANSLATE
+                            translate.edit
                         }
                     </Button>
                 }

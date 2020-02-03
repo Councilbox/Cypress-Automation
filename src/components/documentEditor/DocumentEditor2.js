@@ -1,5 +1,5 @@
 import React from 'react';
-import { buildDoc } from './utils';
+import { buildDoc, shouldCancelStart } from './utils';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { Card } from 'material-ui';
@@ -26,15 +26,16 @@ import Timbrado from './Timbrado';
 import DocumentPreview from './DocumentPreview';
 
 
-const DocumentEditor = ({ translate, company, document, data, updateDocument, client, ...props }) => {
-    const [doc, setDoc] = React.useState(document? document : buildDoc(data, translate));
-    const [collapse, setCollapse] = React.useState(false);
-    const [hide, setHide] = React.useState(true);
+const DocumentEditor = ({ translate, company, document, data, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
+    const [edit, setEdit] = React.useState(true);
     const [preview, setPreview] = React.useState('');
     const [state, setState] = React.useState({
         loadDraft: false,
         load: 'intro',
         draftType: null,
+        column: 1,
+        hide: true,
+        collapse: false,
         updating: false,
         disableButtons: false,
         text: "",
@@ -43,50 +44,97 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, cl
         finishActModal: false
     });
 
+    const { hide, collapse, column } = state;
     const primary = getPrimary();
     const secondary = getSecondary();
 
+    const changeToColumn = index => {
+        if(index === 1){
+            //const { draggables, doc } = generateDraggable(data, translate);
+            //setDoc(doc);
+            //setArrastrables(draggables);
+        }
+        if(index === 2) {
+            //const { draggables, doc } = generateDraggable(data, secondaryTranslate);
+            //setDoc(doc);
+            //setArrastrables(draggables);
+        }
+        setState({
+            ...state,
+            column: index
+        });
+    }
 
-    console.log(doc);
+    const moveUp = (id, index) => {
+        if (index > 0) {
+            setDoc(arrayMove(doc, index, (index - 1)));
+        }
+    }
+
+    const moveDown = (id, index) => {
+        if ((index + 1) < doc.length) {
+            setDoc(arrayMove(doc, index, (index + 1)));
+        }
+    }
+
+    const onSortEnd = ({ oldIndex, newIndex }) => {
+        setDoc(arrayMove(doc, oldIndex, newIndex));
+    }
+
+    const remove = (id, index) => {
+        let resultado = doc.find(item => item.id === id);
+        let arrayDoc;
+
+        if (resultado.type !== "text") {
+            arrayDoc = doc.filter(item => item.id !== id)
+            //arrastrables.push(resultado)
+        } else {
+            arrayDoc = doc.filter(item => item.id !== id)
+        }
+        setDoc(arrayDoc);
+        //setArrastrables(arrastrables)
+    };
+
+    const editBlock = (id, text) => {
+        let newItems = [...doc];
+        let indexItemToEdit = newItems.findIndex(item => item.id === id);
+        const newItem = {...newItems[indexItemToEdit], [column === 2? 'secondaryText' : 'text']: text}
+        newItems[indexItemToEdit] = newItem;
+        setDoc(newItems);
+    }
+
 
     return (
         <React.Fragment>
-<FinishActModal
-                show={state.finishActModal}
-                preview={preview}
-                translate={translate}
-                council={data.council}
-                requestClose={() => {
-                    //setPreview(null)
-                    setState({ ...state, finishActModal: false })
-                }}
-            />
             <div style={{ width: "100%", height: "100%" }}>
                 <div style={{ display: "flex", height: "100%" }}>
                     <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: collapse ? "none" : "" }}>
                         <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
-                            <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setHide(!hide)}>
+                            <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setState({
+                                ...state,
+                                hide: !hide
+                            })}>
                                 help
                             </i>
                             {hide &&
                                 <div style={{
                                     fontSize: '13px',
                                     color: '#a09aa0'
-                                }}>
+                                }}> {/*TRADUCCION*/}
                                     Personaliza y exporta el acta de la reunión a través de los bloques inferiores. Desplázalos hasta el acta y edita el texto que necesites
                                 </div>
                             }
                         </div>
                         <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
                             <Scrollbar>
-                                {/* <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
+                                <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
                                     <React.Fragment>
                                         <OptionsMenu
                                             translate={translate}
                                             options={options}
                                             setOptions={setOptions}
                                         />
-                                        {arrastrables.items.filter(item => !item.logic).map((item, index) => {
+                                        {/* {arrastrables.items.filter(item => !item.logic).map((item, index) => {
                                             return (
                                                 <BorderBox
                                                     key={item.id}
@@ -104,59 +152,18 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, cl
                                             automaticos={arrastrables}
                                             translate={translate}
                                         >
-                                        </BloquesAutomaticos>
+                                        </BloquesAutomaticos> */}
                                     </React.Fragment>
-                                </Grid> */}
+                                </Grid>
                             </Scrollbar>
                         </div>
                     </div>
                     <div style={{ width: "100%", position: collapse && "relative", height: "calc( 100% - 3em )", justifyContent: collapse ? 'center' : "", display: collapse ? 'flex' : "" }}>
                         {!collapse &&
                             <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
-                                {/* <div style={{ display: "flex" }}>
-                                    <DownloadDoc
-                                        translate={translate}
-                                        doc={doc}
-                                        options={options}
-                                        council={data.council}
-                                    />
-                                    <BasicButton
-                                        text={translate.save}
-                                        color={primary}
-                                        onClick={() => updateDocument({
-                                            items: doc.items,
-                                            options
-                                        })}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    />
-                                    <BasicButton
-                                        text={translate.finish_and_aprove_act}
-                                        color={secondary}
-                                        textStyle={{
-                                            color: "white",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        onClick={finishAct}
-                                        textPosition="after"
-                                        iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px'
-                                        }}
-                                    />
+                                <div style={{ display: "flex" }}>
+                                    {documentMenu}
+                                    {/*MENU EXTERNO*/}
                                 </div>
                                 <div style={{ display: "flex" }}>
                                     {options.doubleColumn &&
@@ -214,7 +221,10 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, cl
                                         iconInit={
                                             <Lupa color={'black'} width={'20px'} height={'20px'} />
                                         }
-                                        onClick={() => { setCollapse(!collapse); setEdit(false) }}
+                                        onClick={() => { setState({
+                                            ...state,
+                                            collapse: !collapse
+                                        }); setEdit(false) }}
                                         buttonStyle={{
                                             boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                             borderRadius: '3px',
@@ -243,11 +253,11 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, cl
                                             borderBottomLeftRadius: '0px'
                                         }}
                                     />
-                                </div> */}
+                                </div>
                             </div>
                         }
                         <div style={{ position: "absolute", top: "7px", right: "15px" }}>
-                            {/* {collapse &&
+                            {collapse &&
                                 <BasicButton
                                     text={''}
                                     color={"white"}
@@ -261,7 +271,10 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, cl
                                     iconInit={
                                         <Lupa color={'red'} width={'60px'} height={'60px'} />
                                     }
-                                    onClick={() => setCollapse(!collapse)}
+                                    onClick={() => setState({
+                                        ...state,
+                                        collapse: !collapse
+                                    })}
                                     buttonStyle={{
                                         boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                         borderRadius: '3px',
@@ -270,7 +283,7 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, cl
                                         borderRight: '1px solid #e8eaeb'
                                     }}
                                 />
-                            } */}
+                            }
                         </div>
                         <div style={{ height: "100%", marginTop: collapse && '2em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
                             <Scrollbar>
@@ -284,14 +297,14 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, cl
                                     />
                                     :
                                     <div style={{ display: "flex", height: "100%" }} >
-                                        {/* <div style={{ width: "20%", maxWidth: "95px" }}>
+                                        <div style={{ width: "20%", maxWidth: "95px" }}>
                                             {options.stamp &&
                                                 <Timbrado
                                                     collapse={collapse}
                                                     edit={edit}
                                                 />
                                             }
-                                        </div> */}
+                                        </div>
                                         <div style={{ width: "100%" }}>
                                             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
                                                 <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
@@ -303,20 +316,20 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, cl
                                                     axis={"y"}
                                                     lockAxis={"y"}
                                                     items={doc}
-                                                    //updateCouncilActa={updateCouncilActa}
+                                                    editBlock={editBlock}
                                                     //updateBlock={updateBlock}
                                                     state={state}
                                                     //setState={setState}
                                                     edit={true}
                                                     translate={translate}
-                                                    //offset={0}
-                                                    //column={column}
-                                                    //onSortEnd={onSortEnd}
-                                                    //helperClass="draggable"
-                                                    //shouldCancelStart={event => shouldCancelStart(event)}
-                                                    //moveUp={moveUp}
-                                                    //moveDown={moveDown}
-                                                    //remove={remove}
+                                                    offset={0}
+                                                    column={column}
+                                                    onSortEnd={onSortEnd}
+                                                    helperClass="draggable"
+                                                    shouldCancelStart={shouldCancelStart}
+                                                    moveUp={moveUp}
+                                                    moveDown={moveDown}
+                                                    remove={remove}
                                                 />
                                             </div>
                                         </div>
@@ -331,14 +344,15 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, cl
     )
 }
 
-const SortableList = SortableContainer(({ items, column, updateCouncilActa, updateBlock, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {    if (edit) {
+const SortableList = SortableContainer(({ items, column, editBlock, updateBlock, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
+    if (edit) {
         return (
-            <div >
+            <div>
                 {items &&
                     items.map((item, index) => (
                         <DraggableBlock
                             key={`item-${item.id}`}
-                            updateCouncilActa={updateCouncilActa}
+                            editBlock={editBlock}
                             updateBlock={updateBlock}
                             state={state}
                             column={column}
@@ -367,7 +381,7 @@ const SortableList = SortableContainer(({ items, column, updateCouncilActa, upda
                     items.map((item, index) => (
                         <NoDraggableBlock
                             key={`item-${item.id}`}
-                            updateCouncilActa={updateCouncilActa}
+                            editBlock={editBlock}
                             edit={edit}
                             translate={translate}
                             index={offset + index}
@@ -390,14 +404,7 @@ const SortableList = SortableContainer(({ items, column, updateCouncilActa, upda
 
 const DraggableBlock = SortableElement(props => {
     const [expand, setExpand] = React.useState(false);
-    const [hover, setHover] = React.useState(false);
 
-    const onMouseEnter = () => {
-        setHover(true)
-    }
-    const onMouseLeave = () => {
-        setHover(false)
-    }
     const blockFijoTomadeAcuerdos = {
         value:{
         id: Math.random().toString(36).substr(2, 9),
@@ -413,8 +420,6 @@ const DraggableBlock = SortableElement(props => {
     return (
         props.value !== undefined && props.value.text !== undefined &&
         <div
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
             key={props.id}
             style={{
                 opacity: 1,
