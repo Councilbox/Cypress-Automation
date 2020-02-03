@@ -53,29 +53,11 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
         setBlocks(filterBlocks(blocks, doc));
     }, [doc.length]);
 
-    console.log(doc.map(i => i.type));
-
-
     function filterBlocks(blocks, doc) {
-        return blocks.filter(block => {
-            return !doc.find(item => {
-                console.log(block.type, item.type);
-                return item.type === block.type
-            })
-        });
+        return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
     }
 
     const changeToColumn = index => {
-        if(index === 1){
-            //const { draggables, doc } = generateDraggable(data, translate);
-            //setDoc(doc);
-            //setArrastrables(draggables);
-        }
-        if(index === 2) {
-            //const { draggables, doc } = generateDraggable(data, secondaryTranslate);
-            //setDoc(doc);
-            //setArrastrables(draggables);
-        }
         setState({
             ...state,
             column: index
@@ -112,10 +94,9 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
         //setArrastrables(arrastrables)
     };
 
+    console.log(doc);
+
     const addItem = id => {
-        if (doc[0] === undefined) {
-            doc = new Array;
-        };
         let resultado = blocks.find(arrastrable => arrastrable.id === id);
         // let arrayArrastrables
         // if (resultado.type !== "text") {
@@ -133,8 +114,12 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
         //     }
         // }
         //setArrastrables({ items: arrayArrastrables });
-        doc.push(resultado);
-        setDoc(doc);
+        const newDoc = [...doc];
+        newDoc.push({
+            ...resultado,
+            id: Math.random().toString(36).substr(2, 9),
+        });
+        setDoc(newDoc);
     }
 
 
