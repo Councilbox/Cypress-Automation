@@ -28,7 +28,7 @@ import DocumentPreview from './DocumentPreview';
 
 const DocumentEditor = ({ translate, company, document, data, blocks, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
     const [edit, setEdit] = React.useState(true);
-    const [filteredBlocks, setBlocks] = React.useState(blocks);
+    const [filteredBlocks, setBlocks] = React.useState(filterBlocks(blocks, doc));
     const [preview, setPreview] = React.useState('');
     const [state, setState] = React.useState({
         loadDraft: false,
@@ -50,12 +50,19 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
     const secondary = getSecondary();
 
     React.useEffect(() => {
-        //setBlocks(filterBlocks(blocks, doc));
+        setBlocks(filterBlocks(blocks, doc));
     }, [doc.length]);
 
+    console.log(doc.map(i => i.type));
 
-    const filterBlocks = (blocks, doc) => {
-        return blocks.filter(block => !!doc.find(item => item.type === block.type));
+
+    function filterBlocks(blocks, doc) {
+        return blocks.filter(block => {
+            return !doc.find(item => {
+                console.log(block.type, item.type);
+                return item.type === block.type
+            })
+        });
     }
 
     const changeToColumn = index => {

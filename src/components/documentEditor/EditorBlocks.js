@@ -42,13 +42,13 @@ export const blocks = {
     AGENDA_LIST: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'agenda',
-        type: 'agenda',
+        type: 'agendaList',
         noBorrar: false,
         editButton: true,
     },
     AGENDA_INTRO: {
         id: Math.random().toString(36).substr(2, 9),
-        label: "entrar",
+        label: "Intro agenda",//TRADUCCION
         text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
         secondaryText: "<b>Next, the first item on the agenda will be discussed</b>",//TRADUCCION
         type: 'introAgenda',
