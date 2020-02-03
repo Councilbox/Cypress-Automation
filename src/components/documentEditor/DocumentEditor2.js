@@ -44,6 +44,7 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
         sendActDraft: false,
         finishActModal: false
     });
+    const scroll = React.useRef(null);
 
     const { hide, collapse, column } = state;
     const primary = getPrimary();
@@ -94,8 +95,6 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
         //setArrastrables(arrastrables)
     };
 
-    console.log(doc);
-
     const addItem = id => {
         let resultado = blocks.find(arrastrable => arrastrable.id === id);
         // let arrayArrastrables
@@ -120,6 +119,7 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
             id: Math.random().toString(36).substr(2, 9),
         });
         setDoc(newDoc);
+        console.log(scroll.current.scrollbar.scrollToBottom());
     }
 
 
@@ -314,7 +314,7 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
                             }
                         </div>
                         <div style={{ height: "100%", marginTop: collapse && '2em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
-                            <Scrollbar>
+                            <Scrollbar ref={scroll}>
                                 {preview ?
                                     <DocumentPreview
                                         preview={preview}
