@@ -9,7 +9,7 @@ import { isMobile } from 'react-device-detect';
 const CompanyDraftsPage = ({ translate, ...props }) => {
     const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(translate.drafts);
     const [mostrarMenu, setMostrarMenu] = React.useState(true);
-    
+        console.log(selecteDraftPadre);
     return (
         <CardPageLayout title={translate.drafts} disableScroll>
             <div style={{ padding: '1em', height: '100%' }}>
@@ -19,6 +19,7 @@ const CompanyDraftsPage = ({ translate, ...props }) => {
                             <MenuSuperiorTabs
                                 items={[translate.drafts, '<Tags>']}
                                 setSelect={setSelecteDraftPadre}
+                                selected={selecteDraftPadre}
                             />
                         </div>
                     </div>
