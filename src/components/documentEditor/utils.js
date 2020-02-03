@@ -205,7 +205,7 @@ export const useDoc = () => {
 			options
 		});
     }
-    
+
     return {
         doc,
         options,

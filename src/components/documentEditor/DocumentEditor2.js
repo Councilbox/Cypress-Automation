@@ -26,8 +26,9 @@ import Timbrado from './Timbrado';
 import DocumentPreview from './DocumentPreview';
 
 
-const DocumentEditor = ({ translate, company, document, data, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
+const DocumentEditor = ({ translate, company, document, data, blocks, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
     const [edit, setEdit] = React.useState(true);
+    const [filteredBlocks, setBlocks] = React.useState(blocks);
     const [preview, setPreview] = React.useState('');
     const [state, setState] = React.useState({
         loadDraft: false,
@@ -47,6 +48,15 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, do
     const { hide, collapse, column } = state;
     const primary = getPrimary();
     const secondary = getSecondary();
+
+    React.useEffect(() => {
+        //setBlocks(filterBlocks(blocks, doc));
+    }, [doc.length]);
+
+
+    const filterBlocks = (blocks, doc) => {
+        return blocks.filter(block => !!doc.find(item => item.type === block.type));
+    }
 
     const changeToColumn = index => {
         if(index === 1){
@@ -95,6 +105,32 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, do
         //setArrastrables(arrastrables)
     };
 
+    const addItem = id => {
+        if (doc[0] === undefined) {
+            doc = new Array;
+        };
+        let resultado = blocks.find(arrastrable => arrastrable.id === id);
+        // let arrayArrastrables
+        // if (resultado.type !== "text") {
+        //     //arrayArrastrables = arrastrables.items.filter(arrastrable => arrastrable.id !== id)
+        // } else {
+        //     arrayArrastrables = arrastrables.items
+        //     resultado = {
+        //         id: Math.random().toString(36).substr(2, 9),
+        //         label: "Bloque de texto",
+        //         defaultValue: translate => translate.title,
+        //         text: 'Inserte el texto',
+        //         secondaryText: 'Insert text',
+        //         type: "text",
+        //         editButton: true
+        //     }
+        // }
+        //setArrastrables({ items: arrayArrastrables });
+        doc.push(resultado);
+        setDoc(doc);
+    }
+
+
     const editBlock = (id, text) => {
         let newItems = [...doc];
         let indexItemToEdit = newItems.findIndex(item => item.id === id);
@@ -134,7 +170,7 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, do
                                             options={options}
                                             setOptions={setOptions}
                                         />
-                                        {/* {arrastrables.items.filter(item => !item.logic).map((item, index) => {
+                                        {filteredBlocks.filter(item => !item.logic).map((item, index) => {
                                             return (
                                                 <BorderBox
                                                     key={item.id}
@@ -147,12 +183,12 @@ const DocumentEditor = ({ translate, company, document, data, updateDocument, do
                                                 </BorderBox>
                                             )
                                         })}
-                                        <BloquesAutomaticos
+                                        <LogicBlocks
                                             addItem={addItem}
-                                            automaticos={arrastrables}
+                                            automaticos={filteredBlocks}
                                             translate={translate}
                                         >
-                                        </BloquesAutomaticos> */}
+                                        </LogicBlocks>
                                     </React.Fragment>
                                 </Grid>
                             </Scrollbar>
@@ -570,7 +606,7 @@ const NoDraggableBlock = props => {
 
 }
 
-const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, translate }) => {
+const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate }) => {
     const [open, setOpen] = React.useState(true)
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
@@ -591,9 +627,9 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, trans
                         </div>
                     </div>
                     <div style={{ width: "100%", marginTop: "0.5em" }}>
-                        {automaticos.items.filter(item => item.logic === true).map((item, index) => {
+                        {automaticos.filter(item => item.logic === true).map((item, index) => {
                             return (
-                                <CajaBloquesAutomaticos
+                                <CajaLogicBlocks
                                     key={item.id + index + "automaticos"}
                                     item={item}
                                     addItem={addItem}
@@ -609,7 +645,7 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, trans
     );
 }
 
-const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo, translate }) => {
+const CajaLogicBlocks = ({ colorBorder, children, item, addItem, itemInfo, translate }) => {
     return (
         <div style={{ display: "flex", width: "100%", marginBottom: "0.8em" }}>
             <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>

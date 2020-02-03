@@ -37,6 +37,11 @@ import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
 import { buildDoc, useDoc } from "../../../documentEditor/utils";
 import DownloadDoc from "../../../documentEditor/DownloadDoc";
+import iconVotaciones from '../../../../assets/img/handshake.svg';
+import iconAsistentes from '../../../../assets/img/meeting.svg';
+import iconDelegaciones from '../../../../assets/img/networking.svg';
+import { blocks } from "../../../documentEditor/EditorBlocks";
+
 
 export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
@@ -408,6 +413,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 				setDoc={updateDoc}
 				setOptions={setOptions}
 				data={data}
+				blocks={Object.keys(blocks).map(key => blocks[key])}
 				options={options}
 				download={true}
 				documentMenu={
