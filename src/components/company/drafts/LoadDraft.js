@@ -792,18 +792,5 @@ const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => 
 }
 
 export default compose(
-	graphql(companyDrafts, {
-		name: "data",
-		options: props => ({
-			variables: {
-				companyId: props.companyId,
-				options: {
-					limit: DRAFTS_LIMITS[0],
-					offset: 0
-				}
-			}
-		})
-	}),
 	graphql(draftTypes, { name: "info" })
 )(withStyles(styles)(LoadDraft));
-

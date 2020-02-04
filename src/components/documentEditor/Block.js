@@ -12,6 +12,7 @@ import { ActContext } from '../council/writing/actEditor/ActEditor';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { changeVariablesToValues } from '../../utils/CBX';
 import CheckBox from '../../displayComponents/CheckBox';
+import { getDefaultTagsByBlockType } from './utils';
 
 
 
@@ -19,18 +20,12 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
     const [hoverFijo, setHoverFijo] = React.useState(false);
     const [text, setText] = React.useState(props.column === 2? props.value.secondaryText : props.value.text);
     const [draftModal, setDraftModal] = React.useState(false);
-    const actData = React.useContext(ActContext);
     const editor = React.useRef();
 
 
     const loadDraft = async draft => {
-        const correctedText = await changeVariablesToValues(draft.text, {
-            company: company,
-            council: actData.council
-        }, translate);
-
-        props.updateCouncilActa(props.id, correctedText);
-        editor.current.paste(correctedText);
+        props.editBlock(props.id, draft.text);
+        editor.current.paste(draft.text);
         setDraftModal(false);
     };
 
@@ -176,12 +171,9 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     <DialogTitle>{translate.load_draft}</DialogTitle>
                     <DialogContent style={{ width: "800px" }}>
                         <LoadDraft
+                            defaultTags={getDefaultTagsByBlockType(props.value.type, translate)}
                             translate={translate}
-                            companyId={actData.council.companyId}
                             loadDraft={loadDraft}
-                            statute={actData.council.statute}
-                            statutes={actData.companyStatutes}
-                        //draftType={state.draftType}
                         />
                     </DialogContent>
                 </Dialog>

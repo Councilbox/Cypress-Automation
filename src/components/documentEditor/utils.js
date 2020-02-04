@@ -4,6 +4,7 @@ import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
 import { getAgendaResult, hasVotation } from '../../utils/CBX';
 import iconDelegaciones from '../../assets/img/networking.svg';
+import { TAG_TYPES } from '../company/drafts/draftTags/utils';
 
 const filterHiddenItems = item => !item.hide;
 
@@ -121,6 +122,39 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
     }
 
     return blockTypes[item.type]();
+}
+
+export const getDefaultTagsByBlockType = (type, translate) => {
+    const baseTag = {
+        type: TAG_TYPES.DRAFT_TYPE,
+        active: true,
+    }
+
+    const defaultTags = {
+        'intro': {
+            intro: {
+                ...baseTag,
+                name: 'intro',
+                label: translate.intro
+            }
+        },
+        'conclusion': {
+            conclusion: {
+                ...baseTag,
+                name: 'conclusion',
+                label: translate.conclusion
+            }
+        },
+        'constitution': {
+            constitution: {
+                ...baseTag,
+                name: 'constitution',
+                label: translate.constitution
+            }
+        }
+    }
+
+    return defaultTags[type]? defaultTags[type] : null;
 }
 
 
