@@ -41,6 +41,7 @@ const TextInput = ({
 	stylesAdornment,
 	labelNone,
 	className,
+	stylesTextField,
 	autoComplete = "true"
 }) => (
 		<FormControl
@@ -81,7 +82,8 @@ const TextInput = ({
 				multiline={multiline}
 				style={{
 					marginTop: 0,
-					width: "100%"
+					width: "100%",
+					...stylesTextField
 				}}
 				placeholder={placeholder}
 				InputLabelProps={{
