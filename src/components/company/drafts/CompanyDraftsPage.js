@@ -17,6 +17,7 @@ const CompanyDraftsPage = ({ translate, ...props }) => {
                     <div style={{ display: "flex", padding: '1em' }}>
                         <div style={{ fontSize: "13px", width: isMobile && "100%" }}>
                             <MenuSuperiorTabs
+                                selected={selecteDraftPadre}
                                 items={[translate.drafts, '<Tags>']}
                                 setSelect={setSelecteDraftPadre}
                             />
@@ -29,7 +30,7 @@ const CompanyDraftsPage = ({ translate, ...props }) => {
                     <div style={{ width: '100%', height: '100%', padding: '1em' }}><CompanyTags /></div>
                 }
             </div>
-        </CardPageLayout >
+        </CardPageLayout>
     )
 }
 
