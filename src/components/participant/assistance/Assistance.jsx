@@ -59,18 +59,34 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		savingAssistanceComment: false,
 		delegationModal: false,
 		addRepresentative: false,
-		assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
-		delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED? participant.delegateId : null,
 		noAttendWarning: false,
-		delegateInfoUser: participant.representative
+		...generateAttendanceData()
 	});
+
+	function generateAttendanceData() {
+		if(participant.represented && participant.represented.length > 0) {
+			const represented = participant.represented[0];
+			if(represented.assistanceIntention === PARTICIPANT_STATES.DELEGATED){
+				return {
+					assistanceIntention: represented.assistanceIntention || PARTICIPANT_STATES.REMOTE,
+					delegateId: represented.delegateId,
+					delegateInfoUser: represented.representative
+				}
+			}
+		}
+
+		return {
+			assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
+			delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED? participant.delegateId : null,
+			delegateInfoUser: participant.representative
+		}
+	}
+
 
 	React.useEffect(() => {
 		setState({
 			...state,
-			assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
-			delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED? participant.delegateId : null,
-			delegateInfoUser: participant.representative
+			...generateAttendanceData()
 		});
 	}, [participant.state]);
 
@@ -185,6 +201,13 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		}
 	}
 
+	const checkDelegationConditions = () => {
+		if(participant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
+			return true;
+		}
+		return ((participant.numParticipations > 0 || participant.socialCapital > 0))
+	}
+
 	const showDelegation = () => {
 		setState({
 			...state,
@@ -267,8 +290,15 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 											</p>
 											<p>{translate['1st_call_date']}: <DateWrapper date={council.dateStart} format={'LLL'} /></p>
 										</Card>
-										{participant.delegatedVotes.length > 0 &&
+										{participant.delegatedVotes.filter(d => d.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0 &&
 											<DelegationSection
+												participant={participant}
+												translate={translate}
+												refetch={refetch}
+											/>
+										}
+										{participant.represented.length > 0 &&
+											<RepresentedSection
 												participant={participant}
 												translate={translate}
 												refetch={refetch}
@@ -426,7 +456,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 																	}
 																</React.Fragment>
 															}
-															{((participant.type === PARTICIPANT_TYPE.REPRESENTATIVE) || (participant.numParticipations > 0 || participant.socialCapital > 0)) &&
+															{checkDelegationConditions() &&
 																<AssistanceOption
 																	translate={translate}
 																	title={translate.want_to_delegate_in}
@@ -525,6 +555,22 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 			</div>
 		</NotLoggedLayout>
 	);
+}
+
+const RepresentedSection = ({ participant, translate, refetch }) => {
+	const represented = participant.represented[0];
+
+	return (
+		<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
+			<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
+				<SectionTitle
+					text={'En representación de:' /*TRADUCCION*/}
+					color={primary}
+				/>
+				{`${represented.name} ${represented.surname}`}
+			</div>
+		</Card>
+	)
 }
 
 

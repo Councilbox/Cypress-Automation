@@ -16,6 +16,8 @@ import { withRouter } from "react-router-dom";
 import { getPrimary } from "../../../styles/colors";
 import { sendGAevent } from "../../../utils/analytics";
 import withSharedProps from "../../../HOCs/withSharedProps";
+import { bHistory } from "../../../containers/App";
+import { isMobile } from "react-device-detect";
 
 
 const CompanyDraftEditor = ({ translate, client, ...props }) => {
@@ -103,6 +105,10 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 		}
 	}
 
+	const goBack = () => {
+		bHistory.goBack()
+	};
+
 	return (
 		<CardPageLayout title={translate.edit_draft} disableScroll={true}>
 			{!fetching && (
@@ -122,14 +128,29 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 					</div>
 					{/* <br /> */}
 					<div style={{
-						height: '3.5em',
-						borderTop: '1px solid gainsboro',
+						// height: '3.5em',
+						// borderTop: '1px solid gainsboro',
 						paddingRight: '0.8em',
 						width: '100%',
 						display: 'flex',
 						justifyContent: 'flex-end',
 						alignItems: 'center',
+						paddingTop: isMobile && "0.5em"
 					}}>
+						<BasicButton
+							// id={"saveDraft"}
+							floatRight
+							text={translate.back}
+							color={getPrimary()}
+							// loading={this.state.loading}
+							// success={this.state.success}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								marginRight: "1em"
+							}}
+							onClick={() => goBack()}
+						/>
 						<BasicButton
 							id={"saveDraftinEdit"}
 							text={translate.save}

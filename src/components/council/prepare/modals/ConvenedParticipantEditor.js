@@ -32,14 +32,14 @@ class ConvenedParticipantEditor extends React.Component {
 	}
 
 	setParticipantData(){
-		let { representative, ...participant } = extractTypeName(
+		let { representative, delegateId, delegateUuid, __typename, councilId, ...participant } = extractTypeName(
 			this.props.participant
 		);
 
-		representative = (!!representative && this.props.participant.live.state !== PARTICIPANT_STATES.DELEGATED)
+		representative = (participant.representatives.length > 0)
 			? {
 					hasRepresentative: true,
-					...extractTypeName(representative)
+					...extractTypeName(participant.representatives[0])
 			  }
 			: initialRepresentative;
 
@@ -48,9 +48,10 @@ class ConvenedParticipantEditor extends React.Component {
 		delete participant.live;
 		delete participant.notifications;
 
+
 		this.setState({
 			data: participant,
-			representative: representative
+			representative
 		});
 	}
 
@@ -63,15 +64,17 @@ class ConvenedParticipantEditor extends React.Component {
 			  }
 			: null;
 
+
 		if (!await this.checkRequiredFields()) {
+			const { representatives, delegate, ...participant } = this.state.data;
 			const response = await this.props.updateConvenedParticipant({
 				variables: {
 					participant: {
-						...this.state.data,
+						...participant,
 						councilId: this.props.councilId
 					},
-					representative: representative,
-					sendConvene: sendConvene
+					representative,
+					sendConvene
 				}
 			});
 			if (!response.errors) {
@@ -185,6 +188,7 @@ class ConvenedParticipantEditor extends React.Component {
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
+
 
 		return (
 			<CustomDialog

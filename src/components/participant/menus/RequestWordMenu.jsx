@@ -10,6 +10,7 @@ import { AlertConfirm } from '../../../displayComponents';
 import { isSafari, isMobile } from 'react-device-detect';
 import FontAwesome from "react-fontawesome";
 import { useOldState } from '../../../hooks';
+import { ConfigContext } from '../../../containers/AppControl';
 
 const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const [state, setState] = useOldState({
@@ -17,6 +18,8 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
         safariModal: false,
         confirmWordModal: false,
     });
+
+    const config = React.useContext(ConfigContext);
 
     React.useEffect(() => {
         let interval;
@@ -192,7 +195,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                                 fontSize: '0.55rem',
                                 textTransform: "none"
                             }}>
-                                Palabra {/*TRADUCCION*/}
+                                {translate.ask_word_short}
                             </div>
                         </div>
                     </Button>
@@ -206,7 +209,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                     width: props.isPc ? "50%" : "20%",
                     textAlign: "center",
                     paddingTop: '0.35rem',
-                    color: isSafari ? 'grey' : secondary,
+                    color: (isSafari && !config.safariRequestWord) ? 'grey' : secondary,
                     borderTop: props.isPc ? "1px solid dimgrey" : "",
                     borderLeft: props.isPc ? "1px solid dimgrey" : ""
                 }}
@@ -214,7 +217,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                 <Button
                     className={"NoOutline"}
                     style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
-                    onClick={isSafari ? showSafariAskingModal : showConfirmWord}
+                    onClick={(isSafari && !config.safariRequestWord) ? showSafariAskingModal : showConfirmWord}
                 >
                     <div style={{ display: "unset" }}>
                         <div style={{ position: "relative" }}>
@@ -235,7 +238,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                             <FontAwesome
                                 name={"hand-paper-o"}
                                 style={{
-                                    color: isSafari ? 'grey' : "#ffffffcc",
+                                    color: (isSafari && !config.safariRequestWord) ? 'grey' : "#ffffffcc",
                                     fontSize: '24px',
                                     width: '1em',
                                     height: '1em',
@@ -247,9 +250,9 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                         <div style={{
                             fontSize: '0.55rem',
                             textTransform: "none",
-                            color: isSafari ? 'grey' : "#ffffffcc",
+                            color: (isSafari && !config.safariRequestWord) ? 'grey' : "#ffffffcc",
                         }}>
-                            Palabra {/*TRADUCCION*/}
+                            {translate.ask_word_short}
                         </div>
                     </div>
                 </Button>
@@ -258,7 +261,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     }
 
     const grantedWord = CBX.haveGrantedWord(participant);
-    const fixedURLMode = props.videoURL && !props.videoURL.includes('councilbox');
+    const fixedURLMode = (props.videoURL && !props.videoURL.includes('councilbox') || props.videoURL.includes('rivulet') );
 
     return (
         <React.Fragment>

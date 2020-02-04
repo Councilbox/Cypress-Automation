@@ -86,12 +86,12 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 			qualityVote: ""
 		};
 
-		if (!state.data.president) {
+		if (council.statute.hasPresident === 1 && !state.data.president) {
 			hasError = true;
 			errors.president = true;
 		}
 
-		if (!state.data.secretary) {
+		if (council.statute.hasSecretary === 1 && !state.data.secretary) {
 			hasError = true;
 			errors.secretary = true;
 		}
@@ -297,62 +297,70 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 
 		return (
 			<Grid style={{ width: "600px" }}>
-				<GridItem xs={3} md={3} lg={3}>
-					{translate.president}
-				</GridItem>
-				<GridItem xs={4} md={4} lg={4}>
-					<button
-						id={'seleccionaAlPresidenteEnReunion'}
-						style={buttonStyle(primary)}
-						onClick={() => setState({ selecting: 1 })}
-					>
-						{translate.select_president}
-					</button>
-				</GridItem>
-				<GridItem xs={5} md={5} lg={5}>
-					{!!state.data.president ? (
-						state.data.president
-					) : (
-							<span
-								style={{
-									color: state.errors.president
-										? "red"
-										: "inherit"
-								}}
+				{council.statute.hasPresident === 1 &&
+					<React.Fragment>
+						<GridItem xs={3} md={3} lg={3}>
+							{translate.president}
+						</GridItem>
+						<GridItem xs={4} md={4} lg={4}>
+							<button
+								id={'seleccionaAlPresidenteEnReunion'}
+								style={buttonStyle(primary)}
+								onClick={() => setState({ selecting: 1 })}
 							>
-								{translate.not_selected}
-							</span>
-						)}
-				</GridItem>
+								{translate.select_president}
+							</button>
+						</GridItem>
+						<GridItem xs={5} md={5} lg={5}>
+							{!!state.data.president ? (
+								state.data.president
+							) : (
+									<span
+										style={{
+											color: state.errors.president
+												? "red"
+												: "inherit"
+										}}
+									>
+										{translate.not_selected}
+									</span>
+								)}
+						</GridItem>
+					</React.Fragment>
+				}
 
-				<GridItem xs={3} md={3} lg={3}>
+				{council.statute.hasSecretary === 1 &&
+					<React.Fragment>
+						<GridItem xs={3} md={3} lg={3}>
 					{translate.secretary}
-				</GridItem>
-				<GridItem xs={4} md={4} lg={4}>
-					<button
-						id={'seleccionaAlSecretarioEnReunion'}
-						style={buttonStyle(primary)}
-						onClick={() => setState({ selecting: 2 })}
-					>
-						{translate.select_secretary}
-					</button>
-				</GridItem>
-				<GridItem xs={5} md={5} lg={5}>
-					{!!state.data.secretary ? (
-						state.data.secretary
-					) : (
-							<span
-								style={{
-									color: state.errors.secretary
-										? "red"
-										: "inherit"
-								}}
+						</GridItem>
+						<GridItem xs={4} md={4} lg={4}>
+							<button
+								id={'seleccionaAlSecretarioEnReunion'}
+								style={buttonStyle(primary)}
+								onClick={() => setState({ selecting: 2 })}
 							>
-								{translate.not_selected}
-							</span>
-						)}
-				</GridItem>
+								{translate.select_secretary}
+							</button>
+						</GridItem>
+						<GridItem xs={5} md={5} lg={5}>
+							{!!state.data.secretary ? (
+								state.data.secretary
+							) : (
+									<span
+										style={{
+											color: state.errors.secretary
+												? "red"
+												: "inherit"
+										}}
+									>
+										{translate.not_selected}
+									</span>
+								)}
+						</GridItem>
+					</React.Fragment>
 
+				}
 				{existsQualityVote(council.statute) && (
 					<React.Fragment>
 						<GridItem xs={3} md={3} lg={3}>

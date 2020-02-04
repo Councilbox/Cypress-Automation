@@ -18,7 +18,7 @@ import {
 	Checkbox,
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { Card, Collapse, IconButton, Icon } from 'material-ui';
+import { Card, Collapse, IconButton, Icon, CardActions, CardContent } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from "../../../HOCs/withSharedProps";
@@ -89,7 +89,7 @@ export const useTags = translate => {
 
 	let filteredTags = [];
 
-	if(tagText){
+	if (tagText) {
 		filteredTags = filterTags();
 	}
 
@@ -107,7 +107,7 @@ export const useTags = translate => {
 
 }
 
-const CompanyDraftList = ({ translate, company, client, ...props }) => {
+const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [state, setState] = useOldState({
 		deleteModal: false,
@@ -115,8 +115,8 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		tags: true,
 		newForm: false,
 	});
+	const [inputSearch, setInputSearch] = React.useState(false);
 	const [search, setSearch] = React.useState("");
-
 	const { testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText } = useTags(translate);
 
 	const primary = getPrimary();
@@ -148,7 +148,7 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 
 	const _renderDeleteIcon = draftID => {
 		return (
-			<div style={{ display: "flex" }}>
+			<div style={{ display: "flex", marginLeft: isMobile && "1em" }}>
 				<IconButton
 					onClick={() => {
 						bHistory.push(`/company/${company.id}/draft/${draftID}`);
@@ -157,7 +157,8 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 						color: primary,
 						height: "32px",
 						width: "32px",
-						outline: 0
+						outline: 0,
+						marginRight: isMobile && "1em"
 					}}
 				>
 					<i className="fa fa-pencil-square-o">
@@ -226,10 +227,10 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		getData();
 	}, [company.id]);
 
-
 	const { companyDrafts, draftTypes, loading, error } = data;
 
 	if (state.newForm) {
+		setMostrarMenu(false)
 		return (
 			<CompanyDraftNew
 				translate={translate}
@@ -242,13 +243,13 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 		);
 	}
 
-	if(!vars.companyStatutes){
+	if (!vars.companyStatutes) {
 		return <LoadingSection />
 	}
 
 	return (
 		<React.Fragment>
-			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em' }}>
+			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em', marginLeft: isMobile ? "0em" : "1em" }}>
 				<BasicButton
 					text={translate.drafts_new}
 					color={primary}
@@ -256,35 +257,42 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 					textStyle={{
 						color: "white",
 						fontWeight: "700",
-						textTransform: 'none'
+						textTransform: 'none',
+						whiteSpace: isMobile && 'nowrap',
+						overflow: isMobile && 'hidden',
+						textOverflow: isMobile && 'ellipsis',
+						padding: isMobile && "8px 8px"
 					}}
 					onClick={() =>
 						setState({
 							newForm: true
 						})
 					}
-					icon={<ButtonIcon type="add" color="white" />}
+				// icon={<ButtonIcon type="add" color="white" />}
 				/>
 				<Link
 					to={`/company/${company.id}/platform/drafts/`}
 					style={{ marginLeft: "1em" }}
 				>
 					<BasicButton
-						//TRADUCCION
 						text={translate.general_drafts}
 						color={getSecondary()}
 						textStyle={{
 							color: "white",
 							fontWeight: "700",
-							textTransform: 'none'
+							textTransform: 'none',
+							whiteSpace: isMobile && 'nowrap',
+							overflow: isMobile && 'hidden',
+							textOverflow: isMobile && 'ellipsis',
+							padding: isMobile && "8px 8px"
 						}}
-						icon={<ButtonIcon type="add" color="white" />}
+					// icon={<ButtonIcon type="add" color="white" />}
 					/>
 				</Link>
 			</div>
 			<div style={{ height: ' calc( 100% - 10em )' }}>
-				<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end' }}>
-					<div style={{ marginRight: "3em" }}>
+				<div style={{ marginRight: '0.8em', display: "flex", justifyContent: isMobile ? "space-between" : 'flex-end', alignItems: "center" }}>
+					<div style={{ marginRight: isMobile ? "0.5em" : "3em" }}>
 						<DropdownEtiquetas
 							translate={translate}
 							search={tagText}
@@ -304,18 +312,20 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 								horizontal: 'right',
 							}}
 							removeTag={removeTag}
+							stylesMenuItem={{ padding: "3px 3px", marginTop: isMobile && '0', width: isMobile && "" }}
 						/>
 					</div>
 					<div>
 						<TextInput
+							className={isMobile && !inputSearch ? "openInput" : ""}
 							disableUnderline={true}
-							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding:"4px 5px" }}
-							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-							adornment={<Icon>search</Icon>}
+							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+							adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
 							floatingText={" "}
 							type="text"
 							value={search}
-							placeholder={"Buscar plantillas"}
+							placeholder={isMobile ? "" : translate.search}
 							onChange={event => {
 								setSearch(event.target.value);
 							}}
@@ -323,86 +333,88 @@ const CompanyDraftList = ({ translate, company, client, ...props }) => {
 					</div>
 				</div>
 				<Scrollbar>
-				<div style={{height: '100%', paddingRight: '1em'}}>
-					{error ? (
-						<div>
-							{error.graphQLErrors.map((error, index) => {
-								return (
-									<ErrorWrapper
-										key={`error_${index}`}
-										error={error}
-										translate={translate}
-									/>
-								);
-							})}
-						</div>
-					) : (
-							!!companyDrafts && (
-								<EnhancedTable
-									hideTextFilter={true}
-									translate={translate}
-									defaultLimit={DRAFTS_LIMITS[0]}
-									defaultFilter={"title"}
-									limits={DRAFTS_LIMITS}
-									page={1}
-									loading={loading}
-									length={companyDrafts.list.length}
-									total={companyDrafts.total}
-									selectedCategories={[{
-										field: "type",
-										value: 'all',
-										label: translate.all_plural
-									}]}
-									refetch={getDrafts}
-									headers={[
-										{
-											text: translate.name,
-											name: "title",
-											canOrder: true
-										},
-										{
-											name: "type",
-											text: 'Etiquetas',
-											canOrder: true
-										},
-										{
-											name: '',
-											text: ''
-										}
-									]}
-									action={_renderDeleteIcon}
-									companyID={company.id}
-								>
-									{companyDrafts.list.map(draft => {
-										return (
-											<DraftRow
-												key={`draft${draft.id}`}
-												translate={translate}
-												action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
-												renderDeleteIcon={_renderDeleteIcon}
-												draft={draft}
-												companyStatutes={vars.companyStatutes}
-												draftTypes={draftTypes}
-												company={company}
-												info={props}
-											/>
-										);
-									})}
-								</EnhancedTable>
-							))}
-				</div>
-				<AlertConfirm
-					title={translate.attention}
-					bodyText={translate.question_delete}
-					open={state.deleteModal}
-					buttonAccept={translate.delete}
-					buttonCancel={translate.cancel}
-					modal={true}
-					acceptAction={deleteDraft}
-					requestClose={() =>
-						setState({ deleteModal: false })
-					}
-				/>
+					<div style={{ height: '100%', paddingRight: !isMobile && '1em' }}>
+						{error ? (
+							<div>
+								{error.graphQLErrors.map((error, index) => {
+									return (
+										<ErrorWrapper
+											key={`error_${index}`}
+											error={error}
+											translate={translate}
+										/>
+									);
+								})}
+							</div>
+						) : (
+								!!companyDrafts && (
+									<div style={{ padding: "0.5em" }}>
+										<EnhancedTable
+											hideTextFilter={true}
+											translate={translate}
+											defaultLimit={DRAFTS_LIMITS[0]}
+											defaultFilter={"title"}
+											limits={DRAFTS_LIMITS}
+											page={1}
+											loading={loading}
+											length={companyDrafts.list.length}
+											total={companyDrafts.total}
+											selectedCategories={[{
+												field: "type",
+												value: 'all',
+												label: translate.all_plural
+											}]}
+											refetch={getDrafts}
+											headers={[
+												{
+													text: translate.name,
+													name: "title",
+													canOrder: true
+												},
+												{
+													name: "type",
+													text: 'Etiquetas',
+													canOrder: true
+												},
+												{
+													name: '',
+													text: ''
+												}
+											]}
+											action={_renderDeleteIcon}
+											companyID={company.id}
+										>
+											{companyDrafts.list.map(draft => {
+												return (
+													<DraftRow
+														key={`draft${draft.id}${draft.title}`}
+														translate={translate}
+														action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
+														renderDeleteIcon={_renderDeleteIcon}
+														draft={draft}
+														companyStatutes={vars.companyStatutes}
+														draftTypes={draftTypes}
+														company={company}
+														info={props}
+													/>
+												);
+											})}
+										</EnhancedTable>
+									</div>
+								))}
+					</div>
+					<AlertConfirm
+						title={translate.attention}
+						bodyText={translate.question_delete}
+						open={state.deleteModal}
+						buttonAccept={translate.delete}
+						buttonCancel={translate.cancel}
+						modal={true}
+						acceptAction={deleteDraft}
+						requestClose={() =>
+							setState({ deleteModal: false })
+						}
+					/>
 				</Scrollbar>
 			</div>
 		</React.Fragment>
@@ -460,89 +472,159 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 
 	}
 
-	return (
-		<TableRow
-			{...handlers}
-			hover
-		>
-			{selectable &&
+	if (isMobile) {
+		return (
+			<Grid style={{ height: "100%", width: "100%" }}>
+				{columns &&
+					Object.keys(columns).map(key => {
+						let columnaLength = columns[key].length;
+						return (
+							<Card style={{ marginBottom: "0.8em", width: "100%" }}>
+								<CardContent>
+									<Grid>
+										<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+											{translate.name}
+										</GridItem>
+										<GridItem xs={8} md={8} lg={8} style={{
+											whiteSpace: 'nowrap',
+											overflow: 'hidden',
+											textOverflow: 'ellipsis'
+										}}>
+											{draft.title}
+										</GridItem>
+										<GridItem xs={12} md={12} lg={12} style={{}}>
+											<div style={{}}>
+												{columns &&
+													Object.keys(columns).map(key => {
+														let columnaLength = columns[key].length;
+														return (
+															<TagColumn key={`column_${key}`}>
+																{columns[key].map((tag, index) => {
+																	return (
+																		index > 0 ?
+																			<Collapse in={expanded} timeout="auto" unmountOnExit>
+																				<SelectedTag
+																					key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
+																					text={translate[tag.label] || tag.label}
+																					color={getTagColor(key)}
+																					props={props}
+																					list={true}
+																					count={""}
+																				/>
+																			</Collapse>
+																			:
+																			<SelectedTag
+																				key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+																				text={translate[tag.label] || tag.label}
+																				color={getTagColor(key)}
+																				props={props}
+																				list={true}
+																				count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
+																				stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
+																				desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
+																				mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
+																				mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
+																			/>
+																	)
+																})}
+															</TagColumn>
+														)
+													})
+												}
+											</div>
+										</GridItem>
+									</Grid>
+								</CardContent>
+								<CardActions>
+									{props.renderDeleteIcon(draft.id)}
+								</CardActions>
+							</Card>
+						)
+					})}
+			</Grid>
+		)
+	} else {
+		return (
+			<TableRow
+				{...handlers}
+				hover
+			>
+				{selectable &&
+					<TableCell
+						style={TableStyles.TD}
+					>
+						<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+							{getCheckbox()}
+							{props.alreadySaved(draft.id) &&
+								<i className="fa fa-floppy-o"
+									style={{
+										cursor: "pointer",
+										fontSize: "2em",
+										color: getSecondary()
+									}}
+								/>
+							}
+						</div>
+					</TableCell>
+				}
 				<TableCell
-				style={TableStyles.TD}
-			>
-				<div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-					{getCheckbox()}
-					{props.alreadySaved(draft.id) &&
-						<i className="fa fa-floppy-o"
-							style={{
-								cursor:
-									"pointer",
-								fontSize:
-									"2em",
-								color: getSecondary()
-							}}
-						/>
-					}
-				</div>
-
-			</TableCell>
-			}
-			<TableCell
-				style={{
-					...TableStyles.TD,
-					cursor: 'pointer'
-				}}
-				onClick={props.action}
-			>
-				{draft.title}
-			</TableCell>
-			<TableCell>
-				<div style={{ display: "flex" }}>
-					{columns &&
-						Object.keys(columns).map(key => {
-							let columnaLength = columns[key].length;
-							return (
-								<TagColumn key={`column_${key}`}>
-									{columns[key].map((tag, index) => {
-										return (
-											index > 0 ?
-												<Collapse in={expanded} timeout="auto" unmountOnExit>
+					style={{
+						...TableStyles.TD,
+						cursor: 'pointer'
+					}}
+					onClick={props.action}
+				>
+					{draft.title}
+				</TableCell>
+				<TableCell>
+					<div style={{ display: "flex" }}>
+						{columns &&
+							Object.keys(columns).map(key => {
+								let columnaLength = columns[key].length;
+								return (
+									<TagColumn key={`column_${key}`}>
+										{columns[key].map((tag, index) => {
+											return (
+												index > 0 ?
+													<Collapse in={expanded} timeout="auto" unmountOnExit>
+														<SelectedTag
+															key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
+															text={translate[tag.label] || tag.label}
+															color={getTagColor(key)}
+															props={props}
+															list={true}
+															count={""}
+														/>
+													</Collapse>
+													:
 													<SelectedTag
-														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
+														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
 														text={translate[tag.label] || tag.label}
 														color={getTagColor(key)}
 														props={props}
 														list={true}
-														count={""}
+														count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
+														stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
+														desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
+														mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
+														mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
 													/>
-												</Collapse>
-												:
-												<SelectedTag
-													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
-													text={translate[tag.label] || tag.label}
-													color={getTagColor(key)}
-													props={props}
-													list={true}
-													count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
-													stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
-													desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
-													mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
-													mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
-												/>
-										)
-									})}
-								</TagColumn>
-							)
-						})
-					}
-				</div>
-			</TableCell>
-			<TableCell>
-				<div style={{ width: '3em' }}>
-					{(show && props.renderDeleteIcon)?props.renderDeleteIcon(draft.id) : ''}
-				</div>
-			</TableCell>
-		</TableRow>
-	)
+											)
+										})}
+									</TagColumn>
+								)
+							})
+						}
+					</div>
+				</TableCell>
+				<TableCell>
+					<div style={{ width: '3em' }}>
+						{(show && props.renderDeleteIcon) ? props.renderDeleteIcon(draft.id) : ''}
+					</div>
+				</TableCell>
+			</TableRow>
+		)
+	}
 }
 
 export default withApollo((withSharedProps()(

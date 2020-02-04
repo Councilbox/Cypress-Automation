@@ -27,6 +27,7 @@ export const councilParticipants = gql`
 				position
 				email
 				phone
+				secondaryEmail
 				dni
 				type
 				numParticipations
@@ -34,11 +35,17 @@ export const councilParticipants = gql`
 				uuid
 				delegateUuid
 				delegateId
+				representatives {
+					id
+					name
+					surname
+				}
 				representative {
 					id
 					name
 					surname
 					dni
+					secondaryEmail
 					email
 					phone
 					position
@@ -74,6 +81,7 @@ export const councilParticipantsFilterIds = gql`
 				email
 				phone
 				dni
+				secondaryEmail
 				type
 				numParticipations
 				socialCapital
@@ -85,6 +93,7 @@ export const councilParticipantsFilterIds = gql`
 					name
 					surname
 					dni
+					secondaryEmail
 					email
 					phone
 					position
@@ -101,11 +110,11 @@ export const councilParticipantsFilterIds = gql`
 `;
 
 export const addParticipant = gql`
-	mutation upsertCouncilParticipant(
+	mutation addCouncilParticipant(
 		$participant: ParticipantInput
 		$representative: RepresentativeInput
 	) {
-		upsertCouncilParticipant(
+		addCouncilParticipant(
 			participant: $participant
 			representative: $representative
 		) {
@@ -128,7 +137,7 @@ export const updateCouncilParticipant = gql`
 		$participant: ParticipantInput
 		$representative: RepresentativeInput
 	) {
-		upsertCouncilParticipant(
+		updateCouncilParticipant(
 			participant: $participant
 			representative: $representative
 		) {
@@ -143,7 +152,7 @@ export const upsertConvenedParticipant = gql`
 		$representative: RepresentativeInput
 		$sendConvene: Boolean
 	) {
-		upsertConvenedParticipant(
+		updateConvenedParticipant(
 			participant: $participant
 			representative: $representative
 			sendConvene: $sendConvene
@@ -152,6 +161,23 @@ export const upsertConvenedParticipant = gql`
 		}
 	}
 `;
+
+export const addConvenedParticipant = gql`
+	mutation upsertConvenedParticipant(
+		$participant: ParticipantInput
+		$representative: RepresentativeInput
+		$sendConvene: Boolean
+	) {
+		addConvenedParticipant(
+			participant: $participant
+			representative: $representative
+			sendConvene: $sendConvene
+		) {
+			success
+		}
+	}
+`;
+
 
 export const convenedcouncilParticipants = gql`
 	query participants(
@@ -176,6 +202,7 @@ export const convenedcouncilParticipants = gql`
 				phone
 				dni
 				type
+				secondaryEmail
 				numParticipations
 				socialCapital
 				uuid
@@ -183,12 +210,23 @@ export const convenedcouncilParticipants = gql`
 				delegateId
 				position
 				language
+				representatives {
+					id
+					name
+					surname
+					dni
+					email
+					phone
+					position
+					language
+				}
 				representative {
 					id
 					name
 					surname
 					dni
 					email
+					secondaryEmail
 					phone
 					position
 					language

@@ -46,7 +46,7 @@ export const splitExtensionFilename = (filename) => {
 }
 
 export const showAddCouncilAttachment = attachments => {
-	return attachments.length < MAX_COUNCIL_ATTACHMENTS;
+	return true;
 };
 
 export const canAddCouncilAttachment = (council, filesize) => {
@@ -270,8 +270,8 @@ export const councilHasComments = statute => {
 export const canDelegateVotes = (statute, participant) => {
 	return (
 		statute.existsDelegatedVote === 1 &&
-		!(participant.delegatedVotes.length > 0) &&
-		participant.type !== 1 && participant.type !== 2
+		!(participant.delegatedVotes.filter(p => p.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0) &&
+		participant.type !== PARTICIPANT_TYPE.GUEST
 	);
 };
 export const canAddDelegateVotes = (statute, participant) => {
@@ -562,6 +562,58 @@ export const generateAgendaText = (translate, agenda) => {
 }
 
 
+export const buildAttendantsString = (council, total) => (acc, curr, index) => {
+	if(!hasParticipations(council)){
+		return acc + `${curr.name} ${curr.surname} <br/>`;
+	}
+
+	const texts = {
+		es: 'NAME SURNAME, dueño de SHARES participaciones, representando el PERCENTAGE% de capital social <br>',
+		en: 'NAME SURNAME, owner of SHARES shares, representing the PERCENTAGE% of the total shares <br>',
+		gal: 'NAME SURNAME, dono de SHARES participacións, representando o PERCENTAGE% do capital social <br>',
+		cat: "NAME SURNAME, con SHARES participacions, representant el PERCENTAGE% de l'capital social <br>",
+		pt: 'NAME SURNAME, proprietário de SHARES participacions, representando o PERCENTAGE% do capital social <br>',
+	}
+
+	const representativeOf = {
+		es: 'representante de ',
+		en: 'representative of ',
+		gal: 'representante de ',
+		cat: 'representant de ',
+		pt: 'representante de ',
+	}
+
+	const representativeText = {
+		es: 'RNAME RSURNAME con SHARES participaciones, representando el PERCENTAGE% de capital social ',
+		en: 'RNAME RSURNAME with SHARES shares, representing PERCENTAGE% of the total shares ',
+		gal: 'RNAME RSURNAME con SHARES participacións, representando o PERCENTAGE% do capital social ',
+		cat: "RNAME RSURNAME con SHARES participacions, representant el PERCENTAGE% de l'capital social ",
+		pt: 'RNAME RSURNAME con SHARES participacions, representando o PERCENTAGE% do capital social ',
+	}
+
+	if(curr.type === PARTICIPANT_TYPE.REPRESENTATIVE){
+		return acc + `${curr.name} ${curr.surname} ${representativeOf[council.language]} ${
+			curr.delegationsAndRepresentations.reduce((acc, representated, index) => {
+				return (acc + (index > 0? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname? representated.surname + " " : ''}`)
+					.replace('SHARES', representated.socialCapital)
+					.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2)))
+		}, '')} <br>`;
+	}
+
+	return acc + texts[council.language]
+		.replace('NAME SURNAME', `${curr.name} ${curr.surname}`)
+		.replace('SHARES', curr.socialCapital)
+		.replace('PERCENTAGE', ((curr.socialCapital / total) * 100).toFixed(2))
+};
+
+export const isAdmin = user => {
+	return user.roles === 'admin' || user.roles === 'devAdmin';
+}
+
+export const showOrganizationDashboard = (company, config, user = {}) => {
+	return (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
+}
+
 
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
@@ -679,13 +731,12 @@ export const changeVariablesToValues = async (text, data, translate) => {
 
 	const base = data.council.partTotal;
 
-
 	text = text.replace(/{{president}}/g, data.council.president);
 	text = text.replace(/{{secretary}}/g, data.council.secretary);
 	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`)
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
-	text = text.replace(/{{attendants}}/g, data.council.attendants? data.council.attendants.reduce((acc, curr, index) => acc + `${index > 0? ', ' : ' '} ${curr.name} ${curr.surname}`, '') : '');
+	text = text.replace(/{{attendants|Attendants}}/g, data.council.attendants? data.council.attendants.reduce(buildAttendantsString(data.council, base), '') : '');
 
 	if (data.council.street) {
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
@@ -712,7 +763,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
 	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements(translate, data.company.governingBodyType));
 
-	text = text.replace(/{{Agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
+	text = text.replace(/{{Agenda}}|{{agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
 
 	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
 	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);
@@ -1330,6 +1381,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 			}
 			break;
 		case COUNCIL_STATES.ROOM_OPENED:
+		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
 			if (expected !== "live") {
 				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/live`
@@ -1501,8 +1553,12 @@ export const showVideo = council => {
 	return (council.state === 20 || council.state === 30) && council.councilType === 0;
 };
 
+export const getMainRepresentative = participant => {
+	return (participant.representatives && participant.representatives.length > 0)? participant.representatives[0] : null;
+}
+
 export const canAddPoints = council => {
-	return council.statute.canAddPoints === 1 && council.councilType < 2;
+	return council.statute.canAddPoints === 1;
 };
 
 export const hasHisVoteDelegated = participant => {
@@ -1555,7 +1611,7 @@ export const getParticipantStateField = participant => {
 			return "physically_present_assistance";
 
 		case 6:
-			return "no_assist_assistance";
+			return "no_participate";
 
 		case 7:
 			return "physically_present_with_remote_vote";

@@ -10,10 +10,10 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
 
-    const imgUrl =  window.location.pathname.includes('participant')?
-        customRoomBackground? customRoomBackground : customBackground? customBackground : bg
+    const imgUrl = window.location.pathname.includes('participant') ?
+        customRoomBackground ? customRoomBackground : customBackground ? customBackground : bg
         :
-        customBackground? customBackground : bg
+        customBackground ? customBackground : bg
 
     React.useEffect(() => {
         let img = new Image();
@@ -21,7 +21,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
         img.onload = () => setLoadingImg(false);
     }, [customBackground, customRoomBackground]);
 
-    if(loadingImg){
+    if (loadingImg) {
         return <LoadingMainApp />
     }
 
@@ -36,7 +36,9 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 background: `url(${imgUrl})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center center',
+                ...((customBackground || customRoomBackground)? {} : {
+                    backgroundPosition: 'center center',
+                }),
                 padding: 0,
                 margin: 0,
                 width: '100%'

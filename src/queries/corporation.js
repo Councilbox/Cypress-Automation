@@ -52,48 +52,48 @@ export const corporationDrafts = gql`
 	}
 `;
 
-export const corporationUsers = gql` 
-  query corporationUsers($filters: [FilterInput], $options: OptionsInput) { 
-    corporationUsers(filters: $filters, options: $options) { 
+export const corporationUsers = gql`
+  query corporationUsers($filters: [FilterInput], $options: OptionsInput, $corporationId: Int) {
+    corporationUsers(filters: $filters, options: $options, corporationId: $corporationId) {
 			list {
-				id 
-				usr 
-				name 
-				surname 
+				id
+				usr
+				name
+				surname
 				actived
-				email 
-				phone 
-				lastConnectionDate 
+				email
+				phone
+				lastConnectionDate
 			}
 			total
-    } 
-  } 
-`; 
- 
-export const getCorporationUser = gql` 
-  query getCorporationUser ( 
-    $id: Int! 
-  ) { 
-    corporationUser (id: $id){ 
-      id 
-      usr 
-      name 
-      surname 
-      email 
-      phone 
-      lastConnectionDate 
-      companies{ 
-        id 
-        businessName 
-        logo 
-      } 
-      sends{ 
-        id 
-        sendDate 
-        impositionDate 
-        sendType 
-        reqCode 
-      } 
-    } 
-  } 
-`; 
+    }
+  }
+`;
+
+export const getCorporationUser = gql`
+  query getCorporationUser (
+    $id: Int!
+  ) {
+    corporationUser (id: $id){
+      id
+      usr
+      name
+      surname
+      email
+      phone
+      lastConnectionDate
+      companies{
+        id
+        businessName
+        logo
+      }
+      sends{
+        id
+        sendDate
+        impositionDate
+        sendType
+        reqCode
+      }
+    }
+  }
+`;

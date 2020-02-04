@@ -54,8 +54,8 @@ export const getMe = gql`
 `;
 
 export const updateUser = gql`
-	mutation updateUser($user: UserInput) {
-		updateUser(user: $user) {
+	mutation updateUser($user: UserInput, $companies: [Int]) {
+		updateUser(user: $user, companies: $companies) {
 			name
 			surname
 			id
@@ -758,6 +758,8 @@ export const statutes = gql`
 			canUnblock
 			includeParticipantsList
 			existsWhoSignTheAct
+			hasPresident
+			hasSecretary
 			prototype
 			intro
 			constitution
@@ -1460,6 +1462,8 @@ export const councilLiveQuery = gql`
 				existsAdvanceNoticeDays
 				advanceNoticeDays
 				existsSecondCall
+				hasPresident
+				hasSecretary
 				minimumSeparationBetweenCall
 				canEditConvene
 				firstCallQuorumType
@@ -1974,10 +1978,12 @@ export const participantsWhoCanDelegate = gql`
 		$councilId: Int!
 		$filters: [FilterInput]
 		$options: OptionsInput
+		$participantId: Int
 	) {
 		liveParticipantsWhoCanDelegate(
 			councilId: $councilId
 			filters: $filters
+			participantId: $participantId
 			options: $options
 		) {
 			list {
@@ -2053,11 +2059,49 @@ export const liveParticipant = gql`
 				surname
 				dni
 				email
+				state
+				signed
 				phone
 				position
 				language
 				numParticipations
 				socialCapital
+			}
+			representatives {
+				id
+				name
+				surname
+				dni
+				email
+				phone
+				state
+				signed
+				position
+				language
+				numParticipations
+				socialCapital
+				delegatedVotes {
+					id
+					name
+					surname
+					dni
+					email
+					state
+					signed
+					phone
+					position
+					language
+					numParticipations
+					socialCapital
+				}
+				notifications {
+					participantId
+					email
+					reqCode
+					refreshDate
+					sendDate
+					sendType
+				}
 			}
 			delegatedVotes {
 				id
@@ -2066,6 +2110,7 @@ export const liveParticipant = gql`
 				dni
 				email
 				state
+				signed
 				phone
 				position
 				language

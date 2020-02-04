@@ -14,7 +14,7 @@ import {
 import { compose, graphql } from "react-apollo";
 import { downloadCBXData, updateConveneSends } from "../../../queries";
 import { convenedcouncilParticipants } from "../../../queries/councilParticipant";
-import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from "../../../constants";
+import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
 import NotificationFilters from "./NotificationFilters";
 import DownloadCBXDataButton from "./DownloadCBXDataButton";
 import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";
@@ -376,21 +376,35 @@ class HoverableRow extends React.Component {
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 		let representative = this.props.representative;
-		let { notifications } = participant.live.state === PARTICIPANT_STATES.REPRESENTATED? representative : participant;
+		const { delegate } = participant;
+
+		let { notifications } = participant.type === PARTICIPANT_TYPE.PARTICIPANT? participant : !!representative? representative : participant;
 		notifications = [...notifications].sort((a, b) => {
 			if(a.sendDate > b.sendDate){
 				return 1;
 			}
 
-			if(b.sendDate > a.sendDate){
+			if((b.sendDate > a.sendDate) || a.reqCode === 25){
 				return -1;
 			}
 
 			return 0;
 		});
-		if(participant.live && participant.live.representative){
-			representative = participant.live.representative;
-		}
+
+
+		const voteParticipantInfo = (
+			participant.live.state === PARTICIPANT_STATES.DELEGATED?
+				<React.Fragment>
+					<br/>
+					{`${translate.delegated_in}: ${delegate.name} ${delegate.surname}`}
+				</React.Fragment>
+			:
+				!!representative &&
+					<React.Fragment>
+						<br/>
+						{`${translate.represented_by}: ${representative.name} ${representative.surname}`}
+					</React.Fragment>
+		);
 
 		if(isMobile){
             return(
@@ -403,13 +417,9 @@ class HoverableRow extends React.Component {
                             {translate.participant_data}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
-							{!!representative &&
-								<React.Fragment>
-									<br/>
-									{`${participant.live.state === PARTICIPANT_STATES.DELEGATED? translate.delegated_in : this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
-								</React.Fragment>
-							}
+							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname} ${
+								!!representative? ` - ${translate.represented_by}: ${representative.name} ${representative.surname}` : ''}`}</span>
+							{voteParticipantInfo}
                         </GridItem>
 						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
                             {translate.dni}
@@ -483,7 +493,7 @@ class HoverableRow extends React.Component {
                 </Card>
             )
 		}
-
+	
 		return (
 			<TableRow
 				hover
@@ -497,13 +507,11 @@ class HoverableRow extends React.Component {
 				<TableCell>
 					<span style={{fontWeight: '700'}}>{`${participant.name} ${
 						participant.surname
-					}`}</span>
-					{!!representative &&
-						<React.Fragment>
-							<br/>
-							{`${participant.live.state === PARTICIPANT_STATES.DELEGATED? translate.delegated_in : this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
-						</React.Fragment>
-					}
+					}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
+						participant.representatives.length > 0)? ` - ${translate.represented_by}: ${
+							participant.representatives[0].name} ${
+								participant.representatives[0].surname}` : ''}`}</span>
+					{voteParticipantInfo}
 				</TableCell>
 				<TableCell>
 					{participant.dni}
@@ -605,7 +613,11 @@ class HoverableRow extends React.Component {
 						) && (
 							<TableCell>
 								<AttendIntentionIcon
-									participant={participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live : participant.live}
+									participant={
+										participant.live.state === PARTICIPANT_STATES.REPRESENTATED?
+											participant.representative.live :
+											participant.live
+									}
 									showCommentIcon
 									onCommentClick={this.props.showModalComment({
 										text: participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live.assistanceComment : participant.live.assistanceComment,
@@ -628,12 +640,12 @@ class HoverableRow extends React.Component {
 
 const formatParticipant = participant => {
 	let { representing, ...newParticipant } = participant;
-	if(representing && representing.type === 3){
+
+	if(participant.live.state === PARTICIPANT_STATES.DELEGATED){
 		let { representative, ...rest } = newParticipant;
 		newParticipant = {
-			...representing,
-			notifications: rest.notifications,
-			representative: rest
+			...newParticipant,
+			delegate: participant.live.representative
 		}
 	}
 	return newParticipant;

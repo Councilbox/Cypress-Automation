@@ -11,11 +11,12 @@ import { getSecondary } from "../../styles/colors";
 import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
 import { checkSecondDateAfterFirst } from "../../utils/CBX";
-import { isMobile } from "react-device-detect";
 import { Paper } from "material-ui";
 import { useHoverRow } from "../../hooks";
 import { sendGAevent } from '../../utils/analytics';
 import withSharedProps from "../../HOCs/withSharedProps";
+import { isMobile } from "../../utils/screen";
+
 
 
 const CreateCouncil = props => {

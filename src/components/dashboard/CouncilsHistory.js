@@ -39,7 +39,7 @@ class CouncilsHistory extends React.Component {
         return(
             <Table
                 headers={[
-                    { name: translate.type },
+                    { name: translate.state },
                     { name: translate.date_real_start },
                     { name: translate.table_councils_duration },
                     { name: translate.name },

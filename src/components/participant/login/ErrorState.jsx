@@ -74,6 +74,9 @@ const ErrorState = ({ code, translate, data, windowSize, windowOrientation }) =>
 
 			case PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED:
 				return <TimeLimitExceeded translate={translate} />;
+
+			case PARTICIPANT_ERRORS.REPRESENTED_DELEGATED:
+				return <RepresentedDelegated translate={translate} />
 			default:
 				return <div />;
 		}
@@ -216,6 +219,30 @@ const RemoteClosed = ({ translate }) => (
 		{'Las votaciones remotas han finalizado' /*TRADUCCION*/}
 	</React.Fragment>
 );
+
+const RepresentedDelegated = ({ translate }) => (
+	<React.Fragment>
+		<h5 style={{ color: primary, fontWeight: "bold" }}>
+			{translate.we_are_sorry}
+		</h5>
+
+		<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
+			<FontAwesome
+				name={"user"}
+				stack={"1x"}
+				style={{ color: primary }}
+			/>
+			<FontAwesome
+				name={"ban"}
+				stack={"2x"}
+				style={{ color: secondary }}
+			/>
+		</div>
+
+		{'El voto de su representado ha sido delegado en otro participante' /*TRADUCCION*/}
+	</React.Fragment>
+);
+
 
 const ParticipantNotInRemoteState = ({ translate }) => (
 	<React.Fragment>

@@ -16,6 +16,7 @@ import { CLIENT_VERSION, variant } from "../config";
 import { getCustomLogo, getCustomIcon } from "../utils/subdomain";
 import { MenuItem } from "material-ui";
 
+
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props }) => {
 	const goBack = () => {
 		bHistory.goBack();
@@ -80,7 +81,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					</Tooltip>
 				)}
 				<Link to="/">
-					<div>
+					<div style={{ position: "relative" }}>
 						<img
 							src={!showVerticalLayout() ? customLogo ? customLogo : logo : customIcon ? customIcon : icono}
 							className="App-logo"

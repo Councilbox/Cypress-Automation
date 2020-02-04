@@ -1,6 +1,6 @@
 {
   "name": "councilbox_client",
-  "version": "4.1.0",
+  "version": "5.1.1",
   "private": true,
   "dependencies": {
     "adom-client": "^0.1.13",
@@ -38,6 +38,7 @@
     "react-autosuggest": "^9.3.4",
     "react-big-calendar": "^0.20.3",
     "react-bootstrap": "^0.32.1",
+    "react-calendar": "3.0.0-beta.2",
     "react-chartjs-2": "^2.7.4",
     "react-codemirror2": "^5.1.0",
     "react-collapse": "^4.0.3",

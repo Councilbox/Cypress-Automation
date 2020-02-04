@@ -22,7 +22,7 @@ class CouncilParticipantEditor extends React.Component {
 	};
 
 	updateParticipantData(){
-		let { representative, ...participant } = extractTypeName(
+		let { representative, representatives, ...participant } = extractTypeName(
 			this.props.participant
 		);
 		representative = representative

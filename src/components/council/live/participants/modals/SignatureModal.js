@@ -13,7 +13,7 @@ import { canBePresentWithRemoteVote } from "../../../../../utils/CBX";
 import { PARTICIPANT_STATES } from "../../../../../constants";
 import gql from "graphql-tag";
 import { useOldState } from "../../../../../hooks";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../../../utils/screen";
 
 const SignatureModal = ({ data, translate, council, participant, ...props }) => {
 	const [state, setState] = useOldState({
@@ -33,8 +33,8 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 		props.requestClose();
 	};
 
-	React.useEffect(() => {
-		if (!data.loading && !signature.current) {
+	React.useLayoutEffect(() => {
+		if (signature.current && !data.loading) {
 			setSignature();
 		}
 	}, [data.loading]);

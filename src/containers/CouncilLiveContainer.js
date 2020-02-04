@@ -3,9 +3,9 @@ import CouncilLivePage from "../components/council/live/CouncilLivePage";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import { Redirect, withRouter } from "react-router-dom";
-import { isMobile } from "react-device-detect";
 import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 import NoConnectionModal from '../components/NoConnectionModal';
+import { isMobile } from "../utils/screen";
 
 const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 	if (!main.isLogged) {

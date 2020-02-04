@@ -10,6 +10,7 @@ import { getPrimary } from "../../../styles/colors";
 import { checkRequiredFields } from "../../../utils/CBX";
 import CompanyDraftForm from "./CompanyDraftForm";
 import { toast } from 'react-toastify';
+import { bHistory } from "../../../containers/App";
 
 
 class CompanyDraftNew extends React.Component {
@@ -89,6 +90,10 @@ class CompanyDraftNew extends React.Component {
 		this.props.closeForm();
 	};
 
+	goBack = () => {
+		bHistory.goBack();
+	};
+
 	render() {
 		const { translate } = this.props;
 		const { draft, errors } = this.state;
@@ -97,10 +102,10 @@ class CompanyDraftNew extends React.Component {
 		if (loading) {
 			return <LoadingSection />;
 		}
-
+		
 		return (
 			<React.Fragment>
-				<div style={{ marginTop: "1.8em", height: 'calc( 100% - 8em )' }}>
+				<div style={{ marginTop: "1.8em", height: 'calc( 100% - 3em )' }}>
 					<CompanyDraftForm
 						draft={draft}
 						errors={errors}
@@ -123,6 +128,22 @@ class CompanyDraftNew extends React.Component {
 						onClick={() => this.createCompanyDraft()}
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
+					<BasicButton
+						// id={"saveDraft"}
+						floatRight
+						text={translate.back}
+						color={getPrimary()}
+						loading={this.state.loading}
+						success={this.state.success}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							marginRight: "1em"
+						}}
+						onClick={() => this.goBack()}
+					/>
+					
+					
 					<br /><br />
 				</div>
 			</React.Fragment>

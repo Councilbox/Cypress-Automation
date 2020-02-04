@@ -108,8 +108,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		const oldFirstDate = dates.current.dateStart;
 		const oldSecondDate = dates.current.dateStart2NdCall;
 
-		//console.log(council.dateStart, council.dateStart2NdCall);
-
 		if(!CBX.checkMinimumAdvance(firstDate, statute)){
 			errors.dateStart = translate.new_statutes_warning
 				.replace('{{council_prototype}}', translate[statute.title] || statute.title)

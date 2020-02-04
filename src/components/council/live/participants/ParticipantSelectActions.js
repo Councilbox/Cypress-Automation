@@ -2,15 +2,16 @@ import React from "react";
 import { graphql } from "react-apollo";
 import * as CBX from "../../../../utils/CBX";
 import { isLandscape } from "../../../../utils/screen";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { getPrimary, getSecondary, getLightGrey } from "../../../../styles/colors";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
-import { FilterButton, Grid, GridItem } from "../../../../displayComponents";
+import { FilterButton, Grid, GridItem, LoadingSection } from "../../../../displayComponents";
 import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
 import FontAwesome from "react-fontawesome";
 import StateIcon from "./StateIcon";
+import { Tooltip } from "material-ui";
 
 
 class ParticipantSelectActions extends React.Component {
@@ -44,119 +45,129 @@ class ParticipantSelectActions extends React.Component {
 	};
 
 	render() {
-		const { translate, participant, council } = this.props;
+		const { translate, participant, council, onlyButtonDelegateVote } = this.props;
 		const { loading } = this.state;
-		const secondary = getSecondary();
-		const primary = getPrimary();
-		return (
-			<Grid
-				style={{
-					width: "100%",
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center"
-				}}
-			>
-				<GridItem xs={12} md={12} lg={12} >
+		if (onlyButtonDelegateVote) {
+			// console.log(participant)
+			return (
+				// CBX.canAddDelegateVotes(council.statute, participant) && (
+				// <GridItem xs={12} md={6} lg={4}>
+				<div>
+					<ButtonActions
+						loading={loading === 6}
+						active={participant.state === PARTICIPANT_STATES.DELEGATED}
+						onClick={() => {
+							this.setState({
+								delegateVote: true
+							})
+						}}
+					>
+						<div
+							style={{ display: "flex", alignItems: "center" }}
+						>
+							<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+								<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
+							</div>
+						</div>
+					</ButtonActions>
+					<DelegateVoteModal
+						show={this.state.delegateVote}
+						council={council}
+						participant={participant}
+						refetch={this.props.refetch}
+						requestClose={() =>
+							this.setState({ delegateVote: false })
+						}
+						translate={translate}
+					/>
+				</div>
+				// </GridItem>
+				// )
+			);
+		} else {
+			return (
+				<Grid
+					style={{
+						marginTop: "1em",
+						width: "100%",
+						display: "flex",
+						flexDirection: "row",
+						alignItems: "center"
+					}}
+				>
 					{CBX.canHaveRepresentative(participant) &&
-						<div className="listInModalLive" style={{ display: 'flex', alignItems: 'center' }}>
-
-							{!(participant.delegatedVotes.length > 0) && (
-								<FilterButton
-									tooltip={participant.representative? translate.change_representative : translate.add_representative}
+						!(participant.delegatedVotes.length > 0) && (
+							<GridItem xs={12} md={6} lg={4}>
+								<ButtonActions
 									loading={loading === 4}
-									size="100%"
 									onClick={() =>
 										this.setState({
 											addRepresentative: true
 										})
 									}
+
 								>
-									<div style={{ display: 'flex', width: '30%' }}>
-										<StateIcon
-											translate={translate}
-											state={PARTICIPANT_STATES.REPRESENTATED}
-											color={secondary}
-											hideTooltip={true}
-										/>
+									<div
+										style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
+									>
+										<div style={{ width: "3em" }}>
+											<StateIcon
+												translate={translate}
+												state={PARTICIPANT_STATES.REPRESENTATED}
+												color={'black'}
+												hideTooltip={true}
+												styles={{ padding: "0em" }}
+											/>
+										</div>
+										<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+											<span style={{ fontSize: '0.9em' }}>{participant.representative ? translate.change_representative : translate.add_representative}</span>
+										</div>
 									</div>
-									<div style={{ display: 'flex', width: '70%' }}>
-										<span style={{ fontSize: '0.9em' }}>{participant.representative? translate.change_representative : translate.add_representative}</span>
-									</div>
-								</FilterButton>
-							)}
-						</div>
+								</ButtonActions>
+							</GridItem>
+						)
 					}
 					{CBX.canDelegateVotes(council.statute, participant) && (
-						<div className="listInModalLive" style={{ display: 'flex', alignItems: 'center' }}>
-							<FilterButton
-								tooltip={translate.to_delegate_vote}
+						<GridItem xs={12} md={6} lg={4}>
+							<ButtonActions
 								loading={loading === 5}
-								size="100%"
+								active={participant.state === PARTICIPANT_STATES.DELEGATED}
 								onClick={() =>
 									this.setState({
 										delegateOwnVote: true
 									})
 								}
-								active={participant.state === PARTICIPANT_STATES.DELEGATED}
 							>
-								<div style={{ display: 'flex', width: '30%' }}>
-									<StateIcon
-										translate={translate}
-										state={PARTICIPANT_STATES.DELEGATED}
-										color={secondary}
-										hideTooltip={true}
-									/>
+								<div
+									style={{ display: "flex", alignItems: "center" }}
+								>
+									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+										<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
+									</div>
 								</div>
-								<div style={{ display: 'flex', width: '70%' }}>
-									<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
-								</div>
-							</FilterButton>
-						</div>
+							</ButtonActions>
+						</GridItem>
 					)}
 					{CBX.canAddDelegateVotes(council.statute, participant) && (
-						<div className="listInModalLive" style={{ display: 'flex', alignItems: 'center' }}>
-							<FilterButton
-								tooltip={translate.add_delegated}
+						<GridItem xs={12} md={6} lg={4}>
+							<ButtonActions
 								loading={loading === 6}
-								size="100%"
+								active={participant.state === PARTICIPANT_STATES.DELEGATED}
 								onClick={() => {
 									this.setState({
 										delegateVote: true
 									})
-								}
-								}
-								active={
-									participant.state ===
-									PARTICIPANT_STATES.DELEGATED
-								}
+								}}
 							>
-								<div style={{ display: 'flex', width: '30%', padding: '0.5em' }}>
-									<FontAwesome
-										name={"user"}
-										style={{
-											// position: "absolute",
-											color: secondary,
-											fontSize: "1.5em"
-										}}
-									/>
-									<FontAwesome
-										name={"mail-reply"}
-										style={{
-											position: "absolute",
-											color: primary,
-											top: "20px",
-											left: "28px"
-											// right: "0.7em",
-											// fontSize: "0.8em"
-										}}
-									/>
+								<div
+									style={{ display: "flex", alignItems: "center" }}
+								>
+									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+										<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
+									</div>
 								</div>
-								<div style={{ display: 'flex', width: '70%' }}>
-									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
-								</div>
-							</FilterButton>
-						</div>
+							</ButtonActions>
+						</GridItem>
 					)}
 
 					<AddRepresentativeModal
@@ -200,10 +211,46 @@ class ParticipantSelectActions extends React.Component {
 							/>
 						)}
 
-				</GridItem>
-			</Grid>
-		);
+				</Grid>
+			);
+		}
 	}
+}
+
+
+const ButtonActions = ({ children, loading, onClick, active }) => {
+	// active poner background
+	return (
+		<div
+			style={{
+				display: 'flex',
+				alignItems: 'center',
+				height: "37px",
+				borderRadius: '4px',
+				border: 'solid 1px #a09aa0',
+				color: 'black',
+				padding: "0.3em 1.3em",
+				cursor: "pointer",
+				marginRight: "0.5em",
+				backgroundColor: active ? getLightGrey() : "transparent",
+			}}
+			onClick={onClick}
+		>
+			{loading ? (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center"
+					}}
+				>
+					<LoadingSection size={20} />
+				</div>
+			) : (
+					children
+				)}
+		</div>
+	)
 }
 
 export default graphql(changeParticipantState, {

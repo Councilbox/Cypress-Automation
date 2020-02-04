@@ -213,6 +213,11 @@
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.5.3.tgz#91b728599544efbb7386d8b6633693a3c2e7ade5"
 
+"@wojtekmaj/date-utils@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@wojtekmaj/date-utils/-/date-utils-1.0.0.tgz#97aebf5ab317cf40d56492642f921480d4f89342"
+  integrity sha512-tHzSlWCmb1GjxjiPRTju7i2bQigYriFDmCpaf1dC4SebFRjhBiuRpIxy5oI3b3ZMg9OzqGnApdZJrlYSwEUJAg==
+
 abab@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -4219,6 +4224,13 @@ get-stream@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
 
+get-user-locale@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/get-user-locale/-/get-user-locale-1.2.0.tgz#e4940db90a6694a512455af3f756903a01410eb7"
+  integrity sha512-yodJVDMWnM4ZOGa+n1ofebE8u+yjd8FIZMqthUK+xcOQcmfU2ECaP5gLiTMt6j0R/e67QsEelES0fQYLy/oHPg==
+  dependencies:
+    lodash.once "^4.1.1"
+
 get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
@@ -6325,6 +6337,11 @@ meow@^3.3.0, meow@^3.7.0:
     redent "^1.0.0"
     trim-newlines "^1.0.0"
 
+merge-class-names@^1.1.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/merge-class-names/-/merge-class-names-1.2.0.tgz#cb30ecfc3bdbd96b6f76d0a98777907e5fbb3462"
+  integrity sha512-ifHxhC8DojHT1rG3PHCaJYInUqPd0WO+PxsaYDMkgy7RzfyOFtnlpr/hbhki+m/3R/ujIRVnZkD/AHjgjb5uhg==
+
 merge-descriptors@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
@@ -8270,6 +8287,16 @@ react-bootstrap@^0.32.1:
     react-transition-group "^2.0.0"
     uncontrollable "^4.1.0"
     warning "^3.0.0"
+
+react-calendar@3.0.0-beta.2:
+  version "3.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/react-calendar/-/react-calendar-3.0.0-beta.2.tgz#1792919bdabc6fa8ad146b733b6e7f7dce8cd1de"
+  integrity sha512-aPBPwilXndRsRQtKi4xZSIK6rGE61a4ndp6CQ0uin3Bakvk1t6NV+ITc8cIcFuES+akFJ03KyGFLrdlrPLZXFA==
+  dependencies:
+    "@wojtekmaj/date-utils" "^1.0.0"
+    get-user-locale "^1.2.0"
+    merge-class-names "^1.1.1"
+    prop-types "^15.6.0"
 
 react-chartjs-2@^2.7.4:
   version "2.7.4"

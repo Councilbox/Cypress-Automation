@@ -219,7 +219,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     };
 
     const _sendPassModalBody = () => {
-        // console.log(data[0].reqCode)
         return (
             <div>
                 {council.securityType === 1 &&

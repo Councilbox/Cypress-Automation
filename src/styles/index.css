@@ -153,7 +153,7 @@ h4 {
 
 .liveToast {
     border-radius: 4px !important;
-    background-color: purple !important;
+    background-color: var(--primary) !important;
     color: white !important;
     margin-top: 4.2em !important;
 }
@@ -729,10 +729,10 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 .drawerUsersRoot {
-    top: 88px!important ;
-    z-index: 1300!important ;
-    width: 150px!important ;
-    height: calc( 100% - 10.5em )!important;
+    top: 88px!important;
+    z-index: 1300!important;
+    width: 150px!important;
+    height: calc( 100% - 10.5em)!important;
 }
 
 .drawerUsers {
@@ -760,6 +760,119 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     border: none!important
 }
 
+/* Calendario dashboard */
+
+.react-calendar__month-view__days__day--neighboringMonth {
+    cursor: default!important;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth abbr {
+    background-color: #cecece!important;
+    cursor: default!important;
+}
+
+.react-calendar {
+    border: 0 !important;
+}
+
+.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day {
+    background: white!important;
+    color: #3a2464!important
+}
+
+.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day>abbr {
+    background: #8dc5ec!important;
+    color: #3a2464!important
+}
+
+.react-calendar__month-view__days abbr {
+    text-decoration: none!important;
+    width: 24px!important;
+    height: 24px!important;
+    border-radius: 50%!important;
+    display: flex!important;
+    justify-content: center!important;
+    align-items: center!important;
+    background: #d5e7f4;
+    padding: 1em
+}
+
+.react-calendar__tile.react-calendar__month-view__days__day {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.react-calendar__tile--active, .react-calendar__tile.react-calendar__month-view__days__day.react-calendar__month-view__days__day--weekend, .react-calendar__tile.react-calendar__month-view__days__day {
+    /* background: white; */
+    color: #3a2464!important
+}
+
+.selectedDate>abbr {
+    /* background: linear-gradient(to bottom, #c44d89 0%, #ad4285 0%, #642d79 67%, #412675 100%); */
+    background: linear-gradient(to bottom, #412675 0%, #412675 0%, #ad4285 90%, #c44d89 100%);
+    color: white!important
+}
+
+.react-calendar__navigation__arrow.react-calendar__navigation__prev-button, .react-calendar__navigation__arrow.react-calendar__navigation__next-button {
+    color: #a39ea1!important;
+    background: white!important;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.react-calendar__navigation__next2-button, .react-calendar__navigation__prev2-button {
+    display: none;
+}
+
+.react-calendar__navigation__label::first-letter {
+    color: #a39ea1;
+    text-transform: capitalize
+}
+
+.react-calendar__navigation__label {
+    color: #a39ea1!important;
+    background: white!important;
+    font-weight: bold
+}
+
+.react-calendar__month-view__weekdays {
+    display: none!important;
+}
+
+.react-calendar__navigation {
+    margin-bottom: 0
+}
+
+.react-calendar__navigation__arrow.react-calendar__navigation__prev-button, .react-calendar__navigation__arrow.react-calendar__navigation__next-button {
+    height: 0;
+    padding: 0;
+}
+
+.react-calendar__tile--now {
+    background: #e8e8e8!important;
+    border-radius: 5px;
+}
+
+.react-calendar__tile:enabled:hover, .react-calendar__tile.react-calendar__tile--active.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day {
+    background: #c7dae8!important;
+    border-radius: 5px;
+}
+
+.react-calendar__tile:enabled:focus {
+    background-color: white!important;
+}
+
+.react-calendar__navigation {
+    align-items: start;
+    height: 20px!important;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth:enabled:hover {
+    cursor: default!important;
+    background-color: white!important;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -783,6 +896,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 /* ESTO CAMBIA LA APARIENCIA DEL BOTON TAGS EN RICH-QUILL tambien se quita el color de los bordes */
+
 .ql-custom:before {
     display: inline-block;
     font: normal normal normal 15px Lato;
@@ -793,26 +907,47 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     align-items: center;
     transform: translate(0, 0);
     content: "<tags>";
-    color: rgb(125, 33, 128);
-    border: 1px solid rgb(125, 33, 128);
+    color: var(--primary);
+    border: 1px solid var(--primary);
     padding: 3px 7px;
     box-shadow: 0px 1px 2px 0px;
     border-radius: 3px
 }
 
-.ql-snow.ql-toolbar button.ql-custom:focus{
+.ql-snow.ql-toolbar button.ql-custom:focus {
     color: none;
     border: none;
     background: none;
     outline: none;
 }
-/*********************************************************/
 
+/*********************************************************/
 
 .hoverTags:hover {
     box-shadow: 0px 2px 6px 0px;
 }
 
-.ql-custom{
+.ql-custom {
     min-width: 65px;
+}
+
+.hearderReunionesTabla tr th {
+    border-bottom: none;
+    color: rgb(125, 33, 128);
+    font-weight: bold;
+}
+
+.tableReuniones tbody tr td {
+    border-bottom: none;
+}
+
+.openInput div input {
+    width: 0px;
+    border-radius: 4px;
+    transition: width 0.4s ease-in-out;
+    padding: 0px
+}
+
+.openInput div input:focus {
+    width: 100%;
 }

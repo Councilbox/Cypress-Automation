@@ -177,8 +177,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         }
     ];
 
-
-    if(config.blockchain){
+    if(config.evidencesTab){
         tabs.push({
             label: translate.evidences,
             value: 'evidences',

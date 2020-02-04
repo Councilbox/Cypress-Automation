@@ -328,7 +328,6 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 							margin: "1em"
 						}}
 					>
-						{/* //TRADUCCION */}
 						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth: "700px", marginBottom: "0.5em" }} >
 							<i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em" }} onClick={() => setOcultar(!ocultar)}>
 								help
@@ -344,7 +343,6 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 										<Table style={{ maxWidth: "100%", width: "100%" }}>
 											<TableHead>
 												<TableRow style={{ color: "black" }}>
-													{/* TRADUCCION */}
 													<TableCell style={{ color: "black", fontSize: "16px" }}>
 														{translate.key}
                                                      </TableCell>

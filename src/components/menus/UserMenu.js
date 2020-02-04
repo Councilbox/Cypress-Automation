@@ -7,7 +7,8 @@ import { MenuItem, Divider } from "material-ui";
 import { DropDownMenu, Icon, Link } from "../../displayComponents";
 import FontAwesome from "react-fontawesome";
 import { Tooltip } from "material-ui";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../utils/screen";
+import { isAdmin } from "../../utils/CBX";
 
 const styles = {
 	whiteSpace: "nowrap",
@@ -32,20 +33,32 @@ const UserMenu = ({ user, actions, translate, company }) => {
 								marginRight: "10px"
 							}}
 						>
-							<img
-								src={!company.logo ? "" : company.logo}
-								className={
-									!company.logo ? "imageAfterHeader" : ""
-								}
-								alt="company-logo"
-								style={{
+							{company.logo?
+								<img
+									src={!company.logo ? "" : company.logo}
+									className={
+										!company.logo ? "imageAfterHeader" : ""
+									}
+									alt="company-logo"
+									style={{
+										width: "auto",
+										height: "auto",
+										borderRadius: "6px",
+										maxHeight: "33px",
+										maxWidth: "100px"
+									}}
+								/>
+							:
+								<i className="fa fa-building-o" style={{
+									fontSize: '2em',
 									width: "auto",
+									color: 'grey',
 									height: "auto",
 									borderRadius: "6px",
 									maxHeight: "33px",
 									maxWidth: "100px"
-								}}
-							/>
+								}}></i>
+							}
 						</div>
 						<Icon
 							className="material-icons"
@@ -129,66 +142,68 @@ const UserMenu = ({ user, actions, translate, company }) => {
 							</MenuItem>
 						</Link>
 						<Divider />
-						<Link to={`/company/${company.id}/settings`}>
-							<MenuItem style={{ height: "100%", maxWidth: "270px" }}>
-								<div
-									style={{
-										display: "flex",
-										paddingBottom: "1em",
-										paddingTop: "0.5em",
-										width: "100%",
-										justifyContent: "center",
-										alignItems: "center",
-									}}
-								>
+						{isAdmin(user) &&
+							<Link to={`/company/${company.id}/settings`}>
+								<MenuItem style={{ height: "100%", maxWidth: "270px" }}>
 									<div
 										style={{
-											minWidth: "75px",
-											height: "75px",
-											width: "20%",
-											position: "relative",
-											borderRadius: "50%",
-											overflow: "hidden",
-											marginRight: "1.5em",
+											display: "flex",
+											paddingBottom: "1em",
+											paddingTop: "0.5em",
+											width: "100%",
+											justifyContent: "center",
+											alignItems: "center",
 										}}
 									>
-										<ImageCircular
-											src={
-												!company.logo
-													? ""
-													: company.logo
-											}
-											styles={{
-												width: "80px",
-												height: "80px"
-											}}
-										/>
-									</div>
-									<div
-										style={{
-											width: "65%",
-											padding: "0.4em",
-											...styles
-										}}
-									>
-										<b>{company.businessName}</b>
-										<div style={{ whiteSpace:'nowrap',textOverflow: 'ellipsis', overflow: 'hidden'}}>{company.tin}</div>
-									</div>
-									<div style={{ width: "10%" }}>
-										<Icon
-											className="material-icons"
+										<div
 											style={{
-												cursor: "pointer",
-												fontSize: "1.6em",
-												color: secondary
+												minWidth: "75px",
+												height: "75px",
+												width: "20%",
+												position: "relative",
+												borderRadius: "50%",
+												overflow: "hidden",
+												marginRight: "1.5em",
 											}}
 										>
-											settings
-										</Icon>
+											<ImageCircular
+												src={
+													!company.logo
+														? ""
+														: company.logo
+												}
+												styles={{
+													width: "80px",
+													height: "80px"
+												}}
+											/>
+										</div>
+										<div
+											style={{
+												width: "65%",
+												padding: "0.4em",
+												...styles
+											}}
+										>
+											<b>{company.businessName}</b>
+											<div style={{ whiteSpace:'nowrap',textOverflow: 'ellipsis', overflow: 'hidden'}}>{company.tin}</div>
+										</div>
+										<div style={{ width: "10%" }}>
+											<Icon
+												className="material-icons"
+												style={{
+													cursor: "pointer",
+													fontSize: "1.6em",
+													color: secondary
+												}}
+											>
+												settings
+											</Icon>
+										</div>
 									</div>
-								</div>
-							</MenuItem>
-						</Link>
+								</MenuItem>
+							</Link>
+						}
 						{user.roles === "devAdmin" && (
 							<React.Fragment>
 								<Divider />
@@ -289,14 +304,14 @@ const UserMenu = ({ user, actions, translate, company }) => {
 				text={
 					<Icon className="material-icons" style={{ color: secondary }}>
 						account_circle
-				</Icon>
+					</Icon>
 				}
 				textStyle={{ color: secondary }}
 				type="flat"
 				icon={
 					<Icon className="material-icons" style={{ color: secondary }}>
 						keyboard_arrow_down
-				</Icon>
+					</Icon>
 				}
 				items={
 					<Fragment>

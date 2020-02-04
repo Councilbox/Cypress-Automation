@@ -6,7 +6,6 @@ import {
 } from "../../../../displayComponents";
 import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary, secondary } from "../../../../styles/colors";
-import { upsertConvenedParticipant } from "../../../../queries/councilParticipant";
 import { languages } from "../../../../queries/masters";
 import ParticipantForm from "../../participants/ParticipantForm";
 import {
@@ -14,43 +13,47 @@ import {
 	checkRequiredFieldsRepresentative
 } from "../../../../utils/validation";
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
-import { checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
+import { checkUniqueCouncilEmails, addConvenedParticipant } from "../../../../queries/councilParticipant";
 import { isMobile } from 'react-device-detect';
+import { useOldState } from "../../../../hooks";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 
 
-class AddConvenedParticipantButton extends React.Component {
-	state = {
+
+const AddConvenedParticipantButton = ({ translate, participations, client, company, ...props }) => {
+	const [state, setState] = useOldState({
 		modal: false,
 		data: { ...initialParticipant },
 		representative: { ...initialRepresentative },
 		errors: {},
 		representativeErrors: {}
-	};
+	});
+	const primary = getPrimary();
 
-	addParticipant = async sendConvene => {
-		const { hasRepresentative, ...data } = this.state.representative;
-		const representative = this.state.representative.hasRepresentative
+
+	const addParticipant = async sendConvene => {
+		const { hasRepresentative, ...data } = state.representative;
+		const representative = state.representative.hasRepresentative
 			? {
 					...data,
-					councilId: this.props.councilId
+					councilId: props.councilId
 			  }
 			: null;
 
-		if (!await this.checkRequiredFields()) {
-			const response = await this.props.addParticipant({
+		if (!await checkRequiredFields()) {
+			const response = await props.addParticipant({
 				variables: {
 					participant: {
-						...this.state.data,
-						councilId: this.props.councilId
+						...state.data,
+						councilId: props.councilId
 					},
 					representative: representative,
 					sendConvene: sendConvene
 				}
 			});
 			if (!response.errors) {
-				this.props.refetch();
-				this.setState({
+				props.refetch();
+				setState({
 					modal: false,
 					data: { ...initialParticipant },
 					representative: { ...initialRepresentative },
@@ -61,28 +64,27 @@ class AddConvenedParticipantButton extends React.Component {
 		}
 	};
 
-	updateState = object => {
-		this.setState({
+	const updateState = object => {
+		setState({
 			data: {
-				...this.state.data,
+				...state.data,
 				...object
 			}
 		});
 	};
 
-	updateRepresentative = object => {
-		this.setState({
+	const updateRepresentative = object => {
+		setState({
 			representative: {
-				...this.state.representative,
+				...state.representative,
 				...object
 			}
 		});
 	};
 
-	async checkRequiredFields(onlyEmail) {
-		const participant = this.state.data;
-		const representative = this.state.representative;
-		const { translate, participations, company } = this.props;
+	async function checkRequiredFields(onlyEmail) {
+		const participant = state.data;
+		const representative = state.representative;
 
 		let errorsParticipant = {
 			errors: {},
@@ -122,10 +124,10 @@ class AddConvenedParticipantButton extends React.Component {
 				emailsToCheck.push(representative.email);
 			}
 
-			const response = await this.props.client.query({
+			const response = await client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
-					councilId: this.props.councilId,
+					councilId: props.councilId,
 					emailList: emailsToCheck
 				}
 			});
@@ -151,8 +153,8 @@ class AddConvenedParticipantButton extends React.Component {
 			}
 		}
 
-		this.setState({
-			...this.state,
+		setState({
+			...state,
 			errors: errorsParticipant.errors,
 			representativeErrors: errorsRepresentative.errors
 		});
@@ -160,109 +162,108 @@ class AddConvenedParticipantButton extends React.Component {
 		return errorsParticipant.hasError || errorsRepresentative.hasError;
 	}
 
-	render() {
-		const primary = getPrimary();
-		const {
-			data: participant,
-			errors,
-			representativeErrors,
-			representative
-		} = this.state;
-		const { translate, participations } = this.props;
-		const { languages } = this.props.data;
+	const {
+		data: participant,
+		errors,
+		representativeErrors,
+		representative
+	} = state;
 
-		return (
-			<React.Fragment>
-				<BasicButton
-					text={translate.add_participant}
-					color={"white"}
-					textStyle={{
-						color: primary,
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					textPosition="after"
-					icon={!isMobile? <ButtonIcon type="add" color={primary} /> : null}
-					onClick={() => this.setState({ modal: true })}
-					buttonStyle={{
-						marginRight: "1em",
-						border: `2px solid ${primary}`
-					}}
-				/>
-				<CustomDialog
-					title={translate.add_participant}
-					requestClose={() => this.setState({ modal: false })}
-					open={this.state.modal}
-					actions={
-						<React.Fragment>
-							<BasicButton
-								text={translate.cancel}
-								type="flat"
-								color="white"
-								textStyle={{
-									textTransform: "none",
-									fontWeight: "700"
-								}}
-								onClick={() => this.setState({
-									modal: false
-								})}
-							/>
-							<BasicButton
-								text={translate.save_changes_and_send}
-								textStyle={{
-									color: "white",
-									textTransform: "none",
-									fontWeight: "700"
-								}}
-								buttonStyle={{ marginLeft: "1em" }}
-								color={secondary}
-								onClick={() => {
-									this.addParticipant(true);
-								}}
-							/>
-							<BasicButton
-								text={translate.save_changes}
-								textStyle={{
-									color: "white",
-									textTransform: "none",
-									fontWeight: "700"
-								}}
-								buttonStyle={{ marginLeft: "1em" }}
-								color={primary}
-								onClick={() => {
-									this.addParticipant(false);
-								}}
-							/>
-						</React.Fragment>
-					}
-				>
-					<div style={{maxWidth: '900px'}}>
-						<ParticipantForm
-							type={participant.personOrEntity}
-							participant={participant}
-							participations={participations}
-							translate={translate}
-							languages={languages}
-							errors={errors}
-							updateState={this.updateState}
+	const { languages } = props.data;
+
+
+	return (
+		<React.Fragment>
+			<BasicButton
+				text={translate.add_participant}
+				color={"white"}
+				textStyle={{
+					color: primary,
+					fontWeight: "700",
+					fontSize: "0.9em",
+					textTransform: "none"
+				}}
+				textPosition="after"
+				icon={!isMobile? <ButtonIcon type="add" color={primary} /> : null}
+				onClick={() => setState({ modal: true })}
+				buttonStyle={{
+					marginRight: "1em",
+					border: `2px solid ${primary}`
+				}}
+			/>
+			<CustomDialog
+				title={translate.add_participant}
+				requestClose={() => setState({ modal: false })}
+				open={state.modal}
+				actions={
+					<React.Fragment>
+						<BasicButton
+							text={translate.cancel}
+							type="flat"
+							color="white"
+							textStyle={{
+								textTransform: "none",
+								fontWeight: "700"
+							}}
+							onClick={() => setState({
+								modal: false
+							})}
 						/>
-						<RepresentativeForm
-							translate={translate}
-							state={representative}
-							updateState={this.updateRepresentative}
-							errors={representativeErrors}
-							languages={languages}
+						<BasicButton
+							text={translate.save_changes_and_send}
+							textStyle={{
+								color: "white",
+								textTransform: "none",
+								fontWeight: "700"
+							}}
+							buttonStyle={{ marginLeft: "1em" }}
+							color={secondary}
+							onClick={() => {
+								addParticipant(true);
+							}}
 						/>
-					</div>
-				</CustomDialog>
-			</React.Fragment>
-		);
-	}
+						<BasicButton
+							text={translate.save_changes}
+							textStyle={{
+								color: "white",
+								textTransform: "none",
+								fontWeight: "700"
+							}}
+							buttonStyle={{ marginLeft: "1em" }}
+							color={primary}
+							onClick={() => {
+								addParticipant(false);
+							}}
+						/>
+					</React.Fragment>
+				}
+			>
+				<div style={{maxWidth: '900px'}}>
+					<ParticipantForm
+						type={participant.personOrEntity}
+						participant={participant}
+						participations={participations}
+						translate={translate}
+						languages={languages}
+						errors={errors}
+						updateState={updateState}
+					/>
+					<RepresentativeForm
+						translate={translate}
+						state={representative}
+						updateState={updateRepresentative}
+						errors={representativeErrors}
+						languages={languages}
+					/>
+				</div>
+			</CustomDialog>
+		</React.Fragment>
+	);
 }
 
+
 export default compose(
-	graphql(upsertConvenedParticipant, {
+	graphql(addConvenedParticipant, {
 		name: "addParticipant",
 		options: {
 			errorPolicy: "all"

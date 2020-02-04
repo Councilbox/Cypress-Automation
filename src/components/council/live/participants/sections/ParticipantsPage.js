@@ -25,7 +25,6 @@ import ConveneHeader from './ConveneHeader';
 import RefreshCredsSendsButton from "../RefreshCredsSendsButton";
 
 
-
 const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {
 	const [addGuest, setAddGuest] = React.useState(false);
 	const secondary = getSecondary();
@@ -148,8 +147,6 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
-
-			
 		}
 		return headers[props.view];
 	};
@@ -182,7 +179,6 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 					{props.view === 'CREDENTIALS' &&
 						<RefreshCredsSendsButton translate={translate} council={council} />
 					}
-					
 				</GridItem>
 				<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
 					{orientation === 'landscape' && isMobile &&
@@ -224,6 +220,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 							adornment={<Icon>search</Icon>}
 							floatingText={" "}
 							type="text"
+							autoComplete="off"
 							value={filters.filterText}
 							onChange={event => {
 								updateFilterText(event.target.value);
@@ -283,7 +280,6 @@ const getSection = view => {
         'TYPE': 'liveParticipantsType',
         'CONVENE': 'liveParticipantsConvene'
 	}
-	
 	return sections[view];
 }
 

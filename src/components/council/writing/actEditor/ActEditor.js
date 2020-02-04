@@ -27,12 +27,12 @@ import {
 	checkForUnclosedBraces,
 	changeVariablesToValues,
 	hasSecondCall,
+	buildAttendantsString,
 	generateAgendaText,
 	getGoverningBodySignatories,
 	generateStatuteTag
 } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
-import { isMobile } from "react-device-detect";
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
 import { buildDoc, useDoc } from "../../../documentEditor/utils";
@@ -58,6 +58,7 @@ export const CouncilActData = gql`
 			street
 			city
 			name
+			language
 			remoteCelebration
 			dateStart
 			dateStart2NdCall
@@ -497,21 +498,25 @@ export const generateActTags = (type, data, translate) => {
 	//TRADUCCION
 
 	if(!attendantsString){
-		attendantsString = council.attendants.reduce((acc, attendant) => {
+		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');		/*council.attendants.reduce((acc, attendant) => {
 			if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
 				const represented = attendant.delegationsAndRepresentations.find(p => p.state === PARTICIPANT_STATES.REPRESENTATED);
-				return acc + `
-				<p style="border: 1px solid black; padding: 5px;">-
-					${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
-						represented.name + ' ' + represented.surname
-					}${(council.statute.quorumPrototype === 1)? ` titular de ${represented.numParticipations} acciones` : ''}
-				<p><br/>`;
+				if(represented){
+					return acc + `
+					<p style="border: 1px solid black; padding: 5px;">-
+						${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
+							represented.name + ' ' + represented.surname
+						}${(council.statute.quorumPrototype === 1)? ` titular de ${represented.numParticipations} acciones` : ''}
+					<p><br/>`;
+				}
+				return '';
+
 			}
 			return acc + `
 			<p style="border: 1px solid black; padding: 5px;">-
 				${attendant.name} ${attendant.surname} - con DNI ${attendant.dni}${(council.statute.quorumPrototype === 1 && attendant.numParticipations > 0)? ` titular de ${attendant.numParticipations} participaciones` : ''}
 			<p><br/>
-		`}, `<br/><h4>${translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)}</h4><br/>`);
+		`}, `<br/><h4>${translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)}</h4><br/>`);*/
 		cache.set(`${council.id}_attendants`, attendantsString);
 	}
 

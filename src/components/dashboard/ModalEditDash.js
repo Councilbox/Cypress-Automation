@@ -30,7 +30,7 @@ class ModalEditDash extends React.Component {
 							<b>Buttons</b>
 							<div>
 								Descripcion grid botones
-									</div>
+							</div>
 							<div>
 								<BasicButton
 									text={items[0].buttons ? "Desactive" : "Active"}  //TRADUCCION

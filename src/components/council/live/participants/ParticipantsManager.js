@@ -384,6 +384,21 @@ const getQuery = type => {
                     dni
                     type
                     signed
+                    representatives {
+                        name
+                        id
+                        surname
+                        signed
+                        state
+                        dni
+                        position
+                        email
+                    }
+                    representative {
+                        id
+                        name
+                        surname
+                    }
                     assistanceIntention
                     assistanceLastDateConfirmed
                     online

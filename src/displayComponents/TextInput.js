@@ -39,7 +39,9 @@ const TextInput = ({
 	styleInInput,
 	disableUnderline,
 	stylesAdornment,
-	labelNone
+	labelNone,
+	className,
+	autoComplete = "true"
 }) => (
 		<FormControl
 			style={{
@@ -49,30 +51,31 @@ const TextInput = ({
 			}}
 		>
 			<TextField
+				className={className}
 				onSelect={onClick}
 				onBlur={onBlur}
 				label={
-					labelNone? "" :
-					helpPopoverInLabel ? floatingText :
-					<div style={{ display: 'flex' }}>
-						{`${floatingText}${required ? "*" : ""}`}
-						{!!errorText &&
-							<FontAwesome
-								name={"times"}
-								style={{
-									fontSize: "17px",
-									color: 'red',
-									marginLeft: '0.2em'
-								}}
-							/>
-						}
-						{helpPopover &&
-							<HelpPopover
-								title={helpTitle}
-								content={helpDescription}
-							/>
-						}
-					</div>
+					labelNone ? "" :
+						helpPopoverInLabel ? floatingText :
+							<div style={{ display: 'flex' }}>
+								{`${floatingText}${required ? "*" : ""}`}
+								{!!errorText &&
+									<FontAwesome
+										name={"times"}
+										style={{
+											fontSize: "17px",
+											color: 'red',
+											marginLeft: '0.2em'
+										}}
+									/>
+								}
+								{helpPopover &&
+									<HelpPopover
+										title={helpTitle}
+										content={helpDescription}
+									/>
+								}
+							</div>
 				}
 				value={value}
 				multiline={multiline}
@@ -85,9 +88,8 @@ const TextInput = ({
 					shrink: true
 				}}
 				InputProps={{
-					disableUnderline:disableUnderline,
+					disableUnderline,
 					startAdornment: "",
-					disableUnderline: disableUnderline,
 					inputProps: {
 						min: min,
 						id: id,
@@ -113,9 +115,7 @@ const TextInput = ({
 							</IconButton>
 						</InputAdornment>
 					) : adornment ? (
-						<InputAdornment position="end"
-						style={{...stylesAdornment}} 
-						>
+						<InputAdornment position="end" style={{ ...stylesAdornment }}>
 							{adornment}
 						</InputAdornment>
 					) : (
@@ -128,6 +128,7 @@ const TextInput = ({
 				}}
 				color="secondary"
 				type={type}
+				autoComplete={autoComplete}
 				disabled={!!disabled}
 				onKeyUp={onKeyUp}
 				onChange={onChange}

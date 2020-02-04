@@ -7,7 +7,7 @@ import { checkIsCompatible } from '../../../utils/webRTC';
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../utils/screen";
 
 // '850px'
 const width = window.innerWidth > 450 ? '850px' : '100%'
@@ -76,7 +76,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 							})
 						}} elevation={6}>
 							{councilIsFinished(council) ?
-								<div>
+								<div style={{height:"100%"}}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										<LoginForm
 											participant={participant}
@@ -88,7 +88,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 										)}
 								</div>
 								:
-								<div>
+								<div style={{height:"100%"}}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										<LoginForm
 											participant={participant}

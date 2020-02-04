@@ -13,7 +13,7 @@ import { getSecondary } from "../../../../styles/colors";
 import { useHoverRow, useOldState } from "../../../../hooks";
 import { Card } from 'material-ui';
 import logo from '../../../../assets/img/logo-icono.png';
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../../utils/screen";
 
 
 const FinishActModal = ({ requestClose, translate, preview, council, ...props }) => {
