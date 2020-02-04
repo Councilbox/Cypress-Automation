@@ -81,22 +81,26 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 			query: participantQuery
 		});
 
-		setData(response.data);
+		if(response.errors){
+			setData(response);
+		} else {
+			setData(response.data);
+		}
 	}
 	usePolling(getData, 10000);
 
 
 	React.useEffect(() => {
 		store.dispatch(setDetectRTC());
-	}, [])
+	}, []);
 
 	if(!data || !council || !state){
 		return <LoadingMainApp />;
 	}
 
 
-	if (data.error && data.error.graphQLErrors["0"]) {
-		const code = data.error.graphQLErrors["0"].code;
+	if (data.errors && data.errors[0]) {
+		const code = data.errors[0].code;
 		if (
 			code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
 			code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
