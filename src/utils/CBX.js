@@ -616,6 +616,8 @@ export const showOrganizationDashboard = (company, config, user = {}) => {
 
 
 export const changeVariablesToValues = async (text, data, translate) => {
+	console.log(data);
+
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
 	}

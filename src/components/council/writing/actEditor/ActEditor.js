@@ -244,7 +244,7 @@ export const generateCouncilSmartTagsValues = data => {
 }
 
 export const ActContext = React.createContext();
-const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }) => {
+const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) => {
 	const [saving, setSaving] = React.useState(false);
 	const [finishModal, setFinishModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
@@ -254,17 +254,22 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 	const {
 		doc,
         options,
-        setDoc,
-        setOptions,
-        updateDoc
-	} = useDoc();
+        ...handlers
+	} = useDoc({
+		transformText: async text => changeVariablesToValues(text, {
+			council: {
+				...generateCouncilSmartTagsValues(data),
+			},
+			company
+        }, translate)
+	});
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: CouncilActData,
 			variables: {
 				councilID,
-				companyId: companyID,
+				companyId: company.id,
 				options: {
 					limit: 10000,
 					offset: 0
@@ -275,7 +280,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 		const actDocument = response.data.council.act.document;
 
 		setData(response.data);
-		setDoc(actDocument? {
+		handlers.initializeDoc(actDocument? {
 			doc: actDocument.items,
 			options: actDocument.options
 		} : {
@@ -406,14 +411,12 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 	council.attendants = data.councilAttendants.list;
 	council.delegatedVotes = data.participantsWithDelegatedVote;
 
-
 	return (
 		<React.Fragment>
 			<DocumentEditor2
 				doc={doc}
-				setDoc={updateDoc}
-				setOptions={setOptions}
 				data={data}
+				{...handlers}
 				blocks={Object.keys(blocks).map(key => blocks[key])}
 				options={options}
 				download={true}

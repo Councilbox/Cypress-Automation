@@ -26,7 +26,7 @@ import Timbrado from './Timbrado';
 import DocumentPreview from './DocumentPreview';
 
 
-const DocumentEditor = ({ translate, company, document, data, blocks, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
+const DocumentEditor = ({ translate, company, document, data, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
     const [edit, setEdit] = React.useState(true);
     const [filteredBlocks, setBlocks] = React.useState(filterBlocks(blocks, doc));
     const [preview, setPreview] = React.useState('');
@@ -34,7 +34,6 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
         loadDraft: false,
         load: 'intro',
         draftType: null,
-        column: 1,
         hide: true,
         collapse: false,
         updating: false,
@@ -46,7 +45,7 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
     });
     const scroll = React.useRef(null);
 
-    const { hide, collapse, column } = state;
+    const { hide, collapse } = state;
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -54,15 +53,13 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
         setBlocks(filterBlocks(blocks, doc));
     }, [doc.length]);
 
+
     function filterBlocks(blocks, doc) {
         return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
     }
 
     const changeToColumn = index => {
-        setState({
-            ...state,
-            column: index
-        });
+        props.setColumn(index);
     }
 
     const moveUp = (id, index) => {
@@ -119,16 +116,7 @@ const DocumentEditor = ({ translate, company, document, data, blocks, updateDocu
             id: Math.random().toString(36).substr(2, 9),
         });
         setDoc(newDoc);
-        console.log(scroll.current.scrollbar.scrollToBottom());
-    }
-
-
-    const editBlock = (id, text) => {
-        let newItems = [...doc];
-        let indexItemToEdit = newItems.findIndex(item => item.id === id);
-        const newItem = {...newItems[indexItemToEdit], [column === 2? 'secondaryText' : 'text']: text}
-        newItems[indexItemToEdit] = newItem;
-        setDoc(newItems);
+        scroll.current.scrollbar.scrollToBottom();
     }
 
 

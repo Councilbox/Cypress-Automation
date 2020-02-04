@@ -220,11 +220,12 @@ export const shouldCancelStart = event => {
 }
 
 
-export const useDoc = () => {
-    const [{ doc, options }, setDoc] = React.useState({});
+export const useDoc = (params = {}) => {
+    const [{ doc, options }, updateDoc] = React.useState({});
+    const [column, setColumn] = React.useState(1);
 
     const setOptions = object => {
-		setDoc({
+		updateDoc({
 			doc,
 			options: {
 				...options,
@@ -233,19 +234,39 @@ export const useDoc = () => {
 		});
 	}
 
-	const updateDoc = value => {
-		setDoc({
+	const setDoc = value => {
+		updateDoc({
 			doc: value,
 			options
 		});
     }
 
+    const prepareText = async text => {
+        if(params.transformText){
+            return await params.transformText(text);
+        }
+
+        return text;
+    }
+
+    const editBlock = async (id, text) => {
+        let newItems = [...doc];
+        let indexItemToEdit = newItems.findIndex(item => item.id === id);
+        const prepared = await prepareText(text)
+        const newItem = {...newItems[indexItemToEdit], [column === 2? 'secondaryText' : 'text']: prepared}
+        newItems[indexItemToEdit] = newItem;
+        setDoc(newItems);
+        return prepared;
+    }
+
     return {
         doc,
         options,
-        setDoc,
         setOptions,
-        updateDoc
+        initializeDoc: updateDoc,
+        setDoc,
+        editBlock,
+        column, setColumn
     }
 
 }

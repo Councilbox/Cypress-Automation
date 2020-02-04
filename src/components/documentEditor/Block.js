@@ -2,16 +2,12 @@ import React from 'react';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import RichTextInput from '../../displayComponents/RichTextInput';
 import { Button, Collapse } from 'material-ui';
-import { DRAFT_TYPES } from '../../constants';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
 import { BasicButton } from '../../displayComponents';
 import { Dialog, DialogTitle, DialogContent } from 'material-ui';
 import LoadDraft from '../company/drafts/LoadDraft';
-import { ActContext } from '../council/writing/actEditor/ActEditor';
 import withSharedProps from '../../HOCs/withSharedProps';
-import { changeVariablesToValues } from '../../utils/CBX';
-import CheckBox from '../../displayComponents/CheckBox';
 import { getDefaultTagsByBlockType } from './utils';
 
 
@@ -24,8 +20,8 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
 
     const loadDraft = async draft => {
-        props.editBlock(props.id, draft.text);
-        editor.current.paste(draft.text);
+        const result = await props.editBlock(props.id, draft.text);
+        editor.current.paste(result);
         setDraftModal(false);
     };
 
