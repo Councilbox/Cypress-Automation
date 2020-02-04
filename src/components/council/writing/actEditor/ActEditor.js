@@ -435,6 +435,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 								items: doc,
 								options
 							})}
+							loading={saving}
 							textStyle={{
 								color: "white",
 								fontSize: "0.9em",

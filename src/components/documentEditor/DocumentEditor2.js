@@ -53,6 +53,10 @@ const DocumentEditor = ({ translate, company, document, data, editBlock, blocks,
         setBlocks(filterBlocks(blocks, doc));
     }, [doc.length]);
 
+    console.log(filteredBlocks);
+
+    console.log(doc);
+
 
     function filterBlocks(blocks, doc) {
         return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));

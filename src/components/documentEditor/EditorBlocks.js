@@ -15,6 +15,8 @@ export const blocks = {
         id: Math.random().toString(36).substr(2, 9),
         label: 'title',
         type: 'title',
+        text: 'Inserte el texto',
+        secondaryText: 'Insert text',
         editButton: true,
         noBorrar: false
     },
@@ -22,6 +24,8 @@ export const blocks = {
         id: Math.random().toString(36).substr(2, 9),
         label: 'intro',
         type: 'intro',
+        text: 'Inserte el texto',
+        secondaryText: 'Insert text',
         editButton: true,
         noBorrar: false
     },
@@ -29,6 +33,8 @@ export const blocks = {
         id: Math.random().toString(36).substr(2, 9),
         label: 'constitution',
         type: 'constitution',
+        text: 'Inserte el texto',
+        secondaryText: 'Insert text',
         editButton: true,
         noBorrar: false
     },
@@ -36,6 +42,8 @@ export const blocks = {
         id: Math.random().toString(36).substr(2, 9),
         label: 'conclusion',
         type: 'conclusion',
+        text: 'Inserte el texto',
+        secondaryText: 'Insert text',
         editButton: true,
         noBorrar: false
     },
@@ -43,6 +51,8 @@ export const blocks = {
         id: Math.random().toString(36).substr(2, 9),
         label: 'agenda',
         type: 'agendaList',
+        text: 'Inserte el texto',
+        secondaryText: 'Insert text',
         noBorrar: false,
         editButton: true,
     },

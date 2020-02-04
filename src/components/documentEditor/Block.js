@@ -108,15 +108,14 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                         <React.Fragment>
                             <div>Aa</div>
                             <div>
-                                <i className="fa fa-i-cursor" aria-hidden="true">
-                                </i>
+                                <i className="fa fa-i-cursor" aria-hidden="true"/>
                             </div>
                         </React.Fragment>
                     }
 
                 </div>
                 <div style={{ fontWeight: "700" }}>
-                    {props.value.label}
+                    {translate[props.value.label] || props.value.label}
                 </div>
             </div>
             {props.expand ?
