@@ -418,6 +418,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 				doc={doc}
 				data={data}
 				{...handlers}
+				documentId={data.council.id}
 				blocks={Object.keys(blocks).map(key => buildDocBlock(blocks[key], data, translate, translate))}
 				options={options}
 				download={true}

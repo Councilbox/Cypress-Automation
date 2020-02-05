@@ -16,7 +16,7 @@ import Timbrado from './Timbrado';
 import DocumentPreview from './DocumentPreview';
 
 
-const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
+const DocumentEditor = ({ translate, company, data, documentId, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
     const [edit, setEdit] = React.useState(true);
     const [filteredBlocks, setBlocks] = React.useState(filterBlocks(blocks, doc));
     const [state, setState] = React.useState({
@@ -217,11 +217,11 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
                                                 textTransform: "none"
                                             }}
                                             className="withShadow"
-                                            onClick={() => { setState({
+                                            onClick={() => setState({
                                                 ...state,
                                                 collapse: !collapse,
                                                 preview: true
-                                            }); setEdit(false) }}
+                                            })}
                                         >
                                             <Lupa color={'black'} width={'20px'} height={'20px'} />
                                         </div>
@@ -231,32 +231,33 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
                         }
                         <div style={{ position: "absolute", top: "7px", right: "15px" }}>
                             {collapse &&
-                                <BasicButton
-                                    text={''}
-                                    color={"white"}
-                                    textStyle={{
-                                        color: "black",
-                                        fontWeight: "700",
-                                        fontSize: "0.9em",
-                                        textTransform: "none"
-                                    }}
-                                    textPosition="after"
-                                    iconInit={
-                                        <Lupa color={'red'} width={'60px'} height={'60px'} />
-                                    }
-                                    onClick={() => setState({
-                                        ...state,
-                                        collapse: !collapse,
-                                        preview: false
-                                    })}
-                                    buttonStyle={{
-                                        boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                        borderRadius: '3px',
-                                        borderTopRightRadius: '0px',
-                                        borderBottomRightRadius: '0px',
-                                        borderRight: '1px solid #e8eaeb'
-                                    }}
-                                />
+                                <Tooltip title="Volver al editor">
+                                    <div
+                                        style={{
+                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                            borderRadius: '3px',
+                                            borderTopRightRadius: '0px',
+                                            borderBottomRightRadius: '0px',
+                                            borderRight: '1px solid #e8eaeb',
+                                            padding: '0.6em 2em',
+                                            color: "black",
+                                            border: '1px solid gainsboro',
+                                            cursors: 'pointer',
+                                            marginRight: '1em',
+                                            fontWeight: "700",
+                                            fontSize: "0.9em",
+                                            textTransform: "none"
+                                        }}
+                                        className="withShadow"
+                                        onClick={() => setState({
+                                            ...state,
+                                            collapse: !collapse,
+                                            preview: false
+                                        })}
+                                    >
+                                        <Lupa color={'red'} width={'20px'} height={'20px'} />
+                                    </div>
+                                </Tooltip>
                             }
                         </div>
                         <div style={{ height: "100%", border: '1px solid gainsboro', marginTop: collapse && '2em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
@@ -266,6 +267,7 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
                                         translate={translate}
                                         options={options}
                                         doc={doc}
+                                        documentId={documentId}
                                         collapse={collapse}
                                         company={company}
                                     />

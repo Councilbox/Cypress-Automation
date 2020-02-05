@@ -209,22 +209,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
     }
 
 
-    const generatePreview = async () => {
-        const response = await client.mutate({
-            mutation: gql`
-                mutation ACTHTML($doc: Document, $councilId: Int!){
-                    generateActHTML(document: $doc, councilId: $councilId)
-                }
-            `,
-            variables: {
-                doc: buildDocVariable(doc, options),
-                councilId: data.council.id
-            }
-        });
-        setPreview(response.data.generateActHTML);
-    }
-
-
     const changeTemplate = (event, agendas) => {
         // if (template !== event.target.value) {
         //     setTemplate(event.target.value)
