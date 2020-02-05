@@ -225,7 +225,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             {tabs.map(tab => {
                 if(tab.persistent){
                     return (
-                        <div style={{width: '100%', height: state.tab === tab.value ? 'calc(100% - 2em)' : '0', overflow: 'hidden'}}>
+                        <div key={`tab_${tab.value}`} style={{width: '100%', height: state.tab === tab.value ? 'calc(100% - 2em)' : '0', overflow: 'hidden'}}>
                             {tab.component()}
                         </div>
                     )
@@ -233,7 +233,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
                 if(state.tab === tab.value){
                     return(
-                        <div style={{width: '100%', height: 'calc(100% - 2em)'}}>
+                        <div key={`tab_${tab.value}`} style={{width: '100%', height: 'calc(100% - 2em)'}}>
                             {tab.component()}
                         </div>
                     )

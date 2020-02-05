@@ -417,7 +417,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 				doc={doc}
 				data={data}
 				{...handlers}
-				blocks={Object.keys(blocks).map(key => blocks[key])}
+				blocks={Object.keys(blocks).map(key => blocks[key](data))}
 				options={options}
 				download={true}
 				documentMenu={

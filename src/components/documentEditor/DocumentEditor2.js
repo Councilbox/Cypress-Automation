@@ -26,7 +26,7 @@ import Timbrado from './Timbrado';
 import DocumentPreview from './DocumentPreview';
 
 
-const DocumentEditor = ({ translate, company, document, data, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
+const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
     const [edit, setEdit] = React.useState(true);
     const [filteredBlocks, setBlocks] = React.useState(filterBlocks(blocks, doc));
     const [preview, setPreview] = React.useState('');
@@ -44,6 +44,7 @@ const DocumentEditor = ({ translate, company, document, data, editBlock, blocks,
         finishActModal: false
     });
     const scroll = React.useRef(null);
+    const [newId, setNewId] = React.useState(null);
 
     const { hide, collapse } = state;
     const primary = getPrimary();
@@ -53,10 +54,14 @@ const DocumentEditor = ({ translate, company, document, data, editBlock, blocks,
         setBlocks(filterBlocks(blocks, doc));
     }, [doc.length]);
 
-    console.log(filteredBlocks);
-
-    console.log(doc);
-
+    React.useEffect(() => {
+        if(newId){
+            const element = document.getElementById(newId);
+            scroll.current.scrollbar.scrollTop(element.offsetTop - 10);
+            console.log(scroll.current);
+            setNewId(null);
+        }
+    }, [newId]);
 
     function filterBlocks(blocks, doc) {
         return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
@@ -114,13 +119,15 @@ const DocumentEditor = ({ translate, company, document, data, editBlock, blocks,
         //     }
         // }
         //setArrastrables({ items: arrayArrastrables });
+        const newId = Math.random().toString(36).substr(2, 9);
+
         const newDoc = [...doc];
         newDoc.push({
             ...resultado,
-            id: Math.random().toString(36).substr(2, 9),
+            id: newId,
         });
         setDoc(newDoc);
-        scroll.current.scrollbar.scrollToBottom();
+        setNewId(newId);
     }
 
 
@@ -441,6 +448,7 @@ const DraggableBlock = SortableElement(props => {
         props.value !== undefined && props.value.text !== undefined &&
         <div
             key={props.id}
+            id={props.id}
             style={{
                 opacity: 1,
                 width: "100%",
@@ -538,7 +546,7 @@ const NoDraggableBlock = props => {
                 stylesBody={{ width: "98%" }}
                 noIcon={true}
             >
-                <div >
+                <div id={props.id}>
                     <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
                 </div>
             </BorderBox>
@@ -550,6 +558,7 @@ const NoDraggableBlock = props => {
                 {props.value.type === 'agreements' ?
                     <Card
                         key={props.id}
+                        id={props.id}
                         style={{
                             boxShadow: "none",
                             margin: "3px",
