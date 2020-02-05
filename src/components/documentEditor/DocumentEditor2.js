@@ -63,12 +63,14 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     const moveUp = (id, index) => {
         if (index > 0) {
             setDoc(arrayMove(doc, index, (index - 1)));
+            setNewId(id);
         }
     }
 
     const moveDown = (id, index) => {
         if ((index + 1) < doc.length) {
             setDoc(arrayMove(doc, index, (index + 1)));
+            setNewId(id);
         }
     }
 
