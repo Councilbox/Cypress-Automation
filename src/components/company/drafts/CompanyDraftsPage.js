@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardPageLayout, TextInput } from "../../../displayComponents";
+import { CardPageLayout, TextInput, LoadingSection } from "../../../displayComponents";
 import CompanyDraftList, { useTags } from './CompanyDraftList';
 import CompanyTags from './companyTags/CompanyTags';
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -7,14 +7,67 @@ import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import { isMobile } from 'react-device-detect';
 import { Icon } from 'material-ui';
 import { DropdownEtiquetas } from './LoadDraft';
+import { DRAFTS_LIMITS } from '../../../constants';
+import { companyDrafts as query, deleteDraft, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts.js";
+import { withApollo } from 'react-apollo';
 
 
-const CompanyDraftsPage = ({ translate, ...props }) => {
+const CompanyDraftsPage = ({ translate, client, ...props }) => {
+    const [data, setData] = React.useState({});
     const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(translate.drafts);
     const [mostrarMenu, setMostrarMenu] = React.useState(true);
     const [inputSearch, setInputSearch] = React.useState(false);
     const [search, setSearch] = React.useState("");
     const { testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText } = useTags(translate);
+
+    const getDrafts = async variables => {
+		const response = await client.query({
+			query,
+			variables: {
+				companyId: props.company.id,
+				options: {
+					limit: DRAFTS_LIMITS[0],
+					offset: 0
+				},
+				...variables
+			}
+
+		});
+
+		setData(response.data);
+	}
+
+    React.useEffect(() => {
+        console.log(Object.keys(testTags).map(key => testTags[key].name))
+		getDrafts({
+			companyId: props.company.id,
+			...(search ? {
+				filters: [
+					{
+						field: "title",
+						text: search
+					},
+				]
+			} : {}),
+			tags: Object.keys(testTags).map(key => testTags[key].name),
+		})
+	}, [testTags, search]);
+
+
+    const getData = async () => {
+        const response = await client.query({
+            query: getCompanyDraftDataNoCompany,
+            variables: {
+                companyId: props.company.id
+            }
+        });
+        setVars(response.data);
+    };
+
+    React.useEffect(() => {
+        getData();
+    }, [props.company.id]);
+
 
     return (
         <CardPageLayout title={translate.drafts} disableScroll>
@@ -86,4 +139,4 @@ const CompanyDraftsPage = ({ translate, ...props }) => {
     )
 }
 
-export default withSharedProps()(CompanyDraftsPage);
+export default withApollo(withSharedProps()(CompanyDraftsPage));
