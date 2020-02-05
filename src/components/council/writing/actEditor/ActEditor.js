@@ -35,7 +35,7 @@ import {
 import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
-import { buildDoc, useDoc } from "../../../documentEditor/utils";
+import { buildDoc, useDoc, buildDocBlock } from "../../../documentEditor/utils";
 import DownloadDoc from "../../../documentEditor/DownloadDoc";
 import iconVotaciones from '../../../../assets/img/handshake.svg';
 import iconAsistentes from '../../../../assets/img/meeting.svg';
@@ -80,6 +80,7 @@ export const CouncilActData = gql`
 				prototype
 				existsSecondCall
 				existsQualityVote
+				existsComments
 			}
 		}
 		agendas(councilId: $councilID) {
@@ -280,7 +281,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 		const actDocument = response.data.council.act.document;
 
 		setData(response.data);
-		handlers.initializeDoc(actDocument? {
+		handlers.initializeDoc(false? {
 			doc: actDocument.items,
 			options: actDocument.options
 		} : {
@@ -417,7 +418,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 				doc={doc}
 				data={data}
 				{...handlers}
-				blocks={Object.keys(blocks).map(key => blocks[key](data))}
+				blocks={Object.keys(blocks).map(key => buildDocBlock(blocks[key], data, translate, translate))}
 				options={options}
 				download={true}
 				documentMenu={

@@ -1,27 +1,17 @@
 import React from 'react';
-import { buildDoc, shouldCancelStart } from './utils';
+import { shouldCancelStart } from './utils';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { Card } from 'material-ui';
-import { Grid, Scrollbar, LoadingSection, BasicButton, AlertConfirm } from '../../displayComponents';
+import { Card, Tooltip } from 'material-ui';
+import { Grid, Scrollbar, BasicButton } from '../../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
-import { withApollo } from "react-apollo";
-import gql from 'graphql-tag';
-import { changeVariablesToValues, checkForUnclosedBraces } from '../../utils/CBX';
-import { toast } from 'react-toastify';
 import Lupa from '../../displayComponents/Lupa';
-import textool from '../../assets/img/text-tool.svg'
-//import { getBlocks, generateAgendaBlocks } from './EditorBlocks';
-import AgreementsBlock from './AgreementsBlock';
+import textool from '../../assets/img/text-tool.svg';
+import GroupedBlock from './GroupedBlock';
 import Block, { BorderBox } from './Block';
 import AgreementsPreview from './AgreementsPreview';
-import DownloadDoc from './DownloadDoc';
 import OptionsMenu from './OptionsMenu';
-import { buildDocVariable } from './utils';
-import { getTranslations } from '../../queries';
-import { buildTranslateObject } from '../../actions/mainActions';
-import FinishActModal from '../council/writing/actEditor/FinishActModal';
 import Timbrado from './Timbrado';
 import DocumentPreview from './DocumentPreview';
 
@@ -29,13 +19,13 @@ import DocumentPreview from './DocumentPreview';
 const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
     const [edit, setEdit] = React.useState(true);
     const [filteredBlocks, setBlocks] = React.useState(filterBlocks(blocks, doc));
-    const [preview, setPreview] = React.useState('');
     const [state, setState] = React.useState({
         loadDraft: false,
         load: 'intro',
         draftType: null,
         hide: true,
         collapse: false,
+        preview: false,
         updating: false,
         disableButtons: false,
         text: "",
@@ -46,7 +36,7 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
     const scroll = React.useRef(null);
     const [newId, setNewId] = React.useState(null);
 
-    const { hide, collapse } = state;
+    const { hide, collapse, preview } = state;
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -58,7 +48,6 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
         if(newId){
             const element = document.getElementById(newId);
             scroll.current.scrollbar.scrollTop(element.offsetTop - 10);
-            console.log(scroll.current);
             setNewId(null);
         }
     }, [newId]);
@@ -88,37 +77,12 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
     }
 
     const remove = (id, index) => {
-        let resultado = doc.find(item => item.id === id);
-        let arrayDoc;
-
-        if (resultado.type !== "text") {
-            arrayDoc = doc.filter(item => item.id !== id)
-            //arrastrables.push(resultado)
-        } else {
-            arrayDoc = doc.filter(item => item.id !== id)
-        }
+        let arrayDoc = doc.filter(item => item.id !== id);
         setDoc(arrayDoc);
-        //setArrastrables(arrastrables)
     };
 
     const addItem = id => {
         let resultado = blocks.find(arrastrable => arrastrable.id === id);
-        // let arrayArrastrables
-        // if (resultado.type !== "text") {
-        //     //arrayArrastrables = arrastrables.items.filter(arrastrable => arrastrable.id !== id)
-        // } else {
-        //     arrayArrastrables = arrastrables.items
-        //     resultado = {
-        //         id: Math.random().toString(36).substr(2, 9),
-        //         label: "Bloque de texto",
-        //         defaultValue: translate => translate.title,
-        //         text: 'Inserte el texto',
-        //         secondaryText: 'Insert text',
-        //         type: "text",
-        //         editButton: true
-        //     }
-        // }
-        //setArrastrables({ items: arrayArrastrables });
         const newId = Math.random().toString(36).substr(2, 9);
 
         const newDoc = [...doc];
@@ -235,51 +199,33 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
                                             />
                                         </React.Fragment>
                                     }
-                                    <BasicButton
-                                        text={''}
-                                        color={"white"}
-                                        textStyle={{
-                                            color: "black",
-                                            fontWeight: "700",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={
+                                    <Tooltip title="Ver preview">
+                                        <div
+                                            style={{
+                                                boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                borderRadius: '3px',
+                                                borderTopRightRadius: '0px',
+                                                borderBottomRightRadius: '0px',
+                                                borderRight: '1px solid #e8eaeb',
+                                                padding: '0.6em 2em',
+                                                color: "black",
+                                                border: '1px solid gainsboro',
+                                                cursors: 'pointer',
+                                                marginRight: '1em',
+                                                fontWeight: "700",
+                                                fontSize: "0.9em",
+                                                textTransform: "none"
+                                            }}
+                                            className="withShadow"
+                                            onClick={() => { setState({
+                                                ...state,
+                                                collapse: !collapse,
+                                                preview: true
+                                            }); setEdit(false) }}
+                                        >
                                             <Lupa color={'black'} width={'20px'} height={'20px'} />
-                                        }
-                                        onClick={() => { setState({
-                                            ...state,
-                                            collapse: !collapse
-                                        }); setEdit(false) }}
-                                        buttonStyle={{
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px',
-                                            borderTopRightRadius: '0px',
-                                            borderBottomRightRadius: '0px',
-                                            borderRight: '1px solid #e8eaeb'
-                                        }}
-                                    />
-                                    <BasicButton
-                                        text={''}
-                                        color={"white"}
-                                        textStyle={{
-                                            color: "black",
-                                            fontWeight: "700",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
-                                        }}
-                                        textPosition="after"
-                                        iconInit={<img type="image/svg+xml" src={textool} onClick={() => setEdit(!edit)} />}
-                                        onClick={() => setEdit(!edit)}
-                                        buttonStyle={{
-                                            marginRight: "1em",
-                                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-                                            borderRadius: '3px',
-                                            borderTopLeftRadius: '0px',
-                                            borderBottomLeftRadius: '0px'
-                                        }}
-                                    />
+                                        </div>
+                                    </Tooltip>
                                 </div>
                             </div>
                         }
@@ -300,7 +246,8 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
                                     }
                                     onClick={() => setState({
                                         ...state,
-                                        collapse: !collapse
+                                        collapse: !collapse,
+                                        preview: false
                                     })}
                                     buttonStyle={{
                                         boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
@@ -312,13 +259,13 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
                                 />
                             }
                         </div>
-                        <div style={{ height: "100%", marginTop: collapse && '2em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
+                        <div style={{ height: "100%", border: '1px solid gainsboro', marginTop: collapse && '2em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
                             <Scrollbar ref={scroll}>
                                 {preview ?
                                     <DocumentPreview
-                                        preview={preview}
                                         translate={translate}
-                                        //options={options}
+                                        options={options}
+                                        doc={doc}
                                         collapse={collapse}
                                         company={company}
                                     />
@@ -357,6 +304,7 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
                                                     moveUp={moveUp}
                                                     moveDown={moveDown}
                                                     remove={remove}
+                                                    {...props}
                                                 />
                                             </div>
                                         </div>
@@ -371,7 +319,7 @@ const DocumentEditor = ({ translate, company, data, editBlock, blocks, column, u
     )
 }
 
-const SortableList = SortableContainer(({ items, column, editBlock, updateBlock, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
+const SortableList = SortableContainer(({ items, column, editBlock, state, edit, translate, offset = 0, moveUp, moveDown, remove, ...props }) => {
     if (edit) {
         return (
             <div>
@@ -380,10 +328,8 @@ const SortableList = SortableContainer(({ items, column, editBlock, updateBlock,
                         <DraggableBlock
                             key={`item-${item.id}`}
                             editBlock={editBlock}
-                            updateBlock={updateBlock}
                             state={state}
                             column={column}
-                            setState={setState}
                             edit={edit}
                             translate={translate}
                             index={offset + index}
@@ -393,9 +339,8 @@ const SortableList = SortableContainer(({ items, column, editBlock, updateBlock,
                             moveUp={moveUp}
                             moveDown={moveDown}
                             remove={remove}
-                            name={item.name}
-                            noBorrar={item.noBorrar}
                             expand={item.expand}
+                            {...props}
                         />
                     ))
                 }
@@ -420,6 +365,7 @@ const SortableList = SortableContainer(({ items, column, editBlock, updateBlock,
                             moveDown={moveDown}
                             remove={remove}
                             logic={item.logic}
+                            {...props}
                         />
                     ))
                 }
@@ -510,14 +456,11 @@ const DraggableBlock = SortableElement(props => {
                         />
                     </div>
                 </div>
-                {props.value.type === 'agreements' ?
+                {(props.value.items && props.value.items.length > 0) ?
                     !expand ?
-                        <AgreementsBlock
+                        <GroupedBlock
                             item={props.value}
-                            column={props.column}
-                            updateBlock={props.updateBlock}
-                            translate={props.translate}
-                            remove={props.remove}
+                            {...props}
                         />
                         :
                         <Block

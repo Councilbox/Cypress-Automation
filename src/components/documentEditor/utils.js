@@ -26,8 +26,8 @@ const prepareColumn = (column, secondary) => {
 
 export const buildDocVariable = (doc, options) => {
     return ({
-        fragments: prepareColumn(doc.items),
-        secondaryColumn: options.doubleColumn? prepareColumn(doc.items, true) : undefined,
+        fragments: prepareColumn(doc),
+        secondaryColumn: options.doubleColumn? prepareColumn(doc, true) : undefined,
         options: {
             stamp: options.stamp
         }
@@ -114,6 +114,13 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
             logic: true,
             icon: iconDelegaciones,
             colorBorder: '#7f94b6'
+        }),
+        agreements: () => ({
+            ...item,
+            label: "entrar",
+            items: generateAgendaBlocks(data, translate, secondaryTranslate),
+            text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
+            secondaryText: "<b>Next, the first item on the agenda will be discussed</b>",//TRADUCCION
         })
     }
 
@@ -122,6 +129,123 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
     }
 
     return blockTypes[item.type]();
+}
+
+
+export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
+
+    console.log(data);
+
+    const agenda = data.agendas;
+    //TRADUCCION
+    let newArray = [
+        buildDocBlock(blocks.AGENDA_INTRO, agenda, translate, secondaryTranslate)
+    ];
+
+    console.log(newArray);
+
+    agenda.forEach((element, index) => {
+        newArray = newArray.concat([
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: `${translate.agenda_point} ${(index + 1)} - ${translate.title}`,
+                text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
+                secondaryText: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
+                editButton: true,
+                type: 'agendaSubject',
+                noBorrar: false,
+                editButton: true
+            },
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: `${translate.agenda_point} ${(index + 1)} - ${translate.description}`,
+                text: element.description,
+                secondaryText: element.description,
+                editButton: true,
+                type: 'description',
+                noBorrar: false,
+                editButton: true
+            },
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: `${translate.agenda_point} ${(index + 1)} - ${translate.comments_and_agreements}`,
+                text: '',
+                secondaryText: '',
+                editButton: true,
+                type: 'comment',
+                noBorrar: true
+            }
+        ]);
+
+
+        if(hasVotation(element.subjectType)){
+            newArray = newArray.concat([
+                {
+                    id: Math.random().toString(36).substr(2, 9),
+                    label: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN",
+                    editButton: false,
+                    type: "votes",
+                    noBorrar: true,
+                    editButton: false,
+                    text: `
+                        <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+                            <b>Votaciones: </b>
+                            <br> A FAVOR: ${getAgendaResult(element, 'POSITIVE')} | EN CONTRA: ${getAgendaResult(element, 'NEGATIVE')} | ABSTENCIONES:
+                            ${getAgendaResult(element, 'ABSTENTION')} | NO VOTAN: ${getAgendaResult(element, 'NO_VOTE')}
+                            <br>
+                        </div>`,
+                    secondaryText: `
+                        <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+                            <b>Votings: </b>
+                            <br> IN FAVOR: ${getAgendaResult(element, 'POSITIVE')} | AGAINST: ${getAgendaResult(element, 'NEGATIVE')} | ABSTENTIONS:
+                            ${getAgendaResult(element, 'ABSTENTION')} | NO VOTE: ${getAgendaResult(element, 'NO_VOTE')}
+                            <br>
+                        </div>`
+                },
+                {
+                    id: Math.random().toString(36).substr(2, 9),
+                    label: "Punto " + (index + 1) + " - Listado de votantes",
+                    text: "",
+                    editButton: false,
+                    type: 'voting',
+                    hide: false,
+                    noBorrar: false,
+                    editButton: false,
+                    data: {
+                        agendaId: element.id
+                    },
+                    logic: true,
+                    language: 'es',
+                    secondaryLanguage: 'en',
+                    icon: iconVotaciones,
+                    colorBorder: '#866666'
+                }
+            ]);
+
+            if(data.council.statute.existsComments !== 1){
+                newArray = newArray.concat([
+                    {
+                        id: Math.random().toString(36).substr(2, 9),
+                        label: "Punto " + (index + 1) + " - Comentarios",
+                        text: "<b>Comentarios</b> </br>" + element.description,
+                        editButton: false,
+                        type: 'agendaComments',
+                        logic: true,
+                        language: 'es',
+                        secondaryLanguage: 'en',
+                        colorBorder:"#b39a5b",
+                        noBorrar: false,
+                        data: {
+                            agendaId: element.id
+                        },
+                        editButton: false
+                    }
+                ]);
+            }
+        }
+    });
+
+    return newArray;
 }
 
 export const getDefaultTagsByBlockType = (type, translate) => {
@@ -165,7 +289,7 @@ export const buildDoc = (data, translate) => {
         blocks.ACT_CONSTITUTION,
         blocks.ACT_CONCLUSION,
         blocks.AGENDA_LIST,
-        //blocks.AGENDA,
+        blocks.AGENDA,
         blocks.ATTENDANTS_LIST,
         blocks.DELEGATION_LIST
     ];
@@ -241,6 +365,55 @@ export const useDoc = (params = {}) => {
 		});
     }
 
+    const updateBlock = (id, object) => {
+        const newItems = [...doc];
+        let localization = null;
+        let i = 0;
+
+        do {
+            const block = doc[i];
+
+            if(block.id === id){
+                localization = {
+                    block: i
+                }
+            }
+
+            if(block.items && !localization){
+                const index = block.items.findIndex(subBlock => subBlock.id === id);
+                if(index !== -1){
+                    localization = {
+                        block: i,
+                        subBlock: index
+                    }
+                }
+            }
+            i++;
+        } while (!localization || i > doc.length);
+
+        if(localization){
+            if(localization.subBlock){
+                const items = [...newItems[localization.block].items];
+                const item = {...newItems[localization.block].items[localization.subBlock], ...object }
+                items[localization.subBlock] = item;
+                newItems[localization.block] = {
+                    ...newItems[localization.block],
+                    items
+                };
+                return setDoc(newItems);
+            } else {
+                newItems[localization.block] = {
+                    ...newItems[localization.block],
+                    ...object
+                };
+                return setDoc(newItems);
+            }
+        }
+
+        throw new Error('Block ID not found');
+
+    }
+
     const prepareText = async text => {
         if(params.transformText){
             return await params.transformText(text);
@@ -250,13 +423,14 @@ export const useDoc = (params = {}) => {
     }
 
     const editBlock = async (id, text) => {
-        let newItems = [...doc];
-        let indexItemToEdit = newItems.findIndex(item => item.id === id);
         const prepared = await prepareText(text)
-        const newItem = {...newItems[indexItemToEdit], [column === 2? 'secondaryText' : 'text']: prepared}
-        newItems[indexItemToEdit] = newItem;
-        setDoc(newItems);
+        updateBlock(id, {[column === 2? 'secondaryText' : 'text']: prepared});
+
         return prepared;
+    }
+
+    const toggleBlock = (id, value) => {
+        updateBlock(id, { hide: value });
     }
 
     return {
@@ -266,7 +440,9 @@ export const useDoc = (params = {}) => {
         initializeDoc: updateDoc,
         setDoc,
         editBlock,
-        column, setColumn
+        toggleBlock,
+        column,
+        setColumn
     }
 
 }

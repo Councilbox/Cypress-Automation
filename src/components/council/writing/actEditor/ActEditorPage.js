@@ -212,7 +212,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     });
 
     return (
-        <div style={{width: '100%', height: '100%'}}>
+        <div style={{width: '100%', height: '100%', backgroundColor: 'white'}}>
             <NavigationHeader
                 translate={translate}
                 active={state.tab}

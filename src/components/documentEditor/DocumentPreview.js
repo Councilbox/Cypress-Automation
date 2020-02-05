@@ -1,8 +1,16 @@
 import React from 'react';
 import Timbrado from './Timbrado';
+import { withApollo } from 'react-apollo';
 
 
-const DocumentPreview = ({ preview, translate, options, collapse, company }) => {
+const DocumentPreview = ({ doc, translate, options, collapse, company, client }) => {
+    const [loading, setLoading] = React.useState(true);
+    const [preview, setPreview] = React.useState(null);
+
+    const getPreview = async () => {
+
+    }
+
 
     return (
         <div style={{ display: "flex", height: "100%" }} >
@@ -21,11 +29,17 @@ const DocumentPreview = ({ preview, translate, options, collapse, company }) => 
                     </div>
                 </div>
                 <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
-                    <div dangerouslySetInnerHTML={{ __html: preview }} />
+                    {loading?
+                        <div>
+                            Generando vista preview del documento
+                        </div>
+                    :
+                        <div dangerouslySetInnerHTML={{ __html: preview }} />
+                    }
                 </div>
             </div>
         </div>
     )
 }
 
-export default DocumentPreview;
+export default withApollo(DocumentPreview);
