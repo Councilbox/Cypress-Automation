@@ -1,26 +1,18 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { graphql, compose, withApollo } from "react-apollo";
 import { getSecondary, getPrimary } from "../../../../styles/colors";
 import gql from "graphql-tag";
 import {
 	BasicButton,
-	ErrorWrapper,
 	Scrollbar,
 	LoadingSection,
 	LiveToast
 } from "../../../../displayComponents";
-import LoadDraft from "../../../company/drafts/LoadDraft";
-import RichTextInput from "../../../../displayComponents/RichTextInput";
-import AgendaEditor from "./AgendaEditor";
-import { DRAFT_TYPES, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
+import { PARTICIPANT_STATES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { moment } from '../../../../containers/App';
-import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import SendActDraftModal from './SendActDraftModal';
 import FinishActModal from "./FinishActModal";
 import { updateCouncilAct } from '../../../../queries';
-import DownloadActPDF from '../actViewer/DownloadActPDF';
-import ExportActToMenu from '../actViewer/ExportActToMenu';
 import { ConfigContext } from '../../../../containers/AppControl';
 import {
 	getActPointSubjectType,
@@ -35,12 +27,9 @@ import {
 import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
-import { buildDoc, useDoc, buildDocBlock } from "../../../documentEditor/utils";
+import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../../documentEditor/utils";
 import DownloadDoc from "../../../documentEditor/DownloadDoc";
-import iconVotaciones from '../../../../assets/img/handshake.svg';
-import iconAsistentes from '../../../../assets/img/meeting.svg';
-import iconDelegaciones from '../../../../assets/img/networking.svg';
-import { blocks } from "../../../documentEditor/EditorBlocks";
+import { blocks } from "../../../documentEditor/actBlocks";
 
 
 export const CouncilActData = gql`
@@ -379,6 +368,21 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 		// return hasError;
 	}
 
+	const generatePreview = async () => {
+		const response = await client.mutate({
+			mutation: gql`
+				mutation ACTHTML($doc: Document, $councilId: Int!){
+					generateDocumentHTML(document: $doc, councilId: $councilId)
+				}
+			`,
+			variables: {
+				doc: buildDocVariable(doc, options),
+				councilId: data.council.id
+			}
+		});
+		return response.data.generateDocumentHTML;
+	}
+
 	const updateAct = async doc => {
 		setSaving(true);
 		const response = await updateCouncilAct({
@@ -395,7 +399,6 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 	}
 
 	const finishAct = async () => {
-        //await generatePreview();
         setFinishModal(true);
     }
 
@@ -421,6 +424,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 				documentId={data.council.id}
 				blocks={Object.keys(blocks).map(key => buildDocBlock(blocks[key], data, translate, translate))}
 				options={options}
+				generatePreview={generatePreview}
 				download={true}
 				documentMenu={
 					<React.Fragment>
@@ -475,7 +479,11 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 			/>
 			<FinishActModal
                 show={finishModal}
-                //preview={preview}
+                generatePreview={generatePreview}
+				doc={doc}
+				options={options}
+				company={company}
+				updateAct={updateAct}
                 translate={translate}
                 council={data.council}
                 requestClose={() => {

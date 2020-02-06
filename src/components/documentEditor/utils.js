@@ -1,5 +1,5 @@
 import React from 'react';
-import { blocks } from './EditorBlocks';
+import { blocks } from './actBlocks';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
 import { getAgendaResult, hasVotation } from '../../utils/CBX';
@@ -86,13 +86,6 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
                     })}`
             }
         },
-        introAgenda: () => ({
-            ...item,
-            id: Math.random().toString(36).substr(2, 9),
-            label: "entrar",
-            text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
-            secondaryText: "<b>Next, the first item on the agenda will be discussed</b>",//TRADUCCION
-        }),
         attendants: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
@@ -133,16 +126,18 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
 
 
 export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
-
-    console.log(data);
-
     const agenda = data.agendas;
     //TRADUCCION
     let newArray = [
-        buildDocBlock(blocks.AGENDA_INTRO, agenda, translate, secondaryTranslate)
+        {
+            id: Math.random().toString(36).substr(2, 9),
+            label: "Intro agenda",//TRADUCCION
+            type: 'introAgenda',
+            editButton: true,
+            text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
+            secondaryText: "<b>Next, the first item on the agenda will be discussed</b>",//TRADUCCION
+        }
     ];
-
-    console.log(newArray);
 
     agenda.forEach((element, index) => {
         newArray = newArray.concat([

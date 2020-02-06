@@ -11,7 +11,7 @@ import { changeVariablesToValues, checkForUnclosedBraces } from '../../utils/CBX
 import { toast } from 'react-toastify';
 import Lupa from '../../displayComponents/Lupa';
 import textool from '../../assets/img/text-tool.svg'
-import { getBlocks, generateAgendaBlocks } from './EditorBlocks';
+import { getBlocks, generateAgendaBlocks } from './actBlocks';
 import AgreementsBlock from './AgreementsBlock';
 import Block, { BorderBox } from './Block';
 import AgreementsPreview from './AgreementsPreview';

@@ -14,42 +14,30 @@ export const blocks = {
         label: 'title',
         type: 'title',
         editButton: true,
-        noBorrar: false
     },
     ACT_INTRO: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'intro',
         type: 'intro',
         editButton: true,
-        noBorrar: false
     },
     ACT_CONSTITUTION: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'constitution',
         type: 'constitution',
         editButton: true,
-        noBorrar: false
     },
     ACT_CONCLUSION: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'conclusion',
         type: 'conclusion',
         editButton: true,
-        noBorrar: false
     },
     AGENDA_LIST: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'agenda',
         type: 'agendaList',
-        noBorrar: false,
         editButton: true,
-    },
-    AGENDA_INTRO: {
-        id: Math.random().toString(36).substr(2, 9),
-        label: "Intro agenda",//TRADUCCION
-        type: 'introAgenda',
-        noBorrar: false,
-        editButton: true
     },
     ATTENDANTS_LIST: {
         id: Math.random().toString(36).substr(2, 9),
@@ -80,6 +68,7 @@ export const blocks = {
         label: 'comments_and_agreements',
         text: "",
         editButton: false,
+        hideDelete: true,
         type: 'agreements',
         language: 'es',
         secondaryLanguage: 'en',

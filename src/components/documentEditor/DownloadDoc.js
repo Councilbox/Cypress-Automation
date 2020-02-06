@@ -50,7 +50,7 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
         const preHtml = "<!DOCTYPE html type=\"text/html\"><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><title>Export HTML To Doc</title></head><body style='font-family: Arial;'>";
         const postHtml = "</body></html>";
 
-        const body = response.data.generateActHTML
+        const body = response.data.generateDocumentHTML
             .replace(/#BFBFBF/g, 'rgb(191, 191, 191)').replace(/<!--[\s\S]*?-->/g, '')
             .replace(/style="page-break-before: always"/g, '')
             .replace(/solid 1px rgb(217, 237, 247)/g, 'solid 2px rgb(217, 237, 247)')

@@ -14,9 +14,10 @@ import { useHoverRow, useOldState } from "../../../../hooks";
 import { Card } from 'material-ui';
 import logo from '../../../../assets/img/logo-icono.png';
 import { isMobile } from "../../../../utils/screen";
+import DocumentPreview from "../../../documentEditor/DocumentPreview";
 
 
-const FinishActModal = ({ requestClose, translate, preview, council, ...props }) => {
+const FinishActModal = ({ requestClose, updateAct, translate, preview, council, ...props }) => {
 	const [state, setState] = useOldState({
 		loading: false,
 		step: 1,
@@ -40,6 +41,7 @@ const FinishActModal = ({ requestClose, translate, preview, council, ...props })
 		setState({
 			loading: true
 		});
+		await updateAct();
 		const response = await props.approveAct({
 			variables: {
 				councilId: council.id,
@@ -105,17 +107,21 @@ const FinishActModal = ({ requestClose, translate, preview, council, ...props })
 	function _modalBody() {
 
 		return (
-			<div style={{marginTop: '12px'}}>
-				{props.show &&
-					<div dangerouslySetInnerHTML={{__html: preview}} />
-				}
+			<div style={{marginTop: '12px', height: '100%', border: '1px solid gainsboro'}}>
+				<DocumentPreview
+					translate={translate}
+					options={props.options}
+					doc={props.doc}
+					generatePreview={props.generatePreview}
+					company={props.company}
+				/>
 			</div>
 		);
 	}
 
 	return (
 		<AlertConfirm
-			bodyStyle={{ minWidth: "50vw", height: isMobile ? '26em' : "" }}
+			bodyStyle={{ minWidth: "50vw", height: isMobile ? '26em' : "100%" }}
 			requestClose={close}
 			open={props.show}
 			acceptAction={approveAct}

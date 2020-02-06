@@ -212,18 +212,21 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                                 padding: '0.6em 2em',
                                                 color: "black",
                                                 border: '1px solid gainsboro',
-                                                cursors: 'pointer',
+                                                cursor: 'pointer',
                                                 marginRight: '1em',
                                                 fontWeight: "700",
                                                 fontSize: "0.9em",
                                                 textTransform: "none"
                                             }}
                                             className="withShadow"
-                                            onClick={() => setState({
-                                                ...state,
-                                                collapse: !collapse,
-                                                preview: true
-                                            })}
+                                            onClick={() => {
+                                                setState({
+                                                    ...state,
+                                                    collapse: !collapse,
+                                                    preview: true
+                                                });
+                                                scroll.current.scrollbar.scrollToTop();
+                                            }}
                                         >
                                             <Lupa color={'black'} width={'20px'} height={'20px'} />
                                         </div>
@@ -244,7 +247,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             padding: '0.6em 2em',
                                             color: "black",
                                             border: '1px solid gainsboro',
-                                            cursors: 'pointer',
+                                            cursor: 'pointer',
                                             marginRight: '1em',
                                             fontWeight: "700",
                                             fontSize: "0.9em",
@@ -257,7 +260,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             preview: false
                                         })}
                                     >
-                                        <Lupa color={'red'} width={'20px'} height={'20px'} />
+                                        <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{fontSize: '20px', color: secondary}}></i>
                                     </div>
                                 </Tooltip>
                             }
@@ -269,6 +272,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                         translate={translate}
                                         options={options}
                                         doc={doc}
+                                        generatePreview={props.generatePreview}
                                         documentId={documentId}
                                         collapse={collapse}
                                         company={company}
@@ -429,7 +433,7 @@ const DraggableBlock = SortableElement(props => {
                     }
                 </div>
                 <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0", }}>
-                    {!props.noBorrar &&
+                    {!props.value.hideDelete &&
                         <IconsDragActions
                             turn={"cross"}
                             clase={`fa fa-times ${props.id}`}
