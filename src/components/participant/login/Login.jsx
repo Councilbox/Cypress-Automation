@@ -69,14 +69,17 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 					<div style={styles.mainContainer}>
 						<Card style={{
 							...styles.cardContainer,
+							background: councilIsFinished(council) && 'transparent',
+							boxShadow: councilIsFinished(council) && "none",
+							minHeight: councilIsFinished(council) && "100%",
 							...((councilIsLive(council) && !participant.hasVoted) ? {
 								minWidth: window.innerWidth > 450 ? '550px' : '100%'
 							} : {
 									minWidth: width
-							})
+								})
 						}} elevation={6}>
 							{councilIsFinished(council) ?
-								<div style={{height:"100%"}}>
+								<div style={{ height: "100%" }}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										<LoginForm
 											participant={participant}
@@ -88,7 +91,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 										)}
 								</div>
 								:
-								<div style={{height:"100%"}}>
+								<div style={{ height: "100%" }}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										<LoginForm
 											participant={participant}
@@ -104,7 +107,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 						</Card>
 					</div>
 				</Scrollbar>
-				
+
 			</NotLoggedLayout>
 		);
 	}

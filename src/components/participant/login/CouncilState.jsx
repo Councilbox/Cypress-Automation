@@ -34,6 +34,7 @@ import TimelineSection from "../timeline/TimelineSection";
 import { isMobile } from '../../../utils/screen';
 import ContactModal from "./ContactModal";
 import ContactForm from "./ContactForm";
+import ResultsTimeline from "../ResultsTimeline";
 
 const styles = {
 	container: {
@@ -120,7 +121,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 	}, [council.id]);
 
 	return (
-		<div 
+		<div
 			style={
 				(windowSize === "xs" && windowOrientation === "portrait"
 					? styles.container
@@ -253,12 +254,12 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 												paddingTop: "0.5em"
 											}}
 											>
-												{props.participant.hasVoted? translate.participation_summary
-												:
-													checkHybridConditions(council)?
-														'Votaciones remotas finalizadas' //TRADUCCION
+												{props.participant.hasVoted ? translate.participation_summary
 													:
-													translate.concil_finished}
+													checkHybridConditions(council) ?
+														'Votaciones remotas finalizadas' //TRADUCCION
+														:
+														translate.concil_finished}
 											</h3>
 										</div>
 										<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>
@@ -282,7 +283,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 									</div>
 									<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 										<div>
-											{council.dateEnd? moment(council.dateEnd).format('LLL') : '-'}
+											{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
 										</div>
 									</div>
 									<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
@@ -321,123 +322,260 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 								</Scrollbar>
 							</div>
 							:
-							<StateContainer
-								widths={state.width}
-								heights={state.height}
-								windowOrientation={windowOrientation}
-							>
-								<div style={{ width: "815px", height: "100%" }}>
-									<TextRenderFinished
-										title={props.participant.hasVoted? translate.participation_summary : translate.concil_finished}
-										council={council}
-										company={company}
-										translate={translate}
-									/>
-
-									<Grid style={{ padding: "0 2em 0 2em", color: "#000000 ", fontSize: "15px", height: "calc( 100% - 5em )" }}>
-										<GridItem xs={6} lg={6} md={6} style={{ paddingRight: '10px' }}>
-											<Card
-												style={{
-													borderRadius: '3px',
-													boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-													marginBottom: "0.6em",
-													padding: "1em",
-												}}>
-												<div>
-													<div style={{ display: "flex", marginBottom: "1em" }} >
-														<b>{council.name}</b>
-													</div>
-													<div style={{ display: "flex" }} >
-														-
-												</div>
-												</div>
-											</Card>
-											<Card
-												style={{
-													borderRadius: "0px",
-													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-													marginBottom: "0.6em",
-													padding: "0.5em",
-													border: 'solid 1px #d7d7d7',
-													display: "flex"
-												}}>
+							<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
+								<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+									<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
+										<div>
+											<h3 style={{
+												color: primary,
+												fontSize: "28px",
+												paddingTop: "0.5em",
+												marginBottom: "0px"
+											}}
+											>
+												{props.participant.hasVoted ? translate.participation_summary
+													:
+													checkHybridConditions(council) ?
+														'Votaciones remotas finalizadas' //TRADUCCION
+														:
+														translate.concil_finished}
+											</h3>
+											<div style={{
+												color: primary,
+												paddingBottom: "0.5em",
+											}}>
 												{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
-											</Card>
-											<BasicButton
-												onClick={showContactModal}
-												textStyle={{
-													color: ` ${primary}`,
-												}}
-												backgroundColor={{ background: "white", justifyContent:"inherit"}}
-												text={translate.mail_contact_admin}
-												buttonStyle={{
-													width:"100%",
-													borderRadius: "0px",
-													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-													marginBottom: "0.6em",
-													padding: "0.5em",
-													cursor: 'pointer',
-													border: `solid 1px ${primary}`,
-													display: "flex",
-												}}>
-											</BasicButton>
-											<Card
-												style={{
-													borderRadius: "0px",
-													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-													marginBottom: "0.6em",
-													border: 'solid 1px #d7d7d7',
-													display: "flex"
-												}}>
-												<div style={{
-													width: "100%",
-												}}>
-													<div onClick={() => setState({ expanded: !state.expanded })} style={{ padding: "0.5em", justifyContent: "space-between", display: "flex", cursor: "pointer", width: "100%", }}>
-														<div>{translate.summary}</div>
-														<i className="material-icons" style={{ color: 'rgba(10, 10, 10, 0.49)', width: '18px', height: '10px' }}>
-															arrow_drop_down
-													</i>
-													</div>
-													<Collapse in={state.expanded} timeout="auto" unmountOnExit>
-														<div style={{ height: '220px', marginTop: "1em", }}>
-															<Scrollbar>
-																<TimelineSection council={council} translate={translate} endPage={true} />
-															</Scrollbar>
-														</div>
-													</Collapse>
-												</div>
-											</Card>
-										</GridItem>
-										<GridItem xs={6} lg={6} md={6} style={{ paddingLeft: '10px', height: "100%" }}>
-											<Card
-												style={{
-													borderRadius: "0px",
-													boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-													marginBottom: "0.6em",
-													padding: "1em",
-													border: 'solid 1px #d7d7d7',
-													height: "100%"
-												}}>
-												<div style={{ width: "100%", height: "100%" }}>
-													<div style={{ display: "flex" }}>{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span></div>
-													<div style={{ marginTop: "1em", height: "calc( 100% - 2em )" }}>
-														<Scrollbar>
-															<div style={{ height: '165px', }}>
-																<Results
-																	council={council}
-																	participant={props.participant}
-																	translate={translate}
-																	endPage={true}
-																/>
-															</div>
-														</Scrollbar>
-													</div>
-												</div>
-											</Card>
-										</GridItem>
-									</Grid>
+											</div>
+										</div>
+										<div>
+											<Image
+												src={emptyMeetingTable}
+												styles={{ width: '90px', minWidth: "", marginLeft: "1em" }}
+												windowOrientation={windowOrientation}
+											>
+											</Image>
+										</div>
+									</div>
+									<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
+										<div>
+											<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900", color: "#000000" }} >
+												{council.name}
+											</div>
+										</div>
+									</div>
 								</div>
-							</StateContainer>
+
+								<div style={{ height: "100%", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+									<div style={{ padding: "1em 1em", height: "100%" }}>
+										<div style={{ textAlign: "left" }}>
+											{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span>
+										</div>
+										<div style={{ marginTop: "1em", height: "100%" }}>
+											<ResultsTimeline
+												council={council}
+												participant={props.participant}
+												translate={translate}
+												endPage={true}
+											/>
+											------
+											<Results
+												council={council}
+												participant={props.participant}
+												translate={translate}
+												endPage={true}
+											/>
+											<TimelineSection council={council} translate={translate} endPage={true} />
+											{/* {selectHeadFinished === "participacion" &&
+												<div style={{ paddingBottom: "1em" }}>
+													<Results
+														council={council}
+														participant={props.participant}
+														translate={translate}
+														endPage={true}
+													/>
+												</div>
+											}
+											{selectHeadFinished === "reunion" &&
+												<div style={{ paddingBottom: "1em" }}>
+													<TimelineSection council={council} translate={translate} endPage={true} />
+												</div>
+											}
+											{selectHeadFinished === "contactAdmin" &&
+												<div style={{ paddingBottom: "1em" }}>
+													<ContactForm
+														participant={props.participant}
+														translate={translate}
+														council={council}
+													/>
+												</div>
+											} */}
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+
+
+							// <StateContainer
+							// 	widths={state.width}
+							// 	heights={state.height}
+							// 	windowOrientation={windowOrientation}
+							// >
+							// 	<TextRenderFinished
+							// 		title={props.participant.hasVoted ? translate.participation_summary : translate.concil_finished}
+							// 		council={council}
+							// 		company={company}
+							// 		translate={translate}
+							// 	/>
+							// 	{/* <div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+							// 			<div>
+							// 				<h3 style={{
+							// 					color: primary,
+							// 					fontSize: "28px",
+							// 					paddingTop: "0.5em"
+							// 				}}
+							// 				>
+							// 					{props.participant.hasVoted ? translate.participation_summary
+							// 						:
+							// 						checkHybridConditions(council) ?
+							// 							'Votaciones remotas finalizadas' //TRADUCCION
+							// 							:
+							// 							translate.concil_finished}
+							// 				</h3>
+							// 			</div>
+							// 			<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>
+							// 				<div>
+							// 					<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900" }} >
+							// 						{council.name}
+							// 					</div>
+							// 					<div style={{ display: "flex" }} >
+							// 						-
+							// 						</div>
+							// 				</div>
+							// 				<div>
+							// 					<Image
+							// 						src={emptyMeetingTable}
+							// 						styles={{ width: '77px', minWidth: "", marginLeft: "2em" }}
+							// 						windowOrientation={windowOrientation}
+							// 					>
+							// 					</Image>
+							// 				</div>
+							// 			</div>
+							// 		</div> */}
+							// 	{/* <div style={{ width: "815px", height: "100%" }}>
+							// 		<TextRenderFinished
+							// 			title={props.participant.hasVoted ? translate.participation_summary : translate.concil_finished}
+							// 			council={council}
+							// 			company={company}
+							// 			translate={translate}
+							// 		/>
+
+							// 		<Grid style={{ padding: "0 2em 0 2em", color: "#000000 ", fontSize: "15px", height: "calc( 100% - 5em )" }}>
+							// 			<GridItem xs={6} lg={6} md={6} style={{ paddingRight: '10px' }}>
+							// 				<Card
+							// 					style={{
+							// 						borderRadius: '3px',
+							// 						boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+							// 						marginBottom: "0.6em",
+							// 						padding: "1em",
+							// 					}}>
+							// 					<div>
+							// 						<div style={{ display: "flex", marginBottom: "1em" }} >
+							// 							<b>{council.name}</b>
+							// 						</div>
+							// 						<div style={{ display: "flex" }} >
+							// 							-
+							// 					</div>
+							// 					</div>
+							// 				</Card>
+							// 				<Card
+							// 					style={{
+							// 						borderRadius: "0px",
+							// 						boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+							// 						marginBottom: "0.6em",
+							// 						padding: "0.5em",
+							// 						border: 'solid 1px #d7d7d7',
+							// 						display: "flex"
+							// 					}}>
+							// 					{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
+							// 				</Card>
+							// 				<BasicButton
+							// 					onClick={showContactModal}
+							// 					textStyle={{
+							// 						color: ` ${primary}`,
+							// 					}}
+							// 					backgroundColor={{ background: "white", justifyContent: "inherit" }}
+							// 					text={translate.mail_contact_admin}
+							// 					buttonStyle={{
+							// 						width: "100%",
+							// 						borderRadius: "0px",
+							// 						boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+							// 						marginBottom: "0.6em",
+							// 						padding: "0.5em",
+							// 						cursor: 'pointer',
+							// 						border: `solid 1px ${primary}`,
+							// 						display: "flex",
+							// 					}}>
+							// 				</BasicButton>
+							// 				<Card
+							// 					style={{
+							// 						borderRadius: "0px",
+							// 						boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+							// 						marginBottom: "0.6em",
+							// 						border: 'solid 1px #d7d7d7',
+							// 						display: "flex"
+							// 					}}>
+							// 					<div style={{
+							// 						width: "100%",
+							// 					}}>
+							// 						<div onClick={() => setState({ expanded: !state.expanded })} style={{ padding: "0.5em", justifyContent: "space-between", display: "flex", cursor: "pointer", width: "100%", }}>
+							// 							<div>{translate.summary}</div>
+							// 							<i className="material-icons" style={{ color: 'rgba(10, 10, 10, 0.49)', width: '18px', height: '10px' }}>
+							// 								arrow_drop_down
+							// 						</i>
+							// 						</div>
+							// 						<Collapse in={state.expanded} timeout="auto" unmountOnExit>
+							// 							<div style={{ height: '220px', marginTop: "1em", }}>
+							// 								<Scrollbar>
+							// 									<TimelineSection council={council} translate={translate} endPage={true} />
+							// 								</Scrollbar>
+							// 							</div>
+							// 						</Collapse>
+							// 					</div>
+							// 				</Card>
+							// 			</GridItem>
+							// 			<GridItem xs={6} lg={6} md={6} style={{ paddingLeft: '10px', height: "100%" }}>
+							// 				<Card
+							// 					style={{
+							// 						borderRadius: "0px",
+							// 						boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+							// 						marginBottom: "0.6em",
+							// 						padding: "1em",
+							// 						border: 'solid 1px #d7d7d7',
+							// 						height: "100%"
+							// 					}}>
+							// 					<div style={{ width: "100%", height: "100%" }}>
+							// 						<div style={{ display: "flex" }}>{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span></div>
+							// 						<div style={{ marginTop: "1em", height: "calc( 100% - 2em )" }}>
+							// 							<Scrollbar>
+							// 								<div style={{ height: '165px', }}>
+							// 									<Results
+							// 										council={council}
+							// 										participant={props.participant}
+							// 										translate={translate}
+							// 										endPage={true}
+							// 									/>
+							// 								</div>
+							// 							</Scrollbar>
+							// 						</div>
+							// 					</div>
+							// 				</Card>
+							// 			</GridItem>
+							// 		</Grid>
+							// 	</div> */}
+							// </StateContainer>
 						}
 					</React.Fragment>
 				)}
@@ -459,20 +597,28 @@ const TextRenderFinished = ({ title, windowOrientation }) => {
 
 	return (
 		<div style={{ display: "flex", justifyContent: "center" }}>
-			<h3
-				style={{
-					color: primary,
-					marginBottom: windowOrientation === "landscape" ? "" : "1em",
-					fontSize: "28px",
-					paddingTop: "0.5em"
+
+			<div>
+				<h3
+					style={{
+						color: primary,
+						fontSize: "28px",
+						paddingTop: "0.5em"
+					}}
+				>
+					{title}
+				</h3>
+				<div style={{
+					color: primary
 				}}
-			>
-				{title}
-			</h3>
+				>
+					05 Septiembre 2019 - 17.40h
+				</div>
+			</div>
 
 			<Image
 				src={emptyMeetingTable}
-				styles={{ width: '77px', minWidth: "", marginLeft: "2em" }}
+				styles={{ width: '77px', minWidth: "", marginLeft: "2em", display: "flex", alignItems: "center" }}
 				windowOrientation={windowOrientation}
 			>
 			</Image>

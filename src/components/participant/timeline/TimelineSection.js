@@ -145,7 +145,7 @@ const isValidResult = type => {
     return types[type] ? !types[type] : types.default;
 }
 
-const councilTimelineQuery = gql`
+export const councilTimelineQuery = gql`
     query CouncilTimeline($councilId: Int!){
         councilTimeline(councilId: $councilId){
             id
@@ -157,7 +157,7 @@ const councilTimelineQuery = gql`
 `;
 
 
-const getTimelineTranslation = (type, content, translate) => {
+export const getTimelineTranslation = (type, content, translate) => {
     const types = {
         'START_COUNCIL': () => translate.council_started,
         'START_AUTO_COUNCIL': () => translate.council_started,
@@ -173,7 +173,7 @@ const getTimelineTranslation = (type, content, translate) => {
     return types[type] ? types[type]() : types.default();
 }
 
-const getTimelineTranslationReverse = (type, content, translate) => {
+export const getTimelineTranslationReverse = (type, content, translate) => {
     const types = {
         'START_COUNCIL': () => <b>{translate.council_started}</b>,
         'START_AUTO_COUNCIL': () => translate.council_started,
