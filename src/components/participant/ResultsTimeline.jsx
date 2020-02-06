@@ -329,7 +329,7 @@ const getStepInit = (event, content, translate, classes) => {
                     </div>
                 }
                 style={{ textAlign: "left", fontSize: "13px" }}>
-                <span style={{ fontSize: "13px", fontWeight:"normal" }}>{getTimelineTranslationReverse(event.type, content, translate)}</span><br />
+                <span style={{ fontSize: "13px", fontWeight: "normal" }}>{getTimelineTranslationReverse(event.type, content, translate)}</span><br />
                 <span style={{ fontSize: '0.9em', color: "grey", fontSize: "13px" }}>{moment(event.date).format('LLL')}</span>
             </StepLabel >
             <StepContent classes={{
