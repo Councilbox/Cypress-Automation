@@ -164,8 +164,8 @@ export const conveneWithoutNotice = gql`
 export const startCouncil = gql`
 	mutation startCouncil(
 		$councilId: Int!
-		$presidentId: Int!
-		$secretaryId: Int!
+		$presidentId: Int
+		$secretaryId: Int
 		$firstOrSecondConvene: Int
 		$qualityVoteId: Int
 	) {
