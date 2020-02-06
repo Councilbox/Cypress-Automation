@@ -6,7 +6,8 @@ import {
 	GridItem,
 	MenuItem,
 	SelectInput,
-	TextInput
+	TextInput,
+	Checkbox
 } from "../../../displayComponents";
 import { checkValidEmail } from "../../../utils/index";
 import { getPrimary } from "../../../styles/colors";
@@ -14,6 +15,7 @@ import { checkEmailExists } from "../../../queries/userAndCompanySignUp";
 import { withApollo } from "react-apollo/index";
 import { LinearProgress } from "material-ui/Progress";
 import PropTypes from 'prop-types';
+import TermsModal from "./TermsModal";
 
 
 class SignUpUser extends React.Component {
@@ -21,6 +23,8 @@ class SignUpUser extends React.Component {
 		errorsBar: null,
 		porcentaje: 0,
 		repeatEmail: '',
+		termsAccepted: false,
+		termsModal: false,
 		confirmPWD: "",
 		subscriptions: [],
 		languages: [
@@ -62,12 +66,19 @@ class SignUpUser extends React.Component {
 			email: "",
 			repeatEmail: '',
 			pwd: "",
+			termsAccepted: "",
 			confirmPWD: ""
 		};
 
 		const data = this.props.formData;
 		const { translate } = this.props;
 		let hasError = false;
+
+
+		if (!this.state.termsAccepted) {
+			hasError = true;
+			errors.termsCheck = translate.acept_terms;
+		}
 
 		if (!data.name) {
 			hasError = true;
@@ -318,9 +329,6 @@ class SignUpUser extends React.Component {
 							required
 						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
-						{" "}
-					</GridItem>
 					<GridItem xs={12} md={6} lg={6} style={{ height: "50px" }}>
 						<div style={{ width: "100%", marginRight: "3em" }}>
 							<LinearProgress
@@ -342,9 +350,50 @@ class SignUpUser extends React.Component {
 					<GridItem xs={12} md={6} lg={6}>
 						{" "}
 					</GridItem>
+					<GridItem xs={12} md={12} lg={12}>
+						<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+							<Checkbox
+								label={translate.login_read_terms + ' '}
+								value={this.state.termsCheck}
+								onChange={(event, isInputChecked) =>
+									this.setState({
+										termsAccepted: isInputChecked
+									})
+								}
+								onClick={() => {
+									this.setState({
+										termsAccepted: true
+									});
+								}}
+							/>
+							<a
+								style={{
+									color: primary,
+									fontWeight: '700',
+									cursor: 'pointer',
+									textTransform: 'lowerCase',
+									marginLeft: '0.4em'
+								 }}
+								onClick={event => {
+									event.stopPropagation();
+									this.setState({
+										termsModal: true,
+									});
+								}}
+							>
+								{translate.login_read_terms2}
+							</a>
+						</div>
+						{this.props.errors.termsCheck && (
+							<div style={{ color: "red" }}>
+								{this.props.errors.termsCheck}
+							</div>
+						)}
+					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						<BasicButton
 							text={translate.send}
+							loading={this.props.loading}
 							color={primary}
 							textStyle={{
 								color: "white",
@@ -361,6 +410,15 @@ class SignUpUser extends React.Component {
 						/>
 					</GridItem>
 				</Grid>
+				<TermsModal
+					open={this.state.termsModal}
+					translate={translate}
+					close={() => {
+						this.setState({
+							termsModal: false
+						});
+					}}
+				/>
 			</div>
 		);
 	}

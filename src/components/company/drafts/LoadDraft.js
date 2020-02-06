@@ -524,7 +524,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 }
 
 
-export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, ...props }) => {
+export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, ...props }) => {
 	return (
 		<DropDownMenu
 			id={"cargarPlantillasSelectorEtiquetas"}
@@ -548,6 +548,7 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 						marginTop: '14px',
 						padding: "3px 7px",
 						color: "#353434ed",
+						...stylesMenuItem
 					}}
 				>
 					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
@@ -570,12 +571,12 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 						<div style={{
 							width: "100%",
 							display: "flex",
-							flexDirection: "row",
+							// flexDirection: "row",
+							justifyContent: "space-between",
 							width: "100%"
 						}}
 						>
 							<div style={{
-								marginRight: "2em",
 								display: "flex",
 								color: "rgb(53, 52, 52)",
 								alignItems: "center",

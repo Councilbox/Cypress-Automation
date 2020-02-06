@@ -16,6 +16,7 @@ import { isMobile } from 'react-device-detect';
 import CompanyMenu from "../sideMenu/CompanyMenu";
 import FontAwesome from "react-fontawesome";
 import LateralMenuOptions from "../dashboard/LateralMenuOptions";
+import { isAdmin } from "../../utils/CBX";
 
 
 class Sidebar extends React.Component {
@@ -121,6 +122,7 @@ class Sidebar extends React.Component {
 				flexDirection: 'column',
 				position: isMobile ? "" : "absolute",
 				top: "0px",
+				width: '100%',
 				...(this.showVerticalLayout() ? { margin: 0 } : {}),
 			}}
 		>
@@ -149,8 +151,23 @@ class Sidebar extends React.Component {
 						>
 							<Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
 								<div>
-									<Link to={`/company/${this.props.company.id}/settings`}>
-										{!!this.props.company.logo ? (
+									{isAdmin(this.props.user)?
+										<Link to={`/company/${this.props.company.id}/settings`}>
+											{!!this.props.company.logo ? (
+												<img
+													src={this.props.company.logo}
+													alt="logo"
+													className={this.props.classes.img}
+												/>
+											) : (
+													<FontAwesome
+														name={"building-o"}
+													/>
+												)
+											}
+										</Link>
+									:
+										!!this.props.company.logo ? (
 											<img
 												src={this.props.company.logo}
 												alt="logo"
@@ -161,8 +178,8 @@ class Sidebar extends React.Component {
 													name={"building-o"}
 												/>
 											)
-										}
-									</Link>
+									}
+
 								</div>
 							</Tooltip>
 						</div>
@@ -295,6 +312,7 @@ class Sidebar extends React.Component {
 										flexDirection: "column",
 										alignItems: 'center',
 										margin: 0,
+										width: '100%',
 										height: '100%',
 										justifyContent: 'center',
 										padding: '0px'

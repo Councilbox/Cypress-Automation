@@ -8,7 +8,7 @@ import { login } from "../../queries";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
 import withTranslations from "../../HOCs/withTranslations";
-import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem } from "../../displayComponents";
+import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem, CBXFooter } from "../../displayComponents";
 import { useOldState } from "../../hooks";
 import { useSubdomain, getCustomLogo } from "../../utils/subdomain";
 import { isMobile } from "../../utils/screen";
@@ -237,7 +237,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 							minHeight: "60%",
 							width: windowSize === "xs" ? "100vw" : "70%",
 							padding: "8%",
+							paddingBottom: '1em',
 							margin: '0',
+							position: 'relative',
 							marginBottom: windowSize === "xs" ? 0 : "5em",
 							marginRight: windowSize === "xs" ? 0 : "5em"
 						}}
@@ -365,6 +367,12 @@ const Login = ({ translate, windowSize, ...props }) => {
 								{translate.login_forgot}
 							</Link>
 						</div>
+						{(!!subdomain.name && subdomain.name === 'madrid') &&
+							<div style={{ width: '100%', textAlign: 'center' }}>
+								<img src="/img/logo-1.png" style={{ marginTop: "2.5em", height: '3.5em', width: 'auto' }} alt="logo-seneca" />
+							</div>
+						}
+						<CBXFooter style={{marginTop: '5em'}} />
 					</Card>
 				</GridItem>
 			</Grid>

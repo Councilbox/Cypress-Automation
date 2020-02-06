@@ -148,9 +148,8 @@ class CompanyLinksManager extends React.PureComponent {
         }
 
     }
-
-
-
+    
+    
     render() {
         const { translate } = this.props;
 
@@ -184,7 +183,7 @@ class CompanyLinksManager extends React.PureComponent {
                             </TableRow>
                         </TableHead>
                     </Table>
-                    <div style={{ height: "calc( 100% - 10em )", overflow: "hidden" }}>
+                    <div style={{ height: "10em", overflow: "hidden" }}>
                         <Scrollbar>
                             {this.props.data.loading ?
                                 <LoadingSection />
@@ -237,7 +236,7 @@ export default graphql(corporationCompanies, {
     options: props => ({
         variables: {
             options: DEFAULT_OPTIONS,
-            corporationId: props.company.id
+            corporationId: props.company? props.company.corporationId : 1
         }
     })
 })(CompanyLinksManager);

@@ -50,9 +50,10 @@ class UsersDashboard extends React.PureComponent {
     }
 
     render() {
+        const { translate } = this.props;
 
         if (this.state.addUser) {
-            return <NewUser translate={this.props.translate} requestClose={() => this.setState({ addUser: false })} />
+            return <NewUser translate={translate} requestClose={() => this.setState({ addUser: false })} />
         }
 
         return (
@@ -137,10 +138,10 @@ class UsersDashboard extends React.PureComponent {
                     >
                         <TableHead>
                             <TableRow>
-                                <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>Estado</TableCell>
+                                <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>{translate.state}</TableCell>
                                 <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Id</TableCell>
-                                <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Nombre</TableCell>
-                                <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Email</TableCell>
+                                <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>{translate.name}</TableCell>
+                                <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>{translate.email}</TableCell>
                                 <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Ultima Conexion</TableCell>
                             </TableRow>
                         </TableHead>

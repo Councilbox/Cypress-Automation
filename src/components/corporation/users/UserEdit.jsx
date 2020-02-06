@@ -64,6 +64,7 @@ class UserEdit extends React.PureComponent {
                         <CompanyLinksManager
                             linkedCompanies={this.props.data.user.companies}
                             translate={translate}
+                            company={this.props.company}
                             addCheckedCompanies={this.linkCompanies}
                             company={this.props.company}
                         />

@@ -4,7 +4,7 @@ import { withApollo } from 'react-apollo';
 import { AlertConfirm } from "../../../displayComponents";
 
 
-const RemoveCompany = ({ company, render, refetch, translate, client  }) => {
+const RemoveCompany = ({ company, render, refetch, translate, styles, client  }) => {
     const [modal, setModal] = React.useState(false);
 
     const openModal = () => {
@@ -38,7 +38,7 @@ const RemoveCompany = ({ company, render, refetch, translate, client  }) => {
 
     return (
         <React.Fragment>
-            <div onClick={openModal} style={{cursor: 'pointer'}}>
+            <div onClick={openModal} style={{cursor: 'pointer', ...styles}}>
                 {render}
             </div>
             <AlertConfirm

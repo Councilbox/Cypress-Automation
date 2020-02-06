@@ -9,20 +9,23 @@ import { MenuItem } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
 
 const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) => (
-    <Grid style={{ justifyContent:"space-between" }}>
-        <GridItem xs={12} md={12} lg={12}>
+    <Grid style={{ justifyContent: "space-between", color: '#61abb7' }}>
+        {/* <GridItem xs={12} md={12} lg={12}>
             <h2 style={{
                 color: getPrimary(),
                 fontSize: '18px',
                 fontWeight: '700',
                 marginBottom: '0.6em'
             }}>
-                {/* TRADUCCION */}
+               
                 Datos del nuevo usuario
             </h2>
-        </GridItem>
-        <GridItem xs={12} md={6} lg={5} style={{ }}>
-            <div style={{ }}>
+        </GridItem> */}
+        <GridItem xs={12} md={6} lg={5} style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ fontSize: "15px", width: "2em" }}>
+                <i className={'fa fa-info'}></i>
+            </div>
+            <div style={{ width: "100%" }}>
                 <TextInput
                     floatingText={translate.name}
                     type="text"
@@ -37,8 +40,9 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
                 />
             </div>
         </GridItem>
-        <GridItem xs={12} md={6} lg={5} style={{ }}>
-            <div style={{ }}>
+        <GridItem xs={12} md={6} lg={5} style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ fontSize: "15px", width: "2em" }}></div>
+            <div style={{ width: "100%" }}>
                 <TextInput
                     floatingText={translate.surname}
                     type="text"
@@ -53,8 +57,11 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
                 />
             </div>
         </GridItem>
-        <GridItem xs={12} md={6} lg={5} style={{ }}>
-            <div style={{ }}>
+        <GridItem xs={12} md={6} lg={5} style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ fontSize: "15px", width: "2em" }}>
+                <i className={'fa fa-at'}></i>
+            </div>
+            <div style={{ width: "100%" }}>
                 <TextInput
                     floatingText={translate.email}
                     type="text"
@@ -70,8 +77,9 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
                 />
             </div>
         </GridItem>
-        <GridItem xs={12} md={6} lg={5} style={{ }}>
-            <div style={{ }}>
+        <GridItem xs={12} md={6} lg={5} style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ fontSize: "15px", width: "2em" }}></div>
+            <div style={{ width: "100%" }}>
                 <TextInput
                     floatingText={translate.phone}
                     type="text"
@@ -85,8 +93,9 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
                 />
             </div>
         </GridItem>
-        <GridItem xs={12} md={6} lg={5} style={{ }}>
-            <div style={{ }}>
+        <GridItem xs={12} md={6} lg={5} style={{ display: "flex", alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ fontSize: "15px", width: "2em" }}></div>
+            <div style={{ width: "100%" }}>
                 <SelectInput
                     floatingText={translate.language}
                     value={data.preferredLanguage}

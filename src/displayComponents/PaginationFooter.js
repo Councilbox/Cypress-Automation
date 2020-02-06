@@ -3,6 +3,9 @@ import { GridItem } from "./";
 import { hasMorePages } from "../utils/pagination";
 import { getPrimary, getSecondary } from "../styles/colors";
 import Select from 'antd/lib/select';
+import { isMobile } from "react-device-detect";
+import SelectInput from "./SelectInput";
+import { MenuItem } from "material-ui";
 
 
 const primary = getPrimary();
@@ -32,6 +35,45 @@ const PaginationFooter = ({
 }) => {
 	const totalPages = Math.ceil(total / limit);
 
+	if (isMobile) {
+		return (
+			<div style={{}}>
+				<div>
+					{length > 0
+						? `${translate.table_showing_part1} ${(page - 1) * limit +
+						1} ${translate.table_showing_part2} ${(page - 1) *
+						limit +
+						length} ${translate.table_showing_part3} ${total} ${
+						translate.table_showing_part4
+						}`
+						: translate.table_no_results}
+				</div>
+				<div style={{ marginTop: "0.6em", display: "flex", alignItems: "center", justifyContent: "center" }}>
+					<React.Fragment>
+						{page > 1 && (
+							<span
+								onClick={() => changePage(page - 1)}
+								style={paginationButtonStyle}
+							>
+								{translate.table_button_previous}
+							</span>
+						)}
+						{hasMorePages(page, total, limit) && (
+							<span
+								onClick={() => changePage(page + 1)}
+								style={paginationButtonStyle}
+							>
+								{translate.table_button_next}
+							</span>
+						)}
+						<div style={{ display: 'flex' }}>
+							{showPagesMobile(totalPages, page, changePage)}
+						</div>
+					</React.Fragment>
+				</div>
+			</div>
+		)
+	}
 	return (
 		<React.Fragment>
 			<GridItem xs={window.innerWidth < 480 ? 12 : xs ? xs : 5} lg={5} md={md ? md : 6} style={{ fontSize: '0.7rem' }}>
@@ -133,6 +175,27 @@ const showPages = (numPages, active, changePage) => {
 		}
 	}
 	return pages;
+};
+
+
+const showPagesMobile = (numPages, active, changePage) => {
+	
+	if (numPages > 1) {
+		return (
+			<div>
+				<SelectInput
+					value={active}
+					onChange={event => changePage(event.target.value)}
+					styles={{ marginTop: "0", marginLeft: "2px" }}
+				>
+					{Array.from(Array(numPages).keys()).map(page =>
+						<MenuItem value={page + 1} key={page + 1} >{page + 1}</MenuItem>
+
+					)}
+				</SelectInput>
+			</div>
+		)
+	}
 };
 
 export default PaginationFooter;

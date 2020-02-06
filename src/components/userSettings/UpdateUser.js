@@ -13,6 +13,7 @@ import { setUserData } from "../../actions/mainActions";
 import { getPrimary } from "../../styles/colors";
 import UserForm from './UserForm';
 import { checkEmailExists } from "../../queries/userAndCompanySignUp";
+import CompanyLinksManager from "../corporation/users/CompanyLinksManager";
 
 
 
@@ -23,11 +24,13 @@ class UpdateUserForm extends React.Component {
 		loading: false,
 		success: false,
 		errors: {},
-		modal: false
+		modal: false,
+		companies: this.props.user.companies,
+		// companies: fixedCompany ? [fixedCompany] : [],
 	};
 
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(nextProps.user.id !== prevState.data.id){
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.user.id !== prevState.data.id) {
 			return {
 				data: nextProps.user
 			}
@@ -37,13 +40,14 @@ class UpdateUserForm extends React.Component {
 	}
 
 	saveUser = async () => {
+
 		if (!await this.checkRequiredFields()) {
 			this.setState({
 				loading: true
 			});
-			const { __typename, type, actived, roles, ...data } = this.state.data;
-			
-			if(this.props.user.email !== data.email) {
+			const { __typename, type, actived, roles, companies, ...data } = this.state.data;
+
+			if (this.props.user.email !== data.email) {
 				this.setState({
 					modal: true
 				});
@@ -51,9 +55,11 @@ class UpdateUserForm extends React.Component {
 
 			const response = await this.props.updateUser({
 				variables: {
-					user: data
+					user: data,
+					companies: this.state.companies.map(company => company.id),
 				}
 			});
+
 			if (response.errors) {
 				this.setState({
 					error: true,
@@ -111,9 +117,9 @@ class UpdateUserForm extends React.Component {
 		if (!checkValidEmail(data.email.toLowerCase())) {
 			hasError = true;
 			errors.email = translate.email_not_valid;
-		}else{
-			if(data.email.toLowerCase() !== this.props.user.email.toLowerCase()){
-				if(await this.checkEmailExists()){
+		} else {
+			if (data.email.toLowerCase() !== this.props.user.email.toLowerCase()) {
+				if (await this.checkEmailExists()) {
 					errors.email = translate.register_exists_email
 				}
 			}
@@ -124,16 +130,11 @@ class UpdateUserForm extends React.Component {
 			errors.surname = translate.field_required;
 		}
 
-		if (!data.phone) {
-			hasError = true;
-			errors.phone = translate.field_required;
-		}
-
 		if (!data.email) {
 			hasError = true;
 			errors.email = translate.field_required;
 		}
-		
+
 		if (!(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(data.email))) {
 			hasError = true;
 			errors.email = "invalid email";
@@ -167,15 +168,15 @@ class UpdateUserForm extends React.Component {
 	}
 
 	render() {
-		const { translate } = this.props;
+		const { translate, edit, company } = this.props;
 		const { data, errors, error, success, loading } = this.state;
 		const primary = getPrimary();
-
+		
 		return (
 			<React.Fragment>
-				<div style={{paddingTop: 0}} {...(error? {onKeyUp: this.onKeyUp} : {})}>
+				<div style={{ paddingTop: 0 }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
 					<SectionTitle
-						text={translate.user_data}
+						text={edit ? "Editar Usuario" : translate.user_data}
 						color={primary}
 					/>
 					<br />
@@ -188,9 +189,20 @@ class UpdateUserForm extends React.Component {
 						translate={translate}
 					/>
 					<br />
+					{this.props.admin &&
+						<CompanyLinksManager
+							linkedCompanies={this.state.companies}
+							translate={translate}
+							company={company}
+							addCheckedCompanies={companies => this.setState({
+								companies
+							})}
+						/>
+					}
+					<br />
 					<BasicButton
-						text={translate.save}
-						color={getPrimary()}
+						text={translate.send}
+						color={primary}
 						error={error}
 						reset={this.resetButtonStates}
 						success={success}
@@ -200,7 +212,7 @@ class UpdateUserForm extends React.Component {
 							color: "white",
 							fontWeight: "700"
 						}}
-						onClick={error? () => {} : this.saveUser}
+						onClick={error ? () => { } : this.saveUser}
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
 				</div>

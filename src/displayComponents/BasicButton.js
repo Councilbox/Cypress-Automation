@@ -39,7 +39,7 @@ const BasicButton = ({
 		};
 	}, [error, success, reset, resetDelay]);
 
-
+	
 	return (
 		<Button
 			id={id}
@@ -52,7 +52,7 @@ const BasicButton = ({
 				float: floatRight && "right",
 				outline: "0",
 				cursor: loading? 'wait' : 'pointer',
-				...backgroundColor
+				...backgroundColor,
 			}}
 			disabled={disabled || loading}
 			variant={type}

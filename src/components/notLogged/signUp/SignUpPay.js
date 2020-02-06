@@ -231,15 +231,7 @@ class SignUpPay extends React.Component {
 						/>
 					</GridItem>
 				</Grid>
-				<TermsModal
-					open={this.state.showTermsModal}
-					translate={translate}
-					close={() => {
-						this.setState({
-							showTermsModal: false
-						});
-					}}
-				/>
+				
 			</div>
 		);
 	}

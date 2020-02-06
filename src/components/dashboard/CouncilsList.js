@@ -32,16 +32,18 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
         { name: translate.name },
         { name: '' }
     ] : [
-        { selectAll: <Checkbox onChange={props.selectAll} value={selectedIds.size === councils.length} /> },
-        { name: translate.date_real_start },
-        { name: translate.name },
-        { name: '' }
-    ]
-    
+            { selectAll: <Checkbox onChange={props.selectAll} value={selectedIds.size === councils.length} /> },
+            { name: translate.date_real_start },
+            { name: translate.name },
+            { name: '' }
+        ]
+
     return (
         <Table
             headers={headers}
             companyID={company.id}
+            stylesHeader={{}}
+            stylesHeaderRow={{ border: 'none' }}
         >
             {councils.map(council => {
                 return (
@@ -86,17 +88,17 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
     }
 
     const getSectionTranslation = type => {
-		const texts = {
-			drafts: translate.companies_draft,
-			calendar: translate.companies_calendar,
-			live: translate.companies_live,
-			act: translate.companies_writing,
-			confirmed: translate.act_book,
-			history: translate.dashboard_historical
-		}
+        const texts = {
+            drafts: translate.companies_draft,
+            calendar: translate.companies_calendar,
+            live: translate.companies_live,
+            act: translate.companies_writing,
+            confirmed: translate.act_book,
+            history: translate.dashboard_historical
+        }
 
-		return texts[type];
-	}
+        return texts[type];
+    }
 
     if (isMobile) {
         return (
@@ -111,7 +113,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                             action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                             label: company.businessName
                         })
-                        bHistory.push(`/company/${company.id}/council/${council.id}${link}`)
+                    bHistory.push(`/company/${company.id}/council/${council.id}`)
                 }}
             >
                 <Grid>
@@ -178,9 +180,9 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                         action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                         label: company.businessName
                     })
-                    bHistory.push(
-                        `/company/${company.id}/council/${council.id}${link}`
-                    )
+                bHistory.push(
+                    `/company/${company.id}/council/${council.id}`
+                )
             }}
         >
             <TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>

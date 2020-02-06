@@ -54,8 +54,8 @@ export const getMe = gql`
 `;
 
 export const updateUser = gql`
-	mutation updateUser($user: UserInput) {
-		updateUser(user: $user) {
+	mutation updateUser($user: UserInput, $companies: [Int]) {
+		updateUser(user: $user, companies: $companies) {
 			name
 			surname
 			id

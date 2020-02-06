@@ -10,19 +10,23 @@ import {
 	TextInput,
 	LoadingSection,
 	PaginationFooter,
+	DropDownMenu,
+	MenuItem,
 } from "../../displayComponents";
 import { ConfigContext } from '../../containers/AppControl';
 import { moment, bHistory } from "../../containers/App";
 import { Avatar } from "antd";
 import { primary, getPrimary } from "../../styles/colors";
 import Calendar from 'react-calendar';
-import { Icon, withStyles, } from "material-ui";
+import { Icon, withStyles, Divider, } from "material-ui";
 import { Doughnut, Chart } from "react-chartjs-2";
 import { corporationUsers } from "../../queries/corporation";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import GraficaEstadisiticas from "./GraficaEstadisiticas";
 import { sendGAevent } from "../../utils/analytics";
+import { isMobile } from "react-device-detect";
+import { getActivationText } from "../company/settings/CompanySettingsPage";
 var LineChart = require("react-chartjs-2").Line;
 
 
@@ -68,6 +72,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const [daySelected, setDaySelected] = React.useState(new Date());
 	const [reunionesPage, setReunionesPage] = React.useState(1);
 	const [reunionesLoading, setReunionesLoading] = React.useState(true);
+	const [inputSearch, setInputSearch] = React.useState(false);
+	const [inputSearchE, setInputSearchE] = React.useState(false);
+	const [toggleReunionesCalendario, setToggleReunionesCalendario] = React.useState("reuniones");
+	const [filterReuniones, setFilterReuniones] = React.useState(translate.all);
 	const [state, setState] = React.useState({
 		filterTextCompanies: "",
 		filterTextUsuarios: "",
@@ -175,15 +183,22 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		});
 
 		let data = ""
+
 		if (fechaReunionConcreta) {
 			if (response.data.corporationConvenedCouncils) {
 				data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+				if (filterReuniones !== translate.all) {
+					data = filtrarLasReuniones(data)
+				}
 				setReunionesPorDia(data)
 				setReunionesLoading(false)
 			}
 		} else {
 			if (response.data.corporationConvenedCouncils) {
 				data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+				if (filterReuniones !== translate.all) {
+					data = filtrarLasReuniones(data)
+				}
 				setReuniones(data)
 				calcularEstadisticas(data)
 				setReunionesLoading(false)
@@ -191,19 +206,37 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		}
 	}
 
+	const filtrarLasReuniones = (data) => {
+		let dataFiltrado = []
+		data.map((item, index) => {
+			if (filterReuniones === translate.companies_calendar) {
+				if (item.state === 5 || item.state === 10) {
+					dataFiltrado.push(item)
+				}
+			}
+			if (filterReuniones === translate.companies_live) {
+				if (item.state === 20 || item.state === 30) {
+					dataFiltrado.push(item)
+				}
+			}
+			if (filterReuniones === translate.companies_writing) {
+				if (item.state === 40) {
+					dataFiltrado.push(item)
+				}
+			}
+		})
+		return dataFiltrado;
+	}
+
 	React.useEffect(() => {
 		getReuniones()
-	}, [company.id, state.filterFecha]);
+	}, [company.id, state.filterFecha, filterReuniones]);
 
 
 	const hasBook = companyHasBook();
 
 	const size = !hasBook ? 4 : 3;
 	const blankSize = !hasBook ? 2 : 3;
-
-	const prueba = (e) => {
-		console.log(e)
-	}
 
 	const clickDay = (value) => {
 		let fechaInicio = value
@@ -252,6 +285,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			if (miLista[i] > mayor)
 				mayor = miLista[i];
 		}
+
 		setPorcentajes({
 			convocadaPorcentaje: convocada,
 			celebracionPorcentaje: celebracion,
@@ -268,6 +302,378 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			setDay(date)
 			setDaySelected(date)
 		}
+	}
+	if (isMobile) {
+		return (
+			<div style={{ width: "100%", height: "100%" }}>
+				<div style={{
+					width: "100%",
+					padding: "1em",
+					background: "white",
+					borderRadius: "5px",
+					height: "100%",
+					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+					marginBottom: "0.5em"
+				}}>
+					<div style={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignContent: "center",
+						marginBottom: "0.3em"
+					}}>
+						<div style={{ fontWeight: 'bold', color: "#a09b9e", display: 'flex', alignItems: 'center' }}>Reuniones en curso</div>
+						<div style={{
+							display: "flex",
+							alignContent: "inherit",
+							justifyContent: "center"
+						}}
+						>
+							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
+								<DropDownMenu
+									color={'white'}
+									loading={false}
+									// // {...(!!Component ? (Component = { Component }) : {})}
+									text={<span style={{ color: "#c196c3", }} >{filterReuniones}</span>}
+									textStyle={{ fontWeight: 'bold', color: "#c196c3", boxShadow: "none", padding: "0", margin: "0", minWidth: "0" }}
+									// icon={<ButtonIcon type="add" color="white" />}
+									backgroundColor={{ color: "#a09b9e" }}
+									anchorOrigin={{
+										vertical: 'bottom',
+										horizontal: 'left',
+									}}
+									items={
+										<React.Fragment>
+											<MenuItem onClick={() => setFilterReuniones(translate.all)} >
+												<div
+													style={{
+														width: "100%",
+														display: "flex",
+														flexDirection: "row",
+														justifyContent: "space-between",
+														color: "#c196c3",
+														fontWeight: "bold"
+													}}
+												>
+													{translate.all}
+												</div>
+											</MenuItem>
+											<Divider />
+											<MenuItem onClick={() => setFilterReuniones(translate.companies_calendar)} >
+												<div
+													style={{
+														width: "100%",
+														display: "flex",
+														flexDirection: "row",
+														justifyContent: "space-between",
+														color: "#c196c3",
+														fontWeight: "bold"
+													}}
+												>
+													{translate.companies_calendar}
+												</div>
+											</MenuItem>
+											<Divider />
+											<MenuItem onClick={() => setFilterReuniones(translate.companies_live)}>
+												<div
+													style={{
+														width: "100%",
+														display: "flex",
+														flexDirection: "row",
+														justifyContent: "space-between",
+														color: "#c196c3",
+														fontWeight: "bold"
+													}}
+												>
+													{translate.companies_live}
+												</div>
+											</MenuItem>
+											<Divider />
+											<MenuItem onClick={() => setFilterReuniones(translate.companies_writing)}>
+												<div
+													style={{
+														width: "100%",
+														display: "flex",
+														flexDirection: "row",
+														justifyContent: "space-between",
+														color: "#c196c3",
+														fontWeight: "bold"
+													}}
+												>
+													{translate.companies_writing}
+												</div>
+											</MenuItem>
+										</React.Fragment>
+									}
+								/>
+							</div>
+							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
+								<i className="fa fa-filter" ></i>
+							</div>
+							{toggleReunionesCalendario === "reuniones" ?
+								<div style={{ position: "relative", color: "black", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario("calendario")} >
+									<i className={'fa fa-calendar-o'} style={{ position: "relative", fontSize: "18px" }}></i>
+									<i className={'fa fa-clock-o'} style={{ position: "relative", left: "-5px", bottom: "-5px" }}></i>
+								</div>
+								:
+								<div style={{ color: "black", fontSize: "18px", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario("reuniones")} >
+									<i className={"fa fa-list"}></i>
+								</div>
+							}
+						</div>
+					</div>
+					{toggleReunionesCalendario === "reuniones" ?
+						<div style={{ height: "20em" }}>
+							<Scrollbar>
+								{day ?
+									reunionesPorDia.length === undefined || reunionesLoading ?
+										<LoadingSection />
+										:
+										reunionesPorDia.map((item, index) => {
+											return (
+												<TablaReunionesEnCurso
+													key={index + "_reunionesPorDia"}
+													item={item}
+													index={index}
+													translate={translate}
+												/>
+											)
+										})
+									:
+									reuniones.length === undefined || reunionesLoading ?
+										<LoadingSection />
+										:
+										reuniones.map((item, index) => {
+											return (
+												<TablaReunionesEnCurso
+													key={index + "_reuniones"}
+													item={item}
+													index={index}
+													translate={translate}
+												/>
+											)
+										})
+								}
+							</Scrollbar>
+						</div>
+						:
+						<div style={{ padding: "1em", display: 'flex', justifyContent: "center" }}>
+							{reuniones.length === undefined ?
+								<LoadingSection />
+								:
+								<Calendar
+									showNeighboringMonth={false}
+									prevLabel={
+										<div style={{}} onClick={changeMonthBack}>
+											<i className="fa fa-angle-left" ></i>
+										</div>
+									}
+									nextLabel={
+										<div style={{}} onClick={changeMonthFront}>
+											<i className="fa fa-angle-right" >
+											</i>
+										</div>
+									}
+									onChange={onChangeDay}
+									value={daySelected}
+									minDetail={'month'}
+									tileClassName={date => getTileClassName(date)}
+									onClickDay={(value) => clickDay(value)}
+								/>
+							}
+						</div>
+					}
+				</div>
+				<div style={{
+					width: "100%",
+					padding: "1em",
+					background: "white",
+					borderRadius: "5px",
+					height: "100%",
+					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+					marginBottom: "0.5em"
+				}}>
+					<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e", textAlign: "left" }}>Estadísticas</div>
+					{reuniones.length === undefined ?
+						<LoadingSection />
+						:
+						<div>
+							{/* TRADUCCION */}
+							<Grid>
+								<GridItem xs={4} md={6} lg={4}>
+									<div style={{ width: '100%', }}>
+										<GraficaDoughnut
+											porcentaje={porcentajes.convocadaPorcentaje || 0}
+											color={'#e77153'}
+											max={porcentajes.max}
+										/>
+									</div>
+								</GridItem>
+								<GridItem xs={4} md={6} lg={4}>
+									<div style={{ width: '100%', }}>
+										<GraficaDoughnut
+											porcentaje={porcentajes.celebracionPorcentaje || 0}
+											color={'#e77153'}
+											max={porcentajes.max}
+										/>
+									</div>
+								</GridItem>
+								<GridItem xs={4} md={6} lg={4}>
+									<div style={{ width: '100%', }}>
+										<GraficaDoughnut
+											porcentaje={porcentajes.redActaPorcentaje || 0}
+											color={'#85a9ca'}
+											max={porcentajes.max}
+										/>
+									</div>
+								</GridItem>
+							</Grid>
+							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: '3em', padding: '1em' }}>
+								<GraficaEstadisiticas
+									porcentaje={'75'}
+									color={'#85a9ca'}
+								/>
+							</div>
+						</div>
+					}
+				</div>
+				<div style={{
+					width: "100%",
+					padding: "1em",
+					background: "white",
+					borderRadius: "5px",
+					height: "100%",
+					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+				}}>
+					<div style={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignContent: "center",
+						marginBottom: "0.3em"
+					}}>
+						<div style={{ fontWeight: 'bold', color: "#a09b9e", display: 'flex', alignItems: 'center' }}>{usuariosEntidades === 'usuarios' ? translate.users : translate.entities}</div>
+						<div style={{
+							display: "flex",
+							alignContent: "inherit",
+							justifyContent: "center"
+						}}
+						>
+							{/* <div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>{translate.connecteds}</div> */}
+							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
+								<i className="fa fa-filter" ></i>
+							</div>
+							{usuariosEntidades === 'usuarios' ?
+								<TextInput
+									className={isMobile && !inputSearch ? "openInput" : ""}
+									disableUnderline={true}
+									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px", marginTop: '0px' }}
+									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+									floatingText={" "}
+									adornment={<Icon onClick={() => setInputSearch(!inputSearch)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+									type="text"
+									styles={{ marginTop: '-16px', marginBottom: "-8px" }}
+									value={state.filterTextUsuarios || ""}
+									onChange={event => {
+										setState({
+											...state,
+											filterTextUsuarios: event.target.value
+										})
+									}}
+								/>
+								:
+								<TextInput
+									className={isMobile && !inputSearchE ? "openInput" : ""}
+									disableUnderline={true}
+									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+									floatingText={" "}
+									styles={{ marginTop: '-16px', marginBottom: "-8px" }}
+									adornment={<Icon onClick={() => setInputSearchE(!inputSearchE)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+									type="text"
+									value={state.filterTextCompanies || ""}
+									onChange={event => {
+										setState({
+											...state,
+											filterTextCompanies: event.target.value
+										})
+									}}
+								/>
+							}
+						</div>
+					</div>
+					<Grid style={{ justifyContent: "space-between", alignItems: "center" }}>
+						<GridItem xs={6} md={6} lg={4} style={{ display: "flex" }}>
+							<div style={{ height: "100%", fontWeight: "bold", padding: "0.5em", display: "flex", borderRadius: "5px", boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)", }}>
+								<div style={{
+									cursor: "pointer",
+									paddingRight: "0.5em",
+									color: usuariosEntidades === 'usuarios' ? getPrimary() : "#9f9a9d",
+									borderRight: "1px solid gainsboro"
+								}}
+									onClick={() => setUsuariosEntidades("usuarios")}
+								>
+									{translate.users}
+								</div>
+								<div
+									style={{
+										cursor: "pointer",
+										paddingLeft: "0.5em",
+										color: usuariosEntidades === 'entidades' ? getPrimary() : "#9f9a9d"
+									}}
+									onClick={() => setUsuariosEntidades("entidades")}
+								>
+									{translate.entities}
+								</div>
+							</div>
+						</GridItem>
+						<GridItem xs={6} md={6} lg={8} style={{ display: 'flex', justifyContent: "flex-end" }}>
+							<div style={{ display: "flex", alignItems: "center" }}>
+								{usuariosEntidades === 'usuarios' ?
+									<BasicButton
+										buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+										backgroundColor={{ backgroundColor: "white" }}
+										text={translate.add}
+										onClick={() => setAddUser(true)}
+									/>
+									:
+									<BasicButton
+										buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+										backgroundColor={{ backgroundColor: "white" }}
+										text={translate.add}
+										onClick={() => setEntidades(true)}
+									/>
+								}
+
+							</div>
+						</GridItem>
+					</Grid>
+					<div style={{}}>
+						{usuariosEntidades === 'usuarios' ?
+							users.length === undefined ?
+								<LoadingSection />
+								:
+								<TablaUsuarios
+									users={users}
+									translate={translate}
+									total={usersTotal}
+									changePageUsuarios={changePageUsuarios}
+									usersPage={usersPage}
+								/>
+							:
+							companies.length === undefined ?
+								<LoadingSection />
+								:
+								<TablaCompanies
+									companies={companies}
+									translate={translate}
+									total={companiesTotal}
+									changePageCompanies={changePageCompanies}
+									companiesPage={companiesPage}
+								/>
+						}
+					</div>
+				</div>
+			</div>
+		);
 	}
 
 	return (
@@ -325,7 +731,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 								<LoadingSection />
 								:
 								<Calendar
-								showNeighboringMonth={false}
+									showNeighboringMonth={false}
 									prevLabel={
 										<div style={{}} onClick={changeMonthBack}>
 											<i className="fa fa-angle-left" ></i>
@@ -541,6 +947,31 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 		return texts[type];
 	}
 
+	if (isMobile) {
+
+		return (
+			<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
+				<div style={{ display: "flex", justifyContent: "space-between" }}>
+					<div style={{ marginRight: '0.2em' }}>
+						{item.logo ?
+							<Avatar alt="Foto" src={item.logo} />
+							:
+							<i
+								className={'fa fa-building-o'}
+								style={{ fontSize: '1.7em', color: 'lightgrey' }}
+							/>
+						}
+					</div>
+					<div style={{ marginRight: '0.2em' }}>
+						{item.name}
+					</div>
+					<div style={{ marginRight: '0.2em' }}>
+						{moment(item.dateStart).subtract(10, 'days').calendar()}
+					</div>
+				</div>
+			</GridItem>
+		)
+	}
 
 	return (
 		<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
@@ -628,38 +1059,40 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 }
 
 const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage }) => {
+	const primary = getPrimary();
 	return (
 		<div style={{}}>
 			<div style={{ fontSize: "13px" }}>
 				<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-					<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Estado
 				</div>
-					<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Id
 				</div>
-					<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Nombre
 				</div>
-					<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Email
 				</div>
-					<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Últ.Conexión
 				</div>
 				</div>
 				<div style={{ height: "300px" }}>
 					<Scrollbar>
-						{users.map(item => {
+						{users.map((item, index) => {
 							return (
 								<div
 									key={item.id}
 									style={{
 										display: "flex",
 										justifyContent: "space-between",
-										padding: "1em"
+										padding: "1em",
+										background: index % 2 ? "#edf4fb" : "",
 									}}>
-									<Cell text={item.actived} />
+									<Cell text={getActivationText(item.actived)} />
 									<Cell text={item.id} />
 									<Cell text={item.name + " " + item.surname} />
 									<Cell text={item.email} />
@@ -688,36 +1121,37 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 }
 
 const TablaCompanies = ({ companies, translate, total, changePageCompanies, companiesPage }) => {
+	const primary = getPrimary();
 
 	return (
 		<div style={{ fontSize: "13px" }}>
 			<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
 
 				</div>
-				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
 					Id
 				</div>
-				<div style={{ color: getPrimary(), fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
 					Nombre
 				</div>
 			</div>
 			<div style={{ height: "300px" }}>
 				<Scrollbar>
-					{companies.map(item => {
+					{companies.map((item, index) => {
 						return (
 							<div
 								key={item.id}
 								style={{
 									display: "flex",
 									justifyContent: "space-between",
-									padding: "1em"
+									padding: "1em",
+									background: index % 2 ? "#edf4fb" : "",
 								}}>
 								<CellAvatar width={3} avatar={item.logo} />
 								<Cell width={3} text={item.id} />
 								<Cell width={3} text={item.businessName} />
 							</div>
-
 						)
 					})}
 				</Scrollbar>
@@ -896,35 +1330,35 @@ const Cell = ({ text, avatar, width }) => {
 
 const corporationCouncils = gql`
     query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
-		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
-			id
+					corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
+					id
 			name
-			state
-			dateStart
-			councilType
-			prototype
+				state
+				dateStart
+				councilType
+				prototype
 			participants {
-				id
-			}
-			company{
-				id
+					id
+				}
+				company{
+					id
 				businessName
 				logo
 			}
 		}
 
 		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
-			id
+					id
 			name
-			state
-			dateStart
-			councilType
-			prototype
+				state
+				dateStart
+				councilType
+				prototype
 			participants {
-				id
-			}
-			company{
-				id
+					id
+				}
+				company{
+					id
 				businessName
 				logo
 			}

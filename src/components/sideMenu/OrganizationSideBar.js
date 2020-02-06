@@ -45,39 +45,51 @@ class Sidebar extends React.Component {
 		})
 	}
 
-	routes = [
-		{
-			path: `/company/${this.props.company.id}`,
-			sidebarName: 'Dashboard',
-			name: "dashboard",
-			icon: 'dashboard'
-		},
-		{
-			path: `/company/${this.props.company.id}/councils/drafts`,
-			name: "council",
-			sidebarName: this.props.translate.councils_link,
-			icon: 'import_contacts'
-		},
-		{
-			path: `/company/${this.props.company.id}/companies`,
-			name: "companies",
-			sidebarName: 'Entidades',
-			// sidebarName: this.props.translate.councils_link,
-			icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
-		},
-		{
-			path: `/company/${this.props.company.id}/users`,
-            name: 'users',
-            sidebarName: 'Usuarios',
-			icon: 'person'
-		},
-		{
-			path: `/company/${this.props.company.id}/drafts`,
-            name: 'templates',
-            sidebarName: this.props.translate.drafts,
-			icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
-		}
-	];
+	buildRoutes = () => {
+		return [
+			{
+				path: `/company/${this.props.company.id}`,
+				sidebarName: 'Dashboard',
+				name: "dashboard",
+				icon: 'dashboard'
+			},
+			{
+				path: `/company/${this.props.company.id}/councils/drafts`,
+				name: "council",
+				sidebarName: this.props.translate.councils_link,
+				icon: 'import_contacts'
+			},
+			{
+				path: `/company/${this.props.company.id}/companies`,
+				name: "companies",
+				sidebarName: 'Entidades',
+				// sidebarName: this.props.translate.councils_link,
+				icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
+			},
+			{
+				path: `/company/${this.props.company.id}/drafts`,
+				name: 'drafts',
+				//TRADUCCION
+				sidebarName: 'B. conocimiento',
+				// sidebarName: this.props.translate.tooltip_knowledge_base,
+				icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
+			},
+			// {
+			// 	path: `/company/`,
+			// 	name: 'support',
+			// 	sidebarName: 'Soporte',
+			// 	icon: <img src={contactSuport} style={{ width: '19px', height: 'auto' }} />
+			// },
+			{
+				path: `/company/${this.props.company.id}/users`,
+				name: 'users',
+				sidebarName: 'Usuarios',
+				icon: 'person'
+			}
+		];
+	}
+
+	routes = this.buildRoutes();
 
 	componentDidMount() {
 		const index = this.findActiveRoute(this.props.location.pathname);
@@ -95,49 +107,20 @@ class Sidebar extends React.Component {
 				selectedRoute: this.findActiveRoute(this.props.location.pathname)
 			});
 
-			this.routes = [
-				{
-					path: `/company/${this.props.company.id}`,
-					sidebarName: 'Dashboard',
-					name: "dashboard",
-					icon: 'dashboard'
-				},
-				{
-					path: `/company/${this.props.company.id}/councils/drafts`,
-					name: "council",
-					sidebarName: this.props.translate.councils_link,
-					icon: 'import_contacts'
-				},
-				{
-					path: `/company/${this.props.company.id}/companies`,
-					name: "companies",
-					sidebarName: 'Entidades',
-					// sidebarName: this.props.translate.councils_link,
-					icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
-				},
-				{
-					path: `/company/${this.props.company.id}/users`,
-					name: 'users',
-					sidebarName: 'Usuarios',
-					icon: 'person'
-				},
-				{
-					path: `/company/${this.props.company.id}/drafts`,
-					name: 'templates',
-					sidebarName: this.props.translate.drafts,
-					icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
-				}
-			];
+			this.routes = this.buildRoutes();
 		}
 	}
 
 	findActiveRoute = (pathname, routes) => {
 		let routeIndex = 0;
-		this.routes.forEach((route, index) => {
-			if (pathname.includes(route.name)) {
-				routeIndex = index;
-			}
+		const found = this.routes.findIndex((route, index) => {
+			return pathname.includes(route.name);
 		});
+
+		if (found !== -1) {
+			routeIndex = found;
+		}
+
 		return routeIndex;
 	};
 
@@ -246,14 +229,17 @@ class Sidebar extends React.Component {
 												color: "rgba(255, 255, 255, 0.8)"
 											}}
 										>
-											<Icon>
+											<Icon style={{ display: "flex", justifyContent: "center" }}>
 												{route.icon}
 											</Icon>
 										</div>
 										<span
 											style={{
 												color: 'white',
-												fontSize: '0.55em'
+												fontSize: '0.55em',
+												textAlign: "center",
+												lineHeight: '13px',
+												marginTop: "4px"
 											}}
 										>
 											{route.sidebarName}
@@ -279,7 +265,7 @@ class Sidebar extends React.Component {
 						height: '100%'
 					}}
 				>
-					<div
+					{/* <div
 						style={{
 							width: '25%',
 							height: '100%',
@@ -290,7 +276,7 @@ class Sidebar extends React.Component {
 						}}
 					>
 						{this.brand()}
-					</div>
+					</div> */}
 					{this.routes.map((route, key) => {
 						if (route.redirect) {
 							return null;
@@ -397,8 +383,8 @@ class Sidebar extends React.Component {
 	);
 
 	brandNew = () => (
-        <React.Fragment>
-            <div onClick={this.toggleCompanyMenu}>
+		<React.Fragment>
+			<div onClick={this.toggleCompanyMenu}>
 				<div
 					className={`${this.props.classes.logo} intento`}
 					style={{
@@ -418,41 +404,41 @@ class Sidebar extends React.Component {
 					</i>
 				</div>
 			</div>
-            <Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
-            
-                <div style={{
-                    borderRadius: '8px',
-                    border: '1px solid rgb(151, 151, 151)',
-                    marginTop: '1em',
-                    width: '100%',
-                    borderLeftStyle: 'none',
-                    borderTopLeftRadius: '0',
-                    borderBottomLeftRadius: '0',
-                    display: "flex",
-                    justifyContent: 'center',
-                    marginRight: "7px",
-                    alignItems:"center"
-                }}>
-                    <div style={{ padding: "0.5em", minHeight: "3.5em", display:"flex", alignItems:"center" }}>
-                        <Link to={`/company/${this.props.company.id}/settings`}>
-                            {!!this.props.company.logo ? (
-                                <img
-                                    src={this.props.company.logo}
-                                    alt="logo"
-                                    className={this.props.classes.img}
-                                    style={{marginLeft:"7px"}}
-                                />
-                            ) : (
-                                    <FontAwesome
-                                        name={"building-o"}
-                                    />
-                                )
-                            }
-                        </Link>
-                    </div>
-                </div>
-            </Tooltip>
-        </React.Fragment>
+			<Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
+
+				<div style={{
+					borderRadius: '8px',
+					border: '1px solid rgb(151, 151, 151)',
+					marginTop: '1em',
+					width: '100%',
+					borderLeftStyle: 'none',
+					borderTopLeftRadius: '0',
+					borderBottomLeftRadius: '0',
+					display: "flex",
+					justifyContent: 'center',
+					marginRight: "7px",
+					alignItems: "center"
+				}}>
+					<div style={{ padding: "0.5em", minHeight: "3.5em", display: "flex", alignItems: "center" }}>
+						<Link to={`/company/${this.props.company.id}/settings`}>
+							{!!this.props.company.logo ? (
+								<img
+									src={this.props.company.logo}
+									alt="logo"
+									className={this.props.classes.img}
+									style={{ marginLeft: "7px" }}
+								/>
+							) : (
+									<FontAwesome
+										name={"building-o"}
+									/>
+								)
+							}
+						</Link>
+					</div>
+				</div>
+			</Tooltip>
+		</React.Fragment>
 	);
 
 	activeRoute(index) {

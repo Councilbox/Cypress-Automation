@@ -206,7 +206,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 				}}
 				tabIndex="0"
 			>
-				{agendas.length > 0 &&
+				{agendas.length > 0?
 					<AgendaDetailsSection
 						ref={agendaDetails}
 						recount={props.recount}
@@ -227,6 +227,10 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						refetchCouncil={props.refetch}
 						refetch={getData}
 					/>
+				:
+					<div style={{margin: '2em'}}>
+						{translate.empty_agendas}
+					</div>
 				}
 
 			</div>

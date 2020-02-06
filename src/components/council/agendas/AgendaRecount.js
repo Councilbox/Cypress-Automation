@@ -343,7 +343,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
             <Table
                 forceMobileTable={true}
                 headers={[
-                    { name: translate.voting },
+                    { name: '' },
                     { name: translate.in_favor },
                     { name: translate.against },
                     { name: translate.abstentions },

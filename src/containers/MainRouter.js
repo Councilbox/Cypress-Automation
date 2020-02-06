@@ -216,6 +216,7 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 path="/user/:id"
                 component={UserSettingsPage}
             />
+             <Route exact path="/company/:company/users/:id/edit" component={UserSettingsPage} />
             <Route
                 path="*"
                 component={redirect(company)}

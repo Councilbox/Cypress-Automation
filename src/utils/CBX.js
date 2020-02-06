@@ -606,6 +606,14 @@ export const buildAttendantsString = (council, total) => (acc, curr, index) => {
 		.replace('PERCENTAGE', ((curr.socialCapital / total) * 100).toFixed(2))
 };
 
+export const isAdmin = user => {
+	return user.roles === 'admin' || user.roles === 'devAdmin';
+}
+
+export const showOrganizationDashboard = (company, config, user = {}) => {
+	return (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
+}
+
 
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
@@ -728,7 +736,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`)
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
-	text = text.replace(/{{attendants||Attendants}}/g, data.council.attendants? data.council.attendants.reduce(buildAttendantsString(data.council, base), '') : '');
+	text = text.replace(/{{attendants|Attendants}}/g, data.council.attendants? data.council.attendants.reduce(buildAttendantsString(data.council, base), '') : '');
 
 	if (data.council.street) {
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
@@ -1373,6 +1381,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 			}
 			break;
 		case COUNCIL_STATES.ROOM_OPENED:
+		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
 			if (expected !== "live") {
 				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/live`
@@ -1549,7 +1558,7 @@ export const getMainRepresentative = participant => {
 }
 
 export const canAddPoints = council => {
-	return council.statute.canAddPoints === 1 && council.councilType < 2;
+	return council.statute.canAddPoints === 1;
 };
 
 export const hasHisVoteDelegated = participant => {
