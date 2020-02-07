@@ -386,9 +386,7 @@ export const useDoc = (params = {}) => {
             }
             i++;
         } while (!localization || i > doc.length);
-
-        console.log(localization);
-
+        
         if(localization){
             if(localization.hasOwnProperty('subBlock')){
                 const items = [...newItems[localization.block].items];

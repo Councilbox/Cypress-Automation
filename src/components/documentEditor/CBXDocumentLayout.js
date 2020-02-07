@@ -17,7 +17,7 @@ const CBXDocumentLayout = ({ options, loading, preview, company }) => {
             <div style={{ width: "100%" }}>
                 <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
                     <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                        <img style={{ width: "100%" }} src={company.logo}></img>
+                        <img style={{ maxHeight: '3em', width: "auto" }} src={company.logo}></img>
                     </div>
                 </div>
                 <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>

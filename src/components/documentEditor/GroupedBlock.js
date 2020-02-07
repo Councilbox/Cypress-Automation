@@ -3,8 +3,7 @@ import Block from './Block';
 
 const GroupedBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, setText, ...props }) => {
     const updateBlock = (index, text) => {
-        console.log(index, item.items[index]);
-        props.editBlock(item.items[index].id, text);
+        return props.editBlock(item.items[index].id, text);
     }
 
     const removeBlock = index => {

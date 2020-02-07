@@ -289,8 +289,8 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                         </div>
                                         <div style={{ width: "100%" }}>
                                             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                                                <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                                                    <img style={{ width: "100%" }} src={company.logo}></img>
+                                                <div style={{ marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
+                                                    <img style={{ width: "auto", maxHeight: '3em' }} src={company.logo}></img>
                                                 </div>
                                             </div>
                                             <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
