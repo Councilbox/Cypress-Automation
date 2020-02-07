@@ -59,11 +59,16 @@ const CardPageLayout = ({
 						fontWeight: "800",
 						display: "flex",
 						justifyContent: "center",
-						alignItems:"center"
+						alignItems: "center"
 					}}
 					className="align-middle"
 				>
-					<div>
+					<div style={{
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis',
+					}}
+					>
 						{title}
 					</div>
 				</div>
@@ -139,7 +144,7 @@ const CardPageLayout = ({
 				</Paper>
 			</div>
 			<CBXFooter />
-		</div>
+		</div >
 	);
 
 export default withWindowSize(CardPageLayout);

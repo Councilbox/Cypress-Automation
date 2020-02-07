@@ -17,6 +17,8 @@ import GoverningBodyDisplay from './GoverningBodyDisplay';
 import EvidencesPage from '../evindences/EvidencesPage';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { COUNCIL_STATES } from '../../../../constants';
+import MenuSuperiorTabs from '../../../dashboard/MenuSuperiorTabs';
+import { bHistory } from '../../../../containers/App';
 
 
 const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
@@ -31,8 +33,12 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
     const config = React.useContext(ConfigContext);
 
+    const [selecteReuniones, setSelecteReuniones] = React.useState(translate.act);
+    const [selectComponent, setSelectComponent] = React.useState({});
+
+
     React.useEffect(() => {
-        if(state.infoMenu && council.state > COUNCIL_STATES.FINISHED){
+        if (state.infoMenu && council.state > COUNCIL_STATES.FINISHED) {
             setState({
                 ...state,
                 infoMenu: false
@@ -50,8 +56,9 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     }
 
     let tabs = [];
+    let tabsListNames = [];
 
-    if(withoutAct){
+    if (withoutAct) {
         tabs = [
             {
                 text: translate.wizard_agenda,
@@ -61,24 +68,24 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                             <AgendaTab
                                 council={council}
                                 translate={translate}
-                                data={{...props}}
+                                data={{ ...props }}
                             />
                         </TabContainer>
                     );
                 }
             }
         ];
-    }else {
+    } else {
         tabs.push({
             text: translate.act,
             component: () => {
                 return (
                     <TabContainer>
-                        {props.confirmed?
-                            <div style={{ height: '100%'}}>
+                        {props.confirmed ?
+                            <div style={{ height: '100%' }}>
                                 <div style={{ height: "calc(100%)", overflow: 'hidden', position: 'relative', }}>
                                     <Scrollbar>
-                                        <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
+                                        <div style={{ padding: '1.5em', overflow: 'hidden', position: 'relative' }}>
                                             <ActHTMLTab council={council} translate={translate} />
                                         </div>
                                     </Scrollbar>
@@ -98,8 +105,8 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                     />
                                 </div>*/}
                             </div>
-                        :
-                            <div style={{height: '100%'}}>
+                            :
+                            <div style={{ height: '100%' }}>
                                 <ActEditor
                                     toggleInfoMenu={toggleInfoMenu}
                                     councilID={council.id}
@@ -115,7 +122,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                 );
             }
         })
-        if(props.confirmed){
+        if (props.confirmed) {
             tabs.push({
                 text: translate.sending_the_minutes,
                 component: () => {
@@ -135,70 +142,70 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         }
     }
     tabs = [...tabs,
-        {
-            text: translate.new_list_called,
-            component: () => {
-                return (
-                    <TabContainer>
-                        <ActConvenedParticipants
+    {
+        text: translate.new_list_called,
+        component: () => {
+            return (
+                <TabContainer>
+                    <ActConvenedParticipants
+                        council={council}
+                        totalVotes={props.totalVotes}
+                        socialCapital={props.socialCapital}
+                        translate={translate}
+                    />
+                </TabContainer>
+            );
+        }
+    },
+    {
+        text: translate.show_assistants_list,
+        component: () => {
+            return (
+                <TabContainer>
+                    <ActAttendantsTable
+                        council={council}
+                        translate={translate}
+                    />
+                </TabContainer>
+            );
+        }
+    },
+    {
+        text: translate.attachment_files,
+        component: () => {
+            return (
+                <TabContainer>
+                    <Scrollbar>
+                        <ActAttachments
                             council={council}
-                            totalVotes={props.totalVotes}
-                            socialCapital={props.socialCapital}
                             translate={translate}
                         />
-                    </TabContainer>
-                );
-            }
-        },
-        {
-            text: translate.show_assistants_list,
-            component: () => {
-                return (
-                    <TabContainer>
-                        <ActAttendantsTable
-                            council={council}
-                            translate={translate}
-                        />
-                    </TabContainer>
-                );
-            }
-        },
-        {
-            text: translate.attachment_files,
-            component: () => {
-                return (
-                    <TabContainer>
-                        <Scrollbar>
-                            <ActAttachments
+                    </Scrollbar>
+                </TabContainer>
+            );
+        }
+    },
+    {
+        text: translate.convene,
+        component: () => {
+            return (
+                <TabContainer style={{ position: 'relative', width: '100%', padding: '1.2em' }}>
+                    <Scrollbar>
+                        <div style={{ paddingBottom: '2em' }}>
+                            <Convene
                                 council={council}
+                                hideAttachments
                                 translate={translate}
                             />
-                        </Scrollbar>
-                    </TabContainer>
-                );
-            }
-        },
-        {
-            text: translate.convene,
-            component: () => {
-                return (
-                    <TabContainer style={{position: 'relative', width: '100%', padding: '1.2em'}}>
-                        <Scrollbar>
-                            <div style={{paddingBottom: '2em'}}>
-                                <Convene
-                                    council={council}
-                                    hideAttachments
-                                    translate={translate}
-                                />
-                            </div>
-                        </Scrollbar>
-                    </TabContainer>
-                );
-            }
+                        </div>
+                    </Scrollbar>
+                </TabContainer>
+            );
         }
+    }
     ];
 
-    if(config.evidencesTab){
+    if (config.evidencesTab) {
         tabs.push({
             text: translate.evidences,
             component: () => {
@@ -218,7 +225,6 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         })
     }
 
-
     tabs.push({
         text: translate.recordings_tab,
         component: () => {
@@ -234,19 +240,52 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         }
     });
 
-    return(
-        <div style={{width: '100%', height: '100%', display: 'flex'}}>
-            <div style={{width: state.infoMenu? '65%' : '100%', height: '100%', transition: 'width 0.6s'}}>
+
+    tabs.map(item => {
+        tabsListNames.push(item.text)
+    })
+
+    let componentMostrar;
+
+    const getComponentSearch = () => {
+        //lo busco en el array de tabs y le hago un return....
+        let itemComponent = tabs.filter(item => {
+            return (
+                item.text === selecteReuniones
+            )
+        })
+        setSelectComponent(itemComponent)
+        console.log(itemComponent)
+    }
+
+    React.useEffect(() => {
+       getComponentSearch()
+    }, [selecteReuniones]);
+    
+    return (
+        <div style={{ width: '100%', height: '100%', display: 'flex' }}>
+            <div style={{ width: state.infoMenu ? '65%' : '100%', height: '100%', transition: 'width 0.6s' }}>
                 <CardPageLayout title={council.name} disableScroll={true}>
-                    <div style={{width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%'}}>
+                    <div style={{ display: "flex", marginLeft: "2em" }}>
+                        <MenuSuperiorTabs
+                            items={tabsListNames}
+                            setSelect={setSelecteReuniones}
+                            selected={selecteReuniones}
+                        />
+                    </div>
+                    <div style={{ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%' }}>
+                        {selectComponent[0] ? selectComponent[0].component() : "" }
+                        {/* {!!componentMostrar.component && componentMostrar.component()} */}
+                    </div>
+                    {/* <div style={{ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%' }}>
                         <TabsScreen
                             uncontrolled={true}
                             tabsInfo={tabs}
                         />
-                    </div>
+                    </div> */}
                 </CardPageLayout>
             </div>
-            <div style={{backgroundColor: 'white', width: state.infoMenu? '35%' : '0', transition: 'width 0.6s', height: '100%'}}>
+            <div style={{ backgroundColor: 'white', width: state.infoMenu ? '35%' : '0', transition: 'width 0.6s', height: '100%' }}>
                 <GoverningBodyDisplay
                     translate={translate}
                     company={props.company}
@@ -269,7 +308,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 }
 
 const TabContainer = ({ children, style }) => (
-    <div style={{height: 'calc(100% - 40px)', ...style}}>
+    <div style={{ height: 'calc(100% - 40px)', ...style }}>
         {children}
     </div>
 )
