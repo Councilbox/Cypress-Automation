@@ -150,7 +150,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id, text)}>
                         {/* onClick={props.updateCouncilActa} */}
                         {hoverFijo ?
-                            'Editando' //TRANSLATE
+                            translate.accept
                             :
                             translate.edit
                         }

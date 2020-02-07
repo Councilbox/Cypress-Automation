@@ -2,13 +2,14 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import { LoadingSection } from '../../../../displayComponents';
+import CBXDocumentLayout from '../../../documentEditor/CBXDocumentLayout';
 import { Paper } from 'material-ui';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import DownloadActPDF from './DownloadActPDF';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const ActHTML = ({ translate, council, client, ...props }) => {
+const ActHTML = ({ translate, company, council, client, ...props }) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 
@@ -65,19 +66,15 @@ const ActHTML = ({ translate, council, client, ...props }) => {
 						/>
 					</React.Fragment>
 				:
-					<Paper
-						className={props.windowSize !== 'xs' ? 'htmlPreview' : ''}
-					>
-						<div
-							dangerouslySetInnerHTML={{ __html: data.councilAct.emailAct }}
-							style={{
-								padding: "2em",
-								margin: "0 auto"
-							}}
+					<div style={{border: '1px solid gainsboro'}}>
+						<CBXDocumentLayout
+							preview={data.councilAct.emailAct}
+							loading={false}
+							company={company}
+							options={data.councilAct.document.options}
 						/>
-					</Paper>
+					</div>
 				}
-
 			</div>
 		</React.Fragment>
 	);

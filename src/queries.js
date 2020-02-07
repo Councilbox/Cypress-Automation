@@ -169,6 +169,7 @@ export const councilActEmail = gql`
 	query CouncilActEmail($councilId: String!) {
 		councilAct(councilId: $councilId) {
 			emailAct
+			document
 			type
 		}
 	}

@@ -234,7 +234,7 @@ export const generateCouncilSmartTagsValues = data => {
 }
 
 export const ActContext = React.createContext();
-const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) => {
+const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, refetch }) => {
 	const [saving, setSaving] = React.useState(false);
 	const [finishModal, setFinishModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
@@ -287,37 +287,6 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
-
-	const loadDraft = async draft => {
-		// const { data } = this.state;
- 		// const correctedText = await changeVariablesToValues(draft.text, {
-		// 	company: this.props.company,
-		// 	council: generateCouncilSmartTagsValues(data)
-		// }, this.props.translate);
-
-		// this[this.state.load].paste(correctedText);
-		// this.setState({
-		// 	loadDraft: false
-		// });
-	}
-
-	const updateActState = async object => {
-		// this.setState({
-		// 	data: {
-		// 		...this.state.data,
-		// 		council: {
-		// 			...this.state.data.council,
-		// 			act: {
-		// 				...this.state.data.council.act,
-		// 				...object
-		// 			}
-		// 		}
-		// 	}
-		// }, async () => {
-		// 	clearTimeout(this.timeout);
-		// 	this.timeout = setTimeout(() => this.updateCouncilAct(), 450);
-		// });
-	};
 
 	const checkBraces = () => {
 		// const act = this.state.data.council.act;
@@ -406,11 +375,6 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
         setFinishModal(true);
     }
 
-	const getTypeText = subjectType => {
-		const votingType = data.votingTypes.find(item => item.value === subjectType)
-		return !!votingType? translate[votingType.label] : '';
-	}
-
 	if (loading) {
 		return <LoadingSection />;
 	}
@@ -483,6 +447,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
                 generatePreview={generatePreview}
 				doc={doc}
 				options={options}
+				refetch={refetch}
 				company={company}
 				updateAct={updateAct}
                 translate={translate}
