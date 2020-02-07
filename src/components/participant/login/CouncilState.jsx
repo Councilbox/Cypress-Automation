@@ -370,21 +370,21 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 										<div style={{ textAlign: "left" }}>
 											{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span>
 										</div>
-										<div style={{ marginTop: "1em", height: "100%" }}>
+										<div style={{ marginTop: "1em", height: "calc( 100% - 15em )" }}>
 											<ResultsTimeline
 												council={council}
 												participant={props.participant}
 												translate={translate}
 												endPage={true}
 											/>
-											------
+											{/* ------
 											<Results
 												council={council}
 												participant={props.participant}
 												translate={translate}
 												endPage={true}
 											/>
-											<TimelineSection council={council} translate={translate} endPage={true} />
+											<TimelineSection council={council} translate={translate} endPage={true} /> */}
 											{/* {selectHeadFinished === "participacion" &&
 												<div style={{ paddingBottom: "1em" }}>
 													<Results

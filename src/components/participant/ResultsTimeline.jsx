@@ -352,7 +352,7 @@ const getStepInit = (event, content, translate, classes) => {
 
 const getStepColor = (event, content, translate, classes) => {
     return (
-        <Step active>
+        <Step active key={event.id}>
             <StepLabel icon={
                 <div
                     style={{
@@ -391,8 +391,9 @@ const getStepColor = (event, content, translate, classes) => {
 }
 
 const getStepConNumero = (agenda, translate, count) => {
+
     return (
-        <Step active>
+        <Step active key={agenda.id}>
             <StepLabel
                 icon={
                     <div
@@ -422,13 +423,15 @@ const getStepConNumero = (agenda, translate, count) => {
                 }
                 style={{ textAlign: "left" }}>
                 <span style={{ fontSize: "13px", color: "black" }}>
-                    {agenda.agendaSubject}
+                    <span style={{ color: getPrimary() }}>{translate.opened_votings}: </span>
+                    <span style={{ color: getSecondary(), fontWeight: "bold" }}>{agenda.agendaSubject}</span>
                 </span>
                 <div style={{ textAlign: "left", fontSize: "13px", color: "grey", }}>
+                    <span style={{ fontSize: '0.9em', fontSize: "13px", color: "grey", }}>{agenda.dateStart ? moment(agenda.dateStart).format('LLL') : ""}</span><br />
                     {`${translate.type}${translate[getAgendaTypeLabel(agenda)]} : `}
                 </div>
                 {(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
-                    <div style={{ textAlign: "left", paddingLeft: " 33px" }}>
+                    <div style={{ textAlign: "left" }}>
                         {agenda.voting ?
                             <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={true} />
                             :
@@ -437,7 +440,7 @@ const getStepConNumero = (agenda, translate, count) => {
                     </div>
                 }
                 {agenda.subjectType === getActPointSubjectType() &&
-                    <div style={{ textAlign: "left", paddingLeft: " 33px" }}>
+                    <div style={{ textAlign: "left" }}>
                         {agenda.voting ?
                             <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={true} />
                             :
@@ -468,12 +471,12 @@ export const getTimelineTranslation = (type, content, translate) => {
     const types = {
         'START_COUNCIL': () => translate.council_started,
         'START_AUTO_COUNCIL': () => translate.council_started,
-        'OPEN_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.voting_open}</span> - <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
+        'OPEN_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.voting_open}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
         'END_COUNCIL': () => translate.end_council,
-        'OPEN_POINT_DISCUSSION': () => <span><span style={{ color: getPrimary() }}>{translate.agenda_begin_discussed}</span> - <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
-        'CLOSE_POINT_DISCUSSION': () => <span><span style={{ color: getPrimary() }}>{translate.close_point}</span> - <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
-        'CLOSE_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.closed_votings}</span> - <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
-        'REOPEN_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.reopen_voting}</span> - <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
+        'OPEN_POINT_DISCUSSION': () => <span><span style={{ color: getPrimary() }}>{translate.agenda_begin_discussed}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
+        'CLOSE_POINT_DISCUSSION': () => <span><span style={{ color: getPrimary() }}>{translate.close_point}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
+        'CLOSE_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.closed_votings}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
+        'REOPEN_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.reopen_voting}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
         default: () => 'Tipo no reconocido'
     }
 
