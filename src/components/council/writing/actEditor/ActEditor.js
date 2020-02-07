@@ -270,8 +270,9 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 		const actDocument = response.data.council.act.document;
 
 		setData(response.data);
-		handlers.initializeDoc(false? {
-			doc: actDocument.items,
+
+		handlers.initializeDoc(actDocument? {
+			doc: actDocument.fragments,
 			options: actDocument.options
 		} : {
 			doc: buildDoc(response.data, translate),
@@ -383,12 +384,15 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 		return response.data.generateDocumentHTML;
 	}
 
-	const updateAct = async doc => {
+	const updateAct = async () => {
 		setSaving(true);
 		const response = await updateCouncilAct({
 			variables: {
 				councilAct: {
-					document: doc,
+					document: {
+						fragments: doc,
+						options
+					},
 					councilId: data.council.id
 				}
 			}
@@ -437,10 +441,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company }) 
 						<BasicButton
 							text={translate.save}
 							color={primary}
-							onClick={() => updateAct({
-								items: doc,
-								options
-							})}
+							onClick={updateAct}
 							loading={saving}
 							textStyle={{
 								color: "white",

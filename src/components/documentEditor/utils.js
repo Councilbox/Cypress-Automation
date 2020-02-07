@@ -19,8 +19,7 @@ const prepareColumn = (column, secondary) => {
     return column.reduce(flatItems, []).map(item => ({
         type: item.type,
         text: secondary? item.secondaryText : item.text,
-        data: item.data,
-        language: secondary? item.secondaryLanguage : item.language
+        data: item.data
     }));
 }
 
@@ -29,7 +28,9 @@ export const buildDocVariable = (doc, options) => {
         fragments: prepareColumn(doc),
         secondaryColumn: options.doubleColumn? prepareColumn(doc, true) : undefined,
         options: {
-            stamp: options.stamp
+            ...options,
+            language: 'es',
+            secondaryLanguage: 'en'
         }
     });
 }
