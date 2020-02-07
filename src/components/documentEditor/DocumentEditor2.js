@@ -53,7 +53,10 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     }, [newId]);
 
     function filterBlocks(blocks, doc) {
-        return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
+        if(doc && blocks){
+            return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
+        }
+        return [];
     }
 
     const changeToColumn = index => {
@@ -114,7 +117,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                     fontSize: '13px',
                                     color: '#a09aa0'
                                 }}> {/*TRADUCCION*/}
-                                    Personaliza y exporta el acta de la reunión a través de los bloques inferiores. Desplázalos hasta el acta y edita el texto que necesites
+                                    Personaliza y exporta documento usando los bloques inferiores. Desplázalos al documento y edita el texto que necesites
                                 </div>
                             }
                         </div>
@@ -385,6 +388,8 @@ const SortableList = SortableContainer(({ items, column, editBlock, state, edit,
 
 const DraggableBlock = SortableElement(props => {
     const [expand, setExpand] = React.useState(false);
+
+    console.log(props.value);
 
     const blockFijoTomadeAcuerdos = {
         value:{

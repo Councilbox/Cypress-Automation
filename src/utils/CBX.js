@@ -94,7 +94,7 @@ export const showAgendaVotingsTable = agenda => {
 }
 
 export const getAgendaResult = (agenda, type) => {
-	// console.log(agenda);
+	//console.log(agenda);
 	const types = {
 		POSITIVE: `${agenda.positiveVotings + agenda.positiveManual} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`,
 		NEGATIVE: `${agenda.negativeVotings + agenda.negativeManual} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`,

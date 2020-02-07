@@ -41,18 +41,19 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
         setHoverFijo(!hoverFijo)
     }
 
-    if (props.value.type === 'voting' || props.value.type === 'agendaComments') {
+    if (props.value.hasOwnProperty('toggleable')) {
+        console.log('HAY TOGGLEABLE');
         return (
             <div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%', }}>
                 <BorderBox
                     itemInfo={props.value}
-                    icon={props.value.type === 'voting' ? iconVotaciones : iconAgendaComments }
+                    icon={props.value.icon? props.value.icon : ''}
                     id={props.id}
                     column={props.column}
                     colorBorder={props.value.colorBorder}
                     stylesBody={{ width: "100%", margin: "0em", }}
                     removeBlock={props.removeBlock}
-                    toggle={props.value.type === 'agendaComments' ? false : true}
+                    toggle={props.value.toggleable}
                     noIcon={true}
                 >
                     <div >

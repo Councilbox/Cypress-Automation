@@ -11,7 +11,7 @@ import CertificateEditor from './CertificateEditor';
 import { useHoverRow } from '../../../hooks';
 
 const CouncilCertificates = ({ data, translate, ...props }) => {
-    const [editor, setEditor] = React.useState(false);
+    const [editor, setEditor] = React.useState(true);
     const [downloading, setDownloading] = React.useState(false);
     const secondary = getSecondary();
 

@@ -10,6 +10,8 @@ const GroupedBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, setTex
         props.toggleBlock(item.items[index].id, !item.items[index].hide);
     }
 
+    console.log('hay un grouped');
+
     return (
         <React.Fragment>
             {item.items.map((item, index) => (

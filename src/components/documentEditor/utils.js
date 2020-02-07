@@ -2,6 +2,7 @@ import React from 'react';
 import { blocks } from './actBlocks';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
+import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
 import { getAgendaResult, hasVotation } from '../../utils/CBX';
 import iconDelegaciones from '../../assets/img/networking.svg';
 import { TAG_TYPES } from '../company/drafts/draftTags/utils';
@@ -115,6 +116,19 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
             items: generateAgendaBlocks(data, translate, secondaryTranslate),
             text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
             secondaryText: "<b>Next, the first item on the agenda will be discussed</b>",//TRADUCCION
+        }),
+        cert_header: () => ({
+            ...item
+        }),
+        cert_footer: () => ({
+            ...item
+        }),
+        cert_agenda: () => ({
+            ...item,
+            label: "agenda",
+            items: generateCertAgendaBlocks(data, translate, secondaryTranslate),
+            text: "",
+            secondaryText: "",
         })
     }
 
@@ -124,6 +138,30 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
 
     return blockTypes[item.type]();
 }
+
+export function generateCertAgendaBlocks(data, translate, secondaryTranslate = {}){
+    const agenda = data.agendas;
+
+    console.log(agenda);
+
+    return agenda.map((point, index) => ({
+        id: Math.random().toString(36).substr(2, 9),
+        label: `Incluir punto ${point.orderIndex}`,
+        text: "",
+        editButton: false,
+        type: 'agendaComments',
+        logic: true,
+        language: 'es',
+        toggleable: true,
+        hide: false,
+        secondaryLanguage: 'en',
+        colorBorder:"#b39a5b",
+        noBorrar: false,
+        data: {
+            agendaId: point.id
+        }
+    }));
+} 
 
 
 export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
@@ -204,6 +242,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                     text: "",
                     editButton: false,
                     type: 'voting',
+                    toggleable: true,
                     hide: false,
                     noBorrar: false,
                     editButton: false,
@@ -218,7 +257,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                 }
             ]);
 
-            if(data.council.statute.existsComments !== 1){
+            //if(data.council.statute.existsComments !== 1){
                 newArray = newArray.concat([
                     {
                         id: Math.random().toString(36).substr(2, 9),
@@ -227,9 +266,11 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                         editButton: false,
                         type: 'agendaComments',
                         logic: true,
+                        toggleable: false,
                         language: 'es',
                         secondaryLanguage: 'en',
                         colorBorder:"#b39a5b",
+                        icon: iconAgendaComments,
                         noBorrar: false,
                         data: {
                             agendaId: element.id
@@ -237,7 +278,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                         editButton: false
                     }
                 ]);
-            }
+            //}
         }
     });
 
@@ -271,6 +312,20 @@ export const getDefaultTagsByBlockType = (type, translate) => {
                 name: 'constitution',
                 label: translate.constitution
             }
+        },
+        'cert_header': {
+            constitution: {
+                ...baseTag,
+                name: 'cert_header',
+                label: translate.cert_header
+            }
+        },
+        'cert_footer': {
+            constitution: {
+                ...baseTag,
+                name: 'cert_footer',
+                label: translate.cert_footer
+            }
         }
     }
 
@@ -278,21 +333,32 @@ export const getDefaultTagsByBlockType = (type, translate) => {
 }
 
 
-export const buildDoc = (data, translate) => {
-    const items = [
-        blocks.ACT_TITLE,
-        blocks.ACT_INTRO,
-        blocks.ACT_CONSTITUTION,
-        blocks.ACT_CONCLUSION,
-        blocks.AGENDA_LIST,
-        blocks.AGENDA,
-        blocks.ATTENDANTS_LIST,
-        blocks.DELEGATION_LIST
-    ];
+export const buildDoc = (data, translate, type) => {
+    const CBX_DOCS = {
+        act: [
+            blocks.ACT_TITLE,
+            blocks.ACT_INTRO,
+            blocks.ACT_CONSTITUTION,
+            blocks.ACT_CONCLUSION,
+            blocks.AGENDA_LIST,
+            blocks.AGENDA,
+            blocks.ATTENDANTS_LIST,
+            blocks.DELEGATION_LIST
+        ],
+        certificate: [
+            blocks.ACT_TITLE,
+            blocks.CERT_HEADER,
+            blocks.CERT_AGENDA,
+            blocks.CERT_FOOTER
+        ]
+    }
 
-    const doc = items.map(item => buildDocBlock(item, data, translate));
+    if(!CBX_DOCS[type]){
+        throw new Error('Invalid doc type');
+    }
+    console.log(CBX_DOCS[type].map(item => buildDocBlock(item, data, translate)));
 
-    return doc;
+    return CBX_DOCS[type].map(item => buildDocBlock(item, data, translate));
 
 }
 

@@ -29,7 +29,7 @@ import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
 import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../../documentEditor/utils";
 import DownloadDoc from "../../../documentEditor/DownloadDoc";
-import { blocks } from "../../../documentEditor/actBlocks";
+import { actBlocks } from "../../../documentEditor/actBlocks";
 
 
 export const CouncilActData = gql`
@@ -271,11 +271,22 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 
 		setData(response.data);
 
+		console.log(actDocument? {
+			doc: actDocument.fragments,
+			options: actDocument.options
+		} : {
+			doc: buildDoc(response.data, translate, 'act'),
+			options: {
+				stamp: true,
+				doubleColumn: false
+			}
+		})
+
 		handlers.initializeDoc(actDocument? {
 			doc: actDocument.fragments,
 			options: actDocument.options
 		} : {
-			doc: buildDoc(response.data, translate),
+			doc: buildDoc(response.data, translate, 'act'),
 			options: {
 				stamp: true,
 				doubleColumn: false
@@ -390,7 +401,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				data={data}
 				{...handlers}
 				documentId={data.council.id}
-				blocks={Object.keys(blocks).map(key => buildDocBlock(blocks[key], data, translate, translate))}
+				blocks={Object.keys(actBlocks).map(key => buildDocBlock(actBlocks[key], data, translate, translate))}
 				options={options}
 				generatePreview={generatePreview}
 				download={true}
