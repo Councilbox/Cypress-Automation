@@ -13,6 +13,7 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
 import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
+import DownloadDoc from '../../documentEditor/DownloadDoc';
 
 
 const initialState = {
@@ -69,7 +70,8 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                     offset: 0
                 }
             }
-        });
+		});
+		console.log(response);
 		handlers.initializeDoc({
 			doc: buildDoc(response.data, translate, 'certificate'),
 			options: {
@@ -221,12 +223,14 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 				download={true}
 				documentMenu={
 					<React.Fragment>
-						{/* <DownloadDoc
+						<DownloadDoc
 							translate={translate}
 							doc={doc}
 							options={options}
 							council={data.council}
 						/>
+
+						{/*}
 						<BasicButton
 							text={translate.save}
 							color={primary}

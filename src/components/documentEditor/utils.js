@@ -149,7 +149,7 @@ export function generateCertAgendaBlocks(data, translate, secondaryTranslate = {
         label: `Incluir punto ${point.orderIndex}`,
         text: "",
         editButton: false,
-        type: 'agendaComments',
+        type: 'certAgenda',
         logic: true,
         language: 'es',
         toggleable: true,
