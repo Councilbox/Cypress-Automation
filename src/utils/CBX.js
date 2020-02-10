@@ -539,6 +539,25 @@ export const generateAgendaText = (translate, agenda) => {
 	return agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '');
 }
 
+export const buildDelegationsString = (delegated, council, translate) => {
+	const texts = {
+		es: 'titular de',
+		en: 'owner of',
+		gal: 'dono de',
+		cat: 'con',
+		pt: 'proprietário de'
+	}
+
+	return delegated.reduce((acc, vote) => {
+		return acc + `<p style="border: 1px solid black; padding: 5px;">-${
+			vote.name} ${
+			vote.surname} ${texts[council.language]} ${vote.numParticipations} ${
+				council.quorumPrototype === 1? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
+			translate.delegates.toLowerCase()} ${
+			vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} </p><br/>`
+	},  `<br/><h4>${translate.delegations}</h4><br/>`);
+}
+
 
 export const buildAttendantsString = (council, total) => (acc, curr, index) => {
 	if(!hasParticipations(council)){
@@ -690,6 +709,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{percentageSCTotal}}/g, `${data.council.percentageSCTotal}%`);
 	text = text.replace(/{{numParticipationsPresent}}/g, data.council.numParticipationsPresent);
 	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
+	text = text.replace(/{{delegations}}/, buildDelegationsString(data.council.delegatedVotes, data.council, translate));
 
 
 	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
