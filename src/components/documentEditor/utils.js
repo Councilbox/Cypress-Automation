@@ -29,9 +29,9 @@ export const buildDocVariable = (doc, options) => {
         fragments: prepareColumn(doc),
         secondaryColumn: options.doubleColumn? prepareColumn(doc, true) : undefined,
         options: {
-            ...options,
             language: 'es',
-            secondaryLanguage: 'en'
+            secondaryLanguage: 'en',
+            ...options,
         }
     });
 }
@@ -141,8 +141,6 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
 
 export function generateCertAgendaBlocks(data, translate, secondaryTranslate = {}){
     const agenda = data.agendas;
-
-    console.log(agenda);
 
     return agenda.map((point, index) => ({
         id: Math.random().toString(36).substr(2, 9),
@@ -339,9 +337,9 @@ export const buildDoc = (data, translate, type) => {
             blocks.ACT_TITLE,
             blocks.ACT_INTRO,
             blocks.ACT_CONSTITUTION,
-            blocks.ACT_CONCLUSION,
             blocks.AGENDA_LIST,
             blocks.AGENDA,
+            blocks.ACT_CONCLUSION,
             blocks.ATTENDANTS_LIST,
             blocks.DELEGATION_LIST
         ],
