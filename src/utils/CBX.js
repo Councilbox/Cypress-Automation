@@ -540,6 +540,10 @@ export const generateAgendaText = (translate, agenda) => {
 }
 
 export const buildDelegationsString = (delegated, council, translate) => {
+	if(!delegated || delegated.length === 0){
+		return '';
+	}
+
 	const texts = {
 		es: 'titular de',
 		en: 'owner of',
