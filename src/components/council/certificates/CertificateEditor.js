@@ -71,12 +71,13 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                 }
             }
 		});
-		console.log(response);
 		handlers.initializeDoc({
 			doc: buildDoc(response.data, translate, 'certificate'),
 			options: {
 				stamp: true,
-				doubleColumn: false
+				doubleColumn: false,
+				language: response.data.council.language,
+				secondaryLanguage: 'en'
 			}
 		});
 		dispatch({ type: 'LOADED', value: response.data });
