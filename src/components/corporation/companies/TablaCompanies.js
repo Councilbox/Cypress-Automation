@@ -19,7 +19,6 @@ import withSharedProps from "../../../HOCs/withSharedProps";
 import NewCompanyPage from "../../company/new/NewCompanyPage";
 import RemoveCompany from './RemoveCompany';
 import DeleteCompany from './DeleteCompany';
-import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
 import { isMobile } from "react-device-detect";
 
 

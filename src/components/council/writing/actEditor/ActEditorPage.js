@@ -259,30 +259,25 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     }
 
     React.useEffect(() => {
-       getComponentSearch()
+        getComponentSearch()
     }, [selecteReuniones]);
-    
+
     return (
         <div style={{ width: '100%', height: '100%', display: 'flex' }}>
             <div style={{ width: state.infoMenu ? '65%' : '100%', height: '100%', transition: 'width 0.6s' }}>
                 <CardPageLayout title={council.name} disableScroll={true}>
-                    <div style={{ display: "flex", marginLeft: "2em" }}>
-                        <MenuSuperiorTabs
-                            items={tabsListNames}
-                            setSelect={setSelecteReuniones}
-                            selected={selecteReuniones}
-                        />
-                    </div>
                     <div style={{ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%' }}>
-                        {selectComponent[0] ? selectComponent[0].component() : "" }
-                        {/* {!!componentMostrar.component && componentMostrar.component()} */}
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ fontSize: "13px", }}>
+                                <MenuSuperiorTabs
+                                    items={tabsListNames}
+                                    setSelect={setSelecteReuniones}
+                                    selected={selecteReuniones}
+                                />
+                            </div>
+                        </div>
+                        {selectComponent[0] ? selectComponent[0].component() : ""}
                     </div>
-                    {/* <div style={{ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%' }}>
-                        <TabsScreen
-                            uncontrolled={true}
-                            tabsInfo={tabs}
-                        />
-                    </div> */}
                 </CardPageLayout>
             </div>
             <div style={{ backgroundColor: 'white', width: state.infoMenu ? '35%' : '0', transition: 'width 0.6s', height: '100%' }}>
