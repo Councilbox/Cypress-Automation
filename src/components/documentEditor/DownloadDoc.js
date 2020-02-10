@@ -81,7 +81,7 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
             id={'user-menu-trigger'}
             loading={loading}
             loadingColor={'black'}
-            text={translate.export_act_to}
+            text={'Exportar documento'}//TRADUCCION
             textStyle={{ color: '#464646' }}
             buttonStyle={{border: `1px solid ${'#969696'}`, marginRight: '1em'}}
             icon={

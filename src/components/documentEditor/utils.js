@@ -257,11 +257,11 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                 }
             ]);
 
-            //if(data.council.statute.existsComments !== 1){
+            if(data.council.statute.existsComments === 1){
                 newArray = newArray.concat([
                     {
                         id: Math.random().toString(36).substr(2, 9),
-                        label: "Punto " + (index + 1) + " - Comentarios",
+                        label: "Punto " + (index + 1) + " - Comentarios", //TRADUCCION
                         text: "<b>Comentarios</b> </br>" + element.description,
                         editButton: false,
                         type: 'agendaComments',
@@ -278,7 +278,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                         editButton: false
                     }
                 ]);
-            //}
+            }
         }
     });
 
