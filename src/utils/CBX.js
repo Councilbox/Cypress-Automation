@@ -559,7 +559,7 @@ export const buildDelegationsString = (delegated, council, translate) => {
 				council.quorumPrototype === 1? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
 			translate.delegates.toLowerCase()} ${
 			vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} </p><br/>`
-	},  `<br/><h4>${translate.delegations}</h4><br/>`);
+	},  '');
 }
 
 
