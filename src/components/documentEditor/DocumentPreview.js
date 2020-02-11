@@ -1,8 +1,5 @@
 import React from 'react';
-import Timbrado from './Timbrado';
 import { withApollo } from 'react-apollo';
-import { buildDocVariable } from './utils';
-import gql from 'graphql-tag';
 import CBXDocumentLayout from './CBXDocumentLayout';
 
 const spinnerDelay = 2500;

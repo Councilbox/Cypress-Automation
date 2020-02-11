@@ -19,7 +19,11 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
                 }
             `,
             variables: {
-                doc: buildDocVariable(doc, options),
+                doc: buildDocVariable([{
+                    type: 'text',
+                    text: '<h3 style="padding: 10px; border: 1px solid black;">Vista previa sin validez legal</h3>',
+                    secondaryText: '<h3 style="padding: 10px; border: 1px solid black;">Document preview</h3>',
+                }, ...doc], options),
                 councilId: council.id
             }
         });

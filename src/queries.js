@@ -130,15 +130,6 @@ export const downloadCertificate = gql`
 	}
 `;
 
-export const createCertificate = gql`
-	mutation CreateCertificate($certificate: CertificateInput, $points: [Int]) {
-		createCertificate(certificate: $certificate, points: $points) {
-			success
-			message
-		}
-	}
-`;
-
 export const councilCertificates = gql`
 	query CouncilCertificates($councilId: Int!) {
 		councilCertificates(councilId: $councilId) {

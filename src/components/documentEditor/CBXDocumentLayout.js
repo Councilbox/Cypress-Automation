@@ -20,7 +20,14 @@ const CBXDocumentLayout = ({ options, loading, preview, company }) => {
                         <img style={{ maxHeight: '3em', width: "auto" }} src={company.logo}></img>
                     </div>
                 </div>
-                <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
+                <div
+                    style={{
+                        padding: "1em",
+                        paddingLeft: "0.5em",
+                        marginRight: "3em",
+                        marginBottom: "3em"
+                    }}
+                    className={"actaLienzo"}>
                     {loading?
                         <div style={{display: 'flex'}}>
                             <div style={{marginRight: '0.5em'}}>Generando vista previa del documento</div><div> <LoadingSection size={14} /></div>
