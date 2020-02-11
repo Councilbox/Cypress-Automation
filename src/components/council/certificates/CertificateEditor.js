@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextInput, BasicButton, CardPageLayout, Scrollbar, LoadingSection, SectionTitle, LiveToast } from '../../../displayComponents';
 import { graphql, withApollo } from 'react-apollo';
-import { createCertificate } from '../../../queries';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { toast } from 'react-toastify';
 import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag } from '../../../utils/CBX';
@@ -14,6 +13,7 @@ import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from 
 import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
 import DownloadDoc from '../../documentEditor/DownloadDoc';
+import CreateCertificateModal from './CreateCertificateModal';
 
 
 const initialState = {
@@ -38,11 +38,9 @@ const dataReducer = (state, action) => {
 
 
 const CerficateEditor = ({ translate, council, company, client, ...props }) => {
-    //const [loading, setLoading] = React.useState(false);
     const [{ data, loading }, dispatch] = React.useReducer(dataReducer, initialState);
     const [infoMenu, setInfoMenu] = React.useState(false);
-    //const [loadingDraftData, setLoadingDraftData] = React.useState(true);
-    //const [draftData, setDraftData] = React.useState(null);
+    const [createModal, setCreateModal] = React.useState(false);
     const {
 		doc,
         options,
@@ -50,7 +48,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 	} = useDoc({
 		transformText: async text => changeVariablesToValues(text, {
 			council: {
-				...(data),
+				...generateCouncilSmartTagsValues(data),
 			},
 			company
         }, translate)
@@ -87,22 +85,6 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
         getData();
     }, [getData]);
 
-    const getCorrectedText = async text => {
-		const correctedText = await changeVariablesToValues(text, {
-			company,
-			council: {
-                ...generateCouncilSmartTagsValues(data),
-                ...(company.governingBodyType === GOVERNING_BODY_TYPES.COUNCIL.value? {
-                    president: `${company.governingBodyData.list[0].name} ${company.governingBodyData.list[0].surname}`,
-                    secretary: `${company.governingBodyData.list[2].name} ${company.governingBodyData.list[2].surname}`,
-                } : {
-                    president: '',
-                    secretary: ''
-                })
-            }
-		}, translate);
-		return correctedText;
-	}
 
 	const generatePreview = async () => {
 		const response = await client.mutate({
@@ -118,30 +100,6 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 		});
 		return response.data.generateDocumentHTML;
 	}
-
-
-    const createCertificate = async () => {
-        // if(!checkRequiredFields()){
-        //     setLoading(true);
-        //     const response = await props.createCertificate({
-        //         variables: {
-        //             certificate: {
-        //                 ...data,
-        //                 councilId: council.id,
-        //                 date:  new Date().toISOString()
-        //             },
-        //             points
-        //         }
-        //     })
-
-        //     if(!response.errors){
-        //         if(response.data.createCertificate.success){
-        //             setLoading(false);
-        //             props.requestClose();
-        //         }
-        //     }
-        // }
-    }
 
     function checkRequiredFields() {
 
@@ -191,22 +149,6 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
         setInfoMenu(!infoMenu);
     }
 
-    const updateCertificateDate = object => {
-        // setData({
-        //     ...data,
-        //     ...object
-        // });
-    }
-
-    const updatePoints = (agendaId, check) => {
-        // if(check){
-        //     setPoints([...points, agendaId]);
-        // }else{
-        //     const index = points.findIndex(id => agendaId === id);
-        //     points.splice(index, 1);
-        //     setPoints([...points]);
-        // }
-    }
 
     if(loading){
         return <LoadingSection />
@@ -230,18 +172,15 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 							options={options}
 							council={data.council}
 						/>
-
-						{/*}
 						<BasicButton
-							text={translate.save}
-							color={primary}
-							onClick={updateAct}
-							loading={saving}
+							text={translate.certificate_generate}
+							color={secondary}
 							textStyle={{
 								color: "white",
 								fontSize: "0.9em",
 								textTransform: "none"
 							}}
+							onClick={() => setCreateModal(true)}
 							textPosition="after"
 							iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
 							buttonStyle={{
@@ -250,42 +189,20 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 								borderRadius: '3px'
 							}}
 						/>
-						<BasicButton
-							text={translate.finish_and_aprove_act}
-							color={secondary}
-							textStyle={{
-								color: "white",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							onClick={finishAct}
-							textPosition="after"
-							iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-							buttonStyle={{
-								marginRight: "1em",
-								boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-								borderRadius: '3px'
-							}}
-						/> */}
-
 					</React.Fragment>
 				}
 				translate={translate}
 			/>
-			{/* <FinishActModal
-                show={finishModal}
-                generatePreview={generatePreview}
+			<CreateCertificateModal
+				open={createModal}
+				councilId={council.id}
 				doc={doc}
-				options={options}
-				refetch={refetch}
 				company={company}
-				updateAct={updateAct}
-                translate={translate}
-                council={data.council}
-                requestClose={() => {
-                    setFinishModal(false)
-                }}
-            /> */}
+				options={options}
+				generatePreview={generatePreview}
+				translate={translate}
+				requestClose={() => setCreateModal(false)}
+			/>
 		</React.Fragment>
 	)
 }
@@ -421,6 +338,4 @@ export const query = gql`
 `;
 
 
-export default withSharedProps()(withApollo(graphql(createCertificate, {
-    name: 'createCertificate'
-})(CerficateEditor)));
+export default withSharedProps()(withApollo(CerficateEditor));
