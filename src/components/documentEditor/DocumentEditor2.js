@@ -219,6 +219,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                                 marginRight: '1em',
                                                 fontWeight: "700",
                                                 fontSize: "0.9em",
+                                                height: '3em',
                                                 textTransform: "none"
                                             }}
                                             className="withShadow"
@@ -254,7 +255,8 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             marginRight: '1em',
                                             fontWeight: "700",
                                             fontSize: "0.9em",
-                                            textTransform: "none"
+                                            textTransform: "none",
+                                            height: '3em',
                                         }}
                                         className="withShadow"
                                         onClick={() => setState({

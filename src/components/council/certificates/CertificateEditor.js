@@ -39,7 +39,8 @@ const dataReducer = (state, action) => {
 
 const CerficateEditor = ({ translate, council, company, client, ...props }) => {
     const [{ data, loading }, dispatch] = React.useReducer(dataReducer, initialState);
-    const [infoMenu, setInfoMenu] = React.useState(false);
+	const [infoMenu, setInfoMenu] = React.useState(false);
+	const [error, setError] = React.useState(null);
     const [createModal, setCreateModal] = React.useState(false);
     const {
 		doc,
@@ -165,31 +166,38 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 				generatePreview={generatePreview}
 				download={true}
 				documentMenu={
-					<React.Fragment>
-						<DownloadDoc
-							translate={translate}
-							doc={doc}
-							options={options}
-							council={data.council}
-						/>
-						<BasicButton
-							text={translate.certificate_generate}
-							color={secondary}
-							textStyle={{
-								color: "white",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							onClick={() => setCreateModal(true)}
-							textPosition="after"
-							iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-							buttonStyle={{
-								marginRight: "1em",
-								boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-								borderRadius: '3px'
-							}}
-						/>
-					</React.Fragment>
+					<div style={{display: 'flex', flexDirection: 'column'}}>
+						<div>
+							<DownloadDoc
+								translate={translate}
+								doc={doc}
+								options={options}
+								council={data.council}
+							/>
+							<BasicButton
+								text={translate.certificate_generate}
+								color={secondary}
+								textStyle={{
+									color: "white",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								onClick={() => setCreateModal(true)}
+								textPosition="after"
+								iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+								buttonStyle={{
+									marginRight: "1em",
+									boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+									borderRadius: '3px'
+								}}
+							/>
+						</div>
+						{error &&
+							<div style={{color: 'red', fontWeight: '700', marginTop: '1em'}}>
+								{error}
+							</div>
+						}
+					</div>
 				}
 				translate={translate}
 			/>
@@ -197,10 +205,12 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 				open={createModal}
 				councilId={council.id}
 				doc={doc}
+				setError={setError}
 				company={company}
 				options={options}
 				generatePreview={generatePreview}
 				translate={translate}
+				closeEditor={props.requestClose}
 				requestClose={() => setCreateModal(false)}
 			/>
 		</React.Fragment>

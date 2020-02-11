@@ -48,7 +48,7 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
         title: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
-            text: data.council.name,
+            text: `<h4>${data.council.name}</h4>`,
             secondaryText: data.council.name,
         }),
         intro: () => ({
@@ -123,9 +123,13 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
         cert_footer: () => ({
             ...item
         }),
+        cert_title: () => ({
+            ...item
+        }),
         cert_agenda: () => ({
             ...item,
             label: "agenda",
+            type: 'certAgenda',
             items: generateCertAgendaBlocks(data, translate, secondaryTranslate),
             text: "",
             secondaryText: "",
@@ -344,17 +348,16 @@ export const buildDoc = (data, translate, type) => {
             blocks.DELEGATION_LIST
         ],
         certificate: [
-            blocks.ACT_TITLE,
+            blocks.CERT_TITLE,
             blocks.CERT_HEADER,
             blocks.CERT_AGENDA,
             blocks.CERT_FOOTER
-        ]
+        ],
     }
 
     if(!CBX_DOCS[type]){
         throw new Error('Invalid doc type');
     }
-    console.log(CBX_DOCS[type].map(item => buildDocBlock(item, data, translate)));
 
     return CBX_DOCS[type].map(item => buildDocBlock(item, data, translate));
 

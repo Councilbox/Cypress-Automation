@@ -83,6 +83,17 @@ export const blocks = {
         language: 'es',
         secondaryLanguage: 'en',
     },
+    CERT_TITLE: {
+        id: Math.random().toString(36).substr(2, 9),
+        label: 'title',
+        text: "",
+        secondaryText: '',
+        hideDelete: true,
+        editButton: true,
+        type: 'cert_title',
+        language: 'es',
+        secondaryLanguage: 'en',
+    },
     CERT_FOOTER: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'certificate_footer',
@@ -99,6 +110,7 @@ export const blocks = {
         text: "",
         secondaryText: '',
         editButton: false,
+        hideDelete: true,
         type: 'cert_agenda',
         language: 'es',
         secondaryLanguage: 'en',
@@ -122,4 +134,5 @@ export const certBlocks = {
     CERT_HEADER: blocks.CERT_HEADER,
     CERT_AGENDA: blocks.CERT_AGENDA,
     CERT_FOOTER: blocks.CERT_FOOTER
+
 }
