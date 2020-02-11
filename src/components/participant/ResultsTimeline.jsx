@@ -95,163 +95,27 @@ const ResultsTimeline = ({ data, translate, requestClose, open, participant, cou
                             count++
                         }
                         switch (event.type) {
+                            case 'OPEN_VOTING':
+                                return null;
                             case 'START_COUNCIL':
-                                return getStepInit(event, content, translate, classes);
                             case 'END_COUNCIL':
                                 return getStepInit(event, content, translate, classes);
                             case 'START_AUTO_COUNCIL':
-                                return getStepColor(event, content, translate, classes);
-                            case 'OPEN_VOTING':
-                                return getStepColor(event, content, translate, classes);
                             case 'CLOSE_REMOTE_VOTINGS':
-                                return getStepColor(event, content, translate, classes);
                             case 'OPEN_POINT_DISCUSSION':
-                                return getStepColor(event, content, translate, classes);
                             case 'CLOSE_POINT_DISCUSSION':
-                                return getStepColor(event, content, translate, classes);
                             case 'CLOSE_VOTING':
-                                return getStepColor(event, content, translate, classes);
                             case 'REOPEN_VOTING':
                                 return getStepColor(event, content, translate, classes);
                             default:
                                 return getStepConNumero(event, translate, count);
                         }
-                        // return (
-                        //     getStepInit(event, content, translate, classes)
-                        //     // getStepColor(event, content, translate, classes)
-                        //     // getStepConNumero(event, content, translate, classes)
-
-                        // )
                     })}
                 </Stepper>
             </Scrollbar>
         </div>
     )
 
-    if (endPage) {
-        return (
-            <div style={{ ...stylesHead }}>
-                {agendas.map((agenda, index) => {
-                    return (
-                        <div style={{ marginBottom: '1.2em' }} key={`agenda_${agenda.id}`}>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                }}
-                            >
-                                <AgendaNumber
-                                    index={index + 1}
-                                    open={agenda.pointState === 1}
-                                    active={false}
-                                    activeColor={primary}
-                                    voting={agenda.votingState === 1 && agenda.subjectType !== 0}
-                                    translate={translate}
-                                    secondaryColor={secondary}
-                                    small={true}
-                                    style={{
-                                        position: 'static',
-                                    }}
-                                    moreStyles={{
-                                        border: `1px solid ${getSecondary()}`,
-                                    }}
-                                />
-                                <span style={{ marginLeft: '0.6em' }}>
-                                    {agenda.agendaSubject}
-                                </span>
-                            </div>
-                            <div style={{ textAlign: "left", paddingLeft: " 33px" }}>
-                                {`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
-                            </div>
-                            {(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
-                                <div style={{ textAlign: "left", paddingLeft: " 33px" }}>
-                                    {agenda.voting ?
-                                        <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={endPage} />
-                                        :
-                                        translate.not_present_at_time_of_voting
-                                    }
-                                </div>
-                            }
-                            {agenda.subjectType === getActPointSubjectType() &&
-                                <div style={{ textAlign: "left", paddingLeft: " 33px" }}>
-                                    {agenda.voting ?
-                                        <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={endPage} />
-                                        :
-                                        translate.not_present_at_time_of_voting
-                                    }
-                                </div>
-                            }
-                        </div>
-                    )
-                })}
-            </div>
-
-        )
-    } else {
-        return (
-            <AlertConfirm
-                requestClose={requestClose}
-                open={open}
-                acceptAction={requestClose}
-                buttonAccept={translate.accept}
-                bodyText={
-                    <div>
-                        {agendas.map((agenda, index) => {
-                            return (
-                                <div style={{ marginBottom: '1.2em' }} key={`agenda_${agenda.id}`}>
-                                    <div
-                                        style={{
-                                            display: 'flex',
-                                            width: '22px',
-                                            height: '22px'
-                                        }}
-                                    >
-                                        <AgendaNumber
-                                            index={index + 1}
-                                            open={agenda.pointState === 1}
-                                            active={false}
-                                            activeColor={primary}
-                                            voting={agenda.votingState === 1 && agenda.subjectType !== 0}
-                                            translate={translate}
-                                            secondaryColor={secondary}
-                                            small={true}
-                                            style={{
-                                                position: 'static',
-                                            }}
-                                        />
-                                        <span style={{ fontWeight: '700', marginLeft: '0.6em' }}>
-                                            {agenda.agendaSubject}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        {`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
-                                    </div>
-                                    {(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
-                                        <React.Fragment>
-                                            {agenda.voting ?
-                                                <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
-                                                :
-                                                translate.not_present_at_time_of_voting
-                                            }
-                                        </React.Fragment>
-                                    }
-                                    {agenda.subjectType === getActPointSubjectType() &&
-                                        <React.Fragment>
-                                            {agenda.voting ?
-                                                <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
-                                                :
-                                                translate.not_present_at_time_of_voting
-                                            }
-                                        </React.Fragment>
-                                    }
-                                </div>
-                            )
-                        })}
-                    </div>
-                }
-                title={`${participant.name} ${participant.surname}`}
-            />
-        )
-    }
 }
 
 const VoteDisplay = ({ voting, translate, agenda, ballots, endPage }) => {
@@ -331,7 +195,7 @@ const getStepInit = (event, content, translate, classes) => {
                 style={{ textAlign: "left", fontSize: "13px" }}>
                 <span style={{ fontSize: "13px", fontWeight: "normal" }}>{getTimelineTranslationReverse(event.type, content, translate)}</span><br />
                 <span style={{ fontSize: '0.9em', color: "grey", fontSize: "13px" }}>{moment(event.date).format('LLL')}</span>
-            </StepLabel >
+            </StepLabel>
             <StepContent classes={{
                 root: classes.root
             }} style={{ fontSize: '0.9em', textAlign: "left" }}>
@@ -346,7 +210,7 @@ const getStepInit = (event, content, translate, classes) => {
                     </React.Fragment>
                 }
             </StepContent>
-        </Step >
+        </Step>
     )
 }
 
@@ -378,7 +242,7 @@ const getStepColor = (event, content, translate, classes) => {
                 {(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
                     <React.Fragment>
                         <span>
-                            {`${translate.recount}:`}
+                            {`${translate.recount}: `}
                             <div aria-label={`${translate.in_favor_btn}: ${content.data.agendaPoint.results.positive}`}>{translate.in_favor_btn}: {content.data.agendaPoint.results.positive}</div>
                             <div aria-label={`${translate.against_btn}: ${content.data.agendaPoint.results.negative}`}>{translate.against_btn}: {content.data.agendaPoint.results.negative}</div>
                             <div aria-label={`${translate.abstention}: ${content.data.agendaPoint.results.abstention}`}>{translate.abstention}: {content.data.agendaPoint.results.abstention}</div>
@@ -391,7 +255,6 @@ const getStepColor = (event, content, translate, classes) => {
 }
 
 const getStepConNumero = (agenda, translate, count) => {
-
     return (
         <Step active key={agenda.id}>
             <StepLabel
@@ -427,8 +290,8 @@ const getStepConNumero = (agenda, translate, count) => {
                     <span style={{ color: getSecondary(), fontWeight: "bold" }}>{agenda.agendaSubject}</span>
                 </span>
                 <div style={{ textAlign: "left", fontSize: "13px", color: "grey", }}>
-                    <span style={{ fontSize: '0.9em', fontSize: "13px", color: "grey", }}>{agenda.dateStart ? moment(agenda.dateStart).format('LLL') : ""}</span><br />
-                    {`${translate.type}${translate[getAgendaTypeLabel(agenda)]} : `}
+                    <span style={{ fontSize: '0.9em', fontSize: "13px", color: "grey", }}>{agenda.dateStartVotation ? moment(agenda.dateStartVotation).format('LLL') : ""}</span><br />
+                    {`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
                 </div>
                 {(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
                     <div style={{ textAlign: "left" }}>
@@ -471,12 +334,36 @@ export const getTimelineTranslation = (type, content, translate) => {
     const types = {
         'START_COUNCIL': () => translate.council_started,
         'START_AUTO_COUNCIL': () => translate.council_started,
-        'OPEN_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.voting_open}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
+        'OPEN_VOTING': () => (<span>
+            <span style={{ color: getPrimary() }}>{`${translate.voting_open}: ` }</span>
+            <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span>
+            </span>
+        ),
         'END_COUNCIL': () => translate.end_council,
-        'OPEN_POINT_DISCUSSION': () => <span><span style={{ color: getPrimary() }}>{translate.agenda_begin_discussed}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
-        'CLOSE_POINT_DISCUSSION': () => <span><span style={{ color: getPrimary() }}>{translate.close_point}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
-        'CLOSE_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.closed_votings}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
-        'REOPEN_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.reopen_voting}</span>: <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span></span>,
+        'OPEN_POINT_DISCUSSION': () => (
+            <span>
+                <span style={{ color: getPrimary() }}>{`${translate.agenda_begin_discussed}: `}</span>
+                <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span>
+            </span>
+        ),
+        'CLOSE_POINT_DISCUSSION': () => (
+            <span>
+                <span style={{ color: getPrimary() }}>{`${translate.close_point}: `}</span>
+                <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span>
+            </span>
+        ),
+        'CLOSE_VOTING': () => (
+            <span>
+                <span style={{ color: getPrimary() }}>{`${translate.closed_votings}: `}</span>
+                <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span>
+            </span>
+        ),
+        'REOPEN_VOTING': () => (
+            <span>
+                <span style={{ color: getPrimary() }}>{`${translate.reopen_voting}: `}</span>
+                <span style={{ color: "black" }}>{content.data.agendaPoint.name}</span>
+            </span>
+        ),
         default: () => 'Tipo no reconocido'
     }
 
