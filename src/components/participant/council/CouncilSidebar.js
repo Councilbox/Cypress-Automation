@@ -3,7 +3,7 @@ import FontAwesome from "react-fontawesome";
 import FloatGroup from 'react-float-button';
 import { Grid, Button } from "material-ui";
 import { withApollo } from 'react-apollo';
-import TimelineSection from '../timeline/TimelineSection';
+import ResultsTimeline from '../ResultsTimeline';
 import gql from 'graphql-tag';
 import { darkGrey, secondary, primary, getSecondary } from '../../../styles/colors';
 import { AlertConfirm, Badge, Scrollbar } from '../../../displayComponents';
@@ -385,14 +385,12 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                                 props.agenda
                             }
                             {props.modalContent === 'timeline' &&
-                                <Scrollbar ref={scrollbar}>
-                                    <TimelineSection
-                                        council={council}
-                                        translate={translate}
-                                        participant={participant}
-                                        scrollToBottom={scrollToBottom}
-                                    />
-                                </Scrollbar>
+                                <ResultsTimeline
+                                    council={council}
+                                    participant={participant}
+                                    translate={translate}
+                                    endPage={true}
+                                />
                             }
                         </div>
                     }
