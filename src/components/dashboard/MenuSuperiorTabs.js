@@ -5,7 +5,7 @@ import { MenuItem } from "material-ui";
 import { SelectInput } from "../../displayComponents";
 
 
-const MenuSuperiorTabs = ({ items, setSelect, selected }) => {
+const MenuSuperiorTabs = ({ items, setSelect, translate, selected }) => {
 	const set = item => {
 		setSelect(item);
 	}

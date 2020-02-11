@@ -945,3 +945,16 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .openInput div input:focus {
     width: 100%;
 }
+
+.quillEditorButtonsEmpty .ql-toolbar.ql-snow {
+    display: none;
+}
+
+.quillEditorButtonsEmpty .ql-container.ql-snow {
+    border: none;
+    border-radius: 3px;
+}
+
+.quillEditorButtonsEmpty .ql-container.ql-snow .ql-editor {
+    overflow-y: auto;
+}
