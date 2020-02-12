@@ -65,7 +65,7 @@ const ResultsTimeline = ({ data, translate, requestClose, open, participant, cou
         });
     }
     let datos = []
-    datos = [...timeline, ...agendas]
+    datos = [...timeline]
 
     datos = datos.sort(function (a, b) {
         return moment(a.date ? a.date : a.dateStart).format('X') - moment(b.date ? b.date : b.dateStart).format('X')
@@ -95,8 +95,6 @@ const ResultsTimeline = ({ data, translate, requestClose, open, participant, cou
                             count++
                         }
                         switch (event.type) {
-                            case 'OPEN_VOTING':
-                                return null;
                             case 'START_COUNCIL':
                             case 'END_COUNCIL':
                                 return getStepInit(event, content, translate, classes);
@@ -108,7 +106,7 @@ const ResultsTimeline = ({ data, translate, requestClose, open, participant, cou
                             case 'REOPEN_VOTING':
                                 return getStepColor(event, content, translate, classes);
                             default:
-                                return getStepConNumero(event, translate, count);
+                                return getStepConNumero(content, translate, agendas);
                         }
                     })}
                 </Stepper>
@@ -254,7 +252,8 @@ const getStepColor = (event, content, translate, classes) => {
     )
 }
 
-const getStepConNumero = (agenda, translate, count) => {
+const getStepConNumero = (event, translate, agendas) => {
+    const agenda = agendas.find(agenda => agenda.id === event.data.agendaPoint.id);
     return (
         <Step active key={agenda.id}>
             <StepLabel
@@ -280,7 +279,7 @@ const getStepConNumero = (agenda, translate, count) => {
                         }}
                     >
                         <div>
-                            {count}
+                            {agenda.orderIndex}
                         </div>
                     </div>
                 }
