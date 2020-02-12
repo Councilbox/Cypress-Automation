@@ -205,7 +205,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
             {
                 id: Math.random().toString(36).substr(2, 9),
                 label: `${translate.agenda_point} ${(index + 1)} - ${translate.comments_and_agreements}`,
-                text: '',
+                text: element.comment || '',
                 secondaryText: '',
                 editButton: true,
                 type: 'comment',
