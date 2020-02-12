@@ -271,7 +271,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 
 		setData(response.data);
 
-		handlers.initializeDoc(actDocument? {
+		handlers.initializeDoc(false? {
 			doc: actDocument.fragments,
 			options: actDocument.options
 		} : {

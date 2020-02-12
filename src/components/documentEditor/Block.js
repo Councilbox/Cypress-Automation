@@ -42,7 +42,6 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
     }
 
     if (props.value.hasOwnProperty('toggleable')) {
-        console.log('HAY TOGGLEABLE');
         return (
             <div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%', }}>
                 <BorderBox
@@ -116,7 +115,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
                 </div>
                 <div style={{ fontWeight: "700" }}>
-                    {translate[props.value.label] || props.value.label}
+                    {props.value.label? translate[props.value.label] || props.value.label : ''}
                 </div>
             </div>
             {props.expand ?

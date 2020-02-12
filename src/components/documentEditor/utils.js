@@ -6,6 +6,7 @@ import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.s
 import { getAgendaResult, hasVotation } from '../../utils/CBX';
 import iconDelegaciones from '../../assets/img/networking.svg';
 import { TAG_TYPES } from '../company/drafts/draftTags/utils';
+import { translations } from './translations';
 
 const filterHiddenItems = item => !item.hide;
 
@@ -37,6 +38,7 @@ export const buildDocVariable = (doc, options) => {
 }
 
 export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {}) => {
+
     const blockTypes = {
         text: () => ({
             ...item,
@@ -48,7 +50,7 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
         title: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
-            text: `<h4>${data.council.name}</h4>`,
+            text: `<h4 style="font-weight: 700;">${data.council.name}</h4>`,
             secondaryText: data.council.name,
         }),
         intro: () => ({
@@ -168,15 +170,17 @@ export function generateCertAgendaBlocks(data, translate, secondaryTranslate = {
 
 export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
     const agenda = data.agendas;
-    //TRADUCCION
+    const texts = translations['es'];
+    const secondaryTexts = translations['en'];
+
     let newArray = [
         {
             id: Math.random().toString(36).substr(2, 9),
-            label: "Intro agenda",//TRADUCCION
+            label: texts.agenda,
             type: 'introAgenda',
             editButton: true,
-            text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
-            secondaryText: "<b>Next, the first item on the agenda will be discussed</b>",//TRADUCCION
+            text: texts.agendaIntro,
+            secondaryText: secondaryTexts.agendaIntro,
         }
     ];
 
@@ -184,7 +188,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
         newArray = newArray.concat([
             {
                 id: Math.random().toString(36).substr(2, 9),
-                label: `${translate.agenda_point} ${(index + 1)} - ${translate.title}`,
+                label: `${texts.agendaPoint} ${(index + 1)} - ${texts.title}`,
                 text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
                 secondaryText: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
                 editButton: true,
@@ -194,7 +198,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
             },
             {
                 id: Math.random().toString(36).substr(2, 9),
-                label: `${translate.agenda_point} ${(index + 1)} - ${translate.description}`,
+                label: `${texts.agendaPoint} ${(index + 1)} - ${translate.description}`,
                 text: element.description,
                 secondaryText: element.description,
                 editButton: true,
@@ -204,7 +208,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
             },
             {
                 id: Math.random().toString(36).substr(2, 9),
-                label: `${translate.agenda_point} ${(index + 1)} - ${translate.comments_and_agreements}`,
+                label: `${texts.agendaPoint} ${(index + 1)} - ${translate.comments_and_agreements}`,
                 text: element.comment || '',
                 secondaryText: '',
                 editButton: true,
@@ -218,7 +222,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
             newArray = newArray.concat([
                 {
                     id: Math.random().toString(36).substr(2, 9),
-                    label: "Punto " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN",
+                    label: texts.agendaPoint + " " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN",
                     editButton: false,
                     type: "votes",
                     noBorrar: true,
@@ -240,7 +244,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                 },
                 {
                     id: Math.random().toString(36).substr(2, 9),
-                    label: "Punto " + (index + 1) + " - Listado de votantes",
+                    label: texts.agendaPoint + " " + (index + 1) + " - Listado de votantes",
                     text: "",
                     editButton: false,
                     type: 'voting',
@@ -263,7 +267,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                 newArray = newArray.concat([
                     {
                         id: Math.random().toString(36).substr(2, 9),
-                        label: "Punto " + (index + 1) + " - Comentarios", //TRADUCCION
+                        label: texts.agendaPoint + " " + (index + 1) + " - Comentarios", //TRADUCCION
                         text: "<b>Comentarios</b> </br>" + element.description,
                         editButton: false,
                         type: 'agendaComments',
