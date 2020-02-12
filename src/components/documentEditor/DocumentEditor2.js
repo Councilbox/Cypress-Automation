@@ -47,7 +47,9 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     React.useEffect(() => {
         if(newId){
             const element = document.getElementById(newId);
-            scroll.current.scrollbar.scrollTop(element.offsetTop - 10);
+            if(element){
+                scroll.current.scrollbar.scrollTop(element.offsetTop - 10);
+            }
             setNewId(null);
         }
     }, [newId]);
@@ -87,7 +89,8 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     };
 
     const addItem = id => {
-        let resultado = blocks.find(arrastrable => arrastrable.id === id);
+        let resultado = filteredBlocks.find(arrastrable => arrastrable.id === id);
+
         const newId = Math.random().toString(36).substr(2, 9);
 
         const newDoc = [...doc];
@@ -390,8 +393,6 @@ const SortableList = SortableContainer(({ items, column, editBlock, state, edit,
 
 const DraggableBlock = SortableElement(props => {
     const [expand, setExpand] = React.useState(false);
-
-    console.log(props.value);
 
     const blockFijoTomadeAcuerdos = {
         value:{
