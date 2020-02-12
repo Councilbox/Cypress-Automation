@@ -38,20 +38,22 @@ export const buildDocVariable = (doc, options) => {
 }
 
 export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {}) => {
+    const texts = translations['es'];
+    const secondaryTexts = translations['en'];
 
     const blockTypes = {
         text: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
-            label: "Bloque de texto", //TRADUCCIÓN
-            text: 'Inserte el texto',
-            secondaryText: 'Insert text',
+            label: texts.textBlock,
+            text: texts.insertText,
+            secondaryText: secondaryTexts.insertText,
         }),
         title: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
             text: `<h4 style="font-weight: 700;">${data.council.name}</h4>`,
-            secondaryText: data.council.name,
+            secondaryText: `<h4 style="font-weight: 700;">${data.council.name}</h4>`,
         }),
         intro: () => ({
             ...item,
@@ -75,7 +77,7 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
             secondaryText: data.council.act.conclusion,
         }),
         agendaList: () => {
-            let puntos = `<b>${translate.agenda}</b> </br>`//TRADUCCION
+            let puntos = `<b>${texts.agenda}</b> </br>`
             data.agendas.forEach((element, index) => {
                 puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
             });
@@ -84,10 +86,12 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
                 id: Math.random().toString(36).substr(2, 9),
                 label: translate.agenda,
                 text: puntos,
-                secondaryText: `<b>${secondaryTranslate.agenda}</b> </br>
-                    ${data.agendas.forEach((element, index) => {
-                        puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
-                    })}`
+                secondaryText: `
+                    <b>${secondaryTexts.agenda}</b> </br>
+                    ${data.agendas.reduce((acc, curr) => {
+                        return `${acc} ${curr.orderIndex} - ${curr.agendaSubject}</br>`
+                    }, '')}
+                `
             }
         },
         attendants: () => ({
@@ -102,7 +106,7 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
         delegations: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
-            label: "Lista de delegaciones",
+            label: texts.delegationsList,
             text: "",
             editButton: false,
             type: 'delegations',
@@ -116,8 +120,8 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
             ...item,
             label: "entrar",
             items: generateAgendaBlocks(data, translate, secondaryTranslate),
-            text: "<b>A continuación se entra a debatir el primer punto del Orden del día</b>",//TRADUCCION
-            secondaryText: "<b>Next, the first item on the agenda will be discussed</b>",//TRADUCCION
+            text: `<b>${texts.agendaIntro}</b>`,
+            secondaryText: `<b>${texts.agendaIntro}</b>`,
         }),
         cert_header: () => ({
             ...item
@@ -147,10 +151,12 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
 
 export function generateCertAgendaBlocks(data, translate, secondaryTranslate = {}){
     const agenda = data.agendas;
+    const texts = translations['es'];
+    const secondaryTexts = translations['en'];
 
     return agenda.map((point, index) => ({
         id: Math.random().toString(36).substr(2, 9),
-        label: `Incluir punto ${point.orderIndex}`,
+        label: `${texts.includePoint} ${point.orderIndex}`,
         text: "",
         editButton: false,
         type: 'certAgenda',
@@ -165,7 +171,7 @@ export function generateCertAgendaBlocks(data, translate, secondaryTranslate = {
             agendaId: point.id
         }
     }));
-} 
+}
 
 
 export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
@@ -198,7 +204,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
             },
             {
                 id: Math.random().toString(36).substr(2, 9),
-                label: `${texts.agendaPoint} ${(index + 1)} - ${translate.description}`,
+                label: `${texts.agendaPoint} ${(index + 1)} - ${texts.description}`,
                 text: element.description,
                 secondaryText: element.description,
                 editButton: true,
@@ -208,9 +214,9 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
             },
             {
                 id: Math.random().toString(36).substr(2, 9),
-                label: `${texts.agendaPoint} ${(index + 1)} - ${translate.comments_and_agreements}`,
+                label: `${texts.agendaPoint} ${(index + 1)} - ${texts.commentsAndAgreements}`,
                 text: element.comment || '',
-                secondaryText: '',
+                secondaryText: element.comment || '',
                 editButton: true,
                 type: 'comment',
                 noBorrar: true
@@ -222,29 +228,37 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
             newArray = newArray.concat([
                 {
                     id: Math.random().toString(36).substr(2, 9),
-                    label: texts.agendaPoint + " " + (index + 1) + " - Votos", text: "<b>Votos</b> </br> A FAVOR, EN CONTRA, ABSTENCIÓN",
+                    label: `${texts.agendaPoint} ${index + 1} - ${texts.votes}`,
                     editButton: false,
                     type: "votes",
                     noBorrar: true,
                     editButton: false,
                     text: `
                         <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-                            <b>Votaciones: </b>
-                            <br> A FAVOR: ${getAgendaResult(element, 'POSITIVE')} | EN CONTRA: ${getAgendaResult(element, 'NEGATIVE')} | ABSTENCIONES:
-                            ${getAgendaResult(element, 'ABSTENTION')} | NO VOTAN: ${getAgendaResult(element, 'NO_VOTE')}
+                            <b>${texts.votings}: </b>
+                            <br> ${
+                                texts.inFavor.toUpperCase()}: ${
+                                getAgendaResult(element, 'POSITIVE')} | ${
+                                texts.against.toLowerCase()}: ${
+                                getAgendaResult(element, 'NEGATIVE')} | ${texts.abstentions.toUpperCase()}:
+                            ${getAgendaResult(element, 'ABSTENTION')} | ${texts.noVote.toUpperCase()}: ${getAgendaResult(element, 'NO_VOTE')}
                             <br>
                         </div>`,
                     secondaryText: `
-                        <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-                            <b>Votings: </b>
-                            <br> IN FAVOR: ${getAgendaResult(element, 'POSITIVE')} | AGAINST: ${getAgendaResult(element, 'NEGATIVE')} | ABSTENTIONS:
-                            ${getAgendaResult(element, 'ABSTENTION')} | NO VOTE: ${getAgendaResult(element, 'NO_VOTE')}
-                            <br>
-                        </div>`
+                    <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+                        <b>${secondaryTexts.votings}: </b>
+                        <br> ${
+                            secondaryTexts.inFavor.toUpperCase()}: ${
+                            getAgendaResult(element, 'POSITIVE')} | ${
+                            secondaryTexts.against.toLowerCase()}: ${
+                            getAgendaResult(element, 'NEGATIVE')} | ${secondaryTexts.abstentions.toUpperCase()}:
+                        ${getAgendaResult(element, 'ABSTENTION')} | ${secondaryTexts.noVote.toUpperCase()}: ${getAgendaResult(element, 'NO_VOTE')}
+                        <br>
+                    </div>`
                 },
                 {
                     id: Math.random().toString(36).substr(2, 9),
-                    label: texts.agendaPoint + " " + (index + 1) + " - Listado de votantes",
+                    label: `${texts.agendaPoint} ${index + 1} - ${texts.votersList}`,
                     text: "",
                     editButton: false,
                     type: 'voting',
@@ -267,8 +281,8 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                 newArray = newArray.concat([
                     {
                         id: Math.random().toString(36).substr(2, 9),
-                        label: texts.agendaPoint + " " + (index + 1) + " - Comentarios", //TRADUCCION
-                        text: "<b>Comentarios</b> </br>" + element.description,
+                        label: `${texts.agendaPoint} ${index + 1} - ${texts.comments}`,
+                        text: '',
                         editButton: false,
                         type: 'agendaComments',
                         logic: true,
