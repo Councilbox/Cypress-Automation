@@ -161,7 +161,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 				doc={doc}
 				data={data}
 				{...handlers}
-				blocks={Object.keys(certBlocks).map(key => buildDocBlock(certBlocks[key], data, translate, translate))}
+				blocks={Object.keys(certBlocks).map(key => buildDocBlock(certBlocks[key], data, data.council.language, 'en'))}
 				options={options}
 				generatePreview={generatePreview}
 				download={true}

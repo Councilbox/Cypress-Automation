@@ -37,9 +37,9 @@ export const buildDocVariable = (doc, options) => {
     });
 }
 
-export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {}) => {
-    const texts = translations['es'];
-    const secondaryTexts = translations['en'];
+export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = 'en') => {
+    const texts = translations[language];
+    const secondaryTexts = translations[secondaryLanguage];
 
     const blockTypes = {
         text: () => ({
@@ -84,7 +84,7 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
             return {
                 ...item,
                 id: Math.random().toString(36).substr(2, 9),
-                label: translate.agenda,
+                label: texts.agenda,
                 text: puntos,
                 secondaryText: `
                     <b>${secondaryTexts.agenda}</b> </br>
@@ -97,10 +97,10 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
         attendants: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
-            label: translate.assistants_list,
+            label: texts.attendantList,
             text: '',
-            language: translate.selectedLanguage,
-            secondaryLanguage:  secondaryTranslate.selectedLanguage,
+            language: language,
+            secondaryLanguage:  secondaryLanguage,
             icon: iconAsistentes
         }),
         delegations: () => ({
@@ -110,8 +110,8 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
             text: "",
             editButton: false,
             type: 'delegations',
-            language: 'es',
-            secondaryLanguage: 'en',
+            language: language,
+            secondaryLanguage: secondaryLanguage,
             logic: true,
             icon: iconDelegaciones,
             colorBorder: '#7f94b6'
@@ -119,7 +119,7 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
         agreements: () => ({
             ...item,
             label: "entrar",
-            items: generateAgendaBlocks(data, translate, secondaryTranslate),
+            items: generateAgendaBlocks(data, language, secondaryLanguage),
             text: `<b>${texts.agendaIntro}</b>`,
             secondaryText: `<b>${texts.agendaIntro}</b>`,
         }),
@@ -136,7 +136,7 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
             ...item,
             label: "agenda",
             type: 'certAgenda',
-            items: generateCertAgendaBlocks(data, translate, secondaryTranslate),
+            items: generateCertAgendaBlocks(data, language, secondaryLanguage),
             text: "",
             secondaryText: "",
         })
@@ -149,10 +149,10 @@ export const buildDocBlock = (item, data, translate = {}, secondaryTranslate = {
     return blockTypes[item.type]();
 }
 
-export function generateCertAgendaBlocks(data, translate, secondaryTranslate = {}){
+export function generateCertAgendaBlocks(data, language = 'es', secondaryLanguage = 'en'){
     const agenda = data.agendas;
-    const texts = translations['es'];
-    const secondaryTexts = translations['en'];
+    const texts = translations[language];
+    const secondaryTexts = translations[secondaryLanguage];
 
     return agenda.map((point, index) => ({
         id: Math.random().toString(36).substr(2, 9),
@@ -174,10 +174,10 @@ export function generateCertAgendaBlocks(data, translate, secondaryTranslate = {
 }
 
 
-export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
+export function generateAgendaBlocks (data, language = 'es', secondaryLanguage = 'en'){
     const agenda = data.agendas;
-    const texts = translations['es'];
-    const secondaryTexts = translations['en'];
+    const texts = translations[language];
+    const secondaryTexts = translations[secondaryLanguage];
 
     let newArray = [
         {
@@ -239,7 +239,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                             <br> ${
                                 texts.inFavor.toUpperCase()}: ${
                                 getAgendaResult(element, 'POSITIVE')} | ${
-                                texts.against.toLowerCase()}: ${
+                                texts.against.toUpperCase()}: ${
                                 getAgendaResult(element, 'NEGATIVE')} | ${texts.abstentions.toUpperCase()}:
                             ${getAgendaResult(element, 'ABSTENTION')} | ${texts.noVote.toUpperCase()}: ${getAgendaResult(element, 'NO_VOTE')}
                             <br>
@@ -250,7 +250,7 @@ export function generateAgendaBlocks (data, translate, secondaryTranslate = {}){
                         <br> ${
                             secondaryTexts.inFavor.toUpperCase()}: ${
                             getAgendaResult(element, 'POSITIVE')} | ${
-                            secondaryTexts.against.toLowerCase()}: ${
+                            secondaryTexts.against.toUpperCase()}: ${
                             getAgendaResult(element, 'NEGATIVE')} | ${secondaryTexts.abstentions.toUpperCase()}:
                         ${getAgendaResult(element, 'ABSTENTION')} | ${secondaryTexts.noVote.toUpperCase()}: ${getAgendaResult(element, 'NO_VOTE')}
                         <br>
@@ -377,7 +377,7 @@ export const buildDoc = (data, translate, type) => {
         throw new Error('Invalid doc type');
     }
 
-    return CBX_DOCS[type].map(item => buildDocBlock(item, data, translate));
+    return CBX_DOCS[type].map(item => buildDocBlock(item, data, data.council.language));
 
 }
 

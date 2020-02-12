@@ -278,7 +278,9 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 			doc: buildDoc(response.data, translate, 'act'),
 			options: {
 				stamp: true,
-				doubleColumn: false
+				doubleColumn: false,
+				language: response.data.council.language,
+				secondaryLanguage: 'pt'
 			}
 		});
 		setLoading(false);
@@ -390,7 +392,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				data={data}
 				{...handlers}
 				documentId={data.council.id}
-				blocks={Object.keys(actBlocks).map(key => buildDocBlock(actBlocks[key], data, translate, translate))}
+				blocks={Object.keys(actBlocks).map(key => buildDocBlock(actBlocks[key], data, data.council.language, 'en'))}
 				options={options}
 				generatePreview={generatePreview}
 				download={true}
