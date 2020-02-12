@@ -13,13 +13,8 @@ import { usePolling } from '../../hooks';
 import { moment } from '../../containers/App';
 
 
-const ResultsTimeline = ({ data, translate, requestClose, open, participant, council, stylesHead, classes, client, endPage }) => {
-    const primary = getPrimary();
-    const secondary = getSecondary();
+const ResultsTimeline = ({ data, translate, council, classes, client, disableScroll }) => {
     const [timeline, setTimeline] = React.useState([]);
-    const [loading, setLoading] = React.useState(true);
-    const [loaded, setLoaded] = React.useState(false);
-
     const getData = React.useCallback(async () => {
         const getTimeline = async () => {
             const response = await client.query({
@@ -28,24 +23,62 @@ const ResultsTimeline = ({ data, translate, requestClose, open, participant, cou
                     councilId: council.id
                 }
             });
-
-            setLoading(false);
-            setLoaded(true);
             setTimeline(response.data.councilTimeline);
         }
 
         getTimeline();
-    }, [council.id, setLoading, setLoaded, setTimeline, client]);
+    }, [council.id, client]);
 
     usePolling(getData, 6000);
 
-    // React.useEffect(() => {
-    //     if (loaded && scrollToBottom) {
-    //         setTimeout(() => {
-    //             // scrollToBottom();
-    //         }, 80);
-    //     }
-    // }, [loaded]);
+    const body = () => {
+        let agendas;
+
+
+        if (data.agendas) {
+            agendas = data.agendas.map(agenda => {
+                return {
+                    ...agenda,
+                    voting: data.participantVotings.find(voting => voting.agendaId === agenda.id)
+                }
+            });
+        }
+
+        return (
+            <Stepper
+                connector={
+                    <StepConnector
+                        classes={{
+                            line: classes.line
+                        }}
+                    />
+                }
+                orientation="vertical"
+                style={{ margin: '0', padding: isMobile ? '20px' : '10px', textAlign: "left" }}
+            >
+                {timeline.map((event, index) => {
+                    let content;
+                    if (event.content) {
+                        content = JSON.parse(event.content);
+                    }
+                    switch (event.type) {
+                        case 'START_COUNCIL':
+                        case 'END_COUNCIL':
+                            return getStepInit(event, content, translate, classes);
+                        case 'START_AUTO_COUNCIL':
+                        case 'CLOSE_REMOTE_VOTINGS':
+                        case 'OPEN_POINT_DISCUSSION':
+                        case 'CLOSE_POINT_DISCUSSION':
+                        case 'CLOSE_VOTING':
+                        case 'REOPEN_VOTING':
+                            return getStepColor(event, content, translate, classes);
+                        default:
+                            return getStepConNumero(content, translate, agendas);
+                    }
+                })}
+            </Stepper>
+        )
+    }
 
 
 
@@ -53,64 +86,15 @@ const ResultsTimeline = ({ data, translate, requestClose, open, participant, cou
         return <LoadingSection />;
     }
 
-    let agendas;
-
-
-    if (data.agendas) {
-        agendas = data.agendas.map(agenda => {
-            return {
-                ...agenda,
-                voting: data.participantVotings.find(voting => voting.agendaId === agenda.id)
-            }
-        });
-    }
-    let datos = []
-    datos = [...timeline]
-
-    datos = datos.sort(function (a, b) {
-        return moment(a.date ? a.date : a.dateStart).format('X') - moment(b.date ? b.date : b.dateStart).format('X')
-    });
-
-    let count = 0;
-
     return (
         <div style={{ height: "100%" }}>
-            <Scrollbar>
-                <Stepper
-                    connector={
-                        <StepConnector
-                            classes={{
-                                line: classes.line
-                            }}
-                        />
-                    }
-                    orientation="vertical"
-                    style={{ margin: '0', padding: isMobile ? '20px' : '10px', textAlign: "left" }}
-                >
-                    {datos.map((event, index) => {
-                        let content
-                        if (event.content) {
-                            content = JSON.parse(event.content);
-                        } else {
-                            count++
-                        }
-                        switch (event.type) {
-                            case 'START_COUNCIL':
-                            case 'END_COUNCIL':
-                                return getStepInit(event, content, translate, classes);
-                            case 'START_AUTO_COUNCIL':
-                            case 'CLOSE_REMOTE_VOTINGS':
-                            case 'OPEN_POINT_DISCUSSION':
-                            case 'CLOSE_POINT_DISCUSSION':
-                            case 'CLOSE_VOTING':
-                            case 'REOPEN_VOTING':
-                                return getStepColor(event, content, translate, classes);
-                            default:
-                                return getStepConNumero(content, translate, agendas);
-                        }
-                    })}
-                </Stepper>
-            </Scrollbar>
+            {disableScroll?
+                body()
+            :
+                <Scrollbar>
+                    {body()}
+                </Scrollbar>
+            }
         </div>
     )
 

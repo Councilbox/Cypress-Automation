@@ -29,12 +29,14 @@ const styles = {
 		padding: isMobile ? "" : "10px"
 	},
 	cardContainer: {
-		margin: isMobile ? "" : "20px",
+		margin: isMobile ? "20%" : "20px",
 		minWidth: width,
 		maxWidth: "100%",
 		//height: '50vh',
-		minHeight: '50vh'
-		// height: '70vh'
+		minHeight: isMobile? '70vh' : '50vh',
+		...(isMobile? {
+			height: '60vh'
+		} : {})
 	}
 };
 
