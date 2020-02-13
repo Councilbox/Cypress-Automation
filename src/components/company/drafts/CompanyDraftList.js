@@ -249,85 +249,90 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 
 	return (
 		<React.Fragment>
-			<div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '1em', marginLeft: isMobile ? "0em" : "1em" }}>
-				<BasicButton
-					text={translate.drafts_new}
-					color={primary}
-					id={"newDraft"}
-					textStyle={{
-						...(isMobile ?
-							{
-								textTransform: 'none',
-								boxShadow: 'none',
-								marginRight: '1em',
-								borderRadius: '4px',
-								border: '1px solid rgb(125, 33, 128)',
-								padding: '0.2em 0.4em',
-								marginTop: '5px',
-								color: 'white',
-								backgroundColor: 'rgb(125, 33, 128)',
-								outline: '0px',
-								cursor: 'pointer',
-								minHeight: '0px',
-								fontWeight: 'bold',
-							} : {
-								color: "white",
-								fontWeight: "700",
-								textTransform: 'none',
-								whiteSpace: isMobile && 'nowrap',
-								overflow: isMobile && 'hidden',
-								textOverflow: isMobile && 'ellipsis',
-								padding: isMobile && "8px 8px"
-							}
-						)
-					}}
-					onClick={() =>
-						setState({
-							newForm: true
-						})
-					}
-				/>
-				<Link
-					to={`/company/${company.id}/platform/drafts/`}
-					style={{ marginLeft: "1em" }}
-				>
-					<BasicButton
-						text={translate.general_drafts}
-						color={getSecondary()}
-						textStyle={{
-							...(isMobile ?
-								{
-									textTransform: 'none',
-									boxShadow: 'none',
-									marginRight: '1em',
-									borderRadius: '4px',
-									border: '1px solid' + getSecondary(),
-									padding: '0.2em 0.4em',
-									marginTop: '5px',
-									color: 'white',
-									backgroundColor: getSecondary(),
-									outline: '0px',
-									cursor: 'pointer',
-									minHeight: '0px',
-									fontWeight: 'bold',
-								} : {
-									color: "white",
-									fontWeight: "700",
-									textTransform: 'none',
-									whiteSpace: isMobile && 'nowrap',
-									overflow: isMobile && 'hidden',
-									textOverflow: isMobile && 'ellipsis',
-									padding: isMobile && "8px 8px"
-								}
-							)
-						}}
-					/>
-				</Link>
-			</div>
-			<div style={{ height: isMobile ? ' calc( 100% - 6em )' : ' calc( 100% - 10em )' }}>
+			<div style={{ height: isMobile ? ' calc( 100% - 1em )' : ' calc( 100% - 6em )' }}>
 				{!isMobile &&
-					<div style={{ marginRight: '0.8em', display: "flex", justifyContent: isMobile ? "space-between" : 'flex-end', alignItems: "center" }}>
-						<div style={{ marginRight: isMobile ? "0.5em" : "3em" }}>
+					<div style={{ marginRight: '0.8em', display: "flex", justifyContent: isMobile ? "space-between" : 'flex-end', alignItems: "center", marginBottom: "0.5em" }}>
+						<div>
+							<BasicButton
+								text={translate.drafts_new}
+								color={primary}
+								id={"newDraft"}
+								textStyle={{
+									...(isMobile ?
+										{
+											textTransform: 'none',
+											boxShadow: 'none',
+											marginRight: '1em',
+											borderRadius: '4px',
+											border: '1px solid rgb(125, 33, 128)',
+											padding: '0.2em 0.4em',
+											marginTop: '5px',
+											color: 'white',
+											backgroundColor: 'rgb(125, 33, 128)',
+											outline: '0px',
+											cursor: 'pointer',
+											minHeight: '0px',
+											fontWeight: 'bold',
+										} : {
+											color: "white",
+											fontWeight: "700",
+											textTransform: 'none',
+											whiteSpace: isMobile && 'nowrap',
+											overflow: isMobile && 'hidden',
+											textOverflow: isMobile && 'ellipsis',
+											padding: isMobile && "8px 8px",
+											minHeight: '0',
+    										padding: '5px',
+										}
+									)
+								}}
+								onClick={() =>
+									setState({
+										newForm: true
+									})
+								}
+							/>
+						</div>
+						<div style={{ marginLeft: "1em" }}>
+							<Link
+								to={`/company/${company.id}/platform/drafts/`}
+							>
+								<BasicButton
+									text={translate.general_drafts}
+									color={getSecondary()}
+									textStyle={{
+										...(isMobile ?
+											{
+												textTransform: 'none',
+												boxShadow: 'none',
+												marginRight: '1em',
+												borderRadius: '4px',
+												border: '1px solid' + getSecondary(),
+												padding: '0.2em 0.4em',
+												marginTop: '5px',
+												color: 'white',
+												backgroundColor: getSecondary(),
+												outline: '0px',
+												cursor: 'pointer',
+												minHeight: '0px',
+												fontWeight: 'bold',
+											} : {
+												color: "white",
+												fontWeight: "700",
+												textTransform: 'none',
+												whiteSpace: isMobile && 'nowrap',
+												overflow: isMobile && 'hidden',
+												textOverflow: isMobile && 'ellipsis',
+												padding: isMobile && "8px 8px",
+												minHeight: '0',
+												padding: '5px',
+											}
+										)
+									}}
+								/>
+							</Link>
+						</div>
+						<div style={{ marginRight: isMobile ? "0.5em" : "3em", marginLeft: "1em" }}>
 							<DropdownEtiquetas
 								translate={translate}
 								search={tagText}
@@ -364,6 +369,8 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 								onChange={event => {
 									setSearch(event.target.value);
 								}}
+								styles={{ marginTop: "-16px" }}
+								stylesTextField={{ marginBottom: "0px" }}
 							/>
 						</div>
 					</div>
@@ -390,7 +397,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 											translate={translate}
 											defaultLimit={DRAFTS_LIMITS[0]}
 											defaultFilter={"title"}
-											limits={DRAFTS_LIMITS}
+											// limits={DRAFTS_LIMITS}
 											page={1}
 											loading={loading}
 											length={companyDrafts.list.length}

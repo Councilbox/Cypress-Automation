@@ -82,9 +82,9 @@ const OrganizationUsers = ({ client, translate, company }) => {
 
     return (
         <CardPageLayout title={translate.users} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
-            <div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
+            <div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%", paddingTop: "0px" }}>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                    <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end", paddingTop: "0px" }}>
                         <BasicButton
                             buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
                             backgroundColor={{ backgroundColor: "white" }}
@@ -189,7 +189,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                         <Grid style={{ padding: '2em 2em 1em 2em', height: "100%" }}>
                             {users.map(item => {
                                 return (
-                                    <Card style={{ marginBottom: "0.5em", padding: "1em" }}  key={item.id}>
+                                    <Card style={{ marginBottom: "0.5em", padding: "1em" }} key={item.id}>
                                         <Grid>
                                             <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
                                                 {translate.state}
@@ -297,19 +297,19 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                     <div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
                         <div style={{ color: primary, fontWeight: "bold", width: '10%', textAlign: 'left' }}>
                             {translate.state}
-				        </div>
+                        </div>
                         <div style={{ color: primary, fontWeight: "bold", width: '10%', textAlign: 'left' }}>
                             Id
 				        </div>
                         <div style={{ color: primary, fontWeight: "bold", width: '20%', textAlign: 'left' }}>
                             {translate.name}
-				        </div>
+                        </div>
                         <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                             Email
 				        </div>
                         <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                             {translate.last_connection}
-				        </div>
+                        </div>
                         <div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: '20%', textAlign: 'left' }}>
                         </div>
                     </div>

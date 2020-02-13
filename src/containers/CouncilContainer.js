@@ -55,8 +55,10 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 			<div
 				style={{
 					height: '100%',
-					fontSize: "13px", padding: '1.5em 1.5em 1.5em',
-					height: '100%'
+					fontSize: "13px",
+					padding: '1.5em 1.5em 1.5em',
+					height: '100%',
+					paddingTop: "0px"
 				}}
 			>
 				<div style={{ height: '100%', width: '98%', margin: '0 auto' }}>

@@ -21,37 +21,37 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
     const { testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText } = useTags(translate);
 
     const getDrafts = async variables => {
-		const response = await client.query({
-			query,
-			variables: {
-				companyId: props.company.id,
-				options: {
-					limit: DRAFTS_LIMITS[0],
-					offset: 0
-				},
-				...variables
-			}
+        const response = await client.query({
+            query,
+            variables: {
+                companyId: props.company.id,
+                options: {
+                    limit: DRAFTS_LIMITS[0],
+                    offset: 0
+                },
+                ...variables
+            }
 
-		});
+        });
 
-		setData(response.data);
-	}
+        setData(response.data);
+    }
 
     React.useEffect(() => {
         console.log(Object.keys(testTags).map(key => testTags[key].name))
-		getDrafts({
-			companyId: props.company.id,
-			...(search ? {
-				filters: [
-					{
-						field: "title",
-						text: search
-					},
-				]
-			} : {}),
-			tags: Object.keys(testTags).map(key => testTags[key].name),
-		})
-	}, [testTags, search]);
+        getDrafts({
+            companyId: props.company.id,
+            ...(search ? {
+                filters: [
+                    {
+                        field: "title",
+                        text: search
+                    },
+                ]
+            } : {}),
+            tags: Object.keys(testTags).map(key => testTags[key].name),
+        })
+    }, [testTags, search]);
 
 
     const getData = async () => {
@@ -71,9 +71,9 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
 
     return (
         <CardPageLayout title={translate.drafts} disableScroll>
-            <div style={{ padding: '1em', height: '100%' }}>
+            <div style={{ padding: '1em', height: '100%', paddingTop: "0px" }}>
                 {mostrarMenu &&
-                    <div style={{ display: "flex", padding: '1em', justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", padding: '1em', justifyContent: "space-between", paddingTop: "0px"  }}>
                         <div style={{ fontSize: "13px", }}>
                             <MenuSuperiorTabs
                                 items={[translate.drafts, '<Tags>']}

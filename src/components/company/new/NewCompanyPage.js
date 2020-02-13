@@ -274,7 +274,7 @@ class NewCompanyPage extends React.PureComponent {
 								text={translate.fiscal_data}
 								color={primary}
 								style={{
-									marginTop: '2em'
+									marginTop: '1em'
 								}}
 							/>
 							<br />

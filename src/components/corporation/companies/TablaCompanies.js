@@ -74,9 +74,9 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 				<LoadingSection />
 				:
 				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
-					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
+					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%", paddingTop: "0px" }}>
 						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%", overflow: "hidden" }}>
-							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between", width: "100%", overflow: "hidden" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between", width: "100%", overflow: "hidden", paddingTop: "0px" }}>
 								<BasicButton
 									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 									backgroundColor={{ backgroundColor: getPrimary(), color: "white", minHeight: "0", fontWeight: "bold" }}
@@ -218,9 +218,9 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 				<LoadingSection />
 				:
 				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
-					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
+					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%", paddingTop: "0px"}}>
 						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-							<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center",  paddingTop: "0px" }}>
 								<BasicButton
 									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 									backgroundColor={{ backgroundColor: "white" }}
