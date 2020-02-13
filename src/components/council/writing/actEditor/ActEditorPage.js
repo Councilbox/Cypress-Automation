@@ -17,7 +17,7 @@ import GoverningBodyDisplay from './GoverningBodyDisplay';
 import EvidencesPage from '../evindences/EvidencesPage';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { COUNCIL_STATES } from '../../../../constants';
-import DocumentEditor from '../../../documentEditor/DocumentEditor';
+import DocumentEditor2 from '../../../documentEditor/DocumentEditor2';
 import NavigationHeader from './NavigationHeader';
 
 
@@ -82,7 +82,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                             <div style={{ height: "calc(100%)", overflow: 'hidden', position: 'relative', }}>
                                 <Scrollbar>
                                     <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
-                                        <ActHTMLTab council={council} translate={translate} />
+                                        <ActHTMLTab council={council} translate={translate} company={props.company} />
                                     </div>
                                 </Scrollbar>
                             </div>
@@ -94,6 +94,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                 councilID={council.id}
                                 companyID={props.company.id}
                                 company={props.company}
+                                refetch={props.refetch}
                             />
                         </div>
                 );
@@ -212,7 +213,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     });
 
     return (
-        <div style={{width: '100%', height: '100%'}}>
+        <div style={{width: '100%', height: '100%', backgroundColor: 'white'}}>
             <NavigationHeader
                 translate={translate}
                 active={state.tab}
@@ -225,7 +226,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             {tabs.map(tab => {
                 if(tab.persistent){
                     return (
-                        <div style={{width: '100%', height: state.tab === tab.value ? 'calc(100% - 2em)' : '0', overflow: 'hidden'}}>
+                        <div key={`tab_${tab.value}`} style={{width: '100%', height: state.tab === tab.value ? 'calc(100% - 2em)' : '0', overflow: 'hidden'}}>
                             {tab.component()}
                         </div>
                     )
@@ -233,7 +234,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
                 if(state.tab === tab.value){
                     return(
-                        <div style={{width: '100%', height: 'calc(100% - 2em)'}}>
+                        <div key={`tab_${tab.value}`} style={{width: '100%', height: 'calc(100% - 2em)'}}>
                             {tab.component()}
                         </div>
                     )

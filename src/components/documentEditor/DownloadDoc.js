@@ -19,7 +19,11 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
                 }
             `,
             variables: {
-                doc: buildDocVariable(doc, options),
+                doc: buildDocVariable([{
+                    type: 'text',
+                    text: '<h3 style="padding: 10px; border: 1px solid black;">Vista previa sin validez legal</h3>',
+                    secondaryText: '<h3 style="padding: 10px; border: 1px solid black;">Document preview</h3>',
+                }, ...doc], options),
                 councilId: council.id
             }
         });
@@ -50,7 +54,7 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
         const preHtml = "<!DOCTYPE html type=\"text/html\"><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><title>Export HTML To Doc</title></head><body style='font-family: Arial;'>";
         const postHtml = "</body></html>";
 
-        const body = response.data.generateActHTML
+        const body = response.data.generateDocumentHTML
             .replace(/#BFBFBF/g, 'rgb(191, 191, 191)').replace(/<!--[\s\S]*?-->/g, '')
             .replace(/style="page-break-before: always"/g, '')
             .replace(/solid 1px rgb(217, 237, 247)/g, 'solid 2px rgb(217, 237, 247)')
@@ -81,7 +85,7 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
             id={'user-menu-trigger'}
             loading={loading}
             loadingColor={'black'}
-            text={translate.export_act_to}
+            text={'Exportar documento'}//TRADUCCION
             textStyle={{ color: '#464646' }}
             buttonStyle={{border: `1px solid ${'#969696'}`, marginRight: '1em'}}
             icon={

@@ -2,34 +2,26 @@ import React from 'react';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import RichTextInput from '../../displayComponents/RichTextInput';
 import { Button, Collapse } from 'material-ui';
-import { DRAFT_TYPES } from '../../constants';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
 import { BasicButton } from '../../displayComponents';
 import { Dialog, DialogTitle, DialogContent } from 'material-ui';
 import LoadDraft from '../company/drafts/LoadDraft';
-import { ActContext } from './DocumentEditor';
 import withSharedProps from '../../HOCs/withSharedProps';
-import { changeVariablesToValues } from '../../utils/CBX';
-import CheckBox from '../../displayComponents/CheckBox';
+import { getDefaultTagsByBlockType } from './utils';
+
 
 
 const Block = ({ expand, setExpand, company, translate, ...props }) => {
     const [hoverFijo, setHoverFijo] = React.useState(false);
-    const [text, setText] = React.useState("");
+    const [text, setText] = React.useState(props.column === 2? props.value.secondaryText : props.value.text);
     const [draftModal, setDraftModal] = React.useState(false);
-    const actData = React.useContext(ActContext);
     const editor = React.useRef();
 
 
     const loadDraft = async draft => {
-        const correctedText = await changeVariablesToValues(draft.text, {
-            company: company,
-            council: actData.council
-        }, translate);
-
-        props.updateCouncilActa(props.id, correctedText);
-        editor.current.paste(correctedText);
+        const result = await props.editBlock(props.id, draft.text);
+        editor.current.paste(result);
         setDraftModal(false);
     };
 
@@ -44,23 +36,23 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
     const hoverAndSave = id => {
         if (hoverFijo) {
-            props.updateCouncilActa(id, text);
+            props.editBlock(id, text);
         }
         setHoverFijo(!hoverFijo)
     }
 
-    if (props.value.type === 'voting' || props.value.type === 'agendaComments') {
+    if (props.value.hasOwnProperty('toggleable')) {
         return (
             <div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%', }}>
                 <BorderBox
                     itemInfo={props.value}
-                    icon={props.value.type === 'voting' ? iconVotaciones : iconAgendaComments }
+                    icon={props.value.icon? props.value.icon : ''}
                     id={props.id}
                     column={props.column}
                     colorBorder={props.value.colorBorder}
                     stylesBody={{ width: "100%", margin: "0em", }}
                     removeBlock={props.removeBlock}
-                    toggle={props.value.type === 'agendaComments' ? false : true}
+                    toggle={props.value.toggleable}
                     noIcon={true}
                 >
                     <div >
@@ -70,8 +62,6 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
             </div>
         )
     }
-
-    console.log(actData);
 
     const renderEditor = () => {
         return (
@@ -118,15 +108,14 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                         <React.Fragment>
                             <div>Aa</div>
                             <div>
-                                <i className="fa fa-i-cursor" aria-hidden="true">
-                                </i>
+                                <i className="fa fa-i-cursor" aria-hidden="true"/>
                             </div>
                         </React.Fragment>
                     }
 
                 </div>
                 <div style={{ fontWeight: "700" }}>
-                    {props.value.label}
+                    {props.value.label? translate[props.value.label] || props.value.label : ''}
                 </div>
             </div>
             {props.expand ?
@@ -158,12 +147,12 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
             <div style={{ marginTop: "1em", }}>
                 {props.value.editButton &&
-                    <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id)}>
+                    <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id, text)}>
                         {/* onClick={props.updateCouncilActa} */}
                         {hoverFijo ?
-                            'Editando' //TRANSLATE
+                            translate.accept
                             :
-                            'Editar' //TRANSLATE
+                            translate.edit
                         }
                     </Button>
                 }
@@ -177,12 +166,9 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     <DialogTitle>{translate.load_draft}</DialogTitle>
                     <DialogContent style={{ width: "800px" }}>
                         <LoadDraft
+                            defaultTags={getDefaultTagsByBlockType(props.value.type, translate)}
                             translate={translate}
-                            companyId={actData.council.companyId}
                             loadDraft={loadDraft}
-                            statute={actData.council.statute}
-                            statutes={actData.companyStatutes}
-                        //draftType={state.draftType}
                         />
                     </DialogContent>
                 </Dialog>

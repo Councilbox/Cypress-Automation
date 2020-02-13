@@ -1,26 +1,18 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { graphql, compose, withApollo } from "react-apollo";
 import { getSecondary, getPrimary } from "../../../../styles/colors";
 import gql from "graphql-tag";
 import {
 	BasicButton,
-	ErrorWrapper,
 	Scrollbar,
 	LoadingSection,
 	LiveToast
 } from "../../../../displayComponents";
-import LoadDraft from "../../../company/drafts/LoadDraft";
-import RichTextInput from "../../../../displayComponents/RichTextInput";
-import AgendaEditor from "./AgendaEditor";
-import { DRAFT_TYPES, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
+import { PARTICIPANT_STATES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { moment } from '../../../../containers/App';
-import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import SendActDraftModal from './SendActDraftModal';
 import FinishActModal from "./FinishActModal";
 import { updateCouncilAct } from '../../../../queries';
-import DownloadActPDF from '../actViewer/DownloadActPDF';
-import ExportActToMenu from '../actViewer/ExportActToMenu';
 import { ConfigContext } from '../../../../containers/AppControl';
 import {
 	getActPointSubjectType,
@@ -34,8 +26,11 @@ import {
 } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
-import { isMobile } from "../../../../utils/screen";
-import DocumentEditor from "../../../documentEditor/DocumentEditor";
+import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
+import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../../documentEditor/utils";
+import DownloadDoc from "../../../documentEditor/DownloadDoc";
+import { actBlocks } from "../../../documentEditor/actBlocks";
+
 
 export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
@@ -74,6 +69,7 @@ export const CouncilActData = gql`
 				prototype
 				existsSecondCall
 				existsQualityVote
+				existsComments
 			}
 		}
 		agendas(councilId: $councilID) {
@@ -237,20 +233,33 @@ export const generateCouncilSmartTagsValues = data => {
 	return calculatedObject;
 }
 
-
-const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }) => {
+export const ActContext = React.createContext();
+const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, refetch }) => {
 	const [saving, setSaving] = React.useState(false);
+	const [finishModal, setFinishModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
-
-
+	const primary = getPrimary();
+	const secondary = getSecondary();
+	const {
+		doc,
+        options,
+        ...handlers
+	} = useDoc({
+		transformText: async text => changeVariablesToValues(text, {
+			council: {
+				...generateCouncilSmartTagsValues(data),
+			},
+			company
+        }, translate)
+	});
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: CouncilActData,
 			variables: {
 				councilID,
-				companyId: companyID,
+				companyId: company.id,
 				options: {
 					limit: 10000,
 					offset: 0
@@ -258,60 +267,28 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 			}
 		});
 
+		const actDocument = response.data.council.act.document;
+
 		setData(response.data);
+
+		handlers.initializeDoc(false? {
+			doc: actDocument.fragments,
+			options: actDocument.options
+		} : {
+			doc: buildDoc(response.data, translate, 'act'),
+			options: {
+				stamp: true,
+				doubleColumn: false,
+				language: response.data.council.language,
+				secondaryLanguage: 'pt'
+			}
+		});
 		setLoading(false);
 	}, [councilID]);
 
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
-	// const [{
-	// 	loading,
-	// }, setState] = React.useState({
-	// 	loading: false,
-	// 	data: {},
-	// 	updating: false,
-	// 	draftType: null,
-	// 	sendActDraft: false,
-	// 	disableButtons: false,
-	// 	agendaErrors: new Map(),
-	// 	finishActModal: false,
-	// 	loadDraft: false,
-	// 	errors: {}
-	// });
-
-	//timeout = null;
-
-	const loadDraft = async draft => {
-		// const { data } = this.state;
- 		// const correctedText = await changeVariablesToValues(draft.text, {
-		// 	company: this.props.company,
-		// 	council: generateCouncilSmartTagsValues(data)
-		// }, this.props.translate);
-
-		// this[this.state.load].paste(correctedText);
-		// this.setState({
-		// 	loadDraft: false
-		// });
-	}
-
-	const updateActState = async object => {
-		// this.setState({
-		// 	data: {
-		// 		...this.state.data,
-		// 		council: {
-		// 			...this.state.data.council,
-		// 			act: {
-		// 				...this.state.data.council.act,
-		// 				...object
-		// 			}
-		// 		}
-		// 	}
-		// }, async () => {
-		// 	clearTimeout(this.timeout);
-		// 	this.timeout = setTimeout(() => this.updateCouncilAct(), 450);
-		// });
-	};
 
 	const checkBraces = () => {
 		// const act = this.state.data.council.act;
@@ -363,12 +340,30 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 		// return hasError;
 	}
 
-	const updateAct = async doc => {
+	const generatePreview = async () => {
+		const response = await client.mutate({
+			mutation: gql`
+				mutation ACTHTML($doc: Document, $councilId: Int!){
+					generateDocumentHTML(document: $doc, councilId: $councilId)
+				}
+			`,
+			variables: {
+				doc: buildDocVariable(doc, options),
+				councilId: data.council.id
+			}
+		});
+		return response.data.generateDocumentHTML;
+	}
+
+	const updateAct = async () => {
 		setSaving(true);
 		const response = await updateCouncilAct({
 			variables: {
 				councilAct: {
-					document: doc,
+					document: {
+						fragments: doc,
+						options
+					},
 					councilId: data.council.id
 				}
 			}
@@ -378,28 +373,92 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, companyID }
 		}
 	}
 
-	const getTypeText = subjectType => {
-		const votingType = data.votingTypes.find(item => item.value === subjectType)
-		return !!votingType? translate[votingType.label] : '';
-	}
+	const finishAct = async () => {
+        setFinishModal(true);
+    }
 
 	if (loading) {
 		return <LoadingSection />;
 	}
-
-	// if (error) {
-	// 	return <ErrorWrapper error={error} translate={translate} />;
-	// }
 
 	let council = { ...data.council };
 	council.attendants = data.councilAttendants.list;
 	council.delegatedVotes = data.participantsWithDelegatedVote;
 
 	return (
-		<DocumentEditor
-			data={data}
-			updateDocument={updateAct}
-		/>
+		<React.Fragment>
+			<DocumentEditor2
+				doc={doc}
+				data={data}
+				{...handlers}
+				documentId={data.council.id}
+				blocks={Object.keys(actBlocks).map(key => buildDocBlock(actBlocks[key], data, data.council.language, 'en'))}
+				options={options}
+				generatePreview={generatePreview}
+				download={true}
+				documentMenu={
+					<React.Fragment>
+						<DownloadDoc
+							translate={translate}
+							doc={doc}
+							options={options}
+							council={data.council}
+						/>
+						<BasicButton
+							text={translate.save}
+							color={primary}
+							onClick={updateAct}
+							loading={saving}
+							textStyle={{
+								color: "white",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							textPosition="after"
+							iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+							buttonStyle={{
+								marginRight: "1em",
+								boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+								borderRadius: '3px'
+							}}
+						/>
+						<BasicButton
+							text={translate.finish_and_aprove_act}
+							color={secondary}
+							textStyle={{
+								color: "white",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							onClick={finishAct}
+							textPosition="after"
+							iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+							buttonStyle={{
+								marginRight: "1em",
+								boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+								borderRadius: '3px'
+							}}
+						/>
+
+					</React.Fragment>
+				}
+				translate={translate}
+			/>
+			<FinishActModal
+                show={finishModal}
+                generatePreview={generatePreview}
+				doc={doc}
+				options={options}
+				refetch={refetch}
+				company={company}
+				updateAct={updateAct}
+                translate={translate}
+                council={data.council}
+                requestClose={() => {
+                    setFinishModal(false)
+                }}
+            />
+		</React.Fragment>
 	)
 }
 

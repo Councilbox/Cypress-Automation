@@ -49,6 +49,7 @@ a:hover {
 
 .scrollbarFix {
     margin-right: -17px;
+    scroll-behavior: smooth;
 }
 
 .hoverShadow:hover {
@@ -81,6 +82,7 @@ a:hover {
 .Scrollbar>div:first-child {
     margin-right: -17px !important;
     margin-bottom: -17px !important;
+    scroll-behavior: smooth;
 }
 
 h4 {
