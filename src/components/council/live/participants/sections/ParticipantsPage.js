@@ -23,10 +23,12 @@ import AttendanceHeader from './AttendanceHeader';
 import CredentialsHeader from './CredentialsHeader';
 import ConveneHeader from './ConveneHeader';
 import RefreshCredsSendsButton from "../RefreshCredsSendsButton";
+import QRSearchModal from "./QRSearchModal";
 
 
 const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {
 	const [addGuest, setAddGuest] = React.useState(false);
+	const [QRModal, setQRModal] = React.useState(false);
 	const secondary = getSecondary();
 
 	const _getFilters = () => {
@@ -163,6 +165,11 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 			>
 				{_renderHeader()}
 			</div>
+			<QRSearchModal
+				open={QRModal}
+				translate={translate}
+				requestClose={() => setQRModal(false)}
+			/>
 			<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 				<GridItem xs={orientation === 'landscape'? 2 : 6} md={3} lg={3} style={{display: 'flex', alignItems: 'center', height: '3.5em'}}>
 					{_renderAddGuestButton()}
@@ -188,6 +195,21 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 							selectedChar={filters.charFilter}
 						/>
 					}
+					<div style={{
+							height: '100%',
+							display: 'flex',
+							padding: '0.6em',
+							marginRight: '1em',
+							alignItems: 'center',
+							justifyContent: 'center',
+							border: '1px solid gainsboro',
+							cursor: 'pointer'
+						}}
+						className="withShadow"
+						onClick={() => setQRModal(true)}
+					>
+						<i className="fa fa-qrcode" aria-hidden="true" style={{fontSize: '2em', marginLeft: '5px', color: secondary}}></i>
+					</div>
 					<div
 						style={{
 							maxWidth: "12em"
