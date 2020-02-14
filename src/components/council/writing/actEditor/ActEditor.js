@@ -280,7 +280,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				stamp: true,
 				doubleColumn: false,
 				language: response.data.council.language,
-				secondaryLanguage: 'pt'
+				secondaryLanguage: 'en'
 			}
 		});
 		setLoading(false);
