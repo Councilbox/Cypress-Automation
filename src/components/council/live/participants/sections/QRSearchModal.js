@@ -1,12 +1,42 @@
 import React from 'react';
 import QrReader from 'react-qr-reader';
 import { AlertConfirm } from '../../../../../displayComponents';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 
 
-const QRSearchModal = ({ updateSearch, open, requestClose, translate }) => {
+const QRSearchModal = ({ updateSearch, open, requestClose, client, council, translate }) => {
+    const [search, setSearch] = React.useState('');
+    const [result, setResult] = React.useState(null);
+
+    const searchParticipant = React.useCallback(async() => {
+        if(search){
+            const response = await client.query({
+                query: gql`
+                    query liveParticipantQRSearch($accessId: String!, $councilId: Int!){
+                        liveParticipantQRSearch(accessId: $accessId, councilId: $councilId){
+                            name
+                            surname
+                            id
+                        }
+                    }
+                `,
+                variables: {
+                    accessId: search,
+                    councilId: council.id
+                }
+            });
+
+            console.log(response);
+        }
+    }, [search]);
+
+    React.useEffect(() => {
+        searchParticipant();
+    }, [searchParticipant])
 
     const handleError = error => {
-        console.log(error);
+        setSearch('aaronCracker');
     }
 
     const handleScan = data => {
@@ -57,4 +87,4 @@ const QRSearchModal = ({ updateSearch, open, requestClose, translate }) => {
     )
 }
 
-export default QRSearchModal;
+export default withApollo(QRSearchModal);

@@ -168,6 +168,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 			<QRSearchModal
 				open={QRModal}
 				translate={translate}
+				council={council}
 				requestClose={() => setQRModal(false)}
 			/>
 			<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
