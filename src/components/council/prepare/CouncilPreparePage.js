@@ -42,7 +42,6 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 	const config = React.useContext(ConfigContext);
 	const [selecteReuniones, setSelecteReuniones] = React.useState(translate.convene);
 	const [selectComponent, setSelectComponent] = React.useState({});
-	const [sTabsprueba, setTabsprueba] = React.useState([]);
 
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -69,99 +68,6 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 		);
 	}
 
-	const getComponentSearch = (tabsMenu) => {
-
-		//lo busco en el array de tabs y le hago un return....
-		let tabsListNames = [];
-		tabsMenu.map(item => {
-			tabsListNames.push(item.text)
-		})
-
-		let componentMostrar;
-		let itemComponent = tabsMenu.filter(item => {
-			return (
-				item.text === selecteReuniones
-			)
-		})
-		setSelectComponent(itemComponent)
-		console.log(itemComponent)
-	}
-
-	React.useEffect(() => {
-		// let tabs = [
-		// 	// let tabs = [
-		// 	{
-		// 		text: translate.convene,
-		// 		component: () => {
-		// 			return (
-		// 				<div style={{ height: 'calc(100% - 38px)' }}>
-		// 					<Scrollbar>
-		// 						<div style={{ width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em' }}>
-		// 							<Convene
-		// 								council={council}
-		// 								translate={translate}
-		// 							/>
-		// 						</div>
-		// 					</Scrollbar>
-		// 				</div>
-		// 			);
-		// 		}
-		// 	},
-		// 	{
-		// 		text: translate.new_list_called,
-		// 		component: () => {
-		// 			return (
-		// 				<div style={{ height: 'calc(100% - 38px)' }}>
-		// 					<Scrollbar>
-		// 						<div
-		// 							style={{
-		// 								padding: '1.2em',
-		// 								height: '100%'
-		// 							}}
-		// 						>
-		// 							<ConvenedParticipantsTable
-		// 								council={council}
-		// 								totalVotes={data.councilTotalVotes}
-		// 								socialCapital={data.councilSocialCapital}
-		// 								participations={CBX.hasParticipations(council)}
-		// 								translate={translate}
-		// 								refetch={refetch}
-		// 							/>
-		// 						</div>
-		// 					</Scrollbar>
-		// 				</div>
-		// 			);
-		// 		}
-		// 	},
-		// ];
-
-		// // if (config.councilDelegates && council.statute.existsDelegatedVote) {
-		// // 	tabs.push({
-		// // 		text: 'Delegación',
-		// // 		component: () => {
-		// // 			return (
-		// // 				<div style={{ height: 'calc(100% - 38px)' }}>
-		// // 					<Scrollbar>
-		// // 						<div
-		// // 							style={{
-		// // 								padding: '1.2em',
-		// // 								height: '100%'
-		// // 							}}
-		// // 						>
-		// // 							<DelegationRestriction translate={translate} council={council} fullScreen={true} />
-		// // 						</div>
-		// // 					</Scrollbar>
-		// // 				</div>
-		// // 			);
-		// // 		}
-		// // 	})
-		// // }
-
-		console.log(config)
-		// console.log(tabs)
-		// getComponentSearch(tabs)
-	}, []);
-
 	const { council, error, loading, refetch } = data;
 
 	if (loading) {
@@ -174,71 +80,18 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 
 	const getTabs = () => {
 		let tabs = [
-			// let tabs = [
 			{
 				text: translate.convene,
-				component: () => {
-					return (
-						<div style={{ height: 'calc(100% - 38px)' }}>
-							<Scrollbar>
-								<div style={{ width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em' }}>
-									<Convene
-										council={council}
-										translate={translate}
-									/>
-								</div>
-							</Scrollbar>
-						</div>
-					);
-				}
 			},
 			{
 				text: translate.new_list_called,
-				component: () => {
-					return (
-						<div style={{ height: 'calc(100% - 38px)' }}>
-							<Scrollbar>
-								<div
-									style={{
-										padding: '1.2em',
-										height: '100%'
-									}}
-								>
-									<ConvenedParticipantsTable
-										council={council}
-										totalVotes={data.councilTotalVotes}
-										socialCapital={data.councilSocialCapital}
-										participations={CBX.hasParticipations(council)}
-										translate={translate}
-										refetch={refetch}
-									/>
-								</div>
-							</Scrollbar>
-						</div>
-					);
-				}
 			},
 		];
 
 		if (config.councilDelegates && council.statute.existsDelegatedVote) {
+			//TRADUCCION
 			tabs.push({
 				text: 'Delegación',
-				component: () => {
-					return (
-						<div style={{ height: 'calc(100% - 38px)' }}>
-							<Scrollbar>
-								<div
-									style={{
-										padding: '1.2em',
-										height: '100%'
-									}}
-								>
-									<DelegationRestriction translate={translate} council={council} fullScreen={true} />
-								</div>
-							</Scrollbar>
-						</div>
-					);
-				}
 			})
 		}
 
@@ -247,17 +100,13 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 			tabsListNames.push(item.text)
 		})
 
-		// setTabsprueba(tabsListNames)
 		return tabsListNames;
 	}
 
-
-	
-
 	return (
 		<CardPageLayout title={translate.prepare_room} disableScroll>
-			<div style={{ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%' }}>
-				<div style={{ display: 'flex' }}>
+			<div style={{ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%', paddingTop: '0em' }}>
+				<div style={{ display: 'flex', marginTop: '0.6em' }}>
 					<div style={{ fontSize: "13px", }}>
 						<MenuSuperiorTabs
 							items={getTabs()}
@@ -266,7 +115,53 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						/>
 					</div>
 				</div>
-				{/* {selectComponent[0] ? selectComponent[0].component() : ""} */}
+				{selecteReuniones === translate.convene &&
+					<div style={{ height: 'calc(100% - 38px)' }}>
+						<Scrollbar>
+							<div style={{ width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em' }}>
+								<Convene
+									council={council}
+									translate={translate}
+								/>
+							</div>
+						</Scrollbar>
+					</div>
+				}
+				{selecteReuniones === translate.new_list_called &&
+					<div style={{ height: 'calc(100% - 38px)' }}>
+						<Scrollbar>
+							<div
+								style={{
+									padding: '1.2em',
+									height: '100%'
+								}}
+							>
+								<ConvenedParticipantsTable
+									council={council}
+									totalVotes={data.councilTotalVotes}
+									socialCapital={data.councilSocialCapital}
+									participations={CBX.hasParticipations(council)}
+									translate={translate}
+									refetch={refetch}
+								/>
+							</div>
+						</Scrollbar>
+					</div>
+				}
+				{selecteReuniones === 'Delegación' &&
+					<div style={{ height: 'calc(100% - 38px)' }}>
+						<Scrollbar>
+							<div
+								style={{
+									padding: '1.2em',
+									height: '100%'
+								}}
+							>
+								<DelegationRestriction translate={translate} council={council} fullScreen={true} />
+							</div>
+						</Scrollbar>
+					</div>
+				}
 			</div>
 			{/* <div style={{ height: '100%' }}>
 				<div style={{ height: 'calc(100% - 3.5em)', padding: '1em', paddingTop: 0, paddingBottom: 0, overflow: 'hidden', position: 'relative' }}>
