@@ -35,6 +35,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     });
     const scroll = React.useRef(null);
     const [newId, setNewId] = React.useState(null);
+    const [mostrarBloques, setMostrarBloques] = React.useState(false);
 
     const { hide, collapse, preview } = state;
     const primary = getPrimary();
@@ -45,9 +46,9 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     }, [doc.length]);
 
     React.useEffect(() => {
-        if(newId){
+        if (newId) {
             const element = document.getElementById(newId);
-            if(element){
+            if (element) {
                 scroll.current.scrollbar.scrollTop(element.offsetTop - 10);
             }
             setNewId(null);
@@ -55,7 +56,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     }, [newId]);
 
     function filterBlocks(blocks, doc) {
-        if(doc && blocks){
+        if (doc && blocks) {
             return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
         }
         return [];
@@ -107,7 +108,10 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
         <React.Fragment>
             <div style={{ width: "100%", height: "100%" }}>
                 <div style={{ display: "flex", height: "100%" }}>
-                    <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: collapse ? "none" : "" }}>
+                    <div>
+                        <i style={{ cursor: "pointer" }} className={mostrarBloques ? 'fa fa-eye' : 'fa fa-eye-slash'} onClick={() => setMostrarBloques(!mostrarBloques)} ></i>
+                    </div>
+                    <div style={{ width: "700px",  width: mostrarBloques ? '700px' : '0', overflow: "hidden", height: "calc( 100% - 3em )", display: collapse ? "none" : "" }}>
                         <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
                             <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setState({
                                 ...state,
@@ -124,7 +128,8 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                 </div>
                             }
                         </div>
-                        <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
+
+                        <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px" }}>
                             <Scrollbar>
                                 <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
                                     <React.Fragment>
@@ -169,15 +174,15 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                         <React.Fragment>
                                             <BasicButton
                                                 text={'Columna 1'}
-                                                color={column === 1? secondary : 'white'}
+                                                color={column === 1 ? secondary : 'white'}
                                                 textStyle={{
-                                                    color: column === 1? 'white' : "black",
+                                                    color: column === 1 ? 'white' : "black",
                                                     fontWeight: "700",
                                                     fontSize: "0.9em",
                                                     textTransform: "none"
                                                 }}
                                                 textPosition="after"
-                                                onClick={() => changeToColumn(1) }
+                                                onClick={() => changeToColumn(1)}
                                                 buttonStyle={{
                                                     boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                                     borderRadius: '3px',
@@ -188,15 +193,15 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             />
                                             <BasicButton
                                                 text={'Columna 2'}
-                                                color={column === 2? secondary : 'white'}
+                                                color={column === 2 ? secondary : 'white'}
                                                 textStyle={{
-                                                    color: column === 2? 'white' : "black",
+                                                    color: column === 2 ? 'white' : "black",
                                                     fontWeight: "700",
                                                     fontSize: "0.9em",
                                                     textTransform: "none"
                                                 }}
                                                 textPosition="after"
-                                                onClick={() => changeToColumn(2) }
+                                                onClick={() => changeToColumn(2)}
                                                 buttonStyle={{
                                                     boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                                     borderRadius: '3px',
@@ -268,7 +273,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             preview: false
                                         })}
                                     >
-                                        <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{fontSize: '20px', color: secondary}}></i>
+                                        <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{ fontSize: '20px', color: secondary }}></i>
                                     </div>
                                 </Tooltip>
                             }
@@ -395,15 +400,16 @@ const DraggableBlock = SortableElement(props => {
     const [expand, setExpand] = React.useState(false);
 
     const blockFijoTomadeAcuerdos = {
-        value:{
-        id: Math.random().toString(36).substr(2, 9),
-        label: "Toma de acuerdos",
-        editButton: true,
-        type: 'Toma de acuerdos',
-        noBorrar: true,
-        editButton: false,
-        text: '',
-        expand: true}
+        value: {
+            id: Math.random().toString(36).substr(2, 9),
+            label: "Toma de acuerdos",
+            editButton: true,
+            type: 'Toma de acuerdos',
+            noBorrar: true,
+            editButton: false,
+            text: '',
+            expand: true
+        }
     }
 
     return (
@@ -544,7 +550,7 @@ const NoDraggableBlock = props => {
                         <div style={{}}>
                             <div style={{}}
                                 dangerouslySetInnerHTML={{
-                                    __html: props.column === 2? props.value.secondaryText : props.value.text
+                                    __html: props.column === 2 ? props.value.secondaryText : props.value.text
                                 }}>
                             </div>
 
@@ -651,7 +657,7 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={"fa fa-compress"}
-                style={{ background: hover && "gainsboro", borderRadius: "20px", color: expand ? "black": "#a09aa0", padding: "5px", fontSize: "16px",  }}
+                style={{ background: hover && "gainsboro", borderRadius: "20px", color: expand ? "black" : "#a09aa0", padding: "5px", fontSize: "16px", }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
