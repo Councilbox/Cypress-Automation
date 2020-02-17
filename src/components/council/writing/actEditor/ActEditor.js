@@ -191,14 +191,14 @@ const cache = new Map();
 
 export const generateCouncilSmartTagsValues = data => {
 	const string = JSON.stringify(data);
-	if(cache.has(string)){
+	if (cache.has(string)) {
 		return cache.get(string);
 	}
 
 	const numParticipationsPresent = (data.councilAttendants.list.reduce((acc, curr) => {
 		let counter = acc;
 		counter = counter + curr.numParticipations;
-		if(curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0){
+		if (curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0) {
 			counter = counter + curr.delegationsAndRepresentations.reduce((acc, curr) => {
 				return acc + curr.numParticipations;
 			}, 0);
@@ -234,7 +234,7 @@ export const generateCouncilSmartTagsValues = data => {
 }
 
 export const ActContext = React.createContext();
-const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, refetch }) => {
+const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, refetch, withDrawer }) => {
 	const [saving, setSaving] = React.useState(false);
 	const [finishModal, setFinishModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
@@ -243,15 +243,15 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 	const secondary = getSecondary();
 	const {
 		doc,
-        options,
-        ...handlers
+		options,
+		...handlers
 	} = useDoc({
 		transformText: async text => changeVariablesToValues(text, {
 			council: {
 				...generateCouncilSmartTagsValues(data),
 			},
 			company
-        }, translate)
+		}, translate)
 	});
 
 	const getData = React.useCallback(async () => {
@@ -271,18 +271,18 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 
 		setData(response.data);
 
-		handlers.initializeDoc(false? {
+		handlers.initializeDoc(false ? {
 			doc: actDocument.fragments,
 			options: actDocument.options
 		} : {
-			doc: buildDoc(response.data, translate, 'act'),
-			options: {
-				stamp: true,
-				doubleColumn: false,
-				language: response.data.council.language,
-				secondaryLanguage: 'en'
-			}
-		});
+				doc: buildDoc(response.data, translate, 'act'),
+				options: {
+					stamp: true,
+					doubleColumn: false,
+					language: response.data.council.language,
+					secondaryLanguage: 'en'
+				}
+			});
 		setLoading(false);
 	}, [councilID]);
 
@@ -368,14 +368,14 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				}
 			}
 		});
-		if(!!response){
+		if (!!response) {
 			setSaving(false);
 		}
 	}
 
 	const finishAct = async () => {
-        setFinishModal(true);
-    }
+		setFinishModal(true);
+	}
 
 	if (loading) {
 		return <LoadingSection />;
@@ -388,6 +388,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 	return (
 		<React.Fragment>
 			<DocumentEditor2
+				withDrawer={withDrawer}
 				doc={doc}
 				data={data}
 				{...handlers}
@@ -403,6 +404,11 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 							doc={doc}
 							options={options}
 							council={data.council}
+							styles={{
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+							}}
 						/>
 						<BasicButton
 							text={translate.save}
@@ -423,12 +429,21 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 							}}
 						/>
 						<BasicButton
-							text={translate.finish_and_aprove_act}
+							text={
+								<span style={{
+
+								}}>
+									{translate.finish_and_aprove_act}
+								</span>
+							}
 							color={secondary}
 							textStyle={{
 								color: "white",
 								fontSize: "0.9em",
-								textTransform: "none"
+								textTransform: "none",
+								// whiteSpace: 'nowrap',
+								// overflow: 'hidden',
+								// textOverflow: 'ellipsis',
 							}}
 							onClick={finishAct}
 							textPosition="after"
@@ -436,7 +451,8 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 							buttonStyle={{
 								marginRight: "1em",
 								boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-								borderRadius: '3px'
+								borderRadius: '3px',
+								overflow: "hidden"
 							}}
 						/>
 
@@ -445,19 +461,20 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				translate={translate}
 			/>
 			<FinishActModal
-                show={finishModal}
-                generatePreview={generatePreview}
+				finishInModal={true}
+				show={finishModal}
+				generatePreview={generatePreview}
 				doc={doc}
 				options={options}
 				refetch={refetch}
 				company={company}
 				updateAct={updateAct}
-                translate={translate}
-                council={data.council}
-                requestClose={() => {
-                    setFinishModal(false)
-                }}
-            />
+				translate={translate}
+				council={data.council}
+				requestClose={() => {
+					setFinishModal(false)
+				}}
+			/>
 		</React.Fragment>
 	)
 }
@@ -479,7 +496,7 @@ export const generateActTags = (type, data, translate) => {
 
 	//TRADUCCION
 
-	if(!attendantsString){
+	if (!attendantsString) {
 		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');		/*council.attendants.reduce((acc, attendant) => {
 			if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
 				const represented = attendant.delegationsAndRepresentations.find(p => p.state === PARTICIPANT_STATES.REPRESENTATED);
@@ -502,7 +519,7 @@ export const generateActTags = (type, data, translate) => {
 		cache.set(`${council.id}_attendants`, attendantsString);
 	}
 
-	if(!delegatedVotesString){
+	if (!delegatedVotesString) {
 		delegatedVotesString = council.delegatedVotes.reduce((acc, vote) => {
 			return acc + `<p style="border: 1px solid black; padding: 5px;">-${
 				vote.name} ${
@@ -538,11 +555,11 @@ export const generateActTags = (type, data, translate) => {
 				council.firstOrSecondConvene
 					? translate.first
 					: translate.second
-			} `,
+				} `,
 			label: translate.first_or_second_call
 		},
 		location: {
-			value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
+			value: council.remoteCelebration === 1 ? translate.remote_celebration : council.street,
 			label: translate.new_location_of_celebrate
 		},
 		now: {
@@ -629,39 +646,39 @@ export const generateActTags = (type, data, translate) => {
 		}
 	}
 
-	switch(type){
+	switch (type) {
 		case 'intro':
 			tags = [
 				smartTags.businessName,
 				smartTags.dateStart
 			]
 
-			if(hasSecondCall(council.statute)){
+			if (hasSecondCall(council.statute)) {
 				tags = [...tags, smartTags.dateStart2NdCall];
 			}
 
-			if(council.remoteCelebration !== 1){
+			if (council.remoteCelebration !== 1) {
 				tags = [...tags, smartTags.city, smartTags.country];
 			}
 
 			tags = [...tags,
-				smartTags.dateRealStart,
-				smartTags.firstOrSecondConvene,
-				smartTags.president,
-				smartTags.secretary,
-				smartTags.location,
-				smartTags.now,
-				smartTags.convene,
-				smartTags.attendants,
-				smartTags.agenda,
-				smartTags.delegatedVotes,
-				smartTags.numPresentOrRemote,
-				smartTags.numDelegations,
-				smartTags.numParticipationsPresent,
-				smartTags.numParticipationsRepresented,
-				smartTags.percentageSCPresent,
-				smartTags.percentageSCDelegated,
-				smartTags.percentageSCTotal
+			smartTags.dateRealStart,
+			smartTags.firstOrSecondConvene,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.location,
+			smartTags.now,
+			smartTags.convene,
+			smartTags.attendants,
+			smartTags.agenda,
+			smartTags.delegatedVotes,
+			smartTags.numPresentOrRemote,
+			smartTags.numDelegations,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCDelegated,
+			smartTags.percentageSCTotal
 			]
 
 			return tags;
@@ -672,32 +689,32 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.dateStart
 			]
 
-			if(hasSecondCall(council.statute)){
+			if (hasSecondCall(council.statute)) {
 				tags = [...tags, smartTags.dateStart2NdCall];
 			}
 
-			if(council.remoteCelebration !== 1){
+			if (council.remoteCelebration !== 1) {
 				tags = [...tags, smartTags.city, smartTags.country];
 			}
 
 			tags = [...tags,
-				smartTags.dateRealStart,
-				smartTags.firstOrSecondConvene,
-				smartTags.president,
-				smartTags.secretary,
-				smartTags.location,
-				smartTags.now,
-				smartTags.convene,
-				smartTags.agenda,
-				smartTags.attendants,
-				smartTags.delegatedVotes,
-				smartTags.numPresentOrRemote,
-				smartTags.numDelegations,
-				smartTags.numParticipationsPresent,
-				smartTags.numParticipationsRepresented,
-				smartTags.percentageSCPresent,
-				smartTags.percentageSCDelegated,
-				smartTags.percentageSCTotal
+			smartTags.dateRealStart,
+			smartTags.firstOrSecondConvene,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.location,
+			smartTags.now,
+			smartTags.convene,
+			smartTags.agenda,
+			smartTags.attendants,
+			smartTags.delegatedVotes,
+			smartTags.numPresentOrRemote,
+			smartTags.numDelegations,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCDelegated,
+			smartTags.percentageSCTotal
 			]
 			return tags;
 
@@ -715,19 +732,19 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.percentageSCTotal
 			]
 
-			if(council.remoteCelebration !== 1){
+			if (council.remoteCelebration !== 1) {
 				tags = [...tags, smartTags.city, smartTags.country];
 			}
 
 
 			tags = [...tags,
-				smartTags.attendants,
-				smartTags.delegatedVotes,
-				smartTags.numPresentOrRemote,
-				smartTags.numDelegations,
-				smartTags.numParticipationsPresent,
-				smartTags.numParticipationsRepresented,
-				smartTags.currentQuorum,
+			smartTags.attendants,
+			smartTags.delegatedVotes,
+			smartTags.numPresentOrRemote,
+			smartTags.numDelegations,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.currentQuorum,
 			];
 
 			return tags;

@@ -8,7 +8,7 @@ import FileSaver from 'file-saver';
 import { buildDocVariable } from './utils';
 
 
-const DownloadDoc = ({ client, doc, council, options, translate }) => {
+const DownloadDoc = ({ client, doc, council, options, translate, styles }) => {
     const [loading, setLoading] = React.useState(false);
 
     const downloadPDF = async () => {
@@ -60,7 +60,7 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
             .replace(/solid 1px rgb(217, 237, 247)/g, 'solid 2px rgb(217, 237, 247)')
             .replace(/<\/br>/g, '<br>')
             .replace(/font-size: 11px/g, 'font-size: 12.5px');
-        const html = preHtml+body+postHtml;
+        const html = preHtml + body + postHtml;
         const css = (`\
             <style>\
             body {font-family: Arial; font-size: 12pt;}\
@@ -73,7 +73,7 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
         `);
 
         let filename = `${translate.act} - ${council.name}.doc`;
-        const blob = new Blob(['\ufeff', css+html], {
+        const blob = new Blob(['\ufeff', css + html], {
             type: 'application/msword'
         });
         FileSaver.saveAs(blob, filename);
@@ -87,13 +87,13 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
             loadingColor={'black'}
             text={'Exportar documento'}//TRADUCCION
             textStyle={{ color: '#464646' }}
-            buttonStyle={{border: `1px solid ${'#969696'}`, marginRight: '1em'}}
+            buttonStyle={{ border: `1px solid ${'#969696'}`, marginRight: '1em' }}
             icon={
                 <i className="fa fa-download" style={{
-                        fontSize: "1em",
-                        color: 'black',
-                        marginLeft: "0.3em"
-                    }}
+                    fontSize: "1em",
+                    color: 'black',
+                    marginLeft: "0.3em"
+                }}
                 />
             }
             items={
@@ -108,12 +108,12 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
                             }}
                         >
                             <i className="fa fa-file-pdf-o" style={{
-                                    fontSize: "1em",
-                                    color: 'black',
-                                    marginLeft: "0.3em"
-                                }}
+                                fontSize: "1em",
+                                color: 'black',
+                                marginLeft: "0.3em"
+                            }}
                             />
-                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                            <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
                                 PDF
                             </span>
                         </div>
@@ -129,12 +129,12 @@ const DownloadDoc = ({ client, doc, council, options, translate }) => {
                             }}
                         >
                             <i className="fa fa-file-word-o" style={{
-                                    fontSize: "1em",
-                                    color: 'black',
-                                    marginLeft: "0.3em"
-                                }}
+                                fontSize: "1em",
+                                color: 'black',
+                                marginLeft: "0.3em"
+                            }}
                             />
-                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                            <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
                                 Word
                             </span>
                         </div>

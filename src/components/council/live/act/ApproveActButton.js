@@ -44,6 +44,7 @@ const ApproveActButton = ({ translate, council, refetch }) => {
                         }}
                     />
                     <FinishActModal
+                        finishInModal={true}
                         refetch={refetch}
                         council={council}
                         config={config}

@@ -17,7 +17,7 @@ import { isMobile } from "../../../../utils/screen";
 import DocumentPreview from "../../../documentEditor/DocumentPreview";
 
 
-const FinishActModal = ({ requestClose, updateAct, translate, preview, council, ...props }) => {
+const FinishActModal = ({ requestClose, updateAct, translate, preview, council, finishInModal, ...props }) => {
 	const [state, setState] = useOldState({
 		loading: false,
 		step: 1,
@@ -114,6 +114,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 					doc={props.doc}
 					generatePreview={props.generatePreview}
 					company={props.company}
+					finishInModal={finishInModal}
 				/>
 			</div>
 		);

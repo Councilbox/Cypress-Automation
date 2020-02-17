@@ -3,7 +3,8 @@ import Timbrado from './Timbrado';
 import { LoadingSection } from '../../displayComponents';
 
 
-const CBXDocumentLayout = ({ options, loading, preview, company }) => {
+const CBXDocumentLayout = ({ options, loading, preview, company, finishInModal }) => {
+    
     return (
         <div style={{ display: "flex", height: "100%", maxWidth: '210mm' }} >
             <div style={{ width: "20%", maxWidth: "95px" }}>
@@ -11,6 +12,7 @@ const CBXDocumentLayout = ({ options, loading, preview, company }) => {
                     <Timbrado
                         collapse={true}
                         edit={loading}
+                        finishInModal={"actaLienzoModal"}
                     />
                 }
             </div>
@@ -27,7 +29,7 @@ const CBXDocumentLayout = ({ options, loading, preview, company }) => {
                         marginRight: "3em",
                         marginBottom: "3em"
                     }}
-                    className={"actaLienzo"}>
+                    className={finishInModal ? "actaLienzoModal" : "actaLienzo"}>
                     {loading?
                         <div style={{display: 'flex'}}>
                             <div style={{marginRight: '0.5em'}}>Generando vista previa del documento</div><div> <LoadingSection size={14} /></div>

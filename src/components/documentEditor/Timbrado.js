@@ -1,14 +1,14 @@
 import React from 'react';
 import imgIzq from "../../assets/img/TimbradoCBX.jpg";
 
-const Timbrado = ({ colapse, edit }) => {
+const Timbrado = ({ colapse, edit, finishInModal }) => {
     const [imgIzqCbx, setImgIzqCbx] = React.useState(2)
 
     React.useEffect(() => {
-        if (document.getElementsByClassName("actaLienzo")[0]) {
-            setImgIzqCbx(Math.ceil(document.getElementsByClassName("actaLienzo")[0].scrollHeight / 995))
+        if (document.getElementsByClassName(finishInModal ? finishInModal : "actaLienzo")[0]) {
+            setImgIzqCbx(Math.ceil(document.getElementsByClassName(finishInModal ? finishInModal : "actaLienzo")[0].scrollHeight / 995))
         }
-    }, [document.getElementsByClassName("actaLienzo")[0], colapse, edit])
+    }, [document.getElementsByClassName(finishInModal ? finishInModal : "actaLienzo")[0], colapse, edit])
 
     return (
         new Array(imgIzqCbx).fill(0).map((option, index) =>
