@@ -5,8 +5,7 @@ import CompanySelector from '../menus/CompanySelector';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { getSecondary } from '../../styles/colors';
 import { isLandscape, isMobile } from '../../utils/screen';
-let icon;
-import('../../assets/img/imago-councilbox-inverse-xl.png').then(data => icon = data);
+import icon from '../../assets/img/imago-councilbox-inverse-xl.png';
 
 
 const sidebarStyle = theme => ({
