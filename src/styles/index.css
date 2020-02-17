@@ -954,3 +954,9 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     width: 100%;
 }
 
+.qrEscaner section > div  {
+    border: 1px solid gainsboro!important;
+    border-radius: 27px;
+    box-shadow: none!important;
+}
+

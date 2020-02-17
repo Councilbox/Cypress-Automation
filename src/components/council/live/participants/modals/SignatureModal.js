@@ -43,6 +43,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 	const save = async () => {
 		let signatureData = signature.current.toDataURL();
 		let response;
+
 		if (state.clean) {
 			response = await props.removeLiveParticipantSignature({
 				variables: {
