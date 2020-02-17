@@ -16,6 +16,7 @@ export const secondary = turquoise;
 
 export const getPrimary = () => {
 	let actual = document.documentElement.style.getPropertyValue('--primary') || primary;
+	return actual;
 	if (store) {
 		const state = store.getState();
 		if(state.companies.list.length > 0){
@@ -28,6 +29,7 @@ export const getPrimary = () => {
 
 export const getSecondary = () => {
 	let actual = document.documentElement.style.getPropertyValue('--secondary') || secondary;
+	return actual;
 	if (store) {
 		const state = store.getState();
 		if(state.companies.list.length > 0){
