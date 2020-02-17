@@ -1,18 +1,23 @@
 import React from 'react';
 import QrReader from 'react-qr-reader';
-import { AlertConfirm, BasicButton, ReactSignature, ParticipantDisplay } from '../../../../../displayComponents';
+import { AlertConfirm, BasicButton, ReactSignature, ParticipantDisplay, Checkbox } from '../../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import { canBePresentWithRemoteVote } from '../../../../../utils/CBX';
+import { changeParticipantState, setLiveParticipantSignature } from '../../../../../queries/liveParticipant';
+import { getPrimary } from '../../../../../styles/colors';
 
 
 const QRSearchModal = ({ updateSearch, open, requestClose, client, council, translate }) => {
     const [search, setSearch] = React.useState('');
-    const [result, setResult] = React.useState(null);
+    const [participant, setParticipant] = React.useState(null);
     const [error, setError] = React.useState(null);
+    const [participantState, setParticipantState] = React.useState(5);
+    const [withSignature, setWithSignature] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const signature = React.useRef();
+    const primary = getPrimary();
 
     const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
 		council.statute
@@ -34,6 +39,9 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                             position
                             state
                             signed
+                            signature{
+                                data
+                            }
                         }
                     }
                 `,
@@ -46,58 +54,68 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
             if(!response.data.liveParticipantQRSearch){
                 setError('404')
             } else {
-                setResult(response.data.liveParticipantQRSearch);
+                setParticipant(response.data.liveParticipantQRSearch);
             }
-            console.log(response);
             setLoading(false);
 
         }
     }, [search]);
 
     React.useEffect(() => {
+        if(participant){
+            if(participant.signature && participant.signature.data){
+                signature.current.fromDataURL(participant.signature.data);
+                setWithSignature(true);
+            }
+            if(participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE){
+                setParticipantState(PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE);
+            }
+        }
+    }, [participant]);
+
+
+    React.useEffect(() => {
         searchParticipant();
     }, [searchParticipant])
 
     const handleError = error => {
-        setSearch('aaronCracker');
+        console.log('failed to read');
     }
 
     const handleScan = data => {
         if (data) {
-            console.log(data);
+            setSearch(data);
         }
     }
 
     const setParticipantAsPresent = async () => {
-        // const save = async () => {
-        //     let signatureData = signature.current.toDataURL();
-        //     let response;
-        //     if (state.clean) {
-        //         response = await props.removeLiveParticipantSignature({
-        //             variables: {
-        //                 participantId: participant.id
-        //             }
-        //         });
-        //     } else {
-        //         response = await props.setLiveParticipantSignature({
-        //             variables: {
-        //                 signature: {
-        //                     ...(data.liveParticipantSignature ? { id: data.liveParticipantSignature.id } : {}),
-        //                     data: signatureData,
-        //                     participantId: participant.id
-        //                 },
-        //                 state: state.participantState
-        //             }
-        //         });
-        //     }
-    
-        //     if (!response.errors) {
-        //         await data.refetch();
-        //         await props.refetch();
-        //         close();
-        //     }
-        // };
-        setResult(null);
+        let response;
+        if (!withSignature) {
+            response = await client.mutate({
+                mutation: changeParticipantState,
+                variables: {
+                    participantId: participant.id,
+                    state: participantState
+                }
+            })
+        } else {
+            let signatureData = signature.current.toDataURL();
+            response = await client.mutate({
+                mutation: setLiveParticipantSignature,
+                variables: {
+                    signature: {
+                        //...(data.liveParticipantSignature ? { id: data.liveParticipantSignature.id } : {}),
+                        data: signatureData,
+                        participantId: participant.id
+                    },
+                    state: participantState
+                }
+            });
+        }
+
+        if (!response.errors) {
+            reset();
+        }
     }
 
     const signatureSection = () => {
@@ -129,38 +147,33 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                         }}
                     >
                         <ParticipantDisplay
-                            participant={result}
+                            participant={participant}
                             translate={translate}
                             delegate={true}
                             council={council}
                         />
                     </div>
-                    {/* {_canBePresentWithRemoteVote ? (
+                    {_canBePresentWithRemoteVote ? (
                         <div>
                             <Checkbox
                                 label={translate.has_remote_vote}
-                                value={
-                                    participantState ===
-                                    PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-                                }
+                                value={participantState === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
                                 onChange={(event, isInputChecked) =>
-                                    setState({
-                                        participantState: isInputChecked
-                                            ? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-                                            : PARTICIPANT_STATES.PHYSICALLY_PRESENT
-                                    })
+                                    setParticipantState(isInputChecked ? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+                                        : PARTICIPANT_STATES.PHYSICALLY_PRESENT
+                                    )
                                 }
                             />
                         </div>
                     ) : (
                             <br />
-                        )} */}
+                        )}
                     <div tyle={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }}>
                         <ReactSignature
                             height={height}
                             width={width}
                             dotSize={1}
-                            //onEnd={() => setState({ clean: false })}
+                            onEnd={() => setWithSignature(true)}
                             style={{ border: "solid 1px" }}
                             ref={signature}
                         />
@@ -170,24 +183,55 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         )
     }
 
+    const reset = () => {
+        setSearch(null);
+        setParticipant(null);
+        setWithSignature(false);
+        setParticipantState(5);
+    }
+
     const renderBody = () => {
-        if(result){
+        if(participant){
             return (
                 <div>
-                    {result.name}
-                    {result.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT?
-                        'Este participante ya está presente'
-                    :
-                        <React.Fragment>
-                            <div>
-                                {signatureSection()}
+                    <React.Fragment>
+                        {participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT &&
+                            <div style={{width: '100%', padding: '1em', color: primary, fontWeight: '700', border: `1px solid ${primary}`, borderRadius: '5px'}}>
+                                El participante ya se encuentra presente en sala {/*TRADUCCION*/}
                             </div>
+                        }
+                        <div>
+                            {signatureSection()}
+                        </div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                width: '100%',
+                                borderTop: '1px solid gainsboro',
+                                paddingTop: '1em'
+                            }}
+                        >
                             <BasicButton
-                                text="Marcar como presente"
-                                onClick={setParticipantAsPresent}
+                                text={translate.back}
+                                type="flat"
+                                buttonStyle={{
+                                    color: 'black',
+                                    fontWeight: '700',
+                                    marginLeft: '1em'
+                                }}
+                                onClick={reset}
                             />
-                        </React.Fragment>
-                    }
+                            {(participant.state !== PARTICIPANT_STATES.PHYSICALLY_PRESENT && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) &&
+                                <BasicButton
+                                    color={primary}
+                                    textStyle={{ color: 'white' }}
+                                    text="Marcar como presente"
+                                    onClick={setParticipantAsPresent}
+                                />
+                            }
+                        </div>
+                    </React.Fragment>
                 </div>
             )
         }
@@ -235,7 +279,10 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         <AlertConfirm
             open={open}
             bodyStyle={{padding: '1em 2em', margin: '0'}}
-            requestClose={requestClose}
+            requestClose={() => {
+                requestClose();
+                reset();
+            }}
             title={translate.search}
             bodyText={renderBody()}
         />
