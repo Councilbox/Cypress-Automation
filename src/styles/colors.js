@@ -17,26 +17,10 @@ export const secondary = turquoise;
 export const getPrimary = () => {
 	let actual = document.documentElement.style.getPropertyValue('--primary') || primary;
 	return actual;
-	if (store) {
-		const state = store.getState();
-		if(state.companies.list.length > 0){
-			const color = state.companies.list[state.companies.selected].primary;
-			return color ? color : actual;
-		}
-	}
-	return actual;
 };
 
 export const getSecondary = () => {
 	let actual = document.documentElement.style.getPropertyValue('--secondary') || secondary;
-	return actual;
-	if (store) {
-		const state = store.getState();
-		if(state.companies.list.length > 0){
-			const color = state.companies.list[state.companies.selected].secondary;
-			return color ? color : actual;
-		}
-	}
 	return actual;
 };
 export const getLightGrey = () => {

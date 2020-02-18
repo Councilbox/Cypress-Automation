@@ -88,6 +88,10 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         }
     }
 
+    const isPresent = state => {
+        return state === PARTICIPANT_STATES.PHYSICALLY_PRESENT || state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
+    }
+
     const setParticipantAsPresent = async () => {
         let response;
         if (!withSignature) {
@@ -195,7 +199,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
             return (
                 <div>
                     <React.Fragment>
-                        {participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT &&
+                        {isPresent(participant.state) &&
                             <div style={{width: '100%', padding: '1em', color: primary, fontWeight: '700', border: `1px solid ${primary}`, borderRadius: '5px'}}>
                                 El participante ya se encuentra presente en sala {/*TRADUCCION*/}
                             </div>
@@ -222,7 +226,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                                 }}
                                 onClick={reset}
                             />
-                            {(participant.state !== PARTICIPANT_STATES.PHYSICALLY_PRESENT && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) &&
+                            {!isPresent(participant.state) &&
                                 <BasicButton
                                     color={primary}
                                     textStyle={{ color: 'white' }}
