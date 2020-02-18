@@ -1,9 +1,35 @@
 import React from 'react';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import withTranslations from '../HOCs/withTranslations';
+import * as mainActions from "../actions/mainActions";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+const RoomAdminContainer = ({ match, translate, client, actions }) => {
+    const getAdminToken = async () => {
+        const response = await client.mutate({
+            mutation: gql`
+                mutation adminToken($token: String!){
+                    adminToken(token: $token){
+                        token
+                    }
+                }
+            `,
+            variables: {
+                token: match.params.token
+            }
+        });
+
+        if(response.data.adminToken){
+            actions.loginSuccess(response.data.adminToken.token);
+        }
+    }
 
 
-
-const RoomAdminContainer = ({ match, translate }) => {
-    console.log(match.params.token);
+    React.useEffect(() => {
+        getAdminToken();
+    }, [match.params.token])
 
     return (
         <div>
@@ -14,4 +40,14 @@ const RoomAdminContainer = ({ match, translate }) => {
     )
 }
 
-export default RoomAdminContainer;
+
+function mapDispatchToProps(dispatch) {
+	return {
+		actions: bindActionCreators(mainActions, dispatch)
+	};
+}
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(withTranslations()(withApollo(RoomAdminContainer)));
