@@ -7,8 +7,9 @@ import logo from "../../../assets/img/logo.png";
 import icon from "../../../assets/img/logo-icono.png";
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { getCustomLogo, getCustomIcon } from "../../../utils/subdomain";
+import withSharedProps from "../../../HOCs/withSharedProps";
 
-const LiveHeader = ({ councilName, translate, windowSize, participants, toggleScreens,}) => {
+const LiveHeader = ({ councilName, translate, windowSize, participants, user, toggleScreens,}) => {
 	const [showConfirm, setShowConfirm] = React.useState(false);
 	const primary = getPrimary();
 	const customLogo = getCustomLogo();
@@ -35,7 +36,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, toggleSc
 					justifyContent: "space-between"
 				}}
 			>
-				<div > {/**style={{ width: "20%" }} */}
+				<div> {/**style={{ width: "20%" }} */}
 					<img
 						src={windowSize !== "xs" ? customLogo? customLogo : logo : customIcon? customIcon : icon}
 						className="App-logo"
@@ -70,46 +71,44 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, toggleSc
 						</div>
 					</Tooltip>
 				</div>
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "flex-end",
-						paddingRight: "2em",
-						alignItems: "center"
-					}}
-				>{/**style={{width: "20%",}} */}
-					{/*<Icon
-				 className="material-icons"
-				 style={{fontSize: '1.5em', color: 'white'}}
-				 >
-				 help
-				 </Icon>*/}
-					<Icon
-						className="material-icons"
+				{!user.accessLimitedTo?
+					<div
 						style={{
-							fontSize: "1.5em",
-							color: primary,
-							cursor: "pointer"
+							display: "flex",
+							flexDirection: "row",
+							justifyContent: "flex-end",
+							paddingRight: "2em",
+							alignItems: "center"
 						}}
-						onClick={() =>
-							setShowConfirm(true)
-						}
 					>
-						exit_to_app
-					</Icon>
-					<AlertConfirm
-						title={translate.exit}
-						bodyText={translate.exit_desc}
-						acceptAction={exitAction}
-						buttonCancel={translate.cancel}
-						buttonAccept={translate.accept}
-						open={showConfirm}
-						requestClose={() =>
-							setShowConfirm(false)
-						}
-					/>
-				</div>
+						<Icon
+							className="material-icons"
+							style={{
+								fontSize: "1.5em",
+								color: primary,
+								cursor: "pointer"
+							}}
+							onClick={() =>
+								setShowConfirm(true)
+							}
+						>
+							exit_to_app
+						</Icon>
+						<AlertConfirm
+							title={translate.exit}
+							bodyText={translate.exit_desc}
+							acceptAction={exitAction}
+							buttonCancel={translate.cancel}
+							buttonAccept={translate.accept}
+							open={showConfirm}
+							requestClose={() =>
+								setShowConfirm(false)
+							}
+						/>
+					</div>
+				:
+					<div style={{width: '20%'}}/>
+				}
 			</Paper>
 			<div
 				style={{
@@ -121,4 +120,4 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, toggleSc
 	);
 }
 
-export default withWindowSize(LiveHeader);
+export default withWindowSize(withSharedProps()(LiveHeader));

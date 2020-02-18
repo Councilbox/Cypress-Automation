@@ -24,6 +24,11 @@ const LoadCorporationTree = Loadable({
 	loading: LoadingMainApp
 });
 
+const RoomAdminRouter = Loadable({
+	loader: () => import('../containers/RoomAdminRouter'),
+	loading: LoadingMainApp
+});
+
 const LoadNoConnectionModal = Loadable({
 	loader: () => import('../components/NoConnectionModal'),
 	loading: LoadingMainApp
@@ -169,6 +174,12 @@ class AppRouter extends React.Component {
 					location={this.props.location}
 				/>
 			);
+		}
+
+		if(this.props.user.accessLimitedTo) {
+			return (
+				<RoomAdminRouter user={this.props.user} location={this.props.location} />
+			)
 		}
 
 		return this.props.main.isLogged && this.props.user.type === 'company' ? (

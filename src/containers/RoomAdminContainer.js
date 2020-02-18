@@ -32,11 +32,7 @@ const RoomAdminContainer = ({ match, translate, client, actions }) => {
     }, [match.params.token])
 
     return (
-        <div>
-            VAMOS QUE AQUI VA LA LOGICA DE LOS PUTOS LINK DE IESA
-
-            {match.params.token}
-        </div>
+        <div/>
     )
 }
 
