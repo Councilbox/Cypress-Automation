@@ -1,10 +1,13 @@
 import React from 'react';
-import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton } from '../../../displayComponents';
+import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar } from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
+import { moment } from '../../../containers/App';
+import { Card } from 'material-ui';
+import { isMobile } from "../../../utils/screen";
 
 
-const DelegationProxyModal = ({ open, council, innerWidth, participant, requestClose, action }) => {
+const DelegationProxyModal = ({ open, council, innerWidth, delegation, participant, requestClose, action }) => {
     const signature = React.useRef();
     const signatureContainer = React.useRef();
     const primary = getPrimary();
@@ -31,44 +34,44 @@ const DelegationProxyModal = ({ open, council, innerWidth, participant, requestC
         <AlertConfirm
             open={open}
             bodyStyle={{
-                width: "50vw",
-                // minWidth: "50vw",
+                width: isMobile? '100%' : "60vw",
             }}
             requestClose={requestClose}
             title={"Generación de documento delegado"}
             bodyText={
                 <Grid style={{ marginTop: "15px", height: "100%" }}>
-                    <GridItem xs={12} md={6} lg={6} style={{ height: "100%" }} >
-                        <div style={{
-                            boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-                            padding: "1em",
-                            color: "#000000",
-                            height: "100%"
-                        }}>
-                            <div>{council.company.businessName}</div>
-                            <div>{council.street}</div>
-                            <div>{council.countryState} {council.countryState}</div>
-                            <div>{council.country}</div>
-
-                            <div>En Salamanca, a 05 de Febrero de 2020</div>
-
-                            <div>Distinguido/s Señor/es:</div>
-
-                            <div>
-                                No pudiendo asistir a la Junta General Extraordinaria de
-                            Accionistas  de OLIVO ENTERPRISE, S.A.
-                            convocada para el próximo día 14 de Marzo de
-                            2020 a las 12:34 horas, en C/ Martin,
-                            en primera convocatoria, o bien el 14 de Marzo de 2020 a las 13.00
-                            horas en el mismo lugar, en segunda convocatoria,
-                            delego mi representación y voto en favor de D./ Aaron Fuentes Garcia para que me
-                            represente en dicha reunión sin limitación de facultad de voto.
-                            </div>
-
-                            <div>Le saluda muy atentamente,</div>
-                            _________________________________
-                            <div>D.  {participant.name} {participant.surname} </div>
-                        </div>
+                    <GridItem xs={12} md={6} lg={6} style={{ height: "70vh" }} >
+                        <Scrollbar>
+                            {delegation &&
+                                <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
+                                    <div>{council.company.businessName}</div>
+                                    <div>{council.street}</div>
+                                    <div>{council.countryState} {council.countryState}</div>
+                                    <div>{council.country}</div>
+                                    <br/>
+                                    <div>En {council.city}, a {moment(new Date()).format('LL')}</div>
+                                    <br/>
+                                    <div>Distinguido/s Señor/es:</div>
+                                    <br/>
+                                    <div>
+                                        No pudiendo asistir a la {council.name} de {council.company.businessName} convocada
+                                        para el próximo día {moment(council.dateStart).format('LL')} a
+                                        las {moment(council.dateStart).format('h:mm:ss')} horas, en {council.street}, en
+                                        primera convocatoria, o bien el {moment(council.dateStart2ndCall).format('LL')} a
+                                        las {moment(council.dateStart2ndCall).format('h:mm:ss')} horas
+                                        en el mismo lugar, en segunda convocatoria,
+                                        delego mi representación y voto en favor de D./ {delegation.name} {delegation.surname || ''} para que me
+                                        represente en dicha reunión sin limitación de facultad de voto.
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <div>Le saluda muy atentamente,</div>
+                                    <br/><br/><br/>
+                                    _________________________________
+                                    <div>D.  {participant.name} {participant.surname} </div>
+                                </Card>
+                            }
+                        </Scrollbar>
                     </GridItem>
                     <GridItem xs={12} md={6} lg={6} >
                         <div style={{

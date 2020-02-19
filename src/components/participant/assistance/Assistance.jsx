@@ -588,7 +588,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				{/* ///aki */}
 				<DelegationProxyModal
 					participant={participant}
-					//delegation={delegation}
+					delegation={state.delegateInfoUser}
 					council={council}
 					translate={translate}
 					open={openModalFirmasModal}
