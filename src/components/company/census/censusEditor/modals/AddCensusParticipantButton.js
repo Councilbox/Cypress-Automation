@@ -15,7 +15,7 @@ import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
 } from "../../../../../utils/validation";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../../../../../utils/screen";
 
 
 class AddCensusParticipantButton extends React.Component {

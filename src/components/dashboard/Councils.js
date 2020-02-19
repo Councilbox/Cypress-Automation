@@ -13,7 +13,7 @@ import {
 	PaginationFooter,
 	CardPageLayout,
 } from "../../displayComponents/index";
-import { isLandscape } from '../../utils/screen';
+import { isLandscape, isMobile } from '../../utils/screen';
 import { getSecondary } from '../../styles/colors';
 import "react-perfect-scrollbar/dist/css/styles.css";
 import withWindowSize from '../../HOCs/withWindowSize';
@@ -24,7 +24,6 @@ import { useOldState } from '../../hooks';
 import { DRAFTS_LIMITS } from "../../constants.js";
 import MenuSuperiorTabs from "./MenuSuperiorTabs.js";
 import { bHistory } from "../../containers/App.js";
-import { isMobile } from "react-device-detect";
 
 const getSection = translate => {
 	const section = window.location.pathname.split('/').pop();

@@ -4,7 +4,7 @@ import CompanyDraftList from './CompanyDraftList';
 import CompanyTags from './companyTags/CompanyTags';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../utils/screen';
 
 const CompanyDraftsPage = ({ translate, ...props }) => {
     const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(translate.drafts);

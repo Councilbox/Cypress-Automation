@@ -11,9 +11,9 @@ import { getPrimary, getSecondary } from "../../../../../styles/colors";
 import FontAwesome from "react-fontawesome";
 import { graphql, compose } from "react-apollo";
 import { moment } from "../../../../../containers/App";
-import { isMobile } from 'react-device-detect';
 import { MenuItem } from 'material-ui';
 import gql from 'graphql-tag';
+import { isMobile } from "../../../../../utils/screen";
 
 const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council, ...props }) => {
 	const [modal, setModal] = React.useState(false);

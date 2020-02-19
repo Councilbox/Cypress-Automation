@@ -22,6 +22,7 @@ import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 import { CONSENTIO_ID } from "../../../config";
 import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
 import withWindowSize from "../../../HOCs/withWindowSize";
+import { isMobile } from "../../../utils/screen";
 
 
 const styles = {
@@ -41,7 +42,7 @@ const styles = {
 		padding: "10px"
 	},
 	cardContainer: {
-		margin: "20px",
+		margin: isMobile? '5px' : "20px",
 		maxWidth: "100%",
 		height: 'calc(100% - 40px)'
 	},
@@ -280,7 +281,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 
 	const getReunionActual = () => {
 		return (
-			< div style={{}}>
+			<div style={{}}>
 				<div style={{ marginTop: "2em" }}>
 					{council.confirmAssistance !== 0 &&
 						<React.Fragment>
@@ -563,7 +564,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 						/>
 					</div>
 					<div style={{ marginLeft: "5em", display: "flex", alignItems: "flex-end" }}>
-						<div >
+						<div>
 							{council.confirmAssistance !== 0 &&
 								<BasicButton
 									text={state.success || state.locked ? translate.tooltip_sent : translate.send}
@@ -746,7 +747,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 						</div>
 					</div>
 				</div>
-			</div >
+			</div>
 		)
 	}
 
@@ -1213,7 +1214,7 @@ const DelegationSection = ({ participant, translate, refetch }) => {
 				return 1;
 			}).map(vote => {
 				return (
-					< Card key={vote.id} style={{ display: "flex", color: "#000000", fontSize: "14px", padding: "0.5em 1em", marginBottom: "0.5em" }}>
+					<Card key={vote.id} style={{ display: "flex", color: "#000000", fontSize: "14px", padding: "0.5em 1em", marginBottom: "0.5em" }}>
 						<div>{vote.name} {vote.surname}</div>
 						<div>
 							{vote.state !== PARTICIPANT_STATES.REPRESENTATED &&

@@ -16,9 +16,7 @@ import Table, {
 } from "material-ui/Table";
 import TableStyles from "../styles/table";
 import PaginationFooter from "./PaginationFooter";
-import { isMobile } from 'react-device-detect';
-import Scrollbar from "./Scrollbar";
-import LoadDraft, { DropdownEtiquetas } from "../components/company/drafts/LoadDraft";
+import { isMobile } from "../utils/screen";
 
 class EnhancedTable extends React.Component {
 	state = {

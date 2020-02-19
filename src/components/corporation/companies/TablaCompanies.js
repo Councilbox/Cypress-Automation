@@ -19,7 +19,7 @@ import withSharedProps from "../../../HOCs/withSharedProps";
 import NewCompanyPage from "../../company/new/NewCompanyPage";
 import RemoveCompany from './RemoveCompany';
 import DeleteCompany from './DeleteCompany';
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../utils/screen";
 
 
 const TablaCompanies = ({ client, translate, company, match }) => {

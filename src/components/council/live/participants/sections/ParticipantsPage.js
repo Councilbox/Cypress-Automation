@@ -12,7 +12,6 @@ import {
 	TextInput
 } from "../../../../../displayComponents";
 import { Tooltip } from 'material-ui';
-import { isMobile } from 'react-device-detect';
 import { getSecondary } from "../../../../../styles/colors";
 import withWindowSize from "../../../../../HOCs/withWindowSize";
 import ParticipantsList from "../ParticipantsList";
@@ -25,6 +24,7 @@ import ConveneHeader from './ConveneHeader';
 import RefreshCredsSendsButton from "../RefreshCredsSendsButton";
 import QRSearchModal from "./QRSearchModal";
 import { ConfigContext } from "../../../../../containers/AppControl";
+import { isMobile } from "../../../../../utils/screen";
 
 
 const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {

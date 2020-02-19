@@ -5,9 +5,7 @@ import Icon from 'antd/lib/icon';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { Tooltip } from 'material-ui';
-import { isMobile } from 'react-device-detect';
-
-
+import { isMobile } from '../../../utils/screen';
 
 const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
     const secondary = getSecondary();

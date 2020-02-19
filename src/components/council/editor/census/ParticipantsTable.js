@@ -9,8 +9,8 @@ import { deleteParticipant } from "../../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import ChangeCensusMenu from "./ChangeCensusMenu";
 import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
-import { isMobile } from 'react-device-detect';
 import { useOldState, useHoverRow } from "../../../../hooks";
+import { isMobile } from "../../../../utils/screen";
 
 
 const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, participations, council, ...props }) => {

@@ -10,7 +10,7 @@ import { bHistory } from '../../../containers/App';
 import { checkValidEmail } from '../../../utils/validation';
 import { useOldState } from '../../../hooks';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../utils/screen';
 
 const NewUser = ({ fixedCompany, translate, company, ...props }) => {
     const [state, setState] = useOldState({

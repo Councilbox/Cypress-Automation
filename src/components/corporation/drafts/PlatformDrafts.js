@@ -4,27 +4,20 @@ import {
 	BasicButton,
 	ButtonIcon,
 	CardPageLayout,
-	Checkbox,
-	Grid,
 	LoadingSection,
-	GridItem,
 	EnhancedTable,
 	ErrorWrapper,
 	TextInput
 } from "../../../displayComponents";
-import { Card, Icon } from 'material-ui';
-import { isMobile } from 'react-device-detect';
+import { Icon } from 'material-ui';
 import { compose, graphql, withApollo } from "react-apollo";
 import { cloneDrafts, platformDrafts as query } from "../../../queries";
-import { TableCell, TableRow } from "material-ui/Table";
-import FontAwesome from "react-fontawesome";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary } from "../../../styles/colors";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { withRouter } from "react-router-dom";
 import PlatformDraftDetails from "./PlatformDraftDetails";
 import DraftDetailsModal from './DraftDetailsModal';
 import { DRAFTS_LIMITS } from "../../../constants";
-import TableStyles from "../../../styles/table";
 import { useOldState } from "../../../hooks";
 import { useTags, DraftRow } from "../../company/drafts/CompanyDraftList";
 import { DropdownEtiquetas } from "../../company/drafts/LoadDraft";

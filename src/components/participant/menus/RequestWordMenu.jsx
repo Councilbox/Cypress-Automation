@@ -7,10 +7,11 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import DetectRTC from 'detectrtc';
 import { AlertConfirm } from '../../../displayComponents';
-import { isSafari, isMobile } from 'react-device-detect';
+import { isSafari } from 'react-device-detect';
 import FontAwesome from "react-fontawesome";
 import { useOldState } from '../../../hooks';
 import { ConfigContext } from '../../../containers/AppControl';
+import { isMobile } from '../../../utils/screen';
 
 const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const [state, setState] = useOldState({

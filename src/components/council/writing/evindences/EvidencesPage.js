@@ -5,8 +5,8 @@ import { Card, CardHeader, Avatar, CardActions } from 'material-ui';
 import { LoadingSection } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { getTranslateFieldFromType, ExplorerLink, ValidatorLink } from '../../../notLogged/validator/ValidatorPage';
-import { isMobile } from 'react-device-detect';
 import ToolTip from '../../../../displayComponents/Tooltip';
+import { isMobile } from '../../../../utils/screen';
 
 
 const EvidencesPage = ({ data, translate }) => {

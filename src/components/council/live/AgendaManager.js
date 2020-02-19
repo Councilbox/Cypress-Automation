@@ -6,8 +6,9 @@ import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
 import { LoadingSection, Scrollbar, AlertConfirm } from "../../../displayComponents";
 import { AGENDA_STATES } from '../../../constants';
-import { isMobile } from 'react-device-detect';
 import { useOldState, usePolling } from "../../../hooks";
+import { isMobile } from "../../../utils/screen";
+
 
 const reducer = (state, action) => {
 	const actions = {

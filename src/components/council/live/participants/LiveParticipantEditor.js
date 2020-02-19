@@ -1,8 +1,7 @@
 import React from "react";
 import { compose, graphql } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
-import { isLandscape } from "../../../../utils/screen";
-import { isMobile } from 'react-device-detect';
+import { isLandscape, isMobile } from "../../../../utils/screen";
 import { getSecondary } from "../../../../styles/colors";
 import {
 	Typography,

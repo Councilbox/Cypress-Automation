@@ -6,7 +6,6 @@ import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
 import { getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
-import { isMobile } from "react-device-detect";
 import TimelineSection from "../timeline/TimelineSection";
 import * as CBX from '../../../utils/CBX';
 import { withApollo } from 'react-apollo';
@@ -18,6 +17,7 @@ import { updateCustomPointVoting } from "./CustomPointVotingMenu";
 import FinishModal from "./FinishModal";
 import Results from "../Results";
 import ResultsTimeline from "../ResultsTimeline";
+import { isMobile } from "../../../utils/screen";
 
 
 export const VotingContext = React.createContext({});

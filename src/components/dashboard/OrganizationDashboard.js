@@ -25,9 +25,8 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import GraficaEstadisiticas from "./GraficaEstadisiticas";
 import { sendGAevent } from "../../utils/analytics";
-import { isMobile } from "react-device-detect";
 import { getActivationText } from "../company/settings/CompanySettingsPage";
-var LineChart = require("react-chartjs-2").Line;
+import { isMobile } from "../../utils/screen";
 
 
 const styles = {

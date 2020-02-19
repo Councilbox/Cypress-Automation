@@ -21,7 +21,8 @@ import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton"
 import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
 import AttendComment from "./modals/AttendComment";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../../../utils/screen";
+
 
 
 class ConvenedParticipantsTable extends React.Component {
