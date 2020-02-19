@@ -1,20 +1,20 @@
 import React from "react";
-import { Card, Typography, Avatar, MenuItem, Divider, Icon } from "material-ui";
+import { Card, Icon } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
-import { councilIsPreparing, checkForUnclosedBraces } from "../../../utils/CBX";
-import CouncilState from "../login/CouncilState";
+import { checkForUnclosedBraces } from "../../../utils/CBX";
 import AssistanceOption from "./AssistanceOption";
 import { compose, graphql } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
 import { PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
-import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, LiveToast, DropDownMenu, AlertConfirm, GridItem, Grid, ReactSignature } from '../../../displayComponents';
+import { BasicButton, ButtonIcon, NotLoggedLayout, SectionTitle, LiveToast, Scrollbar } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import DelegateOwnVoteAttendantModal from "./DelegateOwnVoteAttendantModal";
 import RefuseDelegationConfirm from '../delegations/RefuseDelegationConfirm';
 import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning';
 import DelegationItem from "./DelegationItem";
+import DelegationProxyModal from './DelegationProxyModal';
 import { canDelegateVotes } from "../../../utils/CBX"
-import { primary, secondary, getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary } from "../../../styles/colors";
 import { toast } from 'react-toastify';
 import { participantsToDelegate } from "../../../queries";
 import AddRepresentativeModal from "../../council/live/AddRepresentativeModal";
@@ -39,7 +39,7 @@ const styles = {
 		alignItems: "center",
 		justifyContent: "center",
 		position: "relative",
-		padding: isMobile? '0' : "10px"
+		padding: '0'
 	},
 	cardContainer: {
 		margin: isMobile? '5px' : "20px",
@@ -56,7 +56,7 @@ const styles = {
 	}
 };
 
-const Assistance = ({ participant, data, translate, council, company, refetch, innerWidth, setAssistanceComment, setAssistanceIntention }) => {
+const Assistance = ({ participant, data, translate, council, company, refetch, setAssistanceComment, setAssistanceIntention }) => {
 	const [state, setState] = React.useState({
 		participant: {},
 		savingAssistanceComment: false,
@@ -66,13 +66,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 		clean: true,
 		...generateAttendanceData()
 	});
-	const [canvasSize, setCanvasSize] = React.useState({
-		width: 0,
-		height: 0
-	})
+	const primary = getPrimary();
+
 	const [selecteAssistance, setSelecteAssistance] = React.useState('Reunión actual');
 	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
-	const signature = React.useRef(null);
 
 	function generateAttendanceData() {
 		if (participant.represented && participant.represented.length > 0) {
@@ -160,20 +157,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 			await refetch();
 		}
 	}
-	const square_ref = React.useRef();
-
-	React.useEffect(() => {
-		let timeout = setTimeout(() => {
-			if (square_ref.current) {
-				setCanvasSize({
-					width: (square_ref.current.getBoundingClientRect().width - 20),
-					height: (square_ref.current.getBoundingClientRect().height - 110),
-				})
-			}
-		}, 150)
-		return () => clearTimeout(timeout);
-
-	}, [openModalFirmasModal, innerWidth])
 
 	const openModalFirmas = async () => {
 		setOpenModalFirmasModal(true);
@@ -245,6 +228,14 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 	}
 
 	let canDelegate = canDelegateVotes(council.statute, participant);
+	const delegatedVotesNumber = participant.delegatedVotes.length;
+
+	React.useEffect(() => {
+		if(selecteAssistance.includes(translate.representations_delegations)){
+			setSelecteAssistance(`${translate.representations_delegations} (${delegatedVotesNumber})`);
+		}
+	}, [delegatedVotesNumber]);
+
 
 	if (council.active === 0) {
 		return (
@@ -290,7 +281,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 									{participant.position === 'B' &&
 										<div style={{}}>
 											<div style={{ width: '100%', marginBottom: "1em" }}>
-												<div style={{ color: getPrimary(), fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+												<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
 													{translate.indicate_status}
 												</div>
 											</div>
@@ -375,7 +366,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 								<React.Fragment>
 									<div style={{}}>
 										<div style={{ width: '100%', marginBottom: "1em" }}>
-											<div style={{ color: getPrimary(), fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+											<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
 												{translate.indicate_status}
 											</div>
 										</div>
@@ -533,10 +524,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 					<br />
 				</div>
 
-				<div style={{ display: "flex", justifyContent: "space-between" }}>
+				<div style={{ display: "flex", justifyContent: "space-between", flexDirection: isMobile? 'column' : 'row' }}>
 					<div style={{ width: "100%" }}>
 						<div style={{ width: '100%', marginBottom: "1em" }}>
-							<div style={{ color: getPrimary(), fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+							<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
 								{translate.comments}
 							</div>
 						</div>
@@ -563,13 +554,13 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 							quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
 						/>
 					</div>
-					<div style={{ marginLeft: "5em", display: "flex", alignItems: "flex-end" }}>
+					<div style={{ marginLeft: isMobile? '0' : "5em", marginTop: isMobile? '1em' : '0', display: "flex", alignItems: "flex-end" }}>
 						<div>
 							{council.confirmAssistance !== 0 &&
 								<BasicButton
 									text={state.success || state.locked ? translate.tooltip_sent : translate.send}
 									color={state.locked ? 'grey' : primary}
-									floatRight
+									floatRight={!isMobile}
 									success={state.success}
 									disabled={state.locked}
 									reset={resetButtonStates}
@@ -595,151 +586,55 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 					translate={translate}
 				/>
 				{/* ///aki */}
-				<AlertConfirm
+				<DelegationProxyModal
+					participant={participant}
+					//delegation={delegation}
+					council={council}
+					translate={translate}
 					open={openModalFirmasModal}
-					bodyStyle={{
-						width: "50vw",
-						// minWidth: "50vw",
-					}}
 					requestClose={() => setOpenModalFirmasModal(false)}
-					title={"Generación de documento delegado"}
-					bodyText={
-						<Grid style={{ marginTop: "15px", height: "100%" }}>
-							<GridItem xs={12} md={6} lg={6} style={{ height: "100%" }} >
-								<div style={{
-									boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-									padding: "1em",
-									color: "#000000",
-									height: "100%"
-								}}>
-									<div>{council.company.businessName}</div>
-									<div>{council.street}</div>
-									<div>{council.countryState} {council.countryState}</div>
-									<div>{council.country}</div>
-
-									<div>En Salamanca, a 05 de Febrero de 2020</div>
-
-									<div>Distinguido/s Señor/es:</div>
-
-									<div>
-										No pudiendo asistir a la Junta General Extraordinaria de
-									Accionistas  de OLIVO ENTERPRISE, S.A.
-									convocada para el próximo día 14 de Marzo de
-									2020 a las 12:34 horas, en C/ Martin,
-									en primera convocatoria, o bien el 14 de Marzo de 2020 a las 13.00
-									horas en el mismo lugar, en segunda convocatoria,
-									delego mi representación y voto en favor de D./ Aaron Fuentes Garcia para que me
-									represente en dicha reunión sin limitación de facultad de voto.
-									</div>
-
-									<div>Le saluda muy atentamente,</div>
-									_________________________________
-									<div>D.  {participant.name} {participant.surname} </div>
-								</div>
-							</GridItem>
-							<GridItem xs={12} md={6} lg={6} >
-								<div style={{
-									borderRadius: '4px',
-									boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-									color: getPrimary(),
-									marginBottom: "1em",
-									padding: "0.6em 1em",
-									display: "flex",
-									alignItems: "center",
-									width: "100%"
-								}}>
-									<div style={{
-										whiteSpace: 'nowrap',
-										overflow: 'hidden',
-										textOverflow: 'ellipsis',
-										cursor: "pointer"
-									}}>Imprimir PDF para firmar en papel</div>
-									<i className="material-icons" style={{
-										color: getPrimary(),
-										fontSize: '14px',
-										paddingRight: "0.3em",
-										cursor: "pointer",
-										marginLeft: "5px"
-									}} >
-										help
-									</i>
-								</div>
-								<div
-									style={{
-										border: 'solid 1px #979797',
-										color: '#a09aa0',
-										padding: "0.6em",
-										marginBottom: "1em",
-										height: 'calc( 100% - 7em )'
-									}}
-									ref={square_ref}
-								>
-									Firme en este recuadro para hacer efectiva la firma electrónica en el documento.
-									<ReactSignature
-										height={canvasSize.height}
-										width={canvasSize.width}
-										dotSize={1}
-										onEnd={() => setState({
-											...state,
-											clean: false
-										})}
-										style={{}}
-										ref={signature}
-									/>
-								</div>
-								<BasicButton
-									text={'Enviar documento firmado'}
-									color={getSecondary()}
-									textStyle={{
-										color: "white",
-										width: "100%"
-									}}
-								// onClick={sendAttendanceIntention}
-								/>
-							</GridItem>
-						</Grid>
-					}
 				/>
 			</div>
 		)
 	}
 
 	const getVotosDelegados = () => {
+		const delegatedVotes = participant.delegatedVotes.filter(a => a.state !== PARTICIPANT_STATES.REPRESENTATED);
+		const representations = participant.delegatedVotes.filter(a => a.state === PARTICIPANT_STATES.REPRESENTATED);
+
 		return (
 			<div>
+				{representations.length > 0 &&
+					<div style={{ marginTop: "2em" }}>
+						<div style={{ width: "100%" }}>
+							<div style={{ width: '100%', marginBottom: "1em" }}>
+								<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '1em' }}>
+									Representa a:
+								</div>
+								<div style={{ display: "inline-block" }}>
+									<DelegationSection
+										delegatedVotes={representations}
+										translate={translate}
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+
 				<div style={{ marginTop: "2em" }}>
 					<div style={{ width: "100%" }}>
 						<div style={{ width: '100%', marginBottom: "1em" }}>
-							<div style={{ color: getPrimary(), fontSize: '15px', fontWeight: '700', marginBottom: '1em' }}>
-								{participant.delegatedVotes ?
+							<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '1em' }}>
+								{delegatedVotes.length > 0 ?
 									<div>Han delegado votos en usted:</div>
 									:
 									<div>No tienes votos delegados</div>
 								}
 							</div>
 							<div style={{ display: "inline-block" }}>
-								{/* lista de personas que delegaron en ti */}
-								{/* {participant.delegatedVotes &&
-									participant.delegatedVotes.map(item => {
-										return (
-											< Card key={item.id} style={{ display: "flex", color: "#000000", fontSize: "14px", padding: "0.5em 1em", marginBottom: "0.5em" }}>
-												<div>{item.name} {item.surname}</div>
-												<div>
-													<i className="fa fa-trash-o"
-														style={{
-															marginLeft: "1em",
-															fontSize: "25px",
-															color: '#dc7373',
-															cursor: 'pointer'
-														}}
-													></i>
-												</div>
-											</Card>
-										)
-									})
-								} */}
 								<DelegationSection
-									participant={participant}
+									delegatedVotes={delegatedVotes}
 									translate={translate}
 									refetch={refetch}
 								/>
@@ -757,10 +652,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 				<div style={{ marginTop: "2em" }}>
 					<div style={{ width: "100%" }}>
 						<div style={{ width: '100%', marginBottom: "1em" }}>
-							<div style={{ color: getPrimary(), fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+							<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
 								{translate.comments}
 							</div>
-							<div style={{ color: getPrimary(), fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+							<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
 
 							</div>
 						</div>
@@ -770,13 +665,11 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 		)
 	}
 
-	const delegatedVotesNumber = participant.delegatedVotes.filter(d => d.state !== PARTICIPANT_STATES.REPRESENTATED).length;
-
 	const getDatos = () => {
 		switch (selecteAssistance) {
 			case 'Reunión actual':
 				return getReunionActual()
-			case `Votos delegados (${delegatedVotesNumber})`:
+			case `${translate.representations_delegations} (${delegatedVotesNumber})`:
 				return getVotosDelegados()
 			case 'Historial de reuniones':
 				return getHistorialReuniones()
@@ -795,80 +688,149 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 		>
 			<div style={styles.mainContainer}>
 				<Card style={{ ...styles.cardContainer, width: isMobile? '100%' : "80%" }}>
-					<div style={{ height: '100%', maxWidth: '98vw', margin: isMobile? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
-						<div style={{ display: "flex", justifyContent: "space-between" }}>
-							<div style={{ fontSize: "25px", color: getPrimary(), }}>
-								Hola, {participant.name} {participant.surname}
-							</div>
-							<div style={{ color: getPrimary(), fontSize: "30px", display: "flex", alignItems: "center" }}>
-								<Icon className="material-icons" style={{ fontSize: "35px", color: primary }}>
-									account_circle
-								</Icon>
-								{/* //////// Dropdown para imagen de arriba a la derecha y opciones */}
-								{/* <DropDownMenu
-									color="transparent"
-									id={"user-menu-trigger"}
-									text={
-										<Icon className="material-icons" style={{ fontSize:"35px", color: primary }}>
-											keyboard_arrow_down
-										</Icon>
-									}
-									textStyle={{ }}
-									type="flat"
-									icon={
-										<Icon className="material-icons" style={{ fontSize:"35px", color: primary }}>
-											account_circle
-										</Icon>
-										// <Avatar src={participant.logo} ></Avatar>
-									}
-									anchorOrigin={{
-										vertical: 'bottom',
-										horizontal: 'left',
-									}}
-									items={
-										<React.Fragment>
-											<MenuItem >
-											asd
-											
-											</MenuItem>
-											<Divider />										
-										</React.Fragment>
-									}
-								/> */}
-							</div>
-						</div>
-						<div style={{ display: "flex", marginTop: '2em', }}>
-							<MenuSuperiorTabs
-								// TRADUCCION
-								items={[
-									'Reunión actual',
-									`Votos delegados (${delegatedVotesNumber})`,
-									// 'Historial de reuniones'
-								]}
-								selected={selecteAssistance}
-								setSelect={setSelecteAssistance}
-							/>
-						</div>
-						<Card style={{ marginTop: '1em', borderRadius: '8px' }}>
-							<div style={{ padding: "2em 1.5em 1.5em 1.5em" }}>
-								<div style={{ display: "flex", justifyContent: "space-between", color: "#000000" }}>
-									<div style={{ display: "flex", fontWeight: "bold", justifyContent: "space-between", fontSize: "15px" }}>
-										{council.name}
-									</div>
-									<div style={{ fontStyle: "italic" }}>
-										Fecha y hora - 09/01/2020
-									</div>
+					<Scrollbar>
+						<div style={{ maxWidth: '98vw', margin: isMobile? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
+							<div style={{ display: "flex", justifyContent: "space-between" }}>
+								<div style={{ fontSize: "25px", color: primary }}>
+									Hola, {participant.name} {participant.surname}
 								</div>
-								<div style={{ fontStyle: "italic", color: "#000000", marginTop: "1em" }}>
-									{council.street}
+								<div style={{ color: primary, fontSize: "30px", display: "flex", alignItems: "center" }}>
+									<Icon className="material-icons" style={{ fontSize: "35px", color: primary }}>
+										account_circle
+									</Icon>
+									{/* //////// Dropdown para imagen de arriba a la derecha y opciones */}
+									{/* <DropDownMenu
+										color="transparent"
+										id={"user-menu-trigger"}
+										text={
+											<Icon className="material-icons" style={{ fontSize:"35px", color: primary }}>
+												keyboard_arrow_down
+											</Icon>
+										}
+										textStyle={{ }}
+										type="flat"
+										icon={
+											<Icon className="material-icons" style={{ fontSize:"35px", color: primary }}>
+												account_circle
+											</Icon>
+											// <Avatar src={participant.logo} ></Avatar>
+										}
+										anchorOrigin={{
+											vertical: 'bottom',
+											horizontal: 'left',
+										}}
+										items={
+											<React.Fragment>
+												<MenuItem >
+												asd
+												</MenuItem>
+												<Divider />
+											</React.Fragment>
+										}
+									/> */}
 								</div>
-								{getDatos(selecteAssistance)}
 							</div>
-						</Card>
-					</div>
+							<div style={{ display: "flex", marginTop: '2em', }}>
+								<MenuSuperiorTabs
+									// TRADUCCION
+									items={[
+										'Reunión actual',
+										`${translate.representations_delegations} (${delegatedVotesNumber})`,
+										// 'Historial de reuniones'
+									]}
+									selected={selecteAssistance}
+									setSelect={setSelecteAssistance}
+								/>
+							</div>
+							<Card style={{ marginTop: '1em', borderRadius: '8px' }}>
+								<div style={{ padding: "2em 1.5em 1.5em 1.5em" }}>
+									<div style={{ display: "flex", justifyContent: "space-between", color: "#000000" }}>
+										<div style={{ display: "flex", fontWeight: "bold", justifyContent: "space-between", fontSize: "15px" }}>
+											{council.name}
+										</div>
+										<div style={{ fontStyle: "italic" }}>
+											Fecha y hora - 09/01/2020
+										</div>
+									</div>
+									<div style={{ fontStyle: "italic", color: "#000000", marginTop: "1em" }}>
+										{council.street}
+									</div>
+									{getDatos(selecteAssistance)}
+								</div>
+							</Card>
+						</div>
+					</Scrollbar>
 				</Card>
 			</div>
-			{/* <div style={styles.mainContainer}>
+		</NotLoggedLayout>
+	);
+}
+
+
+const DelegationSection = ({ delegatedVotes, translate, refetch }) => {
+	const [delegation, setDelegation] = React.useState(null);
+
+	const closeConfirm = () => {
+		setDelegation(null);
+	}
+
+	return (
+		<div >
+
+			{delegation &&
+				<RefuseDelegationConfirm
+					delegation={delegation}
+					translate={translate}
+					requestClose={closeConfirm}
+					refetch={refetch}
+				/>
+			}
+
+			{delegatedVotes.map(vote => {
+				return (
+					<Card key={vote.id} style={{ display: "flex", color: "#000000", fontSize: "14px", padding: "0.5em 1em", marginBottom: "0.5em" }}>
+						<div>{vote.name} {vote.surname}</div>
+						{vote.state !== PARTICIPANT_STATES.REPRESENTATED &&
+							<div>
+								<i
+									onClick={() => setDelegation(vote)}
+									className="fa fa-trash-o"
+									style={{
+										marginLeft: "1em",
+										fontSize: "25px",
+										color: '#dc7373',
+										cursor: 'pointer'
+									}}
+								></i>
+							</div>
+						}
+					</Card>
+				)
+			})}
+		</div>
+	)
+};
+
+
+
+
+export default compose(
+	graphql(setAssistanceIntention, {
+		name: "setAssistanceIntention"
+	}), graphql(setAssistanceComment, {
+		name: "setAssistanceComment"
+	}), graphql(participantsToDelegate, {
+		options: props => ({
+			variables: {
+				councilId: props.council.id
+			}
+		})
+	})
+)(withTranslations()(Assistance));
+
+
+
+{/* <div style={styles.mainContainer}>
 				<Card style={styles.cardContainer}>
 					{councilIsPreparing(council) ? (
 						<div style={{ height: '100%', width: window.innerWidth * 0.95 > 680 ? '680px' : '95vw', maxWidth: '98vw' }}>
@@ -1166,115 +1128,3 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 						)}
 				</Card>
 			</div> */}
-		</NotLoggedLayout >
-	);
-}
-
-const RepresentedSection = ({ participant, translate, refetch }) => {
-	const represented = participant.represented[0];
-
-	return (
-		<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
-			<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
-				<SectionTitle
-					text={'En representación de:' /*TRADUCCION*/}
-					color={primary}
-				/>
-				{`${represented.name} ${represented.surname}`}
-			</div>
-		</Card>
-	)
-}
-
-
-const DelegationSection = ({ participant, translate, refetch }) => {
-	const [delegation, setDelegation] = React.useState(null);
-
-	const closeConfirm = () => {
-		setDelegation(null);
-	}
-
-	return (
-		<div >
-
-			{delegation &&
-				<RefuseDelegationConfirm
-					delegation={delegation}
-					translate={translate}
-					requestClose={closeConfirm}
-					refetch={refetch}
-				/>
-			}
-
-			{[...participant.delegatedVotes].sort((a, b) => {
-				if (a.state === PARTICIPANT_STATES.REPRESENTATED) {
-					return -1;
-				}
-				return 1;
-			}).map(vote => {
-				return (
-					<Card key={vote.id} style={{ display: "flex", color: "#000000", fontSize: "14px", padding: "0.5em 1em", marginBottom: "0.5em" }}>
-						<div>{vote.name} {vote.surname}</div>
-						<div>
-							{vote.state !== PARTICIPANT_STATES.REPRESENTATED &&
-								<i
-									onClick={() => setDelegation(vote)}
-									className="fa fa-trash-o"
-									style={{
-										marginLeft: "1em",
-										fontSize: "25px",
-										color: '#dc7373',
-										cursor: 'pointer'
-									}}
-								></i>
-							}
-						</div>
-					</Card>
-					// <div
-					// 	style={{
-					// 		width: '100%',
-					// 		display: 'flex',
-					// 		borderBottom: '1px solid gainsboro',
-					// 		justifyContent: 'space-between',
-					// 		padding: '0.3em',
-					// 		alignItems: 'center'
-					// 	}}
-					// 	key={vote.id}
-					// >
-					// 	<span>{`${vote.state === PARTICIPANT_STATES.REPRESENTATED ? `${translate.representative_of}: ` : `${translate.customer_delegated}: `}`}<b>{`${vote.name} ${vote.surname}`}</b></span>
-					// 	<div>
-					// 		{vote.state !== PARTICIPANT_STATES.REPRESENTATED &&
-					// 			<BasicButton
-					// 				text={translate.refuse}
-					// 				textStyle={{ color: secondary }}
-					// 				color="transparent"
-					// 				loadingColor={secondary}
-					// 				onClick={() => setDelegation(vote)}
-					// 				buttonStyle={{ border: `1px solid ${secondary}` }}
-					// 			/>
-					// 		}
-					// 	</div>
-					// </div>
-				)
-			})}
-		</div>
-	)
-};
-
-
-
-
-export default compose(
-	graphql(setAssistanceIntention, {
-		name: "setAssistanceIntention"
-	}), graphql(setAssistanceComment, {
-		name: "setAssistanceComment"
-	}), graphql(participantsToDelegate, {
-		options: props => ({
-			variables: {
-				councilId: props.council.id
-			}
-		})
-	}),
-	withWindowSize
-)(withTranslations()(Assistance));

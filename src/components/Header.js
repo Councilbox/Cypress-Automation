@@ -16,7 +16,6 @@ import { CLIENT_VERSION, variant } from "../config";
 import { getCustomLogo, getCustomIcon } from "../utils/subdomain";
 import { MenuItem } from "material-ui";
 import ContactModal from "./participant/login/ContactModal";
-import { BorderRight } from "material-ui-icons";
 
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props }) => {
@@ -163,7 +162,11 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 							color: ` ${primary}`,
 						}}
 						backgroundColor={{ background: "white", justifyContent: "inherit" }}
-						text={<div>	{translate.mail_contact_admin} <i className={"fa fa-envelope-o"} style={{ marginLeft: "5px" }}></i></div>}
+						text={
+							<div>
+								{!showVerticalLayout() && translate.mail_contact_admin}
+								<i className={"fa fa-envelope-o"} style={{ marginLeft: "5px" }}></i>
+							</div>}
 						buttonStyle={{
 							border: "1px solid " + getPrimary(),
 							color: getPrimary(),
