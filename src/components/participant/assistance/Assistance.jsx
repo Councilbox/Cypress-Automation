@@ -39,7 +39,7 @@ const styles = {
 		alignItems: "center",
 		justifyContent: "center",
 		position: "relative",
-		padding: "10px"
+		padding: isMobile? '0' : "10px"
 	},
 	cardContainer: {
 		margin: isMobile? '5px' : "20px",
@@ -794,11 +794,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, i
 			participant={participant}
 		>
 			<div style={styles.mainContainer}>
-				<Card style={{ ...styles.cardContainer, width: "80%" }}>
-					<div style={{ height: '100%', maxWidth: '98vw', margin: "4em 4em 0em 4em" }}>  {/* width: window.innerWidth * 0.95 > 680 ? '680px' : '95vw', */}
+				<Card style={{ ...styles.cardContainer, width: isMobile? '100%' : "80%" }}>
+					<div style={{ height: '100%', maxWidth: '98vw', margin: isMobile? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
 						<div style={{ display: "flex", justifyContent: "space-between" }}>
 							<div style={{ fontSize: "25px", color: getPrimary(), }}>
-								{/* TRADUCCION */}
 								Hola, {participant.name} {participant.surname}
 							</div>
 							<div style={{ color: getPrimary(), fontSize: "30px", display: "flex", alignItems: "center" }}>
