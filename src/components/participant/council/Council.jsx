@@ -324,7 +324,6 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     }
 
     const { agendasAnchor } = state;
-    let type = "agenda";
     let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
     let titleHeader = null
     if (agendas) {

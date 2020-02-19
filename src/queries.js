@@ -44,6 +44,7 @@ export const getMe = gql`
 			surname
 			id
 			type
+			accessLimitedTo
 			actived
 			roles
 			phone

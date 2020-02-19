@@ -29,12 +29,14 @@ const styles = {
 		padding: isMobile ? "" : "10px"
 	},
 	cardContainer: {
-		margin: isMobile ? "" : "20px",
+		margin: isMobile ? "20%" : "20px",
 		minWidth: width,
 		maxWidth: "100%",
 		//height: '50vh',
-		minHeight: '50vh'
-		// height: '70vh'
+		minHeight: isMobile? '70vh' : '50vh',
+		...(isMobile? {
+			height: '60vh'
+		} : {})
 	}
 };
 
@@ -69,14 +71,17 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 					<div style={styles.mainContainer}>
 						<Card style={{
 							...styles.cardContainer,
+							background: councilIsFinished(council) && 'transparent',
+							boxShadow: councilIsFinished(council) && "none",
+							minHeight: councilIsFinished(council) && "100%",
 							...((councilIsLive(council) && !participant.hasVoted) ? {
 								minWidth: window.innerWidth > 450 ? '550px' : '100%'
 							} : {
 									minWidth: width
-							})
+								})
 						}} elevation={6}>
 							{councilIsFinished(council) ?
-								<div style={{height:"100%"}}>
+								<div style={{ height: "100%" }}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										<LoginForm
 											participant={participant}
@@ -88,7 +93,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 										)}
 								</div>
 								:
-								<div style={{height:"100%"}}>
+								<div style={{ height: "100%" }}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										<LoginForm
 											participant={participant}
@@ -104,7 +109,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 						</Card>
 					</div>
 				</Scrollbar>
-				
+
 			</NotLoggedLayout>
 		);
 	}
