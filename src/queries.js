@@ -769,6 +769,7 @@ export const statutes = gql`
 			conveneHeader
 			conveneFooter
 			censusId
+			requireProxy
 			quorumPrototype
 			existsComments
 			firstCallQuorumDivider

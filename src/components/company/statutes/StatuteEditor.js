@@ -342,6 +342,17 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 							/>
 						)}
 					</GridItem>
+					<GridItem xs={12} md={7} lg={7}>
+						<Checkbox
+							label={'Requerir documento de delegación (proxy)'}//TRADUCCION
+							value={statute.requireProxy === 1}
+							onChange={(event, isInputChecked) =>
+								updateState({
+									requireProxy: isInputChecked ? 1 : 0
+								})
+							}
+						/>
+					</GridItem>
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							label={translate.exists_limited_access_room}
