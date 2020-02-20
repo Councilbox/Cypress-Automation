@@ -120,6 +120,7 @@ const participantQuery = gql`
 			statute {
 				id
 				councilId
+				requireProxy
 				existsDelegatedVote
 				existMaxNumDelegatedVotes
 				maxNumDelegatedVotes

@@ -115,6 +115,9 @@ export default class SignaturePad extends React.Component {
   _handleMouseMove(event) {
     if (this._mouseButtonDown) {
       this._strokeUpdate(event);
+      if(this.props.onMove){
+        this.props.onMove(event);
+      }
     }
   };
 
@@ -136,6 +139,9 @@ export default class SignaturePad extends React.Component {
 
     var touch = event.changedTouches[0];
     this._strokeUpdate(touch);
+    if(this.props.onMove){
+      this.props.onMove(event);
+    }
   };
 
   _handleTouchEnd(event) {
@@ -146,8 +152,11 @@ export default class SignaturePad extends React.Component {
   };
 
   _strokeUpdate(event) {
-    var point = this._createPoint(event);
-    this._addPoint(point);
+    if(!this.props.disabled){
+      var point = this._createPoint(event);
+      this._addPoint(point);
+    }
+
   };
 
   _strokeBegin(event) {

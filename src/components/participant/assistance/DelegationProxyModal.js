@@ -7,10 +7,13 @@ import { Card } from 'material-ui';
 import { isMobile } from "../../../utils/screen";
 
 
-const DelegationProxyModal = ({ open, council, innerWidth, delegation, participant, requestClose, action }) => {
+const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate, participant, requestClose, action }) => {
     const signature = React.useRef();
     const signatureContainer = React.useRef();
+    const [signed, setSigned] = React.useState(false);
     const primary = getPrimary();
+    const signaturePreview = React.useRef();
+    const [previewData, setSignaturePreview] = React.useState(null);
     const secondary = getSecondary();
     const [canvasSize, setCanvasSize] = React.useState({
 		width: 0,
@@ -23,21 +26,43 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, participa
 				setCanvasSize({
 					width: (signatureContainer.current.getBoundingClientRect().width - 20),
 					height: (signatureContainer.current.getBoundingClientRect().height - 110),
-				})
-			}
+                });
+            }
 		}, 150)
 		return () => clearTimeout(timeout);
 
-	}, [open, innerWidth])
+    }, [open, innerWidth])
 
+    const getSignaturePreview = () => {
+        signaturePreview.current.fromDataURL(signature.current.toDataURL());
+    }
+
+    React.useEffect(() => {
+        if (signaturePreview.current) {
+            signaturePreview.current.off();
+        }
+    }, [signaturePreview.current]);
+    
+    const clear = () => {
+        setSigned(false);
+        signaturePreview.current.clear();
+		signature.current.clear();
+    };
+
+    //TRADUCCION TODO
     return (
         <AlertConfirm
             open={open}
             bodyStyle={{
                 width: isMobile? '100%' : "60vw",
             }}
+            PaperProps={{
+                style: {
+                    margin: isMobile? 0 : '32px'
+                }
+            }}
             requestClose={requestClose}
-            title={"Generación de documento delegado"}
+            title={"Generación de documento de delegación"}
             bodyText={
                 <Grid style={{ marginTop: "15px", height: "100%" }}>
                     <GridItem xs={12} md={6} lg={6} style={{ height: "70vh" }} >
@@ -66,7 +91,13 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, participa
                                     <br/>
                                     <br/>
                                     <div>Le saluda muy atentamente,</div>
-                                    <br/><br/><br/>
+                                    <ReactSignature
+                                        height={80}
+                                        width={160}
+                                        dotSize={1}
+                                        disabled
+                                        ref={signaturePreview}
+                                    />
                                     _________________________________
                                     <div>D.  {participant.name} {participant.surname} </div>
                                 </Card>
@@ -108,27 +139,53 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, participa
                                 marginBottom: "1em",
                                 height: 'calc( 100% - 7em )'
                             }}
+                            onMouseDown={() => setSigned(true)}
                             ref={signatureContainer}
                         >
-                            Firme en este recuadro para hacer efectiva la firma electrónica en el documento.
-                            <ReactSignature
-                                height={canvasSize.height}
-                                width={canvasSize.width}
-                                dotSize={1}
-                                onEnd={() => {}}
-                                style={{}}
-                                ref={signature}
+                            {!signed &&
+                                <div style={{ position: 'absolute'}}>Firme en este recuadro para hacer efectiva la firma electrónica en el documento.</div>
+                            }
+                            <div>
+                                <ReactSignature
+                                    height={canvasSize.height}
+                                    width={canvasSize.width}
+                                    dotSize={1}
+                                    onEnd={() => {
+                                        setSigned(true);
+                                        getSignaturePreview();
+                                    }}
+                                    onMove={() => {
+                                        getSignaturePreview();
+                                    }}
+                                    style={{}}
+                                    ref={signature}
+                                />
+                            </div>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                            <BasicButton
+                                text={translate.clean}
+                                color={'white'}
+                                type='flat'
+                                textStyle={{
+                                    color: secondary,
+                                    border: `1px solid ${secondary}`,
+                                    width: "30%"
+                                }}
+                                onClick={clear}
+                            />
+                            <BasicButton
+                                text={'Enviar documento firmado'}
+                                color={!signed? 'silver' : secondary}
+                                disabled={!signed}
+                                textStyle={{
+                                    color: "white",
+                                    width: "65%"
+                                }}
+                            // onClick={sendAttendanceIntention}
                             />
                         </div>
-                        <BasicButton
-                            text={'Enviar documento firmado'}
-                            color={secondary}
-                            textStyle={{
-                                color: "white",
-                                width: "100%"
-                            }}
-                        // onClick={sendAttendanceIntention}
-                        />
+
                     </GridItem>
                 </Grid>
             }

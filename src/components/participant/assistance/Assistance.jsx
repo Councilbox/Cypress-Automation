@@ -569,8 +569,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 										fontWeight: "700"
 									}}
 									loading={state.loading}
-									onClick={openModalFirmas}
-									// onClick={sendAttendanceIntention}
+									onClick={council.statute.requireProxy? openModalFirmas : sendAttendanceIntention}
 									icon={<ButtonIcon type="save" color="white" />}
 								/>
 							}
@@ -585,7 +584,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 					requestClose={() => setState({ ...state, delegationModal: false })}
 					translate={translate}
 				/>
-				{/* ///aki */}
 				<DelegationProxyModal
 					participant={participant}
 					delegation={state.delegateInfoUser}
