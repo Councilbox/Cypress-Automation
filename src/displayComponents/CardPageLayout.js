@@ -3,13 +3,13 @@ import { lightGrey, getPrimary } from "../styles/colors";
 //import Scrollbar from "react-perfect-scrollbar";
 import Scrollbar from './Scrollbar';
 import withWindowSize from "../HOCs/withWindowSize";
-import { Paper } from "material-ui";
+import { Paper, Avatar } from "material-ui";
 import CBXFooter from './CBXFooter';
 import { bHistory } from "../containers/App";
 import { isMobile } from "react-device-detect";
 
 
-const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, disableScroll = false }) => {
+const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false }) => {
 
 	const goBack = () => {
 		bHistory.goBack();
@@ -69,6 +69,11 @@ const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, d
 					{/* <div style={{ display: "flex", alignItems: 'center', justifyContent: "center" }}>
 						<i className="material-icons" style={{ fontSize: "25px" }} > class </i>
 					</div> */}
+					{avatar &&
+						<div style={{ display: "flex", alignItems: 'center', justifyContent: "center" }}>
+							<Avatar src={avatar} alt="Foto" style={{ border: "1px solid" + getPrimary(), }} />
+						</div>
+					}
 					<div>
 						{title}
 					</div>

@@ -185,7 +185,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			lg={2}
 		>
 			{`${participant.dni || '-'}`}
-			{`${participant.dni || ''}`}
+			{/* {`${participant.dni || ''}`} */}
 		</GridItem>
 		<GridItem
 			xs={3}
