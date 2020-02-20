@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar } from '../../../displayComponents';
+import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar, HelpPopover } from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { moment } from '../../../containers/App';
@@ -7,13 +7,12 @@ import { Card } from 'material-ui';
 import { isMobile } from "../../../utils/screen";
 
 
-const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate, participant, requestClose, action }) => {
+const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate, setSignature, participant, requestClose, action }) => {
     const signature = React.useRef();
     const signatureContainer = React.useRef();
     const [signed, setSigned] = React.useState(false);
     const primary = getPrimary();
     const signaturePreview = React.useRef();
-    const [previewData, setSignaturePreview] = React.useState(null);
     const secondary = getSecondary();
     const [canvasSize, setCanvasSize] = React.useState({
 		width: 0,
@@ -37,12 +36,15 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
         signaturePreview.current.fromDataURL(signature.current.toDataURL());
     }
 
+    const updateSignature = () => {
+        setSignature(signature.current.toDataURL());
+    }
+
     React.useEffect(() => {
         if (signaturePreview.current) {
             signaturePreview.current.off();
         }
     }, [signaturePreview.current]);
-    
     const clear = () => {
         setSigned(false);
         signaturePreview.current.clear();
@@ -120,16 +122,18 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
                                 cursor: "pointer"
-                            }}>Imprimir PDF para firmar en papel</div>
-                            <i className="material-icons" style={{
-                                color: primary,
-                                fontSize: '14px',
-                                paddingRight: "0.3em",
-                                cursor: "pointer",
-                                marginLeft: "5px"
-                            }} >
-                                help
-                            </i>
+                            }} onClick={() => alert('jibiri')}>
+                                Enviar intención y descargar PDF para entrega presencial
+                            </div>
+                            <HelpPopover
+                                title={'Información'}
+                                content={
+                                    <div>
+                                        Esta acción marcará la intención de asistencia como "Delegación",
+                                        pero la delegación tendrá que ser realizada por el administrador de sala con la entrega del documento firmado
+                                    </div>
+                                }
+                            />
                         </div>
                         <div
                             style={{
@@ -152,7 +156,7 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
                                     dotSize={1}
                                     onEnd={() => {
                                         setSigned(true);
-                                        getSignaturePreview();
+                                        updateSignature();
                                     }}
                                     onMove={() => {
                                         getSignaturePreview();
@@ -182,7 +186,7 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
                                     color: "white",
                                     width: "65%"
                                 }}
-                            // onClick={sendAttendanceIntention}
+                                onClick={action}
                             />
                         </div>
 

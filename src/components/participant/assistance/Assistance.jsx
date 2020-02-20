@@ -70,6 +70,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 	const [selecteAssistance, setSelecteAssistance] = React.useState('Reunión actual');
 	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
+	const [signature, setSignature] = React.useState(null);
 
 	function generateAttendanceData() {
 		if (participant.represented && participant.represented.length > 0) {
@@ -160,7 +161,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 	const openModalFirmas = async () => {
 		setOpenModalFirmasModal(true);
-		// sendAttendanceIntention();
 	}
 
 	const sendAttendanceIntention = async () => {
@@ -175,7 +175,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 					await setAssistanceIntention({
 						variables: {
 							assistanceIntention: state.assistanceIntention,
-							representativeId: state.delegateId
+							representativeId: state.delegateId,
+							...(signature? {
+								signature
+							} : {})
 						}
 					});
 				} else {
@@ -569,7 +572,11 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 										fontWeight: "700"
 									}}
 									loading={state.loading}
-									onClick={council.statute.requireProxy? openModalFirmas : sendAttendanceIntention}
+									onClick={
+										(council.statute.requireProxy && state.assistanceIntention === PARTICIPANT_STATES.DELEGATED)?
+											openModalFirmas
+										:
+											sendAttendanceIntention}
 									icon={<ButtonIcon type="save" color="white" />}
 								/>
 							}
@@ -587,7 +594,9 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				<DelegationProxyModal
 					participant={participant}
 					delegation={state.delegateInfoUser}
+					setSignature={setSignature}
 					council={council}
+					action={sendAttendanceIntention}
 					translate={translate}
 					open={openModalFirmasModal}
 					requestClose={() => setOpenModalFirmasModal(false)}
