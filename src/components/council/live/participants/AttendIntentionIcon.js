@@ -47,7 +47,7 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
             <Tooltip title={tooltip}>
                 {icon}
             </Tooltip>
-            {!!participant.assistanceComment && showCommentIcon &&
+            {showCommentIcon &&
                 <FontAwesome
                     onClick={onCommentClick}
                     name={'comment'}

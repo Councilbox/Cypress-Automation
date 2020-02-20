@@ -494,7 +494,7 @@ class HoverableRow extends React.Component {
                 </Card>
             )
 		}
-	
+
 		return (
 			<TableRow
 				hover
@@ -619,10 +619,10 @@ class HoverableRow extends React.Component {
 											participant.representative.live :
 											participant.live
 									}
-									showCommentIcon
+									showCommentIcon={participant.representatives.length > 0? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
 									onCommentClick={this.props.showModalComment({
-										text: participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live.assistanceComment : participant.live.assistanceComment,
-										author: participant.live.state === PARTICIPANT_STATES.REPRESENTATED?
+										text: participant.representatives.length > 0? participant.representative.live.assistanceComment : participant.live.assistanceComment,
+										author: participant.representatives.length > 0?
 											`${participant.name} ${participant.surname} - ${translate.represented_by} ${representative.name} ${representative.surname}`
 										:
 											`${participant.name} ${participant.surname}`
