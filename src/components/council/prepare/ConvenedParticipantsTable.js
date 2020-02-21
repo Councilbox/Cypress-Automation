@@ -378,8 +378,10 @@ class HoverableRow extends React.Component {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 		let representative = this.props.representative;
 		const { delegate } = participant;
+		let { notifications } = participant.type === PARTICIPANT_TYPE.PARTICIPANT? participant : participant.representatives.length > 0? representative : participant;
+		
+		console.log(participant, representative);
 
-		let { notifications } = participant.type === PARTICIPANT_TYPE.PARTICIPANT? participant : !!representative? representative : participant;
 		notifications = [...notifications].sort((a, b) => {
 			if(a.sendDate > b.sendDate){
 				return 1;
@@ -642,8 +644,14 @@ class HoverableRow extends React.Component {
 const formatParticipant = participant => {
 	let { representing, ...newParticipant } = participant;
 
+	if(participant.representatives.length > 0){
+		newParticipant = {
+			...newParticipant,
+			representative: participant.representatives[0]
+		}
+	}
+
 	if(participant.live.state === PARTICIPANT_STATES.DELEGATED){
-		let { representative, ...rest } = newParticipant;
 		newParticipant = {
 			...newParticipant,
 			delegate: participant.live.representative
