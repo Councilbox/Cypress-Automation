@@ -185,6 +185,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			lg={2}
 		>
 			{`${participant.dni || '-'}`}
+			{/* Estaba duplicado */}
 			{/* {`${participant.dni || ''}`} */}
 		</GridItem>
 		<GridItem
