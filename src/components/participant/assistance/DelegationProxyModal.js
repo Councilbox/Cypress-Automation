@@ -7,8 +7,9 @@ import { Card } from 'material-ui';
 import { isMobile } from "../../../utils/screen";
 
 
-const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate, setSignature, participant, requestClose, action }) => {
+const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate, participant, requestClose, action }) => {
     const signature = React.useRef();
+    const [loading, setLoading] = React.useState(false);
     const signatureContainer = React.useRef();
     const [signed, setSigned] = React.useState(false);
     const primary = getPrimary();
@@ -36,8 +37,11 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
         signaturePreview.current.fromDataURL(signature.current.toDataURL());
     }
 
-    const updateSignature = () => {
-        setSignature(signature.current.toDataURL());
+    const sendDelegationData = async signature => {
+        setLoading(true);
+        await action(signature);
+        setLoading(false);
+        requestClose();
     }
 
     React.useEffect(() => {
@@ -55,6 +59,7 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
     return (
         <AlertConfirm
             open={open}
+            loadingAction={loading}
             bodyStyle={{
                 width: isMobile? '100%' : "60vw",
             }}
@@ -122,7 +127,7 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
                                 cursor: "pointer"
-                            }} onClick={() => alert('jibiri')}>
+                            }} onClick={() => sendDelegationData()}>
                                 Enviar intención y descargar PDF para entrega presencial
                             </div>
                             <HelpPopover
@@ -156,7 +161,6 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
                                     dotSize={1}
                                     onEnd={() => {
                                         setSigned(true);
-                                        updateSignature();
                                     }}
                                     onMove={() => {
                                         getSignaturePreview();
@@ -182,11 +186,12 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
                                 text={'Enviar documento firmado'}
                                 color={!signed? 'silver' : secondary}
                                 disabled={!signed}
+                                loading={loading}
                                 textStyle={{
                                     color: "white",
                                     width: "65%"
                                 }}
-                                onClick={action}
+                                onClick={() => sendDelegationData(signature.current.toDataURL())}
                             />
                         </div>
 

@@ -70,7 +70,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 	const [selecteAssistance, setSelecteAssistance] = React.useState('Reunión actual');
 	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
-	const [signature, setSignature] = React.useState(null);
 
 	function generateAttendanceData() {
 		if (participant.represented && participant.represented.length > 0) {
@@ -79,7 +78,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				return {
 					assistanceIntention: represented.assistanceIntention || PARTICIPANT_STATES.REMOTE,
 					delegateId: represented.delegateId,
-					delegateInfoUser: represented.representative
+					delegateInfoUser: represented.state === PARTICIPANT_STATES.DELEGATED? represented.representative : null
 				}
 			}
 		}
@@ -163,7 +162,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		setOpenModalFirmasModal(true);
 	}
 
-	const sendAttendanceIntention = async () => {
+	const sendAttendanceIntention = async signature => {
 		setState({
 			...state,
 			loading: true
@@ -231,7 +230,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	}
 
 	let canDelegate = canDelegateVotes(council.statute, participant);
-	const delegatedVotesNumber = participant.delegatedVotes.length;
+	const delegatedVotesNumber = participant.delegatedVotes.length + participant.represented.length;
 
 	React.useEffect(() => {
 		if(selecteAssistance.includes(translate.representations_delegations)){
@@ -594,7 +593,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				<DelegationProxyModal
 					participant={participant}
 					delegation={state.delegateInfoUser}
-					setSignature={setSignature}
 					council={council}
 					action={sendAttendanceIntention}
 					translate={translate}
@@ -607,11 +605,11 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 	const getVotosDelegados = () => {
 		const delegatedVotes = participant.delegatedVotes.filter(a => a.state !== PARTICIPANT_STATES.REPRESENTATED);
-		const representations = participant.delegatedVotes.filter(a => a.state === PARTICIPANT_STATES.REPRESENTATED);
 
+		//TRADUCCION
 		return (
 			<div>
-				{representations.length > 0 &&
+				{participant.represented.length > 0 &&
 					<div style={{ marginTop: "2em" }}>
 						<div style={{ width: "100%" }}>
 							<div style={{ width: '100%', marginBottom: "1em" }}>
@@ -620,7 +618,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 								</div>
 								<div style={{ display: "inline-block" }}>
 									<DelegationSection
-										delegatedVotes={representations}
+										delegatedVotes={participant.represented}
 										translate={translate}
 									/>
 								</div>
