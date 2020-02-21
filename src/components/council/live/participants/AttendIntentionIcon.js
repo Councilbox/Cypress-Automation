@@ -33,6 +33,8 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
             case PARTICIPANT_STATES.DELEGATED:
                 if(participant.representative){
                     tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname}`;
+                } else {
+                    tooltip = `Delegará su voto`;//TRADUCCION
                 }
                 icon = <i className='fa fa-users' style={iconStyle}></i>;
                 break;
