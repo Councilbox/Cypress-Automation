@@ -49,11 +49,52 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
             signaturePreview.current.off();
         }
     }, [signaturePreview.current]);
+
     const clear = () => {
         setSigned(false);
         signaturePreview.current.clear();
 		signature.current.clear();
     };
+
+    const proxyPreview = () => {
+        return (
+            delegation &&
+                <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
+                    <div>{council.company.businessName}</div>
+                    <div>{council.street}</div>
+                    <div>{council.countryState} {council.countryState}</div>
+                    <div>{council.country}</div>
+                    <br/>
+                    <div>En {council.city}, a {moment(new Date()).format('LL')}</div>
+                    <br/>
+                    <div>Distinguido/s Señor/es:</div>
+                    <br/>
+                    <div>
+                        No pudiendo asistir a la {council.name} de {council.company.businessName} convocada
+                        para el próximo día {moment(council.dateStart).format('LL')} a
+                        las {moment(council.dateStart).format('h:mm:ss')} horas, en {council.street}, en
+                        primera convocatoria, o bien el {moment(council.dateStart2ndCall).format('LL')} a
+                        las {moment(council.dateStart2ndCall).format('h:mm:ss')} horas
+                        en el mismo lugar, en segunda convocatoria,
+                        delego mi representación y voto en favor de D./ {delegation.name} {delegation.surname || ''} para que me
+                        represente en dicha reunión sin limitación de facultad de voto.
+                    </div>
+                    <br/>
+                    <br/>
+                    <div>Le saluda muy atentamente,</div>
+                    <ReactSignature
+                        height={80}
+                        width={160}
+                        dotSize={1}
+                        disabled
+                        ref={signaturePreview}
+                    />
+                    _________________________________
+                    <div>D.  {participant.name} {participant.surname} </div>
+                </Card>
+            
+        )
+    }
 
     //TRADUCCION TODO
     return (
@@ -72,44 +113,15 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
             title={"Generación de documento de delegación"}
             bodyText={
                 <Grid style={{ marginTop: "15px", height: "100%" }}>
-                    <GridItem xs={12} md={6} lg={6} style={{ height: "70vh" }} >
-                        <Scrollbar>
-                            {delegation &&
-                                <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
-                                    <div>{council.company.businessName}</div>
-                                    <div>{council.street}</div>
-                                    <div>{council.countryState} {council.countryState}</div>
-                                    <div>{council.country}</div>
-                                    <br/>
-                                    <div>En {council.city}, a {moment(new Date()).format('LL')}</div>
-                                    <br/>
-                                    <div>Distinguido/s Señor/es:</div>
-                                    <br/>
-                                    <div>
-                                        No pudiendo asistir a la {council.name} de {council.company.businessName} convocada
-                                        para el próximo día {moment(council.dateStart).format('LL')} a
-                                        las {moment(council.dateStart).format('h:mm:ss')} horas, en {council.street}, en
-                                        primera convocatoria, o bien el {moment(council.dateStart2ndCall).format('LL')} a
-                                        las {moment(council.dateStart2ndCall).format('h:mm:ss')} horas
-                                        en el mismo lugar, en segunda convocatoria,
-                                        delego mi representación y voto en favor de D./ {delegation.name} {delegation.surname || ''} para que me
-                                        represente en dicha reunión sin limitación de facultad de voto.
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <div>Le saluda muy atentamente,</div>
-                                    <ReactSignature
-                                        height={80}
-                                        width={160}
-                                        dotSize={1}
-                                        disabled
-                                        ref={signaturePreview}
-                                    />
-                                    _________________________________
-                                    <div>D.  {participant.name} {participant.surname} </div>
-                                </Card>
-                            }
-                        </Scrollbar>
+                    <GridItem xs={12} md={6} lg={6} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
+                        {isMobile? 
+                            proxyPreview()
+                        :
+                            <Scrollbar>
+                                {proxyPreview()}
+                            </Scrollbar>
+                        }
+
                     </GridItem>
                     <GridItem xs={12} md={6} lg={6} >
                         <div style={{
