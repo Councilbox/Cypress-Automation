@@ -18,6 +18,7 @@ import * as CBX from "../../../utils/CBX";
 import QuorumInput from "../../../displayComponents/QuorumInput";
 import { DRAFT_TYPES } from "../../../constants";
 import { TAG_TYPES } from "../drafts/draftTags/utils";
+import { ConfigContext } from "../../../containers/AppControl";
 
 
 const StatuteEditor = ({ statute, translate, updateState, errors, client, ...props }) => {
@@ -30,6 +31,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 	const constitution = React.useRef();
 	const conclusion = React.useRef();
 	const primary = getPrimary();
+	const config = React.useContext(ConfigContext);
 
 
 	const getData = React.useCallback(async () => {
@@ -342,17 +344,19 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 							/>
 						)}
 					</GridItem>
-					<GridItem xs={12} md={7} lg={7}>
-						<Checkbox
-							label={'Requerir documento de delegación (proxy)'}//TRADUCCION
-							value={statute.requireProxy === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
-									requireProxy: isInputChecked ? 1 : 0
-								})
-							}
-						/>
-					</GridItem>
+					{config.proxies &&
+						<GridItem xs={12} md={7} lg={7}>
+							<Checkbox
+								label={translate.require_proxies}
+								value={statute.requireProxy === 1}
+								onChange={(event, isInputChecked) =>
+									updateState({
+										requireProxy: isInputChecked ? 1 : 0
+									})
+								}
+							/>
+						</GridItem>
+					}
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							label={translate.exists_limited_access_room}

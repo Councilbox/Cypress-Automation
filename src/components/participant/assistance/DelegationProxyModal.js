@@ -5,11 +5,15 @@ import withWindowSize from '../../../HOCs/withWindowSize';
 import { moment } from '../../../containers/App';
 import { Card } from 'material-ui';
 import { isMobile } from "../../../utils/screen";
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 
 
-const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate, participant, requestClose, action }) => {
+const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action }) => {
     const signature = React.useRef();
     const [loading, setLoading] = React.useState(false);
+    const [loadingProxy, setLoadingProxy] = React.useState(true);
+    const [existingProxy, setExistingProxy] = React.useState(null);
     const signatureContainer = React.useRef();
     const [signed, setSigned] = React.useState(false);
     const primary = getPrimary();
@@ -18,7 +22,34 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
     const [canvasSize, setCanvasSize] = React.useState({
 		width: 0,
 		height: 0
-    })
+    });
+
+    const getProxy = React.useCallback(async () => {
+        const response = await client.query({
+            query: gql`
+                query proxy($participantId: Int!){
+                    proxy(participantId: $participantId){
+                        signature
+                        date
+                    }
+                }
+            `,
+            variables: {
+                participantId: participant.id
+            }
+        });
+        if(response.data.proxy){
+            setExistingProxy(response.data.proxy);
+            signature.current.fromDataURL(response.data.proxy.signature);
+        }
+        setLoadingProxy(false);
+    }, [participant.id]);
+
+    React.useEffect(() => {
+        if(open && !existingProxy){
+            getProxy();
+        }
+    }, [getProxy, open, existingProxy]);
 
 	React.useEffect(() => {
 		let timeout = setTimeout(() => {
@@ -195,9 +226,9 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
                                 onClick={clear}
                             />
                             <BasicButton
-                                text={'Enviar documento firmado'}
+                                text={existingProxy? `Delegación enviada ${moment(existingProxy.date).format('LLL')}` : 'Enviar documento firmado'}
                                 color={!signed? 'silver' : secondary}
-                                disabled={!signed}
+                                disabled={!signed || existingProxy}
                                 loading={loading}
                                 textStyle={{
                                     color: "white",
@@ -214,4 +245,4 @@ const DelegationProxyModal = ({ open, council, innerWidth, delegation, translate
     )
 }
 
-export default withWindowSize(DelegationProxyModal);
+export default withApollo(withWindowSize(DelegationProxyModal));
