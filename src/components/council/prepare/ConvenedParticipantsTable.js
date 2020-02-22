@@ -22,6 +22,7 @@ import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
 import AttendComment from "./modals/AttendComment";
 import { isMobile } from "../../../utils/screen";
+import DownloadParticipantProxy from "./DownloadParticipantProxy";
 
 
 
@@ -632,6 +633,7 @@ class HoverableRow extends React.Component {
 									translate={translate}
 									size="2em"
 								/>
+								<DownloadParticipantProxy participantId={participant.live.id} translate={translate} />
 							</TableCell>
 						)}
 					</React.Fragment>
