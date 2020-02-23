@@ -73,6 +73,7 @@ const participantQuery = gql`
 				assistanceIntention
 				delegateId
 				representative {
+					id
 					name
 					surname
 				}

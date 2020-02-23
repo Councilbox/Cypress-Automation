@@ -31,6 +31,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                     proxy(participantId: $participantId){
                         signature
                         date
+                        delegateId
                     }
                 }
             `,
@@ -38,7 +39,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 participantId: participant.id
             }
         });
-        if(response.data.proxy){
+        if(response.data.proxy && (delegation && response.data.proxy.delegateId === delegation.id)){
             setExistingProxy(response.data.proxy);
             signature.current.fromDataURL(response.data.proxy.signature);
         }
@@ -125,6 +126,10 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 </Card>
             
         )
+    }
+
+    const disableSendButton = () => {
+        return existingProxy && (delegation && existingProxy.delegateId === delegation.name);
     }
 
     //TRADUCCION TODO
@@ -226,9 +231,9 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                                 onClick={clear}
                             />
                             <BasicButton
-                                text={existingProxy? `Delegación enviada ${moment(existingProxy.date).format('LLL')}` : 'Enviar documento firmado'}
-                                color={!signed? 'silver' : secondary}
-                                disabled={!signed || existingProxy}
+                                text={disableSendButton()? `Delegación enviada ${moment(existingProxy.date).format('LLL')}` : 'Enviar documento firmado'}
+                                color={!signed || disableSendButton()? 'silver' : secondary}
+                                disabled={!signed || disableSendButton()}
                                 loading={loading}
                                 textStyle={{
                                     color: "white",
