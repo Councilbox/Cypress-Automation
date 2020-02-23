@@ -380,8 +380,6 @@ class HoverableRow extends React.Component {
 		let representative = this.props.representative;
 		const { delegate } = participant;
 		let { notifications } = participant.type === PARTICIPANT_TYPE.PARTICIPANT? participant : participant.representatives.length > 0? representative : participant;
-		
-		console.log(participant, representative);
 
 		notifications = [...notifications].sort((a, b) => {
 			if(a.sendDate > b.sendDate){
@@ -617,11 +615,9 @@ class HoverableRow extends React.Component {
 						) && (
 							<TableCell>
 								<AttendIntentionIcon
-									participant={
-										participant.live.state === PARTICIPANT_STATES.REPRESENTATED?
-											participant.representative.live :
-											participant.live
-									}
+									participant={participant.live}
+									representative={participant.representatives.length > 0? participant.representative.live : null}
+									council={council}
 									showCommentIcon={participant.representatives.length > 0? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
 									onCommentClick={this.props.showModalComment({
 										text: participant.representatives.length > 0? participant.representative.live.assistanceComment : participant.live.assistanceComment,
@@ -633,7 +629,6 @@ class HoverableRow extends React.Component {
 									translate={translate}
 									size="2em"
 								/>
-								<DownloadParticipantProxy participantId={participant.live.id} translate={translate} />
 							</TableCell>
 						)}
 					</React.Fragment>

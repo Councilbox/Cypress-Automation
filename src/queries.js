@@ -1241,6 +1241,7 @@ export const councilDetails = gql`
 				existsSecondCall
 				minimumSeparationBetweenCall
 				canEditConvene
+				requireProxy
 				firstCallQuorumType
 				firstCallQuorum
 				firstCallQuorumDivider

@@ -33,7 +33,7 @@ const DownloadCBXDataButton = props => {
 				downloadFile(
 					response.data.proxyPDF,
 					"application/pdf",
-					`CbxData_${id}`
+					`Proxy_${props.participant.name}${props.participant.surname? `_${props.participant.surname}` : ''}`
 				);
 				setLoading(false);
 				if(props.updateState){
@@ -44,9 +44,9 @@ const DownloadCBXDataButton = props => {
 	}
 
 	const secondary = getSecondary();
-
+	//TRADUCCION
 	return (
-		<Tooltip title={props.translate.download_cbxdata}>
+		<Tooltip title={'Descargar documento de delegación'}>
 			<div
 				onClick={event => {
 					event.stopPropagation();
@@ -55,7 +55,7 @@ const DownloadCBXDataButton = props => {
 				style={{
 					height: "1.8em",
 					width: "3em",
-					marginLeft: "1.5em",
+					marginLeft: "1em",
 					backgroundColor: 'white',
 					display: "flex",
 					alignItems: "center",
