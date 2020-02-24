@@ -21,6 +21,7 @@ const DropDownMenu = ({
 	paperPropsStyles,
 	transformOrigin,
 	backgroundColor,
+	styleComponent,
 	...props
 }) => {
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -49,7 +50,7 @@ const DropDownMenu = ({
 	return (
 		<Fragment>
 			{!!Component ? (
-				<div onClick={handleClick} id={id} style={{ width: '100%' }}>
+				<div onClick={handleClick} id={id} style={{ width: '100%', ...styleComponent }}>
 					<Component />
 				</div>
 			) : (
