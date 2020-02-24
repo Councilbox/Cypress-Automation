@@ -1,11 +1,11 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CardPageLayout, TextInput, Scrollbar, SelectInput } from '../../../displayComponents';
+import { CardPageLayout, TextInput, Scrollbar, SelectInput, DropDownMenu } from '../../../displayComponents';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import withTranslations from '../../../HOCs/withTranslations';
 import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
-import { getPrimary } from '../../../styles/colors';
+import { getPrimary, primary } from '../../../styles/colors';
 import { Collapse } from 'material-ui';
 
 
@@ -46,17 +46,52 @@ const FileOrgAdm = ({ translate, ...props }) => {
                 <div style={{ height: "100%", }}>
                     <Scrollbar>
                         <div style={{ width: "100%", height: "100%", padding: "0 1em" }}>
-                            <div style={{}}>
-                                <div style={{ fontWeight: "bold", color: getPrimary() }}>
-                                    Órgano de gobierno
-                </div>
-                                <div style={{ display: "flex" }}>
-                                    <SelectInput
-                                        styles={{ width: "300px" }}
-                                    >
-                                        <MenuItem value={1}>1</MenuItem>
-                                    </SelectInput>
-                                </div>
+                            <div style={{ display: "flex", marginBottom: "1em" }}>
+                                <DropDownMenu
+                                    color="transparent"
+                                    styleComponent={{ width: "" }}
+                                    Component={() =>
+                                        <div
+                                            style={{
+                                                borderRadius: '1px',
+                                                border: "1px solid" + getPrimary(),
+                                                padding: "0.5em 1em",
+                                                cursor: "pointer"
+                                            }}
+                                        >
+                                            <span style={{ color: getPrimary(), fontWeight: "bold" }}>Admin. Unico</span>
+                                            <i class="fa fa-angle-down" style={{ color: getPrimary(), paddingLeft: "5px", fontSize: "20px" }}></i>
+                                        </div>
+                                    }
+                                    textStyle={{ color: primary }}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'left',
+                                    }}
+                                    type="flat"
+                                    items={
+                                        <div style={{ padding: "1em", color: 'black' }}>
+                                            <div style={{ display: "flex", borderBottom: "1px solid" + getPrimary(), padding: "0.5em 0" }}>
+                                                <div style={{ fontSize: "20px", paddingRight: "5px" }}>
+                                                    <i className={"fa fa-plus-circle"} style={{ color: getPrimary() }}></i>
+                                                </div>
+                                                <div>{translate.add}</div>
+                                            </div>
+                                            <div style={{ display: "flex", padding: "0.5em 0" }}>
+                                                Administradores solidarios
+                                            </div>
+                                            <div style={{ display: "flex", padding: "0.5em 0" }}>
+                                                Administradores mancomunados
+                                            </div>
+                                            <div style={{ display: "flex", padding: "0.5em 0" }}>
+                                                Consejo de Administración
+                                            </div>
+                                            <div style={{ display: "flex", padding: "0.5em 0" }}>
+                                                Ninguno
+                                            </div>
+                                        </div>
+                                    }
+                                />
                             </div>
                             <div style={{ height: "10em", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", padding: "1em", width: "100%" }}>
                                 <div style={{ height: "calc( 100% - 2em )", width: "100%", display: "flex", }}>

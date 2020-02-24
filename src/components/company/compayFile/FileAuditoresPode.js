@@ -78,24 +78,6 @@ const FileAuditoresPode = ({ translate, ...props }) => {
                                                 <div style={{ width: "25%", marginRight: "0.5em" }}>27/10/2004 </div>
                                                 <div style={{ width: "25%" }}>27/10/2014</div>
                                             </div>
-                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
-                                                <div style={{ width: "25%", marginRight: "0.5em" }}>DELOITTE, S.L.</div>
-                                                <div style={{ width: "25%", marginRight: "0.5em" }}>
-                                                    1) CERTIF SU - Reelección de auditores de [●] con firma(s) legitimada(s) por el notario de Barcelona D. [●] el [●]
-                                                    2) Datos registrales: Registro Mercantil de Barcelona, Tomo: [●], Folio: [●], Hoja: B-[●], Nº inscripción: [●], Fecha inscripción: [●]
-                                                </div>
-                                                <div style={{ width: "25%", marginRight: "0.5em" }}>27/10/2004 </div>
-                                                <div style={{ width: "25%" }}>27/10/2014</div>
-                                            </div>
-                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
-                                                <div style={{ width: "25%", marginRight: "0.5em" }}>DELOITTE, S.L.</div>
-                                                <div style={{ width: "25%", marginRight: "0.5em" }}>
-                                                    1) CERTIF SU - Reelección de auditores de [●] con firma(s) legitimada(s) por el notario de Barcelona D. [●] el [●]
-                                                    2) Datos registrales: Registro Mercantil de Barcelona, Tomo: [●], Folio: [●], Hoja: B-[●], Nº inscripción: [●], Fecha inscripción: [●]
-                                                </div>
-                                                <div style={{ width: "25%", marginRight: "0.5em" }}>27/10/2004 </div>
-                                                <div style={{ width: "25%" }}>27/10/2014</div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div style={{ left: "0", background: "white", width: "100%", color: getPrimary(), display: "flex", alignItems: "center", justifyContent: "center", fontSize: "40px", position: "absolute", bottom: "0" }}>
@@ -126,30 +108,6 @@ const FileAuditoresPode = ({ translate, ...props }) => {
                                                 <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "20%" }}>Forma ejercicio</div>
                                                 <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "20%" }}>Tipo poder</div>
                                                 <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "20%" }}>Datos registrales</div>
-                                            </div>
-                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em', position: "relative" }}>
-                                                <div style={{ width: "20%", marginRight: "0.5em" }}>Ana Fuentes</div>
-                                                <div style={{ width: "20%", marginRight: "0.5em" }}> 27/10/2004 </div>
-                                                <div style={{ width: "20%", marginRight: "0.5em" }}>Solidariamente</div>
-                                                <div style={{ width: "20%" }}>P. tributarios</div>
-                                                <div style={{ width: "20%" }}>
-                                                    1) Escritura de revocación de poderes otorgados …
-                                                </div>
-                                                <div style={{ color: getPrimary(), position: "absolute", right: "0" }}>
-                                                    <i className={"fa fa-eye"} ></i>
-                                                </div>
-                                            </div>
-                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em', position: "relative" }}>
-                                                <div style={{ width: "20%", marginRight: "0.5em" }}>Ana Fuentes</div>
-                                                <div style={{ width: "20%", marginRight: "0.5em" }}> 27/10/2004 </div>
-                                                <div style={{ width: "20%", marginRight: "0.5em" }}>Solidariamente</div>
-                                                <div style={{ width: "20%" }}>P. tributarios</div>
-                                                <div style={{ width: "20%" }}>
-                                                    1) Escritura de revocación de poderes otorgados …
-                                                </div>
-                                                <div style={{ color: getPrimary(), position: "absolute", right: "0" }}>
-                                                    <i className={"fa fa-eye"} ></i>
-                                                </div>
                                             </div>
                                             <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em', position: "relative" }}>
                                                 <div style={{ width: "20%", marginRight: "0.5em" }}>Ana Fuentes</div>
