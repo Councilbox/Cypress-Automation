@@ -14,8 +14,6 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
     };
     let icon = <i className='fa fa-question' style={iconStyle}></i>;
 
-    console.log(participant, representative);
-
     const confirmationDate = participant.state === PARTICIPANT_STATES.REPRESENTATED? representative.assistanceLastDateConfirmed : participant.assistanceLastDateConfirmed;
     const intention = participant.state === PARTICIPANT_STATES.REPRESENTATED? representative.assistanceIntention : participant.assistanceIntention;
 

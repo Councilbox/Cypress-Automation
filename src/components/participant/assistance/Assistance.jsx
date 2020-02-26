@@ -72,11 +72,13 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
 
 	function generateAttendanceData() {
+		const defaultIntention = council.councilType === 0? PARTICIPANT_STATES.REMOTE : PARTICIPANT_STATES.PHYSICALLY_PRESENT;
+
 		if (participant.represented && participant.represented.length > 0) {
 			const represented = participant.represented[0];
 			if (represented.assistanceIntention === PARTICIPANT_STATES.DELEGATED) {
 				return {
-					assistanceIntention: represented.assistanceIntention || PARTICIPANT_STATES.REMOTE,
+					assistanceIntention: represented.assistanceIntention || defaultIntention,
 					delegateId: represented.delegateId,
 					delegateInfoUser: represented.state === PARTICIPANT_STATES.DELEGATED? represented.representative : null
 				}
@@ -84,7 +86,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		}
 
 		return {
-			assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
+			assistanceIntention: participant.assistanceIntention || defaultIntention,
 			delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED ? participant.delegateId : null,
 			delegateInfoUser: participant.representative
 		}
@@ -229,8 +231,17 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		});
 	}
 
+	const calculateVotesTabNumber = () => {
+		if(participant.state === PARTICIPANT_STATES.DELEGATED){
+			return participant.delegatedVotes.length + participant.represented.length;
+		}
+
+		return participant.delegatedVotes.length;
+	}
+
+
 	let canDelegate = canDelegateVotes(council.statute, participant);
-	const delegatedVotesNumber = participant.delegatedVotes.length + participant.represented.length;
+	const delegatedVotesNumber = calculateVotesTabNumber();
 
 	React.useEffect(() => {
 		if(selecteAssistance.includes(translate.representations_delegations)){
@@ -374,20 +385,22 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 										</div>
 										{participant.personOrEntity === 0 ?
 											<React.Fragment>
-												<AssistanceOption
-													title={translate.attend_remotely_through_cbx}
-													translate={translate}
-													select={() => {
-														setState({
-															...state,
-															assistanceIntention: PARTICIPANT_STATES.REMOTE,
-															locked: false,
-															delegateId: null
-														})
-													}}
-													value={PARTICIPANT_STATES.REMOTE}
-													selected={state.assistanceIntention}
-												/>
+												{council.councilType === 0 &&
+													<AssistanceOption
+														title={translate.attend_remotely_through_cbx}
+														translate={translate}
+														select={() => {
+															setState({
+																...state,
+																assistanceIntention: PARTICIPANT_STATES.REMOTE,
+																locked: false,
+																delegateId: null
+															})
+														}}
+														value={PARTICIPANT_STATES.REMOTE}
+														selected={state.assistanceIntention}
+													/>
+												}
 												{council.remoteCelebration !== 1 &&
 													<AssistanceOption
 														title={translate.attending_in_person}
@@ -618,6 +631,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 								</div>
 								<div style={{ display: "inline-block" }}>
 									<DelegationSection
+										representations
 										delegatedVotes={participant.represented}
 										translate={translate}
 									/>
@@ -772,7 +786,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 }
 
 
-const DelegationSection = ({ delegatedVotes, translate, refetch }) => {
+const DelegationSection = ({ delegatedVotes, translate, refetch, representations }) => {
 	const [delegation, setDelegation] = React.useState(null);
 
 	const closeConfirm = () => {
@@ -795,7 +809,7 @@ const DelegationSection = ({ delegatedVotes, translate, refetch }) => {
 				return (
 					<Card key={vote.id} style={{ display: "flex", color: "#000000", fontSize: "14px", padding: "0.5em 1em", marginBottom: "0.5em" }}>
 						<div>{vote.name} {vote.surname}</div>
-						{vote.state !== PARTICIPANT_STATES.REPRESENTATED &&
+						{!representations &&
 							<div>
 								<i
 									onClick={() => setDelegation(vote)}
