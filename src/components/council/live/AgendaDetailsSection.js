@@ -131,7 +131,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 								</React.Fragment>
 							}
 						</GridItem>
-						<GridItem xs={normalLayout? 4 : 6} md={normalLayout? 4 : 5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
+						<GridItem xs={normalLayout? 4 : 12} md={normalLayout? 4 : 5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
 							{councilStarted && !CBX.agendaClosed(agenda) && (
 								<React.Fragment>
 									{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT ?
@@ -155,7 +155,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 								</React.Fragment>
 							)}
 						</GridItem>
-						<GridItem xs={normalLayout? 5 : 6} md={normalLayout? 5 : 7} lg={5} style={{ display: 'flex', alignItems: 'center' }}>
+						<GridItem xs={normalLayout? 5 : 12} md={normalLayout? 5 : 7} lg={5} style={{ display: 'flex', alignItems: 'center' }}>
 							{(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE && agenda.subjectType !== CBX.getActPointSubjectType()) && councilStarted ? (
 								<ToggleVotingsButton
 									council={council}
