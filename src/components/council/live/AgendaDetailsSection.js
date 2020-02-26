@@ -72,29 +72,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 					padding: "1em 0 1em 1em",
 				}}
 			>
-
-				{smallLayout &&
-					<GridItem xs={smallLayout? 12 : 4} md={3} style={{ display: 'flex', marginBottom: '0.6em', flexDirection: 'row', justifyContent: 'flex-end' }}>
-						<div>
-							<CouncilStateButton
-								council={council}
-								translate={translate}
-								recount={props.recount}
-								agendas={agendas}
-								participants={participants}
-								refetch={props.refetchCouncil}
-							/>
-						</div>
-						<div>
-							<CouncilMenu
-								council={council}
-								translate={translate}
-							/>
-						</div>
-					</GridItem>
-
-				}
-				<GridItem xs={smallLayout? 12 : 8} md={9} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between' }}>
+				<GridItem xs={12} md={12} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '1em' }}>
 					<div style={{ fontWeight: '700',  width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 						<div>
 							{`${agenda.orderIndex} - ${agenda.agendaSubject}`}
@@ -191,26 +169,6 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 						</GridItem>
 					</Grid>
 				</GridItem>
-				{!smallLayout &&
-					<GridItem xs={smallLayout? 12 : 4} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
-						<div style={{marginLeft: 'auto'}}>
-							<CouncilStateButton
-								council={council}
-								translate={translate}
-								participants={participants}
-								recount={props.recount}
-								agendas={agendas}
-								refetch={props.refetchCouncil}
-							/>
-						</div>
-						<div style={{marginLeft: 'auto', marginTop: '0.5em' }}>
-							<CouncilMenu
-								council={council}
-								translate={translate}
-							/>
-						</div>
-					</GridItem>
-				}
 			</Grid>
 			<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout? '100vh' : '100%' } - ${smallLayout? '14em' : '6.5em'})`, overflow: 'hidden' }}>
 					<Collapse isOpened={expanded}>

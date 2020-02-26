@@ -12,6 +12,7 @@ import CouncilInfoModal from "./CouncilInfoModal";
 import { councilHasVideo } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from "./SMSManagerModal";
+import { isMobile } from "../../../../utils/screen";
 
 class CouncilMenu extends React.Component {
 	state = {
@@ -53,7 +54,7 @@ class CouncilMenu extends React.Component {
 									style={{
 										boxSizing: "border-box",
 										padding: "0",
-										width: '5em',
+										width: isMobile ? "4em" : '5em',
 										height: '36px',
 										display: 'flex',
 										alignItems: 'center',

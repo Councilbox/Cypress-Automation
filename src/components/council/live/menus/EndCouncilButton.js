@@ -6,6 +6,7 @@ import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { AGENDA_STATES } from "../../../../constants";
 import { bHistory } from "../../../../containers/App";
 import { pointIsClosed } from "../../../../utils/CBX";
+import { isMobile } from "../../../../utils/screen";
 
 class EndCouncilButton extends React.Component {
 
@@ -23,25 +24,25 @@ class EndCouncilButton extends React.Component {
 		if (!response.errors) {
 			bHistory.push(
 				`/company/${council.companyId}/council/${
-					council.id
+				council.id
 				}/finished`
 			);
 		}
 	};
-
-	getUnclosedPoints = () => {
-		const { agendas } = this.props.council;
-		return agendas.filter(agenda => !pointIsClosed(agenda));
-	};
+	// Se comentan las agendas y se desactivan los colores.
+	// getUnclosedPoints = () => {
+	// 	const { agendas } = this.props.council;
+	// 	return agendas.filter(agenda => !pointIsClosed(agenda));
+	// };
 
 
 	render() {
 		const { translate } = this.props;
-		const unclosed = this.getUnclosedPoints();
+		// const unclosed = this.getUnclosedPoints();
 		const primary = getPrimary();
 		const secondary = getSecondary();
-		const { agendas } = this.props.council;
-		const lastPointClosed = agendas[agendas.length - 1].pointState === AGENDA_STATES.CLOSED;
+		// const { agendas } = this.props.council;
+		// const lastPointClosed = agendas[agendas.length - 1].pointState === AGENDA_STATES.CLOSED;
 
 		return (
 			<React.Fragment>
@@ -49,7 +50,8 @@ class EndCouncilButton extends React.Component {
 					<BasicButton
 						text={translate.finish_council}
 						id={'finalizarReunionEnReunion'}
-						color={lastPointClosed? primary : secondary}
+						color={primary}
+						// color={lastPointClosed? primary : secondary}
 						onClick={() => this.setState({ confirmModal: true })}
 						textPosition="before"
 						icon={
@@ -63,7 +65,7 @@ class EndCouncilButton extends React.Component {
 								play_arrow
 							</Icon>
 						}
-						buttonStyle={{ minWidth: "13em" }}
+						buttonStyle={{ minWidth: isMobile ? "" : "13em" }}
 						textStyle={{
 							color: "white",
 							fontSize: "0.75em",
@@ -76,7 +78,9 @@ class EndCouncilButton extends React.Component {
 					title={translate.finish_council}
 					bodyText={
 						<React.Fragment>
-							{unclosed.length > 0 ? (
+							{/* El aviso Los siguientes puntos del orden del día tienen las votaciones abiertas o no iniciadas 
+							se comenta */}
+							{/* {unclosed.length > 0 ? (
 								<React.Fragment>
 									<div>{translate.unclosed_points_desc}</div>
 									<ul>
@@ -91,9 +95,9 @@ class EndCouncilButton extends React.Component {
 										})}
 									</ul>
 								</React.Fragment>
-							) : (
-								<div>{translate.council_will_be_end}</div>
-							)}
+							) : ( */}
+							<div>{translate.council_will_be_end}</div>
+							{/* )} */}
 						</React.Fragment>
 					}
 					open={this.state.confirmModal}
