@@ -128,7 +128,6 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 
 	const { agendas } = data;
 
-
 	if (props.fullScreen) {
 		return (
 			<div
