@@ -2,11 +2,10 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import DelegationsRestrictionModal from './DelegationsRestrictionModal';
-import { AlertConfirm, BasicButton, Checkbox, SectionTitle, ButtonIcon } from '../../../displayComponents';
-import { getPrimary, getSecondary } from '../../../styles/colors';
-import { Table, TableBody, TableCell, TableRow } from 'material-ui';
-import { TableHead, Card } from 'material-ui';
-import { isMobile } from 'react-device-detect';
+import { AlertConfirm, BasicButton, SectionTitle, ButtonIcon } from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
+import { Card } from 'material-ui';
+import { isMobile } from '../../../utils/screen';
 
 
 const councilDelegates = gql`

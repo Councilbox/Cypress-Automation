@@ -1,6 +1,7 @@
 import React from 'react';
-import { isMobile } from 'react-device-detect';
 import { Tooltip } from 'material-ui';
+import { isMobile } from '../../../../utils/screen';
+
 
 const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, desplegarEtiquetas, mouseEnterHandler, mouseLeaveHandler, props }) => {
 	const anchoRef = React.useRef();

@@ -1,7 +1,7 @@
 import React from 'react';
-import { isMobile } from 'react-device-detect';
 import { darkGrey } from '../styles/colors';
 import { CLIENT_VERSION } from '../config';
+import { isMobile } from '../utils/screen';
 const date = new Date()
 
 const year = date.getFullYear();

@@ -89,7 +89,7 @@ class RichTextInput extends React.Component {
 	};
 
 	render() {
-		const { tags, loadDraft, errorText, required, noBordes, translate, styles } = this.props;
+		const { tags, loadDraft, errorText, required, noBordes, translate, stylesQuill, placeholder, styles } = this.props;
 		const modules = {
 			toolbar: {
 				container: [
@@ -108,7 +108,7 @@ class RichTextInput extends React.Component {
 			},
 			clipboard: {
 				matchVisual: false,
-			}
+			},
 		};
 
 		if (styles) {
@@ -192,9 +192,11 @@ class RichTextInput extends React.Component {
 								value={this.state.value}
 								onChange={this.onChange}
 								modules={modules}
+								placeholder={placeholder ? placeholder : ""}
 								ref={editor => this.rtEditor = editor}
 								id={this.props.id}
-								className={`text-editor ${!!errorText ? 'text-editor-error' : ''} ${!!noBordes ? 'text-editor-sinBordes' : ''}`}
+								style={{ ...stylesQuill }}
+								className={`text-editor ${!!errorText ? 'text-editor-error' : ''}  ${this.props.quillEditorButtonsEmpty} ${!!noBordes ? 'text-editor-sinBordes' : ''}`}
 							/>
 						</div>
 					</GridItem>
@@ -215,11 +217,11 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 
 
 	React.useEffect(() => {
-		if(searchModal){
+		if (searchModal) {
 			setFilteredTags([...tags, ...companyTags].filter(tag => (tag.label && tag.label.toLowerCase().includes(searchModal)) || (tag.key && tag.key.toLowerCase().includes(searchModal))));
 		} else {
 			let newTags = tags;
-			if(companyTags){
+			if (companyTags) {
 				newTags = [...newTags, ...companyTags];
 			}
 			setFilteredTags(newTags);
@@ -250,13 +252,13 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	}, [loadCompanyTags]);
 
 	const getTextToPaste = tag => {
-		if(tag.id){
-			if(window.location.href.includes('draft')){
+		if (tag.id) {
+			if (window.location.href.includes('draft')) {
 				return `{{${tag.key}}}`;
 			}
 		}
 
-		if(tag.getValue){
+		if (tag.getValue) {
 			return tag.getValue();
 		}
 		return tag.value;
@@ -345,10 +347,10 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 												<TableRow style={{ color: "black" }}>
 													<TableCell style={{ color: "black", fontSize: "16px" }}>
 														{translate.key}
-                                                     </TableCell>
+													</TableCell>
 													<TableCell style={{ color: "black", fontSize: "16px" }}>
 														{translate.value}
-                                                    </TableCell>
+													</TableCell>
 												</TableRow>
 											</TableHead>
 											<TableBody>
@@ -402,7 +404,7 @@ const HoverableRow = ({ tag, onClick, value }) => {
 			{...handlers}
 			style={{
 				background: show && "rgba(0, 0, 0, 0.07)",
-				cursor:"pointer"
+				cursor: "pointer"
 			}}
 			onClick={onClick}
 		>
@@ -410,7 +412,7 @@ const HoverableRow = ({ tag, onClick, value }) => {
 				{tag.key || tag.label}
 			</TableCell>
 			<TableCell style={{ color: primary }}>
-				{tag.description || value }
+				{tag.description || value}
 			</TableCell>
 		</TableRow>
 	)

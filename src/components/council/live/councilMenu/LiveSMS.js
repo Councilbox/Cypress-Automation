@@ -7,7 +7,7 @@ import { Table, TableCell, TableRow, TableBody, TableHead, CardContent, CardHead
 import { getSMSStatusByCode } from '../../../../utils/CBX';
 import { sendParticipantRoomKey } from "../../../corporation/councils/council/FailedSMSList";
 import { getSecondary, getPrimary } from '../../../../styles/colors';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
 
 const limitPerPage = 10;
 

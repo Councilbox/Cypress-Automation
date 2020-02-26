@@ -22,9 +22,9 @@ import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
 import { Tooltip, MenuItem } from "material-ui";
 import { isPresentVote, agendaVotingsOpened, isCustomPoint } from "../../../../utils/CBX";
-import { isMobile } from 'react-device-detect';
 import PropTypes from "prop-types";
 import NominalCustomVoting, { DisplayVoting } from './NominalCustomVoting';
+import { isMobile } from '../../../../utils/screen';
 
 
 let timeout = null;

@@ -7,7 +7,7 @@ import Table, {
 	TableSortLabel
 } from "material-ui/Table";
 import TableStyles from "../styles/table";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../utils/screen";
 
 const TableWrapper = ({ headers = [], children, style, forceMobileTable, stylesHeader, stylesHeaderRow }) => (
 	<React.Fragment>

@@ -6,8 +6,7 @@ import { withApollo } from 'react-apollo';
 import ResultsTimeline from '../ResultsTimeline';
 import gql from 'graphql-tag';
 import { darkGrey, secondary, primary, getSecondary } from '../../../styles/colors';
-import { AlertConfirm, Badge, Scrollbar } from '../../../displayComponents';
-import { isMobile } from 'react-device-detect';
+import { AlertConfirm, Badge } from '../../../displayComponents';
 import iconVoteInsert from '../../../../src/assets/img/dropping-vote-in-box2.svg';
 
 

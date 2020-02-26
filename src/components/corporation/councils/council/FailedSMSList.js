@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { BasicButton, AlertConfirm } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 import LiveSMS from '../../../council/live/councilMenu/LiveSMS';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
 
 
 const FailedSMSList = ({ council, translate }) => {

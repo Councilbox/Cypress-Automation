@@ -73,6 +73,7 @@ const participantQuery = gql`
 				assistanceIntention
 				delegateId
 				representative {
+					id
 					name
 					surname
 				}
@@ -120,6 +121,7 @@ const participantQuery = gql`
 			statute {
 				id
 				councilId
+				requireProxy
 				existsDelegatedVote
 				existMaxNumDelegatedVotes
 				maxNumDelegatedVotes

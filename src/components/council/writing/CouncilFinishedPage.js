@@ -178,6 +178,7 @@ export const councilDetails = gql`
 				existsComments
 				conveneHeader
 				intro
+				requireProxy
 				constitution
 				conclusion
 				actTemplate

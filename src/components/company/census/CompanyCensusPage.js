@@ -22,7 +22,7 @@ import AddCensusButton from "./AddCensusButton";
 import EditCensusModal from './censusEditor/modals/EditCensusModal';
 import { bHistory } from "../../../containers/App";
 import { CENSUS_LIMITS } from "../../../constants";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../../../utils/screen";
 
 class CompanyCensusPage extends React.Component {
 	state = {

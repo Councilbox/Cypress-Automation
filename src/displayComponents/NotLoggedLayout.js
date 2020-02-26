@@ -5,7 +5,7 @@ import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain
 import LoadingMainApp from './LoadingMainApp';
 
 
-const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished }) => {
+const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props }) => {
     const [loadingImg, setLoadingImg] = React.useState(true);
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
@@ -24,7 +24,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     if (loadingImg) {
         return <LoadingMainApp />
     }
-
+    
     return (
         <div
             style={{
@@ -36,7 +36,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 background: `url(${imgUrl})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
-                ...((customBackground || customRoomBackground)? {} : {
+                ...((customBackground || customRoomBackground) ? {} : {
                     backgroundPosition: 'center center',
                 }),
                 padding: 0,
@@ -51,6 +51,9 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 councilIsFinished={councilIsFinished}
                 setSelectHeadFinished={setSelectHeadFinished}
                 selectHeadFinished={selectHeadFinished}
+                contactAdmin={window.location.pathname.search("attendance")}
+                council={props.council}
+                participant={props.participant}
             />
             <div
                 className="row"

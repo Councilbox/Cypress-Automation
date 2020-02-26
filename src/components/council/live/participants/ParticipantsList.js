@@ -4,10 +4,10 @@ import { LoadMoreButton, Scrollbar, LoadingSection, AlertConfirm } from "../../.
 import ParticipantItem from "./ParticipantItem";
 import SignatureModal from "./modals/SignatureModal";
 import LiveParticipantEditor from "./LiveParticipantEditor";
-import { isMobile } from 'react-device-detect';
 import { useOldState } from "../../../../hooks";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { getMainRepresentative } from "../../../../utils/CBX";
+import { isMobile } from "../../../../utils/screen";
 
 const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore, loading, loadingMore, participants }) => {
 	const [state, setState] = useOldState({

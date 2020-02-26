@@ -9,7 +9,8 @@ import { Table, TableHead, TableRow, TableCell, TableBody, IconButton, Icon, Div
 import AddCompanyTag from './AddCompanyTag';
 import EditTagModal from './EditTagModal';
 import { sendGAevent } from '../../../../utils/analytics';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
+
 
 export const query = gql`
     query companyTags($companyId: Int!, $filters: [FilterInput]){

@@ -9,9 +9,9 @@ import { bHistory } from '../containers/App';
 import { TRIAL_DAYS } from "../config";
 import { trialDaysLeft } from "../utils/CBX";
 import { moment } from "./App";
-import { isMobile } from 'react-device-detect';
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
 import { sendGAevent } from "../utils/analytics";
+import { isMobile } from "../utils/screen";
 
 
 const CouncilContainer = ({ match, company, translate, windowSize }) => {

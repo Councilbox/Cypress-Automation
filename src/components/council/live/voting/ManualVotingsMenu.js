@@ -5,7 +5,7 @@ import { getSecondary } from '../../../../styles/colors';
 import { updateAgenda } from "../../../../queries/agenda";
 import { useOldState } from '../../../../hooks';
 import { cleanAgendaObject } from '../../../../utils/CBX';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
 
 
 const ManualVotingsMenu = ({ agenda, translate, ...props }) => {

@@ -5,12 +5,15 @@ import {
 	LoadingSection,
 	ParticipantRow,
 	Scrollbar,
-	TextInput
+	TextInput,
+	Grid,
+	GridItem
 } from "../../../displayComponents";
 import { graphql } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Card, MenuItem, Typography } from 'material-ui';
+import { getPrimary } from "../../../styles/colors";
 
 const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 	const loadMore = () => {
@@ -68,9 +71,12 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 		return (
 			<div >
 				<TextInput
+					disableUnderline={true}
 					adornment={<Icon>search</Icon>}
 					floatingText={" "}
 					type="text"
+					styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px" }}
+					stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "4px" }}
 					onChange={event => {
 						updateFilterText(event.target.value);
 					}}
@@ -79,8 +85,6 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 				<div
 					style={{
 						height: "300px",
-						padding: '0.5em',
-						// overflow: "hidden"
 					}}
 				>
 					{loading ? (
@@ -89,25 +93,30 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 							<div style={{ height: '100%' }}>
 								<Scrollbar>
 									{participants.length > 0 ? (
-										<div style={{ width: "99%" }}>
-											{participants.map(participant => {
-												if (participant.id !== props.participant.id ) {
-													return (
-														<React.Fragment key={`delegateVote_${participant.id}`}>
-															<ParticipantRow
-																council={props.council}
-																toDelegate={true}
-																cantDelegate={false}
-																participant={participant}
-																onClick={() =>
-																	props.addRepresentative(participant.id)
-																}
-															/>
-														</React.Fragment>
-													);
-												}
-												return false;
-											})}
+										<div style={{ display: 'flex', }}>
+											<Grid style={{ padding: "10px" }}>
+												{participants.map(participant => {
+													if (participant.id !== props.participant.id) {
+														return (
+															<GridItem xs={12} md={4} lg={4} key={`delegateVote_${participant.id}`}>
+																<React.Fragment >
+																	<ParticipantRow
+																		council={props.council}
+																		toDelegate={true}
+																		cantDelegate={false}
+																		participant={participant}
+																		onClick={() =>
+																			props.addRepresentative(participant.id)
+																		}
+																		stylesPaper={{ borderRadius: "5px", width: "100%" }}
+																	/>
+																</React.Fragment>
+															</GridItem>
+														);
+													}
+													return false;
+												})}
+											</Grid>
 											{participants.length < total - 1 && (
 												<Card
 													style={{
@@ -124,7 +133,7 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 													elevation={1}
 													onClick={loadMore}
 												>
-													<MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+													<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
 														{`DESCARGAR ${
 															rest > DELEGATION_USERS_LOAD
 																? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
@@ -160,7 +169,20 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 			open={show}
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
-			title={translate.to_delegate_vote}
+			title={
+				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+					<div>
+						{translate.to_delegate_vote}
+					</div>
+					<div style={{ fontSize: "15px", color: "#0000005e", display: "flex", alignItems: "center" }}>
+						{/* TRADUCCION */}
+						<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }} >
+							help
+						</i>
+						Seleccione a quien delega su voto
+					</div>
+				</div>
+			}
 		/>
 	);
 

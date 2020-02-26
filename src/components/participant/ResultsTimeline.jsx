@@ -6,11 +6,11 @@ import { getAgendaTypeLabel, hasVotation, getActPointSubjectType, isCustomPoint 
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { AGENDA_TYPES } from '../../constants';
 import { Stepper, Step, StepLabel, StepContent, withStyles } from 'material-ui';
-import { isMobile } from 'react-device-detect';
 import StepConnector from 'material-ui/Stepper/StepConnector';
 import { councilTimelineQuery, getTimelineTranslationReverse } from './timeline/TimelineSection';
 import { usePolling } from '../../hooks';
 import { moment } from '../../containers/App';
+import { isMobile } from '../../utils/screen';
 
 
 const ResultsTimeline = ({ data, translate, council, classes, client, disableScroll }) => {

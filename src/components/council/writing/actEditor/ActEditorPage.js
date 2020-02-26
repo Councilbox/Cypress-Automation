@@ -12,13 +12,13 @@ import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
 import RecordingsSection from '../recordings/RecordingsSection';
 import ActHTMLTab from '../actViewer/ActHTMLTab';
-import CouncilSideMenu from './CouncilSideMenu';
 import GoverningBodyDisplay from './GoverningBodyDisplay';
 import EvidencesPage from '../evindences/EvidencesPage';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { COUNCIL_STATES } from '../../../../constants';
 import DocumentEditor2 from '../../../documentEditor/DocumentEditor2';
 import NavigationHeader from './NavigationHeader';
+import DelegationDocuments from './DelegationDocuments';
 
 
 const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
@@ -177,6 +177,24 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             }
         }
     ];
+
+    if(config.proxies && council.statute.requireProxy === 1){
+        tabs.push({
+            text: 'Documentos de delegación', //TRADUCCION
+            component: () => {
+                return (
+                    <TabContainer>
+                        <Scrollbar>
+                            <DelegationDocuments
+                                council={council}
+                                translate={translate}
+                            />
+                        </Scrollbar>
+                    </TabContainer>
+                );
+            }
+        });
+    }
 
     if(config.evidencesTab){
         tabs.push({

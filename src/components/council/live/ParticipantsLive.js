@@ -19,7 +19,7 @@ import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton
 import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
 import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal";
 import MuteToggleButton from './videoParticipants/MuteToggleButton';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../../../utils/screen";
 
 const countParticipants = participants => {
 	let online = 0;
