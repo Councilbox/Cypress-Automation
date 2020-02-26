@@ -118,7 +118,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, to
 						/>
 					</div>
 				</div>
-				<div style={{ display: "flex", justifyContent: "center" }}>
+				<div style={{ display: "flex", justifyContent: "center", flexGrow: 1 }}>
 					<div
 						style={{
 							display: 'flex',
@@ -133,7 +133,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, to
 									color: primary,
 									fontWeight: '300',
 									fontSize: '1.4em',
-									maxWidth: '100%',
+									maxWidth: '57vw',
 									fontFamily: 'Lato'
 								}}
 								className="truncate"
