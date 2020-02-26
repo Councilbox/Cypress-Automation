@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Icon } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
-import { checkForUnclosedBraces } from "../../../utils/CBX";
+import { checkForUnclosedBraces, councilIsPreparing } from "../../../utils/CBX";
 import AssistanceOption from "./AssistanceOption";
 import { compose, graphql } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
@@ -23,6 +23,7 @@ import { CONSENTIO_ID } from "../../../config";
 import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import { isMobile } from "../../../utils/screen";
+import CouncilState from "../login/CouncilState";
 
 
 const styles = {
@@ -707,78 +708,88 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		>
 			<div style={styles.mainContainer}>
 				<Card style={{ ...styles.cardContainer, width: isMobile? '100%' : "80%" }}>
-					<Scrollbar>
-						<div style={{ maxWidth: '98vw', margin: isMobile? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
-							<div style={{ display: "flex", justifyContent: "space-between" }}>
-								<div style={{ fontSize: "25px", color: primary }}>
-									Hola, {participant.name} {participant.surname}
-								</div>
-								<div style={{ color: primary, fontSize: "30px", display: "flex", alignItems: "center" }}>
-									<Icon className="material-icons" style={{ fontSize: "35px", color: primary }}>
-										account_circle
-									</Icon>
-									{/* //////// Dropdown para imagen de arriba a la derecha y opciones */}
-									{/* <DropDownMenu
-										color="transparent"
-										id={"user-menu-trigger"}
-										text={
-											<Icon className="material-icons" style={{ fontSize:"35px", color: primary }}>
-												keyboard_arrow_down
-											</Icon>
-										}
-										textStyle={{ }}
-										type="flat"
-										icon={
-											<Icon className="material-icons" style={{ fontSize:"35px", color: primary }}>
-												account_circle
-											</Icon>
-											// <Avatar src={participant.logo} ></Avatar>
-										}
-										anchorOrigin={{
-											vertical: 'bottom',
-											horizontal: 'left',
-										}}
-										items={
-											<React.Fragment>
-												<MenuItem >
-												asd
-												</MenuItem>
-												<Divider />
-											</React.Fragment>
-										}
-									/> */}
-								</div>
-							</div>
-							<div style={{ display: "flex", marginTop: '2em', }}>
-								<MenuSuperiorTabs
-									// TRADUCCION
-									items={[
-										'Reunión actual',
-										`${translate.representations_delegations} (${delegatedVotesNumber})`,
-										// 'Historial de reuniones'
-									]}
-									selected={selecteAssistance}
-									setSelect={setSelecteAssistance}
-								/>
-							</div>
-							<Card style={{ marginTop: '1em', borderRadius: '8px' }}>
-								<div style={{ padding: "2em 1.5em 1.5em 1.5em" }}>
-									<div style={{ display: "flex", justifyContent: "space-between", color: "#000000" }}>
-										<div style={{ display: "flex", fontWeight: "bold", justifyContent: "space-between", fontSize: "15px" }}>
-											{council.name}
-										</div>
-										<div style={{ fontStyle: "italic" }}>
-											Fecha y hora - 09/01/2020
-										</div>
+					{councilIsPreparing(council)?
+						<Scrollbar>
+							<div style={{ maxWidth: '98vw', margin: isMobile? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
+								<div style={{ display: "flex", justifyContent: "space-between" }}>
+									<div style={{ fontSize: "25px", color: primary }}>
+										Hola, {participant.name} {participant.surname}
 									</div>
-									<div style={{ fontStyle: "italic", color: "#000000", marginTop: "1em" }}>
-										{council.street}
+									<div style={{ color: primary, fontSize: "30px", display: "flex", alignItems: "center" }}>
+										<Icon className="material-icons" style={{ fontSize: "35px", color: primary }}>
+											account_circle
+										</Icon>
+										{/* //////// Dropdown para imagen de arriba a la derecha y opciones */}
+										{/* <DropDownMenu
+											color="transparent"
+											id={"user-menu-trigger"}
+											text={
+												<Icon className="material-icons" style={{ fontSize:"35px", color: primary }}>
+													keyboard_arrow_down
+												</Icon>
+											}
+											textStyle={{ }}
+											type="flat"
+											icon={
+												<Icon className="material-icons" style={{ fontSize:"35px", color: primary }}>
+													account_circle
+												</Icon>
+												// <Avatar src={participant.logo} ></Avatar>
+											}
+											anchorOrigin={{
+												vertical: 'bottom',
+												horizontal: 'left',
+											}}
+											items={
+												<React.Fragment>
+													<MenuItem >
+													asd
+													</MenuItem>
+													<Divider />
+												</React.Fragment>
+											}
+										/> */}
 									</div>
-									{getDatos(selecteAssistance)}
 								</div>
-							</Card>
-						</div>
-					</Scrollbar>
+								<div style={{ display: "flex", marginTop: '2em', }}>
+									<MenuSuperiorTabs
+										// TRADUCCION
+										items={[
+											'Reunión actual',
+											`${translate.representations_delegations} (${delegatedVotesNumber})`,
+											// 'Historial de reuniones'
+										]}
+										selected={selecteAssistance}
+										setSelect={setSelecteAssistance}
+									/>
+								</div>
+								<Card style={{ marginTop: '1em', borderRadius: '8px' }}>
+									<div style={{ padding: "2em 1.5em 1.5em 1.5em" }}>
+										<div style={{ display: "flex", justifyContent: "space-between", color: "#000000" }}>
+											<div style={{ display: "flex", fontWeight: "bold", justifyContent: "space-between", fontSize: "15px" }}>
+												{council.name}
+											</div>
+											<div style={{ fontStyle: "italic" }}>
+												Fecha y hora - 09/01/2020
+											</div>
+										</div>
+										<div style={{ fontStyle: "italic", color: "#000000", marginTop: "1em" }}>
+											{council.street}
+										</div>
+										{getDatos(selecteAssistance)}
+									</div>
+								</Card>
+							</div>
+						</Scrollbar>
+					:
+						<CouncilState
+							council={council}
+							participant={participant}
+							company={company}
+							isAssistance
+							selectHeadFinished='participacion'
+						/>
+					}
 				</Card>
 			</div>
 		</NotLoggedLayout>
