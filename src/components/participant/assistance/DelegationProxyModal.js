@@ -7,12 +7,12 @@ import { Card } from 'material-ui';
 import { isMobile } from "../../../utils/screen";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import DownloadUnsignedProxy from './DownloadUnsignedProxy';
 
 
 const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action }) => {
     const signature = React.useRef();
     const [loading, setLoading] = React.useState(false);
-    const [loadingProxy, setLoadingProxy] = React.useState(true);
     const [existingProxy, setExistingProxy] = React.useState(null);
     const signatureContainer = React.useRef();
     const [signed, setSigned] = React.useState(false);
@@ -43,7 +43,6 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
             setExistingProxy(response.data.proxy);
             signature.current.fromDataURL(response.data.proxy.signature);
         }
-        setLoadingProxy(false);
     }, [participant.id]);
 
     React.useEffect(() => {
@@ -124,7 +123,6 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                     _________________________________
                     <div>D.  {participant.name} {participant.surname} </div>
                 </Card>
-            
         )
     }
 
@@ -160,34 +158,12 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
 
                     </GridItem>
                     <GridItem xs={12} md={6} lg={6} >
-                        <div style={{
-                            borderRadius: '4px',
-                            boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-                            color: primary,
-                            marginBottom: "1em",
-                            padding: "0.6em 1em",
-                            display: "flex",
-                            alignItems: "center",
-                            width: "100%"
-                        }}>
-                            <div style={{
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                cursor: "pointer"
-                            }} onClick={() => sendDelegationData()}>
-                                Enviar intención y descargar PDF para entrega presencial
-                            </div>
-                            <HelpPopover
-                                title={'Información'}
-                                content={
-                                    <div>
-                                        Esta acción marcará la intención de asistencia como "Delegación",
-                                        pero la delegación tendrá que ser realizada por el administrador de sala con la entrega del documento firmado
-                                    </div>
-                                }
-                            />
-                        </div>
+                        <DownloadUnsignedProxy
+                            translate={translate}
+                            action={sendDelegationData}
+                            participant={participant}
+                            delegation={delegation}
+                        />
                         <div
                             style={{
                                 border: 'solid 1px #979797',
