@@ -180,7 +180,8 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
     if(config.proxies && council.statute.requireProxy === 1){
         tabs.push({
-            text: 'Documentos de delegación', //TRADUCCION
+            label: 'Documentos de delegación', //TRADUCCION
+            value: 'proxies',
             component: () => {
                 return (
                     <TabContainer>
