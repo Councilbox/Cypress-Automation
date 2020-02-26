@@ -12,11 +12,11 @@ import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
 import RecordingsSection from '../recordings/RecordingsSection';
 import ActHTMLTab from '../actViewer/ActHTMLTab';
-import CouncilSideMenu from './CouncilSideMenu';
 import GoverningBodyDisplay from './GoverningBodyDisplay';
 import EvidencesPage from '../evindences/EvidencesPage';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { COUNCIL_STATES } from '../../../../constants';
+import DelegationDocuments from './DelegationDocuments';
 
 
 const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
@@ -83,20 +83,6 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                         </div>
                                     </Scrollbar>
                                 </div>
-                                {/*<div
-                                    style={{
-                                        height: '3.5em',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        borderTop: '1px solid gainsboro',
-                                        borderBottom: '1px solid gainsboro',
-                                        justifyContent: 'flex-end'
-                                    }}
-                                >
-                                    <BasicButton
-                                        text={translate.export_act_to_pdf}
-                                    />
-                                </div>*/}
                             </div>
                         :
                             <div style={{height: '100%'}}>
@@ -197,6 +183,24 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             }
         }
     ];
+
+    if(config.proxies && council.statute.requireProxy === 1){
+        tabs.push({
+            text: 'Documentos de delegación', //TRADUCCION
+            component: () => {
+                return (
+                    <TabContainer>
+                        <Scrollbar>
+                            <DelegationDocuments
+                                council={council}
+                                translate={translate}
+                            />
+                        </Scrollbar>
+                    </TabContainer>
+                );
+            }
+        });
+    }
 
     if(config.evidencesTab){
         tabs.push({
