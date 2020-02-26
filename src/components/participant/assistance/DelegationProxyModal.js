@@ -42,6 +42,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
         if(response.data.proxy && (delegation && response.data.proxy.delegateId === delegation.id)){
             setExistingProxy(response.data.proxy);
             signature.current.fromDataURL(response.data.proxy.signature);
+            signaturePreview.current.fromDataURL(response.data.proxy.signature);
         }
     }, [participant.id]);
 
