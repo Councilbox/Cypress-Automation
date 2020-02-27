@@ -3,10 +3,9 @@ import { graphql } from "react-apollo";
 import { endCouncil } from "../../../../queries/council";
 import { AlertConfirm, BasicButton, Icon } from "../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { AGENDA_STATES } from "../../../../constants";
 import { bHistory } from "../../../../containers/App";
-import { pointIsClosed } from "../../../../utils/CBX";
 import { isMobile } from "../../../../utils/screen";
+import { AGENDA_STATES } from "../../../../constants";
 
 class EndCouncilButton extends React.Component {
 
@@ -29,20 +28,12 @@ class EndCouncilButton extends React.Component {
 			);
 		}
 	};
-	// Se comentan las agendas y se desactivan los colores.
-	// getUnclosedPoints = () => {
-	// 	const { agendas } = this.props.council;
-	// 	return agendas.filter(agenda => !pointIsClosed(agenda));
-	// };
-
 
 	render() {
 		const { translate } = this.props;
-		// const unclosed = this.getUnclosedPoints();
+		const unclosed = this.props.unclosedAgendas;
 		const primary = getPrimary();
 		const secondary = getSecondary();
-		// const { agendas } = this.props.council;
-		// const lastPointClosed = agendas[agendas.length - 1].pointState === AGENDA_STATES.CLOSED;
 
 		return (
 			<React.Fragment>
@@ -51,7 +42,7 @@ class EndCouncilButton extends React.Component {
 						text={translate.finish_council}
 						id={'finalizarReunionEnReunion'}
 						color={primary}
-						// color={lastPointClosed? primary : secondary}
+						color={unclosed.length === 0? primary : secondary}
 						onClick={() => this.setState({ confirmModal: true })}
 						textPosition="before"
 						icon={
@@ -78,9 +69,7 @@ class EndCouncilButton extends React.Component {
 					title={translate.finish_council}
 					bodyText={
 						<React.Fragment>
-							{/* El aviso Los siguientes puntos del orden del día tienen las votaciones abiertas o no iniciadas 
-							se comenta */}
-							{/* {unclosed.length > 0 ? (
+							{unclosed.length > 0 ? (
 								<React.Fragment>
 									<div>{translate.unclosed_points_desc}</div>
 									<ul>
@@ -95,9 +84,9 @@ class EndCouncilButton extends React.Component {
 										})}
 									</ul>
 								</React.Fragment>
-							) : ( */}
-							<div>{translate.council_will_be_end}</div>
-							{/* )} */}
+							) : (
+								<div>{translate.council_will_be_end}</div>
+							)}
 						</React.Fragment>
 					}
 					open={this.state.confirmModal}

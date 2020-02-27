@@ -90,28 +90,30 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 		}
 
 		return (
-			<BasicButton
-				text={translate.reopen_voting}
-				color={'white'}
-				loading={loading}
-				disabled={loading}
-				textPosition="before"
-				icon={
-					<ButtonIcon
-						type="thumbs_up_down"
-						color={primary}
-					/>
-				}
-				floatRight={!isMobile}
-				buttonStyle={{ width: "18em" }}
-				onClick={reopenAgendaVoting}
-				textStyle={{
-					fontSize: "0.75em",
-					fontWeight: "700",
-					textTransform: "none",
-					color: primary,
-				}}
-			/>
+			<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {})  }}>
+				<BasicButton
+					text={translate.reopen_voting}
+					color={'white'}
+					loading={loading}
+					disabled={loading}
+					textPosition="before"
+					icon={
+						<ButtonIcon
+							type="thumbs_up_down"
+							color={primary}
+						/>
+					}
+					floatRight={!isMobile}
+					buttonStyle={{ width: "18em" }}
+					onClick={reopenAgendaVoting}
+					textStyle={{
+						fontSize: "0.75em",
+						fontWeight: "700",
+						textTransform: "none",
+						color: primary,
+					}}
+				/>
+			</div>
 		)
 	}
 

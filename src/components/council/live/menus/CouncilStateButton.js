@@ -2,10 +2,34 @@ import React from 'react';
 import OpenRoomButton from "./OpenRoomButton";
 import StartCouncilButton from "./StartCouncilButton";
 import EndCouncilButton from "./EndCouncilButton";
-import { councilStarted } from "../../../../utils/CBX";
+import { councilStarted, pointIsClosed } from "../../../../utils/CBX";
 import { moment } from '../../../../containers/App';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+import { LoadingSection } from '../../../../displayComponents';
 
-const CouncilStateButton = ({ translate, council, participants, refetch, agendas, recount, ...props }) => {
+const CouncilStateButton = ({ translate, data, council, participants, refetch, recount, ...props }) => {
+    const [unclosedAgendas, setUnclosedAgendas] = React.useState([]);
+
+    React.useEffect(() => {
+        if(!data.loading){
+            const newUnclosed = data.agendas.filter(agenda => !pointIsClosed(agenda));
+
+            if(newUnclosed.length !== unclosedAgendas.length){
+                setUnclosedAgendas(newUnclosed);
+            }
+        }
+    }, [data]);
+
+    React.useEffect(() => {
+        props.subscribeToPointStates({
+            councilId: council.id
+        })
+    }, [council.id])
+
+    if(data.loading){
+        return <LoadingSection />
+    }
 
     //TRADUCCION
     if(council.councilType > 1){
@@ -14,10 +38,8 @@ const CouncilStateButton = ({ translate, council, participants, refetch, agendas
                 return (
                     <div>
                         <EndCouncilButton
-                            council={{
-                                ...council,
-                                agendas
-                            }}
+                            unclosedAgendas={unclosedAgendas}
+                            council={council}
                             translate={translate}
                         />
                     </div>
@@ -30,10 +52,8 @@ const CouncilStateButton = ({ translate, council, participants, refetch, agendas
                     </div>
                     <div style={{minWidth: '10em'}}>
                         <EndCouncilButton
-                            council={{
-                                ...council,
-                                agendas
-                            }}
+                            unclosedAgendas={unclosedAgendas}
+                            council={council}
                             translate={translate}
                         />
                     </div>
@@ -79,10 +99,8 @@ const CouncilStateButton = ({ translate, council, participants, refetch, agendas
                 ) : (
                     <div>
                         <EndCouncilButton
-                            council={{
-                                ...council,
-                                agendas
-                            }}
+                            unclosedAgendas={unclosedAgendas}
+                            council={council}
                             translate={translate}
                         />
                     </div>
@@ -93,4 +111,61 @@ const CouncilStateButton = ({ translate, council, participants, refetch, agendas
     )
 }
 
-export default CouncilStateButton;
+
+export default graphql(gql`
+    query AgendaPointStates($councilId: Int!) {
+		agendas(councilId: $councilId) {
+            id
+            pointState
+            agendaSubject
+            votingState
+        }
+    }
+
+`, {
+	options: props => ({
+		variables: {
+			councilId: props.council.id
+        },
+        fetchPolicy: 'network-only'
+	}),
+	props: props => {
+		return {
+            ...props,
+            subscribeToPointStates: params => {
+                return props.data.subscribeToMore({
+                    document: gql`
+                        subscription pointStateChanged($councilId: Int!) {
+                            pointStateChanged(councilId: $councilId) {
+                                id
+                                pointState
+                                agendaSubject
+                                votingState
+                            }
+                        }
+                    `,
+                    variables: {
+                        councilId: params.councilId
+                    },
+                    updateQuery: (prev, { subscriptionData }) => {
+                        if (!subscriptionData.data.pointStateChanged) {
+                            return prev;
+                        }
+                        const agendas = [...prev.agendas];
+                        const index = prev.agendas.findIndex(agenda => agenda.id === subscriptionData.data.pointStateChanged.id);
+
+                        agendas[index] = {
+                            ...agendas[index],
+                            ...subscriptionData.data.pointStateChanged
+                        }
+
+                        return ({
+                            ...prev,
+                            agendas
+                        });
+                    }
+                    });
+                }
+		    };
+	  }
+})(CouncilStateButton);

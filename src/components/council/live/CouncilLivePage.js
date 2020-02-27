@@ -33,7 +33,6 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 		videoHeight: minVideoHeight,
 		fullScreen: false
 	});
-	const [dataAgendas, setDataAgendas] = React.useState({})
 	const agendaManager = React.useRef(null);
 	const company = props.companies.list[props.companies.selected];
 

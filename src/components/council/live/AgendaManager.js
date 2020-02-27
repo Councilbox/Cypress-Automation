@@ -28,6 +28,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 		data: {},
 		loading: true
 	});
+
 	const [state, setState] = useOldState({
 		selectedPoint: null,
 		loaded: false,
