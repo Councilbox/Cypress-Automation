@@ -22,7 +22,8 @@ import {
 	buildAttendantsString,
 	generateAgendaText,
 	getGoverningBodySignatories,
-	generateStatuteTag
+	generateStatuteTag,
+	buildDelegationsString
 } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
@@ -496,37 +497,13 @@ export const generateActTags = (type, data, translate) => {
 
 	//TRADUCCION
 
-	if (!attendantsString) {
-		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');		/*council.attendants.reduce((acc, attendant) => {
-			if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
-				const represented = attendant.delegationsAndRepresentations.find(p => p.state === PARTICIPANT_STATES.REPRESENTATED);
-				if(represented){
-					return acc + `
-					<p style="border: 1px solid black; padding: 5px;">-
-						${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
-							represented.name + ' ' + represented.surname
-						}${(council.statute.quorumPrototype === 1)? ` titular de ${represented.numParticipations} acciones` : ''}
-					<p><br/>`;
-				}
-				return '';
-
-			}
-			return acc + `
-			<p style="border: 1px solid black; padding: 5px;">-
-				${attendant.name} ${attendant.surname} - con DNI ${attendant.dni}${(council.statute.quorumPrototype === 1 && attendant.numParticipations > 0)? ` titular de ${attendant.numParticipations} participaciones` : ''}
-			<p><br/>
-		`}, `<br/><h4>${translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)}</h4><br/>`);*/
+	if(!attendantsString){
+		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');
 		cache.set(`${council.id}_attendants`, attendantsString);
 	}
 
-	if (!delegatedVotesString) {
-		delegatedVotesString = council.delegatedVotes.reduce((acc, vote) => {
-			return acc + `<p style="border: 1px solid black; padding: 5px;">-${
-				vote.name} ${
-				vote.surname} titular de ${vote.numParticipations} ${
-				translate.delegates.toLowerCase()} ${
-				vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} </p><br/>`
-		}, `<br/><h4>${translate.delegations}</h4><br/>`);
+	if(!delegatedVotesString){
+		delegatedVotesString = buildDelegationsString(council.delegatedVotes, council, translate);
 		cache.set(`${council.id}_delegated`, delegatedVotesString);
 	}
 

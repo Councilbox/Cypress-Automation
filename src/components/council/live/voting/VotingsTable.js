@@ -436,8 +436,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 											{renderParticipantInfo(vote)}
 										</TableCell>
 										<TableCell>
-											{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED) &&
+											{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED)?
 												(vote.numParticipations > 0 ? `${vote.numParticipations}` : 0)
+											:
+												vote.authorRepresentative.numParticipations > 0? vote.authorRepresentative.numParticipations : '-'
 											}
 
 											<React.Fragment>

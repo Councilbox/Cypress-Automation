@@ -953,3 +953,10 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .openInput div input:focus {
     width: 100%;
 }
+
+.qrEscaner section > div  {
+    border: 1px solid gainsboro!important;
+    border-radius: 27px;
+    box-shadow: none!important;
+}
+

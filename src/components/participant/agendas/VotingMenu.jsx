@@ -123,7 +123,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
                 disabled={fixed}
                 selected={getSelected(0)}
                 icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(0)? primary : 'silver' }}></i>}
-                onClick={() => {0
+                onClick={() => {
                     if (voteAtTheEnd) {
                         setAgendaVoting(0)
                     } else {
