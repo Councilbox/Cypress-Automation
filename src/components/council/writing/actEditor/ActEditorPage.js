@@ -213,8 +213,8 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     });
 
     return (
-        <CardPageLayout title={translate.drafts} disableScroll inFinish={true}>
-            <div style={{ padding: '1em', height: '100%', paddingTop: "0px" }}>
+
+            <div style={{ height: '100%', paddingTop: "0px", width: '100%' }}>
                 <div style={{ width: '100%', height: '100%', backgroundColor: 'white' }}>
                     <NavigationHeader
                         translate={translate}
@@ -246,7 +246,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                     })}
                 </div>
             </div>
-        </CardPageLayout>
+
     )
 }
 

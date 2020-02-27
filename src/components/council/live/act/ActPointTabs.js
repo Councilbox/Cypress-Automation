@@ -6,9 +6,12 @@ import Votings from "../Votings";
 import ActLiveSection from '../../writing/actEditor/ActLiveSection';
 import RecountSection from '../RecountSection';
 import Comments from '../Comments';
+import ActHTMLTab from '../../writing/actViewer/ActHTMLTab';
+import withSharedProps from '../../../../HOCs/withSharedProps';
+import ApproveActButton from './ApproveActButton';
 
 
-const ActPointTabs = ({ agenda, translate, council, ...props }) => {
+const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
     const [selectedTab, setSelectedTab] = React.useState(0);
     const votings = React.useRef(null);
 
@@ -26,6 +29,7 @@ const ActPointTabs = ({ agenda, translate, council, ...props }) => {
                 onChange={handleChange}
             >
                 <Tab label={translate.proposed_act} />
+                <Tab label={translate.proposed_act} />
                 <Tab label={translate.voting}/>
                 {CBX.councilHasComments(council.statute) &&
                     <Tab label={translate.act_comments}/>
@@ -34,6 +38,25 @@ const ActPointTabs = ({ agenda, translate, council, ...props }) => {
             <div style={{width: '100%', height: 'calc(100% - 48px)', borderTop: '1px solid gainsboro'}}>
                 <Scrollbar>
                     {selectedTab === 0 &&
+                        <div style={{padding: '1.5em', paddingRight: '4.5em'}}>
+                            <ActHTMLTab
+                                council={council}
+                                translate={translate}
+                                company={company}
+                                toolbar={() =>
+                                    <>
+                                        <ApproveActButton
+                                            council={council}
+                                            agenda={agenda}
+                                            translate={translate}
+                                            refetch={props.refetch}
+                                        />
+                                    </>
+                                }
+                            />
+                        </div>
+                    }
+                    {selectedTab === 1 &&
                         <div style={{padding: '1.5em', paddingRight: '4.5em'}}>
                             <ActLiveSection
                                 agenda={agenda}
@@ -45,7 +68,7 @@ const ActPointTabs = ({ agenda, translate, council, ...props }) => {
                             />
                         </div>
                     }
-                    {selectedTab === 1 &&
+                    {selectedTab === 2 &&
                         <div style={{padding: '1.5em', paddingRight: '4.5em', paddingBottom: '2em'}}>
                             <RecountSection
                                 agenda={agenda}
@@ -65,7 +88,7 @@ const ActPointTabs = ({ agenda, translate, council, ...props }) => {
                             />
                         </div>
                     }
-                    {selectedTab === 2 &&
+                    {selectedTab === 3 &&
                         <Comments
                             agenda={agenda}
                             council={council}
@@ -79,4 +102,4 @@ const ActPointTabs = ({ agenda, translate, council, ...props }) => {
     )
 }
 
-export default ActPointTabs;
+export default withSharedProps()(ActPointTabs);

@@ -183,7 +183,7 @@ class AppRouter extends React.Component {
 		}
 
 		return this.props.main.isLogged && this.props.user.type === 'company' ? (
-			<div style={{ width: "100%", height: '100%', position: isMobile ? "relative" : "", background: "#f5f5f5" }}>
+			<div style={{ width: "100%", height: '100%', position: isMobile ? "relative" : "" }}>
 				<SidebarLite
 					companies={this.props.companies.list}
 					company={this.props.companies.list[this.props.companies.selected]}

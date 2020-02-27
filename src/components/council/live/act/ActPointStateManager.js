@@ -49,43 +49,14 @@ const ActPointStateManager = ({ agenda, council, translate, refetch, ...props })
                 />
             }
 
-             {agenda.votingState === AGENDA_STATES.CLOSED &&
+             {/* {agenda.votingState === AGENDA_STATES.CLOSED &&
                 <ApproveActButton
                     council={council}
                     agenda={agenda}
                     translate={translate}
                     refetch={refetch}
                 />
-            }
-
-            {agenda.pointState === AGENDA_STATES.DISCUSSION && agenda.votingState === AGENDA_STATES.INITIAL &&
-                <React.Fragment>
-                    <BasicButton
-                        text={translate.save_preview_act}
-                        color={'white'}
-                        textStyle={{
-                            color: primary,
-                            fontWeight: "700",
-                            fontSize: "0.9em",
-                            textTransform: "none"
-                        }}
-                        onClick={() => setSendAct(true)}
-                        buttonStyle={{
-                            marginRight: "1em",
-                            border: `2px solid ${primary}`
-                        }}
-                    />
-                    <SendActToVote
-                        council={council}
-                        agenda={agenda}
-                        refetch={refetch}
-                        translate={translate}
-                        show={sendAct}
-                        requestClose={() => setSendAct(false)}
-                    />
-                </React.Fragment>
-
-            }
+            } */}
         </React.Fragment>
     )
 

@@ -9,7 +9,7 @@ import DownloadActPDF from './DownloadActPDF';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const ActHTML = ({ translate, company, council, client, ...props }) => {
+const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 
@@ -39,12 +39,16 @@ const ActHTML = ({ translate, company, council, client, ...props }) => {
 
 	return (
 		<React.Fragment>
-			{data.councilAct.type === 0 &&
-				<DownloadActPDF
-					translate={translate}
-					council={council}
-				/>
+			{toolbar?
+				toolbar()
+			:
+				data.councilAct.type === 0 &&
+					<DownloadActPDF
+						translate={translate}
+						council={council}
+					/>
 			}
+
 
 			<div
 				style={{
