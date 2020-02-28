@@ -40,7 +40,6 @@ const DownloadUnsignedProxy = ({ action, translate, client, participant, delegat
         }
     }
 
-    //TRADUCCION
     return (
         <React.Fragment>
             <div style={{
@@ -59,14 +58,13 @@ const DownloadUnsignedProxy = ({ action, translate, client, participant, delegat
                     textOverflow: 'ellipsis',
                     cursor: "pointer"
                 }} onClick={downloadUnsignedProxy}>
-                    Enviar intención y descargar PDF para entrega presencial
+                    {translate.send_intention_download_PDF}
                 </div>
                 <HelpPopover
                     title={'Información'}
                     content={
                         <div>
-                            Esta acción marcará la intención de asistencia como "Delegación",
-                            pero la delegación tendrá que ser realizada por el administrador de sala con la entrega del documento firmado
+                            {translate.document_proxy_download_help}
                         </div>
                     }
                 />
