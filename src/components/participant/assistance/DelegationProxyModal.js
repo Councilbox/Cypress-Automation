@@ -125,7 +125,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     }
 
     const disableSendButton = () => {
-        return existingProxy && (delegation && existingProxy.delegateId === delegation.name);
+        console.log(existingProxy, delegation);
+        return existingProxy && (delegation && existingProxy.delegateId === delegation.id);
     }
 
     return (
