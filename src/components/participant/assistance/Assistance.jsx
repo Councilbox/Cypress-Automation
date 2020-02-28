@@ -768,7 +768,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 												{council.name}
 											</div>
 											<div style={{ fontStyle: "italic" }}>
-												{translate.field_date} - {moment(council.dateStart).format('MMMM Do YYYY, HH:mm:ss')}
+												{translate.field_date} - {moment(council.dateStart).format('LLL')}
 											</div>
 										</div>
 										<div style={{ fontStyle: "italic", color: "#000000", marginTop: "1em" }}>
