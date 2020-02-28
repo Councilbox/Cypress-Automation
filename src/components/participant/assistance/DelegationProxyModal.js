@@ -56,8 +56,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
 		let timeout = setTimeout(() => {
 			if (signatureContainer.current) {
 				setCanvasSize({
-					width: (signatureContainer.current.getBoundingClientRect().width - 20),
-					height: (signatureContainer.current.getBoundingClientRect().height - 110),
+					width: (signatureContainer.current.getBoundingClientRect().width),
+					height: (signatureContainer.current.getBoundingClientRect().height),
                 });
             }
 		}, 150)
@@ -167,17 +167,18 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                         />
                         <div
                             style={{
-                                border: 'solid 1px #979797',
+                                border: 'solid 2px silver',
                                 color: '#a09aa0',
-                                padding: "0.6em",
+                                padding: "0",
+                                borderRadius: '3px',
                                 marginBottom: "1em",
-                                height: 'calc( 100% - 7em )'
+                                height: isMobile? '250px' : '300px'
                             }}
                             onMouseDown={() => setSigned(true)}
                             ref={signatureContainer}
                         >
                             {!signed &&
-                                <div style={{ position: 'absolute'}}>Firme en este recuadro para hacer efectiva la firma electrónica en el documento.</div>
+                                <div style={{ position: 'absolute', margin: '0.6em'}}>Firme en este recuadro para hacer efectiva la firma en el documento.</div>
                             }
                             <div>
                                 <ReactSignature
