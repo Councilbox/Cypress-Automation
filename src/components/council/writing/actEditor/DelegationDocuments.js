@@ -5,6 +5,8 @@ import { LoadingSection } from '../../../../displayComponents';
 import { Card } from 'material-ui';
 import DownloadParticipantProxy from '../../prepare/DownloadParticipantProxy';
 import { moment } from '../../../../containers/App';
+
+
 const DelegationDocuments = ({ council, translate, client }) => {
     const [data, setData] = React.useState([]);
     const [loading, setLoading] = React.useState(false);

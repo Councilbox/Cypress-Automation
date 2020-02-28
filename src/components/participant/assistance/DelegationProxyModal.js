@@ -145,7 +145,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 }
             }}
             requestClose={requestClose}
-            title={"Generación de documento de delegación"}
+            title={translate.create_proxy_document}
             bodyText={
                 <Grid style={{ marginTop: "15px", height: "100%" }}>
                     <GridItem xs={12} md={6} lg={6} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
@@ -178,7 +178,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                             ref={signatureContainer}
                         >
                             {!signed &&
-                                <div style={{ position: 'absolute', margin: '0.6em'}}>Firme en este recuadro para hacer efectiva la firma en el documento.</div>
+                                <div style={{ position: 'absolute', margin: '0.6em'}}>{translate.sign_to_create_proxy}.</div>
                             }
                             <div>
                                 <ReactSignature

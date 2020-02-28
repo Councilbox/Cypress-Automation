@@ -114,14 +114,14 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                         hide: !hide
                     })}>
                         help
-</i>
+                    </i>
                     {hide &&
                         <div style={{
                             fontSize: '13px',
                             color: '#a09aa0'
-                        }}> {/*TRADUCCION*/}
-                            Personaliza y exporta documento usando los bloques inferiores. Desplázalos al documento y edita el texto que necesites
-    </div>
+                        }}>
+                            {translate.document_editor_help}
+                        </div>
                     }
                 </div>
 

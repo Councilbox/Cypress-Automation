@@ -233,6 +233,9 @@ export function generateAgendaBlocks (data, language = 'es', secondaryLanguage =
                     type: "votes",
                     noBorrar: true,
                     editButton: false,
+                    data: {
+                        agendaId: element.id
+                    },
                     text: `
                         <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
                             <b>${texts.votings}: </b>

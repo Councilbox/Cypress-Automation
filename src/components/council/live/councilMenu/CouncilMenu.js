@@ -132,7 +132,7 @@ class CouncilMenu extends React.Component {
 													color: secondary
 												}}
 											></i>
-											{'Administrador de SMS' /*TRADUCCION*/}
+											{'SMS' /*TRADUCCION*/}
 										</MenuItem>
 
 									}

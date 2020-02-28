@@ -57,7 +57,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 			/>
 			<AlertConfirm
 				title={translate.warning}
-				bodyText={'Esta funcionalidad está desactivada'}//TRADUCCION
+				bodyText={translate.disabled_feature}
 				requestClose={closeDeactivedFeature}
 				open={featureModal}
 				cancelAction={closeDeactivedFeature}

@@ -24,6 +24,7 @@ import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import { isMobile } from "../../../utils/screen";
 import CouncilState from "../login/CouncilState";
+import { moment } from "../../../containers/App";
 
 
 const styles = {
@@ -69,7 +70,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	});
 	const primary = getPrimary();
 
-	const [selecteAssistance, setSelecteAssistance] = React.useState('Reunión actual');
+	const [selecteAssistance, setSelecteAssistance] = React.useState(translate.council);
 	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
 
 	function generateAttendanceData() {
@@ -619,8 +620,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 	const getVotosDelegados = () => {
 		const delegatedVotes = participant.delegatedVotes.filter(a => a.state !== PARTICIPANT_STATES.REPRESENTATED);
-
-		//TRADUCCION
 		return (
 			<div>
 				{participant.represented.length > 0 &&
@@ -628,7 +627,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 						<div style={{ width: "100%" }}>
 							<div style={{ width: '100%', marginBottom: "1em" }}>
 								<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '1em' }}>
-									Representa a:
+									{translate.representative_of}:
 								</div>
 								<div style={{ display: "inline-block" }}>
 									<DelegationSection
@@ -687,7 +686,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 	const getDatos = () => {
 		switch (selecteAssistance) {
-			case 'Reunión actual':
+			case translate.council:
 				return getReunionActual()
 			case `${translate.representations_delegations} (${delegatedVotesNumber})`:
 				return getVotosDelegados()
@@ -713,7 +712,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 							<div style={{ maxWidth: '98vw', margin: isMobile? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
 								<div style={{ display: "flex", justifyContent: "space-between" }}>
 									<div style={{ fontSize: "25px", color: primary }}>
-										Hola, {participant.name} {participant.surname}
+										{translate.hello}, {participant.name} {participant.surname}
 									</div>
 									<div style={{ color: primary, fontSize: "30px", display: "flex", alignItems: "center" }}>
 										<Icon className="material-icons" style={{ fontSize: "35px", color: primary }}>
@@ -753,9 +752,8 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 								</div>
 								<div style={{ display: "flex", marginTop: '2em', }}>
 									<MenuSuperiorTabs
-										// TRADUCCION
 										items={[
-											'Reunión actual',
+											translate.council,
 											`${translate.representations_delegations} (${delegatedVotesNumber})`,
 											// 'Historial de reuniones'
 										]}
@@ -770,7 +768,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 												{council.name}
 											</div>
 											<div style={{ fontStyle: "italic" }}>
-												Fecha y hora - 09/01/2020
+												{translate.field_date} - {moment(council.dateStart).format('MMMM Do YYYY, HH:mm:ss')}
 											</div>
 										</div>
 										<div style={{ fontStyle: "italic", color: "#000000", marginTop: "1em" }}>

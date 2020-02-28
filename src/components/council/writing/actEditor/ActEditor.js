@@ -583,8 +583,7 @@ export const generateActTags = (type, data, translate) => {
 	let attendantsString = cache.get(`${council.id}_attendants`);
 	let delegatedVotesString = cache.get(`${council.id}_delegated`);
 
-	//TRADUCCION
-
+	
 	if(!attendantsString){
 		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');
 		cache.set(`${council.id}_attendants`, attendantsString);

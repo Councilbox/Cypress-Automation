@@ -32,8 +32,10 @@ const RemoveDelegationButton = ({ participant, delegatedVote, translate, client,
     }
     
     const renderModalBody = () => {
-        //TRADUCCION
-        return `Desea eliminar la delegación de ${delegatedVote.name} ${delegatedVote.surname || ''} en ${participant.name} ${participant.surname || ''}`
+        return translate.remove_delegation_warning.replace('delegatedName', delegatedVote.name)
+            .replace('delegatedSurname', delegatedVote.surname || '')
+            .replace('name', participant.name)
+            .replace('surname', participant.surname || '');
     }
 
     return (
@@ -49,7 +51,7 @@ const RemoveDelegationButton = ({ participant, delegatedVote, translate, client,
                 bodyText={renderModalBody()}
             />
             <BasicButton
-                text={'Quitar delegación'} //TRADUCCION
+                text={translate.remove_delegation}
                 onClick={() => setModal(true)}
                 type="flat"
                 color="white"

@@ -4,7 +4,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, AlertConfirm, Grid, GridItem, Scrollbar, TextInput, Icon, BasicButton } from "../../displayComponents";
 import * as CBX from '../../utils/CBX';
-import { useInterval, usePolling } from "../../hooks";
+import { usePolling } from "../../hooks";
 import { getPrimary } from "../../styles/colors";
 import { isMobile } from "../../utils/screen";
 
@@ -200,8 +200,8 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 								<div style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", cursor: "pointer" }}
 									onClick={() => verMas()}
 								>
-									Ver más
-								</div> //TRADUCCION
+									{translate.see_more}
+								</div>
 							}
 						</div>
 					</div>

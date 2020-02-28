@@ -17,8 +17,6 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
     const confirmationDate = participant.state === PARTICIPANT_STATES.REPRESENTATED? representative.assistanceLastDateConfirmed : participant.assistanceLastDateConfirmed;
     const intention = participant.state === PARTICIPANT_STATES.REPRESENTATED? representative.assistanceIntention : participant.assistanceIntention;
 
-    //console.log(participant, representative);
-
     if(confirmationDate){
         switch(intention){
             case PARTICIPANT_STATES.REMOTE:
@@ -40,7 +38,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                 if((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)){
                     tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname}`;
                 } else {
-                    tooltip = `Delegará su voto`;//TRADUCCION
+                    tooltip = translate.will_delegate
                 }
                 icon = <i className='fa fa-users' style={iconStyle}></i>;
                 break;
