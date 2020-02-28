@@ -3,9 +3,9 @@ import { GridItem } from "./";
 import { hasMorePages } from "../utils/pagination";
 import { getPrimary, getSecondary } from "../styles/colors";
 import Select from 'antd/lib/select';
-import { isMobile } from "react-device-detect";
 import SelectInput from "./SelectInput";
 import { MenuItem } from "material-ui";
+import { isMobile } from "../utils/screen";
 
 
 const primary = getPrimary();

@@ -2,12 +2,12 @@ import React from 'react';
 import { NotLoggedLayout, LoadingSection } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { Card, Button, CardHeader, Avatar, CardContent } from 'material-ui';
-import { isMobile } from 'react-device-detect';
 import { EXPLORER_URL } from '../../../config';
 import { moment } from '../../../containers/App';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import ToolTip from '../../../displayComponents/Tooltip';
+import { isMobile } from '../../../utils/screen';
 
 class ValidatorPage extends React.Component {
 

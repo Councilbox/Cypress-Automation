@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertConfirm } from '../../../../displayComponents';
 import LiveSMS from './LiveSMS';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
 
 
 const SMSManagerModal = ({ open, translate, council, requestClose }) => {

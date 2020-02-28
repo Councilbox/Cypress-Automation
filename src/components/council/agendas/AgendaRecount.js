@@ -9,10 +9,8 @@ import { Input } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { CONSENTIO_ID } from '../../../config';
-import { isMobile } from 'react-device-detect';
 import PropTypes from "prop-types";
-
-
+import { isMobile } from '../../../utils/screen';
 
 const columnStyle = {
     display: 'flex',

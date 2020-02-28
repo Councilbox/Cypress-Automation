@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../utils/screen";
 
 if(isMobile){
 	const updateHeights = () => {

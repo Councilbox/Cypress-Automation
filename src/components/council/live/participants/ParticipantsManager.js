@@ -2,11 +2,11 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection } from '../../../../displayComponents';
-import { isMobile } from 'react-device-detect';
 import { MenuItem, Paper } from 'material-ui';
 import ParticipantsPage from "./sections/ParticipantsPage";
 import { useOldState } from '../../../../hooks';
 import gql from 'graphql-tag';
+import { isMobile } from '../../../../utils/screen';
 
 const initialState = {
     layout: 'squares', // table, compact

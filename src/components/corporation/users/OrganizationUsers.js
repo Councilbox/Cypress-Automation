@@ -8,10 +8,8 @@ import { Icon, Avatar, Card, CardActions } from 'material-ui';
 import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link, GridItem, AlertConfirm } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import { USER_ACTIVATIONS } from '../../../constants';
-import { isMobile } from 'react-device-detect';
 import NewUser from './NewUser';
-
-
+import { isMobile } from '../../../utils/screen';
 
 
 const OrganizationUsers = ({ client, translate, company }) => {

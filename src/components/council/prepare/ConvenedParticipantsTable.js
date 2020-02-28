@@ -21,7 +21,9 @@ import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton"
 import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
 import AttendComment from "./modals/AttendComment";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../../../utils/screen";
+import DownloadParticipantProxy from "./DownloadParticipantProxy";
+
 
 
 class ConvenedParticipantsTable extends React.Component {
@@ -377,8 +379,8 @@ class HoverableRow extends React.Component {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 		let representative = this.props.representative;
 		const { delegate } = participant;
+		let { notifications } = participant.type === PARTICIPANT_TYPE.PARTICIPANT? participant : participant.representatives.length > 0? representative : participant;
 
-		let { notifications } = participant.type === PARTICIPANT_TYPE.PARTICIPANT? participant : !!representative? representative : participant;
 		notifications = [...notifications].sort((a, b) => {
 			if(a.sendDate > b.sendDate){
 				return 1;
@@ -493,7 +495,7 @@ class HoverableRow extends React.Component {
                 </Card>
             )
 		}
-	
+
 		return (
 			<TableRow
 				hover
@@ -613,15 +615,13 @@ class HoverableRow extends React.Component {
 						) && (
 							<TableCell>
 								<AttendIntentionIcon
-									participant={
-										participant.live.state === PARTICIPANT_STATES.REPRESENTATED?
-											participant.representative.live :
-											participant.live
-									}
-									showCommentIcon
+									participant={participant.live}
+									representative={participant.representatives.length > 0? participant.representative.live : null}
+									council={council}
+									showCommentIcon={participant.representatives.length > 0? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
 									onCommentClick={this.props.showModalComment({
-										text: participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live.assistanceComment : participant.live.assistanceComment,
-										author: participant.live.state === PARTICIPANT_STATES.REPRESENTATED?
+										text: participant.representatives.length > 0? participant.representative.live.assistanceComment : participant.live.assistanceComment,
+										author: participant.representatives.length > 0?
 											`${participant.name} ${participant.surname} - ${translate.represented_by} ${representative.name} ${representative.surname}`
 										:
 											`${participant.name} ${participant.surname}`
@@ -641,8 +641,14 @@ class HoverableRow extends React.Component {
 const formatParticipant = participant => {
 	let { representing, ...newParticipant } = participant;
 
+	if(participant.representatives.length > 0){
+		newParticipant = {
+			...newParticipant,
+			representative: participant.representatives[0]
+		}
+	}
+
 	if(participant.live.state === PARTICIPANT_STATES.DELEGATED){
-		let { representative, ...rest } = newParticipant;
 		newParticipant = {
 			...newParticipant,
 			delegate: participant.live.representative

@@ -1,8 +1,8 @@
 import React from 'react';
-import { isMobile } from 'react-device-detect';
 import withWindowSize from '../HOCs/withWindowSize';
 import SelectInput from './SelectInput';
 import { MenuItem } from 'material-ui';
+import { isMobile } from '../utils/screen';
 
 const chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 

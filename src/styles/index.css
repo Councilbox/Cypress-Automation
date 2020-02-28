@@ -954,6 +954,19 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     width: 100%;
 }
 
+.quillEditorButtonsEmpty .ql-toolbar.ql-snow {
+    display: none;
+}
+
+.quillEditorButtonsEmpty .ql-container.ql-snow {
+    border: none;
+    border-radius: 3px;
+}
+
+.quillEditorButtonsEmpty .ql-container.ql-snow .ql-editor {
+    overflow-y: auto;
+}
+
 .qrEscaner section > div  {
     border: 1px solid gainsboro!important;
     border-radius: 27px;

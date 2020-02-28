@@ -1,7 +1,6 @@
 import React from 'react'
 import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton, Grid, GridItem, AlertConfirm } from '../../displayComponents';
 import { TableRow, TableCell, Card } from 'material-ui';
-import { isMobile } from 'react-device-detect';
 import { bHistory } from '../../containers/App';
 import { getPrimary } from '../../styles/colors';
 import withTranslations from '../../HOCs/withTranslations';
@@ -11,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { moment } from '../../containers/App';
 import { unaccent } from '../../utils/CBX';
+import { isMobile } from '../../utils/screen';
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 

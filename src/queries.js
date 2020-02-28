@@ -761,6 +761,7 @@ export const statutes = gql`
 			conveneHeader
 			conveneFooter
 			censusId
+			requireProxy
 			quorumPrototype
 			existsComments
 			firstCallQuorumDivider
@@ -1232,6 +1233,7 @@ export const councilDetails = gql`
 				existsSecondCall
 				minimumSeparationBetweenCall
 				canEditConvene
+				requireProxy
 				firstCallQuorumType
 				firstCallQuorum
 				firstCallQuorumDivider
