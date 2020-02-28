@@ -12,13 +12,13 @@ const DownloadActPDF = ({ client, council, translate }) => {
     const [downloading, setDownloading] = React.useState(false);
     const secondary = getSecondary();
 
-    const downloadPDF = async clean => {
+    const downloadPDF = async () => {
         setDownloading(true);
 		const response = await client.query({
 			query: downloadAct,
 			variables: {
                 councilId: council.id,
-                clean
+                clean: false
 			}
         });
 
@@ -36,68 +36,31 @@ const DownloadActPDF = ({ client, council, translate }) => {
     };
 
     return (
-        <DropDownMenu
-            color="transparent"
-            id={'user-menu-trigger'}
+        <BasicButton
+            text={translate.export_original_act}
+            color={'white'}
             loading={downloading}
-            loadingColor={secondary}
-            text={translate.export_act_to}
-            textStyle={{ color: secondary }}
             type="flat"
-            buttonStyle={{border: `1px solid ${secondary}`}}
+            loadingColor={secondary}
+            buttonStyle={{ marginTop: "0.5em", border: `1px solid ${secondary}` }}
+            textStyle={{
+                color: secondary,
+                fontWeight: "700",
+                fontSize: "0.9em",
+                textTransform: "none"
+            }}
             icon={
-                <i className="fa fa-download" style={{
+                <FontAwesome
+                    name={"file-pdf-o"}
+                    style={{
                         fontSize: "1em",
                         color: secondary,
                         marginLeft: "0.3em"
                     }}
                 />
             }
-            items={
-                <React.Fragment>
-                    <MenuItem onClick={() => downloadPDF(false)}>
-                        <div
-                            style={{
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between'
-                            }}
-                        >
-                            <i className="fa fa-file-pdf-o" style={{
-                                    fontSize: "1em",
-                                    color: secondary,
-                                    marginLeft: "0.3em"
-                                }}
-                            />
-                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
-                                Acta Councilbox
-                            </span>
-                        </div>
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem onClick={() => downloadPDF(true)}>
-                        <div
-                            style={{
-                                width: '100%',
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between'
-                            }}
-                        >
-                            <i className="fa fa-file-pdf-o" style={{
-                                    fontSize: "1em",
-                                    color: secondary,
-                                    marginLeft: "0.3em"
-                                }}
-                            />
-                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
-                                Acta en limpio
-                            </span>
-                        </div>
-                    </MenuItem>
-                </React.Fragment>
-            }
+            textPosition="after"
+            onClick={downloadPDF}
         />
     )
 }
