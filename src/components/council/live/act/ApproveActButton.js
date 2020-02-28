@@ -20,8 +20,6 @@ const ApproveActButton = ({ translate, council, client, refetch }) => {
             }
         });
 
-        console.log(response);
-
         refetch();
     }
 

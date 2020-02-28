@@ -49,14 +49,14 @@ const ActPointStateManager = ({ agenda, council, translate, refetch, ...props })
                 />
             }
 
-             {/* {agenda.votingState === AGENDA_STATES.CLOSED &&
+            {agenda.votingState === AGENDA_STATES.CLOSED &&
                 <ApproveActButton
                     council={council}
                     agenda={agenda}
                     translate={translate}
                     refetch={refetch}
                 />
-            } */}
+            }
         </React.Fragment>
     )
 

@@ -3,12 +3,10 @@ import { Tabs, Tab } from 'material-ui';
 import * as CBX from "../../../../utils/CBX";
 import { Scrollbar } from '../../../../displayComponents';
 import Votings from "../Votings";
-import ActLiveSection from '../../writing/actEditor/ActLiveSection';
 import RecountSection from '../RecountSection';
 import Comments from '../Comments';
 import ActHTMLTab from '../../writing/actViewer/ActHTMLTab';
 import withSharedProps from '../../../../HOCs/withSharedProps';
-import ApproveActButton from './ApproveActButton';
 
 
 const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
@@ -29,7 +27,6 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
                 onChange={handleChange}
             >
                 <Tab label={translate.proposed_act} />
-                <Tab label={translate.proposed_act} />
                 <Tab label={translate.voting}/>
                 {CBX.councilHasComments(council.statute) &&
                     <Tab label={translate.act_comments}/>
@@ -45,30 +42,12 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
                                 company={company}
                                 toolbar={() =>
                                     <>
-                                        <ApproveActButton
-                                            council={council}
-                                            agenda={agenda}
-                                            translate={translate}
-                                            refetch={props.refetch}
-                                        />
                                     </>
                                 }
                             />
                         </div>
                     }
                     {selectedTab === 1 &&
-                        <div style={{padding: '1.5em', paddingRight: '4.5em'}}>
-                            <ActLiveSection
-                                agenda={agenda}
-                                translate={translate}
-                                council={council}
-                                refetch={props.refetch}
-                                companyId={council.companyId}
-                                data={props.data}
-                            />
-                        </div>
-                    }
-                    {selectedTab === 2 &&
                         <div style={{padding: '1.5em', paddingRight: '4.5em', paddingBottom: '2em'}}>
                             <RecountSection
                                 agenda={agenda}
@@ -88,7 +67,7 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
                             />
                         </div>
                     }
-                    {selectedTab === 3 &&
+                    {selectedTab === 2 &&
                         <Comments
                             agenda={agenda}
                             council={council}
