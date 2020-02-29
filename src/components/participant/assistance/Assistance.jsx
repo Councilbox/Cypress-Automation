@@ -154,6 +154,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 					participant: {
 						...state.participant,
 						assistanteIntention: option,
+						delegateInfoUser: null,
 						...(quitRepresentative ? { representative: null } : {})
 					}
 				})
