@@ -122,11 +122,12 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 
 	return (
 		<div
-			style={
-				(windowSize === "xs" && windowOrientation === "portrait"
+			style={{
+				backgroundColor: 'white',
+				...(windowSize === "xs" && windowOrientation === "portrait"
 					? styles.container
 					: styles.splittedContainer)
-			}
+			}}
 		>
 			<div
 				style={{
@@ -479,7 +480,6 @@ const TextRender = ({ title, text, isHtmlText, council, company, translate, wind
 						</OverFlowText>
 					</div>
 				)}
-
 
 			<CouncilInfoCardRender council={council} company={company} windowOrientation={windowOrientation} />
 

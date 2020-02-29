@@ -43,13 +43,13 @@ const styles = {
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
 
-	if ((councilIsFinished(council) || participant.hasVoted) && isMobile) {
+	if ((councilIsFinished(council) || !councilIsLive(council) || participant.hasVoted) && isMobile) {
 		return (
 			<NotLoggedLayout
 				translate={props.translate}
 				helpIcon={true}
 				languageSelector={false}
-				councilIsFinished={true}
+				councilIsFinished={councilIsFinished(council)}
 				setSelectHeadFinished={setSelectHeadFinished}
 				selectHeadFinished={selectHeadFinished}
 			>
