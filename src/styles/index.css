@@ -755,11 +755,11 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .drawerConvene {
     top: 44px!important;
 }
-.text-editor-sinBordes .ql-toolbar {
-    border: none!important
+.borderless-text-editor .ql-toolbar {
+    border: 1px solid transparent!important;
 }
-.text-editor-sinBordes .ql-container {
-    border: none!important
+.borderless-text-editor .ql-container {
+    border: 1px solid transparent!important;
 }
 
 /* Calendario dashboard */

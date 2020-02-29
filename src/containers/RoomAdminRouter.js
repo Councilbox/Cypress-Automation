@@ -11,8 +11,6 @@ const RoomAdminRouter = ({ user, company, translate }) => {
         bHistory.replace(`/council/${user.accessLimitedTo}/live`);
     }, [user.accessLimitedTo]);
 
-    console.log('render');
-
     return (
         <Switch>
             <Route

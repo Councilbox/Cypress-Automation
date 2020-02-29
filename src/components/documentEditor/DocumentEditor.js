@@ -226,8 +226,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
 
 
 const SortableList = SortableContainer(({ items, column, updateCouncilActa, updateBlock, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
-    console.log(column);
-    
     if (edit) {
         return (
             <div >
