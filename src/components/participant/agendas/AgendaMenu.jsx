@@ -1,7 +1,6 @@
 import React from 'react';
 import { BasicButton, AlertConfirm } from '../../../displayComponents';
 import ActHTML from '../../council/writing/actViewer/ActHTML';
-import CommentMenu from './CommentMenu';
 import * as CBX from '../../../utils/CBX';
 import { Typography } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
@@ -9,6 +8,7 @@ import AttachmentDownload from '../../attachments/AttachmentDownload';
 import { PARTICIPANT_TYPE } from '../../../constants';
 import VotingSection from './VotingSection';
 import CustomPointVotingMenu from './CustomPointVotingMenu';
+import { isMobile } from '../../../utils/screen';
 
 
 class AgendaMenu extends React.Component {
@@ -156,15 +156,6 @@ class AgendaMenu extends React.Component {
                                                 }
                                             </React.Fragment>
                                         }
-                                        {/**Esto es el comentario a la votacion */}
-                                        {/* {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
-                                            <CommentMenu
-                                                agenda={agenda}
-                                                participant={this.props.participant}
-                                                translate={this.props.translate}
-                                                refetch={this.props.refetch}
-                                            />
-                                        } */}
                                     </React.Fragment>
                                     :
                                     translate.cant_exercise_vote
@@ -227,6 +218,12 @@ class AgendaMenu extends React.Component {
                     open={this.state.showModal}
                     acceptAction={() => this.setState({ showModal: false })}
                     buttonAccept={translate.accept}
+                    PaperProps={isMobile? {
+                        style: {
+                            width: '100vw',
+                            margin: '0'
+                        }
+                    } : {}}
                     bodyText={
                         <div>
                             <ActHTML
