@@ -134,11 +134,6 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 										{translate.my_participation}
 									</MenuItem>
 								}
-								{selectHeadFinished !== 'reunion' &&
-									<MenuItem onClick={() => setSelectHeadFinished("reunion")} >
-										{translate.summary}
-									</MenuItem>
-								}
 								{selectHeadFinished !== 'contactAdmin' &&
 									<MenuItem onClick={() => setSelectHeadFinished("contactAdmin")} >
 										{translate.mail_contact_admin}									
