@@ -13,7 +13,7 @@ import { getDefaultTagsByBlockType } from './utils';
 
 
 const Block = ({ expand, setExpand, company, translate, ...props }) => {
-    const [hoverFijo, setHoverFijo] = React.useState(false);
+    const [editMode, setEditMode] = React.useState(false);
     const [text, setText] = React.useState(props.column === 2? props.value.secondaryText : props.value.text);
     const [draftModal, setDraftModal] = React.useState(false);
     const editor = React.useRef();
@@ -35,11 +35,16 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
 
     const hoverAndSave = id => {
-        if (hoverFijo) {
+        if (editMode) {
             props.editBlock(id, text);
+        } else {
+            setTimeout(() => {
+                editor.current.rtEditor.focus();
+            }, 150);
         }
-        setHoverFijo(!hoverFijo)
+        setEditMode(!editMode);
     }
+
 
     if (props.value.hasOwnProperty('toggleable')) {
         return (
@@ -66,7 +71,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
     const renderEditor = () => {
         return (
             <RichTextInput
-                noBordes={true}
+                borderless={true}
                 ref={editor}
                 value={props.column === 2? props.value.secondaryText || '' : props.value.text || ''}
                 translate={translate}
@@ -96,7 +101,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
     return (
         <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%" }}>
-            <div style={{ display: "flex", fontSize: '19px', }}>
+            <div style={{ display: "flex", fontSize: '19px' }} >
                 <div style={{ color: getPrimary(), fontWeight: "bold", display: "flex", paddingRight: "1em", }}>
                     {props.value.icon ?
                         <React.Fragment>
@@ -132,8 +137,8 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     </React.Fragment>
                 </Collapse>
                 :
-                hoverFijo ?
-                    <div style={{ marginTop: "1em", cursor: "default" }} className="editorText" >
+                editMode ?
+                    <div style={{ marginTop: "1em", cursor: "default" }} className="editorText">
                         {renderEditor()}
                     </div>
                     :
@@ -149,7 +154,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 {props.value.editButton &&
                     <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id, text)}>
                         {/* onClick={props.updateCouncilActa} */}
-                        {hoverFijo ?
+                        {editMode ?
                             translate.accept
                             :
                             translate.edit

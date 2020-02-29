@@ -406,6 +406,10 @@ export const shouldCancelStart = event => {
         return true
     }
 
+    if(event.target.className === 'ql-editor ql-blank'){
+        return true;
+    }
+
     if (tagName === 'button' ||
         tagName === 'span' ||
         tagName === 'polyline' ||
