@@ -16,7 +16,6 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     const [existingProxy, setExistingProxy] = React.useState(null);
     const signatureContainer = React.useRef();
     const [signed, setSigned] = React.useState(false);
-    const primary = getPrimary();
     const signaturePreview = React.useRef();
     const secondary = getSecondary();
     const [canvasSize, setCanvasSize] = React.useState({
@@ -41,16 +40,17 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
         });
         if(response.data.proxy && (delegation && response.data.proxy.delegateId === delegation.id)){
             setExistingProxy(response.data.proxy);
+            setSigned(true);
             signature.current.fromDataURL(response.data.proxy.signature);
             signaturePreview.current.fromDataURL(response.data.proxy.signature);
         }
     }, [participant.id]);
 
     React.useEffect(() => {
-        if(open && !existingProxy){
+        if(open){
             getProxy();
         }
-    }, [getProxy, open, existingProxy]);
+    }, [getProxy, open]);
 
 	React.useEffect(() => {
 		let timeout = setTimeout(() => {
@@ -125,7 +125,6 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     }
 
     const disableSendButton = () => {
-        console.log(existingProxy, delegation);
         return existingProxy && (delegation && existingProxy.delegateId === delegation.id);
     }
 
