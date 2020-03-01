@@ -39,7 +39,7 @@ export const translations = {
         title: 'Title',
         votersList: 'Voter list',
         votes: 'Votes',
-        votings: 'Votacions'
+        votings: 'Votings'
     },
     'cat': {
         abstentions: 'Abstencions',
