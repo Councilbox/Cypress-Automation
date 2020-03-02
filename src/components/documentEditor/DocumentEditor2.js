@@ -345,12 +345,12 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             }
                                         </div>
                                         <div style={{ width: "100%" }}>
-                                            <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                                                <div style={{ marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                                                    <img style={{ width: "auto", maxHeight: '3em' }} src={company.logo}></img>
+                                            <div style={{ width: "100%"}}>
+                                                <div style={{ marginTop: "1em", marginRight: "4em", maxWidth: "125px", float: 'right' }}>
+                                                    <img style={{ width: "auto", maxHeight: '3em', float: 'right' }} src={company.logo}></img>
                                                 </div>
                                             </div>
-                                            <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
+                                            <div style={{ padding: "1em", clear: 'both', paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
                                                 <SortableList
                                                     axis={"y"}
                                                     lockAxis={"y"}
@@ -380,7 +380,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                     </div>
                 </div>
             </div>
-        </React.Fragment >
+        </React.Fragment>
     )
 }
 
