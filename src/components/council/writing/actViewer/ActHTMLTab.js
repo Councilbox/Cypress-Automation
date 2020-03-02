@@ -75,7 +75,7 @@ const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => 
 							preview={data.councilAct.emailAct}
 							loading={false}
 							company={company}
-							options={data.councilAct.document.options}
+							options={data.councilAct.document? data.councilAct.document.options : { stamp: true }}
 						/>
 					</div>
 				}
