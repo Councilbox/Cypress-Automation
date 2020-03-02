@@ -986,6 +986,10 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		attendants: {
 			value: '{{attendants}}',
 			label: translate.census_type_assistants
+		},
+		delegations: {
+			value: '{{delegations}}',
+			label: translate.delegations
 		}
 	}
 
@@ -1030,6 +1034,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.governingBody,
 			smartTags.president,
 			smartTags.secretary,
+			smartTags.attendants,
+			smartTags.delegations,
 			smartTags.numPresentOrRemote,
 			smartTags.numRepresented,
 			smartTags.numParticipants,
@@ -1050,6 +1056,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.city,
 			smartTags.dateRealStart,
 			smartTags.now,
+			smartTags.attendants,
+			smartTags.delegations,
 			smartTags.numPresentOrRemote,
 			smartTags.numRepresented,
 			smartTags.numParticipants,
