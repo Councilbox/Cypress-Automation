@@ -9,7 +9,7 @@ import { bHistory } from "../containers/App";
 import { isMobile } from "react-device-detect";
 
 
-const CardPageLayout = ({ children, title, footer, windowSize, inFinish, stylesNoScroll, avatar, disableScroll = false }) => {
+const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false }) => {
 
 	const goBack = () => {
 		bHistory.goBack();
@@ -60,66 +60,26 @@ const CardPageLayout = ({ children, title, footer, windowSize, inFinish, stylesN
 					// justifyContent: "center",
 					// alignItems: "center"
 				}}>
-					<div style={{ cursor: "pointer" }} onClick={goBack}>
+					<div style={{ cursor: "pointer", visibility: title? 'visible' : 'hidden' }} onClick={goBack}>
 						<i className="fa fa-angle-left" ></i>
-						<span style={{ fontStyle: "normal", marginRight: "2px", marginLeft: "5px" }}>
+						<span style={{ fontStyle: "normal", marginRight: "8px", marginLeft: "5px" }}>
 							|
 						</span>
 					</div>
-					{/* <div style={{ display: "flex", alignItems: 'center', justifyContent: "center" }}>
-						<i className="material-icons" style={{ fontSize: "25px" }} > class </i>
-					</div> */}
-					{avatar &&
+					{(title && avatar) &&
 						<div style={{ display: "flex", alignItems: 'center', justifyContent: "center" }}>
 							<Avatar src={avatar} alt="Foto" style={{ border: "1px solid" + getPrimary(), }} />
 						</div>
 					}
 					<div>
-						{title}
-				{!inFinish &&
-					<div
-						style={{
-							background: `linear-gradient(60deg, ${'#8d4893'}, ${getPrimary()})`, //
-							boxShadow:
-								"0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2)",
-							color: "white",
-							width: windowSize !== "xs" ? "15%" : "calc(100% - 2em)",
-							// width: windowSize !== "xs" ? "30%" : "calc(100% - 2em)",
-							maxWidth: "calc(100% - 6em)",
-							overflow: 'hidden',
-							whiteSpace: 'nowrap',
-							textOverflow: 'ellipsis',
-							verticalAlign: "middle",
-							padding: windowSize !== "xs" ? "0.5em" : "0.2em",
-							height: windowSize !== "xs" ? "2.8em" : "2em",
-							// height: windowSize !== "xs" ? "2.6em" : "2em",
-							zIndex: "20",
-							marginLeft:
-								windowSize !== "xs"
-									? windowSize === "xl"
-										? "8%"
-										: "3em"
-									: "1em",
-							marginRight: windowSize !== "xs" && "1em",
-							position: "relative",
-							borderRadius: "3px",
-							fontWeight: "800",
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center"
-						}}
-						className="align-middle"
-					>
-						<div>
-							{title}
-						</div>
+						{title || ''}
 					</div>
-				}
+				</div>
 				<Paper
 					style={{
 						height:
 							windowSize !== "xs"
-								? inFinish ? "100%" : "calc(100% - 2em)"
+								? "calc(100% - 2em)"
 								: "calc(100% - 1.5em)",
 						backgroundColor: "white",
 						borderRadius: "3px",
@@ -140,7 +100,7 @@ const CardPageLayout = ({ children, title, footer, windowSize, inFinish, stylesN
 							position: "relative",
 							overflow: "hidden",
 							height: "100%",
-							paddingTop: isMobile ? "4em" : "6em"
+							paddingTop: title? isMobile ? "4em" : "6em" : '0.6em'
 						}}
 					>
 						{!disableScroll && (
@@ -188,7 +148,7 @@ const CardPageLayout = ({ children, title, footer, windowSize, inFinish, stylesN
 				</Paper>
 			</div>
 			<CBXFooter />
-		</div >
+		</div>
 	);
 }
 
