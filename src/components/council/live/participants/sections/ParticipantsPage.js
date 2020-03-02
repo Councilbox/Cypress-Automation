@@ -12,7 +12,6 @@ import {
 	TextInput
 } from "../../../../../displayComponents";
 import { Tooltip } from 'material-ui';
-import { isMobile } from 'react-device-detect';
 import { getSecondary } from "../../../../../styles/colors";
 import withWindowSize from "../../../../../HOCs/withWindowSize";
 import ParticipantsList from "../ParticipantsList";
@@ -23,11 +22,16 @@ import AttendanceHeader from './AttendanceHeader';
 import CredentialsHeader from './CredentialsHeader';
 import ConveneHeader from './ConveneHeader';
 import RefreshCredsSendsButton from "../RefreshCredsSendsButton";
+import QRSearchModal from "./QRSearchModal";
+import { ConfigContext } from "../../../../../containers/AppControl";
+import { isMobile } from "../../../../../utils/screen";
 
 
 const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {
 	const [addGuest, setAddGuest] = React.useState(false);
+	const [QRModal, setQRModal] = React.useState(false);
 	const secondary = getSecondary();
+	const config = React.useContext(ConfigContext);
 
 	const _getFilters = () => {
 		return [
@@ -187,6 +191,32 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 							translate={translate}
 							selectedChar={filters.charFilter}
 						/>
+					}
+					{(config.quickAccess && council.councilType < 2) &&
+						<React.Fragment>
+							<QRSearchModal
+								open={QRModal}
+								translate={translate}
+								council={council}
+								requestClose={() => setQRModal(false)}
+							/>
+							<div
+								style={{
+									height: '100%',
+									display: 'flex',
+									padding: '0.6em',
+									marginRight: '1em',
+									alignItems: 'center',
+									justifyContent: 'center',
+									border: '1px solid gainsboro',
+									cursor: 'pointer'
+								}}
+								className="withShadow"
+								onClick={() => setQRModal(true)}
+							>
+								<i className="fa fa-qrcode" aria-hidden="true" style={{fontSize: '2em', marginLeft: '5px', color: secondary}}></i>
+							</div>
+						</React.Fragment>
 					}
 					<div
 						style={{

@@ -1,20 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { TabsScreen, FabButton, Icon, CBXFooter, CardPageLayout, Scrollbar, Grid, PaginationFooter } from "../displayComponents";
-import { Tooltip, Avatar } from 'material-ui';
+import { FabButton, Icon, CardPageLayout } from "../displayComponents";
+import { Tooltip } from 'material-ui';
 import Councils from "../components/dashboard/Councils";
-import { lightGrey, getPrimary } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
 import { bHistory } from '../containers/App';
 import { TRIAL_DAYS } from "../config";
 import { trialDaysLeft } from "../utils/CBX";
 import { moment } from "./App";
-import { isLandscape } from '../utils/screen';
-import { isMobile } from 'react-device-detect';
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
 import { sendGAevent } from "../utils/analytics";
-import MenuSuperiorTabs from "../components/dashboard/MenuSuperiorTabs";
+import { isMobile } from "../utils/screen";
 
 
 const CouncilContainer = ({ match, company, translate, windowSize }) => {

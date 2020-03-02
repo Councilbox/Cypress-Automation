@@ -1,8 +1,7 @@
 import React from "react";
 import { compose, graphql } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
-import { isLandscape } from "../../../../utils/screen";
-import { isMobile } from 'react-device-detect';
+import { isLandscape, isMobile } from "../../../../utils/screen";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
 	Typography,
@@ -29,13 +28,12 @@ import withWindowSize from '../../../../HOCs/withWindowSize';
 import ParticipantStateSelector from "./ParticipantStateSelector";
 import ParticipantStateList from "./ParticipantStateList";
 import NotificationsTable from "../../../notifications/NotificationsTable";
-import { changeParticipantState } from "../../../../queries/liveParticipant";
 import StateIcon from "./StateIcon";
 import TypeIcon from "./TypeIcon";
 import ParticipantSelectActions from "./ParticipantSelectActions";
 import DownloadCBXDataButton from "../../prepare/DownloadCBXDataButton";
 import ResendCredentialsModal from "./modals/ResendCredentialsModal";
-import { PARTICIPANT_STATES, PARTICIPANT_ERRORS, PARTICIPANT_TYPE } from "../../../../constants";
+import { PARTICIPANT_STATES } from "../../../../constants";
 import { useOldState, useHoverRow } from "../../../../hooks";
 import SignatureButton from "./SignatureButton";
 import { client } from "../../../../containers/App";

@@ -11,7 +11,7 @@ import {
 	CardPageLayout,
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
-import { Avatar, Icon, Card, CardActions, Button, CardContent } from "material-ui";
+import { Icon, Card, CardActions, Button, CardContent } from "material-ui";
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { withApollo } from "react-apollo";
@@ -19,7 +19,7 @@ import withSharedProps from "../../../HOCs/withSharedProps";
 import NewCompanyPage from "../../company/new/NewCompanyPage";
 import RemoveCompany from './RemoveCompany';
 import DeleteCompany from './DeleteCompany';
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../utils/screen";
 
 
 const TablaCompanies = ({ client, translate, company, match }) => {

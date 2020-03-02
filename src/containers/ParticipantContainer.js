@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { graphql, withApollo, compose } from "react-apollo";
+import { withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { store } from './App';
 import { setDetectRTC } from '../actions/mainActions';
@@ -14,10 +14,8 @@ import Council from '../components/participant/council/Council';
 import Meet from '../components/participant/meet/Meet';
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
-import { checkSecondDateAfterFirst } from "../utils/CBX";
 import { shouldLoadSubdomain } from "../utils/subdomain";
 import withTranslations from "../HOCs/withTranslations";
-import CouncilState from "../components/participant/login/CouncilState";
 import { usePolling } from "../hooks";
 
 
@@ -81,22 +79,26 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 			query: participantQuery
 		});
 
-		setData(response.data);
+		if(response.errors){
+			setData(response);
+		} else {
+			setData(response.data);
+		}
 	}
 	usePolling(getData, 10000);
 
 
 	React.useEffect(() => {
 		store.dispatch(setDetectRTC());
-	}, [])
+	}, []);
 
 	if(!data || !council || !state){
 		return <LoadingMainApp />;
 	}
 
 
-	if (data.error && data.error.graphQLErrors["0"]) {
-		const code = data.error.graphQLErrors["0"].code;
+	if (data.errors && data.errors[0]) {
+		const code = data.errors[0].code;
 		if (
 			code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
 			code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||

@@ -12,10 +12,12 @@ export const setAssistanceIntention = gql`
 	mutation setAssistanceIntention(
 		$assistanceIntention: Int!
 		$representativeId: Int
+		$signature: String
 	) {
 		setAssistanceIntention(
 			assistanceIntention: $assistanceIntention
 			representativeId: $representativeId
+			proxySignature: $signature
 		) {
 			success
 		}

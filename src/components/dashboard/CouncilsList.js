@@ -9,10 +9,10 @@ import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
-import { isMobile } from 'react-device-detect';
 import { Card } from 'material-ui';
 import { sendGAevent } from '../../utils/analytics';
 import { useHoverRow } from '../../hooks';
+import { isMobile } from '../../utils/screen';
 
 const CouncilsList = ({ councils, translate, openDeleteModal, company, link, selectedIds, ...props }) => {
     const [open, setOpen] = React.useState(false);

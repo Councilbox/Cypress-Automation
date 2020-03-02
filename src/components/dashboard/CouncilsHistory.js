@@ -9,7 +9,7 @@ import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../utils/screen';
 
 const generateLink = (council, company) => {
     return `/company/${company.id}/council/${council.id}/finished`;

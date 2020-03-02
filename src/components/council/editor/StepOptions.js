@@ -124,12 +124,14 @@ const StepOptions = ({ translate, data, ...props }) => {
 			data: {
 				council: {
 					...state.data.council,
-					...data
+					...data,
+					...(!config.video? {
+						councilType: 1
+					} : {})
 				}
 			}
 		});
 	}
-
 
 	const nextPage = async () => {
 		if (!checkRequiredFields()) {
@@ -156,6 +158,7 @@ const StepOptions = ({ translate, data, ...props }) => {
 					/>
 					<Checkbox
 						label={translate.room_video_broadcast}
+						disabled={!config.video}
 						value={council.councilType === 0}
 						onChange={(event, isInputChecked) =>
 							updateCouncilData({

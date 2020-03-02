@@ -2,7 +2,6 @@ import React from "react";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { TableCell, TableRow, Card } from "material-ui";
 import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm } from "../../../../displayComponents";
-import { isMobile } from 'react-device-detect';
 import * as CBX from '../../../../utils/CBX';
 import { compose, graphql } from "react-apollo";
 import { censusParticipants } from "../../../../queries/census";
@@ -11,6 +10,7 @@ import AddCensusParticipantButton from "./modals/AddCensusParticipantButton";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import CensusParticipantEditor from "./modals/CensusParticipantEditor";
 import ImportCensusExcel from '../ImportCensusExcel';
+import { isMobile } from "../../../../utils/screen";
 
 class CensusParticipants extends React.Component {
 	state = {

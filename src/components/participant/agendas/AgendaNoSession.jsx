@@ -6,7 +6,6 @@ import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
 import { getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
-import { isMobile } from "react-device-detect";
 import TimelineSection from "../timeline/TimelineSection";
 import * as CBX from '../../../utils/CBX';
 import { withApollo } from 'react-apollo';
@@ -17,6 +16,8 @@ import { logoutParticipant } from "../../../actions/mainActions";
 import { updateCustomPointVoting } from "./CustomPointVotingMenu";
 import FinishModal from "./FinishModal";
 import Results from "../Results";
+import ResultsTimeline from "../ResultsTimeline";
+import { isMobile } from "../../../utils/screen";
 
 
 export const VotingContext = React.createContext({});
@@ -324,41 +325,42 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                 />
                             </div>
                         }
-                        <Scrollbar ref={scrollbar}>
-                            {!councilStarted(council) &&
-                                <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-                                    {translate.council_not_started_yet}
-                                </div>
-                            }
-                            <div style={{ marginTop: '20px', marginBottom: '5rem', }}>
-                                {data.agendas ?
-                                    props.timeline ? (
-                                        <TimelineSection
-                                            timelineSeeId={timelineSeeId}
-                                            council={council}
-                                            scrollToBottom={scrollToBottom}
-                                            councilTimeline={data.councilTimeline}
-                                            isMobile={isMobile}
-                                        />
-                                    ) : (
-                                            <React.Fragment>
-                                                {agendas.map((agenda, index) => {
-                                                // agenda.options =  {
-                                                //     maxSelections: 2,
-                                                //     id: 140
-                                                // }
-                                                return (
-                                                    <React.Fragment key={`agenda_card_${index}`}>
-                                                        {renderAgendaCard(agenda)}
-                                                    </React.Fragment>
-                                                )})}
-                                            </React.Fragment>
-                                        )
-                                    :
-                                    <LoadingSection />
-                                }
+                        {props.timeline? (
+                            <div style={{height: '100%', paddingBottom: '3em'}}>
+                                <ResultsTimeline
+                                    council={council}
+                                    participant={participant}
+                                    translate={translate}
+                                    endPage={true}
+                                />
                             </div>
-                        </Scrollbar>
+                        ): (
+                            <Scrollbar ref={scrollbar}>
+                                {!councilStarted(council) &&
+                                    <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+                                        {translate.council_not_started_yet}
+                                    </div>
+                                }
+                                <div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
+                                    {data.agendas?
+                                        <React.Fragment>
+                                            {agendas.map((agenda, index) => {
+                                            // agenda.options =  {
+                                            //     maxSelections: 2,
+                                            //     id: 140
+                                            // }
+                                            return (
+                                                <React.Fragment key={`agenda_card_${index}`}>
+                                                    {renderAgendaCard(agenda)}
+                                                </React.Fragment>
+                                            )})}
+                                        </React.Fragment>
+                                    :
+                                        <LoadingSection />
+                                    }
+                                </div>
+                            </Scrollbar>
+                        )}
                     </div>
                 </Paper>
                 {!noSession &&

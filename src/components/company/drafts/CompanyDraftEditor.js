@@ -17,7 +17,8 @@ import { getPrimary } from "../../../styles/colors";
 import { sendGAevent } from "../../../utils/analytics";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { bHistory } from "../../../containers/App";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../utils/screen";
+
 
 
 const CompanyDraftEditor = ({ translate, client, ...props }) => {

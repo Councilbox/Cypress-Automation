@@ -4,14 +4,14 @@ import CompanyDraftList, { useTags } from './CompanyDraftList';
 import CompanyTags from './companyTags/CompanyTags';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../utils/screen';
 import { Icon, Table, TableRow, TableCell } from 'material-ui';
 import { DropdownEtiquetas } from './LoadDraft';
 import { DRAFTS_LIMITS } from '../../../constants';
 import { companyDrafts as query, deleteDraft, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts.js";
 import { withApollo } from 'react-apollo';
-import { getPrimary, primary, getSecondary } from '../../../styles/colors';
 import folder from '../../../assets/img/folder.png';
+import { getPrimary, primary, getSecondary } from '../../../styles/colors';
 import group from '../../../assets/img/group-2.png';
 import upload from '../../../assets/img/upload.png';
 
@@ -299,7 +299,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
                     <div style={{ width: '100%', height: '100%', padding: '1em' }}><CompanyTags /></div>
                 }
             </div>
-        </CardPageLayout >
+        </CardPageLayout>
     )
 }
 

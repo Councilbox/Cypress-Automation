@@ -15,7 +15,8 @@ import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from "../../
 import { checkValidEmail } from "../../../utils";
 import { downloadFile } from "../../../utils/CBX";
 import FontAwesome from 'react-fontawesome';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../../../utils/screen";
+
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 

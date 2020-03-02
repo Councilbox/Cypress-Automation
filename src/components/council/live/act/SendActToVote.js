@@ -1,14 +1,13 @@
 import React from "react";
-import {
-	AlertConfirm,
-	Scrollbar,
-} from "../../../../displayComponents";
+import { AlertConfirm } from "../../../../displayComponents";
 import { compose, graphql } from "react-apollo";
 import { sendActToVote, openAgendaVoting } from '../../../../queries';
-import ActHTML from "../../writing/actViewer/ActHTML";
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import DocumentPreview from "../../../documentEditor/DocumentPreview";
 
 
-const SendActToVote = ({ requestClose, translate, agenda, council, refetch, ...props }) => {
+const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, refetch, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const close = () => {
@@ -17,27 +16,30 @@ const SendActToVote = ({ requestClose, translate, agenda, council, refetch, ...p
 
 	const sendActToVote = async () => {
 		setLoading(true);
+		await updateAct();
 		const response = await props.openAgendaVoting({
 			variables: {
 				agendaId: agenda.id
 			}
 		});
+
 		if (response) {
-			setLoading(false);
-			refetch();
+			await refetch();
 		}
+		setLoading(false);
+
 	}
 
 	const _modalBody = () => {
-        return (
-			<div style={{width: '650px', maxHeight: '75vh', height: '40em'}}>
-				<Scrollbar>
-					{props.show &&
-						<ActHTML
-							council={council}
-						/>
-					}
-				</Scrollbar>
+		return (
+			<div style={{marginTop: '12px', height: '100%', border: '1px solid gainsboro'}}>
+				<DocumentPreview
+					translate={translate}
+					options={props.options}
+					doc={props.doc}
+					generatePreview={props.generatePreview}
+					company={props.company}
+				/>
 			</div>
 		);
 	}

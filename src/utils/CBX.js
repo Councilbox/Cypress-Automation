@@ -93,6 +93,28 @@ export const showAgendaVotingsTable = agenda => {
 	)
 }
 
+export const getAgendaResult = (agenda, type) => {
+	const totalVotes = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
+	const types = {
+		POSITIVE: `${agenda.positiveVotings + agenda.positiveManual} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (totalVotes))}%)`,
+		NEGATIVE: `${agenda.negativeVotings + agenda.negativeManual} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (totalVotes))}%)`,
+		ABSTENTION: `${agenda.abstentionVotings + agenda.abstentionManual} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (totalVotes))}%)`,
+		NO_VOTE: `${agenda.noVoteVotings + agenda.noVoteManual} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`
+	}
+
+	return types[type];
+};
+
+export const getPercentage = (num, total) => {
+    let percentage = ((num * 100) / (total)).toFixed(3);
+    let zero = 0;
+    if (isNaN(percentage)) {
+        return zero.toFixed(3)
+    } else {
+        return percentage;
+    }
+}
+
 export const userCanCreateCompany = (user, companies) => {
 	if (user.actived === USER_ACTIVATIONS.FREE_TRIAL) {
 		if (companies) {
@@ -539,6 +561,29 @@ export const generateAgendaText = (translate, agenda) => {
 	return agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '');
 }
 
+export const buildDelegationsString = (delegated, council, translate) => {
+	if(!delegated || delegated.length === 0){
+		return '';
+	}
+
+	const texts = {
+		es: 'titular de',
+		en: 'owner of',
+		gal: 'dono de',
+		cat: 'con',
+		pt: 'proprietário de'
+	}
+
+	return delegated.reduce((acc, vote) => {
+		return acc + `<p style="border: 1px solid black; padding: 5px;">-${
+			vote.name} ${
+			vote.surname} ${texts[council.language]} ${vote.numParticipations} ${
+				council.quorumPrototype === 1? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
+			translate.delegates.toLowerCase()} ${
+			vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} </p><br/>`
+	},  '');
+}
+
 
 export const buildAttendantsString = (council, total) => (acc, curr, index) => {
 	if(!hasParticipations(council)){
@@ -690,6 +735,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{percentageSCTotal}}/g, `${data.council.percentageSCTotal}%`);
 	text = text.replace(/{{numParticipationsPresent}}/g, data.council.numParticipationsPresent);
 	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
+	text = text.replace(/{{delegations}}/, buildDelegationsString(data.council.delegatedVotes, data.council, translate));
 
 
 	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
@@ -940,6 +986,10 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		attendants: {
 			value: '{{attendants}}',
 			label: translate.census_type_assistants
+		},
+		delegations: {
+			value: '{{delegations}}',
+			label: translate.delegations
 		}
 	}
 
@@ -984,6 +1034,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.governingBody,
 			smartTags.president,
 			smartTags.secretary,
+			smartTags.attendants,
+			smartTags.delegations,
 			smartTags.numPresentOrRemote,
 			smartTags.numRepresented,
 			smartTags.numParticipants,
@@ -1004,6 +1056,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.city,
 			smartTags.dateRealStart,
 			smartTags.now,
+			smartTags.attendants,
+			smartTags.delegations,
 			smartTags.numPresentOrRemote,
 			smartTags.numRepresented,
 			smartTags.numParticipants,

@@ -1,11 +1,10 @@
 import React from "react";
 import { getPrimary } from "../../styles/colors";
-import { isMobile } from "react-device-detect";
 import { MenuItem } from "material-ui";
 import { SelectInput } from "../../displayComponents";
+import { isMobile } from "../../utils/screen";
 
-
-const MenuSuperiorTabs = ({ items, setSelect, selected }) => {
+const MenuSuperiorTabs = ({ items, setSelect, translate, selected }) => {
 	const set = item => {
 		setSelect(item);
 	}

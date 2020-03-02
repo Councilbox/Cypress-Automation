@@ -19,7 +19,6 @@ import {
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { Card, Collapse, IconButton, Icon, CardActions, CardContent, CardHeader, withStyles } from 'material-ui';
-import { isMobile } from 'react-device-detect';
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from "../../../constants";
@@ -32,6 +31,7 @@ import SelectedTag from "./draftTags/SelectedTag.js";
 import withWindowSize from "../../../HOCs/withWindowSize.js";
 import { DropdownEtiquetas } from "./LoadDraft.js";
 import { buildTagColumns, formatLabelFromName } from "../../../utils/templateTags.js";
+import { isMobile } from "../../../utils/screen.js";
 
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 

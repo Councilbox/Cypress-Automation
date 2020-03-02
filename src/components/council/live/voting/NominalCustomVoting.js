@@ -2,7 +2,7 @@ import React from 'react';
 import { AlertConfirm, BasicButton } from "../../../../displayComponents";
 import { getSecondary } from "../../../../styles/colors";
 import CustomPointVotingMenu from '../../../participant/agendas/CustomPointVotingMenu';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
 
 const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council, ...props }) => {
     const [modal, setModal] = React.useState(false);

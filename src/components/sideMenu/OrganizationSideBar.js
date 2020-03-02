@@ -12,14 +12,12 @@ import sidebarStyleLite from "../../styles/sidebarStyleLite";
 import { Link } from '../../displayComponents';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { getSecondary, darkGrey } from "../../styles/colors";
-import { isLandscape } from "../../utils/screen";
-import { isMobile } from 'react-device-detect';
+import { isLandscape, isMobile } from "../../utils/screen";
 import CompanyMenu from "../sideMenu/CompanyMenu";
 import FontAwesome from "react-fontawesome";
 import LateralMenuOptions from "../dashboard/LateralMenuOptions";
-import contactSuport from "../../../src/assets/img/contact-support.svg"
-import plantillasIcon from "../../../src/assets/img/plantillasIcon.svg"
-import entidadesIcon from "../../../src/assets/img/shape.svg"
+import plantillasIcon from "../../../src/assets/img/plantillasIcon.svg";
+import entidadesIcon from "../../../src/assets/img/shape.svg";
 
 // contact-support.svg
 

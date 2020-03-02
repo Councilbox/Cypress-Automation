@@ -22,9 +22,9 @@ import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
 import { Tooltip, MenuItem } from "material-ui";
 import { isPresentVote, agendaVotingsOpened, isCustomPoint } from "../../../../utils/CBX";
-import { isMobile } from 'react-device-detect';
 import PropTypes from "prop-types";
 import NominalCustomVoting, { DisplayVoting } from './NominalCustomVoting';
+import { isMobile } from '../../../../utils/screen';
 
 
 let timeout = null;
@@ -436,8 +436,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 											{renderParticipantInfo(vote)}
 										</TableCell>
 										<TableCell>
-											{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED) &&
+											{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED)?
 												(vote.numParticipations > 0 ? `${vote.numParticipations}` : 0)
+											:
+												vote.authorRepresentative.numParticipations > 0? vote.authorRepresentative.numParticipations : '-'
 											}
 
 											<React.Fragment>
@@ -667,7 +669,7 @@ const setAllPresentVotingsMutation = gql`
 
 const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 	name: 'setAllPresentVotings'
-})(({ agenda, setAllPresentVotings, refetch }) => {
+})(({ agenda, setAllPresentVotings, refetch, translate }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const setAllPresents = async vote => {
@@ -685,26 +687,25 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 		setLoading(false);
 	}
 
-	//TRADUCCION
 	return (
 		<DropDownMenu
 			color="transparent"
 			Component={() =>
 				<div style={{ cursor: 'pointer' }}>
-					Marcar presentes como: {loading && <LoadingSection size={10} />}
+					{translate.set_presents_as}: {loading && <LoadingSection size={10} />}
 				</div>
 			}
 			type="flat"
 			items={
 				<React.Fragment>
 					<MenuItem onClick={() => setAllPresents(VOTE_VALUES.POSITIVE)}>
-						A favor
+						{translate.in_favor_btn}
 					</MenuItem>
 					<MenuItem onClick={() => setAllPresents(VOTE_VALUES.NEGATIVE)}>
-						En contra
+						{translate.against_btn}
 					</MenuItem>
 					<MenuItem onClick={() => setAllPresents(VOTE_VALUES.ABSTENTION)}>
-						Abstención
+						{translate.abstention_btn}
 					</MenuItem>
 				</React.Fragment>
 			}

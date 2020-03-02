@@ -44,6 +44,7 @@ export const getMe = gql`
 			surname
 			id
 			type
+			accessLimitedTo
 			actived
 			roles
 			phone
@@ -130,15 +131,6 @@ export const downloadCertificate = gql`
 	}
 `;
 
-export const createCertificate = gql`
-	mutation CreateCertificate($certificate: CertificateInput, $points: [Int]) {
-		createCertificate(certificate: $certificate, points: $points) {
-			success
-			message
-		}
-	}
-`;
-
 export const councilCertificates = gql`
 	query CouncilCertificates($councilId: Int!) {
 		councilCertificates(councilId: $councilId) {
@@ -169,6 +161,7 @@ export const councilActEmail = gql`
 	query CouncilActEmail($councilId: String!) {
 		councilAct(councilId: $councilId) {
 			emailAct
+			document
 			type
 		}
 	}
@@ -768,6 +761,7 @@ export const statutes = gql`
 			conveneHeader
 			conveneFooter
 			censusId
+			requireProxy
 			quorumPrototype
 			existsComments
 			firstCallQuorumDivider
@@ -1239,6 +1233,7 @@ export const councilDetails = gql`
 				existsSecondCall
 				minimumSeparationBetweenCall
 				canEditConvene
+				requireProxy
 				firstCallQuorumType
 				firstCallQuorum
 				firstCallQuorumDivider

@@ -49,6 +49,7 @@ a:hover {
 
 .scrollbarFix {
     margin-right: -17px;
+    scroll-behavior: smooth;
 }
 
 .hoverShadow:hover {
@@ -81,6 +82,7 @@ a:hover {
 .Scrollbar>div:first-child {
     margin-right: -17px !important;
     margin-bottom: -17px !important;
+    scroll-behavior: smooth;
 }
 
 h4 {
@@ -753,6 +755,12 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .drawerConvene {
     top: 44px!important;
 }
+.borderless-text-editor .ql-toolbar {
+    border: 1px solid transparent!important;
+}
+.borderless-text-editor .ql-container {
+    border: 1px solid transparent!important;
+}
 
 /* Calendario dashboard */
 
@@ -945,3 +953,23 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .openInput div input:focus {
     width: 100%;
 }
+
+.quillEditorButtonsEmpty .ql-toolbar.ql-snow {
+    display: none;
+}
+
+.quillEditorButtonsEmpty .ql-container.ql-snow {
+    border: none;
+    border-radius: 3px;
+}
+
+.quillEditorButtonsEmpty .ql-container.ql-snow .ql-editor {
+    overflow-y: auto;
+}
+
+.qrEscaner section > div  {
+    border: 1px solid gainsboro!important;
+    border-radius: 27px;
+    box-shadow: none!important;
+}
+

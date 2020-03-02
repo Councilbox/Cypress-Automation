@@ -2,11 +2,10 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import DelegationsRestrictionModal from './DelegationsRestrictionModal';
-import { AlertConfirm, BasicButton, Checkbox, SectionTitle, ButtonIcon } from '../../../displayComponents';
-import { getPrimary, getSecondary } from '../../../styles/colors';
-import { Table, TableBody, TableCell, TableRow } from 'material-ui';
-import { TableHead, Card } from 'material-ui';
-import { isMobile } from 'react-device-detect';
+import { AlertConfirm, BasicButton, SectionTitle, ButtonIcon } from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
+import { Card } from 'material-ui';
+import { isMobile } from '../../../utils/screen';
 
 
 const councilDelegates = gql`
@@ -86,13 +85,12 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
     }
 
     const renderWarningText = () => {
-        //TRADUCCION
         return (
             <div>
                 {warningModal.id?
-                    <text>Si quita a <strong>{`${warningModal.name} ${warningModal.surname}`}</strong> de la lista se le borrarán todos las posibles delegaciones que tenga asignadas. ¿Continuar?</text>
+                    <text dangerouslySetInnerHTML={{__html: translate.remove_delegation_restriction_warning.replace('{{name}}', warningModal.name).replace('{{surname}}', warningModal.surname || '')}}></text>
                 :
-                    'Esta opción eliminará a los usuarios seleccionados y permitirá a todos los participantes recibir delegaciones.'//TRADUCCION
+                    translate.this_options_delete_delegation_restriction
                 }
             </div>
         )
@@ -139,7 +137,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
             return (
                 <div style={{ width: "100%", height: "100%" }}>
                     <SectionTitle
-                        text={'Pueden recibir delegaciones: ' /*TRADUCCION*/}
+                        text={`${translate.can_receive_delegations}: `}
                         color={primary}
                         style={{
                             marginTop: '1.6em'
@@ -167,7 +165,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                         border: `2px solid ${getPrimary()}`
                                     }}
                                     onClick={openSelectModal}
-                                    text={"Seleccionar"} //TRADUCCION
+                                    text={translate.select}
                                 >
                                 </BasicButton>
                                 {participants.length > 0 &&
@@ -190,7 +188,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                             boxShadow: "none"
                                         }}
                                         icon={<ButtonIcon type="people_alt" color={getPrimary()} />}
-                                        text={translate.all_plural} //TRADUCCION
+                                        text={translate.all_plural}
                                         onClick={() => {
                                             selectAll()
                                             setWarningModal(true);
@@ -243,7 +241,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
             return (
                 <div style={{ width: "100%", height: "100%" }}>
                     <SectionTitle
-                        text={'Pueden recibir delegaciones: ' /*TRADUCCION*/}
+                        text={`${translate.can_receive_delegations}: `}
                         color={primary}
                         style={{
                             marginTop: '1.6em'

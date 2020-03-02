@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput, Icon } from '../../displayComponents';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../utils/screen';
 
 
 class CouncilsFilters extends React.Component {

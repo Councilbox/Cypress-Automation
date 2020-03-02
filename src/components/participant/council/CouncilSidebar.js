@@ -3,11 +3,10 @@ import FontAwesome from "react-fontawesome";
 import FloatGroup from 'react-float-button';
 import { Grid, Button } from "material-ui";
 import { withApollo } from 'react-apollo';
-import TimelineSection from '../timeline/TimelineSection';
+import ResultsTimeline from '../ResultsTimeline';
 import gql from 'graphql-tag';
 import { darkGrey, secondary, primary, getSecondary } from '../../../styles/colors';
-import { AlertConfirm, Badge, Scrollbar } from '../../../displayComponents';
-import { isMobile } from 'react-device-detect';
+import { AlertConfirm, Badge } from '../../../displayComponents';
 import iconVoteInsert from '../../../../src/assets/img/dropping-vote-in-box2.svg';
 
 
@@ -28,7 +27,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     const scrollbar = React.useRef();
     const [modal, setModal] = React.useState(false);
     const prevAgendas = React.useRef(null);
-    const [votingsWarning, setVotingsWarning] = React.useState(checkAgendas());
+    const [votingsWarning, setVotingsWarning] = React.useState(null);
 
     const closeAll = () => {
         props.setContent(null);
@@ -104,7 +103,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     const renderVotingsWarning = () => {
         let hideEnterModal = props.modalContent === "agenda" ? true : false;
         return (
-            (votingsWarning.show && !hideEnterModal) && (
+            ((votingsWarning && votingsWarning.show) && !hideEnterModal) && (
                 <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
                     <div
                         onClick={selectAgenda}
@@ -385,14 +384,12 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                                 props.agenda
                             }
                             {props.modalContent === 'timeline' &&
-                                <Scrollbar ref={scrollbar}>
-                                    <TimelineSection
-                                        council={council}
-                                        translate={translate}
-                                        participant={participant}
-                                        scrollToBottom={scrollToBottom}
-                                    />
-                                </Scrollbar>
+                                <ResultsTimeline
+                                    council={council}
+                                    participant={participant}
+                                    translate={translate}
+                                    endPage={true}
+                                />
                             }
                         </div>
                     }

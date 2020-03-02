@@ -1,8 +1,7 @@
 import React from "react";
 import { compose, graphql } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
-import { isLandscape } from "../../../../utils/screen";
-import { isMobile } from 'react-device-detect';
+import { isLandscape, isMobile } from "../../../../utils/screen";
 import { getSecondary } from "../../../../styles/colors";
 import {
 	Typography,
@@ -411,7 +410,7 @@ const setMainRepresentative = gql`
 }`;
 
 
-const GrantVoteButton = ({ participant, representative, refetch }) => {
+const GrantVoteButton = ({ participant, representative, refetch, translate }) => {
 	const secondary = getSecondary();
 
 	const appointRepresentative = async () => {
@@ -430,7 +429,7 @@ const GrantVoteButton = ({ participant, representative, refetch }) => {
 
 	return (
 		<BasicButton
-			text="Otogar voto" //TRADUCCION
+			text={translate.grant_vote}
 			type="flat"
 			color="white"
 			textStyle={{ color: secondary }}

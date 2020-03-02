@@ -3,8 +3,9 @@ import FontAwesome from 'react-fontawesome';
 import { Tooltip } from 'material-ui';
 import { getPrimary } from '../../../../styles/colors';
 import { PARTICIPANT_STATES } from '../../../../constants';
+import DownloadParticipantProxy from '../../prepare/DownloadParticipantProxy';
 
-const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
+const AttendIntentionIcon = ({ participant, representative, council, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
     let tooltip = translate.not_confirmed_assistance;
     const iconStyle = {
         margin: "0.5em",
@@ -13,8 +14,11 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
     };
     let icon = <i className='fa fa-question' style={iconStyle}></i>;
 
-    if(participant.assistanceLastDateConfirmed){
-        switch(participant.assistanceIntention){
+    const confirmationDate = participant.state === PARTICIPANT_STATES.REPRESENTATED? representative.assistanceLastDateConfirmed : participant.assistanceLastDateConfirmed;
+    const intention = participant.state === PARTICIPANT_STATES.REPRESENTATED? representative.assistanceIntention : participant.assistanceIntention;
+
+    if(confirmationDate){
+        switch(intention){
             case PARTICIPANT_STATES.REMOTE:
                 tooltip = translate.remote_assistance_short;
                 icon = <i className='fa fa-globe' style={iconStyle}></i>;
@@ -31,8 +35,10 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
                 break;
 
             case PARTICIPANT_STATES.DELEGATED:
-                if(participant.representative){
+                if((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)){
                     tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname}`;
+                } else {
+                    tooltip = translate.will_delegate
                 }
                 icon = <i className='fa fa-users' style={iconStyle}></i>;
                 break;
@@ -47,7 +53,7 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
             <Tooltip title={tooltip}>
                 {icon}
             </Tooltip>
-            {!!participant.assistanceComment && showCommentIcon &&
+            {showCommentIcon &&
                 <FontAwesome
                     onClick={onCommentClick}
                     name={'comment'}
@@ -56,6 +62,13 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
                         color: color,
                         fontSize: size
                     }}
+                />
+            }
+            {council.statute.requireProxy === 1 && participant.delegationProxy &&
+                <DownloadParticipantProxy
+                    translate={translate}
+                    participantId={participant.id}
+                    participant={participant}
                 />
             }
         </div>

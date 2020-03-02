@@ -25,7 +25,8 @@ const BasicButton = ({
 	claseHover,
 	backgroundColor,
 	resetSuccess,
-	successSoloColor
+	successSoloColor,
+	iconInit
 }) => {
 
 	React.useEffect(() => {
@@ -59,6 +60,9 @@ const BasicButton = ({
 			fullWidth={fullWidth}
 			className={claseHover}
 		>
+			{iconInit &&
+			iconInit
+			}
 			{text}
 			{success ? (
 				successSoloColor ?

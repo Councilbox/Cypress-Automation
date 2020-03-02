@@ -14,9 +14,9 @@ import {
 } from "../../../../utils/validation";
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
 import { checkUniqueCouncilEmails, addConvenedParticipant } from "../../../../queries/councilParticipant";
-import { isMobile } from 'react-device-detect';
 import { useOldState } from "../../../../hooks";
 import withSharedProps from "../../../../HOCs/withSharedProps";
+import { isMobile } from "../../../../utils/screen";
 
 
 

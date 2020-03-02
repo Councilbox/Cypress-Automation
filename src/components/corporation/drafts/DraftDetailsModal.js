@@ -4,7 +4,7 @@ import { hasVotation, majorityNeedsInput, isMajorityFraction, isMajorityPercenta
 import { buildTagColumns, formatLabelFromName } from '../../../utils/templateTags';
 import SelectedTag from '../../company/drafts/draftTags/SelectedTag';
 import { getTagColor } from '../../company/drafts/draftTags/utils';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../utils/screen';
 
 const DraftDetailsModal = ({ draft, requestClose, translate, companyTypes, companyStatutes, draftTypes, votingTypes, majorityTypes }) => {    
     const getMajorityType = majorityType => {

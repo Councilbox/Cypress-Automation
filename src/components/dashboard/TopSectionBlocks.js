@@ -2,6 +2,7 @@ import React from "react";
 import {
 	Block,
 	Grid,
+	AlertConfirm,
 	GridItem
 } from "../../displayComponents";
 import logo from '../../assets/img/logo-icono.png';
@@ -13,6 +14,7 @@ import { moment } from "../../containers/App";
 
 const TopSectionBlocks = ({ translate, company, user }) => {
 	const [open, setOpen] = React.useState(false);
+	const [featureModal, setFeatureModal] = React.useState(false);
 	const config = React.useContext(ConfigContext);
 
 	const closeCouncilsModal = () => {
@@ -21,6 +23,14 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 
 	const showCouncilsModal = () => {
 		setOpen(true);
+	}
+
+	const showDeactivatedFeature = () => {
+		setFeatureModal(true);
+	}
+
+	const closeDeactivedFeature = () => {
+		setFeatureModal(false)
 	}
 
 	const companyHasBook = () => {
@@ -44,6 +54,15 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 				open={open}
 				requestClose={closeCouncilsModal}
 				translate={translate}
+			/>
+			<AlertConfirm
+				title={translate.warning}
+				bodyText={translate.disabled_feature}
+				requestClose={closeDeactivedFeature}
+				open={featureModal}
+				cancelAction={closeDeactivedFeature}
+				hideAccept
+				buttonCancel={translate.close}
 			/>
 			<GridItem xs={12} md={size} lg={size}>
 				<Block
@@ -100,6 +119,8 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 				<Block
 					link={`/company/${company.id}/meeting/new`}
 					icon="video_call"
+					disabled={!config.video}
+					disabledOnClick={showDeactivatedFeature}
 					id={'init-meeting-block'}
 					text={translate.start_conference}
 				/>

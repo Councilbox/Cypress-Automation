@@ -7,12 +7,10 @@ import Comments from './Comments';
 import RecountSection from './RecountSection';
 import Votings from "./Votings";
 import { AGENDA_TYPES } from '../../../constants';
-import { isMobile } from 'react-device-detect';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
-import { isLandscape } from '../../../utils/screen';
-
+import { isLandscape, isMobile } from '../../../utils/screen';
 
 const styles = theme => ({
     scrollable: {

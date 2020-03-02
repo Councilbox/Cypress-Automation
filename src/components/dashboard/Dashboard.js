@@ -2,14 +2,13 @@ import React from "react";
 import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
-import { Scrollbar, CBXFooter, CardPageLayout, LoadingMainApp } from '../../displayComponents';
+import { Scrollbar, CBXFooter, LoadingMainApp } from '../../displayComponents';
 import { moment, store } from '../../containers/App';
 import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft, showOrganizationDashboard } from '../../utils/CBX';
 import { addSpecificTranslations } from "../../actions/companyActions";
 import NewCompanyPage from "../company/new/NewCompanyPage";
 import NewUser from "../corporation/users/NewUser";
-import { isMobile } from "react-device-detect";
 import Loadable from 'react-loadable';
 import { ConfigContext } from "../../containers/AppControl";
 

@@ -568,16 +568,18 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							</SelectInput>
 						</GridItem>
 					}
-					<GridItem xs={12} md={12} lg={12}>
-						<TablaUsuarios
-							translate={translate}
-							client={client}
-							companyId={company.id}
-							companyTin={company.tin}
-							corporationId={company.corporationId}
-							unlinkCompany={props.unlinkCompany}
-						/>
-					</GridItem>
+					{props.root &&
+						<GridItem xs={12} md={12} lg={12}>
+							<TablaUsuarios
+								translate={translate}
+								client={client}
+								companyId={company.id}
+								companyTin={company.tin}
+								corporationId={company.corporationId}
+								unlinkCompany={props.unlinkCompany}
+							/>
+						</GridItem>
+					}
 				</Grid>
 				<br />
 				<div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -948,7 +950,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 							</div>
 							<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 								Últ.Conexión
-				</div>
+							</div>
 							<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 
 							</div>

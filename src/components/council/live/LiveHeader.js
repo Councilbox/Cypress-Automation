@@ -7,8 +7,11 @@ import logo from "../../../assets/img/logo.png";
 import icon from "../../../assets/img/logo-icono.png";
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { getCustomLogo, getCustomIcon } from "../../../utils/subdomain";
+import withSharedProps from "../../../HOCs/withSharedProps";
+import CouncilStateButton from "./menus/CouncilStateButton";
+import CouncilMenu from "./councilMenu/CouncilMenu";
 
-const LiveHeader = ({ councilName, translate, windowSize, participants, toggleScreens,}) => {
+const LiveHeader = ({ councilName, translate, windowSize, participants, user, toggleScreens, council, recount, refetch, ...props }) => {
 	const [showConfirm, setShowConfirm] = React.useState(false);
 	const primary = getPrimary();
 	const customLogo = getCustomLogo();
@@ -17,6 +20,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, toggleSc
 	const exitAction = () => {
 		bHistory.push("/");
 	}
+
 
 	return (
 		<React.Fragment>
@@ -35,81 +39,129 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, toggleSc
 					justifyContent: "space-between"
 				}}
 			>
-				<div > {/**style={{ width: "20%" }} */}
-					<img
-						src={windowSize !== "xs" ? customLogo? customLogo : logo : customIcon? customIcon : icon}
-						className="App-logo"
-						style={{
-							height: "1.5em",
-							marginLeft: "1em",
-							// marginLeft: "2em",
-							userSelect: 'none'
-						}}
-						alt="logo"
-					/>
-				</div>
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						maxWidth: '60%'
-					}}
-				>{/**style={{width: "35%",}} */}
-					<Tooltip title={councilName}>
+				<div style={{ display: "flex" }}>
+					{!user.accessLimitedTo ?
 						<div
 							style={{
-								textAlign: "center",
-								color: primary,
-								fontWeight: '700',
-								fontSize: '1.1em',
-								maxWidth: '100%'
+								display: "flex",
+								flexDirection: "row",
+								justifyContent: "flex-end",
+								paddingLeft: "2em",
+								alignItems: "center",
+								position: "relative"
 							}}
-							className="truncate"
 						>
-							{councilName}
+							<Icon
+								className="material-icons"
+								style={{
+									fontSize: "2em",
+									color: primary,
+									cursor: "pointer",
+									transform: 'rotate(-90deg)'
+								}}
+								onClick={() =>
+									setShowConfirm(true)
+								}
+							>
+								save_alt
+						</Icon>
+							<div style={{
+								background: "white",
+								width: '19px',
+								position: 'absolute',
+								height: '13px',
+								top: '8px',
+								left: '33px',
+							}}>
+							</div>
+							<Icon
+								className="material-icons"
+								style={{
+									fontSize: "2em",
+									color: primary,
+									cursor: "pointer",
+									position: "absolute",
+									left: "25px"
+								}}
+								onClick={() =>
+									setShowConfirm(true)
+								}
+							>
+								keyboard_backspace
+						</Icon>
+							<AlertConfirm
+								title={translate.exit}
+								bodyText={translate.exit_desc}
+								acceptAction={exitAction}
+								buttonCancel={translate.cancel}
+								buttonAccept={translate.accept}
+								open={showConfirm}
+								requestClose={() =>
+									setShowConfirm(false)
+								}
+							/>
 						</div>
-					</Tooltip>
+						:
+						<div style={{}} />
+					}
+					<div style={{ display: "flex", alignItems: "center" }} >
+						<img
+							src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
+							className="App-logo"
+							style={{
+								height: "1.5em",
+								marginLeft: "1em",
+								// marginLeft: "2em",
+								userSelect: 'none'
+							}}
+							alt="logo"
+						/>
+					</div>
 				</div>
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "flex-end",
-						paddingRight: "2em",
-						alignItems: "center"
-					}}
-				>{/**style={{width: "20%",}} */}
-					{/*<Icon
-				 className="material-icons"
-				 style={{fontSize: '1.5em', color: 'white'}}
-				 >
-				 help
-				 </Icon>*/}
-					<Icon
-						className="material-icons"
+				<div style={{ display: "flex", justifyContent: "center", flexGrow: 1 }}>
+					<div
 						style={{
-							fontSize: "1.5em",
-							color: primary,
-							cursor: "pointer"
+							display: 'flex',
+							justifyContent: 'center',
+							maxWidth: "90%"
 						}}
-						onClick={() =>
-							setShowConfirm(true)
-						}
 					>
-						exit_to_app
-					</Icon>
-					<AlertConfirm
-						title={translate.exit}
-						bodyText={translate.exit_desc}
-						acceptAction={exitAction}
-						buttonCancel={translate.cancel}
-						buttonAccept={translate.accept}
-						open={showConfirm}
-						requestClose={() =>
-							setShowConfirm(false)
-						}
-					/>
+						<Tooltip title={councilName}>
+							<div
+								style={{
+									textAlign: "center",
+									color: primary,
+									fontWeight: '300',
+									fontSize: '1.4em',
+									maxWidth: '57vw',
+									fontFamily: 'Lato'
+								}}
+								className="truncate"
+							>
+								{councilName}
+							</div>
+						</Tooltip>
+					</div>
 				</div>
+				<div style={{ display: "flex", paddingRight: "2em" }}>
+					<div style={{ marginRight: "1em" }}>
+						<CouncilMenu
+							council={council}
+							translate={translate}
+						/>
+					</div>
+					<div style={{}}>
+						<CouncilStateButton
+							council={council}
+							translate={translate}
+							participants={participants}
+							recount={recount}
+							// agendas={agendas}
+							refetch={refetch}
+						/>
+					</div>
+				</div>
+
 			</Paper>
 			<div
 				style={{
@@ -121,4 +173,4 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, toggleSc
 	);
 }
 
-export default withWindowSize(LiveHeader);
+export default withWindowSize(withSharedProps()(LiveHeader));

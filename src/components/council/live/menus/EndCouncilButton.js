@@ -3,9 +3,9 @@ import { graphql } from "react-apollo";
 import { endCouncil } from "../../../../queries/council";
 import { AlertConfirm, BasicButton, Icon } from "../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { AGENDA_STATES } from "../../../../constants";
 import { bHistory } from "../../../../containers/App";
-import { pointIsClosed } from "../../../../utils/CBX";
+import { isMobile } from "../../../../utils/screen";
+import { AGENDA_STATES } from "../../../../constants";
 
 class EndCouncilButton extends React.Component {
 
@@ -23,25 +23,17 @@ class EndCouncilButton extends React.Component {
 		if (!response.errors) {
 			bHistory.push(
 				`/company/${council.companyId}/council/${
-					council.id
+				council.id
 				}/finished`
 			);
 		}
 	};
 
-	getUnclosedPoints = () => {
-		const { agendas } = this.props.council;
-		return agendas.filter(agenda => !pointIsClosed(agenda));
-	};
-
-
 	render() {
 		const { translate } = this.props;
-		const unclosed = this.getUnclosedPoints();
+		const unclosed = this.props.unclosedAgendas;
 		const primary = getPrimary();
 		const secondary = getSecondary();
-		const { agendas } = this.props.council;
-		const lastPointClosed = agendas[agendas.length - 1].pointState === AGENDA_STATES.CLOSED;
 
 		return (
 			<React.Fragment>
@@ -49,7 +41,8 @@ class EndCouncilButton extends React.Component {
 					<BasicButton
 						text={translate.finish_council}
 						id={'finalizarReunionEnReunion'}
-						color={lastPointClosed? primary : secondary}
+						color={primary}
+						color={unclosed.length === 0? primary : secondary}
 						onClick={() => this.setState({ confirmModal: true })}
 						textPosition="before"
 						icon={
@@ -63,7 +56,7 @@ class EndCouncilButton extends React.Component {
 								play_arrow
 							</Icon>
 						}
-						buttonStyle={{ minWidth: "13em" }}
+						buttonStyle={{ minWidth: isMobile ? "" : "13em" }}
 						textStyle={{
 							color: "white",
 							fontSize: "0.75em",
