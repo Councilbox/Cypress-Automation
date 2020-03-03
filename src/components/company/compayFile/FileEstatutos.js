@@ -33,7 +33,7 @@ const FileEstatutos = ({ translate, ...props }) => {
                                 <div style={{ color: getPrimary(), fontWeight: "bold" }} >{translate.add}</div>
                             </div>
                         }
-                        onClick={this.toggle}
+                        //onClick={this.toggle}
                         backgroundColor={{ background: "white", boxShadow: "none" }}
                     >
                     </BasicButton>

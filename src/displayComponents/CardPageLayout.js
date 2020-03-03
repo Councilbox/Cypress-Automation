@@ -67,8 +67,8 @@ const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, a
 						</span>
 					</div>
 					{(title && avatar) &&
-						<div style={{ display: "flex", alignItems: 'center', justifyContent: "center" }}>
-							<Avatar src={avatar} alt="Foto" style={{ border: "1px solid" + getPrimary(), }} />
+						<div style={{ display: "flex", alignItems: 'center', justifyContent: "center", marginRight: '0.6em' }}>
+							<Avatar src={avatar} alt="Foto" style={{ border: "1px solid" + getPrimary() }} />
 						</div>
 					}
 					<div>

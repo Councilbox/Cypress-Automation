@@ -1,31 +1,61 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CardPageLayout, TextInput, Scrollbar, SelectInput } from '../../../displayComponents';
+import { CardPageLayout, LoadingSection } from '../../../displayComponents';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
 import { getPrimary } from '../../../styles/colors';
-import { Collapse } from 'material-ui';
-import FileInformacion from './FileInformacion';
+import FileInfo from './FileInformacion';
 import FileOrgAdm from './FileOrgAdm';
 import FileLibrosOfi from './FileLibrosOfi';
 import FileAuditoresPode from './FileAuditoresPode';
 import FileEstatutos from './FileEstatutos';
 import FileCalendario from './FileCalendario';
+import { company } from '../../../queries';
 
 
+const reducer = (state, action) => {
+    const actions = {
+        'SET_DATA': () => ({
+            ...state,
+            loading: false,
+            data: action.payload
+        }),
+    }
 
-const FileCompany = ({ translate, ...props }) => {
-    const [state, setState] = React.useState({
-        filterText: ""
+    return actions[action.type]? actions[action.type]() : state;
+
+}
+
+
+const FileCompany = ({ translate, match, client, ...props }) => {
+    const [{ loading, data }, dispatch] = React.useReducer(reducer, {
+        loading: true,
+        data: null
     });
     const [selecteOptionMenu, setSelecteOptionMenu] = React.useState('Informacion');
-    // necesito council
-    console.log(props)
+
+    const getData = React.useCallback(async () => {
+        const response = await client.query({
+            query: company,
+            variables: {
+                id: match.params.id
+            }
+        });
+        dispatch({ type: 'SET_DATA', payload: response.data.company });
+    }, [match.params.id])
+
+    React.useEffect(() => {
+        getData();
+    }, [getData])
+
 
     const getInformacion = () => {
-        return (<FileInformacion></FileInformacion>)
+        return (
+            <FileInfo
+                data={data}
+            />
+        )
     }
 
     const OrgAdministracion = () => {
@@ -48,8 +78,12 @@ const FileCompany = ({ translate, ...props }) => {
         return (<FileCalendario></FileCalendario>)
     }
 
+    if(loading){
+        return <LoadingSection />
+    }
+
     return (
-        <CardPageLayout title={'Ficha de council'} disableScroll avatar={'asdasd'}>
+        <CardPageLayout title={`Ficha de ${data.businessName}`} disableScroll avatar={data.logo}>
             {/* company.icon */}
             <div style={{ padding: '1em', height: '100%', paddingTop: "0px" }}>
                 <div style={{ display: "flex", padding: '1em', justifyContent: "space-between", paddingTop: "0px", alignItems: "center" }}>

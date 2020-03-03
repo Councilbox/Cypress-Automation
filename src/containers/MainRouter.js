@@ -218,7 +218,7 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 component={UserSettingsPage}
             />
              <Route exact path="/company/:company/users/:id/edit" component={UserSettingsPage} />
-             <Route exact path="/company/:company/file" component={FileCompany} />
+             <Route exact path="/company/:company/file/:id" component={FileCompany} />
             <Route
                 path="*"
                 component={redirect(company)}
