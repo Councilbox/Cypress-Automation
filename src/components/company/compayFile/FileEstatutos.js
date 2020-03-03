@@ -26,7 +26,7 @@ const FileEstatutos = ({ translate, ...props }) => {
         <div style={{ height: "100%" }}>
             <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                    <BasicButton
+                    {/* <BasicButton
                         text={
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <div><i className="fa fa-plus-circle" style={{ color: getPrimary(), paddingRight: "5px", fontSize: "16px" }}></i></div>
@@ -54,7 +54,7 @@ const FileEstatutos = ({ translate, ...props }) => {
                                 filterText: event.target.value
                             })
                         }}
-                    />
+                    /> */}
                 </div>
             </div>
             <div style={{ padding: '0px 1em 1em', height: 'calc( 100% - 7em )', }}>

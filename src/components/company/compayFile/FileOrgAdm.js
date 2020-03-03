@@ -7,6 +7,7 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
 import { getPrimary, primary } from '../../../styles/colors';
 import { Collapse } from 'material-ui';
+import { GOVERNING_BODY_TYPES } from '../../../constants';
 
 
 
@@ -14,13 +15,14 @@ const FileOrgAdm = ({ translate, ...props }) => {
     const [state, setState] = React.useState({
         filterText: ""
     });
+    const primary = getPrimary();
     const [expandAdministradores, setExpandAdministradores] = React.useState(false)
 
 
     return (
         <div style={{ height: "100%" }}>
             <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                {/* <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                     <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
                         <i className="fa fa-filter"></i>
                     </div>
@@ -39,7 +41,7 @@ const FileOrgAdm = ({ translate, ...props }) => {
                             })
                         }}
                     />
-                </div>
+                </div> */}
             </div>
             <div style={{ padding: '0px 1em 1em', height: 'calc( 100% - 7em )', }}>
 
@@ -54,13 +56,13 @@ const FileOrgAdm = ({ translate, ...props }) => {
                                         <div
                                             style={{
                                                 borderRadius: '1px',
-                                                border: "1px solid" + getPrimary(),
+                                                border: "1px solid" + primary,
                                                 padding: "0.5em 1em",
                                                 cursor: "pointer"
                                             }}
                                         >
-                                            <span style={{ color: getPrimary(), fontWeight: "bold" }}>Admin. Unico</span>
-                                            <i class="fa fa-angle-down" style={{ color: getPrimary(), paddingLeft: "5px", fontSize: "20px" }}></i>
+                                            <span style={{ color: primary, fontWeight: "bold" }}>Admin. Unico</span>
+                                            <i class="fa fa-angle-down" style={{ color: primary, paddingLeft: "5px", fontSize: "20px" }}></i>
                                         </div>
                                     }
                                     textStyle={{ color: primary }}
@@ -70,25 +72,12 @@ const FileOrgAdm = ({ translate, ...props }) => {
                                     }}
                                     type="flat"
                                     items={
-                                        <div style={{ padding: "1em", color: 'black' }}>
-                                            <div style={{ display: "flex", borderBottom: "1px solid" + getPrimary(), padding: "0.5em 0" }}>
-                                                <div style={{ fontSize: "20px", paddingRight: "5px" }}>
-                                                    <i className={"fa fa-plus-circle"} style={{ color: getPrimary() }}></i>
-                                                </div>
-                                                <div>{translate.add}</div>
-                                            </div>
-                                            <div style={{ display: "flex", padding: "0.5em 0" }}>
-                                                Administradores solidarios
-                                            </div>
-                                            <div style={{ display: "flex", padding: "0.5em 0" }}>
-                                                Administradores mancomunados
-                                            </div>
-                                            <div style={{ display: "flex", padding: "0.5em 0" }}>
-                                                Consejo de Administración
-                                            </div>
-                                            <div style={{ display: "flex", padding: "0.5em 0" }}>
-                                                Ninguno
-                                            </div>
+                                        <div style={{ color: 'black' }}>
+                                            {Object.keys(GOVERNING_BODY_TYPES).map(key => (
+                                                <MenuItem style={{ display: "flex", padding: "0.5em 1em" }}>
+                                                    {translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label}
+                                                </MenuItem>
+                                            ))}
                                         </div>
                                     }
                                 />
@@ -97,12 +86,12 @@ const FileOrgAdm = ({ translate, ...props }) => {
                                 <div style={{ height: "calc( 100% - 2em )", width: "100%", display: "flex", }}>
                                     <div style={{ height: "100%", width: "100%" }}>
                                         <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
-                                            <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "25%" }}>Nombre</div>
-                                            <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "25%" }}>Nif</div>
-                                            <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "25%" }}>e-Mail</div>
-                                            <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "25%" }}>Teléfono</div>
+                                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Nombre</div>
+                                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Nif</div>
+                                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>e-Mail</div>
+                                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Teléfono</div>
                                         </div>
-                                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + getPrimary(), width: "100%", padding: '1em' }}>
+                                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
                                             <div style={{ width: "25%" }}>Aaron Fuentes</div>
                                             <div style={{ width: "25%" }}>2323432424V</div>
                                             <div style={{ width: "25%" }}>aaron-fuentes@cocodin.com</div>
@@ -110,15 +99,15 @@ const FileOrgAdm = ({ translate, ...props }) => {
                                         </div>
                                     </div>
                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "8em" }}>
-                                        <i className={'fa fa-plus-circle'} style={{ color: getPrimary(), fontSize: '35px', cursor: "pointer" }}></i>
+                                        <i className={'fa fa-plus-circle'} style={{ color: primary, fontSize: '35px', cursor: "pointer" }}></i>
                                     </div>
                                 </div>
                             </div>
 
                             <div style={{ marginTop: "2em", height: "100%" }}>
-                                <div style={{ fontWeight: "bold", color: getPrimary(), paddingBottom: "1em" }}>
+                                <div style={{ fontWeight: "bold", color: primary, paddingBottom: "1em" }}>
                                     Administradores
-                </div>
+                                </div>
                                 <div
                                     style={{
                                         height: "calc( 100% - 10em )",
@@ -134,51 +123,51 @@ const FileOrgAdm = ({ translate, ...props }) => {
                                 >
                                     <div style={{ height: "calc( 100% - 2em )", width: "100%", display: "flex", }}>
                                         <div style={{ height: "100%", width: "100%" }}>
-                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + getPrimary(), width: "100%", padding: '1em' }}>
-                                                <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "25%" }}>Nombre</div>
+                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                                                <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Nombre</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                             </div>
-                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + getPrimary(), width: "100%", padding: '1em' }}>
-                                                <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "25%" }}>Nif</div>
+                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                                                <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Nif</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                             </div>
-                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + getPrimary(), width: "100%", padding: '1em' }}>
-                                                <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "25%" }}>CARGO</div>
+                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                                                <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>CARGO</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                             </div>
-                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + getPrimary(), width: "100%", padding: '1em' }}>
-                                                <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "25%" }}>DOMICILIO</div>
+                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                                                <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>DOMICILIO</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                             </div>
-                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + getPrimary(), width: "100%", padding: '1em' }}>
-                                                <div style={{ textTransform: 'uppercase', color: getPrimary(), width: "25%" }}>FECHA NOMBRAMIENTO</div>
+                                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                                                <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>FECHA NOMBRAMIENTO</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                                 <div style={{ width: "25%" }}>Aaron</div>
                                             </div>
                                         </div>
                                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "8em" }}>
-                                            <i className={'fa fa-plus-circle'} style={{ color: getPrimary(), fontSize: '35px', cursor: "pointer" }}></i>
+                                            <i className={'fa fa-plus-circle'} style={{ color: primary, fontSize: '35px', cursor: "pointer" }}></i>
                                         </div>
                                     </div>
-                                    <div style={{ left: "0", background: "white", width: "100%", color: getPrimary(), display: "flex", alignItems: "center", justifyContent: "center", fontSize: "40px", position: "absolute", bottom: "0" }}>
+                                    <div style={{ left: "0", background: "white", width: "100%", color: primary, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "40px", position: "absolute", bottom: "0" }}>
                                         <i className={expandAdministradores ? "fa fa-angle-up" : "fa fa-angle-down"} onClick={() => setExpandAdministradores(!expandAdministradores)} style={{ cursor: "pointer" }}></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </Scrollbar>
-                </div >
-            </div >
-        </div >
+                </div>
+            </div>
+        </div>
     )
 }
 

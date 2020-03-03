@@ -1,15 +1,12 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { TextInput, Scrollbar, BasicButton, Grid, GridItem } from '../../../displayComponents';
+import { Scrollbar, BasicButton, Grid, GridItem } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Icon } from 'material-ui';
 import { getPrimary } from '../../../styles/colors';
+import ContentEditable from 'react-contenteditable';
 
 
-const FileInformacion = ({ translate, data, ...props }) => {
-    const [state, setState] = React.useState({
-        filterText: ""
-    });
+const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile, updateCompany, updateFileData, ...props }) => {
     const primary = getPrimary();
 
     //TRADUCCION
@@ -67,7 +64,14 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     <div style={{
                                         color: "black",
                                     }}>
-                                        {data.businessName}
+                                        <ContentEditable
+                                            html={data.businessName}
+                                            onChange={event => {
+                                                updateCompanyData({
+                                                    businessName: event.target.value
+                                                })
+                                            }}
+                                        />
                                     </div>
                                 </GridItem>
                             </Grid>
@@ -81,15 +85,20 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     <div style={{
                                         width: "125px",
                                         color: primary,
-                                        fontWeight: "bold"
+                                        fontWeight: "bold",
+                                        marginRight: '1em'
                                     }}>
                                         Domicilio Social
                                     </div>
-                                    <div style={{
-                                        color: "black",
-                                    }}>
-                                        {data.street}
-                                    </div>
+                                    <ContentEditable
+                                        style={{ color: 'black '}}
+                                        html={data.address}
+                                        onChange={event => {
+                                            updateCompanyData({
+                                                address: event.target.value
+                                            })
+                                        }}
+                                    />
                                 </GridItem>
                                 <GridItem xs={12} md={4} lg={4} style={{ display: "flex" }}>
                                     <div style={{
@@ -99,9 +108,10 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     }}>
                                         NIF
                                     </div>
-                                    <div>
-                                        {data.tin}
-                                    </div>
+                                    <ContentEditable
+                                        html={data.tin}
+                                        disabled={true}
+                                    />
                                 </GridItem>
                             </Grid>
                             <Grid style={{ marginTop: '0.6em' }}>
@@ -114,11 +124,15 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     }}>
                                         Capital social
                                     </div>
-                                    <div style={{
-                                        color: "black",
-                                    }}>
-                                        {data.street}
-                                    </div>
+                                    <ContentEditable
+                                        style={{ color: 'black', minWidth: '10em'}}
+                                        html={data.file.socialCapital || ''}
+                                        onChange={event => {
+                                            updateFileData({
+                                                socialCapital: event.target.value
+                                            })
+                                        }}
+                                    />
                                 </GridItem>
                                 <GridItem xs={12} md={4} lg={4} style={{ display: "flex" }}>
                                     <div style={{
@@ -128,9 +142,15 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     }}>
                                         CNAE
                                     </div>
-                                    <div>
-                                        2651
-                                    </div>
+                                    <ContentEditable
+                                        style={{ color: 'black', minWidth: '10em'}}
+                                        html={data.file.CNAE || ''}
+                                        onChange={event => {
+                                            updateFileData({
+                                                CNAE: event.target.value
+                                            })
+                                        }}
+                                    />
                                 </GridItem>
                             </Grid>
                         </div>
@@ -148,11 +168,15 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     }}>
                                         {translate.constitution}
                                     </div>
-                                    <div style={{
-                                        color: "black",
-                                    }}>
-                                        1)
-                                    </div>
+                                    <ContentEditable
+                                        style={{ color: 'black', minWidth: '10em'}}
+                                        html={data.file.constitution || ''}
+                                        onChange={event => {
+                                            updateFileData({
+                                                constitution: event.target.value
+                                            })
+                                        }}
+                                    />
                                 </GridItem>
                             </Grid>
                             <Grid style={{ marginTop: '0.6em' }}>
@@ -165,11 +189,15 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     }}>
                                         Adaptación
                                     </div>
-                                    <div style={{
-                                        color: "black",
-                                    }}>
-                                        1)
-                                    </div>
+                                    <ContentEditable
+                                        style={{ color: 'black', minWidth: '10em'}}
+                                        html={data.file.adaptation || ''}
+                                        onChange={event => {
+                                            updateFileData({
+                                                adaptation: event.target.value
+                                            })
+                                        }}
+                                    />
                                 </GridItem>
                             </Grid>
                             <Grid style={{ marginTop: '0.6em' }}>
@@ -182,11 +210,15 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     }}>
                                         Transformación
                                     </div>
-                                    <div style={{
-                                        color: "black",
-                                    }}>
-                                        1)
-                                    </div>
+                                    <ContentEditable
+                                        style={{ color: 'black', minWidth: '10em'}}
+                                        html={data.file.transformation || ''}
+                                        onChange={event => {
+                                            updateFileData({
+                                                transformation: event.target.value
+                                            })
+                                        }}
+                                    />
                                 </GridItem>
                             </Grid>
                             <Grid style={{ marginTop: '0.6em' }}>
@@ -199,11 +231,15 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     }}>
                                         Traslado domicilio social
                                     </div>
-                                    <div style={{
-                                        color: "black",
-                                    }}>
-                                        1)
-                                    </div>
+                                    <ContentEditable
+                                        style={{ color: 'black', minWidth: '10em'}}
+                                        html={data.file.placeOfBusiness || ''}
+                                        onChange={event => {
+                                            updateFileData({
+                                                placeOfBusiness: event.target.value
+                                            })
+                                        }}
+                                    />
                                 </GridItem>
                             </Grid>
                         </div>
@@ -221,14 +257,24 @@ const FileInformacion = ({ translate, data, ...props }) => {
                                     }}>
                                         Ejercicio social
                                     </div>
-                                    <div style={{
-                                        color: "black",
-                                    }}>
-                                        1)
-                                    </div>
+                                    <ContentEditable
+                                        style={{ color: 'black', minWidth: '10em'}}
+                                        html={data.file.financialYear || ''}
+                                        onChange={event => {
+                                            updateFileData({
+                                                financialYear: event.target.value
+                                            })
+                                        }}
+                                    />
                                 </GridItem>
                             </Grid>
                         </div>
+                        <BasicButton
+                            text={translate.save}
+                            onClick={updateCompany}
+                            floatRight={true}
+
+                        />
                     </div>
                 </Scrollbar>
             </div>

@@ -21,7 +21,7 @@ const FileAuditoresPode = ({ translate, ...props }) => {
     return (
         <div style={{ height: "100%" }} >
             <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+                {/* <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                     <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
                         <i className="fa fa-filter"></i>
                     </div>
@@ -40,7 +40,7 @@ const FileAuditoresPode = ({ translate, ...props }) => {
                             })
                         }}
                     />
-                </div>
+                </div> */}
             </div>
             <div style={{ padding: '0px 1em 1em', height: 'calc( 100% - 7em )', }}>
                 <div style={{ height: "100%", }}>

@@ -33,7 +33,7 @@ const FileLibrosOfi = ({ translate, ...props }) => {
         <div style={{ height: "100%" }}>
             <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                    <BasicButton
+                    {/* <BasicButton
                         text={
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <div><i className="fa fa-plus-circle" style={{ color: getPrimary(), paddingRight: "5px", fontSize: "16px" }}></i></div>
@@ -42,8 +42,8 @@ const FileLibrosOfi = ({ translate, ...props }) => {
                         }
                         //onClick={this.toggle}
                         backgroundColor={{ background: "white", boxShadow: "none" }}
-                    >
-                    </BasicButton>
+                    /> */}
+                    {/* </BasicButton>
                     <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
                         <i className="fa fa-filter"></i>
                     </div>
@@ -61,16 +61,17 @@ const FileLibrosOfi = ({ translate, ...props }) => {
                                 filterText: event.target.value
                             })
                         }}
-                    />
+                    /> */}
                 </div>
             </div>
             <div style={{ padding: '0px 1em 1em', height: 'calc( 100% - 7em )', }}>
                 <div style={{ height: "100%", }}>
                     <div style={{ padding: "0 1em", fontWeight: "bold", color: getPrimary(), display: "flex", justifyContent: "space-between", paddingLeft: '24px', paddingRight: '24px' }}>
-                        <div style={{ width: '15%', display: "flex" }}>
-                            <div style={{ border: "1px solid" + getPrimary(), padding: "0px 5px" }}>
+                        <div style={{ width: '15%', display: "flex", cursor: 'pointer' }} onClick={() => alert('add minutes book')}>
+                            <div style={{ border: "1px solid" + getPrimary(), padding: "0.6em 5px", display: 'flex' }}>
                                 Libros de Actas
-                        </div>
+                                <div><i className="fa fa-plus-circle" style={{ color: getPrimary(), paddingRight: "5px", marginLeft: '5px', fontSize: "16px" }}></i></div>
+                            </div>
                         </div>
                         <div style={{ width: '15%' }}>F. Apertura</div>
                         <div style={{ width: '15%' }}>F. Cierre</div>
@@ -84,7 +85,7 @@ const FileLibrosOfi = ({ translate, ...props }) => {
                                 <Card style={{ marginTop: "1em" }}>
                                     <div style={{ position: "relative" }}>
                                         <div style={{ color: 'black', display: "flex", justifyContent: "space-between", color: "black", fontSize: "15px", paddingLeft: '24px', paddingRight: '24px', paddingTop: "3em", paddingBottom: "3em" }}>
-                                            <div style={{ width: '15%' }}>Libros de Actas</div>
+                                            <div style={{ width: '15%' }}>Libro de Actas</div>
                                             <div style={{ width: '15%' }}>F. Apertura</div>
                                             <div style={{ width: '15%' }}>F. Cierre</div>
                                             <div style={{ width: '15%' }}>F. legalización</div>
@@ -115,9 +116,9 @@ const FileLibrosOfi = ({ translate, ...props }) => {
                             </div>
                         </div>
                     </Scrollbar>
-                </div >
-            </div >
-        </div >
+                </div>
+            </div>
+        </div>
     )
 
 }
