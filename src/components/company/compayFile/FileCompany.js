@@ -147,7 +147,13 @@ const FileCompany = ({ translate, match, client, ...props }) => {
     }
 
     const OrgAdministracion = () => {
-        return (<FileOrgAdm></FileOrgAdm>)
+        return (
+            <FileOrgAdm
+                data={data}
+                updateCompanyData={updateCompanyData}
+                updateCompany={saveCompany}
+            />
+        )
     }
 
     const librosOficiales = () => {

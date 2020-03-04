@@ -1,24 +1,12 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import { CardPageLayout, TextInput, Scrollbar, SelectInput, DropDownMenu } from '../../../displayComponents';
-import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import { Scrollbar, BasicButton } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
-import { getPrimary, primary } from '../../../styles/colors';
-import { Collapse } from 'material-ui';
-import { GOVERNING_BODY_TYPES } from '../../../constants';
+import GoverningBodyForm from '../settings/GoverningBodyForm';
 
 
 
-const FileOrgAdm = ({ translate, ...props }) => {
-    const [state, setState] = React.useState({
-        filterText: ""
-    });
-    const primary = getPrimary();
-    const [expandAdministradores, setExpandAdministradores] = React.useState(false)
-
-
+const FileOrgAdm = ({ translate, data, updateCompanyData, updateCompany, ...props }) => {
     return (
         <div style={{ height: "100%" }}>
             <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
@@ -44,45 +32,28 @@ const FileOrgAdm = ({ translate, ...props }) => {
                 </div> */}
             </div>
             <div style={{ padding: '0px 1em 1em', height: 'calc( 100% - 7em )', }}>
-
                 <div style={{ height: "100%", }}>
                     <Scrollbar>
                         <div style={{ width: "100%", height: "100%", padding: "0 1em" }}>
-                            <div style={{ display: "flex", marginBottom: "1em" }}>
-                                <DropDownMenu
-                                    color="transparent"
-                                    styleComponent={{ width: "" }}
-                                    Component={() =>
-                                        <div
-                                            style={{
-                                                borderRadius: '1px',
-                                                border: "1px solid" + primary,
-                                                padding: "0.5em 1em",
-                                                cursor: "pointer"
-                                            }}
-                                        >
-                                            <span style={{ color: primary, fontWeight: "bold" }}>Admin. Unico</span>
-                                            <i class="fa fa-angle-down" style={{ color: primary, paddingLeft: "5px", fontSize: "20px" }}></i>
-                                        </div>
-                                    }
-                                    textStyle={{ color: primary }}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left',
-                                    }}
-                                    type="flat"
-                                    items={
-                                        <div style={{ color: 'black' }}>
-                                            {Object.keys(GOVERNING_BODY_TYPES).map(key => (
-                                                <MenuItem style={{ display: "flex", padding: "0.5em 1em" }}>
-                                                    {translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label}
-                                                </MenuItem>
-                                            ))}
-                                        </div>
-                                    }
-                                />
-                            </div>
-                            <div style={{ height: "10em", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", padding: "1em", width: "100%" }}>
+                            <GoverningBodyForm translate={translate} state={data} updateState={updateCompanyData} />
+                        </div>
+                        <BasicButton
+                            text={translate.save}
+                            onClick={updateCompany}
+                        />
+                    </Scrollbar>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+export default withTranslations()(withApollo(FileOrgAdm));
+
+
+/*
+<div style={{ height: "10em", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", padding: "1em", width: "100%" }}>
                                 <div style={{ height: "calc( 100% - 2em )", width: "100%", display: "flex", }}>
                                     <div style={{ height: "100%", width: "100%" }}>
                                         <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
@@ -163,13 +134,5 @@ const FileOrgAdm = ({ translate, ...props }) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </Scrollbar>
-                </div>
-            </div>
-        </div>
-    )
-}
 
-
-export default withTranslations()(withApollo(FileOrgAdm));
+*/

@@ -63,6 +63,7 @@ const SelectInput = ({
 	required,
 	disabled,
 	noLabel,
+	labelStyle = {},
 	autoWidth,
 	colorText,
 	styles,
@@ -87,7 +88,8 @@ const SelectInput = ({
 					name: floatingText,
 					id: id,
 					style: {
-						fontSize: '12px !important'
+						fontSize: '12px !important',
+						...labelStyle
 					}
 				}}
 				input={

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionTitle, SelectInput, TextInput, BasicButton, GridItem, ButtonIcon } from '../../../displayComponents';
+import { SectionTitle, SelectInput, TextInput, BasicButton, GridItem, ButtonIcon, DropDownMenu } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { MenuItem, TableBody } from 'material-ui';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
@@ -39,6 +39,8 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
         });
     }
 
+    const type = GOVERNING_BODY_TYPES[Object.keys(GOVERNING_BODY_TYPES).find(key => GOVERNING_BODY_TYPES[key].value === state.governingBodyType)]
+
     return (
         <div style={{width: '100%'}}>
             <SectionTitle
@@ -49,19 +51,48 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
                 }}
             />
             <GridItem xs={12} md={7} lg={4}>
-                <SelectInput
-                    value={state.governingBodyType}
-                    onChange={changeGoverningType}
-                >
-                    {Object.keys(GOVERNING_BODY_TYPES).map(key => (
-                        <MenuItem
-                            value={GOVERNING_BODY_TYPES[key].value}
-                            key={GOVERNING_BODY_TYPES[key].value}
-                        >
-                            {translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label}
-                        </MenuItem>
-                    ))}
-                </SelectInput>
+                <div style={{ display: "flex", marginBottom: "1em" }}>
+                        <DropDownMenu
+                            color="transparent"
+                            styleComponent={{ width: "" }}
+                            Component={() =>
+                                <div
+                                    style={{
+                                        borderRadius: '1px',
+                                        border: "1px solid" + primary,
+                                        padding: "0.5em 1em",
+                                        cursor: "pointer"
+                                    }}
+                                >
+                                    <span style={{ color: primary, fontWeight: "bold" }}>{
+                                        translate[type.label]
+                                    }</span>
+                                    <i class="fa fa-angle-down" style={{ color: primary, paddingLeft: "5px", fontSize: "20px" }}></i>
+                                </div>
+                            }
+                            textStyle={{ color: primary }}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            type="flat"
+                            items={
+                                <div style={{ color: 'black' }}>
+                                    {Object.keys(GOVERNING_BODY_TYPES).map(key => (
+                                        <MenuItem style={{ display: "flex", padding: "0.5em 1em" }} key={key}
+                                            onClick={() => {
+                                                updateState({
+                                                    governingBodyType: GOVERNING_BODY_TYPES[key].value
+                                                })
+                                            }}
+                                        >
+                                            {translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label}
+                                        </MenuItem>
+                                    ))}
+                                </div>
+                            }
+                        />
+                    </div>
             </GridItem>
             {getGoverningTypeInput()}
         </div>
