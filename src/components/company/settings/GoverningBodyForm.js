@@ -44,13 +44,6 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
 
     return (
         <div style={{width: '100%'}}>
-            <SectionTitle
-                text={translate.governing_body}
-                color={primary}
-                style={{
-                    marginTop: '2em'
-                }}
-            />
             <GridItem xs={12} md={7} lg={4}>
                 <div style={{ display: "flex", marginBottom: "1em" }}>
                         <DropDownMenu
@@ -111,7 +104,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
                     <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.email}</div>
                     <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.phone}</div>
                 </div>
-                <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.name || ''}
@@ -126,6 +119,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.dni || ''}
+                            style={{borderBottom: '1px solid grey'}}
                             onChange={event => {
                                 setData({
                                     dni: event.target.value
@@ -136,6 +130,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.email || ''}
+                            style={{borderBottom: '1px solid grey'}}
                             onChange={event => {
                                 setData({
                                     email: event.target.value
@@ -146,6 +141,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.phone || ''}
+                            style={{borderBottom: '1px solid grey'}}
                             onChange={event => {
                                 setData({
                                     phone: event.target.value
@@ -160,6 +156,79 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
 }
 
 const EntityAdminForm = ({ translate, setData, data = {} }) => {
+
+const primary = getPrimary();
+    return (
+        <div style={{ width: "100%", display: "flex", }}>
+            <div style={{ height: "100%", width: "100%" }}>
+                <div style={{marginTop: '1em', color: 'black', fontWeight: '700'}}>{translate.entity}</div>
+                <div>
+                    <ContentEditable
+                        html={data.entityName || ''}
+                        style={{borderBottom: '1px solid grey', width: '20em'}}
+                        onChange={event => {
+                            setData({
+                                entityName: event.target.value
+                            })
+                        }}
+                    />
+                </div>
+                <div style={{marginTop: '1em', color: 'black', fontWeight: '700'}}>{translate.representative}</div>
+                <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
+                    <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.name}</div>
+                    <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.dni}</div>
+                    <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.email}</div>
+                    <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.phone}</div>
+                </div>
+                <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
+                    <div style={{ width: "25%", paddingRight: '1.2em' }}>
+                        <ContentEditable
+                            html={data.name || ''}
+                            style={{borderBottom: '1px solid grey'}}
+                            onChange={event => {
+                                setData({
+                                    name: event.target.value
+                                })
+                            }}
+                        />
+                    </div>
+                    <div style={{ width: "25%", paddingRight: '1.2em' }}>
+                        <ContentEditable
+                            html={data.dni || ''}
+                            style={{borderBottom: '1px solid grey'}}
+                            onChange={event => {
+                                setData({
+                                    dni: event.target.value
+                                })
+                            }}
+                        />
+                    </div>
+                    <div style={{ width: "25%", paddingRight: '1.2em' }}>
+                        <ContentEditable
+                            html={data.email || ''}
+                            style={{borderBottom: '1px solid grey'}}
+                            onChange={event => {
+                                setData({
+                                    email: event.target.value
+                                })
+                            }}
+                        />
+                    </div>
+                    <div style={{ width: "25%", paddingRight: '1.2em' }}>
+                        <ContentEditable
+                            html={data.phone || ''}
+                            style={{borderBottom: '1px solid grey'}}
+                            onChange={event => {
+                                setData({
+                                    phone: event.target.value
+                                })
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
     return (
         <GridItem xs={12} md={8} lg={6}>
             <TextInput
@@ -199,6 +268,7 @@ const EntityAdminForm = ({ translate, setData, data = {} }) => {
 
 const ListAdminForm = ({ translate, setData, data }) => {
     const secondary = getSecondary();
+    const primary = getPrimary();
     React.useEffect(() => {
         if(!data.list){
             setData({
@@ -244,6 +314,152 @@ const ListAdminForm = ({ translate, setData, data }) => {
             list: newList
         })
     }
+
+    //TRADUCCION
+    return (
+        <>
+            <div style={{ fontWeight: "bold", color: primary, paddingBottom: "1em" }}>
+                Administradores
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "8em" }}>
+                    <i className={'fa fa-plus-circle'} style={{ color: primary, fontSize: '35px', cursor: "pointer" }}></i>
+                </div>
+            </div>
+            <div
+                style={{
+                    height: "calc( 100% - 10em )",
+                    boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)",
+                    padding: "1em",
+                    width: "100%",
+                    //maxHeight: expandAdministradores ? "100%" : "20em",
+                    overflow: "hidden",
+                    position: "relative",
+                    paddingBottom: "2.5em",
+                    transition: 'max-height 0.5s'
+                }}
+            >
+                <div style={{ width: "100%", display: "flex", }}>
+                    <div style={{ height: "100%", width: "100%" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.name}</div>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "10%" }}>{translate.dni}</div>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.email}</div>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "10%" }}>{translate.position}</div>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>Fecha nomb.</div>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>Duración</div>
+                        </div>
+                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
+                            <div style={{ width: "20%", paddingRight: '1.2em' }}>
+                                <ContentEditable
+                                    html={data.name || ''}
+                                    style={{borderBottom: '1px solid grey'}}
+                                    onChange={event => {
+                                        setData({
+                                            name: event.target.value
+                                        })
+                                    }}
+                                />
+                            </div>
+                            <div style={{ width: "10%", paddingRight: '1.2em' }}>
+                                <ContentEditable
+                                    html={data.dni || ''}
+                                    style={{borderBottom: '1px solid grey'}}
+                                    onChange={event => {
+                                        setData({
+                                            dni: event.target.value
+                                        })
+                                    }}
+                                />
+                            </div>
+                            <div style={{ width: "20%", paddingRight: '1.2em' }}>
+                                <ContentEditable
+                                    html={data.email || ''}
+                                    style={{borderBottom: '1px solid grey'}}
+                                    onChange={event => {
+                                        setData({
+                                            email: event.target.value
+                                        })
+                                    }}
+                                />
+                            </div>
+                            <div style={{ width: "10%", paddingRight: '1.2em' }}>
+                                <ContentEditable
+                                    html={data.position || ''}
+                                    style={{borderBottom: '1px solid grey'}}
+                                    onChange={event => {
+                                        setData({
+                                            position: event.target.value
+                                        })
+                                    }}
+                                />
+                            </div>
+                            <div style={{ width: "20%", paddingRight: '1.2em' }}>
+                                <ContentEditable
+                                    html={data.apointmentDate || ''}
+                                    style={{borderBottom: '1px solid grey'}}
+                                    onChange={event => {
+                                        setData({
+                                            apointmentDate: event.target.value
+                                        })
+                                    }}
+                                />
+                            </div>
+                            <div style={{ width: "20%", paddingRight: '1.2em' }}>
+                                <ContentEditable
+                                    html={data.apointmentLength || ''}
+                                    style={{borderBottom: '1px solid grey'}}
+                                    onChange={event => {
+                                        setData({
+                                            apointmentLength: event.target.value
+                                        })
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* <div style={{ height: "calc( 100% - 2em )", width: "100%", display: "flex", }}>
+                    <div style={{ height: "100%", width: "100%" }}>
+                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Nombre</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                        </div>
+                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Nif</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                        </div>
+                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>CARGO</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                        </div>
+                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>DOMICILIO</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                        </div>
+                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>FECHA NOMBRAMIENTO</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                            <div style={{ width: "25%" }}>Aaron</div>
+                        </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "8em" }}>
+                        <i className={'fa fa-plus-circle'} style={{ color: primary, fontSize: '35px', cursor: "pointer" }}></i>
+                    </div>
+                </div>
+                {/* <div style={{ left: "0", background: "white", width: "100%", color: primary, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "40px", position: "absolute", bottom: "0" }}>
+                    <i className={expandAdministradores ? "fa fa-angle-up" : "fa fa-angle-down"} onClick={() => setExpandAdministradores(!expandAdministradores)} style={{ cursor: "pointer" }}></i>
+                </div> */}
+            </div>
+        </>
+    )
 
     return (
         <div>
