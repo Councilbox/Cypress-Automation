@@ -27,7 +27,7 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
             2: <EntityAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
             3: <ListAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
             4: <ListAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
-            5: <CouncilAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
+            5: <ListAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
         }
 
         return menus[state.governingBodyType]? menus[state.governingBodyType] : menus[0];
@@ -320,9 +320,11 @@ const ListAdminForm = ({ translate, setData, data }) => {
         <>
             <div style={{ fontWeight: "bold", color: primary, paddingBottom: "1em" }}>
                 Administradores
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "8em" }}>
-                    <i className={'fa fa-plus-circle'} style={{ color: primary, fontSize: '35px', cursor: "pointer" }}></i>
-                </div>
+                <i
+                    className={'fa fa-plus-circle'}
+                    style={{ color: primary, marginLeft: '4px', fontSize: '22px', cursor: "pointer" }}
+                    onClick={addRow}
+                ></i>
             </div>
             <div
                 style={{
@@ -347,74 +349,90 @@ const ListAdminForm = ({ translate, setData, data }) => {
                             <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>Fecha nomb.</div>
                             <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>Duración</div>
                         </div>
-                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
-                            <div style={{ width: "20%", paddingRight: '1.2em' }}>
-                                <ContentEditable
-                                    html={data.name || ''}
-                                    style={{borderBottom: '1px solid grey'}}
-                                    onChange={event => {
-                                        setData({
-                                            name: event.target.value
-                                        })
-                                    }}
-                                />
+                        {data.list.map((item, index) => (
+                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
+                                <div style={{ width: "20%", paddingRight: '1.2em' }}>
+                                    <ContentEditable
+                                        html={item.name || ''}
+                                        style={{borderBottom: '1px solid grey'}}
+                                        onChange={event => {
+                                            setAdminData({
+                                                name: event.target.value
+                                            }, index)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ width: "10%", paddingRight: '1.2em' }}>
+                                    <ContentEditable
+                                        html={item.dni || ''}
+                                        style={{borderBottom: '1px solid grey'}}
+                                        onChange={event => {
+                                            setAdminData({
+                                                dni: event.target.value
+                                            }, index)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ width: "20%", paddingRight: '1.2em' }}>
+                                    <ContentEditable
+                                        html={item.email || ''}
+                                        style={{borderBottom: '1px solid grey'}}
+                                        onChange={event => {
+                                            setAdminData({
+                                                email: event.target.value
+                                            }, index)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ width: "10%", paddingRight: '1.2em' }}>
+                                    <ContentEditable
+                                        html={item.position || ''}
+                                        style={{borderBottom: '1px solid grey'}}
+                                        onChange={event => {
+                                            setAdminData({
+                                                position: event.target.value
+                                            }, index)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ width: "20%", paddingRight: '1.2em' }}>
+                                    <ContentEditable
+                                        html={item.apointmentDate || ''}
+                                        style={{borderBottom: '1px solid grey'}}
+                                        onChange={event => {
+                                            setAdminData({
+                                                apointmentDate: event.target.value
+                                            }, index)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ width: "20%", paddingRight: '1.2em', display: 'flex' }}>
+                                    <ContentEditable
+                                        html={item.apointmentLength || ''}
+                                        style={{borderBottom: '1px solid grey', width: 'calc(100% - 2em)'}}
+                                        onChange={event => {
+                                            setAdminData({
+                                                apointmentLength: event.target.value
+                                            }, index)
+                                        }}
+                                    />
+                                    <div
+                                        onClick={() => deleteRow(index)}
+                                        style={{
+                                            color: 'white',
+                                            display: 'flex',
+                                            cursor: 'pointer',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backgroundColor: primary,
+                                            borderRadius: '50%',
+                                            height: '1.2em',
+                                            width: '1.2em'
+                                        }}
+                                    >X</div>
+                                </div>
                             </div>
-                            <div style={{ width: "10%", paddingRight: '1.2em' }}>
-                                <ContentEditable
-                                    html={data.dni || ''}
-                                    style={{borderBottom: '1px solid grey'}}
-                                    onChange={event => {
-                                        setData({
-                                            dni: event.target.value
-                                        })
-                                    }}
-                                />
-                            </div>
-                            <div style={{ width: "20%", paddingRight: '1.2em' }}>
-                                <ContentEditable
-                                    html={data.email || ''}
-                                    style={{borderBottom: '1px solid grey'}}
-                                    onChange={event => {
-                                        setData({
-                                            email: event.target.value
-                                        })
-                                    }}
-                                />
-                            </div>
-                            <div style={{ width: "10%", paddingRight: '1.2em' }}>
-                                <ContentEditable
-                                    html={data.position || ''}
-                                    style={{borderBottom: '1px solid grey'}}
-                                    onChange={event => {
-                                        setData({
-                                            position: event.target.value
-                                        })
-                                    }}
-                                />
-                            </div>
-                            <div style={{ width: "20%", paddingRight: '1.2em' }}>
-                                <ContentEditable
-                                    html={data.apointmentDate || ''}
-                                    style={{borderBottom: '1px solid grey'}}
-                                    onChange={event => {
-                                        setData({
-                                            apointmentDate: event.target.value
-                                        })
-                                    }}
-                                />
-                            </div>
-                            <div style={{ width: "20%", paddingRight: '1.2em' }}>
-                                <ContentEditable
-                                    html={data.apointmentLength || ''}
-                                    style={{borderBottom: '1px solid grey'}}
-                                    onChange={event => {
-                                        setData({
-                                            apointmentLength: event.target.value
-                                        })
-                                    }}
-                                />
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
                 {/* <div style={{ height: "calc( 100% - 2em )", width: "100%", display: "flex", }}>

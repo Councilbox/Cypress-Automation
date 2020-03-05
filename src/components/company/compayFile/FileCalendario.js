@@ -77,7 +77,7 @@ const FileCalendario = ({ translate, ...props }) => {
                     />
                 </div> */}
             </div>
-            <div style={{ padding: '0px 1em 1em', height: 'calc( 100% - 7em )', }}>
+            <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <div style={{ paddingRight: "1em", fontSize: "22px" }} >
                         {/* onClick={changeMonthBack} */}

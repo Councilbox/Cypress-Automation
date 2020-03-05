@@ -42,7 +42,7 @@ const FileAuditoresPode = ({ translate, ...props }) => {
                     />
                 </div> */}
             </div>
-            <div style={{ padding: '0px 1em 1em', height: 'calc( 100% - 7em )', }}>
+            <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ height: "100%", }}>
                     <Scrollbar>
                         <div style={{ width: "100%", height: "100%", padding: "0 1em" }}>

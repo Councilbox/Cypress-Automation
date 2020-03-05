@@ -64,7 +64,7 @@ const FileLibrosOfi = ({ translate, ...props }) => {
                     /> */}
                 </div>
             </div>
-            <div style={{ padding: '0px 1em 1em', height: 'calc( 100% - 7em )', }}>
+            <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ height: "100%", }}>
                     <div style={{ padding: "0 1em", fontWeight: "bold", color: getPrimary(), display: "flex", justifyContent: "space-between", paddingLeft: '24px', paddingRight: '24px' }}>
                         <div style={{ width: '15%', display: "flex", cursor: 'pointer' }} onClick={() => alert('add minutes book')}>
