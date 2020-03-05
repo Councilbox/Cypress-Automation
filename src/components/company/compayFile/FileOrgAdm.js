@@ -34,12 +34,15 @@ const FileOrgAdm = ({ translate, data, updateCompanyData, updateCompany, ...prop
             <div style={{ padding: '0px 1em 1em', height: 'calc( 100% - 7em )', }}>
                 <div style={{ height: "100%", }}>
                     <Scrollbar>
-                        <div style={{ width: "100%", height: "100%", padding: "0 1em" }}>
+                        <div style={{ width: "100%", padding: "0 1em" }}>
                             <GoverningBodyForm translate={translate} state={data} updateState={updateCompanyData} />
                         </div>
                         <BasicButton
                             text={translate.save}
                             onClick={updateCompany}
+                            buttonStyle={{
+                                marginTop: '1em'
+                            }}
                         />
                     </Scrollbar>
                 </div>
@@ -54,25 +57,7 @@ export default withTranslations()(withApollo(FileOrgAdm));
 
 /*
 <div style={{ height: "10em", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", padding: "1em", width: "100%" }}>
-                                <div style={{ height: "calc( 100% - 2em )", width: "100%", display: "flex", }}>
-                                    <div style={{ height: "100%", width: "100%" }}>
-                                        <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
-                                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Nombre</div>
-                                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Nif</div>
-                                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>e-Mail</div>
-                                            <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>Teléfono</div>
-                                        </div>
-                                        <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
-                                            <div style={{ width: "25%" }}>Aaron Fuentes</div>
-                                            <div style={{ width: "25%" }}>2323432424V</div>
-                                            <div style={{ width: "25%" }}>aaron-fuentes@cocodin.com</div>
-                                            <div style={{ width: "25%" }}>66666</div>
-                                        </div>
-                                    </div>
-                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "8em" }}>
-                                        <i className={'fa fa-plus-circle'} style={{ color: primary, fontSize: '35px', cursor: "pointer" }}></i>
-                                    </div>
-                                </div>
+                                
                             </div>
 
                             <div style={{ marginTop: "2em", height: "100%" }}>

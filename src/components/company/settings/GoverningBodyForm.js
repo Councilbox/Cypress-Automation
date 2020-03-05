@@ -5,6 +5,7 @@ import { MenuItem, TableBody } from 'material-ui';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
 import { Table, TableHead, TableRow, TableCell } from 'material-ui';
 import CheckBox from '../../../displayComponents/CheckBox';
+import ContentEditable from 'react-contenteditable';
 
 
 const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
@@ -22,11 +23,11 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
     const getGoverningTypeInput = () => {
         const menus = {
             0: <span />,
-            1: <SingleAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData} />,
-            2: <EntityAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData} />,
-            3: <ListAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData} />,
-            4: <ListAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData} />,
-            5: <CouncilAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData} />,
+            1: <SingleAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
+            2: <EntityAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
+            3: <ListAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
+            4: <ListAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
+            5: <CouncilAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
         }
 
         return menus[state.governingBodyType]? menus[state.governingBodyType] : menus[0];
@@ -100,34 +101,61 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
 }
 
 const SingleAdminForm = ({ translate, setData, data = {} }) => {
+    const primary = getPrimary();
     return (
-        <GridItem xs={12} md={8} lg={6}>
-            <TextInput
-                floatingText={translate.name}
-                value={data? data.name : ''}
-                onChange={event => setData({ name: event.target.value })}
-            />
-            <TextInput
-                floatingText={translate.surname}
-                value={data? data.surname : ''}
-                onChange={event => setData({ surname: event.target.value })}
-            />
-            <TextInput
-                floatingText={translate.dni}
-                value={data? data.dni : ''}
-                onChange={event => setData({ dni: event.target.value })}
-            />
-            <TextInput
-                floatingText={translate.email}
-                value={data? data.email : ''}
-                onChange={event => setData({ email: event.target.value })}
-            />
-            <TextInput
-                floatingText={translate.phone}
-                value={data? data.phone : ''}
-                onChange={event => setData({ phone: event.target.value })}
-            />
-        </GridItem>
+        <div style={{ width: "100%", display: "flex", }}>
+            <div style={{ height: "100%", width: "100%" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
+                    <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.name}</div>
+                    <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.dni}</div>
+                    <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.email}</div>
+                    <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.phone}</div>
+                </div>
+                <div style={{ color: "black", display: "flex", justifyContent: "space-between", borderBottom: "1px solid" + primary, width: "100%", padding: '1em' }}>
+                    <div style={{ width: "25%", paddingRight: '1.2em' }}>
+                        <ContentEditable
+                            html={data.name || ''}
+                            style={{borderBottom: '1px solid grey'}}
+                            onChange={event => {
+                                setData({
+                                    name: event.target.value
+                                })
+                            }}
+                        />
+                    </div>
+                    <div style={{ width: "25%", paddingRight: '1.2em' }}>
+                        <ContentEditable
+                            html={data.dni || ''}
+                            onChange={event => {
+                                setData({
+                                    dni: event.target.value
+                                })
+                            }}
+                        />
+                    </div>
+                    <div style={{ width: "25%", paddingRight: '1.2em' }}>
+                        <ContentEditable
+                            html={data.email || ''}
+                            onChange={event => {
+                                setData({
+                                    email: event.target.value
+                                })
+                            }}
+                        />
+                    </div>
+                    <div style={{ width: "25%", paddingRight: '1.2em' }}>
+                        <ContentEditable
+                            html={data.phone || ''}
+                            onChange={event => {
+                                setData({
+                                    phone: event.target.value
+                                })
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 
