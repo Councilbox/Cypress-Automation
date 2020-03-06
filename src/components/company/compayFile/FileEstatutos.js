@@ -1,78 +1,106 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import { CardPageLayout, TextInput, Scrollbar, SelectInput, BasicButton } from '../../../displayComponents';
-import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import { Scrollbar, BasicButton } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
 import { getPrimary } from '../../../styles/colors';
-import { Collapse } from 'material-ui';
+import ContentEditable from 'react-contenteditable';
 
 
+const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...props }) => {
+    const defaultStatutes = [
+        {
+            label: 'Denominación',
+            value: ''
+        },
+        {
+            label: 'Domicilio social',
+            value: ''
+        },
+        {
+            label: translate.social_capital_desc,
+            value: ''
+        },
+        {
+            label: 'Ejercicio social',
+            value: ''
+        }
+    ]
+    
+    const primary = getPrimary();
 
-const FileEstatutos = ({ translate, ...props }) => {
-    const [state, setState] = React.useState({
-        filterText: ""
-    });
-    const [modal, setModal] = React.useState(false);
-    const [selecteOptionMenu, setSelecteOptionMenu] = React.useState('Informacion');
-    const [expandedCard, setExpandedCard] = React.useState(false);
-    const [expanded, setExpanded] = React.useState(false);
-    // necesito council
-    console.log(props)
+    const statutes = data.file.statutes? data.file.statutes : defaultStatutes;
+
+    const addRow = () => {
+        const newStatutes = [...statutes, { 
+            label: '',
+            value: ''
+        }];
+        updateFileData({
+            statutes: newStatutes
+        })
+    }
+
+    const deleteRow = index => {
+        let newStatutes = [...statutes];
+        newStatutes.splice(index, 1);
+        updateFileData({
+            statutes: newStatutes
+        })
+    }
+
+    const updateStatute = (newData, index) => {
+        const list = [...statutes];
+        list[index] = {
+            ...list[index],
+            ...newData
+        }
+
+        updateFileData({
+            statutes: [...list]
+        })
+    }
 
 
     return (
         <div style={{ height: "100%" }}>
-            <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                    {/* <BasicButton
-                        text={
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <div><i className="fa fa-plus-circle" style={{ color: getPrimary(), paddingRight: "5px", fontSize: "16px" }}></i></div>
-                                <div style={{ color: getPrimary(), fontWeight: "bold" }} >{translate.add}</div>
-                            </div>
-                        }
-                        //onClick={this.toggle}
-                        backgroundColor={{ background: "white", boxShadow: "none" }}
-                    >
-                    </BasicButton>
-                    <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
-                        <i className="fa fa-filter"></i>
-                    </div>
-                    <TextInput
-                        placeholder={translate.search}
-                        adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-                        type="text"
-                        value={state.filterText || ""}
-                        styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-                        disableUnderline={true}
-                        stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-                        onChange={event => {
-                            setState({
-                                ...state,
-                                filterText: event.target.value
-                            })
-                        }}
-                    /> */}
-                </div>
-            </div>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ height: "100%", }}>
                     <Scrollbar>
                         <div>
-                            <div style={{ borderBottom: "1px solid" + getPrimary(), display: "flex" }}>
-                                <div style={{ display: "flex", padding: "1em" }} >
-                                    <div style={{ marginRight: "1em", color: getPrimary(), fontWeight: "bold" }}>Denominación</div>
-                                    <div style={{ marginRight: "1em" }}>
-                                        Artículo 1 - Denominación social:
-                                        La Sociedad se denominará "XXXX, S.L." y se regirá por los presentes Estatutos y por las demás disposiciones legales que le sean aplicables."
-                                </div>
-                                    <div style={{ width: "5em" }}>
-                                        <i className={"fa fa-eye"} style={{ color: getPrimary(), }} ></i>
+                            {statutes.map((statute, index) => (
+                                <div key={index} style={{ borderBottom: "1px solid" + primary, display: "flex" }}>
+                                    <div style={{ display: "flex", padding: "1em" }} >
+                                        <div style={{ marginRight: "1em", color: primary, fontWeight: "bold" }}>
+                                            <ContentEditable
+                                                style={{ color: primary, minWidth: '10em', borderBottom: !statute.label && '1px solid black' }}
+                                                html={statute.label || ''}
+                                                onChange={event => {
+                                                    updateStatute({
+                                                        label: event.target.value
+                                                    }, index)
+                                                }}
+                                            />
+                                        </div>
+                                        <div style={{ marginRight: "1em" }}>
+                                            <ContentEditable
+                                                style={{ color: 'black', minWidth: '10em', borderBottom: !statute.value && '1px solid black' }}
+                                                html={statute.value || ''}
+                                                onChange={event => {
+                                                    updateStatute({
+                                                        value: event.target.value
+                                                    }, index)
+                                                }}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            ))}
+                            <BasicButton
+                                text={translate.save}
+                                onClick={updateCompany}
+                                floatRight={true}
+
+                            />
                         </div>
                     </Scrollbar>
                 </div >

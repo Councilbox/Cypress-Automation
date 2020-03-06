@@ -12,26 +12,8 @@ import ContentEditable from 'react-contenteditable';
 
 
 const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...props }) => {
-    const [state, setState] = React.useState({
-        filterText: ""
-    });
-    const [modal, setModal] = React.useState(false);
-    const [selecteOptionMenu, setSelecteOptionMenu] = React.useState('Informacion');
-    const [expandedCard, setExpandedCard] = React.useState(false);
-    const [expanded, setExpanded] = React.useState(false);
     const primary = getPrimary();
     const books = (data.file && data.file.books)? data.file.books : []; 
-
-    // necesito council
-    console.log(props)
-
-    // const deleteRow = index => {
-    //     let newList = [...data.list];
-    //     newList.splice(index, 1);
-    //     setData({
-    //         list: newList
-    //     })
-    // }
 
     const addRow = () => {
         const newBooks = [...books, { aqui: 'otro'}];
@@ -58,17 +40,6 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
         updateFileData({
             books: [...list]
         })
-    }
-
-
-
-
-
-    const clickMobilExpand = event => {
-        setExpandedCard(!expandedCard)
-        if (expanded) {
-            setExpanded(!expanded)
-        }
     }
 
 
@@ -129,7 +100,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                         <div style={{ width: "100%", height: "calc( 100% - 3em )", padding: "0 1em" }}>
                             {books.length > 0?
                                 books.map((book, index) => (
-                                    <div>
+                                    <div key={`book_${index}`}>
                                         <Card style={{ marginTop: "1em" }}>
                                             <div style={{ position: "relative" }}>
                                                 <div style={{ color: 'black', display: "flex", justifyContent: "space-between", color: "black", fontSize: "15px", paddingLeft: '24px', paddingRight: '24px', paddingTop: "3em", paddingBottom: "3em" }}>
@@ -229,7 +200,6 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                         />
                                                         <IconButton
                                                             onClick={() => deleteRow(index)}
-                                                            aria-expanded={expandedCard}
                                                             aria-label="Show more"
                                                             className={"expandButtonModal"}
                                                         >
@@ -268,12 +238,5 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
     )
 }
 
-
-/*
-<div>
-                                
-                            </div>
-
-*/
 
 export default withTranslations()(withApollo(FileLibrosOfi));

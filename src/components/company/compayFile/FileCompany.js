@@ -168,11 +168,23 @@ const FileCompany = ({ translate, match, client, ...props }) => {
     }
 
     const auditoresPoderes = () => {
-        return (<FileAuditoresPode></FileAuditoresPode>)
+        return (
+            <FileAuditoresPode
+                data={data}
+                updateFileData={updateFileData}
+                updateCompany={saveCompany}
+            />
+        )
     }
 
     const estatutos = () => {
-        return (<FileEstatutos></FileEstatutos>)
+        return (
+            <FileEstatutos
+                data={data}
+                updateFileData={updateFileData}
+                updateCompany={saveCompany}
+            />
+        )
     }
 
     const calendario = () => {
