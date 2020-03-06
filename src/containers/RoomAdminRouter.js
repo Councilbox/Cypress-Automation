@@ -35,7 +35,7 @@ const RoomAdminRouter = ({ user, company, translate }) => {
                         <LiveHeader
                             logo={!!company && company.logo}
                             companyName={!!company && company.businessName}
-                            councilName={'Probando'}
+                            councilName={''}
                             translate={translate}
                         />
                         <CouncilFinishedPage />
