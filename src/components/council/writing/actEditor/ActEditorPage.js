@@ -27,7 +27,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         sendReminder: false,
         sendConvene: false,
         cancel: false,
-        tab: 'editor',
+        tab: withoutAct? 'agenda' : 'editor',
         rescheduleCouncil: false,
         infoMenu: false
     });
