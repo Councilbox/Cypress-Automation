@@ -2,81 +2,77 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { CardPageLayout, TextInput, Scrollbar, SelectInput, DropDownMenu, Table } from '../../../displayComponents';
-import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Icon, MenuItem, Card, CardHeader, IconButton, TableHead, TableRow, TableCell, TableBody } from 'material-ui';
+import { TableRow, TableCell, TableHead, TableBody, MenuItem } from 'material-ui';
 import { getPrimary, primary } from '../../../styles/colors';
-import { Collapse } from 'material-ui';
 import Calendar from 'react-calendar';
+import AddCompanyNotificationMenu from './AddCompanyNotificationMenu';
 import { moment } from '../../../containers/App';
 
 
 
-const FileCalendario = ({ translate, ...props }) => {
-    const [state, setState] = React.useState({
-        filterText: ""
-    });
-    const [modal, setModal] = React.useState(false);
-    const [selecteOptionMenu, setSelecteOptionMenu] = React.useState('Informacion');
-    const [expandedCard, setExpandedCard] = React.useState(false);
-    const [expanded, setExpanded] = React.useState(false);
-    // necesito council
-    console.log(props)
+const FileCalendario = ({ translate, company, client, ...props }) => {
+    const [data, setData] = React.useState([]);
+    const primary = getPrimary();
 
-    // const changeMonthBack = () => {
-    //     setDay(false)
-    //     let fechaInicio = moment(fechaBusqueda).subtract(1, 'months').startOf('month');
-    //     let fechaFin = moment(fechaBusqueda).subtract(1, 'months').endOf('month');
-    //     // getReuniones(fechaInicio.toDate(), fechaFin.toDate())
-    //     setFechaBusqueda(fechaInicio)
-    // }
-    // const changeMonthFront = () => {
-    //     setDay(false)
-    //     let fechaInicio = moment(fechaBusqueda).add(1, 'months').startOf('month');
-    //     let fechaFin = moment(fechaBusqueda).add(1, 'months').endOf('month');
-    //     // getReuniones(fechaInicio.toDate(), fechaFin.toDate())
-    //     setFechaBusqueda(fechaInicio)
-    // }
+    const getData = React.useCallback(async () => {
+        const response = await client.query({
+            query: gql`
+                query CompanyNotifications($companyId: Int!){
+                    companyNotifications(companyId: $companyId){
+                        id
+                        limitDate
+                        action
+                        description
+                        state
+                    }
+                }
+            `,
+            variables: {
+                companyId: company.id
+            }
+        });
+
+        console.log(response);
+
+        setData(response.data.companyNotifications);
+    }, [company.id]);
+
+    React.useEffect(() => {
+        getData();
+    }, [getData]);
 
     const getTileClassName = ({ date }) => {
         console.log(date)
-        // if (reuniones.length > 0) {
-        //     let array = reuniones.find(reunion => {
-        //         return moment(reunion.dateStart).format("MMM Do YY") === moment(date).format("MMM Do YY");
-        //     })
-        //     if (array) {
-        //         return 'selectedDate';
-        //     }
-        // }
         return '';
     }
 
-    console.log(translate)
+    const updateCompanyNotification = async (value, index) => {
+        const newValues = {
+            ...data[index],
+            ...value,
+            __typename: undefined
+        };
+
+        const response = await client.mutate({
+            mutation: gql`
+                mutation UpdateCompanyNotification($notification: CompanyNotificationInput){
+                    updateCompanyNotification(notification: $notification){
+                        id
+                        state
+                    }
+                }
+            `,
+            variables: {
+                notification: newValues
+            }
+        });
+        getData();
+    }
+
 
     return (
         <div style={{ height: "100%" }}>
-            <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                {/* <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                    <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
-                        <i className="fa fa-filter"></i>
-                    </div>
-                    <TextInput
-                        placeholder={translate.search}
-                        adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-                        type="text"
-                        value={state.filterText || ""}
-                        styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-                        disableUnderline={true}
-                        stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-                        onChange={event => {
-                            setState({
-                                ...state,
-                                filterText: event.target.value
-                            })
-                        }}
-                    />
-                </div> */}
-            </div>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <div style={{ paddingRight: "1em", fontSize: "22px" }} >
@@ -94,7 +90,7 @@ const FileCalendario = ({ translate, ...props }) => {
                                     padding: "0.5em 1em"
                                 }}
                             >
-                                <span style={{ color: getPrimary(), fontWeight: "bold" }}>Diciembre</span>
+                                <span style={{ color: primary, fontWeight: "bold" }}>Diciembre</span>
                             </div>
                         }
                         textStyle={{ color: primary }}
@@ -128,28 +124,66 @@ const FileCalendario = ({ translate, ...props }) => {
                 </div>
                 <div style={{ marginTop: "1em" }}>
                     <div>
+                        <div style={{ fontWeight: "bold", color: primary, display: "flex", alignItems: "center" }}>
+                            {translate.add}
+                            <i
+                                className={'fa fa-plus-circle'}
+                                //onClick={addRow}
+                                style={{ color: primary, cursor: "pointer", fontSize: "25px", paddingLeft: "5px" }}
+                            />
+                            
+                        </div>
+                        <div style={{maxWidth: '300px'}}>
+                            <AddCompanyNotificationMenu
+                                company={company}
+                                translate={translate}
+                                refetch={getData}
+                            />
+                        </div>
+   
                         <Table
                             style={{ width: "100%", maxWidth: "100%" }}
                         >
                             <TableRow>
-                                <TableCell style={{ color: getPrimary(), fontWeight: "bold" }}>Fecha límite </TableCell>
-                                <TableCell style={{ color: getPrimary(), fontWeight: "bold" }}>Acción</TableCell>
-                                <TableCell style={{ color: getPrimary(), fontWeight: "bold" }}>{translate.description}</TableCell>
-                                <TableCell style={{ color: getPrimary(), fontWeight: "bold" }}>Status</TableCell>
+                                <TableCell style={{ color: primary, fontWeight: "bold" }}>Fecha límite </TableCell>
+                                <TableCell style={{ color: primary, fontWeight: "bold" }}>Acción</TableCell>
+                                <TableCell style={{ color: primary, fontWeight: "bold" }}>{translate.description}</TableCell>
+                                <TableCell style={{ color: primary, fontWeight: "bold" }}>Status</TableCell>
                             </TableRow>
-                            <TableRow>
-                                <TableCell style={{ color: "black" }}>01/12/2016</TableCell>
-                                <TableCell style={{ color: "black" }}>Auditores, reelección</TableCell>
-                                <TableCell style={{ color: "black" }}>
-                                    Auditores que caducaron el 31/12/2015, hasta el 31/12/2016 para renovarlos.. ¿Se han renovado?
-                                    </TableCell>
-                                <TableCell style={{ color: getPrimary() }}>Definitivo</TableCell>
-                            </TableRow>
+                            {data.length > 0 &&
+                                data.map((notification, index) => (
+                                    <TableRow>
+                                        <TableCell style={{ color: "black" }}>{moment(notification.limitDate).format('L')}</TableCell>
+                                        <TableCell style={{ color: "black" }}>{notification.action}</TableCell>
+                                        <TableCell style={{ color: "black" }}>
+                                            {notification.description}
+                                        </TableCell>
+                                        <TableCell style={{ color: primary }}>
+                                            <SelectInput
+                                                value={notification.state}
+                                                onChange={event => {
+                                                    console.log(event.target.value);
+                                                    updateCompanyNotification({
+                                                        state: event.target.value,
+                                                    }, index)
+                                                }}
+                                            >
+                                                <MenuItem value={0}>
+                                                    Pendiente
+                                                </MenuItem>
+                                                <MenuItem value={1}>
+                                                    Finalizada
+                                                </MenuItem>
+                                            </SelectInput>
+                                        </TableCell>
+                                    </TableRow>
+                            ))}
+                            
                         </Table>
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     )
 
 }
