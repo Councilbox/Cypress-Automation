@@ -117,6 +117,7 @@ export default graphql(gql`
 		agendas(councilId: $councilId) {
             id
             pointState
+            subjectType
             agendaSubject
             votingState
         }

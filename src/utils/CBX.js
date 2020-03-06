@@ -94,12 +94,12 @@ export const showAgendaVotingsTable = agenda => {
 }
 
 export const getAgendaResult = (agenda, type) => {
-	//console.log(agenda);
+	const totalVotes = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
 	const types = {
-		POSITIVE: `${agenda.positiveVotings + agenda.positiveManual} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`,
-		NEGATIVE: `${agenda.negativeVotings + agenda.negativeManual} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`,
-		ABSTENTION: `${agenda.abstentionVotings + agenda.abstentionManual} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`,
-		NO_VOTE: `${agenda.noVoteVotings + agenda.noVoteManual} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (agenda.currentRemoteCensus + agenda.presentCensus))}%)`
+		POSITIVE: `${agenda.positiveVotings + agenda.positiveManual} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (totalVotes))}%)`,
+		NEGATIVE: `${agenda.negativeVotings + agenda.negativeManual} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (totalVotes))}%)`,
+		ABSTENTION: `${agenda.abstentionVotings + agenda.abstentionManual} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (totalVotes))}%)`,
+		NO_VOTE: `${agenda.noVoteVotings + agenda.noVoteManual} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`
 	}
 
 	return types[type];
@@ -986,6 +986,10 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		attendants: {
 			value: '{{attendants}}',
 			label: translate.census_type_assistants
+		},
+		delegations: {
+			value: '{{delegations}}',
+			label: translate.delegations
 		}
 	}
 
@@ -1030,6 +1034,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.governingBody,
 			smartTags.president,
 			smartTags.secretary,
+			smartTags.attendants,
+			smartTags.delegations,
 			smartTags.numPresentOrRemote,
 			smartTags.numRepresented,
 			smartTags.numParticipants,
@@ -1050,6 +1056,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.city,
 			smartTags.dateRealStart,
 			smartTags.now,
+			smartTags.attendants,
+			smartTags.delegations,
 			smartTags.numPresentOrRemote,
 			smartTags.numRepresented,
 			smartTags.numParticipants,

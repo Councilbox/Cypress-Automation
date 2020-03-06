@@ -4,7 +4,7 @@ import { LoadingSection } from '../../displayComponents';
 
 
 const CBXDocumentLayout = ({ options, loading, preview, company, finishInModal }) => {
-    
+    //TRADUCCION
     return (
         <div style={{ display: "flex", height: "100%", maxWidth: '210mm' }} >
             <div style={{ width: "20%", maxWidth: "95px" }}>
@@ -17,13 +17,14 @@ const CBXDocumentLayout = ({ options, loading, preview, company, finishInModal }
                 }
             </div>
             <div style={{ width: "100%" }}>
-                <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                    <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                        <img style={{ maxHeight: '3em', width: "auto" }} src={company.logo}></img>
+                <div style={{ width: "100%" }}>
+                    <div style={{ width: "13%", marginTop: "1em", marginRight: "4em", maxWidth: "125px", float: 'right' }}>
+                        <img style={{ maxHeight: '2.8em', width: "auto", float: 'right' }} src={company.logo}></img>
                     </div>
                 </div>
                 <div
                     style={{
+                        clear: 'both',
                         padding: "1em",
                         paddingLeft: "0.5em",
                         marginRight: "3em",

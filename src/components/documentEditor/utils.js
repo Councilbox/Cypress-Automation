@@ -195,7 +195,6 @@ const buildAgendaText = (agenda, translate) => {
                     ${translate.abstentions}: ${getCustomRecount(agenda.ballots, -1)}
                 </li>
             </div>
-        
         `;
     }
 

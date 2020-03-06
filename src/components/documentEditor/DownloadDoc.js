@@ -43,7 +43,7 @@ const DownloadDoc = ({ client, doc, council, options, translate, styles }) => {
         const response = await client.mutate({
             mutation: gql`
                 mutation ACTHTML($doc: Document, $councilId: Int!){
-                    generateActHTML(document: $doc, councilId: $councilId)
+                    generateDocumentHTML(document: $doc, councilId: $councilId)
                 }
             `,
             variables: {

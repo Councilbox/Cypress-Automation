@@ -14,8 +14,8 @@ const GenCatLogin = ({ loginSuccess }) => {
     const gicarRedirect = () => {
         setLoading(true);
         //dades de l aplicacio a integrar
-        let entityid="COUNCILBOX";
-        let AssertionConsumerServiceURL="http://api.councilbox.com/sso/gicar";
+        let entityid="Councilbox";
+        let AssertionConsumerServiceURL="https://api.councilbox.com/sso/gicar";
 
         //url endpoint de GICAR a utilitzar
         let endpointGICAR="https://idp1-gicar.gencat.cat/idp/profile/SAML2/Redirect/SSO?SAMLRequest=";
