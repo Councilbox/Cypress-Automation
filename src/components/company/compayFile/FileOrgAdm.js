@@ -9,28 +9,6 @@ import GoverningBodyForm from '../settings/GoverningBodyForm';
 const FileOrgAdm = ({ translate, data, updateCompanyData, updateCompany, ...props }) => {
     return (
         <div style={{ height: "100%" }}>
-            <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                {/* <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                    <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
-                        <i className="fa fa-filter"></i>
-                    </div>
-                    <TextInput
-                        placeholder={translate.search}
-                        adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-                        type="text"
-                        value={state.filterText || ""}
-                        styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-                        disableUnderline={true}
-                        stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-                        onChange={event => {
-                            setState({
-                                ...state,
-                                filterText: event.target.value
-                            })
-                        }}
-                    />
-                </div> */}
-            </div>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ height: "100%", }}>
                     <Scrollbar>

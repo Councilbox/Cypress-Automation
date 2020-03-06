@@ -157,7 +157,14 @@ const FileCompany = ({ translate, match, client, ...props }) => {
     }
 
     const librosOficiales = () => {
-        return (<FileLibrosOfi></FileLibrosOfi>)
+        return (
+            <FileLibrosOfi
+                data={data}
+                updateCompanyData={updateCompanyData}
+                updateFileData={updateFileData}
+                updateCompany={saveCompany}
+            />
+        )
     }
 
     const auditoresPoderes = () => {
