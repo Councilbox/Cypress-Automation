@@ -13,6 +13,7 @@ import { moment } from '../../../containers/App';
 
 const FileCalendario = ({ translate, company, client, ...props }) => {
     const [data, setData] = React.useState([]);
+    const [showCreateMenu, setShowCreateMenu] = React.useState(false);
     const primary = getPrimary();
 
     const getData = React.useCallback(async () => {
@@ -75,8 +76,8 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
         <div style={{ height: "100%" }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <div style={{ paddingRight: "1em", fontSize: "22px" }} >
-                        {/* onClick={changeMonthBack} */}
+                    {/* <div style={{ paddingRight: "1em", fontSize: "22px" }} >
+                        onClick={changeMonthBack}
                         <i className="fa fa-angle-left" ></i>
                     </div>
                     <DropDownMenu
@@ -115,12 +116,11 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
                                 />
                             </div>
                         }
-                    />
+                    /> 
                     <div style={{ paddingLeft: "1em", fontSize: "22px" }} >
-                        {/* onClick={changeMonthFront} */}
                         <i className="fa fa-angle-right" >
                         </i>
-                    </div>
+                    </div>*/}
                 </div>
                 <div style={{ marginTop: "1em" }}>
                     <div>
@@ -128,19 +128,20 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
                             {translate.add}
                             <i
                                 className={'fa fa-plus-circle'}
-                                //onClick={addRow}
+                                onClick={() => setShowCreateMenu(!showCreateMenu)}
                                 style={{ color: primary, cursor: "pointer", fontSize: "25px", paddingLeft: "5px" }}
                             />
                             
                         </div>
-                        <div style={{maxWidth: '300px'}}>
-                            <AddCompanyNotificationMenu
-                                company={company}
-                                translate={translate}
-                                refetch={getData}
-                            />
-                        </div>
-   
+                        {showCreateMenu &&
+                            <div style={{maxWidth: '300px'}}>
+                                <AddCompanyNotificationMenu
+                                    company={company}
+                                    translate={translate}
+                                    refetch={getData}
+                                />
+                            </div>
+                        }
                         <Table
                             style={{ width: "100%", maxWidth: "100%" }}
                         >
