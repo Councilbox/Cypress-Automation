@@ -188,7 +188,11 @@ const FileCompany = ({ translate, match, client, ...props }) => {
     }
 
     const calendario = () => {
-        return (<FileCalendario></FileCalendario>)
+        return (
+            <FileCalendario
+                company={data}
+            />
+        )
     }
 
     if(loading){
