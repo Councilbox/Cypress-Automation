@@ -75,38 +75,38 @@ class CouncilLiveMobilePage extends React.Component {
                     translate={translate}
                 />
                 <div
-					style={{
-						position: "absolute",
-						bottom: "5%",
-						right: this.state.fullScreen? "5%" : "2%",
-						display: "flex",
+                    style={{
+                        position: "absolute",
+                        bottom: "5%",
+                        right: this.state.fullScreen ? "5%" : "2%",
+                        display: "flex",
                         flexDirection: "column",
                         alignItems: 'flex-end',
-						zIndex: 2
-					}}
+                        zIndex: 2
+                    }}
                 >
-                    <FloatGroup delay={0.02} style={{ display: 'flex', justifyContent: 'flex-end', width: this.state.open? '13em' : '', marginBottom: '0.4em' }}>
+                    <FloatGroup delay={0.02} style={{ display: 'flex', justifyContent: 'flex-end', width: this.state.open ? '13em' : '', marginBottom: '0.4em' }}>
                         <FabButton
                             icon={
                                 <Icon className="material-icons">
                                     add
                                 </Icon>
                             }
-                            onClick={() => this.setState({open: !this.state.open})}
+                            onClick={() => this.setState({ open: !this.state.open })}
                         />
                         <BasicButton
                             text={translate.wall}
                             color={secondary}
-                            textStyle={{color: 'white', fontWeight: '700'}}
-                            buttonStyle={{marginBottom: '1em'}}
+                            textStyle={{ color: 'white', fontWeight: '700' }}
+                            buttonStyle={{ marginBottom: '1em' }}
                             onClick={this.openCommentWall}
                         />
                         {showVideo(council) &&
                             <BasicButton
                                 text={'Ver participantes remotos'}
                                 color={secondary}
-                                textStyle={{color: 'white', fontWeight: '700'}}
-                                buttonStyle={{marginBottom: '1em'}}
+                                textStyle={{ color: 'white', fontWeight: '700' }}
+                                buttonStyle={{ marginBottom: '1em' }}
                                 onClick={this.toggleLiveParticipantsDrawer}
                             />
                         }
@@ -132,18 +132,22 @@ class CouncilLiveMobilePage extends React.Component {
                     />
                 </div>
                 <CommentWall
-					translate={translate}
-					open={this.state.wall}
-					council={council}
-					unreadComments={this.state.unreadComments}
-					updateState={this.updateState}
-					requestClose={this.closeCommentWall}
-				/>
+                    translate={translate}
+                    open={this.state.wall}
+                    council={council}
+                    unreadComments={this.state.unreadComments}
+                    updateState={this.updateState}
+                    requestClose={this.closeCommentWall}
+                />
                 <LiveMobileHeader
                     logo={!!company && company.logo}
                     companyName={!!company && company.businessName}
                     councilName={this.props.data.council.name}
                     translate={this.props.translate}
+                    council={this.props.data.council}
+                    recount={this.props.data.councilRecount}
+                    participants={this.props.data.council.participants}
+                    refetch={this.props.data.refetch}
                 />
                 <div
                     style={{
@@ -151,7 +155,7 @@ class CouncilLiveMobilePage extends React.Component {
                         height: 'calc(100% - 3.5em)'
                     }}
                 >
-                    {this.state.participants?
+                    {this.state.participants ?
                         <ParticipantsManager
                             translate={this.props.translate}
                             participants={
@@ -159,7 +163,7 @@ class CouncilLiveMobilePage extends React.Component {
                             }
                             council={this.props.data.council}
                         />
-                    :
+                        :
                         <AgendaManager
                             ref={agendaManager => (this.agendaManager = agendaManager)}
                             recount={this.props.data.councilRecount}

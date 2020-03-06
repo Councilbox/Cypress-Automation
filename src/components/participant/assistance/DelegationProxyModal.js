@@ -16,7 +16,6 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     const [existingProxy, setExistingProxy] = React.useState(null);
     const signatureContainer = React.useRef();
     const [signed, setSigned] = React.useState(false);
-    const primary = getPrimary();
     const signaturePreview = React.useRef();
     const secondary = getSecondary();
     const [canvasSize, setCanvasSize] = React.useState({
@@ -41,23 +40,24 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
         });
         if(response.data.proxy && (delegation && response.data.proxy.delegateId === delegation.id)){
             setExistingProxy(response.data.proxy);
+            setSigned(true);
             signature.current.fromDataURL(response.data.proxy.signature);
             signaturePreview.current.fromDataURL(response.data.proxy.signature);
         }
     }, [participant.id]);
 
     React.useEffect(() => {
-        if(open && !existingProxy){
+        if(open){
             getProxy();
         }
-    }, [getProxy, open, existingProxy]);
+    }, [getProxy, open]);
 
 	React.useEffect(() => {
 		let timeout = setTimeout(() => {
 			if (signatureContainer.current) {
 				setCanvasSize({
-					width: (signatureContainer.current.getBoundingClientRect().width - 20),
-					height: (signatureContainer.current.getBoundingClientRect().height - 110),
+					width: (signatureContainer.current.getBoundingClientRect().width),
+					height: (signatureContainer.current.getBoundingClientRect().height),
                 });
             }
 		}, 150)
@@ -89,6 +89,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     };
 
     const proxyPreview = () => {
+        const proxyTranslate = proxyTranslations[translate.selectedLanguage]? proxyTranslations[translate.selectedLanguage] : proxyTranslations.es;
+
         return (
             delegation &&
                 <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
@@ -97,23 +99,18 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                     <div>{council.countryState} {council.countryState}</div>
                     <div>{council.country}</div>
                     <br/>
-                    <div>En {council.city}, a {moment(new Date()).format('LL')}</div>
+                    <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
                     <br/>
-                    <div>Distinguido/s Señor/es:</div>
+                    <div>{proxyTranslate.intro}</div>
                     <br/>
-                    <div>
-                        No pudiendo asistir a la {council.name} de {council.company.businessName} convocada
-                        para el próximo día {moment(council.dateStart).format('LL')} a
-                        las {moment(council.dateStart).format('h:mm:ss')} horas, en {council.street}, en
-                        primera convocatoria, o bien el {moment(council.dateStart2ndCall).format('LL')} a
-                        las {moment(council.dateStart2ndCall).format('h:mm:ss')} horas
-                        en el mismo lugar, en segunda convocatoria,
-                        delego mi representación y voto en favor de D./ {delegation.name} {delegation.surname || ''} para que me
-                        represente en dicha reunión sin limitación de facultad de voto.
+                    <div>{proxyTranslate.body({
+                        council,
+                        delegation
+                    })}
                     </div>
                     <br/>
                     <br/>
-                    <div>Le saluda muy atentamente,</div>
+                    <div>{proxyTranslate.salute}</div>
                     <ReactSignature
                         height={80}
                         width={160}
@@ -122,16 +119,15 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                         ref={signaturePreview}
                     />
                     _________________________________
-                    <div>D.  {participant.name} {participant.surname} </div>
+                    <div>{proxyTranslate.sir}  {participant.name} {participant.surname} </div>
                 </Card>
         )
     }
 
     const disableSendButton = () => {
-        return existingProxy && (delegation && existingProxy.delegateId === delegation.name);
+        return existingProxy && (delegation && existingProxy.delegateId === delegation.id);
     }
 
-    //TRADUCCION TODO
     return (
         <AlertConfirm
             open={open}
@@ -145,7 +141,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 }
             }}
             requestClose={requestClose}
-            title={"Generación de documento de delegación"}
+            title={translate.create_proxy_document}
             bodyText={
                 <Grid style={{ marginTop: "15px", height: "100%" }}>
                     <GridItem xs={12} md={6} lg={6} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
@@ -167,17 +163,18 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                         />
                         <div
                             style={{
-                                border: 'solid 1px #979797',
+                                border: 'solid 2px silver',
                                 color: '#a09aa0',
-                                padding: "0.6em",
+                                padding: "0",
+                                borderRadius: '3px',
                                 marginBottom: "1em",
-                                height: 'calc( 100% - 7em )'
+                                height: isMobile? '250px' : '300px'
                             }}
                             onMouseDown={() => setSigned(true)}
                             ref={signatureContainer}
                         >
                             {!signed &&
-                                <div style={{ position: 'absolute'}}>Firme en este recuadro para hacer efectiva la firma electrónica en el documento.</div>
+                                <div style={{ position: 'absolute', margin: '0.6em'}}>{translate.sign_to_create_proxy}.</div>
                             }
                             <div>
                                 <ReactSignature
@@ -208,7 +205,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                                 onClick={clear}
                             />
                             <BasicButton
-                                text={disableSendButton()? `Delegación enviada ${moment(existingProxy.date).format('LLL')}` : 'Enviar documento firmado'}
+                                text={disableSendButton()? `${translate.tooltip_sent} ${moment(existingProxy.date).format('LLL')}` : translate.send_signed_document}
                                 color={!signed || disableSendButton()? 'silver' : secondary}
                                 disabled={!signed || disableSendButton()}
                                 loading={loading}
@@ -228,3 +225,37 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
 }
 
 export default withApollo(withWindowSize(DelegationProxyModal));
+
+
+
+
+const proxyTranslations = {
+    es: {
+        at: 'a',
+        body: ({ council, delegation }) => (`No pudiendo asistir a la ${council.name} de ${council.company.businessName} convocada${
+        ' '}para el próximo día ${moment(council.dateStart).format('LL')} a${
+        ' '}las ${moment(council.dateStart).format('h:mm:ss')} horas, en ${council.street}, en${
+        ' '}primera convocatoria, o bien el ${moment(council.dateStart2ndCall).format('LL')} a${
+        ' '}las ${moment(council.dateStart2ndCall).format('h:mm:ss')} horas${
+        ' '}en el mismo lugar, en segunda convocatoria, delego mi representación y voto en favor de ${
+        ' '}D./ ${delegation.name} ${delegation.surname || ''} para que me represente en dicha reunión sin limitación de facultad de voto.`),
+        in: 'En',
+        intro: 'Distinguido/s Señor/es:',
+        salute: 'Le saluda muy atentatamente',
+        sir: 'D.'
+    },
+    cat: {
+        at: 'a',
+        body: ({ council, delegation }) => (`Malauradament no poden assistir a la ${council.name} d'${council.company.businessName} convocada${
+        ' '}per el pròxim dia ${moment(council.dateStart).format('LL')} a${
+        ' '}les ${moment(council.dateStart).format('h:mm:ss')} horas, ${council.statute.hasSecondCall === 1? `en ${council.street}, en${
+            ' '}primera convocatòria, o bé el ${moment(council.dateStart2ndCall).format('LL')} a${
+            ' '}les ${moment(council.dateStart2ndCall).format('h:mm:ss')} horas${
+            ' '}en la mateixa direcció, en segona convocatòria` : ''}. Delego la meva representació y el meu vot en favor de ${
+        ' '}D./ ${delegation.name} ${delegation.surname || ''} per que pugui representar-me en la citada reunió sense cap limitació de facultat de vot.`),
+        in: 'En',
+        intro: 'Distingits Senyors/res:',
+        salute: 'Salutacions',
+        sir: 'D,'
+    }
+}

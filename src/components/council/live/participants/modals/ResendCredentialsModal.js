@@ -80,7 +80,6 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		setModal(true);
 	}
 
-	/*TRADUCCION*/
 	return (
 		<React.Fragment>
 			{props.security?
@@ -97,13 +96,13 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 					items={
 						<React.Fragment>
 							<MenuItem onClick={resendOnlyAccessLink}>
-								Enviar email de acceso
+								{translate.send_access_mail}
 							</MenuItem>
 							<MenuItem onClick={sendKey}>
-								Enviar clave de entrada
+								{translate.send_access_key}
 							</MenuItem>
 							<MenuItem onClick={resend}>
-								Enviar ambos
+								{translate.send_both}
 							</MenuItem>
 						</React.Fragment>
 					}

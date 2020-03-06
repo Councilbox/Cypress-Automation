@@ -28,6 +28,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 		data: {},
 		loading: true
 	});
+
 	const [state, setState] = useOldState({
 		selectedPoint: null,
 		loaded: false,
@@ -128,7 +129,6 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	}
 
 	const { agendas } = data;
-
 
 	if (props.fullScreen) {
 		return (

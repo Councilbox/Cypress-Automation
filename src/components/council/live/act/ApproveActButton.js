@@ -1,19 +1,26 @@
 import React from 'react';
 import { BasicButton, Icon } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
-import FinishActModal from '../../writing/actEditor/FinishActModal';
 import { ConfigContext } from '../../../../containers/AppControl';
+import { withApollo } from 'react-apollo';
+import { approveAct } from '../../../../queries';
 
-const ApproveActButton = ({ translate, council, refetch }) => {
+const ApproveActButton = ({ translate, council, client, refetch }) => {
     const [modal, setModal] = React.useState(false);
     const primary = getPrimary();
+    const [act, setAct] = React.useState({});
 
-    const showModal = () => {
-        setModal(true);
-    }
 
-    const closeModal = () => {
-        setModal(false);
+    const finishAct = async () => {
+        const response = await client.mutate({
+            mutation: approveAct,
+            variables: {
+                councilId: council.id,
+                closeCouncil: true
+            }
+        });
+
+        refetch();
     }
 
     return (
@@ -24,7 +31,7 @@ const ApproveActButton = ({ translate, council, refetch }) => {
                         text={translate.finish_and_aprove_act}
                         color={primary}
                         textPosition="before"
-                        onClick={showModal}
+                        onClick={finishAct}
                         icon={
                             <Icon
                                 className="material-icons"
@@ -43,15 +50,6 @@ const ApproveActButton = ({ translate, council, refetch }) => {
                             textTransform: "none"
                         }}
                     />
-                    <FinishActModal
-                        refetch={refetch}
-                        council={council}
-                        config={config}
-                        liveMode={true}
-                        translate={translate}
-                        show={modal}
-                        requestClose={closeModal}
-                    />
                 </React.Fragment>
             )}
         </ConfigContext.Consumer>
@@ -59,4 +57,4 @@ const ApproveActButton = ({ translate, council, refetch }) => {
 }
 
 
-export default ApproveActButton;
+export default withApollo(ApproveActButton);

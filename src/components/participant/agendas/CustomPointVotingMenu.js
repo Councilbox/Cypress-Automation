@@ -102,7 +102,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     let denied = [];
 
 
-    if(config.denyVote && agenda.votings.length > 0){
+    if(config.denyVote && (agenda.votings && agenda.votings.length > 0)){
         denied = agenda.votings.filter(voting => voting.author.voteDenied);
 
 

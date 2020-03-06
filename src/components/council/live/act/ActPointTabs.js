@@ -3,12 +3,13 @@ import { Tabs, Tab } from 'material-ui';
 import * as CBX from "../../../../utils/CBX";
 import { Scrollbar } from '../../../../displayComponents';
 import Votings from "../Votings";
-import ActLiveSection from '../../writing/actEditor/ActLiveSection';
 import RecountSection from '../RecountSection';
 import Comments from '../Comments';
+import ActHTMLTab from '../../writing/actViewer/ActHTMLTab';
+import withSharedProps from '../../../../HOCs/withSharedProps';
 
 
-const ActPointTabs = ({ agenda, translate, council, ...props }) => {
+const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
     const [selectedTab, setSelectedTab] = React.useState(0);
     const votings = React.useRef(null);
 
@@ -35,13 +36,14 @@ const ActPointTabs = ({ agenda, translate, council, ...props }) => {
                 <Scrollbar>
                     {selectedTab === 0 &&
                         <div style={{padding: '1.5em', paddingRight: '4.5em'}}>
-                            <ActLiveSection
-                                agenda={agenda}
-                                translate={translate}
+                            <ActHTMLTab
                                 council={council}
-                                refetch={props.refetch}
-                                companyId={council.companyId}
-                                data={props.data}
+                                translate={translate}
+                                company={company}
+                                toolbar={() =>
+                                    <>
+                                    </>
+                                }
                             />
                         </div>
                     }
@@ -79,4 +81,4 @@ const ActPointTabs = ({ agenda, translate, council, ...props }) => {
     )
 }
 
-export default ActPointTabs;
+export default withSharedProps()(ActPointTabs);

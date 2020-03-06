@@ -14,11 +14,11 @@ const GenCatLogin = ({ loginSuccess }) => {
     const gicarRedirect = () => {
         setLoading(true);
         //dades de l aplicacio a integrar
-        let entityid="COUNCILBOX";
-        let AssertionConsumerServiceURL="http://localhost:3000/sso/gicar";
+        let entityid="Councilbox";
+        let AssertionConsumerServiceURL="https://api.councilbox.com/sso/gicar";
 
         //url endpoint de GICAR a utilitzar
-        let endpointGICAR="https://preproduccio.idp1-gicar.gencat.cat/idp/profile/SAML2/Redirect/SSO?SAMLRequest=";
+        let endpointGICAR="https://idp1-gicar.gencat.cat/idp/profile/SAML2/Redirect/SSO?SAMLRequest=";
 
         //calculem el id de la peticio
         let randomnumber = +new Date();

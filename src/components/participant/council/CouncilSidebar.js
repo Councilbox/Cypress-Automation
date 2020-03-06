@@ -27,7 +27,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     const scrollbar = React.useRef();
     const [modal, setModal] = React.useState(false);
     const prevAgendas = React.useRef(null);
-    const [votingsWarning, setVotingsWarning] = React.useState(checkAgendas());
+    const [votingsWarning, setVotingsWarning] = React.useState(null);
 
     const closeAll = () => {
         props.setContent(null);
@@ -103,7 +103,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     const renderVotingsWarning = () => {
         let hideEnterModal = props.modalContent === "agenda" ? true : false;
         return (
-            (votingsWarning.show && !hideEnterModal) && (
+            ((votingsWarning && votingsWarning.show) && !hideEnterModal) && (
                 <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
                     <div
                         onClick={selectAgenda}

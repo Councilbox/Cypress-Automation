@@ -669,7 +669,7 @@ const setAllPresentVotingsMutation = gql`
 
 const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 	name: 'setAllPresentVotings'
-})(({ agenda, setAllPresentVotings, refetch }) => {
+})(({ agenda, setAllPresentVotings, refetch, translate }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const setAllPresents = async vote => {
@@ -687,26 +687,25 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 		setLoading(false);
 	}
 
-	//TRADUCCION
 	return (
 		<DropDownMenu
 			color="transparent"
 			Component={() =>
 				<div style={{ cursor: 'pointer' }}>
-					Marcar presentes como: {loading && <LoadingSection size={10} />}
+					{translate.set_presents_as}: {loading && <LoadingSection size={10} />}
 				</div>
 			}
 			type="flat"
 			items={
 				<React.Fragment>
 					<MenuItem onClick={() => setAllPresents(VOTE_VALUES.POSITIVE)}>
-						A favor
+						{translate.in_favor_btn}
 					</MenuItem>
 					<MenuItem onClick={() => setAllPresents(VOTE_VALUES.NEGATIVE)}>
-						En contra
+						{translate.against_btn}
 					</MenuItem>
 					<MenuItem onClick={() => setAllPresents(VOTE_VALUES.ABSTENTION)}>
-						Abstención
+						{translate.abstention_btn}
 					</MenuItem>
 				</React.Fragment>
 			}

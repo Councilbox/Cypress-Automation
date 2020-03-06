@@ -3,7 +3,7 @@ import { blocks } from './actBlocks';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
 import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
-import { getAgendaResult, hasVotation } from '../../utils/CBX';
+import { getAgendaResult, hasVotation, isCustomPoint } from '../../utils/CBX';
 import iconDelegaciones from '../../assets/img/networking.svg';
 import { TAG_TYPES } from '../company/drafts/draftTags/utils';
 import { translations } from './translations';
@@ -173,11 +173,51 @@ export function generateCertAgendaBlocks(data, language = 'es', secondaryLanguag
     }));
 }
 
+const getCustomRecount = (ballots, itemId) => {
+    return ballots.filter(ballot => ballot.itemId == itemId).reduce((a, b) => a + b.weight, 0)
+}
+
+
+const buildAgendaText = (agenda, translate) => {
+    if(isCustomPoint(agenda.subjectType)){
+        return `
+            <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+                <b>${translate.votings}:</b>
+                ${agenda.items.reduce((acc, item) => {
+                    return `${acc}
+                        <li>
+                            ${item.value}: ${getCustomRecount(agenda.ballots, item.id)}
+                        </li>
+                    `
+
+                }, '')}
+                <li>
+                    ${translate.abstentions}: ${getCustomRecount(agenda.ballots, -1)}
+                </li>
+            </div>
+        `;
+    }
+
+    return `
+        <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+            <b>${translate.votings}: </b>
+            <br> ${
+                translate.inFavor.toUpperCase()}: ${
+                getAgendaResult(agenda, 'POSITIVE')} | ${
+                translate.against.toUpperCase()}: ${
+                getAgendaResult(agenda, 'NEGATIVE')} | ${translate.abstentions.toUpperCase()}:
+            ${getAgendaResult(agenda, 'ABSTENTION')} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NO_VOTE')}
+            <br>
+        </div>
+    `;
+}
+
 
 export function generateAgendaBlocks (data, language = 'es', secondaryLanguage = 'en'){
     const agenda = data.agendas;
     const texts = translations[language];
     const secondaryTexts = translations[secondaryLanguage];
+
 
     let newArray = [
         {
@@ -233,28 +273,11 @@ export function generateAgendaBlocks (data, language = 'es', secondaryLanguage =
                     type: "votes",
                     noBorrar: true,
                     editButton: false,
-                    text: `
-                        <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-                            <b>${texts.votings}: </b>
-                            <br> ${
-                                texts.inFavor.toUpperCase()}: ${
-                                getAgendaResult(element, 'POSITIVE')} | ${
-                                texts.against.toUpperCase()}: ${
-                                getAgendaResult(element, 'NEGATIVE')} | ${texts.abstentions.toUpperCase()}:
-                            ${getAgendaResult(element, 'ABSTENTION')} | ${texts.noVote.toUpperCase()}: ${getAgendaResult(element, 'NO_VOTE')}
-                            <br>
-                        </div>`,
-                    secondaryText: `
-                    <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-                        <b>${secondaryTexts.votings}: </b>
-                        <br> ${
-                            secondaryTexts.inFavor.toUpperCase()}: ${
-                            getAgendaResult(element, 'POSITIVE')} | ${
-                            secondaryTexts.against.toUpperCase()}: ${
-                            getAgendaResult(element, 'NEGATIVE')} | ${secondaryTexts.abstentions.toUpperCase()}:
-                        ${getAgendaResult(element, 'ABSTENTION')} | ${secondaryTexts.noVote.toUpperCase()}: ${getAgendaResult(element, 'NO_VOTE')}
-                        <br>
-                    </div>`
+                    data: {
+                        agendaId: element.id
+                    },
+                    text: buildAgendaText(element, texts),
+                    secondaryText: buildAgendaText(element, secondaryTexts)
                 },
                 {
                     id: Math.random().toString(36).substr(2, 9),
@@ -401,6 +424,10 @@ export const shouldCancelStart = event => {
     }
     if (tagName === 'i' && event.target.classList[2] === undefined) {
         return true
+    }
+
+    if(event.target.className === 'ql-editor ql-blank'){
+        return true;
     }
 
     if (tagName === 'button' ||

@@ -89,7 +89,7 @@ class RichTextInput extends React.Component {
 	};
 
 	render() {
-		const { tags, loadDraft, errorText, required, noBordes, translate, stylesQuill, placeholder, styles } = this.props;
+		const { tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder } = this.props;
 		const modules = {
 			toolbar: {
 				container: [
@@ -196,7 +196,7 @@ class RichTextInput extends React.Component {
 								ref={editor => this.rtEditor = editor}
 								id={this.props.id}
 								style={{ ...stylesQuill }}
-								className={`text-editor ${!!errorText ? 'text-editor-error' : ''}  ${this.props.quillEditorButtonsEmpty} ${!!noBordes ? 'text-editor-sinBordes' : ''}`}
+								className={`text-editor ${this.props.quillEditorButtonsEmpty} ${!!errorText ? 'text-editor-error' : ''} ${!!borderless ? 'borderless-text-editor' : ''}`}
 							/>
 						</div>
 					</GridItem>

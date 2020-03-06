@@ -175,11 +175,10 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 						{translate.to_delegate_vote}
 					</div>
 					<div style={{ fontSize: "15px", color: "#0000005e", display: "flex", alignItems: "center" }}>
-						{/* TRADUCCION */}
 						<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }} >
 							help
 						</i>
-						Seleccione a quien delega su voto
+						{translate.select_who_will_be_delegate}
 					</div>
 				</div>
 			}

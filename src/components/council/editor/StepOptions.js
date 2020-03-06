@@ -119,8 +119,6 @@ const StepOptions = ({ translate, data, ...props }) => {
 
 
 	function updateCouncilData(data) {
-		console.log(config);
-
 		setState({
 			...state,
 			data: {

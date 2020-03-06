@@ -410,7 +410,7 @@ const setMainRepresentative = gql`
 }`;
 
 
-const GrantVoteButton = ({ participant, representative, refetch }) => {
+const GrantVoteButton = ({ participant, representative, refetch, translate }) => {
 	const secondary = getSecondary();
 
 	const appointRepresentative = async () => {
@@ -429,7 +429,7 @@ const GrantVoteButton = ({ participant, representative, refetch }) => {
 
 	return (
 		<BasicButton
-			text="Otogar voto" //TRADUCCION
+			text={translate.grant_vote}
 			type="flat"
 			color="white"
 			textStyle={{ color: secondary }}

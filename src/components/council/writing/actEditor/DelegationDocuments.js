@@ -5,6 +5,8 @@ import { LoadingSection } from '../../../../displayComponents';
 import { Card } from 'material-ui';
 import DownloadParticipantProxy from '../../prepare/DownloadParticipantProxy';
 import { moment } from '../../../../containers/App';
+
+
 const DelegationDocuments = ({ council, translate, client }) => {
     const [data, setData] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
@@ -48,13 +50,13 @@ const DelegationDocuments = ({ council, translate, client }) => {
 
 
     return (
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
+        <div style={{ width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
             {loading?
                 <LoadingSection />
             :
                 data.map(item => (
-                    <Card style={{marginTop: '1em', width: '95%', padding: '0.6em'}}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Card style={{marginTop: '1em', width: '70%', padding: '0.6em'}}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1 }}>
                             <div>
                                 <span style={{fontWeight: '700'}}>{translate.participant}:</span>
                                     {` ${item.participant.name} ${item.participant.surname}`}

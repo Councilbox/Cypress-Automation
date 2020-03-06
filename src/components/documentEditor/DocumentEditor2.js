@@ -14,9 +14,10 @@ import AgreementsPreview from './AgreementsPreview';
 import OptionsMenu from './OptionsMenu';
 import Timbrado from './Timbrado';
 import DocumentPreview from './DocumentPreview';
+import { withRouter } from 'react-router-dom';
 
 
-const DocumentEditor = ({ translate, company, data, documentId, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, ...props }) => {
+const DocumentEditor = ({ translate, company, data, documentId, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, withDrawer, ...props }) => {
     const [edit, setEdit] = React.useState(true);
     const [filteredBlocks, setBlocks] = React.useState(filterBlocks(blocks, doc));
     const [state, setState] = React.useState({
@@ -31,23 +32,25 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
         text: "",
         errors: {},
         sendActDraft: false,
-        finishActModal: false
+        FinishActModal: false
     });
     const scroll = React.useRef(null);
     const [newId, setNewId] = React.useState(null);
+    const [mostrarBloques, setMostrarBloques] = React.useState(!withDrawer ? true : false);
 
     const { hide, collapse, preview } = state;
     const primary = getPrimary();
     const secondary = getSecondary();
+
 
     React.useEffect(() => {
         setBlocks(filterBlocks(blocks, doc));
     }, [doc.length]);
 
     React.useEffect(() => {
-        if(newId){
+        if (newId) {
             const element = document.getElementById(newId);
-            if(element){
+            if (element) {
                 scroll.current.scrollbar.scrollTop(element.offsetTop - 10);
             }
             setNewId(null);
@@ -55,7 +58,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     }, [newId]);
 
     function filterBlocks(blocks, doc) {
-        if(doc && blocks){
+        if (doc && blocks) {
             return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
         }
         return [];
@@ -102,62 +105,82 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
         setNewId(newId);
     }
 
+    const opcionesMenu = () => {
+        return (
+            <React.Fragment>
+                <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
+                    <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setState({
+                        ...state,
+                        hide: !hide
+                    })}>
+                        help
+                    </i>
+                    {hide &&
+                        <div style={{
+                            fontSize: '13px',
+                            color: '#a09aa0'
+                        }}>
+                            {translate.document_editor_help}
+                        </div>
+                    }
+                </div>
+
+                <div style={{ height: withDrawer ? "calc( 100% - 6em )" : "calc( 100% - 3em )", borderRadius: "8px" }}>
+                    <Scrollbar>
+                        <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
+                            <React.Fragment>
+                                <OptionsMenu
+                                    translate={translate}
+                                    options={options}
+                                    setOptions={setOptions}
+                                />
+                                {filteredBlocks.filter(item => !item.logic).map((item, index) => {
+                                    return (
+                                        <BorderBox
+                                            key={item.id}
+                                            addItem={addItem}
+                                            id={item.id}
+                                        >
+                                            <div >
+                                                <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
+                                            </div>
+                                        </BorderBox>
+                                    )
+                                })}
+                                <LogicBlocks
+                                    addItem={addItem}
+                                    automaticos={filteredBlocks}
+                                    translate={translate}
+                                >
+                                </LogicBlocks>
+                            </React.Fragment>
+                        </Grid>
+                    </Scrollbar>
+                </div>
+            </React.Fragment>
+        )
+    }
 
     return (
         <React.Fragment>
             <div style={{ width: "100%", height: "100%" }}>
-                <div style={{ display: "flex", height: "100%" }}>
-                    <div style={{ width: "700px", overflow: "hidden", height: "calc( 100% - 3em )", display: collapse ? "none" : "" }}>
-                        <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
-                            <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setState({
-                                ...state,
-                                hide: !hide
-                            })}>
-                                help
-                            </i>
-                            {hide &&
-                                <div style={{
-                                    fontSize: '13px',
-                                    color: '#a09aa0'
-                                }}> {/*TRADUCCION*/}
-                                    Personaliza y exporta documento usando los bloques inferiores. Desplázalos al documento y edita el texto que necesites
-                                </div>
-                            }
+                <div style={{ display: "flex", height: "100%", position: "relative" }}>
+                    {withDrawer ?
+                        <DrawerOptions
+                            mostrarBloques={mostrarBloques}
+                            setMostrarBloques={() => setMostrarBloques(false)}
+                        >
+                            {opcionesMenu()}
+                        </DrawerOptions>
+                        :
+                        <div style={{ width: "700px", maxWidth: '700px', transition: 'max-width 0.5s linear', overflow: "hidden", height: "calc( 100% - 3em )", display: collapse ? "none" : "" }}>
+                            {opcionesMenu()}
                         </div>
-                        <div style={{ height: "calc( 100% - 3em )", borderRadius: "8px", }}>
-                            <Scrollbar>
-                                <Grid style={{ justifyContent: "space-between", width: "98%", padding: "1em", paddingTop: "1em", paddingBottom: "3em" }}>
-                                    <React.Fragment>
-                                        <OptionsMenu
-                                            translate={translate}
-                                            options={options}
-                                            setOptions={setOptions}
-                                        />
-                                        {filteredBlocks.filter(item => !item.logic).map((item, index) => {
-                                            return (
-                                                <BorderBox
-                                                    key={item.id}
-                                                    addItem={addItem}
-                                                    id={item.id}
-                                                >
-                                                    <div >
-                                                        <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
-                                                    </div>
-                                                </BorderBox>
-                                            )
-                                        })}
-                                        <LogicBlocks
-                                            addItem={addItem}
-                                            automaticos={filteredBlocks}
-                                            translate={translate}
-                                        >
-                                        </LogicBlocks>
-                                    </React.Fragment>
-                                </Grid>
-                            </Scrollbar>
-                        </div>
-                    </div>
-                    <div style={{ width: "100%", position: collapse && "relative", height: "calc( 100% - 3em )", justifyContent: collapse ? 'center' : "", display: collapse ? 'flex' : "" }}>
+
+                    }
+
+
+                    <div style={{ width: "100%", position: collapse && "relative", height: "calc( 100% - 3.5em )", justifyContent: collapse ? 'center' : "", display: collapse ? 'flex' : "" }}>
                         {!collapse &&
                             <div style={{ display: "flex", justifyContent: "space-between", padding: "1em 0em " }}>
                                 <div style={{ display: "flex" }}>
@@ -169,15 +192,15 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                         <React.Fragment>
                                             <BasicButton
                                                 text={'Columna 1'}
-                                                color={column === 1? secondary : 'white'}
+                                                color={column === 1 ? secondary : 'white'}
                                                 textStyle={{
-                                                    color: column === 1? 'white' : "black",
+                                                    color: column === 1 ? 'white' : "black",
                                                     fontWeight: "700",
                                                     fontSize: "0.9em",
                                                     textTransform: "none"
                                                 }}
                                                 textPosition="after"
-                                                onClick={() => changeToColumn(1) }
+                                                onClick={() => changeToColumn(1)}
                                                 buttonStyle={{
                                                     boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                                     borderRadius: '3px',
@@ -188,15 +211,15 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             />
                                             <BasicButton
                                                 text={'Columna 2'}
-                                                color={column === 2? secondary : 'white'}
+                                                color={column === 2 ? secondary : 'white'}
                                                 textStyle={{
-                                                    color: column === 2? 'white' : "black",
+                                                    color: column === 2 ? 'white' : "black",
                                                     fontWeight: "700",
                                                     fontSize: "0.9em",
                                                     textTransform: "none"
                                                 }}
                                                 textPosition="after"
-                                                onClick={() => changeToColumn(2) }
+                                                onClick={() => changeToColumn(2)}
                                                 buttonStyle={{
                                                     boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
                                                     borderRadius: '3px',
@@ -206,6 +229,31 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                                 }}
                                             />
                                         </React.Fragment>
+                                    }
+                                    {withDrawer &&
+                                        <Tooltip title="Ocultar">
+                                            <div
+                                                style={{
+                                                    boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+                                                    borderRadius: '3px',
+                                                    borderTopRightRadius: '0px',
+                                                    borderBottomRightRadius: '0px',
+                                                    borderRight: '1px solid #e8eaeb',
+                                                    padding: '0.6em 2em',
+                                                    color: "black",
+                                                    border: '1px solid gainsboro',
+                                                    cursor: 'pointer',
+                                                    marginRight: '1em',
+                                                    fontWeight: "700",
+                                                    fontSize: "0.9em",
+                                                    height: '3em',
+                                                    textTransform: "none"
+                                                }}
+                                                onClick={() => setMostrarBloques(!mostrarBloques)}
+                                            >
+                                                <i style={{ cursor: "pointer" }} className={mostrarBloques ? 'fa fa-eye' : 'fa fa-eye-slash'}></i>
+                                            </div>
+                                        </Tooltip>
                                     }
                                     <Tooltip title="Ver preview">
                                         <div
@@ -268,12 +316,12 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             preview: false
                                         })}
                                     >
-                                        <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{fontSize: '20px', color: secondary}}></i>
+                                        <i className="fa fa-arrow-circle-right" aria-hidden="true" style={{ fontSize: '20px', color: secondary }}></i>
                                     </div>
                                 </Tooltip>
                             }
                         </div>
-                        <div style={{ height: "100%", border: '1px solid gainsboro', marginTop: collapse && '2em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
+                        <div style={{ height: "calc( 100% - 3em )", border: '1px solid gainsboro', marginTop: collapse && '4em', borderRadius: "8px", background: "white", maxWidth: collapse ? "210mm" : "", width: collapse ? "100%" : "" }}>
                             <Scrollbar ref={scroll}>
                                 {preview ?
                                     <DocumentPreview
@@ -284,6 +332,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                         documentId={documentId}
                                         collapse={collapse}
                                         company={company}
+                                        finishInModal={false}
                                     />
                                     :
                                     <div style={{ display: "flex", height: "100%" }} >
@@ -296,12 +345,12 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             }
                                         </div>
                                         <div style={{ width: "100%" }}>
-                                            <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
-                                                <div style={{ marginTop: "1em", marginRight: "4em", maxWidth: "125px" }}>
-                                                    <img style={{ width: "auto", maxHeight: '3em' }} src={company.logo}></img>
+                                            <div style={{ width: "100%"}}>
+                                                <div style={{ marginTop: "1em", marginRight: "4em", maxWidth: "125px", float: 'right' }}>
+                                                    <img style={{ width: "auto", maxHeight: '3em', float: 'right' }} src={company.logo}></img>
                                                 </div>
                                             </div>
-                                            <div style={{ padding: "1em", paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
+                                            <div style={{ padding: "1em", clear: 'both', paddingLeft: "0.5em", marginRight: "3em", marginBottom: "3em" }} className={"actaLienzo"}>
                                                 <SortableList
                                                     axis={"y"}
                                                     lockAxis={"y"}
@@ -395,15 +444,16 @@ const DraggableBlock = SortableElement(props => {
     const [expand, setExpand] = React.useState(false);
 
     const blockFijoTomadeAcuerdos = {
-        value:{
-        id: Math.random().toString(36).substr(2, 9),
-        label: "Toma de acuerdos",
-        editButton: true,
-        type: 'Toma de acuerdos',
-        noBorrar: true,
-        editButton: false,
-        text: '',
-        expand: true}
+        value: {
+            id: Math.random().toString(36).substr(2, 9),
+            label: "Toma de acuerdos",
+            editButton: true,
+            type: 'Toma de acuerdos',
+            noBorrar: true,
+            editButton: false,
+            text: '',
+            expand: true
+        }
     }
 
     return (
@@ -493,6 +543,43 @@ const DraggableBlock = SortableElement(props => {
     );
 });
 
+const DrawerOptions = ({ mostrarBloques, children, setMostrarBloques }) => {
+    return (
+        <div style={{
+            height: '100%',
+            width: mostrarBloques ? "520px" : '0',
+            position: "absolute",
+            zIndex: '1',
+            top: '0',
+            left: '-5px',
+            backgroundColor: 'white',
+            overflowX: 'hidden',
+            transition: '0.5s',
+            zIndex: "20000",
+            overflow: "hidden",
+            borderRight: mostrarBloques && '1px solid gainsboro'
+        }}>
+            <div style={{ position: "relative" }}>
+                <i
+                    className={"fa fa-close"}
+                    style={{
+                        cursor: "pointer",
+                        fontSize: "1.5em",
+                        color: getSecondary(),
+                        position: "absolute",
+                        right: "12px",
+                        top: "7px"
+                    }}
+                    onClick={setMostrarBloques}
+                />
+            </div>
+            <div style={{ paddingTop: "1em", height: "100%" }}>
+                {children}
+            </div>
+        </div>
+    )
+}
+
 const NoDraggableBlock = props => {
     if (props.logic) {
         return (
@@ -544,7 +631,7 @@ const NoDraggableBlock = props => {
                         <div style={{}}>
                             <div style={{}}
                                 dangerouslySetInnerHTML={{
-                                    __html: props.column === 2? props.value.secondaryText : props.value.text
+                                    __html: props.column === 2 ? props.value.secondaryText : props.value.text
                                 }}>
                             </div>
 
@@ -651,7 +738,7 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={"fa fa-compress"}
-                style={{ background: hover && "gainsboro", borderRadius: "20px", color: expand ? "black": "#a09aa0", padding: "5px", fontSize: "16px",  }}
+                style={{ background: hover && "gainsboro", borderRadius: "20px", color: expand ? "black" : "#a09aa0", padding: "5px", fontSize: "16px", }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >

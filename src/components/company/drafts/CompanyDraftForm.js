@@ -388,18 +388,6 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 									}
 								</div>
 								<div style={{ marginBottom: "1em" }}>
-									{/* Crear etiqueta nueva */}
-									{/* <TextInput
-										id={"crearEtiquetasNuevas"}
-										type="text"
-										placeholder='Crear etiqueta nueva'//TRADUCCION
-										value={newTag}
-										onKeyUp={handleEnter}
-										styleInInput={{ minHeight: '2.5em', paddingLeft: "0.4em", paddingRight: "0.4em", fontSize: "12px", color: "rgba(0, 0, 0, 0.36)", background: "#f2f4f7" }}
-										onChange={event => {
-											setNewTag(event.target.value);
-										}}
-									/> */}
 								</div>
 							</Collapse>
 						</div>

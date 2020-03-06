@@ -7,6 +7,7 @@ import { getPrimary } from "../../../styles/colors";
 import { useOldState } from "../../../hooks";
 import { isAnonym } from '../../../utils/CBX';
 import gql from 'graphql-tag';
+import { isMobile } from "../../../utils/screen";
 
 const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
@@ -89,35 +90,37 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 		}
 
 		return (
-			<BasicButton
-				text={translate.reopen_voting}
-				color={'white'}
-				loading={loading}
-				disabled={loading}
-				textPosition="before"
-				icon={
-					<ButtonIcon
-						type="thumbs_up_down"
-						color={primary}
-					/>
-				}
-				floatRight={true}
-				buttonStyle={{ width: "18em" }}
-				onClick={reopenAgendaVoting}
-				textStyle={{
-					fontSize: "0.75em",
-					fontWeight: "700",
-					textTransform: "none",
-					color: primary,
-				}}
-			/>
+			<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {})  }}>
+				<BasicButton
+					text={translate.reopen_voting}
+					color={'white'}
+					loading={loading}
+					disabled={loading}
+					textPosition="before"
+					icon={
+						<ButtonIcon
+							type="thumbs_up_down"
+							color={primary}
+						/>
+					}
+					floatRight={!isMobile}
+					buttonStyle={{ width: "18em" }}
+					onClick={reopenAgendaVoting}
+					textStyle={{
+						fontSize: "0.75em",
+						fontWeight: "700",
+						textTransform: "none",
+						color: primary,
+					}}
+				/>
+			</div>
 		)
 	}
 
 	return (
 		<React.Fragment >
 			{agenda.votingState === 0 && (
-				<div style={{ float: "right", width: "100%" }}>
+				<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {})  }}>
 					<BasicButton
 						text={translate.active_votings}
 						color={"white"}
@@ -131,7 +134,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 								color={primary}
 							/>
 						}
-						floatRight={true}
+						floatRight={!isMobile}
 						buttonStyle={{ minWidth: "11em" }}
 						textStyle={{
 							fontSize: "0.75em",
@@ -147,7 +150,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 					{council.councilType === 3 ?
 						<div style={{ fontSize: '0.9em' }}>
 							<div>{`Las votaciones se cerrarán automáticamente ${moment(council.closeDate).format('LLL')}`/*TRADUCCION*/}</div>
-							<div style={{ float: "right" }}>
+							<div style={{ ...(!isMobile? { float: 'right' } : {})  }}>
 								<BasicButton
 									text={translate.close_point_votations}
 									color={primary}
@@ -160,7 +163,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 											color="white"
 										/>
 									}
-									floatRight={true}
+									floatRight={!isMobile}
 									buttonStyle={{ width: "18em" }}
 									onClick={closeAgendaVoting}
 									textStyle={{
@@ -173,7 +176,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 							</div>
 						</div>
 						:
-						<div style={{ float: "right", width: "100%" }}>
+						<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {}) }}>
 							<BasicButton
 								text={translate.close_point_votations}
 								color={primary}
@@ -186,7 +189,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 										color="white"
 									/>
 								}
-								floatRight={true}
+								floatRight={!isMobile}
 								buttonStyle={{ width: "18em" }}
 								onClick={closeAgendaVoting}
 								textStyle={{
@@ -202,7 +205,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 			)}
 			{agenda.votingState === 2 && getVotingClosedSection()}
 			{agenda.votingState === 4 &&
-				<div style={{ float: "right" , width: "100%"}}>
+				<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {}) }}>
 					<BasicButton
 						text={translate.close_point_votations}
 						color={primary}
@@ -215,7 +218,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 								color="white"
 							/>
 						}
-						floatRight={true}
+						floatRight={!isMobile}
 						buttonStyle={{ width: "18em" }}
 						onClick={closeAgendaVoting}
 						textStyle={{
@@ -228,7 +231,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 				</div>
 			}
 			{agenda.votingState === 3 &&
-				<div style={{ float: "right", width: "100%" }}>
+				<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {}) }}>
 					<BasicButton
 						text={'Abrir votaciones presentes' /*TRADUCCION*/}
 						color={"white"}
@@ -242,7 +245,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 								color={primary}
 							/>
 						}
-						floatRight={true}
+						floatRight={!isMobile}
 						buttonStyle={{ minWidth: "11em"}}
 						textStyle={{
 							fontSize: "0.75em",

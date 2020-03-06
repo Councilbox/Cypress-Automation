@@ -186,14 +186,14 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 			open={open}
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
-			title={'Seleccionar delegados'} //TRADUCCION
+			title={translate.select}
 			bodyStyle={{ width: "75vw", minWidth: "50vw", }}
 			titleRigth={
 				<div style={{ display: 'flex', alignItems: "center" }}>
 					<div>
 						<ButtonIcon className="material-icons" style={{ color: getPrimary(), fontSize: "15px", marginTop: "5px", marginRight: "5px" }} type={'help'} />
 					</div>
-					Selecciona a quienes pueden recibir delegaciones de voto
+					{translate.select_who_can_receive_delegations}
 				</div>
 
 			}

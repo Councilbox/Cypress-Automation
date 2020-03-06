@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { graphql, withApollo, compose } from "react-apollo";
+import { withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { store } from './App';
 import { setDetectRTC } from '../actions/mainActions';
@@ -14,10 +14,8 @@ import Council from '../components/participant/council/Council';
 import Meet from '../components/participant/meet/Meet';
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
-import { checkSecondDateAfterFirst } from "../utils/CBX";
 import { shouldLoadSubdomain } from "../utils/subdomain";
 import withTranslations from "../HOCs/withTranslations";
-import CouncilState from "../components/participant/login/CouncilState";
 import { usePolling } from "../hooks";
 
 

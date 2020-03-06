@@ -11,8 +11,6 @@ const RoomAdminRouter = ({ user, company, translate }) => {
         bHistory.replace(`/council/${user.accessLimitedTo}/live`);
     }, [user.accessLimitedTo]);
 
-    console.log('render');
-
     return (
         <Switch>
             <Route
@@ -37,7 +35,7 @@ const RoomAdminRouter = ({ user, company, translate }) => {
                         <LiveHeader
                             logo={!!company && company.logo}
                             companyName={!!company && company.businessName}
-                            councilName={'Probando'}
+                            councilName={''}
                             translate={translate}
                         />
                         <CouncilFinishedPage />

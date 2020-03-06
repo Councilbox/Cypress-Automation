@@ -4,7 +4,7 @@ import CBXDocumentLayout from './CBXDocumentLayout';
 
 const spinnerDelay = 2500;
 
-const DocumentPreview = ({ translate, generatePreview, options, collapse, company, client }) => {
+const DocumentPreview = ({ translate, generatePreview, options, collapse, company, finishInModal, client }) => {
     const [loading, setLoading] = React.useState(true);
     const preview = React.useRef(null);
     const mountedDate = React.useRef(new Date().getTime());
@@ -41,6 +41,7 @@ const DocumentPreview = ({ translate, generatePreview, options, collapse, compan
             options={options}
             loading={loading}
             company={company}
+            finishInModal={finishInModal}
         />
     )
 }

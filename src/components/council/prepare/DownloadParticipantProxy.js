@@ -44,9 +44,8 @@ const DownloadCBXDataButton = props => {
 	}
 
 	const secondary = getSecondary();
-	//TRADUCCION
 	return (
-		<Tooltip title={'Descargar documento de delegación'}>
+		<Tooltip title={props.translate.download_proxy}>
 			<div
 				onClick={event => {
 					event.stopPropagation();
