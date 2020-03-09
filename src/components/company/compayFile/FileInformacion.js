@@ -273,7 +273,6 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                             text={translate.save}
                             onClick={updateCompany}
                             floatRight={true}
-
                         />
                     </div>
                 </Scrollbar>

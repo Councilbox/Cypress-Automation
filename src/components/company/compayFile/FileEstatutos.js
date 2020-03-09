@@ -110,13 +110,12 @@ const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...prop
                                 text={translate.save}
                                 onClick={updateCompany}
                                 floatRight={true}
-
                             />
                         </div>
                     </Scrollbar>
-                </div >
-            </div >
-        </div >
+                </div>
+            </div>
+        </div>
     )
 }
 

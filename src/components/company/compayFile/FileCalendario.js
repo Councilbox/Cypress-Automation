@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CardPageLayout, TextInput, Scrollbar, SelectInput, DropDownMenu, Table } from '../../../displayComponents';
+import { CardPageLayout, TextInput, Scrollbar, SelectInput, DropDownMenu, Table, AlertConfirm } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { TableRow, TableCell, TableHead, TableBody, MenuItem } from 'material-ui';
 import { getPrimary, primary } from '../../../styles/colors';
@@ -13,6 +13,7 @@ import { moment } from '../../../containers/App';
 
 const FileCalendario = ({ translate, company, client, ...props }) => {
     const [data, setData] = React.useState([]);
+    const [modal, setModal] = React.useState(false);
     const [showCreateMenu, setShowCreateMenu] = React.useState(false);
     const primary = getPrimary();
 
@@ -34,8 +35,6 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
             }
         });
 
-        console.log(response);
-
         setData(response.data.companyNotifications);
     }, [company.id]);
 
@@ -44,8 +43,34 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
     }, [getData]);
 
     const getTileClassName = ({ date }) => {
-        console.log(date)
         return '';
+    }
+
+    const deleteCompanyNotification = async () => {
+        const response = await client.mutate({
+            mutation: gql`
+                mutation DeleteCompanyNotificatio($notificationId: Int!){
+                    deleteCompanyNotification(notificationId: $notificationId){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                notificationId: modal
+            }
+        });
+        if(response.data.deleteCompanyNotification){
+            getData();
+            setModal(null);
+        }
+    }
+
+    const showDeleteWarningModal = id => {
+        setModal(id);
+    }
+
+    const closeDeleteWarningModal = () => {
+        setModal(false);
     }
 
     const updateCompanyNotification = async (value, index) => {
@@ -75,53 +100,16 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
     return (
         <div style={{ height: "100%" }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {/* <div style={{ paddingRight: "1em", fontSize: "22px" }} >
-                        onClick={changeMonthBack}
-                        <i className="fa fa-angle-left" ></i>
-                    </div>
-                    <DropDownMenu
-                        color="transparent"
-                        styleComponent={{ width: "" }}
-                        Component={() =>
-                            <div
-                                style={{
-                                    borderRadius: '3px',
-                                    boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-                                    padding: "0.5em 1em"
-                                }}
-                            >
-                                <span style={{ color: primary, fontWeight: "bold" }}>Diciembre</span>
-                            </div>
-                        }
-                        textStyle={{ color: primary }}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
-                        }}
-                        type="flat"
-                        items={
-                            <div style={{ padding: "0.5em" }}>
-                                <Calendar
-                                    showNeighboringMonth={false}
-                                    // onChange={onChangeDay}
-                                    // value={daySelected}
-                                    minDetail={'month'}
-                                    tileClassName={date => getTileClassName(date)}
-                                // onClickDay={(value) => clickDay(value)}
-                                />
-                            </div>
-                        }
-                    /> 
-                    <div style={{ paddingLeft: "1em", fontSize: "22px" }} >
-                        <i className="fa fa-angle-right" >
-                        </i>
-                    </div>*/}
-                </div>
+                <AlertConfirm
+                    open={modal}
+                    requestClose={closeDeleteWarningModal}
+                    title={translate.warning}
+                    bodyText={'¿Desea eliminar este elemento?'
+                    }
+                    acceptAction={deleteCompanyNotification}
+                    buttonCancel={translate.cancel}
+                    buttonAccept={translate.accept}
+                />
                 <div style={{ marginTop: "1em" }}>
                     <div>
                         <div style={{ fontWeight: "bold", color: primary, display: "flex", alignItems: "center" }}>
@@ -131,7 +119,6 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
                                 onClick={() => setShowCreateMenu(!showCreateMenu)}
                                 style={{ color: primary, cursor: "pointer", fontSize: "25px", paddingLeft: "5px" }}
                             />
-                            
                         </div>
                         {showCreateMenu &&
                             <div style={{maxWidth: '300px'}}>
@@ -159,7 +146,7 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
                                         <TableCell style={{ color: "black" }}>
                                             {notification.description}
                                         </TableCell>
-                                        <TableCell style={{ color: primary }}>
+                                        <TableCell style={{ color: primary, display: 'flex', alignItems: 'center' }}>
                                             <SelectInput
                                                 value={notification.state}
                                                 onChange={event => {
@@ -176,10 +163,21 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
                                                     Finalizada
                                                 </MenuItem>
                                             </SelectInput>
+                                            <div style={{
+                                                background: "white",
+                                                width: "10%",
+                                                color: primary,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                fontSize: "25px",
+                                                marginLeft: '0.6em'
+                                            }}>
+                                                <i className={"fa fa-times-circle"} onClick={() => showDeleteWarningModal(notification.id)} style={{ cursor: "pointer", }} ></i>
+                                            </div>
                                         </TableCell>
                                     </TableRow>
                             ))}
-                            
                         </Table>
                     </div>
                 </div>
