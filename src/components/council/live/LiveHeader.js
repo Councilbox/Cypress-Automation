@@ -143,25 +143,28 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, to
 						</Tooltip>
 					</div>
 				</div>
-				<div style={{ display: "flex", paddingRight: "2em" }}>
-					<div style={{ marginRight: "1em" }}>
-						<CouncilMenu
-							council={council}
-							translate={translate}
-						/>
-					</div>
-					<div style={{}}>
-						<CouncilStateButton
-							council={council}
-							translate={translate}
-							participants={participants}
-							recount={recount}
-							// agendas={agendas}
-							refetch={refetch}
-						/>
-					</div>
-				</div>
-
+				{council &&
+					<>
+						<div style={{ display: "flex", paddingRight: "2em" }}>
+							<div style={{ marginRight: "1em" }}>
+								<CouncilMenu
+									council={council}
+									translate={translate}
+								/>
+							</div>
+							<div style={{}}>
+								<CouncilStateButton
+									council={council}
+									translate={translate}
+									participants={participants}
+									recount={recount}
+									// agendas={agendas}
+									refetch={refetch}
+								/>
+							</div>
+						</div>
+					</>
+				}
 			</Paper>
 			<div
 				style={{
