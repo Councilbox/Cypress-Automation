@@ -268,6 +268,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 											padding: '0.2em 0.4em',
 											marginTop: '5px',
 											color: 'white',
+											fontSize: '0.9em',
 											backgroundColor: 'rgb(125, 33, 128)',
 											outline: '0px',
 											cursor: 'pointer',
@@ -277,12 +278,13 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 											color: "white",
 											fontWeight: "700",
 											textTransform: 'none',
+											fontSize: '0.85em',
 											whiteSpace: isMobile && 'nowrap',
 											overflow: isMobile && 'hidden',
 											textOverflow: isMobile && 'ellipsis',
 											padding: isMobile && "8px 8px",
 											minHeight: '0',
-    										padding: '5px',
+    										padding: '8px',
 										}
 									)
 								}}
@@ -314,18 +316,20 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 												backgroundColor: getSecondary(),
 												outline: '0px',
 												cursor: 'pointer',
+												fontSize: '0.9em',
 												minHeight: '0px',
 												fontWeight: 'bold',
 											} : {
 												color: "white",
 												fontWeight: "700",
+												fontSize: '0.85em',
 												textTransform: 'none',
 												whiteSpace: isMobile && 'nowrap',
 												overflow: isMobile && 'hidden',
 												textOverflow: isMobile && 'ellipsis',
 												padding: isMobile && "8px 8px",
 												minHeight: '0',
-												padding: '5px',
+												padding: '8px',
 											}
 										)
 									}}
@@ -654,7 +658,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 						</Collapse>
 					</Card>
 				}
-			</Grid >
+			</Grid>
 		)
 	} else {
 		return (
