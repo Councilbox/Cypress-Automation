@@ -12,6 +12,7 @@ const FileUploadButton = ({
 	textPosition,
 	icon,
 	buttonStyle,
+	trigger,
 	flat,
 	loading,
 	loadingColor = 'inherit',
@@ -36,33 +37,39 @@ const FileUploadButton = ({
 				opacity: 0
 			}}
 		/>
-		<label htmlFor="raised-button-file" style={style}>
-			<Button
-				variant={flat ? "flat" : "raised"}
-				component="span"
-				disableRipple={loading}
-				disabled={loading}
-				style={{
-					...buttonStyle,
-					...textStyle,
-					backgroundColor: color
-				}}
-			>
-				{text}
-				{loading ? (
-					<div
-						style={{
-							color: "white",
-							marginLeft: "0.3em"
-						}}
-					>
-						<CircularProgress size={12} color={loadingColor} />
-					</div>
-				) : (
-					icon
-				)}
-			</Button>
-		</label>
+		{trigger?
+			<label htmlFor="raised-button-file" style={style}>
+				{trigger()}
+			</label>
+		:
+			<label htmlFor="raised-button-file" style={style}>
+				<Button
+					variant={flat ? "flat" : "raised"}
+					component="span"
+					disableRipple={loading}
+					disabled={loading}
+					style={{
+						...buttonStyle,
+						...textStyle,
+						backgroundColor: color
+					}}
+				>
+					{text}
+					{loading ? (
+						<div
+							style={{
+								color: "white",
+								marginLeft: "0.3em"
+							}}
+						>
+							<CircularProgress size={12} color={loadingColor} />
+						</div>
+					) : (
+						icon
+					)}
+				</Button>
+			</label>
+		}
 	</React.Fragment>
 );
 
