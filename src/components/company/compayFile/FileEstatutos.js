@@ -108,6 +108,12 @@ const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...prop
                             ))}
                             <BasicButton
                                 text={translate.save}
+                                color={primary}
+                                textStyle={{
+                                    color: 'white',
+                                    fontWeight: '700',
+                                    marginTop: '1em'
+                                }}
                                 onClick={updateCompany}
                                 floatRight={true}
                             />

@@ -27,6 +27,11 @@ const FileAuditoresPode = props => {
                             />
                             <BasicButton
                                 text={props.translate.save}
+                                color={getPrimary()}
+                                textStyle={{
+                                    color: 'white',
+                                    fontWeight: '700'
+                                }}
                                 onClick={props.updateCompany}
                                 floatRight={true}
                             />

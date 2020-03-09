@@ -3,6 +3,7 @@ import { withApollo } from 'react-apollo';
 import { Scrollbar, BasicButton } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import GoverningBodyForm from '../settings/GoverningBodyForm';
+import { getPrimary } from '../../../styles/colors';
 
 
 
@@ -17,10 +18,14 @@ const FileOrgAdm = ({ translate, data, updateCompanyData, updateCompany, ...prop
                         </div>
                         <BasicButton
                             text={translate.save}
-                            onClick={updateCompany}
-                            buttonStyle={{
+                            color={getPrimary()}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '700',
                                 marginTop: '1em'
                             }}
+                            onClick={updateCompany}
+                            floatRight={true}
                         />
                     </Scrollbar>
                 </div>

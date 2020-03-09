@@ -12,39 +12,6 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
     //TRADUCCION
     return (
         <div style={{ height: "100%" }}>
-            <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-                    {/*<BasicButton
-                        text={
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <div><i className="fa fa-plus-circle" style={{ color: primary, paddingRight: "5px", fontSize: "16px" }}></i></div>
-                                <div style={{ color: primary, fontWeight: "bold" }} >{translate.add}</div>
-                            </div>
-                        }
-                        //onClick={this.toggle}
-                        backgroundColor={{ background: "white", boxShadow: "none" }}
-                    >
-                    </BasicButton>
-                    <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
-                        <i className="fa fa-filter"></i>
-                    </div>
-                    <TextInput
-                        placeholder={translate.search}
-                        adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-                        type="text"
-                        value={state.filterText || ""}
-                        styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-                        disableUnderline={true}
-                        stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-                        onChange={event => {
-                            setState({
-                                ...state,
-                                filterText: event.target.value
-                            })
-                        }}
-                    /> */}
-                </div>
-            </div>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <Scrollbar >
                     <div style={{ height: "100%" }}>
@@ -91,7 +58,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         Domicilio Social
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black '}}
+                                        style={{ color: 'black', borderBottom: !data.address? '1px solid black': 'none'}}
                                         html={data.address}
                                         onChange={event => {
                                             updateCompanyData({
@@ -110,6 +77,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                     </div>
                                     <ContentEditable
                                         html={data.tin}
+                                        style={{ borderBottom: !data.tin? '1px solid black': 'none'}}
                                         disabled={true}
                                     />
                                 </GridItem>
@@ -125,7 +93,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         Capital social
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.socialCapital? '1px solid black': 'none'}}
                                         html={data.file.socialCapital || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -143,7 +111,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         CNAE
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.CNAE? '1px solid black': 'none'}}
                                         html={data.file.CNAE || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -169,7 +137,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         {translate.constitution}
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.constitution? '1px solid black': 'none'}}
                                         html={data.file.constitution || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -190,7 +158,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         Adaptación
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.adaptation? '1px solid black': 'none'}}
                                         html={data.file.adaptation || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -211,7 +179,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         Transformación
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.transformation? '1px solid black': 'none'}}
                                         html={data.file.transformation || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -232,7 +200,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         Traslado domicilio social
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.placeOfBusiness? '1px solid black': 'none'}}
                                         html={data.file.placeOfBusiness || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -258,7 +226,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         Ejercicio social
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.financialYear? '1px solid black': 'none'}}
                                         html={data.file.financialYear || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -271,6 +239,11 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                         </div>
                         <BasicButton
                             text={translate.save}
+                            color={primary}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '700'
+                            }}
                             onClick={updateCompany}
                             floatRight={true}
                         />
