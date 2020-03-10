@@ -7,7 +7,7 @@ import group from '../../../../assets/img/group-2.png';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
 import { Icon, Table, TableRow, TableCell } from 'material-ui';
-import { CardPageLayout, TextInput, LoadingSection, BasicButton, DropDownMenu, FileUploadButton } from "../../../../displayComponents";
+import { CardPageLayout, TextInput, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
 
 const CompanyDocumentsPage = ({ translate, company, client }) => {
@@ -16,8 +16,10 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
         value: '-1',
         label: 'home'
     }]);
+    const [deleting, setDeleting] = React.useState(false);
     const [documents, setDocuments] = React.useState(null);
     const [search, setSearch] = React.useState("");
+    const [deleteModal, setDeleteModal] = React.useState(null);
     const primary = getPrimary();
 
     const getData = React.useCallback(async () => {
@@ -27,6 +29,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                     companyDocuments(companyId: $companyId, folderId: $folderId){
                         name
                         filesize
+                        id
                         filetype
                         date
                         lastUpdated
@@ -46,6 +49,27 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     React.useEffect(() => {
         getData();
     }, [getData])
+
+    const deleteDocument = async () => {
+        setDeleting(true);
+        const response = await client.mutate({
+            mutation: gql`
+                mutation DeleteCompanyDocument($documentId: Int!){
+                    deleteCompanyDocument(documentId: $documentId){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                documentId: deleteModal.id
+            }
+        });
+
+        console.log(response);
+        getData();
+        setDeleting(false);
+        setDeleteModal(false);
+    }
 
 
     const handleFile = async event => {
@@ -98,6 +122,20 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     return (
         <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em", paddingTop: isMobile && "0em" }}>
             <div>
+                <AlertConfirm
+                    open={deleteModal}
+                    title={translate.warning}
+                    loadingAction={deleting}
+                    requestClose={() => setDeleteModal(false)}
+                    bodyText={
+                        <div>
+                            ¿Esta seguro de que quiere eliminar el documento <strong>{deleteModal? deleteModal.name : ''}</strong>?
+                        </div>
+                    }
+                    buttonAccept={translate.accept}
+                    buttonCancel={translate.cancel}
+                    acceptAction={deleteDocument}
+                />
                 <div style={{ display: "flex", borderBottom: "1px solid" + primary, alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", alignItems: "center", }}>
                         <DropDownMenu
@@ -254,9 +292,18 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                 {doc.filesize}
                             </TableCell>
                             <TableCell>
-                                <span>
+                                <div onClick={() => setDeleteModal(doc)} style={{
+                                    cursor: 'pointer',
+                                    color: primary,
+                                    background: 'white',
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    padding: "0.3em",
+                                    width: "100px"
+                                }}>
                                     {translate.delete}
-                                </span>
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
