@@ -2,8 +2,8 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import folder from '../../../../assets/img/folder.png';
+import folderIcon from '../../../../assets/img/folder.svg';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
-import group from '../../../../assets/img/group-2.png';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
 import { Icon, Table, TableRow, TableCell } from 'material-ui';
@@ -24,6 +24,8 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     const [deleteModal, setDeleteModal] = React.useState(null);
     const primary = getPrimary();
 
+    const actualFolder = breadCrumbs[breadCrumbs.length - 1].value;
+
     const getData = React.useCallback(async () => {
         const response = await client.query({
             query: gql`
@@ -41,11 +43,9 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
             `,
             variables: {
                 companyId: company.id,
-                folderId: breadCrumbs.length > 1? breadCrumbs[breadCrumbs.length - 1].value : null
+                folderId: breadCrumbs.length > 1? actualFolder : null
             }
         });
-
-        console.log(response);
         setDocuments(response.data.companyDocuments);
     }, [company.id, breadCrumbs])
 
@@ -76,8 +76,6 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                 documentId: deleteModal.id
             }
         });
-
-        console.log(response);
         getData();
         setDeleting(false);
         setDeleteModal(false);
@@ -98,7 +96,12 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
 				filetype: file.type,
 				filesize: event.loaded,
                 base64: btoa(event.target.result),
-                companyId: company.id
+                companyId: company.id,
+                ...(breadCrumbs.length > 1?
+                    {
+                        parentFolder: actualFolder
+                    }
+                : {})
             };
 
             const response = await client.mutate({
@@ -154,7 +157,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                     translate={translate}
                     refetch={getData}
                     company={company}
-                    parentFolder={null}
+                    parentFolder={breadCrumbs.length > 1? actualFolder : null}
                 />
                 <div style={{ display: "flex", borderBottom: "1px solid" + primary, alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", alignItems: "center", }}>
@@ -321,10 +324,11 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                         doc.type === 0?
                             <TableRow onClick={() => navigateTo(doc)} style={{ cursor: 'pointer'}}>
                                 <TableCell>
+                                    <img src={folderIcon} style={{ marginRight: '0.6em' }} />
                                     {doc.name}
                                 </TableCell>
                                 <TableCell>
-                                    {'CARPETA'}
+                                    {'Carpeta' /*TRADUCCION*/}
                                 </TableCell>
                                 <TableCell>
                                     {moment(doc.lastUpdated).format('LLL')}
@@ -351,7 +355,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                     {doc.name}
                                 </TableCell>
                                 <TableCell>
-                                    { doc.filetype}
+                                    {doc.name.split('.').pop().toUpperCase()}
                                 </TableCell>
                                 <TableCell>
                                     {moment(doc.lastUpdated).format('LLL')}

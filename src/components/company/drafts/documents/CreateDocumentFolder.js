@@ -20,12 +20,14 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
             variables: {
                 companyDocument: {
                     name,
-                    companyId: company.id
+                    companyId: company.id,
+                    parentFolder
                 }
             }
         });
 
         refetch();
+        requestClose();
     }
 
 
