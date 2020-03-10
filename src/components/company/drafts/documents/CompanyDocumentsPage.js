@@ -8,6 +8,7 @@ import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
 import { Icon, Table, TableRow, TableCell } from 'material-ui';
 import { CardPageLayout, TextInput, LoadingSection, BasicButton, DropDownMenu, FileUploadButton } from "../../../../displayComponents";
+import { moment } from '../../../../containers/App';
 
 const CompanyDocumentsPage = ({ translate, company, client }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
@@ -15,6 +16,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
         value: '-1',
         label: 'home'
     }]);
+    const [documents, setDocuments] = React.useState(null);
     const [search, setSearch] = React.useState("");
     const primary = getPrimary();
 
@@ -24,6 +26,10 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                 query CompanyDocuments($companyId: Int!, $folderId: Int){
                     companyDocuments(companyId: $companyId, folderId: $folderId){
                         name
+                        filesize
+                        filetype
+                        date
+                        lastUpdated
                     }
                 }
             `,
@@ -34,6 +40,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
         });
 
         console.log(response);
+        setDocuments(response.data.companyDocuments);
     }, [company.id, breadCrumbs])
 
     React.useEffect(() => {
@@ -73,6 +80,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
             });
 
             console.log(response);
+            getData();
 
 			// setUploading(true);
 			// const response = await props.addAttachment({
@@ -90,7 +98,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     return (
         <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em", paddingTop: isMobile && "0em" }}>
             <div>
-                <div style={{ display: "flex", borderBottom: "1px solid" + getPrimary(), alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", borderBottom: "1px solid" + primary, alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", alignItems: "center", }}>
                         <DropDownMenu
                             color="transparent"
@@ -103,12 +111,12 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                             cursor: "pointer"
                                         }}
                                     >
-                                        <span style={{ color: getPrimary(), fontWeight: "bold" }}>Mi Documentación</span>
+                                        <span style={{ color: primary, fontWeight: "bold" }}>Mi Documentación</span>
                                     </div>
                                     <i className={"fa fa-sort-desc"}
                                         style={{
                                             cursor: 'pointer',
-                                            color: getPrimary(),
+                                            color: primary,
                                             paddingLeft: "5px",
                                             fontSize: "20px",
                                             position: "absolute",
@@ -146,7 +154,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                         //loading={uploading}
                                         onChange={handleFile}
                                     />
-                                    <div style={{ display: "flex", color: "black", padding: ".5em 0em", borderTop: "1px solid" + getPrimary(), cursor: "pointer" }}>
+                                    <div style={{ display: "flex", color: "black", padding: ".5em 0em", borderTop: "1px solid" + primary, cursor: "pointer" }}>
                                         <div style={{ width: "15px" }}>
                                             <img src={folder} style={{ width: "100%" }}></img>
                                         </div>
@@ -223,10 +231,35 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                             fontWeight: "bold",
                             borderBottom: "1px solid #979797"
                         }}>
-                            Tamaño
+                            Tamaño {/*TRADUCCION*/}
                         </TableCell>
+                        <TableCell style={{
+                            color: "#a09aa0",
+                            fontWeight: "bold",
+                            borderBottom: "1px solid #979797"
+                        }} />
                     </TableRow>
-
+                    {documents && documents.map(doc => (
+                        <TableRow>
+                            <TableCell>
+                                {doc.name}
+                            </TableCell>
+                            <TableCell>
+                                {doc.filetype}
+                            </TableCell>
+                            <TableCell>
+                                {moment(doc.lastUpdated).format('LLL')}
+                            </TableCell>
+                            <TableCell>
+                                {doc.filesize}
+                            </TableCell>
+                            <TableCell>
+                                <span>
+                                    {translate.delete}
+                                </span>
+                            </TableCell>
+                        </TableRow>
+                    ))}
                 </Table>
             </div>
         </div>
@@ -234,21 +267,3 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
 }
 
 export default withApollo(CompanyDocumentsPage);
-
-/*
-
-<TableRow>
-    <TableCell>
-        Estatutos revisados
-    </TableCell>
-    <TableCell>
-        PDF
-    </TableCell>
-    <TableCell>
-        01/09/2019
-    </TableCell>
-    <TableCell>
-        5MB
-    </TableCell>
-</TableRow>
-*/
