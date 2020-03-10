@@ -9,6 +9,7 @@ import { isMobile } from '../../../../utils/screen';
 import { Icon, Table, TableRow, TableCell } from 'material-ui';
 import { CardPageLayout, TextInput, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
+import CreateDocumentFolder from './CreateDocumentFolder';
 
 const CompanyDocumentsPage = ({ translate, company, client }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
@@ -18,6 +19,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     }]);
     const [deleting, setDeleting] = React.useState(false);
     const [documents, setDocuments] = React.useState(null);
+    const [folderModal, setFolderModal] = React.useState(false);
     const [search, setSearch] = React.useState("");
     const [deleteModal, setDeleteModal] = React.useState(null);
     const primary = getPrimary();
@@ -29,6 +31,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                     companyDocuments(companyId: $companyId, folderId: $folderId){
                         name
                         filesize
+                        type
                         id
                         filetype
                         date
@@ -49,6 +52,15 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     React.useEffect(() => {
         getData();
     }, [getData])
+
+    const navigateTo = folder => {
+        breadCrumbs.push({
+            value: folder.id,
+            label: folder.name
+        });
+
+        setBreadCrumbs([...breadCrumbs]);
+    }
 
     const deleteDocument = async () => {
         setDeleting(true);
@@ -136,6 +148,14 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                     buttonCancel={translate.cancel}
                     acceptAction={deleteDocument}
                 />
+                <CreateDocumentFolder
+                    requestClose={() => setFolderModal(false)}
+                    open={folderModal}
+                    translate={translate}
+                    refetch={getData}
+                    company={company}
+                    parentFolder={null}
+                />
                 <div style={{ display: "flex", borderBottom: "1px solid" + primary, alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", alignItems: "center", }}>
                         <DropDownMenu
@@ -192,7 +212,16 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                         //loading={uploading}
                                         onChange={handleFile}
                                     />
-                                    <div style={{ display: "flex", color: "black", padding: ".5em 0em", borderTop: "1px solid" + primary, cursor: "pointer" }}>
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            color: "black",
+                                            padding: ".5em 0em",
+                                            borderTop: "1px solid" + primary,
+                                            cursor: "pointer"
+                                        }}
+                                        onClick={() => setFolderModal(true)}
+                                    >
                                         <div style={{ width: "15px" }}>
                                             <img src={folder} style={{ width: "100%" }}></img>
                                         </div>
@@ -209,7 +238,18 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                     {index > 0 &&
                                         ` > `
                                     }
-                                    <span style={{ color: index === breadCrumbs.length? primary : 'inherit' }}>{item.label}</span>
+                                    <span
+                                        style={{
+                                            ...(index === breadCrumbs.length - 1? {
+                                                color: (index === breadCrumbs.length - 1)? primary : 'inherit'
+                                            }: {
+                                                cursor: 'pointer'
+                                            })}}
+                                        onClick={() => {
+                                            breadCrumbs.splice(index + 1);
+                                            setBreadCrumbs([...breadCrumbs]);
+                                        }}
+                                    >{item.label}</span>
                                 </>
                             ))}
                         </div>
@@ -278,34 +318,62 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                         }} />
                     </TableRow>
                     {documents && documents.map(doc => (
-                        <TableRow>
-                            <TableCell>
-                                {doc.name}
-                            </TableCell>
-                            <TableCell>
-                                {doc.filetype}
-                            </TableCell>
-                            <TableCell>
-                                {moment(doc.lastUpdated).format('LLL')}
-                            </TableCell>
-                            <TableCell>
-                                {doc.filesize}
-                            </TableCell>
-                            <TableCell>
-                                <div onClick={() => setDeleteModal(doc)} style={{
-                                    cursor: 'pointer',
-                                    color: primary,
-                                    background: 'white',
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    padding: "0.3em",
-                                    width: "100px"
-                                }}>
-                                    {translate.delete}
-                                </div>
-                            </TableCell>
-                        </TableRow>
+                        doc.type === 0?
+                            <TableRow onClick={() => navigateTo(doc)} style={{ cursor: 'pointer'}}>
+                                <TableCell>
+                                    {doc.name}
+                                </TableCell>
+                                <TableCell>
+                                    {'CARPETA'}
+                                </TableCell>
+                                <TableCell>
+                                    {moment(doc.lastUpdated).format('LLL')}
+                                </TableCell>
+                                <TableCell/>
+                                <TableCell>
+                                    <div onClick={() => setDeleteModal(doc)} style={{
+                                        cursor: 'pointer',
+                                        color: primary,
+                                        background: 'white',
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        padding: "0.3em",
+                                        width: "100px"
+                                    }}>
+                                        {translate.delete}
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        :
+                            <TableRow>
+                                <TableCell>
+                                    {doc.name}
+                                </TableCell>
+                                <TableCell>
+                                    { doc.filetype}
+                                </TableCell>
+                                <TableCell>
+                                    {moment(doc.lastUpdated).format('LLL')}
+                                </TableCell>
+                                <TableCell>
+                                    {doc.filesize}
+                                </TableCell>
+                                <TableCell>
+                                    <div onClick={() => setDeleteModal(doc)} style={{
+                                        cursor: 'pointer',
+                                        color: primary,
+                                        background: 'white',
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        padding: "0.3em",
+                                        width: "100px"
+                                    }}>
+                                        {translate.delete}
+                                    </div>
+                                </TableCell>
+                            </TableRow>
                     ))}
                 </Table>
             </div>
