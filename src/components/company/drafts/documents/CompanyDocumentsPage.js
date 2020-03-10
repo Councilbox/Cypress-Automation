@@ -18,6 +18,29 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     const [search, setSearch] = React.useState("");
     const primary = getPrimary();
 
+    const getData = React.useCallback(async () => {
+        const response = await client.query({
+            query: gql`
+                query CompanyDocuments($companyId: Int!, $folderId: Int){
+                    companyDocuments(companyId: $companyId, folderId: $folderId){
+                        name
+                    }
+                }
+            `,
+            variables: {
+                companyId: company.id,
+                folderId: breadCrumbs.length > 1? breadCrumbs[breadCrumbs.length - 1].value : null
+            }
+        });
+
+        console.log(response);
+    }, [company.id, breadCrumbs])
+
+    React.useEffect(() => {
+        getData();
+    }, [getData])
+
+
     const handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
