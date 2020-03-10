@@ -21,7 +21,7 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
                 companyDocument: {
                     name,
                     companyId: company.id,
-                    parentFolder
+                    parentFolder: parentFolder? parentFolder : 0
                 }
             }
         });
@@ -51,8 +51,7 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
                 onChange={event =>
                     setName(event.nativeEvent.target.value)
                 }
-            >
-            </Input>
+            />
         )
     }
 

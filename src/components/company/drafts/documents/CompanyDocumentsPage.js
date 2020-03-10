@@ -10,6 +10,7 @@ import { Icon, Table, TableRow, TableCell } from 'material-ui';
 import { CardPageLayout, TextInput, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
+import { Input } from 'material-ui';
 
 const CompanyDocumentsPage = ({ translate, company, client }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
@@ -144,7 +145,15 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                     requestClose={() => setDeleteModal(false)}
                     bodyText={
                         <div>
-                            ¿Esta seguro de que quiere eliminar el documento <strong>{deleteModal? deleteModal.name : ''}</strong>?
+                            {deleteModal && deleteModal.type === 0?
+                                <>
+                                    ¿Esta seguro de que quiere la carpeta <strong>{deleteModal? deleteModal.name : ''}</strong> y todo su contenido?
+                                </>
+                            :
+                                <>
+                                    ¿Esta seguro de que quiere eliminar el documento <strong>{deleteModal? deleteModal.name : ''}</strong>?
+                                </>
+                            }
                         </div>
                     }
                     buttonAccept={translate.accept}
@@ -335,7 +344,10 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                 </TableCell>
                                 <TableCell/>
                                 <TableCell>
-                                    <div onClick={() => setDeleteModal(doc)} style={{
+                                    <div onClick={event => {
+                                        event.stopPropagation();
+                                        setDeleteModal(doc)
+                                    }} style={{
                                         cursor: 'pointer',
                                         color: primary,
                                         background: 'white',
@@ -350,39 +362,114 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                 </TableCell>
                             </TableRow>
                         :
-                            <TableRow>
-                                <TableCell>
-                                    {doc.name}
-                                </TableCell>
-                                <TableCell>
-                                    {doc.name.split('.').pop().toUpperCase()}
-                                </TableCell>
-                                <TableCell>
-                                    {moment(doc.lastUpdated).format('LLL')}
-                                </TableCell>
-                                <TableCell>
-                                    {doc.filesize}
-                                </TableCell>
-                                <TableCell>
-                                    <div onClick={() => setDeleteModal(doc)} style={{
-                                        cursor: 'pointer',
-                                        color: primary,
-                                        background: 'white',
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        padding: "0.3em",
-                                        width: "100px"
-                                    }}>
-                                        {translate.delete}
-                                    </div>
-                                </TableCell>
-                            </TableRow>
+                            <FileRow
+                                translate={translate}
+                                file={doc}
+                                setDeleteModal={setDeleteModal}
+                                refetch={getData}
+                            />
                     ))}
                 </Table>
             </div>
         </div>
     )
 }
+
+
+const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal }) => {
+    const nameData = file.name.split('.');
+    const extension = nameData.pop();
+    const name = nameData.join('.');
+    const [modal, setModal] = React.useState(false);
+    const [filename, setFilename] = React.useState(name);
+    const primary = getPrimary();
+    const [error, setError] = React.useState('');
+    const editableRef = React.useRef();
+
+
+    const updateFile = async () => {
+        if(!filename){
+            return setError(translate.required_field);
+        }
+
+        const response = await client.mutate({
+            mutation: gql`
+                mutation UpdateCompanyDocument($companyDocument: CompanyDocumentInput){
+                    updateCompanyDocument(companyDocument: $companyDocument){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                companyDocument: {
+                    id: file.id,
+                    name: `${filename}.${extension}`
+                }
+            }
+        });
+
+        refetch();
+        setModal(false);
+    }
+
+    return (
+        <TableRow>
+            <AlertConfirm
+                title={translate.edit}
+                acceptAction={updateFile}
+                buttonAccept={translate.accept}
+                buttonCancel={translate.cancel}
+                requestClose={() => setModal(false)}
+                open={modal}
+                bodyText={
+                    <Input
+                        error={error}
+                        disableUnderline={true}
+                        id={"titleDraft"}
+                        style={{
+                            color: "rgba(0, 0, 0, 0.65)",
+                            fontSize: '15px',
+                            border: error? '2px solid red' : '1px solid #d7d7d7',
+                            boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+                            width: "100%",
+                            padding: '.5em 1.6em',
+                            marginTop: "1em"
+                        }}
+                        value={filename}
+                        onChange={event =>
+                            setFilename(event.target.value)
+                        }
+                    />
+                }
+            />
+            <TableCell onClick={() => setModal(true)}>
+                {name}
+            </TableCell>
+            <TableCell>
+                {extension.toUpperCase()}
+            </TableCell>
+            <TableCell>
+                {moment(file.lastUpdated).format('LLL')}
+            </TableCell>
+            <TableCell>
+                {file.filesize}
+            </TableCell>
+            <TableCell>
+                <div onClick={() => setDeleteModal(file)} style={{
+                    cursor: 'pointer',
+                    color: primary,
+                    background: 'white',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "0.3em",
+                    width: "100px"
+                }}>
+                    {translate.delete}
+                </div>
+            </TableCell>
+        </TableRow>
+    )
+})
 
 export default withApollo(CompanyDocumentsPage);

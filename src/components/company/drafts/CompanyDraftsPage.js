@@ -74,7 +74,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
 
 
     return (
-        <CardPageLayout title={translate.drafts} disableScroll>
+        <CardPageLayout title={translate.tooltip_knowledge_base} disableScroll>
             <div style={{ padding: '1em', height: '100%', paddingTop: "0px" }}>
                 {mostrarMenu &&
                     <div style={{ display: "flex", padding: '1em', justifyContent: "space-between", paddingTop: "0px" }}>
