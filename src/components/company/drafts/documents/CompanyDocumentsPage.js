@@ -83,6 +83,38 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     }
 
 
+    const handleFileWithLoading = async event => {
+        const file = event.nativeEvent.target.files[0];
+		if (!file) {
+			return;
+		}
+
+		let reader = new FileReader();
+		reader.readAsBinaryString(file);
+
+		reader.onload = async () => {
+            const formData = new FormData();
+            formData.append('file', file);
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function(e) {
+                console.log(e);
+            };
+
+            xhr.onprogress = function (event) {
+                console.log(event);;
+            };
+
+            xhr.upload.onprogress = function(e) {
+                console.log(e);;
+            }
+
+            xhr.open('POST', 'http://localhost:5000/api/companyDocument', true);
+
+            xhr.send(formData);
+		}
+    }
+
+
     const handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
@@ -222,7 +254,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                         }}
                                         buttonStyle={{ width: "100%" }}
                                         //loading={uploading}
-                                        onChange={handleFile}
+                                        onChange={handleFileWithLoading}
                                     />
                                     <div
                                         style={{
