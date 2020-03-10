@@ -52,7 +52,7 @@ const CouncilEditorPage = ({ council, translate, company, ...props }) => {
 	}
 
 	return (
-		<CardPageLayout title={!!council.name ? `${council.name}` : translate.dashboard_new} disableScroll={true}>
+		<CardPageLayout disableScroll={true}>
 			<div
 				style={{
 					width: "100%",

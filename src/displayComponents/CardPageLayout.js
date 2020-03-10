@@ -3,19 +3,19 @@ import { lightGrey, getPrimary } from "../styles/colors";
 //import Scrollbar from "react-perfect-scrollbar";
 import Scrollbar from './Scrollbar';
 import withWindowSize from "../HOCs/withWindowSize";
-import { Paper } from "material-ui";
+import { Paper, Avatar } from "material-ui";
 import CBXFooter from './CBXFooter';
+import { bHistory } from "../containers/App";
+import { isMobile } from "react-device-detect";
 
 
-const CardPageLayout = ({
-	children,
-	title,
-	footer,
-	windowSize,
-	stylesNoScroll,
-	inFinish,
-	disableScroll = false
-}) => (
+const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false }) => {
+
+	const goBack = () => {
+		bHistory.goBack();
+	};
+
+	return (
 		<div
 			style={{
 				backgroundColor: lightGrey,
@@ -26,55 +26,60 @@ const CardPageLayout = ({
 		>
 			<div
 				style={{
-					margin: windowSize !== "xs" ? "1.2em 0 0 0" : "0.4em 0 0 0",
+					// margin: windowSize !== "xs" ? "1.2em 0 0 0" : "0.4em 0 0 0",
 					overflow: 'hidden',
-					height: windowSize !== "xs" ? "calc(100% - 2em)" : "calc(100% - 1.9rem)",
+					height: windowSize !== "xs" ? "calc(100% - 1em)" : "calc(100% - 1.9rem)",
+					position: "relative"
 				}}
 			>
-				{!inFinish &&
-					<div
-						style={{
-							background: `linear-gradient(60deg, ${'#8d4893'}, ${getPrimary()})`, //
-							boxShadow:
-								"0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2)",
-							color: "white",
-							width: windowSize !== "xs" ? "15%" : "calc(100% - 2em)",
-							// width: windowSize !== "xs" ? "30%" : "calc(100% - 2em)",
-							maxWidth: "calc(100% - 6em)",
-							overflow: 'hidden',
-							whiteSpace: 'nowrap',
-							textOverflow: 'ellipsis',
-							verticalAlign: "middle",
-							padding: windowSize !== "xs" ? "0.5em" : "0.2em",
-							height: windowSize !== "xs" ? "2.8em" : "2em",
-							// height: windowSize !== "xs" ? "2.6em" : "2em",
-							zIndex: "20",
-							marginLeft:
-								windowSize !== "xs"
-									? windowSize === "xl"
-										? "8%"
-										: "3em"
-									: "1em",
-							marginRight: windowSize !== "xs" && "1em",
-							position: "relative",
-							borderRadius: "3px",
-							fontWeight: "800",
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center"
-						}}
-						className="align-middle"
-					>
-						<div>
-							{title}
-						</div>
+				<div style={{
+					color: getPrimary(),
+					// width: windowSize !== "xs" ? "15%" : "calc(100% - 2em)",
+					maxWidth: "calc(100% - 2em)",
+					overflow: 'hidden',
+					whiteSpace: 'nowrap',
+					textOverflow: 'ellipsis',
+					verticalAlign: "middle",
+					// padding: windowSize !== "xs" ? "0.5em" : "0.2em",
+					// height: windowSize !== "xs" ? "2.8em" : "2em",
+					zIndex: "20",
+					marginLeft:
+						windowSize !== "xs"
+							? windowSize === "xl"
+								? "8%"
+								: "2em"
+							: "1em",
+					marginRight: windowSize !== "xs" && "1em",
+					position: "relative",
+					fontWeight: "300",
+					display: "flex",
+					fontStyle: "italic",
+					fontFamily: "Lato",
+					fontSize: isMobile ? "22px" : "28px",
+					top: isMobile ? "30px" : "45px"
+					// justifyContent: "center",
+					// alignItems: "center"
+				}}>
+					<div style={{ cursor: "pointer", visibility: title? 'visible' : 'hidden' }} onClick={goBack}>
+						<i className="fa fa-angle-left" ></i>
+						<span style={{ fontStyle: "normal", marginRight: "8px", marginLeft: "5px" }}>
+							|
+						</span>
 					</div>
-				}
+					{(title && avatar) &&
+						<div style={{ display: "flex", alignItems: 'center', justifyContent: "center", marginRight: '0.6em' }}>
+							<Avatar src={avatar} alt="Foto" style={{ border: "1px solid" + getPrimary() }} />
+						</div>
+					}
+					<div>
+						{title || ''}
+					</div>
+				</div>
 				<Paper
 					style={{
 						height:
 							windowSize !== "xs"
-								? inFinish ? "100%" : "calc(100% - 2em)"
+								? "calc(100% - 2em)"
 								: "calc(100% - 1.5em)",
 						backgroundColor: "white",
 						borderRadius: "3px",
@@ -94,14 +99,15 @@ const CardPageLayout = ({
 							marginBottom: "1.5em",
 							position: "relative",
 							overflow: "hidden",
-							height: "100%"
+							height: "100%",
+							paddingTop: title? isMobile ? "4em" : "6em" : '0.6em'
 						}}
 					>
 						{!disableScroll && (
 							<Scrollbar>
 								<div
 									style={{
-										paddingTop: "2.5em",
+										// paddingTop: "2.5em",
 										paddingBottom: "0.5em",
 										paddingLeft: windowSize === "xl" && "2vw",
 										paddingRight: windowSize === "xl" && "2vw",
@@ -117,7 +123,7 @@ const CardPageLayout = ({
 						{disableScroll && (
 							<div
 								style={{
-									paddingTop: "2.5em",
+									// paddingTop: "2.5em",
 									paddingBottom: "0.5em",
 									height: "100%"
 								}}
@@ -144,5 +150,6 @@ const CardPageLayout = ({
 			<CBXFooter />
 		</div>
 	);
+}
 
 export default withWindowSize(CardPageLayout);

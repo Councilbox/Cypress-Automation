@@ -40,7 +40,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                 variables: {
                     user: state.data,
                     companies: state.companies.map(company => company.id),
-                    corporationId: company? company.corporationId : null
+                    corporationId: company ? company.corporationId : null
                 }
             });
 
@@ -104,9 +104,9 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
     if (props.data.loading) {
         return <LoadingSection />
     }
-    
+
     const body = () => (
-        <div style={{ height: "100%", padding: isMobile ? '1.5em 1.5em 1em' : '1.5em 1.5em 6em' }}>
+        <div style={{ height: "100%", padding: isMobile ? '1.5em 1.5em 1em' : '1.5em 1.5em 2em' }}> {/*6em*/}
             <div style={{ height: "100%" }} >
                 <UserForm
                     translate={translate}
@@ -131,7 +131,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                     />
                 }
             </div>
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: "2em" }}>
                 {!success ?
                     <React.Fragment>
                         <BasicButton
@@ -174,7 +174,8 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
             {fixedCompany ?
                 body()
                 :
-                <CardPageLayout title={translate.users_add} stylesNoScroll={{ height: "100%" }}>
+                <CardPageLayout title={translate.users_add} >
+                    {/* stylesNoScroll={{ height: "100%" }} */}
                     {body()}
                 </CardPageLayout>
             }

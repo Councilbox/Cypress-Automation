@@ -35,6 +35,7 @@ import TablaCompanies from '../components/corporation/companies/TablaCompanies';
 import UserEdit from '../components/corporation/users/UserEdit';
 import UsersDashboard from '../components/corporation/users/UsersDashboard';
 import OrganizationUsers from '../components/corporation/users/OrganizationUsers';
+import FileCompany from '../components/company/compayFile/FileCompany';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),
@@ -217,6 +218,7 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 component={UserSettingsPage}
             />
              <Route exact path="/company/:company/users/:id/edit" component={UserSettingsPage} />
+             <Route exact path="/company/:company/file/:id" component={FileCompany} />
             <Route
                 path="*"
                 component={redirect(company)}

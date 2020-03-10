@@ -8,7 +8,7 @@ const MenuSuperiorTabs = ({ items, setSelect, translate, selected }) => {
 	const set = item => {
 		setSelect(item);
 	}
-
+	
 	if (isMobile) {
 		return (
 			<SelectInput

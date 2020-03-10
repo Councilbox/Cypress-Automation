@@ -79,6 +79,15 @@ const Login = ({ translate, windowSize, ...props }) => {
 								user: translate.domain_invalid_creds
 							}
 						})
+					},
+
+					'Unsubscribed account': () => {
+						setState({
+							loading: false,
+							errors: {
+								user: 'Cuenta deshabilitada'
+							}
+						})
 					}
 				}
 

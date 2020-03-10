@@ -34,6 +34,10 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
     const config = React.useContext(ConfigContext);
 
+    const [selecteReuniones, setSelecteReuniones] = React.useState(translate.act);
+    const [selectComponent, setSelectComponent] = React.useState({});
+
+
     React.useEffect(() => {
         if (state.infoMenu && council.state > COUNCIL_STATES.FINISHED) {
             setState({
@@ -53,6 +57,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     }
 
     let tabs = [];
+    let tabsListNames = [];
 
     if (withoutAct) {
         tabs = [
@@ -190,6 +195,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                         <Scrollbar>
                             <DelegationDocuments
                                 council={council}
+                                hideAttachments
                                 translate={translate}
                             />
                         </Scrollbar>
@@ -199,7 +205,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         });
     }
 
-    if(config.evidencesTab){
+    if (config.evidencesTab) {
         tabs.push({
             label: translate.evidences,
             value: 'evidences',
@@ -217,7 +223,6 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             }
         })
     }
-
 
     tabs.push({
         label: translate.recordings_tab,

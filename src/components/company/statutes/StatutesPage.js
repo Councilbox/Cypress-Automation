@@ -342,7 +342,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 	}
 
 	return (
-		<CardPageLayout title={translate.statutes} disableScroll={true}>
+		<CardPageLayout title={translate.council_types} disableScroll={true}>
 			{companyStatutes.length > 0? (
 				<div style={{height:`calc( 100% ${isMobile? '- 4em' : ''})`, paddingRight: "0"}} >
 					<VTabs

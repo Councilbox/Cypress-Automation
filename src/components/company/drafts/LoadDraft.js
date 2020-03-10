@@ -360,7 +360,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
 			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
-			const title = statute? statute.title : tag.label;
+			const title = statute ? statute.title : tag.label;
 			return translate[title] || title;
 		}
 
@@ -396,7 +396,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 
 	const buildTagColumns = tags => {
 		const columns = {};
-		if(tags){
+		if (tags) {
 			Object.keys(tags).forEach(key => {
 				const tag = tags[key];
 				const formatted = {
@@ -468,7 +468,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 
 				{expanded &&
 					<React.Fragment>
-						<div style={{fontWeight: '700', marginTop: '1em'}}>{translate.content}</div>
+						<div style={{ fontWeight: '700', marginTop: '1em' }}>{translate.content}</div>
 						<div dangerouslySetInnerHTML={{ __html: draft.text }} />
 					</React.Fragment>
 				}
@@ -524,7 +524,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 }
 
 
-export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, ...props }) => {
+export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props }) => {
 	return (
 		<DropDownMenu
 			id={"cargarPlantillasSelectorEtiquetas"}
@@ -534,28 +534,33 @@ export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate
 			anchorOrigin={anchorOrigin}
 			transformOrigin={transformOrigin}
 			Component={() =>
-				<MenuItem
-					style={{
-						height: '100%',
-						border: " solid 1px #35343496",
-						borderRadius: '3px',
-						width: '100%',
-						margin: 0,
-						padding: 0,
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						marginTop: '14px',
-						padding: "3px 7px",
-						color: "#353434ed",
-						...stylesMenuItem
-					}}
-				>
-					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
+				soloIcono ?
+					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingRight: "10px" }}>
 						local_offer
 					</i>
-					{translate.filter_by}
-				</MenuItem>
+					:
+					<MenuItem
+						style={{
+							height: '100%',
+							border: " solid 1px #35343496",
+							borderRadius: '3px',
+							width: '100%',
+							margin: 0,
+							padding: 0,
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '14px',
+							padding: "3px 7px",
+							color: "#353434ed",
+							...stylesMenuItem
+						}}
+					>
+						<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
+							local_offer
+						</i>
+						{translate.filter_by}
+					</MenuItem>
 			}
 			text={translate.add_agenda_point}
 			textStyle={"ETIQUETA"}
@@ -761,7 +766,7 @@ const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => 
 					//maxHeight: '150px',
 					width: "100%"
 				}}
-				id={'tipoDeReunion'}
+					id={'tipoDeReunion'}
 				>
 					{tags.map((tag, index) => {
 						return (

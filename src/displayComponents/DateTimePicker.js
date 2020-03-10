@@ -11,7 +11,7 @@ const DateTimePickerWrapper = ({
 	clearable = true,
 	clearText = 'Borrar',
 	value,
-	format = "LLL",
+	format,
 	minDate,
 	minDateMessage,
 	acceptText,
@@ -24,7 +24,7 @@ const DateTimePickerWrapper = ({
 			<div style={{width: '100%'}}>
 				<DatePicker
 					label={!!label? `${label}${required && "*"}` : ''}
-					format={'LL'}
+					format={format? format : 'LL'}
 					minDateMessage={minDateMessage}
 					okLabel={'Ok'}
 					style={{width: '100%'}}
@@ -64,7 +64,7 @@ const DateTimePickerWrapper = ({
 			<DateTimePicker
 				label={!!label? `${label}${required && "*"}` : ''}
 				ampm={false}
-				format={format}
+				format={format? format : 'LLL'}
 				minDateMessage={minDateMessage}
 				okLabel={acceptText}
 				style={{width: '100%'}}

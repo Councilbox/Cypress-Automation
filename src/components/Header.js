@@ -55,7 +55,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					alignItems: "center"
 				}}
 			>
-				{backButton && (
+				{/* {backButton && (
 					<Tooltip
 						title={translate.back}
 						placement="bottom"
@@ -80,7 +80,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 							</Icon>
 						</div>
 					</Tooltip>
-				)}
+				)} */}
 				<Link to="/">
 					<div style={{ position: "relative" }}>
 						<img

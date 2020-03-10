@@ -18,7 +18,7 @@ import {
 	Checkbox,
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { Card, Collapse, IconButton, Icon, CardActions, CardContent } from 'material-ui';
+import { Card, Collapse, IconButton, Icon, CardActions, CardContent, CardHeader, withStyles } from 'material-ui';
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from "../../../constants";
@@ -107,7 +107,7 @@ export const useTags = translate => {
 
 }
 
-const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props }) => {
+const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDraft, classes, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [state, setState] = useOldState({
 		deleteModal: false,
@@ -116,7 +116,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 		newForm: false,
 	});
 	const [inputSearch, setInputSearch] = React.useState(false);
-	const [search, setSearch] = React.useState("");
+	const [search, setSearch] = React.useState('');
 	const { testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText } = useTags(translate);
 
 	const primary = getPrimary();
@@ -200,17 +200,17 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 	React.useEffect(() => {
 		getDrafts({
 			companyId: company.id,
-			...(search ? {
+			...(search || searchDraft ? {
 				filters: [
 					{
 						field: "title",
-						text: search
+						text: search || searchDraft
 					},
 				]
 			} : {}),
 			tags: Object.keys(testTags).map(key => testTags[key].name),
 		})
-	}, [testTags, search]);
+	}, [testTags, search, searchDraft]);
 
 
 	const getData = async () => {
@@ -249,89 +249,136 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 
 	return (
 		<React.Fragment>
-			<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '1em', marginLeft: isMobile ? "0em" : "1em" }}>
-				<BasicButton
-					text={translate.drafts_new}
-					color={primary}
-					id={"newDraft"}
-					textStyle={{
-						color: "white",
-						fontWeight: "700",
-						textTransform: 'none',
-						whiteSpace: isMobile && 'nowrap',
-						overflow: isMobile && 'hidden',
-						textOverflow: isMobile && 'ellipsis',
-						padding: isMobile && "8px 8px"
-					}}
-					onClick={() =>
-						setState({
-							newForm: true
-						})
-					}
-				// icon={<ButtonIcon type="add" color="white" />}
-				/>
-				<Link
-					to={`/company/${company.id}/platform/drafts/`}
-					style={{ marginLeft: "1em" }}
-				>
-					<BasicButton
-						text={translate.general_drafts}
-						color={getSecondary()}
-						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							textTransform: 'none',
-							whiteSpace: isMobile && 'nowrap',
-							overflow: isMobile && 'hidden',
-							textOverflow: isMobile && 'ellipsis',
-							padding: isMobile && "8px 8px"
-						}}
-					// icon={<ButtonIcon type="add" color="white" />}
-					/>
-				</Link>
-			</div>
-			<div style={{ height: ' calc( 100% - 10em )' }}>
-				<div style={{ marginRight: '0.8em', display: "flex", justifyContent: isMobile ? "space-between" : 'flex-end', alignItems: "center" }}>
-					<div style={{ marginRight: isMobile ? "0.5em" : "3em" }}>
-						<DropdownEtiquetas
-							translate={translate}
-							search={tagText}
-							setSearchModal={setTagText}
-							matchSearch={filteredTags}
-							company={company}
-							vars={vars}
-							testTags={testTags}
-							addTag={addTag}
-							styleBody={{ minWidth: '50vw' }}
-							anchorOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
-							}}
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
-							}}
-							removeTag={removeTag}
-							stylesMenuItem={{ padding: "3px 3px", marginTop: isMobile && '0', width: isMobile && "" }}
-						/>
+			<div style={{ height: isMobile ? ' calc( 100% - 1em )' : ' calc( 100% - 6em )' }}>
+				{!isMobile &&
+					<div style={{ marginRight: '0.8em', display: "flex", justifyContent: isMobile ? "space-between" : 'flex-end', alignItems: "center", marginBottom: "0.5em" }}>
+						<div>
+							<BasicButton
+								text={translate.drafts_new}
+								color={primary}
+								id={"newDraft"}
+								textStyle={{
+									...(isMobile ?
+										{
+											textTransform: 'none',
+											boxShadow: 'none',
+											marginRight: '1em',
+											borderRadius: '4px',
+											border: '1px solid rgb(125, 33, 128)',
+											padding: '0.2em 0.4em',
+											marginTop: '5px',
+											color: 'white',
+											fontSize: '0.9em',
+											backgroundColor: 'rgb(125, 33, 128)',
+											outline: '0px',
+											cursor: 'pointer',
+											minHeight: '0px',
+											fontWeight: 'bold',
+										} : {
+											color: "white",
+											fontWeight: "700",
+											textTransform: 'none',
+											fontSize: '0.85em',
+											whiteSpace: isMobile && 'nowrap',
+											overflow: isMobile && 'hidden',
+											textOverflow: isMobile && 'ellipsis',
+											padding: isMobile && "8px 8px",
+											minHeight: '0',
+    										padding: '8px',
+										}
+									)
+								}}
+								onClick={() =>
+									setState({
+										newForm: true
+									})
+								}
+							/>
+						</div>
+						<div style={{ marginLeft: "1em" }}>
+							<Link
+								to={`/company/${company.id}/platform/drafts/`}
+							>
+								<BasicButton
+									text={translate.general_drafts}
+									color={getSecondary()}
+									textStyle={{
+										...(isMobile ?
+											{
+												textTransform: 'none',
+												boxShadow: 'none',
+												marginRight: '1em',
+												borderRadius: '4px',
+												border: '1px solid' + getSecondary(),
+												padding: '0.2em 0.4em',
+												marginTop: '5px',
+												color: 'white',
+												backgroundColor: getSecondary(),
+												outline: '0px',
+												cursor: 'pointer',
+												fontSize: '0.9em',
+												minHeight: '0px',
+												fontWeight: 'bold',
+											} : {
+												color: "white",
+												fontWeight: "700",
+												fontSize: '0.85em',
+												textTransform: 'none',
+												whiteSpace: isMobile && 'nowrap',
+												overflow: isMobile && 'hidden',
+												textOverflow: isMobile && 'ellipsis',
+												padding: isMobile && "8px 8px",
+												minHeight: '0',
+												padding: '8px',
+											}
+										)
+									}}
+								/>
+							</Link>
+						</div>
+						<div style={{ marginRight: isMobile ? "0.5em" : "3em", marginLeft: "1em" }}>
+							<DropdownEtiquetas
+								translate={translate}
+								search={tagText}
+								setSearchModal={setTagText}
+								matchSearch={filteredTags}
+								company={company}
+								vars={vars}
+								testTags={testTags}
+								addTag={addTag}
+								styleBody={{ minWidth: '50vw' }}
+								anchorOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								transformOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								removeTag={removeTag}
+								stylesMenuItem={{ padding: "3px 3px", marginTop: isMobile && '0', width: isMobile && "" }}
+							/>
+						</div>
+						<div>
+							<TextInput
+								className={isMobile && !inputSearch ? "openInput" : ""}
+								disableUnderline={true}
+								styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+								stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+								adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
+								floatingText={" "}
+								type="text"
+								value={search}
+								placeholder={isMobile ? "" : translate.search}
+								onChange={event => {
+									setSearch(event.target.value);
+								}}
+								styles={{ marginTop: "-16px" }}
+								stylesTextField={{ marginBottom: "0px" }}
+							/>
+						</div>
 					</div>
-					<div>
-						<TextInput
-							className={isMobile && !inputSearch ? "openInput" : ""}
-							disableUnderline={true}
-							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
-							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
-							adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
-							floatingText={" "}
-							type="text"
-							value={search}
-							placeholder={isMobile ? "" : translate.search}
-							onChange={event => {
-								setSearch(event.target.value);
-							}}
-						/>
-					</div>
-				</div>
+				}
 				<Scrollbar>
 					<div style={{ height: '100%', paddingRight: !isMobile && '1em' }}>
 						{error ? (
@@ -348,13 +395,13 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 							</div>
 						) : (
 								!!companyDrafts && (
-									<div style={{ padding: "0.5em" }}>
+									<div style={{ padding: "0.5em", overflow: "hidden" }}>
 										<EnhancedTable
 											hideTextFilter={true}
 											translate={translate}
 											defaultLimit={DRAFTS_LIMITS[0]}
 											defaultFilter={"title"}
-											limits={DRAFTS_LIMITS}
+											// limits={DRAFTS_LIMITS}
 											page={1}
 											loading={loading}
 											length={companyDrafts.list.length}
@@ -384,9 +431,11 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 											action={_renderDeleteIcon}
 											companyID={company.id}
 										>
-											{companyDrafts.list.map(draft => {
+											{companyDrafts.list.map((draft, index) => {
 												return (
 													<DraftRow
+														classes={classes}
+														stylesBackground={{ background: index % 2 ? "#edf4fb" : "" }}
 														key={`draft${draft.id}${draft.title}`}
 														translate={translate}
 														action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
@@ -421,10 +470,11 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, ...props
 	);
 }
 
-export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatutes, translate, info, ...props }) => {
+export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatutes, translate, info, index, stylesBackground, classes, ...props }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 	const [showActions, setShowActions] = React.useState(false);
+	const [expandedCard, setExpandedCard] = React.useState(false)
 
 	const TagColumn = props => {
 		return (
@@ -472,75 +522,142 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 
 	}
 
+	const clickMobilExpand = event => {
+		setExpandedCard(!expandedCard)
+		if (expanded) {
+			setExpanded(!expanded)
+		}
+	}
+
 	if (isMobile) {
 		return (
-			<Grid style={{ height: "100%", width: "100%" }}>
+			<Grid style={{ height: "100%", width: "100%", overflow: "hidden" }} >
 				{columns &&
-					Object.keys(columns).map(key => {
-						let columnaLength = columns[key].length;
-						return (
-							<Card style={{ marginBottom: "0.8em", width: "100%" }}>
-								<CardContent>
-									<Grid>
-										<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-											{translate.name}
-										</GridItem>
-										<GridItem xs={8} md={8} lg={8} style={{
-											whiteSpace: 'nowrap',
-											overflow: 'hidden',
-											textOverflow: 'ellipsis'
-										}}>
-											{draft.title}
-										</GridItem>
-										<GridItem xs={12} md={12} lg={12} style={{}}>
-											<div style={{}}>
-												{columns &&
-													Object.keys(columns).map(key => {
-														let columnaLength = columns[key].length;
-														return (
-															<TagColumn key={`column_${key}`}>
-																{columns[key].map((tag, index) => {
-																	return (
-																		index > 0 ?
-																			<Collapse in={expanded} timeout="auto" unmountOnExit>
-																				<SelectedTag
-																					key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
-																					text={translate[tag.label] || tag.label}
-																					color={getTagColor(key)}
-																					props={props}
-																					list={true}
-																					count={""}
-																				/>
-																			</Collapse>
-																			:
+					<Card
+						style={{ width: "100%", border: "none", boxShadow: "none", width: '100%', ...stylesBackground, overflow: "hidden" }}>
+						<CardHeader
+							classes={{
+								content: classes.cardTitle,
+							}}
+							action={
+								<IconButton
+									style={{ top: '5px', }}
+									onClick={(event) => clickMobilExpand(event)}
+									aria-expanded={expandedCard}
+									aria-label="Show more"
+									className={"expandButtonModal"}
+								>
+									<i
+										className={"fa fa-angle-down"}
+										style={{
+											transform: expandedCard ? "rotate(180deg)" : "rotate(0deg)",
+											transition: "all 0.3s"
+										}}
+									/>
+								</IconButton>
+							}
+							style={{ padding: "10px 16px 10px 16px", width: '100%', overflow: 'hidden', display: "flex", justifyContent: "space-between", }}
+							title={
+								<div style={{ display: "flex", justifyContent: "space-between", fontSize: "14px", padding: "0px" }}>
+									<div style={{
+										fontWeight: '700',
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+
+									}}>
+										{draft.title}
+									</div>
+									{!expandedCard &&
+										<div style={{ display: "flex", paddingRight: "5px", marginLeft: "7px" }}>
+											{columns &&
+												Object.keys(columns).map(key => {
+													let columnaLength = columns[key].length;
+													return (
+														<TagColumn key={`column_${key}`}>
+															{columns[key].map((tag, index) => {
+																return (
+																	index > 0 ?
+																		<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
 																			<SelectedTag
-																				key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
-																				text={translate[tag.label] || tag.label}
+																				text={''}
 																				color={getTagColor(key)}
 																				props={props}
+																				sinTitulos={true}
 																				list={true}
-																				count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
-																				stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
-																				desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
-																				mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
-																				mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
+																				count={""}
 																			/>
-																	)
-																})}
-															</TagColumn>
-														)
-													})
-												}
-											</div>
-										</GridItem>
-									</Grid>
-								</CardContent>
+																		</Collapse>
+																		:
+																		<SelectedTag
+																			key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+																			text={''}
+																			color={getTagColor(key)}
+																			props={props}
+																			sinTitulos={true}
+																			list={true}
+																			count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
+																		/>
+																)
+															})}
+														</TagColumn>
+													)
+												})
+											}
+										</div>
+									}
+								</div>
+							}
+						/>
+						<Collapse in={expandedCard} timeout="auto" unmountOnExit>
+							<CardContent>
+								<GridItem xs={12} md={12} lg={12} style={{}}>
+									<div style={{}}>
+										{columns &&
+											Object.keys(columns).map(key => {
+												let columnaLength = columns[key].length;
+												return (
+													<TagColumn key={`column_${key}`}>
+														{columns[key].map((tag, index) => {
+															return (
+																index > 0 ?
+																	<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
+																		<SelectedTag
+																			text={translate[tag.label] || tag.label}
+																			color={getTagColor(key)}
+																			props={props}
+																			list={true}
+																			count={""}
+																		/>
+																	</Collapse>
+																	:
+																	<SelectedTag
+																		key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+																		text={translate[tag.label] || tag.label}
+																		color={getTagColor(key)}
+																		props={props}
+																		list={true}
+																		count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
+																		stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
+																		desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
+																		mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
+																		mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
+																	/>
+															)
+														})}
+													</TagColumn>
+												)
+											})
+										}
+									</div>
+								</GridItem>
 								<CardActions>
 									{props.renderDeleteIcon(draft.id)}
 								</CardActions>
-							</Card>
-						)
-					})}
+							</CardContent>
+						</Collapse>
+					</Card>
+				}
 			</Grid>
 		)
 	} else {
@@ -627,6 +744,13 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 	}
 }
 
+const regularCardStyle = {
+	cardTitle: {
+		width: "100%",
+		overflow: "hidden"
+	},
+}
+
 export default withApollo((withSharedProps()(
 	compose(
 		graphql(deleteDraft, {
@@ -635,5 +759,5 @@ export default withApollo((withSharedProps()(
 				errorPolicy: "all"
 			}
 		})
-	)(withWindowSize(CompanyDraftList)))
+	)(withWindowSize(withStyles(regularCardStyle)(CompanyDraftList))))
 ));

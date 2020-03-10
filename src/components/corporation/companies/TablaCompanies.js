@@ -74,9 +74,9 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 				<LoadingSection />
 				:
 				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
-					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
+					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%", paddingTop: "0px" }}>
 						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%", overflow: "hidden" }}>
-							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between", width: "100%", overflow: "hidden" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between", width: "100%", overflow: "hidden", paddingTop: "0px" }}>
 								<BasicButton
 									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 									backgroundColor={{ backgroundColor: getPrimary(), color: "white", minHeight: "0", fontWeight: "bold" }}
@@ -136,7 +136,6 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 														</GridItem>
 														<GridItem xs={7} md={7}>
 															S.L.
-											{/* {item.companyType} */}
 														</GridItem>
 													</Grid>
 												</CardContent>
@@ -157,7 +156,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 														render={
 															<span style={{}}>
 																Expulsar
-													</span>
+															</span>
 														}
 													/>
 													<DeleteCompany
@@ -175,8 +174,8 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 														}}
 														render={
 															<span style={{}}>
-																Eliminar
-													</span>
+																{translate.delete}
+															</span>
 														}
 													/>
 													<Link to={`/company/${company.id}/edit/${item.id}`}
@@ -189,8 +188,20 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 															padding: "0.3em",
 															width: "100px"
 														}}>
-														Editar
-											</Link>
+														{translate.edit}
+													</Link>
+													<Link to={`/company/${company.id}/file/${item.id}`}
+														styles={{
+															color: primary,
+															background: 'white',
+															display: "flex",
+															alignItems: "center",
+															justifyContent: "center",
+															padding: "0.3em",
+															width: "100px"
+														}}>
+														{'Ficha'}
+													</Link>
 												</CardActions>
 											</Card>
 
@@ -218,9 +229,9 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 				<LoadingSection />
 				:
 				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
-					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%" }}>
+					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%", paddingTop: "0px"}}>
 						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-							<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center",  paddingTop: "0px" }}>
 								<BasicButton
 									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 									backgroundColor={{ backgroundColor: "white" }}
@@ -329,8 +340,8 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 													}}
 													render={
 														<span style={{}}>
-															Eliminar
-													</span>
+															{translate.delete}
+														</span>
 													}
 												/>
 												<Link to={`/company/${company.id}/edit/${item.id}`}
@@ -346,8 +357,23 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 														marginRight: "1em",
 														width: "100px"
 													}}>
-													Editar
-											</Link>
+													{translate.edit}
+												</Link>
+												<Link to={`/company/${company.id}/file/${item.id}`}
+													styles={{
+														color: primary,
+														background: 'white',
+														borderRadius: '4px',
+														boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+														display: "flex",
+														alignItems: "center",
+														justifyContent: "center",
+														padding: "0.3em",
+														marginRight: "1em",
+														width: "100px"
+													}}>
+													{'Ficha'}
+												</Link>
 											</Cell>
 										</div>
 

@@ -72,7 +72,7 @@ const Councils = ({ translate, client, ...props }) => {
 
 	React.useEffect(() => {
 		const section = getSection(translate);
-		if(section !== selecteReuniones){
+		if (section !== selecteReuniones) {
 			setSelecteReuniones(section);
 		}
 	}, [window.location.pathname]);
@@ -178,7 +178,7 @@ const Councils = ({ translate, client, ...props }) => {
 	const handleChange = section => {
 		bHistory.push(statesTabLink[section]);
 	}
-	
+
 
 	return (
 		<div
@@ -189,8 +189,8 @@ const Councils = ({ translate, client, ...props }) => {
 				position: "relative"
 			}}
 		>
-			<div style={{ width: '100%', height: '100%', padding: '1em' }}>
-				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+			<div style={{ width: '100%', height: '100%', padding: '1em', paddingTop: "0px" }}>
+				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.6em" }}>
 					<div>
 						<MenuSuperiorTabs
 							items={[translate.companies_draft, translate.companies_calendar,
