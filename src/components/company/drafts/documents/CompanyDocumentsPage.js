@@ -7,7 +7,7 @@ import { getPrimary, getSecondary } from '../../../../styles/colors';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
 import { Icon, Table, TableRow, TableCell } from 'material-ui';
-import { CardPageLayout, TextInput, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm } from "../../../../displayComponents";
+import { CardPageLayout, TextInput, ProgressBar, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
 import { Input } from 'material-ui';
@@ -17,7 +17,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
     const [breadCrumbs, setBreadCrumbs] = React.useState([{
         value: '-1',
-        label: 'home'
+        label: 'Mi documentación' //TRADUCCION
     }]);
     const [queue, setQueue] = React.useState([]);
     const [deleting, setDeleting] = React.useState(false);
@@ -127,7 +127,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
             addToQueue({
                 name: file.name,
                 size: file.filesize,
-                uploaded: '0%',
+                uploaded: 0,
                 id
             });
 
@@ -142,7 +142,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                     removeFromQueue(id);
                     getData();
                 } else {
-                    updateQueueItem(`${((e.loaded / e.total) * 100).toFixed(2)}%`, id);
+                    updateQueueItem(((e.loaded / e.total) * 100).toFixed(2), id);
                 }
             }
 
@@ -187,86 +187,87 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                 />
                 <div style={{ display: "flex", borderBottom: "1px solid" + primary, alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", alignItems: "center", }}>
-                        <DropDownMenu
-                            color="transparent"
-                            persistent
-                            styleComponent={{ width: "" }}
-                            Component={() =>
-                                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.5em", paddingRight: "1em", position: "relative" }}>
-                                    <div
-                                        style={{
-                                            cursor: "pointer"
-                                        }}
-                                    >
-                                        <span style={{ color: primary, fontWeight: "bold" }}>Mi Documentación</span>
-                                    </div>
-                                    <i className={"fa fa-sort-desc"}
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: primary,
-                                            paddingLeft: "5px",
-                                            fontSize: "20px",
-                                            position: "absolute",
-                                            top: "5px",
-                                            right: "0px"
-                                        }}></i>
-                                </div>
-                            }
-                            textStyle={{ color: primary }}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            type="flat"
-                            items={
-                                <div style={{ padding: "1em" }}>
-                                    <FileUploadButton
-                                        trigger= {() => (
-                                            <div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
-                                                <div style={{ width: "15px" }}>
-                                                    <img src={upload} style={{ width: "100%" }}></img>
+                        {breadCrumbs.map((item, index) => (
+                            <>
+                                {index > 0 &&
+                                    ` > `
+                                }
+                                {(index === breadCrumbs.length -1)?
+                                    <DropDownMenu
+                                        color="transparent"
+                                        persistent
+                                        styleComponent={{ width: "" }}
+                                        Component={() =>
+                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.5em", paddingRight: "1em", position: "relative" }}>
+                                                <div
+                                                    style={{
+                                                        cursor: "pointer"
+                                                    }}
+                                                >
+                                                    <span style={{ color: primary, fontWeight: "bold" }}>{item.label}</span>
                                                 </div>
-                                                <div style={{ paddingLeft: "10px" }}>
-                                                    Subir archivo
+                                                <i className={"fa fa-sort-desc"}
+                                                    style={{
+                                                        cursor: 'pointer',
+                                                        color: primary,
+                                                        paddingLeft: "5px",
+                                                        fontSize: "20px",
+                                                        position: "absolute",
+                                                        top: "5px",
+                                                        right: "0px"
+                                                    }}></i>
+                                            </div>
+                                        }
+                                        textStyle={{ color: primary }}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left',
+                                        }}
+                                        type="flat"
+                                        items={
+                                            <div style={{ padding: "1em" }}>
+                                                <FileUploadButton
+                                                    trigger= {() => (
+                                                        <div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
+                                                            <div style={{ width: "15px" }}>
+                                                                <img src={upload} style={{ width: "100%" }}></img>
+                                                            </div>
+                                                            <div style={{ paddingLeft: "10px" }}>
+                                                                Subir archivo
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    text={translate.new_add}
+                                                    flat
+                                                    style={{
+                                                        paddingLeft: '10px 0px',
+                                                        width: "100%"
+                                                    }}
+                                                    buttonStyle={{ width: "100%" }}
+                                                    //loading={uploading}
+                                                    onChange={handleFileWithLoading}
+                                                />
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        color: "black",
+                                                        padding: ".5em 0em",
+                                                        borderTop: "1px solid" + primary,
+                                                        cursor: "pointer"
+                                                    }}
+                                                    onClick={() => setFolderModal(true)}
+                                                >
+                                                    <div style={{ width: "15px" }}>
+                                                        <img src={folder} style={{ width: "100%" }}></img>
+                                                    </div>
+                                                    <div style={{ paddingLeft: "10px" }}>
+                                                        Nueva carpeta
+                                                    </div>
                                                 </div>
                                             </div>
-                                        )}
-                                        text={translate.new_add}
-                                        flat
-                                        style={{
-                                            paddingLeft: '10px 0px',
-                                            width: "100%"
-                                        }}
-                                        buttonStyle={{ width: "100%" }}
-                                        //loading={uploading}
-                                        onChange={handleFileWithLoading}
+                                        }
                                     />
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            color: "black",
-                                            padding: ".5em 0em",
-                                            borderTop: "1px solid" + primary,
-                                            cursor: "pointer"
-                                        }}
-                                        onClick={() => setFolderModal(true)}
-                                    >
-                                        <div style={{ width: "15px" }}>
-                                            <img src={folder} style={{ width: "100%" }}></img>
-                                        </div>
-                                        <div style={{ paddingLeft: "10px" }}>
-                                            Nueva carpeta
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        />
-                        <div style={{ color: 'black', fontStyle: "italic", marginLeft: "2em" }}>
-                            {breadCrumbs.map((item, index) => (
-                                <>
-                                    {index > 0 &&
-                                        ` > `
-                                    }
+                                :
                                     <span
                                         style={{
                                             ...(index === breadCrumbs.length - 1? {
@@ -279,9 +280,9 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                             setBreadCrumbs([...breadCrumbs]);
                                         }}
                                     >{item.label}</span>
-                                </>
-                            ))}
-                        </div>
+                                }
+                            </>
+                        ))}
                     </div>
 
                     <div style={{ display: "flex", alignContent: "center" }}>
@@ -387,24 +388,52 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                             />
                     ))}
                     {queue.map((item, index) => (
-                        <TableRow>
-                            <TableCell>
-                                {item.name}
-                            </TableCell>
-                            <TableCell>
-                            </TableCell>
-                            <TableCell>
-                            </TableCell>
-                                {item.uploaded} {item.size}
-                            <TableCell/>
-                            <TableCell>
-                            </TableCell>
-                        </TableRow>
+                        <DelayedRow delay={1000}>
+                            <TableRow>
+                                <TableCell>
+                                    {item.name}
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                    <ProgressBar
+                                        value={item.uploaded}
+                                        color={getSecondary()}
+                                    />
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                            </TableRow>
+                        </DelayedRow>
                     ))}
                 </Table>
             </div>
         </div>
     )
+}
+
+
+const DelayedRow = ({ children, delay }) => {
+    const [ready, setReady] = React.useState(false);
+
+    React.useEffect(() => {
+        let timeout = null;
+        if(!ready){
+            timeout = setTimeout(() => {
+                setReady(true);
+            }, delay);
+        }
+        return () => clearTimeout(timeout)
+    }, [delay])
+
+    if(ready){
+        return children;
+    }
+
+    return <></>;
+
 }
 
 
