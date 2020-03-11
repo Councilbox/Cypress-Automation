@@ -11,6 +11,7 @@ import { CardPageLayout, TextInput, LoadingSection, BasicButton, DropDownMenu, F
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
 import { Input } from 'material-ui';
+import { SERVER_URL } from '../../../../config';
 
 const CompanyDocumentsPage = ({ translate, company, client }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
@@ -18,6 +19,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
         value: '-1',
         label: 'home'
     }]);
+    const [queue, setQueue] = React.useState([]);
     const [deleting, setDeleting] = React.useState(false);
     const [documents, setDocuments] = React.useState(null);
     const [folderModal, setFolderModal] = React.useState(false);
@@ -82,12 +84,29 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
         setDeleteModal(false);
     }
 
+    const addToQueue = file => {
+        queue.push(file);
+        setQueue([...queue]);
+    }
+
+    const updateQueueItem = (value, id) => {
+        const index = queue.findIndex(item => item.id = id);
+        queue[index].uploaded = value;
+        setQueue([...queue]);
+    }
+
+    const removeFromQueue = id => {
+        const index = queue.findIndex(item => item.id = id);
+        queue.splice(index, 1);
+        setQueue([...queue]);
+    }
+
 
     const handleFileWithLoading = async event => {
         const file = event.nativeEvent.target.files[0];
 		if (!file) {
 			return;
-		}
+        }
 
 		let reader = new FileReader();
 		reader.readAsBinaryString(file);
@@ -95,77 +114,43 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
 		reader.onload = async () => {
             const formData = new FormData();
             formData.append('file', file);
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function(e) {
-                console.log(e);
-            };
-
-            xhr.onprogress = function (event) {
-                console.log(event);;
-            };
-
-            xhr.upload.onprogress = function(e) {
-                console.log(e);;
-            }
-
-            xhr.open('POST', 'http://localhost:5000/api/companyDocument', true);
-
-            xhr.send(formData);
-		}
-    }
-
-
-    const handleFile = async event => {
-		const file = event.nativeEvent.target.files[0];
-		if (!file) {
-			return;
-		}
-		let reader = new FileReader();
-		reader.readAsBinaryString(file);
-
-		reader.onload = async event => {
-			let fileInfo = {
-				name: file.name,
-				filetype: file.type,
-				filesize: event.loaded,
-                base64: btoa(event.target.result),
+            formData.append('data', JSON.stringify({
                 companyId: company.id,
                 ...(breadCrumbs.length > 1?
                     {
                         parentFolder: actualFolder
                     }
                 : {})
-            };
+            }));
+            const id = Math.random().toString(36).substr(2, 9);
 
-            const response = await client.mutate({
-                mutation: gql`
-                    mutation CreateCompanyDocument($companyDocument: CompanyDocumentInput){
-                        createCompanyDocument(companyDocument: $companyDocument){
-                            id
-                            name
-                        }
-                    }
-                `,
-                variables: {
-                    companyDocument: fileInfo
-                }
+            addToQueue({
+                name: file.name,
+                size: file.filesize,
+                uploaded: '0%',
+                id
             });
 
-            console.log(response);
-            getData();
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function(e) {
+                console.log(e);
+            };
 
-			// setUploading(true);
-			// const response = await props.addAttachment({
-			// 	variables: {
-			// 		attachment: fileInfo
-			// 	}
-			// });
-			// if (response) {
-			// 	getData();
-			// 	setUploading(false);
-			// }
-		};
-	};
+            xhr.upload.onprogress = function(e) {
+                console.log(e);
+                if(e.loaded === e.total){
+                    removeFromQueue(id);
+                    getData();
+                } else {
+                    updateQueueItem(`${((e.loaded / e.total) * 100).toFixed(2)}%`, id);
+                }
+            }
+
+            xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
+            xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem("token"));
+            xhr.send(formData);
+		}
+    }
 
     return (
         <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em", paddingTop: isMobile && "0em" }}>
@@ -400,6 +385,21 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                 setDeleteModal={setDeleteModal}
                                 refetch={getData}
                             />
+                    ))}
+                    {queue.map((item, index) => (
+                        <TableRow>
+                            <TableCell>
+                                {item.name}
+                            </TableCell>
+                            <TableCell>
+                            </TableCell>
+                            <TableCell>
+                            </TableCell>
+                                {item.uploaded} {item.size}
+                            <TableCell/>
+                            <TableCell>
+                            </TableCell>
+                        </TableRow>
                     ))}
                 </Table>
             </div>

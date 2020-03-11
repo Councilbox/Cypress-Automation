@@ -7,7 +7,6 @@ const ToggleVideo = ({ toggleVideo }) => {
     return(
         <BasicButton
             text="Toggle video"
-            onClick={this.toggle}
         />
     )
 }
