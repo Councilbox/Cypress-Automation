@@ -20,6 +20,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
         value: '-1',
         label: 'Mi documentación' //TRADUCCION
     }]);
+    const [quota, setQuota] = React.useState(null);
     const [queue, setQueue] = React.useState([]);
     const [deleting, setDeleting] = React.useState(false);
     const [documents, setDocuments] = React.useState(null);
@@ -43,6 +44,10 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                         date
                         lastUpdated
                     }
+                    companyDocumentsQuota(companyId: $companyId){
+                        total
+                        used
+                    }
                 }
             `,
             variables: {
@@ -50,7 +55,10 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                 folderId: breadCrumbs.length > 1? actualFolder : null
             }
         });
+
+        console.log(response);
         setDocuments(response.data.companyDocuments);
+        setQuota(response.data.companyDocumentsQuota);
     }, [company.id, breadCrumbs])
 
     React.useEffect(() => {
