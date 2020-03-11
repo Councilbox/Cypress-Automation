@@ -100,6 +100,7 @@ export const censusParticipants = gql`
 					name
 					surname
 					dni
+					secondaryEmail
 					email
 					phone
 					position
