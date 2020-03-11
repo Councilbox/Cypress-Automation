@@ -10,6 +10,7 @@ import { Icon, Table, TableRow, TableCell } from 'material-ui';
 import { CardPageLayout, TextInput, ProgressBar, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
+import filesize from 'filesize';
 import { Input } from 'material-ui';
 import { SERVER_URL } from '../../../../config';
 
@@ -513,7 +514,7 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal }
                 {moment(file.lastUpdated).format('LLL')}
             </TableCell>
             <TableCell>
-                {file.filesize}
+                {filesize(file.filesize)}
             </TableCell>
             <TableCell>
                 <div onClick={() => setDeleteModal(file)} style={{
