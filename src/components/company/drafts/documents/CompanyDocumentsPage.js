@@ -295,6 +295,9 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                     </div>
 
                     <div style={{ display: "flex", alignContent: "center" }}>
+                        {quota &&
+                            `${filesize(quota.used)} / ${filesize(quota.total)}`
+                        }
                         <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3", display: "flex", alignContent: "center" }}>
                             <i className="fa fa-filter"></i>
                         </div>
