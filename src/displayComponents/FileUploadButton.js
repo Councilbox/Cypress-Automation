@@ -11,6 +11,7 @@ const FileUploadButton = ({
 	textStyle,
 	textPosition,
 	icon,
+	disabled,
 	buttonStyle,
 	trigger,
 	flat,
@@ -25,6 +26,7 @@ const FileUploadButton = ({
 			{...(accept? { accept: accept} : {})}
 			id={"raised-button-file"}
 			onChange={onChange}
+			disabled={disabled}
 			{...(loading? { disabled: true } : {})}
 			style={{
 				cursor: "pointer",

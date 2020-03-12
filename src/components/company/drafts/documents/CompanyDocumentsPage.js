@@ -20,6 +20,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
         value: '-1',
         label: 'Mi documentación' //TRADUCCION
     }]);
+    const [errorModal, setErrorModal] = React.useState(null);
     const [quota, setQuota] = React.useState(null);
     const [queue, setQueue] = React.useState([]);
     const [deleting, setDeleting] = React.useState(false);
@@ -94,7 +95,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
     }
 
     const addToQueue = file => {
-        queue.push(file);
+        queue.push(file)
         setQueue([...queue]);
     }
 
@@ -110,7 +111,6 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
         setQueue([...queue]);
     }
 
-
     const handleFileWithLoading = async event => {
         const file = event.nativeEvent.target.files[0];
 		if (!file) {
@@ -121,6 +121,14 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
 		reader.readAsBinaryString(file);
 
 		reader.onload = async () => {
+             if((+quota.used + file.size) > quota.total){
+                return setErrorModal('No queda espacio suficiente para ese archivo');
+            }
+
+            if(file.size > (50 * 1024 * 1024)){
+                return setErrorModal('El archivo supera el límite de tamaño');
+            }
+
             const formData = new FormData();
             formData.append('file', file);
             formData.append('data', JSON.stringify({
@@ -135,7 +143,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
 
             addToQueue({
                 name: file.name,
-                size: file.filesize,
+                size: file.size,
                 uploaded: 0,
                 id
             });
@@ -186,6 +194,17 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                     buttonCancel={translate.cancel}
                     acceptAction={deleteDocument}
                 />
+                <AlertConfirm
+                    open={!!errorModal}
+                    title={translate.warning}
+                    requestClose={() => setErrorModal(false)}
+                    bodyText={
+                        <div>
+                            {errorModal}
+                        </div>
+                    }
+                    buttonCancel={translate.accept}
+                />
                 <CreateDocumentFolder
                     requestClose={() => setFolderModal(false)}
                     open={folderModal}
@@ -193,6 +212,22 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                     refetch={getData}
                     company={company}
                     parentFolder={breadCrumbs.length > 1? actualFolder : null}
+                />
+                <input
+                    type="file"
+                    onChange={handleFileWithLoading}
+                    disabled={queue.length > 0}
+                    id="raised-button-file"
+                    style={{
+                        cursor: "pointer",
+                        position: "absolute",
+                        top: 0,
+                        width: 0,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        opacity: 0
+                    }}
                 />
                 <div style={{ display: "flex", borderBottom: "1px solid" + primary, alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", alignItems: "center", }}>
@@ -204,7 +239,6 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                 {(index === breadCrumbs.length -1)?
                                     <DropDownMenu
                                         color="transparent"
-                                        persistent
                                         styleComponent={{ width: "" }}
                                         Component={() =>
                                             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.5em", paddingRight: "1em", position: "relative" }}>
@@ -235,45 +269,38 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                         type="flat"
                                         items={
                                             <div style={{ padding: "1em" }}>
-                                                <FileUploadButton
-                                                    trigger= {() => (
-                                                        <div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
-                                                            <div style={{ width: "15px" }}>
-                                                                <img src={upload} style={{ width: "100%" }}></img>
-                                                            </div>
-                                                            <div style={{ paddingLeft: "10px" }}>
-                                                                Subir archivo
-                                                            </div>
+                                                <label htmlFor="raised-button-file">
+                                                    <div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
+                                                        <div style={{ width: "15px" }}>
+                                                            <img src={upload} style={{ width: "100%" }}></img>
                                                         </div>
-                                                    )}
-                                                    text={translate.new_add}
-                                                    flat
-                                                    style={{
-                                                        paddingLeft: '10px 0px',
-                                                        width: "100%"
-                                                    }}
-                                                    buttonStyle={{ width: "100%" }}
-                                                    //loading={uploading}
-                                                    onChange={handleFileWithLoading}
-                                                />
-                                                <div
-                                                    style={{
-                                                        display: "flex",
-                                                        color: "black",
-                                                        padding: ".5em 0em",
-                                                        borderTop: "1px solid" + primary,
-                                                        cursor: "pointer"
-                                                    }}
-                                                    onClick={() => setFolderModal(true)}
-                                                >
-                                                    <div style={{ width: "15px" }}>
-                                                        <img src={folder} style={{ width: "100%" }}></img>
+                                                        <div style={{ paddingLeft: "10px" }}>
+                                                            {queue.length > 0?
+                                                                'Subiendo...'
+                                                            :
+                                                                'Subir archivo'
+                                                            }
+                                                        </div>
                                                     </div>
-                                                    <div style={{ paddingLeft: "10px" }}>
-                                                        Nueva carpeta
-                                                    </div>
+                                                </label>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    color: "black",
+                                                    padding: ".5em 0em",
+                                                    borderTop: "1px solid" + primary,
+                                                    cursor: "pointer"
+                                                }}
+                                                onClick={() => setFolderModal(true)}
+                                            >
+                                                <div style={{ width: "15px" }}>
+                                                    <img src={folder} style={{ width: "100%" }}></img>
+                                                </div>
+                                                <div style={{ paddingLeft: "10px" }}>
+                                                    Nueva carpeta
                                                 </div>
                                             </div>
+                                        </div>
                                         }
                                     />
                                 :
