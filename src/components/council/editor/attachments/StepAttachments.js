@@ -19,12 +19,15 @@ import AttachmentList from "../../../attachments/AttachmentList";
 import { formatSize, showAddCouncilAttachment } from "../../../../utils/CBX";
 import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil } from "../../../../queries";
 import EditorStepLayout from '../EditorStepLayout';
+import gql from 'graphql-tag';
 import CompanyDocumentsBrowser from "../../../company/drafts/documents/CompanyDocumentsBrowser";
 import withSharedProps from "../../../../HOCs/withSharedProps";
+
 
 const StepAttachments = ({ client, translate, ...props }) => {
 	const [uploading, setUploading] = React.useState(false);
 	const [data, setData] = React.useState(null);
+	const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false);
 	const [loading, setLoading] = React.useState(true);
 	const [state, setState] = React.useState({
 		loading: false,
@@ -65,6 +68,26 @@ const StepAttachments = ({ client, translate, ...props }) => {
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
+
+
+	const addCompanyDocumentCouncilAttachment = async id => {
+		console.log(id);
+		const response = await client.mutate({
+			mutation: gql`
+				mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
+					attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
+						success
+					}
+				}
+			`,
+			variables: {
+				councilId: props.councilID,
+				companyDocumentId: id
+			}
+		});
+		getData();
+		setCompanyDocumentsModal(false);
+	}
 
 
 	const handleFile = async event => {
@@ -165,7 +188,13 @@ const StepAttachments = ({ client, translate, ...props }) => {
 						<CompanyDocumentsBrowser
 							company={props.company}
 							translate={translate}
-							open={true}
+							open={companyDocumentsModal}
+							action={file => addCompanyDocumentCouncilAttachment(file.id)}
+							trigger={
+								<div style={{ color: secondary }}>
+									{translate.select}
+								</div>
+							}
 						/>
 						<GridItem xs={12} md={10} style={{marginTop: '0.5em'}}>
 							<ProgressBar
@@ -247,9 +276,9 @@ const StepAttachments = ({ client, translate, ...props }) => {
 													borderTop: "1px solid" + primary,
 													cursor: "pointer"
 												}}
-												///onClick={() => setFolderModal(true)}
+												onClick={() => setCompanyDocumentsModal(true)}
 											>
-												<div style={{ paddingLeft: "10px" }}>
+												<div style={{ paddingLeft: "10px" }} >
 													Mi documentación {/*TRADUCCION*/}
 												</div>
 											</div>

@@ -23,8 +23,8 @@ const getVariant = () => {
 export const variant = getVariant();
 export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
 
-export const CLIENT_VERSION = process.env.REACT_APP_VERSION || '6.1.0';
-export const API_URL = `https://api.councilbox.com/graphql`;
+export const CLIENT_VERSION = process.env.REACT_APP_VERSION || '6.0.0';
+export const API_URL = `${SERVER_URL}/graphql`;
 export const videoVersions = {
 	CMP: 'CMP',
 	OLD: 'OLD'

@@ -15,7 +15,7 @@ import { Input } from 'material-ui';
 import { SERVER_URL } from '../../../../config';
 import DownloadCompanyDocument from './DownloadCompanyDocument';
 
-const CompanyDocumentsPage = ({ translate, company, client }) => {
+const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hideUpload }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
     const [breadCrumbs, setBreadCrumbs] = React.useState([{
         value: '-1',
@@ -237,7 +237,7 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                 {index > 0 &&
                                     ` > `
                                 }
-                                {(index === breadCrumbs.length -1)?
+                                {(index === breadCrumbs.length -1) && !hideUpload?
                                     <DropDownMenu
                                         color="transparent"
                                         styleComponent={{ width: "" }}
@@ -424,6 +424,8 @@ const CompanyDocumentsPage = ({ translate, company, client }) => {
                                 <FileRow
                                     translate={translate}
                                     file={doc}
+                                    trigger={trigger}
+                                    action={action}
                                     setDeleteModal={setDeleteModal}
                                     refetch={getData}
                                 />
@@ -479,7 +481,7 @@ const DelayedRow = ({ children, delay }) => {
 }
 
 
-const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal }) => {
+const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, action, trigger }) => {
     const nameData = file.name.split('.');
     const extension = nameData.pop();
     const name = nameData.join('.');
@@ -558,24 +560,30 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal }
                 {filesize(file.filesize)}
             </TableCell>
             <TableCell>
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                    <DownloadCompanyDocument
-                        translate={translate}
-                        file={file}
-                    />
-                    <div onClick={() => setDeleteModal(file)} style={{
-                        cursor: 'pointer',
-                        color: getSecondary(),
-                        background: 'white',
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "0.3em",
-                        width: "100px"
-                    }}>
-                        {translate.delete}
+                {action && trigger?
+                    <div onClick={() => action(file)} style={{ cursor: 'pointer' }}>
+                        {trigger}
                     </div>
-                </div>
+                :
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <DownloadCompanyDocument
+                            translate={translate}
+                            file={file}
+                        />
+                        <div onClick={() => setDeleteModal(file)} style={{
+                            cursor: 'pointer',
+                            color: getSecondary(),
+                            background: 'white',
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            padding: "0.3em",
+                            width: "100px"
+                        }}>
+                            {translate.delete}
+                        </div>
+                    </div>
+                }
             </TableCell>
         </TableRow>
     )
