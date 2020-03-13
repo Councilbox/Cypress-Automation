@@ -13,6 +13,7 @@ import CreateDocumentFolder from './CreateDocumentFolder';
 import filesize from 'filesize';
 import { Input } from 'material-ui';
 import { SERVER_URL } from '../../../../config';
+import DownloadCompanyDocument from './DownloadCompanyDocument';
 
 const CompanyDocumentsPage = ({ translate, company, client }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
@@ -557,17 +558,23 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal }
                 {filesize(file.filesize)}
             </TableCell>
             <TableCell>
-                <div onClick={() => setDeleteModal(file)} style={{
-                    cursor: 'pointer',
-                    color: primary,
-                    background: 'white',
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "0.3em",
-                    width: "100px"
-                }}>
-                    {translate.delete}
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <DownloadCompanyDocument
+                        translate={translate}
+                        file={file}
+                    />
+                    <div onClick={() => setDeleteModal(file)} style={{
+                        cursor: 'pointer',
+                        color: getSecondary(),
+                        background: 'white',
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "0.3em",
+                        width: "100px"
+                    }}>
+                        {translate.delete}
+                    </div>
                 </div>
             </TableCell>
         </TableRow>
