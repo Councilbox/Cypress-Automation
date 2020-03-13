@@ -7,16 +7,20 @@ import {
 	Grid,
 	GridItem,
 	LoadingSection,
-	ProgressBar
+	ProgressBar,
+	DropDownMenu
 } from "../../../../displayComponents/index";
-import { getPrimary, getSecondary, secondary } from "../../../../styles/colors";
+import upload from '../../../../assets/img/upload.png';
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { compose, graphql, withApollo } from "react-apollo";
 import { MAX_FILE_SIZE } from "../../../../constants";
 import { Typography } from "material-ui";
 import AttachmentList from "../../../attachments/AttachmentList";
 import { formatSize, showAddCouncilAttachment } from "../../../../utils/CBX";
-import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil} from "../../../../queries";
+import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil } from "../../../../queries";
 import EditorStepLayout from '../EditorStepLayout';
+import CompanyDocumentsBrowser from "../../../company/drafts/documents/CompanyDocumentsBrowser";
+import withSharedProps from "../../../../HOCs/withSharedProps";
 
 const StepAttachments = ({ client, translate, ...props }) => {
 	const [uploading, setUploading] = React.useState(false);
@@ -158,7 +162,12 @@ const StepAttachments = ({ client, translate, ...props }) => {
 			body={
 				<React.Fragment>
 					<Grid>
-						<GridItem xs={12} md={10} style={{marginTop: '2.5em'}}>
+						<CompanyDocumentsBrowser
+							company={props.company}
+							translate={translate}
+							open={true}
+						/>
+						<GridItem xs={12} md={10} style={{marginTop: '0.5em'}}>
 							<ProgressBar
 								value={
 									totalSize > 0
@@ -176,24 +185,78 @@ const StepAttachments = ({ client, translate, ...props }) => {
 						</GridItem>
 						<GridItem xs={12} md={2}>
 							{showAddCouncilAttachment(attachments) && (
-								<FileUploadButton
-									text={translate.new_add}
-									style={{
-										marginTop: "2em",
-										width: "100%"
-									}}
-									buttonStyle={{ width: "100%" }}
-									color={primary}
-									textStyle={{
-										color: "white",
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									loading={uploading}
-									icon={<ButtonIcon type="publish" color="white" />}
-									onChange={handleFile}
-								/>
+								<>
+									<input
+										type="file"
+										id={"raised-button-file"}
+										onChange={handleFile}
+										disabled={uploading}
+										style={{
+											cursor: "pointer",
+											position: "absolute",
+											top: 0,
+											width: 0,
+											bottom: 0,
+											right: 0,
+											left: 0,
+											opacity: 0
+										}}
+									/>
+									<DropDownMenu
+										color="transparent"
+										styleComponent={{ width: "" }}
+										Component={() =>
+											<BasicButton
+												color={primary}
+												icon={<i className={"fa fa-plus"}
+												style={{
+													cursor: 'pointer',
+													color: 'white',
+													fontWeight: '700',
+													paddingLeft: "5px"
+												}}></i>}
+												text={translate.add}
+												textStyle={{
+													color: 'white'
+												}}
+												buttonStyle={{
+													width: '100%'
+												}}
+											/>
+										}
+										textStyle={{ color: primary }}
+										anchorOrigin={{
+											vertical: 'bottom',
+											horizontal: 'left',
+										}}
+										type="flat"
+										items={
+											<div style={{ padding: "1em" }}>
+												<label htmlFor="raised-button-file">
+													<div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
+														<div style={{ paddingLeft: "10px" }}>
+															Subir archivo {/**TRADUCCION */}
+														</div>
+													</div>
+												</label>
+											<div
+												style={{
+													display: "flex",
+													color: "black",
+													padding: ".5em 0em",
+													borderTop: "1px solid" + primary,
+													cursor: "pointer"
+												}}
+												///onClick={() => setFolderModal(true)}
+											>
+												<div style={{ paddingLeft: "10px" }}>
+													Mi documentación {/*TRADUCCION*/}
+												</div>
+											</div>
+										</div>
+										}
+									/>
+								</>
 							)}
 						</GridItem>
 					</Grid>
@@ -275,6 +338,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 
 export default compose(
 	withApollo,
+	withSharedProps(),
 	graphql(addCouncilAttachment, {
 		name: "addAttachment"
 	}),
