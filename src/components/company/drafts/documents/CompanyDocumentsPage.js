@@ -403,21 +403,24 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                     </TableCell>
                                     <TableCell/>
                                     <TableCell>
-                                        <div onClick={event => {
-                                            event.stopPropagation();
-                                            setDeleteModal(doc)
-                                        }} style={{
-                                            cursor: 'pointer',
-                                            color: primary,
-                                            background: 'white',
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            padding: "0.3em",
-                                            width: "100px"
-                                        }}>
-                                            {translate.delete}
-                                        </div>
+                                        {!action &&
+                                            <div onClick={event => {
+                                                event.stopPropagation();
+                                                setDeleteModal(doc)
+                                            }} style={{
+                                                cursor: 'pointer',
+                                                color: primary,
+                                                background: 'white',
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                padding: "0.3em",
+                                                width: "100px"
+                                            }}>
+                                                {translate.delete}
+                                            </div>
+                                        }
+
                                     </TableCell>
                                 </TableRow>
                             :
@@ -560,10 +563,13 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
                 {filesize(file.filesize)}
             </TableCell>
             <TableCell>
-                {action && trigger?
-                    <div onClick={() => action(file)} style={{ cursor: 'pointer' }}>
-                        {trigger}
-                    </div>
+                {(action && trigger) ?
+                    file.type !== 0?
+                        <div onClick={() => action(file)} style={{ cursor: 'pointer' }}>
+                            {trigger}
+                        </div>
+                    :
+                        <span />
                 :
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <DownloadCompanyDocument

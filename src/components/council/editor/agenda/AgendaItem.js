@@ -56,6 +56,21 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 									dangerouslySetInnerHTML={{ __html: agenda.description }}
 								/>
 							)}
+							<GridItem xs={12} md={12} lg={12}>
+								{agenda.attachments && agenda.attachments.map((attachment, index) => (
+									<div style={{
+										border: `1px solid ${secondary}`,
+										float: 'left',
+										marginTop: '1em',
+										padding: '5px',
+										marginLeft: index > 0? '5px' : '0',
+										borderRadius: '5px',
+										color: 'primary'
+									}}>
+										{attachment.filename || attachment.name}
+									</div>
+								))}
+							</GridItem>
 						</GridItem>
 						{agenda.items.length > 0 &&
 							<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>

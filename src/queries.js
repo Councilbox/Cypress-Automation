@@ -819,6 +819,11 @@ export const councilStepThree = gql`
 				agendaSubject
 				comment
 				councilId
+				attachments{
+					id
+					filename
+					filesize
+				}
 				items {
 					id
 					value

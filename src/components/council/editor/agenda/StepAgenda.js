@@ -66,6 +66,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 			}
 		});
 
+		console.log(response);
+
 		if (response.data) {
 			setData(response.data);
 		}

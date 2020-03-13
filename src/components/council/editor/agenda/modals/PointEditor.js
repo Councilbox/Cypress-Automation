@@ -18,6 +18,7 @@ import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../../../company/drafts/draftTags/utils";
+import PointAttachments from "./PointAttachments";
 
 class PointEditor extends React.Component {
 
