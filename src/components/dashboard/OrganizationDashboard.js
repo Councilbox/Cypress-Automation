@@ -995,7 +995,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					{(item.state === 5 || item.state === 10) &&
 						//convocada
 						<BasicButton
-							text="Convocada"//TRADUCCION
+							text={translate.convened}
 							textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
 							backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
 							onClick={() => {
@@ -1014,7 +1014,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					{(item.state === 20 || item.state === 30) &&
 						//celebracion
 						<BasicButton
-							text="En celebracion" //TRADUCCION
+							text={translate.companies_live}
 							textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
 							backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
 							onClick={() => {
@@ -1034,7 +1034,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					{(item.state === 40) &&
 						//redActa
 						<BasicButton
-							text="Redactando acta"//TRADUCCION
+							text={translate.companies_writing}
 							textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
 							backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
 							onClick={() => {
@@ -1064,20 +1064,20 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 			<div style={{ fontSize: "13px" }}>
 				<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
 					<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-						Estado
-				</div>
+						{translate.state}
+					</div>
 					<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
 						Id
-				</div>
+					</div>
 					<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-						Nombre
-				</div>
+						{translate.name}
+					</div>
 					<div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-						Email
-				</div>
+						{translate.email}
+					</div>
 					<div style={{ color: primary, fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-						Últ.Conexión
-				</div>
+						{translate.last_connection}
+					</div>
 				</div>
 				<div style={{ height: "300px" }}>
 					<Scrollbar>
@@ -1132,7 +1132,7 @@ const TablaCompanies = ({ companies, translate, total, changePageCompanies, comp
 					Id
 				</div>
 				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
-					Nombre
+					{translate.name}
 				</div>
 			</div>
 			<div style={{ height: "300px" }}>
@@ -1329,35 +1329,35 @@ const Cell = ({ text, avatar, width }) => {
 
 const corporationCouncils = gql`
     query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
-					corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
-					id
+		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
+			id
 			name
-				state
-				dateStart
-				councilType
-				prototype
+			state
+			dateStart
+			councilType
+			prototype
 			participants {
-					id
-				}
-				company{
-					id
+				id
+			}
+			company{
+				id
 				businessName
 				logo
 			}
 		}
 
 		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
-					id
+			id
 			name
-				state
-				dateStart
-				councilType
-				prototype
+			state
+			dateStart
+			councilType
+			prototype
 			participants {
-					id
-				}
-				company{
-					id
+				id
+			}
+			company{
+				id
 				businessName
 				logo
 			}

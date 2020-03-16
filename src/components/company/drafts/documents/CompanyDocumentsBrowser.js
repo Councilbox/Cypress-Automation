@@ -28,7 +28,7 @@ const CompanyDocumentsBrowser = ({ company, translate, action, open, requestClos
                 }
             }}
             requestClose={requestClose}
-            title={'Mi documentación'}//TRADUCCION
+            title={translate.my_documentation}
             bodyText={renderBody()}
         />
     )

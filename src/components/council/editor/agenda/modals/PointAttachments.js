@@ -7,9 +7,7 @@ import CompanyDocumentsBrowser from '../../../../company/drafts/documents/Compan
 const PointAttachments = ({ translate, company, attachments, setAttachments, setDeletedAttachments, deletedAttachments }) => {
     const primary = getPrimary();
     const secondary = getSecondary();
-    const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false);
-
-    console.log(attachments);
+    const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false)
 
     const handleFile = event => {
         const file = event.nativeEvent.target.files[0];
@@ -112,7 +110,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
                         <label htmlFor="raised-button-file">
                             <div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
                                 <div style={{ paddingLeft: "10px" }}>
-                                    Subir archivo {/**TRADUCCION */}
+                                    {translate.upload_file}
                                 </div>
                             </div>
                         </label>
@@ -127,7 +125,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
                         onClick={() => setCompanyDocumentsModal(true)}
                     >
                         <div style={{ paddingLeft: "10px" }} >
-                            Mi documentación {/*TRADUCCION*/}
+                            {translate.my_documentation}
                         </div>
                     </div>
                 </div>

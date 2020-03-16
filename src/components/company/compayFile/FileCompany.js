@@ -199,6 +199,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         return <LoadingSection />
     }
 
+    //TRADUCCION
     return (
         <CardPageLayout title={`Ficha de ${data.businessName}`} disableScroll avatar={data.logo}>
             {/* company.icon */}

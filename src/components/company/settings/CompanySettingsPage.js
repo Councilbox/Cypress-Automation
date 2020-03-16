@@ -998,7 +998,6 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 									})}
 							</Scrollbar>
 						</div>
-						{/* TRADUCCION */}
 						<AlertConfirm
 							requestClose={() => setUnlink(false)}
 							open={unlink}
@@ -1006,7 +1005,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 							buttonAccept={translate.accept}
 							buttonCancel={translate.cancel}
 							bodyText={
-								<div>Desea desvincular </div>
+								<div>{translate.companies_unlink}?</div>
 							}
 							title={translate.unlink}
 						/>
@@ -1278,7 +1277,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 								{translate.email}
 							</div>
 							<div style={{ color: getPrimary(), fontWeight: "bold", overflow: "hidden", width: 'calc( 100% / 5 )', textAlign: 'left' }}>
-								Últ.Conexión
+								{translate.last_connection}
 							</div>
 						</div>
 						<div style={{ height: "300px" }}>
@@ -1398,6 +1397,7 @@ const AddAdmin = ({ translate, company, open, requestClose }) => {
 }
 
 export const getActivationText = value => {
+	//TRADUCCION
     const activations = {
         [USER_ACTIVATIONS.NOT_CONFIRMED]: 'Sin confirmar',
         [USER_ACTIVATIONS.CONFIRMED]: 'Confirmado',
@@ -1409,29 +1409,29 @@ export const getActivationText = value => {
 
 const linkCompanyUsers = gql`
     mutation linkCompanyUsers($companyTin: String!, $usersIds: [Int]){
-					linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
-					success
-            message
-				}
-			}
-		`;
+			linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
+			success
+			message
+		}
+	}
+`;
 
 
 const companyUsers = gql`
 query CompanyUsers($companyId: Int!, $filters: [FilterInput], $options: OptionsInput,) {
-					companyUsers(companyId: $companyId, filters: $filters, options: $options,) {
-					list {
-				id
-				name
-				surname
-				actived
-				email
-				lastConnectionDate
-			}
-			total
+	companyUsers(companyId: $companyId, filters: $filters, options: $options,) {
+		list {
+			id
+			name
+			surname
+			actived
+			email
+			lastConnectionDate
 		}
+		total
 	}
-	`;
+}
+`;
 
 
 const unlinkCompanyUser = gql`

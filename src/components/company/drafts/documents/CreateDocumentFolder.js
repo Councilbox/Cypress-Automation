@@ -55,11 +55,10 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
         )
     }
 
-    //TRADUCCION
     return (
         <>
             <AlertConfirm
-                title='Crear nueva carpeta'
+                title={translate.new_folder}
                 open={open}
                 acceptAction={createDocumentFolder}
                 requestClose={requestClose}

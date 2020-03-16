@@ -581,7 +581,7 @@ const PrivateVotingDisplay = compose(
 		}, 1500);
 	}
 
-	//TRADUCCION
+	//
 
 	return (
 		<React.Fragment>

@@ -8,8 +8,6 @@ import ContentEditable from 'react-contenteditable';
 
 const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile, updateCompany, updateFileData, ...props }) => {
     const primary = getPrimary();
-
-    //TRADUCCION
     return (
         <div style={{ height: "100%" }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
@@ -26,7 +24,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         fontWeight: "bold",
                                         marginRight: '1em'
                                     }}>
-                                        Denominación
+                                        {translate.denomination}
                                     </div>
                                     <div style={{
                                         color: "black",
@@ -55,7 +53,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         fontWeight: "bold",
                                         marginRight: '1em'
                                     }}>
-                                        Domicilio Social
+                                        {translate.registered_office}
                                     </div>
                                     <ContentEditable
                                         style={{ color: 'black', borderBottom: !data.address? '1px solid black': 'none'}}
@@ -73,7 +71,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         width: '75px',
                                         fontWeight: "bold"
                                     }}>
-                                        NIF
+                                        {translate.cif}
                                     </div>
                                     <ContentEditable
                                         html={data.tin}
@@ -90,7 +88,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         fontWeight: "bold",
                                         marginRight: '1em'
                                     }}>
-                                        Capital social
+                                        {translate.social_capital_desc}
                                     </div>
                                     <ContentEditable
                                         style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.socialCapital? '1px solid black': 'none'}}
@@ -155,7 +153,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         fontWeight: "bold",
                                         marginRight: '1em'
                                     }}>
-                                        Adaptación
+                                        {translate.adaptation}
                                     </div>
                                     <ContentEditable
                                         style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.adaptation? '1px solid black': 'none'}}
@@ -176,7 +174,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         fontWeight: "bold",
                                         marginRight: '1em'
                                     }}>
-                                        Transformación
+                                        {translate.transformation}
                                     </div>
                                     <ContentEditable
                                         style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.transformation? '1px solid black': 'none'}}
@@ -197,7 +195,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         fontWeight: "bold",
                                         marginRight: '1em'
                                     }}>
-                                        Traslado domicilio social
+                                        {translate.transfer_registered_office}
                                     </div>
                                     <ContentEditable
                                         style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.placeOfBusiness? '1px solid black': 'none'}}
@@ -223,7 +221,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         fontWeight: "bold",
                                         marginRight: '1em'
                                     }}>
-                                        Ejercicio social
+                                        {translate.fiscal_year}
                                     </div>
                                     <ContentEditable
                                         style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.financialYear? '1px solid black': 'none'}}

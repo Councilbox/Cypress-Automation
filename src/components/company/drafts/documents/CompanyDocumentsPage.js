@@ -19,7 +19,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const [inputSearch, setInputSearch] = React.useState(false);
     const [breadCrumbs, setBreadCrumbs] = React.useState([{
         value: '-1',
-        label: 'Mi documentación' //TRADUCCION
+        label: translate.my_documentation
     }]);
     const [errorModal, setErrorModal] = React.useState(null);
     const [quota, setQuota] = React.useState(null);
@@ -30,6 +30,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const [search, setSearch] = React.useState("");
     const [deleteModal, setDeleteModal] = React.useState(null);
     const primary = getPrimary();
+    const secondary = getSecondary();
 
     const actualFolder = breadCrumbs[breadCrumbs.length - 1].value;
 
@@ -58,7 +59,6 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             }
         });
 
-        console.log(response);
         setDocuments(response.data.companyDocuments);
         setQuota(response.data.companyDocumentsQuota);
     }, [company.id, breadCrumbs])
@@ -123,7 +123,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 
 		reader.onload = async () => {
              if((+quota.used + file.size) > quota.total){
-                return setErrorModal('No queda espacio suficiente para ese archivo');
+                return setErrorModal(translate.file_exceeds_rest);
             }
 
             if(file.size > (50 * 1024 * 1024)){
@@ -155,7 +155,6 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             };
 
             xhr.upload.onprogress = function(e) {
-                console.log(e);
                 if(e.loaded === e.total){
                     removeFromQueue(id);
                     getData();
@@ -182,11 +181,11 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                         <div>
                             {deleteModal && deleteModal.type === 0?
                                 <>
-                                    ¿Esta seguro de que quiere la carpeta <strong>{deleteModal? deleteModal.name : ''}</strong> y todo su contenido?
+                                    <div dangerouslySetInnerHTML={{__html: translate.delete_folder_warning.replace(/{{folderName}}/, deleteModal? deleteModal.name : '')}} />
                                 </>
                             :
                                 <>
-                                    ¿Esta seguro de que quiere eliminar el documento <strong>{deleteModal? deleteModal.name : ''}</strong>?
+                                    <div dangerouslySetInnerHTML={{__html: translate.delete_document_warning.replace(/{{name}}/, deleteModal? deleteModal.name : '')}} />
                                 </>
                             }
                         </div>
@@ -277,9 +276,9 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                         </div>
                                                         <div style={{ paddingLeft: "10px" }}>
                                                             {queue.length > 0?
-                                                                'Subiendo...'
+                                                                `${translate.uploading}...`
                                                             :
-                                                                'Subir archivo'
+                                                                translate.upload_file
                                                             }
                                                         </div>
                                                     </div>
@@ -298,7 +297,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                     <img src={folder} style={{ width: "100%" }}></img>
                                                 </div>
                                                 <div style={{ paddingLeft: "10px" }}>
-                                                    Nueva carpeta
+                                                    {translate.new_folder}
                                                 </div>
                                             </div>
                                         </div>
@@ -380,7 +379,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                 fontWeight: "bold",
                                 borderBottom: "1px solid #979797"
                             }}>
-                                Tamaño {/*TRADUCCION*/}
+                                {translate.size}
                             </TableCell>
                             <TableCell style={{
                                 color: "#a09aa0",
@@ -396,7 +395,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         {doc.name}
                                     </TableCell>
                                     <TableCell>
-                                        {'Carpeta' /*TRADUCCION*/}
+                                        {translate.folder}
                                     </TableCell>
                                     <TableCell>
                                         {moment(doc.lastUpdated).format('LLL')}
@@ -409,7 +408,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                 setDeleteModal(doc)
                                             }} style={{
                                                 cursor: 'pointer',
-                                                color: primary,
+                                                color: secondary,
                                                 background: 'white',
                                                 display: "flex",
                                                 alignItems: "center",

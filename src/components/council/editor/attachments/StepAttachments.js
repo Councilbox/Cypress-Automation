@@ -264,7 +264,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 												<label htmlFor="raised-button-file">
 													<div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
 														<div style={{ paddingLeft: "10px" }}>
-															Subir archivo {/**TRADUCCION */}
+															{translate.upload_file}
 														</div>
 													</div>
 												</label>
@@ -279,7 +279,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 												onClick={() => setCompanyDocumentsModal(true)}
 											>
 												<div style={{ paddingLeft: "10px" }} >
-													Mi documentación {/*TRADUCCION*/}
+													{translate.my_documentation}
 												</div>
 											</div>
 										</div>

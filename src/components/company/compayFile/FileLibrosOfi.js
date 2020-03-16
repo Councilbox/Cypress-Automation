@@ -10,7 +10,6 @@ import { Collapse } from 'material-ui';
 import ContentEditable from 'react-contenteditable';
 
 
-
 const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...props }) => {
     const primary = getPrimary();
     const books = (data.file && data.file.books)? data.file.books : []; 
@@ -42,8 +41,6 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
         })
     }
 
-
-    //TRADUCCION
     return (
         <div style={{ height: "100%" }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
@@ -51,17 +48,17 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                     <div style={{ padding: "0 1em", fontWeight: "bold", color: primary, display: "flex", justifyContent: "space-between", paddingLeft: '24px', paddingRight: '24px' }}>
                         <div style={{ width: '15%', display: "flex", cursor: 'pointer' }} onClick={addRow}>
                             <div style={{ border: "1px solid" + primary, padding: "0.6em 5px", display: 'flex' }}>
-                                Libros de Actas
+                                {translate.act_book}
                                 <div>
                                     <i className="fa fa-plus-circle" style={{ color: primary, paddingRight: "5px", marginLeft: '5px', fontSize: "16px" }}></i>
                                 </div>
                             </div>
                         </div>
-                        <div style={{ width: '12%', textAlign: 'center' }}>F. Apertura</div>
-                        <div style={{ width: '12%', textAlign: 'center' }}>F. Cierre</div>
-                        <div style={{ width: '12%', textAlign: 'center' }}>F. legalización</div>
-                        <div style={{ width: '12%', textAlign: 'center' }}>F. Devolución</div>
-                        <div style={{ width: '15%', textAlign: 'center' }}>Comentarios</div>
+                        <div style={{ width: '12%', textAlign: 'center' }}>{translate.opening}</div>
+                        <div style={{ width: '12%', textAlign: 'center' }}>{translate.closing_date}</div>
+                        <div style={{ width: '12%', textAlign: 'center' }}>{translate.legalization_date}</div>
+                        <div style={{ width: '12%', textAlign: 'center' }}>{translate.devolution}</div>
+                        <div style={{ width: '15%', textAlign: 'center' }}>{translate.comments}</div>
                     </div>
                     <Scrollbar>
                         <div style={{ width: "100%", height: "calc( 100% - 3em )", padding: "0 1em" }}>
@@ -186,7 +183,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                 ))
                             :
                                 <div style={{marginTop: '1em'}}>
-                                    No hay libros añadidos
+                                    {translate.no_books_added}
                                 </div>
                                 
                             }

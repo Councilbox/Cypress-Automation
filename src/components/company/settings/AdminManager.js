@@ -113,7 +113,7 @@ const AdminManager = ({ company, translate, client }) => {
             <AlertConfirm
                 open={modal}
                 bodyText={renderModalBody()}
-                title={'Administradores'}
+                title={translate.admins}
                 requestClose={() => {
                     page === 1? setModal(false) : setPage(1)}
                 }
