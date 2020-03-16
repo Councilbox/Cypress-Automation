@@ -23,6 +23,10 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		return <LoadingMainApp />;
 	}
 
+	if(translate.selectedLanguage !== data.participant.language){
+		return <LoadingMainApp />;
+	}
+
 	return (
 		<Assistance
 			participant={data.participant}
