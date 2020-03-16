@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import { graphql, withApollo } from "react-apollo";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -19,54 +19,52 @@ import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../../../company/drafts/draftTags/utils";
 import PointAttachments from "./PointAttachments";
-
-class PointEditor extends React.Component {
-
-	state = {
-		data: {
-			agendaSubject: "",
-			subjectType: "",
-			description: ""
-		},
-		loadDraft: false,
-		errors: {
-			agendaSubject: "",
-			subjectType: "",
-			description: "",
-			majorityType: "",
-			majority: "",
-			majorityDivider: ""
-		}
-	};
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			data: {
-				...nextProps.agenda
-			}
-		});
-	}
+import { addAgendaAttachment } from "../../../../../queries";
+import { useOldState } from "../../../../../hooks";
+import gql from 'graphql-tag';
 
 
-	loadDraft = async draft => {
+const PointEditor = ({ agenda, translate, company, council, requestClose, open, ...props }) => {
+	const [state, setState] = useOldState({
+		...agenda,
+	});
+	const [attachments, setAttachments] = React.useState([...agenda.attachments] || []);
+	const [attachmentsToRemove, setAttachmentsToRemove] = React.useState([]);
+	const [loadDraftModal, setLoadDraftModal] = React.useState(false);
+	const [errors, setErrors] = useOldState({
+		agendaSubject: "",
+		subjectType: "",
+		description: "",
+		majorityType: "",
+		majority: "",
+		majorityDivider: ""
+	});
+	const editor = React.useRef();
+	const secondary = getSecondary();
+
+	// console.log(attachments);
+	// console.log(attachmentsToRemove);
+
+
+	const loadDraft = async draft => {
 		const correctedText = await CBX.changeVariablesToValues(draft.text, {
-			company: this.props.company,
-			council: this.props.council
-		}, this.props.translate);
+			company: company,
+			council: council
+		}, translate);
 
 		const { segments } = draft.tags.agenda;
 		let majorityType = 0, subjectType = 0;
 
 		if(segments[1]){
-			subjectType = this.props.votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
+			subjectType = props.votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
 		}
 
 		if(segments[2]){
-			majorityType = this.props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
+			majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
 		}
 
 
-		this.updateState({
+		setState({
 			description: correctedText,
 			majority: draft.majority,
 			majorityType,
@@ -74,49 +72,105 @@ class PointEditor extends React.Component {
 			subjectType,
 			agendaSubject: draft.title
 		});
-		this.editor.setValue(correctedText);
+		editor.current.setValue(correctedText);
 	};
 
-	saveChanges = async () => {
-		if (!this.checkRequiredFields()) {
-			const { __typename, items, options, ballots, ...data } = this.state.data;
-			const response = await this.props.updateAgenda({
+	const saveChanges = async () => {
+		if (!checkRequiredFields()) {
+			const { __typename, items, options, ballots, attachments: a, ...data } = state;
+			const response = await props.updateAgenda({
 				variables: {
 					agenda: {
 						...data
 					}
 				}
 			});
+			if(attachments.length > 0){
+				await Promise.all(attachments.filter(attachment => !attachment.__typename).map(attachment => {
+					if(attachment.filename){
+						let fileInfo = {
+							...attachment,
+							state: 0,
+							agendaId: agenda.id,
+							councilId: council.id
+						};
+
+						return props.client.mutate({
+							mutation: addAgendaAttachment,
+							variables: {
+								attachment: fileInfo
+							}
+						});
+					} else {
+						let fileInfo = {
+							filename: attachment.name,
+							filesize: attachment.filesize,
+							documentId: attachment.id,
+							filetype: attachment.filetype,
+							state: 0,
+							agendaId: agenda.id,
+							councilId: council.id
+						};
+
+						return props.client.mutate({
+							mutation: gql`
+								mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
+									attachCompanyDocumentToAgenda(attachment: $attachment){
+										id
+									}
+								}
+							`,
+							variables: {
+								attachment: fileInfo
+							}
+						})
+					}
+				}));
+
+				if(attachmentsToRemove.length > 0){
+					await Promise.all(attachmentsToRemove.map(item =>{
+						return props.client.mutate({
+							mutation: gql`
+								mutation deleteAgendaAttachment($attachmentId: Int!){
+									deleteAgendaAttachment(attachmentId: $attachmentId){
+										success
+									}
+								}
+							`,
+							variables: {
+								attachmentId: item.id
+							}
+						});
+					}));
+				}
+			}
+
+
+
 			if (response) {
-				this.props.refetch();
-				this.props.requestClose();
+				await props.refetch();
+				requestClose();
 			}
 		}
 	};
 
-	updateState = object => {
-		this.setState({
-			data: {
-				...this.state.data,
-				...object
-			},
-			loadDraft: false
+	const updateState = object => {
+		setState({
+			...state,
+			...object
 		});
+		setLoadDraftModal(false);
 	};
 
-	_renderModalBody = () => {
-		const secondary = getSecondary();
+
+	const _renderModalBody = () => {
 		const {
-			translate,
 			votingTypes,
 			statute,
 			draftTypes,
-			council,
-			company,
 			companyStatutes
-		} = this.props;
-		const errors = this.state.errors;
-		const agenda = this.state.data;
+		} = props;
+		const agenda = state;
 		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 
 		return (
@@ -125,11 +179,11 @@ class PointEditor extends React.Component {
 					width: "70vw"
 				}}
 			>
-				{this.state.loadDraft && (
+				{loadDraftModal && (
 					<LoadDraft
 						translate={translate}
 						companyId={company.id}
-						loadDraft={this.loadDraft}
+						loadDraft={loadDraft}
 						statute={statute}
 						defaultTags={{
 							"agenda": {
@@ -146,7 +200,7 @@ class PointEditor extends React.Component {
 					/>
 				)}
 
-				<div style={{ display: this.state.loadDraft && "none" }}>
+				<div style={{ display: loadDraftModal && "none" }}>
 					<Grid>
 						<GridItem xs={12} md={9} lg={9}>
 							<TextInput
@@ -155,7 +209,7 @@ class PointEditor extends React.Component {
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
 								onChange={event =>
-									this.updateState({
+									updateState({
 										agendaSubject: event.target.value
 									})
 								}
@@ -168,7 +222,7 @@ class PointEditor extends React.Component {
 								value={agenda.subjectType}
 								errorText={errors.subjectType}
 								onChange={event =>
-									this.updateState({
+									updateState({
 										subjectType: event.target.value
 									})
 								}
@@ -196,13 +250,13 @@ class PointEditor extends React.Component {
 									value={"" + agenda.majorityType}
 									errorText={errors.majorityType}
 									onChange={event =>
-										this.updateState({
+										updateState({
 											majorityType: +event.target.value
 										})
 									}
 									required
 								>
-									{this.props.majorityTypes.map(majority => {
+									{props.majorityTypes.map(majority => {
 										return (
 											<MenuItem
 												value={"" + majority.value}
@@ -227,12 +281,12 @@ class PointEditor extends React.Component {
 										majorityError={errors.majority}
 										dividerError={errors.majorityDivider}
 										onChange={value =>
-											this.updateState({
+											updateState({
 												majority: +value
 											})
 										}
 										onChangeDivider={value =>
-											this.updateState({
+											updateState({
 												majorityDivider: +value
 											})
 										}
@@ -241,9 +295,18 @@ class PointEditor extends React.Component {
 							</GridItem>
 						</Grid>
 					)}
-
+					<div style={{marginBottom: '1.6em'}}>
+						<PointAttachments
+							translate={translate}
+							setAttachments={setAttachments}
+							attachments={attachments}
+							company={company}
+							deletedAttachments={attachmentsToRemove}
+							setDeletedAttachments={setAttachmentsToRemove}
+						/>
+					</div>
 					<RichTextInput
-						ref={editor => (this.editor = editor)}
+						ref={editor}
 						floatingText={translate.description}
 						type="text"
 						translate={translate}
@@ -261,9 +324,7 @@ class PointEditor extends React.Component {
 									lineHeight: "1em"
 								}}
 								textPosition="after"
-								onClick={() =>
-									this.setState({ loadDraft: true })
-								}
+								onClick={() => setLoadDraftModal(false)}
 							/>
 						}
 						tags={[
@@ -283,7 +344,7 @@ class PointEditor extends React.Component {
 						errorText={errors.description}
 						value={agenda.description}
 						onChange={value =>
-							this.updateState({
+							updateState({
 								description: value
 							})
 						}
@@ -293,31 +354,23 @@ class PointEditor extends React.Component {
 		);
 	};
 
-	checkRequiredFields() {
-		const { translate } = this.props;
-		const agenda = this.state.data;
-		let errors = checkRequiredFieldsAgenda(agenda, translate, toast);
-		this.setState({
-			errors: errors.errors
-		});
+	function checkRequiredFields() {
+		let errors = checkRequiredFieldsAgenda(state, translate, toast);
+		setErrors(errors);
 		return errors.hasError;
 	}
 
-	render() {
-		const { open, translate, requestClose } = this.props;
-
-		return (
-			<AlertConfirm
-				requestClose={this.state.loadDraft? () => this.setState({loadDraft: false}) : requestClose}
-				open={open}
-				acceptAction={this.saveChanges}
-				buttonAccept={translate.accept}
-				buttonCancel={translate.cancel}
-				bodyText={this._renderModalBody()}
-				title={translate.edit}
-			/>
-		);
-	}
+	return (
+		<AlertConfirm
+			requestClose={loadDraftModal? () => setLoadDraftModal(false) : requestClose}
+			open={open}
+			acceptAction={saveChanges}
+			buttonAccept={translate.accept}
+			buttonCancel={translate.cancel}
+			bodyText={_renderModalBody()}
+			title={translate.edit}
+		/>
+	);
 }
 
-export default graphql(updateAgenda, { name: "updateAgenda" })(PointEditor);
+export default graphql(updateAgenda, { name: "updateAgenda" })(withApollo(PointEditor));

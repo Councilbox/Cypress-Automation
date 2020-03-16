@@ -4,7 +4,7 @@ import { getPrimary, getSecondary } from '../../../../../styles/colors';
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import CompanyDocumentsBrowser from '../../../../company/drafts/documents/CompanyDocumentsBrowser';
 
-const PointAttachments = ({ translate, company, attachments, setAttachments }) => {
+const PointAttachments = ({ translate, company, attachments, setAttachments, setDeletedAttachments, deletedAttachments }) => {
     const primary = getPrimary();
     const secondary = getSecondary();
     const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false);
@@ -38,7 +38,11 @@ const PointAttachments = ({ translate, company, attachments, setAttachments }) =
     }
 
     const removeAgendaAttachment = index => {
-        attachments.splice(index, 1);
+        const toDelete = attachments.splice(index, 1);
+        if(setDeletedAttachments){
+            setDeletedAttachments([...deletedAttachments, toDelete[0]]);
+        }
+
         setAttachments([...attachments]);
     }
 
@@ -52,7 +56,8 @@ const PointAttachments = ({ translate, company, attachments, setAttachments }) =
                 open={companyDocumentsModal}
                 requestClose={() => setCompanyDocumentsModal(false)}
                 action={file => {
-                    setAttachments([...attachments, file]);
+                    const { __typename, ...data } = file;
+                    setAttachments([...attachments, data]);
                     setCompanyDocumentsModal(false);
                 }}
                 trigger={
@@ -130,15 +135,18 @@ const PointAttachments = ({ translate, company, attachments, setAttachments }) =
             />
             <div>
                 {attachments.map((attachment, index) => (
-                    <div style={{
-                        border: `1px solid ${secondary}`,
-                        float: 'left',
-                        marginTop: '1em',
-                        padding: '5px',
-                        marginLeft: index > 0? '5px' : '0',
-                        borderRadius: '5px',
-                        color: 'primary'
-                    }}>
+                    <div
+                        style={{
+                            border: `1px solid ${secondary}`,
+                            float: 'left',
+                            marginTop: '1em',
+                            padding: '5px',
+                            marginLeft: index > 0? '5px' : '0',
+                            borderRadius: '5px',
+                            color: 'primary'
+                        }}
+                        key={`attachment_${attachment.id || index}`}
+                    >
                         {attachment.filename || attachment.name}
                         <span onClick={() => removeAgendaAttachment(index)}
                             style={{

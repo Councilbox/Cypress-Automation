@@ -66,8 +66,6 @@ const StepAgenda = ({ client, translate, ...props }) => {
 			}
 		});
 
-		console.log(response);
-
 		if (response.data) {
 			setData(response.data);
 		}
@@ -317,22 +315,24 @@ const StepAgenda = ({ client, translate, ...props }) => {
 						</Grid>
 						{!loading && (
 							<React.Fragment>
-								<PointEditor
-									translate={translate}
-									draftTypes={draftTypes}
-									statute={council.statute}
-									company={props.company}
-									council={council}
-									companyStatutes={data.companyStatutes}
-									open={!!state.editAgenda}
-									agenda={state.editAgenda}
-									votingTypes={votingTypes}
-									majorityTypes={majorityTypes}
-									refetch={getData}
-									requestClose={() =>
-										setState({ editAgenda: null })
-									}
-								/>
+								{!!state.editAgenda &&
+									<PointEditor
+										translate={translate}
+										draftTypes={draftTypes}
+										statute={council.statute}
+										company={props.company}
+										council={council}
+										companyStatutes={data.companyStatutes}
+										open={!!state.editAgenda}
+										agenda={state.editAgenda}
+										votingTypes={votingTypes}
+										majorityTypes={majorityTypes}
+										refetch={getData}
+										requestClose={() =>
+											setState({ editAgenda: null })
+										}
+									/>
+								}
 								{!!state.editCustomAgenda && (
 									<CustomPointEditor
 										translate={translate}
