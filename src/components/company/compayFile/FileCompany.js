@@ -57,7 +57,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         loading: true,
         data: null
     });
-    const [selecteOptionMenu, setSelecteOptionMenu] = React.useState('Informacion');
+    const [selecteOptionMenu, setSelecteOptionMenu] = React.useState(translate.information);
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -199,7 +199,6 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         return <LoadingSection />
     }
 
-    //TRADUCCION
     return (
         <CardPageLayout title={`Ficha de ${data.businessName}`} disableScroll avatar={data.logo}>
             {/* company.icon */}
@@ -207,22 +206,22 @@ const FileCompany = ({ translate, match, client, ...props }) => {
                 <div style={{ display: "flex", padding: '1em', justifyContent: "space-between", paddingTop: "0px", alignItems: "center" }}>
                     <div style={{ fontSize: "13px", }}>
                         <MenuSuperiorTabs
-                            items={['Informacion', 'Org. Administración', 'Libros oficiales', 'Auditores y Poderes', translate.statutes, translate.calendar]}
+                            items={[translate.information, translate.board_of_directors, translate.official_books, translate.auditors_and_powers, translate.statutes, translate.calendar]}
                             setSelect={setSelecteOptionMenu}
                             selected={selecteOptionMenu}
                         />
                     </div>
                 </div>
-                {selecteOptionMenu === 'Informacion' &&
+                {selecteOptionMenu === translate.information &&
                     getInformacion()
                 }
-                {selecteOptionMenu === 'Org. Administración' &&
+                {selecteOptionMenu === translate.board_of_directors &&
                     OrgAdministracion()
                 }
-                {selecteOptionMenu === 'Libros oficiales' &&
+                {selecteOptionMenu === translate.official_books &&
                     librosOficiales()
                 }
-                {selecteOptionMenu === 'Auditores y Poderes' &&
+                {selecteOptionMenu === translate.auditors_and_powers &&
                     auditoresPoderes()
                 }
                 {selecteOptionMenu === translate.statutes &&

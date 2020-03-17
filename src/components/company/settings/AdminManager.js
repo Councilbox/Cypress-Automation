@@ -43,10 +43,6 @@ const AdminManager = ({ company, translate, client }) => {
             return <LoadingSection />
         }
 
-        if(page === 2){
-            return 'Crear admin';
-        }
-
         if(page === 3){
             return (
                 <AddAdmin
@@ -62,7 +58,7 @@ const AdminManager = ({ company, translate, client }) => {
             <div>
                 <div>
                     <BasicButton
-                        text={'Añadir usuario existente'}//TRADUCCION
+                        text={translate.select_user}
                         color={primary}
                         floatRight
                         textStyle={{
@@ -73,23 +69,11 @@ const AdminManager = ({ company, translate, client }) => {
                         onClick={() => setPage(3)}
                     />
                 </div>
-
-                {/* <BasicButton
-                    text={'Crear nuevo usuario'}//TRADUCCION
-                    color={primary}
-                    floatRight
-                    textStyle={{
-                        color: "white",
-                        fontWeight: "700"
-                    }}
-                    buttonStyle={{ marginRight: "1.2em" }}
-                    onClick={() => setPage(2)}
-                /> */}
                 <div>
                     {admins.length > 0?
                         admins.map(admin => <div>{`${admin.name} ${admin.surname} - ${admin.email}`}</div>)
                     :
-                        'No hay ningún usuario asignado a esta entidad' //TRADUCCION
+                        translate.no_results
                     }
                 </div>
 
@@ -100,7 +84,7 @@ const AdminManager = ({ company, translate, client }) => {
     return (
         <React.Fragment>
             <BasicButton
-                text={'Gestor de administradores'}//TRADUCCION
+                text={translate.admins}
                 color={primary}
                 floatRight
                 textStyle={{

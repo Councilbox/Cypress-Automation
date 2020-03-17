@@ -805,7 +805,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 													overflow: 'hidden',
 													textOverflow: 'ellipsis'
 												}}>
-													{getActivationText(item.actived)}
+													{getActivationText(item.actived, translate)}
 												</GridItem>
 												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
 													{translate.name}
@@ -968,7 +968,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 													padding: "1em",
 													alignItems: "center"
 												}}>
-												<Cell text={getActivationText(item.actived)} />
+												<Cell text={getActivationText(item.actived, translate)} />
 												<Cell text={item.name + " " + item.surname} />
 												<Cell text={item.email} />
 												<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
@@ -1150,7 +1150,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 													overflow: 'hidden',
 													textOverflow: 'ellipsis'
 												}}>
-													{getActivationText(item.actived)}
+													{getActivationText(item.actived, translate)}
 												</GridItem>
 												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
 													{translate.name}
@@ -1304,7 +1304,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 														/>
 													}
 												/>
-												<Cell text={getActivationText(item.actived)} />
+												<Cell text={getActivationText(item.actived, translate)} />
 												<Cell text={item.name + " " + item.surname} />
 												<Cell text={item.email} />
 												<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
@@ -1396,12 +1396,12 @@ const AddAdmin = ({ translate, company, open, requestClose }) => {
 	)
 }
 
-export const getActivationText = value => {
-	//TRADUCCION
+export const getActivationText = (value, translate) => {
     const activations = {
-        [USER_ACTIVATIONS.NOT_CONFIRMED]: 'Sin confirmar',
-        [USER_ACTIVATIONS.CONFIRMED]: 'Confirmado',
-        [USER_ACTIVATIONS.DEACTIVATED]: 'Deshabilitada'
+        [USER_ACTIVATIONS.NOT_CONFIRMED]: translate.not_confirmed,
+        [USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
+		[USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
+		[USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked
     }
 
     return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];

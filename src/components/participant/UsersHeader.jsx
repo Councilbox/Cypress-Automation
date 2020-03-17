@@ -471,7 +471,7 @@ const Modal = withApollo(({ translate, showModal, requestClose, council: { id },
 						<i className="material-icons" aria-hidden="true" style={{ marginRight: "5px", fontSize: "18px" }}>
 							face
 						</i>
-						Presencial
+						{translate.in_person}
 					</div>
 					<div style={{ border: "1px solid gainsboro", height: "80%", borderRadius: "5px", padding: "10px" }}>
 						<div style={{ width: "100%", height: "95%" }}>
@@ -522,7 +522,7 @@ const Modal = withApollo(({ translate, showModal, requestClose, council: { id },
 			buttonCancel={translate.close}
 			bodyStyle={{ minWidth: "70vw", height: "70vh" }}
 			bodyText={renderBody()}
-			title={"Personas Online / Presenciales"} //TRADUCCION
+			title={translate.remote_present}
 		/>
 	)
 })

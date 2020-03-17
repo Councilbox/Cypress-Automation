@@ -8,7 +8,7 @@ import CheckBox from '../../../displayComponents/CheckBox';
 import ContentEditable from 'react-contenteditable';
 
 
-const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
+const GoverningBodyForm = ({ translate, state, updateState }) => {
     const primary = getPrimary();
 
     const updateGoverningData = object => {
@@ -33,12 +33,6 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
         return menus[state.governingBodyType]? menus[state.governingBodyType] : menus[0];
     }
 
-    const changeGoverningType = event => {
-        updateState({
-            governingBodyType: event.target.value,
-            governingBodyData: {}
-        });
-    }
 
     const type = GOVERNING_BODY_TYPES[Object.keys(GOVERNING_BODY_TYPES).find(key => GOVERNING_BODY_TYPES[key].value === state.governingBodyType)]
 
@@ -229,45 +223,9 @@ const primary = getPrimary();
             </div>
         </div>
     )
-    return (
-        <GridItem xs={12} md={8} lg={6}>
-            <TextInput
-                floatingText={'Nombre de la entidad'}
-                value={data? data.entityName : ''}
-                onChange={event => setData({ entityName: event.target.value })}
-            />
-            Representante:
-            <TextInput
-                floatingText={translate.name}
-                value={data? data.name : ''}
-                onChange={event => setData({ name: event.target.value })}
-            />
-            <TextInput
-                floatingText={translate.surname}
-                value={data? data.surname : ''}
-                onChange={event => setData({ surname: event.target.value })}
-            />
-            <TextInput
-                floatingText={translate.dni}
-                value={data? data.dni : ''}
-                onChange={event => setData({ dni: event.target.value })}
-            />
-            <TextInput
-                floatingText={translate.email}
-                value={data? data.email : ''}
-                onChange={event => setData({ email: event.target.value })}
-            />
-            <TextInput
-                floatingText={translate.phone}
-                value={data? data.phone : ''}
-                onChange={event => setData({ phone: event.target.value })}
-            />
-        </GridItem>
-    )
 }
 
 const ListAdminForm = ({ translate, setData, data }) => {
-    const secondary = getSecondary();
     const primary = getPrimary();
     React.useEffect(() => {
         if(!data.list){
@@ -315,11 +273,10 @@ const ListAdminForm = ({ translate, setData, data }) => {
         })
     }
 
-    //TRADUCCION
     return (
         <>
             <div style={{ fontWeight: "bold", color: primary, paddingBottom: "1em" }}>
-                Administradores
+                {translate.admins}
                 <i
                     className={'fa fa-plus-circle'}
                     style={{ color: primary, marginLeft: '4px', fontSize: '22px', cursor: "pointer" }}
@@ -346,8 +303,8 @@ const ListAdminForm = ({ translate, setData, data }) => {
                             <div style={{ textTransform: 'uppercase', color: primary, width: "10%" }}>{translate.dni}</div>
                             <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.email}</div>
                             <div style={{ textTransform: 'uppercase', color: primary, width: "10%" }}>{translate.position}</div>
-                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>Fecha nomb.</div>
-                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>Duración</div>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.appointment}</div>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.table_councils_duration}</div>
                         </div>
                         {data.list.map((item, index) => (
                             <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
@@ -491,7 +448,7 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
             <Table style={{maxWidth: "100%", tableLayout: 'auto'}}>
                 <TableHead>
                     <TableCell>
-                        Firma
+                        {translate.new_signature}
                     </TableCell>
                     <TableCell>
                         {translate.position}

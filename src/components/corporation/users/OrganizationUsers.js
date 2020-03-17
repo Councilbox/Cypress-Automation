@@ -197,7 +197,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                                 overflow: 'hidden',
                                                 textOverflow: 'ellipsis'
                                             }}>
-                                                {getActivationText(item.actived)}
+                                                {getActivationText(item.actived, translate)}
                                             </GridItem>
                                             <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
                                                 Id
@@ -323,7 +323,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                             padding: "1em",
                                             alignItems: "center"
                                         }}>
-                                        <Cell text={getActivationText(item.actived)} width={10} />
+                                        <Cell text={getActivationText(item.actived, translate)} width={10} />
                                         <Cell text={item.id} width={10} />
                                         <Cell text={item.name + " " + item.surname} width={20} />
                                         <Cell text={item.email} width={20} />
@@ -445,12 +445,12 @@ const TablaCompanies = ({ companies, translate, total, changePageCompanies, comp
 }
 
 
-const getActivationText = value => {
+const getActivationText = (value, translate) => {
     const activations = {
-        [USER_ACTIVATIONS.NOT_CONFIRMED]: 'Sin confirmar',
-        [USER_ACTIVATIONS.CONFIRMED]: 'Confirmado',
-        [USER_ACTIVATIONS.DEACTIVATED]: 'Deshabilitada',
-        [USER_ACTIVATIONS.UNSUBSCRIBED]: 'Bloqueado'
+        [USER_ACTIVATIONS.NOT_CONFIRMED]: translate.not_confirmed,
+        [USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
+        [USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
+        [USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked
     }
 
     return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];

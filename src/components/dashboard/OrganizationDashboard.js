@@ -73,7 +73,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const [reunionesLoading, setReunionesLoading] = React.useState(true);
 	const [inputSearch, setInputSearch] = React.useState(false);
 	const [inputSearchE, setInputSearchE] = React.useState(false);
-	const [toggleReunionesCalendario, setToggleReunionesCalendario] = React.useState("reuniones");
+	const [toggleReunionesCalendario, setToggleReunionesCalendario] = React.useState(translate.councils_link);
 	const [filterReuniones, setFilterReuniones] = React.useState(translate.all);
 	const [state, setState] = React.useState({
 		filterTextCompanies: "",
@@ -86,7 +86,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		redActaPorcentaje: 0,
 	});
 	const [fechaBusqueda, setFechaBusqueda] = React.useState(moment().startOf('month').toDate());
-	const [usuariosEntidades, setUsuariosEntidades] = React.useState("usuarios");
+	const [usuariosEntidades, setUsuariosEntidades] = React.useState(translate.users);
+	const primary = getPrimary();
 
 	const config = React.useContext(ConfigContext);
 
@@ -160,10 +161,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 
 	React.useEffect(() => {
-		if (usuariosEntidades === "usuarios") {
+		if (usuariosEntidades === translate.users) {
 			getUsers();
 		} else {
-			getCompanies()
+			getCompanies();
 		}
 	}, [company.id, state.filterTextUsuarios, state.filterTextCompanies, usuariosEntidades, usersPage, companiesPage]);
 
@@ -408,19 +409,19 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
 								<i className="fa fa-filter" ></i>
 							</div>
-							{toggleReunionesCalendario === "reuniones" ?
+							{toggleReunionesCalendario === translate.councils_link ?
 								<div style={{ position: "relative", color: "black", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario("calendario")} >
 									<i className={'fa fa-calendar-o'} style={{ position: "relative", fontSize: "18px" }}></i>
 									<i className={'fa fa-clock-o'} style={{ position: "relative", left: "-5px", bottom: "-5px" }}></i>
 								</div>
 								:
-								<div style={{ color: "black", fontSize: "18px", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario("reuniones")} >
+								<div style={{ color: "black", fontSize: "18px", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario(translate.councils_link)} >
 									<i className={"fa fa-list"}></i>
 								</div>
 							}
 						</div>
 					</div>
-					{toggleReunionesCalendario === "reuniones" ?
+					{toggleReunionesCalendario === translate.councils_link ?
 						<div style={{ height: "20em" }}>
 							<Scrollbar>
 								{day ?
@@ -491,12 +492,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
 					marginBottom: "0.5em"
 				}}>
-					<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e", textAlign: "left" }}>Estadísticas</div>
 					{reuniones.length === undefined ?
 						<LoadingSection />
 						:
 						<div>
-							{/* TRADUCCION */}
 							<Grid>
 								<GridItem xs={4} md={6} lg={4}>
 									<div style={{ width: '100%', }}>
@@ -549,7 +548,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						alignContent: "center",
 						marginBottom: "0.3em"
 					}}>
-						<div style={{ fontWeight: 'bold', color: "#a09b9e", display: 'flex', alignItems: 'center' }}>{usuariosEntidades === 'usuarios' ? translate.users : translate.entities}</div>
+						<div style={{ fontWeight: 'bold', color: "#a09b9e", display: 'flex', alignItems: 'center' }}>{usuariosEntidades === translate.users ? translate.users : translate.entities}</div>
 						<div style={{
 							display: "flex",
 							alignContent: "inherit",
@@ -560,7 +559,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
 								<i className="fa fa-filter" ></i>
 							</div>
-							{usuariosEntidades === 'usuarios' ?
+							{usuariosEntidades === translate.users ?
 								<TextInput
 									className={isMobile && !inputSearch ? "openInput" : ""}
 									disableUnderline={true}
@@ -605,10 +604,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 								<div style={{
 									cursor: "pointer",
 									paddingRight: "0.5em",
-									color: usuariosEntidades === 'usuarios' ? getPrimary() : "#9f9a9d",
+									color: usuariosEntidades === translate.users ? primary : "#9f9a9d",
 									borderRight: "1px solid gainsboro"
 								}}
-									onClick={() => setUsuariosEntidades("usuarios")}
+									onClick={() => setUsuariosEntidades(translate.users)}
 								>
 									{translate.users}
 								</div>
@@ -616,9 +615,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									style={{
 										cursor: "pointer",
 										paddingLeft: "0.5em",
-										color: usuariosEntidades === 'entidades' ? getPrimary() : "#9f9a9d"
+										color: usuariosEntidades === translate.entities ? primary : "#9f9a9d"
 									}}
-									onClick={() => setUsuariosEntidades("entidades")}
+									onClick={() => setUsuariosEntidades(translate.entities)}
 								>
 									{translate.entities}
 								</div>
@@ -626,16 +625,16 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						</GridItem>
 						<GridItem xs={6} md={6} lg={8} style={{ display: 'flex', justifyContent: "flex-end" }}>
 							<div style={{ display: "flex", alignItems: "center" }}>
-								{usuariosEntidades === 'usuarios' ?
+								{usuariosEntidades === translate.users ?
 									<BasicButton
-										buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+										buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 										backgroundColor={{ backgroundColor: "white" }}
 										text={translate.add}
 										onClick={() => setAddUser(true)}
 									/>
 									:
 									<BasicButton
-										buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+										buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 										backgroundColor={{ backgroundColor: "white" }}
 										text={translate.add}
 										onClick={() => setEntidades(true)}
@@ -646,7 +645,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						</GridItem>
 					</Grid>
 					<div style={{}}>
-						{usuariosEntidades === 'usuarios' ?
+						{usuariosEntidades === translate.users ?
 							users.length === undefined ?
 								<LoadingSection />
 								:
@@ -764,14 +763,13 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						padding: "1em",
 						borderRadius: "5px"
 					}}>
-						<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e", textAlign: "left" }}>Estadísticas</div>
 						{reuniones.length === undefined ?
 							<LoadingSection />
 							:
 							<div>
 								<Grid>
 									<GridItem xs={12} md={6} lg={4}>
-										<div style={{ color: "black", marginBottom: "1em" }}>Convocada</div>
+										<div style={{ color: "black", marginBottom: "1em" }}>{translate.companies_calendar}</div>
 										<div style={{ width: '100%', }}>
 											<GraficaDoughnut
 												porcentaje={porcentajes.convocadaPorcentaje || 0}
@@ -781,7 +779,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 									</GridItem>
 									<GridItem xs={12} md={6} lg={4}>
-										<div style={{ color: "black", marginBottom: "1em" }}>En celebración</div>
+										<div style={{ color: "black", marginBottom: "1em" }}>{translate.companies_live}</div>
 										<div style={{ width: '100%', }}>
 											<GraficaDoughnut
 												porcentaje={porcentajes.celebracionPorcentaje || 0}
@@ -791,7 +789,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 									</GridItem>
 									<GridItem xs={12} md={6} lg={4}>
-										<div style={{ color: "black", marginBottom: "1em" }}>Redact. Acta</div>
+										<div style={{ color: "black", marginBottom: "1em" }}>{translate.companies_writing}</div>
 										<div style={{ width: '100%', }}>
 											<GraficaDoughnut
 												porcentaje={porcentajes.redActaPorcentaje || 0}
@@ -822,37 +820,37 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									<div style={{
 										cursor: "pointer",
 										paddingRight: "0.5em",
-										color: usuariosEntidades === 'usuarios' ? getPrimary() : "#9f9a9d",
+										color: usuariosEntidades === translate.users ? primary : "#9f9a9d",
 										borderRight: "1px solid gainsboro"
 									}}
-										onClick={() => setUsuariosEntidades("usuarios")}
+										onClick={() => setUsuariosEntidades(translate.users)}
 									>
-										Usuarios
+										{translate.users}
 									</div>
 									<div
 										style={{
 											cursor: "pointer",
 											paddingLeft: "0.5em",
-											color: usuariosEntidades === 'entidades' ? getPrimary() : "#9f9a9d"
+											color: usuariosEntidades === translate.entities ? primary : "#9f9a9d"
 										}}
-										onClick={() => setUsuariosEntidades("entidades")}
+										onClick={() => setUsuariosEntidades(translate.entities)}
 									>
-										Entidades
+										{translate.entities}
 									</div>
 								</div>
 							</GridItem>
 							<GridItem xs={12} md={6} lg={8} style={{ display: 'flex', justifyContent: "flex-end" }}>
 								<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
-									{usuariosEntidades === 'usuarios' ?
+									{usuariosEntidades === translate.users ?
 										<BasicButton
-											buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+											buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 											backgroundColor={{ backgroundColor: "white" }}
 											text={translate.add}
 											onClick={() => setAddUser(true)}
 										/>
 										:
 										<BasicButton
-											buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${getPrimary()}`, padding: "0.2em 0.4em", marginTop: "5px", color: getPrimary(), }}
+											buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 											backgroundColor={{ backgroundColor: "white" }}
 											text={translate.add}
 											onClick={() => setEntidades(true)}
@@ -862,7 +860,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
 										<i className="fa fa-filter"></i>
 									</div>
-									{usuariosEntidades === 'usuarios' ?
+									{usuariosEntidades === translate.users ?
 										<TextInput
 											placeholder={translate.search}
 											adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
@@ -899,7 +897,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							</GridItem>
 						</Grid>
 						<div style={{}}>
-							{usuariosEntidades === 'usuarios' ?
+							{usuariosEntidades === translate.users ?
 								users.length === undefined ?
 									<LoadingSection />
 									:
@@ -1091,7 +1089,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 										padding: "1em",
 										background: index % 2 ? "#edf4fb" : "",
 									}}>
-									<Cell text={getActivationText(item.actived)} />
+									<Cell text={getActivationText(item.actived, translate)} />
 									<Cell text={item.id} />
 									<Cell text={item.name + " " + item.surname} />
 									<Cell text={item.email} />

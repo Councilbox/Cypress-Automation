@@ -89,9 +89,8 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 		];
 
 		if (config.councilDelegates && council.statute.existsDelegatedVote) {
-			//TRADUCCION
 			tabs.push({
-				text: 'Delegación',
+				text: translate.delegations,
 			})
 		}
 
@@ -148,7 +147,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						</Scrollbar>
 					</div>
 				}
-				{selecteReuniones === 'Delegación' &&
+				{selecteReuniones === translate.delegations &&
 					<div style={{ height: 'calc(100% - 38px)' }}>
 						<Scrollbar>
 							<div

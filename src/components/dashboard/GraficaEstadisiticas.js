@@ -1,11 +1,11 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
-var LineChart = require("react-chartjs-2").Line;
+import withTranslations from "../../HOCs/withTranslations";
 
 
-const GraficaEstadisiticas = ({ porcentaje, color }) => {
+const GraficaEstadisiticas = ({ porcentaje, color, translate }) => {
 	const data = {
-		labels:["Convocada", "Celebracion", "Redactando acta", "Libro de actas"],
+		labels:[translate.companies_calendar, translate.companies_live, translate.companies_writing, translate.act_book],
 		datasets: [{
 			data: [65, 59, 80, 81],
 			backgroundColor: [
@@ -44,4 +44,4 @@ const GraficaEstadisiticas = ({ porcentaje, color }) => {
 
 
 
-export default GraficaEstadisiticas;
+export default withTranslations()(GraficaEstadisiticas);

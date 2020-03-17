@@ -201,7 +201,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                     <React.Fragment>
                         {isPresent(participant.state) &&
                             <div style={{width: '100%', padding: '1em', color: primary, fontWeight: '700', border: `1px solid ${primary}`, borderRadius: '5px'}}>
-                                El participante ya se encuentra presente en sala {/*TRADUCCION*/}
+                                {translate.participant_already_present}
                             </div>
                         }
                         <div>
@@ -230,7 +230,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                                 <BasicButton
                                     color={primary}
                                     textStyle={{ color: 'white' }}
-                                    text="Marcar como presente"
+                                    text={translate.change_to_present}
                                     onClick={setParticipantAsPresent}
                                 />
                             }
@@ -257,9 +257,8 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                 }}
             >
                 {error &&
-                    //TRADUCCION
                     <div style={{color: 'red'}}>
-                        No se encuentra ningún participante con ese código
+                        {translate.no_participant_found_code}
                     </div>
                 }
                 <QrReader

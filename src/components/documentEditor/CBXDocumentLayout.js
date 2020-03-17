@@ -1,9 +1,10 @@
 import React from 'react';
 import Timbrado from './Timbrado';
 import { LoadingSection } from '../../displayComponents';
+import withTranslations from '../../HOCs/withTranslations';
 
 
-const CBXDocumentLayout = ({ options, loading, preview, company, finishInModal }) => {
+const CBXDocumentLayout = ({ options, loading, preview, company, finishInModal, translate }) => {
     return (
         <div style={{ display: "flex", height: "100%", maxWidth: '210mm' }} >
             <div style={{ width: "20%", maxWidth: "95px" }}>
@@ -43,4 +44,4 @@ const CBXDocumentLayout = ({ options, loading, preview, company, finishInModal }
     )
 }
 
-export default CBXDocumentLayout;
+export default withTranslations()(CBXDocumentLayout);

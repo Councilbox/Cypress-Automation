@@ -41,7 +41,12 @@ class AgendaEvent extends React.Component {
 
 	render() {
 		const { event, translate } = this.props;
-		const objectNames = { 5: "Convocadas", 10: "Convocadas", 20: "En celebración", 30: "En celebración" } //TRADUCCION
+		const objectNames = {
+			5: translate.companies_calendar,
+			10: translate.companies_calendar,
+			20: translate.companies_live,
+			30: translate.companies_live
+		}
 		const objectClass = { 5: "fa fa-calendar-o", 10: "fa fa-calendar-o", 20: "fa fa-users", 30: "fa fa-users" }
 		return (
 			<div>
