@@ -42,6 +42,8 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 	const size = !hasBook? 4 : 3;
 	const blankSize = !hasBook? 2 : 3;
 
+	console.log(config);
+
 	return(
 		<Grid
 			style={{
@@ -119,7 +121,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 				<Block
 					link={`/company/${company.id}/meeting/new`}
 					icon="video_call"
-					disabled={!config.video}
+					disabled={!config.video || !config.meeting}
 					disabledOnClick={showDeactivatedFeature}
 					id={'init-meeting-block'}
 					text={translate.start_conference}

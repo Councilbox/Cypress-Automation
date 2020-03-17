@@ -13,6 +13,7 @@ import { useOldState } from "../../hooks";
 import { useSubdomain, getCustomLogo } from "../../utils/subdomain";
 import { isMobile } from "../../utils/screen";
 import GenCatLogin from "./GenCatLogin";
+import { ConfigContext } from "../../containers/AppControl";
 
 
 
@@ -30,6 +31,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const subdomain = useSubdomain();
+	const config = React.useContext(ConfigContext);
 
 	const login = async () => {
 		const { user, password } = state;
@@ -193,20 +195,23 @@ const Login = ({ translate, windowSize, ...props }) => {
 									marginTop: windowSize === "xs" ? 0 : "1em"
 								}}
 							>
-								<div
-									className="col-lg-6 col-md-6 col-xs-6"
-									style={{ padding: "1em" }}
-								>
-									<Link to="/meeting/new">
-										<BasicButton
-											text={translate.start_conference_test}
-											color={'transparent'}
-											fullWidth
-											buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
-											textStyle={{ color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none' }}
-										/>
-									</Link>
-								</div>
+								{config.meeting &&
+									<div
+										className="col-lg-6 col-md-6 col-xs-6"
+										style={{ padding: "1em" }}
+									>
+										<Link to="/meeting/new">
+											<BasicButton
+												text={translate.start_conference_test}
+												color={'transparent'}
+												fullWidth
+												buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
+												textStyle={{ color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none' }}
+											/>
+										</Link>
+									</div>
+								}
+
 								<div
 									className="col-lg-6 col-md-6 col-xs-6"
 									style={{ padding: "1em" }}
