@@ -10,12 +10,13 @@ import { DropdownEtiquetas } from './LoadDraft';
 import { DRAFTS_LIMITS } from '../../../constants';
 import { companyDrafts as query, deleteDraft, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts.js";
 import { withApollo } from 'react-apollo';
-
 import CompanyDocumentsPage from './documents/CompanyDocumentsPage';
-
+import { showOrganizationDashboard } from '../../../utils/CBX';
+import { ConfigContext } from '../../../containers/AppControl';
 
 
 const CompanyDraftsPage = ({ translate, client, ...props }) => {
+    const config = React.useContext(ConfigContext);
     const [data, setData] = React.useState({});
     const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(translate.dasboard_documentation);
     const [mostrarMenu, setMostrarMenu] = React.useState(true);
@@ -80,7 +81,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
                     <div style={{ display: "flex", padding: '1em', justifyContent: "space-between", paddingTop: "0px" }}>
                         <div style={{ fontSize: "13px", }}>
                             <MenuSuperiorTabs
-                                items={[translate.dasboard_documentation, translate.drafts, '<Tags>']}
+                                items={[translate.dasboard_documentation, translate.drafts, '<Tags>', translate.council_types]}
                                 setSelect={setSelecteDraftPadre}
                                 selected={selecteDraftPadre}
                             />
