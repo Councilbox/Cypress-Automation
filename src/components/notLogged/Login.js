@@ -188,15 +188,16 @@ const Login = ({ translate, windowSize, ...props }) => {
 									className="col-lg-6 col-md-6 col-xs-6"
 									style={{ padding: "1em" }}
 								>
-									<Link to="/meeting/new">
+
 										<BasicButton
+											disabled={true}
 											text={translate.start_conference_test}
 											color={'transparent'}
 											fullWidth
 											buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
 											textStyle={{ color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none' }}
 										/>
-									</Link>
+
 								</div>
 								<div
 									className="col-lg-6 col-md-6 col-xs-6"
