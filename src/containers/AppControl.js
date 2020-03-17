@@ -14,7 +14,8 @@ const ConfigContext = React.createContext({
 export { ConfigContext };
 
 const AppControl = ({ companies, user = {}, children, client }) => {
-    const [config, setConfig] = React.useState(null);
+    const [config, setConfig] = React.useState({});
+    const [loading, setLoading] = React.useState(true);
 
     const getData = React.useCallback(async companyId => {
         const response = await client.query({
@@ -37,6 +38,7 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                 }
             }
             setConfig(newConfig);
+            setLoading(false);
         }
     }, [client]);
 
@@ -88,7 +90,11 @@ const AppControl = ({ companies, user = {}, children, client }) => {
 
     return(
         <ConfigContext.Provider value={config}>
-            {children}
+            {loading?
+                <></>
+            :
+                children
+            }
         </ConfigContext.Provider>
     )
 }

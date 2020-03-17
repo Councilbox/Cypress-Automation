@@ -726,6 +726,7 @@ export const statutes = gql`
 			companyId
 			title
 			existPublicUrl
+			companyType
 			addParticipantsListToAct
 			existsAdvanceNoticeDays
 			advanceNoticeDays

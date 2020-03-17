@@ -13,12 +13,17 @@ import { withApollo } from 'react-apollo';
 import CompanyDocumentsPage from './documents/CompanyDocumentsPage';
 import { showOrganizationDashboard } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
+import StatutesBody from '../statutes/StatutesBody';
 
 
 const CompanyDraftsPage = ({ translate, client, ...props }) => {
     const config = React.useContext(ConfigContext);
     const [data, setData] = React.useState({});
-    const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(translate.dasboard_documentation);
+    const tabs = showOrganizationDashboard(props.company, config, props.user)?
+        [translate.drafts, '<Tags>', translate.council_types]
+    :
+        [translate.dasboard_documentation, translate.drafts, '<Tags>']
+    const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(tabs[0]);
     const [mostrarMenu, setMostrarMenu] = React.useState(true);
     const [inputSearch, setInputSearch] = React.useState(false);
     const [search, setSearch] = React.useState("");
@@ -73,7 +78,6 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
     }, [props.company.id]);
 
 
-
     return (
         <CardPageLayout title={translate.tooltip_knowledge_base} disableScroll>
             <div style={{ padding: '1em', height: '100%', paddingTop: "0px" }}>
@@ -81,7 +85,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
                     <div style={{ display: "flex", padding: '1em', justifyContent: "space-between", paddingTop: "0px" }}>
                         <div style={{ fontSize: "13px", }}>
                             <MenuSuperiorTabs
-                                items={[translate.dasboard_documentation, translate.drafts, '<Tags>', translate.council_types]}
+                                items={tabs}
                                 setSelect={setSelecteDraftPadre}
                                 selected={selecteDraftPadre}
                             />
@@ -134,18 +138,27 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
                         }
                     </div>
                 }
-                {selecteDraftPadre !== '<Tags>' ?
-                    selecteDraftPadre === translate.dasboard_documentation ?
-                        <CompanyDocumentsPage
-                            translate={translate}
-                            company={props.company}
-                        />
-                        :
-                        <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em", paddingTop: isMobile && "0em" }}>
-                            <CompanyDraftList setMostrarMenu={setMostrarMenu} searchDraft={search} />
-                        </div>
-                    :
+                {selecteDraftPadre === translate.dasboard_documentation &&
+                    <CompanyDocumentsPage
+                        translate={translate}
+                        company={props.company}
+                    />
+                }
+                {selecteDraftPadre === translate.drafts &&
+                    <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em", paddingTop: isMobile && "0em" }}>
+                        <CompanyDraftList setMostrarMenu={setMostrarMenu} searchDraft={search} />
+                    </div>
+                }
+                {selecteDraftPadre === '<Tags>' &&
                     <div style={{ width: '100%', height: '100%', padding: '1em' }}><CompanyTags /></div>
+                }
+                {selecteDraftPadre === translate.council_types &&
+                    <div style={{ width: '100%', height: '100%', padding: '1em' }}>
+                        <StatutesBody
+                            companyId={props.company.id}
+                            organization={true}
+                        />
+                    </div>
                 }
             </div>
         </CardPageLayout>

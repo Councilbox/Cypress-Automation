@@ -83,6 +83,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 	const constitutionTags = React.useMemo(() => getTagsByActSection('constitution', translate), [statute.id]);
 	const conveneHeaderTags = React.useMemo(() => getTagsByActSection('conveneHeader', translate), [statute.id]);
 
+	console.log(data);
 
 	const { quorumTypes } = data;
 	return (
@@ -94,6 +95,45 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 				/>
 				<br />
 				<Grid>
+					{props.organization &&
+						<GridItem xs={12} md={12} lg={12}>
+							<div style={{maxWidth: '20em'}}>
+								<SelectInput
+									floatingText={translate.company_type}
+									value={''+statute.companyType || '-1'}
+									onChange={event =>
+										updateState({
+											companyType: +event.target.value
+										})
+									}
+									errorText={errors.type}
+								>
+									<MenuItem
+										value={'-1'}
+									>
+										{translate.all_plural}
+									</MenuItem>
+									{data.companyTypes && data.companyTypes.map(
+										companyType => {
+											return (
+												<MenuItem
+													key={companyType.label}
+													value={''+companyType.value}
+												>
+													{
+														translate[
+														companyType.label
+														]
+													}
+												</MenuItem>
+											);
+										}
+									)}
+								</SelectInput>
+							</div>
+						</GridItem>
+					}
+
 					<GridItem xs={12} md={8} lg={6}>
 						<Checkbox
 							label={translate.exists_advance_notice_days}
