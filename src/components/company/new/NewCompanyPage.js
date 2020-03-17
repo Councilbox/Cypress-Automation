@@ -37,6 +37,8 @@ class NewCompanyPage extends React.PureComponent {
 			type: 0,
 			linkKey: "",
 			address: "",
+			governingBodyType: 0,
+			governingBodyData: {},
 			city: "",
 			zipcode: "",
 			country: "España",
