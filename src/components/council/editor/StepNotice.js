@@ -115,11 +115,13 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		}
 
 		if (CBX.hasSecondCall(council.statute) && (!CBX.checkSecondDateAfterFirst(firstDate, secondDate) || !council.dateStart2NdCall)) {
-			//errors.dateStart2NdCall = translate["2nd_call_date_changed"];
 			const first = moment(new Date(firstDate).toISOString(), moment.ISO_8601);
 			const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
 			const difference = second.diff(first, "minutes");
-			if(difference < statute.minimumSeparationBetweenCall){
+
+			console.log(CBX.addMinimumDistance(firstDate, statute).toISOString());
+
+			if(difference < statute.minimumSeparationBetweenCall || !council.dateStart2NdCall){
 				updateState({
 					dateStart: firstDate,
 					dateStart2NdCall: CBX.addMinimumDistance(firstDate, statute).toISOString()
