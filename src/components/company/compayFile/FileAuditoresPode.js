@@ -27,6 +27,8 @@ const FileAuditoresPode = props => {
                             />
                             <BasicButton
                                 text={props.translate.save}
+                                loading={props.updateState === 'LOADING'}
+                                success={props.updateState === 'SUCCESS'}
                                 color={getPrimary()}
                                 textStyle={{
                                     color: 'white',

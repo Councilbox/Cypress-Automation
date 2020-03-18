@@ -991,62 +991,15 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 				</GridItem>
 				<GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
 					{(item.state === 5 || item.state === 10) &&
-						//convocada
-						<BasicButton
-							text={translate.convened}
-							textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
-							backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
-							onClick={() => {
-								sendGAevent({
-									category: 'Reuniones',
-									// action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
-									label: item.company.businessName
-								})
-								bHistory.push(
-									`/company/${item.company.id}/council/${item.id}/prepare`
-								)
-							}}
-						>
-						</BasicButton>}
+						translate.convened
+					}
 
 					{(item.state === 20 || item.state === 30) &&
-						//celebracion
-						<BasicButton
-							text={translate.companies_live}
-							textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
-							backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
-							onClick={() => {
-								sendGAevent({
-									category: 'Reuniones',
-									// action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
-									label: item.company.businessName
-								})
-								bHistory.push(
-									`/company/${item.company.id}/council/${item.id}/live`
-								)
-							}}
-						>
-						</BasicButton>
+						translate.companies_live
 					}
 
 					{(item.state === 40) &&
-						//redActa
-						<BasicButton
-							text={translate.companies_writing}
-							textStyle={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: primary, }}
-							backgroundColor={{ backgroundColor: "white", borderRadius: "4px" }}
-							onClick={() => {
-								sendGAevent({
-									category: 'Reuniones',
-									// action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
-									label: item.company.businessName
-								})
-								bHistory.push(
-									`/company/${item.company.id}/council/${item.id}/finished`
-								)
-							}}
-						>
-						</BasicButton>
+						translate.companies_writing	
 					}
 
 				</GridItem>

@@ -190,6 +190,8 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                             <BasicButton
                                 text={translate.save}
                                 color={primary}
+                                loading={props.updateState === 'LOADING'}
+                                success={props.updateState === 'SUCCESS'}
                                 textStyle={{
                                     color: 'white',
                                     fontWeight: '700',

@@ -238,6 +238,8 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                         <BasicButton
                             text={translate.save}
                             color={primary}
+                            loading={props.updateState === 'LOADING'}
+                            success={props.updateState === 'SUCCESS'}
                             textStyle={{
                                 color: 'white',
                                 fontWeight: '700'

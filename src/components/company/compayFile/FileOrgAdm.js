@@ -17,6 +17,8 @@ const FileOrgAdm = ({ translate, data, updateCompanyData, updateCompany, ...prop
                             <GoverningBodyForm translate={translate} state={data} updateState={updateCompanyData} />
                         </div>
                         <BasicButton
+                            loading={props.updateState === 'LOADING'}
+                            success={props.updateState === 'SUCCESS'}
                             text={translate.save}
                             color={getPrimary()}
                             textStyle={{

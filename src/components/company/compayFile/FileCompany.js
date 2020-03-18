@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CardPageLayout, LoadingSection } from '../../../displayComponents';
+import { CardPageLayout, LoadingSection, BasicButton } from '../../../displayComponents';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
@@ -58,6 +58,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         data: null
     });
     const [selecteOptionMenu, setSelecteOptionMenu] = React.useState(translate.information);
+    const [updateState, setUpdateState] = React.useState(false);
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -101,29 +102,15 @@ const FileCompany = ({ translate, match, client, ...props }) => {
     const saveCompany = async () => {
 		if (!checkRequiredFields()) {
 			const { __typename, creatorId, creationDate, corporationId, ...newData } = data;
-
+            setUpdateState('LOADING');
 			const response = await client.mutate({
                 mutation: updateCompany,
 				variables: {
 					company: newData
 				}
             });
-            
-            console.log(response);
-				// toast(
-				// 	<LiveToast
-				// 		message={translate.changes_saved}
-				// 	/>, {
-				// 		position: toast.POSITION.TOP_RIGHT,
-				// 		autoClose: true,
-				// 		className: "successToast"
-				// 	}
-				// );
-				// if (!props.organization) {
-				// 	store.dispatch(setCompany(response.data.updateCompany));
-				// }
-				// bHistory.goBack();
-
+            setUpdateState('SUCCESS');
+            setTimeout(() => setUpdateState('INITIAL'), 2000);
 		}
 	};
 
@@ -139,6 +126,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         return (
             <FileInfo
                 data={data}
+                updateState={updateState}
                 updateCompanyData={updateCompanyData}
                 updateFileData={updateFileData}
                 updateCompany={saveCompany}
@@ -150,6 +138,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         return (
             <FileOrgAdm
                 data={data}
+                updateState={updateState}
                 updateCompanyData={updateCompanyData}
                 updateCompany={saveCompany}
             />
@@ -160,6 +149,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         return (
             <FileLibrosOfi
                 data={data}
+                updateState={updateState}
                 updateCompanyData={updateCompanyData}
                 updateFileData={updateFileData}
                 updateCompany={saveCompany}
@@ -171,6 +161,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         return (
             <FileAuditoresPode
                 data={data}
+                updateState={updateState}
                 updateFileData={updateFileData}
                 updateCompany={saveCompany}
             />
@@ -181,6 +172,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         return (
             <FileEstatutos
                 data={data}
+                updateState={updateState}
                 updateFileData={updateFileData}
                 updateCompany={saveCompany}
             />
