@@ -42,7 +42,7 @@ const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, a
 					verticalAlign: "middle",
 					// padding: windowSize !== "xs" ? "0.5em" : "0.2em",
 					// height: windowSize !== "xs" ? "2.8em" : "2em",
-					zIndex: "20",
+					zIndex: title? "20" : -1,
 					marginLeft:
 						windowSize !== "xs"
 							? windowSize === "xl"
