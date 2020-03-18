@@ -42,7 +42,6 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 	const size = !hasBook? 4 : 3;
 	const blankSize = !hasBook? 2 : 3;
 
-	console.log(config);
 
 	return(
 		<Grid

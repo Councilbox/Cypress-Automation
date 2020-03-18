@@ -230,7 +230,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
     React.useEffect(() => {
         if(!data.list){
             setData({
-                list: data.list? data.list : []
+                list: []
             });
         }
     }, [data.list]);
@@ -306,7 +306,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                             <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.appointment}</div>
                             <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.table_councils_duration}</div>
                         </div>
-                        {data.list.map((item, index) => (
+                        {data.list && data.list.map((item, index) => (
                             <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
                                 <div style={{ width: "20%", paddingRight: '1.2em' }}>
                                     <ContentEditable

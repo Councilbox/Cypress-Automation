@@ -29,6 +29,7 @@ import { LiveToast } from '../displayComponents';
 import { moment, client, store } from '../containers/App';
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
 import { TAG_TYPES } from "../components/company/drafts/draftTags/utils";
+import fileSize from "filesize";
 
 export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
@@ -1281,16 +1282,7 @@ export const councilHasAssistanceConfirmation = council => {
 };
 
 export const printPrettyFilesize = filesize => {
-	if (filesize < 1024) {
-		return `${filesize} Bytes`;
-	}
-	if (filesize < 1048576) {
-		return `${addDecimals(filesize / 1024, 2)} KBs`;
-	}
-	if (filesize < 1073741824) {
-		return `${addDecimals(filesize / 1048576, 2)} MBs`;
-	}
-	return `${addDecimals(filesize / 1073741824, 2)} GBs`;
+	return fileSize(filesize);
 };
 
 export const isPresentVote = vote => {
