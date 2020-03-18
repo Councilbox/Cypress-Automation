@@ -50,6 +50,7 @@ const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
 				color: secondary
 			}}
 			onClick={() => downloadAttachment(attachment.id)}
+			className="truncate"
 		>
 			{downloading ? (
 				<CircularProgress
@@ -67,10 +68,12 @@ const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
 					}}
 				/>
 			)}
-
-			{`${attachment.filename} (${printPrettyFilesize(
-				attachment.filesize
-			)})`}
+			<div style={{ float: 'left', maxWidth: '100%' }} className="truncate">
+				{attachment.filename}
+			</div>
+			<div style={{ float: 'left' }}>
+				{`(${printPrettyFilesize(attachment.filesize)})`}
+			</div>
 		</div>
 	);
 }
