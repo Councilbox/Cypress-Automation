@@ -117,6 +117,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					text={translate.dashboard_new}
 				/>
 			</GridItem>
+			
 			<GridItem xs={12} md={size} lg={size}>
 				<Block
 					link={`/company/${company.id}/meeting/new`}
