@@ -5,7 +5,8 @@ import {
 	BasicButton,
 	ButtonIcon,
 	SectionTitle,
-	AlertConfirm
+	AlertConfirm,
+	Scrollbar
 } from "../../displayComponents";
 import { updateUser } from "../../queries";
 import { store } from "../../containers/App";
@@ -173,33 +174,39 @@ class UpdateUserForm extends React.Component {
 		const primary = getPrimary();
 		
 		return (
-			<React.Fragment>
-				<div style={{ paddingTop: 0 }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
-					<SectionTitle
-						text={edit ? "Editar Usuario" : translate.user_data}
-						color={primary}
-					/>
-					<br />
-					<UserForm
-						data={data}
-						updateState={this.updateState}
-						errors={errors}
-						onKeyUp={this.onKeyUp}
-						languages={this.props.languages}
-						translate={translate}
-					/>
-					<br />
-					{this.props.admin &&
-						<CompanyLinksManager
-							linkedCompanies={this.state.companies}
-							translate={translate}
-							company={company}
-							addCheckedCompanies={companies => this.setState({
-								companies
-							})}
-						/>
-					}
-					<br />
+			<div style={{ height: '100%'}}>
+				<div style={{ paddingTop: 0, height: 'calc(100% - 3.5em)' }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
+					<Scrollbar>
+						<div style={{padding: '1.5em'}}>
+							<SectionTitle
+								text={edit ? "Editar Usuario" : translate.user_data}
+								color={primary}
+							/>
+							<br />
+							<UserForm
+								data={data}
+								updateState={this.updateState}
+								errors={errors}
+								onKeyUp={this.onKeyUp}
+								languages={this.props.languages}
+								translate={translate}
+							/>
+							<br />
+							{this.props.admin &&
+								<CompanyLinksManager
+									linkedCompanies={this.state.companies}
+									translate={translate}
+									company={company}
+									addCheckedCompanies={companies => this.setState({
+										companies
+									})}
+								/>
+							}
+						</div>
+						<br />
+					</Scrollbar>
+				</div>
+				<div style={{height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', borderTop: '1px solid gainsboro'}}>
 					<BasicButton
 						text={translate.send}
 						color={primary}
@@ -224,7 +231,7 @@ class UpdateUserForm extends React.Component {
 					bodyText={this._renderBodyModal()}
 					title={"Envio Email"}
 				/>
-			</React.Fragment>
+			</div>
 		);
 	}
 }

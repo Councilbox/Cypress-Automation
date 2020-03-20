@@ -155,7 +155,7 @@ class CompanyLinksManager extends React.PureComponent {
         const { translate } = this.props;
 
         return (
-            <div style={{ height: "100% ", overflow: "hidden" }}> {/**"calc( 100% - 16em )" */}
+            <div> {/**"calc( 100% - 16em )" */}
                 <div style={{ width: '100%', display: "flex", flexDirection: 'row', marginTop: '2em', alignItems: 'center', justifyContent: "space-between" }}>
                     <Typography variant="subheading" style={{ color: getPrimary(), marginRight: '0.6em' }}>
                         {this.props.linkedCompanies.length} {translate.linked_companies}
@@ -172,9 +172,9 @@ class CompanyLinksManager extends React.PureComponent {
                         }}
                     />
                 </div>
-                <div style={{ width: '100%', height: "100%" }}> {/**flexDirection: 'column',display: 'flex',  marginTop: '0.9em', marginBottom: '0.9em', height: "100%", overflow: "hidden" */}
+                <div style={{ width: '100%' }}> {/**flexDirection: 'column',display: 'flex',  marginTop: '0.9em', marginBottom: '0.9em', height: "100%", overflow: "hidden" */}
                     <Table
-                        style={{ width: "100%", maxWidth: "100%", height: "100%" }}
+                        style={{ width: "100%", maxWidth: "100%" }}
                     >
                         <TableHead>
                             <TableRow>
@@ -184,28 +184,24 @@ class CompanyLinksManager extends React.PureComponent {
                             </TableRow>
                         </TableHead>
                     </Table>
-                    <div style={{ height: isMobile ? "10em" : "400px", overflow: "hidden" }}>
-                        <Scrollbar>
-                            {this.props.data.loading ?
-                                <LoadingSection />
-                                :
-                                this.props.linkedCompanies.map(company => (
-                                    <CompanyItem
-                                        tableRoot={true}
-                                        key={`company_${company.id}`}
-                                        company={company}
-                                    />
-                                ))
-                            }
-                        </Scrollbar>
-                    </div>
+                    {this.props.data.loading ?
+                        <LoadingSection />
+                        :
+                        this.props.linkedCompanies.map(company => (
+                            <CompanyItem
+                                tableRoot={true}
+                                key={`company_${company.id}`}
+                                company={company}
+                            />
+                        ))
+                    }
+                </div>
                     {/* {this.props.linkedCompanies.map(company => (
                         <CompanyItem
                             key={`company_${company.id}`}
                             company={company}
                         />
                     ))} */}
-                </div>
                 <AlertConfirm
                     requestClose={this.close}
                     open={this.state.modal}

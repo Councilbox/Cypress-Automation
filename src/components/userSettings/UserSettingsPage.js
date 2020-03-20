@@ -33,8 +33,8 @@ const UserSettingsPage = ({ data, user, translate, company, match, client }) => 
 	let admin = (match.params.company && match.params.id) ? true : false;
 
 	return (
-		<CardPageLayout title={translate.user_data}>
-			<div style={{ margin: 0, marginTop: '0.6em' }}>
+		<CardPageLayout title={translate.user_data} disableScroll>
+			<div style={{ margin: 0, marginTop: '0.6em', height: '100%' }}>
 				<UpdateUser
 					translate={translate}
 					user={dataUser}
