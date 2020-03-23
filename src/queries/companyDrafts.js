@@ -89,6 +89,7 @@ export const getCompanyDraftData = gql`
 			id
 			userId
 			companyId
+			secondaryText
 			title
 			description
 			text

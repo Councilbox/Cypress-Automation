@@ -214,21 +214,23 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	}
 
 	const renderRichEditor = () => {
-		const types = Object.keys(testTags).filter(key => testTags[key].type === TAG_TYPES.DRAFT_TYPE).map(key => {
-			const result = draftTypes.find(type => testTags[key].name === type.label);
-			return result;
-		});
+		// const types = Object.keys(testTags).filter(key => testTags[key].type === TAG_TYPES.DRAFT_TYPE).map(key => {
+		// 	const result = draftTypes.find(type => testTags[key].name === type.label);
+		// 	return result;
+		// });
 
-		const tags = types.reduce((acc, curr) => {
-			const draftTags = CBX.getTagVariablesByDraftType(curr.value, translate);
+		// const tags = types.reduce((acc, curr) => {
+		// 	const draftTags = CBX.getTagVariablesByDraftType(curr.value, translate);
 
-			draftTags.forEach(tag => {
-				if(!acc.has(tag.value)){
-					acc.set(tag.value, tag);
-				}
-			})
-			return acc;
-		}, new Map());
+		// 	draftTags.forEach(tag => {
+		// 		if(!acc.has(tag.value)){
+		// 			acc.set(tag.value, tag);
+		// 		}
+		// 	})
+		// 	return acc;
+		// }, new Map());
+
+		const tags = CBX.getTagVariablesByDraftType(null, translate);
 
 		return (
 			<React.Fragment>
@@ -244,7 +246,22 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 								text: value
 							})
 						}
-						tags={Array.from(tags.values())}
+						tags={tags}
+					/>
+				</div>
+				<div>
+					<div style={{ fontSize: "18px", marginBottom: "0.6em", marginTop: '1.2em' }}>{'Texto secundario'}</div>
+					<RichTextInput
+						id={"draftRichEditor2"}
+						value={draft.secondaryText || ""}
+						//errorText={errors.text}
+						translate={translate}
+						onChange={value =>
+							updateState({
+								secondaryText: value
+							})
+						}
+						tags={tags}
 					/>
 				</div>
 			</React.Fragment>

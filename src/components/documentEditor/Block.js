@@ -75,7 +75,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 ref={editor}
                 value={props.column === 2? props.value.secondaryText || '' : props.value.text || ''}
                 translate={translate}
-                // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
+                //tags={generateActTags(null, translate)}
                 //errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
                 onChange={value => setText(value)}
                 loadDraft={

@@ -1140,7 +1140,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		]
 	}
 
-	return types[draftType]? types[draftType] : types[DRAFT_TYPES.CONVENE_HEADER];
+	return types[draftType]? types[draftType] : Object.keys(tags).map(key => tags[key]);
 }
 
 export const hasParticipations = (statute = {}) => {
