@@ -13,6 +13,7 @@ import FileEstatutos from './FileEstatutos';
 import FileCalendario from './FileCalendario';
 import { company } from '../../../queries';
 import { updateCompany } from '../../../queries/company';
+import SocialCapital from './SocialCapital';
 
 
 const reducer = (state, action) => {
@@ -145,6 +146,18 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         )
     }
 
+    const getShareCapital = () => {
+        return (
+            <SocialCapital
+                data={data}
+                updateState={updateState}
+                updateCompanyData={updateCompanyData}
+                updateFileData={updateFileData}
+                updateCompany={saveCompany}
+            />
+        )
+    }
+
     const librosOficiales = () => {
         return (
             <FileLibrosOfi
@@ -198,7 +211,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
                 <div style={{ display: "flex", padding: '1em', justifyContent: "space-between", paddingTop: "0px", alignItems: "center" }}>
                     <div style={{ fontSize: "13px", }}>
                         <MenuSuperiorTabs
-                            items={[translate.information, translate.board_of_directors, translate.official_books, translate.auditors_and_powers, translate.statutes, translate.calendar]}
+                            items={[translate.information, translate.social_capital_desc, translate.board_of_directors, translate.official_books, translate.auditors_and_powers, translate.statutes, translate.calendar]}
                             setSelect={setSelecteOptionMenu}
                             selected={selecteOptionMenu}
                         />
@@ -209,6 +222,9 @@ const FileCompany = ({ translate, match, client, ...props }) => {
                 }
                 {selecteOptionMenu === translate.board_of_directors &&
                     OrgAdministracion()
+                }
+                {selecteOptionMenu === translate.social_capital_desc &&
+                    getShareCapital()
                 }
                 {selecteOptionMenu === translate.official_books &&
                     librosOficiales()
