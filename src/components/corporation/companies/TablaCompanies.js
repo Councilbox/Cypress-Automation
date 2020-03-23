@@ -21,6 +21,7 @@ import RemoveCompany from './RemoveCompany';
 import DeleteCompany from './DeleteCompany';
 import { isMobile } from "../../../utils/screen";
 
+const queryLimit = 20;
 
 const TablaCompanies = ({ client, translate, company, match }) => {
 	const [companies, setCompanies] = React.useState(false);
@@ -42,8 +43,8 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 			variables: {
 				filters: [{ field: 'businessName', text: state.filterTextCompanies }],
 				options: {
-					limit: 20,
-					offset: (companiesPage - 1) * 20,
+					limit: queryLimit,
+					offset: (companiesPage - 1) * queryLimit,
 					orderDirection: 'DESC'
 				},
 				corporationId: company.id
@@ -213,7 +214,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 											translate={translate}
 											length={companies.length}
 											total={companiesTotal}
-											limit={10}
+											limit={queryLimit}
 											changePage={changePageCompanies}
 										/>
 									</Grid>
@@ -387,7 +388,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 								translate={translate}
 								length={companies.length}
 								total={companiesTotal}
-								limit={10}
+								limit={queryLimit}
 								changePage={changePageCompanies}
 							/>
 						</Grid>
@@ -432,15 +433,15 @@ const Cell = ({ text, avatar, width, children, style }) => {
 
 const corporationCompanies = gql`
     query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
-						corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
-						list{
-					id
-					businessName
-					logo
-				}
-				total
+		corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
+			list{
+				id
+				businessName
+				logo
 			}
+			total
 		}
-	`;
+	}
+`;
 
 export default withApollo(withSharedProps()(withRouter(TablaCompanies)));

@@ -11,6 +11,8 @@ import { USER_ACTIVATIONS } from '../../../constants';
 import NewUser from './NewUser';
 import { isMobile } from '../../../utils/screen';
 
+const queryLimit = 20;
+
 
 const OrganizationUsers = ({ client, translate, company }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
@@ -31,8 +33,8 @@ const OrganizationUsers = ({ client, translate, company }) => {
             variables: {
                 filters: [{ field: 'businessName', text: state.filterTextCompanies }],
                 options: {
-                    limit: 20,
-                    offset: (usersPage - 1) * 20,
+                    limit: queryLimit,
+                    offset: (usersPage - 1) * queryLimit,
                     orderDirection: 'DESC'
                 },
                 corporationId: company.id
@@ -277,7 +279,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                     translate={translate}
                                     length={users.length}
                                     total={total}
-                                    limit={10}
+                                    limit={queryLimit}
                                     changePage={changePageUsuarios}
                                     md={12}
                                     xs={12}
@@ -382,7 +384,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                             translate={translate}
                             length={users.length}
                             total={total}
-                            limit={10}
+                            limit={queryLimit}
                             changePage={changePageUsuarios}
                             md={12}
                             xs={12}
