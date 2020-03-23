@@ -382,16 +382,15 @@ class HoverableRow extends React.Component {
 
 		notifications = [...notifications].sort((a, b) => {
 			if(a.sendDate > b.sendDate){
-				return 1;
+				return -1;
 			}
 
 			if((b.sendDate > a.sendDate) || a.reqCode === 25){
-				return -1;
+				return 1;
 			}
 
 			return 0;
 		});
-
 
 		const voteParticipantInfo = (
 			participant.live.state === PARTICIPANT_STATES.DELEGATED?
