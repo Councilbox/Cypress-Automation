@@ -89,7 +89,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 		return {
 			assistanceIntention: participant.assistanceIntention || defaultIntention,
-			delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED ? participant.delegateId : null,
+			delegateId: participant.delegateId,
 			delegateInfoUser: participant.representative
 		}
 	}
@@ -173,6 +173,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 			loading: true
 		});
 		const { assistanceComment } = state.participant;
+
 		if (!checkForUnclosedBraces(assistanceComment)) {
 			if (participant.state !== PARTICIPANT_STATES.REPRESENTATED) {
 				if (state.delegateId !== null) {
