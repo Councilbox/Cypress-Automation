@@ -223,10 +223,11 @@ class ImportCensusButton extends React.Component {
 			const result = await this.read(reader.result);
 			const pages = Object.keys(result);
 			this.setState({
-				processing: result.census.length
+				processing: result[pages[0]].length
 			});
 			if (pages.length >= 1) {
-				const participants = await this.prepareParticipants(result["census"]);
+				const participants = await this.prepareParticipants(result[pages[0]]);
+				console.log(participants, result[pages[0]]);
 				if (participants) {
 					if (participants.length > 0) {
 						this.setState({
