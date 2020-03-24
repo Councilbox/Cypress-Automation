@@ -93,7 +93,8 @@ const CreateCouncil = props => {
 const steps = {
 	NO_SESSION: 'NO_SESSION',
 	COUNCIL: 'COUNCIL',
-	HYBRID_VOTING: 'HYBRID_VOTING'
+	HYBRID_VOTING: 'HYBRID_VOTING',
+	BOARD_NO_SESSION: 'BOARD_NO_SESSION'
 }
 
 const secondary = getSecondary();
@@ -144,7 +145,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 		let hasError = false;
 		let errors = {}
 
-		if (type !== 0) {
+		if (type !== 0 && type !== 4) {
 			if (!options.dateStart) {
 				hasError = true;
 				errors.dateStart = translate.required_field;
@@ -179,11 +180,20 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 		setStep(steps.HYBRID_VOTING);
 	}
 
+	const boardWithoutSessionStep = () => {
+		sendCreateCouncil(4);
+	}
+
 	return (
 		<AlertConfirm
 			open={true}
 			title={title}
-			bodyStyle={{ maxWidth: isMobile ? "" : "75vw" }}
+			//bodyStyle={{ maxWidth: isMobile ? "" : "75vw" }}
+			PaperProps={{
+				style: {
+					width: '100%'
+				}
+			}}
 			bodyText={
 				<React.Fragment>
 					{step === 1 &&
@@ -206,7 +216,21 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 								onClick={noSessionStep}
 								title={'Sin sesión'}
 								styleButton={{ marginRight: "3%" }}
-								icon={<i className="fa fa-users" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
+								icon={<i className="fa fa-list-ol" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
+								isMobile={isMobile}
+								list={
+									<ul>
+										{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
+										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
+										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
+									</ul>
+								}
+							/>
+							<ButtonCreateCouncil
+								onClick={boardWithoutSessionStep}
+								title={'Consejo sin sesión'}
+								styleButton={{ marginRight: "3%" }}
+								icon={<i className="fa fa-envelope" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
 								isMobile={isMobile}
 								list={
 									<ul>
