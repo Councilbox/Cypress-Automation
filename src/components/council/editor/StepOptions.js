@@ -298,6 +298,9 @@ const StepOptions = ({ translate, data, ...props }) => {
 					</div>
 				</React.Fragment>
 			),
+			4: (
+				<></>
+			)
 		}
 
 		return councilOptions[type]? councilOptions[type] : councilOptions[1];
@@ -394,14 +397,20 @@ const StepOptions = ({ translate, data, ...props }) => {
 								</React.Fragment>
 							)}
 							{renderCouncilTypeSpecificOptions(council.councilType)}
-							<SectionTitle
-								text={translate.security}
-								color={primary}
-								style={{
-									marginTop: '1.6em'
-								}}
-							/>
-							{_renderSecurityForm()}
+							
+							{council.councilType !== 4 &&
+								<>
+									<SectionTitle
+										text={translate.security}
+										color={primary}
+										style={{
+											marginTop: '1.6em'
+										}}
+									/>
+									{_renderSecurityForm()}
+
+								</>
+							}
 							{(council.statute.existsDelegatedVote === 1 && config.councilDelegates) && _renderDelegationRestriction()}
 							{CBX.hasAct(council.statute) && council.councilType < 2 && (
 								<React.Fragment>
