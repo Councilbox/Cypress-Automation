@@ -44,6 +44,22 @@ const DownloadCBXDataButton = props => {
 	}
 
 	const secondary = getSecondary();
+
+	if(props.trigger){
+		return (
+			loading ? (
+			<LoadingSection size={14} color={"secondary"} />
+		) : (
+			<div
+			onClick={event => {
+				event.stopPropagation();
+				downloadCBXData(props.participantId);
+			}}>
+				{props.trigger}
+			</div>
+		))
+	}
+
 	return (
 		<Tooltip title={'Descargar carta de voto'}>
 			<div

@@ -45,7 +45,12 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                 break;
             case PARTICIPANT_STATES.SENT_VOTE_LETTER:
                 tooltip = 'Carta de voto enviada';//TRADUCCION
-                icon = <i className='fa fa-sticky-note' style={iconStyle}></i>;
+                icon = <DownloadParticipantVoteLetter
+                    translate={translate}
+                    participantId={participant.id}
+                    participant={participant}
+                    trigger={<i className='fa fa-sticky-note' style={iconStyle}></i>}
+                />
                 break;
 
             default:
@@ -71,13 +76,6 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
             }
             {council.statute.requireProxy === 1 && participant.delegationProxy &&
                 <DownloadParticipantProxy
-                    translate={translate}
-                    participantId={participant.id}
-                    participant={participant}
-                />
-            }
-            {participant.voteLetter &&
-                <DownloadParticipantVoteLetter
                     translate={translate}
                     participantId={participant.id}
                     participant={participant}
