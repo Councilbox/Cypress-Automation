@@ -4,6 +4,7 @@ import { Tooltip } from 'material-ui';
 import { getPrimary } from '../../../../styles/colors';
 import { PARTICIPANT_STATES } from '../../../../constants';
 import DownloadParticipantProxy from '../../prepare/DownloadParticipantProxy';
+import DownloadParticipantVoteLetter from '../../prepare/DownloadParticipantVoteLetter';
 
 const AttendIntentionIcon = ({ participant, representative, council, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
     let tooltip = translate.not_confirmed_assistance;
@@ -66,6 +67,13 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
             }
             {council.statute.requireProxy === 1 && participant.delegationProxy &&
                 <DownloadParticipantProxy
+                    translate={translate}
+                    participantId={participant.id}
+                    participant={participant}
+                />
+            }
+            {participant.voteLetter &&
+                <DownloadParticipantVoteLetter
                     translate={translate}
                     participantId={participant.id}
                     participant={participant}
