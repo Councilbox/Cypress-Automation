@@ -223,15 +223,28 @@ export default withApollo(withWindowSize(VoteLetter));
 const proxyTranslations = {
     es: {
         at: 'a',
-        body: ({ company }) => (`El abajo firmante, en su condición de miembro del Consejo de Administración de ${
-            company.businessName}, tras ser informado por el Secretario/no-miembro del Consejo de la urgencia de adoptar unos acuerdos ${
-                ''} y a la vista de las dificultades de celebrar inmediatamente una reunión del Consejo de Administración de la Sociedad, (1) ${
-                ''} acepta seguir el procedimiento de votación por escrito y sin sesión, previsto en el articulo 100.3 del Reglamento del Registro ${
-                ''} Mercantil, (2) vota a favor de los acuerdos contenidos en el borrador de acta adjunto y (3) aprueba el texto del acta ${
+        body: ({ company }) => (`El abajo firmante, en su condición de miembro del Consejo de Administración de${
+            company.businessName}, tras ser informado por el Secretario/no-miembro del Consejo de la urgencia de adoptar unos acuerdos${
+                ''} y a la vista de las dificultades de celebrar inmediatamente una reunión del Consejo de Administración de la Sociedad, (1)${
+                ''} acepta seguir el procedimiento de votación por escrito y sin sesión, previsto en el articulo 100.3 del Reglamento del Registro${
+                ''} Mercantil, (2) vota a favor de los acuerdos contenidos en el borrador de acta adjunto y (3) aprueba el texto del acta${
                 ''} para el caso de que los acuerdos sean finalmente adoptados por el Consejo.`),
         in: 'En',
         intro: 'Estimados Señores:',
         salute: 'Atentamente',
         sir: 'D.'
+    },
+    en: {
+        at: 'at',
+        body: ({ company }) => (`I, the undersigned, member of the board of directors of ${
+            company.businessName}, am aware of the urgency of approving certain resolutions, and in view of the difficulties of immediately${
+                ''} holding a Company board of directors meeting, hereby agree (1) to use the written voting process and not hold a meeting,${
+                ''} as set forth in article 100.3 of the Commercial Registry Regulations, and (2) vote in favour of the resolution in the draft${
+                ''} minutes attached hereto. In addition, (3) I approve the contents of the minutes in the event that the resolution of the${
+                ''} minutes is finally adopted by the board.`),
+        in: 'In',
+        intro: 'Dear Sirs,',
+        salute: 'Yours faithfully,',
+        sir: 'Mr.'
     }
 }
