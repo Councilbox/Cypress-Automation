@@ -271,6 +271,11 @@ export const convenedcouncilParticipants = gql`
 						participantId
 						delegateId
 					}
+					voteLetter {
+						signedBy
+						id
+						participantId
+					}
 					delegateId
 					assistanceComment
 					assistanceLastDateConfirmed

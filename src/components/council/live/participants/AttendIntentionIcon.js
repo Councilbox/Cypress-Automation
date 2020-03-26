@@ -43,6 +43,10 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                 }
                 icon = <i className='fa fa-users' style={iconStyle}></i>;
                 break;
+            case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+                tooltip = 'Carta de voto enviada';//TRADUCCION
+                icon = <i className='fa fa-sticky-note' style={iconStyle}></i>;
+                break;
 
             default:
                 break;

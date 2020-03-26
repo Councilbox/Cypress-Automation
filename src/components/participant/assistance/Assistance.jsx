@@ -490,6 +490,12 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		)
 	}
 
+	/*
+en las council type === 4 se generan los votos para todos como una sin sesión
+al crear una carta de voto se crea un proxy vote,
+al borrar una carta de voto se elimina el proxy vote
+	*/
+
 	const getVotosDelegados = () => {
 		//TRADUCCION
 		const delegatedVotes = participant.delegatedVotes.filter(a => a.state !== PARTICIPANT_STATES.REPRESENTATED);
