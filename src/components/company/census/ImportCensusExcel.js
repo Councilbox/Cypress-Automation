@@ -227,7 +227,6 @@ class ImportCensusButton extends React.Component {
 			});
 			if (pages.length >= 1) {
 				const participants = await this.prepareParticipants(result[pages[0]]);
-				console.log(participants, result[pages[0]]);
 				if (participants) {
 					if (participants.length > 0) {
 						this.setState({
@@ -347,11 +346,11 @@ class ImportCensusButton extends React.Component {
 				mappedParticipant.representative = {
 					companyId: this.props.companyId,
 					censusId: this.props.censusId,
-					name: participant.name,
-					surname: participant.surname,
-					email: participant.email.toLowerCase(),
-					dni: participant.dni,
-					phone: participant.phone,
+					name: participant.name || '',
+					surname: participant.surname || '',
+					email: participant.email? participant.email.toLowerCase() : '',
+					dni: participant.dni || '',
+					phone: participant.phone || '',
 					language: participant.language,
 				}
 			}
@@ -364,10 +363,10 @@ class ImportCensusButton extends React.Component {
 			participant: {
 				companyId: this.props.companyId,
 				censusId: this.props.censusId,
-				name: participant.r_name,
-				email: participant.r_email.toLowerCase(),
-				dni: participant.r_dni,
-				phone: participant.r_phone,
+				name: participant.r_name || '',
+				email: participant.r_email? participant.r_email.toLowerCase() : null,
+				dni: participant.r_dni || '',
+				phone: participant.r_phone || '',
 				personOrEntity: 1,
 				language: participant.language,
 				numParticipations: participant.numParticipations.replace(/[.,]/g, ''),
@@ -439,23 +438,8 @@ class ImportCensusButton extends React.Component {
 				errors.hasError = true;
 			}
 		} else {
-			if (!checkValidEmail(participant.r_email)) {
-				errors.r_email = required;
-				errors.hasError = true;
-			}
-
 			if (!participant.r_name) {
 				errors.r_name = required;
-				errors.hasError = true;
-			}
-
-			if (!participant.r_dni) {
-				errors.r_dni = required;
-				errors.hasError = true;
-			}
-
-			if (!participant.r_phone) {
-				errors.r_phone = required;
 				errors.hasError = true;
 			}
 		}
