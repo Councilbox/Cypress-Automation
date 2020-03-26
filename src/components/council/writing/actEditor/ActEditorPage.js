@@ -19,6 +19,7 @@ import { COUNCIL_STATES } from '../../../../constants';
 import DelegationDocuments from './DelegationDocuments';
 import DocumentEditor2 from '../../../documentEditor/DocumentEditor2';
 import NavigationHeader from './NavigationHeader';
+import VoteLetters from './VoteLetters';
 
 
 const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
@@ -183,6 +184,25 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     }
     ];
 
+    if(council.councilType === 4){
+        tabs.push({
+            label: 'Cartas de voto',
+            value: 'vote_letters',
+            component: () => {
+                return (
+                    <TabContainer>
+                        <Scrollbar>
+                            <VoteLetters
+                                council={council}
+                                hideAttachments
+                                translate={translate}
+                            />
+                        </Scrollbar>
+                    </TabContainer>
+                );
+            }
+        });
+    }
     
 
     if(config.proxies && council.statute.requireProxy === 1){

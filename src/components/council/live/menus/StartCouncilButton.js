@@ -406,7 +406,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 		return <LoadingSection />;
 	}
 
-	if (council.councilType > 1) {
+	if (council.councilType > 1 && council.councilType !== 4) {
 		return (
 			<React.Fragment>
 				<BasicButton
