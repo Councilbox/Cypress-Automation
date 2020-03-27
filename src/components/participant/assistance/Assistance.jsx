@@ -115,20 +115,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		});
 	}
 
-	const showAddRepresentative = () => {
-		setState({
-			...state,
-			addRepresentative: true
-		});
-	}
-
-	const closeAddRepresentative = () => {
-		setState({
-			...state,
-			addRepresentative: false
-		});
-	}
-
 	const selectDelegation = async delegateId => {
 		const delegateInfoUser = data.liveParticipantsToDelegate.list.find(user => user.id === delegateId);
 		setState({
@@ -395,6 +381,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 								:
 								<AttendanceOptions
 									translate={translate}
+									refetch={refetch}
 									setState={setState}
 									showDelegationModal={showDelegation}
 									state={state}
