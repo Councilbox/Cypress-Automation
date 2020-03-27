@@ -15,7 +15,8 @@ import {
 	PaginationFooter,
 	Scrollbar,
 	Link,
-	Checkbox
+	Checkbox,
+	HelpPopover
 } from "../../../displayComponents";
 import { MenuItem, Icon, Card, CardActions } from "material-ui";
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -56,6 +57,9 @@ export const info = gql`
 `;
 
 const CompanySettingsPage = ({ company, client, translate, ...props }) => {
+	const [changeCountry, setChangeCountry] = React.useState(false)
+	const [inputsCuntry, setInputsCuntry] = React.useState(false)
+	const [provincesData, setProvincesData] = React.useState([])
 	const [state, setState] = React.useState({
 		data: company,
 		success: false,
@@ -87,10 +91,14 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 			if (selectedCountry) {
 				updateProvinces(selectedCountry.id);
 			}
+			if (!selectedCountry) {
+				setInputsCuntry(true)
+			}
 		}
 	}, [props.info]);
 
 	const updateState = newValues => {
+		console.log(newValues)
 		setState({
 			...state,
 			data: {
@@ -99,14 +107,24 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 			},
 			success: false
 		});
+
 	}
 
 	const handleCountryChange = event => {
-		updateState({ country: event.target.value });
-		const selectedCountry = props.info.countries.find(
-			country => country.deno === event.target.value
-		);
-		updateProvinces(selectedCountry.id);
+		if (event.target.value === 'otro') {
+			setChangeCountry(true)
+			updateState({ country: event.target.value });
+			updateProvinces(5);
+		} else {
+			// El problema es que el state de abajo pisa al de arriba...
+			updateState({
+				country: event.target.value
+			});
+			const selectedCountry = props.info.countries.find(
+				country => country.deno === event.target.value
+			);
+			updateProvinces(selectedCountry.id);
+		}
 	};
 
 
@@ -119,10 +137,11 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 		});
 
 		if (!response.errors) {
-			setState({
-				...state,
-				provinces: response.data.provinces
-			});
+			setProvincesData( response.data.provinces);
+			// setState({
+			// 	...state,
+			// 	provinces: response.data.provinces
+			// });
 		}
 	};
 
@@ -195,10 +214,10 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 					<LiveToast
 						message={translate.changes_saved}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "successToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "successToast"
+				}
 				);
 				if (!props.organization) {
 					store.dispatch(setCompany(response.data.updateCompany));
@@ -223,15 +242,21 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 					<LiveToast
 						message={translate.company_link_unliked_title}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "successToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "successToast"
+				}
 				);
 				bHistory.goBack();
 			}
 		}
 	};
+
+	const cancelInputsText = () => {
+		setChangeCountry(false)
+		setInputsCuntry(false)
+	}
+
 
 	function checkRequiredFields() {
 		let errors = {
@@ -467,50 +492,113 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={3}>
-						<SelectInput
-							floatingText={translate.company_new_country}
-							value={data.country}
-							onChange={handleCountryChange}
-							errorText={errors.country}
-						>
-							{props.info.countries.map(country => {
-								return (
+					{changeCountry || inputsCuntry ?
+						<React.Fragment>
+							<GridItem xs={12} md={6} lg={3}>
+								<TextInput
+									floatingText={translate.company_new_country}
+									type="text"
+									id={'addSociedadLocalidad'}
+									value={data.country}
+									errorText={errors.country}
+									onChange={event =>
+										updateState({
+											country: event.target.value
+										})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={3}>
+								<TextInput
+									floatingText={translate.company_new_country_state}
+									helpPopover={true}
+									helpTitle={'Informacion'}
+									helpDescription={
+										<div style={{ display: "flex" }}>
+											<div>
+												Si quieres poder seleccionar un pais de la lista pulsa aqui
+											</div>
+											<div>
+												<i
+													className={"fa fa-close"}
+													style={{
+														cursor: "pointer",
+														fontSize: "1.5em",
+														color: getSecondary(),
+														marginLeft: "5px"
+													}}
+													onClick={cancelInputsText}
+												/>
+											</div>
+										</div>
+									}
+									type="text"
+									id={'addSociedadLocalidad'}
+									value={data.countryState}
+									errorText={errors.countryState}
+									onChange={event =>
+										updateState({
+											countryState: event.target.value
+										})
+									}
+								/>
+							</GridItem>
+						</React.Fragment>
+						:
+						<React.Fragment>
+							<GridItem xs={12} md={6} lg={3}>
+								<SelectInput
+									floatingText={translate.company_new_country}
+									value={data.country}
+									onChange={handleCountryChange}
+									errorText={errors.country}
+								>
+									{props.info.countries.map(country => {
+										return (
+											<MenuItem
+												key={country.deno}
+												value={country.deno}
+											>
+												{country.deno}
+											</MenuItem>
+										);
+									})}
 									<MenuItem
-										key={country.deno}
-										value={country.deno}
+										key={'otro'}
+										value={'otro'}
 									>
-										{country.deno}
+										{translate.other}
 									</MenuItem>
-								);
-							})}
-						</SelectInput>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={3}>
-						<SelectInput
-							id={'addSociedadProvincia'}
-							floatingText={translate.company_new_country_state}
-							value={data.countryState}
-							errorText={errors.countryState}
-							onChange={event =>
-								updateState({
-									countryState: event.target.value
-								})
-							}
-						>
-							{state.provinces.map(province => {
-								return (
-									<MenuItem
-										className={"addSociedadProvinciaOptions"}
-										key={province.deno}
-										value={province.deno}
-									>
-										{province.deno}
-									</MenuItem>
-								);
-							})}
-						</SelectInput>
-					</GridItem>
+								</SelectInput>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={3}>
+								<SelectInput
+									id={'addSociedadProvincia'}
+									floatingText={translate.company_new_country_state}
+									value={data.countryState}
+									errorText={errors.countryState}
+									onChange={event =>
+										updateState({
+											countryState: event.target.value
+										})
+									}
+								>
+									{provincesData.map(province => {
+									// {state.provinces.map(province => {
+										return (
+											<MenuItem
+												className={"addSociedadProvinciaOptions"}
+												key={province.deno}
+												value={province.deno}
+											>
+												{province.deno}
+											</MenuItem>
+										);
+									})}
+								</SelectInput>
+							</GridItem>
+						</React.Fragment>
+					}
 					<GridItem xs={12} md={6} lg={3}>
 						<TextInput
 							floatingText={translate.company_new_zipcode}
@@ -1100,7 +1188,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 		const item = state.checked.find(item => item.id === id);
 		return !!item;
 	}
-	
+
 	if (isMobile) {
 		return (
 			<div style={{}}>
@@ -1397,14 +1485,14 @@ const AddAdmin = ({ translate, company, open, requestClose }) => {
 }
 
 export const getActivationText = (value, translate) => {
-    const activations = {
-        [USER_ACTIVATIONS.NOT_CONFIRMED]: translate.not_confirmed,
-        [USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
+	const activations = {
+		[USER_ACTIVATIONS.NOT_CONFIRMED]: translate.not_confirmed,
+		[USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
 		[USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
 		[USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked
-    }
+	}
 
-    return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
+	return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
 }
 
 const linkCompanyUsers = gql`
