@@ -21,7 +21,7 @@ import {
 import { MenuItem, Icon, Card, CardActions } from "material-ui";
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { compose, graphql, withApollo } from "react-apollo";
-import { provinces } from "../../../queries/masters";
+import { provinces as provincesQuery } from "../../../queries/masters";
 import { unlinkCompany, updateCompany } from "../../../queries/company";
 import { getPrimary, getSecondary, primary } from "../../../styles/colors";
 import { bHistory, store, moment } from "../../../containers/App";
@@ -57,9 +57,8 @@ export const info = gql`
 `;
 
 const CompanySettingsPage = ({ company, client, translate, ...props }) => {
-	const [changeCountry, setChangeCountry] = React.useState(false)
-	const [inputsCuntry, setInputsCuntry] = React.useState(false)
-	const [provincesData, setProvincesData] = React.useState([])
+	const [countryInput, setCountryInput] = React.useState(false);
+	const [provinces, setProvinces] = React.useState([]);
 	const [state, setState] = React.useState({
 		data: company,
 		success: false,
@@ -67,7 +66,6 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 		fileSizeError: false,
 		unlinkModal: false,
 		request: false,
-		provinces: [],
 		errors: {}
 	});
 	const primary = getPrimary();
@@ -83,7 +81,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 	}, [company.id]);
 
 	React.useEffect(() => {
-		if (!props.info.loading && state.provinces.length === 0) {
+		if (!props.info.loading && provinces.length === 0) {
 			const selectedCountry = props.info.countries.find(
 				country => country.deno === company.country
 			);
@@ -92,13 +90,12 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 				updateProvinces(selectedCountry.id);
 			}
 			if (!selectedCountry) {
-				setInputsCuntry(true)
+				setCountryInput(true);
 			}
 		}
 	}, [props.info]);
 
 	const updateState = newValues => {
-		console.log(newValues)
 		setState({
 			...state,
 			data: {
@@ -112,17 +109,22 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 
 	const handleCountryChange = event => {
 		if (event.target.value === 'otro') {
-			setChangeCountry(true)
-			updateState({ country: event.target.value });
-			updateProvinces(5);
+			setCountryInput(true);
+			updateState({ country: '' });
+			setProvinces([]);
 		} else {
 			// El problema es que el state de abajo pisa al de arriba...
-			updateState({
-				country: event.target.value
-			});
+			setCountryInput(false);
+
 			const selectedCountry = props.info.countries.find(
 				country => country.deno === event.target.value
 			);
+			if(!selectedCountry){
+				return setProvinces([]);
+			}
+			updateState({
+				country: event.target.value
+			});
 			updateProvinces(selectedCountry.id);
 		}
 	};
@@ -130,18 +132,14 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 
 	const updateProvinces = async countryID => {
 		const response = await client.query({
-			query: provinces,
+			query: provincesQuery,
 			variables: {
 				countryId: countryID
 			}
 		});
 
 		if (!response.errors) {
-			setProvincesData( response.data.provinces);
-			// setState({
-			// 	...state,
-			// 	provinces: response.data.provinces
-			// });
+			setProvinces(response.data.provinces);
 		}
 	};
 
@@ -251,11 +249,6 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 			}
 		}
 	};
-
-	const cancelInputsText = () => {
-		setChangeCountry(false)
-		setInputsCuntry(false)
-	}
 
 
 	function checkRequiredFields() {
@@ -492,13 +485,36 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							}
 						/>
 					</GridItem>
-					{changeCountry || inputsCuntry ?
-						<React.Fragment>
+					<React.Fragment>
+						<GridItem xs={12} md={6} lg={3}>
+							<SelectInput
+								floatingText={translate.company_new_country}
+								value={countryInput? 'otro' : data.country}
+								onChange={handleCountryChange}
+								errorText={errors.country}
+							>
+								{props.info.countries.map(country => {
+									return (
+										<MenuItem
+											key={country.deno}
+											value={country.deno}
+										>
+											{country.deno}
+										</MenuItem>
+									);
+								})}
+								<MenuItem
+									key={'otro'}
+									value={'otro'}
+								>
+									{translate.other}
+								</MenuItem>
+							</SelectInput>
+						</GridItem>
+						{countryInput &&
 							<GridItem xs={12} md={6} lg={3}>
 								<TextInput
 									floatingText={translate.company_new_country}
-									type="text"
-									id={'addSociedadLocalidad'}
 									value={data.country}
 									errorText={errors.country}
 									onChange={event =>
@@ -508,32 +524,11 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									}
 								/>
 							</GridItem>
-							<GridItem xs={12} md={6} lg={3}>
+						}
+						<GridItem xs={12} md={6} lg={3}>
+							{provinces.length === 0?
 								<TextInput
 									floatingText={translate.company_new_country_state}
-									helpPopover={true}
-									helpTitle={'Informacion'}
-									helpDescription={
-										<div style={{ display: "flex" }}>
-											<div>
-												Si quieres poder seleccionar un pais de la lista pulsa aqui
-											</div>
-											<div>
-												<i
-													className={"fa fa-close"}
-													style={{
-														cursor: "pointer",
-														fontSize: "1.5em",
-														color: getSecondary(),
-														marginLeft: "5px"
-													}}
-													onClick={cancelInputsText}
-												/>
-											</div>
-										</div>
-									}
-									type="text"
-									id={'addSociedadLocalidad'}
 									value={data.countryState}
 									errorText={errors.countryState}
 									onChange={event =>
@@ -542,36 +537,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 										})
 									}
 								/>
-							</GridItem>
-						</React.Fragment>
-						:
-						<React.Fragment>
-							<GridItem xs={12} md={6} lg={3}>
-								<SelectInput
-									floatingText={translate.company_new_country}
-									value={data.country}
-									onChange={handleCountryChange}
-									errorText={errors.country}
-								>
-									{props.info.countries.map(country => {
-										return (
-											<MenuItem
-												key={country.deno}
-												value={country.deno}
-											>
-												{country.deno}
-											</MenuItem>
-										);
-									})}
-									<MenuItem
-										key={'otro'}
-										value={'otro'}
-									>
-										{translate.other}
-									</MenuItem>
-								</SelectInput>
-							</GridItem>
-							<GridItem xs={12} md={6} lg={3}>
+							:
 								<SelectInput
 									id={'addSociedadProvincia'}
 									floatingText={translate.company_new_country_state}
@@ -583,7 +549,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 										})
 									}
 								>
-									{provincesData.map(province => {
+									{provinces.map(province => {
 									// {state.provinces.map(province => {
 										return (
 											<MenuItem
@@ -596,9 +562,10 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 										);
 									})}
 								</SelectInput>
-							</GridItem>
-						</React.Fragment>
-					}
+							}
+							
+						</GridItem>
+					</React.Fragment>
 					<GridItem xs={12} md={6} lg={3}>
 						<TextInput
 							floatingText={translate.company_new_zipcode}

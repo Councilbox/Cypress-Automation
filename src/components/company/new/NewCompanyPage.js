@@ -18,7 +18,7 @@ import { checkCifExists } from "../../../queries/userAndCompanySignUp";
 import { USER_ACTIVATIONS } from '../../../constants';
 import { MenuItem, Typography } from "material-ui";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { provinces } from "../../../queries/masters";
+import { provinces as provincesQuery } from "../../../queries/masters";
 import gql from "graphql-tag";
 import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
@@ -50,12 +50,13 @@ class NewCompanyPage extends React.PureComponent {
 		errors: {},
 		provinces: [],
 		success: false,
+		countryInput: false,
 		request: false,
 		requestError: false
 	};
 
-	static getDerivedStateFromProps(nextProps) {
-		if (!nextProps.info.loading) {
+	static getDerivedStateFromProps(nextProps, prevProps) {
+		if (!nextProps.info.loading && prevProps.provinces.length === 0) {
 			return {
 				provinces: nextProps.info.provinces
 			};
@@ -68,18 +69,31 @@ class NewCompanyPage extends React.PureComponent {
 		const selectedCountry = this.props.info.countries.find(
 			country => country.deno === event.target.value
 		);
-		this.updateProvinces(selectedCountry.id);
+		if(selectedCountry){
+			this.updateProvinces(selectedCountry.id);
+		} else {
+			this.setState({
+				provinces: [],
+				data: {
+					...this.state.data,
+					country: ''
+				},
+				countryInput: true
+			});
+		}
 	};
 
 	updateProvinces = async countryID => {
 		const response = await this.props.client.query({
-			query: provinces,
+			query: provincesQuery,
 			variables: {
 				countryId: countryID
 			}
 		});
 
 		if (response) {
+			console.log(response);
+
 			this.setState({
 				provinces: response.data.provinces
 			});
@@ -467,7 +481,7 @@ class NewCompanyPage extends React.PureComponent {
 								<GridItem xs={12} md={6} lg={3}>
 									<SelectInput
 										floatingText={translate.company_new_country}
-										value={data.country}
+										value={this.state.countryInput? 'other' : data.country}
 										onChange={this.cbxCountryChange}
 										errorText={errors.country}
 									>
@@ -481,32 +495,71 @@ class NewCompanyPage extends React.PureComponent {
 												</MenuItem>
 											);
 										})}
+										<MenuItem
+											key={'other'}
+											value={'other'}
+										>
+											{translate.other}
+										</MenuItem>
 									</SelectInput>
 								</GridItem>
+								{this.state.countryInput &&
+									<GridItem xs={12} md={6} lg={3}>
+										<TextInput
+											floatingText={
+												translate.company_new_country
+											}
+											type="text"
+											value={data.country}
+											errorText={errors.country}
+											onChange={event =>
+												this.updateState({
+													country: event.target.value
+												})
+											}
+										/>
+									</GridItem>
+								}
 								<GridItem xs={12} md={6} lg={3}>
-									<SelectInput
-										floatingText={
-											translate.company_new_country_state
-										}
-										value={data.countryState}
-										errorText={errors.countryState}
-										onChange={event => {
-											this.updateState({
-												countryState: event.target.value
-											}, () => this.handleKeyUp(event))
-										}}
-									>
-										{this.state.provinces.map(province => {
-											return (
-												<MenuItem
-													key={province.deno}
-													value={province.deno}
-												>
-													{province.deno}
-												</MenuItem>
-											);
-										})}
-									</SelectInput>
+									{this.state.countryInput?
+										<TextInput
+											floatingText={
+												translate.company_new_country_state
+											}
+											type="text"
+											value={data.countryState}
+											errorText={errors.countryState}
+											onChange={event =>
+												this.updateState({
+													countryState: event.target.value
+												})
+											}
+										/>
+									:
+										<SelectInput
+											floatingText={
+												translate.company_new_country_state
+											}
+											value={data.countryState}
+											errorText={errors.countryState}
+											onChange={event => {
+												this.updateState({
+													countryState: event.target.value
+												}, () => this.handleKeyUp(event))
+											}}
+										>
+											{this.state.provinces.map(province => {
+												return (
+													<MenuItem
+														key={province.deno}
+														value={province.deno}
+													>
+														{province.deno}
+													</MenuItem>
+												);
+											})}
+										</SelectInput>
+									}
 								</GridItem>
 								<GridItem xs={12} md={6} lg={3}>
 									<TextInput
