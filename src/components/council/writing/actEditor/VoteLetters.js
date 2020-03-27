@@ -31,6 +31,7 @@ const DelegationDocuments = ({ council, translate, client }) => {
                         }
                         total
                         totalShares
+                        quorum
                     }
                 }
             `,
@@ -58,7 +59,7 @@ const DelegationDocuments = ({ council, translate, client }) => {
             :
                 <>
                     <div>
-                        Numero de cartas emitidas {data.total} / Numero de participaciones: {data.totalShares}
+                        Numero de cartas emitidas {data.total} / Numero de participaciones: {data.totalShares} ({((data.totalShares / data.quorum) * 100).toFixed(2)}%)
                     </div>
                     {data.list.map(item => (
                         <Card style={{marginTop: '1em', width: '70%', padding: '0.6em'}}>
