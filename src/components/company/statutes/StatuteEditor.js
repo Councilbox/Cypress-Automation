@@ -134,10 +134,10 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 								<div style={{maxWidth: '20em'}}>
 									<SelectInput
 										floatingText={translate.language}
-										value={''+statute.language || 'all'}
+										value={statute.language || 'all'}
 										onChange={event =>
 											updateState({
-												language: +event.target.value
+												language: event.target.value
 											})
 										}
 										errorText={errors.language}
@@ -152,7 +152,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 												return (
 													<MenuItem
 														key={language.columnName}
-														value={''+language.columnName}
+														value={language.columnName}
 													>
 														{language.desc}
 													</MenuItem>
