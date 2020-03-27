@@ -41,7 +41,7 @@ class CloneCensusModal extends Component {
 
 	cloneCensus = async () => {
 		if (this.checkRequiredFields()) {
-			const { __typename, creator, ...census } = this.state.data;
+			const { __typename, creator, creatorId, creationDate, lastEdit, defaultCensus, ...census } = this.state.data;
 			const response = await this.props.cloneCensus({
 				variables: {
 					census: {
