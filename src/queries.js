@@ -1078,7 +1078,7 @@ export const councilStepFive = gql`
  }*/
 
 export const councilStepSix = gql`
-	query CouncilStepSix($id: Int!, $timezone: Int) {
+	query CouncilStepSix($id: Int!, $timezone: String) {
 		council(id: $id) {
 			actPointMajority
 			actPointMajorityDivider
