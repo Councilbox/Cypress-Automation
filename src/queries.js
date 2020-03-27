@@ -726,6 +726,7 @@ export const statutes = gql`
 			companyId
 			title
 			existPublicUrl
+			language
 			companyType
 			addParticipantsListToAct
 			existsAdvanceNoticeDays
@@ -2188,6 +2189,11 @@ export const draftDetails = gql`
 		majorityTypes {
 			label
 			value
+		}
+
+		languages {
+			desc
+			columnName
 		}
 
 		votingTypes {
