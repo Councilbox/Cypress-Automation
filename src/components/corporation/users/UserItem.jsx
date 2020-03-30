@@ -37,7 +37,18 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
 
     const unsubscribeUser = async event => {
         event.stopPropagation();
-        await props.unsubscribeUser({
+        await props.blockUser({
+            variables: {
+                userId: user.id
+            }
+        });
+
+        props.refetch();
+    }
+
+    const blockUser = async event => {
+        event.stopPropagation();
+        await props.blockUser({
             variables: {
                 userId: user.id
             }
@@ -70,12 +81,18 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
                             <React.Fragment>
                                 <i className="fa fa-user-times" aria-hidden="true" style={{ fontSize: '1.7em', color: 'grey' }}></i>
                                 No confirmado
-                        </React.Fragment>
+                            </React.Fragment>
                         }
                         {user.actived === USER_ACTIVATIONS.FREE_TRIAL &&
                             <React.Fragment>
                                 <i className="fa fa-user" aria-hidden="true" style={{ fontSize: '1.7em', color: secondary }}></i>
                                 {translate.free_trial}
+                            </React.Fragment>
+                        }
+                        {user.actived === USER_ACTIVATIONS.UNSUBSCRIBED &&
+                            <React.Fragment>
+                                <i className="fa fa-ban" aria-hidden="true" style={{ fontSize: '1.7em', color: secondary }}></i>
+                                {'Acceso bloqueado'}
                             </React.Fragment>
                         }
                         {user.actived === USER_ACTIVATIONS.PREMIUM &&
@@ -143,6 +160,23 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
                             />
                         </div>
                     }
+                    {user.actived !== USER_ACTIVATIONS.UNSUBSCRIBED?
+                        <BasicButton
+                            text="Bloquear acceso"
+                            color={secondary}
+                            textStyle={{ fontWeight: '700', color: 'white' }}
+                            onClick={blockUser}
+                        />
+                    :
+                        <BasicButton
+                            text="Desbloquear acceso"
+                            color={secondary}
+                            textStyle={{ fontWeight: '700', color: 'white' }}
+                            onClick={activatePremium}
+                        />
+
+                    }
+
                     {props.activatePremium &&
                         <div
                             style={{
@@ -209,11 +243,23 @@ const cancelUserPremium = gql`
     }
 `;
 
+const unsubscribeUser = gql`
+    mutation unsubscribeUser($userId: Int!){
+        unsubscribeUser(userId: $userId){
+            success
+        }
+    }
+`;
+
 export default compose(
     graphql(activateUserPremium, {
         name: 'activateUserPremium'
     }),
+    graphql(unsubscribeUser, {
+        name: 'blockUser'
+    }),
     graphql(cancelUserPremium, {
         name: 'cancelUserPremium'
     })
+    
 )(UserItem);
