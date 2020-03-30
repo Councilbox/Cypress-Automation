@@ -223,6 +223,7 @@ class SendActDraftModal extends React.Component {
 	}
 
 	sendActDraft = async () => {
+		await this.props.updateAct();
 		const response = await this.props.sendActDraft({
 			variables: {
 				councilId: this.props.council.id,

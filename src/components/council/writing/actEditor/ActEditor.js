@@ -32,6 +32,8 @@ import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../../docu
 import DownloadDoc from "../../../documentEditor/DownloadDoc";
 import { actBlocks } from "../../../documentEditor/actBlocks";
 import SendActToVote from "../../live/act/SendActToVote";
+import SendActDraftModal from "./SendActDraftModal";
+import { isMobile } from "../../../../utils/screen";
 
 
 export const CouncilActData = gql`
@@ -239,6 +241,7 @@ export const ActContext = React.createContext();
 const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, refetch, withDrawer, liveMode }) => {
 	const [saving, setSaving] = React.useState(false);
 	const [sendToVote, setSendToVote] = React.useState(false);
+	const [sendActDraft, setSendActDraft] = React.useState(false);
 	const [finishModal, setFinishModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
@@ -421,6 +424,31 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 						borderRadius: '3px'
 					}}
 				/>
+				<BasicButton
+					text={translate.send_draft_phone_button}
+					color={secondary}
+					onClick={() => setSendActDraft(true)}
+					loading={saving}
+					textStyle={{
+						color: "white",
+						fontSize: "0.9em",
+						textTransform: "none"
+					}}
+					textPosition="after"
+					iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-file-text-o" aria-hidden="true"></i>}
+					buttonStyle={{
+						marginRight: "1em",
+						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+						borderRadius: '3px'
+					}}
+				/>
+				<SendActDraftModal
+					translate={translate}
+					council={council}
+					updateAct={updateAct}
+					show={sendActDraft}
+					requestClose={() => setSendActDraft(false)}
+				/>
 				<FinishActModal
 					finishInModal={true}
 					show={finishModal}
@@ -452,7 +480,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 					}}
 					onClick={finishAct}
 					textPosition="after"
-					iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+					iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-check" aria-hidden="true"></i>}
 					buttonStyle={{
 						marginRight: "1em",
 						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
