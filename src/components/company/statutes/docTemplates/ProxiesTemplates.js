@@ -15,6 +15,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
     });
     const proxyTemplate = React.useRef();
     const proxySecondary = React.useRef();
+    const voteLetter = React.useRef();
+    const voteLetterSecondary = React.useRef();
 
     console.log(statute);
 
@@ -33,6 +35,9 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
     
     React.useEffect(() => {
         proxyTemplate.current.paste(statute.proxy || '');
+        proxySecondary.current.paste(statute.proxySecondary || '');
+        voteLetter.current.paste(statute.voteLetter || '');
+        voteLetterSecondary.current.paste(statute.voteLetterSecondary || '');
     }, [statute.id]);
 
     //TRADUCCION
@@ -83,6 +88,141 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                     onChange={value =>
                         handleUpdate({
                             proxy: value
+                        })
+                    }
+                    // saveDraft={
+                    //     <SaveDraftIcon
+                    //         onClick={showSaveDraft('CONVENE_HEADER')}
+                    //         translate={translate}
+                    //     />
+                    // }
+                    //tags={conveneHeaderTags}
+                    // loadDraft={
+                    //     <LoadDraftModal
+                    //         translate={translate}
+                    //         companyId={props.company.id}
+                    //         loadDraft={loadDraft}
+                    //         statute={{
+                    //             ...statute,
+                    //             statuteId: statute.id
+                    //         }}
+                    //         defaultTags={{
+                    //             "convene_header": {
+                    //                 active: true,
+                    //                 type: TAG_TYPES.DRAFT_TYPE,
+                    //                 name: 'convene_header',
+                    //                 label: translate.convene_header
+                    //             }
+                    //         }}
+                    //         statutes={props.companyStatutes}
+                    //         draftType={0}
+                    //     />
+                    // }
+                />
+            </GridItem>
+            <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+                <RichTextInput
+                    ref={proxySecondary}
+                    translate={translate}
+                    floatingText={'Proxy columna derecha'}
+                    value={
+                        !!internalState.proxySecondary
+                            ? internalState.proxySecondary
+                            : ""
+                    }
+                    onChange={value =>
+                        handleUpdate({
+                            proxySecondary: value
+                        })
+                    }
+                    // saveDraft={
+                    //     <SaveDraftIcon
+                    //         onClick={showSaveDraft('CONVENE_HEADER')}
+                    //         translate={translate}
+                    //     />
+                    // }
+                    //tags={conveneHeaderTags}
+                    // loadDraft={
+                    //     <LoadDraftModal
+                    //         translate={translate}
+                    //         companyId={props.company.id}
+                    //         loadDraft={loadDraft}
+                    //         statute={{
+                    //             ...statute,
+                    //             statuteId: statute.id
+                    //         }}
+                    //         defaultTags={{
+                    //             "convene_header": {
+                    //                 active: true,
+                    //                 type: TAG_TYPES.DRAFT_TYPE,
+                    //                 name: 'convene_header',
+                    //                 label: translate.convene_header
+                    //             }
+                    //         }}
+                    //         statutes={props.companyStatutes}
+                    //         draftType={0}
+                    //     />
+                    // }
+                />
+            </GridItem>
+            <GridItem xs={12} md={12} lg={12}>
+                <RichTextInput
+                    ref={voteLetter}
+                    translate={translate}
+                    floatingText={'Carta de voto'}
+                    value={
+                        !!internalState.voteLetter
+                            ? internalState.voteLetter
+                            : ""
+                    }
+                    onChange={value =>
+                        handleUpdate({
+                            voteLetter: value
+                        })
+                    }
+                    // saveDraft={
+                    //     <SaveDraftIcon
+                    //         onClick={showSaveDraft('CONVENE_HEADER')}
+                    //         translate={translate}
+                    //     />
+                    // }
+                    //tags={conveneHeaderTags}
+                    // loadDraft={
+                    //     <LoadDraftModal
+                    //         translate={translate}
+                    //         companyId={props.company.id}
+                    //         loadDraft={loadDraft}
+                    //         statute={{
+                    //             ...statute,
+                    //             statuteId: statute.id
+                    //         }}
+                    //         defaultTags={{
+                    //             "convene_header": {
+                    //                 active: true,
+                    //                 type: TAG_TYPES.DRAFT_TYPE,
+                    //                 name: 'convene_header',
+                    //                 label: translate.convene_header
+                    //             }
+                    //         }}
+                    //         statutes={props.companyStatutes}
+                    //         draftType={0}
+                    //     />
+                    // }
+                />
+            </GridItem>
+            <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+                <RichTextInput
+                    ref={voteLetterSecondary}
+                    translate={translate}
+                    floatingText={'Carta de voto columna derecha'}
+                    value={
+                        !!internalState.voteLetterSecondary
+                            ? internalState.voteLetterSecondary
+                            : ""
+                    }
+                    onChange={value =>
+                        handleUpdate({
+                            voteLetterSecondary: value
                         })
                     }
                     // saveDraft={
