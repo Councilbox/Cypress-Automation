@@ -89,9 +89,9 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
 
     const proxyPreview = () => {
         const proxyTranslate = proxyTranslations[translate.selectedLanguage]? proxyTranslations[translate.selectedLanguage] : proxyTranslations.es;
-
-        return (
-            <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
+        
+        const getBody = () => {
+            const docBody = <>
                 <div>{council.company.businessName}</div>
                 <div>{council.street}</div>
                 <div>{council.countryState} {council.countryState}</div>
@@ -108,6 +108,38 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                 <br/>
                 <br/>
                 <div>{proxyTranslate.salute}</div>
+            </>
+
+
+            if(council.statute.doubleColumnDocs){
+                return (
+                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+                        {council.statute.voteLetter?
+                            <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetter }} style={{width: '48%'}}></div>
+                        :
+                            docBody
+                        }
+                        {council.statute.voteLetterSecondary?
+                            <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetterSecondary }} style={{width: '48%'}}></div>
+                        :
+                            docBody
+                        }
+                    </div>
+                )
+            }
+            
+
+            if(council.statute.voteLetter){
+                return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetter }}></div>
+            }
+
+            return docBody;
+        }
+        
+        
+        return (
+            <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
+                {getBody()}
                 <ReactSignature
                     height={80}
                     width={160}
@@ -130,7 +162,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
             open={open}
             loadingAction={loading}
             bodyStyle={{
-                width: isMobile? '100%' : "60vw",
+                width: isMobile? '100%' : council.statute.doubleColumnDocs? "80vw" : "60vw",
             }}
             PaperProps={{
                 style: {
@@ -141,7 +173,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
             title={translate.create_proxy_document}
             bodyText={
                 <Grid style={{ marginTop: "15px", height: "100%" }}>
-                    <GridItem xs={12} md={6} lg={6} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
+                    <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
                         {isMobile? 
                             proxyPreview()
                         :
@@ -151,7 +183,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                         }
 
                     </GridItem>
-                    <GridItem xs={12} md={6} lg={6} >
+                    <GridItem xs={12} md={6} lg={5}>
                         <div
                             style={{
                                 border: 'solid 2px silver',

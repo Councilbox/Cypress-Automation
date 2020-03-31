@@ -91,26 +91,58 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     const proxyPreview = () => {
         const proxyTranslate = proxyTranslations[translate.selectedLanguage]? proxyTranslations[translate.selectedLanguage] : proxyTranslations.es;
 
+
+        const getProxyBody = () => {
+            const proxyBody = <>
+                <div>{council.company.businessName}</div>
+                <div>{council.street}</div>
+                <div>{council.countryState} {council.countryState}</div>
+                <div>{council.country}</div>
+                <br/>
+                <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
+                <br/>
+                <div>{proxyTranslate.intro}</div>
+                <br/>
+                <div>{proxyTranslate.body({
+                    council,
+                    delegation
+                })}
+                </div>
+                <br/>
+                <br/>
+                <div>{proxyTranslate.salute}</div>
+            </>
+
+
+            if(council.statute.doubleColumnDocs){
+                return (
+                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+                        {council.statute.proxy?
+                            <div dangerouslySetInnerHTML={{ __html: council.statute.proxy }} style={{width: '48%'}}></div>
+                        :
+                            proxyBody
+                        }
+                        {council.statute.proxySecondary?
+                            <div dangerouslySetInnerHTML={{ __html: council.statute.proxySecondary }} style={{width: '48%'}}></div>
+                        :
+                            proxyBody
+                        }
+                    </div>
+                )
+            }
+            
+
+            if(council.statute.proxy){
+                return <div dangerouslySetInnerHTML={{ __html: council.statute.proxy }}></div>
+            }
+
+            return proxyBody;
+        }
+        
         return (
             delegation &&
                 <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
-                    <div>{council.company.businessName}</div>
-                    <div>{council.street}</div>
-                    <div>{council.countryState} {council.countryState}</div>
-                    <div>{council.country}</div>
-                    <br/>
-                    <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
-                    <br/>
-                    <div>{proxyTranslate.intro}</div>
-                    <br/>
-                    <div>{proxyTranslate.body({
-                        council,
-                        delegation
-                    })}
-                    </div>
-                    <br/>
-                    <br/>
-                    <div>{proxyTranslate.salute}</div>
+                    {getProxyBody()}
                     <ReactSignature
                         height={80}
                         width={160}
@@ -133,7 +165,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
             open={open}
             loadingAction={loading}
             bodyStyle={{
-                width: isMobile? '100%' : "60vw",
+                width: isMobile? '100%' : council.statute.doubleColumnDocs? "80vw" : "60vw",
             }}
             PaperProps={{
                 style: {
@@ -144,7 +176,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
             title={translate.create_proxy_document}
             bodyText={
                 <Grid style={{ marginTop: "15px", height: "100%" }}>
-                    <GridItem xs={12} md={6} lg={6} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
+                    <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
                         {isMobile? 
                             proxyPreview()
                         :
@@ -154,7 +186,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                         }
 
                     </GridItem>
-                    <GridItem xs={12} md={6} lg={6} >
+                    <GridItem xs={12} md={6} lg={5} >
                         <DownloadUnsignedProxy
                             translate={translate}
                             action={sendDelegationData}

@@ -128,6 +128,11 @@ const participantQuery = gql`
 				requireProxy
 				existsDelegatedVote
 				existMaxNumDelegatedVotes
+				doubleColumnDocs
+				proxy
+				proxySecondary
+				voteLetter
+				voteLetterSecondary
 				maxNumDelegatedVotes
 			}
 			street
