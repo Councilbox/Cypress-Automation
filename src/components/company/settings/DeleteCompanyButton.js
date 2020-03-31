@@ -43,6 +43,7 @@ const DeleteCompanyButton = ({ company, deleteCompany }) => {
                 requestClose={() => setModal(false)}
                 acceptAction={confirmDeleteCompany}
                 buttonAccept='Aceptar'
+                buttonCancel={'Cancelar'}
                 bodyText={<div>Esta acción no se puede deshacer, se borrará la compañía, censos y reuniones, confirmar?</div>}
                 title={"Advertencia"}
             />

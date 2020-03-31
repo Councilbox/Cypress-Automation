@@ -770,6 +770,11 @@ export const statutes = gql`
 			secondCallQuorumDivider
 			canEditConvene
 			notifyPoints
+			doubleColumnDocs
+			proxy
+			proxySecondary
+			voteLetter
+			voteLetterSecondary
 		}
 	}
 `;

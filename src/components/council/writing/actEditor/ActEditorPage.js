@@ -186,7 +186,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
     if(council.councilType === 4){
         tabs.push({
-            label: 'Cartas de voto',
+            label: 'Cartas de voto', //TRADUCCION
             value: 'vote_letters',
             component: () => {
                 return (

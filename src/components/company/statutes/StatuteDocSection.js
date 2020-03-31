@@ -8,13 +8,18 @@ import { Tooltip } from 'material-ui';
 import { DRAFT_TYPES } from "../../../constants";
 import * as CBX from "../../../utils/CBX";
 import SaveDraftModal from '../../company/drafts/SaveDraftModal';
+import { ConfigContext } from '../../../containers/AppControl';
+import ProxiesTemplates from './docTemplates/ProxiesTemplates';
 
 let timeout;
+
+
 
 const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...props }) => {
     const internalState = React.useRef({
         ...statute
-    });
+	});
+	const config = React.useContext(ConfigContext);
 
     React.useEffect(() => {
         editor.current.paste(statute.conveneHeader || '');
@@ -231,6 +236,19 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
                     />
                 </GridItem>
             )}
+			
+			{config.proxies &&
+				<ProxiesTemplates
+					translate={translate}
+					key={statute.id}
+					statute={statute}
+					data={data}
+					updateState={updateState}
+					errors={errors}
+					{...props}
+				/>
+			}
+
 			{statute.existsAct === 1 && (
 				<>
 					<SectionTitle

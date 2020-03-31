@@ -299,7 +299,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				...state.statute,
 				...object
 			},
-			unsavedChanges: true
+			unsavedChanges: JSON.stringify(state.statute) !== JSON.stringify(data.companyStatutes[state.selectedStatute])
 		}));
 	};
 
