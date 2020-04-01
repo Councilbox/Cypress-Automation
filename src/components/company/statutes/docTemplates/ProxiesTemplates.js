@@ -5,6 +5,46 @@ import { getPrimary } from '../../../../styles/colors';
 
 let timeout;
 
+const getCustomDocsTags = (type, translate) => {
+    const TAGS = {
+        PARTICIPANT: {
+            value: '{{participantName}}',
+            label: translate.participant
+        },
+        DELEGATE: {
+            value: '{{delegateName}}',
+            label: translate.delegate
+        },
+        DATE: {
+            value: '{{dateFirstCall}}',
+            label: translate.date
+        },
+        DATE2CALL: {
+            value: '{{dateSecondCall}}',
+            label: translate['2nd_call_date']
+        },
+        BUSINESS_NAME: {
+            value: '{{business_name}}',
+            label: translate.business_name
+        },
+        ADDRESS: {
+            value: '{{address}}',
+            label: translate.new_location_of_celebrate
+        },
+        CITY: {
+            value: '{{city}}',
+            label: translate.company_new_locality
+        }
+    }
+
+    const types = {
+        'PROXY': Object.keys(TAGS).map(key => TAGS[key]),
+        'VOTE_LETTER': Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key])
+    }
+
+    return types[type]? types[type] : [];
+}
+
 const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...props }) => {
     const primary = getPrimary();
     const internalState = React.useRef({
@@ -96,7 +136,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                     //         translate={translate}
                     //     />
                     // }
-                    //tags={conveneHeaderTags}
+                    tags={getCustomDocsTags('PROXY', translate)}
                     // loadDraft={
                     //     <LoadDraftModal
                     //         translate={translate}
@@ -135,13 +175,14 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             proxySecondary: value
                         })
                     }
+                    tags={getCustomDocsTags('PROXY', translate)}
+
                     // saveDraft={
                     //     <SaveDraftIcon
                     //         onClick={showSaveDraft('CONVENE_HEADER')}
                     //         translate={translate}
                     //     />
                     // }
-                    //tags={conveneHeaderTags}
                     // loadDraft={
                     //     <LoadDraftModal
                     //         translate={translate}
@@ -180,6 +221,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             voteLetter: value
                         })
                     }
+                    tags={getCustomDocsTags('VOTE_LETTER', translate)}
+
                     // saveDraft={
                     //     <SaveDraftIcon
                     //         onClick={showSaveDraft('CONVENE_HEADER')}
@@ -225,6 +268,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             voteLetterSecondary: value
                         })
                     }
+                    tags={getCustomDocsTags('VOTE_LETTER', translate)}
+
                     // saveDraft={
                     //     <SaveDraftIcon
                     //         onClick={showSaveDraft('CONVENE_HEADER')}
