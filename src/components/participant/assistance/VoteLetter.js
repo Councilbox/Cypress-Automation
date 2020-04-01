@@ -7,6 +7,7 @@ import { Card } from 'material-ui';
 import { isMobile } from "../../../utils/screen";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { replaceDocsTags } from './DelegationProxyModal';
 
 
 const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action }) => {
@@ -108,12 +109,12 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                 return (
                     <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
                         {council.statute.voteLetter?
-                            <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetter }} style={{width: '48%'}}></div>
+                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetter, { council, participant }) }} style={{width: '48%'}}></div>
                         :
                             docBody
                         }
                         {council.statute.voteLetterSecondary?
-                            <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetterSecondary }} style={{width: '48%'}}></div>
+                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetterSecondary, { council, participant }) }} style={{width: '48%'}}></div>
                         :
                             docBody
                         }
@@ -138,7 +139,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                 <div>{council.country}</div>
                 <br/>
                 <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
-                <br/>
+                <br/><br/>
                 {getBody()}
                 <ReactSignature
                     height={80}

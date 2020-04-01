@@ -89,9 +89,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     };
 
     const proxyPreview = () => {
-        const proxyTranslate = proxyTranslations[translate.selectedLanguage]? proxyTranslations[translate.selectedLanguage] : proxyTranslations.es;
-
-
+        const proxyTranslate = proxyTranslations[translate.selectedLanguage]? proxyTranslations[translate.selectedLanguage] : proxyTranslations.es;      
+        
         const getProxyBody = () => {
             const proxyBody = <>
                 <br/>
@@ -107,17 +106,19 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 <div>{proxyTranslate.salute}</div>
             </>
 
+            
+
 
             if(council.statute.doubleColumnDocs){
                 return (
                     <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
                         {council.statute.proxy?
-                            <div dangerouslySetInnerHTML={{ __html: council.statute.proxy }} style={{width: '48%'}}></div>
+                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.proxy, { council, participant, delegate: delegation }) }} style={{width: '48%'}}></div>
                         :
                             proxyBody
                         }
                         {council.statute.proxySecondary?
-                            <div dangerouslySetInnerHTML={{ __html: council.statute.proxySecondary }} style={{width: '48%'}}></div>
+                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.proxySecondary, { council, participant, delegate: delegation }) }} style={{width: '48%'}}></div>
                         :
                             proxyBody
                         }
@@ -142,6 +143,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                     <div>{council.country}</div>
                     <br/>
                     <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
+                    <br/>
                     {getProxyBody()}
                     <ReactSignature
                         height={80}
@@ -290,4 +292,25 @@ const proxyTranslations = {
         salute: 'Salutacions',
         sir: 'D,'
     }
+}
+
+
+
+
+export const replaceDocsTags = (text, data = {}) => {
+    if(!text){
+        return '';
+    }
+
+    text = text.replace(/{{participantName}}/g, `${data.participant.name} ${data.participant.surname}`);
+    if(data.delegate){
+        text = text.replace(/{{delegateName}}/g, `${data.delegate.name} ${data.delegate.surname}`);
+    }
+    text = text.replace(/{{business_name}}/g, data.council.company.businessName);
+    text = text.replace(/{{city}}/g, data.council.city);
+    text = text.replace(/{{address}}/g, data.council.street);
+    text = text.replace(/{{dateFirstCall}}/g, moment(data.council.dateStart).format('DD/MM/YYYY hh:mm'));
+    text = text.replace(/{{dateSecondCall}}/g, moment(data.council.dateStart2ndCall).format('DD/MM/YYYY hh:mm'));
+
+    return text;
 }
