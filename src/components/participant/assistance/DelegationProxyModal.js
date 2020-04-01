@@ -94,12 +94,6 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
 
         const getProxyBody = () => {
             const proxyBody = <>
-                <div>{council.company.businessName}</div>
-                <div>{council.street}</div>
-                <div>{council.countryState} {council.countryState}</div>
-                <div>{council.country}</div>
-                <br/>
-                <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
                 <br/>
                 <div>{proxyTranslate.intro}</div>
                 <br/>
@@ -142,6 +136,12 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
         return (
             delegation &&
                 <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
+                    <div>{council.company.businessName}</div>
+                    <div>{council.street}</div>
+                    <div>{council.countryState} {council.countryState}</div>
+                    <div>{council.country}</div>
+                    <br/>
+                    <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
                     {getProxyBody()}
                     <ReactSignature
                         height={80}

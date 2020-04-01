@@ -92,13 +92,6 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
         
         const getBody = () => {
             const docBody = <>
-                <div>{council.company.businessName}</div>
-                <div>{council.street}</div>
-                <div>{council.countryState} {council.countryState}</div>
-                <div>{council.country}</div>
-                <br/>
-                <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
-                <br/>
                 <div>{proxyTranslate.intro}</div>
                 <br/>
                 <div>{proxyTranslate.body({
@@ -139,6 +132,13 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
         
         return (
             <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
+                <div>{council.company.businessName}</div>
+                <div>{council.street}</div>
+                <div>{council.countryState} {council.countryState}</div>
+                <div>{council.country}</div>
+                <br/>
+                <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
+                <br/>
                 {getBody()}
                 <ReactSignature
                     height={80}
