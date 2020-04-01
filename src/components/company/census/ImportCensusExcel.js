@@ -335,6 +335,7 @@ class ImportCensusButton extends React.Component {
 		});
 	};
 
+
 	checkEntityParticipant = participant => {
 		let errors = {};
 		const mappedParticipant = {};
@@ -359,6 +360,11 @@ class ImportCensusButton extends React.Component {
 		if (participantError) {
 			return { ...errors, ...participantError };
 		}
+
+		const numParticipations = participant.numParticipations?
+			participant.numParticipations.replace(/[.,]/g, '') :
+			participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : 0;
+
 		return {
 			participant: {
 				companyId: this.props.companyId,
@@ -369,8 +375,8 @@ class ImportCensusButton extends React.Component {
 				phone: participant.r_phone || '',
 				personOrEntity: 1,
 				language: participant.language,
-				numParticipations: participant.numParticipations.replace(/[.,]/g, ''),
-				socialCapital: participant.socialCapital.replace(/[.,]/g, ''),
+				numParticipations,
+				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
 				position: participant.position,
 			},
 			...mappedParticipant
@@ -383,11 +389,16 @@ class ImportCensusButton extends React.Component {
 		if (participantError) {
 			return participantError;
 		}
+		const numParticipations = participant.numParticipations?
+			participant.numParticipations.replace(/[.,]/g, '') :
+			participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : 0;
+
+
 		return {
 			participant: {
 				...participant,
-				numParticipations: participant.numParticipations.replace(/[.,]/g, ''),
-				socialCapital: participant.socialCapital.replace(/[.,]/g, ''),
+				numParticipations,
+				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
 			}
 		}
 	}
