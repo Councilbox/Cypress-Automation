@@ -7,7 +7,7 @@ import {
 	canUnblockParticipant
 } from "../../../../utils/CBX";
 import { graphql } from "react-apollo";
-import { unbanParticipant } from "../../../../queries";
+import { unbanParticipant, changeRequestWord } from "../../../../queries";
 
 const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 	const unbanParticipant = async () => {
@@ -23,6 +23,19 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 			}
 		}
 	}
+
+	const changeWordState = async (id, value) => {
+		const response = await props.changeRequestWord({
+			variables: {
+				requestWord: value,
+				participantId: id
+			}
+		});
+
+		if (response) {
+			props.refetch();
+		}
+	};
 
 	return (
 		<DropDownMenu
@@ -93,6 +106,22 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 							{translate.ban_participant}
 						</MenuItem>
 					)}
+					{participant.requestWord !== 3 && (
+							<MenuItem
+							onClick={() => changeWordState(participant.id, 3)}
+						>
+							<Icon
+								className="material-icons"
+								style={{
+									color: getSecondary(),
+									marginRight: "0.4em"
+								}}
+							>
+								launch
+							</Icon>
+							{'Enviar a la sala de espera'/*TRADUCCION*/}
+						</MenuItem>
+					)}
 					<MenuItem
 						onClick={props.setParticipantHistory}
 					>
@@ -117,4 +146,6 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 
 export default graphql(unbanParticipant, {
 	name: "unbanParticipant"
-})(VideoParticipantMenu);
+})(graphql(changeRequestWord, {
+	name: "changeRequestWord"
+})(VideoParticipantMenu));
