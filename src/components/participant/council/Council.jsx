@@ -546,6 +546,10 @@ const agendasQuery = gql`
             positiveVotings
             negativeVotings
             abstentionVotings
+            positiveManual
+            negativeManual
+            abstentionManual
+            noVoteManual
             noVoteVotings
             agendaSubject
             attachments {
