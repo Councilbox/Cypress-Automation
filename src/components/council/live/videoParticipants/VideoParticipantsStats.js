@@ -210,6 +210,37 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
+		<Tooltip title={'Sala de espera' /*TRADUCCION*/}>
+			<div
+				style={{
+					marginLeft: "1em",
+					marginRight: "0.5em",
+					height: videoFullScreen ? "3em" : "100%",
+					display: "flex",
+					alignItems: "center"
+				}}
+			>
+				<Icon
+					className="material-icons"
+					style={{
+						fontSize: "1.1em",
+						marginRight: "0.3em",
+						color: getSecondary()
+					}}
+				>
+					tv_off
+				</Icon>
+				<span
+					style={{
+						fontWeight: "700",
+						color: "white",
+						fontSize: "0.8em"
+					}}
+				>
+					{stats.waitingRoom}
+				</span>
+			</div>
+		</Tooltip>
 	</div>
 );
 

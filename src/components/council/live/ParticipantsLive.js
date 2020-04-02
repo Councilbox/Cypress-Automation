@@ -27,6 +27,7 @@ const countParticipants = participants => {
 	let broadcasting = 0;
 	let askingForWord = 0;
 	let banned = 0;
+	let waitingRoom = 0;
 	participants.forEach(
 		participant => {
 			if (participantIsBlocked(participant)) {
@@ -34,6 +35,9 @@ const countParticipants = participants => {
 			}
 			if(isAskingForWord(participant)){
 				askingForWord++;
+			}
+			if(participant.requestWord === 3){
+				waitingRoom++;
 			}
 			if (exceedsOnlineTimeout(participant.lastDateConnection) || participant.online !== 1) {
 				offline++;
@@ -50,7 +54,8 @@ const countParticipants = participants => {
 		offline,
 		broadcasting,
 		askingForWord,
-		banned
+		banned,
+		waitingRoom
 	};
 }
 

@@ -25,6 +25,47 @@ class ChangeRequestWordButton extends React.Component {
 
 		return (
 			<div style={{marginRight: '0.3em'}}>
+				{participant.requestWord === 3 && (
+					<Tooltip
+						title={'Permitir acceso a la sala' /*TRADUCCION*/}
+					>
+						<Card
+							onClick={() =>
+								this.changeWordState(participant.id, 2)
+							}
+							className={'fadeToggle'}
+							style={{
+								width: "1.6em",
+								height: "1.6em",
+								borderRadius: "0.1em",
+								backgroundColor: getSecondary()
+							}}
+						>
+							<MenuItem
+								style={{
+									height: "1.6em",
+									width: "1.6em",
+									padding: 0,
+									margin: 0,
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center"
+								}}
+							>
+								<Icon
+									className="material-icons"
+									style={{
+										fontSize: "1em",
+										color: "white"
+									}}
+								>
+									input
+								</Icon>
+							</MenuItem>
+						</Card>
+					</Tooltip>
+				)}
+
 				{haveGrantedWord(participant) && (
 					<Tooltip
 						title={

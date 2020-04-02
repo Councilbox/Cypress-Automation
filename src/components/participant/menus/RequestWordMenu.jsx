@@ -140,8 +140,12 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     }
 
     const _renderWordButtonIconMobil = () => {
-
         const renderButton = () => {
+            if(participant.requestWord === 3){
+                return <span />
+            }
+
+            
             const grantedWord = CBX.haveGrantedWord(participant);
 
             if(grantedWord || CBX.isAskingForWord(participant)){
