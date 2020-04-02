@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 //import { downloadFile } from '../../../utils/CBX';
 //import { singleVoteCompanies } from '../../../config';
 
-const VotingSection = ({ translate, agenda, council, ...props }) => {
+const VotingSection = ({ translate, agenda, council, disabledColor, hasVideo, ...props }) => {
     //const [singleVoteMode, setSingleVoteMode] = React.useState(singleVoteCompanies.includes(council.companyId));
 
 
@@ -39,6 +39,8 @@ const VotingSection = ({ translate, agenda, council, ...props }) => {
                 singleVoteMode={false}
                 refetch={props.refetch}
                 agenda={agenda}
+                disabledColor={disabledColor}
+                hasVideo={hasVideo}
             />
         </React.Fragment>
     )

@@ -1,13 +1,16 @@
 import React from 'react';
 import { BasicButton, Grid, GridItem } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import VoteConfirmationModal from './VoteConfirmationModal';
 import { VotingContext } from './AgendaNoSession';
 import { voteAllAtOnce } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 import { isMobile } from '../../../utils/screen';
+import { CONSENTIO_ID } from '../../../config';
+import { councilRecount } from '../../../queries/council';
+import * as CBX from '../../../utils/CBX';
 
 
 const styles = {
@@ -23,19 +26,49 @@ const styles = {
     }
 }
 
-const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) => {
+const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, client, disabledColor, hasVideo, ...props }) => {
     const [loading, setLoading] = React.useState(false);
     const config = React.useContext(ConfigContext);
     const [modal, setModal] = React.useState(false);
+    const [recount, setRecount] = React.useState(false);
     const [vote, setVote] = React.useState(-1);
     const primary = getPrimary();
     const votingContext = React.useContext(VotingContext);
     const voteAtTheEnd = voteAllAtOnce({ council });
-    const fixed = props.ownVote.fixed;
+    let fixed
+
+    if (props.ownVote) {
+        fixed = props.ownVote.fixed;
+    }
+
+    const getCouncilRecount = async () => {
+        const response = await client.query({
+            query: councilRecount,
+            variables: {
+                councilId: council.id,
+            }
+        });
+        setRecount(response)
+    }
+
+    React.useEffect(() => {
+        getCouncilRecount()
+    }, []);
+
+
+    const getPartTotal = (votings) => {
+        let porcentaje = 0
+        if (recount) {
+            porcentaje = ((votings / recount.data.councilRecount.partTotal) * 100).toFixed(3)
+        }
+        return porcentaje
+    }
 
     const setAgendaVoting = vote => {
-        votingContext.responses.set(props.ownVote.id, vote);
-        votingContext.setResponses(new Map(votingContext.responses));
+        if (props.ownVote) {
+            votingContext.responses.set(props.ownVote.id, vote);
+            votingContext.setResponses(new Map(votingContext.responses));
+        }
     }
 
     const closeModal = () => {
@@ -66,23 +99,25 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
     }
 
     const getSelected = value => {
-        return voteAtTheEnd? votingContext.responses.get(props.ownVote.id) === value : props.ownVote.vote === value;
+        if (props.ownVote) {
+            return voteAtTheEnd ? votingContext.responses.get(props.ownVote.id) === value : props.ownVote.vote === value;
+        }
     }
 
     let voteDenied = false;
     let denied = [];
 
 
-    if(config.denyVote && agenda.votings.length > 0){
+    if (config.denyVote && agenda.votings.length > 0) {
         denied = agenda.votings.filter(voting => voting.author.voteDenied);
 
 
-        if(denied.length === agenda.votings.length){
+        if (denied.length === agenda.votings.length) {
             voteDenied = true;
         }
     }
 
-    if(voteDenied){
+    if (voteDenied) {
         return (
             <DeniedDisplay translate={translate} denied={denied} />
         )
@@ -104,11 +139,17 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
                 'El sentido de voto ya fue fijado.'
             }
             <VotingButton
-                text={translate.in_favor_btn}
+                text={
+                    hasVideo ?
+                        translate.in_favor_btn
+                        :
+                        translate.in_favor_btn + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' ? "" : ` (${agenda.positiveVotings} votos, ${getPartTotal(agenda.positiveVotings)}%)`)
+                }
                 loading={loading === 1}
+                disabledColor={disabledColor}
                 disabled={fixed}
                 selected={getSelected(1)}
-                icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(1)? primary : 'silver' }}></i>}
+                icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(1) ? primary : 'silver' }}></i>}
                 onClick={() => {
                     if (voteAtTheEnd) {
                         setAgendaVoting(1)
@@ -118,11 +159,17 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
                 }}
             />
             <VotingButton
-                text={translate.against_btn}
+                text={
+                    hasVideo ?
+                        translate.against_btn
+                        :
+                        translate.against_btn + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${agenda.negativeVotings} votos, ${getPartTotal(agenda.negativeVotings)}%)`)
+                }
                 loading={loading === 0}
+                disabledColor={disabledColor}
                 disabled={fixed}
                 selected={getSelected(0)}
-                icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(0)? primary : 'silver' }}></i>}
+                icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(0) ? primary : 'silver' }}></i>}
                 onClick={() => {
                     if (voteAtTheEnd) {
                         setAgendaVoting(0)
@@ -133,10 +180,16 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
             />
 
             <VotingButton
-                text={translate.abstention_btn}
+                text={
+                    hasVideo ?
+                        translate.abstention_btn
+                        :
+                        translate.abstention_btn + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${agenda.abstentionVotings} votos, ${getPartTotal(agenda.abstentionVotings)}%)`)
+                }
                 loading={loading === 2}
+                disabledColor={disabledColor}
                 disabled={fixed}
-                icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(2)? primary : 'silver' }}></i>}
+                icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(2) ? primary : 'silver' }}></i>}
                 selected={getSelected(2)}
                 onClick={() => {
                     if (voteAtTheEnd) {
@@ -147,8 +200,14 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, ...props }) =>
                 }}
             />
             <VotingButton
-                text={translate.dont_vote}
+                text={
+                    hasVideo ?
+                        translate.dont_vote
+                        :
+                        translate.dont_vote + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${agenda.noVoteVotings} votos, ${getPartTotal(agenda.noVoteVotings)}%)`)
+                }
                 disabled={fixed}
+                disabledColor={disabledColor}
                 selected={getSelected(-1)}
                 onClick={() => {
                     if (voteAtTheEnd) {
@@ -176,11 +235,11 @@ export const DeniedDisplay = ({ translate, denied }) => {
     return (
         <div>
             No puede ejercer su derecho a voto
-            <br/>
+            <br />
             {denied.map(deniedVote => (
                 <React.Fragment>
-                    <br/>
-                    {`${deniedVote.author.name} ${deniedVote.author.surname} ${deniedVote.author.voteDeniedReason? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
+                    <br />
+                    {`${deniedVote.author.name} ${deniedVote.author.surname} ${deniedVote.author.voteDeniedReason ? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
                 </React.Fragment>
             ))}
 
@@ -188,28 +247,29 @@ export const DeniedDisplay = ({ translate, denied }) => {
     )
 }
 
-export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color }) => {
+export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color, disabledColor }) => {
+    // disabledColor->gainsboro
 
     const primary = getPrimary();
-
+    // Este es el boton
     return (
         <GridItem xs={12} md={12} lg={12} style={isMobile ? styles.divisionM : styles.division}>
             <BasicButton
                 text={text}
-                color={color ? color : "white"}
+                color={color ? color : disabledColor ? 'gainsboro' : "white"}
                 disabled={disabled || selected}
                 loading={loading}
                 loadingColor={primary}
                 icon={icon}
                 textStyle={{
                     color: '#000000de',
-                    fontWeight: '700'
+                    fontWeight: '700',
                 }}
                 buttonStyle={{
                     width: '100%',
                     whiteSpace: 'pre-wrap',
                     border: (selected || selectCheckBox) && `2px solid ${primary}`,
-                    ...styleButton
+                    ...styleButton,
                 }}
                 onClick={onClick}
                 onChange={onChange}
@@ -229,4 +289,4 @@ const updateAgendaVoting = gql`
 
 export default graphql(updateAgendaVoting, {
     name: 'updateAgendaVoting'
-})(VotingMenu);
+})(withApollo(VotingMenu));

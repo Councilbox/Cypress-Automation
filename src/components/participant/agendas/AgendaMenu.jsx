@@ -98,10 +98,10 @@ class AgendaMenu extends React.Component {
     }
 
     render() {
-        const { translate, agenda } = this.props;
+        const { translate, agenda, council} = this.props;
         const secondary = getSecondary();
         const ownVote = CBX.findOwnVote(agenda.votings, this.props.participant);
-
+        // CBX.councilHasVideo(council)
         return (
             <div>
                 <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
@@ -123,42 +123,56 @@ class AgendaMenu extends React.Component {
                         </div>
                         {CBX.agendaVotingsOpened(agenda) &&
                             <React.Fragment>
-                                {((agenda.votings && agenda.votings.length > 0) && ownVote)?
+                                {((agenda.votings && agenda.votings.length > 0) && ownVote) ?
                                     <React.Fragment>
                                         {checkVotings(agenda.votings) &&
                                             <React.Fragment>
                                                 {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
-                                                        translate.your_vote_is_delegated
+                                                    translate.your_vote_is_delegated
                                                     :
-                                                        <React.Fragment>
-                                                            {CBX.isCustomPoint(agenda.subjectType)?
-                                                                <CustomPointVotingMenu
-                                                                    agenda={agenda}
-                                                                    refetch={this.props.refetch}
-                                                                    ownVote={ownVote}
-                                                                    council={this.props.council}
-                                                                    translate={translate}
-                                                                />
+                                                    <React.Fragment>
+                                                        {CBX.isCustomPoint(agenda.subjectType) ?
+                                                            <CustomPointVotingMenu
+                                                                agenda={agenda}
+                                                                refetch={this.props.refetch}
+                                                                ownVote={ownVote}
+                                                                council={this.props.council}
+                                                                translate={translate}
+                                                            />
                                                             :
-                                                                <VotingSection
-                                                                    agenda={agenda}
-                                                                    ownVote={ownVote}
-                                                                    open={this.state.open}
-                                                                    council={this.props.council}
-                                                                    voting={this.state.voting}
-                                                                    translate={translate}
-                                                                    activateVoting={this.activateVoting}
-                                                                    refetch={this.props.refetch}
-                                                                    toggle={this.toggle}
-                                                                />
-                                                            }
-                                                        </React.Fragment>
+                                                            <VotingSection
+                                                                disabledColor={!CBX.agendaVotingsOpened(agenda)}
+                                                                agenda={agenda}
+                                                                ownVote={ownVote}
+                                                                open={this.state.open}
+                                                                council={this.props.council}
+                                                                voting={this.state.voting}
+                                                                translate={translate}
+                                                                activateVoting={this.activateVoting}
+                                                                refetch={this.props.refetch}
+                                                                toggle={this.toggle}
+                                                                hasVideo={council.councilType}
+                                                            />
+                                                        }
+                                                    </React.Fragment>
                                                 }
                                             </React.Fragment>
                                         }
                                     </React.Fragment>
                                     :
-                                    translate.cant_exercise_vote
+                                    // translate.cant_exercise_vote
+                                    <VotingSection
+                                        disabledColor={!CBX.agendaVotingsOpened(agenda)}
+                                        agenda={agenda}
+                                        ownVote={ownVote}
+                                        open={this.state.open}
+                                        council={this.props.council}
+                                        voting={this.state.voting}
+                                        translate={translate}
+                                        activateVoting={this.activateVoting}
+                                        refetch={this.props.refetch}
+                                        toggle={this.toggle}
+                                    />
                                 }
                             </React.Fragment>
                         }
@@ -218,7 +232,7 @@ class AgendaMenu extends React.Component {
                     open={this.state.showModal}
                     acceptAction={() => this.setState({ showModal: false })}
                     buttonAccept={translate.accept}
-                    PaperProps={isMobile? {
+                    PaperProps={isMobile ? {
                         style: {
                             width: '100vw',
                             margin: '0'
