@@ -24,6 +24,7 @@ import TextInputChat from "../../../displayComponents/TextInputChat";
 import { TextField } from "material-ui";
 import { usePolling } from "../../../hooks";
 import { LoadingSection } from "../../../displayComponents";
+import { agendaVotings } from "../../../queries/agenda";
 
 
 const styles = {
@@ -515,9 +516,14 @@ const participantPing = gql`
         participantPing
     }
 `;
+
 const agendasQuery = gql`
     query Agendas($councilId: Int!, $participantId: Int!){
         agendas(councilId: $councilId){
+            positiveVotings
+            negativeVotings
+            abstentionVotings
+            noVoteVotings
             agendaSubject
             attachments {
                 id

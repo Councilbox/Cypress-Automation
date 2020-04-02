@@ -22,6 +22,7 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 	const [data, setData] = React.useState({});
 
 	const getData = async () => {
+		// console.log(agenda)
 		const response = await client.query({
 			query: agendaVotings,
 			variables: {
