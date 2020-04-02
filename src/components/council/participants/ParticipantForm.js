@@ -196,6 +196,38 @@ const ParticipantForm = ({
 					})}
 				</SelectInput>
 			</GridItem>
+			{participant.personOrEntity === 0 &&
+				<GridItem xs={6} md={4} lg={2}>
+					<SelectInput
+						floatingText={'Estado inicial'}//TRADUCCION
+						value={''+participant.initialState}
+						onChange={event =>
+							updateState({
+								initialState: +event.target.value
+							})
+						}
+					>
+						<MenuItem
+							value={'0'}
+							key={'initial_state_0'}
+						>
+							{'Espectador'}
+						</MenuItem>
+						<MenuItem
+							value={'2'}
+							key={'initial_state_2'}
+						>
+							{'Palabra concedida'}
+						</MenuItem>
+						<MenuItem
+							value={'3'}
+							key={'initial_state_3'}
+						>
+							{'Sala de espera'}
+						</MenuItem>
+					</SelectInput>
+				</GridItem>
+			}
 			<GridItem xs={6} md={4} lg={1}>
 				<TextInput
 					floatingText={translate.votes}

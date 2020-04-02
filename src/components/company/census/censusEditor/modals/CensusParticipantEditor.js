@@ -191,6 +191,7 @@ const initialRepresentative = {
 	hasRepresentative: false,
 	language: "es",
 	type: 2,
+	initialState: 0,
 	name: "",
 	surname: "",
 	position: "",
