@@ -161,11 +161,20 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 component={CreateSignature}
             />
             <Route
+                exact
+                path="/company/:company/signatureIvCert/new"
+                component={CreateSignature}
+            />
+            <Route
                 path="/company/:company/signatures/:section"
                 component={SignatureContainer}
             />
             <Route
                 path="/company/:company/signature/:id"
+                component={SignatureRootPage}
+            />
+            <Route
+                path="/company/:company/signatureIvCert/:id"
                 component={SignatureRootPage}
             />
             <Route

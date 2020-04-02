@@ -129,6 +129,7 @@ class SignatureStepOne extends React.Component {
 
     saveSignature = async () => {
         const { __typename, attachment, ...signature } = this.state.data;
+        console.log(signature)
         const response = await this.props.saveSignature({
             variables: {
                 signature: {
