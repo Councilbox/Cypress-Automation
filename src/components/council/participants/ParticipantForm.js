@@ -199,7 +199,7 @@ const ParticipantForm = ({
 			{participant.personOrEntity === 0 &&
 				<GridItem xs={6} md={4} lg={2}>
 					<SelectInput
-						floatingText={'Estado inicial'}//TRADUCCION
+						floatingText={translate.initial_state}
 						value={''+participant.initialState}
 						onChange={event =>
 							updateState({

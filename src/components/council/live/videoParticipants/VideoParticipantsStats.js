@@ -210,7 +210,7 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
-		<Tooltip title={'Sala de espera' /*TRADUCCION*/}>
+		<Tooltip title={translate.waiting_room}>
 			<div
 				style={{
 					marginLeft: "1em",

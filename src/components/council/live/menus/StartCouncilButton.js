@@ -207,7 +207,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 
 	const forceStartWarning = () => {
 
-		//TRADUCCION
+		//
 		return (
 			<div>
 				La reunión se iniciará ahora, ¿Desea continuar?

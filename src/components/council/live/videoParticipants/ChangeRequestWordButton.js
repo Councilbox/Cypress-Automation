@@ -27,7 +27,7 @@ class ChangeRequestWordButton extends React.Component {
 			<div style={{marginRight: '0.3em'}}>
 				{participant.requestWord === 3 && (
 					<Tooltip
-						title={'Permitir acceso a la sala' /*TRADUCCION*/}
+						title={this.props.translate.grant_room_access}
 					>
 						<Card
 							onClick={() =>

@@ -80,12 +80,11 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
         voteLetterSecondary.current.paste(statute.voteLetterSecondary || '');
     }, [statute.id]);
 
-    //TRADUCCION
 
     return (
         <>
             <SectionTitle
-                text={'Documentos'}
+                text={translate.documents}
                 color={primary}
                 style={{
                     marginTop: "2em",
@@ -94,7 +93,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
             />
             <GridItem xs={12} md={12} lg={12}>
                 <Checkbox
-                    label={'Doble columna'}
+                    label={translate.double_column}
                     value={statute.doubleColumnDocs === 1}
                     onChange={(event, isInputChecked) =>
                         updateState({
@@ -119,7 +118,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                 <RichTextInput
                     ref={proxyTemplate}
                     translate={translate}
-                    floatingText={'Proxy personalizado'}
+                    floatingText={translate.custom_proxy}
                     value={
                         !!internalState.proxy
                             ? internalState.proxy
@@ -130,41 +129,14 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             proxy: value
                         })
                     }
-                    // saveDraft={
-                    //     <SaveDraftIcon
-                    //         onClick={showSaveDraft('CONVENE_HEADER')}
-                    //         translate={translate}
-                    //     />
-                    // }
                     tags={getCustomDocsTags('PROXY', translate)}
-                    // loadDraft={
-                    //     <LoadDraftModal
-                    //         translate={translate}
-                    //         companyId={props.company.id}
-                    //         loadDraft={loadDraft}
-                    //         statute={{
-                    //             ...statute,
-                    //             statuteId: statute.id
-                    //         }}
-                    //         defaultTags={{
-                    //             "convene_header": {
-                    //                 active: true,
-                    //                 type: TAG_TYPES.DRAFT_TYPE,
-                    //                 name: 'convene_header',
-                    //                 label: translate.convene_header
-                    //             }
-                    //         }}
-                    //         statutes={props.companyStatutes}
-                    //         draftType={0}
-                    //     />
-                    // }
                 />
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
                 <RichTextInput
                     ref={proxySecondary}
                     translate={translate}
-                    floatingText={'Proxy columna derecha'}
+                    floatingText={translate.proxy_right_column}
                     value={
                         !!internalState.proxySecondary
                             ? internalState.proxySecondary
@@ -176,41 +148,13 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                         })
                     }
                     tags={getCustomDocsTags('PROXY', translate)}
-
-                    // saveDraft={
-                    //     <SaveDraftIcon
-                    //         onClick={showSaveDraft('CONVENE_HEADER')}
-                    //         translate={translate}
-                    //     />
-                    // }
-                    // loadDraft={
-                    //     <LoadDraftModal
-                    //         translate={translate}
-                    //         companyId={props.company.id}
-                    //         loadDraft={loadDraft}
-                    //         statute={{
-                    //             ...statute,
-                    //             statuteId: statute.id
-                    //         }}
-                    //         defaultTags={{
-                    //             "convene_header": {
-                    //                 active: true,
-                    //                 type: TAG_TYPES.DRAFT_TYPE,
-                    //                 name: 'convene_header',
-                    //                 label: translate.convene_header
-                    //             }
-                    //         }}
-                    //         statutes={props.companyStatutes}
-                    //         draftType={0}
-                    //     />
-                    // }
                 />
             </GridItem>
             <GridItem xs={12} md={12} lg={12}>
                 <RichTextInput
                     ref={voteLetter}
                     translate={translate}
-                    floatingText={'Carta de voto'}
+                    floatingText={translate.vote_letter}
                     value={
                         !!internalState.voteLetter
                             ? internalState.voteLetter
@@ -222,42 +166,13 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                         })
                     }
                     tags={getCustomDocsTags('VOTE_LETTER', translate)}
-
-                    // saveDraft={
-                    //     <SaveDraftIcon
-                    //         onClick={showSaveDraft('CONVENE_HEADER')}
-                    //         translate={translate}
-                    //     />
-                    // }
-                    //tags={conveneHeaderTags}
-                    // loadDraft={
-                    //     <LoadDraftModal
-                    //         translate={translate}
-                    //         companyId={props.company.id}
-                    //         loadDraft={loadDraft}
-                    //         statute={{
-                    //             ...statute,
-                    //             statuteId: statute.id
-                    //         }}
-                    //         defaultTags={{
-                    //             "convene_header": {
-                    //                 active: true,
-                    //                 type: TAG_TYPES.DRAFT_TYPE,
-                    //                 name: 'convene_header',
-                    //                 label: translate.convene_header
-                    //             }
-                    //         }}
-                    //         statutes={props.companyStatutes}
-                    //         draftType={0}
-                    //     />
-                    // }
                 />
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
                 <RichTextInput
                     ref={voteLetterSecondary}
                     translate={translate}
-                    floatingText={'Carta de voto columna derecha'}
+                    floatingText={translate.vote_letter_right_column}
                     value={
                         !!internalState.voteLetterSecondary
                             ? internalState.voteLetterSecondary
@@ -269,35 +184,6 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                         })
                     }
                     tags={getCustomDocsTags('VOTE_LETTER', translate)}
-
-                    // saveDraft={
-                    //     <SaveDraftIcon
-                    //         onClick={showSaveDraft('CONVENE_HEADER')}
-                    //         translate={translate}
-                    //     />
-                    // }
-                    //tags={conveneHeaderTags}
-                    // loadDraft={
-                    //     <LoadDraftModal
-                    //         translate={translate}
-                    //         companyId={props.company.id}
-                    //         loadDraft={loadDraft}
-                    //         statute={{
-                    //             ...statute,
-                    //             statuteId: statute.id
-                    //         }}
-                    //         defaultTags={{
-                    //             "convene_header": {
-                    //                 active: true,
-                    //                 type: TAG_TYPES.DRAFT_TYPE,
-                    //                 name: 'convene_header',
-                    //                 label: translate.convene_header
-                    //             }
-                    //         }}
-                    //         statutes={props.companyStatutes}
-                    //         draftType={0}
-                    //     />
-                    // }
                 />
             </GridItem>
         </>

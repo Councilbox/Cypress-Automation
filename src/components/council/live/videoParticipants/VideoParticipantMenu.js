@@ -10,6 +10,8 @@ import { graphql } from "react-apollo";
 import { unbanParticipant, changeRequestWord } from "../../../../queries";
 
 const VideoParticipantMenu = ({ translate, participant, ...props }) => {
+	const secondary = getSecondary();
+
 	const unbanParticipant = async () => {
 		const response = await props.unbanParticipant({
 			variables: {
@@ -45,7 +47,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 						width: "1.6em",
 						height: "1.6em",
 						borderRadius: "0.1em",
-						backgroundColor: getSecondary()
+						backgroundColor: secondary
 					}}
 				>
 					<MenuItem
@@ -113,13 +115,13 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 							<Icon
 								className="material-icons"
 								style={{
-									color: getSecondary(),
+									color: secondary,
 									marginRight: "0.4em"
 								}}
 							>
 								launch
 							</Icon>
-							{'Enviar a la sala de espera'/*TRADUCCION*/}
+							{translate.send_to_waiting_room}
 						</MenuItem>
 					)}
 					<MenuItem
@@ -128,7 +130,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 						<Icon
 							className="material-icons"
 							style={{
-								color: getSecondary(),
+								color: secondary,
 								marginRight: "0.4em"
 							}}
 						>

@@ -143,7 +143,7 @@ const RepresentativeForm = ({
 		</GridItem>
 		<GridItem xs={6} md={4} lg={2}>
 			<SelectInput
-				floatingText={'Estado inicial'}//TRADUCCION
+				floatingText={translate.initial_state}
 				value={''+representative.initialState}
 				onChange={event =>
 					updateState({

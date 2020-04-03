@@ -40,14 +40,12 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
             <>
                 <div style={{ width: '100%', marginBottom: "1em" }}>
                     <div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-                        {'Escoger opción' //TRADUCCION
-                        }
+                        {translate.wizard_options}
                     </div>
                 </div>
                 <AssistanceOption
                     translate={translate}
-                    title={'Carta de voto'}//TRADUCCION
-                    //select={showDelegationModal}
+                    title={translate.vote_letter}
                     value={PARTICIPANT_STATES.SENT_VOTE_LETTER}
                     selected={state.assistanceIntention}
                     select={() => {
