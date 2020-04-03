@@ -53,7 +53,7 @@ export const blocks = {
     },
     DELEGATION_LIST: {
         id: Math.random().toString(36).substr(2, 9),
-        label: "Lista de delegaciones",
+        label: "Lista de delegaciones", //TRADUCCION
         text: "",
         editButton: false,
         type: 'delegations',
