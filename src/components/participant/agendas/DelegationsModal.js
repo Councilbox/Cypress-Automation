@@ -50,7 +50,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, participant 
                     )
                 )}
                 {representations.length > 0 &&
-                    'Está representando a:'
+                    `${translate.representative_of}:`
                 }
                 {representations.map(vote => (
                         <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', alignItems: 'center'}}>
@@ -61,7 +61,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, participant 
                         </div>
                     )
                 )}
-                <br/>Total de votos: {calculateParticipantVotes()}
+                <br/>{translate.total_votes}: {calculateParticipantVotes()}
             </div>
         )
     }
