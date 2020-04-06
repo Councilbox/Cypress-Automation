@@ -17,16 +17,30 @@ let timeout;
 
 const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...props }) => {
     const internalState = React.useRef({
-        ...statute
+		intro: statute.intro,
+		constitution: statute.constitution,
+		conclusion: statute.conclusion,
+		footer: statute.footer,
+		conveneHeader: statute.conveneHeader
 	});
 	const config = React.useContext(ConfigContext);
 
     React.useEffect(() => {
-        editor.current.paste(statute.conveneHeader || '');
-        intro.current.paste(statute.intro || '');
-        footer.current.paste(statute.conveneFooter || '');
-        constitution.current.paste(statute.constitution || '');
-        conclusion.current.paste(statute.conclusion || '');
+		if(editor.current){
+			editor.current.paste(statute.conveneHeader || '');
+		}
+		if(intro.current){
+			intro.current.paste(statute.intro || '');
+		}
+		if(footer.current){
+			footer.current.paste(statute.conveneFooter || '');
+		}
+		if(constitution.current){
+			constitution.current.paste(statute.constitution || '');
+		}
+		if(conclusion.current){
+			conclusion.current.paste(statute.conclusion || '');
+		}
     }, [statute.id]);
     
 	const [saveDraft, setSaveDraft] = React.useState(false);

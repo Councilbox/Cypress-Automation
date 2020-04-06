@@ -22,11 +22,6 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 	const [loading, setLoading] = React.useState(true);
 
 	const primary = getPrimary();
-	const config = React.useContext(ConfigContext);
-
-	console.log(statute);
-
-
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: draftDetails

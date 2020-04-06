@@ -58,8 +58,6 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
     const voteLetter = React.useRef();
     const voteLetterSecondary = React.useRef();
 
-    console.log(statute);
-
 
     const handleUpdate = object => {
         clearTimeout(timeout);
