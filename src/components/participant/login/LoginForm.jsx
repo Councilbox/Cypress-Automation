@@ -16,6 +16,7 @@ import { councilStarted, participantNeverConnected, getSMSStatusByCode } from '.
 import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
 import { withApollo } from 'react-apollo';
+import CertModal from "./CertModal";
 
 
 
@@ -93,6 +94,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [filter, setFilter] = React.useState(null);
+    const [modal, setModal] = React.useState(false);
     // const [filter, setFilter] = React.useState(showAll ? null : 'failed');
 
     const primary = getPrimary();
@@ -137,7 +139,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         errors.email =
             !(state.email.length > 0) ? translate.field_required : "";
 
-        if (council.securityType === 0) {
+        if (council.securityType === 0 || council.securityType == 3) {
             errors.password = "";
         } else {
             errors.password =
@@ -178,8 +180,13 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }
 
     const login = async () => {
+        if(council.securityType === 3){
+            return setModal(true);
+        }
+
+
         const isValidForm = checkFieldsValidationState();
-        if (council.securityType !== 0) {
+        if (council.securityType === 1 || council.securityType === 2) {
             try {
                 const response = await props.checkParticipantKey({
                     variables: {
@@ -315,6 +322,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
     return (
         <div style={styles.loginContainerMax}>
+            <CertModal
+                open={modal}
+            />
             <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: 'center', alignItems: 'center' }}>
                 <div style={{
                     width: "100%",
@@ -375,7 +385,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 disabled={true}
                             />
 
-                            {council.securityType !== 0 && (
+                            {council.securityType === 1 || council.securityType === 2 && (
                                 <React.Fragment>
                                     <TextInput
                                         onKeyUp={handleKeyUp}
