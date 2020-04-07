@@ -351,6 +351,17 @@ const StepOptions = ({ translate, data, ...props }) => {
 					name="security"
 					label={translate.new_security_sms}
 				/>
+				<Radio
+					value={"3"}
+					checked={council.securityType === 3}
+					onChange={event =>
+						updateCouncilData({
+							securityType: parseInt(event.target.value, 10)
+						})
+					}
+					name="security"
+					label={'Certificado digital'} //TRADUCCION
+				/>
 				<br />
 				{CBX.showUserUniqueKeyMessage(council) && (
 					<Typography>
