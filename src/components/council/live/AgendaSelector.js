@@ -52,7 +52,7 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 								/>
 							)}
 							<AgendaNumber
-								index={index + 1}
+								index={agenda.agendaSubject}
 								open={agenda.pointState === 1}
 								active={selected === index}
 								activeColor={getPrimary()}

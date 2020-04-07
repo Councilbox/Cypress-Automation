@@ -7,6 +7,7 @@ import { Paper } from 'material-ui';
 import { OptionsDisplay, OptionsDisplayIconIzq } from './OptionsDisplay';
 import { StatuteDisplay, StatuteDisplayIconsIzq } from './StatuteDisplay';
 import { getPrimary, getSecondary } from '../../../styles/colors';
+import { getSubjectAbrv } from '../../../displayComponents/AgendaNumber';
 
 
 
@@ -104,7 +105,7 @@ class CouncilDetails extends React.Component {
                                         <Paper style={{ marginTop: '0.8em', padding: '0.8em', margin: '0.3em' }} key={`agenda_${agenda.id}`}>
                                             <Grid>
                                                 <GridItem xs={1} md={1} lg={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                    {agenda.orderIndex}
+                                                    {getSubjectAbrv(agenda.agendaSubject)}
                                                 </GridItem>
                                                 <GridItem xs={11} md={11} lg={11}>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>

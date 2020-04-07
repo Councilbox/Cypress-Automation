@@ -20,6 +20,7 @@ import ResultsTimeline from "../ResultsTimeline";
 import { isMobile } from "../../../utils/screen";
 import { agendaVotings } from "../../../queries/agenda";
 import { usePolling } from "../../../hooks";
+import { getSubjectAbrv } from "../../../displayComponents/AgendaNumber";
 
 
 export const VotingContext = React.createContext({});
@@ -582,7 +583,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
                 <CardHeader
                     avatar={
                         <Avatar aria-label="Recipe" style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid grey", color: CBX.agendaPointOpened(agenda) ? "purple" : 'grey' }}>
-                            {agenda.orderIndex}
+                            {getSubjectAbrv(agenda.agendaSubject)}
                         </Avatar>
                     }
                     action={
