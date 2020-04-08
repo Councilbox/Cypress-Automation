@@ -1,5 +1,6 @@
 import React from 'react';
-import { AlertConfirm } from '../../../displayComponents';
+import { BasicButton, ButtonIcon } from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
 
 const reducer = (state, action) => {
     const actions = {
@@ -22,8 +23,9 @@ const reducer = (state, action) => {
 }
 
 
-const CertModal = ({ open, participant, handleSuccess }) => {
+const LoginWithCert = ({ participant, handleSuccess, translate }) => {
     const [{ status, message }, dispatch] = React.useReducer(reducer, { status: 'LOADING' });
+    const primary = getPrimary();
 
     const getData = async () => {
         const response = await fetch(`https://localhost:5001/participant/${participant.id}`);
@@ -40,15 +42,42 @@ const CertModal = ({ open, participant, handleSuccess }) => {
     }
 
     React.useEffect(() => {
-        if(open){
-            getData();
-        }
-    }, [open])
+        getData();
+    }, [participant.id])
 
 
     return (
-        <AlertConfirm
-            open={open}
+        <>
+            <div style={{color: 'red'}}>
+                {message}
+            </div>
+            <BasicButton
+                text={translate.enter_room}
+                color={status === 'ERROR'? 'grey' : primary}
+                textStyle={{
+                    color: "white",
+                    fontWeight: "700"
+                }}
+                loading={status === 'LOADING'}
+                disabled={status === 'ERROR'}
+                textPosition="before"
+                fullWidth={true}
+                icon={
+                    <ButtonIcon
+                        color="white"
+                        type="directions_walk"
+                    />
+                }
+                onClick={status === 'SUCCESS'? handleSuccess : () => {}}
+            />
+        </>
+    )
+}
+
+export default LoginWithCert;
+
+/*
+           open={open}
             title="Prueba"
             bodyText={
                 status === 'LOADING'?
@@ -68,9 +97,4 @@ const CertModal = ({ open, participant, handleSuccess }) => {
                                 {message}
                             </div>
                         </>
-            }
-        />
-    )
-}
-
-export default CertModal;
+*/

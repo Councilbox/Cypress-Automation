@@ -36,4 +36,4 @@ export const config = {
 
 export const CONTACT_URL = "https://www.councilbox.com/contactar/";
 export const CONSENTIO_ID = 443;
-export const TRIAL_DAYS = 5;
+export const TRIAL_DAYS = 0;

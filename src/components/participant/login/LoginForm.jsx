@@ -17,6 +17,7 @@ import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
 import { withApollo } from 'react-apollo';
 import CertModal from "./CertModal";
+import LoginWithCert from "./LoginWithCert";
 
 
 
@@ -213,11 +214,15 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             }
         }
         if (isValidForm) {
-            props.actions.participantLoginSuccess();
-            bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
+            handleSuccess();
         }
 
     };
+
+    const handleSuccess = () => {
+        props.actions.participantLoginSuccess();
+        bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
+    }
 
     const handleKeyUp = event => {
         if (event.nativeEvent.keyCode === 13) {
@@ -322,9 +327,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
     return (
         <div style={styles.loginContainerMax}>
-            <CertModal
-                open={modal}
-            />
             <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: 'center', alignItems: 'center' }}>
                 <div style={{
                     width: "100%",
@@ -457,26 +459,34 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                     }
                                 </React.Fragment>
                             )}
-
-                            <div style={styles.enterButtonContainer}>
-                                <BasicButton
-                                    text={translate.enter_room}
-                                    color={primary}
-                                    textStyle={{
-                                        color: "white",
-                                        fontWeight: "700"
-                                    }}
-                                    textPosition="before"
-                                    fullWidth={true}
-                                    icon={
-                                        <ButtonIcon
-                                            color="white"
-                                            type="directions_walk"
-                                        />
-                                    }
-                                    onClick={login}
+                            {council.securityType === 3?
+                                <LoginWithCert
+                                    translate={translate}
+                                    participant={participant}
+                                    handleSuccess={handleSuccess}
                                 />
-                            </div>
+                            :
+
+                                <div style={styles.enterButtonContainer}>
+                                    <BasicButton
+                                        text={translate.enter_room}
+                                        color={primary}
+                                        textStyle={{
+                                            color: "white",
+                                            fontWeight: "700"
+                                        }}
+                                        textPosition="before"
+                                        fullWidth={true}
+                                        icon={
+                                            <ButtonIcon
+                                                color="white"
+                                                type="directions_walk"
+                                            />
+                                        }
+                                        onClick={login}
+                                    />
+                                </div>
+                            }
                         </form>
                     </Card>
                 </div>

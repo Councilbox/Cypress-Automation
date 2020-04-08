@@ -38,17 +38,6 @@ const httpLink = new HttpLink({
 });
 
 
-const wsLink = new WebSocketLink({
-	uri: WS_URL,
-	options: {
-		reconnect: true,
-		timeout: 3000,
-		connectionParams: {
-			token: sessionStorage.getItem("token"),
-		},
-	}
-});
-
 const authLink = setContext((_, { headers }) => {
 	const token = sessionStorage.getItem("token");
 	const apiToken = sessionStorage.getItem('apiToken');
@@ -66,14 +55,7 @@ const authLink = setContext((_, { headers }) => {
 	};
 });
 
-const link = split(
-	({ query, ...rest }) => {
-		const { kind, operation } = getMainDefinition(query);
-		return kind === 'OperationDefinition' && operation === 'subscription';
-	},
-	wsLink,
-	httpLink,
-  );
+const link = httpLink;
 
 const CouncilLiveContainer = Loadable({
 	loader: () => import('./CouncilLiveContainer'),
