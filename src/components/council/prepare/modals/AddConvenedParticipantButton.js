@@ -285,6 +285,7 @@ const initialParticipant = {
 	numParticipations: 1,
 	socialCapital: 1,
 	uuid: null,
+	initialState: 0,
 	delegateUuid: null,
 	language: "es",
 	city: "",
@@ -299,6 +300,7 @@ const initialRepresentative = {
 	surname: "",
 	position: "",
 	email: "",
+	initialState: 0,
 	phone: "",
 	dni: ""
 };
