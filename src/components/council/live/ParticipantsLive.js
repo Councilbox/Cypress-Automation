@@ -60,7 +60,7 @@ const countParticipants = participants => {
 }
 
 
-const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}) => {
+const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => {
 	const [stats, setStats] = React.useState({
 		online: "-",
 		offline: "-",
@@ -277,7 +277,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 
 		return (
 			<VideoParticipantsStats
-				videoFullScreen={videoFullScreen}
+				videoFullScreen={screenSize === 'MAX'}
 				translate={translate}
 				stats={{
 					...stats,
@@ -299,8 +299,8 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 		const slicedParticipants = preparedParticipants.slice((options.page - 1) * options.limit, ((options.page - 1) * options.limit) + options.limit);
 
 		return (
-			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${!isMobile? '45vh' : '17vh'} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
-				<div style={{height: `calc(100% - ${videoParticipants.list.length > 10? '1.5em' : '0px'})`}}>
+			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${props.videoHeight} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
+				<div style={{height: `calc(100% - ${videoParticipants.list.length > options.limit? '3em' : '0px'})`}}>
 					<Scrollbar>
 						{slicedParticipants.map(participant => {
 							return _participantEntry(participant);
@@ -333,7 +333,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 
 	const CMPVideo = true;//this.props.videoURL && this.props.videoURL.includes('councilbox');
 
-	if (videoFullScreen) {
+	if (screenSize === 'MAX') {
 		return <div style={{ height: "100%" }}>{CMPVideo && _button()}</div>;
 	}
 	return (
