@@ -114,7 +114,7 @@ const Content = ({ participant, translate, refetch, council }) => {
                         />
                     </IconButton>
                 }
-                title={`${participant.name} ${participant.surname}`}
+                title={`${participant.name} ${participant.surname || ''}`}
                 subheader={
                     <React.Fragment>
                         <Typography style={{ color: 'grey' }}>{participant.email}</Typography>
@@ -153,7 +153,7 @@ const filterParticipants = (participants, text) => {
     }
     const lText = text.toLowerCase();
     return participants.filter(participant => {
-        return `${participant.name} ${participant.surname}`.toLowerCase().includes(lText) || participant.email.toLowerCase().includes(lText) || participant.phone.includes(lText)
+        return `${participant.name} ${participant.surname || ''}`.toLowerCase().includes(lText) || participant.email.toLowerCase().includes(lText) || participant.phone.includes(lText)
     });
 }
 

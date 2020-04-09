@@ -32,10 +32,10 @@ const RepresentativeForm = ({
 		</GridItem>
 		<GridItem xs={6} lg={4} md={4}>
 			<TextInput
-				floatingText={translate.surname}
+				floatingText={translate.surname || ''}
 				type="text"
-				errorText={errors.surname}
-				value={representative.surname}
+				errorText={errors.surname || ''}
+				value={representative.surname || ''}
 				onChange={event =>
 					updateState({
 						surname: event.nativeEvent.target.value

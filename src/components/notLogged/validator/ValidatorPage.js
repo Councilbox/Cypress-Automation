@@ -246,10 +246,10 @@ const UserSection = ({ evidence, translate }) => {
                 </div>
                 <div style={{ display: "flex" }}>
                     <div style={{ width: '100px' }}>
-                        <b>{translate.surname}:</b>
+                        <b>{translate.surname || ''}:</b>
                     </div>
                     <div>
-                        {evidence.data.user.surname}
+                        {evidence.data.user.surname || ''}
                     </div>
                 </div>
             </div>
@@ -283,10 +283,10 @@ const ParticipantSection = ({ evidence, translate }) => {
                 </div>
                 <div style={{ display: "flex" }}>
                     <div style={{ width: '100px' }}>
-                        <b>{translate.surname}:</b>
+                        <b>{translate.surname || ''}:</b>
                     </div>
                     <div>
-                        {evidence.data.participant.surname}
+                        {evidence.data.participant.surname || ''}
                     </div>
                 </div>
                 <div style={{ display: "flex" }}>

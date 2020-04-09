@@ -107,7 +107,7 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
                     <span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.id}`}</span>
                 </div>
                 <div style={{ width:centrado ? "": "25%", padding: centrado ? "":"4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    <span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.name} ${user.surname}`}</span>
+                    <span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.name} ${user.surname || ''}`}</span>
                 </div>
                 <div style={{ width:centrado ? "": "25%", padding: centrado ? "":"4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     <span style={{ fontSize: '0.9rem' }}>{`${user.email || '-'}`}</span>

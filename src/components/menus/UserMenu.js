@@ -117,7 +117,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 											display: "block",
 											width: "100%",
 										}}>
-											{user.name + " " + user.surname}{" "}
+											{user.name + " " + user.surname || ''}{" "}
 										</b>
 										<div>{user.phone}</div>
 										<div style={styles}>{user.email}</div>

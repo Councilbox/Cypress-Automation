@@ -166,7 +166,7 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 												<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em" }}></i>
 											}
 											<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-												{item.name + " " + item.surname}
+												{item.name + " " + item.surname || ''}
 											</div>
 										</div>
 									)
@@ -187,7 +187,7 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 									return (
 										<div key={item.id + "presents"} style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
 											<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-												{item.name + " " + item.surname}
+												{item.name + " " + item.surname || ''}
 											</div>
 										</div>
 									)
@@ -450,7 +450,7 @@ const Modal = withApollo(({ translate, showModal, requestClose, council: { id },
 														<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em" }}></i>
 													}
 													<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-														{item.name + " " + item.surname}
+														{item.name + " " + item.surname || ''}
 													</div>
 												</div>
 											)
@@ -483,7 +483,7 @@ const Modal = withApollo(({ translate, showModal, requestClose, council: { id },
 										return (
 											<div key={item.id + "presents"} style={{ fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
 												<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-													{item.name + " " + item.surname}
+													{item.name + " " + item.surname || ''}
 												</div>
 											</div>
 										)

@@ -385,7 +385,7 @@ class HoverableRow extends React.PureComponent {
                             {translate.participant_data}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-                            <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname}`}</span>
+                            <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
                         </GridItem>
 
                         <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -462,10 +462,10 @@ class HoverableRow extends React.PureComponent {
                     }
                 </TableCell>
                 <TableCell>
-                    <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname}`}</span>
+                    <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
                     {representative &&
                         <React.Fragment>
-                            <br />{`${representative.name} ${representative.surname}`}
+                            <br />{`${representative.name} ${representative.surname || ''}`}
                         </React.Fragment>
                     }
                 </TableCell>
@@ -513,7 +513,7 @@ const applyFilters = (participants, filters) => {
                 const fullName = participant.name + " " + participant.surname;
                 let repreName = '';
                 if (participant.representative !== null) {
-                    repreName = `${participant.representative.name} ${participant.representative.surname}`;
+                    repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
                 }
                 if (!unaccent(fullName.toLowerCase()).includes(unaccentedText)
                     && !unaccent(repreName.toLowerCase()).includes(unaccentedText)) {

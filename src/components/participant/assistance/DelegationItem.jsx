@@ -12,7 +12,7 @@ const DelegationItem = ({ participant }) => {
             <div style={{}}>
                 <div style={{ display: "flex", }}>
                     <div style={{ margin: '0.5em 1em' }}>
-                        {participant.name} {participant.surname}
+                        {participant.name} {participant.surname || ''}
                     </div>
                 </div>
             </div>

@@ -271,7 +271,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                             <Card style={{ padding: "1em", display: "flex", justifyContent: "space-between", marginBottom: "1em" }}>
                                 <div>
                                     <div><b> {translate.name} </b>: {participant.name}</div>
-                                    <div><b> {translate.surname} </b>: {participant.surname}</div>
+                                    <div><b> {translate.surname || ''} </b>: {participant.surname || ''}</div>
                                 </div>
                                 <div style={{ display: "flex", alignItems: "center" }} >
                                     <i
@@ -385,7 +385,7 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                         textOverflow: 'ellipsis',
                         maxWidth: "160px"
                     }}>
-                        {participant.name + " " + participant.surname}
+                        {participant.name + " " + participant.surname || ''}
                     </div>
                     <div style={{ marginLeft: "5px", marginRight: "3px", display: "flex" }}>
                         <ButtonIcon

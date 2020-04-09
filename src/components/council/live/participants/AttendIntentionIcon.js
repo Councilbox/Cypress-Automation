@@ -37,7 +37,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
 
             case PARTICIPANT_STATES.DELEGATED:
                 if((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)){
-                    tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname}`;
+                    tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname || ''}`;
                 } else {
                     tooltip = translate.will_delegate
                 }

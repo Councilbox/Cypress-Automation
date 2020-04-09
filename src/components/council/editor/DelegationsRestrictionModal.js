@@ -256,7 +256,7 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 									width: "100%"
 								}}
 							>
-								{item.name + " " + item.surname}
+								{item.name + " " + item.surname || ''}
 							</div>
 						}
 						classes={{

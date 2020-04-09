@@ -126,9 +126,9 @@ const createAttendantsString = (attendants, translate) => {
     attendants.forEach((attendant, index) => {
         const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
         string += represent ?
-            `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname}`
+            `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname || ''}`
             :
-            `${attendant.name} ${attendant.surname}`;
+            `${attendant.name} ${attendant.surname || ''}`;
         string += '\n';
     });
 
@@ -139,9 +139,9 @@ const AttendantRow = ({ attendant, translate }) => {
     const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
 
     const dataString = !!represent ?
-        `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname}`
+        `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname || ''}`
         :
-        `${attendant.name} ${attendant.surname}`
+        `${attendant.name} ${attendant.surname || ''}`
 
     return (
         <React.Fragment>

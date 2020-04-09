@@ -173,7 +173,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                 loadingAction={loadingBlock}
                 buttonCancel={translate.cancel}
                 bodyText={
-                    <div>Desactivar cuenta de usuario {modalBloquear.name + " " + modalBloquear.surname}</div>
+                    <div>Desactivar cuenta de usuario {modalBloquear.name + " " + modalBloquear.surname || ''}</div>
                 }
                 title={'Bloquear'}
             />
@@ -219,7 +219,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                                 overflow: 'hidden',
                                                 textOverflow: 'ellipsis'
                                             }}>
-                                                {item.name + " " + item.surname}
+                                                {item.name + " " + item.surname || ''}
                                             </GridItem>
                                             <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
                                                 {translate.email}
@@ -327,7 +327,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                         }}>
                                         <Cell text={getActivationText(item.actived, translate)} width={10} />
                                         <Cell text={item.id} width={10} />
-                                        <Cell text={item.name + " " + item.surname} width={20} />
+                                        <Cell text={item.name + " " + item.surname || ''} width={20} />
                                         <Cell text={item.email} width={20} />
                                         <Cell text={moment(item.lastConnectionDate).format("LLL")} width={20} />
                                         <Cell

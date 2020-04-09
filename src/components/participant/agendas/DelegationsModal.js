@@ -34,7 +34,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, participant 
                 {delegations.map(vote => (
                         <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                             <div>
-                                <span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+                                <span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${vote.numParticipations}`}</span>
                                 {vote.voteDenied &&
                                     <span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
                                 }
@@ -54,7 +54,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, participant 
                 }
                 {representations.map(vote => (
                         <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', alignItems: 'center'}}>
-                            <span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+                            <span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${vote.numParticipations}`}</span>
                             {vote.voteDenied &&
 								<span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
 							}

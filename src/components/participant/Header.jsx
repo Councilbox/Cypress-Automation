@@ -81,7 +81,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 			<div>
 				<Card style={{ padding: "20px" }}>
 					<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
+						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname || ''}`}
 					</div>
 					<div style={{ marginBottom: '1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
@@ -100,7 +100,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}
 					{delegations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${vote.numParticipations}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
@@ -112,7 +112,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}
 					{representations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${vote.numParticipations}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}

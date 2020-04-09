@@ -59,15 +59,15 @@ const DelegationDocuments = ({ council, translate, client }) => {
                         <div style={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1 }}>
                             <div>
                                 <span style={{fontWeight: '700'}}>{translate.participant}:</span>
-                                    {` ${item.participant.name} ${item.participant.surname}`}
+                                    {` ${item.participant.name} ${item.participant.surname || ''}`}
                                 <br/>
                                 <span style={{fontWeight: '700'}}>{translate.delegates}</span>
-                                {` ${item.delegate.name} ${item.delegate.surname}`}
+                                {` ${item.delegate.name} ${item.delegate.surname || ''}`}
                                 {item.participant.id !== item.signer.id &&
                                     <>
                                         <br/>
                                         <span style={{fontWeight: '700'}}>{translate.signed}:</span>
-                                        {` ${item.signer.name} ${item.signer.surname}, ${moment(item.date).format('LLL')}`}
+                                        {` ${item.signer.name} ${item.signer.surname || ''}, ${moment(item.date).format('LLL')}`}
                                     </>
                                 }
                             </div>
