@@ -258,9 +258,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 													onClick={() =>
 														actionSwitch()(
 															participant.id,
-															`${participant.name} ${
-															participant.surname
-															}`
+															`${participant.name} ${participant.surname || ''}`
 														)
 													}
 												/>

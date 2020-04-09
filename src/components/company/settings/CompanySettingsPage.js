@@ -870,7 +870,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 													overflow: 'hidden',
 													textOverflow: 'ellipsis'
 												}}>
-													{item.name + " " + item.surname}
+													{item.name + " " + item.surname || ''}
 												</GridItem>
 												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
 													{translate.email}
@@ -1024,7 +1024,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 													alignItems: "center"
 												}}>
 												<Cell text={getActivationText(item.actived, translate)} />
-												<Cell text={item.name + " " + item.surname} />
+												<Cell text={item.name + " " + item.surname || ''} />
 												<Cell text={item.email} />
 												<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
 												<Cell
@@ -1215,7 +1215,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 													overflow: 'hidden',
 													textOverflow: 'ellipsis'
 												}}>
-													{item.name + " " + item.surname}
+													{item.name + " " + item.surname || ''}
 												</GridItem>
 												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
 													{translate.email}
@@ -1360,7 +1360,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 													}
 												/>
 												<Cell text={getActivationText(item.actived, translate)} />
-												<Cell text={item.name + " " + item.surname} />
+												<Cell text={item.name + " " + item.surname || ''} />
 												<Cell text={item.email} />
 												<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
 											</div>

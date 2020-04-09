@@ -84,10 +84,10 @@ const ParticipantForm = ({
 					</GridItem>
 					<GridItem xs={6} md={4} lg={3}>
 						<TextInput
-							floatingText={translate.surname}
+							floatingText={translate.surname || ''}
 							type="text"
-							errorText={errors.surname}
-							value={participant.surname}
+							errorText={errors.surname || ''}
+							value={participant.surname || ''}
 							onChange={event =>
 								updateState({
 									surname: event.nativeEvent.target.value

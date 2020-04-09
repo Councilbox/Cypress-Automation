@@ -457,7 +457,7 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
                         {translate.name}
                     </TableCell>
                     <TableCell>
-                        {translate.surname}
+                        {translate.surname || ''}
                     </TableCell>
                     <TableCell>
                         {translate.dni}

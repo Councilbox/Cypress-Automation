@@ -153,7 +153,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                         ref={signaturePreview}
                     />
                     _________________________________
-                    <div>{proxyTranslate.sir}  {participant.name} {participant.surname} </div>
+                    <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
                 </Card>
         )
     }
@@ -302,9 +302,9 @@ export const replaceDocsTags = (text, data = {}) => {
         return '';
     }
 
-    text = text.replace(/{{participantName}}/g, `${data.participant.name} ${data.participant.surname}`);
+    text = text.replace(/{{participantName}}/g, `${data.participant.name} ${data.participant.surname || ''}`);
     if(data.delegate){
-        text = text.replace(/{{delegateName}}/g, `${data.delegate.name} ${data.delegate.surname}`);
+        text = text.replace(/{{delegateName}}/g, `${data.delegate.name} ${data.delegate.surname || ''}`);
     }
     text = text.replace(/{{business_name}}/g, data.council.company.businessName);
     text = text.replace(/{{city}}/g, data.council.city);

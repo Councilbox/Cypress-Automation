@@ -185,9 +185,9 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
             </TableCell>
             <TableCell>
                 {!!representing?
-                    <span style={{fontWeight: '700'}}>{`${representing.name} ${representing.surname} - ${translate.represented_by} ${participant.name} ${participant.surname}`}</span>
+                    <span style={{fontWeight: '700'}}>{`${representing.name} ${representing.surname || ''} - ${translate.represented_by} ${participant.name} ${participant.surname || ''}`}</span>
                 :
-                    <span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+                    <span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
                 }
             </TableCell>
             <TableCell>
@@ -232,10 +232,10 @@ const applyFilters = (participants, filters) => {
 			const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
 
 			if(filters.field === 'fullName'){
-				const fullName = `${participant.name} ${participant.surname}`;
+				const fullName = `${participant.name} ${participant.surname || ''}`;
 				let repreName = '';
 				if(participant.representative){
-					repreName = `${participant.representative.name} ${participant.representative.surname}`;
+					repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
 				}
 				if(!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
 					&& !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)){

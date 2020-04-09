@@ -165,7 +165,7 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 				>
 					{_participantVideoIcon(participant)}
 					<Tooltip
-						title={`${participant.name} ${participant.surname}`}
+						title={`${participant.name} ${participant.surname || ''}`}
 					>
 						<div
 							style={{
@@ -176,7 +176,7 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 							}}
 							className="truncate"
 						>
-							{`${participant.name} ${participant.surname}`}
+							{`${participant.name} ${participant.surname || ''}`}
 						</div>
 					</Tooltip>
 				</GridItem>
@@ -360,7 +360,7 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 								{!!options.banParticipant &&
 									`${translate.want_eject} ${
 										options.banParticipant.name
-									} ${options.banParticipant.surname} ${
+									} ${options.banParticipant.surname || ''} ${
 										translate.from_room
 									}?`
 								}

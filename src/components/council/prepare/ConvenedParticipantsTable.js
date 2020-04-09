@@ -396,13 +396,13 @@ class HoverableRow extends React.Component {
 			participant.live.state === PARTICIPANT_STATES.DELEGATED?
 				<React.Fragment>
 					<br/>
-					{`${translate.delegated_in}: ${delegate.name} ${delegate.surname}`}
+					{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
 				</React.Fragment>
 			:
 				!!representative &&
 					<React.Fragment>
 						<br/>
-						{`${translate.represented_by}: ${representative.name} ${representative.surname}`}
+						{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 					</React.Fragment>
 		);
 
@@ -417,8 +417,8 @@ class HoverableRow extends React.Component {
                             {translate.participant_data}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname} ${
-								!!representative? ` - ${translate.represented_by}: ${representative.name} ${representative.surname}` : ''}`}</span>
+							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''} ${
+								!!representative? ` - ${translate.represented_by}: ${representative.name} ${representative.surname || ''}` : ''}`}</span>
 							{voteParticipantInfo}
                         </GridItem>
 						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
@@ -510,7 +510,7 @@ class HoverableRow extends React.Component {
 					}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
 						participant.representatives.length > 0)? ` - ${translate.represented_by}: ${
 							participant.representatives[0].name} ${
-								participant.representatives[0].surname}` : ''}`}</span>
+								participant.representatives[0].surname || ''}` : ''}`}</span>
 					{voteParticipantInfo}
 				</TableCell>
 				<TableCell>
@@ -620,9 +620,9 @@ class HoverableRow extends React.Component {
 									onCommentClick={this.props.showModalComment({
 										text: participant.representatives.length > 0? participant.representative.live.assistanceComment : participant.live.assistanceComment,
 										author: participant.representatives.length > 0?
-											`${participant.name} ${participant.surname} - ${translate.represented_by} ${representative.name} ${representative.surname}`
+											`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
 										:
-											`${participant.name} ${participant.surname}`
+											`${participant.name} ${participant.surname || ''}`
 									})}
 									translate={translate}
 									size="2em"
@@ -663,10 +663,10 @@ const applyFilters = (participants, filters) => {
 			const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
 
 			if(filters.field === 'fullName'){
-				const fullName = `${participant.name} ${participant.surname}`;
+				const fullName = `${participant.name} ${participant.surname || ''}`;
 				let repreName = '';
 				if(participant.representative){
-					repreName = `${participant.representative.name} ${participant.representative.surname}`;
+					repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
 				}
 				if(!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
 					&& !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)){

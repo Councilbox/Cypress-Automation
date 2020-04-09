@@ -240,7 +240,7 @@ class HoverableRow extends React.Component {
                 onClick={() => this.props.editParticipant(participant.id)}
             >
                 <TableCell>
-                    {`${participant.name} ${participant.surname}`}
+                    {`${participant.name} ${participant.surname || ''}`}
                 </TableCell>
                 <TableCell>
                     {participant.dni}

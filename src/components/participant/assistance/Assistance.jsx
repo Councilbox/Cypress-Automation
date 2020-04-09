@@ -578,7 +578,7 @@ al borrar una carta de voto se elimina el proxy vote
 							<div style={{ maxWidth: '98vw', margin: isMobile? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
 								<div style={{ display: "flex", justifyContent: "space-between" }}>
 									<div style={{ fontSize: "25px", color: primary }}>
-										{translate.hello}, {participant.name} {participant.surname}
+										{translate.hello}, {participant.name} {participant.surname || ''}
 									</div>
 									<div style={{ color: primary, fontSize: "30px", display: "flex", alignItems: "center" }}>
 										<Icon className="material-icons" style={{ fontSize: "35px", color: primary }}>
@@ -683,7 +683,7 @@ const DelegationSection = ({ delegatedVotes, translate, refetch, representations
 			{delegatedVotes.map(vote => {
 				return (
 					<Card key={vote.id} style={{ display: "flex", color: "#000000", fontSize: "14px", padding: "0.5em 1em", marginBottom: "0.5em" }}>
-						<div>{vote.name} {vote.surname}</div>
+						<div>{vote.name} {vote.surname || ''}</div>
 						{!representations &&
 							<div>
 								<i
@@ -741,7 +741,7 @@ export default compose(
 								<Scrollbar>
 									<div style={{ height: '100%', padding: '2em', width: '99%' }}>
 										<Typography variant="subheading" style={{ fontWeight: '700', marginBottom: '1.2em' }}>
-											{translate.welcome} {participant.name} {participant.surname}
+											{translate.welcome} {participant.name} {participant.surname || ''}
 										</Typography>
 										<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
 											<div style={{ borderBottom: '1px solid gainsboro', width: '100%', }}>

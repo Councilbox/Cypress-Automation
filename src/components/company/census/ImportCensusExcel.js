@@ -618,7 +618,7 @@ class ImportCensusButton extends React.Component {
 											/>{`${item.participant.email}`}<br />
 											{!!item.representative &&
 												<React.Fragment>
-													{`${translate.represented_by}: ${item.representative.name} ${item.representative.surname}`}
+													{`${translate.represented_by}: ${item.representative.name} ${item.representative.surname || ''}`}
 													<br />
 												</React.Fragment>
 											}

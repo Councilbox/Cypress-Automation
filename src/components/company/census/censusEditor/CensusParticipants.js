@@ -313,11 +313,11 @@ class HoverableRow extends React.PureComponent {
                             {translate.participant_data}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
 							{!!representative &&
 								<React.Fragment>
 									<br/>
-									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 								</React.Fragment>
 							}
                         </GridItem>
@@ -409,11 +409,11 @@ class HoverableRow extends React.PureComponent {
 					</div>
 				</TableCell>
 				<TableCell>
-					<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+					<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
 					{!!representative &&
 						<React.Fragment>
 							<br/>
-							{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+							{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 						</React.Fragment>
 					}
 				</TableCell>

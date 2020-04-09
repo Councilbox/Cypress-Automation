@@ -11,9 +11,9 @@ import { getSecondary } from '../../../../styles/colors';
 const GoverningBodyDisplay = ({ translate, company, open }) => {
     const copyAll = () => {
         return company.governingBodyType > 2?
-            CBX.copyStringToClipboard(company.governingBodyData.list.reduce((acc, curr) => acc + `${curr.name} ${curr.surname} \n`, ''))
+            CBX.copyStringToClipboard(company.governingBodyData.list.reduce((acc, curr) => acc + `${curr.name} ${curr.surname || ''} \n`, ''))
         :
-            CBX.copyStringToClipboard(`${company.governingBodyData.name} ${company.governingBodyData.surname}`);
+            CBX.copyStringToClipboard(`${company.governingBodyData.name} ${company.governingBodyData.surname || ''}`);
     }
 
 
@@ -40,7 +40,7 @@ const GoverningBodyDisplay = ({ translate, company, open }) => {
                                 <div>
                                     <Row
                                         field={company.governingBodyType === 5? getCouncilAdminPosition(index, translate) : null}
-                                        value={`${admin.name} ${admin.surname}`}
+                                        value={`${admin.name} ${admin.surname || ''}`}
                                     />
                                 </div>
                             )
@@ -56,7 +56,7 @@ const GoverningBodyDisplay = ({ translate, company, open }) => {
                                 }
                                 <Row
                                     field={company.governingBodyType === 2? translate.representative : null}
-                                    value={`${company.governingBodyData.name} ${company.governingBodyData.surname}`}
+                                    value={`${company.governingBodyData.name} ${company.governingBodyData.surname || ''}`}
                                 />
                             </div>
                     }

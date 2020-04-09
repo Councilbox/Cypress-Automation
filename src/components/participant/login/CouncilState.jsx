@@ -290,7 +290,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 									<div style={{ marginTop: "1em", height: '100%', background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 										<div style={{ padding: "1em 1em", height: '100%' }}>
 											<div style={{ textAlign: "center" }}>
-												{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span>
+												{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
 											</div>
 											<div style={{ marginTop: "1em", height: '100%' }}>
 												{selectHeadFinished === "participacion" &&
@@ -365,7 +365,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 								<div style={{ height: "100%", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 									<div style={{ padding: "1em 1em", height: "100%" }}>
 										<div style={{ textAlign: "left" }}>
-											{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname}</span>
+											{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
 										</div>
 										<div style={{ marginTop: "1em", height: "calc( 100% - 15em )" }}>
 											<ResultsTimeline

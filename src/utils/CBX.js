@@ -538,19 +538,19 @@ export const getGoverningBodySignatories = (translate, type, data) => {
 	const labels = {
 		0: () => '',
 		1: () => {
-			return `${data.name} ${data.surname}`;
+			return `${data.name} ${data.surname || ''}`;
 		},
 		2: () => {
-			return `${data.name} ${data.surname}`;
+			return `${data.name} ${data.surname || ''}`;
 		},
 		3: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname}${(index < array.length -1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length -1)? blankSpaces : ''}`, '');
 		},
 		4: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? blankSpaces : ''}`, '');
 		},
 		5: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? blankSpaces : ''}`, '');
 		},
 	}
 
@@ -578,17 +578,17 @@ export const buildDelegationsString = (delegated, council, translate) => {
 	return delegated.reduce((acc, vote) => {
 		return acc + `<p style="border: 1px solid black; padding: 5px;">-${
 			vote.name} ${
-			vote.surname} ${texts[council.language]} ${vote.numParticipations} ${
+			vote.surname || ''} ${texts[council.language]} ${vote.numParticipations} ${
 				council.quorumPrototype === 1? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
 			translate.delegates.toLowerCase()} ${
-			vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} </p><br/>`
+			vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname || ''} </p><br/>`
 	},  '');
 }
 
 
 export const buildAttendantsString = (council, total) => (acc, curr, index) => {
 	if(!hasParticipations(council)){
-		return acc + `${curr.name} ${curr.surname} <br/>`;
+		return acc + `${curr.name} ${curr.surname || ''} <br/>`;
 	}
 
 	const texts = {
@@ -616,7 +616,7 @@ export const buildAttendantsString = (council, total) => (acc, curr, index) => {
 	}
 
 	if(curr.type === PARTICIPANT_TYPE.REPRESENTATIVE){
-		return acc + `${curr.name} ${curr.surname} ${representativeOf[council.language]} ${
+		return acc + `${curr.name} ${curr.surname || ''} ${representativeOf[council.language]} ${
 			curr.delegationsAndRepresentations.reduce((acc, representated, index) => {
 				return (acc + (index > 0? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname? representated.surname + " " : ''}`)
 					.replace('SHARES', representated.socialCapital)
@@ -625,7 +625,7 @@ export const buildAttendantsString = (council, total) => (acc, curr, index) => {
 	}
 
 	return acc + texts[council.language]
-		.replace('NAME SURNAME', `${curr.name} ${curr.surname}`)
+		.replace('NAME SURNAME', `${curr.name} ${curr.surname || ''}`)
 		.replace('SHARES', curr.socialCapital)
 		.replace('PERCENTAGE', ((curr.socialCapital / total) * 100).toFixed(2))
 };

@@ -33,7 +33,7 @@ const DownloadCBXDataButton = props => {
 				downloadFile(
 					response.data.voteLetterPDF,
 					"application/pdf",
-					`${props.translate.vote_letter}_${props.participant.name}${props.participant.surname? `_${props.participant.surname}` : ''}` //TRADUCCION
+					`${props.translate.vote_letter}_${props.participant.name}${props.participant.surname? `_${props.participant.surname || ''}` : ''}` //TRADUCCION
 				);
 				setLoading(false);
 				if(props.updateState){

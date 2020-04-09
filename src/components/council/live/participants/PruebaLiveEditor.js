@@ -497,7 +497,7 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 				{translate.representative}
 			</Typography>
 			<div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
-				{`${representative.name} ${representative.surname}`}
+				{`${representative.name} ${representative.surname || ''}`}
 				{participant.state !== PARTICIPANT_STATES.DELEGATED?
 					<React.Fragment>
 						{CBX.showSendCredentials(representative.state) &&

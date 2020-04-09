@@ -151,7 +151,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         return (
             <div style={{ width: "100%", height: "100%" }}>
                 <div style={{ height: "100%", marginTop: "1em", overflow: "hidden", padding: "1em" }}>
-                    <div style={{ marginBottom: "1em" }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
+                    <div style={{ marginBottom: "1em" }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname || ''}</span></div>
                     <div style={{ height: "calc( 100% - 2.5em )", }}>
                         <Scrollbar>
                             <Results

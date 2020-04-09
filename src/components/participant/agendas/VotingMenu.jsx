@@ -239,7 +239,7 @@ export const DeniedDisplay = ({ translate, denied }) => {
             {denied.map(deniedVote => (
                 <React.Fragment>
                     <br />
-                    {`${deniedVote.author.name} ${deniedVote.author.surname} ${deniedVote.author.voteDeniedReason ? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
+                    {`${deniedVote.author.name} ${deniedVote.author.surname || ''} ${deniedVote.author.voteDeniedReason ? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
                 </React.Fragment>
             ))}
 

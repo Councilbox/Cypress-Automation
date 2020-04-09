@@ -36,7 +36,7 @@ const DeactivateAccount = ({ render, translate, client, user, refetch }) => {
     const renderBody = () => {
         return (
             <div>
-                ¿Está seguro que desea desactivar la cuenta de {user.name} {user.surname}?
+                ¿Está seguro que desea desactivar la cuenta de {user.name} {user.surname || ''}?
             </div>
         )
     }

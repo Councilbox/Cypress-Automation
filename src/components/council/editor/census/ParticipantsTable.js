@@ -273,11 +273,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, totalVo
 						{translate.participant_data}
 					</GridItem>
 					<GridItem xs={7} md={7}>
-						<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+						<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
 						{!!representative &&
 							<React.Fragment>
 								<br />
-								{`${translate.represented_by}: ${representative.name} ${representative.surname}`}
+								{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 							</React.Fragment>
 						}
 					</GridItem>
@@ -367,11 +367,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, totalVo
 				</div>
 			</TableCell>
 			<TableCell>
-				<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+				<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
 				{!!representative &&
 					<React.Fragment>
 						<br/>
-						{`${translate.represented_by}: ${representative.name} ${representative.surname}`}
+						{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 					</React.Fragment>
 				}
 			</TableCell>

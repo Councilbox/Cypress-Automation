@@ -19,7 +19,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 			<div>
 				{!!participant && (
 					<React.Fragment>
-						{`${participant.name} ${participant.surname} - ${
+						{`${participant.name} ${participant.surname || ''} - ${
 							participant.email
 						} - ${participant.position? participant.position : ''}`}
 

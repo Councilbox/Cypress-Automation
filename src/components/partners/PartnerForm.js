@@ -98,9 +98,9 @@ class PartnerForm extends React.PureComponent {
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
                                             id={'anadirSocioApellido'}
-                                            floatingText={translate.surname}
+                                            floatingText={translate.surname || ''}
                                             type="text"
-                                            errorText={errors.surname}
+                                            errorText={errors.surname || ''}
                                             value={participant.surname || ''}
                                             onChange={event =>
                                                 updateState({
@@ -490,7 +490,7 @@ class PartnerForm extends React.PureComponent {
                                     <GridItem xs={6} md={4} lg={3}>
                                         <TextInput
                                             id={'anadirSocioRepresentanteApellido'}
-                                            floatingText={translate.surname}
+                                            floatingText={translate.surname || ''}
                                             type="text"
                                             value={representative.surname || ''}
                                             onChange={event =>

@@ -41,7 +41,7 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 					}}
 					className={clases}
 				>
-					{`${participant.name} ${participant.surname} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`}
+					{`${participant.name} ${participant.surname || ''} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`}
 				</div>
 				{toDelegate && participant.assistanceIntention === 6 &&
 					<div style={{ fontSize: "0.9rem", fontWeight: '700' }}>{translate.participant_wont_attend}</div>
