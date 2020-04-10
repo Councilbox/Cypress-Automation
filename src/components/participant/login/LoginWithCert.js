@@ -7,7 +7,8 @@ const reducer = (state, action) => {
         'SUCCESS': () => {
             return ({
                 ...state,
-                status: 'SUCCESS'
+                status: 'SUCCESS',
+                message: 'Certificado comprobado con éxito'
             })
         },
         'ERROR': () => ({
@@ -28,17 +29,22 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
     const primary = getPrimary();
 
     const getData = async () => {
-        const response = await fetch(`https://api.pre.councilbox.com:5001/participant/${participant.id}`);
-        console.log(response);
-
-        const json = await response.json();
-
-        console.log(json);
-        if(json.success){
-            dispatch({ type: 'SUCCESS' })
-        } else {
-            dispatch({ type: 'ERROR', payload: json.error })
+        try {
+            const response = await fetch(`https://api.pre.councilbox.com:5001/participant/${participant.id}`);
+            console.log(response);
+    
+            const json = await response.json();
+    
+            console.log(json);
+            if(json.success){
+                dispatch({ type: 'SUCCESS' })
+            } else {
+                dispatch({ type: 'ERROR', payload: json.error })
+            }
+        } catch (error){
+            dispatch({ type: 'ERROR', payload: 'Error al enviar el certificado'});
         }
+
     }
 
     React.useEffect(() => {
@@ -48,8 +54,11 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
 
     return (
         <>
-            <div style={{color: 'red'}}>
+            <div style={{color: status === 'ERROR'? 'red' : 'green'}}>
                 {message}
+                {status === 'ERROR' &&
+                    <span onClick={getData}>REINTENTAR</span>
+                }
             </div>
             <BasicButton
                 text={translate.enter_room}
