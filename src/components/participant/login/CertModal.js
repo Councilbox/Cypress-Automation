@@ -26,7 +26,7 @@ const CertModal = ({ open, participant, handleSuccess }) => {
     const [{ status, message }, dispatch] = React.useReducer(reducer, { status: 'LOADING' });
 
     const getData = async () => {
-        const response = await fetch(`https://localhost:5001/participant/${participant.id}`);
+        const response = await fetch(`https://api.pre.councilbox.com:5001/participant/${participant.id}`);
         console.log(response);
 
         const json = await response.json();

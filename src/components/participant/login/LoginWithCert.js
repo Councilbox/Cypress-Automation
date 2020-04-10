@@ -28,7 +28,7 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
     const primary = getPrimary();
 
     const getData = async () => {
-        const response = await fetch(`${process.env.REACT_APP_CERT_API}participant/${participant.id}`);
+        const response = await fetch(`https://api.pre.councilbox.com:5001/participant/${participant.id}`);
         console.log(response);
 
         const json = await response.json();
