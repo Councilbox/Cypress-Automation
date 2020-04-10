@@ -43,14 +43,14 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 			query: roomLiveParticipantsOnline,
 			variables: {
 				councilId: council.id,
-				options: {
-					limit: participantHeaderLimit,
-					offset: 0
-				},
+				// options: {
+				// 	limit: participantHeaderLimit,
+				// 	offset: 0
+				// },
 
 			}
 		});
-
+		
 		setParticipantsOnline({
 			...response.data.roomLiveParticipantsOnline
 		});
@@ -69,10 +69,10 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 			query: roomLiveParticipantsPresents,
 			variables: {
 				councilId: council.id,
-				options: {
-					limit: participantHeaderLimit,
-					offset: 0
-				},
+				// options: {
+				// 	limit: participantHeaderLimit,
+				// 	offset: 0
+				// },
 
 			}
 		});
@@ -153,49 +153,58 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 				>
 
 
-					<div style={{ marginTop: "0.5em", marginBottom: "0.5em" }}>
-						<div style={{ marginLeft: "1.3em" }}>
-							<div style={{ display: "flex", alignItems: "center", marginBottom: "1em" }} ><i className={"fa fa-globe"} style={{ marginRight: "0.5em" }}></i>Online</div>
-							{state.loading ?
-								<LoadingSection />
-								:
-								participantsOnline.list.map(item => {
-									return (
-										<div key={item.id} style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
-											{CBX.haveGrantedWord(item) &&
-												<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em" }}></i>
-											}
-											<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-												{item.name + " " + item.surname}
-											</div>
-										</div>
-									)
-								})
-							}
-
+					<div style={{ marginTop: "0.5em", marginBottom: "0.5em", height: "100%" }}>
+						<div style={{ marginLeft: "1.3em", height: "45%" }}>
+							<div style={{ display: "flex", alignItems: "center", marginBottom: "0.5em" }} ><i className={"fa fa-globe"} style={{ marginRight: "0.5em" }}></i>Online</div>
+							<div style={{ height: '90%' }} >
+								<Scrollbar>
+									{state.loading ?
+										<LoadingSection />
+										:
+										participantsOnline.list.map(item => {
+											return (
+												<React.Fragment>
+													<div key={item.id} style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
+														{CBX.haveGrantedWord(item) &&
+															<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em" }}></i>
+														}
+														<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
+															{item.name + " " + item.surname}
+														</div>
+													</div>
+												</React.Fragment>
+											)
+										})
+									}
+								</Scrollbar>
+							</div>
 						</div>
 
 						<Divider
-							style={{ background: "#ffffff4a", margin: "1.5em 0px" }}
+							style={{ background: "#ffffff4a", margin: "1.2em 0px" }}
 						/>
-						<div style={{ marginLeft: "1.3em" }}>
-							<div style={{ display: "flex", alignItems: "center", marginBottom: "1em" }} ><i className="material-icons" aria-hidden="true" style={{ marginRight: "5px", fontSize: "18px" }}>face</i>Presencial</div>
-							{state.loadingPresents ?
-								<LoadingSection />
-								:
-								participantsPresents.list.map(item => {
-									return (
-										<div key={item.id + "presents"} style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
-											<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-												{item.name + " " + item.surname}
-											</div>
-										</div>
-									)
-								}
-								)
-							}
+						<div style={{ marginLeft: "1.3em", height: "45%" }}>
+							<div style={{ display: "flex", alignItems: "center", marginBottom: "0.5em" }} ><i className="material-icons" aria-hidden="true" style={{ marginRight: "5px", fontSize: "18px" }}>face</i>Presencial</div>
+							<div style={{ height: "90%" }} >
+								<Scrollbar>
+									{state.loadingPresents ?
+										<LoadingSection />
+										:
+										participantsPresents.list.map(item => {
+											return (
+												<div key={item.id + "presents"} style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
+													<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
+														{item.name + " " + item.surname}
+													</div>
+												</div>
+											)
+										}
+										)
+									}
+								</Scrollbar>
+							</div>
 						</div>
-						<div style={{ marginLeft: "1.3em", marginTop: "1em" }}>
+						{/* <div style={{ marginLeft: "1.3em", marginTop: "1em" }}>
 							{(participantsPresents.total > participantHeaderLimit || participantsOnline.total > participantHeaderLimit) &&
 								<div style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", cursor: "pointer" }}
 									onClick={() => verMas()}
@@ -203,11 +212,12 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 									{translate.see_more}
 								</div>
 							}
-						</div>
+						</div> */}
 					</div>
-				</Drawer>
+				</Drawer >
 			}
-			{state.showModal &&
+			{
+				state.showModal &&
 				<Modal
 					requestClose={() => setState({ showModal: false })}
 					showModal={state.showModal}
@@ -215,7 +225,7 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 					translate={translate}
 				/>
 			}
-		</div>
+		</div >
 	)
 }
 
@@ -246,13 +256,13 @@ const reducer = (state, action) => {
 			loading: false,
 			data: {
 				...state.data,
-				...(action.value.online? {
+				...(action.value.online ? {
 					online: {
 						list: [...state.data.online.list, ...action.value.online.list],
 						total: action.value.online.total
 					},
 				} : {}),
-				...(action.value.presents? {
+				...(action.value.presents ? {
 					presents: {
 						list: [...state.data.presents.list, ...action.value.presents.list],
 						total: action.value.presents.total
@@ -265,13 +275,13 @@ const reducer = (state, action) => {
 			loading: false,
 			data: {
 				...state.data,
-				...(action.value.online? {
+				...(action.value.online ? {
 					online: {
 						list: action.value.online.list,
 						total: action.value.online.total
 					},
 				} : {}),
-				...(action.value.presents? {
+				...(action.value.presents ? {
 					presents: {
 						list: action.value.presents.list,
 						total: action.value.presents.total
@@ -395,13 +405,13 @@ const Modal = withApollo(({ translate, showModal, requestClose, council: { id },
 	}, [onlineOffset]);
 
 	React.useEffect(() => {
-		if(showModal && presentOffset !== 0){
+		if (showModal && presentOffset !== 0) {
 			loadMorePresents();
 		}
 	}, [presentOffset]);
 
 	React.useEffect(() => {
-		if(showModal && onlineOffset !== 0){
+		if (showModal && onlineOffset !== 0) {
 			loadMoreRemote();
 		}
 	}, [onlineOffset]);
@@ -537,8 +547,9 @@ const styles = {
 		background: '#74559bed',
 		color: "white",
 		boxShadow: "none",
-		borderRadius: isMobile && "5px"
-
+		borderRadius: isMobile && "5px",
+		height: "100%",
+		overflow: 'hidden'
 	},
 	paper: {
 		top: "88px",
