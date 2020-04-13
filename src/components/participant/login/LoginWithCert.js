@@ -26,6 +26,7 @@ const reducer = (state, action) => {
 
 const LoginWithCert = ({ participant, handleSuccess, translate }) => {
     const [{ status, message }, dispatch] = React.useReducer(reducer, { status: 'LOADING' });
+    const [userData, setUserData] = React.useState(null);
     const primary = getPrimary();
 
     const getData = async () => {
@@ -50,8 +51,16 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
 
     }
 
+    const getUserData = async () => {
+        const response = await fetch('https://ipinfo.io/json');
+        const json = await response.json();
+
+        console.log(json);
+    }
+
     React.useEffect(() => {
         getData();
+        getUserData();
     }, [participant.id])
 
 
