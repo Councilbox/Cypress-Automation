@@ -26,6 +26,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		showParticipantInfo: false,
 		drawerTop: false
 	});
+	const [exitModal, setExitModal] = React.useState(false);
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const customLogo = getCustomLogo();
@@ -42,7 +43,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 	}
 
 	const leaveRoom = async () => {
-		const response = await props.client.mutate({
+		await props.client.mutate({
 			mutation: gql`
 				mutation LeaveRoom {
 					participantLeaveRoom{
@@ -253,24 +254,35 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						</Tooltip>
 					}
 					{(council && logoutButton) && (
-						<IconButton
-							style={{
-								marginRight: "0.5em",
-								outline: "0"
-							}}
-							aria-label="help"
-							onClick={leaveRoom}
-						>
-							<Icon
-								className="material-icons"
+						<>
+							<AlertConfirm
+								bodyText={translate.participant_leave_room_warning}
+								title={translate.warning}
+								acceptAction={leaveRoom}
+								open={exitModal}
+								requestClose={() => setExitModal(false)}
+								buttonCancel={translate.cancel}
+								buttonAccept={translate.exit}
+							/>
+							<IconButton
 								style={{
-									color: primaryColor ? primary : 'white',
-									fontSize: "0.9em"
+									marginRight: "0.5em",
+									outline: "0"
 								}}
+								aria-label="help"
+								onClick={() => setExitModal(true)}
 							>
-								exit_to_app
-							</Icon>
-						</IconButton>
+								<Icon
+									className="material-icons"
+									style={{
+										color: primaryColor ? primary : 'white',
+										fontSize: "0.9em"
+									}}
+								>
+									exit_to_app
+								</Icon>
+							</IconButton>
+						</>
 					)
 					}
 				</div>
