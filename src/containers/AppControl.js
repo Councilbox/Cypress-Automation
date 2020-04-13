@@ -57,6 +57,9 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                     }
                 });
                 response.subscribe(subscriptionData => {
+                    if(!subscriptionData.data.appControlChange){
+                        return;
+                    }
                     if(subscriptionData.data.appControlChange.command === 'logout'){
                         store.dispatch(mainActions.logout());
                     }
