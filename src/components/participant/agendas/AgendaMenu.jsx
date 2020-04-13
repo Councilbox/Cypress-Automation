@@ -159,19 +159,24 @@ class AgendaMenu extends React.Component {
                                     }
                                 </React.Fragment>
                                 :
-                                // translate.cant_exercise_vote
-                                <VotingSection
-                                    disabledColor={!CBX.agendaVotingsOpened(agenda)}
-                                    agenda={agenda}
-                                    ownVote={ownVote}
-                                    open={this.state.open}
-                                    council={this.props.council}
-                                    voting={this.state.voting}
-                                    translate={translate}
-                                    activateVoting={this.activateVoting}
-                                    refetch={this.props.refetch}
-                                    toggle={this.toggle}
-                                />
+                                
+                                <>
+                                    {(!CBX.agendaVotingsOpened(agenda) || !ownVote) &&
+                                        translate.cant_exercise_vote
+                                    }
+                                    <VotingSection
+                                        disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
+                                        agenda={agenda}
+                                        ownVote={ownVote}
+                                        open={this.state.open}
+                                        council={this.props.council}
+                                        voting={this.state.voting}
+                                        translate={translate}
+                                        activateVoting={this.activateVoting}
+                                        refetch={this.props.refetch}
+                                        toggle={this.toggle}
+                                    />
+                                </>
                             }
                         </React.Fragment>
                     </React.Fragment>
@@ -205,6 +210,7 @@ class AgendaMenu extends React.Component {
                                                 {checkVotings(agenda.votings) &&
                                                     <VotingSection
                                                         agenda={agenda}
+                                                        disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
                                                         ownVote={ownVote}
                                                         open={this.state.open}
                                                         council={this.props.council}
