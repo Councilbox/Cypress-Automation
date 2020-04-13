@@ -25,12 +25,13 @@ const reducer = (state, action) => {
 
 
 const LoginWithCert = ({ participant, handleSuccess, translate }) => {
-    const [{ status, message }, dispatch] = React.useReducer(reducer, { status: 'LOADING' });
+    const [{ status, message }, dispatch] = React.useReducer(reducer, { status: 'WAITING' });
     const [userData, setUserData] = React.useState(null);
     const primary = getPrimary();
 
     const getData = async () => {
         try {
+            dispatch({ type: 'LOADING' });
             const response = await fetch(`${process.env.REACT_APP_CERT_API}participant/${participant.id}`);
             const json = await response.json();    
             if(json.success){
@@ -59,8 +60,7 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
     }
 
     React.useEffect(() => {
-        getData();
-        getUserData();
+        //getUserData();
     }, [participant.id])
 
 
@@ -69,9 +69,9 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
             <div style={{color: status === 'ERROR'? 'red' : 'green', fontSize: '1.2em', marginBottom: '0.4em', fontWeight: '700'}}>
                 {message}
             </div>
-            {status === 'ERROR'?
+            {status === 'ERROR' &&
                 <BasicButton
-                    text={'Reintentar'}
+                    text={translate.retry}
                     color={'red'}
                     textStyle={{
                         color: "white",
@@ -82,7 +82,29 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
                     fullWidth={true}
                     onClick={getData}
                 />
-            :
+            }
+            {status === 'WAITING' &&
+                <BasicButton
+                    text={translate.check_certificate}
+                    color={primary}
+                    textStyle={{
+                        color: "white",
+                        fontWeight: "700"
+                    }}
+                    loading={status === 'LOADING'}
+                    disabled={status === 'ERROR'}
+                    textPosition="before"
+                    fullWidth={true}
+                    icon={
+                        <ButtonIcon
+                            color="white"
+                            type="directions_walk"
+                        />
+                    }
+                    onClick={getData}
+                />
+            }
+            {status === 'SUCCESS' &&
                 <BasicButton
                     text={translate.enter_room}
                     color={status === 'ERROR'? 'grey' : primary}
