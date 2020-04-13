@@ -8,7 +8,7 @@ const reducer = (state, action) => {
             return ({
                 ...state,
                 status: 'SUCCESS',
-                message: 'Certificado comprobado con éxito'
+                message: action.payload
             })
         },
         'ERROR': () => ({
@@ -30,19 +30,22 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
 
     const getData = async () => {
         try {
-            const response = await fetch(`https://api.pre.councilbox.com:5001/participant/${participant.id}`);
-            console.log(response);
-    
-            const json = await response.json();
-    
-            console.log(json);
+            const response = await fetch(`${process.env.REACT_APP_CERT_API}participant/${participant.id}`);
+            const json = await response.json();    
             if(json.success){
-                dispatch({ type: 'SUCCESS' })
+                dispatch({ type: 'SUCCESS', payload: translate.cert_success })
             } else {
-                dispatch({ type: 'ERROR', payload: json.error })
+                let message = json.error;
+                if(response.status == 403) {
+                    message = translate.cert_doesnt_match;
+                }
+                if(response.status === 401){
+                    message = translate.cert_missing;
+                }
+                dispatch({ type: 'ERROR', payload: message })
             }
         } catch (error){
-            dispatch({ type: 'ERROR', payload: 'Error al enviar el certificado'});
+            dispatch({ type: 'ERROR', payload: translate.cert_error });
         }
 
     }
@@ -54,31 +57,43 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
 
     return (
         <>
-            <div style={{color: status === 'ERROR'? 'red' : 'green'}}>
+            <div style={{color: status === 'ERROR'? 'red' : 'green', fontSize: '1.2em', marginBottom: '0.4em', fontWeight: '700'}}>
                 {message}
-                {status === 'ERROR' &&
-                    <span onClick={getData}>REINTENTAR</span>
-                }
             </div>
-            <BasicButton
-                text={translate.enter_room}
-                color={status === 'ERROR'? 'grey' : primary}
-                textStyle={{
-                    color: "white",
-                    fontWeight: "700"
-                }}
-                loading={status === 'LOADING'}
-                disabled={status === 'ERROR'}
-                textPosition="before"
-                fullWidth={true}
-                icon={
-                    <ButtonIcon
-                        color="white"
-                        type="directions_walk"
-                    />
-                }
-                onClick={status === 'SUCCESS'? handleSuccess : () => {}}
-            />
+            {status === 'ERROR'?
+                <BasicButton
+                    text={'Reintentar'}
+                    color={'red'}
+                    textStyle={{
+                        color: "white",
+                        fontWeight: "700"
+                    }}
+                    loading={status === 'LOADING'}
+                    textPosition="before"
+                    fullWidth={true}
+                    onClick={getData}
+                />
+            :
+                <BasicButton
+                    text={translate.enter_room}
+                    color={status === 'ERROR'? 'grey' : primary}
+                    textStyle={{
+                        color: "white",
+                        fontWeight: "700"
+                    }}
+                    loading={status === 'LOADING'}
+                    disabled={status === 'ERROR'}
+                    textPosition="before"
+                    fullWidth={true}
+                    icon={
+                        <ButtonIcon
+                            color="white"
+                            type="directions_walk"
+                        />
+                    }
+                    onClick={status === 'SUCCESS'? handleSuccess : () => {}}
+                />
+            }
         </>
     )
 }
