@@ -364,7 +364,7 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 									participant={participant}
 									council={props.council}
 									translate={translate}
-									security={props.council.securityType > 0}
+									security={(props.council.securityType === 1 || props.council.securityType === 2)}
 									refetch={data.refetch}
 								/>
 							</div>

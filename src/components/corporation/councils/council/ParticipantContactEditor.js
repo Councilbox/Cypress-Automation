@@ -152,7 +152,7 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
                     textStyle={{ color: 'white', fontWeight: '700' }}
                 />
             </div>
-            {council.securityType !== 0 &&
+            {(council.securityType === 1 || council.securityType === 2) &&
                 <BasicButton
                     color={secondary}
                     text="Enviar contraseña de entrada"
