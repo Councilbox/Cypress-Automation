@@ -76,6 +76,7 @@ class RichTextInput extends React.Component {
 
 	paste = text => {
 		const quill = this.rtEditor.getEditor();
+		console.log(quill)
 		let selection = quill.getSelection();
 		if (!selection) {
 			this.rtEditor.focus();
@@ -83,7 +84,7 @@ class RichTextInput extends React.Component {
 		}
 		quill.clipboard.dangerouslyPasteHTML(selection.index, text);
 		setTimeout(() => {
-			this.rtEditor.focus();
+			// this.rtEditor.focus();
 			quill.setSelection(selection.index + removeHTMLTags(text).length, 0);
 		}, 500);
 	};

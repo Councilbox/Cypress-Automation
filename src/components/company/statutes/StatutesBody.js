@@ -11,7 +11,8 @@ import {
 	UnsavedChangesModal,
 	LoadingSection,
 	TextInput,
-	VTabs
+	VTabs,
+	CloseIcon
 } from "../../../displayComponents";
 import {
 	createStatute,
@@ -25,11 +26,13 @@ import { store } from '../../../containers/App';
 import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from "./StatuteEditor";
 import StatuteNameEditor from './StatuteNameEditor';
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary, getSecondary, primary, secondary } from "../../../styles/colors";
 import { checkForUnclosedBraces } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { useOldState } from "../../../hooks";
 import { isMobile } from '../../../utils/screen';
+import { Paper, IconButton } from "material-ui";
+import { Tooltip } from "material-ui";
 
 
 const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props }) => {
@@ -53,7 +56,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	const [tabs, setTabs] = React.useState([]);
 
 	React.useEffect(() => {
-		if(!data.loading){
+		if (!data.loading) {
 			setState(state => ({
 				...state,
 				statute: data.companyStatutes[state.selectedStatute]
@@ -66,7 +69,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	}, [state.selectedStatute, data.loading]);
 
 	React.useEffect(() => {
-		if(state.statute === null){
+		if (state.statute === null) {
 			setState(state => ({
 				...state,
 				statute: data.companyStatutes[state.selectedStatute]
@@ -105,61 +108,61 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 		const { statute } = state;
 
-		if(statute.existsAdvanceNoticeDays && isNaN(statute.advanceNoticeDays)){
+		if (statute.existsAdvanceNoticeDays && isNaN(statute.advanceNoticeDays)) {
 			errors.advanceNoticeDays = translate.required_field;
 			hasError = true;
 		}
 
-		if(statute.existsSecondCall && isNaN(statute.minimumSeparationBetweenCall)){
+		if (statute.existsSecondCall && isNaN(statute.minimumSeparationBetweenCall)) {
 			errors.minimumSeparationBetweenCall = translate.required_field;
 			hasError = true;
 		}
 
-		if(statute.existsMaxNumDelegatedVotes && isNaN(statute.maxNumDelegatedVotes)){
+		if (statute.existsMaxNumDelegatedVotes && isNaN(statute.maxNumDelegatedVotes)) {
 			hasError = true;
 			errors.maxNumDelegatedVotes = translate.required_field;
 		}
 
-		if(statute.existsLimitedAccessRoom && isNaN(statute.limitedAccessRoomMinutes)){
+		if (statute.existsLimitedAccessRoom && isNaN(statute.limitedAccessRoomMinutes)) {
 			hasError = true;
 			errors.limitedAccessRoomMinutes = translate.required_field;
 		}
 
-		if(checkForUnclosedBraces(statute.conveneHeader)){
+		if (checkForUnclosedBraces(statute.conveneHeader)) {
 			hasError = true;
 			notify = true;
 			errors.conveneHeader = translate.revise_text;
 		}
 
-		if(statute.existsAct){
-			if(checkForUnclosedBraces(statute.intro)){
+		if (statute.existsAct) {
+			if (checkForUnclosedBraces(statute.intro)) {
 				hasError = true;
 				notify = true;
 				errors.intro = translate.revise_text;
 			}
 
-			if(checkForUnclosedBraces(statute.constitution)){
+			if (checkForUnclosedBraces(statute.constitution)) {
 				hasError = true;
 				notify = true;
 				errors.constitution = translate.revise_text;
 			}
 
-			if(checkForUnclosedBraces(statute.conclusion)){
+			if (checkForUnclosedBraces(statute.conclusion)) {
 				hasError = true;
 				notify = true;
 				errors.conclusion = translate.revise_text;
 			}
 		}
 
-		if(notify){
+		if (notify) {
 			toast(
 				<LiveToast
 					message={translate.revise_text}
 				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "errorToast"
-				}
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: "errorToast"
+			}
 			);
 		}
 
@@ -289,11 +292,11 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const updateState = object => {
-		if(!state.unsavedChanges){
+		if (!state.unsavedChanges) {
 			store.dispatch(setUnsavedChanges(true));
 		}
 
- 		setState(state => ({
+		setState(state => ({
 			...state,
 			statute: {
 				...state.statute,
@@ -304,14 +307,15 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const handleStatuteChange = index => {
-		if(index !== 'new'){
+		console.log(index)
+		if (index !== 'new') {
 			if (!state.unsavedChanges) {
 				setState({
 					...state,
 					selectedStatute: index,
 					statute: null
 				})
-			} else{
+			} else {
 				setState({
 					...state,
 					unsavedAlert: true
@@ -344,41 +348,45 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 	const body = () => (
 		<>
-			{companyStatutes.length > 0? (
-				<div style={{height:`calc( 100% ${isMobile? '- 4em' : ''})`, paddingRight: "0"}} >
-					<VTabs
-						tabs={tabs}
-						changeTab={handleStatuteChange}
-						index={state.selectedStatute}
-						additionalTab={
-							<BasicButton
-								text={translate.add_council_type}
-								id={'anadirTipoDeReunion'}
-								fullWidth
-								loading={state.newLoading}
-								textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
-								color={secondary}
-								icon={<ButtonIcon type="add" color="white" />}
-								onClick={showNewStatute}
-							/>
-						}
-						additionalTabAction={showNewStatute}
-						translate={translate}
-						editAction={openEditModal}
-						deleteAction={openDeleteModal}
-					>
+			{companyStatutes.length > 0 ? (
+				<div style={{ height: `calc( 100% ${isMobile ? '- 4em' : ''})`, paddingRight: "0", display: "flex" }}>
+					<div>
+						<VTabs
+							tabs={tabs}
+							changeTab={handleStatuteChange}
+							index={state.selectedStatute}
+							additionalTab={
+								<BasicButton
+									text={translate.add_council_type}
+									id={'anadirTipoDeReunion'}
+									fullWidth
+									loading={state.newLoading}
+									textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}
+									color={secondary}
+									icon={<ButtonIcon type="add" color="white" />}
+									onClick={showNewStatute}
+								/>
+							}
+							additionalTabAction={showNewStatute}
+							translate={translate}
+							editAction={openEditModal}
+							deleteAction={openDeleteModal}
+						>
+						</VTabs>
+					</div>
+					<div style={{ width: "100%" }}>
 						{!!statute && (
 							<React.Fragment>
-								<div style={{position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)'}}>
+								<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
 									<Scrollbar>
-										<div style={{paddingLeft: '1em', paddingRight: '1.5em'}}>
+										<div style={{ paddingLeft: '1em', paddingRight: '1.5em' }}>
 											<StatuteEditor
 												companyStatutes={companyStatutes}
 												statute={statute}
 												censusList={censusList}
 												company={props.company}
-                                                translate={translate}
-                                                organization={props.organization}
+												translate={translate}
+												organization={props.organization}
 												updateState={updateState}
 												errors={state.errors}
 											/>
@@ -388,8 +396,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 								</div>
 								<div
 									style={{
-										width: 'calc(100% + 24px)',
-										marginLeft: '-24px',
+										width: '100%',
+										paddingRight: '24px',
 										height: '3.5em',
 										paddingTop: '0.5em',
 										borderTop: '1px solid gainsboro',
@@ -449,31 +457,31 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 								</div>
 							</React.Fragment>
 						)}
-					</VTabs>
+					</div>
 				</div>
 			) : (
-				<div
-					style={{
-						width: '100%',
-						height: '100%',
-						display: 'flex',
-						alignItems: 'center',
-						flexDirection: 'column',
-						marginTop: '4em'
-					}}
-				>
-					<span style={{fontSize: '1.1em', fontWeight: '700', marginBottom: '1em'}}>
-						{translate.no_council_types}
-					</span>
-					<BasicButton
-						text={translate.add_council_type}
-						textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
-						color={secondary}
-						icon={<ButtonIcon type="add" color="white" />}
-						onClick={showNewStatute}
-					/>
-				</div>
-			)
+					<div
+						style={{
+							width: '100%',
+							height: '100%',
+							display: 'flex',
+							alignItems: 'center',
+							flexDirection: 'column',
+							marginTop: '4em'
+						}}
+					>
+						<span style={{ fontSize: '1.1em', fontWeight: '700', marginBottom: '1em' }}>
+							{translate.no_council_types}
+						</span>
+						<BasicButton
+							text={translate.add_council_type}
+							textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}
+							color={secondary}
+							icon={<ButtonIcon type="add" color="white" />}
+							onClick={showNewStatute}
+						/>
+					</div>
+				)
 
 			}
 
@@ -485,7 +493,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				buttonCancel={translate.cancel}
 				modal={true}
 				acceptAction={deleteStatute}
-				requestClose={() => setState({ ...state, eleteModal: false })}
+				requestClose={() => setState({ ...state, deleteModal: false })}
 			/>
 			<UnsavedChangesModal
 				requestClose={() => setState({ ...state, unsavedAlert: false })}
@@ -516,7 +524,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 						required
 						type="text"
 						errorText={errors.newStatuteName}
-						value={statute? statute.newStatuteName : state.newStatuteName}
+						value={statute ? statute.newStatuteName : state.newStatuteName}
 						onChange={event =>
 							setState({
 								...state,
@@ -545,6 +553,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	return (body())
 }
 
+
 export default withSharedProps()(
 	compose(
 		graphql(updateStatute, {
@@ -567,3 +576,111 @@ export default withSharedProps()(
 		})
 	)(withRouter(withApollo(StatutesPage)))
 );
+
+
+{/* <div style={{ height: `calc( 100% ${isMobile ? '- 4em' : ''})`, paddingRight: "0", }} >
+	<VTabs
+		tabs={tabs}
+		changeTab={handleStatuteChange}
+		index={state.selectedStatute}
+		additionalTab={
+			<BasicButton
+				text={translate.add_council_type}
+				id={'anadirTipoDeReunion'}
+				fullWidth
+				loading={state.newLoading}
+				textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}
+				color={secondary}
+				icon={<ButtonIcon type="add" color="white" />}
+				onClick={showNewStatute}
+			/>
+		}
+		additionalTabAction={showNewStatute}
+		translate={translate}
+		editAction={openEditModal}
+		deleteAction={openDeleteModal}
+	>
+		{!!statute && (
+			<React.Fragment>
+				<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
+					<Scrollbar>
+						<div style={{ paddingLeft: '1em', paddingRight: '1.5em' }}>
+							<StatuteEditor
+								companyStatutes={companyStatutes}
+								statute={statute}
+								censusList={censusList}
+								company={props.company}
+								translate={translate}
+								organization={props.organization}
+								updateState={updateState}
+								errors={state.errors}
+							/>
+							<br />
+						</div>
+					</Scrollbar>
+				</div>
+				<div
+					style={{
+						width: 'calc(100% + 24px)',
+						marginLeft: '-24px',
+						height: '3.5em',
+						paddingTop: '0.5em',
+						borderTop: '1px solid gainsboro',
+						display: 'flex',
+						paddingRight: '1em',
+						justifyContent: 'flex-end',
+						alignItems: 'center'
+					}}
+				>
+					<div>
+						{state.unsavedChanges &&
+							<BasicButton
+								text={translate.undo_changes}
+								color={getSecondary()}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									textTransform: 'none'
+								}}
+								buttonStyle={{
+									marginRight: '0.8em'
+								}}
+								onClick={() => setState({
+									...state,
+									rollbackAlert: true
+								})}
+								icon={
+									<ButtonIcon
+										type={"replay"}
+										color="white"
+									/>
+								}
+							/>
+						}
+						<BasicButton
+							text={translate.save}
+							disabled={state.error}
+							color={success ? "green" : getPrimary()}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								textTransform: 'none'
+							}}
+							onClick={updateStatute}
+							loading={state.loading}
+							error={state.error}
+							reset={resetButtonStates}
+							success={success}
+							icon={
+								<ButtonIcon
+									type={"save"}
+									color="white"
+								/>
+							}
+						/>
+					</div>
+				</div>
+			</React.Fragment>
+		)}
+	</VTabs>
+</div> */}
