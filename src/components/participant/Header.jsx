@@ -41,6 +41,19 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		props.actions.logoutParticipant(participant, council);
 	}
 
+	const leaveRoom = async () => {
+		const response = await props.client.mutate({
+			mutation: gql`
+				mutation LeaveRoom {
+					participantLeaveRoom{
+						success
+					}
+				}
+			`
+		});
+		props.actions.logoutParticipant(participant, council);
+	}
+
 	const _renderConveneBody = () => {
 		return (
 			<div style={{ borderTop: `5px solid ${primary}`, marginBottom: "1em", }}>
@@ -246,7 +259,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 								outline: "0"
 							}}
 							aria-label="help"
-							onClick={logout}
+							onClick={leaveRoom}
 						>
 							<Icon
 								className="material-icons"

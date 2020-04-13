@@ -123,6 +123,8 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
         )
     }
 
+    const disabled = fixed || !props.ownVote;
+
     return (
         <Grid
             style={{
@@ -147,7 +149,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                 }
                 loading={loading === 1}
                 disabledColor={disabledColor}
-                disabled={fixed}
+                disabled={disabled}
                 selected={getSelected(1)}
                 icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(1) ? primary : 'silver' }}></i>}
                 onClick={() => {
@@ -167,7 +169,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                 }
                 loading={loading === 0}
                 disabledColor={disabledColor}
-                disabled={fixed}
+                disabled={disabled}
                 selected={getSelected(0)}
                 icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(0) ? primary : 'silver' }}></i>}
                 onClick={() => {
@@ -188,7 +190,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                 }
                 loading={loading === 2}
                 disabledColor={disabledColor}
-                disabled={fixed}
+                disabled={disabled}
                 icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(2) ? primary : 'silver' }}></i>}
                 selected={getSelected(2)}
                 onClick={() => {
@@ -206,7 +208,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                         :
                         translate.dont_vote + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${translate.recount}: ${agenda.noVoteVotings + agenda.noVoteManual})`)
                 }
-                disabled={fixed}
+                disabled={disabled}
                 disabledColor={disabledColor}
                 selected={getSelected(-1)}
                 onClick={() => {
