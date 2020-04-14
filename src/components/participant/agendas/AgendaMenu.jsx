@@ -161,7 +161,10 @@ class AgendaMenu extends React.Component {
                                 :
                                 
                                 <>
-                                    {(agenda.votingState > 0 && !ownVote && this.props.participant.numParticipations > 0) &&
+                                    {(agenda.votingState > 0 &&
+                                        !ownVote &&
+                                        !(this.props.participant.type === PARTICIPANT_TYPE.PARTICIPANT && this.props.participant.numParticipations === 0)
+                                        ) &&
                                         translate.cant_exercise_vote
                                     }
                                     <VotingSection
