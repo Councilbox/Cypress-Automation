@@ -12,7 +12,7 @@ import withWindowOrientation from "../../../HOCs/withWindowOrientation";
 import { checkValidEmail } from "../../../utils/validation";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection } from "../../../displayComponents";
-import { councilStarted, participantNeverConnected, getSMSStatusByCode } from '../../../utils/CBX';
+import { councilStarted, participantNeverConnected, getSMSStatusByCode, hasAccessKey } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
 import { withApollo } from 'react-apollo';
@@ -187,7 +187,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
 
         const isValidForm = checkFieldsValidationState();
-        if (council.securityType === 1 || council.securityType === 2) {
+        if (hasAccessKey(council)) {
             try {
                 const response = await props.checkParticipantKey({
                     variables: {

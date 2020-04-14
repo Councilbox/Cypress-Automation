@@ -50,6 +50,14 @@ export const showAddCouncilAttachment = attachments => {
 	return true;
 };
 
+export const hasAccessKey = council => {
+	if(!council || !council.hasOwnProperty('securityType')){
+		throw new Error('Council securityType missing!');
+	}
+
+	return (council.securityType === 1 || council.securityType === 2);
+}
+
 export const canAddCouncilAttachment = (council, filesize) => {
 	return (
 		council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0) +
