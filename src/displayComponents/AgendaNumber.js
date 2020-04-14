@@ -22,7 +22,7 @@ export const getSubjectAbrv = text => {
 	}
 
 	while (!isChar){
-		if(!isNaN(text[index]) || text[index] === '.'){
+		if(!isNaN(text[index]) || (text[index] === '.' && !isNaN(+text[index + 1]) && text[index + 1] !== ' ')){
 			start += text[index];
 		} else {
 			isChar = true;
