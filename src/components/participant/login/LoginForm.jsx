@@ -387,7 +387,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 disabled={true}
                             />
 
-                            {council.securityType === 1 || council.securityType === 2 && (
+                            {hasAccessKey(council) && (
                                 <React.Fragment>
                                     <TextInput
                                         onKeyUp={handleKeyUp}
