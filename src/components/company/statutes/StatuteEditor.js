@@ -38,20 +38,20 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 	const { quorumTypes } = data;
 	return (
 		<Fragment>
-			<Grid>
+			<Grid style={{ overflow: "hidden" }}>
 				<SectionTitle
 					text={translate.convene}
 					color={primary}
 				/>
 				<br />
-				<Grid>
+				<Grid style={{ overflow: "hidden" }}>
 					{props.organization &&
 						<>
 							<GridItem xs={12} md={12} lg={12}>
-								<div style={{maxWidth: '20em'}}>
+								<div style={{ maxWidth: '20em' }}>
 									<SelectInput
 										floatingText={translate.company_type}
-										value={''+statute.companyType || '-1'}
+										value={'' + statute.companyType || '-1'}
 										onChange={event =>
 											updateState({
 												companyType: +event.target.value
@@ -69,7 +69,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 												return (
 													<MenuItem
 														key={companyType.label}
-														value={''+companyType.value}
+														value={'' + companyType.value}
 													>
 														{
 															translate[
@@ -84,7 +84,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 								</div>
 							</GridItem>
 							<GridItem xs={12} md={12} lg={12}>
-								<div style={{maxWidth: '20em'}}>
+								<div style={{ maxWidth: '20em' }}>
 									<SelectInput
 										floatingText={translate.language}
 										value={statute.language || 'all'}
@@ -124,7 +124,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 							value={statute.existsAdvanceNoticeDays === 1}
 							onChange={(event, isInputChecked) =>
 								updateState({
-									existsAdvanceNoticeDays: isInputChecked? 1 : 0
+									existsAdvanceNoticeDays: isInputChecked ? 1 : 0
 								})
 							}
 						/>
@@ -230,7 +230,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 							}
 						>
 							{quorumTypes !== undefined &&
-							!loading &&
+								!loading &&
 								quorumTypes.map(quorumType => {
 									return (
 										<MenuItem
@@ -241,7 +241,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 										</MenuItem>
 									);
 								})
-								}
+							}
 						</SelectInput>
 					</GridItem>
 					<GridItem xs={6} md={2} lg={2}>
@@ -296,27 +296,27 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 					{statute.existsSecondCall === 1 && (
 						<GridItem xs={6} md={2} lg={2}>
 							{CBX.quorumNeedsInput(statute.secondCallQuorumType) && (
-									<QuorumInput
-										type={statute.secondCallQuorumType}
-										style={{ marginLeft: "1em" }}
-										value={statute.secondCallQuorum}
-										divider={statute.secondCallQuorumDivider}
-										quorumError={errors.secondCallQuorum}
-										dividerError={
-											errors.secondCallQuorumDivider
-										}
-										onChange={value =>
-											updateState({
-												secondCallQuorum: +value
-											})
-										}
-										onChangeDivider={value =>
-											updateState({
-												secondCallQuorumDivider: +value
-											})
-										}
-									/>
-								)}
+								<QuorumInput
+									type={statute.secondCallQuorumType}
+									style={{ marginLeft: "1em" }}
+									value={statute.secondCallQuorum}
+									divider={statute.secondCallQuorumDivider}
+									quorumError={errors.secondCallQuorum}
+									dividerError={
+										errors.secondCallQuorumDivider
+									}
+									onChange={value =>
+										updateState({
+											secondCallQuorum: +value
+										})
+									}
+									onChangeDivider={value =>
+										updateState({
+											secondCallQuorumDivider: +value
+										})
+									}
+								/>
+							)}
 						</GridItem>
 					)}
 					<GridItem xs={12} md={7} lg={7}>
@@ -338,9 +338,10 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 							label={translate.exist_max_num_delegated_votes}
 							value={statute.existMaxNumDelegatedVotes === 1}
 							onChange={(event, isInputChecked) =>
-								updateState({existMaxNumDelegatedVotes: isInputChecked
-									? 1
-									: 0
+								updateState({
+									existMaxNumDelegatedVotes: isInputChecked
+										? 1
+										: 0
 								})
 							}
 						/>
@@ -531,7 +532,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 						marginBottom: "1em"
 					}}
 				/>
-				<Grid>
+				<Grid style={{ overflow: "hidden" }}>
 					<GridItem xs={12} md={4} lg={4}>
 						<SelectInput
 							floatingText={translate.associated_census}
@@ -558,6 +559,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 						</SelectInput>
 					</GridItem>
 				</Grid>
+				{/* /////// esto no esta ajustando en movil */}
 				<StatuteDocSection
 					translate={translate}
 					key={statute.id}

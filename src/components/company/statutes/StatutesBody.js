@@ -349,7 +349,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	const body = () => (
 		<>
 			{companyStatutes.length > 0 ? (
-				<div style={{ height: `calc( 100% ${isMobile ? '- 4em' : ''})`, paddingRight: "0", display: "flex" }}>
+				<div style={{ height: `calc( 100% ${isMobile ? '- 2em' : ''})`, paddingRight: "0", display: !isMobile && "flex", }}>
 					<div>
 						<VTabs
 							tabs={tabs}
@@ -374,12 +374,12 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 						>
 						</VTabs>
 					</div>
-					<div style={{ width: "100%" }}>
+					<div style={{ width: "100%", height:"100%"}}>
 						{!!statute && (
 							<React.Fragment>
 								<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
 									<Scrollbar>
-										<div style={{ paddingLeft: '1em', paddingRight: '1.5em' }}>
+										<div style={{ paddingLeft: '1em', paddingRight: '1.5em' , overflow: 'hidden'}}>
 											<StatuteEditor
 												companyStatutes={companyStatutes}
 												statute={statute}
