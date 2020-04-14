@@ -235,8 +235,8 @@ export function generateAgendaBlocks (data, language = 'es', secondaryLanguage =
             {
                 id: Math.random().toString(36).substr(2, 9),
                 label: `${texts.agendaPoint} ${(index + 1)} - ${texts.title}`,
-                text: `<b>${element.agendaSubject}</b>`,
-                secondaryText: `<b>${element.agendaSubject}</b>`,
+                text: `<div style="margin-top: 1em; font-weight: 700; font-size: 16px;">${element.agendaSubject}</div>`,
+                secondaryText: `<div style="margin-top: 1em; font-weight: 700; font-size: 16px;">${element.agendaSubject}</div>`,
                 editButton: true,
                 type: 'agendaSubject',
                 noBorrar: false,
