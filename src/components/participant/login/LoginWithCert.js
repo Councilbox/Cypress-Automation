@@ -1,6 +1,7 @@
 import React from 'react';
 import { BasicButton, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
+import RequestDataInfo from './RequestDataInfo';
 
 const reducer = (state, action) => {
     const actions = {
@@ -8,13 +9,15 @@ const reducer = (state, action) => {
             return ({
                 ...state,
                 status: 'SUCCESS',
-                message: action.payload
+                message: action.payload.message,
+                data: action.payload.data,
             })
         },
         'ERROR': () => ({
             ...state,
             status: 'ERROR',
-            message: action.payload
+            message: action.payload.message,
+            data: action.payload.data,
         })
     }
 
@@ -25,8 +28,7 @@ const reducer = (state, action) => {
 
 
 const LoginWithCert = ({ participant, handleSuccess, translate }) => {
-    const [{ status, message }, dispatch] = React.useReducer(reducer, { status: 'WAITING' });
-    const [userData, setUserData] = React.useState(null);
+    const [{ status, message, data }, dispatch] = React.useReducer(reducer, { status: 'WAITING' });
     const primary = getPrimary();
 
     const getData = async () => {
@@ -35,7 +37,13 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
             const response = await fetch(`${process.env.REACT_APP_CERT_API}participant/${participant.id}`);
             const json = await response.json();    
             if(json.success){
-                dispatch({ type: 'SUCCESS', payload: translate.cert_success })
+                dispatch({ type: 'SUCCESS', payload: {
+                    message: translate.cert_success,
+                    data: {
+                        geoLocation: json.geoLocation,
+                        requestInfo: json.requestInfo
+                    }
+                }})
             } else {
                 let message = json.error;
                 if(response.status == 403) {
@@ -44,25 +52,19 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
                 if(response.status === 401){
                     message = translate.cert_missing;
                 }
-                dispatch({ type: 'ERROR', payload: message })
+                dispatch({ type: 'ERROR', payload: {
+                    message,
+                    data: {
+                        geoLocation: json.geoLocation,
+                        requestInfo: json.requestInfo
+                    }
+                }})
             }
         } catch (error){
             dispatch({ type: 'ERROR', payload: translate.cert_error });
         }
 
     }
-
-    const getUserData = async () => {
-        const response = await fetch('https://ipinfo.io/json');
-        const json = await response.json();
-
-        console.log(json);
-    }
-
-    React.useEffect(() => {
-        //getUserData();
-    }, [participant.id])
-
 
     return (
         <>
@@ -125,6 +127,9 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
                     onClick={status === 'SUCCESS'? handleSuccess : () => {}}
                 />
             }
+            <RequestDataInfo
+                data={data}
+            />
         </>
     )
 }
