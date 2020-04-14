@@ -360,7 +360,7 @@ const StepOptions = ({ translate, data, ...props }) => {
 						})
 					}
 					name="security"
-					label={'Certificado digital'} //TRADUCCION
+					label={translate.council_security_cert} //TRADUCCION
 				/>
 				<br />
 				{CBX.showUserUniqueKeyMessage(council) && (
