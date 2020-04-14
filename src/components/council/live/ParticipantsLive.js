@@ -147,7 +147,7 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 		return (
 			<Grid
 				key={`participant${participant.id}`}
-				className={isAskingForWord(participant)? "colorToggle" : ''}
+				className={(isAskingForWord(participant) && participant.online === 1)? "colorToggle" : ''}
 				style={{
 					display: "flex",
 					flexDirection: "row",
