@@ -161,7 +161,7 @@ class AgendaMenu extends React.Component {
                                 :
                                 
                                 <>
-                                    {(!CBX.agendaVotingsOpened(agenda) || !ownVote) &&
+                                    {(agenda.votingState > 0 && !ownVote && this.props.participant.numParticipations > 0) &&
                                         translate.cant_exercise_vote
                                     }
                                     <VotingSection
