@@ -155,6 +155,9 @@ class NewCompanyPage extends React.PureComponent {
 				action: 'Crear entidad',
 				label: this.props.company ? this.props.company.businessName : 'Sin compañía'
 			});
+			this.setState({
+				request: true
+			});
 			const response = await this.props.createCompany({
 				variables: {
 					company: {
@@ -167,6 +170,7 @@ class NewCompanyPage extends React.PureComponent {
 
 			if (!response.errors) {
 				if (response.data.createCompany.id) {
+					this.setState({request: false});
 					await store.dispatch(getCompanies(this.props.user.id));
 					bHistory.push(`/`);
 					toast(
