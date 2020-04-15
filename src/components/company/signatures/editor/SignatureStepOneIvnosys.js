@@ -107,6 +107,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, data, nextStep, client,
 
     const saveSignaturefunc = async () => {
         const { __typename, attachment, ...signature } = state.data;
+        console.log('ENTRO')
         const response = await client.mutate({
             mutation: saveSignature,
             variables: {

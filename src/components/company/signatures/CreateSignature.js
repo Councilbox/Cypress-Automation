@@ -16,6 +16,7 @@ class CreateSignature extends React.Component {
 				companyId: companyId
 			}
 		});
+		// console.log(response)
 		return response.data.createSignature.id;
 	}
 
