@@ -9,15 +9,13 @@ const reducer = (state, action) => {
             return ({
                 ...state,
                 status: 'SUCCESS',
-                message: action.payload.message,
-                data: action.payload.data,
+                message: action.payload.message
             })
         },
         'ERROR': () => ({
             ...state,
             status: 'ERROR',
-            message: action.payload.message,
-            data: action.payload.data,
+            message: action.payload.message
         })
     }
 
@@ -28,7 +26,7 @@ const reducer = (state, action) => {
 
 
 const LoginWithCert = ({ participant, handleSuccess, translate }) => {
-    const [{ status, message, data }, dispatch] = React.useReducer(reducer, { status: 'WAITING' });
+    const [{ status, message }, dispatch] = React.useReducer(reducer, { status: 'WAITING' });
     const primary = getPrimary();
 
     const getData = async () => {
@@ -39,10 +37,6 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
             if(json.success){
                 dispatch({ type: 'SUCCESS', payload: {
                     message: translate.cert_success,
-                    data: {
-                        geoLocation: json.geoLocation,
-                        requestInfo: json.requestInfo
-                    }
                 }})
             } else {
                 let message = json.error;
@@ -53,11 +47,7 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
                     message = translate.cert_missing;
                 }
                 dispatch({ type: 'ERROR', payload: {
-                    message,
-                    data: {
-                        geoLocation: json.geoLocation,
-                        requestInfo: json.requestInfo
-                    }
+                    message
                 }})
             }
         } catch (error){
@@ -127,9 +117,6 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
                     onClick={status === 'SUCCESS'? handleSuccess : () => {}}
                 />
             }
-            <RequestDataInfo
-                data={data}
-            />
         </>
     )
 }

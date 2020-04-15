@@ -8,6 +8,7 @@ import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from "../../../utils/screen";
+import RequestDataInfo from "./RequestDataInfo";
 
 // '850px'
 const width = window.innerWidth > 450 ? '850px' : '100%'
@@ -30,6 +31,7 @@ const styles = {
 	},
 	cardContainer: {
 		margin: isMobile ? "20%" : "20px",
+		marginBottom: '5px',
 		minWidth: width,
 		maxWidth: "100%",
 		//height: '50vh',
@@ -106,6 +108,19 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 										)}
 								</div>
 							}
+						</Card>
+						<Card style={{
+							...((councilIsLive(council) && !participant.hasVoted) ? {
+								minWidth: window.innerWidth > 450 ? '550px' : '100%'
+							} : {
+									minWidth: width
+								})
+							
+						}}>
+							<RequestDataInfo
+								data={{}}
+								translate={props.translate}
+							/>
 						</Card>
 					</div>
 				</Scrollbar>
