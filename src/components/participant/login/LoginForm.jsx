@@ -464,6 +464,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                     translate={translate}
                                     participant={participant}
                                     handleSuccess={handleSuccess}
+                                    status={props.status}
+                                    message={props.message}
+                                    dispatch={props.updateState}
                                 />
                             :
 

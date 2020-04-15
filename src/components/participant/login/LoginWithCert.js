@@ -3,30 +3,8 @@ import { BasicButton, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import RequestDataInfo from './RequestDataInfo';
 
-const reducer = (state, action) => {
-    const actions = {
-        'SUCCESS': () => {
-            return ({
-                ...state,
-                status: 'SUCCESS',
-                message: action.payload.message
-            })
-        },
-        'ERROR': () => ({
-            ...state,
-            status: 'ERROR',
-            message: action.payload.message
-        })
-    }
 
-    return actions[action.type]? actions[action.type]() : state;
-
-
-}
-
-
-const LoginWithCert = ({ participant, handleSuccess, translate }) => {
-    const [{ status, message }, dispatch] = React.useReducer(reducer, { status: 'WAITING' });
+const LoginWithCert = ({ participant, handleSuccess, translate, dispatch, status, message }) => {
     const primary = getPrimary();
 
     const getData = async () => {
@@ -34,6 +12,7 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
             dispatch({ type: 'LOADING' });
             const response = await fetch(`${process.env.REACT_APP_CERT_API}participant/${participant.id}`);
             const json = await response.json();    
+            console.log(dispatch, json);
             if(json.success){
                 dispatch({ type: 'SUCCESS', payload: {
                     message: translate.cert_success,
@@ -58,9 +37,6 @@ const LoginWithCert = ({ participant, handleSuccess, translate }) => {
 
     return (
         <>
-            <div style={{color: status === 'ERROR'? 'red' : 'green', fontSize: '1.2em', marginBottom: '0.4em', fontWeight: '700'}}>
-                {message}
-            </div>
             {status === 'ERROR' &&
                 <BasicButton
                     text={translate.retry}
