@@ -144,8 +144,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
             if(participant.requestWord === 3){
                 return <span />
             }
-
-            
+           
             const grantedWord = CBX.haveGrantedWord(participant);
 
             if(grantedWord || CBX.isAskingForWord(participant)){
@@ -210,7 +209,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                 )
             }
 
-            if(!canRequest){
+            if(!canRequest && !props.videoURL.includes('cmp5')){
                 return (
                     <Button
                         className={"NoOutline"}
