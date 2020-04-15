@@ -12,8 +12,26 @@ const RequestDataInfo = ({ translate, status, message }) => {
 
     const getData = React.useCallback(async () => {
         const response = await fetch(`${SERVER_URL}/connectionInfo`);
-        const json = await response.json();
-        console.log(json);
+        let json = await response.json();
+
+        if(!json.geoLocation){
+            if('geolocation' in navigator){
+                navigator.geolocation.getCurrentPosition(async position => {
+                    const geoRequest = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${
+                        position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=${translate.selectedLanguage}`);
+                    if(geoRequest.status === 200){
+                        const geoLocation = await geoRequest.json();
+                        json.geoLocation = {
+                            city: geoLocation.locality,
+                            state: geoLocation.principalSubdivision,
+                            country: geoLocation.countryCode
+                        }
+                    }
+                });
+                
+            }
+        }
+
         setData(json);
     }, [])
 
@@ -32,9 +50,13 @@ const RequestDataInfo = ({ translate, status, message }) => {
         return icons[status]? icons[status] : icons.default;
     }
 
-    console.log(status);
-
     //TRADUCCION
+
+    if(data){
+        if(!data.geoLocation){
+            //alert('no pilla geo');
+        }
+    }
 
     return (
         <div style={{
@@ -51,7 +73,11 @@ const RequestDataInfo = ({ translate, status, message }) => {
                         <div>
                             <span style={{fontWeight: '700'}}>IP</span>
                             {data.requestInfo.ip}
-                            <span style={{fontWeight: '700', marginLeft: '2em'}}>{`${data.geoLocation.city}, ${data.geoLocation.zip}`}</span>
+                            {data.geoLocation &&
+                                <>
+                                    <span style={{fontWeight: '700', marginLeft: '2em'}}>{`${data.geoLocation.city}, ${data.geoLocation.zip? data.geoLocation.zip : data.geoLocation.state}`}</span>
+                                </>
+                            }
                         </div>
                     </>
                 }
