@@ -69,7 +69,7 @@ const RequestDataInfo = ({ translate, status, message }) => {
             <div style={{fontSize: '1.1em', color: status === 'ERROR'? 'red' : secondary}}>
                 {data &&
                     <>
-                        <div style={{fontWeight: '700', marginBottom: '0.3em'}}>{message? message : 'Conexión segura'}</div>
+                        <div style={{fontWeight: '700', marginBottom: '0.3em'}}>{message? message : translate.secure_connection}</div>
                         <div>
                             <span style={{fontWeight: '700'}}>IP</span>
                             {data.requestInfo.ip}

@@ -42,6 +42,7 @@ class NewCompanyPage extends React.PureComponent {
 			city: "",
 			zipcode: "",
 			country: "España",
+			creationCode: '',
 			countryState: '',
 			language: "es"
 		},
@@ -599,6 +600,18 @@ class NewCompanyPage extends React.PureComponent {
 												)
 											)}
 									</SelectInput>
+								</GridItem>
+								<GridItem xs={12} md={6} lg={3}>
+									<TextInput
+										floatingText={translate.affiliation_code}
+										type="text"
+										value={data.creationCode}
+										onChange={event =>
+											this.updateState({
+												creationCode: event.target.value
+											})
+										}
+									/>
 								</GridItem>
 							</Grid>
 						</div>
