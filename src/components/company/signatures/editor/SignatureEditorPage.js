@@ -78,7 +78,7 @@ class SignatureEditorPage extends React.Component {
                                             translate={translate}
                                             key={this.props.data.signature.id}
                                             signature={this.props.data.signature}
-                                            data={this.props.data}
+                                            refetch={this.props.data.refetch}
                                             nextStep={() => this.setState({ step: 2 })}
                                         />
                                     }
@@ -100,7 +100,7 @@ class SignatureEditorPage extends React.Component {
                                             translate={translate}
                                             key={this.props.data.signature.id}
                                             signature={this.props.data.signature}
-                                            data={this.props.data}
+                                            refetch={this.props.data.refetch}
                                             nextStep={() => this.setState({ step: 2 })}
                                         />
                                     }

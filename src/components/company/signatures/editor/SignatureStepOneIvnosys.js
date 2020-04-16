@@ -11,7 +11,7 @@ import DocumentNameEditor from './DocumentNameEditor';
 import { checkForUnclosedBraces } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 
-const SignatureStepOneIvnosys = ({ translate, signature, data, nextStep, client, ...props }) => {
+const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, client, ...props }) => {
     const [state, setState] = React.useState({
         data: {
             ...signature,
@@ -20,6 +20,8 @@ const SignatureStepOneIvnosys = ({ translate, signature, data, nextStep, client,
         errors: {},
         errorState: false
     })
+
+    const { data } = state;
 
     const removeDocument = async () => {
         const response = await client.mutate({
@@ -91,7 +93,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, data, nextStep, client,
                             }
                         })
                     }
-                    data.refetch();
+                    refetch();
                 }
             } else {
                 setState({
@@ -107,7 +109,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, data, nextStep, client,
 
     const saveSignaturefunc = async () => {
         const { __typename, attachment, ...signature } = state.data;
-        console.log('ENTRO')
+        console.log(signature);
         const response = await client.mutate({
             mutation: saveSignature,
             variables: {
