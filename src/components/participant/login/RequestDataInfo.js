@@ -71,7 +71,7 @@ const RequestDataInfo = ({ translate, status, message }) => {
                     <>
                         <div style={{fontWeight: '700', marginBottom: '0.3em'}}>{message? message : translate.secure_connection}</div>
                         <div>
-                            <span style={{fontWeight: '700'}}>IP</span>
+                            <span style={{fontWeight: '700', marginRight: '0.5em'}}>IP:</span>
                             {data.requestInfo.ip}
                             {data.geoLocation &&
                                 <>
