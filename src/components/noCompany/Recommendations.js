@@ -53,7 +53,7 @@ class Recommendations extends React.Component {
                         type="desktop_windows"
                         color={primary} />
                 </Card>
-                <Card
+                {/* <Card
                     elevation={this.state.platformActive === 'ANDROID' ? 0 : 1}
                     onClick={() => this.setActivePlatform('ANDROID')}
                     style={{
@@ -66,7 +66,7 @@ class Recommendations extends React.Component {
                         style={{ fontSize: '2em' }}
                         type="android"
                         color={primary} />
-                </Card>
+                </Card> */}
                 {/* <Card
                     elevation={this.state.platformActive === 'IOS' ? 0 : 1}
                     onClick={() => this.setActivePlatform('IOS')}

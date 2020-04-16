@@ -84,10 +84,10 @@ const ParticipantForm = ({
 					</GridItem>
 					<GridItem xs={6} md={4} lg={3}>
 						<TextInput
-							floatingText={translate.surname}
+							floatingText={translate.surname || ''}
 							type="text"
-							errorText={errors.surname}
-							value={participant.surname}
+							errorText={errors.surname || ''}
+							value={participant.surname || ''}
 							onChange={event =>
 								updateState({
 									surname: event.nativeEvent.target.value
@@ -196,6 +196,38 @@ const ParticipantForm = ({
 					})}
 				</SelectInput>
 			</GridItem>
+			{participant.personOrEntity === 0 &&
+				<GridItem xs={6} md={4} lg={2}>
+					<SelectInput
+						floatingText={translate.initial_state}
+						value={''+participant.initialState}
+						onChange={event =>
+							updateState({
+								initialState: +event.target.value
+							})
+						}
+					>
+						<MenuItem
+							value={'0'}
+							key={'initial_state_0'}
+						>
+							{'Espectador'}
+						</MenuItem>
+						<MenuItem
+							value={'2'}
+							key={'initial_state_2'}
+						>
+							{'Palabra concedida'}
+						</MenuItem>
+						<MenuItem
+							value={'3'}
+							key={'initial_state_3'}
+						>
+							{'Sala de espera'}
+						</MenuItem>
+					</SelectInput>
+				</GridItem>
+			}
 			<GridItem xs={6} md={4} lg={1}>
 				<TextInput
 					floatingText={translate.votes}

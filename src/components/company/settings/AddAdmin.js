@@ -70,14 +70,14 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
                 acceptAction={addAdmin}
                 bodyText={
                     <React.Fragment>
-                        {`¿Desea añadir a ${modal.name} ${modal.surname} como administrador de ${company.businessName}?`}
+                        {`¿Desea añadir a ${modal.name} ${modal.surname || ''} como administrador de ${company.businessName}?`}
                         <button onClick={addAdmin}>Aceptar</button>
                     </React.Fragment>}
                 requestClose={() => setModal(false)}
             />
             {users.list.map(user => (
                 <div style={{display: 'flex'}}>
-                    {`${user.name} ${user.surname} - ${user.email}`}
+                    {`${user.name} ${user.surname || ''} - ${user.email}`}
                     <div style={{cursor: 'pointer'}} onClick={() => {
                         setModal(user)
                         //alert()

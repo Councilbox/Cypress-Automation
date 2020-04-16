@@ -3,6 +3,41 @@ import { getPrimary, getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { Tooltip } from 'material-ui';
 
+
+export const getSubjectAbrv = text => {
+	let isChar = false;
+	let start = '';
+	let index = 0;
+
+	if(typeof text == 'object'){
+		return text;
+	}
+
+	if(!text){
+		return '';
+	}
+
+	if(!isNaN(text)){
+		text = ''+text;
+	}
+
+	while (!isChar){
+		if(!isNaN(text[index]) || (text[index] === '.' && !isNaN(+text[index + 1]) && text[index + 1] !== ' ')){
+			start += text[index];
+		} else {
+			isChar = true;
+		}
+		index++;
+	}
+
+	if(!start){
+		start = text.split(' ').reduce((acc, curr) => `${acc}${curr.toUpperCase().substr(0, 1)}`, '')
+	}
+
+	return start.substr(0, 3);;
+}
+
+
 const AgendaNumber = ({
 	index,
 	active,
@@ -55,7 +90,7 @@ const AgendaNumber = ({
 			</Tooltip>
 		}
 		<div>
-			{index}
+			{getSubjectAbrv(index)}
 		</div>
 	</div>
 );

@@ -299,7 +299,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				...state.statute,
 				...object
 			},
-			unsavedChanges: true
+			unsavedChanges: JSON.stringify(state.statute) !== JSON.stringify(data.companyStatutes[state.selectedStatute])
 		}));
 	};
 
@@ -369,7 +369,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 					>
 						{!!statute && (
 							<React.Fragment>
-								<div style={{position: 'relative', overflow: 'hidden', height: 'calc(100% - 3.5em)'}}>
+								<div style={{position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)'}}>
 									<Scrollbar>
 										<div style={{paddingLeft: '1em', paddingRight: '1.5em'}}>
 											<StatuteEditor

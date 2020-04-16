@@ -79,7 +79,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
         agendaList: () => {
             let puntos = `<b>${texts.agenda}</b> </br>`
             data.agendas.forEach((element, index) => {
-                puntos += (index + 1) + "- " + element.agendaSubject + "</br>";
+                puntos += "- " + element.agendaSubject + "</br>";
             });
             return {
                 ...item,
@@ -89,7 +89,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
                 secondaryText: `
                     <b>${secondaryTexts.agenda}</b> </br>
                     ${data.agendas.reduce((acc, curr) => {
-                        return `${acc} ${curr.orderIndex} - ${curr.agendaSubject}</br>`
+                        return `${acc}- ${curr.agendaSubject}</br>`
                     }, '')}
                 `
             }
@@ -235,8 +235,8 @@ export function generateAgendaBlocks (data, language = 'es', secondaryLanguage =
             {
                 id: Math.random().toString(36).substr(2, 9),
                 label: `${texts.agendaPoint} ${(index + 1)} - ${texts.title}`,
-                text: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
-                secondaryText: '<b>' + (index + 1) + " - " + element.agendaSubject + "</b>",
+                text: `<div style="margin-top: 1em; font-weight: 700; font-size: 1.2em;">${element.agendaSubject}</div>`,
+                secondaryText: `<div style="margin-top: 1em; font-weight: 700; font-size: 1.2em;">${element.agendaSubject}</div>`,
                 editButton: true,
                 type: 'agendaSubject',
                 noBorrar: false,

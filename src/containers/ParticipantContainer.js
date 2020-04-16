@@ -56,7 +56,7 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 				councilId: match.params.councilId
 			}
 		});
-
+		
 		setCouncil(response.data);
 	}
 

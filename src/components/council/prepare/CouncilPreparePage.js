@@ -84,7 +84,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				text: translate.convene,
 			},
 			{
-				text: translate.new_list_called,
+				text: translate.new_list_called /**TRADUCCION CAMBIAR POR LISTA DE PARTICIPANTES*/,
 			},
 		];
 

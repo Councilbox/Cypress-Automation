@@ -7,9 +7,11 @@ import {
 	canUnblockParticipant
 } from "../../../../utils/CBX";
 import { graphql } from "react-apollo";
-import { unbanParticipant } from "../../../../queries";
+import { unbanParticipant, changeRequestWord } from "../../../../queries";
 
 const VideoParticipantMenu = ({ translate, participant, ...props }) => {
+	const secondary = getSecondary();
+
 	const unbanParticipant = async () => {
 		const response = await props.unbanParticipant({
 			variables: {
@@ -24,6 +26,19 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 		}
 	}
 
+	const changeWordState = async (id, value) => {
+		const response = await props.changeRequestWord({
+			variables: {
+				requestWord: value,
+				participantId: id
+			}
+		});
+
+		if (response) {
+			props.refetch();
+		}
+	};
+
 	return (
 		<DropDownMenu
 			Component={() => (
@@ -32,7 +47,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 						width: "1.6em",
 						height: "1.6em",
 						borderRadius: "0.1em",
-						backgroundColor: getSecondary()
+						backgroundColor: secondary
 					}}
 				>
 					<MenuItem
@@ -93,13 +108,29 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 							{translate.ban_participant}
 						</MenuItem>
 					)}
+					{participant.requestWord !== 3 && (
+							<MenuItem
+							onClick={() => changeWordState(participant.id, 3)}
+						>
+							<Icon
+								className="material-icons"
+								style={{
+									color: secondary,
+									marginRight: "0.4em"
+								}}
+							>
+								launch
+							</Icon>
+							{translate.send_to_waiting_room}
+						</MenuItem>
+					)}
 					<MenuItem
 						onClick={props.setParticipantHistory}
 					>
 						<Icon
 							className="material-icons"
 							style={{
-								color: getSecondary(),
+								color: secondary,
 								marginRight: "0.4em"
 							}}
 						>
@@ -117,4 +148,6 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 
 export default graphql(unbanParticipant, {
 	name: "unbanParticipant"
-})(VideoParticipantMenu);
+})(graphql(changeRequestWord, {
+	name: "changeRequestWord"
+})(VideoParticipantMenu));

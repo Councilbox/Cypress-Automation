@@ -188,7 +188,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 		let errors = {}
 		const { council } = data;
 
-		if (council.councilType > 1) {
+		if (council.councilType === 2 || council.councilType === 3) {
 			if (!council.dateStart) {
 				hasError = true;
 				errors.dateStart = {
@@ -425,7 +425,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 						}
 						buttonCancel={translate.close}
 						bodyText={<div />}
-						title={translate.new_save_convene}
+						title={data.council.councilType === 4? 'Confirmar sin notificar' /*TRADUCCION*/ : translate.new_save_convene}
 					/>
 				</div>
 			}
@@ -496,44 +496,48 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 									type="flat"
 									items={
 										<React.Fragment>
-											<MenuItem
-												onClick={() =>
-													setState({
-														conveneTestModal: true
-													})
-												}
-											>
-												<Icon
-													className="fa fa-flask"
-													style={{
-														color: secondary,
-														marginLeft: "0.4em",
-														marginRight: '0.4em'
-													}}
-												>
-													{" "}
-												</Icon>
-												{translate.send_test_convene}
-											</MenuItem>
-											<MenuItem
-												onClick={() =>
-													setState({
-														preConveneModal: true
-													})
-												}
-											>
-												<Icon
-													className="material-icons"
-													style={{
-														color: secondary,
-														marginLeft: "0.4em",
-														marginRight: '0.4em'
-													}}
-												>
-													query_builder
-												</Icon>
-												{translate.send_preconvene}
-											</MenuItem>
+											{data.council.councilType !== 4 &&
+												<>
+													<MenuItem
+														onClick={() =>
+															setState({
+																conveneTestModal: true
+															})
+														}
+													>
+														<Icon
+															className="fa fa-flask"
+															style={{
+																color: secondary,
+																marginLeft: "0.4em",
+																marginRight: '0.4em'
+															}}
+														>
+															{" "}
+														</Icon>
+														{translate.send_test_convene}
+													</MenuItem>
+													<MenuItem
+														onClick={() =>
+															setState({
+																preConveneModal: true
+															})
+														}
+													>
+														<Icon
+															className="material-icons"
+															style={{
+																color: secondary,
+																marginLeft: "0.4em",
+																marginRight: '0.4em'
+															}}
+														>
+															query_builder
+														</Icon>
+														{translate.send_preconvene}
+													</MenuItem>
+												</>
+											}
 											<MenuItem
 												id={'convocarSinNotificarNew'}
 												onClick={() =>
@@ -552,14 +556,14 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 												>
 													notifications_off
 												</Icon>
-												{translate.new_save_convene}
+												{data.council.councilType === 4? 'Confirmar sin notificar' /*TRADUCCION*/ : translate.new_save_convene}
 											</MenuItem>
 										</React.Fragment>
 									}
 								/>
 							</div>
 							<BasicButton
-								text={translate.new_save_and_send}
+								text={data.council.councilType === 4? 'Confirmar y notificar' /*TRADUCCION*/  : translate.new_save_and_send}
 								color={primary}
 								textStyle={{
 									color: "white",

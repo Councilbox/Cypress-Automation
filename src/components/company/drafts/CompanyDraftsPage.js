@@ -20,7 +20,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
     const config = React.useContext(ConfigContext);
     const [data, setData] = React.useState({});
     const tabs = showOrganizationDashboard(props.company, config, props.user)?
-        [translate.drafts, '<Tags>', translate.council_types]
+        [translate.dasboard_documentation, translate.drafts, '<Tags>', translate.council_types]
     :
         [translate.dasboard_documentation, translate.drafts, '<Tags>']
     const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(tabs[0]);

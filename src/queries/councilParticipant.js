@@ -32,6 +32,7 @@ export const councilParticipants = gql`
 				type
 				numParticipations
 				socialCapital
+				initialState
 				uuid
 				delegateUuid
 				delegateId
@@ -43,6 +44,7 @@ export const councilParticipants = gql`
 				representative {
 					id
 					name
+					initialState
 					surname
 					dni
 					secondaryEmail
@@ -203,6 +205,7 @@ export const convenedcouncilParticipants = gql`
 				dni
 				type
 				secondaryEmail
+				initialState
 				numParticipations
 				socialCapital
 				uuid
@@ -216,6 +219,7 @@ export const convenedcouncilParticipants = gql`
 					surname
 					dni
 					email
+					initialState
 					secondaryEmail
 					phone
 					position
@@ -270,6 +274,11 @@ export const convenedcouncilParticipants = gql`
 						id
 						participantId
 						delegateId
+					}
+					voteLetter {
+						signedBy
+						id
+						participantId
 					}
 					delegateId
 					assistanceComment

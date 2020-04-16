@@ -21,11 +21,11 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
             </GridItem>
             <GridItem xs={12} md={6} lg={6}>
                 <TextInput
-                    floatingText={translate.surname}
+                    floatingText={translate.surname || ''}
                     type="text"
                     required
-                    errorText={errors.surname}
-                    value={participant.surname}
+                    errorText={errors.surname || ''}
+                    value={participant.surname || ''}
                     onChange={event =>
                         updateState({
                             surname: event.nativeEvent.target.value

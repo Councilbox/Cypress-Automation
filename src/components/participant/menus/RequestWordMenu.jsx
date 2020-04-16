@@ -13,12 +13,14 @@ import { useOldState } from '../../../hooks';
 import { ConfigContext } from '../../../containers/AppControl';
 import { isMobile } from '../../../utils/screen';
 
+
 const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const [state, setState] = useOldState({
         alertCantRequestWord: false,
         safariModal: false,
         confirmWordModal: false,
     });
+    const [canRequest, setCanRequest] = React.useState(false);
 
     const config = React.useContext(ConfigContext);
 
@@ -32,42 +34,48 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
         return () => clearInterval(interval);
     }, [participant.requestWord]);
 
+    React.useEffect(() => {
+        checkCanRequest();
+    }, [DetectRTC]);
+
+    const checkCanRequest = async () => {
+        await updateRTC();
+
+        if(isMobile){
+            return setCanRequest(false);
+        }
+
+        if(DetectRTC.browser.name !== 'Chrome' || (+DetectRTC.browser.version < 72)){
+            return setCanRequest(false);
+        }
+
+        setCanRequest(DetectRTC.audioInputDevices.length > 0);
+    }
+
     const secondary = getSecondary();
     const primary = getPrimary();
 
     const askForWord = async () => {
-        if (await checkWordRequisites()) {
-            setState({
-                loading: true
-            });
-            await props.changeRequestWord({
-                variables: {
-                    participantId: participant.id,
-                    requestWord: 1,
-                }
-            });
-            await props.refetchParticipant();
-            setState({
-                loading: false,
-                confirmWordModal: false
-            });
-        } else {
-            setState({
-                alertCantRequestWord: true,
-                confirmWordModal: false
-            });
-        }
+        setState({
+            loading: true
+        });
+        await props.changeRequestWord({
+            variables: {
+                participantId: participant.id,
+                requestWord: 1,
+            }
+        });
+        await props.refetchParticipant();
+        setState({
+            loading: false,
+            confirmWordModal: false
+        });
     }
 
     const updateRTC = () => {
         return new Promise((resolve) => {
             DetectRTC.load(() => resolve());
         })
-    }
-
-    const checkWordRequisites = async () => {
-        await updateRTC();
-        return DetectRTC.audioInputDevices.length > 0;
     }
 
     const cancelAskForWord = async () => {
@@ -132,17 +140,15 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     }
 
     const _renderWordButtonIconMobil = () => {
-        const grantedWord = CBX.haveGrantedWord(participant);
-        if (grantedWord || CBX.isAskingForWord(participant)) {
-            return (
-                <div style={{
-                    width: props.isPc ? "50%" : "20%",
-                    textAlign: "center",
-                    paddingTop: '0.35rem',
-                    color: grantedWord ? 'grey' : secondary,
-                    borderLeft: props.isPc ? "1px solid dimgrey" : "",
-                    borderTop: props.isPc ? "1px solid dimgrey" : "",
-                }}>
+        const renderButton = () => {
+            if(participant.requestWord === 3){
+                return <span />
+            }
+           
+            const grantedWord = CBX.haveGrantedWord(participant);
+
+            if(grantedWord || CBX.isAskingForWord(participant)){
+                return (
                     <Button
                         className={"NoOutline"}
                         style={{
@@ -200,21 +206,57 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                             </div>
                         </div>
                     </Button>
-                </div>
-            )
-        }
+                )
+            }
 
-        return (
-            <div
-                style={{
-                    width: props.isPc ? "50%" : "20%",
-                    textAlign: "center",
-                    paddingTop: '0.35rem',
-                    color: (isSafari && !config.safariRequestWord) ? 'grey' : secondary,
-                    borderTop: props.isPc ? "1px solid dimgrey" : "",
-                    borderLeft: props.isPc ? "1px solid dimgrey" : ""
-                }}
-            >
+            if(!canRequest && !props.videoURL.includes('cmp5')){
+                return (
+                    <Button
+                        className={"NoOutline"}
+                        style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
+                        onClick={showSafariAskingModal}
+                    >
+                        <div style={{ display: "unset" }}>
+                            <div style={{ position: "relative" }}>
+                                {state.loading &&
+                                    <FontAwesome
+                                        name={"circle-o-notch fa-spin"}
+                                        style={{
+                                            top: "-8px",
+                                            fontWeight: "bold",
+                                            right: "-10px",
+                                            position: "absolute",
+                                            fontSize: "1rem",
+                                            marginRight: '0.3em',
+                                            color: secondary
+                                        }}
+                                    />
+                                }
+                                <FontAwesome
+                                    name={"hand-paper-o"}
+                                    style={{
+                                        color:'grey',
+                                        fontSize: '24px',
+                                        width: '1em',
+                                        height: '1em',
+                                        overflow: 'hidden',
+                                        userSelect: 'none'
+                                    }}
+                                />
+                            </div>
+                            <div style={{
+                                fontSize: '0.55rem',
+                                textTransform: "none",
+                                color: 'grey',
+                            }}>
+                                {translate.ask_word_short}
+                            </div>
+                        </div>
+                    </Button>
+                )
+            }
+
+            return (
                 <Button
                     className={"NoOutline"}
                     style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
@@ -257,6 +299,19 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                         </div>
                     </div>
                 </Button>
+            )
+        }
+
+        return (
+            <div style={{
+                width: props.isPc ? "50%" : "20%",
+                textAlign: "center",
+                paddingTop: '0.35rem',
+                color: grantedWord ? 'grey' : secondary,
+                borderLeft: props.isPc ? "1px solid dimgrey" : "",
+                borderTop: props.isPc ? "1px solid dimgrey" : "",
+            }}>
+                {renderButton()}
             </div>
         )
     }

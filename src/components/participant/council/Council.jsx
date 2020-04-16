@@ -7,7 +7,7 @@ import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { PARTICIPANT_STATES } from '../../../constants';
 import Agendas from '../agendas/Agendas';
 import Header from "../Header";
-import { darkGrey } from '../../../styles/colors';
+import { darkGrey, getPrimary } from '../../../styles/colors';
 import RequestWordMenu from '../menus/RequestWordMenu';
 import { councilHasVideo } from '../../../utils/CBX';
 import { isLandscape, isMobile } from '../../../utils/screen';
@@ -24,6 +24,7 @@ import TextInputChat from "../../../displayComponents/TextInputChat";
 import { TextField } from "material-ui";
 import { usePolling } from "../../../hooks";
 import { LoadingSection } from "../../../displayComponents";
+import { agendaVotings } from "../../../queries/agenda";
 
 
 const styles = {
@@ -234,6 +235,29 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     }
 
     const renderVideoContainer = () => {
+        if(participant.requestWord === 3){
+            //TRADUCCION
+            return (
+                <div style={{
+                    backgroundColor: 'white',
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '1em'
+                }}>
+                    <span className="material-icons" style={{ color: getPrimary(), fontSize: '50px' }}>
+                        tv_off
+                    </span>
+                    <div style={{textAlign: 'center'}}>En la <strong style={{ color: getPrimary(), marginRight: '0.5em' }}>sala de espera.</strong>
+                        Podrá acceder a la emisión cuando el administrador de sala le conceda la entrada.
+                    </div>
+                </div>
+            )
+        }
+
         return (
             <VideoContainer
                 council={council}
@@ -515,9 +539,18 @@ const participantPing = gql`
         participantPing
     }
 `;
+
 const agendasQuery = gql`
     query Agendas($councilId: Int!, $participantId: Int!){
         agendas(councilId: $councilId){
+            positiveVotings
+            negativeVotings
+            abstentionVotings
+            positiveManual
+            negativeManual
+            abstentionManual
+            noVoteManual
+            noVoteVotings
             agendaSubject
             attachments {
                 id

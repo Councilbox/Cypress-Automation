@@ -15,12 +15,13 @@ import {
 	PaginationFooter,
 	Scrollbar,
 	Link,
-	Checkbox
+	Checkbox,
+	HelpPopover
 } from "../../../displayComponents";
 import { MenuItem, Icon, Card, CardActions } from "material-ui";
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { compose, graphql, withApollo } from "react-apollo";
-import { provinces } from "../../../queries/masters";
+import { provinces as provincesQuery } from "../../../queries/masters";
 import { unlinkCompany, updateCompany } from "../../../queries/company";
 import { getPrimary, getSecondary, primary } from "../../../styles/colors";
 import { bHistory, store, moment } from "../../../containers/App";
@@ -56,6 +57,8 @@ export const info = gql`
 `;
 
 const CompanySettingsPage = ({ company, client, translate, ...props }) => {
+	const [countryInput, setCountryInput] = React.useState(false);
+	const [provinces, setProvinces] = React.useState([]);
 	const [state, setState] = React.useState({
 		data: company,
 		success: false,
@@ -63,7 +66,6 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 		fileSizeError: false,
 		unlinkModal: false,
 		request: false,
-		provinces: [],
 		errors: {}
 	});
 	const primary = getPrimary();
@@ -79,13 +81,16 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 	}, [company.id]);
 
 	React.useEffect(() => {
-		if (!props.info.loading && state.provinces.length === 0) {
+		if (!props.info.loading && provinces.length === 0) {
 			const selectedCountry = props.info.countries.find(
 				country => country.deno === company.country
 			);
 
 			if (selectedCountry) {
 				updateProvinces(selectedCountry.id);
+			}
+			if (!selectedCountry) {
+				setCountryInput(true);
 			}
 		}
 	}, [props.info]);
@@ -99,30 +104,42 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 			},
 			success: false
 		});
+
 	}
 
 	const handleCountryChange = event => {
-		updateState({ country: event.target.value });
-		const selectedCountry = props.info.countries.find(
-			country => country.deno === event.target.value
-		);
-		updateProvinces(selectedCountry.id);
+		if (event.target.value === 'otro') {
+			setCountryInput(true);
+			updateState({ country: '' });
+			setProvinces([]);
+		} else {
+			// El problema es que el state de abajo pisa al de arriba...
+			setCountryInput(false);
+
+			const selectedCountry = props.info.countries.find(
+				country => country.deno === event.target.value
+			);
+			if(!selectedCountry){
+				return setProvinces([]);
+			}
+			updateState({
+				country: event.target.value
+			});
+			updateProvinces(selectedCountry.id);
+		}
 	};
 
 
 	const updateProvinces = async countryID => {
 		const response = await client.query({
-			query: provinces,
+			query: provincesQuery,
 			variables: {
 				countryId: countryID
 			}
 		});
 
 		if (!response.errors) {
-			setState({
-				...state,
-				provinces: response.data.provinces
-			});
+			setProvinces(response.data.provinces);
 		}
 	};
 
@@ -195,10 +212,10 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 					<LiveToast
 						message={translate.changes_saved}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "successToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "successToast"
+				}
 				);
 				if (!props.organization) {
 					store.dispatch(setCompany(response.data.updateCompany));
@@ -223,15 +240,16 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 					<LiveToast
 						message={translate.company_link_unliked_title}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "successToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "successToast"
+				}
 				);
 				bHistory.goBack();
 			}
 		}
 	};
+
 
 	function checkRequiredFields() {
 		let errors = {
@@ -467,50 +485,87 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={3}>
-						<SelectInput
-							floatingText={translate.company_new_country}
-							value={data.country}
-							onChange={handleCountryChange}
-							errorText={errors.country}
-						>
-							{props.info.countries.map(country => {
-								return (
-									<MenuItem
-										key={country.deno}
-										value={country.deno}
-									>
-										{country.deno}
-									</MenuItem>
-								);
-							})}
-						</SelectInput>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={3}>
-						<SelectInput
-							id={'addSociedadProvincia'}
-							floatingText={translate.company_new_country_state}
-							value={data.countryState}
-							errorText={errors.countryState}
-							onChange={event =>
-								updateState({
-									countryState: event.target.value
-								})
+					<React.Fragment>
+						<GridItem xs={12} md={6} lg={3}>
+							<SelectInput
+								floatingText={translate.company_new_country}
+								value={countryInput? 'otro' : data.country}
+								onChange={handleCountryChange}
+								errorText={errors.country}
+							>
+								{props.info.countries.map(country => {
+									return (
+										<MenuItem
+											key={country.deno}
+											value={country.deno}
+										>
+											{country.deno}
+										</MenuItem>
+									);
+								})}
+								<MenuItem
+									key={'otro'}
+									value={'otro'}
+								>
+									{translate.other}
+								</MenuItem>
+							</SelectInput>
+						</GridItem>
+						{countryInput &&
+							<GridItem xs={12} md={6} lg={3}>
+								<TextInput
+									floatingText={translate.company_new_country}
+									value={data.country}
+									errorText={errors.country}
+									onChange={event =>
+										updateState({
+											country: event.target.value
+										})
+									}
+								/>
+							</GridItem>
+						}
+						<GridItem xs={12} md={6} lg={3}>
+							{provinces.length === 0?
+								<TextInput
+									floatingText={translate.company_new_country_state}
+									value={data.countryState}
+									errorText={errors.countryState}
+									onChange={event =>
+										updateState({
+											countryState: event.target.value
+										})
+									}
+								/>
+							:
+								<SelectInput
+									id={'addSociedadProvincia'}
+									floatingText={translate.company_new_country_state}
+									value={data.countryState}
+									errorText={errors.countryState}
+									onChange={event =>
+										updateState({
+											countryState: event.target.value
+										})
+									}
+								>
+									{provinces.map(province => {
+									// {state.provinces.map(province => {
+										return (
+											<MenuItem
+												className={"addSociedadProvinciaOptions"}
+												key={province.deno}
+												value={province.deno}
+											>
+												{province.deno}
+											</MenuItem>
+										);
+									})}
+								</SelectInput>
 							}
-						>
-							{state.provinces.map(province => {
-								return (
-									<MenuItem
-										className={"addSociedadProvinciaOptions"}
-										key={province.deno}
-										value={province.deno}
-									>
-										{province.deno}
-									</MenuItem>
-								);
-							})}
-						</SelectInput>
-					</GridItem>
+							
+						</GridItem>
+					</React.Fragment>
 					<GridItem xs={12} md={6} lg={3}>
 						<TextInput
 							floatingText={translate.company_new_zipcode}
@@ -815,7 +870,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 													overflow: 'hidden',
 													textOverflow: 'ellipsis'
 												}}>
-													{item.name + " " + item.surname}
+													{item.name + " " + item.surname || ''}
 												</GridItem>
 												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
 													{translate.email}
@@ -969,7 +1024,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 													alignItems: "center"
 												}}>
 												<Cell text={getActivationText(item.actived, translate)} />
-												<Cell text={item.name + " " + item.surname} />
+												<Cell text={item.name + " " + item.surname || ''} />
 												<Cell text={item.email} />
 												<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
 												<Cell
@@ -1100,7 +1155,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 		const item = state.checked.find(item => item.id === id);
 		return !!item;
 	}
-	
+
 	if (isMobile) {
 		return (
 			<div style={{}}>
@@ -1160,7 +1215,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 													overflow: 'hidden',
 													textOverflow: 'ellipsis'
 												}}>
-													{item.name + " " + item.surname}
+													{item.name + " " + item.surname || ''}
 												</GridItem>
 												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
 													{translate.email}
@@ -1305,7 +1360,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 													}
 												/>
 												<Cell text={getActivationText(item.actived, translate)} />
-												<Cell text={item.name + " " + item.surname} />
+												<Cell text={item.name + " " + item.surname || ''} />
 												<Cell text={item.email} />
 												<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
 											</div>
@@ -1397,14 +1452,14 @@ const AddAdmin = ({ translate, company, open, requestClose }) => {
 }
 
 export const getActivationText = (value, translate) => {
-    const activations = {
-        [USER_ACTIVATIONS.NOT_CONFIRMED]: translate.not_confirmed,
-        [USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
+	const activations = {
+		[USER_ACTIVATIONS.NOT_CONFIRMED]: translate.not_confirmed,
+		[USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
 		[USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
 		[USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked
-    }
+	}
 
-    return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
+	return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
 }
 
 const linkCompanyUsers = gql`

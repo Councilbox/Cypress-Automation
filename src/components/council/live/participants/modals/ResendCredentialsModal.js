@@ -21,7 +21,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 	const primary = getPrimary();
 	const translation = translate.sure_send_video.replace(
 		"{{name}}",
-		`${participant.name} ${participant.surname}`
+		`${participant.name} ${participant.surname || ''}`
 	);
 
 	const close = () => {

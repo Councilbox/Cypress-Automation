@@ -164,11 +164,11 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 				<span style={{ fontWeight: '700' }}>
 					{!!vote.authorRepresentative ?
 						<React.Fragment>
-							{`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
+							{`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname || ''} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
 						</React.Fragment>
 						:
 						<React.Fragment>
-							{`${vote.author.name} ${vote.author.surname} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
+							{`${vote.author.name} ${vote.author.surname || ''} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
 							{vote.author.voteDenied &&
 								<Tooltip title={vote.author.voteDeniedReason}>
 									<span style={{color: 'red', fontWeight: '700'}}>
@@ -195,7 +195,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 										/>
 									</Tooltip>
 								}
-								{`${translate.representative_of} ${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
+								{`${translate.representative_of} ${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
 								{delegatedVote.author.voteDenied &&
 									<Tooltip title={delegatedVote.author.voteDeniedReason}>
 										<span style={{color: 'red', fontWeight: '700'}}>
@@ -222,7 +222,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 										/>
 									</Tooltip>
 								}
-								{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
+								{`${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${delegatedVote.author.numParticipations}` : ''}`}
 								{delegatedVote.author.voteDenied &&
 									<Tooltip title={delegatedVote.author.voteDeniedReason}>
 										<span style={{color: 'red', fontWeight: '700'}}>

@@ -726,6 +726,7 @@ export const statutes = gql`
 			companyId
 			title
 			existPublicUrl
+			language
 			companyType
 			addParticipantsListToAct
 			existsAdvanceNoticeDays
@@ -769,6 +770,11 @@ export const statutes = gql`
 			secondCallQuorumDivider
 			canEditConvene
 			notifyPoints
+			doubleColumnDocs
+			proxy
+			proxySecondary
+			voteLetter
+			voteLetterSecondary
 		}
 	}
 `;
@@ -1078,7 +1084,7 @@ export const councilStepFive = gql`
  }*/
 
 export const councilStepSix = gql`
-	query CouncilStepSix($id: Int!, $timezone: Int) {
+	query CouncilStepSix($id: Int!, $timezone: String) {
 		council(id: $id) {
 			actPointMajority
 			actPointMajorityDivider
@@ -2188,6 +2194,11 @@ export const draftDetails = gql`
 		majorityTypes {
 			label
 			value
+		}
+
+		languages {
+			desc
+			columnName
 		}
 
 		votingTypes {

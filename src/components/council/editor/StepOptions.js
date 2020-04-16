@@ -298,6 +298,9 @@ const StepOptions = ({ translate, data, ...props }) => {
 					</div>
 				</React.Fragment>
 			),
+			4: (
+				<></>
+			)
 		}
 
 		return councilOptions[type]? councilOptions[type] : councilOptions[1];
@@ -348,6 +351,17 @@ const StepOptions = ({ translate, data, ...props }) => {
 					name="security"
 					label={translate.new_security_sms}
 				/>
+				<Radio
+					value={"3"}
+					checked={council.securityType === 3}
+					onChange={event =>
+						updateCouncilData({
+							securityType: parseInt(event.target.value, 10)
+						})
+					}
+					name="security"
+					label={translate.council_security_cert}
+				/>
 				<br />
 				{CBX.showUserUniqueKeyMessage(council) && (
 					<Typography>
@@ -394,14 +408,20 @@ const StepOptions = ({ translate, data, ...props }) => {
 								</React.Fragment>
 							)}
 							{renderCouncilTypeSpecificOptions(council.councilType)}
-							<SectionTitle
-								text={translate.security}
-								color={primary}
-								style={{
-									marginTop: '1.6em'
-								}}
-							/>
-							{_renderSecurityForm()}
+							
+							{council.councilType !== 4 &&
+								<>
+									<SectionTitle
+										text={translate.security}
+										color={primary}
+										style={{
+											marginTop: '1.6em'
+										}}
+									/>
+									{_renderSecurityForm()}
+
+								</>
+							}
 							{(council.statute.existsDelegatedVote === 1 && config.councilDelegates) && _renderDelegationRestriction()}
 							{CBX.hasAct(council.statute) && council.councilType < 2 && (
 								<React.Fragment>

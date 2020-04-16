@@ -16,11 +16,50 @@ import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
 import { useOldState } from "../../../hooks";
 import { isMobile } from '../../../utils/screen';
-const calcMinWidth = () => window.innerWidth * 0.33 > 450 ? 33 : 100 / (window.innerWidth / 450);
-const calcMinHeight = () => window.innerHeight * 0.42 > 300 ? "42vh" : '300px';
+const calcMinWidth = () => window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450);
+const calcMinHeight = () => "42vh";
 
 let minVideoWidth = calcMinWidth();
 let minVideoHeight = calcMinHeight();
+
+const initScreenSizes = size => {
+	const sizes = {
+		'MIN': () => {
+			localStorage.setItem('screenSize', 'MIX');
+			return ({
+				videoWidth: minVideoWidth,
+				videoHeight: minVideoHeight,
+				fullScreen: false,
+				participants: false,
+				screenSize: 'MIN'
+			})
+		},
+		'MED': () => {
+			localStorage.setItem('screenSize', 'MED');
+			return {
+				videoWidth: minVideoWidth * 1.40,
+				videoHeight: '56vh',
+				fullScreen: false,
+				participants: false,
+				screenSize: 'MED'
+			}
+		},
+		'MAX': () => {
+			localStorage.setItem('screenSize', 'MAX');
+			return {
+				fullScreen: true,
+				videoWidth: 94,
+				videoHeight: '100%',
+				participants: false,
+				screenSize: 'MAX'
+			}
+		}
+	}
+
+	return sizes[size]? sizes[size]() : sizes['MIN']();
+}
+
+
 
 const CouncilLivePage = ({ translate, data, ...props }) => {
 	const [state, setState] = useOldState({
@@ -29,9 +68,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 		unreadComments: 0,
 		videoURL: '',
 		wallTooltip: false,
-		videoWidth: minVideoWidth,
-		videoHeight: minVideoHeight,
-		fullScreen: false
+		...initScreenSizes(localStorage.getItem('screenSize') || 'MIN')
 	});
 	const agendaManager = React.useRef(null);
 	const company = props.companies.list[props.companies.selected];
@@ -54,7 +91,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 	const updateMinSizes = React.useCallback(() => {
 		minVideoWidth = calcMinWidth();
 		minVideoHeight = calcMinHeight();
-		if (!state.fullScreen) {
+		if (!state.screenSize === 'MIN') {
 			setState({
 				videoWidth: minVideoWidth,
 				videoHeight: minVideoHeight,
@@ -109,19 +146,16 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 	}
 
 	const toggleFullScreen = () => {
-		if (state.fullScreen) {
-			setState({
-				videoWidth: minVideoWidth,
-				videoHeight: minVideoHeight,
-				fullScreen: false,
-				participants: false
-			});
-		} else {
-			setState({
-				videoWidth: 94,
-				videoHeight: "100%",
-				fullScreen: true
-			});
+		if (state.screenSize === 'MIN') {
+			setState(initScreenSizes('MED'));
+		}
+
+		if(state.screenSize === 'MED'){
+			setState(initScreenSizes('MAX'));
+		}
+
+		if(state.screenSize === 'MAX'){
+			setState(initScreenSizes('MIN'));
 		}
 	};
 
@@ -265,7 +299,8 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									council={council}
 									videoURL={state.videoURL}
 									translate={translate}
-									videoFullScreen={state.fullScreen}
+									videoHeight={state.videoHeight}
+									screenSize={state.screenSize}
 									toggleFullScreen={toggleFullScreen}
 								/>
 							</div>
@@ -330,7 +365,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 						{!state.fullScreen && (
 							<div
 								style={{
-									height: `calc(100% - ${minVideoHeight})`,
+									height: `calc(100% - ${state.videoHeight})`,
 									width: "100%",
 									overflow: "hidden",
 									backgroundColor: darkGrey
@@ -340,6 +375,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									councilId={props.councilID}
 									council={council}
 									videoURL={state.videoURL}
+									videoHeight={state.videoHeight}
 									translate={translate}
 									videoFullScreen={state.fullScreen}
 									toggleFullScreen={toggleFullScreen}

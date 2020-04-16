@@ -26,6 +26,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		showParticipantInfo: false,
 		drawerTop: false
 	});
+	const [exitModal, setExitModal] = React.useState(false);
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const customLogo = getCustomLogo();
@@ -38,6 +39,19 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 	}, [council]);
 
 	const logout = () => {
+		props.actions.logoutParticipant(participant, council);
+	}
+
+	const leaveRoom = async () => {
+		await props.client.mutate({
+			mutation: gql`
+				mutation LeaveRoom {
+					participantLeaveRoom{
+						success
+					}
+				}
+			`
+		});
 		props.actions.logoutParticipant(participant, council);
 	}
 
@@ -81,7 +95,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 			<div>
 				<Card style={{ padding: "20px" }}>
 					<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
+						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname || ''}`}
 					</div>
 					<div style={{ marginBottom: '1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
@@ -100,7 +114,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}
 					{delegations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${vote.numParticipations}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
@@ -112,7 +126,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}
 					{representations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${vote.numParticipations}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
@@ -240,24 +254,35 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						</Tooltip>
 					}
 					{(council && logoutButton) && (
-						<IconButton
-							style={{
-								marginRight: "0.5em",
-								outline: "0"
-							}}
-							aria-label="help"
-							onClick={logout}
-						>
-							<Icon
-								className="material-icons"
+						<>
+							<AlertConfirm
+								bodyText={translate.participant_leave_room_warning}
+								title={translate.warning}
+								acceptAction={leaveRoom}
+								open={exitModal}
+								requestClose={() => setExitModal(false)}
+								buttonCancel={translate.cancel}
+								buttonAccept={translate.exit}
+							/>
+							<IconButton
 								style={{
-									color: primaryColor ? primary : 'white',
-									fontSize: "0.9em"
+									marginRight: "0.5em",
+									outline: "0"
 								}}
+								aria-label="help"
+								onClick={() => setExitModal(true)}
 							>
-								exit_to_app
-							</Icon>
-						</IconButton>
+								<Icon
+									className="material-icons"
+									style={{
+										color: primaryColor ? primary : 'white',
+										fontSize: "0.9em"
+									}}
+								>
+									exit_to_app
+								</Icon>
+							</IconButton>
+						</>
 					)
 					}
 				</div>

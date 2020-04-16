@@ -8,6 +8,7 @@ import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from "../../../utils/screen";
+import RequestDataInfo from "./RequestDataInfo";
 
 // '850px'
 const width = window.innerWidth > 450 ? '850px' : '100%'
@@ -30,6 +31,7 @@ const styles = {
 	},
 	cardContainer: {
 		margin: isMobile ? "20%" : "20px",
+		marginBottom: '5px',
 		minWidth: width,
 		maxWidth: "100%",
 		//height: '50vh',
@@ -40,8 +42,43 @@ const styles = {
 	}
 };
 
+const reducer = (state, action) => {
+    const actions = {
+        'SUCCESS': () => {
+            return ({
+                ...state,
+                status: 'SUCCESS',
+                message: action.payload.message
+            })
+        },
+        'ERROR': () => ({
+            ...state,
+            status: 'ERROR',
+            message: action.payload.message
+        })
+	}
+
+    return actions[action.type]? actions[action.type]() : state;
+}
+
+
+
+
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
+	const [{ status, message }, updateState] = React.useReducer(reducer, { status: 'WAITING' });
+
+	const loginForm = () => (
+		<LoginForm
+			participant={participant}
+			council={council}
+			company={company}
+			status={status}
+			message={message}
+			updateState={updateState}
+		/>
+	)
+
 
 	if ((councilIsFinished(council) || !councilIsLive(council) || participant.hasVoted) && isMobile) {
 		return (
@@ -83,11 +120,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 							{councilIsFinished(council) ?
 								<div style={{ height: "100%" }}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										<LoginForm
-											participant={participant}
-											council={council}
-											company={company}
-										/>
+										loginForm()
 									) : (
 											<CouncilState council={council} company={company} participant={participant} />
 										)}
@@ -95,17 +128,27 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 								:
 								<div style={{ height: "100%" }}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										<LoginForm
-											participant={participant}
-											council={council}
-											company={company}
-										/>
-
+										loginForm()
 									) : (
 											<CouncilState council={council} company={company} participant={participant} />
 										)}
 								</div>
 							}
+						</Card>
+						<Card style={{
+							...((councilIsLive(council) && !participant.hasVoted) ? {
+								minWidth: window.innerWidth > 450 ? '550px' : '100%'
+							} : {
+									minWidth: width
+								})
+							
+						}}>
+							<RequestDataInfo
+								data={{}}
+								translate={props.translate}
+								message={message}
+								status={status}
+							/>
 						</Card>
 					</div>
 				</Scrollbar>

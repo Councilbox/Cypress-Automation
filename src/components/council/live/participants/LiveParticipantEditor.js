@@ -159,7 +159,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 													participant={participant}
 													council={props.council}
 													translate={translate}
-													security={props.council.securityType > 0}
+													security={CBX.hasAccessKey(props.council)}
 													refetch={data.refetch}
 												/>
 											</div>
@@ -364,7 +364,7 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 									participant={participant}
 									council={props.council}
 									translate={translate}
-									security={props.council.securityType > 0}
+									security={CBX.hasAccessKey(props.council)}
 									refetch={data.refetch}
 								/>
 							</div>

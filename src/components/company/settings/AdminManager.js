@@ -71,7 +71,7 @@ const AdminManager = ({ company, translate, client }) => {
                 </div>
                 <div>
                     {admins.length > 0?
-                        admins.map(admin => <div>{`${admin.name} ${admin.surname} - ${admin.email}`}</div>)
+                        admins.map(admin => <div>{`${admin.name} ${admin.surname || ''} - ${admin.email}`}</div>)
                     :
                         translate.no_results
                     }

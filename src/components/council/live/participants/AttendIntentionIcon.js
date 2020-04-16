@@ -4,6 +4,7 @@ import { Tooltip } from 'material-ui';
 import { getPrimary } from '../../../../styles/colors';
 import { PARTICIPANT_STATES } from '../../../../constants';
 import DownloadParticipantProxy from '../../prepare/DownloadParticipantProxy';
+import DownloadParticipantVoteLetter from '../../prepare/DownloadParticipantVoteLetter';
 
 const AttendIntentionIcon = ({ participant, representative, council, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
     let tooltip = translate.not_confirmed_assistance;
@@ -36,11 +37,20 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
 
             case PARTICIPANT_STATES.DELEGATED:
                 if((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)){
-                    tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname}`;
+                    tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname || ''}`;
                 } else {
                     tooltip = translate.will_delegate
                 }
                 icon = <i className='fa fa-users' style={iconStyle}></i>;
+                break;
+            case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+                tooltip = translate.vote_letter_sent;
+                icon = <DownloadParticipantVoteLetter
+                    translate={translate}
+                    participantId={participant.id}
+                    participant={participant}
+                    trigger={<i className='fa fa-sticky-note' style={iconStyle}></i>}
+                />
                 break;
 
             default:

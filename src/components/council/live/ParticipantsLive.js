@@ -27,6 +27,7 @@ const countParticipants = participants => {
 	let broadcasting = 0;
 	let askingForWord = 0;
 	let banned = 0;
+	let waitingRoom = 0;
 	participants.forEach(
 		participant => {
 			if (participantIsBlocked(participant)) {
@@ -34,6 +35,9 @@ const countParticipants = participants => {
 			}
 			if(isAskingForWord(participant)){
 				askingForWord++;
+			}
+			if(participant.requestWord === 3){
+				waitingRoom++;
 			}
 			if (exceedsOnlineTimeout(participant.lastDateConnection) || participant.online !== 1) {
 				offline++;
@@ -50,12 +54,13 @@ const countParticipants = participants => {
 		offline,
 		broadcasting,
 		askingForWord,
-		banned
+		banned,
+		waitingRoom
 	};
 }
 
 
-const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}) => {
+const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => {
 	const [stats, setStats] = React.useState({
 		online: "-",
 		offline: "-",
@@ -142,7 +147,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 		return (
 			<Grid
 				key={`participant${participant.id}`}
-				className={isAskingForWord(participant)? "colorToggle" : ''}
+				className={(isAskingForWord(participant) && participant.online === 1)? "colorToggle" : ''}
 				style={{
 					display: "flex",
 					flexDirection: "row",
@@ -160,7 +165,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 				>
 					{_participantVideoIcon(participant)}
 					<Tooltip
-						title={`${participant.name} ${participant.surname}`}
+						title={`${participant.name} ${participant.surname || ''}`}
 					>
 						<div
 							style={{
@@ -171,7 +176,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 							}}
 							className="truncate"
 						>
-							{`${participant.name} ${participant.surname}`}
+							{`${participant.name} ${participant.surname || ''}`}
 						</div>
 					</Tooltip>
 				</GridItem>
@@ -272,7 +277,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 
 		return (
 			<VideoParticipantsStats
-				videoFullScreen={videoFullScreen}
+				videoFullScreen={screenSize === 'MAX'}
 				translate={translate}
 				stats={{
 					...stats,
@@ -294,8 +299,8 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 		const slicedParticipants = preparedParticipants.slice((options.page - 1) * options.limit, ((options.page - 1) * options.limit) + options.limit);
 
 		return (
-			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${!isMobile? '45vh' : '17vh'} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
-				<div style={{height: `calc(100% - ${videoParticipants.list.length > 10? '1.5em' : '0px'})`}}>
+			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${props.videoHeight} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
+				<div style={{height: `calc(100% - ${videoParticipants.list.length > options.limit? '3em' : '0px'})`}}>
 					<Scrollbar>
 						{slicedParticipants.map(participant => {
 							return _participantEntry(participant);
@@ -328,7 +333,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 
 	const CMPVideo = true;//this.props.videoURL && this.props.videoURL.includes('councilbox');
 
-	if (videoFullScreen) {
+	if (screenSize === 'MAX') {
 		return <div style={{ height: "100%" }}>{CMPVideo && _button()}</div>;
 	}
 	return (
@@ -355,7 +360,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 								{!!options.banParticipant &&
 									`${translate.want_eject} ${
 										options.banParticipant.name
-									} ${options.banParticipant.surname} ${
+									} ${options.banParticipant.surname || ''} ${
 										translate.from_room
 									}?`
 								}

@@ -223,15 +223,15 @@ class SignUpUser extends React.Component {
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						<TextInput
-							floatingText={translate.surname}
+							floatingText={translate.surname || ''}
 							type="text"
-							value={data.surname}
+							value={data.surname || ''}
 							onChange={event =>
 								this.props.updateState({
 									surname: event.target.value
 								})
 							}
-							errorText={this.props.errors.surname}
+							errorText={this.props.errors.surname || ''}
 							required
 						/>
 					</GridItem>

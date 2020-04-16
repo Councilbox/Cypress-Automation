@@ -12,10 +12,12 @@ import withWindowOrientation from "../../../HOCs/withWindowOrientation";
 import { checkValidEmail } from "../../../utils/validation";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection } from "../../../displayComponents";
-import { councilStarted, participantNeverConnected, getSMSStatusByCode } from '../../../utils/CBX';
+import { councilStarted, participantNeverConnected, getSMSStatusByCode, hasAccessKey } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
 import { withApollo } from 'react-apollo';
+import CertModal from "./CertModal";
+import LoginWithCert from "./LoginWithCert";
 
 
 
@@ -93,6 +95,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [filter, setFilter] = React.useState(null);
+    const [modal, setModal] = React.useState(false);
     // const [filter, setFilter] = React.useState(showAll ? null : 'failed');
 
     const primary = getPrimary();
@@ -137,7 +140,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         errors.email =
             !(state.email.length > 0) ? translate.field_required : "";
 
-        if (council.securityType === 0) {
+        if (council.securityType === 0 || council.securityType == 3) {
             errors.password = "";
         } else {
             errors.password =
@@ -178,8 +181,13 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }
 
     const login = async () => {
+        if(council.securityType === 3){
+            return setModal(true);
+        }
+
+
         const isValidForm = checkFieldsValidationState();
-        if (council.securityType !== 0) {
+        if (hasAccessKey(council)) {
             try {
                 const response = await props.checkParticipantKey({
                     variables: {
@@ -206,11 +214,15 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             }
         }
         if (isValidForm) {
-            props.actions.participantLoginSuccess();
-            bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
+            handleSuccess();
         }
 
     };
+
+    const handleSuccess = () => {
+        props.actions.participantLoginSuccess();
+        bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
+    }
 
     const handleKeyUp = event => {
         if (event.nativeEvent.keyCode === 13) {
@@ -375,7 +387,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 disabled={true}
                             />
 
-                            {council.securityType !== 0 && (
+                            {hasAccessKey(council) && (
                                 <React.Fragment>
                                     <TextInput
                                         onKeyUp={handleKeyUp}
@@ -447,26 +459,37 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                     }
                                 </React.Fragment>
                             )}
-
-                            <div style={styles.enterButtonContainer}>
-                                <BasicButton
-                                    text={translate.enter_room}
-                                    color={primary}
-                                    textStyle={{
-                                        color: "white",
-                                        fontWeight: "700"
-                                    }}
-                                    textPosition="before"
-                                    fullWidth={true}
-                                    icon={
-                                        <ButtonIcon
-                                            color="white"
-                                            type="directions_walk"
-                                        />
-                                    }
-                                    onClick={login}
+                            {council.securityType === 3?
+                                <LoginWithCert
+                                    translate={translate}
+                                    participant={participant}
+                                    handleSuccess={handleSuccess}
+                                    status={props.status}
+                                    message={props.message}
+                                    dispatch={props.updateState}
                                 />
-                            </div>
+                            :
+
+                                <div style={styles.enterButtonContainer}>
+                                    <BasicButton
+                                        text={translate.enter_room}
+                                        color={primary}
+                                        textStyle={{
+                                            color: "white",
+                                            fontWeight: "700"
+                                        }}
+                                        textPosition="before"
+                                        fullWidth={true}
+                                        icon={
+                                            <ButtonIcon
+                                                color="white"
+                                                type="directions_walk"
+                                            />
+                                        }
+                                        onClick={login}
+                                    />
+                                </div>
+                            }
                         </form>
                     </Card>
                 </div>

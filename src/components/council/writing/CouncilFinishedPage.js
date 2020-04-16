@@ -132,6 +132,7 @@ export const councilDetails = gql`
 			countryState
 			street
 			zipcode
+			councilType
 			quorumPrototype
 			dateStart2NdCall
 			state

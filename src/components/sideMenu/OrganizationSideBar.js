@@ -72,17 +72,17 @@ class Sidebar extends React.Component {
 				// sidebarName: this.props.translate.tooltip_knowledge_base,
 				icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
 			},
-			// {
-			// 	path: `/company/`,
-			// 	name: 'support',
-			// 	sidebarName: 'Soporte',
-			// 	icon: <img src={contactSuport} style={{ width: '19px', height: 'auto' }} />
-			// },
+			{
+				path:  `/company/${this.props.company.id}/censuses`,
+				name: 'censuses',
+				sidebarName: this.props.translate.censuses,
+				icon: 'person'
+			},
 			{
 				path: `/company/${this.props.company.id}/users`,
 				name: 'users',
 				sidebarName: 'Usuarios',
-				icon: 'person'
+				icon: 'supervised_user_circle'
 			}
 		];
 	}

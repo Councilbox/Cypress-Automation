@@ -58,7 +58,7 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	if(council.councilType > 1){
+	if(council.councilType > 1 && council.councilType !== 4){
 		return <span/>
 	}
 

@@ -23,7 +23,7 @@ const getVariant = () => {
 export const variant = getVariant();
 export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
 
-export const CLIENT_VERSION = process.env.REACT_APP_VERSION || '6.2.1';
+export const CLIENT_VERSION = process.env.REACT_APP_VERSION || '6.4.1';
 export const API_URL = `${SERVER_URL}/graphql`;
 export const videoVersions = {
 	CMP: 'CMP',
@@ -36,4 +36,4 @@ export const config = {
 
 export const CONTACT_URL = "https://www.councilbox.com/contactar/";
 export const CONSENTIO_ID = 443;
-export const TRIAL_DAYS = 5;
+export const TRIAL_DAYS = 0;

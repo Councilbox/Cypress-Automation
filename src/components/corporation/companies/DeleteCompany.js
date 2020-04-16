@@ -33,7 +33,12 @@ const DeletCompany = ({ company, render, refetch, translate, styles, client  }) 
     }
 
     const renderModalBody = () => {
-        return `¿Esta acción eliminará la compañía ${company.businessName} por completo y todas su reuniones. ¿Continuar?`;
+        return (
+            <>
+                {`¿Esta acción eliminará la compañía ${company.businessName} por completo y todas su reuniones. ¿Continuar?`}
+                <span onClick={action}>Aceptar</span>
+            </> 
+        )       
     }
 
     return (
@@ -45,8 +50,8 @@ const DeletCompany = ({ company, render, refetch, translate, styles, client  }) 
                 open={modal}
                 requestClose={closeModal}
                 title={translate.warning}
-                buttonAccept={translate.accept}
-                buttonCancel={translate.back}
+                buttonAccept={'Aceptar'}
+                buttonCancel={'Cancelar'}
                 acceptAction={action}
                 bodyText={renderModalBody()}
             />

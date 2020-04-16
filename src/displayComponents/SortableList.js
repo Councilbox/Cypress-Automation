@@ -24,13 +24,13 @@ const SortableList = SortableContainer(({ items, offset = 0 }) => {
 						}}
 						className="draggable"
 					>
-						{`${item.orderIndex || index} - ${item.agendaSubject}`}
+						{item.agendaSubject}
 					</li>
 				:
 					<DraggableBlock
 						key={`item-${index}`}
 						index={offset + index}
-						value={`${item.orderIndex || index} - ${item.agendaSubject}`}
+						value={item.agendaSubject}
 					/>
 			))}
 		</div>

@@ -11,6 +11,7 @@ import { councilTimelineQuery, getTimelineTranslationReverse } from './timeline/
 import { usePolling } from '../../hooks';
 import { moment } from '../../containers/App';
 import { isMobile } from '../../utils/screen';
+import { getSubjectAbrv } from '../../displayComponents/AgendaNumber';
 
 
 const ResultsTimeline = ({ data, translate, council, classes, client, disableScroll }) => {
@@ -263,7 +264,7 @@ const getStepConNumero = (event, translate, agendas) => {
                         }}
                     >
                         <div>
-                            {agenda.orderIndex}
+                            {getSubjectAbrv(agenda.agendaSubject)}
                         </div>
                     </div>
                 }

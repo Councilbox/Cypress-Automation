@@ -89,7 +89,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                 {data.sendsSMS.map(send => (
                                     <Card style={{ margin: "5px", marginBottom: "15px" }} key={send.id}>
                                         <CardHeader
-                                            title={send.recipient.name + " " + send.recipient.surname}
+                                            title={send.recipient.name + " " + send.recipient.surname || ''}
                                             subheader={translate.state + ": " + getSMSStatusByCode(send.reqCode)}
                                         />
                                         <CardContent>
@@ -155,7 +155,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                         {data.sendsSMS.list.map(send => (
                                             <Row send={send} resendRoomAccessKey={resendRoomAccessKey} resendLoading={resendLoading} key={send.id}>
                                                 <TableCell>
-                                                    {send.recipient.name + " " + send.recipient.surname}
+                                                    {send.recipient.name + " " + send.recipient.surname || ''}
                                                 </TableCell>
                                                 <TableCell>
                                                     <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />

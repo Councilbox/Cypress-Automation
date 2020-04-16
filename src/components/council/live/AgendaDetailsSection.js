@@ -75,7 +75,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 				<GridItem xs={12} md={12} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '1em' }}>
 					<div style={{ fontWeight: '700',  width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 						<div>
-							{`${agenda.orderIndex} - ${agenda.agendaSubject}`}
+							{`${agenda.agendaSubject}`}
 						</div>
 						<div style={{paddingRight: '1em'}}>
 							{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL && agenda.subjectType !== CBX.getActPointSubjectType())?

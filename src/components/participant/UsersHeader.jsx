@@ -163,10 +163,16 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 									return (
 										<div key={item.id} style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
 											{CBX.haveGrantedWord(item) &&
-												<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em" }}></i>
+												<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em", color: item.online == 1? 'white' : 'darkgrey' }}></i>
 											}
-											<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-												{item.name + " " + item.surname}
+											{CBX.isAskingForWord(item) &&
+												<i className={"material-icons"} style={{ marginRight: "0.5em", fontSize: '12px', color: item.online == 1? 'white' : 'darkgrey' }}>pan_tool</i>
+											}
+											{item.requestWord === 3 &&
+												<i className={"material-icons"} style={{ marginRight: "0.5em", fontSize: '12px', color: item.online == 1? 'white' : 'darkgrey' }}>input</i>
+											}
+											<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: item.online == 1? 'white' : 'darkgrey' }} >
+												{`${item.name} ${item.surname || ''}`}
 											</div>
 										</div>
 									)
@@ -187,7 +193,7 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, ...props }
 									return (
 										<div key={item.id + "presents"} style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
 											<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-												{item.name + " " + item.surname}
+												{`${item.name} ${item.surname || ''}`}
 											</div>
 										</div>
 									)
@@ -450,7 +456,7 @@ const Modal = withApollo(({ translate, showModal, requestClose, council: { id },
 														<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em" }}></i>
 													}
 													<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-														{item.name + " " + item.surname}
+														{item.name + " " + item.surname || ''}
 													</div>
 												</div>
 											)
@@ -483,7 +489,7 @@ const Modal = withApollo(({ translate, showModal, requestClose, council: { id },
 										return (
 											<div key={item.id + "presents"} style={{ fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
 												<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-													{item.name + " " + item.surname}
+													{item.name + " " + item.surname || ''}
 												</div>
 											</div>
 										)

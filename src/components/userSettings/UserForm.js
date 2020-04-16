@@ -44,15 +44,15 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
             <div style={{ fontSize: "15px", width: "2em" }}></div>
             <div style={{ width: "100%" }}>
                 <TextInput
-                    floatingText={translate.surname}
+                    floatingText={translate.surname || ''}
                     type="text"
-                    value={data.surname}
+                    value={data.surname || ''}
                     onChange={event =>
                         updateState({
                             surname: event.target.value
                         })
                     }
-                    errorText={errors.surname}
+                    errorText={errors.surname || ''}
                     required
                 />
             </div>

@@ -18,6 +18,9 @@ import FinishModal from "./FinishModal";
 import Results from "../Results";
 import ResultsTimeline from "../ResultsTimeline";
 import { isMobile } from "../../../utils/screen";
+import { agendaVotings } from "../../../queries/agenda";
+import { usePolling } from "../../../hooks";
+import { getSubjectAbrv } from "../../../displayComponents/AgendaNumber";
 
 
 export const VotingContext = React.createContext({});
@@ -71,6 +74,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 refetch={data.refetch}
                 responses={responses}
                 setResponse={setResponses}
+                client={client}
             />
         )
     }
@@ -81,7 +85,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
     const sendVoteAndExit = async () => {
         const response = await Promise.all(Array.from(responses).filter(response => response[1] !== -1).map(response => {
-            if(Array.isArray(response[1])){
+            if (Array.isArray(response[1])) {
                 return client.mutate({
                     mutation: updateCustomPointVoting,
                     variables: {
@@ -118,13 +122,13 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     }
 
     React.useEffect(() => {
-        if(data.participantVotings && responses.size === 0){
+        if (data.participantVotings && responses.size === 0) {
             data.participantVotings.filter(voting => (
                 voting.participantId === participant.id
                 || voting.delegateId === participant.id ||
                 voting.author.representative.id === participant.id)).forEach(voting => {
-                responses.set(voting.id, -1);
-            });
+                    responses.set(voting.id, -1);
+                });
             setResponses(new Map(responses));
         }
     }, [data]);
@@ -147,7 +151,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         return (
             <div style={{ width: "100%", height: "100%" }}>
                 <div style={{ height: "100%", marginTop: "1em", overflow: "hidden", padding: "1em" }}>
-                    <div style={{ marginBottom: "1em" }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
+                    <div style={{ marginBottom: "1em" }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname || ''}</span></div>
                     <div style={{ height: "calc( 100% - 2.5em )", }}>
                         <Scrollbar>
                             <Results
@@ -213,7 +217,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     )
 
     const renderExitButton = () => (
-        CBX.voteAllAtOnce({ council })?
+        CBX.voteAllAtOnce({ council }) ?
             <Button
                 onClick={showFinishModal}
                 style={{
@@ -233,7 +237,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             >
                 <b>{translate.to_vote}</b>
             </Button>
-        :
+            :
             <Button
                 onClick={() => setShowModal(true)}
                 style={{
@@ -298,7 +302,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             </React.Fragment>
                                         )
                                     }
-                                    <div style={{ position: "absolute", top:"3px", right:"5px" }}>
+                                    <div style={{ position: "absolute", top: "3px", right: "5px" }}>
                                         {/* <div style={{ width: '9em' }}> */}
                                         <CouncilInfoMenu
                                             {...props}
@@ -325,8 +329,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                 />
                             </div>
                         }
-                        {props.timeline? (
-                            <div style={{height: '100%', paddingBottom: '3em'}}>
+                        {props.timeline ? (
+                            <div style={{ height: '100%', paddingBottom: '3em' }}>
                                 <ResultsTimeline
                                     council={council}
                                     participant={participant}
@@ -334,33 +338,34 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                     endPage={true}
                                 />
                             </div>
-                        ): (
-                            <Scrollbar ref={scrollbar}>
-                                {!councilStarted(council) &&
-                                    <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-                                        {translate.council_not_started_yet}
-                                    </div>
-                                }
-                                <div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
-                                    {data.agendas?
-                                        <React.Fragment>
-                                            {agendas.map((agenda, index) => {
-                                            // agenda.options =  {
-                                            //     maxSelections: 2,
-                                            //     id: 140
-                                            // }
-                                            return (
-                                                <React.Fragment key={`agenda_card_${index}`}>
-                                                    {renderAgendaCard(agenda)}
-                                                </React.Fragment>
-                                            )})}
-                                        </React.Fragment>
-                                    :
-                                        <LoadingSection />
+                        ) : (
+                                <Scrollbar ref={scrollbar}>
+                                    {!councilStarted(council) &&
+                                        <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+                                            {translate.council_not_started_yet}
+                                        </div>
                                     }
-                                </div>
-                            </Scrollbar>
-                        )}
+                                    <div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
+                                        {data.agendas ?
+                                            <React.Fragment>
+                                                {agendas.map((agenda, index) => {
+                                                    // agenda.options =  {
+                                                    //     maxSelections: 2,
+                                                    //     id: 140
+                                                    // }
+                                                    return (
+                                                        <React.Fragment key={`agenda_card_${index}`}>
+                                                            {renderAgendaCard(agenda)}
+                                                        </React.Fragment>
+                                                    )
+                                                })}
+                                            </React.Fragment>
+                                            :
+                                            <LoadingSection />
+                                        }
+                                    </div>
+                                </Scrollbar>
+                            )}
                     </div>
                 </Paper>
                 {!noSession &&
@@ -398,9 +403,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     </React.Fragment>
                 }
                 {props.sinCabecera &&
-                    <div style={{ position: "relative", top: '5px',  width: "100%", height: "32px", }}>
+                    <div style={{ position: "relative", top: '5px', width: "100%", height: "32px", }}>
                         <CouncilInfoMenu
-                        noSession={noSession}
+                            noSession={noSession}
                             {...props}
                             translate={translate}
                             participant={participant}
@@ -442,9 +447,80 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     );
 }
 
-const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props }) => {
+const AgendaCard = ({ agenda, translate, participant, refetch, council, client, ...props }) => {
     const ownVote = CBX.findOwnVote(agenda.votings, participant);
     const primary = getPrimary();
+    const [state, setState] = React.useState({
+		open: false,
+		voteFilter: "all",
+		stateFilter: "all",
+		filterText: "",
+		page: 1,
+	});
+    const [data, setData] = React.useState({});
+
+
+    // const getData = async () => {
+    //     ////ESTO ES AÑADIDO PROBAR BIEN
+    //     const responseAgendaVotings = await client.query({
+    //         query: agendaVotings,
+    //         variables: {
+    //             agendaId: agenda.id,
+    //             ...buildVariables()
+    //         }
+    //     });
+
+    //     setData(responseAgendaVotings.data);
+    // }
+
+    // usePolling(getData, 2000, []);
+    // // usePolling(getData, 2000, [state.voteFilter, state.stateFilter, state.filterText, state.page]);
+
+    // const buildVariables = () => {
+    //     let variables = {
+    //         filters: [],
+    //         authorFilters: null
+    //     };
+
+    //     variables.options = {
+    //         limit: 10,
+    //         offset: (state.page - 1) * 10
+    //     }
+
+    //     if (state.voteFilter !== "all") {
+    //         variables.filters = [
+    //             {
+    //                 field: "vote",
+    //                 text: state.voteFilter
+    //             }
+    //         ];
+    //     }
+
+    //     if (state.filterText) {
+    //         variables = {
+    //             ...variables,
+    //             authorFilters: {
+    //                 username: state.filterText
+    //             }
+    //         };
+    //     }
+
+    //     if (state.stateFilter !== "all") {
+    //         variables = {
+    //             ...variables,
+    //             filters: [
+    //                 ...variables.filters,
+    //                 {
+    //                     field: "presentVote",
+    //                     text: state.stateFilter
+    //                 }
+    //             ]
+    //         };
+    //     }
+
+    //     return variables;
+    // }
+
 
 
     const agendaStateIcon = agenda => {
@@ -507,7 +583,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                 <CardHeader
                     avatar={
                         <Avatar aria-label="Recipe" style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid grey", color: CBX.agendaPointOpened(agenda) ? "purple" : 'grey' }}>
-                            {agenda.orderIndex}
+                            {getSubjectAbrv(agenda.agendaSubject)}
                         </Avatar>
                     }
                     action={
@@ -526,14 +602,15 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                 <Collapse in={true} timeout="auto" unmountOnExit>
                     <CardContent>
                         <AgendaDescription agenda={agenda} translate={translate} />
-                            <AgendaMenu
-                                horizontal={true}
-                                agenda={agenda}
-                                council={council}
-                                participant={participant}
-                                translate={translate}
-                                refetch={refetch}
-                            />
+                        <AgendaMenu
+                            horizontal={true}
+                            agenda={agenda}
+                            council={council}
+                            participant={participant}
+                            translate={translate}
+                            refetch={refetch}
+                            // votings={data}
+                        />
                     </CardContent>
                 </Collapse>
 

@@ -7,6 +7,7 @@ import { resendRoomEmails } from "../../../../queries/liveParticipant";
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
 import { updateParticipantSends } from '../../../../queries';
+import { hasAccessKey } from '../../../../utils/CBX';
 
 const ParticipantContactEditor = ({ translate, council, updateParticipantSends, sendAccessKey, participant, ...props }) => {
     const [state, setState] = useOldState({
@@ -152,7 +153,7 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
                     textStyle={{ color: 'white', fontWeight: '700' }}
                 />
             </div>
-            {council.securityType !== 0 &&
+            {hasAccessKey(council) &&
                 <BasicButton
                     color={secondary}
                     text="Enviar contraseña de entrada"

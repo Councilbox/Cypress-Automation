@@ -47,9 +47,9 @@ const RepresentativeForm = ({
 					</GridItem>
 					<GridItem xs={6} md={4} lg={3}>
 						<TextInput
-							floatingText={translate.surname}
+							floatingText={translate.surname || ''}
 							type="text"
-							errorText={errors.surname}
+							errorText={errors.surname || ''}
 							value={representative.surname || ''}
 							onChange={event =>
 								updateState({
@@ -146,6 +146,36 @@ const RepresentativeForm = ({
 									</MenuItem>
 								);
 							})}
+						</SelectInput>
+					</GridItem>
+					<GridItem xs={6} md={4} lg={2}>
+						<SelectInput
+							floatingText={translate.initial_state}
+							value={''+representative.initialState}
+							onChange={event =>
+								updateState({
+									initialState: +event.target.value
+								})
+							}
+						>
+							<MenuItem
+								value={'0'}
+								key={'initial_state_0'}
+							>
+								{translate.viewer}
+							</MenuItem>
+							<MenuItem
+								value={'2'}
+								key={'initial_state_2'}
+							>
+								{translate.granted_word}
+							</MenuItem>
+							<MenuItem
+								value={'3'}
+								key={'initial_state_3'}
+							>
+								{translate.waiting_room}
+							</MenuItem>
 						</SelectInput>
 					</GridItem>
 				</Fragment>

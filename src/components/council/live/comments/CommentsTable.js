@@ -120,7 +120,7 @@ const CommentsTable = props => {
 									></div>
 									<span
 										style={{ fontSize: "0.73rem", fontWeight: '700' }}
-									>{`${voting.author.name} ${voting.author.surname} ${voting.author.representative? `- Representado por: ${
+									>{`${voting.author.name} ${voting.author.surname || ''} ${voting.author.representative? `- Representado por: ${
 											voting.author.representative.name} ${
 											voting.author.representative.surname
 											}`: ''}`}

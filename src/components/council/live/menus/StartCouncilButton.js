@@ -207,7 +207,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 
 	const forceStartWarning = () => {
 
-		//TRADUCCION
+		//
 		return (
 			<div>
 				La reunión se iniciará ahora, ¿Desea continuar?
@@ -258,9 +258,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 													onClick={() =>
 														actionSwitch()(
 															participant.id,
-															`${participant.name} ${
-															participant.surname
-															}`
+															`${participant.name} ${participant.surname || ''}`
 														)
 													}
 												/>
@@ -406,7 +404,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 		return <LoadingSection />;
 	}
 
-	if (council.councilType > 1) {
+	if (council.councilType > 1 && council.councilType !== 4) {
 		return (
 			<React.Fragment>
 				<BasicButton

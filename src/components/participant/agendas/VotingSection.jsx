@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 //import { downloadFile } from '../../../utils/CBX';
 //import { singleVoteCompanies } from '../../../config';
 
-const VotingSection = ({ translate, agenda, council, ...props }) => {
+const VotingSection = ({ translate, agenda, council, disabledColor, hasVideo, ...props }) => {
     //const [singleVoteMode, setSingleVoteMode] = React.useState(singleVoteCompanies.includes(council.companyId));
 
 
@@ -39,27 +39,13 @@ const VotingSection = ({ translate, agenda, council, ...props }) => {
                 singleVoteMode={false}
                 refetch={props.refetch}
                 agenda={agenda}
+                disabledColor={disabledColor}
+                hasVideo={hasVideo}
             />
         </React.Fragment>
     )
 
 }
-
-// const getVotingInfoText = (vote, translate) => {
-//     switch(vote){
-//         case -1:
-//             return translate.you_havent_voted_yet;
-//         case 0:
-//             return `${translate.you_have_voted}: ${translate.against_btn}`;
-//         case 1:
-//             return `${translate.you_have_voted}: ${translate.in_favor_btn}`;
-//         case 2:
-//             return `${translate.you_have_voted}: ${translate.abstention_btn}`;
-
-//         default:
-//             return translate.you_have_voted
-//     }
-// }
 
 const downloadVotePDF = gql`
     mutation DownloadVotePDF($id: Int!){

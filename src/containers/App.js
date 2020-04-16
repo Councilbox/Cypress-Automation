@@ -73,7 +73,7 @@ const link = split(
 	},
 	wsLink,
 	httpLink,
-  );
+);
 
 const CouncilLiveContainer = Loadable({
 	loader: () => import('./CouncilLiveContainer'),
