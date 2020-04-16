@@ -144,10 +144,10 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
 
         let hasError = false;
 
-        if (!data.expirationDateToSign) {
-            errors.expirationDateToSign = translate.required_field;
-            hasError = true;
-        }
+        // if (!data.expirationDateToSign) {
+        //     errors.expirationDateToSign = translate.required_field;
+        //     hasError = true;
+        // }
 
         if (!data.title) {
             errors.title = translate.required_field;
@@ -197,7 +197,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                     <Typography variant="title" style={{ color: getPrimary() }}>
                         {translate.signature_header}
                     </Typography>
-                    <div
+                    {/* <div
                         style={{
                             maxWidth: '20em',
                             marginTop: '0.8em'
@@ -225,7 +225,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                             value={state.data.expirationDateToSign ? state.data.expirationDateToSign : null}
                             // value={data.expirationDateToSign}
                         />
-                    </div>
+                    </div> */}
                     <div
                         style={{
                             maxWidth: '20em',

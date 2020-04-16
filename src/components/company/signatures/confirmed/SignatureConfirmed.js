@@ -17,7 +17,7 @@ class SignatureConfirmed extends React.Component {
     signes = null;
 
     componentDidMount(){
-        this.refreshStates();
+        //this.refreshStates();
     }
 
     downloadSignedDocument = async () => {
