@@ -15,6 +15,7 @@ import { getPrimary } from "../../styles/colors";
 import UserForm from './UserForm';
 import { checkEmailExists } from "../../queries/userAndCompanySignUp";
 import CompanyLinksManager from "../corporation/users/CompanyLinksManager";
+import ChangePasswordForm from "./ChangePasswordForm";
 
 
 
@@ -191,6 +192,11 @@ class UpdateUserForm extends React.Component {
 								languages={this.props.languages}
 								translate={translate}
 							/>
+							{!this.props.admin &&
+								<div style={{marginTop: '3em', paddingLeft: '2em'}}>
+									<ChangePasswordForm translate={translate} />
+								</div>
+							}
 							<br />
 							{this.props.admin &&
 								<CompanyLinksManager
