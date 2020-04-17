@@ -9,7 +9,7 @@ import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
 
 
-const UserSettingsPage = ({ data, user, translate, company, match, client }) => {
+const UserSettingsPage = ({ data, user, translate, company, match, client, ...props }) => {
 	const [dataUser, setDataUser] = React.useState(user.id !== match.params.id? null : user);
 
 	const getData = React.useCallback(async () => {
@@ -29,7 +29,7 @@ const UserSettingsPage = ({ data, user, translate, company, match, client }) => 
 	if (!dataUser) {
 		return <LoadingSection />;
 	}
-
+	
 	let admin = (match.params.company && match.params.id) ? true : false;
 
 	return (
@@ -68,7 +68,16 @@ const userquery = gql`
 				businessName
 			}
             name
-            surname
+			surname
+			sends{
+                id
+                userId
+                sendDate
+                refreshDate
+                reqCode
+                sendType
+                email
+            }
         }
     }
 `;

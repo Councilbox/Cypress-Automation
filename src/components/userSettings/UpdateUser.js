@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql, withApollo } from "react-apollo";
+import { graphql, withApollo, compose } from "react-apollo";
 import { checkValidEmail } from "../../utils";
 import {
 	BasicButton,
@@ -11,10 +11,14 @@ import {
 import { updateUser } from "../../queries";
 import { store } from "../../containers/App";
 import { setUserData } from "../../actions/mainActions";
-import { getPrimary } from "../../styles/colors";
+import { getPrimary, secondary } from "../../styles/colors";
 import UserForm from './UserForm';
 import { checkEmailExists } from "../../queries/userAndCompanySignUp";
 import CompanyLinksManager from "../corporation/users/CompanyLinksManager";
+import NotificationsTable from "../notifications/NotificationsTable";
+import * as CBX from "../../utils/CBX";
+import gql from "graphql-tag";
+
 
 
 
@@ -29,6 +33,7 @@ class UpdateUserForm extends React.Component {
 		companies: this.props.user.companies,
 		// companies: fixedCompany ? [fixedCompany] : [],
 	};
+
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (nextProps.user.id !== prevState.data.id) {
@@ -46,7 +51,7 @@ class UpdateUserForm extends React.Component {
 			this.setState({
 				loading: true
 			});
-			const { __typename, type, actived, roles, companies, ...data } = this.state.data;
+			const { __typename, type, actived, roles, companies, sends, ...data } = this.state.data;
 
 			if (this.props.user.email !== data.email) {
 				this.setState({
@@ -170,14 +175,13 @@ class UpdateUserForm extends React.Component {
 
 	render() {
 		const { translate, edit, company } = this.props;
-		const { data, errors, error, success, loading } = this.state;
+		const { data, errors, error, success, loading, council } = this.state;
 		const primary = getPrimary();
-		
 		return (
-			<div style={{ height: '100%'}}>
+			<div style={{ height: '100%' }}>
 				<div style={{ paddingTop: 0, height: 'calc(100% - 3.5em)' }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
 					<Scrollbar>
-						<div style={{padding: '1.5em'}}>
+						<div style={{ padding: '1.5em' }}>
 							<SectionTitle
 								text={edit ? "Editar Usuario" : translate.user_data}
 								color={primary}
@@ -204,9 +208,18 @@ class UpdateUserForm extends React.Component {
 							}
 						</div>
 						<br />
+						{this.state.data.actived === 0 &&
+							<Notifications
+								translate={translate}
+								sends={this.state.data.sends}
+								user={this.state.data}
+								client={this.props.client}
+								saveUser={this.saveUser}
+							/>
+						}
 					</Scrollbar>
 				</div>
-				<div style={{height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', borderTop: '1px solid gainsboro'}}>
+				<div style={{ height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', borderTop: '1px solid gainsboro' }}>
 					<BasicButton
 						text={translate.send}
 						color={primary}
@@ -231,11 +244,64 @@ class UpdateUserForm extends React.Component {
 					bodyText={this._renderBodyModal()}
 					title={"Envio Email"}
 				/>
-			</div>
+			</div >
 		);
 	}
 }
 
-export default graphql(updateUser, {
-	name: "updateUser"
-})(withApollo(UpdateUserForm));
+const Notifications = ({ translate, sends, user, client, saveUser }) => {
+	const [loading, setLoading] = React.useState(false)
+
+	const getUsers = async () => {
+		setLoading(true)
+		const { __typename, type, actived, roles, companies, sends, ...data } = user;
+		const response = await client.mutate({
+			mutation: gql`
+			mutation SendEmailNoConfirmed($userId: Int!, $user: UserInput!){
+			   sendEmailNoConfirmed(userId: $userId, user: $user,){
+				   success
+			   }
+		   }
+		   `,
+			variables: {
+				userId: data.id,
+				user: data
+			}
+		});
+		saveUser()
+		setLoading(false)
+	}
+
+	return (
+		<div style={{ padding: '1.5em' }}>
+			<BasicButton
+				text={"Reenviar email"}
+				color={secondary}
+				loading={loading}
+				textStyle={{
+					color: "white",
+					// 	fontWeight: "600",
+					// 	fontSize: "0.8em",
+					// 	textTransform: "none",
+					// 	marginLeft: "0.4em",
+					// 	minHeight: 0,
+					// 	lineHeight: "1em"
+				}}
+				onClick={() => getUsers()}
+			/>
+			<NotificationsTable
+				maxEmail={{ maxWidth: '100px' }}
+				translate={translate}
+				notifications={sends}
+			/>
+		</div>
+	)
+}
+
+
+export default compose(
+	graphql(
+		updateUser, {
+		name: "updateUser"
+	}),
+)(withApollo(UpdateUserForm));

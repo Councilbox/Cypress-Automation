@@ -26,7 +26,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
     const [usersTotal, setUsersTotal] = React.useState(false);
     const [addUser, setAddUser] = React.useState(false);
     const primary = getPrimary();
-
+    
     const getUsers = async () => {
         const response = await client.query({
             query: corporationUsers,
@@ -35,12 +35,12 @@ const OrganizationUsers = ({ client, translate, company }) => {
                 options: {
                     limit: queryLimit,
                     offset: (usersPage - 1) * queryLimit,
-                    orderDirection: 'DESC'
+                    orderDirection: 'DESC',
                 },
                 corporationId: company.id
             }
         });
-
+        
         if (response.data.corporationUsers.list) {
             setUsers(response.data.corporationUsers.list)
             setUsersTotal(response.data.corporationUsers.total)
@@ -179,8 +179,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
             />
         )
     }
-
-
+    
     if (isMobile) {
         return (
             <div style={{ height: "calc( 100% - 5em )" }}>
@@ -242,7 +241,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                                 overflow: 'hidden',
                                                 textOverflow: 'ellipsis'
                                             }}>
-                                                {moment(item.lastConnectionDate).format("LLL")}
+                                                {item.lastConnectionDate ? moment(item.lastConnectionDate).format("LLL") : "-"}
                                             </GridItem>
                                             <CardActions>
                                                 <Link
@@ -329,7 +328,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                         <Cell text={item.id} width={10} />
                                         <Cell text={item.name + " " + item.surname || ''} width={20} />
                                         <Cell text={item.email} width={20} />
-                                        <Cell text={moment(item.lastConnectionDate).format("LLL")} width={20} />
+                                        <Cell text={item.lastConnectionDate ? moment(item.lastConnectionDate).format("LLL") : "-"} width={20} />
                                         <Cell
                                             width={20}
                                             styles={{ padding: "3px" }}
@@ -449,7 +448,8 @@ const TablaCompanies = ({ companies, translate, total, changePageCompanies, comp
 
 const getActivationText = (value, translate) => {
     const activations = {
-        [USER_ACTIVATIONS.NOT_CONFIRMED]: translate.not_confirmed,
+        // TRADUCCION
+        [USER_ACTIVATIONS.NOT_CONFIRMED]: "No confirmado",
         [USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
         [USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
         [USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked

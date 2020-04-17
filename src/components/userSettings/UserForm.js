@@ -107,7 +107,8 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
                     errorText={errors.preferredLanguage}
                     required
                 >
-                    {languages.map(language => (
+                    {languages &&
+                    languages.map(language => (
                         <MenuItem
                             key={`language_${language.columnName}`}
                             value={language.columnName}
