@@ -38,21 +38,27 @@ const httpLink = new HttpLink({
 });
 
 
+const getToken = () => {
+	const token = sessionStorage.getItem("token");
+	const apiToken = sessionStorage.getItem('apiToken');
+	const participantToken = sessionStorage.getItem("participantToken");
+	return token ? token : apiToken? apiToken : participantToken
+}
+
+
 const wsLink = new WebSocketLink({
 	uri: WS_URL,
 	options: {
 		reconnect: true,
 		timeout: 3000,
 		connectionParams: {
-			token: sessionStorage.getItem("token"),
+			token: getToken()
 		},
 	}
 });
 
 const authLink = setContext((_, { headers }) => {
-	const token = sessionStorage.getItem("token");
-	const apiToken = sessionStorage.getItem('apiToken');
-	const participantToken = sessionStorage.getItem("participantToken");
+	
 	return {
 		headers: {
 			...headers,
@@ -60,7 +66,7 @@ const authLink = setContext((_, { headers }) => {
 				? `Bearer ${token}`
 				: apiToken? `Bearer ${apiToken}` :
 				`Bearer ${participantToken}`, */
-			"x-jwt-token": token ? token : apiToken? apiToken : participantToken,
+			"x-jwt-token": getToken(),
 			"cbx-client-v": CLIENT_VERSION
 		}
 	};
