@@ -44,11 +44,6 @@ const UserSettingsPage = ({ data, user, translate, company, match, client }) => 
 					edit={true}
 				/>
 			</div>
-			{!admin &&
-				<div style={{ marginTop: '3.5em' }}>
-					<ChangePasswordForm translate={translate} />
-				</div>
-			}
 		</CardPageLayout>
 	);
 }
