@@ -345,6 +345,15 @@ class ImportCensusButton extends React.Component {
 	};
 
 
+	cleanPhone = phone => {
+		if(!phone){
+			return '';
+		}
+
+		return phone.replace(/\"/g, '');
+	}
+
+
 	checkEntityParticipant = participant => {
 		let errors = {};
 		const mappedParticipant = {};
@@ -360,7 +369,7 @@ class ImportCensusButton extends React.Component {
 					surname: participant.surname || '',
 					email: participant.email? participant.email.toLowerCase() : '',
 					dni: participant.dni || '',
-					phone: participant.phone || '',
+					phone: this.cleanPhone(participant.phone),
 					language: participant.language,
 				}
 			}
@@ -381,7 +390,7 @@ class ImportCensusButton extends React.Component {
 				name: participant.r_name || '',
 				email: participant.r_email? participant.r_email.toLowerCase() : null,
 				dni: participant.r_dni || '',
-				phone: participant.r_phone || '',
+				phone: this.cleanPhone(participant.r_phone),
 				personOrEntity: 1,
 				language: participant.language,
 				numParticipations,
@@ -413,7 +422,7 @@ class ImportCensusButton extends React.Component {
 				dni: participant.dni,
 				position: participant.position,
 				email: participant.email,
-				phone: participant.phone,
+				phone: this.cleanPhone(participant.phone),
 				language: participant.language,
 				numParticipations,
 				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
