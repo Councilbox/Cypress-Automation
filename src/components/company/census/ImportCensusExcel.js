@@ -402,7 +402,15 @@ class ImportCensusButton extends React.Component {
 
 		return {
 			participant: {
-				...participant,
+				companyId: this.props.companyId,
+				censusId: this.props.censusId,
+				name: participant.name,
+				surname: participant.surname,
+				dni: participant.dni,
+				position: participant.position,
+				email: participant.email,
+				phone: participant.phone,
+				language: participant.language,
 				numParticipations,
 				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
 			}
