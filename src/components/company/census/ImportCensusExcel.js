@@ -29,6 +29,9 @@ const original = {
 	TELÉFONO: "phone",
 	IDIOMA: "language_TEXT",
 	"Nº VOTOS": "numParticipations",
+	'N votos': 'numParticipations',
+	'N participaciones': 'socialCapital',
+	'N participacións': 'socialCapital',
 	"Nº PARTICIPACIONES": "socialCapital",
 	"RAZÓN SOCIAL": "r_name",
 	CIF: "r_dni",
@@ -395,6 +398,7 @@ class ImportCensusButton extends React.Component {
 		if (participantError) {
 			return participantError;
 		}
+
 		const numParticipations = participant.numParticipations?
 			participant.numParticipations.replace(/[.,]/g, '') :
 			participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : 0;
