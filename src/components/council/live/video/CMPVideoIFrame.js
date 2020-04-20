@@ -27,27 +27,11 @@ const CMPVideoIFrame = props => {
         }
     }, [data]);
 
-
-
     React.useEffect(() => {
         if(props.subs && props.subs.roomUpdated){
-            const videoConfig = props.subs.roomUpdated;
-            console.log(videoConfig);
-            if(videoConfig.videoLink && videoConfig.videoLink !== data.roomVideoURL){
-                setData({
-                    ...data,
-                    roomVideoURL: videoConfig.videoLink
-                });
-                props.setVideoURL(videoConfig.videoLink);
-            }
-
-            if(videoConfig.platformVideo){
-                slot.current = videoConfig.platformVideo;
-                fetchVideoURL();
-            }
+            fetchVideoURL();
         }
     }, [JSON.stringify(props.subs.roomUpdated)])
-
 
     React.useEffect(() => {
         if(!loading){
