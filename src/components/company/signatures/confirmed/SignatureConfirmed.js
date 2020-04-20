@@ -107,7 +107,7 @@ class SignatureConfirmed extends React.Component {
                         height: 'calc(100% - 3em)'
                     }}
                 >
-                    {this.props.data.loading?
+                    {!signature?
                         <div
                             style={{
                                 height: '400px',

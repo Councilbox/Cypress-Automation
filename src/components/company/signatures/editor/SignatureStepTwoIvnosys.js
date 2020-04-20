@@ -40,7 +40,6 @@ const SignatureStepTwoIvnosys = ({ ...props }) => {
         }
     }
 
-
     const { translate } = props;
     const primary = getPrimary();
     const secondary = getSecondary();

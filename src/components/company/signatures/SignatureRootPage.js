@@ -36,7 +36,8 @@ export default compose(
             variables: {
                 id: props.match.params.id
             },
-            fetchPolicy: 'network-only'
+            fetchPolicy: 'network-only',
+            pollInterval: 8000
         })
     })
 )(withSharedProps()(withRouter(SignatureRootPage)));

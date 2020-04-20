@@ -31,7 +31,7 @@ class ParticipantEditorModal extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        if(!nextProps.data.loading){
+        if(!nextProps.data.loading && nextProps.data.signatureParticipant){
             const { __typename, ...participant } = nextProps.data.signatureParticipant;
             if(participant.id !== prevState.data.id){
                 return {

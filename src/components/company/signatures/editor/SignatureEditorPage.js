@@ -51,72 +51,25 @@ class SignatureEditorPage extends React.Component {
                         </div>
                         :
                         <React.Fragment>
-
-                            {this.props.match.path === "/company/:company/signatureIvCert/:id" ?
-                                <React.Fragment>
-                                    {/* {this.state.step === 1 &&
-                                        <SignatureStepOne
-                                            translate={translate}
-                                            key={this.props.data.signature.id}
-                                            signature={this.props.data.signature}
-                                            data={this.props.data}
-                                            nextStep={() => this.setState({ step: 2 })}
-                                        />
-                                    }
-                                    {this.state.step === 2 &&
-                                        <SignatureStepTwo
-                                            translate={translate}
-                                            company={this.props.company}
-                                            key={this.props.data.signature.id}
-                                            signature={this.props.data.signature}
-                                            refetch={this.props.data.refetch}
-                                            prevStep={() => this.setState({ step: 1 })}
-                                        />
-                                    } */}
-                                    {this.state.step === 1 &&
-                                        <SignatureStepOneIvnosys
-                                            translate={translate}
-                                            key={this.props.data.signature.id}
-                                            signature={this.props.data.signature}
-                                            refetch={this.props.data.refetch}
-                                            nextStep={() => this.setState({ step: 2 })}
-                                        />
-                                    }
-                                    {this.state.step === 2 &&
-                                        <SignatureStepTwoIvnosys
-                                            translate={translate}
-                                            company={this.props.company}
-                                            key={this.props.data.signature.id}
-                                            signature={this.props.data.signature}
-                                            refetch={this.props.data.refetch}
-                                            prevStep={() => this.setState({ step: 1 })}
-                                        />
-                                    }
-                                </React.Fragment>
-                                :
-                                <React.Fragment>
-                                    {this.state.step === 1 &&
-                                        <SignatureStepOne
-                                            translate={translate}
-                                            key={this.props.data.signature.id}
-                                            signature={this.props.data.signature}
-                                            refetch={this.props.data.refetch}
-                                            nextStep={() => this.setState({ step: 2 })}
-                                        />
-                                    }
-                                    {this.state.step === 2 &&
-                                        <SignatureStepTwo
-                                            translate={translate}
-                                            company={this.props.company}
-                                            key={this.props.data.signature.id}
-                                            signature={this.props.data.signature}
-                                            refetch={this.props.data.refetch}
-                                            prevStep={() => this.setState({ step: 1 })}
-                                        />
-                                    }
-                                </React.Fragment>
+                            {this.state.step === 1 &&
+                                <SignatureStepOneIvnosys
+                                    translate={translate}
+                                    key={this.props.data.signature.id}
+                                    signature={this.props.data.signature}
+                                    refetch={this.props.data.refetch}
+                                    nextStep={() => this.setState({ step: 2 })}
+                                />
                             }
-
+                            {this.state.step === 2 &&
+                                <SignatureStepTwoIvnosys
+                                    translate={translate}
+                                    company={this.props.company}
+                                    key={this.props.data.signature.id}
+                                    signature={this.props.data.signature}
+                                    refetch={this.props.data.refetch}
+                                    prevStep={() => this.setState({ step: 1 })}
+                                />
+                            }
                         </React.Fragment>
                     }
                 </div>

@@ -23,18 +23,24 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
         
         });
 
-        console.log(response);
-
         setRecount(response.data.signatureParticipantsStatusRecount);
     }, [signature.id]);
 
     React.useEffect(() => {
+        let interval;
         getData();
+
+        if(signature.state !== SIGNATURE_STATES.COMPLETED){
+            interval = setInterval(getData, 8000);
+        }
+        return () => clearInterval(interval);
     }, [getData]);
 
     if(!count){
-        return <LoadingSection />
+        return <span />
     }
+
+    //TRADUCCION
 
     return (
         <Grid
