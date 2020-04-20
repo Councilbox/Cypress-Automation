@@ -399,7 +399,6 @@ class ImportCensusButton extends React.Component {
 			},
 			...mappedParticipant
 		};
-
 	}
 
 	checkPersonParticipant = participant => {
