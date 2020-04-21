@@ -14,7 +14,13 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
         success: false
     })
 
-    const [data, setData] = React.useState(null);
+    const [data, setData] = React.useState({
+        platformVideo: null,
+        videoLink: '',
+        videoConfig: {
+            rtmp: ''
+        }
+    });
     const [videoConfig, setVideoConfig] = React.useState(null);
 
     const getData = React.useCallback(async () => {
@@ -38,7 +44,13 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 
         if(response.data.councilRoom){
             const { __typename, ...councilRoom } = response.data.councilRoom;
-            setData(councilRoom);
+            setData({
+                platformVideo: councilRoom.platformVideo || null,
+                videoLink: councilRoom.videoLink || '',
+                videoConfig: councilRoom.videoConfig || {
+                    rtmp: ''
+                }
+            });
         } else {
             setData({
                 platformVideo: '',
@@ -121,15 +133,18 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
         return (
             <>
                 {videoConfig &&
-                    <div style={{marginBottom: '1em'}}>
-                        <h5>Video config:</h5>
-                        <div>
-                            Número de instancias disponibles: {videoConfig.instances}
+                    <>
+                        <div style={{marginBottom: '1em'}}>
+                            <h5>Video config:</h5>
+                            <div>
+                                Número de instancias disponibles: {videoConfig.instances}
+                            </div>
+                            <div>
+                                En rotación: {videoConfig.availableSlots}
+                            </div>
                         </div>
-                        <div>
-                            En rotación: {videoConfig.availableSlots}
-                        </div>
-                    </div>
+
+                    </>
                 }
 
                 <TextInput
