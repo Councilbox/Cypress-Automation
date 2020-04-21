@@ -1,12 +1,47 @@
 import React from 'react';
 import { Grid, GridItem, LoadingSection } from '../../../../displayComponents';
 import { SIGNATURE_STATES } from '../../../../constants';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 
-const SignersStatusRecount = ({ data, translate, signature }) => {
-    const count = data.signatureParticipantsStatusRecount;
+const SignersStatusRecount = ({ data, translate, signature, client }) => {
+    const [count, setRecount] = React.useState(null);
+
+    const getData = React.useCallback(async () => {
+        const response = await client.query({
+            query: gql`
+                query SignersRecount($signatureId: Int!){
+                    signatureParticipantsStatusRecount(signatureId: $signatureId){
+                        signed
+                        unsigned
+                    }
+                }
+            `,
+            variables: {
+                signatureId: signature.id
+            }
+        
+        });
+
+        setRecount(response.data.signatureParticipantsStatusRecount);
+    }, [signature.id]);
+
+    React.useEffect(() => {
+        let interval;
+        getData();
+
+        if(signature.state !== SIGNATURE_STATES.COMPLETED){
+            interval = setInterval(getData, 8000);
+        }
+        return () => clearInterval(interval);
+    }, [getData]);
+
     if(!count){
-        return <LoadingSection />
+        return <span />
     }
+
+    //TRADUCCION
+
     return (
         <Grid
             style={{
@@ -49,4 +84,4 @@ const SignersStatusRecount = ({ data, translate, signature }) => {
     )
 }
 
-export default SignersStatusRecount;
+export default withApollo(SignersStatusRecount);

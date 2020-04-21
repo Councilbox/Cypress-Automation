@@ -15,6 +15,7 @@ import { getPrimary, secondary } from "../../styles/colors";
 import UserForm from './UserForm';
 import { checkEmailExists } from "../../queries/userAndCompanySignUp";
 import CompanyLinksManager from "../corporation/users/CompanyLinksManager";
+import ChangePasswordForm from "./ChangePasswordForm";
 import NotificationsTable from "../notifications/NotificationsTable";
 import * as CBX from "../../utils/CBX";
 import gql from "graphql-tag";
@@ -196,6 +197,11 @@ class UpdateUserForm extends React.Component {
 								languages={this.props.languages}
 								translate={translate}
 							/>
+							{!this.props.admin &&
+								<div style={{marginTop: '3em', paddingLeft: '2em'}}>
+									<ChangePasswordForm translate={translate} />
+								</div>
+							}
 							<br />
 							{this.props.admin &&
 								<CompanyLinksManager

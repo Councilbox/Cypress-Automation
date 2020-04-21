@@ -114,6 +114,252 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 		setModal(false);
 	}
 
+
+	const getBody = () => {
+		if(councilIsInTrash(council)) return (
+			// {true && (
+			<StateContainer
+				widths={state.width}
+				heights={state.height}
+				windowOrientation={windowOrientation}
+			>
+				<div style={{ width: "410px" }}>
+					<TextRender
+						title={translate.we_are_sorry}
+						text={translate.not_held_council}
+						council={council}
+						company={company}
+						translate={translate}
+					/>
+				</div>
+				<Image
+					src={emptyMeetingTable}
+					widths={state.width}
+					windowOrientation={windowOrientation}
+					styles={{ marginLeft: "" }}
+				>
+				</Image>
+			</StateContainer>
+		)
+
+		if(isAssistance && councilIsLive(council)) return (
+			<StateContainer
+				widths={state.width}
+				heights={state.height}
+				windowOrientation={windowOrientation}
+			>
+				<div>
+					<TextRender
+						title={translate.we_are_sorry}
+						text={translate.room_opened_use_access_link}
+						isHtmlText={true}
+						council={council}
+						company={company}
+						translate={translate}
+						styles={styles}
+						windowOrientation={windowOrientation}
+					/>
+				</div>
+				<Image
+					src={emptyMeetingTable}
+					widths={state.width}
+					windowOrientation={windowOrientation}
+				>
+				</Image>
+			</StateContainer>
+		)
+
+		if(!isAssistance && councilIsNotLiveYet(council)) return (
+			<StateContainer
+				widths={state.width}
+				heights={state.height}
+				windowOrientation={windowOrientation}
+			>
+				<div style={{ width: "410px" }}>
+					<TextRender
+						title={translate.we_are_sorry}
+						text={translate.council_not_started_yet_retry_later}
+						isHtmlText={true}
+						council={council}
+						company={company}
+						translate={translate}
+					/>
+				</div>
+				<Image
+					src={emptyMeetingTable}
+					widths={state.width}
+					windowOrientation={windowOrientation}
+				>
+				</Image>
+			</StateContainer>
+		)
+
+		if(councilIsNotCelebrated(council)) return (
+			<StateContainer
+				widths={state.width}
+				heights={state.height}
+				windowOrientation={windowOrientation}
+			>
+				<div style={{ width: "410px" }}>
+					<TextRender
+						title={translate.we_are_sorry}
+						text={translate.not_held_council}
+						council={council}
+						company={company}
+						translate={translate}
+					/>
+				</div>
+				<Image
+					src={emptyMeetingTable}
+					widths={state.width}
+					windowOrientation={windowOrientation}
+				>
+				</Image>
+			</StateContainer>
+		)
+
+
+		if(councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) return (
+			<React.Fragment>
+				{isMobile ?
+					<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
+						<Scrollbar>
+							<div style={{ width: "100%", height: '100%', background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+								<div>
+									<h3 style={{
+										color: primary,
+										fontSize: "28px",
+										paddingTop: "0.5em"
+									}}
+									>
+										{props.participant.hasVoted ? translate.participation_summary
+											:
+											checkHybridConditions(council) ?
+												'Votaciones remotas finalizadas' //TRADUCCION
+												:
+												translate.concil_finished}
+									</h3>
+								</div>
+								<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>
+									<div>
+										<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900" }} >
+											{council.name}
+										</div>
+										<div style={{ display: "flex" }} >
+											-
+											</div>
+									</div>
+									<div>
+										<Image
+											src={emptyMeetingTable}
+											styles={{ width: '77px', minWidth: "", marginLeft: "2em" }}
+											windowOrientation={windowOrientation}
+										>
+										</Image>
+									</div>
+								</div>
+							</div>
+							<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+								<div>
+									{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
+								</div>
+							</div>
+							<div style={{ marginTop: "1em", height: '100%', background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+								<div style={{ padding: "1em 1em", height: '100%' }}>
+									<div style={{ textAlign: "center" }}>
+										{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
+									</div>
+									<div style={{ marginTop: "1em", height: '100%' }}>
+										{selectHeadFinished === "participacion" &&
+											<div style={{ paddingBottom: "1em", height: '100%' }}>
+												<ResultsTimeline
+													disableScroll={true}
+													council={council}
+													participant={props.participant}
+													translate={translate}
+													endPage={true}
+												/>
+											</div>
+										}
+										{selectHeadFinished === "contactAdmin" &&
+											<div style={{ paddingBottom: "1em" }}>
+												<ContactForm
+													participant={props.participant}
+													translate={translate}
+													council={council}
+												/>
+											</div>
+										}
+									</div>
+								</div>
+							</div>
+						</Scrollbar>
+					</div>
+					:
+					<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
+						<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
+								<div>
+									<h3 style={{
+										color: primary,
+										fontSize: "28px",
+										paddingTop: "0.5em",
+										marginBottom: "0px"
+									}}
+									>
+										{props.participant.hasVoted ? translate.participation_summary
+											:
+											checkHybridConditions(council) ?
+												'Votaciones remotas finalizadas' //TRADUCCION
+												:
+												translate.concil_finished}
+									</h3>
+									<div style={{
+										color: primary,
+										paddingBottom: "0.5em",
+									}}>
+										{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
+									</div>
+								</div>
+								<div>
+									<Image
+										src={emptyMeetingTable}
+										styles={{ width: '90px', minWidth: "", marginLeft: "1em" }}
+										windowOrientation={windowOrientation}
+									>
+									</Image>
+								</div>
+							</div>
+							<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
+								<div>
+									<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900", color: "#000000" }} >
+										{council.name}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div style={{ height: "100%", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+							<div style={{ padding: "1em 1em", height: "100%" }}>
+								<div style={{ textAlign: "left" }}>
+									{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
+								</div>
+								<div style={{ marginTop: "1em", height: "calc( 100% - 15em )" }}>
+									<ResultsTimeline
+										council={council}
+										participant={props.participant}
+										translate={translate}
+										endPage={true}
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			</React.Fragment>
+		)
+	}
+
 	React.useEffect(() => {
 		window.addEventListener("resize", updateDimensions);
 
@@ -139,248 +385,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					// : { maxWidth: "50%", minWidth: "50%" }),
 				}}
 			>
-				{councilIsInTrash(council) && (
-					// {true && (
-					<StateContainer
-						widths={state.width}
-						heights={state.height}
-						windowOrientation={windowOrientation}
-					>
-						<div style={{ width: "410px" }}>
-							<TextRender
-								title={translate.we_are_sorry}
-								text={translate.not_held_council}
-								council={council}
-								company={company}
-								translate={translate}
-							/>
-						</div>
-						<Image
-							src={emptyMeetingTable}
-							widths={state.width}
-							windowOrientation={windowOrientation}
-							styles={{ marginLeft: "" }}
-						>
-						</Image>
-					</StateContainer>
-				)}
-
-				{isAssistance && councilIsLive(council) && (
-					<StateContainer
-						widths={state.width}
-						heights={state.height}
-						windowOrientation={windowOrientation}
-					>
-						<div>
-							<TextRender
-								title={translate.we_are_sorry}
-								text={translate.room_opened_use_access_link}
-								isHtmlText={true}
-								council={council}
-								company={company}
-								translate={translate}
-								styles={styles}
-								windowOrientation={windowOrientation}
-							/>
-						</div>
-						<Image
-							src={emptyMeetingTable}
-							widths={state.width}
-							windowOrientation={windowOrientation}
-						>
-						</Image>
-					</StateContainer>
-				)}
-
-				{!isAssistance && councilIsNotLiveYet(council) && (
-					<StateContainer
-						widths={state.width}
-						heights={state.height}
-						windowOrientation={windowOrientation}
-					>
-						<div style={{ width: "410px" }}>
-							<TextRender
-								title={translate.we_are_sorry}
-								text={translate.council_not_started_yet_retry_later}
-								isHtmlText={true}
-								council={council}
-								company={company}
-								translate={translate}
-							/>
-						</div>
-						<Image
-							src={emptyMeetingTable}
-							widths={state.width}
-							windowOrientation={windowOrientation}
-						>
-						</Image>
-					</StateContainer>
-				)}
-
-				{councilIsNotCelebrated(council) && (
-					<StateContainer
-						widths={state.width}
-						heights={state.height}
-						windowOrientation={windowOrientation}
-					>
-						<div style={{ width: "410px" }}>
-							<TextRender
-								title={translate.we_are_sorry}
-								text={translate.not_held_council}
-								council={council}
-								company={company}
-								translate={translate}
-							/>
-						</div>
-						<Image
-							src={emptyMeetingTable}
-							widths={state.width}
-							windowOrientation={windowOrientation}
-						>
-						</Image>
-					</StateContainer>
-				)}
-
-
-				{(councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) && (
-					<React.Fragment>
-						{isMobile ?
-							<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
-								<Scrollbar>
-									<div style={{ width: "100%", height: '100%', background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
-										<div>
-											<h3 style={{
-												color: primary,
-												fontSize: "28px",
-												paddingTop: "0.5em"
-											}}
-											>
-												{props.participant.hasVoted ? translate.participation_summary
-													:
-													checkHybridConditions(council) ?
-														'Votaciones remotas finalizadas' //TRADUCCION
-														:
-														translate.concil_finished}
-											</h3>
-										</div>
-										<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>
-											<div>
-												<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900" }} >
-													{council.name}
-												</div>
-												<div style={{ display: "flex" }} >
-													-
-													</div>
-											</div>
-											<div>
-												<Image
-													src={emptyMeetingTable}
-													styles={{ width: '77px', minWidth: "", marginLeft: "2em" }}
-													windowOrientation={windowOrientation}
-												>
-												</Image>
-											</div>
-										</div>
-									</div>
-									<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
-										<div>
-											{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
-										</div>
-									</div>
-									<div style={{ marginTop: "1em", height: '100%', background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
-										<div style={{ padding: "1em 1em", height: '100%' }}>
-											<div style={{ textAlign: "center" }}>
-												{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
-											</div>
-											<div style={{ marginTop: "1em", height: '100%' }}>
-												{selectHeadFinished === "participacion" &&
-													<div style={{ paddingBottom: "1em", height: '100%' }}>
-														<ResultsTimeline
-															disableScroll={true}
-															council={council}
-															participant={props.participant}
-															translate={translate}
-															endPage={true}
-														/>
-													</div>
-												}
-												{selectHeadFinished === "contactAdmin" &&
-													<div style={{ paddingBottom: "1em" }}>
-														<ContactForm
-															participant={props.participant}
-															translate={translate}
-															council={council}
-														/>
-													</div>
-												}
-											</div>
-										</div>
-									</div>
-								</Scrollbar>
-							</div>
-							:
-							<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
-								<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
-									<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
-										<div>
-											<h3 style={{
-												color: primary,
-												fontSize: "28px",
-												paddingTop: "0.5em",
-												marginBottom: "0px"
-											}}
-											>
-												{props.participant.hasVoted ? translate.participation_summary
-													:
-													checkHybridConditions(council) ?
-														'Votaciones remotas finalizadas' //TRADUCCION
-														:
-														translate.concil_finished}
-											</h3>
-											<div style={{
-												color: primary,
-												paddingBottom: "0.5em",
-											}}>
-												{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
-											</div>
-										</div>
-										<div>
-											<Image
-												src={emptyMeetingTable}
-												styles={{ width: '90px', minWidth: "", marginLeft: "1em" }}
-												windowOrientation={windowOrientation}
-											>
-											</Image>
-										</div>
-									</div>
-									<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
-										<div>
-											<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900", color: "#000000" }} >
-												{council.name}
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div style={{ height: "100%", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
-									<div style={{ padding: "1em 1em", height: "100%" }}>
-										<div style={{ textAlign: "left" }}>
-											{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
-										</div>
-										<div style={{ marginTop: "1em", height: "calc( 100% - 15em )" }}>
-											<ResultsTimeline
-												council={council}
-												participant={props.participant}
-												translate={translate}
-												endPage={true}
-											/>
-										</div>
-									</div>
-								</div>
-							</div>
-						}
-					</React.Fragment>
-				)}
+				{getBody()}
 			</div>
 			<ContactModal
 				open={modal}

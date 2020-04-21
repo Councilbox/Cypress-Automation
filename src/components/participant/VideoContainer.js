@@ -1,10 +1,28 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import { roomUpdateSubscription } from '../council/live/video/CMPVideoIFrame';
 
 const rand = Math.random();
 
-const VideoContainer = ({ data, setVideoURL, videoURL, announcement }) => {
+const useRoomUpdated = config => {
+    const { refetch, props } = config;
+
+    React.useEffect(() => {
+        if(props.subs && props.subs.roomUpdated){
+            refetch();
+        }
+    }, [JSON.stringify(props.subs.roomUpdated)])
+}
+
+
+const VideoContainer = ({ data, setVideoURL, videoURL, announcement, ...props }) => {
+    useRoomUpdated({
+        refetch: data.refetch,
+        props
+    });
+
+
     if(!data.loading){
         if(!videoURL){
             setVideoURL(data.participantVideoURL? data.participantVideoURL : 'Error reaching CMP');
@@ -35,12 +53,20 @@ const videoURLQuery = gql`
     }
 `;
 
-export default graphql(videoURLQuery, {
-    options: props => ({
-        variables: {
-            participantId: props.participant.id
-        }
+export default compose(
+    graphql(videoURLQuery, {
+        options: props => ({
+            variables: {
+                participantId: props.participant.id
+            }
+        })
+    }),
+    graphql(roomUpdateSubscription, {
+        name: 'subs',
+        options: props => ({
+			variables: {
+				councilId: props.council.id
+			}
+		})
     })
-})(VideoContainer);
-
-
+)(VideoContainer);

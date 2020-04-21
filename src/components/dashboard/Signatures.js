@@ -23,17 +23,17 @@ class Signatures extends React.Component {
 		cantAccessModal: false
 	};
 
-    openCantAccessModal = () => {
-        this.setState({
-            cantAccessModal: true
-        });
-    }
+	openCantAccessModal = () => {
+		this.setState({
+			cantAccessModal: true
+		});
+	}
 
-    closeCantAccessModal = () => {
-        this.setState({
-            cantAccessModal: false
-        })
-    }
+	closeCantAccessModal = () => {
+		this.setState({
+			cantAccessModal: false
+		})
+	}
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -78,6 +78,8 @@ class Signatures extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const { loading, signatures = [], error } = this.props.data;
+
+		console.log(signatures)
 		return (
 			<div
 				style={{
@@ -104,69 +106,86 @@ class Signatures extends React.Component {
 							<LoadingSection />
 						</div>
 					) : (
-						<div style={{height: 'calc(100% - 10.5em)', overflow: 'hidden'}}>
-							<Scrollbar>
-								<div style={{padding: "1em", paddingTop: '2em'}}>
-									{false ? (
-										<div>
-											{error.graphQLErrors.map((error, index) => {
-												return (
-													<ErrorWrapper
-														key={`error_${index}`}
-														error={error}
-														translate={translate}
-													/>
-												);
-											})}
-										</div>
-									) : signatures.length > 0 ? (
-										<Table
-											headers={[
-												{ name: translate.name },
-												{ name: '' }
-											]}
-											action={this._renderDeleteIcon}
-											companyID={this.props.company.id}
-										>
-											{signatures.map(signature => {
-												return (
-													<HoverableRow
-														signature={signature}
-														disabled={this.props.disabled}
-														company={this.props.company}
-														key={`signature_${signature.id}`}
-														translate={translate}
-														showModal={this.openCantAccessModal}
-														openDeleteModal={this.openDeleteModal}
-													/>
-												);
-											})}
-										</Table>
-									) : (
-										<span>{translate.no_results}</span>
-									)}
-									<AlertConfirm
-										title={translate.send_to_trash}
-										bodyText={translate.send_to_trash_desc}
-										open={this.state.deleteModal}
-										buttonAccept={translate.send_to_trash}
-										buttonCancel={translate.cancel}
-										modal={true}
-										acceptAction={this.delete}
-										requestClose={() =>
-											this.setState({ deleteModal: false })
-										}
-									/>
+							<div style={{ height: 'calc(100% - 10.5em)', overflow: 'hidden' }}>
+								<div style={{
+									display: "flex"
+								}}>
+									<div
+										style={{
+											padding: " 1em",
+											margin: " 1em",
+											color: getPrimary(),
+											cursor: "pointer",
+											border: "1px solid " + getPrimary(),
+											display: "flex"
+										}}
+										onClick={() => bHistory.push(`/company/${this.props.company.id}/signatureIvCert/new`)}
+									>
+										Nueva firma IvCert
 								</div>
-							</Scrollbar>
-						</div>
-					)}
+								</div>
+								<Scrollbar>
+									<div style={{ padding: "1em", paddingTop: '2em' }}>
+										{false ? (
+											<div>
+												{error.graphQLErrors.map((error, index) => {
+													return (
+														<ErrorWrapper
+															key={`error_${index}`}
+															error={error}
+															translate={translate}
+														/>
+													);
+												})}
+											</div>
+										) : signatures.length > 0 ? (
+											<Table
+												headers={[
+													{ name: translate.name },
+													{ name: '' }
+												]}
+												action={this._renderDeleteIcon}
+												companyID={this.props.company.id}
+											>
+												{signatures.map(signature => {
+													return (
+														<HoverableRow
+															signature={signature}
+															disabled={this.props.disabled}
+															company={this.props.company}
+															key={`signature_${signature.id}`}
+															translate={translate}
+															showModal={this.openCantAccessModal}
+															openDeleteModal={this.openDeleteModal}
+														/>
+													);
+												})}
+											</Table>
+										) : (
+													<span>{translate.no_results}</span>
+												)}
+										<AlertConfirm
+											title={translate.send_to_trash}
+											bodyText={translate.send_to_trash_desc}
+											open={this.state.deleteModal}
+											buttonAccept={translate.send_to_trash}
+											buttonCancel={translate.cancel}
+											modal={true}
+											acceptAction={this.delete}
+											requestClose={() =>
+												this.setState({ deleteModal: false })
+											}
+										/>
+									</div>
+								</Scrollbar>
+							</div>
+						)}
 				</div>
 				<CantCreateCouncilsModal
-                    translate={translate}
-                    open={this.state.cantAccessModal}
-                    requestClose={this.closeCantAccessModal}
-                />
+					translate={translate}
+					open={this.state.cantAccessModal}
+					requestClose={this.closeCantAccessModal}
+				/>
 			</div>
 		);
 	}
@@ -187,71 +206,71 @@ export default compose(
 
 class HoverableRow extends React.PureComponent {
 
-    state = {
-        showActions: false
-    }
+	state = {
+		showActions: false
+	}
 
-    mouseEnterHandler = () => {
-        this.setState({
-            showActions: true
-        })
-    }
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		})
+	}
 
-    mouseLeaveHandler = () => {
-        this.setState({
-            showActions: false
-        })
-    }
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		})
+	}
 
-    deleteIcon = (signatureId) => {
-        const primary = getPrimary();
+	deleteIcon = (signatureId) => {
+		const primary = getPrimary();
 
-        return (
-            <CloseIcon
-                style={{ color: primary }}
-                onClick={event => {
-                    this.props.openDeleteModal(signatureId);
-                    event.stopPropagation();
-                }}
-            />
-        );
-    }
-
-
-    render() {
-        const { signature, translate, disabled } = this.props;
+		return (
+			<CloseIcon
+				style={{ color: primary }}
+				onClick={event => {
+					this.props.openDeleteModal(signatureId);
+					event.stopPropagation();
+				}}
+			/>
+		);
+	}
 
 
-        return (
-            <TableRow
+	render() {
+		const { signature, translate, disabled } = this.props;
+
+
+		return (
+			<TableRow
 				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				style={{
 					cursor: "pointer",
-					backgroundColor: disabled? 'whiteSmoke' : 'inherit'
+					backgroundColor: disabled ? 'whiteSmoke' : 'inherit'
 				}}
 				onClick={() => {
-					disabled?
-                        this.props.showModal()
-					:
+					disabled ?
+						this.props.showModal()
+						:
 						bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`
-					);
+						);
 				}}
 				key={`signature${
 					signature.id
-				}`}
+					}`}
 			>
 				<TableCell>
 					{signature.title || translate.dashboard_new_signature}
 				</TableCell>
 				<TableCell>
-					{this.state.showActions?
+					{this.state.showActions ?
 						this.deleteIcon(signature.id)
-					:
-						<div style={{width: '5em'}} />
+						:
+						<div style={{ width: '5em' }} />
 					}
 				</TableCell>
 			</TableRow>
-        )
-    }
+		)
+	}
 }

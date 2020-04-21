@@ -19,12 +19,19 @@ const CMPVideoIFrame = props => {
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState(null);
     const config = React.useContext(ConfigContext);
+    const slot = React.useRef(null);
 
     React.useEffect(() => {
         if(!data){
-            fetchVideoURL(setData, props.client, );
+            fetchVideoURL();
         }
-    }, []);
+    }, [data]);
+
+    React.useEffect(() => {
+        if(props.subs && props.subs.roomUpdated){
+            fetchVideoURL();
+        }
+    }, [JSON.stringify(props.subs.roomUpdated)])
 
     React.useEffect(() => {
         if(!loading){
@@ -77,7 +84,6 @@ const CMPVideoIFrame = props => {
         return <LoadingSection />
     }
 
-
     return (
         <div style={{width: '100%', height: '100%', position: 'relative'}}>
             <AdminAnnouncement
@@ -88,7 +94,7 @@ const CMPVideoIFrame = props => {
             />
             {!!data.roomVideoURL && config.video?
                 <React.Fragment>
-                    {config.recording && (data.roomVideoURL.includes('councilbox') && !data.roomVideoURL.includes('rivulet')) &&
+                    {(config.recording && data.roomVideoURL.includes('councilbox') && !data.roomVideoURL.includes('rivulet')) &&
                         <RecordingButton
                             config={config}
                             council={props.council}
@@ -166,8 +172,26 @@ const adminPing = gql`
     }
 `;
 
+export const roomUpdateSubscription = gql`
+    subscription RoomUpdated($councilId: Int!){
+        roomUpdated(councilId: $councilId){
+            videoLink
+            platformVideo
+            action
+        }
+    }
+`
+
 export default compose(
     graphql(adminPing, {
         name: 'adminPing'
+    }),
+    graphql(roomUpdateSubscription, {
+        name: 'subs',
+        options: props => ({
+			variables: {
+				councilId: props.council.id
+			}
+		})
     })
 )(withApollo(CMPVideoIFrame));

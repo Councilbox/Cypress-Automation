@@ -1,126 +1,215 @@
 import React from 'react';
-import { AlertConfirm, BasicButton, TextInput } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, TextInput, LoadingSection } from '../../../displayComponents';
 import { primary } from '../../../styles/colors';
-import { graphql } from 'react-apollo';
+import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 let interval = null;
 
-class FixedVideoURLModal extends React.Component {
 
-    state = {
-        url: '',
+const FixedVideoURLModal = ({ council, client, ...props }) => {
+    const [state, setState] = React.useState({
         modal: false,
         loading: false,
         success: false
+    })
+
+    const [data, setData] = React.useState({
+        platformVideo: null,
+        videoLink: '',
+        videoConfig: {
+            rtmp: ''
+        }
+    });
+    const [videoConfig, setVideoConfig] = React.useState(null);
+
+    const getData = React.useCallback(async () => {
+        const response = await client.query({
+            query: gql`
+                query CouncilRoom($councilId: Int!){
+                    councilRoom(councilId: $councilId){
+                        platformVideo
+                        videoConfig
+                        videoLink
+                    }
+                    videoConfig
+                }
+            `,
+            variables: {
+                councilId: council.id
+            }
+        });
+
+        console.log(response);
+
+        if(response.data.councilRoom){
+            const { __typename, ...councilRoom } = response.data.councilRoom;
+            setData({
+                platformVideo: councilRoom.platformVideo || null,
+                videoLink: councilRoom.videoLink || '',
+                videoConfig: councilRoom.videoConfig || {
+                    rtmp: ''
+                }
+            });
+        } else {
+            setData({
+                platformVideo: '',
+                videoConfig: '',
+                videoLink: ''
+            })
+        }
+        setVideoConfig(JSON.parse(response.data.videoConfig));
+    }, [council.id]);
+
+    React.useEffect(() => {
+        getData();
+    }, [getData]);
+    
+    React.useEffect(() => {
+        return () => clearInterval(interval);
+    }, [state.modal]);
+
+    if(!data){
+        return <LoadingSection />
     }
 
-    initialState = this.state;
 
-    openURLModal = event => {
+    const openURLModal = event => {
         event.preventDefault();
         event.stopPropagation();
-        this.setState({
+        setState({
+            ...state,
             modal: true
         });
     }
 
-    closeURLModal = () => {
-        this.setState({
+    const closeURLModal = () => {
+        setState({
+            ...state,
             modal: false
         });
     }
 
-    updateCouncilRoomLink = async () => {
+    const updateCouncilRoomLink = async () => {
         clearInterval(interval);
-        this.setState({
+        setState({
+            ...state,
             loading: true,
             success: false
         })
-        await this.props.updateCouncilRoomLink({
+        await props.updateCouncilRoomLink({
             variables: {
-                councilId: this.props.council.id,
-                link: this.state.url
+                councilId: council.id,
+                councilRoom: data
             }
         });
 
-        this.setState({
+        setState({
+            ...state,
             loading: false,
             success: true
         });
-        interval = setInterval(this.refreshButtons, 3000);
+        interval = setInterval(refreshButtons, 3000);
     }
 
-    refreshButtons = () => {
-        this.setState({
+    const refreshButtons = () => {
+        setState({
+            ...state,
             success: false,
             loading: false,
             error: false
         });
     }
 
-    componentWillUnmount(){
-        this.setState(this.initialState);
-        clearInterval(interval);
-    }
 
-    handleEnter = event => {
-        this.refreshButtons();
+    const handleEnter = event => {
+        refreshButtons();
 		if (event.nativeEvent.keyCode === 13) {
-			this.updateCouncilRoomLink();
+			updateCouncilRoomLink();
 		}
 	};
 
-    _renderBody = () => {
+    const _renderBody = () => {
         return (
-            <TextInput
-                value={this.state.url}
-                onKeyUp={this.handleEnter}
-                floatingText="Video URL"
-                onChange={this.setValue}
-            />
+            <>
+                {videoConfig &&
+                    <>
+                        <div style={{marginBottom: '1em'}}>
+                            <h5>Video config:</h5>
+                            <div>
+                                Número de instancias disponibles: {videoConfig.instances}
+                            </div>
+                            <div>
+                                En rotación: {videoConfig.availableSlots}
+                            </div>
+                        </div>
+
+                    </>
+                }
+
+                <TextInput
+                    value={data.platformVideo}
+                    onKeyUp={handleEnter}
+                    floatingText="Fijado al número"
+                    onChange={event => setData({ ...data, platformVideo: +event.target.value })}
+                />
+
+                <TextInput
+                    value={data.videoLink}
+                    onKeyUp={handleEnter}
+                    floatingText="Video URL"
+                    onChange={event => setData({ ...data, videoLink: event.target.value })}
+                />
+
+                <TextInput
+                    value={data.videoConfig.rtmp}
+                    onKeyUp={handleEnter}
+                    floatingText="URL RTMP"
+                    onChange={event => setData({ ...data, videoConfig: {
+                        ...data.videoConfig,
+                        rtmp: event.target.value
+                    }})}
+                />
+            </>
         )
     }
 
-
-
-    setValue = event => {
-        this.setState({
-            url: event.target.value
+    const setValue = event => {
+        setData({
+            ...data,
+            videoLink: event.target.value
         });
     }
 
-    render(){
-        return (
-            <React.Fragment>
-                <BasicButton
-                    text="Fijar URL video"
-                    type="flat"
-                    color="white"
-                    textStyle={{color: primary, fontWeight: '700'}}
-                    onClick={this.openURLModal}
-                    buttonStyle={{border: "1px solid "}}
-                />
-                <AlertConfirm
-					requestClose={this.closeURLModal}
-					open={this.state.modal}
-                    loadingAction={this.state.loading}
-                    successAction={this.state.success}
-					acceptAction={this.updateCouncilRoomLink}
-					buttonAccept={'Aceptar'}
-					buttonCancel={'Cancelar'}
-					bodyText={this._renderBody()}
-					title={"Fijar video URL"}
-				/>
-            </React.Fragment>
-        );
-    }
+    return (
+        <>
+            <BasicButton
+                text="Video config"
+                type="flat"
+                color="white"
+                textStyle={{color: primary, fontWeight: '700'}}
+                onClick={openURLModal}
+                buttonStyle={{border: "1px solid "}}
+            />
+            <AlertConfirm
+                requestClose={closeURLModal}
+                open={state.modal}
+                loadingAction={state.loading}
+                successAction={state.success}
+                acceptAction={updateCouncilRoomLink}
+                buttonAccept={'Aceptar'}
+                buttonCancel={'Cancelar'}
+                bodyText={_renderBody()}
+                title={"Fijar video URL"}
+            />
+        </>
+    );
 
 }
 
 const updateCouncilRoomLink = gql`
-    mutation UpdateCouncilRoomLink($link: String!, $councilId: Int!){
-        updateCouncilRoomLink(link: $link, councilId: $councilId){
+    mutation UpdateCouncilRoomLink($councilRoom: CouncilRoomInput!, $councilId: Int!){
+        updateCouncilRoom(councilRoom: $councilRoom, councilId: $councilId){
             success
             message
         }
@@ -129,4 +218,4 @@ const updateCouncilRoomLink = gql`
 
 export default graphql(updateCouncilRoomLink, {
     name: "updateCouncilRoomLink"
-})(FixedVideoURLModal);
+})(withApollo(FixedVideoURLModal));

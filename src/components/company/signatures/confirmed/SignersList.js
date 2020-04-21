@@ -39,7 +39,7 @@ class SignersList extends React.Component {
                         </div>
                     }
                     page={1}
-                    loading={loading}
+                    //loading={loading}
                     length={signatureParticipants.list.length}
                     total={signatureParticipants.total}
                     refetch={this.props.data.refetch}
@@ -85,11 +85,11 @@ class SignersList extends React.Component {
                         signatureParticipants.list.map(participant => (
                             <TableRow
                                 key={`participant_${participant.id}`}
-                                style={{
-                                    backgroundColor: participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED? '#dcf9f6' : 'inherit'
-                                }}
                             >
                                 <TableCell>
+                                    {participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED &&
+                                        <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
+                                    }
                                     {`${participant.name} ${participant.surname || ''}`}
                                 </TableCell>
                                 <TableCell>
@@ -149,6 +149,7 @@ export default compose(
                     offset: 0
                 }
             },
+            pollInterval: 8000,
             fetchPolicy: 'network-only',
             notifyOnNetworkStatusChange: true
         }),

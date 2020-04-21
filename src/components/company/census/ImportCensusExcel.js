@@ -20,7 +20,7 @@ import { isMobile } from "../../../utils/screen";
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 
-const excelToDBColumns = {
+const original = {
 	NOMBRE: "name",
 	APELLIDOS: "surname",
 	DNI: "dni",
@@ -29,6 +29,9 @@ const excelToDBColumns = {
 	TELÉFONO: "phone",
 	IDIOMA: "language_TEXT",
 	"Nº VOTOS": "numParticipations",
+	'N votos': 'numParticipations',
+	'N participaciones': 'socialCapital',
+	'N participacións': 'socialCapital',
 	"Nº PARTICIPACIONES": "socialCapital",
 	"RAZÓN SOCIAL": "r_name",
 	CIF: "r_dni",
@@ -63,6 +66,12 @@ const excelToDBColumns = {
 	APELIDOS: "surname",
 	"Nº PARTICIPACIÓNS": "socialCapital"
 };
+
+const excelToDBColumns = Object.keys(original).reduce((acc, curr) => {
+	acc[curr.toLowerCase()] = original[curr];
+
+	return acc;
+}, {})
 
 const languages = {
 	español: "es",
@@ -102,7 +111,7 @@ class ImportCensusButton extends React.Component {
 
 		const response = await this.props.getCensusTemplate({
 			variables: {
-				language: language
+				language
 			}
 		});
 
@@ -304,8 +313,8 @@ class ImportCensusButton extends React.Component {
 
 		for (var j = 0; j < keys.length; j++) {
 			var key = keys[j];
-			if (excelToDBColumns[key]) {
-				participant[excelToDBColumns[key]] = '' + _participant[key].trim();
+			if (excelToDBColumns[key.toLowerCase()]) {
+				participant[excelToDBColumns[key.toLocaleLowerCase()]] = '' + _participant[key].trim();
 			}
 		}
 
@@ -319,7 +328,7 @@ class ImportCensusButton extends React.Component {
 		}
 		delete participant.language_TEXT;
 
-		if (participant.r_name) {
+		if (participant.r_name && participant.r_name !== '-') {
 			return this.checkEntityParticipant(participant);
 		} else {
 			return this.checkPersonParticipant(participant);
@@ -334,6 +343,15 @@ class ImportCensusButton extends React.Component {
 			}
 		});
 	};
+
+
+	cleanPhone = phone => {
+		if(!phone){
+			return '';
+		}
+
+		return phone.replace(/\"/g, '');
+	}
 
 
 	checkEntityParticipant = participant => {
@@ -351,7 +369,7 @@ class ImportCensusButton extends React.Component {
 					surname: participant.surname || '',
 					email: participant.email? participant.email.toLowerCase() : '',
 					dni: participant.dni || '',
-					phone: participant.phone || '',
+					phone: this.cleanPhone(participant.phone),
 					language: participant.language,
 				}
 			}
@@ -372,7 +390,7 @@ class ImportCensusButton extends React.Component {
 				name: participant.r_name || '',
 				email: participant.r_email? participant.r_email.toLowerCase() : null,
 				dni: participant.r_dni || '',
-				phone: participant.r_phone || '',
+				phone: this.cleanPhone(participant.r_phone),
 				personOrEntity: 1,
 				language: participant.language,
 				numParticipations,
@@ -381,7 +399,6 @@ class ImportCensusButton extends React.Component {
 			},
 			...mappedParticipant
 		};
-
 	}
 
 	checkPersonParticipant = participant => {
@@ -389,6 +406,7 @@ class ImportCensusButton extends React.Component {
 		if (participantError) {
 			return participantError;
 		}
+
 		const numParticipations = participant.numParticipations?
 			participant.numParticipations.replace(/[.,]/g, '') :
 			participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : 0;
@@ -396,7 +414,15 @@ class ImportCensusButton extends React.Component {
 
 		return {
 			participant: {
-				...participant,
+				companyId: this.props.companyId,
+				censusId: this.props.censusId,
+				name: participant.name,
+				surname: participant.surname,
+				dni: participant.dni,
+				position: participant.position,
+				email: participant.email,
+				phone: this.cleanPhone(participant.phone),
+				language: participant.language,
 				numParticipations,
 				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
 			}
@@ -607,7 +633,7 @@ class ImportCensusButton extends React.Component {
 													fontSize: "0.8em",
 													marginRight: '0.3em'
 												}}
-											/>{`${item.participant.name} ${item.participant.surname ? item.participant.surname : ''} - ${item.participant.dni}`}<br />
+											/>{`${item.participant.name} ${item.participant.surname || ''} - ${item.participant.dni || ''}`}<br />
 											<FontAwesome
 												name={"at"}
 												style={{
@@ -615,7 +641,7 @@ class ImportCensusButton extends React.Component {
 													fontSize: "0.8em",
 													marginRight: '0.3em'
 												}}
-											/>{`${item.participant.email}`}<br />
+											/>{`${item.participant.email || ''}`}<br />
 											{!!item.representative &&
 												<React.Fragment>
 													{`${translate.represented_by}: ${item.representative.name} ${item.representative.surname || ''}`}
@@ -694,76 +720,3 @@ export default compose(
 		name: "importCensus"
 	})
 )(withApollo(ImportCensusButton));
-
-
-
-/* if (participant.email) {
-	if (!checkValidEmail(participant.email)) {
-		return {hasError: true, email: 'Invalid'};
-	}
-	if (participant.r_email) {
-		if (!checkValidEmail(participant.r_email)) {
-			return {hasError: true, r_email: 'Invalid'};;
-		} else {
-			participant = {
-				participant: {
-					companyId: this.props.companyId,
-					censusId: this.props.censusId,
-					name: participant.r_name,
-					email: participant.r_email.toLowerCase(),
-					dni: participant.r_dni,
-					phone: participant.r_phone,
-					personOrEntity: 1,
-					language: participant.language,
-					numParticipations: participant.numParticipations,
-					socialCapital: participant.socialCapital,
-					position: participant.position,
-				},
-				representative: {
-					companyId: this.props.companyId,
-					censusId: this.props.censusId,
-					name: participant.name,
-					surname: participant.surname,
-					email: participant.email.toLowerCase(),
-					dni: participant.dni,
-					phone: participant.phone,
-					language: participant.language,
-				}
-			}
-
-			const participantError = this.checkRequiredFields(participant.representative, false);
-			if (participantError) {
-				return participantError;
-			}
-			const entityError = this.checkRequiredFields(participant.participant, true);
-			return entityError ? entityError : participant;
-		}
-	}
-	const participantError = this.checkRequiredFields(participant, false);
-	return participantError ? participantError : { participant: { ...participant, email: participant.email.toLowerCase() } };
-} else {
-	//Es una entidad sin representante
-	if (!!participant.r_email) {
-		if (!checkValidEmail(participant.r_email)) {
-			return {hasError: true, r_email: 'Invalid'};
-		}
-		var entity = {
-			participant: {
-				companyId: this.props.companyId,
-				censusId: this.props.censusId,
-				name: participant.r_name,
-				email: participant.r_email.toLowerCase(),
-				dni: participant.r_dni,
-				phone: participant.r_phone,
-				personOrEntity: 1,
-				language: participant.language,
-				numParticipations: participant.numParticipations,
-				socialCapital: participant.socialCapital,
-				position: participant.position,
-			}
-		};
-		const entityError = this.checkRequiredFields(entity, true);
-		return entityError ? entityError : { entity };
-	}
-	return {hasError: true};
-} */
