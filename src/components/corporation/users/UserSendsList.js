@@ -51,6 +51,7 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
         }
     }
 
+    usePolling(refreshUserSends, 60000);
 
     const resend = async () => {
 		setSending(true);
