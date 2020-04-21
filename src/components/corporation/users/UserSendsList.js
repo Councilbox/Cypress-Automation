@@ -80,15 +80,17 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
                 <Typography variant="subheading" style={{color: getPrimary(), marginRight: '0.6em'}}>
                     {translate.sends}
                 </Typography>
-                <BasicButton
-                    text={translate.resend}
-                    color={secondary}
-                    loading={sending}
-                    textStyle={{
-                        color: "white"
-                    }}
-                    onClick={resend}
-                />
+                {props.user.actived === 0 &&
+                    <BasicButton
+                        text={translate.resend}
+                        color={secondary}
+                        loading={sending}
+                        textStyle={{
+                            color: "white"
+                        }}
+                        onClick={resend}
+                    />
+                }
                 <RefreshButton
                     tooltip={`${translate.refresh_convened}`}
                     onClick={refreshUserSends}

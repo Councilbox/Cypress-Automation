@@ -37,7 +37,8 @@ const UsersDashboard = ({ translate, client, ...props }) => {
             variables: {
                 options: DEFAULT_OPTIONS,
                 actived: state.selecteOptionMenu === "Registrados" ? 1 : 0,
-                filters: [{ field: 'fullName', text: state.filterText }]
+                filters: [{ field: 'fullName', text: state.filterText }],
+                corporationId: 1
             },
         });
         setState({ ...state, corporationUsers: response.data.corporationUsers, loading: false })
@@ -179,27 +180,6 @@ const UsersDashboard = ({ translate, client, ...props }) => {
                     />
                 }
             </div>
-            {/* <div style={{
-                        height: 'calc(100% - 6em)',
-                        flexDirection: 'column',
-                        padding: "1em"
-                    }}>
-                        <Scrollbar>
-                            {this.props.data.loading ?
-                                <LoadingSection />
-                                :
-                                this.props.data.corporationUsers.list.map(user => (
-                                    <Link to={`/users/edit/${user.id}`} key={`user_${user.id}`} >
-                                        <UserItem
-                                            user={user}
-                                            clickable={true}
-                                            translate={this.props.translate}
-                                        />
-                                    </Link>
-                                ))
-                            }
-                        </Scrollbar>
-                    </div> */}
         </div>
     );
 }
