@@ -43,14 +43,14 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 			query: roomLiveParticipantsOnline,
 			variables: {
 				councilId: council.id,
-				options: {
-					limit: participantHeaderLimit,
-					offset: 0
-				},
+				// options: {
+				// 	limit: participantHeaderLimit,
+				// 	offset: 0
+				// },
 
 			}
 		});
-
+		
 		setParticipantsOnline({
 			...response.data.roomLiveParticipantsOnline
 		});
@@ -69,10 +69,10 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 			query: roomLiveParticipantsPresents,
 			variables: {
 				councilId: council.id,
-				options: {
-					limit: participantHeaderLimit,
-					offset: 0
-				},
+				// options: {
+				// 	limit: participantHeaderLimit,
+				// 	offset: 0
+				// },
 
 			}
 		});
@@ -182,7 +182,7 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 						</div>
 
 						<Divider
-							style={{ background: "#ffffff4a", margin: "1.5em 0px" }}
+							style={{ background: "#ffffff4a", margin: "1.2em 0px" }}
 						/>
 						<div style={{ marginLeft: "1.3em" }}>
 							<div style={{ display: "flex", alignItems: "center", marginBottom: "1em" }} ><i className="material-icons" aria-hidden="true" style={{ marginRight: "5px", fontSize: "18px" }}>face</i>Presencial</div>
@@ -201,7 +201,7 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 								)
 							}
 						</div>
-						<div style={{ marginLeft: "1.3em", marginTop: "1em" }}>
+						{/* <div style={{ marginLeft: "1.3em", marginTop: "1em" }}>
 							{(participantsPresents.total > participantHeaderLimit || participantsOnline.total > participantHeaderLimit) &&
 								<div style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", cursor: "pointer" }}
 									onClick={() => verMas()}
@@ -209,11 +209,12 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 									{translate.see_more}
 								</div>
 							}
-						</div>
+						</div> */}
 					</div>
-				</Drawer>
+				</Drawer >
 			}
-			{state.showModal &&
+			{
+				state.showModal &&
 				<Modal
 					requestClose={() => setState({ showModal: false })}
 					showModal={state.showModal}
@@ -221,7 +222,7 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 					translate={translate}
 				/>
 			}
-		</div>
+		</div >
 	)
 }
 
@@ -543,8 +544,9 @@ const styles = {
 		background: '#74559bed',
 		color: "white",
 		boxShadow: "none",
-		borderRadius: isMobile && "5px"
-
+		borderRadius: isMobile && "5px",
+		height: "100%",
+		overflow: 'hidden'
 	},
 	paper: {
 		top: "88px",
