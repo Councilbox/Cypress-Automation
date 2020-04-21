@@ -37,6 +37,7 @@ import AdminManager from './AdminManager';
 import { corporationUsers } from "../../../queries/corporation";
 import { isMobile } from "../../../utils/screen";
 import { USER_ACTIVATIONS } from "../../../constants";
+import CompanyVideoConfig from "./CompanyVideoConfig";
 
 
 export const info = gql`
@@ -704,6 +705,14 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							translate={translate}
 							company={company}
 						/>
+					}
+					{
+						props.root &&
+							<CompanyVideoConfig
+								company={company}
+								translate={translate}
+							/>
+
 					}
 				</div>
 				<AlertConfirm
