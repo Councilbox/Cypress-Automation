@@ -18,6 +18,7 @@ import CompanyLinksManager from "../corporation/users/CompanyLinksManager";
 import NotificationsTable from "../notifications/NotificationsTable";
 import * as CBX from "../../utils/CBX";
 import gql from "graphql-tag";
+import UserSendsList from "../corporation/users/UserSendsList";
 
 
 
@@ -53,11 +54,11 @@ class UpdateUserForm extends React.Component {
 			});
 			const { __typename, type, actived, roles, companies, sends, ...data } = this.state.data;
 
-			if (this.props.user.email !== data.email) {
-				this.setState({
-					modal: true
-				});
-			}
+			// if (this.props.user.email !== data.email) {
+			// 	this.setState({
+			// 		modal: true
+			// 	});
+			// }
 
 			const response = await this.props.updateUser({
 				variables: {
@@ -209,13 +210,15 @@ class UpdateUserForm extends React.Component {
 						</div>
 						<br />
 						{this.state.data.actived === 0 &&
-							<Notifications
-								translate={translate}
-								sends={this.state.data.sends}
-								user={this.state.data}
-								client={this.props.client}
-								saveUser={this.saveUser}
-							/>
+							<div style={{ padding: '1em' }}>
+								<UserSendsList
+									enRoot={false}
+									user={this.state.data}
+									translate={this.props.translate}
+									refetch={this.props.refetch}
+								/>
+							</div>
+
 						}
 					</Scrollbar>
 				</div>
@@ -248,56 +251,6 @@ class UpdateUserForm extends React.Component {
 		);
 	}
 }
-
-const Notifications = ({ translate, sends, user, client, saveUser }) => {
-	const [loading, setLoading] = React.useState(false)
-
-	const getUsers = async () => {
-		setLoading(true)
-		const { __typename, type, actived, roles, companies, sends, ...data } = user;
-		const response = await client.mutate({
-			mutation: gql`
-			mutation SendEmailNoConfirmed($userId: Int!, $user: UserInput!){
-			   sendEmailNoConfirmed(userId: $userId, user: $user,){
-				   success
-			   }
-		   }
-		   `,
-			variables: {
-				userId: data.id,
-				user: data
-			}
-		});
-		saveUser()
-		setLoading(false)
-	}
-
-	return (
-		<div style={{ padding: '1.5em' }}>
-			<BasicButton
-				text={"Reenviar email"}
-				color={secondary}
-				loading={loading}
-				textStyle={{
-					color: "white",
-					// 	fontWeight: "600",
-					// 	fontSize: "0.8em",
-					// 	textTransform: "none",
-					// 	marginLeft: "0.4em",
-					// 	minHeight: 0,
-					// 	lineHeight: "1em"
-				}}
-				onClick={() => getUsers()}
-			/>
-			<NotificationsTable
-				maxEmail={{ maxWidth: '100px' }}
-				translate={translate}
-				notifications={sends}
-			/>
-		</div>
-	)
-}
-
 
 export default compose(
 	graphql(

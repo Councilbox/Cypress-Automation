@@ -40,6 +40,7 @@ const UserSettingsPage = ({ data, user, translate, company, match, client, ...pr
 					user={dataUser}
 					admin={admin}
 					company={company}
+					refetch={getData}
 					languages={data.languages}
 					edit={true}
 				/>
@@ -69,15 +70,6 @@ const userquery = gql`
 			}
             name
 			surname
-			sends{
-                id
-                userId
-                sendDate
-                refreshDate
-                reqCode
-                sendType
-                email
-            }
         }
     }
 `;
