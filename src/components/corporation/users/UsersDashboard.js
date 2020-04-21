@@ -18,7 +18,7 @@ const DEFAULT_OPTIONS = {
 }
 
 const UsersDashboard = ({ translate, client, ...props }) => {
-
+    const [filterText, setFilterText] = React.useState('');
     const [state, setState] = React.useState({
         filterText: '',
         limit: DEFAULT_OPTIONS.limit,
@@ -37,7 +37,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
             variables: {
                 options: DEFAULT_OPTIONS,
                 actived: state.selecteOptionMenu === "Registrados" ? 1 : 0,
-                filters: [{ field: 'fullName', text: state.filterText }],
+                filters: [{ field: 'fullName', text: filterText }],
                 corporationId: 1
             },
         });
@@ -45,8 +45,9 @@ const UsersDashboard = ({ translate, client, ...props }) => {
     };
 
     React.useEffect(() => {
-        getData();
-    }, [state.selecteOptionMenu, state.filterText]);
+        let timeout = setTimeout(getData, 300);
+        return () => clearTimeout(timeout);
+    }, [state.selecteOptionMenu, filterText]);
 
 
     const setSelecteOptionMenu = (value) => {
@@ -110,13 +111,8 @@ const UsersDashboard = ({ translate, client, ...props }) => {
                             }
                             floatingText={" "}
                             type="text"
-                            value={state.filterText}
-                            onChange={event => {
-                                setState({
-                                    ...state,
-                                    filterText: event.target.value
-                                });
-                            }}
+                            value={filterText}
+                            onChange={event => setFilterText(event.target.value)}
                         />
                     </div>
                 </div>
