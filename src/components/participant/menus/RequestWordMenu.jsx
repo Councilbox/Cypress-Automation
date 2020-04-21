@@ -141,7 +141,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
 
     const _renderWordButtonIconMobil = () => {
         const renderButton = () => {
-            if(participant.requestWord === 3){
+            if(participant.requestWord === 3 || participant.requestWord === 4){
                 return <span />
             }
            
