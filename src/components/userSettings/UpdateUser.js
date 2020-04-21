@@ -230,7 +230,7 @@ class UpdateUserForm extends React.Component {
 				</div>
 				<div style={{ height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', borderTop: '1px solid gainsboro' }}>
 					<BasicButton
-						text={translate.send}
+						text={translate.save}
 						color={primary}
 						error={error}
 						reset={this.resetButtonStates}
