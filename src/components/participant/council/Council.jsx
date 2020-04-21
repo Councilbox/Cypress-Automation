@@ -131,6 +131,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     const grantedWord = React.useRef(participant.grantedWord);
     const config = React.useContext(ConfigContext);
     const [agendas, setData] = React.useState(null);
+    const [drawerTop, setDrawerTop] = React.useState(false);
 
     const leaveRoom = React.useCallback(() => {
         let request = new XMLHttpRequest();
@@ -207,11 +208,27 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
         });
     }
 
-    const setAdminMessage = value => {
+    const setAdminMessage = (value, event) => {
+        if (event) {
+            event.preventDefault()
+            event.stopPropagation()
+            
+        }
         setState({
             ...state,
             adminMessage: value
         })
+        setDrawerTop(false)
+    }
+
+    const drawerTopToggle = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        setState({
+            ...state,
+            adminMessage: false
+        })
+        setDrawerTop(!drawerTop)
     }
 
     const _renderAgendaSection = () => {
@@ -235,7 +252,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     }
 
     const renderVideoContainer = () => {
-        if(participant.requestWord === 3){
+        if (participant.requestWord === 3) {
             //TRADUCCION
             return (
                 <div style={{
@@ -251,7 +268,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                     <span className="material-icons" style={{ color: getPrimary(), fontSize: '50px' }}>
                         tv_off
                     </span>
-                    <div style={{textAlign: 'center'}}>En la <strong style={{ color: getPrimary(), marginRight: '0.5em' }}>sala de espera.</strong>
+                    <div style={{ textAlign: 'center' }}>En la <strong style={{ color: getPrimary(), marginRight: '0.5em' }}>sala de espera.</strong>
                         Podrá acceder a la emisión cuando el administrador de sala le conceda la entrada.
                     </div>
                 </div>
@@ -413,6 +430,8 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                     isMobile={isMobile}
                                     council={council}
                                     translate={translate}
+                                    drawerTop={drawerTop}
+                                    setDrawerTop={drawerTopToggle}
                                 />
                             }
                         </React.Fragment>
@@ -480,6 +499,8 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                             isMobile={isMobile}
                                             council={council}
                                             translate={translate}
+                                            drawerTop={drawerTop}
+                                            setDrawerTop={drawerTopToggle}
                                         />
                                     }
                                 </div>

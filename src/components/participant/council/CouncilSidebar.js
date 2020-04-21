@@ -208,7 +208,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
             className={"NoOutline"}
             title={"sendMessage"}
             style={styles.button}
-            onClick={() => props.setAdminMessage(!props.adminMessage)}>
+            onClick={(event) => props.setAdminMessage(!props.adminMessage, event)}>
             <div style={{ display: "unset" }}>
                 <div>
                     <i className="material-icons" style={{
