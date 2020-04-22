@@ -14,13 +14,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
         success: false
     })
 
-    const [data, setData] = React.useState({
-        platformVideo: null,
-        videoLink: '',
-        videoConfig: {
-            rtmp: ''
-        }
-    });
+    const [data, setData] = React.useState(null);
     const [videoConfig, setVideoConfig] = React.useState(null);
 
     const getData = React.useCallback(async () => {
@@ -40,8 +34,6 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
             }
         });
 
-        console.log(response);
-
         if(response.data.councilRoom){
             const { __typename, ...councilRoom } = response.data.councilRoom;
             setData({
@@ -55,10 +47,12 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
             });
         } else {
             setData({
-                platformVideo: '',
-                videoConfig: '',
+                platformVideo: null,
                 videoLink: '',
-                viewerURL: ''
+                videoConfig: {
+                    rtmp: '',
+                    viewerURL: ''
+                }
             })
         }
         setVideoConfig(JSON.parse(response.data.videoConfig));
