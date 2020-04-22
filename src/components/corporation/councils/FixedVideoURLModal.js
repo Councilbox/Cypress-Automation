@@ -47,15 +47,18 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
             setData({
                 platformVideo: councilRoom.platformVideo || null,
                 videoLink: councilRoom.videoLink || '',
-                videoConfig: councilRoom.videoConfig || {
-                    rtmp: ''
+                videoConfig: {
+                    rtmp: '',
+                    viewerURL: '',
+                    ...(councilRoom.videoConfig? councilRoom.videoConfig: {})
                 }
             });
         } else {
             setData({
                 platformVideo: '',
                 videoConfig: '',
-                videoLink: ''
+                videoLink: '',
+                viewerURL: ''
             })
         }
         setVideoConfig(JSON.parse(response.data.videoConfig));
@@ -168,6 +171,15 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                     onChange={event => setData({ ...data, videoConfig: {
                         ...data.videoConfig,
                         rtmp: event.target.value
+                    }})}
+                />
+                <TextInput
+                    value={data.videoConfig.viewerURL}
+                    onKeyUp={handleEnter}
+                    floatingText="URL para participantes sin palabra"
+                    onChange={event => setData({ ...data, videoConfig: {
+                        ...data.videoConfig,
+                        viewerURL: event.target.value
                     }})}
                 />
             </>
