@@ -85,3 +85,21 @@ export const usePolling = (cb, interval, deps = []) => {
 
 	useInterval(cb, !online? interval * 1000 : visible? interval : interval * 10, deps);
 }
+
+
+export const useRoomUpdated = config => {
+	const { refetch, props, participant } = config;
+
+    React.useEffect(() => {
+        if(props.subs && props.subs.roomUpdated){
+			const roomConfig = props.subs.roomUpdated;
+			if(roomConfig.videoConfig){
+				if(participant){
+					refetch();
+				}
+			} else {
+				refetch();
+			}
+        }
+    }, [JSON.stringify(props.subs.roomUpdated)])
+}

@@ -5,8 +5,9 @@ import RecordingButton from './RecordingButton';
 import { darkGrey } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
 import AdminAnnouncement from '../../../participant/council/AdminAnnouncement';
-import { useInterval } from '../../../../hooks';
+import { useInterval, useRoomUpdated } from '../../../../hooks';
 import { LoadingSection } from '../../../../displayComponents';
+
 
 const rand = Date.now();
 
@@ -26,12 +27,6 @@ const CMPVideoIFrame = props => {
             fetchVideoURL();
         }
     }, [data]);
-
-    React.useEffect(() => {
-        if(props.subs && props.subs.roomUpdated){
-            fetchVideoURL();
-        }
-    }, [JSON.stringify(props.subs.roomUpdated)])
 
     React.useEffect(() => {
         if(!loading){
@@ -70,6 +65,8 @@ const CMPVideoIFrame = props => {
         });
         setLoading(false);
     }
+
+    useRoomUpdated({ refetch: fetchVideoURL, props, participant: null });
 
     const sendAdminPing = () => {
         props.adminPing({
@@ -178,6 +175,7 @@ export const roomUpdateSubscription = gql`
             videoLink
             platformVideo
             action
+            videoConfig
         }
     }
 `

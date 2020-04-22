@@ -2,24 +2,15 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { roomUpdateSubscription } from '../council/live/video/CMPVideoIFrame';
+import { useRoomUpdated } from '../../hooks';
 
 const rand = Math.random();
-
-const useRoomUpdated = config => {
-    const { refetch, props } = config;
-
-    React.useEffect(() => {
-        if(props.subs && props.subs.roomUpdated){
-            refetch();
-        }
-    }, [JSON.stringify(props.subs.roomUpdated)])
-}
-
 
 const VideoContainer = ({ data, setVideoURL, videoURL, announcement, ...props }) => {
     useRoomUpdated({
         refetch: data.refetch,
-        props
+        props,
+        participant: props.participant
     });
 
 
