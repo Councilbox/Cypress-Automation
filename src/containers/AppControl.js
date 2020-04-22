@@ -92,7 +92,10 @@ const AppControl = ({ companies, user = {}, children, client }) => {
     }, [companies.selected]);
 
     return(
-        <ConfigContext.Provider value={config}>
+        <ConfigContext.Provider value={{
+            ...config,
+            updateConfig: getData
+        }}>
             {loading?
                 <></>
             :

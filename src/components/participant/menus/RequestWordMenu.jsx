@@ -7,7 +7,7 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import DetectRTC from 'detectrtc';
 import { AlertConfirm } from '../../../displayComponents';
-import { isSafari } from 'react-device-detect';
+import { isSafari, isAndroid, isIOS } from 'react-device-detect';
 import FontAwesome from "react-fontawesome";
 import { useOldState } from '../../../hooks';
 import { ConfigContext } from '../../../containers/AppControl';
@@ -21,7 +21,6 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
         confirmWordModal: false,
     });
     const [canRequest, setCanRequest] = React.useState(false);
-
     const config = React.useContext(ConfigContext);
 
     React.useEffect(() => {
@@ -41,8 +40,12 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const checkCanRequest = async () => {
         await updateRTC();
 
-        if(isMobile){
-            return setCanRequest(false);
+        if(isIOS){
+            return setCanRequest(config.iOSWord);
+        }
+
+        if(isAndroid){
+            return setCanRequest(config.androidWord);
         }
 
         if(DetectRTC.browser.name !== 'Chrome' || (+DetectRTC.browser.version < 72)){

@@ -493,7 +493,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				buttonCancel={translate.cancel}
 				modal={true}
 				acceptAction={deleteStatute}
-				requestClose={() => setState({ ...state, deleteModal: false })}
+				requestClose={() => setState({ ...state, deleteModal: false, deleteId: null })}
 			/>
 			<UnsavedChangesModal
 				requestClose={() => setState({ ...state, unsavedAlert: false })}
