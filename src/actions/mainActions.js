@@ -1,5 +1,5 @@
 import { getCompanies } from "./companyActions";
-import { client, bHistory } from "../containers/App";
+import { client, bHistory, refreshWSLink } from "../containers/App";
 import { getMe, getTranslations } from "../queries";
 import DetectRTC from "detectrtc";
 import { moment } from '../containers/App';
@@ -10,6 +10,7 @@ export const loginSuccess = (token, refreshToken) => {
 	return dispatch => {
 		sessionStorage.setItem("token", token);
 		sessionStorage.setItem("refreshToken", refreshToken);
+		refreshWSLink();
 		dispatch(initUserData());
 		dispatch(getCompanies());
 		dispatch({ type: "LOGIN_SUCCESS" });
