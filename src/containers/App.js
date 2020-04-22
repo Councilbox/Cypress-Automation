@@ -51,14 +51,14 @@ const wsLink = new WebSocketLink({
 	options: {
 		reconnect: true,
 		timeout: 3000,
-		connectionParams: {
+		connectionParams: () => ({
 			token: getToken()
-		},
+		})
 	}
 });
 
 export const refreshWSLink = () => {
-	wsLink.subscriptionClient.close();
+	wsLink.subscriptionClient.close(false, false);
 	wsLink.subscriptionClient.connect();
 }
   
