@@ -72,10 +72,10 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
     }
     
     React.useEffect(() => {
-        proxyTemplate.current.paste(statute.proxy || '');
-        proxySecondary.current.paste(statute.proxySecondary || '');
-        voteLetter.current.paste(statute.voteLetter || '');
-        voteLetterSecondary.current.paste(statute.voteLetterSecondary || '');
+        proxyTemplate.current.setValue(statute.proxy || '');
+        proxySecondary.current.setValue(statute.proxySecondary || '');
+        voteLetter.current.setValue(statute.voteLetter || '');
+        voteLetterSecondary.current.setValue(statute.voteLetterSecondary || '');
     }, [statute.id]);
 
 

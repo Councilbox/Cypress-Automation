@@ -83,7 +83,7 @@ class RichTextInput extends React.Component {
 		}
 		quill.clipboard.dangerouslyPasteHTML(selection.index, text);
 		setTimeout(() => {
-			this.rtEditor.focus();
+			// this.rtEditor.focus();
 			quill.setSelection(selection.index + removeHTMLTags(text).length, 0);
 		}, 500);
 	};

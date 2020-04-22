@@ -10,13 +10,14 @@ import * as CBX from "../../../utils/CBX";
 import SaveDraftModal from '../../company/drafts/SaveDraftModal';
 import { ConfigContext } from '../../../containers/AppControl';
 import ProxiesTemplates from './docTemplates/ProxiesTemplates';
+import { isMobile } from 'react-device-detect';
 
 let timeout;
 
 
 
 const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...props }) => {
-    const internalState = React.useRef({
+	const internalState = React.useRef({
 		intro: statute.intro,
 		constitution: statute.constitution,
 		conclusion: statute.conclusion,
@@ -25,51 +26,51 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 	});
 	const config = React.useContext(ConfigContext);
 
-    React.useEffect(() => {
-		if(editor.current){
-			editor.current.paste(statute.conveneHeader || '');
+	React.useEffect(() => {
+		if (editor.current) {
+			editor.current.setValue(statute.conveneHeader || '');
 		}
-		if(intro.current){
-			intro.current.paste(statute.intro || '');
+		if (intro.current) {
+			intro.current.setValue(statute.intro || '');
 		}
-		if(footer.current){
-			footer.current.paste(statute.conveneFooter || '');
+		if (footer.current) {
+			footer.current.setValue(statute.conveneFooter || '');
 		}
-		if(constitution.current){
-			constitution.current.paste(statute.constitution || '');
+		if (constitution.current) {
+			constitution.current.setValue(statute.constitution || '');
 		}
-		if(conclusion.current){
-			conclusion.current.paste(statute.conclusion || '');
+		if (conclusion.current) {
+			conclusion.current.setValue(statute.conclusion || '');
 		}
-    }, [statute.id]);
-    
+	}, [statute.id]);
+
 	const [saveDraft, setSaveDraft] = React.useState(false);
 	const editor = React.useRef();
 	const intro = React.useRef();
 	const footer = React.useRef();
 	const constitution = React.useRef();
 	const conclusion = React.useRef();
-    const primary = getPrimary();
+	const primary = getPrimary();
 
-    const closeDraftModal = () => {
+	const closeDraftModal = () => {
 		setSaveDraft(false);
 	}
 
 	const showSaveDraft = type => () => {
 		setSaveDraft(type);
-    }
-    
-    const handleUpdate = object => {
-        clearTimeout(timeout);
-        internalState.current = {
-            ...internalState.current,
-            ...object
-        }
+	}
 
-        timeout = setTimeout(() => {
-            updateState(internalState.current)
-        }, 350);
-    }
+	const handleUpdate = object => {
+		clearTimeout(timeout);
+		internalState.current = {
+			...internalState.current,
+			...object
+		}
+
+		timeout = setTimeout(() => {
+			updateState(internalState.current)
+		}, 350);
+	}
 
 	const getText = type => {
 		const types = {
@@ -77,7 +78,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 			'CONVENE_FOOTER': statute.conveneFooter,
 			default: statute[type.toString().toLowerCase()]
 		}
-		return types[type]? types[type] : types.default;
+		return types[type] ? types[type] : types.default;
 	}
 
 	const loadDraft = draft => {
@@ -95,162 +96,162 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 	};
 
 
-    const conclusionTags = React.useMemo(() => getTagsByActSection('conclusion', translate), [statute.id]);
+	const conclusionTags = React.useMemo(() => getTagsByActSection('conclusion', translate), [statute.id]);
 	const introTags = React.useMemo(() => getTagsByActSection('intro', translate), [statute.id]);
 	const constitutionTags = React.useMemo(() => getTagsByActSection('constitution', translate), [statute.id]);
 	const conveneHeaderTags = React.useMemo(() => getTagsByActSection('conveneHeader', translate), [statute.id]);
 
 
-    return (
-        <>
-            <SectionTitle
-                text={translate.act_and_documentation}
-                color={primary}
-                style={{
-                    marginTop: "2em",
-                    marginBottom: "1em"
-                }}
-            />
-            <Grid>
-                <GridItem xs={12} md={7} lg={7}>
-                    <Checkbox
-                        label={translate.exists_act}
-                        value={statute.existsAct === 1}
-                        onChange={(event, isInputChecked) =>
-                            updateState({
-                                existsAct: isInputChecked ? 1 : 0
-                            })
-                        }
-                    />
-                </GridItem>
-                <GridItem xs={12} md={7} lg={7}>
-                    <Checkbox
-                        label={translate.included_in_act_book}
-                        value={statute.includedInActBook === 1}
-                        onChange={(event, isInputChecked) =>
-                            updateState({
-                                includedInActBook: isInputChecked ? 1 : 0
-                            })
-                        }
-                    />
-                </GridItem>
-                <GridItem xs={12} md={7} lg={7}>
-                    <Checkbox
-                        label={translate.include_participants_list_in_act}
-                        value={statute.includeParticipantsList === 1}
-                        onChange={(event, isInputChecked) =>
-                            updateState({
-                                includeParticipantsList: isInputChecked
-                                    ? 1
-                                    : 0
-                            })
-                        }
-                    />
-                </GridItem>
-            </Grid>
+	return (
+		<>
+			<SectionTitle
+				text={translate.act_and_documentation}
+				color={primary}
+				style={{
+					marginTop: "2em",
+					marginBottom: "1em"
+				}}
+			/>
+			<Grid>
+				<GridItem xs={12} md={7} lg={7}>
+					<Checkbox
+						label={translate.exists_act}
+						value={statute.existsAct === 1}
+						onChange={(event, isInputChecked) =>
+							updateState({
+								existsAct: isInputChecked ? 1 : 0
+							})
+						}
+					/>
+				</GridItem>
+				<GridItem xs={12} md={7} lg={7}>
+					<Checkbox
+						label={translate.included_in_act_book}
+						value={statute.includedInActBook === 1}
+						onChange={(event, isInputChecked) =>
+							updateState({
+								includedInActBook: isInputChecked ? 1 : 0
+							})
+						}
+					/>
+				</GridItem>
+				<GridItem xs={12} md={7} lg={7}>
+					<Checkbox
+						label={translate.include_participants_list_in_act}
+						value={statute.includeParticipantsList === 1}
+						onChange={(event, isInputChecked) =>
+							updateState({
+								includeParticipantsList: isInputChecked
+									? 1
+									: 0
+							})
+						}
+					/>
+				</GridItem>
+			</Grid>
 
-            {statute.conveneHeader !== undefined && (
-                <React.Fragment>
-                    <SectionTitle
-                        text={translate.call_template}
-                        color={primary}
-                        style={{
-                            marginTop: "2em",
-                            marginBottom: "1em"
-                        }}
-                    />
-                    <GridItem xs={12} md={12} lg={12}>
-                        <RichTextInput
-                            ref={editor}
-                            errorText={errors.conveneHeader}
-                            translate={translate}
-                            floatingText={translate.convene_header}
-                            value={
-                                !!internalState.conveneHeader
-                                    ? internalState.conveneHeader
-                                    : ""
-                            }
-                            onChange={value =>
-                                handleUpdate({
-                                    conveneHeader: value
-                                })
-                            }
-                            saveDraft={
-                                <SaveDraftIcon
-                                    onClick={showSaveDraft('CONVENE_HEADER')}
-                                    translate={translate}
-                                />
-                            }
-                            tags={conveneHeaderTags}
-                            loadDraft={
-                                <LoadDraftModal
-                                    translate={translate}
-                                    companyId={props.company.id}
-                                    loadDraft={loadDraft}
-                                    statute={{
-                                        ...statute,
-                                        statuteId: statute.id
-                                    }}
-                                    defaultTags={{
-                                        "convene_header": {
-                                            active: true,
-                                            type: TAG_TYPES.DRAFT_TYPE,
-                                            name: 'convene_header',
-                                            label: translate.convene_header
-                                        }
-                                    }}
-                                    statutes={props.companyStatutes}
-                                    draftType={0}
-                                />
-                            }
-                        />
-                    </GridItem>
-                </React.Fragment>
-            )}
-            {statute.conveneFooter !== undefined && (
-                <GridItem xs={12} md={12} lg={12}>
-                    <RichTextInput
-                        ref={footer}
-                        errorText={errors.conveneFooter}
-                        translate={translate}
-                        saveDraft={
-                            <SaveDraftIcon
-                                onClick={showSaveDraft('CONVENE_FOOTER')}
-                                translate={translate}
-                            />
-                        }
-                        loadDraft={
-                            <LoadDraftModal
-                                translate={translate}
-                                companyId={props.company.id}
-                                loadDraft={loadFooterDraft}
-                                statute={{
-                                    ...statute,
-                                    statuteId: statute.id
-                                }}
-                                defaultTags={{
-                                    "convene_footer": {
-                                        active: true,
-                                        type: TAG_TYPES.DRAFT_TYPE,
-                                        name: 'convene_footer',
-                                        label: translate.convene_footer
-                                    }
-                                }}
-                                statutes={props.companyStatutes}
-                                draftType={6}
-                            />
-                        }
-                        floatingText={translate.convene_footer}
-                        value={internalState.conveneFooter || ""}
-                        onChange={value =>
-                            handleUpdate({
-                                conveneFooter: value
-                            })
-                        }
-                    />
-                </GridItem>
-            )}
-			
+			{statute.conveneHeader !== undefined && (
+				<React.Fragment>
+					<SectionTitle
+						text={translate.call_template}
+						color={primary}
+						style={{
+							marginTop: "2em",
+							marginBottom: "1em"
+						}}
+					/>
+					<GridItem xs={12} md={12} lg={12}>
+						<RichTextInput
+							ref={editor}
+							errorText={errors.conveneHeader}
+							translate={translate}
+							floatingText={translate.convene_header}
+							value={
+								!!internalState.conveneHeader
+									? internalState.conveneHeader
+									: ""
+							}
+							onChange={value =>
+								handleUpdate({
+									conveneHeader: value
+								})
+							}
+							saveDraft={
+								<SaveDraftIcon
+									onClick={showSaveDraft('CONVENE_HEADER')}
+									translate={translate}
+								/>
+							}
+							tags={conveneHeaderTags}
+							loadDraft={
+								<LoadDraftModal
+									translate={translate}
+									companyId={props.company.id}
+									loadDraft={loadDraft}
+									statute={{
+										...statute,
+										statuteId: statute.id
+									}}
+									defaultTags={{
+										"convene_header": {
+											active: true,
+											type: TAG_TYPES.DRAFT_TYPE,
+											name: 'convene_header',
+											label: translate.convene_header
+										}
+									}}
+									statutes={props.companyStatutes}
+									draftType={0}
+								/>
+							}
+						/>
+					</GridItem>
+				</React.Fragment>
+			)}
+			{statute.conveneFooter !== undefined && (
+				<GridItem xs={12} md={12} lg={12}>
+					<RichTextInput
+						ref={footer}
+						errorText={errors.conveneFooter}
+						translate={translate}
+						saveDraft={
+							<SaveDraftIcon
+								onClick={showSaveDraft('CONVENE_FOOTER')}
+								translate={translate}
+							/>
+						}
+						loadDraft={
+							<LoadDraftModal
+								translate={translate}
+								companyId={props.company.id}
+								loadDraft={loadFooterDraft}
+								statute={{
+									...statute,
+									statuteId: statute.id
+								}}
+								defaultTags={{
+									"convene_footer": {
+										active: true,
+										type: TAG_TYPES.DRAFT_TYPE,
+										name: 'convene_footer',
+										label: translate.convene_footer
+									}
+								}}
+								statutes={props.companyStatutes}
+								draftType={6}
+							/>
+						}
+						floatingText={translate.convene_footer}
+						value={internalState.conveneFooter || ""}
+						onChange={value =>
+							handleUpdate({
+								conveneFooter: value
+							})
+						}
+					/>
+				</GridItem>
+			)}
+
 			{config.proxies &&
 				<ProxiesTemplates
 					translate={translate}
@@ -264,7 +265,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 			}
 
 			{statute.existsAct === 1 && (
-				<>
+				<div style={{ overflow: "hidden", width: isMobile && '98%' }}>
 					<SectionTitle
 						text={translate.act_templates}
 						color={primary}
@@ -273,6 +274,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 							marginBottom: "1em"
 						}}
 					/>
+					{/* aki */}
 					<Grid>
 						<GridItem xs={12} md={12} lg={12}>
 							<RichTextInput
@@ -456,16 +458,16 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						/>
 					}
 
-				</>
+				</div>
 			)}
-        </>
-    )
+		</>
+	)
 }
 
 export default StatuteDocSection;
 
 const getTagsByActSection = (section, translate) => {
-	switch(section) {
+	switch (section) {
 
 		case 'conveneHeader':
 			return [
@@ -506,8 +508,8 @@ const getTagsByActSection = (section, translate) => {
 const SaveDraftIcon = ({ onClick, translate }) => {
 	return (
 		<Tooltip title={translate.new_save}>
-			<div onClick={onClick} style={{marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer'}}>
-				<i className="fa fa-save" style={{color: getSecondary(), fontSize: '1.75em'}}></i>
+			<div onClick={onClick} style={{ marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+				<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
 			</div>
 		</Tooltip>
 	)
