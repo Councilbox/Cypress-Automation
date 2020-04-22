@@ -276,7 +276,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             }}>
                 {renderFinishModal()}
                 <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
-                    <div style={{ height: "100%" }}>
+                    <div style={{ height: "calc(100% - 2.5em)" }}>
                         {!props.sinCabecera &&
                             <React.Fragment>
                                 <div style={{
@@ -579,13 +579,11 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
 
     return (
         <div style={{ margin: "0 auto", marginBottom: "15px", width: isMobile ? "100%" : '93%', }} key={agenda.id}>
-            <Card aria-label={"punto" + (agenda.orderIndex + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}>
+            <Card
+                aria-label={"punto" + (agenda.orderIndex + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}
+                style={{border: CBX.agendaPointOpened(agenda) ? "1px solid purple" : 'none'}}
+            >
                 <CardHeader
-                    avatar={
-                        <Avatar aria-label="Recipe" style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid grey", color: CBX.agendaPointOpened(agenda) ? "purple" : 'grey' }}>
-                            {getSubjectAbrv(agenda.agendaSubject)}
-                        </Avatar>
-                    }
                     action={
                         <div style={{ display: "flex" }}>
                             <div>
@@ -596,7 +594,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
                             </div>
                         </div>
                     }
-                    title={agenda.agendaSubject}
+                    title={<div style={{ fontSize: '17px', fontWeight: '700'}}>{agenda.agendaSubject}</div>}
                     subheader={translate[getAgendaTypeLabel(agenda)]}
                 />
                 <Collapse in={true} timeout="auto" unmountOnExit>
