@@ -57,6 +57,12 @@ const wsLink = new WebSocketLink({
 	}
 });
 
+export const refreshWSLink = () => {
+	wsLink.subscriptionClient.close();
+	wsLink.subscriptionClient.connect();
+}
+  
+
 const authLink = setContext((_, { headers }) => {
 	
 	return {

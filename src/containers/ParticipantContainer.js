@@ -17,12 +17,15 @@ import * as mainActions from '../actions/mainActions';
 import { shouldLoadSubdomain } from "../utils/subdomain";
 import withTranslations from "../HOCs/withTranslations";
 import { usePolling } from "../hooks";
+import { ConfigContext } from "./AppControl";
 
 
 const ParticipantContainer = ({ client, match, detectRTC, main, actions, translate }) => {
 	const [council, setCouncil] = React.useState(null);
 	const [state, setState] = React.useState(null);
 	const [data, setData] = React.useState(null);
+	const config = React.useContext(ConfigContext);
+	const companyId = React.useRef();
 
 	React.useEffect(() => {
 		if(data && data.participant){
@@ -31,6 +34,12 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 			}
 		}
 	}, [data]);
+
+	React.useEffect(() => {
+		if(companyId.current){
+			config.updateConfig(companyId.current);
+		}
+	}, [companyId.current])
 
 	React.useEffect(() => {
 		if(state && state.councilState){
@@ -58,6 +67,7 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 		});
 		
 		setCouncil(response.data);
+		companyId.current = response.data.councilVideo.companyId
 	}
 
 	usePolling(getCouncil, 60000);
