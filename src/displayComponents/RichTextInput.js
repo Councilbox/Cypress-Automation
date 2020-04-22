@@ -76,7 +76,6 @@ class RichTextInput extends React.Component {
 
 	paste = text => {
 		const quill = this.rtEditor.getEditor();
-		console.log(quill)
 		let selection = quill.getSelection();
 		if (!selection) {
 			this.rtEditor.focus();

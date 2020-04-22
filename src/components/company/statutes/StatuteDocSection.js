@@ -28,19 +28,19 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 
 	React.useEffect(() => {
 		if (editor.current) {
-			editor.current.paste(statute.conveneHeader || '');
+			editor.current.setValue(statute.conveneHeader || '');
 		}
 		if (intro.current) {
-			intro.current.paste(statute.intro || '');
+			intro.current.setValue(statute.intro || '');
 		}
 		if (footer.current) {
-			footer.current.paste(statute.conveneFooter || '');
+			footer.current.setValue(statute.conveneFooter || '');
 		}
 		if (constitution.current) {
-			constitution.current.paste(statute.constitution || '');
+			constitution.current.setValue(statute.constitution || '');
 		}
 		if (conclusion.current) {
-			conclusion.current.paste(statute.conclusion || '');
+			conclusion.current.setValue(statute.conclusion || '');
 		}
 	}, [statute.id]);
 

@@ -43,10 +43,11 @@ const Vtabs = ({
 									return (
 										<div key={'' + mapIndex} onClick={()=>changeTab('' + mapIndex)}
 											style={{
-												borderRight: +index === +mapIndex ? "4px solid " + primary : "",
+												borderRight: +index === +mapIndex ? "6px solid " + primary : "",
 												marginTop: "0.5em",
 												marginBottom: "0.5em",
 												padding: "0.5em",
+												paddingLeft: '1.2em',
 												background: +index === +mapIndex ? "#dcdcdc" : 'white',
 												cursor: "pointer"
 											}}>
