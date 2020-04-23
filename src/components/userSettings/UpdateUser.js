@@ -214,7 +214,8 @@ class UpdateUserForm extends React.Component {
 										border: '1px solid ' + getPrimary(),
 										color: getPrimary(),
 										borderRadius: "8px",
-										width: "200px"
+										width: "200px",
+										height:"3em"
 									}}
 									onClick={() => this.setState({ showPass: true })}
 								/>
@@ -322,7 +323,8 @@ class UpdateUserForm extends React.Component {
 							color: "white",
 							fontWeight: "700",
 							width: "150px",
-							borderRadius: "8px"
+							borderRadius: "8px",
+							height:"3em"
 						}}
 						onClick={error ? () => { } : this.saveUser}
 					// icon={<ButtonIcon type="save" color="white" />}

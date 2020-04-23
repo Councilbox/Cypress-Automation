@@ -365,7 +365,8 @@ class ChangePasswordForm extends React.Component {
 							// border: '1px solid ' + getPrimary(),
 							color: "white",
 							borderRadius: "8px",
-							width: "200px"
+							width: "200px",
+							height:"3em"
 						}}
 						text={translate.save}
 						color={success ? "green" : getPrimary()}
@@ -386,7 +387,8 @@ class ChangePasswordForm extends React.Component {
 							border: "none",
 							color: getSecondary(),
 							borderRadius: "8px",
-							width: "200px"
+							width: "200px",
+							height:"3em"
 						}}
 						onClick={() => this.props.setShowPass({ showPass: false })}
 					/>
