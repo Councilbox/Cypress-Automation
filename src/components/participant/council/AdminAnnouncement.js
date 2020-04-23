@@ -6,8 +6,11 @@ import { BasicButton } from '../../../displayComponents';
 import icono from "../../../assets/img/logo-icono.png";
 import { ConfigContext } from '../../../containers/AppControl';
 
-const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement }) => {
+const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, ...props }) => {
     const context = React.useContext(ConfigContext);
+    React.useEffect(() => {
+        props.subscribeToAdminAnnoucement({ councilId: council.id });
+    }, [council.id])
 
     const closeAnnouncement = async () => {
         await closeRoomAnnouncement({
@@ -99,9 +102,43 @@ export default compose(
         options: props => ({
             variables: {
                 councilId: props.council.id
-            },
-            pollInterval: 8000
-        })
+            }
+        }),
+        props: props => {
+            return {
+              ...props,
+              subscribeToAdminAnnoucement: params => {
+                return props.data.subscribeToMore({
+                    document: gql`
+                        subscription adminAnnouncementUpdate($councilId: Int!){
+                            adminAnnouncementUpdate(councilId: $councilId){
+                                text
+                                id
+                                active
+                                councilId
+                            }
+                        }`,
+                    variables: {
+                        councilId: params.councilId
+                    },
+                    updateQuery: (prev, { subscriptionData }) => {
+                        if(subscriptionData.data.adminAnnouncementUpdate){
+                            if(subscriptionData.data.adminAnnouncementUpdate.active === 1){
+                                return ({
+                                    adminAnnouncement: subscriptionData.data.adminAnnouncementUpdate
+                                });
+                            }
+                        }
+
+                        return ({
+                            adminAnnouncement: null
+                        });
+
+                    }
+                });
+              }
+            };
+          }
     }),
     graphql(closeRoomAnnouncement, { name: 'closeRoomAnnouncement'})
 )(AdminAnnouncement);
