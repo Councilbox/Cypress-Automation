@@ -7,10 +7,11 @@ import { languages } from "../../queries/masters";
 import withSharedProps from '../../HOCs/withSharedProps';
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
+import influencer from '../../assets/img/influencer.svg';
 
 
 const UserSettingsPage = ({ data, user, translate, company, match, client, ...props }) => {
-	const [dataUser, setDataUser] = React.useState(user.id !== match.params.id? null : user);
+	const [dataUser, setDataUser] = React.useState(user.id !== match.params.id ? null : user);
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -29,11 +30,20 @@ const UserSettingsPage = ({ data, user, translate, company, match, client, ...pr
 	if (!dataUser) {
 		return <LoadingSection />;
 	}
-	
+
 	let admin = (match.params.company && match.params.id) ? true : false;
 
 	return (
-		<CardPageLayout title={translate.user_data} disableScroll>
+		<CardPageLayout title={
+			<div style={{ display: "flex", alignItems: "center" }}>
+				<div style={{ width:"1.2em", display: "flex" }}>
+					<img src={influencer} style={{ marginRight: '0.6em', width: "100%", height: "100%" }} />
+				</div>
+				<div>
+					{translate.user_data}
+				</div>
+			</div>
+		} disableScroll>
 			<div style={{ margin: 0, marginTop: '0.6em', height: '100%' }}>
 				<UpdateUser
 					translate={translate}

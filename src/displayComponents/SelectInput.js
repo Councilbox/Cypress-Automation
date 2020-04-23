@@ -67,6 +67,7 @@ const SelectInput = ({
 	autoWidth,
 	colorText,
 	styles,
+	disableUnderline,
 	...props
 }) => {
 
@@ -84,6 +85,7 @@ const SelectInput = ({
 					}`}</InputLabel>
 			)}
 			<Select
+				disableUnderline
 				inputProps={{
 					name: floatingText,
 					id: id,
