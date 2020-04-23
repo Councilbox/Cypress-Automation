@@ -10,7 +10,7 @@ import {
 	AlertConfirm
 } from "../../../displayComponents";
 import gql from 'graphql-tag';
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
 import { Tooltip } from "material-ui";
 import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord } from "../../../utils/CBX";
@@ -20,6 +20,7 @@ import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
 import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal";
 import MuteToggleButton from './videoParticipants/MuteToggleButton';
 import { isMobile } from "../../../utils/screen";
+import { usePolling } from "../../../hooks";
 
 const countParticipants = participants => {
 	let online = 0;
@@ -60,26 +61,50 @@ const countParticipants = participants => {
 }
 
 
-const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => {
+const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) => {
 	const [stats, setStats] = React.useState({
 		online: "-",
 		offline: "-",
 		broadcasting: "-",
 		banned: "-"
 	});
+	const [data, setData] = React.useState({});
+	const [loading, setLoading] = React.useState(true);
 	const [options, setOptions] = React.useState({
 		banParticipant: false,
 		page: 1,
-		limit: isMobile? 15 : 10
+		limit: isMobile? 15 : 20
 	});
+	
+
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: videoParticipants,
+			variables: {
+				councilId: props.councilId,
+				options: {
+					limit: options.limit,
+					offset: options.limit * (options.page - 1)
+				}
+			}
+		});
+		setData(response.data);
+		setLoading(false);
+	}, [council.id, options]);
+
+	usePolling(getData, 8000);
 
 	React.useEffect(() => {
-		if(!data.loading){
+		getData();
+	}, [getData]);
+
+	React.useEffect(() => {
+		if(!loading){
 			if(data.videoParticipants){
 				setStats(countParticipants(data.videoParticipants.list));
 			}
 		}
-	}, [data.loading, data.videoParticipants, setStats]);
+	}, [loading, data.videoParticipants, setStats]);
 
 	const banParticipant = async () => {
 		const response = await props.banParticipant({
@@ -90,7 +115,7 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 
 		if (response) {
 			if (response.data.banParticipant.success) {
-				data.refetch();
+				getData();
 				setOptions({
 					...options,
 					banParticipant: false
@@ -207,7 +232,7 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 					{true && <MuteToggleButton
 						translate={translate}
 						participant={participant}
-						refetch={data.refetch}
+						refetch={getData}
 					/>}
 				</GridItem>
 				<GridItem
@@ -223,7 +248,7 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 					<ChangeRequestWordButton
 						translate={translate}
 						participant={participant}
-						refetch={data.refetch}
+						refetch={getData}
 					/>
 				</GridItem>
 				<GridItem
@@ -239,7 +264,7 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 					<VideoParticipantMenu
 						council={council}
 						participant={participant}
-						refetch={data.refetch}
+						refetch={getData}
 						setBanParticipant={() =>
 							setOptions({ ...options, banParticipant: participant })
 						}
@@ -295,19 +320,16 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 			return <LoadingSection />;
 		}
 
-		const preparedParticipants = prepareParticipants([...videoParticipants.list]);
-		const slicedParticipants = preparedParticipants.slice((options.page - 1) * options.limit, ((options.page - 1) * options.limit) + options.limit);
-
 		return (
 			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${props.videoHeight} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
-				<div style={{height: `calc(100% - ${videoParticipants.list.length > options.limit? '3em' : '0px'})`}}>
+				<div style={{height: `calc(100% - ${videoParticipants.total > options.limit? '3em' : '0px'})`}}>
 					<Scrollbar>
-						{slicedParticipants.map(participant => {
+						{videoParticipants.list.map(participant => {
 							return _participantEntry(participant);
 						})}
 					</Scrollbar>
 				</div>
-				{videoParticipants.list.length > options.limit &&
+				{videoParticipants.total > options.limit &&
 					<div style={{height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em'}}>
 							{_paginationFooter(videoParticipants)}
 					</div>
@@ -323,7 +345,7 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 					<div onClick={() => setOptions({ ...options, page: options.page - 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'<'}</div>
 				}
 				<div style={{margin: '0 0.3em'}}>{options.page}</div>
-				{(options.page < (participants.list.length / options.limit)) &&
+				{(options.page < (participants.total / options.limit)) &&
 					<div onClick={() => setOptions({ ...options, page: options.page + 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'>'}</div>
 				}
 
@@ -384,18 +406,6 @@ const ParticipantsLive = ({ screenSize, data, council, translate, ...props}) => 
 
 }
 
-const prepareParticipants = participants => {
-	return participants.sort((a, b) => {
-		if(a.online === 1 && b.online !== 1) {
-			return -1;
-		}
-		if(a.online !== 1 && b.online === 1){
-			return 1;
-		}
-		return 0;
-	})
-}
-
 const changeParticipantOnlineState = gql`
     mutation changeParticipantOnlineState($participantId: Int!, $online: Int!){
         changeParticipantOnlineState(participantId: $participantId, online: $online){
@@ -406,25 +416,13 @@ const changeParticipantOnlineState = gql`
 `;
 
 export default compose(
-	graphql(videoParticipants, {
-		options: props => ({
-			variables: {
-				councilId: props.councilId
-			},
-			fetchPolicy: "network-only",
-			notifyOnNetworkStatusChange: true,
-			pollInterval: 8000
-		})
-	}),
-
+	withApollo,
 	graphql(changeRequestWord, {
 		name: "changeRequestWord"
 	}),
-
 	graphql(banParticipant, {
 		name: "banParticipant"
 	}),
-
 	graphql(changeParticipantOnlineState, {
 		name: 'changeParticipantOnlineState'
 	})

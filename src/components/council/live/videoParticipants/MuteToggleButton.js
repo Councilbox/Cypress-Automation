@@ -7,26 +7,11 @@ import gql from 'graphql-tag';
 
 class MuteToggleButton extends React.Component {
 
-	state = {
-		muted: this.props.participant.videoParticipant? this.props.participant.videoParticipant.mutedMic : false
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(nextProps.participant.videoParticipant){
-			if(nextProps.participant.videoParticipant.mutedMic !== prevState.muted){
-				return {
-					muted: nextProps.participant.videoParticipant.mutedMic
-				}
-			}
-		}
-		return null
-	}
-
     toggleMuteParticipant = async () => {
 		this.setState({
 			loading: true
 		});
-		if(this.state.muted){
+		if((this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic)){
 			const response = await this.props.unmuteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
@@ -37,9 +22,9 @@ class MuteToggleButton extends React.Component {
 			if(response.data){
 				if(response.data.unmuteVideoParticipant.success){
 					this.setState({
-						muted: false,
 						loading: false
 					});
+					this.props.refetch();
 				}
 			}
 		}else {
@@ -53,9 +38,9 @@ class MuteToggleButton extends React.Component {
 			if(response.data){
 				if(response.data.muteVideoParticipant.success){
 					this.setState({
-						muted: true,
 						loading: false
 					});
+					this.props.refetch();
 				}
 			}
 		}
@@ -97,7 +82,7 @@ class MuteToggleButton extends React.Component {
 									justifyContent: "center"
 								}}
 							>
-								{this.state.muted?
+								{(this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic)?
 									<i className="fa fa-microphone-slash" aria-hidden="true" style={{transform: 'scaleX(-1)'}}></i>
 								:
 									<i className="fa fa-microphone" aria-hidden="true"></i>
