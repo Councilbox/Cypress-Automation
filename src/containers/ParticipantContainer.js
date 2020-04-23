@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { withApollo } from "react-apollo";
+import { withApollo, graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { store } from './App';
 import { setDetectRTC } from '../actions/mainActions';
@@ -23,8 +23,8 @@ import { SERVER_URL } from "../config";
 
 export const ConnectionInfoContext = React.createContext(null);
 
-const ParticipantContainer = ({ client, match, detectRTC, main, actions, translate }) => {
-	const [council, setCouncil] = React.useState(null);
+const ParticipantContainer = ({ client, council, match, detectRTC, main, actions, translate, ...props }) => {
+	//const [council, setCouncil] = React.useState(null);
 	const [state, setState] = React.useState(null);
 	const [data, setData] = React.useState(null);
 	const config = React.useContext(ConfigContext);
@@ -71,10 +71,21 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 	}, [data]);
 
 	React.useEffect(() => {
+		props.subscribeToCouncilStateUpdated({ councilId: match.params.councilId });
+	}, [match.params.councilId])
+
+
+	React.useEffect(() => {
+		if(council.councilVideo){
+			companyId.current = council.councilVideo.companyId;
+		}
+	}, [council])
+
+	React.useEffect(() => {
 		if(companyId.current){
 			config.updateConfig(companyId.current);
 		}
-	}, [companyId.current])
+	}, [companyId.current]);
 
 	React.useEffect(() => {
 		if(state && state.councilState){
@@ -93,19 +104,19 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 		}
 	}, [state]);
 
-	const getCouncil = async () => {
-		const response = await client.query({
-			query: councilQuery,
-			variables: {
-				councilId: match.params.councilId
-			}
-		});
+	// const getCouncil = async () => {
+	// 	const response = await client.query({
+	// 		query: councilQuery,
+	// 		variables: {
+	// 			councilId: match.params.councilId
+	// 		}
+	// 	});
 		
-		setCouncil(response.data);
-		companyId.current = response.data.councilVideo.companyId
-	}
+	// 	setCouncil(response.data);
+	// 	companyId.current = response.data.councilVideo.companyId
+	// }
 
-	usePolling(getCouncil, 60000);
+	//usePolling(getCouncil, 60000);
 
 	const getState = async () => {
 		const response = await client.query({
@@ -381,4 +392,47 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer))));
+export default graphql(councilQuery, {
+	name: 'council',
+	options: props => ({
+		variables: {
+			councilId: props.match.params.councilId
+		}
+	}),
+	props: props => {
+		return {
+		  ...props,
+		  subscribeToCouncilStateUpdated: params => {
+			return props.council.subscribeToMore({
+				document: gql`
+					subscription councilStateUpdated($councilId: Int!){
+						councilStateUpdated(councilId: $councilId){
+							id
+							state
+						}
+					}`,
+				variables: {
+					councilId: params.councilId
+				},
+				updateQuery: (prev, { subscriptionData }) => {
+					console.log(subscriptionData);
+
+					/*
+					if(subscriptionData.data.councilStateUpdated){
+						if(subscriptionData.data.councilStateUpdated.active === 1){
+							return ({
+								adminAnnouncement: subscriptionData.data.councilStateUpdated
+							});
+						}
+					}
+
+					return ({
+						adminAnnouncement: null
+					});*/
+
+				}
+			});
+		  }
+		};
+	  }
+})(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));
