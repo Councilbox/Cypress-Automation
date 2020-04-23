@@ -1849,6 +1849,7 @@ export const videoParticipants = gql`
 				email
 				position
 				date
+				geoLocation
 				participantId
 				online
 				requestWord

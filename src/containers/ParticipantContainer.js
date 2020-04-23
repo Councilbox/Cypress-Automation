@@ -18,7 +18,10 @@ import { shouldLoadSubdomain } from "../utils/subdomain";
 import withTranslations from "../HOCs/withTranslations";
 import { usePolling } from "../hooks";
 import { ConfigContext } from "./AppControl";
+import { SERVER_URL } from "../config";
 
+
+export const ConnectionInfoContext = React.createContext(null);
 
 const ParticipantContainer = ({ client, match, detectRTC, main, actions, translate }) => {
 	const [council, setCouncil] = React.useState(null);
@@ -26,6 +29,38 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 	const [data, setData] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const companyId = React.useRef();
+	const [reqData, setConnectionData] = React.useState(null);
+	
+
+	const getReqData = React.useCallback(async () => {
+        const response = await fetch(`${SERVER_URL}/connectionInfo`);
+        let json = await response.json();
+
+        if(!json.geoLocation){
+            if('geolocation' in navigator){
+                navigator.geolocation.getCurrentPosition(async position => {
+                    const geoRequest = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${
+                        position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=${translate.selectedLanguage}`);
+                    if(geoRequest.status === 200){
+                        const geoLocation = await geoRequest.json();
+                        json.geoLocation = {
+                            city: geoLocation.locality,
+                            state: geoLocation.principalSubdivision,
+                            country: geoLocation.countryCode
+                        }
+                    }
+                });
+                
+            }
+        }
+
+        setConnectionData(json);
+    }, [])
+
+    React.useEffect(() => {
+        getReqData();
+    }, [getReqData]);
+
 
 	React.useEffect(() => {
 		if(data && data.participant){
@@ -82,7 +117,7 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 		setState(response.data);
 	}
 
-	usePolling(getState, 1000);
+	usePolling(getState, 8000);
 
 	const getData = async () => {
 		const response = await client.query({
@@ -135,57 +170,64 @@ const ParticipantContainer = ({ client, match, detectRTC, main, actions, transla
 
 
 	return (
-		<div
-			id={"mainContainer"}
-			style={{
-				display: "flex",
-				flex: 1,
-				height: '100%',
-				flexDirection: "column",
-				overflow: "auto",
-				padding: 0,
-				margin: 0
-			}}
-		>
-			<React.Fragment>
-				{main.isParticipantLogged ?
-						<React.Fragment>
-							{match.path.includes('meet') ?
-									<Meet
-										participant={data.participant}
-										council={{
-											...council.councilVideo,
-											state: state.councilState.state,
-											councilStarted: state.councilState.councilStarted,
-										}}
-										company={council.councilVideo.company}
-									/>
-								:
-									<Council
-										participant={data.participant}
-										council={{
-											...council.councilVideo,
-											state: state.councilState.state,
-											councilStarted: state.councilState.councilStarted,
-										}}
-										company={council.councilVideo.company}
-										refetchParticipant={getData}
-									/>
-							}
-						</React.Fragment>
-					:
-						<ParticipantLogin
-							participant={data.participant}
-							council={{
-								...council.councilVideo,
-								state: state.councilState.state,
-								councilStarted: state.councilState.councilStarted,
-							}}
-							company={council.councilVideo.company}
-						/>
-				}
-			</React.Fragment>
-		</div>
+		<ConnectionInfoContext.Provider value={{
+			data: reqData,
+			setConnectionData
+		}}>
+
+			<div
+				id={"mainContainer"}
+				style={{
+					display: "flex",
+					flex: 1,
+					height: '100%',
+					flexDirection: "column",
+					overflow: "auto",
+					padding: 0,
+					margin: 0
+				}}
+			>
+				<React.Fragment>
+					{main.isParticipantLogged ?
+							<React.Fragment>
+								{match.path.includes('meet') ?
+										<Meet
+											participant={data.participant}
+											council={{
+												...council.councilVideo,
+												state: state.councilState.state,
+												councilStarted: state.councilState.councilStarted,
+											}}
+											company={council.councilVideo.company}
+										/>
+									:
+										<Council
+											participant={data.participant}
+											council={{
+												...council.councilVideo,
+												state: state.councilState.state,
+												councilStarted: state.councilState.councilStarted,
+											}}
+											company={council.councilVideo.company}
+											refetchParticipant={getData}
+										/>
+								}
+							</React.Fragment>
+						:
+							<ParticipantLogin
+								participant={data.participant}
+								council={{
+									...council.councilVideo,
+									state: state.councilState.state,
+									councilStarted: state.councilState.councilStarted,
+								}}
+								company={council.councilVideo.company}
+							/>
+					}
+				</React.Fragment>
+			</div>
+		</ConnectionInfoContext.Provider>
+		
 	);
 }
 
