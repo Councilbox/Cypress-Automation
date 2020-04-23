@@ -190,8 +190,6 @@ class UpdateUserForm extends React.Component {
 		console.log(this.state.showPass)
 		return (
 			<div style={{ height: 'calc(100% - 3.5em)' }}  {...(error ? { onKeyUp: this.onKeyUp } : {})}>
-				{/* {...(error ? { onKeyUp: this.onKeyUp } : {})} esto k es? */}
-				{/* height: 'calc(100% - 3.5em)' */}
 				<div style={{ paddingTop: 0, height: "100%" }}>
 					<Scrollbar>
 						<div style={{ padding: '1.5em' }}>
@@ -310,21 +308,24 @@ class UpdateUserForm extends React.Component {
 						}
 					</Scrollbar>
 				</div> */}
-				<div style={{ height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', borderTop: '1px solid gainsboro' }}>
+				<div style={{ height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', }}>
 					<BasicButton
-						text={translate.save}
+						text={"Guardar cambios"}
+						// text={translate.save}
 						color={primary}
 						error={error}
 						reset={this.resetButtonStates}
 						success={success}
 						loading={loading}
 						floatRight
-						textStyle={{
+						backgroundColor={{
 							color: "white",
-							fontWeight: "700"
+							fontWeight: "700",
+							width: "150px",
+							borderRadius: "8px"
 						}}
 						onClick={error ? () => { } : this.saveUser}
-						icon={<ButtonIcon type="save" color="white" />}
+					// icon={<ButtonIcon type="save" color="white" />}
 					/>
 				</div>
 				<AlertConfirm

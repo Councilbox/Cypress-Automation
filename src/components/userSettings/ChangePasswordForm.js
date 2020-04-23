@@ -194,7 +194,7 @@ class ChangePasswordForm extends React.Component {
 							<TextInput
 								// floatingText={translate.current_password}
 								type="password"
-								styles={{ width: "300px" }}
+								styles={{ width: isMobile ? "100%" : "300px" }}
 								onKeyUp={this.handleKeyUp}
 								value={data.currentPassword}
 								errorText={errors.currentPassword}
@@ -211,12 +211,12 @@ class ChangePasswordForm extends React.Component {
 					<GridItem xs={12} md={12} lg={12} >
 						{/* //TRADUCCION */}
 						<div style={{ color: "black" }}>{"Nueva"}</div>
-						<div style={{ display: "flex" }}>
+						<div style={{ display: isMobile? "" : "flex" }}>
 							<div style={{ marginRight: "1em" }}>
 								<TextInput
 									// floatingText={translate.current_password}
 									type="password"
-									styles={{ width: "300px" }}
+									styles={{ width: isMobile ? "100%" :"300px" }}
 									onKeyUp={this.handleKeyUp}
 									value={data.newPassword}
 									onChange={event =>
@@ -258,7 +258,7 @@ class ChangePasswordForm extends React.Component {
 							<TextInput
 								// floatingText={translate.current_password}
 								type="password"
-								styles={{ width: "300px" }}
+								styles={{ width: isMobile ? "100%" :"300px" }}
 								onKeyUp={this.handleKeyUp}
 								value={data.newPasswordConfirm}
 								onChange={event =>
@@ -388,7 +388,7 @@ class ChangePasswordForm extends React.Component {
 							borderRadius: "8px",
 							width: "200px"
 						}}
-						onClick={()=>this.props.setShowPass({showPass: false})}
+						onClick={() => this.props.setShowPass({ showPass: false })}
 					/>
 				</div>
 				{/* <BasicButton
