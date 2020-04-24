@@ -24,8 +24,6 @@ import { SERVER_URL } from "../config";
 export const ConnectionInfoContext = React.createContext(null);
 
 const ParticipantContainer = ({ client, council, match, detectRTC, main, actions, translate, ...props }) => {
-	//const [council, setCouncil] = React.useState(null);
-	const [state, setState] = React.useState(null);
 	const [data, setData] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const companyId = React.useRef();
@@ -164,9 +162,6 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 	if (!data.participant || !council.councilVideo || Object.keys(detectRTC).length === 0) {
 		return <LoadingMainApp />;
 	}
-
-	console.log('STATE', council.councilVideo.state);
-
 
 	return (
 		<ConnectionInfoContext.Provider value={{

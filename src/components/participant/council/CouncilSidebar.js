@@ -2,7 +2,7 @@ import React from 'react';
 import FontAwesome from "react-fontawesome";
 import FloatGroup from 'react-float-button';
 import { Grid, Button } from "material-ui";
-import { withApollo } from 'react-apollo';
+import { withApollo, graphql } from 'react-apollo';
 import ResultsTimeline from '../ResultsTimeline';
 import gql from 'graphql-tag';
 import { darkGrey, secondary, primary, getSecondary } from '../../../styles/colors';
@@ -549,11 +549,30 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
 }
 
 
-const TimelineButton = withApollo(({ onClick, actived, council, translate, client, participant }) => {
+const TimelineButton = graphql(gql`
+    subscription councilTimelineTotal($councilId: Int!){
+        councilTimelineTotal(councilId: $councilId)
+    }
+`, {
+name: 'timelineTotal',
+options: props => ({
+    variables: {
+        councilId: props.council.id
+    }
+})
+})(withApollo(({ onClick, actived, council, translate, client, participant, timelineTotal }) => {
     const [total, setTotal] = React.useState(0);
     const [lastEvidenceId, setlastEvidenceId] = React.useState(0);
     const [timelineLastRead, setTimelineLastRead] = React.useState(0);
     const [arrayTimeline, setArrayTimeline] = React.useState(null);
+
+    React.useEffect(() => {
+        if(timelineTotal.councilTimelineTotal){
+            if(timelineTotal.councilTimelineTotal !== total){
+                setTotal(timelineTotal.councilTimelineTotal);
+            }
+        }
+    }, [timelineTotal])
 
     const readTimelines = React.useCallback(async () => {
         const response = await client.query({
@@ -590,21 +609,18 @@ const TimelineButton = withApollo(({ onClick, actived, council, translate, clien
     }, [council.id, client, councilTimelineQuery])
 
 
-
     React.useEffect(() => {
         getTimeline();
     }, [getTimeline]);
 
-    usePolling(getTimeline, 8000);
+    usePolling(getTimeline, 100000);
 
 
     const evidenceRead = async () => {
         await client.mutate({
             mutation: createEvidenceRead,
             variables: {
-                evidenceId: lastEvidenceId,
-                councilId: council.id,
-                participantId: participant.id,
+                evidenceId: lastEvidenceId
             }
         });
         readTimelines();
@@ -658,7 +674,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, translate, clien
             </div>
         </Button>
     )
-})
+}))
 
 const councilTimelineQuery = gql`
     query CouncilTimeline($councilId: Int!, ){
@@ -680,8 +696,8 @@ const readTimeline = gql`
 `;
 
 const createEvidenceRead = gql`
-    mutation CreateEvidenceRead($evidenceId: Int!, $councilId: Int!, $participantId: Int! ){
-        createEvidenceRead(evidenceId: $evidenceId, councilId: $councilId, participantId: $participantId){
+    mutation CreateEvidenceRead($evidenceId: Int!){
+        createEvidenceRead(evidenceId: $evidenceId){
             success
         }
     }
