@@ -187,7 +187,7 @@ class UpdateUserForm extends React.Component {
 		const { translate, edit, company } = this.props;
 		const { data, errors, error, success, loading, council } = this.state;
 		const primary = getPrimary();
-		
+
 		return (
 			<div style={{ height: 'calc(100% - 3.5em)' }}  {...(error ? { onKeyUp: this.onKeyUp } : {})}>
 				<div style={{ paddingTop: 0, height: "100%" }}>
@@ -202,7 +202,7 @@ class UpdateUserForm extends React.Component {
 								translate={translate}
 							/>
 						</div>
-						{!this.state.showPass &&
+						{!this.state.showPass && !this.props.admin &&
 							<div style={{ padding: '1.5em' }}>
 								<BasicButton
 									text={'Modificar contraseña'}
@@ -215,7 +215,7 @@ class UpdateUserForm extends React.Component {
 										color: getPrimary(),
 										borderRadius: "8px",
 										width: "200px",
-										height:"3em"
+										height: "3em"
 									}}
 									onClick={() => this.setState({ showPass: true })}
 								/>
@@ -235,7 +235,7 @@ class UpdateUserForm extends React.Component {
 											</div>
 										}
 										<br />
-										{this.props.admin &&
+										{/* {this.props.admin &&
 											<CompanyLinksManager
 												linkedCompanies={this.state.companies}
 												translate={translate}
@@ -244,9 +244,21 @@ class UpdateUserForm extends React.Component {
 													companies
 												})}
 											/>
-										}
+										} */}
 									</div>
 								</div>
+							</div>
+						}
+						{this.props.admin &&
+							<div style={{ padding: '1.5em' }}>
+								<CompanyLinksManager
+									linkedCompanies={this.state.companies}
+									translate={translate}
+									company={company}
+									addCheckedCompanies={companies => this.setState({
+										companies
+									})}
+								/>
 							</div>
 						}
 						{this.state.data.actived === 0 &&
@@ -324,7 +336,7 @@ class UpdateUserForm extends React.Component {
 							fontWeight: "700",
 							width: "195px",
 							borderRadius: "8px",
-							height:"3em"
+							height: "3em"
 						}}
 						onClick={error ? () => { } : this.saveUser}
 					// icon={<ButtonIcon type="save" color="white" />}
