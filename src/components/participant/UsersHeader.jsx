@@ -1,6 +1,6 @@
 import React from "react";
 import { Drawer, withStyles, Divider } from "material-ui";
-import { withApollo } from 'react-apollo';
+import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, AlertConfirm, Grid, GridItem, Scrollbar, TextInput, Icon, BasicButton } from "../../displayComponents";
 import * as CBX from '../../utils/CBX';
@@ -12,8 +12,24 @@ import { isMobile } from "../../utils/screen";
 const participantHeaderLimit = 15;
 
 
-const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop, setDrawerTop, ...props }) => {
-	// const [drawerTop, setDrawerTop] = React.useState(false);
+const UsersHeader = graphql(gql`
+	subscription participantsOnlineCount($councilId: Int!){
+		participantsOnlineCount(councilId: $councilId){
+			online
+			presents
+		}
+	}`, {
+	name: 'onlineCount',
+	options: props => ({
+		variables: {
+			councilId: props.council.id
+		}
+	})
+})(({ isMobile, council, translate, classes, client, drawerTop, setDrawerTop, onlineCount, ...props }) => {
+	const [recount, setRecount] = React.useState({
+		online: null,
+		presents: null
+	})
 	const [participantsOnline, setParticipantsOnline] = React.useState(false);
 	const [participantsPresents, setParticipantsPresents] = React.useState(false);
 	const [state, setState] = React.useState({
@@ -24,64 +40,47 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 		filters: '',
 		offsetOnline: 0,
 		offsetPresencial: 0
-	})
+	});
+
+	React.useEffect(() => {
+		if(onlineCount.participantsOnlineCount){
+			setRecount(onlineCount.participantsOnlineCount);
+		}
+	}, [onlineCount])
 
 	const getData = () => {
 		getarticipantsOnline();
-		getarticipantsPresents();
 	}
 
 	React.useEffect(() => {
 		getData();
 	}, [council.id]);
 
-	usePolling(getData, 8000);
+	React.useEffect(() => {
+		if(drawerTop){
+			getData();
+		}
+	}, [drawerTop])
 
+	usePolling(getData, drawerTop? 8000 : 100000);
 
 	const getarticipantsOnline = async () => {
 		const response = await client.query({
 			query: roomLiveParticipantsOnline,
 			variables: {
-				councilId: council.id,
-				// options: {
-				// 	limit: participantHeaderLimit,
-				// 	offset: 0
-				// },
-
+				councilId: council.id
 			}
 		});
 		
 		setParticipantsOnline(response.data.roomLiveParticipantsOnline);
+		setParticipantsPresents(response.data.roomLiveParticipantsPresents);
+		setRecount({
+			...recount,
+			online: response.data.roomLiveParticipantsOnline.total,
+			presents: response.data.roomLiveParticipantsPresents.total
+		})
 		setState(state => ({ ...state, loading: false }));
 
-	}
-
-
-	const verMas = async () => {
-		setState({ ...state, showModal: true })
-		setDrawerTop(false)
-	}
-
-	const getarticipantsPresents = async () => {
-		const response = await client.query({
-			query: roomLiveParticipantsPresents,
-			variables: {
-				councilId: council.id,
-				// options: {
-				// 	limit: participantHeaderLimit,
-				// 	offset: 0
-				// },
-
-			}
-		});
-
-		setParticipantsPresents(response.data.roomLiveParticipantsPresents);
-		setState(state => ({ ...state, loadingPresents: false }));
-	}
-
-	let total = 0
-	if (!state.loadingPresents && !state.loading) {
-		total = participantsOnline.total + participantsPresents.total
 	}
 
 	return (
@@ -110,10 +109,10 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 					onClick={(event) => setDrawerTop(event)}
 				>
 					<i className="fa fa-users" aria-hidden="true" style={{ marginRight: "5px", }}></i>
-					{state.loadingPresents && state.loading ?
+					{state.loading ?
 						<div style={{ width: "1em", height: "1.4em" }}><LoadingSection size={"1em"} /></div>
 						:
-						<span style={{ fontSize: "15px" }} >{total}</span>
+						<span style={{ fontSize: "15px" }} >{recount.online + recount.presents}</span>
 					}
 
 				</div>
@@ -122,15 +121,15 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 					{state.loading ?
 						<div style={{ width: "1em", height: "1.4em" }}><LoadingSection size={"1em"} /></div>
 						:
-						participantsOnline.total
+						recount.online
 					}
 				</div>
 				<div style={{ marginRight: "0.7em", padding: "2px 0px", display: "flex", alignItems: " center" }}>
 					<i className="material-icons" aria-hidden="true" style={{ marginRight: "5px", fontSize: "20px" }}>face</i>
-					{state.loadingPresents ?
+					{state.loading ?
 						<div style={{ width: "1em", height: "1.4em" }}><LoadingSection size={"1em"} /></div>
 						:
-						participantsPresents.total
+						recount.presents
 					}
 				</div>
 			</div>
@@ -183,7 +182,7 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 							/>
 							<div style={{ marginLeft: "1.3em" }}>
 								<div style={{ display: "flex", alignItems: "center", marginBottom: "1em" }} ><i className="material-icons" aria-hidden="true" style={{ marginRight: "5px", fontSize: "18px" }}>face</i>Presencial</div>
-								{state.loadingPresents ?
+								{state.loading ?
 									<LoadingSection />
 									:
 									participantsPresents.list.map(item => {
@@ -198,31 +197,13 @@ const UsersHeader = ({ isMobile, council, translate, classes, client, drawerTop,
 									)
 								}
 							</div>
-							{/* <div style={{ marginLeft: "1.3em", marginTop: "1em" }}>
-								{(participantsPresents.total > participantHeaderLimit || participantsOnline.total > participantHeaderLimit) &&
-									<div style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", cursor: "pointer" }}
-										onClick={() => verMas()}
-									>
-										{translate.see_more}
-									</div>
-								}
-							</div> */}
 						</Scrollbar>
 					</div>
 				</Drawer>
 			}
-			{
-				state.showModal &&
-				<Modal
-					requestClose={() => setState({ showModal: false })}
-					showModal={state.showModal}
-					council={council}
-					translate={translate}
-				/>
-			}
-		</div >
+		</div>
 	)
-}
+})
 
 
 const initialState = {
@@ -312,225 +293,225 @@ const reducer = (state, action) => {
 }
 
 
-const Modal = withApollo(({ translate, showModal, requestClose, council: { id }, client }) => {
-	const [state, dispatch] = React.useReducer(reducer, initialState);
-	const [loading, setLoading] = React.useState(false);
-	const actualSearch = React.useRef(null);
+// const Modal = withApollo(({ translate, showModal, requestClose, council: { id }, client }) => {
+// 	const [state, dispatch] = React.useReducer(reducer, initialState);
+// 	const [loading, setLoading] = React.useState(false);
+// 	const actualSearch = React.useRef(null);
 
-	const { fullName, presentOffset, onlineOffset } = state.filters;
-
-
-	const getPresents = async text => {
-		return await client.query({
-			query: roomLiveParticipantsPresents,
-			variables: {
-				councilId: id,
-				options: {
-					limit: participantHeaderLimit,
-					offset: presentOffset
-				},
-				...(text ? {
-					filters: [
-						{
-							field: 'fullName',
-							text
-						}
-					]
-				} : {})
-			},
-		});
-	};
-
-	const getOnline = async text => {
-		return await client.query({
-			query: roomLiveParticipantsOnline,
-			variables: {
-				councilId: id,
-				options: {
-					limit: participantHeaderLimit,
-					offset: onlineOffset
-				},
-				...(text ? {
-					filters: [
-						{
-							field: 'fullName',
-							text
-						}
-					]
-				} : {})
-			},
-		});
-	};
+// 	const { fullName, presentOffset, onlineOffset } = state.filters;
 
 
-	const getData = React.useCallback(async () => {
-		const [response, responseOnline] = await Promise.all([getPresents(fullName), getOnline(fullName)]);
+// 	const getPresents = async text => {
+// 		return await client.query({
+// 			query: roomLiveParticipantsPresents,
+// 			variables: {
+// 				councilId: id,
+// 				options: {
+// 					limit: participantHeaderLimit,
+// 					offset: presentOffset
+// 				},
+// 				...(text ? {
+// 					filters: [
+// 						{
+// 							field: 'fullName',
+// 							text
+// 						}
+// 					]
+// 				} : {})
+// 			},
+// 		});
+// 	};
 
-		if (fullName !== actualSearch.current) {
-			actualSearch.current = fullName;
-			dispatch({
-				type: 'RESET_DATA', value: {
-					presents: response.data.roomLiveParticipantsPresents,
-					online: responseOnline.data.roomLiveParticipantsOnline
-				}
-			});
-		}
-	}, [fullName]);
-
-	const loadMorePresents = React.useCallback(async () => {
-		setLoading(true);
-		const [response] = await Promise.all([getPresents(fullName)]);
-		dispatch({
-			type: 'LOAD_DATA', value: {
-				presents: response.data.roomLiveParticipantsPresents,
-			}
-		});
-		setLoading(false);
-	}, [presentOffset]);
-
-	const loadMoreRemote = React.useCallback(async () => {
-		setLoading(true);
-		const [response] = await Promise.all([getOnline(fullName)]);
-		dispatch({
-			type: 'LOAD_DATA', value: {
-				online: response.data.roomLiveParticipantsOnline
-			}
-		});
-		setLoading(false);
-	}, [onlineOffset]);
-
-	React.useEffect(() => {
-		if (showModal && presentOffset !== 0) {
-			loadMorePresents();
-		}
-	}, [presentOffset]);
-
-	React.useEffect(() => {
-		if (showModal && onlineOffset !== 0) {
-			loadMoreRemote();
-		}
-	}, [onlineOffset]);
-
-	React.useEffect(() => {
-		let timeout;
-		if (showModal) {
-			timeout = setTimeout(getData, 400);
-		}
-		return () => clearTimeout(timeout);
-	}, [getData, showModal]);
+// 	const getOnline = async text => {
+// 		return await client.query({
+// 			query: roomLiveParticipantsOnline,
+// 			variables: {
+// 				councilId: id,
+// 				options: {
+// 					limit: participantHeaderLimit,
+// 					offset: onlineOffset
+// 				},
+// 				...(text ? {
+// 					filters: [
+// 						{
+// 							field: 'fullName',
+// 							text
+// 						}
+// 					]
+// 				} : {})
+// 			},
+// 		});
+// 	};
 
 
-	const renderBody = () => (
-		<Scrollbar>
-			<Grid style={{ height: "100%", justifyContent: "space-between", overflow: "hidden", padding: "0.2em" }}>
-				<GridItem xs={12} md={12} lg={12} style={{ display: "flex", justifyContent: "flex-end", maxHeight: "5em" }}>
-					<div>
-						<TextInput
-							adornment={<Icon>search</Icon>}
-							type="text"
-							labelNone={true}
-							value={fullName}
-							onChange={event => {
-								dispatch({ type: 'SET_FULLNAME', value: event.target.value });
-							}}
-						/>
-					</div>
-				</GridItem>
-				<GridItem xs={12} md={5} lg={5} style={{ height: isMobile ? "20em" : "100%" }}>
-					<div style={{ marginBottom: "1em", display: "flex", alignItems: "center" }}>
-						<i className={"fa fa-globe"} style={{ marginRight: "0.5em" }}></i>
-						Online
-					</div>
-					<div style={{ border: "1px solid gainsboro", height: "80%", borderRadius: "5px", padding: "10px" }}>
-						<div style={{ width: "100%", height: "95%" }}>
-							<Scrollbar>
-								{state.loading ?
-									<LoadingSection />
-									:
-									<div>
-										{state.data.online.list.map(item => {
-											return (
-												<div key={item.id} style={{ alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
-													{CBX.haveGrantedWord(item) &&
-														<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em" }}></i>
-													}
-													<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-														{item.name + " " + item.surname || ''}
-													</div>
-												</div>
-											)
-										}
-										)}
-									</div>
-								}
-							</Scrollbar>
-							{!state.loading &&
-								state.data.online.total !== state.data.online.list.length &&
-								<div style={{ cursor: "pointer", color: getPrimary() }} onClick={() => { dispatch({ type: 'ONLINE_OFFSET', value: onlineOffset + participantHeaderLimit }) }}>Ver más</div>
-							}
-						</div>
-					</div>
-				</GridItem>
-				<GridItem xs={12} md={5} lg={5} style={{ height: isMobile ? "20em" : "100%" }}>
-					<div style={{ marginBottom: "1em", display: "flex", alignItems: "center" }}>
-						<i className="material-icons" aria-hidden="true" style={{ marginRight: "5px", fontSize: "18px" }}>
-							face
-						</i>
-						{translate.in_person}
-					</div>
-					<div style={{ border: "1px solid gainsboro", height: "80%", borderRadius: "5px", padding: "10px" }}>
-						<div style={{ width: "100%", height: "95%" }}>
-							<Scrollbar>
-								{state.loading ?
-									<LoadingSection />
-									:
-									state.data.presents.list.map(item => {
-										return (
-											<div key={item.id + "presents"} style={{ fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
-												<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-													{item.name + " " + item.surname || ''}
-												</div>
-											</div>
-										)
-									})
-								}
-							</Scrollbar>
-							{!state.loading &&
-								state.data.presents.total !== state.data.presents.list.length &&
-								<BasicButton
-									text={translate.see_more}
-									type="flat"
-									onClick={() => { dispatch({ type: 'PRESENTS_OFFSET', value: presentOffset + participantHeaderLimit }) }}
-									loading={loading}
-									loadingColor={getPrimary()}
-									color="transparent"
-									buttonStyle={{
-										marginBottom: '5px'
-									}}
-									textStyle={{
-										color: getPrimary()
-									}}
-								/>
-							}
-						</div>
-					</div>
-				</GridItem>
-			</Grid>
-		</Scrollbar>
-	)
+// 	const getData = React.useCallback(async () => {
+// 		const [response, responseOnline] = await Promise.all([getPresents(fullName), getOnline(fullName)]);
+
+// 		if (fullName !== actualSearch.current) {
+// 			actualSearch.current = fullName;
+// 			dispatch({
+// 				type: 'RESET_DATA', value: {
+// 					presents: response.data.roomLiveParticipantsPresents,
+// 					online: responseOnline.data.roomLiveParticipantsOnline
+// 				}
+// 			});
+// 		}
+// 	}, [fullName]);
+
+// 	const loadMorePresents = React.useCallback(async () => {
+// 		setLoading(true);
+// 		const [response] = await Promise.all([getPresents(fullName)]);
+// 		dispatch({
+// 			type: 'LOAD_DATA', value: {
+// 				presents: response.data.roomLiveParticipantsPresents,
+// 			}
+// 		});
+// 		setLoading(false);
+// 	}, [presentOffset]);
+
+// 	const loadMoreRemote = React.useCallback(async () => {
+// 		setLoading(true);
+// 		const [response] = await Promise.all([getOnline(fullName)]);
+// 		dispatch({
+// 			type: 'LOAD_DATA', value: {
+// 				online: response.data.roomLiveParticipantsOnline
+// 			}
+// 		});
+// 		setLoading(false);
+// 	}, [onlineOffset]);
+
+// 	React.useEffect(() => {
+// 		if (showModal && presentOffset !== 0) {
+// 			loadMorePresents();
+// 		}
+// 	}, [presentOffset]);
+
+// 	React.useEffect(() => {
+// 		if (showModal && onlineOffset !== 0) {
+// 			loadMoreRemote();
+// 		}
+// 	}, [onlineOffset]);
+
+// 	React.useEffect(() => {
+// 		let timeout;
+// 		if (showModal) {
+// 			timeout = setTimeout(getData, 400);
+// 		}
+// 		return () => clearTimeout(timeout);
+// 	}, [getData, showModal]);
 
 
-	return (
-		<AlertConfirm
-			requestClose={requestClose}
-			open={showModal}
-			buttonCancel={translate.close}
-			bodyStyle={{ minWidth: "70vw", height: "70vh" }}
-			bodyText={renderBody()}
-			title={translate.remote_present}
-		/>
-	)
-})
+// 	const renderBody = () => (
+// 		<Scrollbar>
+// 			<Grid style={{ height: "100%", justifyContent: "space-between", overflow: "hidden", padding: "0.2em" }}>
+// 				<GridItem xs={12} md={12} lg={12} style={{ display: "flex", justifyContent: "flex-end", maxHeight: "5em" }}>
+// 					<div>
+// 						<TextInput
+// 							adornment={<Icon>search</Icon>}
+// 							type="text"
+// 							labelNone={true}
+// 							value={fullName}
+// 							onChange={event => {
+// 								dispatch({ type: 'SET_FULLNAME', value: event.target.value });
+// 							}}
+// 						/>
+// 					</div>
+// 				</GridItem>
+// 				<GridItem xs={12} md={5} lg={5} style={{ height: isMobile ? "20em" : "100%" }}>
+// 					<div style={{ marginBottom: "1em", display: "flex", alignItems: "center" }}>
+// 						<i className={"fa fa-globe"} style={{ marginRight: "0.5em" }}></i>
+// 						Online
+// 					</div>
+// 					<div style={{ border: "1px solid gainsboro", height: "80%", borderRadius: "5px", padding: "10px" }}>
+// 						<div style={{ width: "100%", height: "95%" }}>
+// 							<Scrollbar>
+// 								{state.loading ?
+// 									<LoadingSection />
+// 									:
+// 									<div>
+// 										{state.data.online.list.map(item => {
+// 											return (
+// 												<div key={item.id} style={{ alignItems: "center", fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
+// 													{CBX.haveGrantedWord(item) &&
+// 														<i className={"fa fa-video-camera"} style={{ marginRight: "0.5em" }}></i>
+// 													}
+// 													<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
+// 														{item.name + " " + item.surname || ''}
+// 													</div>
+// 												</div>
+// 											)
+// 										}
+// 										)}
+// 									</div>
+// 								}
+// 							</Scrollbar>
+// 							{!state.loading &&
+// 								state.data.online.total !== state.data.online.list.length &&
+// 								<div style={{ cursor: "pointer", color: getPrimary() }} onClick={() => { dispatch({ type: 'ONLINE_OFFSET', value: onlineOffset + participantHeaderLimit }) }}>Ver más</div>
+// 							}
+// 						</div>
+// 					</div>
+// 				</GridItem>
+// 				<GridItem xs={12} md={5} lg={5} style={{ height: isMobile ? "20em" : "100%" }}>
+// 					<div style={{ marginBottom: "1em", display: "flex", alignItems: "center" }}>
+// 						<i className="material-icons" aria-hidden="true" style={{ marginRight: "5px", fontSize: "18px" }}>
+// 							face
+// 						</i>
+// 						{translate.in_person}
+// 					</div>
+// 					<div style={{ border: "1px solid gainsboro", height: "80%", borderRadius: "5px", padding: "10px" }}>
+// 						<div style={{ width: "100%", height: "95%" }}>
+// 							<Scrollbar>
+// 								{state.loading ?
+// 									<LoadingSection />
+// 									:
+// 									state.data.presents.list.map(item => {
+// 										return (
+// 											<div key={item.id + "presents"} style={{ fontSize: "14px", marginBottom: "0.2em", width: "90%" }} >
+// 												<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
+// 													{item.name + " " + item.surname || ''}
+// 												</div>
+// 											</div>
+// 										)
+// 									})
+// 								}
+// 							</Scrollbar>
+// 							{!state.loading &&
+// 								state.data.presents.total !== state.data.presents.list.length &&
+// 								<BasicButton
+// 									text={translate.see_more}
+// 									type="flat"
+// 									onClick={() => { dispatch({ type: 'PRESENTS_OFFSET', value: presentOffset + participantHeaderLimit }) }}
+// 									loading={loading}
+// 									loadingColor={getPrimary()}
+// 									color="transparent"
+// 									buttonStyle={{
+// 										marginBottom: '5px'
+// 									}}
+// 									textStyle={{
+// 										color: getPrimary()
+// 									}}
+// 								/>
+// 							}
+// 						</div>
+// 					</div>
+// 				</GridItem>
+// 			</Grid>
+// 		</Scrollbar>
+// 	)
+
+
+// 	return (
+// 		<AlertConfirm
+// 			requestClose={requestClose}
+// 			open={showModal}
+// 			buttonCancel={translate.close}
+// 			bodyStyle={{ minWidth: "70vw", height: "70vh" }}
+// 			bodyText={renderBody()}
+// 			title={translate.remote_present}
+// 		/>
+// 	)
+// })
 
 
 const styles = {
@@ -573,11 +554,6 @@ query roomLiveParticipantsOnline ( $councilId: Int!, $filters: [FilterInput], $o
 		}
 		total
 	}
-}
-`;
-
-const roomLiveParticipantsPresents = gql`
-query roomLiveParticipantsPresents ( $councilId: Int!, $filters: [FilterInput], $options: OptionsInput) {
 	roomLiveParticipantsPresents( councilId: $councilId, filters: $filters, options: $options ) {
 		list {
 			id
