@@ -187,7 +187,7 @@ class UpdateUserForm extends React.Component {
 		const { translate, edit, company } = this.props;
 		const { data, errors, error, success, loading, council } = this.state;
 		const primary = getPrimary();
-		console.log(this.state.showPass)
+		
 		return (
 			<div style={{ height: 'calc(100% - 3.5em)' }}  {...(error ? { onKeyUp: this.onKeyUp } : {})}>
 				<div style={{ paddingTop: 0, height: "100%" }}>
@@ -322,7 +322,7 @@ class UpdateUserForm extends React.Component {
 						backgroundColor={{
 							color: "white",
 							fontWeight: "700",
-							width: "150px",
+							width: "195px",
 							borderRadius: "8px",
 							height:"3em"
 						}}
