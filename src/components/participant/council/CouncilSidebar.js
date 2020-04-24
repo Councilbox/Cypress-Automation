@@ -518,7 +518,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                         left: "0",
                         alignItems: "center",
                         justifyContent: "center",
-                        zIndex: '1010',
+                        zIndex: '1000',
                     }}>
                         <div style={{
                             width: '100vw',
