@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import { darkGrey, secondary, primary, getSecondary } from '../../../styles/colors';
 import { AlertConfirm, Badge } from '../../../displayComponents';
 import iconVoteInsert from '../../../../src/assets/img/dropping-vote-in-box2.svg';
+import { usePolling } from '../../../hooks';
 
 
 const styles = {
@@ -554,45 +555,47 @@ const TimelineButton = withApollo(({ onClick, actived, council, translate, clien
     const [timelineLastRead, setTimelineLastRead] = React.useState(0);
     const [arrayTimeline, setArrayTimeline] = React.useState(null);
 
+    const readTimelines = React.useCallback(async () => {
+        const response = await client.query({
+            query: readTimeline,
+            variables: {
+                councilId: council.id,
+            }
+        });
+
+        if (response.data && response.data.readTimeline.length > 0) {
+            setTimelineLastRead(JSON.parse(response.data.readTimeline[response.data.readTimeline.length - 1].content).data.participant.timeline)
+        }
+    }, [participant.id]);
 
     React.useEffect(() => {
-        const getTimeline = async () => {
-            const response = await client.query({
-                query: councilTimelineQuery,
-                variables: {
-                    councilId: council.id,
-                }
-            });
-
-            if (response.data && response.data.councilTimeline) {
-                setTotal(response.data.councilTimeline.length);
-                setArrayTimeline(response.data.councilTimeline)
-                if (response.data.councilTimeline[response.data.councilTimeline.length - 1] !== undefined) {
-                    setlastEvidenceId(response.data.councilTimeline[response.data.councilTimeline.length - 1].id)
-                }
-            }
-        }
-        const readTimelines = async () => {
-            const response = await client.query({
-                query: readTimeline,
-                variables: {
-                    councilId: council.id,
-                }
-            });
-
-            if (response.data && response.data.readTimeline.length > 0) {
-                setTimelineLastRead(JSON.parse(response.data.readTimeline[response.data.readTimeline.length - 1].content).data.participant.timeline)
-            }
-        }
-
-        getTimeline();
         readTimelines();
-        const interval = setInterval(() => {
-            getTimeline();
-            readTimelines();
-        }, 5000);
-        return () => clearInterval(interval);
-    }, [council.id, client, councilTimelineQuery]);
+    }, [readTimelines])
+
+    const getTimeline = React.useCallback(async () => {
+        const response = await client.query({
+            query: councilTimelineQuery,
+            variables: {
+                councilId: council.id,
+            }
+        });
+
+        if (response.data && response.data.councilTimeline) {
+            setTotal(response.data.councilTimeline.length);
+            setArrayTimeline(response.data.councilTimeline)
+            if (response.data.councilTimeline[response.data.councilTimeline.length - 1] !== undefined) {
+                setlastEvidenceId(response.data.councilTimeline[response.data.councilTimeline.length - 1].id)
+            }
+        }
+    }, [council.id, client, councilTimelineQuery])
+
+
+
+    React.useEffect(() => {
+        getTimeline();
+    }, [getTimeline]);
+
+    usePolling(getTimeline, 8000);
 
 
     const evidenceRead = async () => {
@@ -604,6 +607,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, translate, clien
                 participantId: participant.id,
             }
         });
+        readTimelines();
     }
 
 
