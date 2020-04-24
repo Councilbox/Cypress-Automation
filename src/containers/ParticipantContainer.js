@@ -88,8 +88,8 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 	}, [companyId.current]);
 
 	React.useEffect(() => {
-		if(state && state.councilState){
-			const { subdomain } = state.councilState;
+		if(council && council.councilVideo){
+			const { subdomain } = council.councilVideo;
 			const actualSubdomain = window.location.hostname.split('.')[0];
 
 			if(subdomain){
@@ -102,33 +102,19 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 				}
 			}
 		}
-	}, [state]);
+	}, [council]);
 
-	// const getCouncil = async () => {
+	// const getState = async () => {
 	// 	const response = await client.query({
-	// 		query: councilQuery,
+	// 		query: stateQuery,
 	// 		variables: {
 	// 			councilId: match.params.councilId
 	// 		}
 	// 	});
-		
-	// 	setCouncil(response.data);
-	// 	companyId.current = response.data.councilVideo.companyId
+	// 	setState(response.data);
 	// }
 
-	//usePolling(getCouncil, 60000);
-
-	const getState = async () => {
-		const response = await client.query({
-			query: stateQuery,
-			variables: {
-				councilId: match.params.councilId
-			}
-		});
-		setState(response.data);
-	}
-
-	usePolling(getState, 8000);
+	//usePolling(getState, 8000);
 
 	const getData = async () => {
 		const response = await client.query({
@@ -148,7 +134,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		store.dispatch(setDetectRTC());
 	}, []);
 
-	if(!data || !council || !state){
+	if(!data || !council){
 		return <LoadingMainApp />;
 	}
 
@@ -175,9 +161,11 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		}
 	}
 
-	if (!data.participant || !council.councilVideo || !state.councilState || Object.keys(detectRTC).length === 0) {
+	if (!data.participant || !council.councilVideo || Object.keys(detectRTC).length === 0) {
 		return <LoadingMainApp />;
 	}
+
+	console.log('STATE', council.councilVideo.state);
 
 
 	return (
@@ -205,9 +193,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 										<Meet
 											participant={data.participant}
 											council={{
-												...council.councilVideo,
-												state: state.councilState.state,
-												councilStarted: state.councilState.councilStarted,
+												...council.councilVideo
 											}}
 											company={council.councilVideo.company}
 										/>
@@ -215,9 +201,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 										<Council
 											participant={data.participant}
 											council={{
-												...council.councilVideo,
-												state: state.councilState.state,
-												councilStarted: state.councilState.councilStarted,
+												...council.councilVideo
 											}}
 											company={council.councilVideo.company}
 											refetchParticipant={getData}
@@ -228,9 +212,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 							<ParticipantLogin
 								participant={data.participant}
 								council={{
-									...council.councilVideo,
-									state: state.councilState.state,
-									councilStarted: state.councilState.councilStarted,
+									...council.councilVideo
 								}}
 								company={council.councilVideo.company}
 							/>
@@ -251,6 +233,8 @@ const councilQuery = gql`
 			autoClose
 			businessName
 			subdomain
+			councilStarted
+			state
 			city
 			closeDate
 			companyId
@@ -338,17 +322,6 @@ const councilQuery = gql`
 	}
 `;
 
-const stateQuery = gql`
-	query info($councilId: Int!) {
-		councilState(id: $councilId) {
-			state
-			councilStarted
-			id
-			subdomain
-		}
-	}
-`;
-
 const participantQuery = gql`
 	query info {
 		participant {
@@ -397,7 +370,8 @@ export default graphql(councilQuery, {
 	options: props => ({
 		variables: {
 			councilId: props.match.params.councilId
-		}
+		},
+		pollInterval: 60000
 	}),
 	props: props => {
 		return {
@@ -407,29 +381,26 @@ export default graphql(councilQuery, {
 				document: gql`
 					subscription councilStateUpdated($councilId: Int!){
 						councilStateUpdated(councilId: $councilId){
-							id
 							state
+							councilStarted
+							subdomain
 						}
 					}`,
 				variables: {
 					councilId: params.councilId
 				},
 				updateQuery: (prev, { subscriptionData }) => {
-					console.log(subscriptionData);
-
-					/*
-					if(subscriptionData.data.councilStateUpdated){
-						if(subscriptionData.data.councilStateUpdated.active === 1){
-							return ({
-								adminAnnouncement: subscriptionData.data.councilStateUpdated
-							});
-						}
-					}
+					const newData = subscriptionData.data.councilStateUpdated;
 
 					return ({
-						adminAnnouncement: null
-					});*/
-
+						...prev,
+						councilVideo: {
+							...prev.councilVideo,
+							state: newData.state? newData.state : prev.councilVideo.state,
+							subdomain: (newData.subdomain !== null)? newData.subdomain : prev.councilVideo.subdomain,
+							councilStarted: (newData.councilStarted !== null)? newData.councilStarted : prev.councilVideo.councilStarted
+						}
+					});
 				}
 			});
 		  }

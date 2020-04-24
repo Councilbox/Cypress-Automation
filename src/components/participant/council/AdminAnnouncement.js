@@ -102,7 +102,8 @@ export default compose(
         options: props => ({
             variables: {
                 councilId: props.council.id
-            }
+            },
+            pollInterval: 60000,
         }),
         props: props => {
             return {
