@@ -36,6 +36,8 @@ export const canReorderPoints = council => {
 };
 
 export const showNumParticipations = (numParticipations, company) => {
+	console.log(numParticipations, company);
+
 	if(!company || !company.type){
 		return numParticipations;
 	}
@@ -204,9 +206,9 @@ export const majorityNeedsInput = majorityType => {
 };
 
 export const haveQualityVoteConditions = (agenda, council) => {
-	return (agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING) &&
+	return ((agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING) &&
 		(agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings +
-			agenda.negativeManual) && council.statute.existsQualityVote;
+			agenda.negativeManual) && council.statute.existsQualityVote === 1);
 };
 
 export const canEditPresentVotings = agenda => {

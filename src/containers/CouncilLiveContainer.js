@@ -10,11 +10,12 @@ import { store } from "./App";
 import { addSpecificTranslations } from "../actions/companyActions";
 
 const CouncilLiveContainer = ({ main, companies, match, translate }) => {
-	const company = companies.list[companies.selected];
-
 	React.useEffect(() => {
-		store.dispatch(addSpecificTranslations(company.type));
-	}, [store, company.type]);
+		const company = companies.list[companies.selected];
+		if(company){
+			store.dispatch(addSpecificTranslations(company.type));
+		}
+	}, [store, companies.selected]);
 
 	if (!main.isLogged) {
 		return <Redirect to="/" />;

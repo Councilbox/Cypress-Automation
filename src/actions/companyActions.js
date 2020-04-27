@@ -74,7 +74,10 @@ const getSpecificTranslations = (language, type) => {
 		10: {
 			censuses: 'Propietarios',
 			entity_name: 'Propiedad',
+			present_vote: 'Presentes',
+			remote_vote: 'Remotos',
 			votes: 'Coeficiente',
+			votes_in_favor_for_approve: 'Coeficiente necesario',
 			total_votes: 'Coeficiente total'
 		}
 	}

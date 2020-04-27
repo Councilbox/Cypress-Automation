@@ -5,8 +5,9 @@ import { Typography, Tooltip } from "material-ui";
 import * as CBX from "../utils/CBX";
 import { withApollo } from 'react-apollo';
 import DenyVote from "../components/council/live/participants/DenyVote";
+import withSharedProps from "../HOCs/withSharedProps";
 
-const ParticipantDisplay = ({ participant, translate, refetch, council, delegate }) => {
+const ParticipantDisplay = ({ participant, translate, refetch, council, delegate, company }) => {
 	const secondary = getSecondary();
 
 	return (
@@ -146,7 +147,7 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 								</div>
 							</Tooltip>
 							<Typography variant="body1">
-								{`${participant.numParticipations}`}
+								{`${CBX.showNumParticipations(participant.numParticipations, company)}`}
 							</Typography>
 						</div>
 						{CBX.hasParticipations(council.statute) && (
@@ -194,4 +195,4 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 	);
 };
 
-export default withApollo(ParticipantDisplay);
+export default withApollo(withSharedProps()(ParticipantDisplay));
