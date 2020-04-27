@@ -164,18 +164,20 @@ class AgendaMenu extends React.Component {
                                         ) &&
                                         translate.cant_exercise_vote
                                     }
-                                    <VotingSection
-                                        disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
-                                        agenda={agenda}
-                                        ownVote={ownVote}
-                                        open={this.state.open}
-                                        council={this.props.council}
-                                        voting={this.state.voting}
-                                        translate={translate}
-                                        activateVoting={this.activateVoting}
-                                        refetch={this.props.refetch}
-                                        toggle={this.toggle}
-                                    />
+                                    {!CBX.isCustomPoint(agenda.subjectType) && 
+                                        <VotingSection
+                                            disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
+                                            agenda={agenda}
+                                            ownVote={ownVote}
+                                            open={this.state.open}
+                                            council={this.props.council}
+                                            voting={this.state.voting}
+                                            translate={translate}
+                                            activateVoting={this.activateVoting}
+                                            refetch={this.props.refetch}
+                                            toggle={this.toggle}
+                                        />
+                                    }
                                 </>
                             }
                         </React.Fragment>
