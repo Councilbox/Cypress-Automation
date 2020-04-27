@@ -48,7 +48,7 @@ const redirect = company => () => {
 
 const MainRouter = ({ company, user, location, disabled }) => {
     React.useEffect(() => {
-		store.dispatch(addSpecificTranslations(company.type === 10? 'realEstate' : 'society'));
+		store.dispatch(addSpecificTranslations(company.type));
 	}, [store, company.type]);
 
     if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`) && !location.pathname.includes('/admin')){

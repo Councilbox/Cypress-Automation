@@ -35,6 +35,16 @@ export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
 };
 
+export const showNumParticipations = (numParticipations, company) => {
+	if(!company || !company.type){
+		return numParticipations;
+	}
+
+	if(company.type === 10){
+		return numParticipations / 1000;
+	}
+}
+
 export const splitExtensionFilename = (filename) => {
 	const array = filename.split('.');
 	if (array.length < 2) {

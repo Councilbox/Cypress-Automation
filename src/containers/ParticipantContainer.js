@@ -19,6 +19,7 @@ import withTranslations from "../HOCs/withTranslations";
 import { usePolling } from "../hooks";
 import { ConfigContext } from "./AppControl";
 import { SERVER_URL } from "../config";
+import { addSpecificTranslations } from "../actions/companyActions";
 
 
 export const ConnectionInfoContext = React.createContext(null);
@@ -82,6 +83,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 	React.useEffect(() => {
 		if(companyId.current){
 			config.updateConfig(companyId.current);
+			store.dispatch(addSpecificTranslations(council.councilVideo.company.type));
 		}
 	}, [companyId.current]);
 
@@ -235,6 +237,7 @@ const councilQuery = gql`
 			companyId
 			company {
 				logo
+				type
 			}
 			conveneText
 			councilType

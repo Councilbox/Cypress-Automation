@@ -8,7 +8,7 @@ import { Icon, AlertConfirm } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { IconButton, Tooltip, Card, Drawer, withStyles } from "material-ui";
-import { councilIsFinished } from '../../utils/CBX';
+import { councilIsFinished, showNumParticipations } from '../../utils/CBX';
 import Convene from "../council/convene/Convene";
 import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
@@ -83,7 +83,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 
 
 	const calculateParticipantVotes = () => {
-		return participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations);
+		return showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company);
 	}
 
 	const _renderParticipantInfo = () => {
@@ -114,7 +114,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}
 					{delegations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company)}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
@@ -126,7 +126,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}
 					{representations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company)}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}

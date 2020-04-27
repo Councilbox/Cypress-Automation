@@ -6,8 +6,16 @@ import { Redirect, withRouter } from "react-router-dom";
 import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 import NoConnectionModal from '../components/NoConnectionModal';
 import { isMobile } from "../utils/screen";
+import { store } from "./App";
+import { addSpecificTranslations } from "../actions/companyActions";
 
 const CouncilLiveContainer = ({ main, companies, match, translate }) => {
+	const company = companies.list[companies.selected];
+
+	React.useEffect(() => {
+		store.dispatch(addSpecificTranslations(company.type));
+	}, [store, company.type]);
+
 	if (!main.isLogged) {
 		return <Redirect to="/" />;
 	}

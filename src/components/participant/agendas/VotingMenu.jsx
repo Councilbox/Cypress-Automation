@@ -145,7 +145,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     hasVideo ?
                         translate.in_favor_btn
                         :
-                        translate.in_favor_btn + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' ? "" : ` (${translate.recount}: ${agenda.positiveVotings + agenda.positiveManual})`)
+                        translate.in_favor_btn + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' ? "" : ` (${translate.recount}: ${CBX.showNumParticipations(agenda.positiveVotings + agenda.positiveManual, council.company)})`)
                 }
                 loading={loading === 1}
                 disabledColor={disabledColor}
@@ -165,7 +165,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     hasVideo ?
                         translate.against_btn
                         :
-                        translate.against_btn + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${translate.recount}: ${agenda.negativeVotings + agenda.negativeManual})`)
+                        translate.against_btn + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${translate.recount}: ${CBX.showNumParticipations(agenda.negativeVotings + agenda.negativeManual, council.company)})`)
                 }
                 loading={loading === 0}
                 disabledColor={disabledColor}
@@ -186,7 +186,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     hasVideo ?
                         translate.abstention_btn
                         :
-                        translate.abstention_btn + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${translate.recount}: ${agenda.abstentionVotings + agenda.abstentionManual})`)
+                        translate.abstention_btn + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${translate.recount}: ${CBX.showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, council.company)})`)
                 }
                 loading={loading === 2}
                 disabledColor={disabledColor}
@@ -206,7 +206,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     hasVideo ?
                         translate.dont_vote
                         :
-                        translate.dont_vote + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${translate.recount}: ${agenda.noVoteVotings + agenda.noVoteManual})`)
+                        translate.dont_vote + (CBX.getAgendaTypeLabel(agenda) === 'private_votation' && hasVideo ? "" : ` (${translate.recount}: ${CBX.showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, council.company)})`)
                 }
                 disabled={disabled}
                 disabledColor={disabledColor}
