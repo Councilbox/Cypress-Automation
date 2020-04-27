@@ -138,11 +138,9 @@ class CommentWall extends React.Component {
 																	fontWeight: "700",
 																	color: getPrimary()
 																}}
-															>{`${comment.author.name} ${
-																comment.author.surname
-															} - ${
-																comment.author.position
-															}`}</span>
+															>{`${comment.author.name} ${comment.author.surname || ''} ${
+																comment.author.position? `- ${comment.author.position}` : ''}
+															`}</span>
 														) : (
 															<span
 																style={{

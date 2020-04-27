@@ -120,14 +120,16 @@ const CommentsTable = props => {
 									></div>
 									<span
 										style={{ fontSize: "0.73rem", fontWeight: '700' }}
-									>{`${voting.author.name} ${voting.author.surname || ''} ${voting.author.representative? `- Representado por: ${
+									>{`${voting.author.name} ${voting.author.surname || ''} ${voting.author.representative? `- ${props.translate.represented_by}: ${
 											voting.author.representative.name} ${
-											voting.author.representative.surname
+											voting.author.representative.surname || ''
 											}`: ''}`}
 									</span>
-									<span style={{ fontSize: "0.73rem" }}>{` - ${
-										voting.author.position
-									}`}</span>
+									{voting.author.position &&
+										<span style={{ fontSize: "0.73rem" }}>{` - ${
+											voting.author.position
+										}`}</span>
+									}
 								</div>
 							</GridItem>
 						);
