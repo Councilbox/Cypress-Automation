@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import FontAwesome from "react-fontawesome";
 import { darkGrey, secondary, lightGrey } from "../../styles/colors";
 import Header from "./Header";
+import { printSessionExpiredError } from "../../utils/CBX";
 
 class InvalidUrl extends React.Component {
 	render() {
@@ -48,8 +49,10 @@ class InvalidUrl extends React.Component {
 							}
 						</h2>
 						<h5 style={{ color: darkGrey }}>
-							{
+							{this.props.test?
 								this.props.translate.this_is_test_link
+							:
+								printSessionExpiredError()
 							}
 						</h5>
 					</div>
