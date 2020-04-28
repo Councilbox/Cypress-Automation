@@ -18,7 +18,7 @@ import Scrollbar from "react-perfect-scrollbar";
 import { getPrimary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
-import { sendActDraft } from '../../../../queries';
+import { sendActDraft, councilParticipantsActSends } from '../../../../queries';
 import { isMobile } from "../../../../utils/screen";
 
 
@@ -57,7 +57,7 @@ class SendActDraftModal extends React.Component {
 		this.props.data.fetchMore({
 			variables: {
 				options: {
-					offset: this.props.data.councilParticipants.list
+					offset: this.props.data.councilParticipantsActSends.list
 						.length,
 					limit: DELEGATION_USERS_LOAD
 				}
@@ -68,11 +68,11 @@ class SendActDraftModal extends React.Component {
 				}
 				return {
 					...prev,
-					councilParticipants: {
-						...prev.councilParticipants,
+					councilParticipantsActSends: {
+						...prev.councilParticipantsActSends,
 						list: [
-							...prev.councilParticipants.list,
-							...fetchMoreResult.councilParticipants
+							...prev.councilParticipantsActSends.list,
+							...fetchMoreResult.councilParticipantsActSends
 								.list
 						]
 					}
@@ -276,10 +276,10 @@ class SendActDraftModal extends React.Component {
 
 		const participants = loading
 			? []
-			: this.props.data.councilParticipants.list;
+			: this.props.data.councilParticipantsActSends.list;
 		const { total } = loading
 			? 0
-			: this.props.data.councilParticipants;
+			: this.props.data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
 		
 		if (this.state.step === 1) {
@@ -438,7 +438,7 @@ class RowTabla extends React.Component {
 }
 
 export default compose(
-	graphql(councilParticipants, {
+	graphql(councilParticipantsActSends, {
 		options: props => ({
 			variables: {
 				councilId: props.council.id,
