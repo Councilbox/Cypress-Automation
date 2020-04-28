@@ -8,18 +8,20 @@ import {
 	BasicButton,
 	ButtonIcon,
 	CollapsibleSection,
-	SuccessMessage
+	SuccessMessage,
+	Checkbox
 } from "../../../../displayComponents";
-import { Typography } from "material-ui";
+import { Typography, TableRowColumn, TableRow, Table } from "material-ui";
 import { compose, graphql } from "react-apollo";
 import { councilParticipants } from "../../../../queries/councilParticipant";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
-import { getPrimary } from '../../../../styles/colors';
+import { getPrimary, secondary, getSecondary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
 import { sendActDraft, councilParticipantsActSends } from '../../../../queries';
 import { isMobile } from "../../../../utils/screen";
+import { TableCell } from "material-ui";
 
 
 
@@ -149,7 +151,7 @@ class SendActDraftModal extends React.Component {
 
 	_section = () => {
 		return (
-			<div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+			<div style={{ width: '100%', display: 'flex', flexDirection: 'column', paddingBottom: "1.5em", border: "1px solid " + getSecondary(), borderRadius: "4px", padding: "1em", marginTop: "1em" }}>
 				<div style={{ width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row' }}>
 					<div style={{ width: '75%', marginRight: '0.8em' }}>
 						<TextInput
@@ -160,12 +162,14 @@ class SendActDraftModal extends React.Component {
 							errorText={this.state.errors.newEmail}
 						/>
 					</div>
-					<BasicButton
-						text={this.props.translate.add_email}
-						textStyle={{ textTransform: 'none', color: 'white', fontSize: '700' }}
-						color={getPrimary()}
-						onClick={() => this.addEmail()}
-					/>
+					<div style={{ display: "flex", alignItems: "center" }}>
+						<BasicButton
+							text={this.props.translate.add_email}
+							textStyle={{ textTransform: 'none', color: 'white', fontSize: '700', boxShadow: "none", borderRadius: "4px" }}
+							color={getPrimary()}
+							onClick={() => this.addEmail()}
+						/>
+					</div>
 				</div>
 				<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 					{this._renderEmails()}
@@ -216,7 +220,9 @@ class SendActDraftModal extends React.Component {
 				onClick={() => this.setState({ modal: true })}
 				buttonStyle={{
 					marginRight: "1em",
-					border: `2px solid ${primary}`
+					border: `1px solid ${primary}`,
+					borderRadius: "4px",
+					boxShadow: "none"
 				}}
 			/>
 		)
@@ -247,10 +253,10 @@ class SendActDraftModal extends React.Component {
 			const index = this.state.emailList.findIndex(email => email === item);
 			return !!index;
 		});
-		let emails=[]
+		let emails = []
 		emails.push(...this.state.emailList)
 		for (let i = 0; i < filteredEmails.length; i++) {
-			if(emails.findIndex(email => email === filteredEmails[i])===-1){
+			if (emails.findIndex(email => email === filteredEmails[i]) === -1) {
 				emails.push(filteredEmails[i])
 			}
 		}
@@ -281,35 +287,95 @@ class SendActDraftModal extends React.Component {
 			? 0
 			: this.props.data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
-		
+		console.log(participants)
 		if (this.state.step === 1) {
 			return (
-				<div style={{ width: isMobile ? "" : "600px" }}>
+				<div style={{}}>
+					{/* width: isMobile ? "" : "600px"  */}
 					<CollapsibleSection
 						trigger={this._button}
 						collapse={this._section}
 					/>
-					<TextInput
-						adornment={<Icon>search</Icon>}
-						floatingText={" "}
-						type="text"
-						value={this.state.filterText}
-						onChange={event => {
-							this.updateFilterText(event.target.value);
-						}}
-					/>
+					<div style={{ display: "flex", justifyContent: "flex-end" }}>
+						<div style={{ width: "200px" }}>
+							<TextInput
+								adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+								floatingText={" "}
+								type="text"
+								value={this.state.filterText}
+								onChange={event => {
+									this.updateFilterText(event.target.value);
+								}}
+								disableUnderline={true}
+								styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+								stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+								placeholder={translate.search}
+							/>
+						</div>
+					</div>
 					<div
 						style={{
 							height: "300px",
 							overflow: "hidden",
-							position: "relative"
+							position: "relative",
 						}}
 					>
+
+						<Table style={{ width: "600px", margin: "0 auto" }}>
+							<TableRow>
+								<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}></TableCell>
+								<TableCell style={{ width: "305px" }}>{translate.name}</TableCell>
+								<TableCell>{translate.surname}</TableCell>
+							</TableRow>
+						</Table>
+
 						{loading ? (
 							<LoadingSection />
 						) : (
-								<Scrollbar style={{ height: "100%", marginBottom: '0.5em' }} option={{ suppressScrollX: true }}>
-									{participants.length > 0 ? (
+								<div style={{ height: "calc( 100% - 4em )", marginBottom: '0.5em', width: "600px", margin: "0 auto" }}>
+									<Scrollbar option={{ suppressScrollX: true }}>
+										<Table style={{ marginBottom: "1em", width: "600px", margin: "0 auto" }}>
+											{participants.length > 0 ? (
+												participants.map(participant => {
+													return (
+														<TableRow>
+															<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
+																<Checkbox
+																	value={this.isChecked(participant.email)}
+																	onChange={(event, isInputChecked) =>
+																		this.checkRow(participant.email, isInputChecked)
+																	}
+																/>
+															</TableCell>
+															<TableCell style={{ width: "305px" }}>
+																<div style={{
+																	whiteSpace: 'nowrap',
+																	overflow: 'hidden',
+																	textOverflow: 'ellipsis',
+																	width: '200px',
+																}}>
+																	{participant.name}
+																</div>
+															</TableCell>
+														<TableCell>
+															<div style={{
+																whiteSpace: 'nowrap',
+																overflow: 'hidden',
+																textOverflow: 'ellipsis',
+																width: '200px',
+															}}>
+																{participant.surname}
+															</div>
+														</TableCell>
+														</TableRow>
+													);
+												})) : (
+													<Typography>{translate.no_results}</Typography>
+												)
+											}
+										</Table>
+
+									{/* {participants.length > 0 ? (
 										<div style={{ marginTop: '1em' }}>
 											{participants.map(participant => {
 												return (
@@ -326,23 +392,54 @@ class SendActDraftModal extends React.Component {
 													</div>
 												);
 											})}
-											{participants.length < total - 1 && (
-												<div onClick={this.loadMore}>
-													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD
-															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-															: translate.all_plural.toLowerCase()
-														}`}
-												</div>
-											)}
 										</div>
 									) : (
 											<Typography>{translate.no_results}</Typography>
-										)}
-								</Scrollbar>
+										)
+									} */}
+
+									</Scrollbar>
+								</div>
 							)}
-					</div>
 				</div>
+					{
+				loading ? (
+					<LoadingSection />
+				) : (
+						participants.length > 0 && (
+							participants.length < total - 1 && (
+								<div
+									style={{
+										width: "100%",
+										display: "flex",
+										justifyContent: "flex-end"
+									}}
+								>
+									<BasicButton
+										text={
+											`DESCARGAR ${
+											rest > DELEGATION_USERS_LOAD
+												? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+												: translate.all_plural.toLowerCase()
+											}`
+										}
+										color={secondary}
+										onClick={this.loadMore}
+										textStyle={{ color: "white" }}
+									/>
+								</div>
+								// <div onClick={this.loadMore}>
+								// 	{`DESCARGAR ${
+								// 		rest > DELEGATION_USERS_LOAD
+								// 			? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+								// 			: translate.all_plural.toLowerCase()
+								// 		}`}
+								// </div>
+							)
+						)
+					)
+			}
+				</div >
 			);
 		}
 
