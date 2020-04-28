@@ -36,8 +36,6 @@ export const canReorderPoints = council => {
 };
 
 export const showNumParticipations = (numParticipations, company) => {
-	console.log(numParticipations, company);
-
 	if(!company || !company.type){
 		return numParticipations;
 	}
@@ -45,6 +43,8 @@ export const showNumParticipations = (numParticipations, company) => {
 	if(company.type === 10){
 		return numParticipations / 1000;
 	}
+
+	return numParticipations;
 }
 
 export const splitExtensionFilename = (filename) => {
