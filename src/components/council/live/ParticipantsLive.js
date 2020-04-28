@@ -102,9 +102,32 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 		if(!loading){
 			if(data.videoParticipants){
 				setStats(countParticipants(data.videoParticipants.list));
+				checkParticipantsStatus(data.videoParticipants.list);
 			}
 		}
 	}, [loading, data.videoParticipants, setStats]);
+
+
+	const checkParticipantsStatus = async participants => {
+		const offline = participants.filter(participant => (participant.online !== 2 && exceedsOnlineTimeout(participant.lastDateConnection)));
+		console.log(offline);
+
+		if(offline.length > 0){
+			await client.mutate({
+				mutation: gql`
+					mutation CheckParticipantsOnlineState($councilId: Int!){
+						checkParticipantsOnlineState(councilId: $councilId){
+							success
+						}
+					}
+				`,
+				variables: {
+					councilId: council.id
+				}
+			});
+		}
+
+	}
 
 	const banParticipant = async () => {
 		const response = await props.banParticipant({
@@ -281,16 +304,6 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 	const participantLiveColor = participant => {
 		if (participant.online !== 1) {
 			return "crimson";
-		} else {
-			if(exceedsOnlineTimeout(participant.lastDateConnection)){
-				props.changeParticipantOnlineState({
-					variables: {
-						participantId: participant.id,
-						online: 2
-					}
-				});
-				return 'crimson';
-			}
 		}
 		return getSecondary();
 	}
