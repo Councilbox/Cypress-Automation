@@ -12,7 +12,7 @@ import RequestWordMenu from '../menus/RequestWordMenu';
 import { councilHasVideo } from '../../../utils/CBX';
 import { isLandscape, isMobile } from '../../../utils/screen';
 import VideoContainer from '../VideoContainer';
-import { API_URL } from "../../../config";
+import { API_URL, SERVER_URL } from "../../../config";
 import AdminAnnouncement from './AdminAnnouncement';
 // import { isMobile } from '../../../utils/screen';
 import CouncilSidebar from './CouncilSidebar';
@@ -134,19 +134,24 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     const [drawerTop, setDrawerTop] = React.useState(false);
 
     const leaveRoom = React.useCallback(() => {
-        let request = new XMLHttpRequest();
-        request.open('POST', API_URL, false);  // `false` makes the request synchronous
-        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        request.setRequestHeader("Accept", "application/json");
-        request.setRequestHeader('authorization', sessionStorage.getItem("participantToken"));
-        request.setRequestHeader('x-jwt-token', sessionStorage.getItem("participantToken"));
-        request.send(JSON.stringify({
-            query: changeParticipantOnlineState,
-            variables: {
-                participantId: participant.id,
-                online: 2
-            }
-        }));
+        if(navigator.sendBeacon){
+            console.log('envia beacon', `${SERVER_URL}/participantDisconnected/${participant.id}`);
+            navigator.sendBeacon(`${SERVER_URL}/participantDisconnected/${participant.id}`);
+        } else {
+            let request = new XMLHttpRequest();
+            request.open('POST', API_URL, false);
+            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            request.setRequestHeader("Accept", "application/json");
+            request.setRequestHeader('authorization', sessionStorage.getItem("participantToken"));
+            request.setRequestHeader('x-jwt-token', sessionStorage.getItem("participantToken"));
+            request.send(JSON.stringify({
+                query: changeParticipantOnlineState,
+                variables: {
+                    participantId: participant.id,
+                    online: 2
+                }
+            }));
+        }
     }, [participant.id]);
 
     const getData = async () => {
