@@ -9,18 +9,16 @@ import { useInterval, useRoomUpdated } from '../../../../hooks';
 import { LoadingSection } from '../../../../displayComponents';
 
 
-const rand = Date.now();
-
-if(!sessionStorage.getItem('adminId')){
-    sessionStorage.setItem('adminId', rand);
-}
-
 
 const CMPVideoIFrame = props => {
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState(null);
     const config = React.useContext(ConfigContext);
-    const slot = React.useRef(null);
+    const adminId = React.useRef(sessionStorage.getItem('adminId') || Date.now());
+
+    if(!sessionStorage.getItem('adminId')){
+        sessionStorage.setItem('adminId', adminId.current);
+    };
 
     React.useEffect(() => {
         if(!data){
@@ -103,7 +101,7 @@ const CMPVideoIFrame = props => {
                         allow="geolocation; microphone; camera"
                         scrolling="no"
                         className="temp_video"
-                        src={`https://${data.roomVideoURL}?rand=${rand}`}
+                        src={`https://${data.roomVideoURL}?rand=${adminId.current}`}
                         allowFullScreen={true}
                         style={{
                             border: "none !important"
