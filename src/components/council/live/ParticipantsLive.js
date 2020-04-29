@@ -110,8 +110,6 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 
 	const checkParticipantsStatus = async participants => {
 		const offline = participants.filter(participant => (participant.online !== 2 && exceedsOnlineTimeout(participant.lastDateConnection)));
-		console.log(offline);
-
 		if(offline.length > 0){
 			await client.mutate({
 				mutation: gql`
