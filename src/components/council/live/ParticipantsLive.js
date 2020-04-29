@@ -13,7 +13,7 @@ import gql from 'graphql-tag';
 import { compose, graphql, withApollo } from "react-apollo";
 import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
 import { Tooltip } from "material-ui";
-import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord } from "../../../utils/CBX";
+import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName } from "../../../utils/CBX";
 import VideoParticipantMenu from "./videoParticipants/VideoParticipantMenu";
 import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton";
 import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
@@ -21,44 +21,6 @@ import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal
 import MuteToggleButton from './videoParticipants/MuteToggleButton';
 import { isMobile } from "../../../utils/screen";
 import { usePolling } from "../../../hooks";
-
-const countParticipants = participants => {
-	let online = 0;
-	let offline = 0;
-	let broadcasting = 0;
-	let askingForWord = 0;
-	let banned = 0;
-	let waitingRoom = 0;
-	participants.forEach(
-		participant => {
-			if (participantIsBlocked(participant)) {
-				banned++;
-			}
-			if(isAskingForWord(participant)){
-				askingForWord++;
-			}
-			if(participant.requestWord === 3){
-				waitingRoom++;
-			}
-			if (exceedsOnlineTimeout(participant.lastDateConnection) || participant.online !== 1) {
-				offline++;
-			} else {
-				if (participant.requestWord === 2) {
-					broadcasting++;
-				}
-				online++;
-			}
-		}
-	);
-	return {
-		online,
-		offline,
-		broadcasting,
-		askingForWord,
-		banned,
-		waitingRoom
-	};
-}
 
 
 const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) => {
@@ -88,6 +50,8 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 				}
 			}
 		});
+
+		console.log(response.data);
 
 		setData(response.data);
 		setStats(response.data.videoParticipantsStats)
@@ -223,7 +187,12 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 							}}
 							className="truncate"
 						>
-							{`${participant.name} ${participant.surname || ''}`}
+							{`${participant.name} ${participant.surname || ''}`}<br/>
+							{(participant.geoLocation && participant.geoLocation.city) &&
+								<span style={{fontSize: '0.85em'}}>
+									{`${participant.geoLocation.city}, ${formatCountryName(participant.geoLocation.country, translate.selectedLanguage)}`}
+								</span>
+							}
 						</div>
 					</Tooltip>
 				</GridItem>

@@ -25,6 +25,7 @@ import { TextField } from "material-ui";
 import { usePolling } from "../../../hooks";
 import { LoadingSection } from "../../../displayComponents";
 import { agendaVotings } from "../../../queries/agenda";
+import { ConnectionInfoContext } from "../../../containers/ParticipantContainer";
 
 
 const styles = {
@@ -171,11 +172,14 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
 
     usePolling(getData, 7000);
 
+    const connectionInfo = React.useContext(ConnectionInfoContext);
+
     React.useEffect(() => {
         props.changeParticipantOnlineState({
             variables: {
                 participantId: participant.id,
-                online: 1
+                online: 1,
+                data: JSON.stringify(connectionInfo.data)
             }
         });
         if (navigator.userAgent.indexOf("Firefox") !== -1) {
@@ -185,6 +189,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
             window.onunload = leaveRoom;
         }
     }, [participant.id, leaveRoom, props.changeParticipantOnlineState]);
+
 
     React.useEffect(() => {
         if (!CBX.haveGrantedWord({ requestWord: grantedWord.current }) && CBX.haveGrantedWord(participant)) {
@@ -552,8 +557,8 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
 
 
 const changeParticipantOnlineState = gql`
-    mutation changeParticipantOnlineState($participantId: Int!, $online: Int!){
-        changeParticipantOnlineState(participantId: $participantId, online: $online){
+    mutation changeParticipantOnlineState($participantId: Int!, $online: Int!, $data: String){
+        changeParticipantOnlineState(participantId: $participantId, online: $online, data: $data){
             success
             message
         }
@@ -561,8 +566,8 @@ const changeParticipantOnlineState = gql`
 `;
 
 const participantPing = gql`
-    query participantPing {
-        participantPing
+    query participantPing($data: String) {
+        participantPing(data: $data)
     }
 `;
 
@@ -646,7 +651,10 @@ const agendasQuery = gql`
 export default compose(
     graphql(participantPing, {
         options: props => ({
-            pollInterval: 5000
+            pollInterval: 5000,
+            variables: {
+                data: JSON.stringify(props.reqData)
+            }
         })
     }),
     graphql(changeParticipantOnlineState, {
