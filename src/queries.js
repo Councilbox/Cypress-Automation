@@ -1864,6 +1864,7 @@ export const videoParticipants = gql`
 			}
 			total
 		}
+		videoParticipantsStats(councilId: $councilId)
 	}
 `;
 

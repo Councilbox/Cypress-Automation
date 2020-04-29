@@ -88,7 +88,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 				}
 			}
 		});
+
 		setData(response.data);
+		setStats(response.data.videoParticipantsStats)
 		setLoading(false);
 	}, [council.id, options]);
 
@@ -101,7 +103,6 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 	React.useEffect(() => {
 		if(!loading){
 			if(data.videoParticipants){
-				setStats(countParticipants(data.videoParticipants.list));
 				checkParticipantsStatus(data.videoParticipants.list);
 			}
 		}
@@ -307,18 +308,11 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 	}
 
 	const _button = () => {
-		const videoParticipants = !data.videoParticipants
-			? []
-			: data.videoParticipants.list;
-
 		return (
 			<VideoParticipantsStats
 				videoFullScreen={screenSize === 'MAX'}
 				translate={translate}
-				stats={{
-					...stats,
-					total: videoParticipants.length
-				}}
+				stats={stats}
 				toggleFullScreen={props.toggleFullScreen}
 			/>
 		);
