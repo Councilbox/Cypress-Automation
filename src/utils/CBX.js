@@ -1690,6 +1690,28 @@ export const exceedsOnlineTimeout = date => {
 	return timeout > 15;
 };
 
+export const formatCountryName = (country, language) => {
+	const texts = {
+		es: {
+			Spain: 'España'
+		},
+		gal: {
+			Spain: 'España'
+		},
+		cat: {
+			Spain: 'Espanya'
+		},
+		pt: {
+			Spain: 'Espanha'
+		},
+		en: {
+			Spain: 'Spain'
+		}
+	};
+
+	return texts[language][country]? texts[language][country] : country;
+}
+
 export const checkRequiredFields = (translate, draft, updateErrors, corporation, toast) => {
 	let errors = {
 		title: "",

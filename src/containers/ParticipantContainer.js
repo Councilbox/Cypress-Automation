@@ -33,9 +33,9 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 
 	const getReqData = React.useCallback(async () => {
         const response = await fetch(`${SERVER_URL}/connectionInfo`);
-        let json = await response.json();
+		let json = await response.json();
 
-        if(!json.geoLocation){
+        if(!json.geoLocation || json.geoLocation.status === 'fail'){
             if('geolocation' in navigator){
                 navigator.geolocation.getCurrentPosition(async position => {
                     const geoRequest = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${
@@ -46,7 +46,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
                             city: geoLocation.locality,
                             state: geoLocation.principalSubdivision,
                             country: geoLocation.countryCode
-                        }
+						}
                     }
                 });
                 
@@ -189,6 +189,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 								{match.path.includes('meet') ?
 										<Meet
 											participant={data.participant}
+											reqData={reqData}
 											council={{
 												...council.councilVideo
 											}}
@@ -197,6 +198,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 									:
 										<Council
 											participant={data.participant}
+											reqData={reqData}
 											council={{
 												...council.councilVideo
 											}}
