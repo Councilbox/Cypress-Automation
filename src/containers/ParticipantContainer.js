@@ -46,25 +46,27 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 					position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=${translate.selectedLanguage}`);
 				const response = await fetch(`${SERVER_URL}/connectionInfo/requestOnly`);
 				json = await response.json();
-				console.log(json);
 				if(geoRequest.status === 200){
 					const geoLocation = await geoRequest.json();
 					json.geoLocation = {
+						...geoLocation,
 						city: geoLocation.locality,
 						state: geoLocation.principalSubdivision,
-						country: geoLocation.countryCode
+						country: geoLocation.countryName,
 					}
 				}
+				console.log(json);
 				setConnectionData(json);
 			}, async error => {
 				json = await getDataFromBackend();
+				console.log(json);
 				setConnectionData(json);
 			});
         } else {
 			json = await getDataFromBackend();
 			setConnectionData(json);
 		}
-    }, [])
+	}, [])
 
     React.useEffect(() => {
         getReqData();
@@ -114,17 +116,6 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		}
 	}, [council]);
 
-	// const getState = async () => {
-	// 	const response = await client.query({
-	// 		query: stateQuery,
-	// 		variables: {
-	// 			councilId: match.params.councilId
-	// 		}
-	// 	});
-	// 	setState(response.data);
-	// }
-
-	//usePolling(getState, 8000);
 
 	const getData = async () => {
 		const response = await client.query({
@@ -144,7 +135,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		store.dispatch(setDetectRTC());
 	}, []);
 
-	if(!data || !council){
+	if(!data || !council || !reqData){
 		return <LoadingMainApp />;
 	}
 

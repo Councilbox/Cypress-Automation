@@ -136,7 +136,6 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
 
     const leaveRoom = React.useCallback(() => {
         if(navigator.sendBeacon){
-            console.log('envia beacon', `${SERVER_URL}/participantDisconnected/${participant.id}`);
             navigator.sendBeacon(`${SERVER_URL}/participantDisconnected/${sessionStorage.getItem("participantToken")}`);
         } else {
             let request = new XMLHttpRequest();

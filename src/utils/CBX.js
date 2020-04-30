@@ -1693,18 +1693,23 @@ export const exceedsOnlineTimeout = date => {
 export const formatCountryName = (country, language) => {
 	const texts = {
 		es: {
+			ES: 'España',
 			Spain: 'España'
 		},
 		gal: {
+			ES: 'España',
 			Spain: 'España'
 		},
 		cat: {
+			ES: 'Espanya',
 			Spain: 'Espanya'
 		},
 		pt: {
+			ES: 'Espanha',
 			Spain: 'Espanha'
 		},
 		en: {
+			ES: 'Spain',
 			Spain: 'Spain'
 		}
 	};
