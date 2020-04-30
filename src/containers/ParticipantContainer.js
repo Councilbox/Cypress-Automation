@@ -32,28 +32,38 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 	
 
 	const getReqData = React.useCallback(async () => {
-        const response = await fetch(`${SERVER_URL}/connectionInfo`);
-		let json = await response.json();
+        //const response = await fetch(`${SERVER_URL}/connectionInfo`);
+		let json = {};//await response.json();
 
-        if(!json.geoLocation || json.geoLocation.status === 'fail'){
-            if('geolocation' in navigator){
-                navigator.geolocation.getCurrentPosition(async position => {
-                    const geoRequest = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${
-                        position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=${translate.selectedLanguage}`);
-                    if(geoRequest.status === 200){
-                        const geoLocation = await geoRequest.json();
-                        json.geoLocation = {
-                            city: geoLocation.locality,
-                            state: geoLocation.principalSubdivision,
-                            country: geoLocation.countryCode
-						}
-                    }
-                });
-                
-            }
-        }
+		const getDataFromBackend = async () => {
+			const response = await fetch(`${SERVER_URL}/connectionInfo`);
+			return await response.json();
+		}
 
-        setConnectionData(json);
+		if('geolocation' in navigator){
+			navigator.geolocation.getCurrentPosition(async position => {
+				const geoRequest = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${
+					position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=${translate.selectedLanguage}`);
+				const response = await fetch(`${SERVER_URL}/connectionInfo/requestOnly`);
+				json = await response.json();
+				console.log(json);
+				if(geoRequest.status === 200){
+					const geoLocation = await geoRequest.json();
+					json.geoLocation = {
+						city: geoLocation.locality,
+						state: geoLocation.principalSubdivision,
+						country: geoLocation.countryCode
+					}
+				}
+				setConnectionData(json);
+			}, async error => {
+				json = await getDataFromBackend();
+				setConnectionData(json);
+			});
+        } else {
+			json = await getDataFromBackend();
+			setConnectionData(json);
+		}
     }, [])
 
     React.useEffect(() => {

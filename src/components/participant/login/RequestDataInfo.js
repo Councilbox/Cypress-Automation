@@ -6,6 +6,7 @@ import shield from '../../../assets/img/shield.svg';
 import shieldFail from '../../../assets/img/shield-fail.svg';
 import network from '../../../assets/img/network.svg';
 import { ConnectionInfoContext } from '../../../containers/ParticipantContainer';
+import { formatCountryName } from '../../../utils/CBX';
 
 const RequestDataInfo = ({ translate, status, message }) => {
     const secondary = getSecondary();
@@ -35,10 +36,12 @@ const RequestDataInfo = ({ translate, status, message }) => {
                         <div style={{fontWeight: '700', marginBottom: '0.3em'}}>{message? message : translate.secure_connection}</div>
                         <div>
                             <span style={{fontWeight: '700', marginRight: '0.5em'}}>IP:</span>
-                            {data.requestInfo.ip}
+                            {data.requestInfo && data.requestInfo.ip}
                             {data.geoLocation &&
                                 <>
-                                    <span style={{fontWeight: '700', marginLeft: '2em'}}>{`${data.geoLocation.city}, ${data.geoLocation.country}`}</span>
+                                    <span style={{fontWeight: '700', marginLeft: '2em'}}>{
+                                        `${data.geoLocation.city}, ${formatCountryName(data.geoLocation.country, translate.selectedLanguage)
+                                    }`}</span>
                                 </>
                             }
                         </div>
