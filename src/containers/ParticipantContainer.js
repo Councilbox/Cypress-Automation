@@ -50,6 +50,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 					const geoLocation = await geoRequest.json();
 					json.geoLocation = {
 						...geoLocation,
+						ip: json.requestInfo.ip,
 						city: geoLocation.locality,
 						state: geoLocation.principalSubdivision,
 						country: geoLocation.countryName,

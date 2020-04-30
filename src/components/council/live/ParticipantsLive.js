@@ -190,7 +190,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 							{`${participant.name} ${participant.surname || ''}`}<br/>
 							{(participant.geoLocation && participant.geoLocation.city) &&
 								<span style={{fontSize: '0.85em'}}>
-									{`${participant.geoLocation.city}, ${formatCountryName(participant.geoLocation.country, translate.selectedLanguage)}`}
+									{`${participant.geoLocation.ip || participant.geoLocation.query}, ${formatCountryName(participant.geoLocation.country, translate.selectedLanguage)}`}
 								</span>
 							}
 						</div>

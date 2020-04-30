@@ -40,7 +40,7 @@ const RequestDataInfo = ({ translate, status, message }) => {
                             {data.geoLocation &&
                                 <>
                                     <span style={{fontWeight: '700', marginLeft: '2em'}}>{
-                                        `${data.geoLocation.city}, ${formatCountryName(data.geoLocation.country, translate.selectedLanguage)
+                                        `${formatCountryName(data.geoLocation.country, translate.selectedLanguage)
                                     }`}</span>
                                 </>
                             }
