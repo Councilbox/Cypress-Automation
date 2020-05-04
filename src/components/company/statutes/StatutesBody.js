@@ -307,7 +307,6 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const handleStatuteChange = index => {
-		console.log(index)
 		if (index !== 'new') {
 			if (!state.unsavedChanges) {
 				setState({

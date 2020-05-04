@@ -11,8 +11,8 @@ const LoginWithCert = ({ participant, handleSuccess, translate, dispatch, status
         try {
             dispatch({ type: 'LOADING' });
             const response = await fetch(`${process.env.REACT_APP_CERT_API}participant/${participant.id}`);
-            const json = await response.json();    
-            console.log(dispatch, json);
+            const json = await response.json();  
+            
             if(json.success){
                 dispatch({ type: 'SUCCESS', payload: {
                     message: translate.cert_success,

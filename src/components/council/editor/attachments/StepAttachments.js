@@ -71,7 +71,6 @@ const StepAttachments = ({ client, translate, ...props }) => {
 
 
 	const addCompanyDocumentCouncilAttachment = async id => {
-		console.log(id);
 		const response = await client.mutate({
 			mutation: gql`
 				mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){

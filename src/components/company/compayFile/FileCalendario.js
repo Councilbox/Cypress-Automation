@@ -150,7 +150,6 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
                                             <SelectInput
                                                 value={notification.state}
                                                 onChange={event => {
-                                                    console.log(event.target.value);
                                                     updateCompanyNotification({
                                                         state: event.target.value,
                                                     }, index)

@@ -275,8 +275,6 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
         )
     }
 
-    console.log(CBX.haveQualityVoteConditions(agenda, council));
-
     return (
         <React.Fragment>
             {council.autoClose !== 1 &&

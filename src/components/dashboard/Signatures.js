@@ -78,8 +78,7 @@ class Signatures extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const { loading, signatures = [], error } = this.props.data;
-
-		console.log(signatures)
+		
 		return (
 			<div
 				style={{

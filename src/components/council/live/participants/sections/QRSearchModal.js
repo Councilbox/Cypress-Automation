@@ -79,7 +79,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
     }, [searchParticipant])
 
     const handleError = error => {
-        console.log('failed to read');
+        //console.log('failed to read');
     }
 
     const handleScan = data => {

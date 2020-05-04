@@ -51,8 +51,6 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 			}
 		});
 
-		console.log(response.data);
-
 		setData(response.data);
 		setStats(response.data.videoParticipantsStats)
 		setLoading(false);

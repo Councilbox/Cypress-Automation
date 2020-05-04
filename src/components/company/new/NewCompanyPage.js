@@ -93,8 +93,6 @@ class NewCompanyPage extends React.PureComponent {
 		});
 
 		if (response) {
-			console.log(response);
-
 			this.setState({
 				provinces: response.data.provinces
 			});

@@ -17,9 +17,6 @@ import SocialCapital from './SocialCapital';
 
 
 const reducer = (state, action) => {
-    console.log(state.data);
-    console.log(action.payload);
-
     const actions = {
         'SET_DATA': () => ({
             ...state,

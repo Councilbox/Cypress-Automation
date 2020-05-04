@@ -27,11 +27,8 @@ const CertModal = ({ open, participant, handleSuccess }) => {
 
     const getData = async () => {
         const response = await fetch(`https://api.pre.councilbox.com:5001/participant/${participant.id}`);
-        console.log(response);
-
         const json = await response.json();
-
-        console.log(json);
+        
         if(json.success){
             dispatch({ type: 'SUCCESS' })
         } else {

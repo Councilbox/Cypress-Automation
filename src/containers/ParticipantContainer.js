@@ -56,11 +56,10 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 						country: geoLocation.countryName,
 					}
 				}
-				console.log(json);
+
 				setConnectionData(json);
 			}, async error => {
 				json = await getDataFromBackend();
-				console.log(json);
 				setConnectionData(json);
 			});
         } else {

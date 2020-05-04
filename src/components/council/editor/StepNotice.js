@@ -119,8 +119,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
 			const difference = second.diff(first, "minutes");
 
-			console.log(CBX.addMinimumDistance(firstDate, statute).toISOString());
-
 			if(difference < statute.minimumSeparationBetweenCall || !council.dateStart2NdCall){
 				updateState({
 					dateStart: firstDate,

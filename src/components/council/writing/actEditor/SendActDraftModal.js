@@ -284,7 +284,7 @@ class SendActDraftModal extends React.Component {
 			? 0
 			: this.props.data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
-		console.log(participants)
+		
 		if (this.state.step === 1) {
 			return (
 				<div style={{}}>

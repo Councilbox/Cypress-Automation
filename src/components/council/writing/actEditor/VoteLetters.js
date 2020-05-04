@@ -40,8 +40,6 @@ const DelegationDocuments = ({ council, translate, client }) => {
             }
         });
 
-        console.log(response);
-
         setData(response.data.councilVoteLetters);
         setLoading(false);
     }, [council.id]);
@@ -49,8 +47,6 @@ const DelegationDocuments = ({ council, translate, client }) => {
     React.useEffect(() => {
         getData();
     }, [getData]);
-
-    console.log(council);
 
     return (
         <div style={{ width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
