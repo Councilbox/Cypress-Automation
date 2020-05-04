@@ -219,7 +219,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 							<Scrollbar option={{ suppressScrollX: true }}>
 								{participants.length > 0 ? (
 									<div style={{marginTop: '1em', padding: '0.3em'}}>
-										{participants.map(participant => {
+										{/* {participants.map(participant => {
 											return (
 												<div style={{display: 'flex', flexDirection: 'row'}} key={`participant_${participant.id}`}>
 													<ParticipantRow
@@ -235,7 +235,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 													/>
 												</div>
 											);
-										})}
+										})} */}
 										{participants.length < total - 1 && (
 											<Card
 												onClick={loadMore}
