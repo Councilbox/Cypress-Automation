@@ -92,7 +92,7 @@ const getLogText = (type, translate) => {
 			return 'El administrador le retiró la palabra';
 
 		case 'GRANTED WORD':
-			return 'Palabra concedida';
+			return translate.granted_word;
 
 		default:
 			return type;

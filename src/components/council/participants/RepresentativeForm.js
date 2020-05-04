@@ -155,19 +155,19 @@ const RepresentativeForm = ({
 					value={'0'}
 					key={'initial_state_0'}
 				>
-					{'Espectador'}
+					{translate.viewer}
 				</MenuItem>
 				<MenuItem
 					value={'2'}
 					key={'initial_state_2'}
 				>
-					{'Palabra concedida'}
+					{translate.granted_word}
 				</MenuItem>
 				<MenuItem
 					value={'3'}
 					key={'initial_state_3'}
 				>
-					{'Sala de espera'}
+					{translate.waiting_room}
 				</MenuItem>
 			</SelectInput>
 		</GridItem>

@@ -646,6 +646,7 @@ const NoDraggableBlock = props => {
 }
 
 const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate }) => {
+    //TRADUCCION
     const [open, setOpen] = React.useState(true)
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
@@ -653,7 +654,7 @@ const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate })
                 <div style={{ paddingRight: "4px", }}></div>
                 <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
                     <div style={{ width: "100%", fontSize: '16px', color: '#a09aa0', display: "flex", fontWeight: "bold" }}>
-                        <div style={{ marginRight: "1em", width: "15em" }}>Bloques  automáticos</div>
+                        <div style={{ marginRight: "1em", width: "15em" }}>{translate.auto_blocks}</div>
                         <div style={{ display: "flex", width: "100%" }}>
                             <div>
                                 <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOpen(!open)}>
@@ -661,7 +662,7 @@ const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate })
 							</i>
                             </div>
                             {open &&
-                                <div style={{ fontSize: "10px", color: "#a09aa0", fontWeight: "100" }}>Este tipo de bloques son generados automáticamente por el sistema y no necesitan edición.</div>
+                                <div style={{ fontSize: "10px", color: "#a09aa0", fontWeight: "100" }}>{translate.auto_blocks_help}</div>
                             }
                         </div>
                     </div>

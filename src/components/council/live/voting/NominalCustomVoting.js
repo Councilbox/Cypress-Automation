@@ -35,14 +35,14 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
             <AlertConfirm
                 open={modal}
                 modal={false}
-                title="Marcar selección"
+                title={translate.mark_choices}
                 requestClose={closeModal}
                 cancelAction={closeModal}
                 buttonCancel={translate.close}
                 bodyText={renderVotingMenu()}
             />
             <BasicButton
-                text="Menu votación"
+                text={translate.voting_menu}
                 onClick={openModal}
                 color="white"
                 buttonStyle={{ border: `1px solid ${secondary}`, marginRight: '0.6em'}}
