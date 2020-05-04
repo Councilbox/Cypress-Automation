@@ -5,24 +5,21 @@ import {
 	LoadingSection,
 	ParticipantRow,
 	TextInput,
+	Scrollbar,
 	BasicButton,
 	ButtonIcon,
 	CollapsibleSection,
 	SuccessMessage,
 	Checkbox
 } from "../../../../displayComponents";
-import { Typography, TableRowColumn, TableRow, Table } from "material-ui";
+import { Typography, TableRowColumn, TableRow, Table, TableCell } from "material-ui";
 import { compose, graphql } from "react-apollo";
-import { councilParticipants } from "../../../../queries/councilParticipant";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
-import Scrollbar from "react-perfect-scrollbar";
 import { getPrimary, secondary, getSecondary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
 import { sendActDraft, councilParticipantsActSends } from '../../../../queries';
 import { isMobile } from "../../../../utils/screen";
-import { TableCell } from "material-ui";
-
 
 
 class SendActDraftModal extends React.Component {
@@ -324,8 +321,8 @@ class SendActDraftModal extends React.Component {
 						<Table style={{ width: "600px", margin: "0 auto" }}>
 							<TableRow>
 								<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}></TableCell>
-								<TableCell style={{ width: "305px" }}>{translate.name}</TableCell>
-								<TableCell>{translate.surname}</TableCell>
+								<TableCell style={{ width: "305px" }}>{translate.participant_data}</TableCell>
+								<TableCell>{translate.email}</TableCell>
 							</TableRow>
 						</Table>
 
@@ -336,7 +333,7 @@ class SendActDraftModal extends React.Component {
 									<Scrollbar option={{ suppressScrollX: true }}>
 										<Table style={{ marginBottom: "1em", width: "600px", margin: "0 auto" }}>
 											{participants.length > 0 ? (
-												participants.map(participant => {
+												participants.filter(p => !!p.email).map(participant => {
 													return (
 														<TableRow>
 															<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
@@ -354,7 +351,7 @@ class SendActDraftModal extends React.Component {
 																	textOverflow: 'ellipsis',
 																	width: '200px',
 																}}>
-																	{participant.name}
+																	{`${participant.name} ${participant.surname || ''}`}
 																</div>
 															</TableCell>
 														<TableCell>
@@ -364,7 +361,7 @@ class SendActDraftModal extends React.Component {
 																textOverflow: 'ellipsis',
 																width: '200px',
 															}}>
-																{participant.surname}
+																{participant.email}
 															</div>
 														</TableCell>
 														</TableRow>
@@ -401,45 +398,40 @@ class SendActDraftModal extends React.Component {
 									</Scrollbar>
 								</div>
 							)}
-				</div>
-					{
-				loading ? (
-					<LoadingSection />
-				) : (
-						participants.length > 0 && (
-							participants.length < total - 1 && (
-								<div
-									style={{
-										width: "100%",
-										display: "flex",
-										justifyContent: "flex-end"
-									}}
-								>
-									<BasicButton
-										text={
-											`DESCARGAR ${
-											rest > DELEGATION_USERS_LOAD
-												? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-												: translate.all_plural.toLowerCase()
-											}`
-										}
-										color={secondary}
-										onClick={this.loadMore}
-										textStyle={{ color: "white" }}
-									/>
-								</div>
-								// <div onClick={this.loadMore}>
-								// 	{`DESCARGAR ${
-								// 		rest > DELEGATION_USERS_LOAD
-								// 			? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-								// 			: translate.all_plural.toLowerCase()
-								// 		}`}
-								// </div>
-							)
+					</div>
+					{(participants.length > 0 && (
+						participants.length < total - 1 && (
+							<div
+								style={{
+									width: "100%",
+									display: "flex",
+									justifyContent: "flex-end"
+								}}
+							>
+								<BasicButton
+									text={
+										`DESCARGAR ${
+										rest > DELEGATION_USERS_LOAD
+											? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+											: translate.all_plural.toLowerCase()
+										}`
+									}
+									color={secondary}
+									onClick={this.loadMore}
+									textStyle={{ color: "white" }}
+								/>
+							</div>
+							// <div onClick={this.loadMore}>
+							// 	{`DESCARGAR ${
+							// 		rest > DELEGATION_USERS_LOAD
+							// 			? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+							// 			: translate.all_plural.toLowerCase()
+							// 		}`}
+							// </div>
 						)
-					)
-			}
-				</div >
+					))
+				}
+				</div>
 			);
 		}
 

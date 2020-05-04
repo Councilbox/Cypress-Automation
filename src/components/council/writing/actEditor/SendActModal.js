@@ -2,20 +2,23 @@ import React from "react";
 import {
 	AlertConfirm,
 	Icon,
+	BasicButton,
 	LoadingSection,
 	ParticipantRow,
+	Scrollbar,
 	TextInput,
+	Checkbox,
 	SuccessMessage
 } from "../../../../displayComponents";
-import { Typography, Card } from "material-ui";
+import { Typography, Card, TableRowColumn, TableRow, Table, TableCell } from "material-ui";
 import { compose, graphql } from "react-apollo";
 import { councilParticipantsActSends } from "../../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
-import Scrollbar from "react-perfect-scrollbar";
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
 import { sendAct } from '../../../../queries';
 import { useOldState } from "../../../../hooks";
+import { getSecondary } from "../../../../styles/colors";
 
 
 const SendActModal = ({ translate, data, ...props }) => {
@@ -213,54 +216,94 @@ const SendActModal = ({ translate, data, ...props }) => {
 							position: "relative"
 						}}
 					>
+						<Table style={{ width: "600px", margin: "0 auto" }}>
+							<TableRow>
+								<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}></TableCell>
+								<TableCell style={{ width: "305px" }}>{translate.participant_data}</TableCell>
+								<TableCell>{translate.email}</TableCell>
+							</TableRow>
+						</Table>
+
 						{loading ? (
 							<LoadingSection />
 						) : (
-							<Scrollbar option={{ suppressScrollX: true }}>
-								{participants.length > 0 ? (
-									<div style={{marginTop: '1em', padding: '0.3em'}}>
-										{/* {participants.map(participant => {
-											return (
-												<div style={{display: 'flex', flexDirection: 'row'}} key={`participant_${participant.id}`}>
-													<ParticipantRow
-														checkBox={true}
-														onClick={() => {
-															checkRow(participant, !isChecked(participant.id))
-														}}
-														selected={isChecked(participant.id)}
-														onChange={(event, isInputChecked) =>
-															checkRow(participant, isInputChecked)
-														}
-														participant={participant}
-													/>
-												</div>
-											);
-										})} */}
-										{participants.length < total - 1 && (
-											<Card
-												onClick={loadMore}
-												style={{
-													width: '100%',
-													border: '1px solid gainsboro',
-													padding: '0.3em',
-													marginTop: '0.6em',
-													borderRadius: '3px'
-												}}
-											>
-												{`Descargar ${
-													rest > DELEGATION_USERS_LOAD
-														? `${DELEGATION_USERS_LOAD} de ${rest} restantes`
-														: translate.all_plural.toLowerCase()
-												}`}
-											</Card>
-										)}
-									</div>
-								) : (
-									<Typography>{translate.no_results}</Typography>
-								)}
-							</Scrollbar>
+							<div style={{ height: "calc( 100% - 4em )", marginBottom: '0.5em', width: "600px", margin: "0 auto" }}>
+								<Scrollbar option={{ suppressScrollX: true }}>
+									<Table style={{ marginBottom: "1em", width: "600px", margin: "0 auto" }}>
+										{participants.length > 0 ? (
+											participants.filter(p => !!p.email).map(participant => {
+												return (
+													<TableRow>
+														<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
+															<Checkbox
+																value={isChecked(participant.id)}
+																onChange={(event, isInputChecked) =>
+																	checkRow(participant, isInputChecked)
+																}
+															/>
+														</TableCell>
+														<TableCell style={{ width: "305px" }}>
+															<div style={{
+																whiteSpace: 'nowrap',
+																overflow: 'hidden',
+																textOverflow: 'ellipsis',
+																width: '200px',
+															}}>
+																{`${participant.name} ${participant.surname || ''}`}
+															</div>
+														</TableCell>
+													<TableCell>
+														<div style={{
+															whiteSpace: 'nowrap',
+															overflow: 'hidden',
+															textOverflow: 'ellipsis',
+															width: '200px',
+														}}>
+															{participant.email}
+														</div>
+													</TableCell>
+													</TableRow>
+												);
+											})) : (
+												<Typography>{translate.no_results}</Typography>
+											)
+										}
+									</Table>
+								</Scrollbar>
+							</div>
 						)}
 					</div>
+					{(participants.length > 0 && (
+						participants.length < total - 1 && (
+							<div
+								style={{
+									width: "100%",
+									display: "flex",
+									justifyContent: "flex-end"
+								}}
+							>
+								<BasicButton
+									text={
+										`DESCARGAR ${
+										rest > DELEGATION_USERS_LOAD
+											? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+											: translate.all_plural.toLowerCase()
+										}`
+									}
+									color={getSecondary()}
+									onClick={loadMore}
+									textStyle={{ color: "white" }}
+								/>
+							</div>
+							// <div onClick={this.loadMore}>
+							// 	{`DESCARGAR ${
+							// 		rest > DELEGATION_USERS_LOAD
+							// 			? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+							// 			: translate.all_plural.toLowerCase()
+							// 		}`}
+							// </div>
+						)
+					))}
 				</div>
 			);
 		}
