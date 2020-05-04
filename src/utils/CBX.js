@@ -1755,6 +1755,25 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		}
 	}
 
+	if (!draft.secondaryText) {
+		//hasError = true;
+		//errors.text = translate.required_field;
+	} else {
+		if (checkForUnclosedBraces(draft.secondaryText)) {
+			errors.secondaryText = true;
+			hasError = true;
+			toast(
+				<LiveToast
+					message={translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
+			);
+		}
+	}
+
 	// if (draft.type === -1) {
 	// 	hasError = true;
 	// 	errors.type = translate.required_field;

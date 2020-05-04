@@ -254,7 +254,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					<RichTextInput
 						id={"draftRichEditor2"}
 						value={draft.secondaryText || ""}
-						//errorText={errors.text}
+						errorText={errors.secondaryText}
 						translate={translate}
 						onChange={value =>
 							updateState({

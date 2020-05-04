@@ -18,6 +18,7 @@ import { sendGAevent } from "../../../utils/analytics";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { bHistory } from "../../../containers/App";
 import { isMobile } from "../../../utils/screen";
+import { toast } from "react-toastify";
 
 
 
@@ -80,7 +81,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 
 	const updateCompanyDraft = async () => {
 
-		if (!checkRequiredFields(translate, data, updateErrors)) {
+		if (!checkRequiredFields(translate, data, updateErrors, null, toast)) {
 			setLoading(true);
 			const { __typename, ...cleanData } = data;
 			const response = await props.updateCompanyDraft({
