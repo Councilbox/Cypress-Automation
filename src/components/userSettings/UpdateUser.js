@@ -11,7 +11,7 @@ import {
 import { updateUser } from "../../queries";
 import { store } from "../../containers/App";
 import { setUserData } from "../../actions/mainActions";
-import { getPrimary, secondary } from "../../styles/colors";
+import { getPrimary, secondary, getSecondary } from "../../styles/colors";
 import UserForm from './UserForm';
 import { checkEmailExists } from "../../queries/userAndCompanySignUp";
 import CompanyLinksManager from "../corporation/users/CompanyLinksManager";
@@ -20,6 +20,7 @@ import NotificationsTable from "../notifications/NotificationsTable";
 import * as CBX from "../../utils/CBX";
 import gql from "graphql-tag";
 import UserSendsList from "../corporation/users/UserSendsList";
+import { ButtonBase } from "material-ui";
 
 
 
@@ -33,6 +34,7 @@ class UpdateUserForm extends React.Component {
 		errors: {},
 		modal: false,
 		companies: this.props.user.companies,
+		showPass: false
 		// companies: fixedCompany ? [fixedCompany] : [],
 	};
 
@@ -159,6 +161,12 @@ class UpdateUserForm extends React.Component {
 		this.checkRequiredFields();
 	}
 
+	updateStateShow = object => {
+		this.setState({
+			...object
+		})
+	}
+
 	async checkEmailExists() {
 		const response = await this.props.client.query({
 			query: checkEmailExists,
@@ -179,9 +187,93 @@ class UpdateUserForm extends React.Component {
 		const { translate, edit, company } = this.props;
 		const { data, errors, error, success, loading, council } = this.state;
 		const primary = getPrimary();
+
 		return (
-			<div style={{ height: '100%' }}>
-				<div style={{ paddingTop: 0, height: 'calc(100% - 3.5em)' }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
+			<div style={{ height: 'calc(100% - 3.5em)' }}  {...(error ? { onKeyUp: this.onKeyUp } : {})}>
+				<div style={{ paddingTop: 0, height: "100%" }}>
+					<Scrollbar>
+						<div style={{ padding: '1.5em' }}>
+							<UserForm
+								data={data}
+								updateState={this.updateState}
+								errors={errors}
+								onKeyUp={this.onKeyUp}
+								languages={this.props.languages}
+								translate={translate}
+							/>
+						</div>
+						{!this.state.showPass && !this.props.admin &&
+							<div style={{ padding: '1.5em' }}>
+								<BasicButton
+									text={translate.change_password}
+									backgroundColor={{
+										color: "white",
+										fontWeight: "700",
+										boxShadow: "none",
+										background: "white",
+										border: '1px solid ' + primary,
+										color: primary,
+										width: "200px",
+										height: "3em"
+									}}
+									onClick={() => this.setState({ showPass: true })}
+								/>
+							</div>
+						}
+						{this.state.showPass &&
+							<div style={{ padding: '1.5em' }}>
+								<div>
+									<div>
+										{!this.props.admin &&
+											<div style={{}}>
+												<ChangePasswordForm
+													translate={translate}
+													showPass={this.state.showPass}
+													setShowPass={this.updateStateShow}
+												/>
+											</div>
+										}
+										<br />
+										{/* {this.props.admin &&
+											<CompanyLinksManager
+												linkedCompanies={this.state.companies}
+												translate={translate}
+												company={company}
+												addCheckedCompanies={companies => this.setState({
+													companies
+												})}
+											/>
+										} */}
+									</div>
+								</div>
+							</div>
+						}
+						{this.props.admin &&
+							<div style={{ padding: '1.5em' }}>
+								<CompanyLinksManager
+									linkedCompanies={this.state.companies}
+									translate={translate}
+									company={company}
+									addCheckedCompanies={companies => this.setState({
+										companies
+									})}
+								/>
+							</div>
+						}
+						{this.state.data.actived === 0 &&
+							<div style={{ padding: '1em' }}>
+								<UserSendsList
+									enRoot={false}
+									user={this.state.data}
+									translate={this.props.translate}
+									refetch={this.props.refetch}
+								/>
+							</div>
+
+						}
+					</Scrollbar>
+				</div>
+				{/* <div style={{ paddingTop: 0, height: 'calc(100% - 3.5em)' }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
 					<Scrollbar>
 						<div style={{ padding: '1.5em' }}>
 							<SectionTitle
@@ -198,7 +290,7 @@ class UpdateUserForm extends React.Component {
 								translate={translate}
 							/>
 							{!this.props.admin &&
-								<div style={{marginTop: '3em', paddingLeft: '2em'}}>
+								<div style={{ marginTop: '3em', paddingLeft: '2em' }}>
 									<ChangePasswordForm translate={translate} />
 								</div>
 							}
@@ -227,8 +319,8 @@ class UpdateUserForm extends React.Component {
 
 						}
 					</Scrollbar>
-				</div>
-				<div style={{ height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', borderTop: '1px solid gainsboro' }}>
+				</div> */}
+				<div style={{ height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', }}>
 					<BasicButton
 						text={translate.save}
 						color={primary}
@@ -237,12 +329,13 @@ class UpdateUserForm extends React.Component {
 						success={success}
 						loading={loading}
 						floatRight
-						textStyle={{
+						backgroundColor={{
 							color: "white",
-							fontWeight: "700"
+							fontWeight: "700",
+							width: "195px"
 						}}
 						onClick={error ? () => { } : this.saveUser}
-						icon={<ButtonIcon type="save" color="white" />}
+					// icon={<ButtonIcon type="save" color="white" />}
 					/>
 				</div>
 				<AlertConfirm
