@@ -154,8 +154,8 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         }
 
         if (!data.description) {
-            errors.description = translate.required_field;
-            hasError = true;
+            //errors.description = translate.required_field;
+            //hasError = true;
         } else {
             if (checkForUnclosedBraces(data.description)) {
                 errors.description = true;
