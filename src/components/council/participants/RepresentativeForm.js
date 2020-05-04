@@ -141,7 +141,7 @@ const RepresentativeForm = ({
 				})}
 			</SelectInput>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={2}>
+		<GridItem xs={6} md={4} lg={3}>
 			<SelectInput
 				floatingText={translate.participation_type}
 				value={''+representative.initialState}
