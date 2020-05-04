@@ -44,7 +44,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	}
 
 	const toggleDescription = () => {
-		const newValue = !this.state.expanded;
+		const newValue = !expanded;
 		setExpanded(newValue);
 	}
 
