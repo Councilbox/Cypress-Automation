@@ -205,15 +205,14 @@ class UpdateUserForm extends React.Component {
 						{!this.state.showPass && !this.props.admin &&
 							<div style={{ padding: '1.5em' }}>
 								<BasicButton
-									text={'Modificar contraseña'}
+									text={translate.change_password}
 									backgroundColor={{
 										color: "white",
 										fontWeight: "700",
 										boxShadow: "none",
 										background: "white",
-										border: '1px solid ' + getPrimary(),
-										color: getPrimary(),
-										borderRadius: "8px",
+										border: '1px solid ' + primary,
+										color: primary,
 										width: "200px",
 										height: "3em"
 									}}
@@ -323,8 +322,7 @@ class UpdateUserForm extends React.Component {
 				</div> */}
 				<div style={{ height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', }}>
 					<BasicButton
-						text={"Guardar cambios"}
-						// text={translate.save}
+						text={translate.save}
 						color={primary}
 						error={error}
 						reset={this.resetButtonStates}
@@ -334,9 +332,7 @@ class UpdateUserForm extends React.Component {
 						backgroundColor={{
 							color: "white",
 							fontWeight: "700",
-							width: "195px",
-							borderRadius: "8px",
-							height: "3em"
+							width: "195px"
 						}}
 						onClick={error ? () => { } : this.saveUser}
 					// icon={<ButtonIcon type="save" color="white" />}

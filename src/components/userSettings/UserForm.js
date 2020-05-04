@@ -20,7 +20,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
                     // floatingText={translate.name}
                     type="text"
                     // required
-                    disableUnderline={true}
+                    disableUnderline={!!data.name}
                     styles={{ fontWeight: "bold", width: isMobile ? "100%" : '300px' }}
                     value={data.name}
                     errorText={errors.name}
@@ -41,7 +41,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
                     // floatingText={translate.surname || ''}
                     type="text"
                     value={data.surname || ''}
-                    disableUnderline={true}
+                    disableUnderline={!!data.surname}
                     styles={{ fontWeight: "bold", width: isMobile ? "100%" : '300px' }}
                     onChange={event =>
                         updateState({
@@ -62,6 +62,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
                     // floatingText={translate.email}
                     type="text"
                     value={data.email}
+                    disabled={true}
                     disableUnderline={true}
                     styles={{ fontWeight: "bold", width: isMobile ? "100%" : '300px' }}
                     {...(!!onKeyUp ? { onKeyUp: onKeyUp } : {})}
