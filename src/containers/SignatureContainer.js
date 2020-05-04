@@ -13,10 +13,12 @@ import { trialDaysLeft } from "../utils/CBX";
 import { moment } from "./App";
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
 import { sendGAevent } from "../utils/analytics";
+import { ConfigContext } from "./AppControl";
 
 const SignatureContainer = ({ match, company, translate, windowSize, ...props }) => {
 	const [cantCreate, setCantCreate] = React.useState(false);
 	const [noPremiumModal, setNoPremiumModal] = React.useState(false);
+	const config = React.useContext(ConfigContext);
 
 	React.useEffect(() => {
         sendGAevent({
@@ -35,7 +37,7 @@ const SignatureContainer = ({ match, company, translate, windowSize, ...props })
 	}
 
 	const canCreateSignature = () => {
-		return ['aaron.fuentes.cocodin@gmail.com'].includes(props.user.email)
+		return config.signature;
 	}
 
 	const closeCantAccessPremiumModal = () => {
