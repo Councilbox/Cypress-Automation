@@ -150,7 +150,7 @@ const RepresentativeForm = ({
 					</GridItem>
 					<GridItem xs={6} md={4} lg={2}>
 						<SelectInput
-							floatingText={translate.initial_state}
+							floatingText={translate.participation_type}
 							value={''+representative.initialState}
 							onChange={event =>
 								updateState({
@@ -160,19 +160,21 @@ const RepresentativeForm = ({
 						>
 							<MenuItem
 								value={'0'}
-								key={'initial_state_0'}
 							>
 								{translate.viewer}
 							</MenuItem>
 							<MenuItem
 								value={'2'}
-								key={'initial_state_2'}
 							>
 								{translate.granted_word}
 							</MenuItem>
 							<MenuItem
+								value={'4'}
+							>
+								{translate.cant_ask_word}
+							</MenuItem>
+							<MenuItem
 								value={'3'}
-								key={'initial_state_3'}
 							>
 								{translate.waiting_room}
 							</MenuItem>
