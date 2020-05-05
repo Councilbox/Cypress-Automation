@@ -359,19 +359,16 @@ class ImportCensusButton extends React.Component {
 		const mappedParticipant = {};
 		if (participant.name) {
 			const participantError = this.checkRequiredFields(participant, false);
-			if (participantError) {
-				errors = participantError;
-			} else {
-				mappedParticipant.representative = {
-					companyId: this.props.companyId,
-					censusId: this.props.censusId,
-					name: participant.name || '',
-					surname: participant.surname || '',
-					email: participant.email? participant.email.toLowerCase() : '',
-					dni: participant.dni || '',
-					phone: this.cleanPhone(participant.phone),
-					language: participant.language,
-				}
+			errors = participantError;
+			mappedParticipant.representative = {
+				companyId: this.props.companyId,
+				censusId: this.props.censusId,
+				name: participant.name || '',
+				surname: participant.surname || '',
+				email: participant.email? participant.email.toLowerCase() : '',
+				dni: participant.dni || '',
+				phone: this.cleanPhone(participant.phone),
+				language: participant.language,
 			}
 		}
 		const participantError = this.checkRequiredFields(participant, true);
