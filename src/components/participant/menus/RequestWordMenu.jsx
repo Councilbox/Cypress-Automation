@@ -320,7 +320,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     }
 
     const grantedWord = CBX.haveGrantedWord(participant);
-    const fixedURLMode = (props.videoURL && !props.videoURL.includes('councilbox') || props.videoURL.includes('rivulet') );
+    const fixedURLMode = (props.videoURL && !props.videoURL.includes('councilbox') || !props.videoURL.includes('cbx') || props.videoURL.includes('rivulet') );
 
     return (
         <React.Fragment>
