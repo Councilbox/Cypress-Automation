@@ -62,8 +62,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) 
                     // floatingText={translate.email}
                     type="text"
                     value={data.email}
-                    disabled={true}
-                    disableUnderline={true}
+                    disableUnderline={!!data.email}
                     styles={{ fontWeight: "bold", width: isMobile ? "100%" : '300px' }}
                     {...(!!onKeyUp ? { onKeyUp: onKeyUp } : {})}
                     onChange={event =>

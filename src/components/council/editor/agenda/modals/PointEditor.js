@@ -56,13 +56,14 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 		if(draft.tags.agenda){
 			const { segments } = draft.tags.agenda;
 			if(segments[1]){
-				subjectType = votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
+				subjectType = props.votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
 			}
 	
 			if(segments[2]){
 				majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
 			}
-		}
+		}	
+
 
 		setState({
 			description: correctedText,
