@@ -186,11 +186,13 @@ export const convenedcouncilParticipants = gql`
 		$councilId: Int!
 		$filters: [FilterInput]
 		$notificationStatus: Int
+		$attendanceIntention: Int
 		$options: OptionsInput
 	) {
 		councilParticipantsWithNotifications(
 			councilId: $councilId
 			filters: $filters
+			attendanceIntention: $attendanceIntention
 			notificationStatus: $notificationStatus
 			options: $options
 		) {

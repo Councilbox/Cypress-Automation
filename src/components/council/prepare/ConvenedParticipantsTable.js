@@ -27,13 +27,16 @@ import { useOldState } from "../../../hooks";
 
 const ConvenedParticipantsTable = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
 	const [filters, setFilters] = React.useState({
-		limit: PARTICIPANTS_LIMITS[0],
-		text: 0,
-		field: 'fullName',
-		page: 1,
+		options: {
+			limit: PARTICIPANTS_LIMITS[0],
+			//page: 1,
+			offset: 0,
+			orderBy: 'name',
+			orderDirection: 'asc',
+		},
+		filters: [],
+		attendanceIntention: null,
 		notificationStatus: null,
-		orderBy: 'name',
-		orderDirection: 'asc',
 		intentionFilter: null
 	});
 
@@ -55,10 +58,9 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			variables: {
 				councilId: council.id,
 				notificationStatus: filters.notificationStatus,
-				options: {
-					limit: filters.limit,
-					offset: (filters.page -1) * filters.limit
-				}
+				attendanceIntention: filters.attendanceIntention,
+				options: filters.options,
+				filters: filters.filters
 			}
 		});
 		setData(response.data);
@@ -96,12 +98,17 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 	};
 
 	const updateNotificationFilter = object => {
-		console.log(object);
-
 		setFilters({
 			...filters,
 			...object
 		});
+	}
+
+	const updateFilters = object => {
+		setFilters({
+			...filters,
+			...object
+		})
 	}
 
 	const resetPage = () => {
@@ -176,6 +183,13 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 								refetch={updateNotificationFilter}
 							/>
 						}
+						{
+							<>
+								<span onClick={() => updateNotificationFilter({ attendanceIntention: 4 })}>Delegado</span>
+								<span onClick={() => updateNotificationFilter({ attendanceIntention: 0 })}>Remoto</span>
+								<span onClick={() => updateNotificationFilter({ attendanceIntention: null })}>Todos</span>
+							</>
+						}
 					</GridItem>
 				</Grid>
 				{!!councilParticipants?
@@ -230,7 +244,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 								}
 							</div>
 						}
-						defaultLimit={PARTICIPANTS_LIMITS[0]}
+						defaultLimit={filters.options.limit}
 						defaultFilter={"fullName"}
 						defaultOrder={["name", "asc"]}
 						limits={PARTICIPANTS_LIMITS}
@@ -238,21 +252,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 						loading={loading}
 						length={councilParticipants.list.length}
 						total={councilParticipants.total}
-						refetch={refetch}
-						fields={[
-							{
-								value: "fullName",
-								translation: translate.participant_data
-							},
-							{
-								value: "dni",
-								translation: translate.dni
-							},
-							{
-								value: "position",
-								translation: translate.position
-							}
-						]}
+						refetch={updateFilters}
 						headers={headers}
 					>
 						{councilParticipants.list.map(
