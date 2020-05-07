@@ -70,9 +70,13 @@ export const CouncilActData = gql`
 				id
 				title
 				statuteId
+				doubleColumnDocs
 				prototype
 				existsSecondCall
 				existsQualityVote
+				introSecondary
+				conclusionSecondary
+				constitutionSecondary
 				existsComments
 			}
 		}
@@ -121,6 +125,7 @@ export const CouncilActData = gql`
 			socialCapitalCurrentRemote
 			socialCapitalNoParticipate
 			comment
+			commentRightColumn
 		}
 		councilRecount(councilId: $councilID){
 			socialCapitalTotal
@@ -284,7 +289,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				doc: buildDoc(response.data, translate, 'act'),
 				options: {
 					stamp: true,
-					doubleColumn: false,
+					doubleColumn: response.data.council.statute.doubleColumnDocs === 1? true : false,
 					language: response.data.council.language,
 					secondaryLanguage: 'en'
 				}
