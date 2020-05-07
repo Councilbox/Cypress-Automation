@@ -65,6 +65,9 @@ export const CouncilActData = gql`
 				document
 				constitution
 				conclusion
+				introRightColumn
+				constitutionRightColumn
+				conclusionRightColumn
 			}
 			statute {
 				id

@@ -60,21 +60,21 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
             id: Math.random().toString(36).substr(2, 9),
             label: 'intro',
             text: data.council.act.intro || '',
-            secondaryText: data.council.statute.introSecondary || '',
+            secondaryText: data.council.act.introRightColumn || '',
         }),
         constitution: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
             label: 'constitution',
             text: data.council.act.constitution || '',
-            secondaryText: data.council.statute.constitutionSecondary || '',
+            secondaryText: data.council.act.constitutionRightColumn || '',
         }),
         conclusion: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
             label: 'conclusion',
             text: data.council.act.conclusion || '',
-            secondaryText: data.council.statute.conclusionSecondary || '',
+            secondaryText: data.council.act.conclusionRightColumn || '',
         }),
         agendaList: () => {
             let puntos = `<b>${texts.agenda}</b> </br>`
