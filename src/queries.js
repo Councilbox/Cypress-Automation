@@ -775,6 +775,9 @@ export const statutes = gql`
 			proxySecondary
 			voteLetter
 			voteLetterSecondary
+			introSecondary
+			conclusionSecondary
+			constitutionSecondary
 		}
 	}
 `;

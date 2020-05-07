@@ -33,11 +33,20 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 		if (intro.current) {
 			intro.current.setValue(statute.intro || '');
 		}
+		if(introSecondary.current) {
+			introSecondary.current.setValue(statute.introSecondary || '');
+		}
 		if (footer.current) {
 			footer.current.setValue(statute.conveneFooter || '');
 		}
 		if (constitution.current) {
 			constitution.current.setValue(statute.constitution || '');
+		}
+		if(constitutionSecondary.current) {
+			constitutionSecondary.current.setValue(statute.constitutionSecondary || '');
+		}
+		if(conclusionSecondary.current) {
+			conclusionSecondary.current.setValue(statute.conclusionSecondary || '');
 		}
 		if (conclusion.current) {
 			conclusion.current.setValue(statute.conclusion || '');
@@ -47,6 +56,9 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 	const [saveDraft, setSaveDraft] = React.useState(false);
 	const editor = React.useRef();
 	const intro = React.useRef();
+	const introSecondary = React.useRef();
+	const constitutionSecondary = React.useRef();
+	const conclusionSecondary = React.useRef();
 	const footer = React.useRef();
 	const constitution = React.useRef();
 	const conclusion = React.useRef();
@@ -324,8 +336,26 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								}
 							/>
 						</GridItem>
+						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+							<RichTextInput
+								ref={introSecondary}
+								translate={translate}
+								floatingText={'Intro columna derecha'}
+								value={
+									!!internalState.introSecondary
+										? internalState.introSecondary
+										: ""
+								}
+								onChange={value =>
+									handleUpdate({
+										introSecondary: value
+									})
+								}
+								tags={introTags}
+							/>
+						</GridItem>
 
-						<GridItem xs={12} md={12} lg={12}>
+						<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>
 							<RichTextInput
 								errorText={errors.constitution}
 								ref={constitution}
@@ -373,8 +403,26 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								}
 							/>
 						</GridItem>
+						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+							<RichTextInput
+								ref={constitutionSecondary}
+								translate={translate}
+								floatingText={'Constitución columna derecha'}
+								value={
+									!!internalState.constitutionSecondary
+										? internalState.constitutionSecondary
+										: ""
+								}
+								onChange={value =>
+									handleUpdate({
+										constitutionSecondary: value
+									})
+								}
+								tags={constitutionTags}
+							/>
+						</GridItem>
 
-						<GridItem xs={12} md={12} lg={12}>
+						<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>
 							<RichTextInput
 								errorText={errors.conclusion}
 								ref={conclusion}
@@ -420,6 +468,24 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										draftType={4}
 									/>
 								}
+							/>
+						</GridItem>
+						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+							<RichTextInput
+								ref={conclusionSecondary}
+								translate={translate}
+								floatingText={'Conclusión columna derecha'}
+								value={
+									!!internalState.conclusionSecondary
+										? internalState.conclusionSecondary
+										: ""
+								}
+								onChange={value =>
+									handleUpdate({
+										conclusionSecondary: value
+									})
+								}
+								tags={conclusionTags}
 							/>
 						</GridItem>
 					</Grid>
