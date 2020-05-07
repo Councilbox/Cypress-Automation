@@ -313,9 +313,11 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										companyId={props.company.id}
 										loadDraft={draft => {
 											updateState({
-												intro: draft.text
+												intro: draft.text,
+												introSecondary: draft.secondaryText || ''
 											})
 											intro.current.setValue(draft.text);
+											introSecondary.current.setValue(draft.secondaryText);
 
 										}}
 										defaultTags={{
@@ -388,10 +390,11 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										}}
 										loadDraft={draft => {
 											updateState({
-												constitution: draft.text
+												constitution: draft.text,
+												constitutionSecondary: draft.secondaryText || ''
 											})
 											constitution.current.setValue(draft.text);
-
+											constitutionSecondary.current.setValue(draft.secondaryText);
 										}}
 										statute={{
 											...statute,
@@ -455,9 +458,11 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										companyId={props.company.id}
 										loadDraft={draft => {
 											updateState({
-												conclusion: draft.text
+												conclusion: draft.text,
+												conclusionSecondary: draft.secondaryText
 											})
 											conclusion.current.setValue(draft.text);
+											conclusionSecondary.current.setValue(draft.secondaryText);
 
 										}}
 										statute={{
