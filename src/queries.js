@@ -1476,6 +1476,7 @@ export const councilLiveQuery = gql`
 				hasSecretary
 				minimumSeparationBetweenCall
 				canEditConvene
+				doubleColumnDocs
 				firstCallQuorumType
 				firstCallQuorum
 				firstCallQuorumDivider

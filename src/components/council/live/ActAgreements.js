@@ -12,6 +12,8 @@ import gql from 'graphql-tag';
 import { AGENDA_STATES } from "../../../constants";
 import { getSecondary } from "../../../styles/colors";
 import { TAG_TYPES } from "../../company/drafts/draftTags/utils";
+import { getTranslations } from "../../../queries";
+import { buildTranslateObject } from "../../../actions/mainActions";
 
 
 export const agendaRecountQuery = gql`
@@ -36,21 +38,23 @@ export const agendaRecountQuery = gql`
 const ActAgreements = ({ translate, council, company, agenda, recount, ...props }) => {
 	const [error, setError] = React.useState(false);
 	const timeout = React.useRef(null);
- 	const editor = React.useRef(null);
+	const editor = React.useRef(null);
+	const editorRightColumn = React.useRef();
 	const [comment, setComment] = React.useState(agenda.comment);
+	const [commentRightColumn, setCommentRightColumn] = React.useState(agenda.commentRightColumn);
 	const modal = React.useRef(null);
 	const [data, setData] = React.useState(null);
 	const secondary = getSecondary();
 
 	React.useEffect(() => {
-		if(comment !== agenda.comment){
+		if(comment !== agenda.comment || commentRightColumn !== agenda.commentRightColumn){
 			timeout.current = setTimeout(() => {
 				updateAgreement(comment);
 			}, 300);
 		}
 
 		return () => clearTimeout(timeout.current);
-	}, [comment]);
+	}, [comment, commentRightColumn]);
 
 	React.useEffect(() => {
 		if(agenda.comment !== comment){
@@ -63,7 +67,10 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 	}
 
 	const updateText = async () => {
-		const correctedText = await getCorrectedText(comment);
+		const correctedText = await getCorrectedText(comment, translate);
+		if(editorRightColumn.current && council.statute.doubleColumnDocs === 1){
+			await handleSecondaryText(commentRightColumn);
+		}
 		editor.current.setValue(correctedText);
 		updateAgreement(correctedText);
 	}
@@ -111,12 +118,14 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 			return;
 		}
 		if (value.replace(/<\/?[^>]+(>|$)/g, "").length > 0) {
+			console.log('se envía', commentRightColumn);
 			await props.updateAgenda({
 				variables: {
 					agenda: {
 						id: agenda.id,
 						councilId: council.id,
-						comment: value
+						comment: value,
+						commentRightColumn: commentRightColumn
 					}
 				}
 			});
@@ -125,7 +134,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		}
 	}
 
-	const getCorrectedText = async text => {
+	const getCorrectedText = async (text, translate) => {
 		let { numPositive, numNegative, numAbstention, numNoVote } = data;
 		let { positiveSC, negativeSC, abstentionSC } = data;
 		const participations = hasParticipations(council);
@@ -157,9 +166,28 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 	}
 
 	const loadDraft = async draft => {
-		const correctedText = await getCorrectedText(draft.text);
+		const correctedText = await getCorrectedText(draft.text, translate);
+
+		if(editorRightColumn.current && council.statute.doubleColumnDocs === 1){
+			await handleSecondaryText(draft.secondaryText);
+		}
 		editor.current.paste(correctedText);
 		updateAgreement(correctedText);
+	}
+
+	const handleSecondaryText = async text => {
+		const response = await props.client.query({
+			query: getTranslations,
+			variables: {
+				language: 'en'
+			}
+		});
+		const translationObject = buildTranslateObject(response.data.translations);
+		console.log(translationObject);
+
+		const correctedText = await getCorrectedText(text, translationObject);
+
+		editorRightColumn.current.paste(correctedText);
 	}
 
 
@@ -295,6 +323,20 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 						updateComment(value)
 					}}
 				/>
+				{council.statute.doubleColumnDocs === 1 &&
+					<div style={{marginTop: '1em'}}>
+						<RichTextInput
+							ref={editorRightColumn}
+							floatingText={'Toma de acuerdos columna derecha'}
+							errorText={error}
+							translate={translate}
+							tags={tags}
+							value={commentRightColumn || ""}
+							onChange={value => setCommentRightColumn(value)}
+						/>
+					</div>
+				}
+				
 			</div>
 		)
 	}

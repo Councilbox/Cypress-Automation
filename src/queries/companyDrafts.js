@@ -46,6 +46,7 @@ export const companyDrafts = gql`
 				description
 				majority
 				majorityType
+				secondaryText
 				majorityDivider
 				votationType
 				tags
