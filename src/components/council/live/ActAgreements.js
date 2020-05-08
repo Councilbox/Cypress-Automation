@@ -69,7 +69,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 	const updateText = async () => {
 		const correctedText = await getCorrectedText(comment, translate);
 		if(editorRightColumn.current && council.statute.doubleColumnDocs === 1){
-			await handleSecondaryText(commentRightColumn);
+			await handleSecondaryText(commentRightColumn, true);
 		}
 		editor.current.setValue(correctedText);
 		updateAgreement(correctedText);
@@ -165,17 +165,16 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		return correctedText;
 	}
 
-	const loadDraft = async draft => {
+	const loadDraft = async (draft) => {
 		const correctedText = await getCorrectedText(draft.text, translate);
 
 		if(editorRightColumn.current && council.statute.doubleColumnDocs === 1){
-			await handleSecondaryText(draft.secondaryText);
+			await handleSecondaryText(draft.secondaryText, false);
 		}
-		editor.current.paste(correctedText);
 		updateAgreement(correctedText);
 	}
 
-	const handleSecondaryText = async text => {
+	const handleSecondaryText = async (text, replace) => {
 		const response = await props.client.query({
 			query: getTranslations,
 			variables: {
@@ -187,7 +186,11 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 
 		const correctedText = await getCorrectedText(text, translationObject);
 
-		editorRightColumn.current.paste(correctedText);
+		if(replace){
+			editorRightColumn.current.setValue(correctedText);
+		} else {
+			editorRightColumn.current.paste(correctedText);
+		}
 	}
 
 
