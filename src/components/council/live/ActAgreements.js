@@ -171,6 +171,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		if(editorRightColumn.current && council.statute.doubleColumnDocs === 1){
 			await handleSecondaryText(draft.secondaryText, false);
 		}
+		editor.current.paste(correctedText);
 		updateAgreement(correctedText);
 	}
 
