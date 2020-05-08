@@ -5,6 +5,7 @@ import { getPrimary } from '../../../../styles/colors';
 import { PARTICIPANT_STATES } from '../../../../constants';
 import DownloadParticipantProxy from '../../prepare/DownloadParticipantProxy';
 import DownloadParticipantVoteLetter from '../../prepare/DownloadParticipantVoteLetter';
+import { getAttendanceIntentionIcon } from '../../../../utils/CBX';
 
 const AttendIntentionIcon = ({ participant, representative, council, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
     let tooltip = translate.not_confirmed_assistance;
@@ -22,17 +23,17 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
         switch(intention){
             case PARTICIPANT_STATES.REMOTE:
                 tooltip = translate.remote_assistance_short;
-                icon = <i className='fa fa-globe' style={iconStyle}></i>;
+                icon = <i className={getAttendanceIntentionIcon(intention)} style={iconStyle}></i>;
                 break;
 
             case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
                 tooltip = translate.confirmed_assistance;
-                icon = <i className='fa fa-user' style={iconStyle}></i>;
+                icon = <i className={getAttendanceIntentionIcon(intention)} style={iconStyle}></i>;
                 break;
 
             case PARTICIPANT_STATES.NO_PARTICIPATE:
                 tooltip = translate.no_assist_assistance;
-                icon = <i className='fa fa-times' style={iconStyle}></i>;
+                icon = <i className={getAttendanceIntentionIcon(intention)} style={iconStyle}></i>;
                 break;
 
             case PARTICIPANT_STATES.DELEGATED:
@@ -41,7 +42,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                 } else {
                     tooltip = translate.will_delegate
                 }
-                icon = <i className='fa fa-users' style={iconStyle}></i>;
+                icon = <i className={getAttendanceIntentionIcon(intention)} style={iconStyle}></i>;
                 break;
             case PARTICIPANT_STATES.SENT_VOTE_LETTER:
                 tooltip = translate.vote_letter_sent;

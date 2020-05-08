@@ -183,13 +183,6 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 								refetch={updateNotificationFilter}
 							/>
 						}
-						{
-							<>
-								<span onClick={() => updateNotificationFilter({ attendanceIntention: 4 })}>Delegado</span>
-								<span onClick={() => updateNotificationFilter({ attendanceIntention: 0 })}>Remoto</span>
-								<span onClick={() => updateNotificationFilter({ attendanceIntention: null })}>Todos</span>
-							</>
-						}
 					</GridItem>
 				</Grid>
 				{!!councilParticipants?

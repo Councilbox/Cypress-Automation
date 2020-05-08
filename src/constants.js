@@ -19,7 +19,7 @@ export const COUNCIL_TYPES = {
 
 export const DRAFTS_LIMITS = [25, 50, 100, 250];
 export const CENSUS_LIMITS = [25, 50, 100, 250];
-export const PARTICIPANTS_LIMITS = [25, 50, 100, 250];
+export const PARTICIPANTS_LIMITS = [20, 50, 100, 250];
 export const DELEGATION_USERS_LOAD = 25;
 
 export const VOTE_VALUES = {

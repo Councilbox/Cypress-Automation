@@ -1,7 +1,15 @@
 import React from "react";
 import { Grid, GridItem, FilterButton } from "../../../displayComponents";
-import { EMAIL_STATES_FILTERS } from "../../../constants";
+import { EMAIL_STATES_FILTERS, PARTICIPANT_STATES } from "../../../constants";
 import * as CBX from "../../../utils/CBX";
+import { getPrimary } from "../../../styles/colors";
+
+const intentionStates = [
+	PARTICIPANT_STATES.REMOTE,
+	PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+	PARTICIPANT_STATES.DELEGATED,
+	PARTICIPANT_STATES.NO_PARTICIPATE
+]
 
 class NotificationFilters extends React.Component {
 	state = {
@@ -21,6 +29,7 @@ class NotificationFilters extends React.Component {
 			});
 		} else {
 			refetch({
+				attendanceIntention: null,
 				notificationStatus: code
 			});
 			this.setState({
@@ -29,13 +38,35 @@ class NotificationFilters extends React.Component {
 		}
 	};
 
+	changeIntention = intention => {
+		const { refetch } = this.props;
+		const { selectedFilter } = this.state;
+
+		if (selectedFilter === intention) {
+			this.setState({
+				selectedFilter: ""
+			});
+			refetch({
+				attendanceIntention: null
+			});
+		} else {
+			refetch({
+				notificationStatus: null,
+				attendanceIntention: intention
+			});
+			this.setState({
+				selectedFilter: intention
+			});
+		}
+	}
+
 	_renderFilterIcon = value => {
 		const { selectedFilter } = this.state;
 		const { translate } = this.props;
 
 		return (
 			<FilterButton
-				key={`emailFilter_${value}`}
+				key={`intentionFilter_${value}`}
 				onClick={() => this.changeFilter(value)}
 				active={selectedFilter === value}
 				tooltip={translate[CBX.getTranslationReqCode(value)]}
@@ -51,6 +82,23 @@ class NotificationFilters extends React.Component {
 			</FilterButton>
 		);
 	};
+
+	_renderIntentionIcon = value => {
+		const { selectedFilter } = this.state;
+		const { translate } = this.props;
+		const primary = getPrimary();
+
+		return (
+			<FilterButton
+				key={`emailFilter_${value}`}
+				onClick={() => this.changeIntention(value)}
+				active={selectedFilter === value}
+				tooltip={translate[CBX.getAttendanceIntentionTooltip(value)]}
+			>
+				<i className={CBX.getAttendanceIntentionIcon(value)} style={{width: "24px", height: "auto", color: primary }}></i>
+			</FilterButton>
+		);
+	}
 
 	render() {
 		const { translate } = this.props;
@@ -72,6 +120,9 @@ class NotificationFilters extends React.Component {
 					{Object.keys(EMAIL_STATES_FILTERS).map(code =>
 						this._renderFilterIcon(EMAIL_STATES_FILTERS[code])
 					)}
+					{intentionStates.map(intention => (
+						this._renderIntentionIcon(intention)
+					))}
 				</GridItem>
 			</Grid>
 		);

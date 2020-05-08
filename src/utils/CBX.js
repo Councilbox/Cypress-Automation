@@ -1456,6 +1456,43 @@ export const participantIsRepresentative = participant => {
 	return participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
 };
 
+export const getAttendanceIntentionTooltip = intention => {
+	switch(intention){
+		case PARTICIPANT_STATES.REMOTE:
+			return'remote_assistance_short';
+
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return 'confirmed_assistance';
+
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return 'no_assist_assistance';
+
+		case PARTICIPANT_STATES.DELEGATED:
+			return 'delegated_in';
+			
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+			return 'vote_letter_sent';
+
+		default:
+			break;
+	}
+}
+
+export const getAttendanceIntentionIcon = intention => {
+	switch(intention) {
+		case PARTICIPANT_STATES.REMOTE:
+			return 'fa fa-globe';
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return 'fa fa-user';
+		case PARTICIPANT_STATES.DELEGATED:
+			return 'fa fa-users';
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return 'fa fa-times';
+		default:
+			return 'fa fa-question'
+	}
+}
+
 export const getEmailIconByReqCode = reqCode => {
 	switch (reqCode) {
 		case -1:
