@@ -434,25 +434,31 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 										alignItems: 'center',
 										paddingRight: '1em'
 									}}>
-										{council.quorumPrototype === 0 ?
-											<b>{`${translate.current_quorum}: ${showNumParticipations(data.councilRecount.partRightVoting, company)} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal ? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
-												(councilStartedState() && council.councilStarted === 1 && councilHasSession(council)) ?
-													` / ${translate.initial_quorum}: ${
-													council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
-													} (${((data.council.initialQuorum / (data.councilRecount.partTotal ? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
+										{data.councilRecount &&
+											<>
+												{council.quorumPrototype === 0 ?
+													<b>{`${translate.current_quorum}: ${showNumParticipations(data.councilRecount.partRightVoting, company)} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal ? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
+														(councilStartedState() && council.councilStarted === 1 && councilHasSession(council)) ?
+															` / ${translate.initial_quorum}: ${
+															council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
+															} (${((data.council.initialQuorum / (data.councilRecount.partTotal ? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
+															:
+															''
+														}`}</b>
 													:
-													''
-												}`}</b>
-											:
-											<b>{`${translate.current_quorum}: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
-												(councilStartedState() && council.councilStarted === 1 && councilHasSession(council)) ?
-													` / ${translate.initial_quorum}: ${
-													council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
-													} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
-													:
-													''
-												}`}</b>
+													<b>{`${translate.current_quorum}: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
+														(councilStartedState() && council.councilStarted === 1 && councilHasSession(council)) ?
+															` / ${translate.initial_quorum}: ${
+															council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
+															} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
+															:
+															''
+														}`}</b>
+												}
+											</>
+
 										}
+										
 									</div>
 								</Tabs>
 							}
