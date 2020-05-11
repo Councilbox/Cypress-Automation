@@ -300,6 +300,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                     <div style={{ height: "100%", width: "100%" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
                             <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.name}</div>
+                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.surname}</div>
                             <div style={{ textTransform: 'uppercase', color: primary, width: "10%" }}>{translate.dni}</div>
                             <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.email}</div>
                             <div style={{ textTransform: 'uppercase', color: primary, width: "10%" }}>{translate.position}</div>
@@ -315,6 +316,17 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                         onChange={event => {
                                             setAdminData({
                                                 name: event.target.value
+                                            }, index)
+                                        }}
+                                    />
+                                </div>
+                                <div style={{ width: "20%", paddingRight: '1.2em' }}>
+                                    <ContentEditable
+                                        html={item.surname || ''}
+                                        style={{borderBottom: '1px solid grey'}}
+                                        onChange={event => {
+                                            setAdminData({
+                                                surname: event.target.value
                                             }, index)
                                         }}
                                     />

@@ -658,6 +658,32 @@ export const showOrganizationDashboard = (company, config, user = {}) => {
 	return (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
 }
 
+export const generateCompanyAdminsText = (translate, company) => {
+	const data = company.governingBodyData;
+	const type = company.governingBodyType;
+	const labels = {
+		0: () => '',
+		1: () => {
+			return `${data.name} ${data.surname || ''}`;
+		},
+		2: () => {
+			return `${data.name} ${data.surname || ''}`;
+		},
+		3: () => {
+			return data.list.reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length -1)? ', ' : ''}`, '');
+		},
+		4: () => {
+			return data.list.reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? ', ' : ''}`, '');
+		},
+		5: () => {
+			return data.list.reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? ', ' : ''}`, '');
+		},
+	}
+
+
+	return labels[type]? labels[type]() : labels[0]();
+}
+
 
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
@@ -807,6 +833,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{GM\/SoleDecides}}/g, generateGBSoleDecidesText(translate, data.company.type));
 	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
 	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements(translate, data.company.governingBodyType));
+	text = text.replace(/{{companyAdmins}}/, generateCompanyAdminsText(translate, data.company));
 
 	text = text.replace(/{{Agenda}}|{{agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
 
