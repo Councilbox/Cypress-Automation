@@ -743,7 +743,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 		}
 	}
 
-	text = text.replace(/{{now}}/g, new moment().format('LLL'));
+	text = text.replace(/{{now}}/g, new moment().format('LL'));
 	text = text.replace(/{{signatories}}/g, getGoverningBodySignatories(translate, data.company.governingBodyType, data.company.governingBodyData));
 
 	text = text.replace(/{{convene}}/g, data.council.emailText);
