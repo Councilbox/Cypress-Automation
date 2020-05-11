@@ -22,7 +22,7 @@ import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
 import AttendComment from "./modals/AttendComment";
 import { isMobile } from "../../../utils/screen";
-import { useOldState } from "../../../hooks";
+import { useOldState, usePolling } from "../../../hooks";
 
 
 const ConvenedParticipantsTable = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
@@ -67,11 +67,11 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 		setLoading(false);
 	}, [council.id, filters])
 
-	console.log(data);
-
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
+
+	usePolling(getData, 9000);
 
 	React.useEffect(() => {
 		//refreshEmailStates();
@@ -87,7 +87,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 		});
 
 		if (response.data.updateConveneSends.success) {
-			//await data.refetch();
+			getData();
 			setRefreshing(false);
 		}
 	};
