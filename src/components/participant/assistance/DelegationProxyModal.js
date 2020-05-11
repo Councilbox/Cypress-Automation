@@ -152,8 +152,12 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                         disabled
                         ref={signaturePreview}
                     />
-                    _________________________________
-                    <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
+                    {!council.statute.proxy &&
+                        <>
+                            _________________________________
+                            <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
+                        </>
+                    }
                 </Card>
         )
     }
