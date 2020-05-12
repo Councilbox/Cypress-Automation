@@ -446,7 +446,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 															''
 														}`}</b>
 													:
-													<b>{`${translate.current_quorum}: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
+													<b>{`${translate.current_quorum}: ${showNumParticipations(data.councilRecount.socialCapitalRightVoting, company)} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
 														(councilStartedState() && council.councilStarted === 1 && councilHasSession(council)) ?
 															` / ${translate.initial_quorum}: ${
 															council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
