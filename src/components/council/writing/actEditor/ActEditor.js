@@ -171,6 +171,7 @@ export const CouncilActData = gql`
 				id
 				name
 				dni
+				position
 				state
 				type
 				socialCapital

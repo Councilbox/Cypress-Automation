@@ -673,15 +673,22 @@ export const showOrganizationDashboard = (company, config, user = {}) => {
 }
 
 
-export const generateCompanyAdminsText = ({ translate, company, list }) => {
+export const generateCompanyAdminsText = ({ translate, council, company, list }) => {
 	const data = company.governingBodyData;
 	const type = company.governingBodyType;
 
+	const admins = {
+		es: 'Administradores',
+		en: 'Administrators',
+		gal: 'Administradores',
+		cat: 'Administradors',
+		pt: 'Administradores'
+	}
 
 
 	const buildMultipleAdmins = list => {
-		return list.reduce((acc, curr, index, array) => acc + `${sir[translate.selectedLanguage]}${
-			curr.name} ${curr.surname || ''}${(index < array.length -1)? list? '<br>' : ', ' : ''}`, list? 'Administradores: <br>' : '');
+		return list.reduce((acc, curr, index, array) => acc + `${sir[council.language]} ${
+			curr.name} ${curr.surname || ''}${(index < array.length -1)? list? '<br>' : ', ' : ''}`, list? `${admins[council.language]}: <br>` : '');
 	}
 
 	const labels = {
@@ -707,9 +714,19 @@ export const checkIfHasVote = attendant => {
 			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (item.numParticipations > 0 || item.socialCapital > 0)).length > 0;
 }
 
-export const buildShareholdersList = ({ council, total }) => {
-	console.log(council.attendants);
+export const buildGuestString = ({ guest, council }) => {
+	const inQualityOf = {
+		es: 'en su cualidad de',
+		en: 'in quality of',
+		gal: 'na sua cualidade de',
+		cat: 'en la seva qualitat de',
+		pt: 'na sua capacidade como'
+	}
 
+	return `${sir[council.language]} ${guest.name} ${guest.surname || ''} ${guest.position? `${inQualityOf[council.language]} ${guest.position}` : ''}`;
+}
+
+export const buildShareholdersList = ({ council, total }) => {
 	if(!council.attendants || council.attendants.length === 0){
 		return '';
 	}
@@ -723,7 +740,24 @@ export const buildShareholdersList = ({ council, total }) => {
 	}
 
 	return council.attendants.filter(checkIfHasVote)
-		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({ attendant: curr, total, council })}`, `${shareholdersText[council.language]}`);
+		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({ attendant: curr, total, council })}`, `${shareholdersText[council.language]}:`);
+}
+
+export const buildGuestList = ({ council, total }) => {
+	if(!council.attendants || council.attendants.length === 0){
+		return '';
+	}
+	
+	const otherAttendants = {
+		es: 'Otros asistentes',
+		en: 'Other attendants',
+		gal: 'Outros asistentes',
+		cat: 'Altres assistents',
+		pt: 'Outros atendentes'
+	}
+
+	return council.attendants.filter(attendant => !checkIfHasVote(attendant))
+		.reduce((acc, curr) => `${acc}<br>${buildGuestString({ guest: curr, total, council })}`, `${otherAttendants[council.language]}:`);
 }
 
 
@@ -875,9 +909,10 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{GM\/SoleDecides}}/g, generateGBSoleDecidesText(translate, data.company.type));
 	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
 	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements({ translate, company: data.company.governingBodyType }));
-	text = text.replace(/{{companyAdmins}}/, generateCompanyAdminsText(translate, data.company));
+	text = text.replace(/{{companyAdmins}}/, generateCompanyAdminsText({ translate, company: data.company, council: data.council }));
 	text = text.replace(/{{shareholdersList}}/, buildShareholdersList({ council: data.council, total: base }));
-	text = text.replace(/{{companyAdminsList}}/, generateCompanyAdminsText({ translate, company: data.company, list: true }));
+	text = text.replace(/{{companyAdminsList}}/, generateCompanyAdminsText({ translate, company: data.company, council: data.council, list: true }));
+	text = text.replace(/{{guestList}}/, buildGuestList({ council: data.council, total: base }));
 
 
 	text = text.replace(/{{Agenda}}|{{agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
