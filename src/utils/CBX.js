@@ -527,6 +527,15 @@ export const getGoverningText = (translate, type) => {
 	return labels[type]? labels[type] : labels[0];
 }
 
+
+const sir = {
+	es: 'D. / D.ª',
+	en: 'Sir / Madam',
+	pt: 'D. / D.ª',
+	cat: 'D. / D.ª',
+	gal: 'D. / D.ª'
+}
+
 export const generateGBSoleDecidesText = (translate, type) => {
 	const labels = {
 		0: `${translate.the_general_meeting} ${translate.agrees}`,
@@ -558,10 +567,10 @@ export const getGoverningBodySignatories = (translate, type, data) => {
 	const labels = {
 		0: () => '',
 		1: () => {
-			return `${data.name} ${data.surname || ''}`;
+			return `${sir[translate.selectedLanguage]} ${data.name} ${data.surname || ''}`;
 		},
 		2: () => {
-			return `${data.name} ${data.surname || ''}`;
+			return `${sir[translate.selectedLanguage]} ${data.name} ${data.surname || ''}`;
 		},
 		3: () => {
 			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length -1)? blankSpaces : ''}`, '');
@@ -605,18 +614,13 @@ export const buildDelegationsString = (delegated, council, translate) => {
 	},  '');
 }
 
-
-export const buildAttendantsString = (council, total) => (acc, curr, index) => {
-	if(!hasParticipations(council)){
-		return acc + `${curr.name} ${curr.surname || ''} <br/>`;
-	}
-
+export const buildAttendantString = ({ attendant, council, total }) => {
 	const texts = {
-		es: 'NAME SURNAME, dueño de SHARES participaciones, representando el PERCENTAGE% de capital social <br>',
-		en: 'NAME SURNAME, owner of SHARES shares, representing the PERCENTAGE% of the total shares <br>',
-		gal: 'NAME SURNAME, dono de SHARES participacións, representando o PERCENTAGE% do capital social <br>',
-		cat: "NAME SURNAME, con SHARES participacions, representant el PERCENTAGE% de l'capital social <br>",
-		pt: 'NAME SURNAME, proprietário de SHARES participacions, representando o PERCENTAGE% do capital social <br>',
+		es: `${sir[council.language]} NAME SURNAME titular de SHARES participaciones, representando el PERCENTAGE% de capital social `,
+		en: `${sir[council.language]} NAME SURNAME owner of SHARES shares, representing the PERCENTAGE% of the total shares `,
+		gal: `${sir[council.language]} NAME SURNAME dono de SHARES participacións, representando o PERCENTAGE% do capital social `,
+		cat: `${sir[council.language]}  NAME SURNAME con SHARES participacions, representant el PERCENTAGE% de l'capital social `,
+		pt: `${sir[council.language]} NAME SURNAME proprietário de SHARES participacions, representando o PERCENTAGE% do capital social `,
 	}
 
 	const representativeOf = {
@@ -628,26 +632,36 @@ export const buildAttendantsString = (council, total) => (acc, curr, index) => {
 	}
 
 	const representativeText = {
-		es: 'RNAME RSURNAME con SHARES participaciones, representando el PERCENTAGE% de capital social ',
-		en: 'RNAME RSURNAME with SHARES shares, representing PERCENTAGE% of the total shares ',
-		gal: 'RNAME RSURNAME con SHARES participacións, representando o PERCENTAGE% do capital social ',
-		cat: "RNAME RSURNAME con SHARES participacions, representant el PERCENTAGE% de l'capital social ",
-		pt: 'RNAME RSURNAME con SHARES participacions, representando o PERCENTAGE% do capital social ',
+		es: `RNAME RSURNAME con SHARES participaciones, representando el PERCENTAGE% de capital social `,
+		en: `RNAME RSURNAME with SHARES shares, representing PERCENTAGE% of the total shares `,
+		gal: `RNAME RSURNAME con SHARES participacións, representando o PERCENTAGE% do capital social `,
+		cat: `RNAME RSURNAME con SHARES participacions, representant el PERCENTAGE% de l'capital social `,
+		pt: `RNAME RSURNAME con SHARES participacions, representando o PERCENTAGE% do capital social `,
 	}
 
-	if(curr.type === PARTICIPANT_TYPE.REPRESENTATIVE){
-		return acc + `${curr.name} ${curr.surname || ''} ${representativeOf[council.language]} ${
-			curr.delegationsAndRepresentations.reduce((acc, representated, index) => {
+	if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
+		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''} ${representativeOf[council.language]} ${
+			attendant.delegationsAndRepresentations.reduce((acc, representated, index) => {
 				return (acc + (index > 0? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname? representated.surname + " " : ''}`)
 					.replace('SHARES', representated.socialCapital)
 					.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2)))
-		}, '')} <br>`;
+		}, '')}`;
 	}
 
-	return acc + texts[council.language]
-		.replace('NAME SURNAME', `${curr.name} ${curr.surname || ''}`)
-		.replace('SHARES', curr.socialCapital)
-		.replace('PERCENTAGE', ((curr.socialCapital / total) * 100).toFixed(2))
+	return texts[council.language]
+		.replace('NAME SURNAME', `${attendant.name} ${attendant.surname || ''}`)
+		.replace('SHARES', attendant.socialCapital)
+		.replace('PERCENTAGE', ((attendant.socialCapital / total) * 100).toFixed(2));
+
+}
+
+
+export const buildAttendantsString = (council, total) => (acc, curr, index) => {
+	if(!hasParticipations(council)){
+		return acc + `${curr.name} ${curr.surname || ''} <br/>`;
+	}
+
+	return acc + buildAttendantString({ attendant: curr, council, total });
 };
 
 export const isAdmin = user => {
@@ -658,9 +672,18 @@ export const showOrganizationDashboard = (company, config, user = {}) => {
 	return (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
 }
 
-export const generateCompanyAdminsText = (translate, company) => {
+
+export const generateCompanyAdminsText = ({ translate, company, list }) => {
 	const data = company.governingBodyData;
 	const type = company.governingBodyType;
+
+
+
+	const buildMultipleAdmins = list => {
+		return list.reduce((acc, curr, index, array) => acc + `${sir[translate.selectedLanguage]}${
+			curr.name} ${curr.surname || ''}${(index < array.length -1)? list? '<br>' : ', ' : ''}`, list? 'Administradores: <br>' : '');
+	}
+
 	const labels = {
 		0: () => '',
 		1: () => {
@@ -669,19 +692,38 @@ export const generateCompanyAdminsText = (translate, company) => {
 		2: () => {
 			return `${data.name} ${data.surname || ''}`;
 		},
-		3: () => {
-			return data.list.reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length -1)? ', ' : ''}`, '');
-		},
-		4: () => {
-			return data.list.reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? ', ' : ''}`, '');
-		},
-		5: () => {
-			return data.list.reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? ', ' : ''}`, '');
-		},
+		3: () => buildMultipleAdmins(data.list),
+		4: () => buildMultipleAdmins(data.list),
+		5: () => buildMultipleAdmins(data.list),
 	}
 
 
 	return labels[type]? labels[type]() : labels[0]();
+}
+
+export const checkIfHasVote = attendant => {
+	return (attendant.numParticipations > 0 || attendant.socialCapital > 0) ||
+		attendant.delegationsAndRepresentations
+			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (item.numParticipations > 0 || item.socialCapital > 0)).length > 0;
+}
+
+export const buildShareholdersList = ({ council, total }) => {
+	console.log(council.attendants);
+
+	if(!council.attendants || council.attendants.length === 0){
+		return '';
+	}
+
+	const shareholdersText = {
+		es: 'Accionistas',
+		en: 'Shareholders',
+		gal: 'Accionistas',
+		cat: 'Accionistes',
+		pt: 'Acionistas'
+	}
+
+	return council.attendants.filter(checkIfHasVote)
+		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({ attendant: curr, total, council })}`, `${shareholdersText[council.language]}`);
 }
 
 
@@ -832,8 +874,11 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{GoverningBody}}/g, getGoverningText(translate, data.company.governingBodyType));
 	text = text.replace(/{{GM\/SoleDecides}}/g, generateGBSoleDecidesText(translate, data.company.type));
 	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
-	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements(translate, data.company.governingBodyType));
+	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements({ translate, company: data.company.governingBodyType }));
 	text = text.replace(/{{companyAdmins}}/, generateCompanyAdminsText(translate, data.company));
+	text = text.replace(/{{shareholdersList}}/, buildShareholdersList({ council: data.council, total: base }));
+	text = text.replace(/{{companyAdminsList}}/, generateCompanyAdminsText({ translate, company: data.company, list: true }));
+
 
 	text = text.replace(/{{Agenda}}|{{agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
 
