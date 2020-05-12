@@ -614,7 +614,11 @@ export const buildDelegationsString = (delegated, council, translate) => {
 	},  '');
 }
 
-export const buildAttendantString = ({ attendant, council, total }) => {
+export const buildAttendantString = ({ attendant, council, total, type }) => {
+	if(type === 'counselors'){
+		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''}`;
+	}
+
 	const texts = {
 		es: `${sir[council.language]} NAME SURNAME titular de SHARES participaciones, representando el PERCENTAGE% de capital social `,
 		en: `${sir[council.language]} NAME SURNAME owner of SHARES shares, representing the PERCENTAGE% of the total shares `,
@@ -656,12 +660,12 @@ export const buildAttendantString = ({ attendant, council, total }) => {
 }
 
 
-export const buildAttendantsString = (council, total) => (acc, curr, index) => {
+export const buildAttendantsString = ({ council, total, type }) => (acc, curr, index) => {
 	if(!hasParticipations(council)){
 		return acc + `${curr.name} ${curr.surname || ''} <br/>`;
 	}
 
-	return acc + buildAttendantString({ attendant: curr, council, total });
+	return acc + buildAttendantString({ attendant: curr, council, total, type });
 };
 
 export const isAdmin = user => {
@@ -673,9 +677,9 @@ export const showOrganizationDashboard = (company, config, user = {}) => {
 }
 
 
-export const generateCompanyAdminsText = ({ translate, council, company, list }) => {
+export const generateCompanyAdminsText = ({ council, company, list, type }) => {
 	const data = company.governingBodyData;
-	const type = company.governingBodyType;
+	const governingType = company.governingBodyType;
 
 	const admins = {
 		es: 'Administradores',
@@ -686,8 +690,8 @@ export const generateCompanyAdminsText = ({ translate, council, company, list })
 	}
 
 
-	const buildMultipleAdmins = list => {
-		return list.reduce((acc, curr, index, array) => acc + `${sir[council.language]} ${
+	const buildMultipleAdmins = adminList => {
+		return adminList.reduce((acc, curr, index, array) => acc + `${sir[council.language]} ${
 			curr.name} ${curr.surname || ''}${(index < array.length -1)? list? '<br>' : ', ' : ''}`, list? `${admins[council.language]}: <br>` : '');
 	}
 
@@ -705,7 +709,7 @@ export const generateCompanyAdminsText = ({ translate, council, company, list })
 	}
 
 
-	return labels[type]? labels[type]() : labels[0]();
+	return labels[governingType]? labels[governingType]() : labels[0]();
 }
 
 export const checkIfHasVote = attendant => {
@@ -716,9 +720,9 @@ export const checkIfHasVote = attendant => {
 
 export const buildGuestString = ({ guest, council }) => {
 	const inQualityOf = {
-		es: 'en su cualidad de',
+		es: 'en su calidad de',
 		en: 'in quality of',
-		gal: 'na sua cualidade de',
+		gal: 'na sua calidade de',
 		cat: 'en la seva qualitat de',
 		pt: 'na sua capacidade como'
 	}
@@ -726,7 +730,7 @@ export const buildGuestString = ({ guest, council }) => {
 	return `${sir[council.language]} ${guest.name} ${guest.surname || ''} ${guest.position? `${inQualityOf[council.language]} ${guest.position}` : ''}`;
 }
 
-export const buildShareholdersList = ({ council, total }) => {
+export const buildShareholdersList = ({ council, total, type }) => {
 	if(!council.attendants || council.attendants.length === 0){
 		return '';
 	}
@@ -739,8 +743,31 @@ export const buildShareholdersList = ({ council, total }) => {
 		pt: 'Acionistas'
 	}
 
+	const partnersText = {
+		es: 'Socios',
+		en: 'Partners',
+		gal: 'Socios',
+		cat: 'Socis',
+		pt: 'Parceiros'
+	}
+
+	const counselorsList = {
+		es: 'Consejeros',
+		en: 'Counselors',
+		gal: 'Conselleiros',
+		cat: 'Consellers',
+		pt: 'Conselheiros'
+	}
+
 	return council.attendants.filter(checkIfHasVote)
-		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({ attendant: curr, total, council })}`, `${shareholdersText[council.language]}:`);
+		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({ attendant: curr, total, council, type })}`, `${
+			type === 'partners'?
+				partnersText[council.language]
+			:
+				type === 'counselors'?
+					counselorsList[council.language]
+				:
+					shareholdersText[council.language]}:`);
 }
 
 export const buildGuestList = ({ council, total }) => {
@@ -913,6 +940,8 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{shareholdersList}}/, buildShareholdersList({ council: data.council, total: base }));
 	text = text.replace(/{{companyAdminsList}}/, generateCompanyAdminsText({ translate, company: data.company, council: data.council, list: true }));
 	text = text.replace(/{{guestList}}/, buildGuestList({ council: data.council, total: base }));
+	text = text.replace(/{{partnersList}}/, buildShareholdersList({ council: data.council, total: base, type: 'partners' }));
+	text = text.replace(/{{counselorsList}}/, buildShareholdersList({ council: data.council, total: base, type: 'counselors' }));
 
 
 	text = text.replace(/{{Agenda}}|{{agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
