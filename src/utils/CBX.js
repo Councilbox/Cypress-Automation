@@ -1154,6 +1154,30 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			value: '{{attendants}}',
 			label: translate.census_type_assistants
 		},
+		shareholdersList: {
+			value: '{{shareholdersList}}',
+			label: 'Lista de accionistas'//TRADUCCION
+		},
+		partnersList: {
+			value: '{{partnersList}}',
+			label: 'Lista de socios'//TRADUCCION
+		},
+		counselorsList: {
+			value: '{{counselorsList}}',
+			label: 'Lista de consejeros'//TRADUCCION
+		},
+		guestList: {
+			value: '{{guestList}}',
+			label: 'Lista de otros asistentes'//TRADUCCION
+		},
+		companyAdmins: {
+			value: '{{companyAdmins}}',
+			label: 'Administradores de la entidad'//TRADUCCION
+		},
+		companyAdminsList: {
+			value: '{{companyAdminsList}}',
+			label: 'Listado de administradores'//TRADUCCION
+		},
 		delegations: {
 			value: '{{delegations}}',
 			label: translate.delegations
