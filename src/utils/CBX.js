@@ -620,11 +620,16 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 	}
 
 	const texts = {
-		es: `${sir[council.language]} NAME SURNAME titular de SHARES participaciones, representando el PERCENTAGE% de capital social `,
-		en: `${sir[council.language]} NAME SURNAME owner of SHARES shares, representing the PERCENTAGE% of the total shares `,
-		gal: `${sir[council.language]} NAME SURNAME dono de SHARES participacións, representando o PERCENTAGE% do capital social `,
-		cat: `${sir[council.language]}  NAME SURNAME con SHARES participacions, representant el PERCENTAGE% de l'capital social `,
-		pt: `${sir[council.language]} NAME SURNAME proprietário de SHARES participacions, representando o PERCENTAGE% do capital social `,
+		es: `${sir[council.language]} NAME SURNAME titular de SHARES ${
+			type === 'partners'? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
+		en: `${sir[council.language]} NAME SURNAME owner of SHARES ${
+			type === 'partners'? 'participations' : 'shares'}, representing the PERCENTAGE% of the total shares `,
+		gal: `${sir[council.language]} NAME SURNAME dono de SHARES ${
+			type === 'partners'? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
+		cat: `${sir[council.language]}  NAME SURNAME con SHARES ${
+			type === 'partners'? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
+		pt: `${sir[council.language]} NAME SURNAME proprietário de SHARES ${
+			type === 'partners'? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
 	}
 
 	const representativeOf = {
@@ -636,11 +641,16 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 	}
 
 	const representativeText = {
-		es: `RNAME RSURNAME con SHARES participaciones, representando el PERCENTAGE% de capital social `,
-		en: `RNAME RSURNAME with SHARES shares, representing PERCENTAGE% of the total shares `,
-		gal: `RNAME RSURNAME con SHARES participacións, representando o PERCENTAGE% do capital social `,
-		cat: `RNAME RSURNAME con SHARES participacions, representant el PERCENTAGE% de l'capital social `,
-		pt: `RNAME RSURNAME con SHARES participacions, representando o PERCENTAGE% do capital social `,
+		es: `RNAME RSURNAME con SHARES ${
+			type === 'partners'? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
+		en: `RNAME RSURNAME with SHARES ${
+			type === 'partners'? 'participations' : 'shares'}, representing PERCENTAGE% of the total shares `,
+		gal: `RNAME RSURNAME con SHARES ${
+			type === 'partners'? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
+		cat: `RNAME RSURNAME con SHARES ${
+			type === 'partners'? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
+		pt: `RNAME RSURNAME con SHARES ${
+			type === 'partners'? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
 	}
 
 	if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
