@@ -1027,6 +1027,9 @@ export const councilStepFive = gql`
 			id
 			securityType
 			step
+			room {
+				videoConfig
+			}
 			platform {
 				act
 				companyId

@@ -103,3 +103,25 @@ export const useRoomUpdated = config => {
         }
     }, [JSON.stringify(props.subs.roomUpdated)])
 }
+
+
+export const useValidRTMP = statute => {
+	const [validURL, setValidURL] = React.useState(true);
+
+	React.useEffect(() => {
+		console.log('salta el effecfo');
+		console.log(statute);
+
+		if(statute.videoConfig && statute.videoConfig.rtmp){
+			const valid = /rtmp?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(statute.videoConfig.rtmp);
+			console.log(valid);
+			if(valid !== validURL){
+				setValidURL(valid);
+			}
+		}
+	}, [statute.videoConfig])
+
+	return {
+		validURL
+	}
+}

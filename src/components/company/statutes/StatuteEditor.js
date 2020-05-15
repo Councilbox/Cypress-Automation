@@ -15,6 +15,7 @@ import { getPrimary } from "../../../styles/colors";
 import QuorumInput from "../../../displayComponents/QuorumInput";
 import { ConfigContext } from "../../../containers/AppControl";
 import StatuteDocSection from "./StatuteDocSection";
+import { useValidRTMP } from "../../../hooks";
 
 
 const StatuteEditor = ({ statute, translate, updateState, errors, client, ...props }) => {
@@ -582,18 +583,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 
 
 const VideoSection = ({ updateState, statute, translate }) => {
-	const [validURL, setValidURL] = React.useState(true);
-
 	const primary = getPrimary();
 
-	React.useEffect(() => {
-		if(statute.videoConfig && statute.videoConfig.rtmp){
-			const valid = /rtmp?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(statute.videoConfig.rtmp);
-			if(valid !== validURL){
-				setValidURL(valid);
-			}
-		}
-	}, [statute.videoConfig])
+	const { validURL } = useValidRTMP(statute);
+
+	console.log(validURL);
 
 	return (
 		<>
@@ -611,7 +605,6 @@ const VideoSection = ({ updateState, statute, translate }) => {
 						floatingText={'RTMP'}
 						required
 						errorText={!validURL? translate.invalid_url : null}
-						type="tel"
 						value={statute.videoConfig? statute.videoConfig.rtmp : ''}
 						onChange={event => {
 							updateState({

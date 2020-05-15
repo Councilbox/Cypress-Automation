@@ -10,11 +10,13 @@ import {
 	Radio,
 	AlertConfirm,
 	SectionTitle,
-	SelectInput
+	SelectInput,
+	TextInput,
+	GridItem
 } from "../../../displayComponents";
 import { councilStepFive, updateCouncil } from "../../../queries";
 import { checkValidMajority } from '../../../utils/validation';
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import withWindowSize from '../../../HOCs/withWindowSize';
@@ -22,10 +24,12 @@ import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
 import DelegationRestriction from "./DelegationRestriction";
 import { ConfigContext } from "../../../containers/AppControl";
+import { useValidRTMP } from "../../../hooks";
+import gql from 'graphql-tag';
 
 
 
-const StepOptions = ({ translate, data, ...props }) => {
+const StepOptions = ({ translate, data, client, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const config = React.useContext(ConfigContext);
@@ -56,7 +60,25 @@ const StepOptions = ({ translate, data, ...props }) => {
 			...state,
 			loading: true
 		});
-		const { __typename, statute, platform, ...council } = state.data.council;
+		const { __typename, statute, platform, room, ...council } = state.data.council;
+		const { __typename: t, ...councilRoom } = room;
+
+		const response = await client.mutate({
+			mutation: gql`
+				mutation UpdateCouncilRoom($councilRoom: CouncilRoomInput!, $councilId: Int!){
+					updateCouncilRoom(councilRoom: $councilRoom, councilId: $councilId){
+						success
+					}
+				}
+			`,
+			variables: {
+				councilId: council.id,
+				councilRoom
+			}
+		});
+
+		console.log(response);
+
 		await props.updateCouncil({
 			variables: {
 				council: {
@@ -67,6 +89,8 @@ const StepOptions = ({ translate, data, ...props }) => {
 				}
 			}
 		});
+
+
 
 		setState({
 			...state,
@@ -209,6 +233,15 @@ const StepOptions = ({ translate, data, ...props }) => {
 							</div>
 						}
 					</div>
+					{council.councilType === 0 &&
+						<GridItem xs={12} md={8} lg={6}>
+							<RTMPField
+								data={council}
+								updateData={updateCouncilData}
+								translate={translate}
+							/>
+						</GridItem>
+					}
 				</React.Fragment>
 			),
 			2: (
@@ -595,8 +628,35 @@ export default compose(
 			fetchPolicy: 'network-only'
 		})
 	}),
-
+	withApollo,
 	graphql(updateCouncil, {
 		name: "updateCouncil"
 	})
 )(withWindowSize(StepOptions));
+
+
+
+const RTMPField = ({ data, updateData, translate }) => {
+	const { validURL } = useValidRTMP(data.room);
+
+	return (
+		<TextInput
+			disabled={data.councilType !== 0}
+			errorText={!validURL? translate.invalid_url : ''}
+			floatingText={'RTMP'}
+			value={data.room.videoConfig? data.room.videoConfig.rtmp : ''}
+			onChange={(event, isInputChecked) =>
+				updateData({
+					room: {
+						videoConfig: {
+							...data.room.videoConfig,
+							rtmp: event.target.value
+						}
+					}
+				})
+			}
+		/>
+	)
+	
+
+}
