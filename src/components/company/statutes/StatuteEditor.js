@@ -523,6 +523,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 						/>
 					</GridItem>
 				</Grid>
+				<VideoSection
+					updateState={updateState}
+					statute={statute}
+					translate={translate}
+				/>
 
 				<SectionTitle
 					text={translate.census}
@@ -575,6 +580,53 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 
 }
 
+
+const VideoSection = ({ updateState, statute, translate }) => {
+	const [validURL, setValidURL] = React.useState(true);
+
+	const primary = getPrimary();
+
+	React.useEffect(() => {
+		if(statute.videoConfig && statute.videoConfig.rtmp){
+			const valid = /rtmp?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(statute.videoConfig.rtmp);
+			if(valid !== validURL){
+				setValidURL(valid);
+			}
+		}
+	}, [statute.videoConfig])
+
+	return (
+		<>
+			<SectionTitle
+				text={translate.video_config}
+				color={primary}
+				style={{
+					marginTop: "2em",
+					marginBottom: "1em"
+				}}
+			/>
+			<Grid style={{ overflow: "hidden" }}>
+				<GridItem xs={12} md={8} lg={6}>
+					<TextInput
+						floatingText={'RTMP'}
+						required
+						errorText={!validURL? translate.invalid_url : null}
+						type="tel"
+						value={statute.videoConfig? statute.videoConfig.rtmp : ''}
+						onChange={event => {
+							updateState({
+								videoConfig: {
+									...statute.videoConfig,
+									rtmp: event.target.value
+								}
+							})
+						}}
+					/>
+				</GridItem>
+			</Grid>
+		</>
+	)
+}
 
 export default withApollo(StatuteEditor);
 

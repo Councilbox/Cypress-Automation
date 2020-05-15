@@ -728,6 +728,7 @@ export const statutes = gql`
 			existPublicUrl
 			language
 			companyType
+			videoConfig
 			addParticipantsListToAct
 			existsAdvanceNoticeDays
 			advanceNoticeDays
