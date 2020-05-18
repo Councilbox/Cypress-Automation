@@ -21,6 +21,7 @@ import conSesionIcon from "../../assets/img/con-sesion-icon.svg";
 import consejoSinSesion from "../../assets/img/consejo-sin-sesion-icon.svg";
 import elecciones from "../../assets/img/elecciones.svg";
 import admin from '../../assets/img/admin.svg';
+import sinSesionIcon from '../../assets/img/sin-sesion-icon.svg';
 import { Collapse } from "material-ui";
 
 
@@ -243,7 +244,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											onClick={noSessionStep}
 											title={'Sin sesión'}
 											styleButton={{ marginRight: "3%" }}
-											icon={<img src={conSesionIcon}></img>}
+											icon={<img src={sinSesionIcon}></img>}
 											// icon={<i className="fa fa-list-ol" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 											isMobile={isMobile}
 											list={
@@ -309,7 +310,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 									<ButtonInfoCouncil
 										title={'Sin sesión'}
 										styleButton={{ marginRight: "3%" }}
-										icon={<img src={conSesionIcon} style={{ width: "100%" }}></img>}
+										icon={<img src={sinSesionIcon} style={{ width: "100%" }}></img>}
 										// icon={<i className="fa fa-list-ol" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 										isMobile={isMobile}
 										list={
