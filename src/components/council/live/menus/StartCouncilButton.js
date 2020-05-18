@@ -16,10 +16,11 @@ import gql from 'graphql-tag';
 import { getPrimary } from "../../../../styles/colors";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
 import { Typography } from "material-ui";
-import { existsQualityVote } from "../../../../utils/CBX";
+import { existsQualityVote, councilHasVideo } from "../../../../utils/CBX";
 import ConveneSelector from "../ConveneSelector";
 import { startCouncil } from "../../../../queries/council";
 import { useOldState } from "../../../../hooks";
+import StartCouncilVideoOptions from "./StartCouncilVideoOptions";
 
 const buttonStyle = primary => ({
 	backgroundColor: "white",
@@ -42,6 +43,11 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 			secretary: council.secretary,
 			presidentId: council.presidentId,
 			secretaryId: council.secretaryId
+		},
+		video: {
+			startRecording: council.fullVideoRecord === 1,
+			//hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
+			startStreaming: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false
 		},
 		errors: {
 			president: "",
@@ -69,7 +75,8 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 					presidentId,
 					secretaryId,
 					qualityVoteId,
-					firstOrSecondConvene
+					firstOrSecondConvene,
+					videoOptions: state.video
 				}
 			});
 			if (response) {
@@ -389,6 +396,23 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 						</GridItem>
 					</React.Fragment>
 				)}
+
+				{councilHasVideo(council) &&
+					<StartCouncilVideoOptions
+						council={council}
+						data={state.video}
+						translate={translate}
+						updateData={object => {
+							setState({
+								...state,
+								video: {
+									...state.video,
+									...object
+								}
+							})
+						}}
+					/>
+				}
 				<ConveneSelector
 					council={council}
 					translate={translate}
@@ -401,7 +425,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 	}
 
 	if (!data.councilOfficials) {
-		return <LoadingSection />;
+		return <LoadingSection size={20} />;
 	}
 
 	if (council.councilType > 1 && council.councilType !== 4) {

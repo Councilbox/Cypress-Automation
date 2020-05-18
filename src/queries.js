@@ -1454,6 +1454,7 @@ export const councilLiveQuery = gql`
 			room {
 				id
 				htmlVideoCouncil
+				videoConfig
 			}
 			satisfyQuorum
 			secretary

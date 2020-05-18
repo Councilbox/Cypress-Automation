@@ -168,6 +168,7 @@ export const startCouncil = gql`
 		$secretaryId: Int
 		$firstOrSecondConvene: Int
 		$qualityVoteId: Int
+		$videoOptions: VideoOptions
 	) {
 		startCouncil(
 			councilId: $councilId
@@ -175,6 +176,7 @@ export const startCouncil = gql`
 			secretaryId: $secretaryId
 			firstOrSecondConvene: $firstOrSecondConvene
 			qualityVoteId: $qualityVoteId
+			videoOptions: $videoOptions
 		) {
 			success
 			message
