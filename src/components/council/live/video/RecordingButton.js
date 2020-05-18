@@ -1,10 +1,13 @@
 import React from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { Tooltip } from 'material-ui';
 import { CircularProgress } from "material-ui/Progress";
 import gql from 'graphql-tag';
 import { checkIsWebRTCCompatibleBrowser } from '../../../../utils/webRTC';
 import DetectRTC from 'detectrtc';
+import Tower from '../../../../assets/img/broadcast-tower.svg';
+import BroadcastingTower from '../../../../assets/img/broadcasting-tower.svg';
+
 
 class RecordingButton extends React.Component {
 
@@ -17,14 +20,6 @@ class RecordingButton extends React.Component {
 
     componentDidMount() {
         DetectRTC.load();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.data.loading && !this.props.data.loading) {
-            if (this.props.council.fullVideoRecord === 1) {
-                //this.startFullRecording();
-            }
-        }
     }
 
     startFullRecording = async () => {
@@ -41,6 +36,60 @@ class RecordingButton extends React.Component {
                 });
             }, 5000);
         }
+    }
+
+    stopStreaming = async () => {
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({
+            loading: true
+        });
+        await this.props.client.mutate({
+            mutation: gql`
+                mutation StopStreaming($councilId: Int!){
+                    stopStreaming(councilId: $councilId){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                councilId: this.props.council.id
+            }
+        });
+        this.props.data.refetch();
+
+        this.setState({
+            loading: false
+        });
+    }
+
+    startStreaming = async () => {
+        if(this.state.loading){
+            return;
+        }
+
+        this.setState({
+            loading: true
+        });
+        await this.props.client.mutate({
+            mutation: gql`
+                mutation StartStreaming($councilId: Int!){
+                    startStreaming(councilId: $councilId){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                councilId: this.props.council.id
+            }
+        });
+        this.props.data.refetch();
+
+        this.setState({
+            loading: false
+        });
     }
 
     startRecording = async () => {
@@ -81,36 +130,68 @@ class RecordingButton extends React.Component {
             return <span />
         }
 
-        if (!this.props.config.recording) {
+        if (!this.props.config.recording && !this.props.config.streaming) {
             return <span />;
         }
 
         const { record } = sessionStatus;
-
+        //TRADUCCIÓN
         return (
-            <Tooltip title={this.props.council.fullVideoRecord === 1 ? this.props.translate.full_record : record ? this.props.translate.to_stop_recording : this.props.translate.to_start_recording}>
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '20px',
-                        left: '2em',
-                        fontSize: '1.4em',
-                        cursor: this.props.council.fullVideoRecord === 1 ? 'auto' : 'pointer'
-                    }}
-                    {...(this.props.council.fullVideoRecord !== 1 ? { onClick: this.toggleRecordings } : {})}
-                >
-                    {this.state.loading ?
-                        <CircularProgress size={20} thickness={7} color={'secondary'} />
-                        :
-                        record ?
-                            <i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
-                            :
-                            <i className="fa fa-circle" style={{ color: 'red' }} />
-                    }
-
-
-                </div>
-            </Tooltip>
+            <div
+                style={{
+                    position: 'absolute',
+                    top: '20px',
+                    left: '2em',
+                    display: 'flex',
+                    alignItems: 'center',
+                    fontSize: '1.4em',
+                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    padding: '0.2em',
+                    borderRadius: '10px'
+                }}
+            >
+                {this.state.loading ? 
+                    <CircularProgress size={20} thickness={7} color={'secondary'} />
+                :
+                    <>
+                        {this.props.config.recording &&
+                            <Tooltip title={this.props.council.fullVideoRecord === 1 ? this.props.translate.full_record : record ? this.props.translate.to_stop_recording : this.props.translate.to_start_recording}>
+                                <div
+                                    style={{cursor: this.props.council.fullVideoRecord === 1 ? 'auto' : 'pointer'}}
+                                    {...(this.props.council.fullVideoRecord !== 1 ? { onClick: this.toggleRecordings } : {})}
+                                >
+                                    {this.state.loading ?
+                                        <CircularProgress size={20} thickness={7} color={'secondary'} />
+                                        :
+                                        record ?
+                                            <i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
+                                            :
+                                            <i className="fa fa-circle" style={{ color: 'red' }} />
+                                    }
+                                </div>
+                            </Tooltip>
+                        }
+                        {this.props.config.streaming &&
+                            <Tooltip title={sessionStatus.streaming? 'Para emisión' : 'Iniciar emision'}>
+                                {sessionStatus.streaming ?
+                                    <img
+                                        src={BroadcastingTower}
+                                        style={{ width: 'auto', height: '0.8em', marginLeft: '0.4em' }}
+                                        onClick={this.stopStreaming}
+                                    />
+                                    :
+                                    <img
+                                        src={Tower}
+                                        style={{ width: 'auto', height: '0.8em', marginLeft: '0.4em' }}
+                                        onClick={this.startStreaming}
+                                    />
+                                }
+                            </Tooltip>
+                        }
+                    </>
+                }
+            </div>
+            
         )
     }
 }
@@ -138,6 +219,7 @@ const sessionStatus = gql`
     query SessionStatus($councilId: Int!){
         sessionStatus(councilId: $councilId){
             record
+            streaming
         }
     }
 `;
@@ -150,6 +232,7 @@ export default compose(
             }
         })
     }),
+    withApollo,
     graphql(startRecording, {
         name: 'startRecording'
     }),
