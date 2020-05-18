@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { LoadingMainApp, LiveToast, AlertConfirm } from "../../displayComponents";
+import { LoadingMainApp, LiveToast, AlertConfirm, Scrollbar } from "../../displayComponents";
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { bHistory } from "../../containers/App";
 import { ConfigContext } from '../../containers/AppControl';
 import { toast } from 'react-toastify';
-import { getSecondary } from "../../styles/colors";
+import { getSecondary, getPrimary } from "../../styles/colors";
 import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
 import { checkSecondDateAfterFirst } from "../../utils/CBX";
@@ -16,6 +16,12 @@ import { useHoverRow } from "../../hooks";
 import { sendGAevent } from '../../utils/analytics';
 import withSharedProps from "../../HOCs/withSharedProps";
 import { isMobile } from "../../utils/screen";
+import emptyMeetingTable from "../../assets/img/empty_meeting_table.png";
+import conSesionIcon from "../../assets/img/con-sesion-icon.svg";
+import consejoSinSesion from "../../assets/img/consejo-sin-sesion-icon.svg";
+import elecciones from "../../assets/img/elecciones.svg";
+import admin from '../../assets/img/admin.svg';
+import { Collapse } from "material-ui";
 
 
 
@@ -53,10 +59,10 @@ const CreateCouncil = props => {
 					<LiveToast
 						message={props.translate.no_statutes}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "errorToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
 				);
 			}
 		}
@@ -132,10 +138,10 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 					<LiveToast
 						message={translate.no_statutes}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "errorToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
 				);
 			}
 		}
@@ -187,107 +193,183 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 	return (
 		<AlertConfirm
 			open={true}
-			title={title}
+			widthModal={{ borderRadius: "8px", }}
+			// title={title}
 			//bodyStyle={{ maxWidth: isMobile ? "" : "75vw" }}
+			bodyStyle={{ overflow: "hidden" }}
 			PaperProps={{
 				style: {
-					width: '100%'
+					width: '100%',
+					height: '100%',
 				}
 			}}
 			bodyText={
-				<React.Fragment>
-					{step === 1 &&
-						<div style={{ display: isMobile ? "" : 'flex', margin: isMobile ? "" : "2em 0 1.5em 0", justifyContent: 'center', alignItems: 'center' }}>
-							<ButtonCreateCouncil
-								onClick={councilStep}
-								title={'Con sesión'}
-								styleButton={{ marginRight: "3%" }}
-								icon={<i className="fa fa-users" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
-								isMobile={isMobile}
-								list={
-									<ul>
-										{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
-										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
-									</ul>
-								}
-							/>
-							<ButtonCreateCouncil
-								onClick={noSessionStep}
-								title={'Sin sesión'}
-								styleButton={{ marginRight: "3%" }}
-								icon={<i className="fa fa-list-ol" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
-								isMobile={isMobile}
-								list={
-									<ul>
-										{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
-										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
-									</ul>
-								}
-							/>
-							{config['boardWithoutSession'] &&
-								<ButtonCreateCouncil
-									onClick={boardWithoutSessionStep}
-									title={'Consejo sin sesión'}
-									styleButton={{ marginRight: "3%" }}
-									icon={<i className="fa fa-envelope" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
-									isMobile={isMobile}
-									list={
-										<ul>
-											{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
-											<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-											<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
-										</ul>
-									}
-								/>
-							}
-							{config['2stepsCouncil'] &&
-								<ButtonCreateCouncil
-									onClick={noSessionHybridStep}
-									title={'Sin sesión en 2 pasos'}
-									icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
-									isMobile={isMobile}
-									list={
-										<ul>
-											{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
-											<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-											<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
-										</ul>
-									}
-								/>
-							}
+				<div style={{ height: "100%", }}>
+					<Scrollbar>
+						<div style={{ margin: "2em", }}>
+							{step === 1 &&
+								<div style={{ height: "100%" }}>
+									<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5em" }}>
+										{/* TRADUCCION */}
+										<div style={{ display: "flex" }}>
+											<div style={{ color: getPrimary(), fontSize: "24px", fontStyle: "italic" }}>¿Qué tipo de reunión desea celebrar?</div>
+											<div style={{ display: "flex", justifyContent: 'center', textAlign: 'center', marginLeft: "15px" }}>
+												<img src={emptyMeetingTable} style={{ width: '70px', }} alt="empty-table" />
+											</div>
+										</div>
+										<div style={{ color: "black", cursor: "pointer", }} onClick={() => setStep(10)}>
+											<div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+												<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", marginTop: "4px" }} >
+													help
+                    			</i>
+								¿Qué diferencias hay entre los tipos de reunión?
+							</div>
+										</div>
+									</div>
+									<div style={{ height: "100%" }}>
 
+										<ButtonCreateCouncil
+											onClick={councilStep}
+											title={'Con sesión'}
+											styleButton={{ marginRight: "3%" }}
+											icon={<img src={conSesionIcon}></img>}
+											// icon={<i className="fa fa-users" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+											isMobile={isMobile}
+											list={
+												<div>Reunión por defecto con videollamada. Se necesita un administrador e incluye petición de palabra.</div>
+											}
+										/>
+										<ButtonCreateCouncil
+											onClick={noSessionStep}
+											title={'Sin sesión'}
+											styleButton={{ marginRight: "3%" }}
+											icon={<img src={conSesionIcon}></img>}
+											// icon={<i className="fa fa-list-ol" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+											isMobile={isMobile}
+											list={
+												<div>Reunión automática con apertura de votaciones para los convocados. Sin administrador y con límite de tiempo.</div>
+											}
+										/>
+										{config['boardWithoutSession'] &&
+											<ButtonCreateCouncil
+												onClick={boardWithoutSessionStep}
+												title={'Consejo sin sesión'}
+												styleButton={{ marginRight: "3%" }}
+												icon={<img src={consejoSinSesion}></img>}
+												// icon={<i className="fa fa-envelope" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+												isMobile={isMobile}
+												list={
+													<div>Reunión sin sesión con acuerdos por escrito, sin convocatoria, con carta de voto y con aprobación de todos los consejeros (artículo 248.2 de la Ley de Sociedades de Capital)</div>
+												}
+											/>
+										}
+										{config['2stepsCouncil'] &&
+											<ButtonCreateCouncil
+												onClick={noSessionHybridStep}
+												title={'Elecciones'}
+												icon={<img src={elecciones}></img>}
+												// icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+												isMobile={isMobile}
+												list={
+													<div>Reunión con votación remota temporal y que permite votación presencial. Requiere de un administrador</div>
+												}
+											/>
+										}
+									</div>
+								</div>
+							}
+							{step === 10 &&
+								<div style={{ height: "100%" }}>
+									<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", }}>
+										<div onClick={() => setStep(1)} style={{ color: getSecondary(), cursor: "pointer", paddingBottom: "1em" }}>
+											{/* TRADUCCION */}
+									Volver
+								</div>
+									</div>
+									<ButtonInfoCouncil
+										title={'Con sesión'}
+										styleButton={{ marginRight: "3%" }}
+										icon={<img src={conSesionIcon} style={{ width: "100%" }}></img>}
+										// icon={<i className="fa fa-users" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+										isMobile={isMobile}
+										infoExtra={
+											<div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
+												<div style={{ width: "35px", paddingRight: "15px" }}>
+													<img src={admin} style={{ width: "100%" }} ></img>
+												</div>
+										Requiere un administrador que gestione la sesión
+									</div>
+										}
+										list={
+											<div>
+												Cualquier tipo de reunión con sesión: puede ser presencial,  por videoconferencia segura con turnos de palabra o combinando ambas. Se puede gestionar convocatoria, asistencia, votaciones, redacción automática de acta y firma de documentos.
+									</div>
+										}
+									/>
+									<ButtonInfoCouncil
+										title={'Sin sesión'}
+										styleButton={{ marginRight: "3%" }}
+										icon={<img src={conSesionIcon} style={{ width: "100%" }}></img>}
+										// icon={<i className="fa fa-list-ol" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+										isMobile={isMobile}
+										list={
+											<div>Reunión automática con apertura de votaciones para los convocados. Sin administrador y con límite de tiempo.  </div>
+										}
+									/>
+									{config['boardWithoutSession'] &&
+										<ButtonInfoCouncil
+											title={'Consejo sin sesión'}
+											styleButton={{ marginRight: "3%" }}
+											icon={<img src={consejoSinSesion} style={{ width: "100%" }}></img>}
+											// icon={<i className="fa fa-envelope" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+											isMobile={isMobile}
+											list={
+												<div>Reunión sin sesión con acuerdos por escrito, sin convocatoria, con carta de voto y con aprobación de todos los consejeros (artículo 248.2 de la Ley de Sociedades de Capital)</div>
+											}
+										/>
+									}
+									{config['2stepsCouncil'] &&
+										<ButtonInfoCouncil
+											title={'Elecciones'}
+											icon={<img src={elecciones} style={{ width: "100%" }}></img>}
+											// icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+											isMobile={isMobile}
+											list={
+												<div>Reunión con votación remota temporal y que permite votación presencial.</div>
+											}
+										/>
+									}
+								</div>
+							}
+							{step === steps.NO_SESSION &&
+								<CreateWithoutSession
+									hybrid={false}
+									setOptions={setOptions}
+									translate={translate}
+									setTitle={setTitle}
+									errors={errors}
+								/>
+							}
+							{step === steps.COUNCIL &&
+								<CreateWithSession setOptions={setOptions} />
+							}
+							{step === steps.HYBRID_VOTING &&
+								<CreateWithoutSession
+									hybrid={true}
+									setOptions={setOptions}
+									translate={translate}
+									setTitle={setTitle}
+									errors={errors}
+								/>
+							}
 						</div>
-					}
-					{step === steps.NO_SESSION &&
-						<CreateWithoutSession
-							hybrid={false}
-							setOptions={setOptions}
-							translate={translate}
-							setTitle={setTitle}
-							errors={errors}
-						/>
-					}
-					{step === steps.COUNCIL &&
-						<CreateWithSession setOptions={setOptions} />
-					}
-					{step === steps.HYBRID_VOTING &&
-						<CreateWithoutSession
-							hybrid={true}
-							setOptions={setOptions}
-							translate={translate}
-							setTitle={setTitle}
-							errors={errors}
-						/>
-					}
-				</React.Fragment>
-
+					</Scrollbar>
+				</div>
 			}
-			hideAccept={step === steps.COUNCIL || step === 1}
+			hideAccept={step === steps.COUNCIL || step === 1 || step === 10}
 			buttonAccept={translate.accept}
 			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ? 3 : 2)}
-			requestClose={history.goBack}
+			requestClose={step != 10 && history.goBack}
 			cancelAction={history.goBack}
 			buttonCancel='Cancelar'
 		/>
@@ -332,33 +414,77 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 			<Paper
 				elevation={6}
 				style={{
-					width: "45%",
-					height: "450px",
+					width: "100%",
+					// height: "450px",
 					overflow: 'hidden',
+					borderRadius: "8px",
+					marginBottom: "1em",
+					boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
 					...styleButton
 				}}
 			>
-				<div
+				<div style={{ display: "flex", padding: '1.5em', background: hover ? "gainsboro" : "", cursor: "pointer", }}
 					onClick={onClick}
 					{...hoverHandlers}
-					style={{
-						cursor: "pointer",
-						width: "100%",
-						// border: "1px solid gainsboro",
-						background: hover ? "gainsboro" : "",
-						padding: '1.5em',
-						height: "100%"
-					}}
 				>
-					<div style={{ textAlign: " center", }}>
-						<h2>{title}</h2>
-						{icon}
-						{list}
+					<div style={{ width: "90px", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</div>
+					<div style={{ color: "black", marginLeft: "2em" }}>
+						<div style={{ fontSize: "24px" }}>{title}</div>
+						<div style={{ fontSize: "14px" }}>{list}</div>
 					</div>
 				</div>
 			</Paper>
 		);
 	}
+}
+
+const ButtonInfoCouncil = ({ isMobile, title, icon, list, styleButton, infoExtra }) => {
+	const [open, setOpen] = React.useState(false);
+
+	return (
+		<Paper
+			elevation={6}
+			style={{
+				width: "100%",
+				// height: "450px",
+				overflow: 'hidden',
+				borderRadius: "8px",
+				marginBottom: "1em",
+				boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+				...styleButton
+			}}
+		>
+			<div style={{ padding: '1.5em', }}>
+				<div style={{ display: "flex" }}>
+					<div style={{ width: "80px" }}>{icon}</div>
+					<div style={{ fontSize: "22px", color: "black", marginLeft: "1em" }}>{title}</div>
+				</div>
+				<div style={{ marginTop: "1em" }}>
+					<div style={{ fontSize: "14px", color: "black" }}>{list}</div>
+					<div style={{ color: getSecondary() }}>{infoExtra}</div>
+				</div>
+				<div style={{ display: "flex", justifyContent: "flex-end" }}>
+					<div style={{ display: "flex", alignItems: "center" }}>
+						{open ?
+							<i className="material-icons" style={{ fontSize: "40px", color: getPrimary(), cursor: "pointer" }} onClick={() => setOpen(false)}>
+								keyboard_arrow_up
+							</i>
+							:
+							<i className="material-icons" style={{ fontSize: "40px", color: getPrimary(), cursor: "pointer" }} onClick={() => setOpen(true)}>
+								keyboard_arrow_down
+							</i>
+						}
+					</div>
+				</div>
+				<div style={{ marginTop: "1em", }}>
+					<Collapse in={open} timeout="auto" unmountOnExit >
+						dasdas
+					</Collapse>
+				</div>
+			</div>
+		</Paper >
+	);
+
 }
 
 
