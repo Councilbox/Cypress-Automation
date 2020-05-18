@@ -127,8 +127,7 @@ const AlertConfirm = ({
 			>
 				{bodyText}
 			</DialogContent>
-			{!!buttonCancel && !hideAccept &&
-				!!buttonAccept &&
+			{(!!buttonCancel || !!buttonAccept) &&
 				<DialogActions
 					style={{
 						paddingRight: "0.6em",
