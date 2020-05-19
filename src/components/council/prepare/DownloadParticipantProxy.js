@@ -33,7 +33,7 @@ const DownloadCBXDataButton = props => {
 				downloadFile(
 					response.data.proxyPDF,
 					"application/pdf",
-					`Proxy_${props.participant.name}${props.participant.surname? `_${props.participant.surname || ''}` : ''}`
+					`Proxy_${props.participant.name}${props.participant.surname? `_${props.participant.surname || ''}` : ''}.pdf`.replace(' ', '_')
 				);
 				setLoading(false);
 				if(props.updateState){
