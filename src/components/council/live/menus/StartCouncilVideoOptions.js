@@ -3,11 +3,10 @@ import { Checkbox } from '../../../../displayComponents';
 
 
 const StartCouncilVideoOptions = ({ council, translate, data, updateData }) => {
-    //TRADUCCION
     return (
         <div>
             <Checkbox
-                label={`Iniciar grabación ${council.fullVideoRecord === 1? `(${translate.full_record})` : ''}`}
+                label={`${translate.to_start_recording} ${council.fullVideoRecord === 1? `(${translate.full_record})` : ''}`}
                 disabled={council.fullVideoRecord === 1}
                 value={data.startRecording}
                 onChange={(event, isInputChecked) =>
@@ -16,17 +15,19 @@ const StartCouncilVideoOptions = ({ council, translate, data, updateData }) => {
                     })
                 }
             />
+            {(council.room.videoConfig && council.room.videoConfig.rtmp) &&
+                <Checkbox
+                    label={translate.start_broadcasting}
+                    disabled={!(council.room.videoConfig && council.room.videoConfig.rtmp)}
+                    value={data.startStreaming}
+                    onChange={(event, isInputChecked) =>
+                        updateData({
+                            startStreaming: isInputChecked,
+                        })
+                    }
+                />
+            }
 
-            <Checkbox
-                label={'Iniciar streaming'}
-                disabled={!(council.room.videoConfig && council.room.videoConfig.rtmp)}
-                value={data.startStreaming}
-                onChange={(event, isInputChecked) =>
-                    updateData({
-                        startStreaming: isInputChecked,
-                    })
-                }
-            />
         </div>
     )
 }

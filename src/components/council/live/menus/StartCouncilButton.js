@@ -72,7 +72,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		if (!checkRequiredFields()) {
 			if(state.video.startRecording) {
 				let step = {
-					text: 'Iniciando grabación',
+					text: translate.start_recording,
 					status: 'loading'
 				};
 
@@ -106,7 +106,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 
 			if(state.video.startStreaming) {
 				let step = {
-					text: 'Iniciando streaming',
+					text: translate.starting_broadcast,
 					status: 'loading'
 				};
 
@@ -139,7 +139,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 			}
 
 			let step = {
-				text: 'Iniciando la reunión',
+				text: translate.starting_council,
 				status: 'loading'
 			};
 
@@ -625,7 +625,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				acceptAction={startCouncil}
 				requestClose={
 					loadingSteps.status === 'done'?
-						props.refetch()
+						props.refetch
 					:
 					state.selecting === 0
 						? () => setState({ alert: false })

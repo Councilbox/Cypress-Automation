@@ -19,6 +19,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
         DetectRTC.load();
     }, [council.id])
 
+
     React.useEffect(() => {
         if(!data.loading && council.councilStarted === 1){
             data.refetch();
@@ -154,7 +155,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                         </Tooltip>
                     }
                     {showStreamingButton &&
-                        <Tooltip title={sessionStatus.streaming? 'Para emisión' : 'Iniciar emision'}>
+                        <Tooltip title={sessionStatus.streaming? translate.stop_broadcasting : translate.start_broadcasting}>
                             {sessionStatus.streaming ?
                                 <img
                                     src={BroadcastingTower}
