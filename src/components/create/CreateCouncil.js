@@ -193,48 +193,53 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 
 	return (
 		<AlertConfirm
+			fullWidth={isMobile && true}
+			classNameDialog={isMobile && 'noMarginM'}
 			open={true}
 			widthModal={{ borderRadius: "8px", }}
-			// title={title}
-			//bodyStyle={{ maxWidth: isMobile ? "" : "75vw" }}
-			bodyStyle={{ overflow: "hidden" }}
+			bodyStyle={{ overflow: "hidden", maxWidth: !isMobile && "75vw" }}
 			PaperProps={{
 				style: {
-					width: '100%',
-					height: '100%',
+					width: isMobile ? '100vw' : '65vw',
+					height: isMobile ? '100%' : '75vh',
 				}
 			}}
 			bodyText={
-				<div style={{ height: "100%", }}>
+				<div style={{ height: "100%", paddingTop: step != 10 && '3em' }}>
 					<Scrollbar>
-						<div style={{ margin: "2em", }}>
+						<div style={{}}>
 							{step === 1 &&
-								<div style={{ height: "100%" }}>
-									<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5em" }}>
+								<div style={{ height: "100%", padding: isMobile ? "0em 1em 0em" : "0em 2em 2em 2em" }}>
+									<div style={{ display: !isMobile && "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5em" }}>
 										{/* TRADUCCION */}
 										<div style={{ display: "flex" }}>
-											<div style={{ color: getPrimary(), fontSize: "24px", fontStyle: "italic" }}>¿Qué tipo de reunión desea celebrar?</div>
-											<div style={{ display: "flex", justifyContent: 'center', textAlign: 'center', marginLeft: "15px" }}>
-												<img src={emptyMeetingTable} style={{ width: '70px', }} alt="empty-table" />
+											<div style={{ color: getPrimary(), fontSize: isMobile ? "17px" : "24px", fontStyle: "italic" }}>
+												{/* TRADUCCION */}
+												¿Qué tipo de reunión desea celebrar?
 											</div>
+											{!isMobile &&
+												<div style={{ display: "flex", justifyContent: 'center', textAlign: 'center', marginLeft: "15px" }}>
+													<img src={emptyMeetingTable} style={{ width: '70px', }} alt="empty-table" />
+												</div>
+											}
 										</div>
-										<div style={{ color: "black", cursor: "pointer", }} onClick={() => setStep(10)}>
-											<div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-												<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", marginTop: "4px" }} >
+										<div style={{ color: "black", cursor: "pointer", paddingTop: "8px", paddingBottom: "8px" }} onClick={() => setStep(10)}>
+											<div style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: '13px' }}>
+												<i className="material-icons" style={{ color: getPrimary(), fontSize: '13px', paddingRight: "0.3em", marginTop: "4px" }} >
 													help
-                    			</i>
-								¿Qué diferencias hay entre los tipos de reunión?
-							</div>
+                    							</i>
+												{/* TRADUCCION */}
+												¿Qué diferencias hay entre los tipos de reunión?
+											</div>
 										</div>
 									</div>
 									<div style={{ height: "100%" }}>
-
+										{/* TRADUCCION */}
 										<ButtonCreateCouncil
 											onClick={councilStep}
 											title={'Con sesión'}
 											styleButton={{ marginRight: "3%" }}
 											icon={<img src={conSesionIcon}></img>}
-											// icon={<i className="fa fa-users" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 											isMobile={isMobile}
 											list={
 												<div>Reunión por defecto con videollamada. Se necesita un administrador e incluye petición de palabra.</div>
@@ -245,7 +250,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											title={'Sin sesión'}
 											styleButton={{ marginRight: "3%" }}
 											icon={<img src={sinSesionIcon}></img>}
-											// icon={<i className="fa fa-list-ol" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 											isMobile={isMobile}
 											list={
 												<div>Reunión automática con apertura de votaciones para los convocados. Sin administrador y con límite de tiempo.</div>
@@ -257,7 +261,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												title={'Consejo sin sesión'}
 												styleButton={{ marginRight: "3%" }}
 												icon={<img src={consejoSinSesion}></img>}
-												// icon={<i className="fa fa-envelope" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 												isMobile={isMobile}
 												list={
 													<div>Reunión sin sesión con acuerdos por escrito, sin convocatoria, con carta de voto y con aprobación de todos los consejeros (artículo 248.2 de la Ley de Sociedades de Capital)</div>
@@ -269,7 +272,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												onClick={noSessionHybridStep}
 												title={'Elecciones'}
 												icon={<img src={elecciones}></img>}
-												// icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 												isMobile={isMobile}
 												list={
 													<div>Reunión con votación remota temporal y que permite votación presencial. Requiere de un administrador</div>
@@ -280,41 +282,39 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 								</div>
 							}
 							{step === 10 &&
-								<div style={{ height: "100%" }}>
+								<div style={{ height: "100%", padding: isMobile ? "0em 1em 0em" : "0em 2em 2em 2em" }}>
 									<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", }}>
 										<div onClick={() => setStep(1)} style={{ color: getSecondary(), cursor: "pointer", paddingBottom: "1em" }}>
-											{/* TRADUCCION */}
-									Volver
-								</div>
+											{translate.back}
+										</div>
 									</div>
+									{/* TRADUCCION */}
 									<ButtonInfoCouncil
 										title={'Con sesión'}
 										styleButton={{ marginRight: "3%" }}
 										icon={<img src={conSesionIcon} style={{ width: "100%" }}></img>}
-										// icon={<i className="fa fa-users" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 										isMobile={isMobile}
 										infoExtra={
 											<div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
-												<div style={{ width: "35px", paddingRight: "15px" }}>
+												<div style={{ width: "35px", paddingRight: "15px", display: "flex" }}>
 													<img src={admin} style={{ width: "100%" }} ></img>
 												</div>
-										Requiere un administrador que gestione la sesión
-									</div>
+												Requiere un administrador que gestione la sesión
+											</div>
 										}
 										list={
-											<div>
+											<div style={{ fontSize: "15px" }}>
 												Cualquier tipo de reunión con sesión: puede ser presencial,  por videoconferencia segura con turnos de palabra o combinando ambas. Se puede gestionar convocatoria, asistencia, votaciones, redacción automática de acta y firma de documentos.
-									</div>
+											</div>
 										}
 									/>
 									<ButtonInfoCouncil
 										title={'Sin sesión'}
 										styleButton={{ marginRight: "3%" }}
 										icon={<img src={sinSesionIcon} style={{ width: "100%" }}></img>}
-										// icon={<i className="fa fa-list-ol" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 										isMobile={isMobile}
 										list={
-											<div>Reunión automática con apertura de votaciones para los convocados. Sin administrador y con límite de tiempo.  </div>
+											<div style={{ fontSize: "15px" }}>Reunión automática con apertura de votaciones para los convocados. Sin administrador y con límite de tiempo.  </div>
 										}
 									/>
 									{config['boardWithoutSession'] &&
@@ -322,10 +322,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											title={'Consejo sin sesión'}
 											styleButton={{ marginRight: "3%" }}
 											icon={<img src={consejoSinSesion} style={{ width: "100%" }}></img>}
-											// icon={<i className="fa fa-envelope" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 											isMobile={isMobile}
 											list={
-												<div>Reunión sin sesión con acuerdos por escrito, sin convocatoria, con carta de voto y con aprobación de todos los consejeros (artículo 248.2 de la Ley de Sociedades de Capital)</div>
+												<div style={{ fontSize: "15px" }}>Reunión sin sesión con acuerdos por escrito, sin convocatoria, con carta de voto y con aprobación de todos los consejeros (artículo 248.2 de la Ley de Sociedades de Capital)</div>
 											}
 										/>
 									}
@@ -333,10 +332,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 										<ButtonInfoCouncil
 											title={'Elecciones'}
 											icon={<img src={elecciones} style={{ width: "100%" }}></img>}
-											// icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
 											isMobile={isMobile}
 											list={
-												<div>Reunión con votación remota temporal y que permite votación presencial.</div>
+												<div style={{ fontSize: "15px" }}>Reunión con votación remota temporal y que permite votación presencial.</div>
 											}
 										/>
 									}
@@ -387,25 +385,22 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 			<Paper
 				elevation={6}
 				style={{
-					width: '100%',
-					marginTop: "15px"
+					width: "100%",
+					overflow: 'hidden',
+					borderRadius: "8px",
+					marginBottom: "1em",
+					boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+					...styleButton
 				}}
 			>
-				<div
+				<div style={{ padding: '1.5em', background: hover ? "rgba(97, 171, 183, 0.22)" : "", cursor: "pointer", }}
 					onClick={onClick}
 					{...hoverHandlers}
-					style={{
-						cursor: "pointer",
-						width: "100%",
-						border: "1px solid gainsboro",
-						background: hover ? "gainsboro" : "",
-						paddingTop: '0.5em',
-					}}
 				>
-					<div style={{ textAlign: " center", }}>
-						<h2 style={{ padding: "0 0.3em 0.3em 0.3em" }}>{title}</h2>
-						{icon}
-						<div style={{ textAlign: isMobile ? "left" : '', width: isMobile ? "90%" : '' }}>{list}</div>
+					<div style={{ width: "90px", margin: "0 auto" }}>{icon}</div>
+					<div style={{ color: "black", textAlign: "center" }}>
+						<div style={{ fontSize: "24px" }}>{title}</div>
+						<div style={{ fontSize: "14px" }}>{list}</div>
 					</div>
 				</div>
 			</Paper>
@@ -424,7 +419,7 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 					...styleButton
 				}}
 			>
-				<div style={{ display: "flex", padding: '1.5em', background: hover ? "gainsboro" : "", cursor: "pointer", }}
+				<div style={{ display: "flex", padding: '1.5em', background: hover ? "rgba(97, 171, 183, 0.22)" : "", cursor: "pointer", }}
 					onClick={onClick}
 					{...hoverHandlers}
 				>
@@ -464,7 +459,8 @@ const ButtonInfoCouncil = ({ isMobile, title, icon, list, styleButton, infoExtra
 					<div style={{ fontSize: "14px", color: "black" }}>{list}</div>
 					<div style={{ color: getSecondary() }}>{infoExtra}</div>
 				</div>
-				<div style={{ display: "flex", justifyContent: "flex-end" }}>
+				{/* ESTO SE COMENTA HASTA QUE NO HAYA UN TEXTO PARA PONER AQUI */}
+				{/* <div style={{ display: "flex", justifyContent: "flex-end" }}>
 					<div style={{ display: "flex", alignItems: "center" }}>
 						{open ?
 							<i className="material-icons" style={{ fontSize: "40px", color: getPrimary(), cursor: "pointer" }} onClick={() => setOpen(false)}>
@@ -481,7 +477,7 @@ const ButtonInfoCouncil = ({ isMobile, title, icon, list, styleButton, infoExtra
 					<Collapse in={open} timeout="auto" unmountOnExit >
 						dasdas
 					</Collapse>
-				</div>
+				</div> */}
 			</div>
 		</Paper >
 	);
