@@ -115,11 +115,11 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					status: 'loading'
 				}));
 
-				await wait();
+				//await wait();
 
 				await client.mutate({
 					mutation: gql`
-						mutation StartRecording($councilId: Int!){
+						mutation StartStreaming($councilId: Int!){
 							startStreaming(councilId: $councilId){
 								success
 								message
@@ -148,7 +148,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				status: 'loading'
 			}));
 
-			await wait();
+			//await wait();
 			const { startCouncil } = props;
 			const {
 				presidentId,
@@ -322,13 +322,13 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 
 		if(loadingSteps.steps.length > 0) {
 			return loadingSteps.steps.map(step => (
-				<div style={{width: '90%', display: 'flex', justifyContent: 'space-between'}}>
+				<div style={{width: '90%', display: 'flex', justifyContent: 'space-between'}} key={`step_${step.text}`}>
 					<div>
 						{step.text}
 					</div>
 					<div>
 						{step.status === 'loading' &&
-							'...'
+							<LoadingSection size={14} />
 						}
 						{step.status === 'done' &&
 							<i className="fa fa-check" style={{ color: 'green' }}></i>
@@ -620,7 +620,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				loadingAction={state.loading || loadingSteps.status === 'loading'}
 				buttonAccept={translate.accept}
 				buttonCancel={loadingSteps.status === 'loading'? null : loadingSteps.status === 'done'? translate.close : translate.cancel}
-				hideAccept={state.selecting !== 0 || loadingSteps.status === 'done'}
+				hideAccept={state.selecting !== 0 || loadingSteps.status !== 'idle'}
 				modal={true}
 				acceptAction={startCouncil}
 				requestClose={

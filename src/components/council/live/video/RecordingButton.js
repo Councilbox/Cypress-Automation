@@ -7,16 +7,19 @@ import { checkIsWebRTCCompatibleBrowser } from '../../../../utils/webRTC';
 import DetectRTC from 'detectrtc';
 import Tower from '../../../../assets/img/broadcast-tower.svg';
 import BroadcastingTower from '../../../../assets/img/broadcasting-tower.svg';
+import { usePolling } from '../../../../hooks';
 
 
 const RecordingButton = ({ data, council, translate, client, ...props }) => {
     const [loading, setLoading] = React.useState(false);
+    const showRecordingButton = (props.config.recording && (council.fullVideoRecord === 0 || (council.fullVideoRecord === 1 && council.councilStarted === 1)));
+    const showStreamingButton = props.config.streaming && (council.room.videoConfig && council.room.videoConfig.rtmp);
 
     React.useState(() => {
         DetectRTC.load();
     }, [council.id])
 
-    React.useState(() => {
+    React.useEffect(() => {
         if(!data.loading && council.councilStarted === 1){
             data.refetch();
         }
@@ -132,7 +135,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                 <CircularProgress size={20} thickness={7} color={'secondary'} />
             :
                 <>
-                    {(props.config.recording && (council.fullVideoRecord === 0 || (council.fullVideoRecord === 1 && council.councilStarted === 1))) &&
+                    {showRecordingButton &&
                         <Tooltip title={council.fullVideoRecord === 1 ?
                             translate.full_record : record ? translate.to_stop_recording : translate.to_start_recording}>
                             <div
@@ -150,18 +153,18 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                             </div>
                         </Tooltip>
                     }
-                    {props.config.streaming &&
+                    {showStreamingButton &&
                         <Tooltip title={sessionStatus.streaming? 'Para emisión' : 'Iniciar emision'}>
                             {sessionStatus.streaming ?
                                 <img
                                     src={BroadcastingTower}
-                                    style={{ width: 'auto', height: '0.8em', marginLeft: '0.4em' }}
+                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton? '0.4em' : '0' }}
                                     onClick={stopStreaming}
                                 />
                                 :
                                 <img
                                     src={Tower}
-                                    style={{ width: 'auto', height: '0.8em', marginLeft: '0.4em' }}
+                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton? '0.4em' : '0' }}
                                     onClick={startStreaming}
                                 />
                             }
