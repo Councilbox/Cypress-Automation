@@ -625,7 +625,10 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				acceptAction={startCouncil}
 				requestClose={
 					loadingSteps.status === 'done'?
-						props.refetch
+						() => {
+							props.refetch();
+							setState({ alert: false })
+						}
 					:
 					state.selecting === 0
 						? () => setState({ alert: false })
