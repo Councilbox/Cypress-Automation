@@ -188,7 +188,7 @@ const ParticipantStateList = ({ participant, representative, translate, council,
 										</div>
 									</FilterButton>
 								</div>
-								{participant.state !== PARTICIPANT_STATES.NO_PARTICIPATE && (
+								{(participant.state !== PARTICIPANT_STATES.NO_PARTICIPATE && council.councilType < 2) && (
 									<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0" }}>
 										<FilterButton
 											tooltip={translate.change_to_present_with_remote_vote}

@@ -106,35 +106,12 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								{participant.personOrEntity !== 1 &&
 									<div style={{ display: "flex", alignItems: "center" }}>
 										{showStateMenu() &&
-											<DropDownMenu
-												claseHover={"classHover"}
-												color="transparent"
-												textStyle={{ boxShadow: "none", margin: "0px" }}
-												// textStyle={{ boxShadow: "none", height: '100%', fontSize: "24px", minWidth: "24px", padding: "0", margin: "0px" }}
-												buttonStyle={{ background: "white" }}
-												style={{ paddingLeft: '0px', paddingRight: '0px' }}
-												icon={
-													<StateIcon
-														translate={translate}
-														state={participant.state}
-														ratio={1.3}
-													/>
-												}
-												items={
-													<React.Fragment>
-														<ParticipantStateList
-															participant={participant}
-															council={props.council}
-															translate={translate}
-															refetch={props.refetch}
-															inDropDown={true}
-														/>
-													</React.Fragment>
-												}
-												anchorOrigin={{
-													vertical: 'bottom',
-													horizontal: 'left',
-												}}
+											<ParticipantStateList
+												participant={participant}
+												council={props.council}
+												translate={translate}
+												refetch={props.refetch}
+												inDropDown={true}
 											/>
 										}
 										<div style={{ paddingLeft: landscape ? '1em' : "0", marginBottom: "0.5em" }}>
@@ -313,35 +290,12 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 				<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
 					<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
 						<div>
-							<DropDownMenu
-								claseHover={"classHover"}
-								color="transparent"
-								textStyle={{ boxShadow: "none", margin: "0px" }}
-								// textStyle={{ boxShadow: "none", height: '100%', fontSize: "24px", minWidth: "24px", padding: "0", margin: "0px" }}
-								buttonStyle={{ background: "white" }}
-								style={{ paddingLeft: '0px', paddingRight: '0px' }}
-								icon={
-									<StateIcon
-										translate={translate}
-										state={participant.state}
-										ratio={1.3}
-									/>
-								}
-								items={
-									<React.Fragment>
-										<ParticipantStateList
-											participant={participant}
-											council={props.council}
-											translate={translate}
-											refetch={props.refetch}
-											inDropDown={true}
-										/>
-									</React.Fragment>
-								}
-								anchorOrigin={{
-									vertical: 'bottom',
-									horizontal: 'left',
-								}}
+							<ParticipantStateList
+								participant={participant}
+								council={props.council}
+								translate={translate}
+								refetch={props.refetch}
+								inDropDown={true}
 							/>
 						</div>
 						<div style={{
