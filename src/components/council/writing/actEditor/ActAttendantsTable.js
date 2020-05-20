@@ -10,6 +10,7 @@ import { councilAttendants } from '../../../../queries/council';
 import DownloadAttendantsPDF from './DownloadAttendantsPDF';
 import StateIcon from '../../live/participants/StateIcon';
 import { useOldState, useHoverRow } from '../../../../hooks';
+import { moment } from '../../../../containers/App';
 
 
 const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
@@ -128,6 +129,11 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                             canOrder: true
                                         },
                                         {
+                                            text: translate.last_connection,
+                                            name: 'lastPresentDate',
+                                            canOrder: false
+                                        },
+                                        {
                                             text: '',
                                             name: 'download',
                                             canOrder: false
@@ -195,6 +201,11 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
             </TableCell>
             <TableCell>
                 {participant.position}
+            </TableCell>
+            <TableCell>
+                {participant.state === PARTICIPANT_STATES.LEFT &&
+                    moment(participant.lastDateConnection).format('LLL')
+                }
             </TableCell>
             <TableCell>
                 <div style={{width: '4em'}}>
