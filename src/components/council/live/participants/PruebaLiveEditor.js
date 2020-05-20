@@ -158,33 +158,12 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										<GridItem xs={landscape ? 1 : 12} md={3}>
 											<div>
 												{showStateMenu() &&
-													<DropDownMenu
-														claseHover={"classHover"}
-														color="transparent"
-														id={'dropdownEstados'}
-														style={{ paddingLeft: '0px', paddingRight: '0px' }}
-														icon={
-															<StateIcon
-																translate={translate}
-																state={participant.state}
-																ratio={1.3}
-															/>
-														}
-														items={
-															<React.Fragment>
-																<ParticipantStateList
-																	participant={participant}
-																	council={props.council}
-																	translate={translate}
-																	refetch={props.refetch}
-																	inDropDown={true}
-																/>
-															</React.Fragment>
-														}
-														anchorOrigin={{
-															vertical: 'bottom',
-															horizontal: 'left',
-														}}
+													<ParticipantStateList
+														participant={participant}
+														council={council}
+														translate={translate}
+														inDropDown={true}
+														refetch={refetch}
 													/>
 												}
 											</div>

@@ -150,7 +150,15 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 					</div>
 				</Tooltip>
 			);
-
+		case PARTICIPANT_STATES.LEFT:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={'Se marchó'}>
+					<div style={{ padding: "0.5em" }}>
+						<i className="fa fa-sign-out" aria-hidden="true" style={styleMainIcon(color, ratio)}></i>
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
 		default:
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.not_confirmed_assistance}>
