@@ -18,13 +18,13 @@ import { isMobile } from "../../../../../utils/screen";
 const SignatureModal = ({ data, translate, council, participant, ...props }) => {
 	const [state, setState] = useOldState({
 		success: "",
-		loading: false,
 		errors: {},
 		liveParticipantSignature: {},
 		participant: {},
 		clean: true,
 		participantState: PARTICIPANT_STATES.PHYSICALLY_PRESENT
 	});
+	const [saving, setSaving] = React.useState(false);
 
 	const signature = React.useRef(null);
 	const primary = getPrimary();
@@ -41,6 +41,11 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 
 
 	const save = async () => {
+		if(saving){
+			return;
+		}
+
+		setSaving(true);
 		let signatureData = signature.current.toDataURL();
 		let response;
 
@@ -64,6 +69,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 		}
 
 		if (!response.errors) {
+			setSaving(false);
 			await data.refetch();
 			await props.refetch();
 			close();
@@ -133,6 +139,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							onClick={close}
 						/>
 						<BasicButton
+							loading={saving}
 							text={translate.save_changes}
 							textStyle={{
 								color: "white",
