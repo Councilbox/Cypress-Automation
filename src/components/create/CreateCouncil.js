@@ -22,53 +22,10 @@ import consejoSinSesion from "../../assets/img/consejo-sin-sesion-icon.svg";
 import elecciones from "../../assets/img/elecciones.svg";
 import admin from '../../assets/img/admin.svg';
 import sinSesionIcon from '../../assets/img/sin-sesion-icon.svg';
-import { Collapse } from "material-ui";
-
 
 
 const CreateCouncil = props => {
-	const [state, setState] = React.useState({
-		creating: false
-	});
-
 	const config = React.useContext(ConfigContext);
-
-	React.useEffect(() => {
-		if (!config.newCreateFlow) {
-			createCouncilOneStep();
-		}
-	});
-
-	const createCouncilOneStep = async () => {
-		if (props.match.url === `/company/${props.match.params.company}/council/new` && !state.creating) {
-			setState({
-				creating: true
-			});
-			let newCouncilId = await createCouncil(
-				props.match.params.company
-			);
-			if (newCouncilId) {
-				sendGAevent({
-					category: "Reuniones",
-					action: "Creación reunión con sesión",
-					label: props.company.businessName
-				});
-				bHistory.replace(`/company/${props.match.params.company}/council/${newCouncilId}`);
-			} else {
-				bHistory.replace(`/company/${props.match.params.company}`);
-				toast(
-					<LiveToast
-						message={props.translate.no_statutes}
-					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "errorToast"
-				}
-				);
-			}
-		}
-	}
-
 
 	const createCouncil = async companyId => {
 		const response = await props.createCouncil({
@@ -84,16 +41,13 @@ const CreateCouncil = props => {
 	}
 
 	return (
-		config.newCreateFlow ?
-			<CreateCouncilModal
-				history={props.history}
-				createCouncil={props.createCouncil}
-				company={props.company}
-				translate={props.translate}
-				config={config}
-			/>
-			:
-			<LoadingMainApp />
+		<CreateCouncilModal
+			history={props.history}
+			createCouncil={props.createCouncil}
+			company={props.company}
+			translate={props.translate}
+			config={config}
+		/>
 	);
 }
 
@@ -103,8 +57,6 @@ const steps = {
 	HYBRID_VOTING: 'HYBRID_VOTING',
 	BOARD_NO_SESSION: 'BOARD_NO_SESSION'
 }
-
-const secondary = getSecondary();
 
 const CreateCouncilModal = ({ history, company, createCouncil, translate, config }) => {
 	const [options, setOptions] = React.useState(null);
@@ -211,11 +163,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 							{step === 1 &&
 								<div style={{ height: "100%", padding: isMobile ? "0em 1em 0em" : "0em 2em 2em 2em" }}>
 									<div style={{ display: !isMobile && "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5em" }}>
-										{/* TRADUCCION */}
 										<div style={{ display: "flex" }}>
 											<div style={{ color: getPrimary(), fontSize: isMobile ? "17px" : "24px", fontStyle: "italic" }}>
-												{/* TRADUCCION */}
-												¿Qué tipo de reunión desea celebrar?
+												{translate.create_council_title}
 											</div>
 											{!isMobile &&
 												<div style={{ display: "flex", justifyContent: 'center', textAlign: 'center', marginLeft: "15px" }}>
@@ -228,8 +178,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												<i className="material-icons" style={{ color: getPrimary(), fontSize: '13px', paddingRight: "0.3em", marginTop: "4px" }} >
 													help
                     							</i>
-												{/* TRADUCCION */}
-												¿Qué diferencias hay entre los tipos de reunión?
+												{translate.create_council_help}
 											</div>
 										</div>
 									</div>
@@ -237,44 +186,44 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 										{/* TRADUCCION */}
 										<ButtonCreateCouncil
 											onClick={councilStep}
-											title={'Con sesión'}
+											title={translate.with_session}
 											styleButton={{ marginRight: "3%" }}
 											icon={<img src={conSesionIcon}></img>}
 											isMobile={isMobile}
 											list={
-												<div>Reunión por defecto con videollamada. Se necesita un administrador e incluye petición de palabra.</div>
+												<div>{translate.with_session_description}</div>
 											}
 										/>
 										<ButtonCreateCouncil
 											onClick={noSessionStep}
-											title={'Sin sesión'}
+											title={translate.without_session}
 											styleButton={{ marginRight: "3%" }}
 											icon={<img src={sinSesionIcon}></img>}
 											isMobile={isMobile}
 											list={
-												<div>Reunión automática con apertura de votaciones para los convocados. Sin administrador y con límite de tiempo.</div>
+											<div>{translate.without_session_description}</div>
 											}
 										/>
-										{config['boardWithoutSession'] &&
+										{config['boardWithoutSession'] && false &&
 											<ButtonCreateCouncil
 												onClick={boardWithoutSessionStep}
-												title={'Consejo sin sesión'}
+												title={translate.board_without_session}
 												styleButton={{ marginRight: "3%" }}
 												icon={<img src={consejoSinSesion}></img>}
 												isMobile={isMobile}
 												list={
-													<div>Reunión sin sesión con acuerdos por escrito, sin convocatoria, con carta de voto y con aprobación de todos los consejeros (artículo 248.2 de la Ley de Sociedades de Capital)</div>
+													<div>{translate.board_without_session_description}</div>
 												}
 											/>
 										}
-										{config['2stepsCouncil'] &&
+										{config['2stepsCouncil'] && false &&
 											<ButtonCreateCouncil
 												onClick={noSessionHybridStep}
-												title={'Elecciones'}
+												title={translate.elections}
 												icon={<img src={elecciones}></img>}
 												isMobile={isMobile}
 												list={
-													<div>Reunión con votación remota temporal y que permite votación presencial. Requiere de un administrador</div>
+													<div>{translate.elections_description}</div>
 												}
 											/>
 										}
@@ -290,7 +239,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 									</div>
 									{/* TRADUCCION */}
 									<ButtonInfoCouncil
-										title={'Con sesión'}
+										title={translate.with_session}
 										styleButton={{ marginRight: "3%" }}
 										icon={<img src={conSesionIcon} style={{ width: "100%" }}></img>}
 										isMobile={isMobile}
@@ -299,42 +248,48 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												<div style={{ width: "35px", paddingRight: "15px", display: "flex" }}>
 													<img src={admin} style={{ width: "100%" }} ></img>
 												</div>
-												Requiere un administrador que gestione la sesión
+												{translate.admin_required}
 											</div>
 										}
 										list={
 											<div style={{ fontSize: "15px" }}>
-												Cualquier tipo de reunión con sesión: puede ser presencial,  por videoconferencia segura con turnos de palabra o combinando ambas. Se puede gestionar convocatoria, asistencia, votaciones, redacción automática de acta y firma de documentos.
+												{translate.with_session_description}
 											</div>
 										}
 									/>
 									<ButtonInfoCouncil
-										title={'Sin sesión'}
+										title={translate.without_session}
 										styleButton={{ marginRight: "3%" }}
 										icon={<img src={sinSesionIcon} style={{ width: "100%" }}></img>}
 										isMobile={isMobile}
 										list={
-											<div style={{ fontSize: "15px" }}>Reunión automática con apertura de votaciones para los convocados. Sin administrador y con límite de tiempo.  </div>
+											<div style={{ fontSize: "15px" }}>
+												{translate.without_session_description}
+											</div>
 										}
 									/>
 									{config['boardWithoutSession'] &&
 										<ButtonInfoCouncil
-											title={'Consejo sin sesión'}
+											title={translate.board_without_session}
 											styleButton={{ marginRight: "3%" }}
 											icon={<img src={consejoSinSesion} style={{ width: "100%" }}></img>}
 											isMobile={isMobile}
 											list={
-												<div style={{ fontSize: "15px" }}>Reunión sin sesión con acuerdos por escrito, sin convocatoria, con carta de voto y con aprobación de todos los consejeros (artículo 248.2 de la Ley de Sociedades de Capital)</div>
+												<div style={{ fontSize: "15px" }}>
+													{translate.board_without_session_description}
+												</div>
 											}
 										/>
 									}
 									{config['2stepsCouncil'] &&
 										<ButtonInfoCouncil
-											title={'Elecciones'}
+											title={translate.elections}
 											icon={<img src={elecciones} style={{ width: "100%" }}></img>}
 											isMobile={isMobile}
 											list={
-												<div style={{ fontSize: "15px" }}>Reunión con votación remota temporal y que permite votación presencial.</div>
+												<div style={{ fontSize: "15px" }}>
+													{translate.elections_description}
+												</div>
 											}
 										/>
 									}
@@ -370,7 +325,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ? 3 : 2)}
 			requestClose={step != 10 && history.goBack}
 			cancelAction={history.goBack}
-			buttonCancel='Cancelar'
+			buttonCancel={translate.cancel}
 		/>
 	)
 }
@@ -459,25 +414,6 @@ const ButtonInfoCouncil = ({ isMobile, title, icon, list, styleButton, infoExtra
 					<div style={{ fontSize: "14px", color: "black" }}>{list}</div>
 					<div style={{ color: getSecondary() }}>{infoExtra}</div>
 				</div>
-				{/* ESTO SE COMENTA HASTA QUE NO HAYA UN TEXTO PARA PONER AQUI */}
-				{/* <div style={{ display: "flex", justifyContent: "flex-end" }}>
-					<div style={{ display: "flex", alignItems: "center" }}>
-						{open ?
-							<i className="material-icons" style={{ fontSize: "40px", color: getPrimary(), cursor: "pointer" }} onClick={() => setOpen(false)}>
-								keyboard_arrow_up
-							</i>
-							:
-							<i className="material-icons" style={{ fontSize: "40px", color: getPrimary(), cursor: "pointer" }} onClick={() => setOpen(true)}>
-								keyboard_arrow_down
-							</i>
-						}
-					</div>
-				</div>
-				<div style={{ marginTop: "1em", }}>
-					<Collapse in={open} timeout="auto" unmountOnExit >
-						dasdas
-					</Collapse>
-				</div> */}
 			</div>
 		</Paper >
 	);
