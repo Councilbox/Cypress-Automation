@@ -153,7 +153,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 			);
 		case PARTICIPANT_STATES.LEFT:
 			return (
-				<Tooltip disableHoverListener={hideTooltip} title={'Abandonó la reunión'}>
+				<Tooltip disableHoverListener={hideTooltip} title={translate.left_the_council}>
 					<div style={{ padding: "0.5em" }}>
 						<i className="fa fa-sign-out" aria-hidden="true" style={styleMainIcon(color, ratio)}></i>
 						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}

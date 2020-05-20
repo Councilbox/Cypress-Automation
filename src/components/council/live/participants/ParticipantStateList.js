@@ -84,11 +84,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 					setLeaveAlert(false);
 				}}
 				bodyText={
-					<div style={{maxWidth: '560px'}}>
-						Va indicar que el participante abandona la reunión, se restará la participación del quorum actual y no
-						tendrá derecho a voto en los puntos que se abran a partir de este momento, pero seguirá apareciendo como
-						asistente en el listado final.
-					</div>
+					<div style={{maxWidth: '620px'}} dangerouslySetInnerHTML={{__html: translate.leaves_the_council_warning }} />
 				}
 			/>
 			<DropDownMenu
@@ -214,10 +210,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 												/>
 											</div>
 											<div style={{ width: '70%' }}>
-												{
-													//TRADUCCION
-												}
-												<span style={{ fontSize: '0.9em' }}>{'Abandona la reunión'}</span>
+												<span style={{ fontSize: '0.9em' }}>{translate.leaves_the_council}</span>
 											</div>
 										</FilterButton>
 									</div>

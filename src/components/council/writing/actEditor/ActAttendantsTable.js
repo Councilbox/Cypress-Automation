@@ -129,7 +129,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                             canOrder: true
                                         },
                                         {
-                                            text: 'Hora de salida', //TRADUCCION
+                                            text: translate.date_when_left,
                                             name: 'lastPresentDate',
                                             canOrder: false
                                         },
