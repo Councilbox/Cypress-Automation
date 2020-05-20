@@ -1442,6 +1442,7 @@ export const councilLiveQuery = gql`
 			id
 			language
 			limitDateResponse
+			remoteCelebration
 			name
 			neededQuorum
 			noCelebrateComment

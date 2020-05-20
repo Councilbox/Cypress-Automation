@@ -25,6 +25,7 @@ const styleMainIcon = (color, ratio) => {
 const styleSubIcon = (color, ratio) => {
 	return {
 		marginLeft: `${-0.3 * ratio}em`,
+		marginTop:  `${0.4 * ratio}em`,
 		fontSize: `${1 * ratio}em`,
 		color
 	};
@@ -47,7 +48,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 		case PARTICIPANT_STATES.NO_PARTICIPATE:
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.no_participate}>
-					<div style={{ padding: "0.5em" }}>	
+					<div style={{ padding: "0.5em", display: 'flex' }}>	
 							<FontAwesome
 								name={"user-o"}
 								style={styleMainIcon(color, ratio)}
@@ -58,7 +59,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 								style={styleSubIcon(color, ratio)}
 							/>
 						
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{paddingLeft:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
