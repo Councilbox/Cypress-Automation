@@ -19,7 +19,7 @@ const getActualParticipant = (participant, representative) => {
 }
 
 
-const ParticipantStateList = ({ participant, representative, translate, council, inDropDown, client, ...props }) => {
+const ParticipantStateList = ({ participant: p, representative, translate, council, inDropDown, client, ...props }) => {
 	const [state, setState] = useOldState({
 		loading: false,
 		delegateVote: false,
@@ -30,21 +30,21 @@ const ParticipantStateList = ({ participant, representative, translate, council,
 	const secondary = getSecondary();
 	const landscape = isLandscape() || window.innerWidth > 700;
 
+	const participant = getActualParticipant(p, representative)
 
 	const changeParticipantState = async (state, index) => {
-		const stateParticipant = getActualParticipant(participant, representative)
 		setState({
 			loading: index
 		});
 
 		const response = await props.changeParticipantState({
 			variables: {
-				participantId: stateParticipant.id,
+				participantId: participant.id,
 				state
 			}
 		});
 
-		if(state === PARTICIPANT_STATES.NO_PARTICIPATE && stateParticipant.signed){
+		if(state === PARTICIPANT_STATES.NO_PARTICIPATE && participant.signed){
 			removeParticipantSignature();
 		}
 
@@ -56,13 +56,11 @@ const ParticipantStateList = ({ participant, representative, translate, council,
 		}
 	};
 
-	const removeParticipantSignature = async () => {
-		const stateParticipant = getActualParticipant(participant, representative)
-		
+	const removeParticipantSignature = async () => {		
 		await client.mutate({
 			mutation: removeLiveParticipantSignature,
 			variables: {
-				participantId: stateParticipant.id
+				participantId: participant.id
 			}
 		});
 	}
@@ -192,7 +190,9 @@ const ParticipantStateList = ({ participant, representative, translate, council,
 										</FilterButton>
 									</div>
 								}
-								{(participant.state !== PARTICIPANT_STATES.NO_PARTICIPATE && council.councilType < 2) && (
+								{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
+									participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE 
+								) && council.councilType < 2) && (
 									<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0" }}>
 										<FilterButton
 											tooltip={translate.change_to_present_with_remote_vote}
@@ -217,7 +217,7 @@ const ParticipantStateList = ({ participant, representative, translate, council,
 												{
 													//TRADUCCION
 												}
-												<span style={{ fontSize: '0.9em' }}>{'Salió de la reunión'}</span>
+												<span style={{ fontSize: '0.9em' }}>{'Abandona la reunión'}</span>
 											</div>
 										</FilterButton>
 									</div>
