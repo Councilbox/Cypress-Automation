@@ -51,7 +51,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                     setSuccess(true);
                 }
             } else {
-                if (response.errors[0].originalError.original.constraint === "users_email_key") {
+                if (response.errors[0].message === "Email already registered") {
                     setState({
                         errors: {
                             email: translate.register_exists_email
