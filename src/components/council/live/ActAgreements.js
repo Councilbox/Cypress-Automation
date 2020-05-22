@@ -118,7 +118,6 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 			return;
 		}
 		if (value.replace(/<\/?[^>]+(>|$)/g, "").length > 0) {
-			console.log('se envía', commentRightColumn);
 			await props.updateAgenda({
 				variables: {
 					agenda: {
@@ -183,8 +182,6 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 			}
 		});
 		const translationObject = buildTranslateObject(response.data.translations);
-		console.log(translationObject);
-
 		const correctedText = await getCorrectedText(text, translationObject);
 
 		if(replace){
