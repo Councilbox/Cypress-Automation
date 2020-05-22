@@ -68,8 +68,13 @@ export const checkRequiredFieldsParticipant = (
 		// 	errors.dni = translate.field_required;
 		// }
 		// Comprobamos que exista email para que no de error
-		if (participant.email) {
+		if (participant.emailf) {
 			if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
+				hasError = true;
+				errors.email = translate.valid_email_required;
+			}
+		} else {
+			if(participant.personOrEntity === 0){
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
