@@ -149,6 +149,10 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				council: {
 					...state.data.council,
 					...data,
+
+					room: data.room? data.room : {
+						videoConfig: {}
+					},
 					...(!config.video? {
 						councilType: 1
 					} : {})
@@ -644,7 +648,7 @@ const RTMPField = ({ data, updateData, translate }) => {
 			disabled={data.councilType !== 0}
 			errorText={!validURL? translate.invalid_url : ''}
 			floatingText={'RTMP'}
-			value={data.room.videoConfig? data.room.videoConfig.rtmp : ''}
+			value={(data.room && data.room.videoConfig)? data.room.videoConfig.rtmp : ''}
 			onChange={(event, isInputChecked) =>
 				updateData({
 					room: {
