@@ -68,7 +68,7 @@ export const checkRequiredFieldsParticipant = (
 		// 	errors.dni = translate.field_required;
 		// }
 		// Comprobamos que exista email para que no de error
-		if (participant.emailf) {
+		if (participant.email) {
 			if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
 				hasError = true;
 				errors.email = translate.valid_email_required;
