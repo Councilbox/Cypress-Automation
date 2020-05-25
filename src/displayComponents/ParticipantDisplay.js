@@ -11,112 +11,24 @@ import TextInput from "./TextInput";
 import gql from "graphql-tag";
 import { checkValidEmail } from "../utils";
 import { checkUniqueCouncilEmails } from "../queries/councilParticipant";
+import { useParticipantContactEdit } from "../hooks";
 
 const ParticipantDisplay = ({ participant, translate, refetch, council, delegate, company, client, canEdit }) => {
-	const [edit, setEdit] = React.useState(false);
-	const [saving, setSaving] = React.useState(false);
-	const [success, setSuccess] = React.useState(false);
-	const [email, setEmail] = React.useState(participant.email);
-	const [phone, setPhone] = React.useState(participant.phone);
-	const [errors, setErrors] = React.useState({
-		phone: '',
-		email: ''
-	});
+	const {
+		edit,
+		setEdit,
+		saving,
+		success,
+		email,
+		setEmail,
+		phone,
+		setPhone,
+		errors,
+		updateParticipantContactInfo
+	} = useParticipantContactEdit({ participant, client, translate, council });
+
 	const secondary = getSecondary();
 
-	React.useEffect(() => {
-		let timeout;
-
-		if(success){
-			timeout = setTimeout(() => {
-				setSuccess(false)
-			}, 3000)
-		}
-		return () => clearTimeout(timeout);
-	}, [success])
-
-	const updateParticipantContactInfo = async () => {
-		setSaving(true);
-		if(!await checkRequiredFields()){
-			const response = await client.mutate({
-				mutation: gql`
-					mutation UpdateParticipantContactInfo($participantId: Int!, $email: String!, $phone: String!){
-						updateParticipantContactInfo(participantId: $participantId, email: $email, phone: $phone){
-							success
-							message
-						}
-					}
-				`,
-				variables: {
-					participantId: participant.id,
-					email,
-					phone
-				}
-			});
-			if(response.data.updateParticipantContactInfo.success){
-				setSuccess(true);
-			}
-		}
-		setSaving(false);
-
-		
-	}
-	
-	const checkRequiredFields = async () => {
-		let errors = {};
-
-		if(email !== participant.email){
-			if(!email){
-				errors.email = translate.required_field;
-			} else {
-				if(!checkValidEmail(email.toLocaleLowerCase())){
-					errors.email = translate.valid_email_required;
-				} else {
-					const response = await client.query({
-						query: checkUniqueCouncilEmails,
-						variables: {
-							councilId: council.id,
-							emailList: [email]
-						}
-					});
-
-					console.log(response)
-
-					if(!response.data.checkUniqueCouncilEmails.success){
-						errors.email = translate.register_exists_email;
-					}
-				}
-			}
-		}
-
-		if(phone !== participant.phone){
-			if(!phone){
-				errors.phone = translate.required_field;
-			} else {
-				const response = await client.query({
-					query: gql`
-						query phoneLookup($phone: String!){
-							phoneLookup(phone: $phone){
-								success
-								message
-							}
-						}
-					`,
-					variables: {
-						phone
-					}
-				});
-
-				if(!response.data.phoneLookup.success){
-					errors.phone = translate.invalid_phone;
-				}
-			}
-		}
-
-		setErrors(errors);
-
-		return Object.keys(errors).length > 0;
-	}
 
 	return (
 		<div style={{padding: '0.5em'}}>
@@ -148,17 +60,20 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 					<b>{`${participant.name} ${participant.surname || ''}`}</b> {
 						canEdit &&
 							<>
-								<i
-									onClick={() => setEdit(!edit)}
-									className="fa fa-pencil-square-o"
-									aria-hidden="true"
-									style={{
-										color: secondary,
-										fontSize: "0.8em",
-										cursor: 'pointer',
-										marginLeft: "0.3em"
-									}}>
-								</i>
+								<Tooltip title={translate.edit_participant_contact}>
+									<i
+										onClick={() => setEdit(!edit)}
+										className="fa fa-pencil-square-o"
+										aria-hidden="true"
+										style={{
+											color: secondary,
+											fontSize: "0.8em",
+											cursor: 'pointer',
+											marginLeft: "0.3em"
+										}}>
+									</i>
+								</Tooltip>
+								
 							</>
 					}
 				</Typography>
