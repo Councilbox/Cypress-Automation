@@ -25,10 +25,15 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
             variables: {
                 councilId: council.id,
                 filters: value && value.filters,
-                options: value && value.options,
+                options: value && value.filters ? value.options : {
+                    limit: PARTICIPANTS_LIMITS[0],
+                    offset: 0,
+                    orderBy: "name",
+                    orderDirection: "asc"
+                },
             },
         });
-        console.log(response)
+
         setCouncilAttendantsData(response.data.councilAttendants);
         setLoading(false)
     }
@@ -44,7 +49,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
     }, [loading, setTotal]);
 
     const secondary = getSecondary();
-
+    
     return (
         <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
             {loading ?
