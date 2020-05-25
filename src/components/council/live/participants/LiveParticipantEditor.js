@@ -96,6 +96,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										<ParticipantDisplay
 											participant={participant}
 											translate={translate}
+											canEdit={true}
 											council={props.council}
 											refetch={data.refetch}
 										/>
