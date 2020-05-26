@@ -2,17 +2,24 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { Paper } from 'material-ui';
-import { BasicButton } from '../../../displayComponents';
+import { BasicButton, Checkbox } from '../../../displayComponents';
 import icono from "../../../assets/img/logo-icono.png";
 import { ConfigContext } from '../../../containers/AppControl';
+import { getPrimary } from '../../../styles/colors';
+import aviso from '../../../assets/img/aviso.svg';
 
-const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, ...props }) => {
+
+const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, blockFunctionsRoomAnnouncement, openHelp, ...props }) => {
     const context = React.useContext(ConfigContext);
+    const [mostrarInfo, setMostrarInfo] = React.useState(openHelp ? openHelp : false);
+    const [showCloseButton, setShowCloseButton] = React.useState(false);
+
     React.useEffect(() => {
         props.subscribeToAdminAnnoucement({ councilId: council.id });
     }, [council.id])
 
     const closeAnnouncement = async () => {
+        console.log("cierro")
         await closeRoomAnnouncement({
             variables: {
                 councilId: council.id
@@ -21,12 +28,35 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
         data.refetch();
     }
 
-    if(data.loading || !context.roomAnnouncement){
-        return <span />;
+    React.useEffect(() => {
+        if (!data.loading && data.adminAnnouncement) {
+            buttonCloseShow()
+        }
+    }, [showCloseButton])
+
+    const buttonCloseShow = async () => {
+        console.log("togle" + showCloseButton )
+        const response = await blockFunctionsRoomAnnouncement({
+            variables: {
+                message: {
+                    councilId: council.id,
+                    text: data.adminAnnouncement.text,
+                    participantId: -1,
+                },
+                blockUser: showCloseButton
+            }
+        })
+        data.refetch();
     }
 
+    if (data.loading || !context.roomAnnouncement) {
+        return <span />;
+    }
+    console.log(data)
+    // falla al hacer el useeffect ... revisar bien
+    // blockUser
     return (
-        data.adminAnnouncement?
+        data.adminAnnouncement ?
             <div
                 id="announcement-container"
                 style={{
@@ -44,37 +74,65 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
             >
                 <Paper elevation={5}
                     style={{
-                        padding: '1em',
-                        paddingTop: '0.5em',
-                        maxWidth: '95%'
+                        padding: '1.5em',
+                        maxWidth: '95%',
+                        borderRadius: "8px"
                     }}
                 >
-                    <h4>Mensaje del administrador</h4>
+                    <div style={{ display: "flex", alignItems: "center", color: "black" }}>
+                        {/* TRADUCCION */}
+                        <div style={{ paddingRight: "0.5em" }}><img src={aviso}></img></div>
+                        <div style={{ fontSize: "18px", color: "black" }}>Aviso del administrador</div>
+                        <div style={{ paddingLeft: "0.5em", width: mostrarInfo && "230px", display: "flex" }} >
+                            <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }} onClick={() => setMostrarInfo(!mostrarInfo)}>
+                                help
+                            </i>
+                            {mostrarInfo &&
+                                <div style={{ color: "rgba(0, 0, 0, 0.37)", fontSize: "10px" }}>
+                                    Este aviso bloquea todas las funciones de los participantes hasta que haya sido cerrado
+                                </div>}
+                        </div>
+                    </div>
                     <div
                         style={{
-                            display: 'flex',
                             paddingTop: '0.5em'
                         }}
                     >
-                        <div>
-                            <img src={icono} style={{width: '3em', height: 'auto'}} alt="councilbox-icon" />
-                        </div>
-                        <div style={{padding: '1em', paddingTop: '0'}}>
-                            El administrador de la sala dice:<br/>
-                            <div dangerouslySetInnerHTML={{__html: data.adminAnnouncement.text}} />
+                        <div style={{
+                            color: getPrimary()
+                        }}>
+                            {/* TRADUCCION */}
                             {closeButton &&
+                                <Checkbox
+                                    label={"Bloquear funciones a los participantes hasta cerrar el aviso"}
+                                    styleInLabel={{ color: getPrimary(), fontSize: "12px" }}
+                                    colorCheckbox={"primary"}
+                                    value={showCloseButton}
+                                    onChange={() => setShowCloseButton(!showCloseButton)}
+                                />
+                            }
+                        </div>
+                        <div style={{ marginTop: "5px" }} >
+                            <div style={{ width: "100%", border: "1px solid" + getPrimary(), minHeight: "80px", margin: "0 auto", padding: "5px", fontSize: "13px", color: "black" }}>
+                                <div dangerouslySetInnerHTML={{ __html: data.adminAnnouncement.text }} />
+                            </div>
+                        </div>
+                        <div style={{ width: "100%" }} >
+                            {!data.blockUser && closeButton &&
                                 <BasicButton
-                                    text={translate.close}
-                                    textStyle={{fontWeight: '700', textTransform: 'none'}}
+                                    text={"Cerrar aviso"}
+                                    // text={translate.close}
+                                    textStyle={{ textTransform: 'none', color: "white", }}
                                     onClick={closeAnnouncement}
-                                    buttonStyle={{marginTop: '1em'}}
+                                    buttonStyle={{ marginTop: '.8em', width: "100%" }}
+                                    backgroundColor={{ backgroundColor: getPrimary(), boxShadow: "none", borderRadius: "0" }}
                                 />
                             }
                         </div>
                     </div>
                 </Paper>
             </div>
-        :
+            :
             <span />
     )
 }
@@ -85,6 +143,7 @@ const adminAnnouncement = gql`
             text
             id
             active
+            blockUser
         }
     }
 `;
@@ -93,6 +152,16 @@ const closeRoomAnnouncement = gql`
     mutation CloseRoomAnnouncement($councilId: Int!){
         closeRoomAnnouncement(councilId: $councilId){
             success
+        }
+    }
+`;
+
+
+const blockFunctionsRoomAnnouncement = gql`
+    mutation blockFunctionsRoomAnnouncement($message: RoomMessageInput!, $blockUser: Boolean){
+        blockFunctionsRoomAnnouncement(message: $message, blockUser: $blockUser){
+            success
+            message
         }
     }
 `;
@@ -107,10 +176,10 @@ export default compose(
         }),
         props: props => {
             return {
-              ...props,
-              subscribeToAdminAnnoucement: params => {
-                return props.data.subscribeToMore({
-                    document: gql`
+                ...props,
+                subscribeToAdminAnnoucement: params => {
+                    return props.data.subscribeToMore({
+                        document: gql`
                         subscription adminAnnouncementUpdate($councilId: Int!){
                             adminAnnouncementUpdate(councilId: $councilId){
                                 text
@@ -119,28 +188,29 @@ export default compose(
                                 councilId
                             }
                         }`,
-                    variables: {
-                        councilId: params.councilId
-                    },
-                    updateQuery: (prev, { subscriptionData }) => {
-                        if(subscriptionData.data.adminAnnouncementUpdate){
-                            if(subscriptionData.data.adminAnnouncementUpdate.active === 1){
-                                return ({
-                                    adminAnnouncement: subscriptionData.data.adminAnnouncementUpdate
-                                });
+                        variables: {
+                            councilId: params.councilId
+                        },
+                        updateQuery: (prev, { subscriptionData }) => {
+                            if (subscriptionData.data.adminAnnouncementUpdate) {
+                                if (subscriptionData.data.adminAnnouncementUpdate.active === 1) {
+                                    return ({
+                                        adminAnnouncement: subscriptionData.data.adminAnnouncementUpdate
+                                    });
+                                }
                             }
+
+                            return ({
+                                adminAnnouncement: null
+                            });
+
                         }
-
-                        return ({
-                            adminAnnouncement: null
-                        });
-
-                    }
-                });
-              }
+                    });
+                }
             };
-          }
+        }
     }),
-    graphql(closeRoomAnnouncement, { name: 'closeRoomAnnouncement'})
+    graphql(closeRoomAnnouncement, { name: 'closeRoomAnnouncement' }),
+    graphql(blockFunctionsRoomAnnouncement, { name: 'blockFunctionsRoomAnnouncement' })
 )(AdminAnnouncement);
 
