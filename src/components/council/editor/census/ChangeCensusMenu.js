@@ -13,14 +13,6 @@ import { getSecondary } from "../../../../styles/colors";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { GOVERNING_BODY_TYPES } from "../../../../constants";
 
-const multipleGoverningBody = type => {
-	return !![
-		GOVERNING_BODY_TYPES.COUNCIL,
-		GOVERNING_BODY_TYPES.JOINT_ADMIN,
-		GOVERNING_BODY_TYPES.SOLIDARY_ADMIN
-	].find(item => type === item.value);
-}
-
 
 const ChangeCensusMenu = ({
 	showAddModal,
@@ -35,10 +27,6 @@ const ChangeCensusMenu = ({
 	participations,
 	refetch
 }) => {
-
-	console.log(company);
-	console.log(multipleGoverningBody(company.governingBodyType));
-
 	return (
 		<Grid>
 				<GridItem
@@ -66,7 +54,7 @@ const ChangeCensusMenu = ({
 								</MenuItem>
 							);
 						})}
-						{(multipleGoverningBody(company.governingBodyType) &&
+						{(CBX.multipleGoverningBody(company.governingBodyType) &&
 							company.governingBodyData &&
 							company.governingBodyData.list &&
 							company.governingBodyData.list.length > 0) &&

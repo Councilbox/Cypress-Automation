@@ -16,9 +16,10 @@ import QuorumInput from "../../../displayComponents/QuorumInput";
 import { ConfigContext } from "../../../containers/AppControl";
 import StatuteDocSection from "./StatuteDocSection";
 import { useValidRTMP } from "../../../hooks";
+import withSharedProps from "../../../HOCs/withSharedProps";
 
 
-const StatuteEditor = ({ statute, translate, updateState, errors, client, ...props }) => {
+const StatuteEditor = ({ statute, translate, updateState, errors, client, company, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 
@@ -561,7 +562,18 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 											</MenuItem>
 										);
 									}
-								)}
+								)
+							}
+							{(CBX.multipleGoverningBody(company.governingBodyType) &&
+								company.governingBodyData &&
+								company.governingBodyData.list &&
+								company.governingBodyData.list.length > 0) &&
+									<MenuItem
+										value={parseInt(-1, 10)}
+									>
+										{translate.governing_body}
+									</MenuItem>
+							}
 						</SelectInput>
 					</GridItem>
 				</Grid>
@@ -571,6 +583,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 					key={statute.id}
 					statute={statute}
 					data={data}
+					company={company}
 					updateState={updateState}
 					errors={errors}
 					{...props}
@@ -621,7 +634,7 @@ const VideoSection = ({ updateState, statute, translate }) => {
 	)
 }
 
-export default withApollo(StatuteEditor);
+export default withApollo(withSharedProps()(StatuteEditor));
 
 
 

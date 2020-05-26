@@ -1807,6 +1807,14 @@ export const getParticipantStateString = state => {
 	}
 };
 
+export const multipleGoverningBody = type => {
+	return !![
+		GOVERNING_BODY_TYPES.COUNCIL,
+		GOVERNING_BODY_TYPES.JOINT_ADMIN,
+		GOVERNING_BODY_TYPES.SOLIDARY_ADMIN
+	].find(item => type === item.value);
+}
+
 export const getParticipantStateField = participant => {
 	switch (participant.state) {
 		case 0:
