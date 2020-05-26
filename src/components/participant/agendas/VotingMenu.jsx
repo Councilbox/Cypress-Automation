@@ -250,10 +250,8 @@ export const DeniedDisplay = ({ translate, denied }) => {
 }
 
 export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color, disabledColor }) => {
-    // disabledColor->gainsboro
 
     const primary = getPrimary();
-    // Este es el boton
     return (
         <GridItem xs={12} md={12} lg={12} style={isMobile ? styles.divisionM : styles.division}>
             <BasicButton
