@@ -41,6 +41,12 @@ const StepCensus = ({ translate, data, ...props }) => {
 
 	React.useEffect(() => {
 		if(!data.loading){
+			props.participants.refetch();
+		}
+	}, [props.councilID])
+
+	React.useEffect(() => {
+		if(!data.loading){
 			setState({
 				data: {
 					...data.council
