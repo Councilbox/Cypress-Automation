@@ -477,6 +477,17 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							label={translate.hide_votings_recount}
+							value={statute.hideVotingsRecountFinished === 1}
+							onChange={(event, isInputChecked) =>
+								updateState({
+									hideVotingsRecountFinished: isInputChecked ? 1 : 0
+								})
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={7} lg={7}>
+						<Checkbox
 							helpPopover={true}
 							helpTitle={translate.exist_present_with_remote_vote}
 							helpDescription={translate.exists_present_with_remote_vote_desc}
