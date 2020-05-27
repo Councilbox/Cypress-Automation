@@ -49,7 +49,22 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 	React.useEffect(() => {
 		if(!data.loading){
 			if(!state.data.council){
-				updateCouncilData(data.council);
+				setState({
+					...state,
+					data: {
+						council: {
+							...state.data.council,
+							...data.council,
+		
+							room: data.council.room? data.council.room : {
+								videoConfig: {}
+							},
+							...(!config.video? {
+								councilType: 1
+							} : {})
+						}
+					}
+				});
 			}
 		}
 	});
@@ -76,8 +91,6 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				councilRoom
 			}
 		});
-
-		console.log(response);
 
 		await props.updateCouncil({
 			variables: {
@@ -142,6 +155,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 	}
 
 
+
 	function updateCouncilData(data) {
 		setState({
 			...state,
@@ -149,10 +163,6 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				council: {
 					...state.data.council,
 					...data,
-
-					room: data.room? data.room : {
-						videoConfig: {}
-					},
 					...(!config.video? {
 						councilType: 1
 					} : {})
