@@ -225,6 +225,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 					<CommentsTable
 						translate={translate}
 						agenda={agenda}
+						council={council}
 					/>
 				</div>
 			);

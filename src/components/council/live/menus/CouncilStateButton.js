@@ -28,7 +28,7 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
     }, [council.id])
 
     if(data.loading){
-        return <LoadingSection />
+        return <LoadingSection size={20} />
     }
 
     //TRADUCCION

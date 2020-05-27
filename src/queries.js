@@ -728,6 +728,8 @@ export const statutes = gql`
 			existPublicUrl
 			language
 			companyType
+			videoConfig
+			hideVotingsRecountFinished
 			addParticipantsListToAct
 			existsAdvanceNoticeDays
 			advanceNoticeDays
@@ -775,6 +777,9 @@ export const statutes = gql`
 			proxySecondary
 			voteLetter
 			voteLetterSecondary
+			introSecondary
+			conclusionSecondary
+			constitutionSecondary
 		}
 	}
 `;
@@ -1023,6 +1028,9 @@ export const councilStepFive = gql`
 			id
 			securityType
 			step
+			room {
+				videoConfig
+			}
 			platform {
 				act
 				companyId
@@ -1435,6 +1443,7 @@ export const councilLiveQuery = gql`
 			id
 			language
 			limitDateResponse
+			remoteCelebration
 			name
 			neededQuorum
 			noCelebrateComment
@@ -1447,6 +1456,7 @@ export const councilLiveQuery = gql`
 			room {
 				id
 				htmlVideoCouncil
+				videoConfig
 			}
 			satisfyQuorum
 			secretary
@@ -1473,6 +1483,7 @@ export const councilLiveQuery = gql`
 				hasSecretary
 				minimumSeparationBetweenCall
 				canEditConvene
+				doubleColumnDocs
 				firstCallQuorumType
 				firstCallQuorum
 				firstCallQuorumDivider

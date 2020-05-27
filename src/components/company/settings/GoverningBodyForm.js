@@ -290,106 +290,170 @@ const ListAdminForm = ({ translate, setData, data }) => {
                     padding: "1em",
                     width: "100%",
                     //maxHeight: expandAdministradores ? "100%" : "20em",
-                    overflow: "hidden",
+                    //overflow: "hidden",
+                    overflowX: 'auto',
                     position: "relative",
                     paddingBottom: "2.5em",
                     transition: 'max-height 0.5s'
                 }}
             >
-                <div style={{ width: "100%", display: "flex", }}>
-                    <div style={{ height: "100%", width: "100%" }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
-                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.name}</div>
-                            <div style={{ textTransform: 'uppercase', color: primary, width: "10%" }}>{translate.dni}</div>
-                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.email}</div>
-                            <div style={{ textTransform: 'uppercase', color: primary, width: "10%" }}>{translate.position}</div>
-                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.appointment}</div>
-                            <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>{translate.table_councils_duration}</div>
-                        </div>
-                        {data.list && data.list.map((item, index) => (
-                            <div style={{ color: "black", display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
-                                <div style={{ width: "20%", paddingRight: '1.2em' }}>
-                                    <ContentEditable
-                                        html={item.name || ''}
-                                        style={{borderBottom: '1px solid grey'}}
-                                        onChange={event => {
-                                            setAdminData({
-                                                name: event.target.value
-                                            }, index)
-                                        }}
-                                    />
-                                </div>
-                                <div style={{ width: "10%", paddingRight: '1.2em' }}>
-                                    <ContentEditable
-                                        html={item.dni || ''}
-                                        style={{borderBottom: '1px solid grey'}}
-                                        onChange={event => {
-                                            setAdminData({
-                                                dni: event.target.value
-                                            }, index)
-                                        }}
-                                    />
-                                </div>
-                                <div style={{ width: "20%", paddingRight: '1.2em' }}>
-                                    <ContentEditable
-                                        html={item.email || ''}
-                                        style={{borderBottom: '1px solid grey'}}
-                                        onChange={event => {
-                                            setAdminData({
-                                                email: event.target.value
-                                            }, index)
-                                        }}
-                                    />
-                                </div>
-                                <div style={{ width: "10%", paddingRight: '1.2em' }}>
-                                    <ContentEditable
-                                        html={item.position || ''}
-                                        style={{borderBottom: '1px solid grey'}}
-                                        onChange={event => {
-                                            setAdminData({
-                                                position: event.target.value
-                                            }, index)
-                                        }}
-                                    />
-                                </div>
-                                <div style={{ width: "20%", paddingRight: '1.2em' }}>
-                                    <ContentEditable
-                                        html={item.apointmentDate || ''}
-                                        style={{borderBottom: '1px solid grey'}}
-                                        onChange={event => {
-                                            setAdminData({
-                                                apointmentDate: event.target.value
-                                            }, index)
-                                        }}
-                                    />
-                                </div>
-                                <div style={{ width: "20%", paddingRight: '1.2em', display: 'flex' }}>
-                                    <ContentEditable
-                                        html={item.apointmentLength || ''}
-                                        style={{borderBottom: '1px solid grey', width: 'calc(100% - 2em)'}}
-                                        onChange={event => {
-                                            setAdminData({
-                                                apointmentLength: event.target.value
-                                            }, index)
-                                        }}
-                                    />
-                                    <div
-                                        onClick={() => deleteRow(index)}
-                                        style={{
-                                            color: 'white',
-                                            display: 'flex',
-                                            cursor: 'pointer',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            backgroundColor: primary,
-                                            borderRadius: '50%',
-                                            height: '1.2em',
-                                            width: '1.2em'
-                                        }}
-                                    >X</div>
-                                </div>
-                            </div>
-                        ))}
+                <div>
+                    <div style={{ height: "100%" }}>
+                        <Table>
+                            <TableHead>
+                                <TableCell>
+                                    {translate.name}
+                                </TableCell>
+                                <TableCell>
+                                    {translate.surname}
+                                </TableCell>
+                                <TableCell>
+                                    {translate.dni}
+                                </TableCell>
+                                <TableCell>
+                                    {translate.email}
+                                </TableCell>
+                                <TableCell>
+                                    {translate.position}
+                                </TableCell>
+                                <TableCell>
+                                    {translate.appointment}
+                                </TableCell>
+                                <TableCell>
+                                    {translate.table_councils_duration}
+                                </TableCell>
+                                <TableCell style={{minWidth: '5em'}}>
+                                    {translate.votes}
+                                </TableCell>
+                                <TableCell>
+                                    {translate.social_capital}
+                                </TableCell>
+                                <TableCell>
+                                    Borrar
+                                </TableCell>
+                            </TableHead>
+                            <TableBody>
+                            {data.list && data.list.map((item, index) => (
+                                <TableRow style={{ color: "black", width: "100%", padding: '1em' }}>
+                                    <TableCell>
+                                        <ContentEditable
+                                            html={item.name || ''}
+                                            style={{borderBottom: '1px solid grey'}}
+                                            onChange={event => {
+                                                setAdminData({
+                                                    name: event.target.value
+                                                }, index)
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <ContentEditable
+                                            html={item.surname || ''}
+                                            style={{borderBottom: '1px solid grey'}}
+                                            onChange={event => {
+                                                setAdminData({
+                                                    surname: event.target.value
+                                                }, index)
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <ContentEditable
+                                            html={item.dni || ''}
+                                            style={{borderBottom: '1px solid grey'}}
+                                            onChange={event => {
+                                                setAdminData({
+                                                    dni: event.target.value
+                                                }, index)
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <ContentEditable
+                                            html={item.email || ''}
+                                            style={{borderBottom: '1px solid grey'}}
+                                            onChange={event => {
+                                                setAdminData({
+                                                    email: event.target.value
+                                                }, index)
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <ContentEditable
+                                            html={item.position || ''}
+                                            style={{borderBottom: '1px solid grey'}}
+                                            onChange={event => {
+                                                setAdminData({
+                                                    position: event.target.value
+                                                }, index)
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <ContentEditable
+                                            html={item.apointmentDate || ''}
+                                            style={{borderBottom: '1px solid grey'}}
+                                            onChange={event => {
+                                                setAdminData({
+                                                    apointmentDate: event.target.value
+                                                }, index)
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <ContentEditable
+                                            html={item.apointmentLength || ''}
+                                            style={{borderBottom: '1px solid grey', width: 'calc(100% - 2em)'}}
+                                            onChange={event => {
+                                                setAdminData({
+                                                    apointmentLength: event.target.value
+                                                }, index)
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <ContentEditable
+                                            html={(item.numParticipations && item.numParticipations !== 0)? item.numParticipations+'' : 0}
+                                            style={{borderBottom: item.numParticipations && item.numParticipations !== 0? '1px solid grey' : ''}}
+                                            onChange={event => {
+                                                setAdminData({
+                                                    numParticipations: +event.target.value
+                                                }, index)
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <ContentEditable
+                                            html={(item.socialCapital && item.socialCapital !== 0)? item.socialCapital+'' : 0}
+                                            style={{borderBottom: (item.socialCapital && item.socialCapital !== 0)? '1px solid grey' : ''}}
+                                            onChange={event => {
+                                                setAdminData({
+                                                    socialCapital: +event.target.value
+                                                }, index)
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <div
+                                            onClick={() => deleteRow(index)}
+                                            style={{
+                                                color: 'white',
+                                                display: 'flex',
+                                                cursor: 'pointer',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                backgroundColor: primary,
+                                                borderRadius: '50%',
+                                                height: '1.2em',
+                                                width: '1.2em'
+                                            }}
+                                        >X</div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
                     </div>
                 </div>
             </div>

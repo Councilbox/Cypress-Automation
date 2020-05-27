@@ -1,118 +1,180 @@
 import React from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { Tooltip } from 'material-ui';
 import { CircularProgress } from "material-ui/Progress";
 import gql from 'graphql-tag';
 import { checkIsWebRTCCompatibleBrowser } from '../../../../utils/webRTC';
 import DetectRTC from 'detectrtc';
+import Tower from '../../../../assets/img/broadcast-tower.svg';
+import BroadcastingTower from '../../../../assets/img/broadcasting-tower.svg';
+import { usePolling } from '../../../../hooks';
 
-class RecordingButton extends React.Component {
 
-    state = {
-        loading: false,
-        disabled: false
-    }
+const RecordingButton = ({ data, council, translate, client, ...props }) => {
+    const [loading, setLoading] = React.useState(false);
+    const showRecordingButton = (props.config.recording && (council.fullVideoRecord === 0 || (council.fullVideoRecord === 1 && council.councilStarted === 1)));
+    const showStreamingButton = props.config.streaming && (council.room.videoConfig && council.room.videoConfig.rtmp);
 
-    timeout = null;
-
-    componentDidMount() {
+    React.useState(() => {
         DetectRTC.load();
-    }
+    }, [council.id])
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.data.loading && !this.props.data.loading) {
-            if (this.props.council.fullVideoRecord === 1) {
-                //this.startFullRecording();
-            }
+
+    React.useEffect(() => {
+        if(!data.loading && council.councilStarted === 1){
+            data.refetch();
         }
-    }
+    }, [council.councilStarted]);
 
-    startFullRecording = async () => {
-        const { sessionStatus } = this.props.data;
-        if (!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)) {
+    const stopStreaming = async () => {
+        if(loading){
             return;
         }
 
-        if (!sessionStatus.record) {
-            setTimeout(async () => {
-                await this.startRecording();
-                this.setState({
-                    disabled: true
-                });
-            }, 5000);
-        }
-    }
-
-    startRecording = async () => {
-        await this.props.startRecording({
+        setLoading(true);
+        await client.mutate({
+            mutation: gql`
+                mutation StopStreaming($councilId: Int!){
+                    stopStreaming(councilId: $councilId){
+                        success
+                    }
+                }
+            `,
             variables: {
-                councilId: this.props.council.id
+                councilId: council.id
             }
         });
-        this.props.data.refetch();
+        data.refetch();
+        setLoading(false);
     }
 
-    toggleRecordings = async () => {
-        if (!this.state.disabled) {
-            this.setState({
-                loading: true
-            });
-
-            const variables = {
-                councilId: this.props.council.id
-            }
-
-            const response = this.props.data.sessionStatus.record ?
-                await this.props.stopRecording({ variables })
-                :
-                await this.props.startRecording({ variables });
-            if (response) {
-                await this.props.data.refetch();
-                this.setState({
-                    loading: false
-                });
-            }
-        }
-    }
-
-    render() {
-        const { sessionStatus } = this.props.data;
-        if (!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)) {
-            return <span />
+    const startStreaming = async () => {
+        if(loading){
+            return;
         }
 
-        if (!this.props.config.recording) {
-            return <span />;
-        }
-
-        const { record } = sessionStatus;
-
-        return (
-            <Tooltip title={this.props.council.fullVideoRecord === 1 ? this.props.translate.full_record : record ? this.props.translate.to_stop_recording : this.props.translate.to_start_recording}>
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: '20px',
-                        left: '2em',
-                        fontSize: '1.4em',
-                        cursor: this.props.council.fullVideoRecord === 1 ? 'auto' : 'pointer'
-                    }}
-                    {...(this.props.council.fullVideoRecord !== 1 ? { onClick: this.toggleRecordings } : {})}
-                >
-                    {this.state.loading ?
-                        <CircularProgress size={20} thickness={7} color={'secondary'} />
-                        :
-                        record ?
-                            <i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
-                            :
-                            <i className="fa fa-circle" style={{ color: 'red' }} />
+        setLoading(true);
+        await client.mutate({
+            mutation: gql`
+                mutation StartStreaming($councilId: Int!){
+                    startStreaming(councilId: $councilId){
+                        success
                     }
-
-
-                </div>
-            </Tooltip>
-        )
+                }
+            `,
+            variables: {
+                councilId: council.id
+            }
+        });
+        data.refetch();
+        setLoading(false);
     }
+
+    const startRecording = async () => {
+        if(loading){
+            return;
+        }
+        setLoading(true);
+
+        await props.startRecording({
+            variables: {
+                councilId: council.id
+            }
+        });
+        data.refetch();
+
+        setLoading(false);
+    }
+
+    const toggleRecordings = async () => {
+        if(loading){
+            return;
+        }
+        setLoading(true);
+
+        const variables = {
+            councilId: council.id
+        }
+
+        const response = data.sessionStatus.record ?
+            await props.stopRecording({ variables })
+            :
+            await props.startRecording({ variables });
+        if (response) {
+            await data.refetch();
+        }
+        setLoading(false);
+    }
+
+    const { sessionStatus } = data;
+    if (!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)) {
+        return <span />
+    }
+
+    if (!props.config.recording && !props.config.streaming) {
+        return <span />;
+    }
+
+    const { record } = sessionStatus;
+
+    //TRADUCCIÓN
+    return (
+        <div
+            style={{
+                position: 'absolute',
+                top: '20px',
+                left: '2em',
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '1.4em',
+                backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                padding: '0.2em',
+                borderRadius: '10px'
+            }}
+        >
+            {loading ? 
+                <CircularProgress size={20} thickness={7} color={'secondary'} />
+            :
+                <>
+                    {showRecordingButton &&
+                        <Tooltip title={council.fullVideoRecord === 1 ?
+                            translate.full_record : record ? translate.to_stop_recording : translate.to_start_recording}>
+                            <div
+                                style={{cursor: council.fullVideoRecord === 1 ? 'auto' : 'pointer'}}
+                                {...(council.fullVideoRecord !== 1 ? { onClick: toggleRecordings } : {})}
+                            >
+                                {loading ?
+                                    <CircularProgress size={20} thickness={7} color={'secondary'} />
+                                    :
+                                    record ?
+                                        <i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
+                                        :
+                                        <i className="fa fa-circle" style={{ color: 'red' }} />
+                                }
+                            </div>
+                        </Tooltip>
+                    }
+                    {showStreamingButton &&
+                        <Tooltip title={sessionStatus.streaming? translate.stop_broadcasting : translate.start_broadcasting}>
+                            {sessionStatus.streaming ?
+                                <img
+                                    src={BroadcastingTower}
+                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton? '0.4em' : '0' }}
+                                    onClick={stopStreaming}
+                                />
+                                :
+                                <img
+                                    src={Tower}
+                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton? '0.4em' : '0' }}
+                                    onClick={startStreaming}
+                                />
+                            }
+                        </Tooltip>
+                    }
+                </>
+            }
+        </div> 
+    )
 }
 
 const startRecording = gql`
@@ -138,6 +200,7 @@ const sessionStatus = gql`
     query SessionStatus($councilId: Int!){
         sessionStatus(councilId: $councilId){
             record
+            streaming
         }
     }
 `;
@@ -150,6 +213,7 @@ export default compose(
             }
         })
     }),
+    withApollo,
     graphql(startRecording, {
         name: 'startRecording'
     }),

@@ -10,8 +10,8 @@ export const checkValidEmail = email => {
 
 
 export const checkValidMajority = (majority, divider, type, translate) => {
-	if(type === MAJORITY_TYPES.PERCENTAGE){
-		if(majority > 100){
+	if (type === MAJORITY_TYPES.PERCENTAGE) {
+		if (majority > 100) {
 			return {
 				error: true,
 				message: translate.percentage_error
@@ -19,8 +19,8 @@ export const checkValidMajority = (majority, divider, type, translate) => {
 		}
 	}
 
-	if(type === MAJORITY_TYPES.FRACTION){
-		if((majority / divider) > 1) {
+	if (type === MAJORITY_TYPES.FRACTION) {
+		if ((majority / divider) > 1) {
 			return {
 				error: true,
 				message: translate.fraction_values_error
@@ -49,34 +49,41 @@ export const checkRequiredFieldsParticipant = (
 		numParticipations: "",
 		socialCapital: ""
 	};
-
+	
 	let hasError = false;
-
+	
 	if (!participant.name) {
 		hasError = true;
 		errors.name = translate.field_required;
 	}
 
-	if(company && company.type !== 10){
+	if (company && company.type !== 10) {
 		if (!participant.surname && participant.personOrEntity === 0) {
 			hasError = true;
 			errors.surname = translate.field_required;
 		}
 
-		if (!participant.dni) {
-			hasError = true;
-			errors.dni = translate.field_required;
+		// if (!participant.dni) {
+		// 	hasError = true;
+		// 	errors.dni = translate.field_required;
+		// }
+		// Comprobamos que exista email para que no de error
+		if (participant.email) {
+			if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
+				hasError = true;
+				errors.email = translate.valid_email_required;
+			}
+		} else {
+			if(participant.personOrEntity === 0){
+				hasError = true;
+				errors.email = translate.valid_email_required;
+			}
 		}
 
-		if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
-			hasError = true;
-			errors.email = translate.valid_email_required;
-		}
-
-		if (!participant.phone) {
-			hasError = true;
-			errors.phone = translate.field_required;
-		}
+		// if (!participant.phone) {
+		// 	hasError = true;
+		// 	errors.phone = translate.field_required;
+		// }
 
 		if (!participant.language) {
 			hasError = true;
@@ -109,7 +116,7 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 		phone: "",
 		language: ""
 	};
-
+	
 	let hasError = false;
 
 	if (!participant.name) {
@@ -132,10 +139,10 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 		errors.email = translate.valid_email_required;
 	}
 
-	if (!participant.phone) {
-		hasError = true;
-		errors.phone = translate.field_required;
-	}
+	// if (!participant.phone) {
+	// 	hasError = true;
+	// 	errors.phone = translate.field_required;
+	// }
 
 	if (!participant.language) {
 		hasError = true;
@@ -170,18 +177,18 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 		errors.subjectType = translate.field_required;
 	}
 
-	if(agenda.description) {
-		if(checkForUnclosedBraces(agenda.description)){
+	if (agenda.description) {
+		if (checkForUnclosedBraces(agenda.description)) {
 			hasError = true;
 			errors.description = true;
 			toast(
 				<LiveToast
 					message={translate.revise_text}
 				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "errorToast"
-				}
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: "errorToast"
+			}
 			);
 		}
 	}

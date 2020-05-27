@@ -15,9 +15,11 @@ import { getPrimary } from "../../../styles/colors";
 import QuorumInput from "../../../displayComponents/QuorumInput";
 import { ConfigContext } from "../../../containers/AppControl";
 import StatuteDocSection from "./StatuteDocSection";
+import { useValidRTMP } from "../../../hooks";
+import withSharedProps from "../../../HOCs/withSharedProps";
 
 
-const StatuteEditor = ({ statute, translate, updateState, errors, client, ...props }) => {
+const StatuteEditor = ({ statute, translate, updateState, errors, client, company, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 
@@ -475,6 +477,17 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							label={translate.hide_votings_recount}
+							value={statute.hideVotingsRecountFinished === 1}
+							onChange={(event, isInputChecked) =>
+								updateState({
+									hideVotingsRecountFinished: isInputChecked ? 1 : 0
+								})
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={7} lg={7}>
+						<Checkbox
 							helpPopover={true}
 							helpTitle={translate.exist_present_with_remote_vote}
 							helpDescription={translate.exists_present_with_remote_vote_desc}
@@ -523,6 +536,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 						/>
 					</GridItem>
 				</Grid>
+				<VideoSection
+					updateState={updateState}
+					statute={statute}
+					translate={translate}
+				/>
 
 				<SectionTitle
 					text={translate.census}
@@ -555,7 +573,18 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 											</MenuItem>
 										);
 									}
-								)}
+								)
+							}
+							{(CBX.multipleGoverningBody(company.governingBodyType) &&
+								company.governingBodyData &&
+								company.governingBodyData.list &&
+								company.governingBodyData.list.length > 0) &&
+									<MenuItem
+										value={parseInt(-1, 10)}
+									>
+										{translate.governing_body}
+									</MenuItem>
+							}
 						</SelectInput>
 					</GridItem>
 				</Grid>
@@ -565,6 +594,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 					key={statute.id}
 					statute={statute}
 					data={data}
+					company={company}
 					updateState={updateState}
 					errors={errors}
 					{...props}
@@ -576,7 +606,46 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 }
 
 
-export default withApollo(StatuteEditor);
+const VideoSection = ({ updateState, statute, translate }) => {
+	const primary = getPrimary();
+
+	const { validURL } = useValidRTMP(statute);
+
+	console.log(validURL);
+
+	return (
+		<>
+			<SectionTitle
+				text={translate.video_config}
+				color={primary}
+				style={{
+					marginTop: "2em",
+					marginBottom: "1em"
+				}}
+			/>
+			<Grid style={{ overflow: "hidden" }}>
+				<GridItem xs={12} md={8} lg={6}>
+					<TextInput
+						floatingText={'RTMP'}
+						required
+						errorText={!validURL? translate.invalid_url : null}
+						value={statute.videoConfig? statute.videoConfig.rtmp : ''}
+						onChange={event => {
+							updateState({
+								videoConfig: {
+									...statute.videoConfig,
+									rtmp: event.target.value
+								}
+							})
+						}}
+					/>
+				</GridItem>
+			</Grid>
+		</>
+	)
+}
+
+export default withApollo(withSharedProps()(StatuteEditor));
 
 
 

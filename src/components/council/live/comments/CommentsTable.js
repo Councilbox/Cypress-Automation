@@ -176,7 +176,7 @@ export default graphql(agendaComments, {
 				offset: 0
 			}
 		},
-		pollInterval: 6000,
+		pollInterval: props.council.state > 30? 60000 : 6000,
 		fetchPolicy: 'network-only'
 	})
 })(CommentsTable);

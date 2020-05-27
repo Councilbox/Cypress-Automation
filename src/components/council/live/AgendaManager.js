@@ -282,6 +282,7 @@ export const agendaManager = gql`
 				state
 			}
 			comment
+			commentRightColumn
 			councilId
 			currentRemoteCensus
 			dateEndVotation

@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { LoadingMainApp, LiveToast, AlertConfirm } from "../../displayComponents";
+import { LoadingMainApp, LiveToast, AlertConfirm, Scrollbar } from "../../displayComponents";
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { bHistory } from "../../containers/App";
 import { ConfigContext } from '../../containers/AppControl';
 import { toast } from 'react-toastify';
-import { getSecondary } from "../../styles/colors";
+import { getSecondary, getPrimary } from "../../styles/colors";
 import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
 import { checkSecondDateAfterFirst } from "../../utils/CBX";
@@ -16,52 +16,16 @@ import { useHoverRow } from "../../hooks";
 import { sendGAevent } from '../../utils/analytics';
 import withSharedProps from "../../HOCs/withSharedProps";
 import { isMobile } from "../../utils/screen";
-
+import emptyMeetingTable from "../../assets/img/empty_meeting_table.png";
+import conSesionIcon from "../../assets/img/con-sesion-icon.svg";
+import consejoSinSesion from "../../assets/img/consejo-sin-sesion-icon.svg";
+import elecciones from "../../assets/img/elecciones.svg";
+import admin from '../../assets/img/admin.svg';
+import sinSesionIcon from '../../assets/img/sin-sesion-icon.svg';
 
 
 const CreateCouncil = props => {
-	const [state, setState] = React.useState({
-		creating: false
-	});
-
 	const config = React.useContext(ConfigContext);
-
-	React.useEffect(() => {
-		if (!config.newCreateFlow) {
-			createCouncilOneStep();
-		}
-	});
-
-	const createCouncilOneStep = async () => {
-		if (props.match.url === `/company/${props.match.params.company}/council/new` && !state.creating) {
-			setState({
-				creating: true
-			});
-			let newCouncilId = await createCouncil(
-				props.match.params.company
-			);
-			if (newCouncilId) {
-				sendGAevent({
-					category: "Reuniones",
-					action: "Creación reunión con sesión",
-					label: props.company.businessName
-				});
-				bHistory.replace(`/company/${props.match.params.company}/council/${newCouncilId}`);
-			} else {
-				bHistory.replace(`/company/${props.match.params.company}`);
-				toast(
-					<LiveToast
-						message={props.translate.no_statutes}
-					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "errorToast"
-					}
-				);
-			}
-		}
-	}
-
 
 	const createCouncil = async companyId => {
 		const response = await props.createCouncil({
@@ -77,16 +41,13 @@ const CreateCouncil = props => {
 	}
 
 	return (
-		config.newCreateFlow ?
-			<CreateCouncilModal
-				history={props.history}
-				createCouncil={props.createCouncil}
-				company={props.company}
-				translate={props.translate}
-				config={config}
-			/>
-			:
-			<LoadingMainApp />
+		<CreateCouncilModal
+			history={props.history}
+			createCouncil={props.createCouncil}
+			company={props.company}
+			translate={props.translate}
+			config={config}
+		/>
 	);
 }
 
@@ -96,8 +57,6 @@ const steps = {
 	HYBRID_VOTING: 'HYBRID_VOTING',
 	BOARD_NO_SESSION: 'BOARD_NO_SESSION'
 }
-
-const secondary = getSecondary();
 
 const CreateCouncilModal = ({ history, company, createCouncil, translate, config }) => {
 	const [options, setOptions] = React.useState(null);
@@ -132,10 +91,10 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 					<LiveToast
 						message={translate.no_statutes}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "errorToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
 				);
 			}
 		}
@@ -186,110 +145,187 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 
 	return (
 		<AlertConfirm
+			fullWidth={isMobile && true}
+			classNameDialog={isMobile && 'noMarginM'}
 			open={true}
-			title={title}
-			//bodyStyle={{ maxWidth: isMobile ? "" : "75vw" }}
+			widthModal={{ borderRadius: "8px", }}
+			bodyStyle={{ overflow: "hidden", maxWidth: !isMobile && "75vw" }}
 			PaperProps={{
 				style: {
-					width: '100%'
+					width: isMobile ? '100vw' : '65vw',
+					height: isMobile ? '100%' : '75vh',
 				}
 			}}
 			bodyText={
-				<React.Fragment>
-					{step === 1 &&
-						<div style={{ display: isMobile ? "" : 'flex', margin: isMobile ? "" : "2em 0 1.5em 0", justifyContent: 'center', alignItems: 'center' }}>
-							<ButtonCreateCouncil
-								onClick={councilStep}
-								title={'Con sesión'}
-								styleButton={{ marginRight: "3%" }}
-								icon={<i className="fa fa-users" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
-								isMobile={isMobile}
-								list={
-									<ul>
-										{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
-										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
-									</ul>
-								}
-							/>
-							<ButtonCreateCouncil
-								onClick={noSessionStep}
-								title={'Sin sesión'}
-								styleButton={{ marginRight: "3%" }}
-								icon={<i className="fa fa-list-ol" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
-								isMobile={isMobile}
-								list={
-									<ul>
-										{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
-										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
-									</ul>
-								}
-							/>
-							{config['boardWithoutSession'] &&
-								<ButtonCreateCouncil
-									onClick={boardWithoutSessionStep}
-									title={'Consejo sin sesión'}
-									styleButton={{ marginRight: "3%" }}
-									icon={<i className="fa fa-envelope" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
-									isMobile={isMobile}
-									list={
-										<ul>
-											{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
-											<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-											<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
-										</ul>
+				<div style={{ height: "100%", paddingTop: step != 10 && '3em' }}>
+					<Scrollbar>
+						<div style={{}}>
+							{step === 1 &&
+								<div style={{ height: "100%", padding: isMobile ? "0em 1em 0em" : "0em 2em 2em 2em" }}>
+									<div style={{ display: !isMobile && "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5em" }}>
+										<div style={{ display: "flex" }}>
+											<div style={{ color: getPrimary(), fontSize: isMobile ? "17px" : "24px", fontStyle: "italic" }}>
+												{translate.create_council_title}
+											</div>
+											{!isMobile &&
+												<div style={{ display: "flex", justifyContent: 'center', textAlign: 'center', marginLeft: "15px" }}>
+													<img src={emptyMeetingTable} style={{ width: '70px', }} alt="empty-table" />
+												</div>
+											}
+										</div>
+										<div style={{ color: "black", cursor: "pointer", paddingTop: "8px", paddingBottom: "8px" }} onClick={() => setStep(10)}>
+											<div style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: '13px' }}>
+												<i className="material-icons" style={{ color: getPrimary(), fontSize: '13px', paddingRight: "0.3em", marginTop: "4px" }} >
+													help
+                    							</i>
+												{translate.create_council_help}
+											</div>
+										</div>
+									</div>
+									<div style={{ height: "100%" }}>
+										{/* TRADUCCION */}
+										<ButtonCreateCouncil
+											onClick={councilStep}
+											title={translate.with_session}
+											styleButton={{ marginRight: "3%" }}
+											icon={<img src={conSesionIcon}></img>}
+											isMobile={isMobile}
+											list={
+												<div>{translate.with_session_description}</div>
+											}
+										/>
+										<ButtonCreateCouncil
+											onClick={noSessionStep}
+											title={translate.without_session}
+											styleButton={{ marginRight: "3%" }}
+											icon={<img src={sinSesionIcon}></img>}
+											isMobile={isMobile}
+											list={
+											<div>{translate.without_session_description}</div>
+											}
+										/>
+										{config['boardWithoutSession'] && false &&
+											<ButtonCreateCouncil
+												onClick={boardWithoutSessionStep}
+												title={translate.board_without_session}
+												styleButton={{ marginRight: "3%" }}
+												icon={<img src={consejoSinSesion}></img>}
+												isMobile={isMobile}
+												list={
+													<div>{translate.board_without_session_description}</div>
+												}
+											/>
+										}
+										{config['2stepsCouncil'] && false &&
+											<ButtonCreateCouncil
+												onClick={noSessionHybridStep}
+												title={translate.elections}
+												icon={<img src={elecciones}></img>}
+												isMobile={isMobile}
+												list={
+													<div>{translate.elections_description}</div>
+												}
+											/>
+										}
+									</div>
+								</div>
+							}
+							{step === 10 &&
+								<div style={{ height: "100%", padding: isMobile ? "0em 1em 0em" : "0em 2em 2em 2em" }}>
+									<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", }}>
+										<div onClick={() => setStep(1)} style={{ color: getSecondary(), cursor: "pointer", paddingBottom: "1em" }}>
+											{translate.back}
+										</div>
+									</div>
+									{/* TRADUCCION */}
+									<ButtonInfoCouncil
+										title={translate.with_session}
+										styleButton={{ marginRight: "3%" }}
+										icon={<img src={conSesionIcon} style={{ width: "100%" }}></img>}
+										isMobile={isMobile}
+										infoExtra={
+											<div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
+												<div style={{ width: "35px", paddingRight: "15px", display: "flex" }}>
+													<img src={admin} style={{ width: "100%" }} ></img>
+												</div>
+												{translate.admin_required}
+											</div>
+										}
+										list={
+											<div style={{ fontSize: "15px" }}>
+												{translate.with_session_description}
+											</div>
+										}
+									/>
+									<ButtonInfoCouncil
+										title={translate.without_session}
+										styleButton={{ marginRight: "3%" }}
+										icon={<img src={sinSesionIcon} style={{ width: "100%" }}></img>}
+										isMobile={isMobile}
+										list={
+											<div style={{ fontSize: "15px" }}>
+												{translate.without_session_description}
+											</div>
+										}
+									/>
+									{config['boardWithoutSession'] &&
+										<ButtonInfoCouncil
+											title={translate.board_without_session}
+											styleButton={{ marginRight: "3%" }}
+											icon={<img src={consejoSinSesion} style={{ width: "100%" }}></img>}
+											isMobile={isMobile}
+											list={
+												<div style={{ fontSize: "15px" }}>
+													{translate.board_without_session_description}
+												</div>
+											}
+										/>
 									}
+									{config['2stepsCouncil'] &&
+										<ButtonInfoCouncil
+											title={translate.elections}
+											icon={<img src={elecciones} style={{ width: "100%" }}></img>}
+											isMobile={isMobile}
+											list={
+												<div style={{ fontSize: "15px" }}>
+													{translate.elections_description}
+												</div>
+											}
+										/>
+									}
+								</div>
+							}
+							{step === steps.NO_SESSION &&
+								<CreateWithoutSession
+									hybrid={false}
+									setOptions={setOptions}
+									translate={translate}
+									setTitle={setTitle}
+									errors={errors}
 								/>
 							}
-							{config['2stepsCouncil'] &&
-								<ButtonCreateCouncil
-									onClick={noSessionHybridStep}
-									title={'Sin sesión en 2 pasos'}
-									icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
-									isMobile={isMobile}
-									list={
-										<ul>
-											{/* <li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
-											<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-											<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li> */}
-										</ul>
-									}
+							{step === steps.COUNCIL &&
+								<CreateWithSession setOptions={setOptions} />
+							}
+							{step === steps.HYBRID_VOTING &&
+								<CreateWithoutSession
+									hybrid={true}
+									setOptions={setOptions}
+									translate={translate}
+									setTitle={setTitle}
+									errors={errors}
 								/>
 							}
-
 						</div>
-					}
-					{step === steps.NO_SESSION &&
-						<CreateWithoutSession
-							hybrid={false}
-							setOptions={setOptions}
-							translate={translate}
-							setTitle={setTitle}
-							errors={errors}
-						/>
-					}
-					{step === steps.COUNCIL &&
-						<CreateWithSession setOptions={setOptions} />
-					}
-					{step === steps.HYBRID_VOTING &&
-						<CreateWithoutSession
-							hybrid={true}
-							setOptions={setOptions}
-							translate={translate}
-							setTitle={setTitle}
-							errors={errors}
-						/>
-					}
-				</React.Fragment>
-
+					</Scrollbar>
+				</div>
 			}
-			hideAccept={step === steps.COUNCIL || step === 1}
+			hideAccept={step === steps.COUNCIL || step === 1 || step === 10}
 			buttonAccept={translate.accept}
 			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ? 3 : 2)}
-			requestClose={history.goBack}
+			requestClose={step != 10 && history.goBack}
 			cancelAction={history.goBack}
-			buttonCancel='Cancelar'
+			buttonCancel={translate.cancel}
 		/>
 	)
 }
@@ -304,25 +340,22 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 			<Paper
 				elevation={6}
 				style={{
-					width: '100%',
-					marginTop: "15px"
+					width: "100%",
+					overflow: 'hidden',
+					borderRadius: "8px",
+					marginBottom: "1em",
+					boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+					...styleButton
 				}}
 			>
-				<div
+				<div style={{ padding: '1.5em', background: hover ? "rgba(97, 171, 183, 0.22)" : "", cursor: "pointer", }}
 					onClick={onClick}
 					{...hoverHandlers}
-					style={{
-						cursor: "pointer",
-						width: "100%",
-						border: "1px solid gainsboro",
-						background: hover ? "gainsboro" : "",
-						paddingTop: '0.5em',
-					}}
 				>
-					<div style={{ textAlign: " center", }}>
-						<h2 style={{ padding: "0 0.3em 0.3em 0.3em" }}>{title}</h2>
-						{icon}
-						<div style={{ textAlign: isMobile ? "left" : '', width: isMobile ? "90%" : '' }}>{list}</div>
+					<div style={{ width: "90px", margin: "0 auto" }}>{icon}</div>
+					<div style={{ color: "black", textAlign: "center" }}>
+						<div style={{ fontSize: "24px" }}>{title}</div>
+						<div style={{ fontSize: "14px" }}>{list}</div>
 					</div>
 				</div>
 			</Paper>
@@ -332,33 +365,59 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 			<Paper
 				elevation={6}
 				style={{
-					width: "45%",
-					height: "450px",
+					width: "100%",
+					// height: "450px",
 					overflow: 'hidden',
+					borderRadius: "8px",
+					marginBottom: "1em",
+					boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
 					...styleButton
 				}}
 			>
-				<div
+				<div style={{ display: "flex", padding: '1.5em', background: hover ? "rgba(97, 171, 183, 0.22)" : "", cursor: "pointer", }}
 					onClick={onClick}
 					{...hoverHandlers}
-					style={{
-						cursor: "pointer",
-						width: "100%",
-						// border: "1px solid gainsboro",
-						background: hover ? "gainsboro" : "",
-						padding: '1.5em',
-						height: "100%"
-					}}
 				>
-					<div style={{ textAlign: " center", }}>
-						<h2>{title}</h2>
-						{icon}
-						{list}
+					<div style={{ width: "90px", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</div>
+					<div style={{ color: "black", marginLeft: "2em" }}>
+						<div style={{ fontSize: "24px" }}>{title}</div>
+						<div style={{ fontSize: "14px" }}>{list}</div>
 					</div>
 				</div>
 			</Paper>
 		);
 	}
+}
+
+const ButtonInfoCouncil = ({ isMobile, title, icon, list, styleButton, infoExtra }) => {
+	const [open, setOpen] = React.useState(false);
+
+	return (
+		<Paper
+			elevation={6}
+			style={{
+				width: "100%",
+				// height: "450px",
+				overflow: 'hidden',
+				borderRadius: "8px",
+				marginBottom: "1em",
+				boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+				...styleButton
+			}}
+		>
+			<div style={{ padding: '1.5em', }}>
+				<div style={{ display: "flex" }}>
+					<div style={{ width: "80px" }}>{icon}</div>
+					<div style={{ fontSize: "22px", color: "black", marginLeft: "1em" }}>{title}</div>
+				</div>
+				<div style={{ marginTop: "1em" }}>
+					<div style={{ fontSize: "14px", color: "black" }}>{list}</div>
+					<div style={{ color: getSecondary() }}>{infoExtra}</div>
+				</div>
+			</div>
+		</Paper >
+	);
+
 }
 
 

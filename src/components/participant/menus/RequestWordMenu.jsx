@@ -137,7 +137,11 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const _renderSafariAlertBody = () => {
         return (
             <div>
-                {translate.safari_word_ask_info}
+                {DetectRTC.audioInputDevices.length > 0?
+                    translate.safari_word_ask_info
+                :
+                    translate.sorry_cant_ask_word
+                }
             </div>
         )
     }

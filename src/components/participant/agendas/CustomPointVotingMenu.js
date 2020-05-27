@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { AGENDA_TYPES } from '../../../constants';
+import { AGENDA_TYPES, AGENDA_STATES } from '../../../constants';
 import { VotingButton, DeniedDisplay } from './VotingMenu';
 import { VotingContext } from './AgendaNoSession';
 import { voteAllAtOnce } from '../../../utils/CBX';
@@ -27,6 +27,8 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
     const votingContext = React.useContext(VotingContext);
     const config = React.useContext(ConfigContext);
+
+    const disabled = agenda.votingState !== AGENDA_STATES.DISCUSSION;
 
     const addSelection = item => {
         let newSelections = [...selections, cleanObject(item)];;
@@ -117,12 +119,16 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                 <div style={{ display: "flex", width: "52.5%", height: '2.5em' }}>
                     <VotingButton
                         text={translate.abstention_btn}
+                        disabled={disabled}
+                        disabledColor={disabled}
                         styleButton={{ width: "90%" }}
                         onClick={setAbstentionOption}
                         selectCheckBox={getSelectedRadio(-1)}
                     />
                     <VotingButton
                         text={translate.dont_vote}
+                        disabled={disabled}
+                        disabledColor={disabled}
                         styleButton={{ width: "90%" }}
                         selectCheckBox={selections.length === 0}
                         onClick={resetSelections}
@@ -150,6 +156,8 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                         <React.Fragment key={`item_${item.id}`}>
                             <div>
                                 <VotingButton
+                                    disabled={disabled}
+                                    disabledColor={disabled}
                                     styleButton={{ padding: '0', width: '100%' }}
                                     selectCheckBox={getSelectedRadio(item.id)}
                                     onClick={() => setSelection(item)}

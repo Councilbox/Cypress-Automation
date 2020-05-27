@@ -59,22 +59,22 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
             ...item,
             id: Math.random().toString(36).substr(2, 9),
             label: 'intro',
-            text: data.council.act.intro,
-            secondaryText: data.council.act.intro,
+            text: data.council.act.intro || '',
+            secondaryText: data.council.act.introRightColumn || '',
         }),
         constitution: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
             label: 'constitution',
-            text: data.council.act.constitution,
-            secondaryText: data.council.act.constitution,
+            text: data.council.act.constitution || '',
+            secondaryText: data.council.act.constitutionRightColumn || '',
         }),
         conclusion: () => ({
             ...item,
             id: Math.random().toString(36).substr(2, 9),
             label: 'conclusion',
-            text: data.council.act.conclusion,
-            secondaryText: data.council.act.conclusion,
+            text: data.council.act.conclusion || '',
+            secondaryText: data.council.act.conclusionRightColumn || '',
         }),
         agendaList: () => {
             let puntos = `<b>${texts.agenda}</b> </br>`
@@ -256,7 +256,7 @@ export function generateAgendaBlocks (data, language = 'es', secondaryLanguage =
                 id: Math.random().toString(36).substr(2, 9),
                 label: `${texts.agendaPoint} ${(index + 1)} - ${texts.commentsAndAgreements}`,
                 text: element.comment || '',
-                secondaryText: element.comment || '',
+                secondaryText: element.commentRightColumn || '',
                 editButton: true,
                 type: 'comment',
                 noBorrar: true

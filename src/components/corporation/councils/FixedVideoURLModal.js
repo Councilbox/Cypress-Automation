@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertConfirm, BasicButton, TextInput, LoadingSection } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, TextInput, LoadingSection, Checkbox } from '../../../displayComponents';
 import { primary } from '../../../styles/colors';
 import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -51,7 +51,8 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                 videoLink: '',
                 videoConfig: {
                     rtmp: '',
-                    viewerURL: ''
+                    viewerURL: '',
+                    autoHybrid: false
                 }
             })
         }
@@ -174,6 +175,14 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                     onChange={event => setData({ ...data, videoConfig: {
                         ...data.videoConfig,
                         viewerURL: event.target.value
+                    }})}
+                />
+                <Checkbox
+                    label={'Activar sistema híbrido'}
+                    value={data.videoConfig.autoHybrid}
+                    onChange={(event, isInputChecked) => setData({ ...data, videoConfig: {
+                        ...data.videoConfig,
+                        autoHybrid: isInputChecked
                     }})}
                 />
             </>

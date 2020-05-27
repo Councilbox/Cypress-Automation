@@ -148,8 +148,12 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                     disabled
                     ref={signaturePreview}
                 />
-                _________________________________
-                <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
+                {!council.statute.voteLetter &&
+                    <>
+                        _________________________________
+                        <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
+                    </>
+                }
             </Card>
         )
     }

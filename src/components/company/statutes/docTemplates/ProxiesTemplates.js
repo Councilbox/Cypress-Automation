@@ -34,6 +34,10 @@ const getCustomDocsTags = (type, translate) => {
         CITY: {
             value: '{{city}}',
             label: translate.company_new_locality
+        },
+        SIGNATURE: {
+            value: '{{signature}}',
+            label: translate.new_signature
         }
     }
 

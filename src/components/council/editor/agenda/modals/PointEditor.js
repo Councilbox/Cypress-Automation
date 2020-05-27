@@ -127,23 +127,23 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 						})
 					}
 				}));
+			}
 
-				if(attachmentsToRemove.length > 0){
-					await Promise.all(attachmentsToRemove.map(item =>{
-						return props.client.mutate({
-							mutation: gql`
-								mutation deleteAgendaAttachment($attachmentId: Int!){
-									deleteAgendaAttachment(attachmentId: $attachmentId){
-										success
-									}
+			if(attachmentsToRemove.length > 0){
+				await Promise.all(attachmentsToRemove.map(item =>{
+					return props.client.mutate({
+						mutation: gql`
+							mutation deleteAgendaAttachment($attachmentId: Int!){
+								deleteAgendaAttachment(attachmentId: $attachmentId){
+									success
 								}
-							`,
-							variables: {
-								attachmentId: item.id
 							}
-						});
-					}));
-				}
+						`,
+						variables: {
+							attachmentId: item.id
+						}
+					});
+				}));
 			}
 
 

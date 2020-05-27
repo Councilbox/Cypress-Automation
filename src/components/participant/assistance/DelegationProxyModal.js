@@ -91,6 +91,43 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     const proxyPreview = () => {
         const proxyTranslate = proxyTranslations[translate.selectedLanguage]? proxyTranslations[translate.selectedLanguage] : proxyTranslations.es;      
         
+        const signature = (
+            <ReactSignature
+                height={80}
+                width={160}
+                dotSize={1}
+                disabled
+                ref={signaturePreview}
+            />
+        )
+
+        const buildCustomProxy = proxy => {
+            const segments = proxy.split('{{signature}}');
+
+            if(segments.length === 1){
+                return (
+                    <>
+                        <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(proxy, { council, participant, delegate: delegation }) }}></div>
+                        {signature}
+                    </>
+                )
+            }
+
+            return (
+                segments.map((text, index) => {
+                    return (
+                        <>
+                            {index > 0 &&
+                                signature
+                            }
+                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(text, { council, participant, delegate: delegation }) }}></div>
+                            
+                        </>
+                    )
+                })
+            )
+        }
+
         const getProxyBody = () => {
             const proxyBody = <>
                 <br/>
@@ -104,21 +141,29 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 <br/>
                 <br/>
                 <div>{proxyTranslate.salute}</div>
+                {signature}
+                {!council.statute.proxy &&
+                    <>
+                        _________________________________
+                        <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
+                    </>
+                }
             </>
-
-            
-
 
             if(council.statute.doubleColumnDocs){
                 return (
                     <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
                         {council.statute.proxy?
-                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.proxy, { council, participant, delegate: delegation }) }} style={{width: '48%'}}></div>
+                            <div style={{width: '48%'}}>
+                                {buildCustomProxy(council.statute.proxy)}
+                            </div>
                         :
                             proxyBody
                         }
                         {council.statute.proxySecondary?
-                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.proxySecondary, { council, participant, delegate: delegation }) }} style={{width: '48%'}}></div>
+                            <div style={{width: '48%'}}>
+                                <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.proxySecondary, { council, participant, delegate: delegation }) }}></div>
+                            </div>
                         :
                             proxyBody
                         }
@@ -145,15 +190,6 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                     <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
                     <br/>
                     {getProxyBody()}
-                    <ReactSignature
-                        height={80}
-                        width={160}
-                        dotSize={1}
-                        disabled
-                        ref={signaturePreview}
-                    />
-                    _________________________________
-                    <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
                 </Card>
         )
     }

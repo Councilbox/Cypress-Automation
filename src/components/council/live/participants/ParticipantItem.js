@@ -107,34 +107,12 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 		>
 			<div >
 				{ mode === 'STATES' && participant.personOrEntity === 0?
-					<DropDownMenu
-						claseHover={"classHover "}
-						color="transparent"
-						style={{ paddingLeft: '0px', paddingRight: '0px' }}
-						textStyle={{ boxShadow: "none", height: '100%',fontSize:"12px"  }}
-						icon={
-							<StateIcon
-								translate={translate}
-								state={participant.state}
-								ratio={1.3}
-							/>
-						}
-						items={
-							<React.Fragment>
-								<ParticipantStateList
-									participant={participant}
-									council={council}
-									translate={translate}
-									inDropDown={true}
-									refetch={refetch}
-								/>
-							</React.Fragment>
-						}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'left',
-						}}
-
+					<ParticipantStateList
+						participant={participant}
+						council={council}
+						translate={translate}
+						inDropDown={true}
+						refetch={refetch}
 					/>
 				:
 					<div
@@ -216,14 +194,6 @@ const participantRepresentativeSigned = participant => {
 	return participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
 }
 
-const getActualParticipant = (participant, representative) => {
-	if(hasHisVoteDelegated(participant)){
-		return participant;
-	}
-
-	return representative? representative : participant;
-}
-
 const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => {
 	const representative = getMainRepresentative(participant);
 
@@ -242,34 +212,12 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 				<div style={{ width: '60%', display: 'flex', height: "84px" }}>
 					<div>
 						{ mode === 'STATES' && council.councilType < 2?
-							<DropDownMenu
-								claseHover={"classHover "}
-								color="transparent"
-								style={{ paddingLeft: '0px', paddingRight: '0px' }}
-								textStyle={{ boxShadow: "none", height: '100%', minWidth: "15px" }}
-								icon={
-									<StateIcon
-										translate={translate}
-										state={getActualParticipant(participant, representative).state}
-										ratio={1.3}
-									/>
-								}
-								items={
-									<React.Fragment>
-										<ParticipantStateList
-											participant={getActualParticipant(participant, representative)}
-											council={council}
-											refetch={refetch}
-											translate={translate}
-											inDropDown={true}
-										/>
-									</React.Fragment>
-								}
-								anchorOrigin={{
-									vertical: 'bottom',
-									horizontal: 'left',
-								}}
-
+							<ParticipantStateList
+								participant={participant}
+								representative={representative}
+								translate={translate}
+								refetch={refetch}
+								council={council}
 							/>
 						:
 							<div

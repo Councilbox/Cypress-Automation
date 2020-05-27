@@ -30,8 +30,8 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 
     const checkDelegationConditions = () => {
         return ((participant.numParticipations > 0 || participant.socialCapital > 0)
-            || participant.delegatedVotes.filter(p => (p.state === PARTICIPANT_STATES.REPRESENTATED && p.numParticipations > 0)).length > 0)
-	}
+            || participant.represented.filter(p => (p.numParticipations > 0)).length > 0)
+    }
 
     if(council.councilType === 4){
         return (

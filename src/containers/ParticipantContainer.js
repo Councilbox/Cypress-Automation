@@ -280,6 +280,7 @@ const councilQuery = gql`
 				addParticipantsListToAct
 				existsAdvanceNoticeDays
 				advanceNoticeDays
+				hideVotingsRecountFinished
 				existsSecondCall
 				minimumSeparationBetweenCall
 				canEditConvene

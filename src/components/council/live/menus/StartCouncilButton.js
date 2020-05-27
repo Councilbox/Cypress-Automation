@@ -1,6 +1,6 @@
 import React from "react";
 import { councilOfficials } from "../../../../queries";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -16,10 +16,11 @@ import gql from 'graphql-tag';
 import { getPrimary } from "../../../../styles/colors";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
 import { Typography } from "material-ui";
-import { existsQualityVote } from "../../../../utils/CBX";
+import { existsQualityVote, councilHasVideo } from "../../../../utils/CBX";
 import ConveneSelector from "../ConveneSelector";
 import { startCouncil } from "../../../../queries/council";
 import { useOldState } from "../../../../hooks";
+import StartCouncilVideoOptions from "./StartCouncilVideoOptions";
 
 const buttonStyle = primary => ({
 	backgroundColor: "white",
@@ -30,7 +31,11 @@ const buttonStyle = primary => ({
 });
 
 
-const StartCouncilButton = ({ council, translate, data, ...props }) => {
+const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
+	const [loadingSteps, setLoadingSteps] = React.useState({
+		steps: [],
+		status: 'idle'
+	});
 	const [state, setState] = useOldState({
 		alert: false,
 		selecting: 0,
@@ -43,6 +48,11 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 			presidentId: council.presidentId,
 			secretaryId: council.secretaryId
 		},
+		video: {
+			startRecording: council.fullVideoRecord === 1,
+			//hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
+			startStreaming: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false
+		},
 		errors: {
 			president: "",
 			secretary: "",
@@ -51,30 +61,118 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 	});
 	const primary = getPrimary();
 
+
+	const wait = async () => {
+		return new Promise(resolve => {
+			setTimeout(resolve, 3000);
+		})
+	}
+
 	const startCouncil = async () => {
 		if (!checkRequiredFields()) {
-			setState({
-				loading: true
-			});
-			const { refetch, startCouncil } = props;
+			if(state.video.startRecording) {
+				let step = {
+					text: translate.start_recording,
+					status: 'loading'
+				};
+
+				setLoadingSteps(loadingSteps => ({
+					steps: [...loadingSteps.steps, step],
+					status: 'loading'
+				}));
+
+				//await wait();
+
+				await client.mutate({
+					mutation: gql`
+						mutation StartRecording($councilId: Int!){
+							startRecording(councilId: $councilId){
+								success
+								message
+							}
+						}
+					`,
+					variables: {
+						councilId: council.id
+					}
+				});
+
+				step.status = 'done';
+				setLoadingSteps(loadingSteps => ({
+					steps: [...loadingSteps.steps],
+					status: 'loading'
+				}));
+			}
+
+			if(state.video.startStreaming) {
+				let step = {
+					text: translate.starting_broadcast,
+					status: 'loading'
+				};
+
+				setLoadingSteps(loadingSteps => ({
+					steps: [...loadingSteps.steps, step],
+					status: 'loading'
+				}));
+
+				//await wait();
+
+				await client.mutate({
+					mutation: gql`
+						mutation StartStreaming($councilId: Int!){
+							startStreaming(councilId: $councilId){
+								success
+								message
+							}
+						}
+					`,
+					variables: {
+						councilId: council.id
+					}
+				});
+
+				step.status = 'done';
+				setLoadingSteps(loadingSteps => ({
+					steps: [...loadingSteps.steps],
+					status: 'loading'
+				}));
+			}
+
+			let step = {
+				text: translate.starting_council,
+				status: 'loading'
+			};
+
+			setLoadingSteps(loadingSteps => ({
+				steps: [...loadingSteps.steps, step],
+				status: 'loading'
+			}));
+
+			//await wait();
+			const { startCouncil } = props;
 			const {
 				presidentId,
 				secretaryId,
 				qualityVoteId,
 				firstOrSecondConvene
 			} = state.data;
-			const response = await startCouncil({
+			await startCouncil({
 				variables: {
 					councilId: council.id,
 					presidentId,
 					secretaryId,
 					qualityVoteId,
-					firstOrSecondConvene
+					firstOrSecondConvene,
+					videoOptions: state.video
 				}
 			});
-			if (response) {
-				await refetch();
-			}
+
+			step.status = 'done';
+			setLoadingSteps(loadingSteps => ({
+				steps: [...loadingSteps.steps],
+				status: 'done'
+			}));
+
 		}
 	}
 
@@ -221,6 +319,24 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 		const participants = loading ? [] : data.councilOfficials.list;
 		const { total } = loading ? 0 : data.councilOfficials;
 		const rest = total - participants.length - 1;
+
+		if(loadingSteps.steps.length > 0) {
+			return loadingSteps.steps.map(step => (
+				<div style={{width: '90%', display: 'flex', justifyContent: 'space-between'}} key={`step_${step.text}`}>
+					<div>
+						{step.text}
+					</div>
+					<div>
+						{step.status === 'loading' &&
+							<LoadingSection size={14} />
+						}
+						{step.status === 'done' &&
+							<i className="fa fa-check" style={{ color: 'green' }}></i>
+						}
+					</div>
+				</div>
+			));
+		}
 
 		if (state.selecting !== 0) {
 			return (
@@ -389,6 +505,23 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 						</GridItem>
 					</React.Fragment>
 				)}
+
+				{councilHasVideo(council) &&
+					<StartCouncilVideoOptions
+						council={council}
+						data={state.video}
+						translate={translate}
+						updateData={object => {
+							setState({
+								...state,
+								video: {
+									...state.video,
+									...object
+								}
+							})
+						}}
+					/>
+				}
 				<ConveneSelector
 					council={council}
 					translate={translate}
@@ -401,7 +534,7 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 	}
 
 	if (!data.councilOfficials) {
-		return <LoadingSection />;
+		return <LoadingSection size={20} />;
 	}
 
 	if (council.councilType > 1 && council.councilType !== 4) {
@@ -484,13 +617,19 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 				title={translate.start_council}
 				bodyText={_startCouncilForm()}
 				open={state.alert}
-				loadingAction={state.loading}
+				loadingAction={state.loading || loadingSteps.status === 'loading'}
 				buttonAccept={translate.accept}
-				buttonCancel={translate.cancel}
-				hideAccept={state.selecting !== 0}
+				buttonCancel={loadingSteps.status === 'loading'? null : loadingSteps.status === 'done'? translate.close : translate.cancel}
+				hideAccept={state.selecting !== 0 || loadingSteps.status !== 'idle'}
 				modal={true}
 				acceptAction={startCouncil}
 				requestClose={
+					loadingSteps.status === 'done'?
+						() => {
+							props.refetch();
+							setState({ alert: false })
+						}
+					:
 					state.selecting === 0
 						? () => setState({ alert: false })
 						: () => setState({ selecting: 0 })
@@ -513,6 +652,7 @@ const startAutoCouncil = gql`
 export default compose(
 	graphql(startCouncil, { name: "startCouncil" }),
 	graphql(startAutoCouncil, { name: "startAutoCouncil" }),
+	withApollo,
 	graphql(councilOfficials, {
 		options: props => ({
 			variables: {

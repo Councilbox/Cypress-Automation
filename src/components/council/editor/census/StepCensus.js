@@ -41,6 +41,12 @@ const StepCensus = ({ translate, data, ...props }) => {
 
 	React.useEffect(() => {
 		if(!data.loading){
+			props.participants.refetch();
+		}
+	}, [props.councilID])
+
+	React.useEffect(() => {
+		if(!data.loading){
 			setState({
 				data: {
 					...data.council
@@ -74,7 +80,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 		setState({
 			loading: true
 		})
-		const { __typename, participants, ...council } = data.council;
+		const { __typename, participants, selectedCensusId, ...council } = data.council;
 		await props.updateCouncil({
 			variables: {
 				council: {

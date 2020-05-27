@@ -94,7 +94,9 @@ class AddCensusParticipantButton extends React.Component {
 		const emailsToCheck = [];
 
 		if(this.props.company.type !== 10){
-			emailsToCheck.push(participant.email);
+			if(participant.personOrEntity === 0 && participant.email){
+				emailsToCheck.push(participant.email);
+			}
 		}
 
 		let errorsRepresentative = {

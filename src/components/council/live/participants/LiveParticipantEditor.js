@@ -1,5 +1,5 @@
 import React from "react";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
 import { isLandscape, isMobile } from "../../../../utils/screen";
 import { getSecondary } from "../../../../styles/colors";
@@ -13,7 +13,8 @@ import {
 	LoadingSection,
 	DropDownMenu,
 	ParticipantDisplay,
-	Scrollbar
+	Scrollbar,
+	TextInput
 } from "../../../../displayComponents";
 import * as CBX from "../../../../utils/CBX";
 import withWindowSize from '../../../../HOCs/withWindowSize';
@@ -28,6 +29,8 @@ import SignatureButton from "./SignatureButton";
 import { client } from "../../../../containers/App";
 import gql from "graphql-tag";
 import RemoveDelegationButton from "./RemoveDelegationButton";
+import { useParticipantContactEdit } from "../../../../hooks";
+import { Tooltip } from "material-ui";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
@@ -96,6 +99,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										<ParticipantDisplay
 											participant={participant}
 											translate={translate}
+											canEdit={!CBX.hasHisVoteDelegated(participant) && !CBX.isRepresented(participant)}
 											council={props.council}
 											refetch={data.refetch}
 										/>
@@ -106,35 +110,12 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								{participant.personOrEntity !== 1 &&
 									<div style={{ display: "flex", alignItems: "center" }}>
 										{showStateMenu() &&
-											<DropDownMenu
-												claseHover={"classHover"}
-												color="transparent"
-												textStyle={{ boxShadow: "none", margin: "0px" }}
-												// textStyle={{ boxShadow: "none", height: '100%', fontSize: "24px", minWidth: "24px", padding: "0", margin: "0px" }}
-												buttonStyle={{ background: "white" }}
-												style={{ paddingLeft: '0px', paddingRight: '0px' }}
-												icon={
-													<StateIcon
-														translate={translate}
-														state={participant.state}
-														ratio={1.3}
-													/>
-												}
-												items={
-													<React.Fragment>
-														<ParticipantStateList
-															participant={participant}
-															council={props.council}
-															translate={translate}
-															refetch={props.refetch}
-															inDropDown={true}
-														/>
-													</React.Fragment>
-												}
-												anchorOrigin={{
-													vertical: 'bottom',
-													horizontal: 'left',
-												}}
+											<ParticipantStateList
+												participant={participant}
+												council={props.council}
+												translate={translate}
+												refetch={props.refetch}
+												inDropDown={true}
 											/>
 										}
 										<div style={{ paddingLeft: landscape ? '1em' : "0", marginBottom: "0.5em" }}>
@@ -274,7 +255,20 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	);
 }
 
-const ParticipantBlock = ({ children, translate, type, data, action, active, participant, ...props }) => {
+const ParticipantBlock = withApollo(({ children, translate, type, client, data, action, active, participant, ...props }) => {
+	const {
+		edit,
+		setEdit,
+		saving,
+		success,
+		email,
+		setEmail,
+		phone,
+		setPhone,
+		errors,
+		updateParticipantContactInfo
+	} = useParticipantContactEdit({ participant, client, translate, council: props.council });
+
 	const secondary = getSecondary();
 
 	const texts = {
@@ -306,42 +300,74 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 					}}>
 						{`${text}:`}
 						<b>{`${participant.name} ${participant.surname || ''}`}</b>
+						{type === PARTICIPANT_STATES.REPRESENTATED &&
+							<Tooltip title={translate.edit_participant_contact}>
+								<i
+									onClick={() => setEdit(!edit)}
+									className="fa fa-pencil-square-o"
+									aria-hidden="true"
+									style={{
+										color: secondary,
+										fontSize: "0.8em",
+										cursor: 'pointer',
+										marginLeft: "0.3em"
+									}}>
+								</i>
+							</Tooltip>
+							
+						}
 					</div>
 				</div>
+				{edit &&
+					<>
+						<TextInput
+							floatingText={translate.email}
+							type="text"
+							required
+							value={email}
+							errorText={errors.email}
+							onChange={event =>
+								setEmail(event.target.value)
+							}
+						/>
+						{props.council.securityType === 2 &&
+							<TextInput
+								type="text"
+								floatingText={translate.phone}
+								required
+								value={phone}
+								errorText={errors.phone}
+								onChange={event =>
+									setPhone(event.target.value)
+								}
+							/>
+						}
+						<BasicButton
+							text={translate.save}
+							color={secondary}
+							loading={saving}
+							success={success}
+							textStyle={{
+								color: 'white'
+							}}
+							onClick={updateParticipantContactInfo}
+							buttonStyle={{
+								marginTop: '0.6em'
+							}}
+						/>
+					</>
+				}
 			</GridItem>
 			{active &&
 				<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
 					<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
 						<div>
-							<DropDownMenu
-								claseHover={"classHover"}
-								color="transparent"
-								textStyle={{ boxShadow: "none", margin: "0px" }}
-								// textStyle={{ boxShadow: "none", height: '100%', fontSize: "24px", minWidth: "24px", padding: "0", margin: "0px" }}
-								buttonStyle={{ background: "white" }}
-								style={{ paddingLeft: '0px', paddingRight: '0px' }}
-								icon={
-									<StateIcon
-										translate={translate}
-										state={participant.state}
-										ratio={1.3}
-									/>
-								}
-								items={
-									<React.Fragment>
-										<ParticipantStateList
-											participant={participant}
-											council={props.council}
-											translate={translate}
-											refetch={props.refetch}
-											inDropDown={true}
-										/>
-									</React.Fragment>
-								}
-								anchorOrigin={{
-									vertical: 'bottom',
-									horizontal: 'left',
-								}}
+							<ParticipantStateList
+								participant={participant}
+								council={props.council}
+								translate={translate}
+								refetch={props.refetch}
+								inDropDown={true}
 							/>
 						</div>
 						<div style={{
@@ -399,8 +425,7 @@ const ParticipantBlock = ({ children, translate, type, data, action, active, par
 			</GridItem>
 		</Grid>
 	)
-}
-
+})
 
 const setMainRepresentative = gql`
 	mutation setMainRepresentative($participantId: Int!, $representativeId: Int!){
