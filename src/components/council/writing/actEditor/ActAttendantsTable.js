@@ -115,29 +115,28 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                                 name: 'dni',
                                                 canOrder: true
 
-                                        },
-                                        {
-                                            text: translate.position,
-                                            name: 'position',
-                                            canOrder: true
-                                        },
-                                        {
-                                            text: translate.date_when_left,
-                                            name: 'lastPresentDate',
-                                            canOrder: false
-                                        },
-                                        {
-                                            text: '',
-                                            name: 'download',
-                                            canOrder: false
-                                        }
-                                    ]}
-                                >
+                                            },
+                                            {
+                                                text: translate.position,
+                                                name: 'position',
+                                                canOrder: true
+                                            },
+                                            {
+                                                text: translate.date_when_left,
+                                                name: 'lastPresentDate',
+                                                canOrder: false
+                                            },
+                                            {
+                                                text: '',
+                                                name: 'download',
+                                                canOrder: false
+                                            }
+                                        ]}
+                                    >
                                     {loading ?
                                         <LoadingSection />
                                         :
-
-                                        participants.map(
+                                        councilAttendantsData.list.map(
                                             (participant, index) => {
                                                 return (
                                                     <React.Fragment
@@ -151,26 +150,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                                     </React.Fragment>
                                                 );
                                             }
-                                        ]}
-                                    >
-                                        {loading ?
-                                            <LoadingSection />
-                                            :
-                                            councilAttendantsData.list.map(
-                                                (participant, index) => {
-                                                    return (
-                                                        <React.Fragment
-                                                            key={`participant${participant.id}`}
-                                                        >
-                                                            <HoverableRow
-                                                                translate={translate}
-                                                                participant={participant}
-                                                                delegatedVotes={participant.delegationsAndRepresentations}
-                                                            />
-                                                        </React.Fragment>
-                                                    );
-                                                }
-                                            )}
+                                        )}
                                     </EnhancedTable>
                                 </React.Fragment>
                             )}

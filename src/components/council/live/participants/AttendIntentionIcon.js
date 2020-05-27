@@ -10,8 +10,8 @@ import { getAttendanceIntentionIcon } from '../../../../utils/CBX';
 const AttendIntentionIcon = ({ participant, representative, council, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
     let tooltip = translate.not_confirmed_assistance;
     const iconStyle = {
-        margin: "0.5em",
-        color: color,
+        margin: "0.3em",
+        color,
         fontSize: size
     };
     let icon = <i className='fa fa-question' style={iconStyle}></i>;
@@ -69,8 +69,8 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                     onClick={onCommentClick}
                     name={'comment'}
                     style={{
-                        margin: "0.5em",
-                        color: color,
+                        margin: "0.2em",
+                        color,
                         fontSize: size
                     }}
                 />
