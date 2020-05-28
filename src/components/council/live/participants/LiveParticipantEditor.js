@@ -31,6 +31,7 @@ import gql from "graphql-tag";
 import RemoveDelegationButton from "./RemoveDelegationButton";
 import { useParticipantContactEdit } from "../../../../hooks";
 import { Tooltip } from "material-ui";
+import EarlyVotingModal from "./EarlyVotingModal";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
@@ -132,6 +133,11 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										refetch={data.refetch}
 									/>
 								</div>
+								<EarlyVotingModal
+									council={props.council}
+									participant={participant}
+									translate={translate}
+								/>
 								<Grid style={{ marginTop: "1em", display: "flex" }}>
 									{CBX.showSendCredentials(participant.state) &&
 										<GridItem xs={12} md={7} lg={5} style={{}}>

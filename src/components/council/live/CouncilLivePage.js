@@ -25,7 +25,7 @@ let minVideoHeight = calcMinHeight();
 const initScreenSizes = size => {
 	const sizes = {
 		'MIN': () => {
-			localStorage.setItem('screenSize', 'MIX');
+			localStorage.setItem('screenSize', 'MIN');
 			return ({
 				videoWidth: minVideoWidth,
 				videoHeight: minVideoHeight,
