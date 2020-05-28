@@ -2,7 +2,7 @@ import React from "react";
 import { MenuItem, Typography, Tooltip, Card } from "material-ui";
 import { GridItem, Grid, BasicButton } from "../../../../displayComponents";
 import FontAwesome from "react-fontawesome";
-import { getSecondary, primary } from "../../../../styles/colors";
+import { getSecondary, getPrimary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
@@ -87,108 +87,111 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 	);
 };
 
-const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary, council, refetch }) => (
-	<Grid
-		spacing={0}
-		style={{
-			display: "flex",
-			flexDirection: "row",
-			alignItems: "center",
-			width: "100%",
-			fontSize: '14px',
-			textOverflow: "ellipsis",
-			overflow: "hidden"
-		}}
-	>
-		<GridItem
-			xs={mode === 'ATTENDANCE' ? 1 : 2}
-			lg={mode === 'ATTENDANCE' ? 1 : 2}
-			md={mode === 'ATTENDANCE' ? 1 : 2}
+const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary, council, refetch }) => {
+	const primary = getPrimary();
+
+	return (
+		<Grid
+			spacing={0}
+			style={{
+				display: "flex",
+				flexDirection: "row",
+				alignItems: "center",
+				width: "100%",
+				fontSize: '14px',
+				textOverflow: "ellipsis",
+				overflow: "hidden"
+			}}
 		>
-			<div >
-				{ mode === 'STATES' && participant.personOrEntity === 0?
-					<ParticipantStateList
-						participant={participant}
-						council={council}
-						translate={translate}
-						inDropDown={true}
-						refetch={refetch}
-					/>
-				:
-					<div
-						style={{
-							width: '88px',
-							height: '100%',
-							display: 'flex',
-							fontSize: '1.3em',
-							paddingLeft: '0.4em',
-							alignItems: 'center',
-							justifyContent: 'center'
-						}}
-					>
-						{_getIcon(mode, participant, translate)}
-					</div>
-				}
-			</div>
-		</GridItem>
-		{mode === 'ATTENDANCE' &&
 			<GridItem
-				xs={1}
-				lg={1}
-				md={1}
+				xs={mode === 'ATTENDANCE' ? 1 : 2}
+				lg={mode === 'ATTENDANCE' ? 1 : 2}
+				md={mode === 'ATTENDANCE' ? 1 : 2}
 			>
-				{participant.assistanceComment &&
-					<Tooltip title={removeHTMLTags(participant.assistanceComment)}>
-						<div style={{ padding: "0.5em" }}>
-							<FontAwesome
-								name={"comment"}
-								style={{ fontSize: '1.5em', color: 'grey' }}
-							/>
+				<div >
+					{ mode === 'STATES' && participant.personOrEntity === 0?
+						<ParticipantStateList
+							participant={participant}
+							council={council}
+							translate={translate}
+							inDropDown={true}
+							refetch={refetch}
+						/>
+					:
+						<div
+							style={{
+								width: '88px',
+								height: '100%',
+								display: 'flex',
+								fontSize: '1.3em',
+								paddingLeft: '0.4em',
+								alignItems: 'center',
+								justifyContent: 'center'
+							}}
+						>
+							{_getIcon(mode, participant, translate)}
 						</div>
-					</Tooltip>
+					}
+				</div>
+			</GridItem>
+			{mode === 'ATTENDANCE' &&
+				<GridItem
+					xs={1}
+					lg={1}
+					md={1}
+				>
+					{participant.assistanceComment &&
+						<Tooltip title={removeHTMLTags(participant.assistanceComment)}>
+							<div style={{ padding: "0.5em" }}>
+								<FontAwesome
+									name={"comment"}
+									style={{ fontSize: '1.5em', color: 'grey' }}
+								/>
+							</div>
+						</Tooltip>
+					}
+				</GridItem>
+			}
+
+			<GridItem
+				xs={4}
+				md={4}
+				lg={4}
+			>
+				{`${participant.name} ${participant.surname || ''}`}
+			</GridItem>
+			<GridItem
+				xs={3}
+				md={2}
+				lg={2}
+			>
+				{`${participant.dni || '-'}`}
+				{/* Estaba duplicado */}
+				{/* {`${participant.dni || ''}`} */}
+			</GridItem>
+			<GridItem
+				xs={3}
+				md={2}
+				lg={2}
+			>
+				{!isRepresented(participant) && council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
+					<BasicButton
+						text={participant.signed ? translate.user_signed : translate.to_sign}
+						fullWidth
+						buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
+						type="flat"
+						color={"white"}
+						onClick={event => {
+							event.stopPropagation();
+							showSignatureModal()
+						}}
+						textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+					/>
 				}
 			</GridItem>
-		}
-
-		<GridItem
-			xs={4}
-			md={4}
-			lg={4}
-		>
-			{`${participant.name} ${participant.surname || ''}`}
-		</GridItem>
-		<GridItem
-			xs={3}
-			md={2}
-			lg={2}
-		>
-			{`${participant.dni || '-'}`}
-			{/* Estaba duplicado */}
-			{/* {`${participant.dni || ''}`} */}
-		</GridItem>
-		<GridItem
-			xs={3}
-			md={2}
-			lg={2}
-		>
-			{!isRepresented(participant) && council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
-				<BasicButton
-					text={participant.signed ? translate.user_signed : translate.to_sign}
-					fullWidth
-					buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
-					type="flat"
-					color={"white"}
-					onClick={event => {
-						event.stopPropagation();
-						showSignatureModal()
-					}}
-					textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-				/>
-			}
-		</GridItem>
-	</Grid>
-)
-
+		</Grid>
+	)
+}
 
 const participantRepresentativeSigned = participant => {
 	return participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
@@ -196,6 +199,8 @@ const participantRepresentativeSigned = participant => {
 
 const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => {
 	const representative = getMainRepresentative(participant);
+	const primary = getPrimary();
+
 
 	return (
 		<React.Fragment>
