@@ -45,22 +45,40 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
     const getData = async () => {
         const response = await client.query({
             query: gql`
-                query agendas($councilId: Int!){
+                query agendas($councilId: Int!, $participantId: Int!){
                     agendas(councilId: $councilId){
                         id
                         agendaSubject
                         subjectType
                     }
+                    proxyVotes(participantId: $participantId){
+                        value
+                        agendaId
+                        id
+                    }
                 }
             `,
             variables: {
-                councilId: council.id
+                councilId: council.id,
+                participantId: participant.id
             }
         });
 
         setData(response.data);
         setLoading(false);
     }
+
+    const isActive = (agendaId, value) => {
+        const vote = data.proxyVotes.find(proxy => proxy.agendaId === agendaId);
+        
+        if(!vote){
+            return false;
+        }
+
+        return vote.value === value;
+    }
+
+    console.log(data);
 
     const setEarlyVote = async (agendaId, value) => {
         const response = await client.mutate({
@@ -77,6 +95,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                 value
             }
         });
+
+        getData();
 
         console.log(response);
     }
@@ -96,48 +116,51 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                         <div key={`point_${point.id}`}>
                             Punto: {point.agendaSubject}
                             <div style={{display: 'flex'}}>
-                                {[VOTE_VALUES.POSITIVE, VOTE_VALUES.NEGATIVE, VOTE_VALUES.ABSTENTION, VOTE_VALUES.NO_VOTE].map(vote => (
-                                    <div
-                                        key={`vote_${vote}`}
-                                        style={{
-                                            height: "1.75em",
-                                            width: "1.75em",
-                                            marginRight: "0.2em",
-                                            border: `2px solid ${"grey"}`,
-                                            borderRadius: "3px",
-                                            display: "flex",
-                                            cursor: "pointer",
-                                            alignItems: "center",
-                                            justifyContent: "center"
-                                        }}
-                                        onClick={() => {
-                                            setEarlyVote(point.id, vote)
-                                        }}
-                                    >
-                                        <MenuItem
-                                            selected={false}
+                                {[VOTE_VALUES.POSITIVE, VOTE_VALUES.NEGATIVE, VOTE_VALUES.ABSTENTION, VOTE_VALUES.NO_VOTE].map(vote => {
+                                    const active = isActive(point.id, vote);
+                                    return (
+                                        <div
+                                            key={`vote_${vote}`}
                                             style={{
+                                                height: "1.75em",
+                                                width: "1.75em",
+                                                marginRight: "0.2em",
+                                                border: `2px solid ${"grey"}`,
+                                                borderRadius: "3px",
                                                 display: "flex",
-                                                fontSize: "0.9em",
+                                                cursor: "pointer",
                                                 alignItems: "center",
-                                                justifyContent: "center",
-                                                height: '100%',
-                                                width: '100%',
-                                                padding: 0,
-                                                margin: 0
+                                                justifyContent: "center"
+                                            }}
+                                            onClick={() => {
+                                                setEarlyVote(point.id, vote)
                                             }}
                                         >
-                                            {loading === vote?
-                                                <CircularProgress size={12} thickness={7} color={'primary'} style={{marginBottom: '0.35em'}} />
-                                            :
-                                                <VotingValueIcon
-                                                    vote={vote}
-                                                    //color={active ? undefined : "grey"}
-                                                />
-                                            }
-                                        </MenuItem>
-                                    </div>
-                                ))}
+                                            <MenuItem
+                                                selected={active}
+                                                style={{
+                                                    display: "flex",
+                                                    fontSize: "0.9em",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    height: '100%',
+                                                    width: '100%',
+                                                    padding: 0,
+                                                    margin: 0
+                                                }}
+                                            >
+                                                {loading === vote?
+                                                    <CircularProgress size={12} thickness={7} color={'primary'} style={{marginBottom: '0.35em'}} />
+                                                :
+                                                    <VotingValueIcon
+                                                        vote={vote}
+                                                        color={active ? undefined : "grey"}
+                                                    />
+                                                }
+                                            </MenuItem>
+                                        </div>
+                                    )
+                                })}
                             </div>
                             
                         </div>
