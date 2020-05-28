@@ -41,6 +41,7 @@ const EarlyVotingModal = props => {
 const EarlyVotingBody = withApollo(({ council, participant, translate, client, ...props }) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
+    const [loadingVote, setLoadingVote] = React.useState(false);
 
     const getData = async () => {
         const response = await client.query({
@@ -78,9 +79,26 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
         return vote.value === value;
     }
 
-    console.log(data);
+    const deleteProxyVote = async agendaId => {
+        await client.mutate({
+            mutation: gql`
+                mutation DeleteProxyVote($participantId: Int!, $agendaId: Int!){
+                    deleteProxyVote(participantId: $participantId, agendaId: $agendaId){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                participantId: participant.id,
+                agendaId,
+            }
+        });
+
+        getData();
+    }
 
     const setEarlyVote = async (agendaId, value) => {
+        setLoadingVote(agendaId);
         const response = await client.mutate({
             mutation: gql`
                 mutation SetEarlyVote($participantId: Int!, $agendaId: Int!, $value: Int!){
@@ -96,9 +114,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
             }
         });
 
+        setLoadingVote(null);
         getData();
-
-        console.log(response);
     }
 
     React.useEffect(() => {
@@ -149,7 +166,7 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                                     margin: 0
                                                 }}
                                             >
-                                                {loading === vote?
+                                                {loadingVote === point.id?
                                                     <CircularProgress size={12} thickness={7} color={'primary'} style={{marginBottom: '0.35em'}} />
                                                 :
                                                     <VotingValueIcon
@@ -161,6 +178,14 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                         </div>
                                     )
                                 })}
+                                <BasicButton
+                                    color="white"
+                                    text="Eliminar"
+                                    textStyle={{
+                                        color: getSecondary()
+                                    }}
+                                    onClick={() => deleteProxyVote(point.id)}
+                                />
                             </div>
                             
                         </div>
