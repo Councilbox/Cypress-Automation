@@ -1,6 +1,6 @@
 {
   "name": "councilbox_client",
-  "version": "6.5.1",
+  "version": "6.5.2",
   "private": true,
   "dependencies": {
     "adom-client": "^0.1.13",
