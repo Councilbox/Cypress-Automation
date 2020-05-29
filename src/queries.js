@@ -1455,6 +1455,7 @@ export const councilLiveQuery = gql`
 			quorumPrototype
 			room {
 				id
+				videoLink
 				htmlVideoCouncil
 				videoConfig
 			}
@@ -1853,6 +1854,7 @@ export const videoParticipants = gql`
 				video
 				videoParticipant{
 					mutedMic
+					online
 					id
 				}
 				councilId

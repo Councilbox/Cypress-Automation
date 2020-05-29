@@ -1,5 +1,5 @@
 import React from "react";
-import { darkGrey, getSecondary, lightGrey } from "../../../styles/colors";
+import { darkGrey, getSecondary, lightGrey, turquoise } from "../../../styles/colors";
 import {
 	CollapsibleSection,
 	Icon,
@@ -271,7 +271,34 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 		if (participant.online !== 1) {
 			return "crimson";
 		}
-		return getSecondary();
+		if(!participant.videoParticipant){
+			return turquoise;
+		}
+
+		if(participant.videoParticipant && council.room && council.room.videoConfig){
+			const { videoConfig } = council.room;
+			const { videoParticipant } = participant;
+
+			if((videoConfig.rtmp && videoConfig.viewerURL) || videoConfig.autoHybrid || videoConfig.fixedURL || council.room.videoLink){
+				if(participant.requestWord !== 2){
+					return turquoise;
+				} else {
+					if(videoParticipant.online === 1){
+						return turquoise;
+					}
+					return "darkorange";
+				}
+			}
+
+			if(videoParticipant.online === 1){
+				return turquoise;
+			} else{
+				return "darkorange";
+			}
+		}
+
+		return turquoise;
+
 	}
 
 	const _button = () => {
