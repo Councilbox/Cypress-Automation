@@ -6,6 +6,8 @@ import { graphql } from "react-apollo";
 import { updateAgendaVoting } from "../../../../queries/agenda";
 import { MenuItem, Tooltip } from "material-ui";
 import { CircularProgress } from "material-ui/Progress";
+import withTranslations from "../../../../HOCs/withTranslations";
+
 
 const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
@@ -49,7 +51,7 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 					justifyContent: "center"
 				}}
 				onClick={() => {
-					return agendaVoting.fixed? setFixedAlert(true) : updateAgendaVoting(value)
+					return agendaVoting.fixed? setFixedAlert(!fixedAlert) : updateAgendaVoting(value)
 				}}
 			>
 				<MenuItem
@@ -80,7 +82,7 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 	};
 
 	return (
-		<Tooltip title="El voto ya ha sido fijado" open={fixedAlert}>
+		<Tooltip title={props.translate.participant_vote_fixed} open={fixedAlert}>
 			<div
 				style={{
 					display: "flex",
@@ -111,4 +113,4 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 
 export default graphql(updateAgendaVoting, {
 	name: "updateAgendaVoting"
-})(PresentVoteMenu);
+})(withTranslations()(PresentVoteMenu));

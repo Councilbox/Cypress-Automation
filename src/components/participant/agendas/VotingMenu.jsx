@@ -152,7 +152,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                 'Dentro de los votos depositados en usted, tiene votos denegados' //TRADUCCION
             }
             {fixed &&
-                'El sentido de voto ya fue fijado.'
+                translate.participant_vote_fixed
             }
             <VotingButton
                 text={
