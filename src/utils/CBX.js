@@ -1856,24 +1856,22 @@ export const getParticipantStateField = participant => {
 	switch (participant.state) {
 		case 0:
 			return "remote_assistance";
-
 		case 1:
 			return "physically_present_assistance";
-
 		case 2:
 			return "representated";
-
 		case 4:
 			return "delegated";
-
 		case 5:
 			return "physically_present_assistance";
-
 		case 6:
 			return "no_participate";
-
 		case 7:
 			return "physically_present_with_remote_vote";
+		case 8:
+			return 'participant_vote_fixed';
+		case 11:
+			return 'left_the_council';
 
 		default:
 			return "remote_assistance";
