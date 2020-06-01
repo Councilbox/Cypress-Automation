@@ -760,6 +760,8 @@ export const statutes = gql`
 			prototype
 			intro
 			constitution
+			canEarlyVote
+			canSenseVoteDelegate
 			conclusion
 			actTemplate
 			conveneHeader
