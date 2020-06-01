@@ -6,6 +6,8 @@ import DelegationItem from './DelegationItem';
 import { canDelegateVotes } from '../../../utils/CBX';
 import AddRepresentativeModal from '../../council/live/AddRepresentativeModal';
 import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning';
+import EarlyVoteModal from './EarlyVoteOption';
+import EarlyVoteOption from './EarlyVoteOption';
 
 
 const AttendanceOptions = ({ translate, state, setState, council, participant, showDelegationModal, refetch }) => {
@@ -25,7 +27,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 			...state,
 			addRepresentative: false
 		});
-	}
+    }
 
 
     const checkDelegationConditions = () => {
@@ -207,6 +209,18 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                     representative={participant.type === PARTICIPANT_TYPE.REPRESENTATIVE}
                     requestClose={() => setState({ ...state, noAttendWarning: false })}
                 />
+            }
+            {(council.statute.canEarlyVote && checkDelegationConditions()) &&
+                <>
+                    <EarlyVoteOption
+                        translate={translate}
+                        state={state}
+                        council={council}
+                        participant={participant}
+                        setState={setState}
+                    />
+
+                </>
             }
             {checkDelegationConditions() &&
                 <AssistanceOption

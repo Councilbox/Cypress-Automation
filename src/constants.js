@@ -81,7 +81,8 @@ export const PARTICIPANT_STATES = {
 	SENT_VOTE_LETTER: 8,
 	REMOTE_VOTE: 9,
 	PRESENT_VOTE: 10,
-	LEFT: 11
+	LEFT: 11,
+	EARLY_VOTE: 12
 };
 
 export const DRAFT_TYPES = {

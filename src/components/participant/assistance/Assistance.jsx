@@ -130,12 +130,21 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	const selectSimpleOption = async (option, signature) => {
 		const quitRepresentative = option !== PARTICIPANT_STATES.DELEGATED;
 
+		console.log(state.earlyVotes);
+
+		console.log(state.assistanceIntention === PARTICIPANT_STATES.EARLY_VOTE? {
+			earlyVotes: state.earlyVotes
+		} : {})
+
 		const response = await setAssistanceIntention({
 			variables: {
 				assistanceIntention: option,
 				representativeId: quitRepresentative ? null : state.participant.delegateId,
 				...(signature? {
 					signature
+				} : {}),
+				...(state.assistanceIntention === PARTICIPANT_STATES.EARLY_VOTE? {
+					earlyVotes: state.earlyVotes
 				} : {})
 			}
 		});
@@ -176,6 +185,9 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 							representativeId: state.delegateId,
 							...(signature? {
 								signature
+							} : {}),
+							...(state.assistanceIntention === PARTICIPANT_STATES.EARLY_VOTE? {
+								earlyVotes: state.earlyVotes
 							} : {})
 						}
 					});
@@ -227,7 +239,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 			return openModalFirmas();
 		}
 
-		if(state.assistanceIntention === PARTICIPANT_STATES.SENT_VOTE_LETTER){
+		if(state.assistanceIntention === PARTICIPANT_STATES.SENT_VOTE_LETTER && state.requireDoc){
 			return setOpenModalVoteLetter(true);
 		}
 		
@@ -250,6 +262,9 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 			setSelecteAssistance(`${translate.representations_delegations} (${delegatedVotesNumber})`);
 		}
 	}, [delegatedVotesNumber]);
+
+
+	console.log(state);
 
 
 	if (council.active === 0) {

@@ -130,6 +130,8 @@ const participantQuery = gql`
 				existsDelegatedVote
 				existMaxNumDelegatedVotes
 				doubleColumnDocs
+				canEarlyVote
+				canSenseVoteDelegate
 				proxy
 				proxySecondary
 				voteLetter

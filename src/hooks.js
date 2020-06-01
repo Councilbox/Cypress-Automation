@@ -241,3 +241,48 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 		updateParticipantContactInfo
 	}
 }
+
+
+export const useCouncilAgendas = ({
+	councilId,
+	participantId,
+	client
+}) => {
+	const [data, setData] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+
+    const getData = async () => {
+        const response = await client.query({
+            query: gql`
+                query agendas($councilId: Int!, $participantId: Int!){
+                    agendas(councilId: $councilId){
+                        id
+                        agendaSubject
+                        subjectType
+                    }
+                    proxyVotes(participantId: $participantId){
+                        value
+                        agendaId
+                        id
+                    }
+                }
+            `,
+            variables: {
+                councilId,
+                participantId
+            }
+        });
+
+        setData(response.data);
+        setLoading(false);
+	}
+
+	React.useEffect(() => {
+        getData();
+    }, [councilId])
+	
+	return {
+		data,
+		loading
+	}
+}

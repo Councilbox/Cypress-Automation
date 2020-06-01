@@ -21,7 +21,7 @@ const EarlyVotingModal = props => {
         <>
             <BasicButton
                 color="white"
-                text="Adelantar voto"
+                text={props.translate.anticipate_vote}
                 onClick={() => setModal(!modal)}
                 textStyle={{
                     color: getSecondary()
