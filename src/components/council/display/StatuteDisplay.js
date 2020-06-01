@@ -161,7 +161,7 @@ const getSelectionIcon = value => {
 
 const getQuorumType = (type, quorumTypes) => {
     const quorum = quorumTypes.find(quorum => type = quorum.value);
-    if (quorum) {
+    if (quorum && quorum !== 0) {
         return quorum.label;
     }
     return '-';
