@@ -36,6 +36,14 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                 icon = <i className={getAttendanceIntentionIcon(intention)} style={iconStyle}></i>;
                 break;
 
+            case PARTICIPANT_STATES.EARLY_VOTE:
+                tooltip = translate.participant_vote_fixed;
+                icon = <span class="material-icons" style={iconStyle}>
+                        how_to_vote
+                    </span>
+                break;
+    
+
             case PARTICIPANT_STATES.DELEGATED:
                 if((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)){
                     tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname || ''}`;

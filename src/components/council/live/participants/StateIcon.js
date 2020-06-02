@@ -173,6 +173,19 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 						</div>
 					</Tooltip>
 				);
+		case PARTICIPANT_STATES.EARLY_VOTE:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
+					<div style={{ padding: "0.5em" }}>
+						<span class="material-icons"
+							style={styleMainIcon(color, ratio)}
+						>
+							how_to_vote
+						</span>
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
 		default:
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.not_confirmed_assistance}>
