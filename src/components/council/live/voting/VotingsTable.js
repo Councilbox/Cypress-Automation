@@ -152,6 +152,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 						<DisplayVoting
 							ballots={vote.ballots}
 							translate={translate}
+							items={agenda.items}
 						/>
 					}
 				</React.Fragment>
