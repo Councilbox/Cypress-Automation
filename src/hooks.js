@@ -258,7 +258,15 @@ export const useCouncilAgendas = ({
                     agendas(councilId: $councilId){
                         id
                         agendaSubject
-                        subjectType
+						subjectType
+						options {
+							maxSelections
+							minSelections
+						}
+						items {
+							value
+							id
+						}
                     }
                     proxyVotes(participantId: $participantId){
                         value

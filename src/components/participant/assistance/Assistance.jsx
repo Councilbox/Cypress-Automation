@@ -129,13 +129,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 	const selectSimpleOption = async (option, signature) => {
 		const quitRepresentative = option !== PARTICIPANT_STATES.DELEGATED;
-
-		console.log(state.earlyVotes);
-
-		console.log(state.assistanceIntention === PARTICIPANT_STATES.EARLY_VOTE? {
-			earlyVotes: state.earlyVotes
-		} : {})
-
 		const response = await setAssistanceIntention({
 			variables: {
 				assistanceIntention: option,
