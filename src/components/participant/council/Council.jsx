@@ -371,6 +371,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                 openHelp={true}
                 council={council}
                 translate={translate}
+                closeButton={false}
             />
         )
     }

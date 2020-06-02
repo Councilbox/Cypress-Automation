@@ -346,7 +346,7 @@ class ImportCensusButton extends React.Component {
 
 
 	cleanPhone = phone => {
-		if(!phone){
+		if (!phone) {
 			return '';
 		}
 
@@ -365,7 +365,7 @@ class ImportCensusButton extends React.Component {
 				censusId: this.props.censusId,
 				name: participant.name || '',
 				surname: participant.surname || '',
-				email: participant.email? participant.email.toLowerCase() : '',
+				email: participant.email ? participant.email.toLowerCase() : '',
 				dni: participant.dni || '',
 				phone: this.cleanPhone(participant.phone),
 				language: participant.language,
@@ -376,22 +376,22 @@ class ImportCensusButton extends React.Component {
 			return { ...errors, ...participantError };
 		}
 
-		const numParticipations = participant.numParticipations?
+		const numParticipations = participant.numParticipations ?
 			participant.numParticipations.replace(/[.,]/g, '') :
-			participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : 0;
+			participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
 
 		return {
 			participant: {
 				companyId: this.props.companyId,
 				censusId: this.props.censusId,
 				name: participant.r_name || '',
-				email: participant.r_email? participant.r_email.toLowerCase() : null,
+				email: participant.r_email ? participant.r_email.toLowerCase() : null,
 				dni: participant.r_dni || '',
 				phone: this.cleanPhone(participant.r_phone),
 				personOrEntity: 1,
 				language: participant.language,
 				numParticipations,
-				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
+				socialCapital: participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
 				position: participant.position,
 			},
 			...mappedParticipant
@@ -404,9 +404,9 @@ class ImportCensusButton extends React.Component {
 			return participantError;
 		}
 
-		const numParticipations = participant.numParticipations?
+		const numParticipations = participant.numParticipations ?
 			participant.numParticipations.replace(/[.,]/g, '') :
-			participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : 0;
+			participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
 
 
 		return {
@@ -421,7 +421,7 @@ class ImportCensusButton extends React.Component {
 				phone: this.cleanPhone(participant.phone),
 				language: participant.language,
 				numParticipations,
-				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
+				socialCapital: participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
 			}
 		}
 	}
@@ -509,7 +509,7 @@ class ImportCensusButton extends React.Component {
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
-		if(isMobile){
+		if (isMobile) {
 			return <span />
 		}
 

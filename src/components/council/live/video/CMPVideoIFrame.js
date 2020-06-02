@@ -86,6 +86,7 @@ const CMPVideoIFrame = props => {
                 council={props.council}
                 context={config}
                 closeButton
+                isAdmin={true}
             />
             {!!data.roomVideoURL && config.video?
                 <React.Fragment>

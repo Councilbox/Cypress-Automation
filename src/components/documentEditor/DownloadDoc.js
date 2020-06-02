@@ -27,7 +27,7 @@ const DownloadDoc = ({ client, doc, council, options, translate, styles }) => {
                 councilId: council.id
             }
         });
-
+        
         if (response) {
             if (response.data.generateDocPDF) {
                 downloadFile(

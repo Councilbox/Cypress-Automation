@@ -9,41 +9,49 @@ import { getPrimary } from '../../../styles/colors';
 import aviso from '../../../assets/img/aviso.svg';
 
 
-const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, blockFunctionsRoomAnnouncement, openHelp, ...props }) => {
+const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, blockFunctionsRoomAnnouncement, openHelp, isAdmin, ...props }) => {
     const context = React.useContext(ConfigContext);
     const [mostrarInfo, setMostrarInfo] = React.useState(openHelp ? openHelp : false);
     const [showCloseButton, setShowCloseButton] = React.useState(false);
+    const [showInParticipant, setShowInParticipant] = React.useState(true);
 
     React.useEffect(() => {
         props.subscribeToAdminAnnoucement({ councilId: council.id });
     }, [council.id])
 
     const closeAnnouncement = async () => {
-        console.log("cierro")
         await closeRoomAnnouncement({
             variables: {
                 councilId: council.id
             }
         })
-        data.refetch();
+        // data.refetch();
     }
 
     React.useEffect(() => {
-        if (!data.loading && data.adminAnnouncement) {
+        if (!data.loading) {
+            setShowCloseButton(data.adminAnnouncement.blockUser)
+        }
+    }, [data.loading])
+
+    React.useEffect(() => {
+        if (isAdmin && !data.loading && data.adminAnnouncement) {
             buttonCloseShow()
         }
     }, [showCloseButton])
 
     const buttonCloseShow = async () => {
-        console.log("togle" + showCloseButton )
+        console.log(showCloseButton)
         const response = await blockFunctionsRoomAnnouncement({
             variables: {
                 message: {
                     councilId: council.id,
                     text: data.adminAnnouncement.text,
                     participantId: -1,
+                    // blockUser: true,
+                    blockUser: showCloseButton,
+                    id: data.adminAnnouncement.id
                 },
-                blockUser: showCloseButton
             }
         })
         data.refetch();
@@ -53,10 +61,8 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
         return <span />;
     }
     console.log(data)
-    // falla al hacer el useeffect ... revisar bien
-    // blockUser
     return (
-        data.adminAnnouncement ?
+        data.adminAnnouncement && showInParticipant ?
             <div
                 id="announcement-container"
                 style={{
@@ -102,7 +108,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                             color: getPrimary()
                         }}>
                             {/* TRADUCCION */}
-                            {closeButton &&
+                            {isAdmin &&
                                 <Checkbox
                                     label={"Bloquear funciones a los participantes hasta cerrar el aviso"}
                                     styleInLabel={{ color: getPrimary(), fontSize: "12px" }}
@@ -118,12 +124,24 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                             </div>
                         </div>
                         <div style={{ width: "100%" }} >
-                            {!data.blockUser && closeButton &&
+                            {isAdmin &&
                                 <BasicButton
                                     text={"Cerrar aviso"}
                                     // text={translate.close}
                                     textStyle={{ textTransform: 'none', color: "white", }}
                                     onClick={closeAnnouncement}
+                                    buttonStyle={{ marginTop: '.8em', width: "100%" }}
+                                    backgroundColor={{ backgroundColor: getPrimary(), boxShadow: "none", borderRadius: "0" }}
+                                />
+                            }
+                        </div>
+                        <div style={{ width: "100%" }} >
+                            {!isAdmin && data.adminAnnouncement.blockUser &&
+                                <BasicButton
+                                    text={"Cerrar aviso"}
+                                    // text={translate.close}
+                                    textStyle={{ textTransform: 'none', color: "white", }}
+                                    onClick={() => setShowInParticipant(false)}
                                     buttonStyle={{ marginTop: '.8em', width: "100%" }}
                                     backgroundColor={{ backgroundColor: getPrimary(), boxShadow: "none", borderRadius: "0" }}
                                 />
@@ -158,8 +176,8 @@ const closeRoomAnnouncement = gql`
 
 
 const blockFunctionsRoomAnnouncement = gql`
-    mutation blockFunctionsRoomAnnouncement($message: RoomMessageInput!, $blockUser: Boolean){
-        blockFunctionsRoomAnnouncement(message: $message, blockUser: $blockUser){
+    mutation blockFunctionsRoomAnnouncement($message: RoomMessageInput!){
+        blockFunctionsRoomAnnouncement(message: $message){
             success
             message
         }
