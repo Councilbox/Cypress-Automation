@@ -136,7 +136,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				...(signature? {
 					signature
 				} : {}),
-				...(state.assistanceIntention === PARTICIPANT_STATES.EARLY_VOTE? {
+				...(isValidEarlyVoteState(state.assistanceIntention)? {
 					earlyVotes: state.earlyVotes
 				} : {})
 			}
@@ -162,6 +162,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		setOpenModalFirmasModal(true);
 	}
 
+	const isValidEarlyVoteState = intention => {
+		return intention === PARTICIPANT_STATES.EARLY_VOTE || intention === PARTICIPANT_STATES.DELEGATED
+	}
+
 	const sendAttendanceIntention = async signature => {
 		setState({
 			...state,
@@ -179,7 +183,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 							...(signature? {
 								signature
 							} : {}),
-							...(state.assistanceIntention === PARTICIPANT_STATES.EARLY_VOTE? {
+							...(isValidEarlyVoteState(state.assistanceIntention)? {
 								earlyVotes: state.earlyVotes
 							} : {})
 						}
@@ -299,101 +303,15 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				<div style={{ marginTop: "2em" }}>
 					{council.confirmAssistance !== 0 &&
 						<React.Fragment>
-							{council.companyId === CONSENTIO_ID ?
-								<React.Fragment>
-									{/* {participant.position === 'B' &&
-										<div style={{}}>
-											<div style={{ width: '100%', marginBottom: "1em" }}>
-												<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-													{translate.indicate_status}
-												</div>
-											</div>
-											{council.statute.existsDelegatedVote === 1 ?
-												<React.Fragment>
-													<AssistanceOption
-														translate={translate}
-														title={translate.want_to_delegate_in}
-														select={showDelegation}
-														disabled={!canDelegate}
-														value={PARTICIPANT_STATES.DELEGATED}
-														selected={false}
-														delegationItem={
-															state.delegateInfoUser && state.assistanceIntention === 4 ?
-																<div style={{ display: "flex", alignItems: "center" }}>
-																	<DelegationItem participant={state.delegateInfoUser} />
-																	<i className="fa fa-trash-o"
-																		style={{
-																			marginLeft: "1em",
-																			fontSize: "25px",
-																			color: '#dc7373',
-																			cursor: 'pointer'
-																		}}
-																		onClick={() =>
-																			setState({
-																				...state,
-																				assistanceIntention: PARTICIPANT_STATES.REMOTE,
-																				locked: false,
-																				delegateId: null
-																			})
-																		}
-																	></i>
-																</div>
-																:
-																""
-														}
-													/>
-												</React.Fragment>
-												:
-												<React.Fragment>
-													<AssistanceOption
-														title={translate.attend_remotely_through_cbx}
-														translate={translate}
-														select={() => {
-															setState({
-																...state,
-																assistanceIntention: PARTICIPANT_STATES.REMOTE,
-																locked: false,
-																delegateId: null
-															})
-														}}
-														value={PARTICIPANT_STATES.REMOTE}
-														selected={state.assistanceIntention}
-													/>
-													{council.remoteCelebration !== 1 &&
-														<AssistanceOption
-															title={translate.attending_in_person}
-															translate={translate}
-															select={() => {
-																setState({
-																	...state,
-																	assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
-																	locked: false,
-																	delegateId: null
-																})
-															}}
-															value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
-															selected={state.assistanceIntention}
-
-														/>
-													}
-
-												</React.Fragment>
-											}
-										</div>
-									} */}
-								</React.Fragment>
-								:
-								<AttendanceOptions
-									translate={translate}
-									refetch={refetch}
-									setState={setState}
-									showDelegationModal={showDelegation}
-									state={state}
-									participant={participant}
-									council={council}
-								/>
-
-							}
+							<AttendanceOptions
+								translate={translate}
+								refetch={refetch}
+								setState={setState}
+								showDelegationModal={showDelegation}
+								state={state}
+								participant={participant}
+								council={council}
+							/>
 						</React.Fragment>
 					}
 					<br />

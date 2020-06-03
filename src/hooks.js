@@ -270,7 +270,8 @@ export const useCouncilAgendas = ({
                     }
                     proxyVotes(participantId: $participantId){
                         value
-                        agendaId
+						agendaId
+						participantId
                         id
                     }
                 }
