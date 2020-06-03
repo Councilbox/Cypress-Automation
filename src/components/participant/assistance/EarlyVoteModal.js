@@ -9,16 +9,14 @@ import VotingValueIcon from '../../council/live/voting/VotingValueIcon';
 import { isCustomPoint } from '../../../utils/CBX';
 import { withApollo } from 'react-apollo';
 
-const EarlyVoteModal = ({ state, setState, participant, council, translate, open, requestClose, client }) => {
+const EarlyVoteModal = ({ state, setState, acceptState, participant, council, translate, open, requestClose, client }) => {
     const [selected, setSelected] = React.useState(new Map());
     
     const { data, loading } = useCouncilAgendas({
         councilId: council.id,
         participantId: participant.id,
         client
-    })
-
-    console.log(selected);
+    });
 
     React.useEffect(() => {
         if(!loading){
@@ -40,17 +38,6 @@ const EarlyVoteModal = ({ state, setState, participant, council, translate, open
             }
         }
     }, [loading, data])
-
-    console.log(data);
-
-    /*
-        setState({
-            ...state,
-            assistanceIntention: PARTICIPANT_STATES.REMOTE,
-            locked: false,
-            delegateId: null
-        })
-    */
 
     const isActive = (agendaId, value) => {
         const point = selected.get(agendaId);
@@ -179,7 +166,7 @@ const EarlyVoteModal = ({ state, setState, participant, council, translate, open
             acceptAction={() => {
                 setState({
                     ...state,
-                    assistanceIntention: PARTICIPANT_STATES.EARLY_VOTE,
+                    assistanceIntention: acceptState,
                     requireDoc: false,
                     earlyVotes: Array.from(selected.values())
                 })

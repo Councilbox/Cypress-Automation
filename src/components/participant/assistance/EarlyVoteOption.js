@@ -29,6 +29,7 @@ const EarlyVoteOption = ({ data, setState, state, participant, council, translat
             <EarlyVoteModal
                 open={modal}
                 setState={setState}
+                acceptState={PARTICIPANT_STATES.EARLY_VOTE}
                 translate={translate}
                 state={state}
                 requestClose={() => setModal(false)}

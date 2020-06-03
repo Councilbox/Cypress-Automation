@@ -8,6 +8,8 @@ import AddRepresentativeModal from '../../council/live/AddRepresentativeModal';
 import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning';
 import EarlyVoteModal from './EarlyVoteOption';
 import EarlyVoteOption from './EarlyVoteOption';
+import { BasicButton } from '../../../displayComponents';
+import FixDelegationVoteButton from './FixDelegationVoteButton';
 
 
 const AttendanceOptions = ({ translate, state, setState, council, participant, showDelegationModal, refetch }) => {
@@ -250,6 +252,15 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                         })
                                     }
                                 ></i>
+                                {council.statute.canEarlyVote &&
+                                    <FixDelegationVoteButton
+                                        translate={translate}
+                                        state={state}
+                                        council={council}
+                                        participant={participant}
+                                        setState={setState}
+                                    />
+                                }
                             </div>
                             :
                             ""
