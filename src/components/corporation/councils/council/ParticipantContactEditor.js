@@ -1,21 +1,23 @@
 import React from 'react';
 import { TextInput, BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { resendRoomEmails } from "../../../../queries/liveParticipant";
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
 import { updateParticipantSends } from '../../../../queries';
-import { hasAccessKey } from '../../../../utils/CBX';
+import { hasAccessKey, copyStringToClipboard } from '../../../../utils/CBX';
 
-const ParticipantContactEditor = ({ translate, council, updateParticipantSends, sendAccessKey, participant, ...props }) => {
+
+const ParticipantContactEditor = ({ translate, council, client, updateParticipantSends, sendAccessKey, participant, ...props }) => {
     const [state, setState] = useOldState({
         email: participant.email,
         phone: participant.phone,
         sendsLoading: false,
         loading: false
     });
+    const [roomLink, setRoomLink] = React.useState('');
     const secondary = getSecondary();
 
 
@@ -34,6 +36,21 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
         setState({
             loading: false
         });
+    }
+
+    const getParticipantRoomLink = async () => {
+        const response = await client.query({
+            query: gql`
+                query ParticipantRoomLink($participantId: Int!){
+                    participantRoomLink(participantId: $participantId)
+                }
+            `,
+            variables: {
+                participantId: participant.id
+            }
+        });
+        console.log(response.data);
+        setRoomLink(response.data.participantRoomLink);
     }
 
     const resendRoomEmails = async () => {
@@ -102,6 +119,16 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
         }
     }
 
+    const copy = text => {
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        //copyStringToClipboard(value);
+    }
+
     const updateEmail = event => {
         setState({
             email: event.target.value
@@ -140,6 +167,13 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
                 />
                 <BasicButton
                     color={secondary}
+                    text="Obtener link de acceso"
+                    textStyle={{ color: 'white', fontWeight: '700' }}
+                    loading={state.sendsLoading}
+                    onClick={getParticipantRoomLink}
+                />
+                <BasicButton
+                    color={secondary}
                     text="Guardar"
                     onClick={updateParticipantContactInfo}
                     loading={state.loading}
@@ -153,6 +187,13 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
                     textStyle={{ color: 'white', fontWeight: '700' }}
                 />
             </div>
+            {roomLink &&
+                <>
+                    <div style={{wordWrap: 'break-word', width: '100%'}}>
+                        {roomLink}
+                    </div>
+                </>
+            }
             {hasAccessKey(council) &&
                 <BasicButton
                     color={secondary}
@@ -197,5 +238,6 @@ export default compose(
     }),
     graphql(sendParticipantRoomKey, {
         name: 'sendAccessKey'
-    })
+    }),
+    withApollo
 )(ParticipantContactEditor);
