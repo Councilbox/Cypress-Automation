@@ -23,17 +23,17 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
         switch(intention){
             case PARTICIPANT_STATES.REMOTE:
                 tooltip = translate.remote_assistance_short;
-                icon = <i className={getAttendanceIntentionIcon(intention)} style={iconStyle}></i>;
+                icon = getAttendanceIntentionIcon(intention, iconStyle);
                 break;
 
             case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
                 tooltip = translate.confirmed_assistance;
-                icon = <i className={getAttendanceIntentionIcon(intention)} style={iconStyle}></i>;
+                icon = getAttendanceIntentionIcon(intention, iconStyle);
                 break;
 
             case PARTICIPANT_STATES.NO_PARTICIPATE:
                 tooltip = translate.no_assist_assistance;
-                icon = <i className={getAttendanceIntentionIcon(intention)} style={iconStyle}></i>;
+                icon = getAttendanceIntentionIcon(intention, iconStyle);
                 break;
 
             case PARTICIPANT_STATES.EARLY_VOTE:
@@ -50,7 +50,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                 } else {
                     tooltip = translate.will_delegate
                 }
-                icon = <i className={getAttendanceIntentionIcon(intention)} style={iconStyle}></i>;
+                icon = getAttendanceIntentionIcon(intention, iconStyle);
                 break;
             case PARTICIPANT_STATES.SENT_VOTE_LETTER:
                 tooltip = translate.vote_letter_sent;

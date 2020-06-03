@@ -1643,21 +1643,25 @@ export const getAttendanceIntentionTooltip = intention => {
 		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
 			return 'vote_letter_sent';
 
+		case PARTICIPANT_STATES.EARLY_VOTE:
+			return 'participant_vote_fixed'
 		default:
 			break;
 	}
 }
 
-export const getAttendanceIntentionIcon = intention => {
+export const getAttendanceIntentionIcon = (intention, style) => {
 	switch(intention) {
 		case PARTICIPANT_STATES.REMOTE:
-			return 'fa fa-globe';
+			return <i className={'fa fa-globe'} style={style}></i>;
 		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-			return 'fa fa-user';
+			return <i className={'fa fa-user'} style={style}></i>;
 		case PARTICIPANT_STATES.DELEGATED:
-			return 'fa fa-users';
+			return <i className={'fa fa-users'} style={style}></i>;
 		case PARTICIPANT_STATES.NO_PARTICIPATE:
-			return 'fa fa-times';
+			return <i className={'fa fa-times'} style={style}></i>;
+		case PARTICIPANT_STATES.EARLY_VOTE:
+			return <i class="material-icons" style={{...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
 		default:
 			return 'fa fa-question'
 	}

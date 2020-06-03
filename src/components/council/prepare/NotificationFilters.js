@@ -96,7 +96,8 @@ class NotificationFilters extends React.Component {
 				active={selectedFilter === value}
 				tooltip={translate[CBX.getAttendanceIntentionTooltip(value)]}
 			>
-				<i className={CBX.getAttendanceIntentionIcon(value)} style={{width: "24px", height: "auto", color: primary }}></i>
+				{CBX.getAttendanceIntentionIcon(value, {width: "24px", height: "auto", color: primary })}
+				
 			</FilterButton>
 		);
 	}
