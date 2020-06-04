@@ -340,6 +340,18 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                             </div>
                         ) : (
                                 <Scrollbar ref={scrollbar}>
+                                    {council.company.logo &&
+                                        <div
+                                            style={{
+                                                width: '100%',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                height: '2.5em'
+                                            }}
+                                        >
+                                            <img src={council.company.logo} style={{height: '100%', width: 'auto', marginTop: '0.6em'}}></img>
+                                        </div>
+                                    }
                                     {!councilStarted(council) &&
                                         <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
                                             {translate.council_not_started_yet}
