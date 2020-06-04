@@ -10,7 +10,7 @@ import {
 	secondary,
 	primary
 } from "../../../styles/colors";
-import { PARTICIPANT_ERRORS } from "../../../constants";
+import { PARTICIPANT_ERRORS, PARTICIPANT_STATES } from "../../../constants";
 import background from "../../../assets/img/fondo_test_mundo2.jpg";
 import { moment } from '../../../containers/App';
 import { variant } from "../../../config";
@@ -60,23 +60,24 @@ const styles = {
 
 const ErrorState = ({ code, translate, data, windowSize, windowOrientation }) => {
 	const customBackground = getCustomBackground();
+	console.log(data);
 
 	const renderError = code => {
 		switch (code) {
 			case PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED:
-				return <ParticipantBlocked translate={translate} />;
+				return <ParticipantBlocked translate={translate} data={data} />;
 
 			case PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE:
-				return <ParticipantNotInRemoteState translate={translate} />;
+				return <ParticipantNotInRemoteState translate={translate} data={data} />;
 
 			case 'REMOTE_CLOSED':
 				return <RemoteClosed translate={translate} />;
 
 			case PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED:
-				return <TimeLimitExceeded translate={translate} />;
+				return <TimeLimitExceeded translate={translate} data={data} />;
 
 			case PARTICIPANT_ERRORS.REPRESENTED_DELEGATED:
-				return <RepresentedDelegated translate={translate} />
+				return <RepresentedDelegated translate={translate} data={data} />
 			default:
 				return <div />;
 		}
@@ -244,11 +245,12 @@ const RepresentedDelegated = ({ translate }) => (
 );
 
 
-const ParticipantNotInRemoteState = ({ translate }) => (
+const ParticipantNotInRemoteState = ({ translate, data }) => (
 	<React.Fragment>
 		<h5 style={{ color: primary, fontWeight: "bold" }}>
 			{translate.we_are_sorry}
 		</h5>
+		{data.participant.state === PARTICIPANT_STATES.DELEGATED && 'tas delegao neno'}
 
 		<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
 			<FontAwesome

@@ -145,7 +145,6 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		return <LoadingMainApp />;
 	}
 
-
 	if (data.errors && data.errors[0]) {
 		const code = data.errors[0].code;
 		if (
@@ -160,7 +159,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 			return (
 				<ErrorState
 					code={code}
-					data={{ council: council.councilVideo }}
+					data={{ council: council.councilVideo, participant: data.errors[0].data }}
 				/>
 			);
 		} else {
