@@ -120,7 +120,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                             selected={state.assistanceIntention}
                         />
                     }
-                    {council.remoteCelebration !== 1 &&
+                    {(council.remoteCelebration !== 1 && config.attendancePresentOption) &&
                         <AssistanceOption
                             title={translate.attending_in_person}
                             translate={translate}
