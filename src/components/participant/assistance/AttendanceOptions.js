@@ -6,10 +6,12 @@ import DelegationItem from './DelegationItem';
 import { canDelegateVotes } from '../../../utils/CBX';
 import AddRepresentativeModal from '../../council/live/AddRepresentativeModal';
 import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning';
+import { ConfigContext } from '../../../containers/AppControl';
 
 
 const AttendanceOptions = ({ translate, state, setState, council, participant, showDelegationModal, refetch }) => {
     const primary = getPrimary();
+    const config = React.useContext(ConfigContext);
 
     let canDelegate = canDelegateVotes(council.statute, participant);
     
@@ -102,7 +104,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
             </div>
             {participant.personOrEntity === 0 ?
                 <React.Fragment>
-                    {council.councilType === 0 &&
+                    {(council.councilType === 0 && config.attendanceRemoteOption) &&
                         <AssistanceOption
                             title={translate.attend_remotely_through_cbx}
                             translate={translate}
@@ -135,25 +137,27 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 
                         />
                     }
-                    <AssistanceOption
-                        translate={translate}
-                        title={translate.not_attending}
-                        select={() => {
-                            setState({
-                                ...state,
-                                assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
-                                locked: false,
-                                noAttendWarning: (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE &&
-                                    participant.delegatedVotes.length > 0) ||
-                                    participant.delegatedVotes.length > 1
-                                    ?
-                                    true : false,
-                                delegateId: null
-                            })
-                        }}
-                        value={PARTICIPANT_STATES.NO_PARTICIPATE}
-                        selected={state.assistanceIntention}
-                    />
+                    {config.attendanceNoParticipateOption &&
+                        <AssistanceOption
+                            translate={translate}
+                            title={translate.not_attending}
+                            select={() => {
+                                setState({
+                                    ...state,
+                                    assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
+                                    locked: false,
+                                    noAttendWarning: (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE &&
+                                        participant.delegatedVotes.length > 0) ||
+                                        participant.delegatedVotes.length > 1
+                                        ?
+                                        true : false,
+                                    delegateId: null
+                                })
+                            }}
+                            value={PARTICIPANT_STATES.NO_PARTICIPATE}
+                            selected={state.assistanceIntention}
+                        />
+                    }
                 </React.Fragment>
             :
                 <React.Fragment>
@@ -247,13 +251,3 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 }
 
 export default AttendanceOptions;
-
-
-/*
-<React.Fragment>
-										
-										
-                                    </React.Fragment>
-
-
-*/
