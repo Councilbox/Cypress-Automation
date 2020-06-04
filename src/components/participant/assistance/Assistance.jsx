@@ -395,7 +395,11 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 					<div style={{ width: "100%" }}>
 						<div style={{ width: '100%', marginBottom: "1em" }}>
 							<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-								{translate.comments}
+								{council.companyId === 286?
+									'Quiero delegar el voto en otra persona (Indique sus datos a continuación):'
+								:
+									translate.comments
+								}
 							</div>
 						</div>
 						<RichTextInput
@@ -406,7 +410,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 									? participant.assistanceComment
 									: ""
 							}
-							placeholder={translate.attendance_comment}
+							placeholder={council.companyId !== 286? translate.attendance_comment : ''}
 							stylesQuill={{ background: "#f0f3f6" }}
 							onChange={value =>
 								setState({

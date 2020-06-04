@@ -215,7 +215,11 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
             {checkDelegationConditions() &&
                 <AssistanceOption
                     translate={translate}
-                    title={translate.want_to_delegate_in}
+                    title={council.companyId === 286?
+                        'Quiero delegar el el Presidente de AECOC o, en su ausencia, en el Vicepresidente'
+                    :
+                        translate.want_to_delegate_in
+                    }
                     select={showDelegationModal}
                     disabled={!canDelegate}
                     value={PARTICIPANT_STATES.DELEGATED}
