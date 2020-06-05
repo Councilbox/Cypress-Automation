@@ -215,24 +215,26 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     }
                 }}
             />
-            <VotingButton
-                text={
-                    hasVideo ?
-                        translate.dont_vote
-                        :
-                        translate.dont_vote + buildRecountText(CBX.showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, council.company))
-                }
-                disabled={disabled}
-                disabledColor={disabledColor}
-                selected={getSelected(-1)}
-                onClick={() => {
-                    if (voteAtTheEnd) {
-                        setAgendaVoting(-1)
-                    } else {
-                        updateAgendaVoting(-1)
+            {!config.hideNoVoteButton &&
+                <VotingButton
+                    text={
+                        hasVideo ?
+                            translate.dont_vote
+                            :
+                            translate.dont_vote + buildRecountText(CBX.showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, council.company))
                     }
-                }}
-            />
+                    disabled={disabled}
+                    disabledColor={disabledColor}
+                    selected={getSelected(-1)}
+                    onClick={() => {
+                        if (voteAtTheEnd) {
+                            setAgendaVoting(-1)
+                        } else {
+                            updateAgendaVoting(-1)
+                        }
+                    }}
+                />
+            }
             {voteAtTheEnd &&
                 <VoteConfirmationModal
                     open={modal}

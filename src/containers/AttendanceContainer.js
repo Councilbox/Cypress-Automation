@@ -7,19 +7,44 @@ import InvalidUrl from "../components/participant/InvalidUrl";
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import Assistance from "../components/participant/assistance/Assistance";
+import { ConfigContext } from "./AppControl";
 
 const AttendanceContainer = ({ data, translate, actions }) => {
+	const [companyId, setCompanyId] = React.useState(null)
+	const config = React.useContext(ConfigContext);
+	const [loadingConfig, setLoadingConfig] = React.useState(true);
+
 	React.useEffect(() => {
 		if(!data.loading && translate.selectedLanguage !== data.participant.language){
 			actions.setLanguage(data.participant.language);
 		}
 	}, [data.loading, data.participant]);
 
+	React.useEffect(() => {
+		if(data.councilVideo){
+			setCompanyId(data.councilVideo.companyId);
+		}
+	}, [data.councilVideo])
+
+	const updateConfig = async companyId => {
+		await config.updateConfig(companyId);
+		setLoadingConfig(false);
+	}
+
+
+	React.useEffect(() => {
+		if(companyId){
+			updateConfig(companyId);
+			//store.dispatch(addSpecificTranslations(data.councilVideo.company.type));
+		}
+	}, [companyId]);
+	
+
 	if (data.error && data.error.graphQLErrors["0"]) {
 		return <InvalidUrl />;
 	}
 
-	if (!translate || data.loading) {
+	if (!translate || data.loading || loadingConfig) {
 		return <LoadingMainApp />;
 	}
 
@@ -105,6 +130,7 @@ const participantQuery = gql`
 			companyId
 			company {
 				logo
+				type
 				businessName
 			}
 			conveneText

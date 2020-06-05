@@ -345,6 +345,18 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             {translate.council_not_started_yet}
                                         </div>
                                     }
+                                    {council.company.logo &&
+                                        <div
+                                            style={{
+                                                width: '100%',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                height: '2.5em'
+                                            }}
+                                        >
+                                            <img src={council.company.logo} style={{height: '100%', width: 'auto', marginTop: '0.6em'}}></img>
+                                        </div>
+                                    }
                                     <div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
                                         {data.agendas ?
                                             <React.Fragment>

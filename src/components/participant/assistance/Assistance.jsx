@@ -28,7 +28,7 @@ import { moment } from "../../../containers/App";
 import AttendanceOptions from "./AttendanceOptions";
 import VoteLetter from './VoteLetter';
 
-
+export const AECOC_ID = 286;
 
 const styles = {
 	viewContainer: {
@@ -319,33 +319,80 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 				<div style={{ display: "flex", justifyContent: "space-between", flexDirection: isMobile? 'column' : 'row' }}>
 					<div style={{ width: "100%" }}>
-						<div style={{ width: '100%', marginBottom: "1em" }}>
-							<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-								{translate.comments}
-							</div>
-						</div>
-						<RichTextInput
-							errorText={state.commentError}
-							translate={translate}
-							value={
-								!!participant.assistanceComment
-									? participant.assistanceComment
-									: ""
-							}
-							placeholder={translate.attendance_comment}
-							stylesQuill={{ background: "#f0f3f6" }}
-							onChange={value =>
-								setState({
-									...state,
-									participant: {
-										...state.participant,
-										assistanceComment: value
-									},
-									locked: false
-								})
-							}
-							quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
-						/>
+						{council.companyId === AECOC_ID?
+							<>
+								<AssistanceOption
+									translate={translate}
+									title={'Quiero delegar el voto en otro socio (indique razón social y nombre de la persona):'}
+									select={() => {
+										setState({
+											...state,
+											assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
+											locked: false,
+											noAttendWarning: false,
+											delegateId: null
+										})
+									}}
+									value={PARTICIPANT_STATES.NO_PARTICIPATE}
+									selected={state.assistanceIntention}
+								/>
+								{state.assistanceIntention === PARTICIPANT_STATES.NO_PARTICIPATE &&
+									<RichTextInput
+										errorText={state.commentError}
+										translate={translate}
+										value={
+											!!participant.assistanceComment
+												? participant.assistanceComment
+												: ""
+										}
+										placeholder={council.companyId !== AECOC_ID? translate.attendance_comment : ''}
+										stylesQuill={{ background: "#f0f3f6" }}
+										onChange={value =>
+											setState({
+												...state,
+												participant: {
+													...state.participant,
+													assistanceComment: value
+												},
+												locked: false
+											})
+										}
+										quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
+									/>
+								}
+							</>
+						:
+							<>
+								<div style={{ width: '100%', marginBottom: "1em" }}>
+									<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+										{translate.comments}
+									</div>
+								</div>
+								<RichTextInput
+									errorText={state.commentError}
+									translate={translate}
+									value={
+										!!participant.assistanceComment
+											? participant.assistanceComment
+											: ""
+									}
+									placeholder={council.companyId !== AECOC_ID? translate.attendance_comment : ''}
+									stylesQuill={{ background: "#f0f3f6" }}
+									onChange={value =>
+										setState({
+											...state,
+											participant: {
+												...state.participant,
+												assistanceComment: value
+											},
+											locked: false
+										})
+									}
+									quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
+								/>
+							</>
+						}
+						
 					</div>
 					<div style={{ marginLeft: isMobile? '0' : "5em", marginTop: isMobile? '1em' : '0', display: "flex", alignItems: "flex-end" }}>
 						<div>
@@ -500,7 +547,11 @@ al borrar una carta de voto se elimina el proxy vote
 							<div style={{ maxWidth: '98vw', margin: isMobile? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
 								<div style={{ display: "flex", justifyContent: "space-between" }}>
 									<div style={{ fontSize: "25px", color: primary }}>
-										{translate.hello}, {participant.name} {participant.surname || ''}
+										{council.companyId === AECOC_ID?
+											'Sr./Sra.'
+										:
+											`${translate.hello},`
+										} {participant.name} {participant.surname || ''}
 									</div>
 									<div style={{ color: primary, fontSize: "30px", display: "flex", alignItems: "center" }}>
 										<Icon className="material-icons" style={{ fontSize: "35px", color: primary }}>

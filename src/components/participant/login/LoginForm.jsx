@@ -147,12 +147,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                 !(state.password.length > 0) ? translate.field_required : "";
         }
 
-        // CHECK VALID EMAIL
-        const validEmail = checkValidEmail(state.email);
-        errors.email = !validEmail
-            ? translate.tooltip_invalid_email_address
-            : "";
-
         setState({
             ...state,
             errors

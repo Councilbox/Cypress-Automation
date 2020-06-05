@@ -162,7 +162,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 
 	const renderParticipantInfo = vote => {
 		return (
-			<div style={{ minWidth: '7em', fontSize: '0.9em' }}>
+			<div style={{ minWidth: '7em' }}>
 				<span style={{ fontWeight: '700' }}>
 					{!!vote.authorRepresentative ?
 						<React.Fragment>
@@ -358,7 +358,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					isMobile ?
 						<React.Fragment>
 							{votings.map(vote => (
-								<Card key={vote.id} style={{ marginBottom: "1em" }}>
+								<Card key={vote.id} style={{ marginBottom: "1em", fontSize: '0.9em' }}>
 									<CardContent>
 										{renderParticipantInfo(vote)}
 										<div>
@@ -415,7 +415,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 							>
 								{votings.map(vote => (
 									<TableRow key={`vote_${vote.id}`}>
-										<TableCell>
+										<TableCell style={{ fontSize: '0.95em' }}>
 											{vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0 ?
 												'-'
 												:
@@ -437,10 +437,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 												</div>
 											}
 										</TableCell>
-										<TableCell>
+										<TableCell style={{ fontSize: '0.95em' }}>
 											{renderParticipantInfo(vote)}
 										</TableCell>
-										<TableCell>
+										<TableCell style={{ fontSize: '0.95em' }}>
 											{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED)?
 												(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company)}` : 0)
 											:

@@ -28,6 +28,7 @@ import { useOldState } from "../../../hooks";
 import { ConfigContext } from "../../../containers/AppControl";
 import DelegationRestriction from "../editor/DelegationRestriction";
 import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
+import gql from "graphql-tag";
 
 
 const CouncilPreparePage = ({ company, translate, data, ...props }) => {
@@ -372,7 +373,113 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 	);
 }
 
-export default graphql(councilDetails, {
+
+export default graphql(gql`
+	query CouncilDetails($councilID: Int!) {
+		council(id: $councilID) {
+			active
+			attachments {
+				councilId
+				filename
+				filesize
+				filetype
+				id
+			}
+			businessName
+			city
+			companyId
+			confirmAssistance
+			conveneText
+			councilStarted
+			councilType
+			country
+			countryState
+			currentQuorum
+			dateEnd
+			dateOpenRoom
+			dateRealStart
+			dateStart
+			dateStart2NdCall
+			duration
+			emailText
+			firstOrSecondConvene
+			fullVideoRecord
+			hasLimitDate
+			headerLogo
+			id
+			limitDateResponse
+			name
+			neededQuorum
+			noCelebrateComment
+			president
+			proposedActSent
+			prototype
+			quorumPrototype
+			satisfyQuorum
+			secretary
+			securityKey
+			securityType
+			selectedCensusId
+			sendDate
+			sendPointsMode
+			shortname
+			state
+			statute {
+				id
+				prototype
+				councilId
+				statuteId
+				title
+				existPublicUrl
+				addParticipantsListToAct
+				existsAdvanceNoticeDays
+				advanceNoticeDays
+				existsSecondCall
+				minimumSeparationBetweenCall
+				canEditConvene
+				requireProxy
+				firstCallQuorumType
+				firstCallQuorum
+				firstCallQuorumDivider
+				secondCallQuorumType
+				secondCallQuorum
+				secondCallQuorumDivider
+				existsDelegatedVote
+				delegatedVoteWay
+				existMaxNumDelegatedVotes
+				maxNumDelegatedVotes
+				existsLimitedAccessRoom
+				limitedAccessRoomMinutes
+				existsQualityVote
+				qualityVoteOption
+				canUnblock
+				canAddPoints
+				canReorderPoints
+				existsAct
+				existsWhoSignTheAct
+				includedInActBook
+				includeParticipantsList
+				existsComments
+				conveneHeader
+				intro
+				constitution
+				conclusion
+				actTemplate
+				censusId
+			}
+			street
+			tin
+			videoEmailsDate
+			videoMode
+			videoRecodingInitialized
+			votationType
+			weightedVoting
+			zipcode
+		}
+		councilTotalVotes(councilId: $councilID)
+		councilSocialCapital(councilId: $councilID)
+	}
+`, {
 	name: "data",
 	options: props => ({
 		variables: {

@@ -27,7 +27,8 @@ export const ConnectionInfoContext = React.createContext(null);
 const ParticipantContainer = ({ client, council, match, detectRTC, main, actions, translate, ...props }) => {
 	const [data, setData] = React.useState(null);
 	const config = React.useContext(ConfigContext);
-	const companyId = React.useRef();
+	const [companyId, setCompanyId] = React.useState();
+	const [loadingConfig, setLoadingConfig] = React.useState(true);
 	const [reqData, setConnectionData] = React.useState(null);
 	
 
@@ -88,16 +89,21 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 
 	React.useEffect(() => {
 		if(council.councilVideo){
-			companyId.current = council.councilVideo.companyId;
+			setCompanyId(council.councilVideo.companyId);
 		}
 	}, [council])
 
+	const updateConfig = async companyId => {
+		await config.updateConfig(companyId);
+		setLoadingConfig(false);
+	}
+
 	React.useEffect(() => {
-		if(companyId.current){
-			config.updateConfig(companyId.current);
+		if(companyId){
+			updateConfig(companyId)
 			store.dispatch(addSpecificTranslations(council.councilVideo.company.type));
 		}
-	}, [companyId.current]);
+	}, [companyId]);
 
 	React.useEffect(() => {
 		if(council && council.councilVideo){
@@ -135,10 +141,9 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		store.dispatch(setDetectRTC());
 	}, []);
 
-	if(!data || !council || !reqData){
+	if(!data || !council || !reqData || loadingConfig){
 		return <LoadingMainApp />;
 	}
-
 
 	if (data.errors && data.errors[0]) {
 		const code = data.errors[0].code;
@@ -154,7 +159,8 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 			return (
 				<ErrorState
 					code={code}
-					data={{ council: council.councilVideo }}
+					refetch={getData}
+					data={{ council: council.councilVideo, participant: data.errors[0].data }}
 				/>
 			);
 		} else {
