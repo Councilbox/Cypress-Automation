@@ -7,6 +7,7 @@ import { canDelegateVotes } from '../../../utils/CBX';
 import AddRepresentativeModal from '../../council/live/AddRepresentativeModal';
 import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning';
 import { ConfigContext } from '../../../containers/AppControl';
+import { AECOC_ID } from './Assistance';
 
 
 const AttendanceOptions = ({ translate, state, setState, council, participant, showDelegationModal, refetch }) => {
@@ -99,7 +100,11 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
         <>
             <div style={{ width: '100%', marginBottom: "1em" }}>
                 <div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-                    {translate.indicate_status}
+                    {AECOC_ID?
+                        translate.vote_delegation
+                    : 
+                        translate.indicate_status
+                    }
                 </div>
             </div>
             {participant.personOrEntity === 0 ?
@@ -216,7 +221,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                 <AssistanceOption
                     translate={translate}
                     title={council.companyId === 286?
-                        'Quiero delegar el el Presidente de AECOC o, en su ausencia, en el Vicepresidente'
+                        'Quiero delegar en el Presidente de AECOC o, en su ausencia, en el Vicepresidente'
                     :
                         translate.want_to_delegate_in
                     }
