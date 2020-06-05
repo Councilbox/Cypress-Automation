@@ -159,6 +159,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 			return (
 				<ErrorState
 					code={code}
+					refetch={getData}
 					data={{ council: council.councilVideo, participant: data.errors[0].data }}
 				/>
 			);
