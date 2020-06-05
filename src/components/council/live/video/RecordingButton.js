@@ -122,13 +122,13 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
         <div
             style={{
                 position: 'absolute',
-                top: '20px',
-                left: '2em',
+                top: '15px',
+                left: '1em',
                 display: 'flex',
                 alignItems: 'center',
                 fontSize: '1.4em',
-                backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                padding: '0.2em',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                padding: '0.3em 0.6em 0.3em 0.6em',
                 borderRadius: '10px'
             }}
         >
