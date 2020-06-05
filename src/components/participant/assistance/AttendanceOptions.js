@@ -221,7 +221,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                     requestClose={() => setState({ ...state, noAttendWarning: false })}
                 />
             }
-            {(council.statute.canEarlyVote && checkDelegationConditions()) &&
+            {(council.statute.canEarlyVote === 1 && checkDelegationConditions()) &&
                 <>
                     <EarlyVoteOption
                         translate={translate}
@@ -265,7 +265,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                         })
                                     }
                                 ></i>
-                                {council.statute.canEarlyVote &&
+                                {council.statute.canEarlyVote === 1 &&
                                     <FixDelegationVoteButton
                                         translate={translate}
                                         state={state}

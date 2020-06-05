@@ -56,18 +56,27 @@ const EarlyVoteModal = ({ state, setState, acceptState, participant, council, tr
                 if(!isCustomPoint(point.subjectType)){
                     return (
                         <div key={`point_${point.id}`}>
-                            Punto: {point.agendaSubject}
-                            <div style={{display: 'flex'}}>
-                                {[VOTE_VALUES.POSITIVE, VOTE_VALUES.NEGATIVE, VOTE_VALUES.ABSTENTION].map(vote => {
-                                    const active = isActive(`${point.id}_${participant.id}`, vote);
+                            <div style={{fontWeight: '700', marginTop: '1em'}}>{point.agendaSubject}</div>
+                            <div>
+                                {[{
+                                    value: VOTE_VALUES.POSITIVE,
+                                    label: translate.in_favor_btn,
+                                    icon: "fa fa-check"
+                                }, {
+                                    value: VOTE_VALUES.NEGATIVE,
+                                    label: translate.against_btn,
+                                    icon: "fa fa-times"
+                                }, {
+                                    value: VOTE_VALUES.ABSTENTION,
+                                    label: translate.abstention_btn,
+                                    icon: 'fa fa-circle-o'
+                                }].map(vote => {
+                                    const active = isActive(`${point.id}_${participant.id}`, vote.value);
                                     return (
                                         <div
                                             key={`vote_${vote}`}
                                             style={{
-                                                height: "1.75em",
-                                                width: "1.75em",
                                                 marginRight: "0.2em",
-                                                border: `2px solid ${"grey"}`,
                                                 borderRadius: "3px",
                                                 display: "flex",
                                                 cursor: "pointer",
@@ -76,31 +85,18 @@ const EarlyVoteModal = ({ state, setState, acceptState, participant, council, tr
                                             }}
                                             onClick={() => {
                                                 setSelected(new Map(selected.set(`${point.id}_${participant.id}`, {
-                                                    value: vote,
+                                                    value: vote.value,
                                                     agendaId: point.id,
                                                     participantId: participant.id
                                                 })));
                                                 //setEarlyVote(point.id, vote)
                                             }}
                                         >
-                                            <MenuItem
+                                            <VotingButton
+                                                text={vote.label}
                                                 selected={active}
-                                                style={{
-                                                    display: "flex",
-                                                    fontSize: "0.9em",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    height: '100%',
-                                                    width: '100%',
-                                                    padding: 0,
-                                                    margin: 0
-                                                }}
-                                            >
-                                                <VotingValueIcon
-                                                    vote={vote}
-                                                    color={active ? undefined : "grey"}
-                                                />
-                                            </MenuItem>
+                                                icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
+                                            />
                                         </div>
                                     )
                                 })}

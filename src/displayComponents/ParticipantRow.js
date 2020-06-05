@@ -30,8 +30,7 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 				onClick={toDelegate ? !limitReached ? onClick : () => { } : onClick}
 				style={{
 					width: "100%",
-					backgroundColor: `${toDelegate ? !limitReached ? 'transparent' : 'gainsboro' : 'transparent'}`,
-					display: "flex",
+					backgroundColor: `${toDelegate ? !limitReached ? 'transparent' : 'gainsboro' : 'transparent'}`
 				}}
 			>
 				<div
