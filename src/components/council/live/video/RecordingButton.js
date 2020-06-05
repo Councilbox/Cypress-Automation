@@ -159,13 +159,13 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                             {sessionStatus.streaming ?
                                 <img
                                     src={BroadcastingTower}
-                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton? '0.4em' : '0' }}
+                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton? '0.4em' : '0', cursor: "pointer" }}
                                     onClick={stopStreaming}
                                 />
                                 :
                                 <img
                                     src={Tower}
-                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton? '0.4em' : '0' }}
+                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton? '0.4em' : '0', cursor: "pointer" }}
                                     onClick={startStreaming}
                                 />
                             }
