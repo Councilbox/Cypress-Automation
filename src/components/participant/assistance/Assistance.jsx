@@ -28,7 +28,7 @@ import { moment } from "../../../containers/App";
 import AttendanceOptions from "./AttendanceOptions";
 import VoteLetter from './VoteLetter';
 
-export const AECOC_ID = 666;
+export const AECOC_ID = 286;
 
 const styles = {
 	viewContainer: {
