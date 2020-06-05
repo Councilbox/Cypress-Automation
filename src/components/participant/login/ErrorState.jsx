@@ -60,7 +60,6 @@ const styles = {
 
 const ErrorState = ({ code, translate, data, windowSize, windowOrientation }) => {
 	const customBackground = getCustomBackground();
-	console.log(data);
 
 	const renderError = code => {
 		switch (code) {
@@ -245,29 +244,34 @@ const RepresentedDelegated = ({ translate }) => (
 );
 
 
-const ParticipantNotInRemoteState = ({ translate, data }) => (
-	<React.Fragment>
-		<h5 style={{ color: primary, fontWeight: "bold" }}>
-			{translate.we_are_sorry}
-		</h5>
-		{data.participant.state === PARTICIPANT_STATES.DELEGATED && 'tas delegao neno'}
+const ParticipantNotInRemoteState = ({ translate, data }) => {
 
-		<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
-			<FontAwesome
-				name={"globe"}
-				stack={"2x"}
-				style={{ color: secondary }}
-			/>
-			<FontAwesome
-				name={"times"}
-				stack={"1x"}
-				style={{ color: primary }}
-			/>
-		</div>
+	return (
+		<React.Fragment>
+			<h5 style={{ color: primary, fontWeight: "bold" }}>
+				{translate.we_are_sorry}
+			</h5>
+			<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
+				<FontAwesome
+					name={"globe"}
+					stack={"2x"}
+					style={{ color: secondary }}
+				/>
+				<FontAwesome
+					name={"times"}
+					stack={"1x"}
+					style={{ color: primary }}
+				/>
+			</div>
+			{data.participant.state === PARTICIPANT_STATES.DELEGATED?
+				'Tas delegao que fas entrando'
+			:
+				translate.cant_access_video_room_no_remote_assistance
+			}
+		</React.Fragment>
+	)
 
-		{translate.cant_access_video_room_no_remote_assistance}
-	</React.Fragment>
-);
+};
 
 const TimeLimitExceeded = ({ translate }) => (
 	<React.Fragment>
