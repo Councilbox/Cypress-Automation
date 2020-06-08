@@ -37,17 +37,17 @@ export const canReorderPoints = council => {
 
 export const showNumParticipations = (numParticipations, company) => {
 	if(!company || !company.type){
-		return numParticipations;
+		return formatInt(numParticipations);
 	}
 
 	if(company.type === 10){
 		return numParticipations / 1000;
 	}
 
-	return numParticipations;
+	return formatInt(numParticipations);
 }
 
-export const splitExtensionFilename = (filename) => {
+export const splitExtensionFilename = filename => {
 	const array = filename.split('.');
 	if (array.length < 2) {
 		return 'That`s not a filename';
@@ -780,6 +780,7 @@ export const buildShareholdersList = ({ council, total, type }) => {
 					shareholdersText[council.language]}:`);
 }
 
+
 export const buildGuestList = ({ council, total }) => {
 	if(!council.attendants || council.attendants.length === 0){
 		return '';
@@ -795,6 +796,12 @@ export const buildGuestList = ({ council, total }) => {
 
 	return council.attendants.filter(attendant => !checkIfHasVote(attendant))
 		.reduce((acc, curr) => `${acc}<br>${buildGuestString({ guest: curr, total, council })}`, `${otherAttendants[council.language]}:`);
+}
+
+export const formatInt = num => {
+	num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+	num = num.split('').reverse().join('').replace(/^[\.]/, '');
+	return num;
 }
 
 

@@ -8,7 +8,7 @@ import AgendaManager from "./AgendaManager";
 import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
-import { showVideo, councilHasSession, showNumParticipations } from "../../../utils/CBX";
+import { showVideo, councilHasSession, showNumParticipations, formatInt } from "../../../utils/CBX";
 import { Tooltip, Badge, Tabs, Tab } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
@@ -158,13 +158,6 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 			setState(initScreenSizes('MIN'));
 		}
 	};
-
-	const formatInt = (num) => {
-		num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
-		num = num.split('').reverse().join('').replace(/^[\.]/, '');
-		return num;
-	}
-
 	const { council } = data;
 
 	const councilStartedState = () => {
