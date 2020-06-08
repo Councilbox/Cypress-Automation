@@ -181,6 +181,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 							<NotificationFilters
 								translate={translate}
 								refetch={updateNotificationFilter}
+								council={council}
 							/>
 						}
 					</GridItem>

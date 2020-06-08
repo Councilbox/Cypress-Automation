@@ -104,7 +104,7 @@ class NotificationFilters extends React.Component {
 
 	render() {
 		const { translate } = this.props;
-
+		
 		return (
 			<Grid>
 				<GridItem xs={4} md={9} lg={3} style={{ paddingTop: "0.6em" }}>
@@ -122,9 +122,11 @@ class NotificationFilters extends React.Component {
 					{Object.keys(EMAIL_STATES_FILTERS).map(code =>
 						this._renderFilterIcon(EMAIL_STATES_FILTERS[code])
 					)}
-					{intentionStates.map(intention => (
-						this._renderIntentionIcon(intention)
-					))}
+					{CBX.councilHasAssistanceConfirmation(this.props.council) &&
+						intentionStates.map(intention => (
+							this._renderIntentionIcon(intention)
+						))
+					}
 				</GridItem>
 			</Grid>
 		);
