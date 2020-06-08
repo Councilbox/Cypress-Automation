@@ -22,6 +22,7 @@ import withSharedProps from "../../../HOCs/withSharedProps";
 const StatuteEditor = ({ statute, translate, updateState, errors, client, company, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
+	const config = React.useContext(ConfigContext);
 
 	const primary = getPrimary();
 	const getData = React.useCallback(async () => {
@@ -332,29 +333,33 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							}
 						/>
 					</GridItem>
-					<GridItem xs={12} md={7} lg={7}>
-						<Checkbox
-							disabled={statute.existsDelegatedVote !== 1}
-							label={translate.can_sense_vote_delegation}
-							value={statute.canSenseVoteDelegate === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
-									canSenseVoteDelegate: isInputChecked ? 1 : 0
-								})
-							}
-						/>
-					</GridItem>
-					<GridItem xs={12} md={7} lg={7}>
-						<Checkbox
-							label={translate.exists_early_voting}
-							value={statute.canEarlyVote === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
-									canEarlyVote: isInputChecked ? 1 : 0
-								})
-							}
-						/>
-					</GridItem>
+					{config.earlyVoting &&
+						<>
+							<GridItem xs={12} md={7} lg={7}>
+								<Checkbox
+									disabled={statute.existsDelegatedVote !== 1}
+									label={translate.can_sense_vote_delegation}
+									value={statute.canSenseVoteDelegate === 1}
+									onChange={(event, isInputChecked) =>
+										updateState({
+											canSenseVoteDelegate: isInputChecked ? 1 : 0
+										})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={7} lg={7}>
+								<Checkbox
+									label={translate.exists_early_voting}
+									value={statute.canEarlyVote === 1}
+									onChange={(event, isInputChecked) =>
+										updateState({
+											canEarlyVote: isInputChecked ? 1 : 0
+										})
+									}
+								/>
+							</GridItem>
+						</>
+					}
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							helpPopover={true}
