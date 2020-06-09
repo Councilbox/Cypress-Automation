@@ -2,6 +2,7 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection } from '../../../../displayComponents';
+import { usePolling } from '../../../../hooks';
 
 
 const ShareholdersRequestsPage = ({ council, translate, client }) => {
@@ -28,6 +29,8 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
         setData(response.data.shareholdersRequests);
         setLoading(false);
     })
+
+    usePolling(getData, 3000);
 
     React.useEffect(() => {
         getData();
