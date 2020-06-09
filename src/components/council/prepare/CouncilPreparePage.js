@@ -29,6 +29,7 @@ import { ConfigContext } from "../../../containers/AppControl";
 import DelegationRestriction from "../editor/DelegationRestriction";
 import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
 import gql from "graphql-tag";
+import ShareholdersRequestsPage from "./shareholders/ShareholdersRequestsPage";
 
 
 const CouncilPreparePage = ({ company, translate, data, ...props }) => {
@@ -93,6 +94,12 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 			tabs.push({
 				text: translate.delegations,
 			})
+		}
+
+		if(council.statute.shareholdersPortal){
+			tabs.push({
+				text: 'Solicitudes accionistas'
+			});
 		}
 
 		let tabsListNames = [];
@@ -161,6 +168,12 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 							</div>
 						</Scrollbar>
 					</div>
+				}
+				{selecteReuniones === 'Solicitudes accionistas' &&
+					<ShareholdersRequestsPage
+						council={council}
+						translate={translate}
+					/>
 				}
 			</div>
 			{/* <div style={{ height: '100%' }}>
@@ -430,6 +443,7 @@ export default graphql(gql`
 				councilId
 				statuteId
 				title
+				shareholdersPortal
 				existPublicUrl
 				addParticipantsListToAct
 				existsAdvanceNoticeDays
