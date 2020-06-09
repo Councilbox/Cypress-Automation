@@ -12,6 +12,7 @@ import { Icon } from 'material-ui';
 import ApproveRequestButton from './ApproveRequestButton';
 import ShareholderEditor from './ShareholderEditor';
 import RefuseRequestButton from './RefuseRequestButton';
+import { downloadFile } from '../../../../utils/CBX';
 
 
 const ShareholdersRequestsPage = ({ council, translate, client }) => {
@@ -22,6 +23,30 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
     const [search, setSearch] = React.useState('');
     const [usersPage, setUsersPage] = React.useState(1);
     const [usersTotal, setUsersTotal] = React.useState(false);
+    
+
+    const downloadAttachment = async (requestId, index) => {
+        const response = await client.query({
+            query: gql`
+                query ShareholdersRequestAttachment($requestId: Int!, $index: Int!){
+                    shareholdersRequestAttachment(requestId: $requestId, index: $index){
+                        base64
+                        filename
+                        filetype
+                    }
+                }
+            `,
+            variables: {
+                requestId,
+                index
+            }
+        });
+
+        console.log(response);
+        const file = response.data.shareholdersRequestAttachment;
+        const base64 = file.base64.split(';base64,').pop();
+        downloadFile(base64, file.filetype, file.filename)
+    }
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -99,23 +124,6 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                 </div>
                             }
                         />
-
-                        {/* <TextInput
-                        className={isMobile && !inputSearch ? "openInput" : ""}
-                        disableUnderline={true}
-                        styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
-                        stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
-                        adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
-                        floatingText={" "}
-                        type="text"
-                        value={search}
-                        placeholder={isMobile ? "" : translate.search}
-                        onChange={event => {
-                            setSearch(event.target.value);
-                        }}
-                        styles={{ marginTop: "-16px" }}
-                        stylesTextField={{ marginBottom: "0px" }}
-                    /> */}
                     </div>
                 </div>
                 <Table>
@@ -128,7 +136,6 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                         </TableCell>
                         <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
                             Archivos
-                        {/* {translate.files} */}
                         </TableCell>
                         <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
                             {translate.date}
@@ -151,9 +158,9 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {request.data.attachments ?
-                                        request.data.attachments.map(attachment => (
-                                            <div>
-                                                <i className='fa fa-file-pdf-o' ></i>  {attachment.filename}
+                                        request.data.attachments.map((attachment, index) => (
+                                            <div onClick={() => downloadAttachment(request.id, index)} style={{cursor: 'pointer'}}>
+                                                <i className='fa fa-file-pdf-o'></i>  {attachment.filename}
                                             </div>
                                         ))
                                         :
