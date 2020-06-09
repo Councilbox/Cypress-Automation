@@ -3,11 +3,13 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BasicButton } from '../../../../displayComponents';
 import ShareholderEditor from './ShareholderEditor';
+import { getSecondary } from '../../../../styles/colors';
 
 
-const ApproveRequestButton = ({ request, client, translate }) => {
+const ApproveRequestButton = ({ request, client, refetch, translate }) => {
     const [modal, setModal] = React.useState(null);
     const { requestType, attachments, ...cleanData } = request.data;
+    const secondary = getSecondary()
 
     const approveRequest = async () => {
         const response = await client.mutate({
@@ -22,7 +24,9 @@ const ApproveRequestButton = ({ request, client, translate }) => {
                 requestId: request.id,
                 shareholder: null
             }
-        })
+        });
+        setModal(false);
+        refetch();
     }
 
     return (
@@ -30,6 +34,11 @@ const ApproveRequestButton = ({ request, client, translate }) => {
             <BasicButton
                 text="Aprobar"
                 onClick={() => setModal(request)}
+                buttonStyle={{
+                    border: `1px solid ${secondary}`
+                }}
+                color="white"
+                textStyle={{ color: secondary }}
                 //onClick={approveRequest}
             />
             {modal &&

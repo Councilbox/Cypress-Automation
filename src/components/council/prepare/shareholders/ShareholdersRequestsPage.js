@@ -11,6 +11,7 @@ import { isMobile } from 'react-device-detect';
 import { Icon } from 'material-ui';
 import ApproveRequestButton from './ApproveRequestButton';
 import ShareholderEditor from './ShareholderEditor';
+import RefuseRequestButton from './RefuseRequestButton';
 
 
 const ShareholdersRequestsPage = ({ council, translate, client }) => {
@@ -56,7 +57,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
         setLoading(false);
     }, [council.id])
 
-    usePolling(getData, 12000);
+    usePolling(getData, 8000);
 
     React.useEffect(() => {
         getData();
@@ -135,6 +136,9 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                         <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
                             {translate.state}
                         </TableCell>
+                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
+                            Aprobar
+                        </TableCell>
                     </TableHead>
                     <TableBody>
                         {data.map(request => (
@@ -161,6 +165,18 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {request.state === '0' ? "Pendiente" : "Aceptada"}
+                                </TableCell>
+                                <TableCell style={{ color: "black", borderBottom: 'none' }}>
+                                    <ApproveRequestButton
+                                        request={request}
+                                        refetch={getData}
+                                        translate={translate}
+                                    />
+                                    <RefuseRequestButton
+                                        request={request}
+                                        refetch={getData}
+                                        translate={translate}
+                                    />
                                 </TableCell>
                             </TableRow>
                         ))}

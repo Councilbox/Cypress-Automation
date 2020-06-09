@@ -153,7 +153,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
     const { languages } = props.data;
     
     if(props.data.loading){
-        return <LoadingSection />
+        return ''
     }
 
 
@@ -174,19 +174,6 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 								fontWeight: "700"
 							}}
 							onClick={requestClose}
-						/>
-						<BasicButton
-							text={translate.save_changes_and_send}
-							textStyle={{
-								color: "white",
-								textTransform: "none",
-								fontWeight: "700"
-							}}
-							buttonStyle={{ marginLeft: "1em" }}
-							color={secondary}
-							onClick={() => {
-								addParticipant(true);
-							}}
 						/>
 						<BasicButton
 							text={translate.save_changes}
