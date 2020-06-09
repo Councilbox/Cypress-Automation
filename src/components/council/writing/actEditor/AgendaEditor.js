@@ -257,6 +257,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 							translate={translate}
 							hideStatus
 							council={council}
+							recount={recount}
 							agenda={agenda}
 						/>
 					</div>
