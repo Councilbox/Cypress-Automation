@@ -3,10 +3,13 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection } from '../../../../displayComponents';
 import { usePolling } from '../../../../hooks';
+import ApproveRequestButton from './ApproveRequestButton';
+import ShareholderEditor from './ShareholderEditor';
 
 
 const ShareholdersRequestsPage = ({ council, translate, client }) => {
     const [data, setData] = React.useState(null);
+    const [modal, setModal] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
 
     const getData = React.useCallback(async () => {
@@ -24,13 +27,11 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                 councilId: council.id
             }
         });
-
-        console.log(response);
         setData(response.data.shareholdersRequests);
         setLoading(false);
-    })
+    }, [council.id])
 
-    usePolling(getData, 3000);
+    usePolling(getData, 12000);
 
     React.useEffect(() => {
         getData();
@@ -40,7 +41,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
         return <LoadingSection />
     }
 
-    console.log(data);
+    console.log(data, modal);
 
     return (
         <div>
@@ -52,6 +53,10 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                             {attachment.filename}
                         </div>
                     ))}
+                    <ApproveRequestButton
+                        request={request}
+                        translate={translate}
+                    />
                 </div>
             ))}
         </div>
