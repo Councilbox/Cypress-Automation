@@ -7,7 +7,6 @@ import { getSecondary } from '../../../../styles/colors';
 
 
 const ApproveRequestButton = ({ request, client, refetch, translate }) => {
-    const [modal, setModal] = React.useState(null);
     const { requestType, attachments, ...cleanData } = request.data;
     const secondary = getSecondary()
 
@@ -25,31 +24,22 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
                 shareholder: null
             }
         });
-        setModal(false);
         refetch();
     }
 
     return (
         <>
             <BasicButton
-                text="Aprobar"
-                onClick={() => setModal(request)}
+                text="Archivar"
+                onClick={approveRequest}
                 buttonStyle={{
-                    border: `1px solid ${secondary}`
+                    border: `1px solid ${secondary}`,
+                    marginLeft: '0.4em'
                 }}
                 color="white"
                 textStyle={{ color: secondary }}
                 //onClick={approveRequest}
             />
-            {modal &&
-                <ShareholderEditor
-                    open={modal}
-                    refetch={approveRequest}
-                    defaultValues={cleanData}
-                    councilId={request.councilId}
-                    requestClose={() => setModal(false)}
-                />
-            }
         </>
     )
 }
