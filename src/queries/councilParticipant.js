@@ -176,6 +176,7 @@ export const addConvenedParticipant = gql`
 			sendConvene: $sendConvene
 		) {
 			success
+			message
 		}
 	}
 `;

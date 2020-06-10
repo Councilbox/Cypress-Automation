@@ -34,6 +34,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                         list { 
                             councilId
                             id
+                            participantId
                             data
                             participantCreated
                             date

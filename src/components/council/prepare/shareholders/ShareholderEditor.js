@@ -53,7 +53,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 				}
 			});
 			if (!response.errors) {
-				props.refetch();
+				props.refetch(JSON.parse(response.data.addConvenedParticipant.message));
 				setState({
 					modal: false,
 					data: { ...initialParticipant },

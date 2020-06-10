@@ -10,23 +10,20 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
     const [modal, setModal] = React.useState(null);
     const { requestType, attachments, earlyVotes, representative, ...cleanData } = request.data;
     const secondary = getSecondary();
-
-    console.log(cleanData);
-
     const buttonColor = request.participantCreated? 'grey' : secondary;
 
-
-    const setParticipantCreated = async () => {
+    const setParticipantCreated = async participant => {
         const response = await client.mutate({
             mutation: gql`
-                mutation SetRequestShareholderCreated($requestId: Int!){
-                    setRequestShareholderCreated(requestId: $requestId){
+                mutation SetRequestShareholderCreated($requestId: Int!, $participantId: Int!){
+                    setRequestShareholderCreated(requestId: $requestId, participantId: $participantId){
                         success
                     }
                 }
             `,
             variables: {
-                requestId: request.id
+                requestId: request.id,
+                participantId: participant.id
             }
         });
         refetch();
