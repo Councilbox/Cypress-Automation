@@ -33,7 +33,7 @@ const RefuseRequestButton = ({ request, client, refetch, translate }) => {
                 onClick={() => setModal(request)}
                 buttonStyle={{
                     border: `1px solid ${'red'}`,
-                    marginTop: '0.3em'
+                    marginLeft: '0.3em'
                 }}
                 color="white"
                 textStyle={{ color: 'red' }}
