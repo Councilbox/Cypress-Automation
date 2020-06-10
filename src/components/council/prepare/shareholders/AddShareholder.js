@@ -8,8 +8,10 @@ import { getSecondary } from '../../../../styles/colors';
 
 const ApproveRequestButton = ({ request, client, refetch, translate }) => {
     const [modal, setModal] = React.useState(null);
-    const { requestType, attachments, ...cleanData } = request.data;
+    const { requestType, attachments, earlyVotes, representative, ...cleanData } = request.data;
     const secondary = getSecondary();
+
+    console.log(cleanData);
 
     const buttonColor = request.participantCreated? 'grey' : secondary;
 
