@@ -13,6 +13,7 @@ import ApproveRequestButton from './ApproveRequestButton';
 import ShareholderEditor from './ShareholderEditor';
 import RefuseRequestButton from './RefuseRequestButton';
 import { downloadFile } from '../../../../utils/CBX';
+import CheckShareholderRequest, { getTypeText } from './CheckShareholderRequest';
 
 
 const ShareholdersRequestsPage = ({ council, translate, client }) => {
@@ -25,40 +26,18 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
     const [usersTotal, setUsersTotal] = React.useState(false);
     
 
-    const downloadAttachment = async (requestId, index) => {
-        const response = await client.query({
-            query: gql`
-                query ShareholdersRequestAttachment($requestId: Int!, $index: Int!){
-                    shareholdersRequestAttachment(requestId: $requestId, index: $index){
-                        base64
-                        filename
-                        filetype
-                    }
-                }
-            `,
-            variables: {
-                requestId,
-                index
-            }
-        });
-
-        console.log(response);
-        const file = response.data.shareholdersRequestAttachment;
-        const base64 = file.base64.split(';base64,').pop();
-        downloadFile(base64, file.filetype, file.filename)
-    }
-
     const getData = React.useCallback(async () => {
         const response = await client.query({
             query: gql`
                 query ShareholdersRequest($councilId: Int!,$filters: [FilterInput],$options: OptionsInput){
                     shareholdersRequests(councilId: $councilId, filters: $filters, options: $options){
                         list { 
-                        councilId
-                        id
-                        data
-                        date
-                        state
+                            councilId
+                            id
+                            data
+                            participantCreated
+                            date
+                            state
                         }
                         total
                     }
@@ -135,7 +114,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                             {translate.email}
                         </TableCell>
                         <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
-                            Archivos
+                            {translate.type}
                         </TableCell>
                         <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
                             {translate.date}
@@ -157,16 +136,11 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                     {request.data.email}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.data.attachments ?
-                                        request.data.attachments.map((attachment, index) => (
-                                            <div onClick={() => downloadAttachment(request.id, index)} style={{cursor: 'pointer'}}>
-                                                <i className='fa fa-file-pdf-o'></i>  {attachment.filename}
-                                            </div>
-                                        ))
-                                        :
-                                        ""
-                                    }
+                                    {getTypeText(request.data.requestType)}
                                 </TableCell>
+                                {/* <TableCell style={{ color: "black", borderBottom: 'none' }}>
+                                    
+                                </TableCell> */}
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {moment(request.date).format('LLL')}
                                 </TableCell>
@@ -174,12 +148,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                     {request.state === '0' ? "Pendiente" : "Aceptada"}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    <ApproveRequestButton
-                                        request={request}
-                                        refetch={getData}
-                                        translate={translate}
-                                    />
-                                    <RefuseRequestButton
+                                    <CheckShareholderRequest
                                         request={request}
                                         refetch={getData}
                                         translate={translate}

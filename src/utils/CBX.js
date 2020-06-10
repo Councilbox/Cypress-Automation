@@ -1532,7 +1532,7 @@ export const downloadFile = (base64, filetype, filename) => {
 		a.style.cssText = "display: none";
 		document.body.appendChild(a);
 		a.href = objectUrl;
-		a.download = filename.replace(/\./, '');
+		a.download = filename//.replace(/\./, '');
 		a.click();
 	}
 };
