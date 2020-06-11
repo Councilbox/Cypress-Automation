@@ -8,7 +8,8 @@ import { getSecondary } from '../../../../styles/colors';
 
 const ApproveRequestButton = ({ request, client, refetch, translate }) => {
     const [modal, setModal] = React.useState(null);
-    const { requestType, attachments, earlyVotes, representative, ...cleanData } = request.data;
+    let { requestType, attachments, earlyVotes, representative, ...cleanData } = request.data;
+    cleanData.socialCapital = cleanData.numParticipations;
     const secondary = getSecondary();
     const buttonColor = request.participantCreated? 'grey' : secondary;
 
@@ -67,6 +68,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
             {modal &&
                 <ShareholderEditor
                     open={modal}
+                    participations={true}
                     refetch={setParticipantCreated}
                     defaultValues={cleanData}
                     councilId={request.councilId}
