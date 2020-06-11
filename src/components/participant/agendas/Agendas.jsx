@@ -67,7 +67,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaStateToastId);
                     }
                     this.agendaStateToastId = this.toastChanges(
-                        `${translate.point_of_day_opened_number} ${agendaToCheck.orderIndex}`,
+                        `${translate.point_of_day_opened_number}`,
                         () => this.agendaStateToastId = null
                     );
                 }
@@ -77,7 +77,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaStateToastId);
                     }
                     this.agendaStateToastId = this.toastChanges(
-                        `${translate.point_closed_num} ${agendaToCheck.orderIndex}`,
+                        `${translate.point_closed_num}`,
                         () => this.agendaStateToastId = null
                     );
                 }
@@ -87,7 +87,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
-                        `${translate.point_num_votings_open} ${agendaToCheck.orderIndex}`,
+                        `${translate.point_num_votings_open}`,
                         () => this.agendaVotingsToastId = null
                     );
                 }
@@ -97,7 +97,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
-                        `${translate.point_num_votings_closed} ${agendaToCheck.orderIndex}`,
+                        `${translate.point_num_votings_closed}`,
                         () => this.agendaVotingsToastId = null
                     )
                 }
