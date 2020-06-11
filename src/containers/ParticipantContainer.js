@@ -101,7 +101,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 	React.useEffect(() => {
 		if(companyId){
 			updateConfig(companyId)
-			store.dispatch(addSpecificTranslations(council.councilVideo.company.type));
+			store.dispatch(addSpecificTranslations(council.councilVideo.company));
 		}
 	}, [companyId]);
 

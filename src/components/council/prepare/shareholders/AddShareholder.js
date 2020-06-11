@@ -30,12 +30,33 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
         setModal(false);
     }
 
+
+    const sendPrueba = async participant => {
+        const response = await client.mutate({
+            mutation: gql`
+                mutation SetRequestShareholderCreated($requestId: Int!, $participantId: Int!){
+                    setRequestShareholderCreated(requestId: $requestId, participantId: $participantId){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                requestId: request.id,
+                participantId: request.participantId
+            }
+        });
+    }
+
     return (
         <>
             <BasicButton
                 disabled={request.participantCreated}
                 text={request.participantCreated? 'Accionista ya creado' : "Añadir el accionista al censo"}
-                onClick={() => setModal(request)}
+                onClick={() => {
+                    request.participantCreated?
+                    sendPrueba()
+                    :
+                setModal(request)}}
                 buttonStyle={{
                     border: `1px solid ${buttonColor}`
                 }}

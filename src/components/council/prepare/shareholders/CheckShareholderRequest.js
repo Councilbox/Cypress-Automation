@@ -12,7 +12,7 @@ export const getTypeText = text => {
     const texts = {
         'access': 'Asistencia a la junta general',
         'vote': 'Voto anticipado',
-        'represent': 'Delegación de voto'
+        'represent': 'Representación de voto'
     }
 
     return texts[text];
@@ -71,7 +71,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     }
                     {request.data.requestType === 'represent' &&
                         <>
-                            Delega en:
+                            En:
                             <div style={{marginBotton: '2em'}}>
                                 {request.data.representative[0].value === 'el presidente'?
                                     request.data.representative[0].value

@@ -24,8 +24,8 @@ const Dashboard = ({ translate, company, user }) => {
 	const config = React.useContext(ConfigContext);
 
 	React.useEffect(() => {
-		store.dispatch(addSpecificTranslations(company.category));
-	}, [store, company.category]);
+		store.dispatch(addSpecificTranslations(company));
+	}, [store, company]);
 
 	if (addUser) {
 		return <NewUser translate={translate} requestClose={() => setAddUser(false)} styles={{
