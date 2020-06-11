@@ -7,6 +7,7 @@ import ShareholderEditor from './ShareholderEditor';
 
 const RefuseRequestButton = ({ request, client, refetch, translate }) => {
     const [modal, setModal] = React.useState(null);
+    const buttonColor = request.participantCreated? 'grey' : 'red';
 
     const refuseRequest = async () => {
         const response = await client.mutate({
@@ -29,14 +30,15 @@ const RefuseRequestButton = ({ request, client, refetch, translate }) => {
     return (
         <>
             <BasicButton
+                disabled={request.participantCreated}
                 text="Rechazar"
                 onClick={() => setModal(request)}
                 buttonStyle={{
-                    border: `1px solid ${'red'}`,
+                    border: `1px solid ${buttonColor}`,
                     marginLeft: '0.3em'
                 }}
                 color="white"
-                textStyle={{ color: 'red' }}
+                textStyle={{ color: buttonColor }}
                 //onClick={approveRequest}
             />
             <AlertConfirm
