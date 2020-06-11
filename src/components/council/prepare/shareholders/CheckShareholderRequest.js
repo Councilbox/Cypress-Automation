@@ -7,6 +7,7 @@ import ApproveRequestButton from './ApproveRequestButton';
 import AddShareholder from './AddShareholder';
 import { downloadFile } from '../../../../utils/CBX';
 import RefuseRequestButton from './RefuseRequestButton';
+import DelegateVoteButton from './DelegateVoteButton';
 
 export const getTypeText = text => {
     const texts = {
@@ -118,6 +119,14 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     refetch={refetch}
                     translate={translate}
                 />
+                {request.participantCreated &&
+                    <DelegateVoteButton
+                        request={request}
+                        refetch={refetch}
+                        translate={translate}
+                    />
+
+                }
             </>
         )
     }
