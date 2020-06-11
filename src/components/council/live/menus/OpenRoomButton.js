@@ -5,7 +5,8 @@ import {
 	AlertConfirm,
 	BasicButton,
 	Checkbox,
-	Icon
+	Icon,
+	Radio
 } from "../../../../displayComponents";
 import { getPrimary } from "../../../../styles/colors";
 import { moment } from '../../../../containers/App';
@@ -18,6 +19,7 @@ import { isMobile } from "../../../../utils/screen";
 const OpenRoomButton = ({ council, translate, ...props }) => {
 	const [state, setState] = useOldState({
 		sendCredentials: !council.videoEmailsDate,
+		sendOptions: 'all',
 		confirmModal: false,
 		showSMS: false
 	});
@@ -27,22 +29,22 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 
 	const openCouncilRoom = async () => {
 		setLoading(true);
-		const response = await props.openCouncilRoom({
-			variables: {
-				councilId: council.id,
-				timezone: moment().utcOffset(),
-				sendCredentials: state.sendCredentials
-			}
-		});
-		if (response.data.openCouncilRoom.success) {
-			if(response.data.openCouncilRoom.message === 'Failed SMS'){
-				setError(response.data.openCouncilRoom.message);
-				setLoading(false);
-			} else {
-				props.refetch();
-				setState({ confirmModal: false });
-			}
-		}
+		// const response = await props.openCouncilRoom({
+		// 	variables: {
+		// 		councilId: council.id,
+		// 		timezone: moment().utcOffset(),
+		// 		sendCredentials: state.sendCredentials
+		// 	}
+		// });
+		// if (response.data.openCouncilRoom.success) {
+		// 	if(response.data.openCouncilRoom.message === 'Failed SMS'){
+		// 		setError(response.data.openCouncilRoom.message);
+		// 		setLoading(false);
+		// 	} else {
+		// 		props.refetch();
+		// 		setState({ confirmModal: false });
+		// 	}
+		// }
 	}
 
 	const getBody = () => {
@@ -75,6 +77,33 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 					}
 					id={'checkEnviarEmail'}
 				/>
+				{state.sendCredentials &&
+					<>
+						<Radio
+							value={"all"}
+							checked={state.sendOptions === 'all'}
+							onChange={event =>
+								setState({
+									sendOptions: event.target.value
+								})
+							}
+							name="sendOptions"
+							label={translate.all_plural}
+						/>
+						<Radio
+							value={"remotes"}
+							checked={state.sendOptions === 'remotes'}
+							onChange={event =>
+								setState({
+									sendOptions: event.target.value
+								})
+							}
+							name="sendOptions"
+							label={'Remotos'}
+						/>
+					</>
+
+				}
 				<a
 					href={`https://app.councilbox.com/recommendations/${council.language}`}
 					rel="noopener noreferrer"
