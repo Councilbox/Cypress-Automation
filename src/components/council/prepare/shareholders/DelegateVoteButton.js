@@ -199,7 +199,7 @@ const DelegateVoteButton = ({ request, client, refetch, translate }) => {
     return (
         <>
             <BasicButton
-                text={participant.live.state === PARTICIPANT_STATES.DELEGATED? 'Voto delegado' : "Delegar voto"}
+                text={participant.live.state === PARTICIPANT_STATES.DELEGATED? 'Voto representado' : "Añadir representación"}
                 onClick={() => setModal(request)}
                 buttonStyle={{
                     border: `1px solid ${buttonColor}`,
