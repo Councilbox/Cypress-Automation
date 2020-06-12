@@ -436,19 +436,19 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 										{data.councilRecount &&
 											<>
 												{council.quorumPrototype === 0 ?
-													<b>{`${translate.current_quorum}: ${formatInt(showNumParticipations(data.councilRecount.partRightVoting, company))} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal ? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
+													<b>{`${translate.current_quorum}: ${showNumParticipations(data.councilRecount.partRightVoting, company)} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal ? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
 														(councilStartedState() && council.councilStarted === 1 && councilHasSession(council)) ?
 															` / ${translate.initial_quorum}: ${
-															council.initialQuorum ? formatInt(showNumParticipations(council.initialQuorum, company) ):formatInt( showNumParticipations(council.currentQuorum, company))
+															council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
 															} (${((data.council.initialQuorum / (data.councilRecount.partTotal ? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
 															:
 															''
 														}`}</b>
 													:
-													<b>{`${translate.current_quorum}: ${formatInt(showNumParticipations(data.councilRecount.socialCapitalRightVoting, company))} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
+													<b>{`${translate.current_quorum}: ${showNumParticipations(data.councilRecount.socialCapitalRightVoting, company)} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
 														(councilStartedState() && council.councilStarted === 1 && councilHasSession(council)) ?
 															` / ${translate.initial_quorum}: ${
-															council.initialQuorum ? formatInt(showNumParticipations(council.initialQuorum, company) ): formatInt(showNumParticipations(council.currentQuorum, company))
+															council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
 															} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
 															:
 															''
