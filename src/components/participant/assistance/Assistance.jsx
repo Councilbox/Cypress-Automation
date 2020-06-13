@@ -27,6 +27,7 @@ import CouncilState from "../login/CouncilState";
 import { moment } from "../../../containers/App";
 import AttendanceOptions from "./AttendanceOptions";
 import VoteLetter from './VoteLetter';
+import { ConfigContext } from "../../../containers/AppControl";
 
 export const AECOC_ID = 286;
 
@@ -76,6 +77,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	const [selecteAssistance, setSelecteAssistance] = React.useState(translate.council);
 	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
 	const [openModalVoteLetter, setOpenModalVoteLetter] = React.useState(false);
+	const config = React.useContext(ConfigContext);
 
 	function generateAttendanceData() {
 		const defaultIntention = council.councilType === 0? PARTICIPANT_STATES.REMOTE : PARTICIPANT_STATES.PHYSICALLY_PRESENT;
@@ -362,35 +364,36 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 								}
 							</>
 						:
-							<>
-								<div style={{ width: '100%', marginBottom: "1em" }}>
-									<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-										{translate.comments}
+							config.attendanceComment &&
+								<>
+									<div style={{ width: '100%', marginBottom: "1em" }}>
+										<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+											{translate.comments}
+										</div>
 									</div>
-								</div>
-								<RichTextInput
-									errorText={state.commentError}
-									translate={translate}
-									value={
-										!!participant.assistanceComment
-											? participant.assistanceComment
-											: ""
-									}
-									placeholder={council.companyId !== AECOC_ID? translate.attendance_comment : ''}
-									stylesQuill={{ background: "#f0f3f6" }}
-									onChange={value =>
-										setState({
-											...state,
-											participant: {
-												...state.participant,
-												assistanceComment: value
-											},
-											locked: false
-										})
-									}
-									quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
-								/>
-							</>
+									<RichTextInput
+										errorText={state.commentError}
+										translate={translate}
+										value={
+											!!participant.assistanceComment
+												? participant.assistanceComment
+												: ""
+										}
+										placeholder={council.companyId !== AECOC_ID? translate.attendance_comment : ''}
+										stylesQuill={{ background: "#f0f3f6" }}
+										onChange={value =>
+											setState({
+												...state,
+												participant: {
+													...state.participant,
+													assistanceComment: value
+												},
+												locked: false
+											})
+										}
+										quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
+									/>
+								</>
 						}
 						
 					</div>
