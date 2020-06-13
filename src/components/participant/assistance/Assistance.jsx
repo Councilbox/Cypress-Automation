@@ -28,6 +28,7 @@ import { moment } from "../../../containers/App";
 import AttendanceOptions from "./AttendanceOptions";
 import VoteLetter from './VoteLetter';
 import { ConfigContext } from "../../../containers/AppControl";
+import AttendanceConfirmation from "./AttendanceConfirmation";
 
 export const AECOC_ID = 286;
 
@@ -74,6 +75,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	});
 	const primary = getPrimary();
 
+	const [attendanceConfirmation, setAttendanceConfirmation] = React.useState(false);
 	const [selecteAssistance, setSelecteAssistance] = React.useState(translate.council);
 	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
 	const [openModalVoteLetter, setOpenModalVoteLetter] = React.useState(false);
@@ -190,6 +192,9 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 							} : {})
 						}
 					});
+					if(state.assistanceIntention === PARTICIPANT_STATES.DELEGATED && council.companyId === 708){
+						setAttendanceConfirmation(true);
+					}
 				} else {
 					await selectSimpleOption(state.assistanceIntention, signature);
 				}
@@ -261,9 +266,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 			setSelecteAssistance(`${translate.representations_delegations} (${delegatedVotesNumber})`);
 		}
 	}, [delegatedVotesNumber]);
-
-
-	console.log(state);
 
 
 	if (council.active === 0) {
@@ -544,6 +546,10 @@ al borrar una carta de voto se elimina el proxy vote
 			participant={participant}
 		>
 			<div style={styles.mainContainer}>
+				<AttendanceConfirmation
+					open={attendanceConfirmation}
+					requestClose={() => setAttendanceConfirmation(false)}
+				/>
 				<Card style={{ ...styles.cardContainer, width: isMobile? '100%' : "80%" }}>
 					{!councilStarted(council)?
 						<Scrollbar>
