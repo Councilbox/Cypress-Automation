@@ -191,7 +191,7 @@ export default graphql(participantsToDelegate, {
 	options: props => ({
 		variables: {
 			councilId: props.council.id,
-			participantId: props.participant.id,
+			//participantId: props.participant.id,
 			options: {
 				offset: 0,
 				limit: DELEGATION_USERS_LOAD
