@@ -30,7 +30,7 @@ const RefuseRequestButton = ({ request, client, refetch, translate }) => {
     return (
         <>
             <BasicButton
-                disabled={request.participantCreated}
+                //disabled={request.participantCreated}
                 text="Rechazar"
                 onClick={() => setModal(request)}
                 buttonStyle={{

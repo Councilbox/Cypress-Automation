@@ -1507,6 +1507,7 @@ export const councilLiveQuery = gql`
 				existsAct
 				existsWhoSignTheAct
 				includedInActBook
+				canEarlyVote
 				includeParticipantsList
 				existsComments
 				conveneHeader
