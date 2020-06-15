@@ -30,6 +30,7 @@ import DelegationRestriction from "../editor/DelegationRestriction";
 import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
 import gql from "graphql-tag";
 import ShareholdersRequestsPage from "./shareholders/ShareholdersRequestsPage";
+import EstimatedQuorum from "./EstimatedQuorum";
 
 
 const CouncilPreparePage = ({ company, translate, data, ...props }) => {
@@ -143,6 +144,12 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									height: '100%'
 								}}
 							>
+								<EstimatedQuorum
+									council={council}
+									totalVotes={data.councilTotalVotes}
+									socialCapital={data.councilSocialCapital}
+									translate={translate}
+								/>
 								<ConvenedParticipantsTable
 									council={council}
 									totalVotes={data.councilTotalVotes}
@@ -451,6 +458,7 @@ export default graphql(gql`
 				existsSecondCall
 				minimumSeparationBetweenCall
 				canEditConvene
+				canEarlyVote
 				requireProxy
 				firstCallQuorumType
 				firstCallQuorum
