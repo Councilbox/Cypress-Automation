@@ -6,6 +6,7 @@ import { agendaPointOpened, agendaVotingsOpened } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import AgendaNoSession from "./AgendaNoSession";
 import { isMobile } from '../../../utils/screen';
+import { getSubjectAbrv } from '../../../displayComponents/AgendaNumber';
 
 
 class Agendas extends React.Component {
@@ -67,7 +68,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaStateToastId);
                     }
                     this.agendaStateToastId = this.toastChanges(
-                        `${translate.point_of_day_opened_number}`,
+                        `${translate.point_of_day_opened_number} ${!isNaN(getSubjectAbrv(agenda.agendaSubject))? getSubjectAbrv(agenda.agendaSubject): ""}`,
                         () => this.agendaStateToastId = null
                     );
                 }
@@ -77,7 +78,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaStateToastId);
                     }
                     this.agendaStateToastId = this.toastChanges(
-                        `${translate.point_closed_num}`,
+                        `${translate.point_closed_num} ${!isNaN(getSubjectAbrv(agenda.agendaSubject))? getSubjectAbrv(agenda.agendaSubject): ""}`,
                         () => this.agendaStateToastId = null
                     );
                 }
@@ -87,7 +88,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
-                        `${translate.point_num_votings_open}`,
+                        `${translate.point_num_votings_open} ${!isNaN(getSubjectAbrv(agenda.agendaSubject))? getSubjectAbrv(agenda.agendaSubject): ""}`,
                         () => this.agendaVotingsToastId = null
                     );
                 }
@@ -97,7 +98,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
-                        `${translate.point_num_votings_closed}`,
+                        `${translate.point_num_votings_closed} ${!isNaN(getSubjectAbrv(agenda.agendaSubject))? getSubjectAbrv(agenda.agendaSubject): ""}`,
                         () => this.agendaVotingsToastId = null
                     )
                 }
@@ -113,11 +114,12 @@ class Agendas extends React.Component {
                     message={message}
                     action={() => this.selectAgenda}
                 />, {
-                    position: toast.POSITION.TOP_CENTER,
-                    autoClose: false,
-                    onClose: onClose,
-                    className: "liveToast"
-                }
+                // autoClose: false,
+                autoClose: 10000,
+                position: toast.POSITION.TOP_CENTER,
+                onClose: onClose,
+                className: "liveToast"
+            }
             )
         }
     }
