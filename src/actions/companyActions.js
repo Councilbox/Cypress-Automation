@@ -99,9 +99,6 @@ const getSpecificTranslations = (language, company) => {
 		...(idTranslations[id]? idTranslations[id] : {})
 	};
 
-	console.log(extraTranslations);
-
-
 	return extraTranslations;
 }
 
