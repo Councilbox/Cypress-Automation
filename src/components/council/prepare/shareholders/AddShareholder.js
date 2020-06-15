@@ -48,16 +48,20 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
         });
     }
 
+    
+    console.log(request);
+
     return (
         <>
             <BasicButton
-                disabled={request.participantCreated}
+                //disabled={request.participantCreated}
                 text={request.participantCreated? 'Accionista ya creado' : "Añadir el accionista al censo"}
                 onClick={() => {
                     request.participantCreated?
                     sendPrueba()
                     :
-                setModal(request)}}
+                    setModal(request)
+                }}
                 buttonStyle={{
                     border: `1px solid ${buttonColor}`
                 }}

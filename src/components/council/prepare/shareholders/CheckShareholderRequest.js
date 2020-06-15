@@ -24,9 +24,8 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
     const [modal, setModal] = React.useState(false);
     const secondary = getSecondary();
 
-    if(request.data.requestType === 'represent'){
         console.log(request);
-    }
+
 
     const downloadAttachment = async (requestId, index) => {
         const response = await client.query({
@@ -44,8 +43,6 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                 index
             }
         });
-
-        console.log(response);
         const file = response.data.shareholdersRequestAttachment;
         const base64 = file.base64.split(';base64,').pop();
         downloadFile(base64, file.filetype, file.filename)
@@ -130,6 +127,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
             </>
         )
     }
+
 
     return (
         <>
