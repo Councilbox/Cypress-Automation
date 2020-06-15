@@ -192,9 +192,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 							} : {})
 						}
 					});
-					if(state.assistanceIntention === PARTICIPANT_STATES.DELEGATED && council.companyId === 708){
-						setAttendanceConfirmation(true);
-					}
 				} else {
 					await selectSimpleOption(state.assistanceIntention, signature);
 				}
