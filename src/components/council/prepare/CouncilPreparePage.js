@@ -144,12 +144,14 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									height: '100%'
 								}}
 							>
-								<EstimatedQuorum
-									council={council}
-									totalVotes={data.councilTotalVotes}
-									socialCapital={data.councilSocialCapital}
-									translate={translate}
-								/>
+								{CBX.councilHasAssistanceConfirmation(council) &&
+									<EstimatedQuorum
+										council={council}
+										totalVotes={data.councilTotalVotes}
+										socialCapital={data.councilSocialCapital}
+										translate={translate}
+									/>
+								}
 								<ConvenedParticipantsTable
 									council={council}
 									totalVotes={data.councilTotalVotes}
