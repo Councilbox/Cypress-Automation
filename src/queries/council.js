@@ -88,8 +88,8 @@ export const updateAgenda = gql`
 `;
 
 export const sendReminder = gql`
-	mutation sendReminder($councilId: Int!) {
-		sendReminder(councilId: $councilId) {
+	mutation sendReminder($councilId: Int!, $group: String) {
+		sendReminder(councilId: $councilId, group: $group) {
 			success
 		}
 	}
