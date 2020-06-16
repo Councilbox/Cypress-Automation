@@ -55,12 +55,12 @@ const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes
     //TRADUCCION
     return (
         <div style={{fontSize: '0.9em'}}>
-            <b>Quorum estimado por intención:</b> {data.total} ({getPercentage(data.total)}%)<br/>
-            <b>Presentes:</b> {data.present} ({getPercentage(data.present)}%) | <b>Remotos:</b> {data.remote} ({getPercentage(data.remote)}%)
-            | <b>Delegados:</b> {data.delegated} ({getPercentage(data.delegated)}%) {
+            <b>{translate.quorum_estimated}:</b> {data.total} ({getPercentage(data.total)}%)<br/>
+            <b>{translate.face_to_face}:</b> {data.present} ({getPercentage(data.present)}%) | <b>{translate.remotes}:</b> {data.remote} ({getPercentage(data.remote)}%)
+            | <b>{translate.delegated_plural}:</b> {data.delegated} ({getPercentage(data.delegated)}%) {
                 council.statute.canEarlyVote === 1 &&
                     <>
-                        | <b>Anticipados:</b> {data.earlyVotes} ({getPercentage(data.earlyVotes)}%)
+                        | <b>{translate.quorum_early_votes}:</b> {data.earlyVotes} ({getPercentage(data.earlyVotes)}%)
                     </>
             }
         </div>
