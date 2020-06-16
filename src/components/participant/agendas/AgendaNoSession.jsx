@@ -197,23 +197,23 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
     React.useEffect(() => {
         let id = "";
-        // if (data && data.agendas) {
-            data.agendas.map(agenda => {
-                if (CBX.agendaPointOpened(agenda)) {
-                    id = agenda.id
-                    // setIdActive(agenda.id)
-                }
-            })
-            if (id !== idActive) {
-                scrollTo(id);
-                setIdActive(id)
+        data.agendas.map(agenda => {
+            if (CBX.agendaPointOpened(agenda)) {
+                id = agenda.id
             }
-        // }
+        })
+        if (id !== idActive) {
+            scrollTo(id);
+            setIdActive(id)
+        }
+        if (!props.timeline) {
+            scrollTo(id);
+            setIdActive(id)
+        }
     }, [data.agendas]);
 
     const scrollTo = (id) => {
-        // console.log(itemRefs)
-        if (itemRefs[id] != null ) {
+        if (itemRefs[id] != null) {
             itemRefs[id].scrollIntoView();
         }
     }
