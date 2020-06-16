@@ -140,7 +140,7 @@ const VoteDisplay = ({ voting, translate, agenda, ballots, endPage }) => {
     )
 }
 
-const getVote = (vote, translate) => {
+export const getVote = (vote, translate) => {
     switch (vote) {
         case 1:
             return translate.in_favor_btn;

@@ -7,9 +7,7 @@ import { getSecondary } from '../../../../styles/colors';
 
 
 const ApproveRequestButton = ({ request, client, refetch, translate }) => {
-    const { requestType, attachments, ...cleanData } = request.data;
-    const secondary = getSecondary()
-
+    const secondary = getSecondary();
     const approveRequest = async () => {
         const response = await client.mutate({
             mutation: gql`
