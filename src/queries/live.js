@@ -18,11 +18,13 @@ export const openCouncilRoom = gql`
 		$councilId: Int!
 		$sendCredentials: Boolean!
 		$timezone: String!
+		$group: String
 	) {
 		openCouncilRoom(
 			councilId: $councilId
 			sendCredentials: $sendCredentials
 			timezone: $timezone
+			group: $group
 		) {
 			success
 			message

@@ -6,7 +6,8 @@ import {
 	BasicButton,
 	Checkbox,
 	Icon,
-	Radio
+	Radio,
+	HelpPopover
 } from "../../../../displayComponents";
 import { getPrimary } from "../../../../styles/colors";
 import { moment } from '../../../../containers/App';
@@ -28,23 +29,24 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 	const primary = getPrimary();
 
 	const openCouncilRoom = async () => {
-		setLoading(true);
-		// const response = await props.openCouncilRoom({
-		// 	variables: {
-		// 		councilId: council.id,
-		// 		timezone: moment().utcOffset(),
-		// 		sendCredentials: state.sendCredentials
-		// 	}
-		// });
-		// if (response.data.openCouncilRoom.success) {
-		// 	if(response.data.openCouncilRoom.message === 'Failed SMS'){
-		// 		setError(response.data.openCouncilRoom.message);
-		// 		setLoading(false);
-		// 	} else {
-		// 		props.refetch();
-		// 		setState({ confirmModal: false });
-		// 	}
-		// }
+		//setLoading(true);
+		const response = await props.openCouncilRoom({
+			variables: {
+				councilId: council.id,
+				timezone: moment().utcOffset(),
+				sendCredentials: state.sendCredentials,
+				group: state.sendOptions
+			}
+		});
+		if (response.data.openCouncilRoom.success) {
+			if(response.data.openCouncilRoom.message === 'Failed SMS'){
+				setError(response.data.openCouncilRoom.message);
+				setLoading(false);
+			} else {
+				props.refetch();
+				setState({ confirmModal: false });
+			}
+		}
 	}
 
 	const getBody = () => {
@@ -100,6 +102,10 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 							}
 							name="sendOptions"
 							label={'Remotos'}
+						/>
+						<HelpPopover
+							title={translate.remotes}
+							content={translate.creds_remotes_description}
 						/>
 					</>
 
