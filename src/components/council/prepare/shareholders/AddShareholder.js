@@ -9,7 +9,7 @@ import { getSecondary } from '../../../../styles/colors';
 const ApproveRequestButton = ({ request, client, refetch, translate }) => {
     const [modal, setModal] = React.useState(null);
     let { requestType, attachments, earlyVotes, representative, ...cleanData } = request.data;
-    cleanData.socialCapital = cleanData.numParticipations;
+    cleanData.socialCapital = cleanData.numParticipations || 1;
     const secondary = getSecondary();
     const buttonColor = request.participantCreated? 'grey' : secondary;
 
@@ -48,13 +48,10 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
         });
     }
 
-    
-    console.log(request);
-
     return (
         <>
             <BasicButton
-                //disabled={request.participantCreated}
+                disabled={request.participantCreated}
                 text={request.participantCreated? 'Accionista ya creado' : "Añadir el accionista al censo"}
                 onClick={() => {
                     request.participantCreated?
