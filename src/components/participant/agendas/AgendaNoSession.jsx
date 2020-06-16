@@ -62,7 +62,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     const [responses, setResponses] = React.useState(new Map());
     const [finishModal, setFinishModal] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
+    const [idActive, setIdActive] = React.useState(false);
 
+    let itemRefs = [];
 
     const renderAgendaCard = agenda => {
         return (
@@ -192,6 +194,29 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     const logout = () => {
         store.dispatch(logoutParticipant(participant, council));
     };
+
+    React.useEffect(() => {
+        let id = "";
+        // if (data && data.agendas) {
+            data.agendas.map(agenda => {
+                if (CBX.agendaPointOpened(agenda)) {
+                    id = agenda.id
+                    // setIdActive(agenda.id)
+                }
+            })
+            if (id !== idActive) {
+                scrollTo(id);
+                setIdActive(id)
+            }
+        // }
+    }, [data.agendas]);
+
+    const scrollTo = (id) => {
+        // console.log(itemRefs)
+        if (itemRefs[id] != null ) {
+            itemRefs[id].scrollIntoView();
+        }
+    }
 
 
     const renderExitModal = () => (
@@ -354,7 +379,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                                 height: '2.5em'
                                             }}
                                         >
-                                            <img src={council.company.logo} style={{height: '100%', width: 'auto', marginTop: '0.6em'}}></img>
+                                            <img src={council.company.logo} style={{ height: '100%', width: 'auto', marginTop: '0.6em' }}></img>
                                         </div>
                                     }
                                     <div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
@@ -366,8 +391,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                                     //     id: 140
                                                     // }
                                                     return (
-                                                        <React.Fragment key={`agenda_card_${index}`}>
-                                                            {renderAgendaCard(agenda)}
+                                                        <React.Fragment key={`agenda_card_${index}`} >
+                                                            <div ref={el => { itemRefs[agenda.id] = el }}>
+                                                                {renderAgendaCard(agenda)}
+                                                            </div>
                                                         </React.Fragment>
                                                     )
                                                 })}
@@ -435,8 +462,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                         <React.Fragment>
                             {agendas.map((agenda, index) => {
                                 return (
-                                    <React.Fragment key={`agenda_card_${index}`}>
-                                        {renderAgendaCard(agenda)}
+                                    <React.Fragment key={`agenda_card_${index}`} >
+                                        <div ref={el => { itemRefs[agenda.id] = el }}>
+                                            {renderAgendaCard(agenda)}
+                                        </div>
                                     </React.Fragment>
                                 )
 
@@ -463,12 +492,12 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
     const ownVote = CBX.findOwnVote(agenda.votings, participant);
     const primary = getPrimary();
     const [state, setState] = React.useState({
-		open: false,
-		voteFilter: "all",
-		stateFilter: "all",
-		filterText: "",
-		page: 1,
-	});
+        open: false,
+        voteFilter: "all",
+        stateFilter: "all",
+        filterText: "",
+        page: 1,
+    });
     const [data, setData] = React.useState({});
 
 
@@ -593,7 +622,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
         <div style={{ margin: "0 auto", marginBottom: "15px", width: isMobile ? "100%" : '93%', }} key={agenda.id}>
             <Card
                 aria-label={"punto" + (agenda.orderIndex + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}
-                style={{border: CBX.agendaPointOpened(agenda) ? "1px solid purple" : 'none'}}
+                style={{ border: CBX.agendaPointOpened(agenda) ? "1px solid purple" : 'none' }}
             >
                 <CardHeader
                     action={
@@ -606,7 +635,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
                             </div>
                         </div>
                     }
-                    title={<div style={{ fontSize: '17px', fontWeight: '700'}}>{agenda.agendaSubject}</div>}
+                    title={<div style={{ fontSize: '17px', fontWeight: '700' }}>{agenda.agendaSubject}</div>}
                     subheader={translate[getAgendaTypeLabel(agenda)]}
                 />
                 <Collapse in={true} timeout="auto" unmountOnExit>
@@ -619,7 +648,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
                             participant={participant}
                             translate={translate}
                             refetch={refetch}
-                            // votings={data}
+                        // votings={data}
                         />
                     </CardContent>
                 </Collapse>
