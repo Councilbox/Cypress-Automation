@@ -75,8 +75,6 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
         return `${recount.socialCapitalRightVoting} (${((recount.socialCapitalRightVoting / recount.socialCapitalTotal) * 100).toFixed(3)}%) ${translate.social_capital.toLowerCase()}`
     }
 
-    console.log(recount);
-
     return (
         <React.Fragment>
             <Card style={{
