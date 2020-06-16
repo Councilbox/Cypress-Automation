@@ -1,18 +1,21 @@
 import React from "react";
 import {
 	AlertConfirm,
-	Icon
+	Icon,
+	Radio
 } from "../../../../displayComponents/index";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendReminder } from "../../../../queries/council";
+
 
 class ReminderModal extends React.Component {
 	state = {
 		success: "",
 		error: "",
 		sending: false,
-		sendAgenda: false
+		sendAgenda: false,
+		group: 'all'
 	};
 
 	close = () => {
@@ -31,7 +34,8 @@ class ReminderModal extends React.Component {
 		});
 		const response = await this.props.sendReminder({
 			variables: {
-				councilId: this.props.council.id
+				councilId: this.props.council.id,
+				group: this.state.group
 			}
 		});
 		if (response.data.sendReminder.success) {
@@ -60,7 +64,28 @@ class ReminderModal extends React.Component {
 
 		return (
 			<div>
-
+				<Radio
+					value={'all'}
+					checked={this.state.group === 'all'}
+					onChange={event =>
+						this.setState({
+							group: 'all'
+						})
+					}
+					name="group"
+					label={translate.all_plural}
+				/>
+				<Radio
+					value={'unopened'}
+					checked={this.state.group === 'unopened'}
+					onChange={event =>
+						this.setState({
+							group: 'unopened'
+						})
+					}
+					name="group"
+					label={'Personas que no leyeron el correo'}
+				/>
 			</div>
 		);
 	}
