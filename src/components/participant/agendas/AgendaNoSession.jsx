@@ -195,22 +195,23 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         store.dispatch(logoutParticipant(participant, council));
     };
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         let id = "";
         data.agendas.map(agenda => {
             if (CBX.agendaPointOpened(agenda)) {
                 id = agenda.id
             }
-        })
+        });
+        
         if (id !== idActive) {
             scrollTo(id);
-            setIdActive(id)
+            setIdActive(id);
         }
-        if (!props.timeline) {
-            scrollTo(id);
-            setIdActive(id)
+
+        if(props.timeline && idActive){
+            setIdActive(false);
         }
-    }, [data.agendas]);
+    }, [data.agendas, props.timeline]);
 
     const scrollTo = (id) => {
         if (itemRefs[id] != null) {

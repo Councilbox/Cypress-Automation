@@ -29,7 +29,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 	const primary = getPrimary();
 
 	const openCouncilRoom = async () => {
-		//setLoading(true);
+		setLoading(true);
 		const response = await props.openCouncilRoom({
 			variables: {
 				councilId: council.id,
