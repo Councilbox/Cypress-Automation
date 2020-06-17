@@ -155,6 +155,7 @@ const participantQuery = gql`
 				requireProxy
 				existsDelegatedVote
 				existMaxNumDelegatedVotes
+				attendanceText
 				doubleColumnDocs
 				canEarlyVote
 				canSenseVoteDelegate
