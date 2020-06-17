@@ -29,12 +29,15 @@ class NotificationFilters extends React.Component {
 				notificationStatus: null
 			});
 		} else {
-			refetch({
-				attendanceIntention: null,
-				notificationStatus: code
-			});
 			this.setState({
 				selectedFilter: code
+			});
+			if (code === 37) {
+				code = '37, 40'
+			}
+			refetch({
+				attendanceIntention: null,
+				notificationStatus: `${code}`
 			});
 		}
 	};
@@ -96,15 +99,15 @@ class NotificationFilters extends React.Component {
 				active={selectedFilter === value}
 				tooltip={translate[CBX.getAttendanceIntentionTooltip(value)]}
 			>
-				{CBX.getAttendanceIntentionIcon(value, {width: "24px", height: "auto", color: primary })}
-				
+				{CBX.getAttendanceIntentionIcon(value, { width: "24px", height: "auto", color: primary })}
+
 			</FilterButton>
 		);
 	}
 
 	render() {
 		const { translate } = this.props;
-		
+
 		return (
 			<Grid>
 				<GridItem xs={4} md={9} lg={3} style={{ paddingTop: "0.6em" }}>

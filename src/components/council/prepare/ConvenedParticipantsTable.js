@@ -170,7 +170,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			}
 		}
 	}
-
+	
 	headers.push({text: ''});
 	return (
 		<div style={{ width: "100%", height: '100%' }}>

@@ -186,7 +186,7 @@ export const convenedcouncilParticipants = gql`
 	query participants(
 		$councilId: Int!
 		$filters: [FilterInput]
-		$notificationStatus: Int
+		$notificationStatus: String
 		$attendanceIntention: Int
 		$options: OptionsInput
 	) {
