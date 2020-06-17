@@ -60,7 +60,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     </div>
                     {request.data.requestType === 'vote' &&
                         <>
-                          {request.data.earlyVotes.map((vote, index) => (
+                          {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
                               <div key={`early_vote_${index}`}>
                                 <div style={{fontWeight: '700'}}>{vote.name}</div>
                                 <div>-{getVote(+vote.value, translate)}</div>
