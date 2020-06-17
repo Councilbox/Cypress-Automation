@@ -623,6 +623,9 @@ al borrar una carta de voto se elimina el proxy vote
 										<div style={{ fontStyle: "italic", color: "#000000", marginTop: "1em" }}>
 											{council.street}
 										</div>
+										{council.statute.attendanceText &&
+											<div dangerouslySetInnerHTML={{__html: council.statute.attendanceText }} style={{marginTop: '1em', fontSize: '15px'}} />
+										}
 										{getDatos(selecteAssistance)}
 									</div>
 								</Card>
