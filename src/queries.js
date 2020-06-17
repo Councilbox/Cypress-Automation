@@ -1857,6 +1857,7 @@ export const videoParticipants = gql`
 				video
 				videoParticipant{
 					mutedMic
+					mutedCam
 					online
 					id
 				}
