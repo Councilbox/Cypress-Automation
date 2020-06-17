@@ -11,7 +11,7 @@ class MuteToggleButton extends React.Component {
 		this.setState({
 			loading: true
 		});
-		if((this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic)){
+		if((this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedCam)){
 			const response = await this.props.unmuteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
@@ -20,7 +20,7 @@ class MuteToggleButton extends React.Component {
 			});
 
 			if(response.data){
-				if(response.data.unmuteVideoParticipant.success){
+				if(response.data.unmuteVideoParticipantCam.success){
 					this.setState({
 						loading: false
 					});
@@ -36,7 +36,7 @@ class MuteToggleButton extends React.Component {
 			});
 
 			if(response.data){
-				if(response.data.muteVideoParticipant.success){
+				if(response.data.muteVideoParticipantCam.success){
 					this.setState({
 						loading: false
 					});
@@ -49,14 +49,14 @@ class MuteToggleButton extends React.Component {
 	render() {
 		const { participant } = this.props;
 
-		//TRADUCCION
+        //TRADUCCION
 		return (
 			<div style={{marginRight: '0.3em'}}>
 				{haveGrantedWord(participant) && (
 					<Tooltip
 						title={
 							participant.requestWord === 2
-								? 'Mutar participante'
+								? 'Desactivar cámara'
 								: ""
 						}
 					>
@@ -83,10 +83,14 @@ class MuteToggleButton extends React.Component {
 									justifyContent: "center"
 								}}
 							>
-								{(this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic)?
-									<i className="fa fa-microphone-slash" aria-hidden="true" style={{transform: 'scaleX(-1)'}}></i>
+                                {(this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedCam)?
+                                    <span class="material-icons" style={{fontSize: '1.15em'}}>
+                                    videocam_off
+                                    </span>
 								:
-									<i className="fa fa-microphone" aria-hidden="true"></i>
+                                    <span class="material-icons" style={{fontSize: '1.15em'}}>
+                                        videocam
+                                    </span>
 								}
 							</MenuItem>
 						</Card>
@@ -97,17 +101,18 @@ class MuteToggleButton extends React.Component {
 	}
 }
 
+
 const muteParticipant = gql`
-	mutation muteParticipant($videoParticipantId: String!, $councilId: Int!){
-		muteVideoParticipant(videoParticipantId: $videoParticipantId, councilId: $councilId){
+	mutation MuteVideoParticipantCam($videoParticipantId: String!, $councilId: Int!){
+		muteVideoParticipantCam(videoParticipantId: $videoParticipantId, councilId: $councilId){
 			success
 		}
 	}
 `;
 
 const unmuteParticipant = gql`
-	mutation UnmuteParticipant($videoParticipantId: String!, $councilId: Int!){
-		unmuteVideoParticipant(videoParticipantId: $videoParticipantId, councilId: $councilId){
+	mutation UnmuteVideoParticipantCam($videoParticipantId: String!, $councilId: Int!){
+		unmuteVideoParticipantCam(videoParticipantId: $videoParticipantId, councilId: $councilId){
 			success
 		}
 	}
