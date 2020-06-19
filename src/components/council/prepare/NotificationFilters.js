@@ -33,7 +33,7 @@ class NotificationFilters extends React.Component {
 				selectedFilter: code
 			});
 			if (code === 37) {
-				code = '37, 40'
+				code = '37, 39, 40'
 			}
 			refetch({
 				attendanceIntention: null,
