@@ -7,6 +7,10 @@ import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { Table, TableBody, TableHead, TableRow, TableCell, MenuItem, Divider } from 'material-ui';
 import FileSaver from 'file-saver';
+import { SERVER_URL } from '../../../../config';
+import { moment } from '../../../../containers/App';
+
+
 
 const QuorumDisplay = ({ council, recount, translate, company }) => {
     const secondary = getSecondary();
@@ -84,65 +88,25 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
         return ((value / base) * 100).toFixed(3);
     }
 
-    const copyQuorumTable = () => {
-        const html = document.createElement('textarea');
-        document.body.appendChild(html);
-        html.value = `
-            <table>
-                <th>
-                    <td>
-                        ${translate.participants}
-                    </td>
-                    <td>
-                        Participaciones
-                    </td>
-                    <td>    
-                        %                    
-                    </td>
-                </th>
-            </table>
-        `;
-        html.select();
-        document.execCommand('copy');
-    }
+    const downloadPDF = async () => {
+        const html = document.getElementById("quorumTable").innerHTML;
+        console.log(html);
 
-    const exportToDoc = () => {
-        const preHtml = "<!DOCTYPE html type=\"text/html\"><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><title>Export HTML To Doc</title></head><body style='font-family: Arial;'>";
-        const postHtml = "</body></html>";
-        const body = `
-            <table>
-                <th>
-                    <td>
-                        ${translate.participants}
-                    </td>
-                    <td>
-                        Participaciones
-                    </td>
-                    <td>    
-                        %                    
-                    </td>
-                </th>
-            </table>
-        `
-        const html = preHtml+body+postHtml;
-        const css = (`\
-            <style>\
-            body {font-family: Arial; font-size: 12pt;}\
-            html {font-family: Arial; font-size: 12pt;}
-            div {font-family: Arial; font-size: 12pt;}
-            h3 {font-family: Arial; font-size: 12pt;}
-            h4 {font-family: Arial; font-size: 12pt;}
-            b {font-family: Arial; font-size: 12pt;}
-            </style>\
-        `);
-
-        let filename = `Quorum - ${council.name}.doc`;
-        const blob = new Blob(['\ufeff', css+html], {
-            type: 'application/msword'
+        const response = await fetch(`${SERVER_URL}/pdf/build`, {
+            headers: {
+                'Content-type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                html
+            })
         });
-        FileSaver.saveAs(blob, filename);
-    }
 
+        const blob = await response.blob();
+
+        FileSaver.saveAs(blob, `Quorum_${council.name.replace(/\s/g, '_')}_${moment().format('DD/MM/YYYY_hh_mm_ss')}.pdf`);
+
+    }
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -176,9 +140,6 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
 
     usePolling(getData, 10000);
 
-    console.log(data);
-
-
     if(loading){
         return '';
     }
@@ -194,97 +155,142 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
             }}>
                 <b>{translate.quorum}:</b>
 
+                <DropDownMenu
+                    color="transparent"
+                    id={'user-menu-trigger'}
+                    loading={loading}
+                    loadingColor={secondary}
+                    text={'Exportar'}
+                    textStyle={{ color: secondary }}
+                    type="flat"
+                    buttonStyle={{border: `1px solid ${secondary}`}}
+                    icon={
+                        <i className="fa fa-download" style={{
+                                fontSize: "1em",
+                                color: secondary,
+                                marginLeft: "0.3em"
+                            }}
+                        />
+                    }
+                    items={
+                        <React.Fragment>
+                            <MenuItem onClick={downloadPDF}>
+                                <div
+                                    style={{
+                                        width: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between'
+                                    }}
+                                >
+                                    <i className="fa fa-file-pdf-o" style={{
+                                            fontSize: "1em",
+                                            color: secondary,
+                                            marginLeft: "0.3em"
+                                        }}
+                                    />
+                                    <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                                        PDF
+                                    </span>
+                                </div>
+                            </MenuItem>
+                        </React.Fragment>
+                    }
+                />
             </div>
-            <Table>
-                <TableHead>
-                    <TableCell>
+            <div id="quorumTable">
+                <Table>
+                    <TableHead>
+                        <TableCell>
 
-                    </TableCell>
-                    <TableCell>
-                        {translate.participants}
-                    </TableCell>
-                    <TableCell>
-                        Participaciones
-                    </TableCell>
-                    <TableCell>
-                        % Capital social
-                    </TableCell>
-                </TableHead>
-                <TableBody>
-                    <TableRow>
-                        <TableCell>
-                            Total
                         </TableCell>
                         <TableCell>
-                            {recount.numRightVoting}
+                            {translate.participants}
                         </TableCell>
                         <TableCell>
-                            {data.total}
+                            Participaciones
                         </TableCell>
                         <TableCell>
-                            {getPercentage(data.total)}%
+                            % Capital social
                         </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>
-                            {translate.face_to_face}
-                        </TableCell>
-                        <TableCell>
-                            {data.numPresent}
-                        </TableCell>
-                        <TableCell>
-                            {data.present}
-                        </TableCell>
-                        <TableCell>
-                            {getPercentage(data.present)}%
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>
-                            {translate.remotes}
-                        </TableCell>
-                        <TableCell>
-                            {data.numRemote}
-                        </TableCell>
-                        <TableCell>
-                            {data.remote}
-                        </TableCell>
-                        <TableCell>
-                            {getPercentage(data.remote)}%
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell>
-                            {translate.delegated_plural}
-                        </TableCell>
-                        <TableCell>
-                            {data.numDelegated}
-                        </TableCell>
-                        <TableCell>
-                            {data.delegated}
-                        </TableCell>
-                        <TableCell>
-                            {getPercentage(data.delegated)}%
-                        </TableCell>
-                    </TableRow>
-                    {council.statute.canEarlyVote === 1 &&
+                    </TableHead>
+                    <TableBody>
                         <TableRow>
                             <TableCell>
-                                {translate.quorum_early_votes}
+                                Total
                             </TableCell>
                             <TableCell>
-                                {data.numEarlyVotes}
+                                {recount.numRightVoting}
                             </TableCell>
                             <TableCell>
-                                {data.earlyVotes}
+                                {data.total}
                             </TableCell>
                             <TableCell>
-                                {getPercentage(data.earlyVotes)}%
+                                {getPercentage(data.total)}%
                             </TableCell>
                         </TableRow>
-                    }
-                </TableBody>
-            </Table>
+                        <TableRow>
+                            <TableCell>
+                                {translate.face_to_face}
+                            </TableCell>
+                            <TableCell>
+                                {data.numPresent}
+                            </TableCell>
+                            <TableCell>
+                                {data.present}
+                            </TableCell>
+                            <TableCell>
+                                {getPercentage(data.present)}%
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                {translate.remotes}
+                            </TableCell>
+                            <TableCell>
+                                {data.numRemote}
+                            </TableCell>
+                            <TableCell>
+                                {data.remote}
+                            </TableCell>
+                            <TableCell>
+                                {getPercentage(data.remote)}%
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                {translate.delegated_plural}
+                            </TableCell>
+                            <TableCell>
+                                {data.numDelegated}
+                            </TableCell>
+                            <TableCell>
+                                {data.delegated}
+                            </TableCell>
+                            <TableCell>
+                                {getPercentage(data.delegated)}%
+                            </TableCell>
+                        </TableRow>
+                        {council.statute.canEarlyVote === 1 &&
+                            <TableRow>
+                                <TableCell>
+                                    {translate.quorum_early_votes}
+                                </TableCell>
+                                <TableCell>
+                                    {data.numEarlyVotes}
+                                </TableCell>
+                                <TableCell>
+                                    {data.earlyVotes}
+                                </TableCell>
+                                <TableCell>
+                                    {getPercentage(data.earlyVotes)}%
+                                </TableCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </div>
+            
         </div>
     )
 })
