@@ -142,7 +142,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 	const boardWithoutSessionStep = () => {
 		sendCreateCouncil(4);
 	}
-	console.log(translate)
+	
 	return (
 		<AlertConfirm
 			fullWidth={isMobile && true}
