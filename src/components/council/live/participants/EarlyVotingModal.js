@@ -43,6 +43,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
     const [loading, setLoading] = React.useState(true);
     const [loadingVote, setLoadingVote] = React.useState(false);
 
+    console.log(data);
+
     const getData = async () => {
         const response = await client.query({
             query: gql`
@@ -94,6 +96,27 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
             }
         });
 
+        getData();
+    }
+
+    const setVotingRightDenied = async agendaId => {
+        setLoadingVote(agendaId);
+        const response = await client.mutate({
+            mutation: gql`
+                mutation SetVotingRightDenied($participantId: Int!, $agendaId: Int!){
+                    setVotingRightDenied(participantId: $participantId, agendaId: $agendaId){
+                        id
+                    }
+                }
+            `,
+            variables: {
+                participantId: participant.id,
+                agendaId
+            }
+        });
+
+        console.log(response)
+        setLoadingVote(null);
         getData();
     }
 
@@ -178,6 +201,9 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                         </div>
                                     )
                                 })}
+                                <div onClick={() => setVotingRightDenied(point.id)} style={{ border: isActive(point.id, null)? '1px solid red' : 'none' }}>
+                                    No puede votar este punto
+                                </div>
                                 <BasicButton
                                     color="white"
                                     text="Eliminar"
