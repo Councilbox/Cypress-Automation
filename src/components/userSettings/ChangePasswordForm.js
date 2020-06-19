@@ -244,6 +244,7 @@ class ChangePasswordForm extends React.Component {
 											className={"barColor" + this.state.color}
 										/>
 									</div>
+									{/* TRADUCCION */}
 									<div style={{ width: "50%" }}>
 										{this.state.errorsBar !== undefined ? this.state.errorsBar : "Contraseña segura"} {/*TRADUCCION*/}
 									</div>

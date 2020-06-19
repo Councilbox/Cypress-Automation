@@ -63,7 +63,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 	const [step, setStep] = React.useState(1);
 	const [errors, setErrors] = React.useState({});
 	const [creating, setCreating] = React.useState(false);
-	const [title, setTitle] = React.useState("Seleccionar tipo de reunión");//TRADUCCION
+	const [title, setTitle] = React.useState(translate.select_meeting_type);//TRADUCCION
 
 
 	const sendCreateCouncil = async type => {
@@ -117,7 +117,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 			if (options.dateStart && options.closeDate) {
 				if (!checkSecondDateAfterFirst(options.dateStart, options.closeDate)) {
 					hasError = true;
-					errors.errorMessage = 'La fecha de fin no puede ser anterior a la fecha de comienzo.';//TRADUCCION
+					errors.errorMessage = translate.end_date_earlier_the_start;
 				}
 			}
 		}
@@ -142,7 +142,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 	const boardWithoutSessionStep = () => {
 		sendCreateCouncil(4);
 	}
-
+	console.log(translate)
 	return (
 		<AlertConfirm
 			fullWidth={isMobile && true}
@@ -183,7 +183,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 										</div>
 									</div>
 									<div style={{ height: "100%" }}>
-										{/* TRADUCCION */}
 										<ButtonCreateCouncil
 											onClick={councilStep}
 											title={translate.with_session}
@@ -237,7 +236,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											{translate.back}
 										</div>
 									</div>
-									{/* TRADUCCION */}
+									
 									<ButtonInfoCouncil
 										title={translate.with_session}
 										styleButton={{ marginRight: "3%" }}

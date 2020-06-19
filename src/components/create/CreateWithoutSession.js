@@ -9,7 +9,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
     });
 
     React.useEffect(() => {
-        props.setTitle('Configurar reunión sin sesión');//TRADUCCION
+        props.setTitle(translate.setup_meeting_without_session);//TRADUCCION
         setOptions(dates);
     }, []);
 
@@ -52,7 +52,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
                     acceptText={translate.accept}
                     cancelText={translate.cancel}
                     minDate={Date.now()}
-                    label={'Fecha de comienzo'}//TRADUCCION
+                    label={translate.start_beginning}//TRADUCCION
                     value={dates.dateStart}
                 />
             </div>
@@ -69,7 +69,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
                     acceptText={translate.accept}
                     cancelText={translate.cancel}
                     minDate={moment().add(30, 'minutes')}
-                    label={hybrid? 'Cierre de votación remota' : translate.date_end}//TRADUCCION
+                    label={hybrid? translate.remote_voting_closure : translate.date_end}//TRADUCCION
                     value={dates.closeDate}
                 />
             </div>
