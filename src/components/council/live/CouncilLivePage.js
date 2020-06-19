@@ -339,11 +339,11 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 											cursor: "pointer",
 											position: "absolute",
 											right: "5%",
-											top: "20px",
+											top: "16px",
 											backgroundColor:
 												"rgba(0, 0, 0, 0.5)",
-											width: "2.5em",
-											height: "2.5em",
+											width: "2.9em",
+											height: "2.9em",
 											display: "flex",
 											alignItems: "center",
 											justifyContent: "center"
