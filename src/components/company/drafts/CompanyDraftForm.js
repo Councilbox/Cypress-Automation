@@ -250,7 +250,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					/>
 				</div>
 				<div>
-					<div style={{ fontSize: "18px", marginBottom: "0.6em", marginTop: '1.2em' }}>{'Texto secundario'}</div>
+					<div style={{ fontSize: "18px", marginBottom: "0.6em", marginTop: '1.2em' }}>{translate.secondary_text}</div>
 					<RichTextInput
 						id={"draftRichEditor2"}
 						value={draft.secondaryText || ""}
