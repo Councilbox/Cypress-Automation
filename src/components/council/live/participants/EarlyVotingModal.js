@@ -1,12 +1,13 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { BasicButton, AlertConfirm, LoadingSection } from '../../../../displayComponents';
-import { getSecondary } from '../../../../styles/colors';
+import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
 import gql from 'graphql-tag';
 import { AGENDA_TYPES, VOTE_VALUES } from '../../../../constants';
 import { MenuItem, CircularProgress } from 'material-ui';
 import VotingValueIcon from '../voting/VotingValueIcon';
+import { VotingButton } from '../../../participant/agendas/VotingMenu';
 
 
 const EarlyVotingModal = props => {
@@ -114,8 +115,6 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                 agendaId
             }
         });
-
-        console.log(response)
         setLoadingVote(null);
         getData();
     }
@@ -153,64 +152,55 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
             :
                 data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
                     return (
-                        <div key={`point_${point.id}`}>
-                            Punto: {point.agendaSubject}
-                            <div style={{display: 'flex'}}>
-                                {[VOTE_VALUES.POSITIVE, VOTE_VALUES.NEGATIVE, VOTE_VALUES.ABSTENTION, VOTE_VALUES.NO_VOTE].map(vote => {
-                                    const active = isActive(point.id, vote);
+                        <div key={`point_${point.id}`} style={{marginTop: '1em'}}>
+                            <b>Punto: {point.agendaSubject}</b>
+                            <BasicButton
+                                color="white"
+                                text="Eliminar"
+                                buttonStyle={{
+                                    marginLeft: '1em'
+                                }}
+                                textStyle={{
+                                    color: getSecondary()
+                                }}
+                                onClick={() => deleteProxyVote(point.id)}
+                            />
+                            <div>
+                                {[{
+                                    value: VOTE_VALUES.POSITIVE,
+                                    label: translate.in_favor_btn,
+                                    icon: "fa fa-check"
+                                }, {
+                                    value: VOTE_VALUES.NEGATIVE,
+                                    label: translate.against_btn,
+                                    icon: "fa fa-times"
+                                }, {
+                                    value: VOTE_VALUES.ABSTENTION,
+                                    label: translate.abstention_btn,
+                                    icon: 'fa fa-circle-o'
+                                }].map(vote => {
+                                    const active = isActive(point.id, vote.value);
                                     return (
                                         <div
-                                            key={`vote_${vote}`}
-                                            style={{
-                                                height: "1.75em",
-                                                width: "1.75em",
-                                                marginRight: "0.2em",
-                                                border: `2px solid ${"grey"}`,
-                                                borderRadius: "3px",
-                                                display: "flex",
-                                                cursor: "pointer",
-                                                alignItems: "center",
-                                                justifyContent: "center"
-                                            }}
+                                            key={`vote_${vote.value}`}
                                             onClick={() => {
-                                                setEarlyVote(point.id, vote)
+                                                setEarlyVote(point.id, vote.value)
                                             }}
                                         >
-                                            <MenuItem
+                                            <VotingButton
+                                                loading={loadingVote === point.id}
+                                                text={vote.label}
                                                 selected={active}
-                                                style={{
-                                                    display: "flex",
-                                                    fontSize: "0.9em",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    height: '100%',
-                                                    width: '100%',
-                                                    padding: 0,
-                                                    margin: 0
-                                                }}
-                                            >
-                                                {loadingVote === point.id?
-                                                    <CircularProgress size={12} thickness={7} color={'primary'} style={{marginBottom: '0.35em'}} />
-                                                :
-                                                    <VotingValueIcon
-                                                        vote={vote}
-                                                        color={active ? undefined : "grey"}
-                                                    />
-                                                }
-                                            </MenuItem>
+                                                icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
+                                            />
                                         </div>
                                     )
                                 })}
-                                <div onClick={() => setVotingRightDenied(point.id)} style={{ border: isActive(point.id, null)? '1px solid red' : 'none' }}>
-                                    No puede votar este punto
-                                </div>
-                                <BasicButton
-                                    color="white"
-                                    text="Eliminar"
-                                    textStyle={{
-                                        color: getSecondary()
-                                    }}
-                                    onClick={() => deleteProxyVote(point.id)}
+                                <VotingButton
+                                    text={'No puede votar este punto'}
+                                    selected={isActive(point.id, null)}
+                                    onClick={() => setVotingRightDenied(point.id)}
+                                    //icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
                                 />
                             </div>
                             
