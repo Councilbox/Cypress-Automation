@@ -204,7 +204,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											<div>{translate.without_session_description}</div>
 											}
 										/>
-										{config['boardWithoutSession'] && false &&
+										{config['boardWithoutSession'] &&
 											<ButtonCreateCouncil
 												onClick={boardWithoutSessionStep}
 												title={translate.board_without_session}
@@ -216,7 +216,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												}
 											/>
 										}
-										{config['2stepsCouncil'] && false &&
+										{config['2stepsCouncil'] &&
 											<ButtonCreateCouncil
 												onClick={noSessionHybridStep}
 												title={translate.elections}
