@@ -24,6 +24,11 @@ const EarlyVotingModal = props => {
             <BasicButton
                 color="white"
                 text={props.translate.anticipate_vote}
+                type="flat"
+                buttonStyle={{
+                    border: `1px solid ${getSecondary()}`,
+                    marginTop: '0.3em'
+                }}
                 onClick={() => setModal(!modal)}
                 textStyle={{
                     color: getSecondary()
@@ -45,8 +50,6 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
     const [loading, setLoading] = React.useState(true);
     const [loadingVote, setLoadingVote] = React.useState(false);
 
-    console.log(data);
-
     const getData = async () => {
         const response = await client.query({
             query: gql`
@@ -55,6 +58,7 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                         id
                         agendaSubject
                         subjectType
+                        votingState
                     }
                     proxyVotes(participantId: $participantId){
                         value
@@ -152,20 +156,24 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                 <LoadingSection />
             :
                 data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
+                    const disabled = agendaVotingsOpened(point)
                     return (
                         <div key={`point_${point.id}`} style={{marginTop: '1em'}}>
                             <b>Punto: {point.agendaSubject}</b>
-                            <BasicButton
-                                color="white"
-                                text="Eliminar"
-                                buttonStyle={{
-                                    marginLeft: '1em'
-                                }}
-                                textStyle={{
-                                    color: getSecondary()
-                                }}
-                                onClick={() => deleteProxyVote(point.id)}
-                            />
+                            {!disabled &&
+                                <BasicButton
+                                    color="white"
+                                    text="Eliminar"
+                                    buttonStyle={{
+                                        marginLeft: '1em'
+                                    }}
+                                    textStyle={{
+                                        color: getSecondary()
+                                    }}
+                                    onClick={() => deleteProxyVote(point.id)}
+                                />
+                            }
+
                             <div>
                                 {[{
                                     value: VOTE_VALUES.POSITIVE,
@@ -185,7 +193,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                         <VotingButton
                                             loading={loadingVote === point.id}
                                             text={vote.label}
-                                            disabled={agendaVotingsOpened(point)}
+                                            disabledColor={disabled? 'grey' : null}
+                                            disabled={disabled}
                                             key={`vote_${vote.value}`}
                                             onClick={() => {
                                                 setEarlyVote(point.id, vote.value)
@@ -198,7 +207,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                 <VotingButton
                                     text={'No puede votar este punto'}
                                     selected={isActive(point.id, null)}
-                                    disabled={agendaVotingsOpened(point)}
+                                    disabledColor={disabled? 'grey' : null}
+                                    disabled={disabled}
                                     onClick={() => setVotingRightDenied(point.id)}
                                     //icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
                                 />
