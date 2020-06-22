@@ -116,26 +116,26 @@ class ChangePasswordForm extends React.Component {
 	updateState(newValues, validate) {
 		let errorsBar
 		let porcentaje = 100
-
+		const { translate } = this.props;
 		if (validate) {
 			if (!(/[a-z]/.test(newValues.newPassword))) {
-				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				errorsBar = translate.insecure_password;
 				porcentaje = porcentaje - 20;
 			}
 			if (!(/(?=.*[A-Z])/.test(newValues.newPassword))) {
-				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				errorsBar = translate.insecure_password;
 				porcentaje = porcentaje - 20;
 			}
 			if (!(/(?=.*[0-9])/.test(newValues.newPassword))) {
-				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				errorsBar = translate.insecure_password;
 				porcentaje = porcentaje - 20;
 			}
 			if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newValues.newPassword))) {
-				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				errorsBar = translate.insecure_password;
 				porcentaje = porcentaje - 20;
 			}
 			if (!(/.{8,}/.test(newValues.newPassword))) {
-				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				errorsBar = translate.insecure_password;
 				porcentaje = porcentaje - 20;
 			}
 			let color = "Green"
