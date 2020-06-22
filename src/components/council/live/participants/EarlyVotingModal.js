@@ -8,6 +8,7 @@ import { AGENDA_TYPES, VOTE_VALUES } from '../../../../constants';
 import { MenuItem, CircularProgress } from 'material-ui';
 import VotingValueIcon from '../voting/VotingValueIcon';
 import { VotingButton } from '../../../participant/agendas/VotingMenu';
+import { agendaVotingsOpened } from '../../../../utils/CBX';
 
 
 const EarlyVotingModal = props => {
@@ -181,24 +182,23 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                 }].map(vote => {
                                     const active = isActive(point.id, vote.value);
                                     return (
-                                        <div
+                                        <VotingButton
+                                            loading={loadingVote === point.id}
+                                            text={vote.label}
+                                            disabled={agendaVotingsOpened(point)}
                                             key={`vote_${vote.value}`}
                                             onClick={() => {
                                                 setEarlyVote(point.id, vote.value)
                                             }}
-                                        >
-                                            <VotingButton
-                                                loading={loadingVote === point.id}
-                                                text={vote.label}
-                                                selected={active}
-                                                icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
-                                            />
-                                        </div>
+                                            selected={active}
+                                            icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
+                                        />
                                     )
                                 })}
                                 <VotingButton
                                     text={'No puede votar este punto'}
                                     selected={isActive(point.id, null)}
+                                    disabled={agendaVotingsOpened(point)}
                                     onClick={() => setVotingRightDenied(point.id)}
                                     //icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
                                 />
