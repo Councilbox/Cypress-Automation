@@ -62,6 +62,7 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
                                 ref={votings}
                                 council={council}
                                 agenda={agenda}
+                                recount={props.recount}
                                 majorities={props.data.majorities}
                                 translate={translate}
                             />
