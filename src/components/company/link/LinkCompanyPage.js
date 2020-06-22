@@ -64,7 +64,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 			sendGAevent({
 				category: 'Editar entidades',
 				action: 'Vincular sociedad',
-				label: props.company? props.company.businessName : 'Sin compañía'
+				label: props.company ? props.company.businessName : 'Sin compañía'
 			});
 
 			const response = await props.linkCompany({
@@ -90,10 +90,10 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 					<LiveToast
 						message={translate.company_link_success_title}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "successToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "successToast"
+				}
 				);
 				store.dispatch(getCompanies(props.user.id));
 				bHistory.push("/");
@@ -184,6 +184,15 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 							}
 						/>
 						<br />
+
+					</div>
+				</GridItem>
+				<GridItem xs={12} md={12} lg={12} style={{ maxWidth: '400px', margin: '0 auto'}}>
+					<div
+						style={{
+							display: "flex",
+							justifyContent: "flex-end"
+						}}>
 						<BasicButton
 							text={translate.link}
 							color={getPrimary()}
