@@ -420,7 +420,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 												},
 												{
 													name: "type",
-													text: 'Etiquetas',
+													text: translate.labels,
 													canOrder: true
 												},
 												{
