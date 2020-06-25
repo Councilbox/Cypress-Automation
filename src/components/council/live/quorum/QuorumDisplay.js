@@ -90,15 +90,14 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
 
     const downloadPDF = async () => {
         const html = document.getElementById("quorumTable").innerHTML;
-        console.log(html);
-
         const response = await fetch(`${SERVER_URL}/pdf/build`, {
             headers: {
                 'Content-type': 'application/json'
             },
             method: 'POST',
             body: JSON.stringify({
-                html
+                html,
+                companyId: council.companyId
             })
         });
 
