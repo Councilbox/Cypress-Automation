@@ -4,7 +4,7 @@ import CouncilEditorNotice from "./StepNotice";
 import CouncilEditorCensus from "./census/StepCensus";
 import CouncilEditorAgenda from "./agenda/StepAgenda";
 import CouncilEditorAttachments from "./attachments/StepAttachments";
-import CouncilEditorOptions from "./StepOptions";
+import CouncilEditorOptions from "./options/StepOptions";
 import CouncilEditorPreview from "./StepPreview";
 import { bHistory } from "../../../containers/App";
 import { checkCouncilState } from "../../../utils/CBX";

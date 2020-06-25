@@ -283,7 +283,7 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 									</div>
 								</Tooltip>
 								<Typography variant="body1">
-									{`${participant.socialCapital}`}
+									{`${CBX.showNumParticipations(participant.socialCapital, company)}`}
 								</Typography>
 							</div>
 						)}
