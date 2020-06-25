@@ -346,7 +346,21 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				</React.Fragment>
 			),
 			4: (
-				<></>
+				<>
+					<div style={{display: 'flex'}}>
+						<div>
+							<Checkbox
+								label={'Permite indicar sentido del voto por punto en la carta de voto' /*TRADUCCION*/}
+								value={council.presentVoteOverwrite === 1}
+								onChange={(event, isInputChecked) =>
+									updateCouncilData({
+										presentVoteOverwrite: isInputChecked ? 1 : 0
+									})
+								}
+							/>
+						</div>
+					</div>
+				</>
 			)
 		}
 
