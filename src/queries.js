@@ -1055,6 +1055,7 @@ export const councilStepFive = gql`
 				canUnblock
 				censusId
 				conveneHeader
+				canEarlyVote
 				councilId
 				existPublicUrl
 				existsAct

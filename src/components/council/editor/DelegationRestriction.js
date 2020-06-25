@@ -320,7 +320,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                 {_renderBody()}
             </div>
             :
-            <div style={{ padding: "1em", marginTop: "1em", maxWidth: isMobile ? "100%" : "70%" }}>
+            <div style={{ padding: "1em", paddingLeft: 0, marginTop: "1em", maxWidth: isMobile ? "100%" : "70%" }}>
                 {_renderBody()}
             </div>
     );
