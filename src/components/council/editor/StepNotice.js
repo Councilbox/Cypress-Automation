@@ -454,7 +454,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										})}
 									</SelectInput>
 									<div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary}}>
-										Ver detalles
+										{translate.read_details}
 									</div>
 								</GridItem>
 								<GridItem
