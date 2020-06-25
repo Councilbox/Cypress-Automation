@@ -117,7 +117,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 			if (options.dateStart && options.closeDate) {
 				if (!checkSecondDateAfterFirst(options.dateStart, options.closeDate)) {
 					hasError = true;
-					errors.errorMessage = 'La fecha de fin no puede ser anterior a la fecha de comienzo.';//TRADUCCION
+					errors.errorMessage = translate.end_date_earlier_the_start;//TRADUCCION
 				}
 			}
 		}
@@ -142,7 +142,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 	const boardWithoutSessionStep = () => {
 		sendCreateCouncil(4);
 	}
-
+	console.log(translate)
 	return (
 		<AlertConfirm
 			fullWidth={isMobile && true}

@@ -52,7 +52,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
                     acceptText={translate.accept}
                     cancelText={translate.cancel}
                     minDate={Date.now()}
-                    label={'Fecha de comienzo'}//TRADUCCION
+                    label={translate.start_beginning}//TRADUCCION
                     value={dates.dateStart}
                 />
             </div>
