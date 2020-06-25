@@ -129,6 +129,7 @@ class Agendas extends React.Component {
                 {this.state.delegationsModal &&
                     <DelegationsModal
                         refetch={this.props.refetchParticipant}
+                        council={this.props.council}
                         participant={this.props.participant}
                         requestClose={this.closeDelegationsModal}
                         open={this.state.delegationsModal}
