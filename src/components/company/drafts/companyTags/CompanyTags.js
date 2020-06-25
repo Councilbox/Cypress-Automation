@@ -344,7 +344,7 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                     </div>
                     <AlertConfirm
                         open={modal}
-                        title={'Eliminar etiqueta'}
+                        title={translate.delete_tag}
                         requestClose={() => setModal(false)}
                         acceptAction={event => {
                             deleteTag(tag.id);
@@ -410,7 +410,7 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                     </div>
                     <AlertConfirm
                         open={modal}
-                        title={'Eliminar etiqueta'}
+                        title={translate.delete_tag}
                         requestClose={() => setModal(false)}
                         acceptAction={event => {
                             deleteTag(tag.id);
