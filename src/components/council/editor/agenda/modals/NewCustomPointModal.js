@@ -20,13 +20,14 @@ const defaultValues = {
 }
 
 export const useValidateAgenda = (translate, setErrors) => (items, options, agenda) => {
+    console.log(translate)
     let hasError = false;
     let newErrors = {
         items: items.map(item => ({error: ''}))
     }
 
     if(items.length === 0){
-        newErrors.itemsLength = 'Es necesario añadir al menos una opción';//TRADUCCION
+        newErrors.itemsLength = translate.necessary_add_least_one_option ;
         hasError = true;
     }
 
@@ -36,23 +37,23 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
     }
 
     if(options.multiselect && options.maxSelections > items.length){
-        newErrors.maxSelections = 'Ha indicado un número máximo mayor que las opciones disponibles';//TRADUCCION
+        newErrors.maxSelections = translate.maximum_number_available_options ;
         hasError = true;
     }
 
     if(options.multiselect && options.minSelections > items.length){
-        newErrors.minSelections = 'Ha indicado un número mínimor mayor que las opciones disponibles';//TRADUCCION
+        newErrors.minSelections = translate.minimum_number_available_options;
         hasError = true;
     }
 
     if(options.multiselect && options.minSelections > options.maxSelections){
-        newErrors.minSelections = 'Ha indicado un número mínimor mayor que el número máximo';//TRADUCCION
+        newErrors.minSelections = translate.minimum_number_maximum_number;
         hasError = true;
     }
 
     items.forEach((item, index) => {
         if(!item.value){
-            newErrors.items[index].error = 'No ha indicado valor a esta opción';//TRADUCCION
+            newErrors.items[index].error = translate.not_indicated_value_option;
             hasError = true;
         }
     });
@@ -61,7 +62,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
     if(repeatedItems.length > 0){
         hasError = true;
         repeatedItems.forEach(repeated => {
-            newErrors.items[repeated].error = 'Valor repetido en otra opción';
+            newErrors.items[repeated].error = translate.value_repeated_another_option;
         });
     }
 
