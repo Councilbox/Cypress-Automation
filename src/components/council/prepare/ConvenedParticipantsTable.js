@@ -72,11 +72,11 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 	}, [getData]);
 
 	usePolling(getData, 9000);
-
+	
 	React.useEffect(() => {
-		//refreshEmailStates();
+		refreshEmailStates();
 	}, [council.id]);
-
+	
 
 	const refreshEmailStates = async () => {
 		setRefreshing(true);
@@ -91,6 +91,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			setRefreshing(false);
 		}
 	};
+	
+	usePolling(refreshEmailStates, 60000);
 
 	const closeParticipantEditor = () => {
 		getData();
