@@ -15,7 +15,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
     const [loading, setLoading] = React.useState(false);
     const [autoHybridModal, setAutoHybridModal] = React.useState(false);
     const showRecordingButton = (props.config.recording && (council.fullVideoRecord === 0 || (council.fullVideoRecord === 1 && council.councilStarted === 1)));
-    const showStreamingButton = props.config.streaming && (council.room.videoConfig && council.room.videoConfig.rtmp);
+    const showStreamingButton = props.config.streaming && (council.room.videoConfig && (council.room.videoConfig.rtmp || council.room.videoConfig.autoHybrid));
 
     React.useState(() => {
         DetectRTC.load();
@@ -26,6 +26,8 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
             data.refetch();
         }
     }, [council.councilStarted]);
+
+    usePolling(data.refetch, council.councilStarted === 1? 60000 : 20000);
 
     const stopStreamingAlert = async () => {
         if (council.room.videoConfig.autoHybrid) {
@@ -193,7 +195,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                                     <div>
                                         <i className="fa fa-exclamation-triangle" aria-hidden="true" style={{ color: "#dc7373", fontSize: "25px", marginRight: "22px" }}></i>
                                     </div>
-                                    <div>Esta acción parará la emisión a todos los participantes</div>
+                                    <div>Esta acción cortará la emisión a todos los participantes</div>
                                 </div>
                             }
                         />
