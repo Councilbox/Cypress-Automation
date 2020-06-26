@@ -16,6 +16,7 @@ import { updateAgenda } from "../../../queries/agenda";
 import PointEditorLive from './PointEditorLive';
 import { useOldState } from "../../../hooks";
 import CouncilStateButton from './menus/CouncilStateButton';
+import ToolTip from "../../../displayComponents/Tooltip";
 
 const calculateOpenIndex = agendas => {
 	const openAgenda = agendas.find(
@@ -74,9 +75,18 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 			>
 				<GridItem xs={12} md={12} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '1em' }}>
 					<div style={{ fontWeight: '700',  width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-						<div>
-							{`${agenda.agendaSubject}`}
-						</div>
+						<ToolTip text={agenda.agendaSubject}>
+							<div style={{
+								display: '-webkit-box',
+								maxWidth: 'calc(100% - 10em)',
+								WebkitLineClamp: 3,
+								WebkitBoxOrient: 'vertical',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis'
+							}}>
+								{`${agenda.agendaSubject}`}
+							</div>
+						</ToolTip>
 						<div style={{paddingRight: '1em'}}>
 							{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL && agenda.subjectType !== CBX.getActPointSubjectType())?
 								<React.Fragment>
