@@ -143,20 +143,26 @@ class ImportCensusButton extends React.Component {
 		let duplicatedEmails = new Map();
 		participants.forEach((censusP, index) => {
 			if (censusP.participant.email) {
-				if (uniqueEmails.get(censusP.participant.email)) {
-					duplicatedEmails.set(censusP.participant.email, [index + 2]);
+				let item = uniqueEmails.get(censusP.participant.email)
+				if (item) {
+					if(item.name !== censusP.participant.name || item.surname !== censusP.participant.surname || item.dni !== censusP.participant.dni){
+						duplicatedEmails.set(censusP.participant.email, [index + 2]);
+					}
 				} else {
-					uniqueEmails.set(censusP.participant.email, index + 2);
+					uniqueEmails.set(censusP.participant.email, censusP.participant);
 				}
 			}
 
 
 			if (censusP.representative) {
 				if (censusP.representative.email) {
-					if (uniqueEmails.get(censusP.representative.email)) {
-						duplicatedEmails.set(censusP.representative.email, [index + 2]);
+					let item = uniqueEmails.get(censusP.representative.email)
+					if (item) {
+						if(item.name !== censusP.representative.name || item.surname !== censusP.representative.surname || item.dni !== censusP.representative.dni){
+							duplicatedEmails.set(censusP.representative.email, [index + 2]);
+						}
 					} else {
-						uniqueEmails.set(censusP.representative.email, index + 2);
+						uniqueEmails.set(censusP.representative.email, censusP.representative);
 					}
 				}
 			}
@@ -364,6 +370,7 @@ class ImportCensusButton extends React.Component {
 				companyId: this.props.companyId,
 				censusId: this.props.censusId,
 				name: participant.name || '',
+				position: participant.position || '',
 				surname: participant.surname || '',
 				email: participant.email? participant.email.toLowerCase() : '',
 				dni: participant.dni || '',
@@ -391,8 +398,7 @@ class ImportCensusButton extends React.Component {
 				personOrEntity: 1,
 				language: participant.language,
 				numParticipations,
-				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
-				position: participant.position,
+				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations
 			},
 			...mappedParticipant
 		};
