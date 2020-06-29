@@ -1,159 +1,9 @@
 import React from 'react';
-import { VotingButton } from '../agendas/VotingMenu';
-import { useCouncilAgendas } from '../../../hooks';
 import { AlertConfirm, LoadingSection, BasicButton } from '../../../displayComponents';
-import { PARTICIPANT_STATES, VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_TYPE } from '../../../constants';
-import { getSecondary, getPrimary } from '../../../styles/colors';
-import { CircularProgress, MenuItem } from 'material-ui';
-import VotingValueIcon from '../../council/live/voting/VotingValueIcon';
-import { isCustomPoint } from '../../../utils/CBX';
-import { withApollo } from 'react-apollo';
+import EarlyVoteMenu from './EarlyVoteMenu';
 
-const EarlyVoteModal = ({ state, setState, acceptState, participant, council, translate, open, requestClose, client }) => {
+const EarlyVoteModal = ({ state, setState, acceptState, participant, council, translate, open, requestClose }) => {
     const [selected, setSelected] = React.useState(new Map());
-    
-    const { data, loading } = useCouncilAgendas({
-        councilId: council.id,
-        participantId: participant.id,
-        client
-    });
-
-    React.useEffect(() => {
-        if(!loading){
-            if(data.proxyVotes){
-                data.proxyVotes.forEach(vote => {
-                    const { __typename, id, ...rest } = vote;
-
-                    if(vote.value > 10){
-                        selected.set(`${vote.agendaId}_${vote.value}_${vote.participantId}`, rest);
-                    } else {
-                        selected.set(`${vote.agendaId}_${vote.participantId}`, rest);
-                    }
-                })
-                setSelected(new Map(selected));
-                setState({
-                    ...state,
-                    earlyVotes: Array.from(selected.values())
-                })
-            }
-        }
-    }, [loading, data])
-
-    const isActive = (agendaId, value) => {
-        const point = selected.get(agendaId);
-
-        if(!point){
-            return false;
-        }
-
-        return point.value === value;
-    }
-
-    const earlyVoteMenu = participant => {
-        return (
-            data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
-
-                if(!isCustomPoint(point.subjectType)){
-                    return (
-                        <div key={`point_${point.id}`}>
-                            <div style={{fontWeight: '700', marginTop: '1em'}}>{point.agendaSubject}</div>
-                            <div>
-                                {[{
-                                    value: VOTE_VALUES.POSITIVE,
-                                    label: translate.in_favor_btn,
-                                    icon: "fa fa-check"
-                                }, {
-                                    value: VOTE_VALUES.NEGATIVE,
-                                    label: translate.against_btn,
-                                    icon: "fa fa-times"
-                                }, {
-                                    value: VOTE_VALUES.ABSTENTION,
-                                    label: translate.abstention_btn,
-                                    icon: 'fa fa-circle-o'
-                                }].map(vote => {
-                                    const active = isActive(`${point.id}_${participant.id}`, vote.value);
-                                    return (
-                                        <div
-                                            key={`vote_${vote}`}
-                                            style={{
-                                                marginRight: "0.2em",
-                                                borderRadius: "3px",
-                                                display: "flex",
-                                                cursor: "pointer",
-                                                alignItems: "center",
-                                                justifyContent: "center"
-                                            }}
-                                            onClick={() => {
-                                                setSelected(new Map(selected.set(`${point.id}_${participant.id}`, {
-                                                    value: vote.value,
-                                                    agendaId: point.id,
-                                                    participantId: participant.id
-                                                })));
-                                                //setEarlyVote(point.id, vote)
-                                            }}
-                                        >
-                                            <VotingButton
-                                                text={vote.label}
-                                                selected={active}
-                                                icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
-                                            />
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                            
-                        </div>
-                    )
-                }
-
-                const selections = point.items.reduce((acc, curr) => {
-                    const key = `${point.id}_${curr.id}_${participant.id}`;
-                    if(isActive(key, curr.id)){
-                        acc++;
-                        return acc;
-                    }
-                    return acc;
-                }, 0)
-
-                const disabled = selections >= point.options.maxSelections;
-                return (
-                    <div key={`point_${point.id}`} style={{marginTop: '1.3em'}}>
-                        Punto: {point.agendaSubject}
-                        <div>
-                            {point.items.map(item => {
-                                const key = `${point.id}_${item.id}_${participant.id}`;
-                                const active = isActive(key, item.id);
-                                return (
-                                    <VotingButton
-                                        disabled={disabled && !active}
-                                        disabledColor={disabled && !active}
-                                        styleButton={{ padding: '0', width: '100%' }}
-                                        selectCheckBox={active}
-                                        onClick={() => {
-                                            if(active){
-                                                selected.delete(key)
-                                                setSelected(new Map(selected))
-                                            } else {
-                                                setSelected(new Map(selected.set(key, {
-                                                    value: item.id,
-                                                    agendaId: point.id,
-                                                    participantId: participant.id
-                                                })))
-                                            }
-                                        }}
-                                        text={item.value}
-                                    />
-                                )
-                            })}
-                        </div>
-                    </div>
-                )
-                
-            })
-        )
-    }
-
-
 
     return (
         <AlertConfirm
@@ -171,23 +21,15 @@ const EarlyVoteModal = ({ state, setState, acceptState, participant, council, tr
             open={open}
             bodyText={
                 <>
-                    {loading?
-                        <LoadingSection />
-                    :
-                        participant.type === PARTICIPANT_TYPE.REPRESENTATIVE?
-                            participant.represented.map(item => {
-                                return (
-                                    <>
-                                        <div>
-                                            {`${item.name} ${item.surname}`}
-                                        </div>
-                                        {earlyVoteMenu(item)}
-                                    </>
-                                )
-                            })
-                        :
-                            earlyVoteMenu(participant)
-                    }
+                    <EarlyVoteMenu
+                        selected={selected}
+                        state={state}
+                        setState={setState}
+                        setSelected={setSelected}
+                        participant={participant}
+                        council={council}
+                        translate={translate}
+                    /> 
                 </>
             }
             requestClose={requestClose}
@@ -195,4 +37,4 @@ const EarlyVoteModal = ({ state, setState, acceptState, participant, council, tr
     )
 }
 
-export default withApollo(EarlyVoteModal);
+export default EarlyVoteModal;
