@@ -258,7 +258,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                         >
                             <MenuItem value="ACEP">Firma simple</MenuItem>
                             <MenuItem value="SIGBIO">Firma biométrica</MenuItem>
-                            <MenuItem value="SIGAUT">Firma automática con certificado</MenuItem>
+                            <MenuItem value="SIG">Firma con certificado</MenuItem>
                         </SelectInput>
                     </div>
                     <div
