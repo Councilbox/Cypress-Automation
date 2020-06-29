@@ -23,7 +23,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
     console.log(translate)
     let hasError = false;
     let newErrors = {
-        items: items.map(item => ({error: ''}))
+        items: items.map(item => ({ error: '' }))
     }
 
     if(items.length === 0){
@@ -31,7 +31,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
         hasError = true;
     }
 
-    if(!agenda.agendaSubject){
+    if (!agenda.agendaSubject) {
         newErrors.agendaSubject = translate.required_field;
         hasError = true;
     }
@@ -51,6 +51,15 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
         hasError = true;
     }
 
+    if (options.maxSelections == "") {
+        newErrors.maxSelections = translate.not_indicated_value_option;
+        hasError = true;
+    }
+    if (options.minSelections == "") {
+        newErrors.minSelections = translate.not_indicated_value_option;
+        hasError = true;
+    }
+
     items.forEach((item, index) => {
         if(!item.value){
             newErrors.items[index].error = translate.not_indicated_value_option;
@@ -59,7 +68,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
     });
 
     const repeatedItems = checkRepeatedItemValue(items);
-    if(repeatedItems.length > 0){
+    if (repeatedItems.length > 0) {
         hasError = true;
         repeatedItems.forEach(repeated => {
             newErrors.items[repeated].error = translate.value_repeated_another_option;
@@ -73,7 +82,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
 const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
     const [agenda, setAgenda] = React.useState({
         ...defaultValues,
-        subjectType: props.council.councilType === 3? 7 : 6,
+        subjectType: props.council.councilType === 3 ? 7 : 6,
         councilId: props.council.id,
         orderIndex: props.agendas.length + 1
     });
@@ -86,7 +95,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
     const validateCustomAgenda = useValidateAgenda(translate, setErrors);
 
     const addCustomPoint = async () => {
-        if(!validateCustomAgenda(items, options, agenda)){
+        if (!validateCustomAgenda(items, options, agenda)) {
             setLoading(true);
             await addCustomAgenda({
                 variables: {
@@ -143,7 +152,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 
     const renderBody = () => {
         return (
-            <div style={{marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720? '720px' : '100%'}}>
+            <div style={{ marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%' }}>
                 <CustomPointForm
                     {...{
                         agenda,
