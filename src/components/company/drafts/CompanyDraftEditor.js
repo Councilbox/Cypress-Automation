@@ -80,29 +80,39 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	}
 
 	const updateCompanyDraft = async () => {
-
+		let errors = {
+			title: "",
+		}
+		let hasError = false;
 		if (!checkRequiredFields(translate, data, updateErrors, null, toast)) {
-			setLoading(true);
-			const { __typename, ...cleanData } = data;
-			const response = await props.updateCompanyDraft({
-				variables: {
-					draft: {
-						...cleanData,
-						companyId: props.match.params.company
+			if (data.title.trim() == "") {
+				errors.title = translate.required_field;
+				updateErrors(errors);
+				hasError = true;
+			}
+			if (!hasError) {
+				setLoading(true);
+				const { __typename, ...cleanData } = data;
+				const response = await props.updateCompanyDraft({
+					variables: {
+						draft: {
+							...cleanData,
+							companyId: props.match.params.company
+						}
 					}
+				});
+
+				sendGAevent({
+					category: 'Borradores',
+					action: `Modificación de borrador`,
+					label: props.company.businessName
+				});
+
+
+				if (!response.errors) {
+					setSuccess(true);
+					setLoading(false);
 				}
-			});
-
-			sendGAevent({
-				category: 'Borradores',
-				action: `Modificación de borrador`,
-				label: props.company.businessName
-			});
-
-
-			if (!response.errors) {
-				setSuccess(true);
-				setLoading(false);
 			}
 		}
 	}
