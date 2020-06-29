@@ -69,7 +69,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 } : {}),
             }
         });
-        console.log(response.data)
+
         setDocuments(response.data.companyDocuments.list);
         setQuota(response.data.companyDocumentsQuota);
     }, [company.id, breadCrumbs, search])
