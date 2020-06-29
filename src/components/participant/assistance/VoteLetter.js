@@ -8,16 +8,19 @@ import { isMobile } from "../../../utils/screen";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { replaceDocsTags } from './DelegationProxyModal';
+import EarlyVoteMenu from './EarlyVoteMenu';
 
 
-const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action }) => {
+const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action, ...props }) => {
     const signature = React.useRef();
+    const [step, setStep] = React.useState(council.statute.canEarlyVote? 1 : 2);
     const [loading, setLoading] = React.useState(false);
     const [existingProxy, setExistingProxy] = React.useState(null);
     const signatureContainer = React.useRef();
     const [signed, setSigned] = React.useState(false);
     const signaturePreview = React.useRef();
     const secondary = getSecondary();
+    const [selected, setSelected] = React.useState(new Map());
     const [canvasSize, setCanvasSize] = React.useState({
 		width: 0,
 		height: 0
@@ -158,6 +161,8 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
         )
     }
 
+    console.log(props.state);
+
     const disableSendButton = () => {
         return existingProxy && (delegation && existingProxy.delegateId === delegation.id);
     }
@@ -167,7 +172,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
             open={open}
             loadingAction={loading}
             bodyStyle={{
-                width: isMobile? '100%' : council.statute.doubleColumnDocs? "80vw" : "60vw",
+                width: isMobile? '100%' : step !== 1? council.statute.doubleColumnDocs? "80vw" : "60vw" : '600px',
             }}
             PaperProps={{
                 style: {
@@ -177,76 +182,103 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
             requestClose={requestClose}
             title={translate.create_proxy_document}
             bodyText={
-                <Grid style={{ marginTop: "15px", height: "100%" }}>
-                    <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
-                        {isMobile? 
-                            proxyPreview()
-                        :
-                            <Scrollbar>
-                                {proxyPreview()}
-                            </Scrollbar>
-                        }
-
-                    </GridItem>
-                    <GridItem xs={12} md={6} lg={5}>
-                        <div
-                            style={{
-                                border: 'solid 2px silver',
-                                color: '#a09aa0',
-                                padding: "0",
-                                borderRadius: '3px',
-                                marginBottom: "1em",
-                                height: isMobile? '250px' : '300px'
+                step === 1?
+                    <>
+                        <div style={{marginBottom: '1em'}}>
+                            Indique el sentido de voto:
+                        </div>
+                        <EarlyVoteMenu
+                            selected={selected}
+                            state={props.state}
+                            setState={props.setState}
+                            setSelected={setSelected}
+                            participant={participant}
+                            council={council}
+                            translate={translate}
+                        />
+                        <BasicButton
+                            text={translate.confirm}
+                            onClick={() => {
+                                props.setState({
+                                    ...props.state,
+                                    earlyVotes: Array.from(selected.values())
+                                })
+                                setStep(2)
                             }}
-                            onMouseDown={() => setSigned(true)}
-                            ref={signatureContainer}
-                        >
-                            {!signed &&
-                                <div style={{ position: 'absolute', margin: '0.6em'}}>{translate.sign_to_create_proxy}.</div>
+                        />
+                    </>
+                    
+                :
+                    <Grid style={{ marginTop: "15px", height: "100%" }}>
+                        <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
+                            {isMobile? 
+                                proxyPreview()
+                            :
+                                <Scrollbar>
+                                    {proxyPreview()}
+                                </Scrollbar>
                             }
-                            <div>
-                                <ReactSignature
-                                    height={canvasSize.height}
-                                    width={canvasSize.width}
-                                    dotSize={1}
-                                    onEnd={() => {
-                                        setSigned(true);
+
+                        </GridItem>
+                        <GridItem xs={12} md={6} lg={5}>
+                            <div
+                                style={{
+                                    border: 'solid 2px silver',
+                                    color: '#a09aa0',
+                                    padding: "0",
+                                    borderRadius: '3px',
+                                    marginBottom: "1em",
+                                    height: isMobile? '250px' : '300px'
+                                }}
+                                onMouseDown={() => setSigned(true)}
+                                ref={signatureContainer}
+                            >
+                                {!signed &&
+                                    <div style={{ position: 'absolute', margin: '0.6em'}}>{translate.sign_to_create_proxy}.</div>
+                                }
+                                <div>
+                                    <ReactSignature
+                                        height={canvasSize.height}
+                                        width={canvasSize.width}
+                                        dotSize={1}
+                                        onEnd={() => {
+                                            setSigned(true);
+                                        }}
+                                        onMove={() => {
+                                            getSignaturePreview();
+                                        }}
+                                        style={{}}
+                                        ref={signature}
+                                    />
+                                </div>
+                            </div>
+                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                <BasicButton
+                                    text={translate.clean}
+                                    color={'white'}
+                                    type='flat'
+                                    textStyle={{
+                                        color: secondary,
+                                        border: `1px solid ${secondary}`,
+                                        width: "30%"
                                     }}
-                                    onMove={() => {
-                                        getSignaturePreview();
+                                    onClick={clear}
+                                />
+                                <BasicButton
+                                    text={disableSendButton()? `${translate.tooltip_sent} ${moment(existingProxy.date).format('LLL')}` : translate.send_signed_document}
+                                    color={!signed || disableSendButton()? 'silver' : secondary}
+                                    disabled={!signed || disableSendButton()}
+                                    loading={loading}
+                                    textStyle={{
+                                        color: "white",
+                                        width: "65%"
                                     }}
-                                    style={{}}
-                                    ref={signature}
+                                    onClick={() => sendVote(signature.current.toDataURL())}
                                 />
                             </div>
-                        </div>
-                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                            <BasicButton
-                                text={translate.clean}
-                                color={'white'}
-                                type='flat'
-                                textStyle={{
-                                    color: secondary,
-                                    border: `1px solid ${secondary}`,
-                                    width: "30%"
-                                }}
-                                onClick={clear}
-                            />
-                            <BasicButton
-                                text={disableSendButton()? `${translate.tooltip_sent} ${moment(existingProxy.date).format('LLL')}` : translate.send_signed_document}
-                                color={!signed || disableSendButton()? 'silver' : secondary}
-                                disabled={!signed || disableSendButton()}
-                                loading={loading}
-                                textStyle={{
-                                    color: "white",
-                                    width: "65%"
-                                }}
-                                onClick={() => sendVote(signature.current.toDataURL())}
-                            />
-                        </div>
 
-                    </GridItem>
-                </Grid>
+                        </GridItem>
+                    </Grid>
             }
         />
     )

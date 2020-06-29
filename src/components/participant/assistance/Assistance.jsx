@@ -167,7 +167,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	}
 
 	const isValidEarlyVoteState = intention => {
-		return intention === PARTICIPANT_STATES.EARLY_VOTE || intention === PARTICIPANT_STATES.DELEGATED
+		return intention === PARTICIPANT_STATES.EARLY_VOTE || intention === PARTICIPANT_STATES.DELEGATED || intention === PARTICIPANT_STATES.SENT_VOTE_LETTER
 	}
 
 	const sendAttendanceIntention = async signature => {
@@ -175,6 +175,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 			...state,
 			loading: true
 		});
+
 		const { assistanceComment } = state.participant;
 
 		if (!checkForUnclosedBraces(assistanceComment)) {
@@ -244,7 +245,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 			return openModalFirmas();
 		}
 
-		if(state.assistanceIntention === PARTICIPANT_STATES.SENT_VOTE_LETTER && state.requireDoc){
+		if(state.assistanceIntention === PARTICIPANT_STATES.SENT_VOTE_LETTER){
 			return setOpenModalVoteLetter(true);
 		}
 		
@@ -433,6 +434,8 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				<VoteLetter
 					participant={participant}
 					delegation={state.delegateInfoUser}
+					setState={setState}
+					state={state}
 					council={council}
 					action={sendAttendanceIntention}
 					translate={translate}
