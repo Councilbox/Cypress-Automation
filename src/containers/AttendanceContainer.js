@@ -135,6 +135,10 @@ const participantQuery = gql`
 			}
 			conveneText
 			councilStarted
+			agendas {
+				id
+				agendaSubject
+			}
 			councilType
 			country
 			countryState
