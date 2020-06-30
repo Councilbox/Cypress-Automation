@@ -16,6 +16,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
         client
     });
 
+
     React.useEffect(() => {
         if(!loading){
             if(data.proxyVotes){

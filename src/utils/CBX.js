@@ -234,6 +234,21 @@ export const approvedByQualityVote = (agenda, qualityVoteId) => {
 	return false;
 }
 
+export const voteValuesText = vote => {
+	switch (vote) {
+		case VOTE_VALUES.NO_VOTE:
+			return 'no_vote';
+		case VOTE_VALUES.NEGATIVE:
+			return 'against_btn';
+		case VOTE_VALUES.POSITIVE:
+			return 'in_favor_btn';
+		case VOTE_VALUES.ABSTENTION:
+			return 'abstention';
+		default:
+			return "-";
+	}
+}
+
 export const isMajorityPercentage = majorityType => {
 	return majorityType === 0;
 };
