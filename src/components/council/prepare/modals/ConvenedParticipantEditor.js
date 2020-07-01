@@ -10,7 +10,7 @@ import {
 } from "../../../../utils/validation";
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
 import { upsertConvenedParticipant, checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
-import { PARTICIPANT_STATES } from "../../../../constants";
+import { PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 
 class ConvenedParticipantEditor extends React.Component {
@@ -206,7 +206,7 @@ class ConvenedParticipantEditor extends React.Component {
 							onClick={this.props.close}
 						/>
 						<BasicButton
-							text={translate.save_changes_and_send}
+							text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? 'Guardar y notificar' : translate.save_changes_and_send}
 							textStyle={{
 								color: "white",
 								textTransform: "none",

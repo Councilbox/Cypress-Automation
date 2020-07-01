@@ -44,51 +44,51 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
     }
 
     //TRADUCCION
-    if(council.councilType > 1 && council.councilType !== 4){
-        if(councilStarted(council)){
-            if(council.councilType === 3){
-                return (
-                    <div>
-                        <EndCouncilButton
-                            unclosedAgendas={unclosedAgendas}
-                            council={council}
-                            translate={translate}
-                        />
-                    </div>
-                )
-            }
-            return (
-                <div style={{fontSize: '0.9em', padding: '0.3em', display: 'flex'}}>
-                    <div>
-                        {`La reunión se cerrará automáticamente: ${moment(council.closeDate).format('LLL')}`}
-                    </div>
-                    <div style={{minWidth: '10em'}}>
-                        <EndCouncilButton
-                            unclosedAgendas={unclosedAgendas}
-                            council={council}
-                            translate={translate}
-                        />
-                    </div>
-                </div>
-            )
-        }
-        return (
-            <div style={{fontSize: '0.9em', padding: '0.3em', display: 'flex'}}>
-                <div>
-                    {`La reunión comenzará automáticamente: ${moment(council.dateStart).format('LLL')}`}
-                </div>
-                <div style={{minWidth: '10em'}}>
-                    <StartCouncilButton
-                        recount={recount}
-                        council={council}
-                        translate={translate}
-                        participants={participants}
-                        refetch={refetch}
-                    />
-                </div>
-            </div>
-        )
-    }
+    // if(council.councilType > 1 && council.councilType !== 4){
+    //     if(councilStarted(council)){
+    //         if(council.councilType === 3){
+    //             return (
+    //                 <div>
+    //                     <EndCouncilButton
+    //                         unclosedAgendas={unclosedAgendas}
+    //                         council={council}
+    //                         translate={translate}
+    //                     />
+    //                 </div>
+    //             )
+    //         }
+    //         return (
+    //             <div style={{fontSize: '0.9em', padding: '0.3em', display: 'flex'}}>
+    //                 <div>
+    //                     {`La reunión se cerrará automáticamente: ${moment(council.closeDate).format('LLL')}`}
+    //                 </div>
+    //                 <div style={{minWidth: '10em'}}>
+    //                     <EndCouncilButton
+    //                         unclosedAgendas={unclosedAgendas}
+    //                         council={council}
+    //                         translate={translate}
+    //                     />
+    //                 </div>
+    //             </div>
+    //         )
+    //     }
+    //     return (
+    //         <div style={{fontSize: '0.9em', padding: '0.3em', display: 'flex'}}>
+    //             <div>
+    //                 {`La reunión comenzará automáticamente: ${moment(council.dateStart).format('LLL')}`}
+    //             </div>
+    //             <div style={{minWidth: '10em'}}>
+    //                 <StartCouncilButton
+    //                     recount={recount}
+    //                     council={council}
+    //                     translate={translate}
+    //                     participants={participants}
+    //                     refetch={refetch}
+    //                 />
+    //             </div>
+    //         </div>
+    //     )
+    // }
 
     return (
         <React.Fragment>

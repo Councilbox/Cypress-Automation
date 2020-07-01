@@ -232,6 +232,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 											participations={participations}
 											translate={translate}
 											councilId={council.id}
+											council={council}
 											refetch={refetch}
 										/>
 									</div>
@@ -295,6 +296,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 						translate={translate}
 						close={closeParticipantEditor}
 						councilId={council.id}
+						council={council}
 						participations={participations}
 						participant={participant}
 						opened={editingParticipant}
