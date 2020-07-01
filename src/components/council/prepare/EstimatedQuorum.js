@@ -3,6 +3,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { hasParticipations } from '../../../utils/CBX';
 import { usePolling } from '../../../hooks';
+import { COUNCIL_TYPES } from '../../../constants';
 
 
 const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes }) => {
@@ -60,7 +61,7 @@ const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes
             | <b>{translate.delegated_plural}:</b> {data.delegated} ({getPercentage(data.delegated)}%) {
                 council.statute.canEarlyVote === 1 &&
                     <>
-                        | <b>{translate.quorum_early_votes}:</b> {data.earlyVotes} ({getPercentage(data.earlyVotes)}%)
+                        | <b>{council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? 'Carta de voto' : translate.quorum_early_votes}:</b> {data.earlyVotes} ({getPercentage(data.earlyVotes)}%)
                     </>
             }
         </div>

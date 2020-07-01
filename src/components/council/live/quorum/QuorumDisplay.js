@@ -9,6 +9,7 @@ import { Table, TableBody, TableHead, TableRow, TableCell, MenuItem, Divider } f
 import FileSaver from 'file-saver';
 import { SERVER_URL } from '../../../../config';
 import { moment } from '../../../../containers/App';
+import { COUNCIL_TYPES } from '../../../../constants';
 
 
 
@@ -273,7 +274,7 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                         {council.statute.canEarlyVote === 1 &&
                             <TableRow>
                                 <TableCell>
-                                    {translate.quorum_early_votes}
+                                    {council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION? 'Carta de voto' : translate.quorum_early_votes}
                                 </TableCell>
                                 <TableCell>
                                     {data.numEarlyVotes}

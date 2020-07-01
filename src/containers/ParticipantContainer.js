@@ -56,6 +56,8 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 						state: geoLocation.principalSubdivision,
 						country: geoLocation.countryName,
 					}
+				} else {
+					json = await getDataFromBackend();
 				}
 
 				setConnectionData(json);

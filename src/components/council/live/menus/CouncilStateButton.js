@@ -31,6 +31,18 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
         return <LoadingSection size={20} />
     }
 
+    if(council.councilType === 4){
+        return (
+            <div>
+                <EndCouncilButton
+                    unclosedAgendas={[]}
+                    council={council}
+                    translate={translate}
+                />
+            </div>
+        )
+    }
+
     //TRADUCCION
     if(council.councilType > 1 && council.councilType !== 4){
         if(councilStarted(council)){

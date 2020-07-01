@@ -133,13 +133,15 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										refetch={data.refetch}
 									/>
 								</div>
-								<EarlyVotingModal
-									council={props.council}
-									participant={participant}
-									translate={translate}
-								/>
+								{props.council.councilType !== 4 &&
+									<EarlyVotingModal
+										council={props.council}
+										participant={participant}
+										translate={translate}
+									/>
+								}
 								<Grid style={{ marginTop: "1em", display: "flex" }}>
-									{CBX.showSendCredentials(participant.state) &&
+									{(CBX.showSendCredentials(participant.state) && props.council.councilType !== 4) &&
 										<GridItem xs={12} md={7} lg={5} style={{}}>
 											<div style={{}}>
 												<ResendCredentialsModal
@@ -389,7 +391,7 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 			}
 			<GridItem xs={12} md={5} lg={6}>
 				<Grid style={{}}>
-					{active &&
+					{(active && props.council.councilType !== 4) &&
 						<GridItem xs={12} md={9} lg={6} style={{}}>
 							<div style={{ marginRight: "1em", borderRadius: "4px", }}>
 								<ResendCredentialsModal
@@ -405,7 +407,7 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 					<GridItem xs={12} md={5} lg={5}>
 						{action ||
 							<div>
-								{active &&
+								{(active && props.council.councilType < 2) &&
 									<SignatureButton
 										participant={participant}
 										council={props.council}
