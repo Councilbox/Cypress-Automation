@@ -11,6 +11,7 @@ import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
 import { DropDownMenu } from '../../../../displayComponents';
 import ParticipantStateList from "./ParticipantStateList";
+import { COUNCIL_TYPES } from "../../../../constants";
 
 
 const ParticipantItem = ({ participant, translate, layout, editParticipant, mode, council, ...props }) => {
@@ -464,49 +465,51 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 						}
 					</div>
 				</div>
-				<div
-					style={{
-						width: '35%',
-						padding: '0.3em',
-						paddingRight: '0.6em',
-						height: '6em',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center'
-					}}
-				>
-					{!isRepresented(participant)?
-						<React.Fragment>
-							{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
-								<BasicButton
-									text={participant.signed ? translate.user_signed : translate.to_sign}
-									fullWidth
-									buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
-									type="flat"
-									color={"white"}
-									onClick={event => {
-										event.stopPropagation();
-										showSignatureModal();
-									}}
-									textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-								/>
-							}
-						</React.Fragment>
-					:
-						<BasicButton
-							text={participantRepresentativeSigned(participant)? translate.user_signed : translate.to_sign}
-							fullWidth
-							buttonStyle={{ border: `1px solid ${participantRepresentativeSigned(participant) ? primary : secondary}` }}
-							type="flat"
-							color={"white"}
-							onClick={event => {
-								event.stopPropagation();
-								showSignatureModal();
-							}}
-							textStyle={{ color: participantRepresentativeSigned(participant)? primary : secondary, fontWeight: '700' }}
-						/>
-					}
-				</div>
+				{council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION &&
+					<div
+						style={{
+							width: '35%',
+							padding: '0.3em',
+							paddingRight: '0.6em',
+							height: '6em',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center'
+						}}
+					>
+						{!isRepresented(participant)?
+							<React.Fragment>
+								{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
+									<BasicButton
+										text={participant.signed ? translate.user_signed : translate.to_sign}
+										fullWidth
+										buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
+										type="flat"
+										color={"white"}
+										onClick={event => {
+											event.stopPropagation();
+											showSignatureModal();
+										}}
+										textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+									/>
+								}
+							</React.Fragment>
+						:
+							<BasicButton
+								text={participantRepresentativeSigned(participant)? translate.user_signed : translate.to_sign}
+								fullWidth
+								buttonStyle={{ border: `1px solid ${participantRepresentativeSigned(participant) ? primary : secondary}` }}
+								type="flat"
+								color={"white"}
+								onClick={event => {
+									event.stopPropagation();
+									showSignatureModal();
+								}}
+								textStyle={{ color: participantRepresentativeSigned(participant)? primary : secondary, fontWeight: '700' }}
+							/>
+						}
+					</div>
+				}
 			</Card>
 		</React.Fragment>
 	)
