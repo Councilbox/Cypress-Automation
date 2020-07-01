@@ -14,7 +14,10 @@ export const agendaTypes = [
 
 export const COUNCIL_TYPES = {
 	FORMAL: 0,
-	NO_VIDEO: 1
+	NO_VIDEO: 1,
+	NO_SESSION: 2,
+	ELECTIONS: 3,
+	BOARD_WITHOUT_SESSION: 4
 }
 
 export const DRAFTS_LIMITS = [25, 50, 100, 250];

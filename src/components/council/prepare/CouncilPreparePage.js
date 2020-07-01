@@ -99,7 +99,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 
 		if(council.statute.shareholdersPortal){
 			tabs.push({
-				text: 'Solicitudes accionistas'
+				text: 'Solicitudes de participación'
 			});
 		}
 
@@ -235,7 +235,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div>
 						<BasicButton
-							text={translate.prepare_room}
+							text={council.councilType === 4? 'Administrar' /**TRADUCCION */ :translate.prepare_room}
 							id={'prepararSalaNew'}
 							color={primary}
 							buttonStyle={{
@@ -348,7 +348,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 											>
 												notifications
 											</Icon>
-											{translate.new_send}
+											{'Enviar notificación'}{/**TRADUCCION */}
 										</MenuItem>
 									)}
 								<MenuItem

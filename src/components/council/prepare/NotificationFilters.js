@@ -1,16 +1,8 @@
 import React from "react";
 import { Grid, GridItem, FilterButton } from "../../../displayComponents";
-import { EMAIL_STATES_FILTERS, PARTICIPANT_STATES } from "../../../constants";
+import { EMAIL_STATES_FILTERS, PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../constants";
 import * as CBX from "../../../utils/CBX";
 import { getPrimary } from "../../../styles/colors";
-
-const intentionStates = [
-	PARTICIPANT_STATES.REMOTE,
-	PARTICIPANT_STATES.PHYSICALLY_PRESENT,
-	PARTICIPANT_STATES.DELEGATED,
-	PARTICIPANT_STATES.EARLY_VOTE,
-	PARTICIPANT_STATES.NO_PARTICIPATE
-]
 
 class NotificationFilters extends React.Component {
 	state = {
@@ -112,7 +104,23 @@ class NotificationFilters extends React.Component {
 	}
 
 	render() {
-		const { translate } = this.props;
+		const { translate, council } = this.props;
+		
+		const intentionStates = [
+			PARTICIPANT_STATES.REMOTE,
+			PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+			PARTICIPANT_STATES.DELEGATED,
+		]
+
+		if(council.state.canEarlyVote && council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION){
+			intentionStates.push(PARTICIPANT_STATES.EARLY_VOTE);
+		}
+
+		if(council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION){
+			intentionStates.push(PARTICIPANT_STATES.SENT_VOTE_LETTER);
+		}
+
+		intentionStates.push(PARTICIPANT_STATES.NO_PARTICIPATE);
 
 		return (
 			<Grid>
@@ -131,7 +139,7 @@ class NotificationFilters extends React.Component {
 					{Object.keys(EMAIL_STATES_FILTERS).map(code =>
 						this._renderFilterIcon(EMAIL_STATES_FILTERS[code])
 					)}
-					{CBX.councilHasAssistanceConfirmation(this.props.council) &&
+					{CBX.councilHasAssistanceConfirmation(council) &&
 						intentionStates.map(intention => (
 							this._renderIntentionIcon(intention)
 						))
