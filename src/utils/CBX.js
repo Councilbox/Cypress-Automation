@@ -1686,6 +1686,7 @@ export const getAttendanceIntentionIcon = (intention, style) => {
 		case PARTICIPANT_STATES.NO_PARTICIPATE:
 			return <i className={'fa fa-times'} style={style}></i>;
 		case PARTICIPANT_STATES.EARLY_VOTE:
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
 			return <i class="material-icons" style={{...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
 		default:
 			return 'fa fa-question'
