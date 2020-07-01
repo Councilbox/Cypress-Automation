@@ -8,7 +8,7 @@ const CouncilInfo = ({ council, translate }) => (
     <div>
         <Card elevation={4} style={{ padding: "20px" }}>
             <b>&#8226; {`${translate.new_location_of_celebrate}`}</b>: {`${council.street}, ${council.country}`}
-            {hasSecondCall(council) ?
+            {hasSecondCall(council.statute) ?
                 <React.Fragment>
                     <p><b>&#8226; {`${translate['1st_call_date']}`}</b>: {`${moment(council.dateStart).format('LLL')}`}</p>
                     <p><b>&#8226; {`${translate['2nd_call_date']}`}</b>: {`${moment(council.dateStart2NdCall).format('LLL')}`}</p>

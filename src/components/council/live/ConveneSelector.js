@@ -128,7 +128,7 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                     {`${translate.council_will_be_started} `}
                     <DateWrapper date={Date.now()} format="LLL" />
                     <div>
-                        {council.existsSecondCall === 1 ?
+                        {CBX.hasSecondCall(council.statute) ?
                             convene === 1 ?
                                 `${translate['1st_call']} ${
                                 council.statute.firstCallQuorumType !== -1 ?
@@ -144,7 +144,7 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
 
                                 :
                                 `${translate['2nd_call']} ${
-                                council.secondCallQuorumType !== -1 ?
+                                council.statute.secondCallQuorumType !== -1 ?
                                     `${translate.with_current_quorum} ${
                                         CBX.hasParticipations(council) ?
                                         renderParticipationsText()
