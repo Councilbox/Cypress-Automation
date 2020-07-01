@@ -17,10 +17,11 @@ import { checkUniqueCouncilEmails, addConvenedParticipant } from "../../../../qu
 import { useOldState } from "../../../../hooks";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { isMobile } from "../../../../utils/screen";
+import { COUNCIL_TYPES } from "../../../../constants";
 
 
 
-const AddConvenedParticipantButton = ({ translate, participations, client, company, ...props }) => {
+const AddConvenedParticipantButton = ({ translate, council, participations, client, company, ...props }) => {
 	const [state, setState] = useOldState({
 		modal: false,
 		data: { ...initialParticipant },
@@ -210,7 +211,7 @@ const AddConvenedParticipantButton = ({ translate, participations, client, compa
 							})}
 						/>
 						<BasicButton
-							text={translate.save_changes_and_send}
+							text={council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? 'Guardar y notificar' : translate.save_changes_and_send}
 							textStyle={{
 								color: "white",
 								textTransform: "none",
