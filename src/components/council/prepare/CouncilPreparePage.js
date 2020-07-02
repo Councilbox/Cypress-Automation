@@ -178,7 +178,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						</Scrollbar>
 					</div>
 				}
-				{selecteReuniones === 'Solicitudes accionistas' &&
+				{selecteReuniones === 'Solicitudes de participación' &&
 					<ShareholdersRequestsPage
 						council={council}
 						translate={translate}
