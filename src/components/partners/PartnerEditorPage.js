@@ -298,6 +298,8 @@ const getBookParticipant = gql`
             nationality
             home
             language
+            socialCapital
+            numParticipations
             email
             id
             representative {
