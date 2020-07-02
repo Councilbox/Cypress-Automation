@@ -7,6 +7,7 @@ import { Paper } from 'material-ui';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import DownloadActPDF from './DownloadActPDF';
 import { getSecondary } from '../../../../styles/colors';
+import SendToSignButton from './SendToSignButton';
 
 
 const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => {
@@ -43,10 +44,18 @@ const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => 
 				toolbar()
 			:
 				data.councilAct.type === 0 &&
-					<DownloadActPDF
-						translate={translate}
-						council={council}
-					/>
+					<>
+						<DownloadActPDF
+							translate={translate}
+							council={council}
+						/>
+						<SendToSignButton
+							council={council}
+							company={company}
+							translate={translate}
+							styles={{marginLeft: '1em'}}
+						/>
+					</>
 			}
 
 
@@ -68,6 +77,13 @@ const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => 
 							translate={translate}
 							council={council}
 						/>
+						<SendToSignButton
+							council={council}
+							company={company}
+							translate={translate}
+							styles={{marginLeft: '1em'}}
+						/>
+
 					</React.Fragment>
 				:
 					<div style={{border: '1px solid gainsboro'}}>
