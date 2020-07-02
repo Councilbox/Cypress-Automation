@@ -529,7 +529,7 @@ class HoverableRow extends React.Component {
 				</Card>
 			)
 		}
-
+		
 		return (
 			<TableRow
 				hover
@@ -611,7 +611,6 @@ class HoverableRow extends React.Component {
 					</TableCell>
 
 				}
-
 				{!hideNotifications &&
 					<React.Fragment>
 						<TableCell>
