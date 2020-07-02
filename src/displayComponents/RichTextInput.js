@@ -32,7 +32,8 @@ Quill.register(AlignStyle, true);
 class RichTextInput extends React.Component {
 	state = {
 		value: this.props.value,
-		showTags: false
+		showTags: false,
+		companyTags: []
 	};
 
 	componentDidMount() {
@@ -96,7 +97,7 @@ class RichTextInput extends React.Component {
 					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify' }], ['custom']
+					[{ 'align': 'justify' }], [ this.state.companyTags && this.state.companyTags.length > 0  || tags && tags.length > 0 ? 'custom' : '']
 				],
 				handlers: {
 					// 'custom': (...args) => {
@@ -117,7 +118,7 @@ class RichTextInput extends React.Component {
 			document.head.appendChild(style);
 		}
 
-
+		
 		return (
 			<React.Fragment>
 				<Typography
@@ -166,6 +167,7 @@ class RichTextInput extends React.Component {
 													translate={translate}
 													requestClose={() => this.setState({ showTags: false })}
 													paste={this.paste}
+													setData={(e) => this.setState({ companyTags: e })}
 												/>
 											}
 											<div>
@@ -207,7 +209,7 @@ class RichTextInput extends React.Component {
 }
 
 
-const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client }) => {
+const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client, setData }) => {
 	const primary = getPrimary();
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
@@ -244,6 +246,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 			}
 		});
 		setLoading(false);
+		setData(response.data.companyTags)
 		setCompanyTags(response.data.companyTags);
 	}, [company.id, searchModal]);
 
