@@ -59,7 +59,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
                 `,
                 variables: {
                     document: {
-                        filename: `${translate.act} ${council.name}`,
+                        filename: `${translate.act} ${council.name}.pdf`,
                         filetype: 'application/pdf',
                         filesize: actQuery.data.downloadAct.length * (3/4),
                         base64: actQuery.data.downloadAct,
