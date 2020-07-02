@@ -377,7 +377,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
 }
 
 
-const saveSignatureDocument = gql`
+export const saveSignatureDocument = gql`
     mutation SaveSignatureDocument($document: SignatureDocumentInput){
         saveSignatureDocument(document: $document){
             id
