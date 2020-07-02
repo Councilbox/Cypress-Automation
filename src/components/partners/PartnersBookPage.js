@@ -601,6 +601,8 @@ const bookParticipants = gql`
                 id
                 dni
                 state
+                numParticipations
+                socialCapital
                 representative {
                     id
                     name
