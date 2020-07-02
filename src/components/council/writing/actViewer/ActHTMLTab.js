@@ -8,10 +8,12 @@ import withWindowSize from '../../../../HOCs/withWindowSize';
 import DownloadActPDF from './DownloadActPDF';
 import { getSecondary } from '../../../../styles/colors';
 import SendToSignButton from './SendToSignButton';
+import { ConfigContext } from '../../../../containers/AppControl';
 
 
 const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => {
 	const [data, setData] = React.useState(null);
+	const config = React.useContext(ConfigContext);
 	const [loading, setLoading] = React.useState(true);
 
 	const getData = React.useCallback(async () => {
@@ -49,12 +51,14 @@ const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => 
 							translate={translate}
 							council={council}
 						/>
-						<SendToSignButton
-							council={council}
-							company={company}
-							translate={translate}
-							styles={{marginLeft: '1em'}}
-						/>
+						{config.sendActToSign &&
+							<SendToSignButton
+								council={council}
+								company={company}
+								translate={translate}
+								styles={{marginLeft: '1em'}}
+							/>
+						}
 					</>
 			}
 
@@ -77,13 +81,14 @@ const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => 
 							translate={translate}
 							council={council}
 						/>
-						<SendToSignButton
-							council={council}
-							company={company}
-							translate={translate}
-							styles={{marginLeft: '1em'}}
-						/>
-
+						{config.sendActToSign &&
+							<SendToSignButton
+								council={council}
+								company={company}
+								translate={translate}
+								styles={{marginLeft: '1em'}}
+							/>
+						}
 					</React.Fragment>
 				:
 					<div style={{border: '1px solid gainsboro'}}>
