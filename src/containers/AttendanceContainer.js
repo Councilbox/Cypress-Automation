@@ -167,6 +167,8 @@ const participantQuery = gql`
 				proxySecondary
 				voteLetter
 				voteLetterSecondary
+				voteLetterWithSense
+				voteLetterWithSenseSecondary
 				maxNumDelegatedVotes
 			}
 			street
