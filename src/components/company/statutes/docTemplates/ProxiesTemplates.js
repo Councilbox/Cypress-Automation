@@ -41,9 +41,15 @@ const getCustomDocsTags = (type, translate) => {
         }
     }
 
+    const votes = {
+        value: '{{votes}}',
+        label: translate.votes
+    }
+
     const types = {
         'PROXY': Object.keys(TAGS).map(key => TAGS[key]),
-        'VOTE_LETTER': Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key])
+        'VOTE_LETTER': Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]),
+        'VOTE_LETTER_WITH_SENSE':  [...Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]), votes],
     }
 
     return types[type]? types[type] : [];
@@ -87,7 +93,6 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
         voteLetterWithSense.current.setValue(statute.voteLetterWithSense || '');
         voteLetterWithSenseSecondary.current.setValue(statute.voteLetterWithSenseSecondary || '');
     }, [statute.id]);
-
 
     return (
         <>
@@ -209,7 +214,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             voteLetterWithSense: value
                         })
                     }
-                    tags={getCustomDocsTags('VOTE_LETTER', translate)}
+                    tags={getCustomDocsTags('VOTE_LETTER_WITH_SENSE', translate)}
                 />
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
@@ -227,7 +232,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             voteLetterWithSenseSecondary: value
                         })
                     }
-                    tags={getCustomDocsTags('VOTE_LETTER', translate)}
+                    tags={getCustomDocsTags('VOTE_LETTER_WITH_SENSE', translate)}
                 />
             </GridItem>
         </>
