@@ -13,7 +13,8 @@ import { voteValuesText } from '../../../utils/CBX';
 
 
 const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action, ...props }) => {
-    const [step, setStep] = React.useState(council.statute.canEarlyVote? 1 : 2);
+    const initialStep = council.statute.canEarlyVote? 1 : 2;
+    const [step, setStep] = React.useState(initialStep);
     const signature = React.useRef();
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState('');
@@ -51,8 +52,11 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                     margin: isMobile? 0 : '32px'
                 }
             }}
-            requestClose={requestClose}
-            title={translate.create_proxy_document}
+            requestClose={() => {
+                setStep(initialStep);
+                requestClose();
+            }}
+            title={translate.create_vote_letter}
             bodyText={
                 step === 1?
                     <>
