@@ -82,7 +82,17 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	const config = React.useContext(ConfigContext);
 
 	function generateAttendanceData() {
-		const defaultIntention = council.councilType === 0? PARTICIPANT_STATES.REMOTE : PARTICIPANT_STATES.PHYSICALLY_PRESENT;
+		
+		let defaultIntention;
+
+		switch(council.councilType){
+			case 0: 
+				defaultIntention = PARTICIPANT_STATES.REMOTE;
+			case 4:
+				defaultIntention = PARTICIPANT_STATES.SENT_VOTE_LETTER;
+			default:
+				defaultIntention = PARTICIPANT_STATES.PRESENT;
+		}
 
 		if (participant.represented && participant.represented.length > 0) {
 			const represented = participant.represented[0];
