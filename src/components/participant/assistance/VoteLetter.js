@@ -40,6 +40,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
         }
     }
 
+
     return (
         <AlertConfirm
             open={open}
@@ -186,7 +187,29 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
         signaturePreview.current.fromDataURL(signature.current.toDataURL());
     }
 
-    console.log(votes)
+    const renderCustom = () => {
+        const text = replaceDocsTags(council.statute.voteLetterWithSense, { council, participant, votes });
+        const segments = text.split('{{signature}}');
+
+        if(segments.length === 1){
+            return <div dangerouslySetInnerHTML={{ __html: segments[0] }} style={{width: '48%'}}></div>
+        }
+
+        return (
+            <div style={{width: '48%'}}>
+                <div dangerouslySetInnerHTML={{ __html: segments[0] }} />
+                <ReactSignature
+                    height={80}
+                    width={160}
+                    dotSize={1}
+                    disabled
+                    ref={signaturePreview}
+                />
+                <div dangerouslySetInnerHTML={{ __html: segments[1] }} />
+            </div>
+        )
+
+    }
 
     const proxyPreview = () => {
         const withVoteSense = council.statute.canEarlyVote === 1;
@@ -226,6 +249,19 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                 <br/>
                 <br/>
                 <div>{proxyTranslate.salute}</div>
+                <ReactSignature
+                    height={80}
+                    width={160}
+                    dotSize={1}
+                    disabled
+                    ref={signaturePreview}
+                />
+                {!council.statute.voteLetter &&
+                    <>
+                        _________________________________
+                        <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
+                    </>
+                }
             </>
 
 
@@ -251,6 +287,27 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                 return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetter }}></div>
             }
 
+            if(council.statute.doubleColumnDocs && withVoteSense){
+                return (
+                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+                        {council.statute.voteLetterWithSense?
+                            renderCustom()
+                        :
+                            docBody
+                        }
+                        {council.statute.voteLetterWithSenseSecondary?
+                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetterWithSenseSecondary, { council, participant, votes, language: 'en' }) }} style={{width: '48%'}}></div>
+                        :
+                            docBody
+                        }
+                    </div>
+                )
+            }
+
+            if(council.statute.voteLetter && withVoteSense){
+                return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetterWithSense }}></div>
+            }
+
             return docBody;
         }
         
@@ -265,19 +322,6 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                 <div>{proxyTranslate.in} {council.city}, {proxyTranslate.at} {moment(new Date()).format('LL')}</div>
                 <br/><br/>
                 {getBody()}
-                <ReactSignature
-                    height={80}
-                    width={160}
-                    dotSize={1}
-                    disabled
-                    ref={signaturePreview}
-                />
-                {!council.statute.voteLetter &&
-                    <>
-                        _________________________________
-                        <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
-                    </>
-                }
             </Card>
         )
     }

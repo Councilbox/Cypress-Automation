@@ -779,6 +779,8 @@ export const statutes = gql`
 			proxySecondary
 			voteLetter
 			voteLetterSecondary
+			voteLetterWithSense
+			voteLetterWithSenseSecondary
 			introSecondary
 			conclusionSecondary
 			constitutionSecondary
