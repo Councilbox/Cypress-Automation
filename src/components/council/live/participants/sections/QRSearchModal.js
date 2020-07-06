@@ -7,6 +7,7 @@ import { PARTICIPANT_STATES } from '../../../../../constants';
 import { canBePresentWithRemoteVote } from '../../../../../utils/CBX';
 import { changeParticipantState, setLiveParticipantSignature } from '../../../../../queries/liveParticipant';
 import { getPrimary } from '../../../../../styles/colors';
+import jsQR from "jsqr";
 
 
 const QRSearchModal = ({ updateSearch, open, requestClose, client, council, translate }) => {
@@ -18,10 +19,55 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
     const [loading, setLoading] = React.useState(false);
     const signature = React.useRef();
     const primary = getPrimary();
+    const videoRef = React.useRef();
+    const canvasRef = React.useRef();
+
+    const initMedia = async () => {
+        try {
+            if (navigator.mediaDevices) {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                videoRef.current.srcObject = stream;
+            } else {
+                //setErrorMedia("Intentando acceder a la camara")
+            }
+        } catch(error){ 
+            if(error.message === "Requested device not found" ){
+                //setErrorMedia("No hay camara")
+            }
+        }
+    }
+
+    React.useLayoutEffect(() => {
+        let interval;
+        if(open && videoRef.current){
+            initMedia();
+            interval = setInterval(check, 500);
+        }
+        return () => clearInterval(interval);
+    }, [council.id, open, videoRef.current])
+
+
+    const check = () => {
+        const canvasElement = document.getElementById('qr');
+
+        if(canvasElement){
+            const canvasCTX = canvasRef.current.getContext('2d');
+            canvasCTX.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+            const result = jsQR(canvasCTX.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height).data, canvasRef.current.width, canvasRef.current.height);
+            if(result){
+                setSearch(result.data);
+            }
+        }
+    }
 
     const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
 		council.statute
-	);
+    );
+    
+    const checkImage = async image => {
+        console.log(image);
+
+    }
 
     const searchParticipant = React.useCallback(async() => {
         if(search){
@@ -261,17 +307,19 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                         {translate.no_participant_found_code}
                     </div>
                 }
-                <QrReader
-                    delay={300}
-                    onError={handleError}
-                    onScan={handleScan}
-                    className={'qrEscaner'}
+                <video autoPlay style={{ width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0 }} ref={videoRef} />
+                <canvas
+                    ref={canvasRef}
+                    id='qr'
                     style={{
-                        borderRadius: '27px',
-                        width: '100%',
-                        height: '100%',
-                        border: '1px solid gainsboro !important',
-                        boxShadow: 'none !important'
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        zIndex: -1,
+                        // width: '100%', 
+                        // height: '100%', 
+                        height: videoRef.current ? videoRef.current.offsetHeight : '',
+                        width: videoRef.current ? videoRef.current.offsetWidth : '',
                     }}
                 />
             </div>
