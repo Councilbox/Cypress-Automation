@@ -150,6 +150,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, to
 								<CouncilMenu
 									council={council}
 									translate={translate}
+									logo={logo}
 								/>
 							</div>
 							<div style={{}}>

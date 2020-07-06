@@ -28,7 +28,7 @@ export const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
 
         {statute.existsSecondCall === 1 &&
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <span style={{ marginRight: '0.3em' }}>{translate.exist_quorum_assistance_second_call}:</span>{translate[getQuorumType(statute.secondCallQuorumType, quorumTypes)]}
+                <div style={{ width: "15px", marginRight: "0.4em" }}></div>  <span style={{ marginRight: '0.3em' }}>{translate.exist_quorum_assistance_second_call}:</span>{translate[getQuorumType(statute.secondCallQuorumType, quorumTypes)]}
             </div>
         }
         <div style={{ display: 'flex', alignItems: 'center' }}>

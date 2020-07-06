@@ -264,6 +264,7 @@ class CouncilMenu extends React.Component {
 					council={this.props.council}
 					requestClose={() => this.setState({ councilInfo: false })}
 					translate={translate}
+					logo={this.props.logo}
 				/>
 			</React.Fragment>
 		);
