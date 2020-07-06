@@ -35,6 +35,10 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                             }
                         }
                     }
+                    earlyVotesRecount(agendaId: $agendaId){
+                        positive
+                        negative
+                    }
                 }
             `,
             variables: {
