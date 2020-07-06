@@ -11,6 +11,7 @@ import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
 import { isLandscape, isMobile } from '../../../utils/screen';
+import EarlyVotes from './voting/EarlyVotes';
 
 const styles = theme => ({
     scrollable: {
@@ -104,9 +105,12 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                     :
                                         <React.Fragment>
                                             {(council.statute.canEarlyVote === 1 && (!CBX.councilStarted(council)))?
-                                                <div style={{padding: '1em'}}>
-                                                    PRUEBA PARA MOSTRAR VOTOS ANTICIPADOS
-                                                </div>
+                                                <EarlyVotes
+                                                    translate={translate}
+                                                    agenda={agenda}
+                                                    council={council}
+                                                    recount={props.recount}
+                                                />
                                             :
                                                 <>
                                                     {agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
