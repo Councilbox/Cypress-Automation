@@ -7,7 +7,9 @@ import { formatSize } from "../../utils/CBX";
 const primary = getPrimary();
 const secondary = getSecondary();
 
-const AttachmentItem = ({ attachment, removeAttachment, editName, edit, translate, loadingId }) => (
+const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, loading, translate, loadingId }) => {
+	console.log(loading);
+	return (
 	<Paper
 		style={{
 			width: "100%",
@@ -57,23 +59,24 @@ const AttachmentItem = ({ attachment, removeAttachment, editName, edit, translat
 			<GridItem xs={4} style={{fontSize: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>{attachment.state === 2? translate.deleted : formatSize(attachment.filesize)}</GridItem>
 			{attachment.state !== 2 &&
 				<GridItem xs={2} style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
-					{edit &&
+					{(edit || loading) &&
 						<CloseIcon
 							style={{
 								float: "right",
 								color: primary
 							}}
-							loading={loadingId === attachment.id}
+							loading={loadingId === attachment.id || loading}
 							onClick={event => {
 								event.stopPropagation();
 								removeAttachment(attachment.id);
 							}}
 						/>
 					}
+					{icon && icon}
 				</GridItem>
 			}
 		</Grid>
 	</Paper>
 );
-
+		}
 export default AttachmentItem;
