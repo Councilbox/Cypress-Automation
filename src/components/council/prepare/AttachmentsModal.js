@@ -14,7 +14,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
     const primary = getPrimary();
     const secondary = getSecondary();
     const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false);
-    const [addedAttachments, setAddedAttachments] = React.useState([]);
+    const [attachments, setAttachments] = React.useState([]);
     const [step, setStep] = React.useState(0);
     const [uploading, setUploading] = React.useState(null);
 
@@ -42,67 +42,81 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
 				councilId: council.id
 			};
 
-			//setUploading(true);
-			// const response = await client.mutate({
-            //     mutation: addCouncilAttachment,
-			// 	variables: {
-			// 		attachment: fileInfo
-			// 	}
-			// });
-			//if (response) {
-                setAddedAttachments([...addedAttachments, fileInfo]);
-				//getData();
-				//setUploading(false);
-			//}
+            setAttachments([...attachments, fileInfo]);
 		};
     };
 
     const addCompanyDocumentCouncilAttachment = async id => {
-        setAddedAttachments([...addedAttachments, id]);
+        setAttachments([...attachments, id]);
         setCompanyDocumentsModal(false);
-
-		// const response = await client.mutate({
-		// 	mutation: gql`
-		// 		mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
-		// 			attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
-		// 				success
-		// 			}
-		// 		}
-		// 	`,
-		// 	variables: {
-		// 		councilId: props.councilID,
-		// 		companyDocumentId: id
-		// 	}
-		// });
-		// getData();
-		// setCompanyDocumentsModal(false);
     }
 
     const sendAttachments = async () => {
         setStep(1);
+        let addedAttachments = [];
 
-        for(let i = 0; i < addedAttachments.length; i++){
+        for(let i = 0; i < attachments.length; i++){
+            const attachment = attachments[i];
             setUploading(i);
-            const result = await new Promise(resolve => {
-                setTimeout(() => resolve('prueba'), 5000);
-            })
+            if(attachment.id){
+                const response = await client.mutate({
+                    mutation: gql`
+                        mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
+                            attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
+                                id
+                            }
+                        }
+                    `,
+                    variables: {
+                        councilId: council.id,
+                        companyDocumentId: attachment.id
+                    }
+                });
+                addedAttachments.push(response.data.attachCompanyDocumentToCouncil.id);
+            } else {
+                const response = await client.mutate({
+                    mutation: addCouncilAttachment,
+                    variables: {
+                        attachment
+                    }
+                });
+                addedAttachments.push(response.data.addCouncilAttachment.id);
+            }
         }
 
         setUploading(null);
         setStep(2);
 
+        notifyAttachmentsAdded(addedAttachments);
+
     }
 
+    const notifyAttachmentsAdded = async attachments => {
+        const response = await client.mutate({
+            mutation: gql`
+                mutation NotifyAddedCouncilAttachments($councilId: Int!, $attachments: [Int]){
+                    notifyAddedCouncilAttachments(councilId: $councilId, attachments: $attachments){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                councilId: council.id,
+                attachments
+            }
+        });
+    }
 
     const modalBody = () => {
         if(step === 1){
+            //TRADUCCION
             return (
                 <>
                     <div>
                         Subiendo archivos
                     </div>
-                    {addedAttachments.length > 0 && (
-                        addedAttachments.map((attachment, index) => (
+                    {attachments.length > 0 && (
+                        attachments.map((attachment, index) => (
                             <AttachmentItem
                                 edit={false}
                                 icon={uploading > index && <i className="fa fa-check" style={{color: 'green'}}/>}
@@ -195,8 +209,8 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                     </div>
                     }
                 />
-                {addedAttachments.length > 0 && (
-                    addedAttachments.map((attachment, index) => (
+                {attachments.length > 0 && (
+                    attachments.map((attachment, index) => (
                         <AttachmentItem
                             edit={false}
                             loadingId={null}
