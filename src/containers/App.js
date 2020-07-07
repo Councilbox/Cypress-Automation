@@ -213,18 +213,27 @@ if(sessionStorage.getItem("participantLoginSuccess")){
 	store.dispatch({ type: "PARTICIPANT_LOGIN_SUCCESS" });
 }
 
+export const MainContext = React.createContext();
+
 const App = () => {
+
+
 	return (
 		<ApolloProvider client={client}>
 			<Provider store={store}>
 				<ThemeProvider>
 					<ErrorHandler>
 						<AppControl>
-							<AdomWrapper>
-								<Router history={bHistory}>
-									<RouterWrapper />
-								</Router>
-							</AdomWrapper>
+							<MainContext.Provider value={{
+								client,
+								bHistory
+							}}>
+								<AdomWrapper>
+									<Router history={bHistory}>
+										<RouterWrapper />
+									</Router>
+								</AdomWrapper>
+							</MainContext.Provider>
 						</AppControl>
 					</ErrorHandler>
 				</ThemeProvider>
