@@ -12,6 +12,7 @@ import { isMobile } from '../../../../utils/screen';
 
 const EarlyVotes = ({ agenda, translate, client, ...props }) => {
     const [earlyVotes, setEarlyVotes] = React.useState(null);
+    const [recount, setRecount] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 
     const getData = React.useCallback(async () => {
@@ -19,15 +20,25 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
             query: gql`
                 query EarlyVotes($agendaId: Int!){
                     earlyVotes(agendaId: $agendaId){
+                        id
                         participantId
                         value
                         numParticipations
                         author {
+                            id
                             name
                             surname
                             state
                             numParticipations
+                            delegatedVotes {
+                                id
+                                name
+                                surname
+                                state
+                                numParticipations
+                            }
                             representative {
+                                id
                                 name
                                 numParticipations
                                 surname
@@ -38,6 +49,9 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                     earlyVotesRecount(agendaId: $agendaId){
                         positive
                         negative
+                        abstention
+                        noVote
+                        total
                     }
                 }
             `,
@@ -48,6 +62,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
 
         console.log(response);
         setEarlyVotes(response.data.earlyVotes);
+        setRecount(response.data.earlyVotesRecount);
         setLoading(false);
     }, [agenda.id])
 
@@ -81,47 +96,30 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
 		return (
 			<div style={{ minWidth: '7em' }}>
 				<span style={{ fontWeight: '700' }}>
-					{!!vote.authorRepresentative ?
-						<React.Fragment>
-							{`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname || ''} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
-						</React.Fragment>
-						:
-						<React.Fragment>
-							{`${vote.author.name} ${vote.author.surname || ''} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
-							{vote.author.voteDenied &&
-								<Tooltip title={vote.author.voteDeniedReason}>
-									<span style={{color: 'red', fontWeight: '700'}}>
-										(Voto denegado)
-									</span>
-								</Tooltip>
-							}
-						</React.Fragment>
+                    <React.Fragment>
+                        {`${vote.author.name} ${vote.author.surname || ''} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
+                        {vote.author.voteDenied &&
+                            <Tooltip title={vote.author.voteDeniedReason}>
+                                <span style={{color: 'red', fontWeight: '700'}}>
+                                    (Voto denegado)
+                                </span>
+                            </Tooltip>
+                        }
+                    </React.Fragment>
 
-					}
+					{!!vote.author.representative &&
+						<React.Fragment>
+                            <br/>
+							{`${translate.represented_by} ${vote.author.representative.name} ${vote.author.representative.surname || ''} ${vote.author.representative.position ? ` - ${vote.author.representative.position}` : ''}`}
+                        </React.Fragment>
+                    }
 				</span>
-				<React.Fragment>
-					{!!vote.delegatedVotes &&
-						vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+                <React.Fragment>
+					{!!vote.author.delegatedVotes &&
+						vote.author.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-								<br />
-								{delegatedVote.fixed &&
-									<Tooltip
-										//title={getTooltip(delegatedVote.vote)}
-									>
-										<VotingValueIcon
-											vote={delegatedVote.vote}
-											fixed
-										/>
-									</Tooltip>
-								}
-								{`${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${showNumParticipations(delegatedVote.author.numParticipations, props.company)} ` : ''}`}
-								{delegatedVote.author.voteDenied &&
-									<Tooltip title={delegatedVote.author.voteDeniedReason}>
-										<span style={{color: 'red', fontWeight: '700'}}>
-											(Voto denegado)
-										</span>
-									</Tooltip>
-								}
+                                <br/>
+								{`${delegatedVote.name} ${delegatedVote.surname || ''} ${delegatedVote.position ? ` - ${delegatedVote.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${showNumParticipations(delegatedVote.numParticipations, props.company)} ` : ''}`}
 							</React.Fragment>
 						))
 					}
@@ -139,6 +137,27 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
 
     return (
         <>
+            <Table
+                forceMobileTable={true}
+                headers={[
+                    { name: translate.in_favor },
+                    { name: translate.against },
+                    { name: translate.abstentions }
+                ]}
+            >
+                <TableRow>
+                    <TableCell>
+                        {showNumParticipations(recount.positive, props.company)}
+                    </TableCell>
+                    <TableCell>
+                        {showNumParticipations(recount.negative, props.company)}
+                    </TableCell>
+                    <TableCell>
+                        {showNumParticipations(recount.abstention, props.company)}
+                    </TableCell>
+                </TableRow>
+            </Table>
+
             <Table
                 style={{ width: '100%', }}
                 forceMobileTable={true}
@@ -176,10 +195,20 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                             {renderParticipantInfo(vote)}
                         </TableCell>
                         <TableCell style={{ fontSize: '0.95em' }}>
-                            {(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED)?
-                                (vote.author.numParticipations > 0 ? `${showNumParticipations(vote.author.numParticipations, props.company)} ${printPercentage(vote.author.numParticipations)}` : 0)
-                            :
-                                vote.authorRepresentative.numParticipations > 0? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
+                            {(vote.author.numParticipations > 0 ? `${showNumParticipations(vote.author.numParticipations, props.company)} ${printPercentage(vote.author.numParticipations)}` : 0)}
+                            {(vote.author.state == PARTICIPANT_STATES.REPRESENTATED) &&
+                                <>
+                                    <br/>
+                                    {vote.author.representative.numParticipations > 0? `${showNumParticipations(vote.author.representative.numParticipations, props.company)} ${printPercentage(vote.author.representative.numParticipations)}` : '-'}
+                                </>
+                            }
+                            {!!vote.author.delegatedVotes &&
+                                vote.author.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+                                    <React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+                                        <br/>
+                                        {`${showNumParticipations(delegatedVote.numParticipations, props.company)} ${printPercentage(delegatedVote.numParticipations)}`}
+                                    </React.Fragment>
+                                ))
                             }
                         </TableCell>
                     </TableRow>
