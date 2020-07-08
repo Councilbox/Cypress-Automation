@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { MainContext } from '../../../containers/App';
-import { AlertConfirm, DropDownMenu, BasicButton } from '../../../displayComponents';
+import { AlertConfirm, DropDownMenu, BasicButton, SuccessMessage, LoadingSection } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { addCouncilAttachment } from '../../../queries';
 import CompanyDocumentsBrowser from '../../company/drafts/documents/CompanyDocumentsBrowser';
@@ -105,6 +105,8 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                 attachments
             }
         });
+
+        setStep(3);
     }
 
     const modalBody = () => {
@@ -133,8 +135,12 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
 
         if(step === 2){
             return (
-                'Enviando notificación'
+                <LoadingSection />
             )
+        }
+
+        if(step === 3){
+            return <SuccessMessage />
         }
 
         return (
@@ -236,8 +242,12 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                 title={translate.add}
                 requestClose={requestClose}
                 bodyText={modalBody()}
+                loadingAction={step > 0 && step < 3}
                 buttonAccept={translate.accept}
-                acceptAction={sendAttachments}
+                acceptAction={step === 0? sendAttachments : () => {
+                    setStep(0)
+                    requestClose();
+                }}
             />
             <CompanyDocumentsBrowser
                 company={company}
