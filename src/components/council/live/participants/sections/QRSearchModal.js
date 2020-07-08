@@ -1,6 +1,6 @@
 import React from 'react';
 import QrReader from 'react-qr-reader';
-import { AlertConfirm, BasicButton, ReactSignature, ParticipantDisplay, Checkbox } from '../../../../../displayComponents';
+import { AlertConfirm, BasicButton, ReactSignature, ParticipantDisplay, Checkbox, LoadingSection } from '../../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { PARTICIPANT_STATES } from '../../../../../constants';
@@ -16,30 +16,36 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
     const [error, setError] = React.useState(null);
     const [participantState, setParticipantState] = React.useState(5);
     const [withSignature, setWithSignature] = React.useState(false);
+    const [errorMedia, setErrorMedia] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [code, setCode] = React.useState(false);
+    const [loadingCamera, setLoadingCamera] = React.useState(true);
     const signature = React.useRef();
     const primary = getPrimary();
     const videoRef = React.useRef();
     const canvasRef = React.useRef();
+    const canvasRef2 = React.useRef();
 
     const initMedia = async () => {
         try {
             if (navigator.mediaDevices) {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 videoRef.current.srcObject = stream;
+                setLoadingCamera(false)
             } else {
-                //setErrorMedia("Intentando acceder a la camara")
+                setErrorMedia("Intentando acceder a la camara")
+                setLoadingCamera(false)
             }
         } catch (error) {
             if (error.message === "Requested device not found") {
-                //setErrorMedia("No hay camara")
+                setErrorMedia("No hay camara")
+                setLoadingCamera(false)
             }
         }
     }
 
     React.useLayoutEffect(() => {
         let interval;
-        console.log("holii")
         if (open && videoRef.current) {
             initMedia();
             interval = setInterval(check, 500);
@@ -47,38 +53,39 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         return () => clearInterval(interval);
     }, [council.id, open, videoRef.current])
 
-
     const drawLine = (begin, end, color) => {
-        const canvasElement = document.getElementById('qr');
-        canvasElement.beginPath();
-        canvasElement.moveTo(begin.x, begin.y);
-        canvasElement.lineTo(end.x, end.y);
-        canvasElement.lineWidth = 4;
-        canvasElement.strokeStyle = color;
-        canvasElement.stroke();
+        const canvasCTX = canvasRef2.current.getContext('2d');
+        canvasCTX.beginPath();
+        canvasCTX.moveTo(begin.x, begin.y);
+        canvasCTX.lineTo(end.x, end.y);
+        canvasCTX.lineWidth = 4;
+        canvasCTX.strokeStyle = color;
+        canvasCTX.stroke();
     }
+    
+    React.useLayoutEffect(() => {
+        if (code) {
+            drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
+            drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
+            drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
+            drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+        }
+    }, [code])
+
 
     const check = () => {
-        const canvasElement = document.getElementById('qr');
+        const canvasElement = document.getElementById('canvas');
+        const canvasCTX2 = canvasRef2.current.getContext('2d');
+        canvasCTX2.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
         if (canvasElement) {
             const canvasCTX = canvasRef.current.getContext('2d');
-            let imageData = canvasCTX.getImageData(0, 0, canvasElement.width, canvasElement.height);
-            let code = jsQR(imageData.data, imageData.width, imageData.height, {
-                inversionAttempts: "dontInvert",
-            });
-            console.log(imageData)
-            console.log(code)
+            canvasCTX.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+            const result = jsQR(canvasCTX.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height).data, canvasRef.current.width, canvasRef.current.height);
+            if (result) {
+                setSearch(result);
+                setCode(result)
+            }
         }
-        // if(canvasElement){
-        //     const canvasCTX = canvasRef.current.getContext('2d');
-        //     canvasCTX.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-        //     const result = jsQR(canvasCTX.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height).data, canvasRef.current.width, canvasRef.current.height);
-        //     console.log(result)
-        //     // console.log(result.data)
-        //     if(result){
-        //         setSearch(result.data);
-        //     }
-        // }
     }
 
     const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
@@ -113,7 +120,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                     }
                 `,
                 variables: {
-                    accessId: search,
+                    accessId: search.data,
                     councilId: council.id
                 }
             });
@@ -259,6 +266,8 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         setParticipant(null);
         setWithSignature(false);
         setParticipantState(5);
+        setError(null)
+        setLoadingCamera(false)
     }
 
     const renderBody = () => {
@@ -323,25 +332,38 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                     zIndex: "1",
                 }}
             >
-                {error &&
-                    <div style={{ color: 'red' }}>
-                        {translate.no_participant_found_code}
+                {loadingCamera &&
+                    <LoadingSection />
+                }
+                {errorMedia &&
+                    <div style={{ color: '#dc7373', display: "flex", justifyContent: "center", fontSize: "25px" }}>
+                        <div>
+                            <i className={"fa fa-exclamation-triangle"} style={{ fontSize: "40px" }}></i>
+                        </div>
+                        <div>{errorMedia}</div>
                     </div>
                 }
-                <video autoPlay style={{ width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0 }} ref={videoRef} />
-                <canvas
-                    ref={canvasRef}
-                    id='qr'
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        zIndex: -1,
-                        height: videoRef.current ? videoRef.current.offsetHeight : '',
-                        width: videoRef.current ? videoRef.current.offsetWidth : '',
-                    }}
-                />
-            </div>
+                <div style={{ color: '#dc7373', paddingBottom: "1em" }}>
+                    {error &&
+                        translate.no_participant_found_code
+                    }
+                </div>
+                <div style={{ overflow: "hidden", width: "520px", height: "370px", position: 'relative', borderRadius: "30px", }} >
+                    <canvas id="canvas2" ref={canvasRef2}
+                        style={{
+                            zIndex: 99999,
+                            width: '100%', height: '100%', position: 'absolute', top: 0, left: 0,
+                        }}
+                    ></canvas>
+                    <video autoPlay style={{ width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0, }} ref={videoRef} id='video' />
+                    <canvas id="canvas" ref={canvasRef}
+                        style={{
+                            height: videoRef.current ? videoRef.current.offsetHeight : '',
+                            width: videoRef.current ? videoRef.current.offsetWidth : '',
+                        }}>
+                    </canvas>
+                </div>
+            </div >
         )
     }
 
@@ -360,56 +382,3 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
 }
 
 export default withApollo(QRSearchModal);
-
-{/* <div
-                style={{
-                    borderRadius: '27px',
-                    background: "white",
-                    display: 'flex',
-                    flexGrow: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    overflow: "hidden",
-                    flexDirection: 'column',
-                    minHeight: '300px',
-                    minWidth: '300px',
-                    zIndex: "1",
-                }}
-            >
-                {error &&
-                    <div style={{ color: 'red' }}>
-                        {translate.no_participant_found_code}
-                    </div>
-                }
-                <div style={{ overflow: "hidden", width: "520px", height: "370px", position: 'relative' }}>
-                    <video autoPlay style={{ width: "100%", height: "100%", }} ref={videoRef} />
-                    <canvas
-                        ref={canvasRef}
-                        id='qr'
-                        style={{
-                            position: 'absolute',
-                            // top: 0,
-                            left: 0,
-                            zIndex: -1,
-                            // width: "100%", height: "100%" ,
-                            height: videoRef.current ? videoRef.current.offsetHeight : '',
-                            width: videoRef.current ? videoRef.current.offsetWidth : '',
-                        }}
-                    />
-                </div>
-                {/* <video autoPlay style={{ width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0 }} ref={videoRef} />
-                <canvas
-                    ref={canvasRef}
-                    id='qr'
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        zIndex: -1,
-                        // width: '100%', 
-                        // height: '100%', 
-                        height: videoRef.current ? videoRef.current.offsetHeight : '',
-                        width: videoRef.current ? videoRef.current.offsetWidth : '',
-                    }}
-                // /> */}
-            // </div> */}
