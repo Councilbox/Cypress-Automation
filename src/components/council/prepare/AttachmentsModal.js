@@ -105,7 +105,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                 attachments
             }
         });
-
+        refetch();
         setStep(3);
     }
 
