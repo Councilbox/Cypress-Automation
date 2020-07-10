@@ -17,6 +17,7 @@ import { COUNCIL_STATES } from '../../../../constants';
 import { Table, TableHead, TableRow, TableCell, TableBody, } from 'material-ui';
 import FailedSMSList from './FailedSMSList';
 import CouncilDetailsParticipants from './CouncilDetailsParticipants';
+import * as CBX from '../../../../utils/CBX';
 
 
 const cancelAct = gql`
@@ -212,16 +213,15 @@ class CouncilDetails extends React.Component {
 					<div style={{ height: "100%" }} >
 						<CouncilDetailsParticipants
 							council={council}
-							// totalVotes={data.councilTotalVotes}
-							// socialCapital={data.councilSocialCapital}
-							// participations={CBX.hasParticipations(council)}
-							// translate={translate}
+							participations={CBX.hasParticipations(council)}
+							translate={translate}
 							// refetch={refetch}
 						/>
-						{/* <CredentialsManager
+						<br></br>
+						<CredentialsManager
 							council={council}
 							translate={this.props.translate}
-						/> */}
+						/>
 					</div>
 
 				</div>
