@@ -78,7 +78,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 				if (response.errors[0].message === "Tin-noExists") {
 					setState({
 						errors: {
-							cif: "COMPAÑIA NO EXISTE"
+							cif: translate.company_not_exist
 						}
 					});
 					return;

@@ -5,6 +5,7 @@ class TermsModal extends Component {
 	_renderNewPointBody = () => {
 		//style="font-size:14px; padding: 2vw; text-align: justify;text-justify: inter-word;"
 		return (
+			// TRADUCCION
 			<div>
 				<p>
 					<b>1.- Objeto</b>
