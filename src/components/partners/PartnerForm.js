@@ -23,7 +23,7 @@ class PartnerForm extends React.PureComponent {
     render() {
         const { participant, translate, updateState, errors, checkEmail, representative, updateRepresentative } = this.props;
         const primary = getPrimary();
-console.log(translate)
+
         return (
             <React.Fragment>
                 <Grid>
@@ -185,7 +185,7 @@ console.log(translate)
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
                                 id={'anadirSocioTipoSocio'}
-                                floatingText={'Tipo de socio'}
+                                floatingText={translate.partner_type}
                                 type="text"
                                 errorText={errors.position}
                                 value={participant.position || ''}
