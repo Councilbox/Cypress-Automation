@@ -159,33 +159,31 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 										</FilterButton>
 									</div>
 								}
-								{council.remoteCelebration !== 1 &&
-									<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
-										<FilterButton
-											styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
-											tooltip={translate.physically_present_assistance}
-											loading={loading === 2}
-											size="2.8em"
-											onClick={() => changeParticipantState(5, 2, null)}
-											active={
-												participant.state ===
-												PARTICIPANT_STATES.PHYSICALLY_PRESENT
-											}
-										>
-											<div style={{ width: '30%', marginRight: "20px" }}>
-												<StateIcon
-													translate={translate}
-													state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
-													color={secondary}
-													hideTooltip={true}
-												/>
-											</div>
-											<div style={{ width: '70%' }}>
-												<span style={{ fontSize: '0.9em' }}>{translate.physically_present_assistance}</span>
-											</div>
-										</FilterButton>
-									</div>
-								}
+								<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
+									<FilterButton
+										styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
+										tooltip={translate.physically_present_assistance}
+										loading={loading === 2}
+										size="2.8em"
+										onClick={() => changeParticipantState(5, 2, null)}
+										active={
+											participant.state ===
+											PARTICIPANT_STATES.PHYSICALLY_PRESENT
+										}
+									>
+										<div style={{ width: '30%', marginRight: "20px" }}>
+											<StateIcon
+												translate={translate}
+												state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+												color={secondary}
+												hideTooltip={true}
+											/>
+										</div>
+										<div style={{ width: '70%' }}>
+											<span style={{ fontSize: '0.9em' }}>{translate.physically_present_assistance}</span>
+										</div>
+									</FilterButton>
+								</div>
 								{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
 									participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE 
 								) && council.councilType < 2) && (

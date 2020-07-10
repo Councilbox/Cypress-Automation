@@ -37,17 +37,17 @@ export const canReorderPoints = council => {
 
 export const showNumParticipations = (numParticipations, company) => {
 	if(!company || !company.type){
-		return numParticipations;
+		return formatInt(numParticipations);
 	}
 
 	if(company.type === 10){
 		return numParticipations / 1000;
 	}
 
-	return numParticipations;
+	return formatInt(numParticipations);
 }
 
-export const splitExtensionFilename = (filename) => {
+export const splitExtensionFilename = filename => {
 	const array = filename.split('.');
 	if (array.length < 2) {
 		return 'That`s not a filename';
@@ -232,6 +232,21 @@ export const approvedByQualityVote = (agenda, qualityVoteId) => {
 		}
 	}
 	return false;
+}
+
+export const voteValuesText = vote => {
+	switch (vote) {
+		case VOTE_VALUES.NO_VOTE:
+			return 'no_vote';
+		case VOTE_VALUES.NEGATIVE:
+			return 'against_btn';
+		case VOTE_VALUES.POSITIVE:
+			return 'in_favor_btn';
+		case VOTE_VALUES.ABSTENTION:
+			return 'abstention';
+		default:
+			return "-";
+	}
 }
 
 export const isMajorityPercentage = majorityType => {
@@ -780,6 +795,7 @@ export const buildShareholdersList = ({ council, total, type }) => {
 					shareholdersText[council.language]}:`);
 }
 
+
 export const buildGuestList = ({ council, total }) => {
 	if(!council.attendants || council.attendants.length === 0){
 		return '';
@@ -795,6 +811,15 @@ export const buildGuestList = ({ council, total }) => {
 
 	return council.attendants.filter(attendant => !checkIfHasVote(attendant))
 		.reduce((acc, curr) => `${acc}<br>${buildGuestString({ guest: curr, total, council })}`, `${otherAttendants[council.language]}:`);
+}
+
+export const formatInt = num => {
+	if(num < 1000){
+		return num;
+	}
+	num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+	num = num.split('').reverse().join('').replace(/^[\.]/, '');
+	return num;
 }
 
 
@@ -1525,7 +1550,7 @@ export const downloadFile = (base64, filetype, filename) => {
 		a.style.cssText = "display: none";
 		document.body.appendChild(a);
 		a.href = objectUrl;
-		a.download = filename.replace(/\./, '');
+		a.download = filename//.replace(/\./, '');
 		a.click();
 	}
 };
@@ -1625,6 +1650,48 @@ export const participantIsGuest = participant => {
 export const participantIsRepresentative = participant => {
 	return participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
 };
+
+export const getAttendanceIntentionTooltip = intention => {
+	switch(intention){
+		case PARTICIPANT_STATES.REMOTE:
+			return'remote_assistance_short';
+
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return 'confirmed_assistance';
+
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return 'no_assist_assistance';
+
+		case PARTICIPANT_STATES.DELEGATED:
+			return 'delegated_in';
+			
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+			return 'vote_letter_sent';
+
+		case PARTICIPANT_STATES.EARLY_VOTE:
+			return 'participant_vote_fixed'
+		default:
+			break;
+	}
+}
+
+export const getAttendanceIntentionIcon = (intention, style) => {
+	switch(intention) {
+		case PARTICIPANT_STATES.REMOTE:
+			return <i className={'fa fa-globe'} style={style}></i>;
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return <i className={'fa fa-user'} style={style}></i>;
+		case PARTICIPANT_STATES.DELEGATED:
+			return <i className={'fa fa-users'} style={style}></i>;
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return <i className={'fa fa-times'} style={style}></i>;
+		case PARTICIPANT_STATES.EARLY_VOTE:
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+			return <i class="material-icons" style={{...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
+		default:
+			return 'fa fa-question'
+	}
+}
 
 export const getEmailIconByReqCode = reqCode => {
 	switch (reqCode) {
@@ -1807,28 +1874,34 @@ export const getParticipantStateString = state => {
 	}
 };
 
+export const multipleGoverningBody = type => {
+	return !![
+		GOVERNING_BODY_TYPES.COUNCIL,
+		GOVERNING_BODY_TYPES.JOINT_ADMIN,
+		GOVERNING_BODY_TYPES.SOLIDARY_ADMIN
+	].find(item => type === item.value);
+}
+
 export const getParticipantStateField = participant => {
 	switch (participant.state) {
 		case 0:
 			return "remote_assistance";
-
 		case 1:
 			return "physically_present_assistance";
-
 		case 2:
 			return "representated";
-
 		case 4:
 			return "delegated";
-
 		case 5:
 			return "physically_present_assistance";
-
 		case 6:
 			return "no_participate";
-
 		case 7:
 			return "physically_present_with_remote_vote";
+		case 8:
+			return 'participant_vote_fixed';
+		case 11:
+			return 'left_the_council';
 
 		default:
 			return "remote_assistance";

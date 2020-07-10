@@ -52,11 +52,11 @@ export const setCompany = company => {
 
 let initialTranslations = null;
 
-export const addSpecificTranslations = type => {
+export const addSpecificTranslations = company => {
 	if(!initialTranslations){
 		initialTranslations = store.getState().translate;
 	}
-	const specificTranslations = getSpecificTranslations(initialTranslations.selectedLanguage, type);
+	const specificTranslations = getSpecificTranslations(initialTranslations.selectedLanguage, company);
 
 	return {
 		type: "LOADED_LANG",
@@ -68,7 +68,11 @@ export const addSpecificTranslations = type => {
 	};
 }
 
-const getSpecificTranslations = (language, type) => {
+const getSpecificTranslations = (language, company) => {
+	const { type, id } = company;
+
+
+
 	const specificTranslations = {
 		society: {},
 		10: {
@@ -82,8 +86,20 @@ const getSpecificTranslations = (language, type) => {
 		}
 	}
 
+	const idTranslations = {
+		658: {
+			delegated_in: 'Representado por',
+			delegates: 'Representado por',
+			representations_delegations: 'Representaciones'
+		}
+	}
 
-	return specificTranslations[type]? specificTranslations[type] : specificTranslations.society;
+	let extraTranslations = {
+		...(specificTranslations[type]? specificTranslations[type] : specificTranslations.society),
+		...(idTranslations[id]? idTranslations[id] : {})
+	};
+
+	return extraTranslations;
 }
 
 export const changeCompany = (index, id) => {

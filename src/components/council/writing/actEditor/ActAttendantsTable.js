@@ -11,140 +11,132 @@ import DownloadAttendantsPDF from './DownloadAttendantsPDF';
 import StateIcon from '../../live/participants/StateIcon';
 import { useOldState, useHoverRow } from '../../../../hooks';
 import { moment } from '../../../../containers/App';
+import gql from 'graphql-tag';
 
 
 const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
-    const [total, setTotal] = React.useState(null);
-    const [filters, setFilters] = React.useState({
-        limit: PARTICIPANTS_LIMITS[0],
-        text: 0,
-        field: 'fullName',
-        page: 1,
-        notificationStatus: null,
-        orderBy: 'name',
-        orderDirection: 'asc'
-    });
-    const [participants, setParticipants] = React.useState([]);
+    const [total, setTotal] = React.useState(null)
+    const [councilAttendantsData, setCouncilAttendantsData] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
 
-    const updateFilters = value => {
-		const appliedFilters =  {
-			...filters,
-			text: value.filters[0]? value.filters[0].text : '',
-			field: value.filters[0]? value.filters[0].field : '',
-			page: (value.options.offset / value.options.limit) + 1,
-			limit: value.options.limit,
-			orderBy: value.options.orderBy,
-			orderDirection: value.options.orderDirection
-		}
+    const getCouncilAttendants = async (value) => {
+        console.log(value)
+        const response = await client.query({
+            query: councilAttendants,
+            variables: {
+                councilId: council.id,
+                filters: value && value.filters,
+                options: value && value.filters ? value.options : {
+                    limit: PARTICIPANTS_LIMITS[0],
+                    offset: 0,
+                    orderBy: "name",
+                    orderDirection: "asc"
+                },
+            },
+        });
 
-		setFilters(appliedFilters);
+        setCouncilAttendantsData(response.data.councilAttendants);
+        setLoading(false)
     }
 
     React.useEffect(() => {
-        if(!data.loading){
-            const councilParticipants = data.councilAttendants;
-            const filtered = applyFilters(councilParticipants? councilParticipants.list : [], filters)
-            const offset = (filters.page - 1) * filters.limit;
-            setParticipants(filtered.slice(offset, offset + filters.limit));
-        }
-    }, [filters, data.loading]);
+        getCouncilAttendants()
+    }, []);
 
     React.useEffect(() => {
-        if(!data.loading && total === null){
-            setTotal(data.councilAttendants.total);
+        if (!loading && total === null) {
+            setTotal(councilAttendantsData.total);
         }
-    }, [data.loading, setTotal]);
+    }, [loading, setTotal]);
 
-    const { loading, councilAttendants } = data;
     const secondary = getSecondary();
-
+    
     return (
         <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
-            {data.loading ?
+            {loading ?
                 <LoadingSection />
-            :
+                :
 
-                total <= 0 && total !== null?
-                    <div style={{display: 'flex', fontSize: '1.2em', flexDirection: 'column', fontWeight: '700', height: '80%', alignItems: 'center', justifyContent: 'center'}}>
-                        <i className="fa fa-user-times" aria-hidden="true" style={{fontSize: '6em', color: secondary}}></i>
+                total <= 0 && total !== null ?
+                    <div style={{ display: 'flex', fontSize: '1.2em', flexDirection: 'column', fontWeight: '700', height: '80%', alignItems: 'center', justifyContent: 'center' }}>
+                        <i className="fa fa-user-times" aria-hidden="true" style={{ fontSize: '6em', color: secondary }}></i>
                         No ha asistido ningún participante
                     </div>
-            :
-                <Scrollbar>
-                    <div style={{ padding: '1.5em', overflow: 'hidden' }}>
-                        {!!councilAttendants && (
-                            <React.Fragment>
-                                {total > 0 &&
-                                    <DownloadAttendantsPDF
+                    :
+                    <Scrollbar>
+                        <div style={{ padding: '1.5em', overflow: 'hidden' }}>
+                            {!!councilAttendantsData && (
+                                <React.Fragment>
+                                    {councilAttendantsData.total > 0 &&
+                                        <DownloadAttendantsPDF
+                                            translate={translate}
+                                            color={secondary}
+                                            council={council}
+                                        />
+                                    }
+                                    <EnhancedTable
                                         translate={translate}
-                                        color={secondary}
-                                        council={council}
-                                    />
-                                }
-                                <EnhancedTable
-                                    translate={translate}
-                                    defaultLimit={PARTICIPANTS_LIMITS[0]}
-                                    defaultFilter={"fullName"}
-                                    defaultOrder={["name", "asc"]}
-                                    limits={PARTICIPANTS_LIMITS}
-                                    page={1}
-                                    loading={loading}
-                                    length={councilAttendants.list.length}
-                                    total={councilAttendants.total}
-                                    refetch={updateFilters}
-                                    fields={[
-                                        {
-                                            value: "fullName",
-                                            translation: translate.participant_data
-                                        },
-                                        {
-                                            value: "dni",
-                                            translation: translate.dni
-                                        },
-                                        {
-                                            value: "position",
-                                            translation: translate.position
-                                        }
-                                    ]}
-                                    headers={[
-                                        {
-                                            text: '',
-                                            name: 'icon',
-                                            canOrder: false
-                                        },
-                                        {
-                                            text: translate.participant_data,
-                                            name: 'surname',
-                                            canOrder: true
-                                        },
-                                        {
-                                            text: translate.dni,
-                                            name: 'dni',
-                                            canOrder: true
+                                        defaultLimit={PARTICIPANTS_LIMITS[0]}
+                                        defaultFilter={"fullName"}
+                                        defaultOrder={["name", "asc"]}
+                                        limits={PARTICIPANTS_LIMITS}
+                                        page={1}
+                                        loading={loading}
+                                        length={councilAttendantsData.list.length}
+                                        total={councilAttendantsData.total}
+                                        refetch={getCouncilAttendants}
+                                        fields={[
+                                            {
+                                                value: "fullName",
+                                                translation: translate.participant_data
+                                            },
+                                            {
+                                                value: "dni",
+                                                translation: translate.dni
+                                            },
+                                            {
+                                                value: "position",
+                                                translation: translate.position
+                                            }
+                                        ]}
+                                        headers={[
+                                            {
+                                                text: '',
+                                                name: 'icon',
+                                                canOrder: false
+                                            },
+                                            {
+                                                text: translate.participant_data,
+                                                name: 'surname',
+                                                canOrder: true
+                                            },
+                                            {
+                                                text: translate.dni,
+                                                name: 'dni',
+                                                canOrder: true
 
-                                        },
-                                        {
-                                            text: translate.position,
-                                            name: 'position',
-                                            canOrder: true
-                                        },
-                                        {
-                                            text: translate.date_when_left,
-                                            name: 'lastPresentDate',
-                                            canOrder: false
-                                        },
-                                        {
-                                            text: '',
-                                            name: 'download',
-                                            canOrder: false
-                                        }
-                                    ]}
-                                >
+                                            },
+                                            {
+                                                text: translate.position,
+                                                name: 'position',
+                                                canOrder: true
+                                            },
+                                            {
+                                                text: translate.date_when_left,
+                                                name: 'lastPresentDate',
+                                                canOrder: false
+                                            },
+                                            {
+                                                text: '',
+                                                name: 'download',
+                                                canOrder: false
+                                            }
+                                        ]}
+                                    >
                                     {loading ?
                                         <LoadingSection />
                                         :
-
-                                        participants.map(
+                                        councilAttendantsData.list.map(
                                             (participant, index) => {
                                                 return (
                                                     <React.Fragment
@@ -159,12 +151,12 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                                 );
                                             }
                                         )}
-                                </EnhancedTable>
-                            </React.Fragment>
-                        )}
-                        {props.children}
-                    </div>
-                </Scrollbar>
+                                    </EnhancedTable>
+                                </React.Fragment>
+                            )}
+                            {props.children}
+                        </div>
+                    </Scrollbar>
             }
         </div>
     )
@@ -187,13 +179,13 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
             {...rowHandlers}
         >
             <TableCell>
-                <StateIcon translate={translate} state={participant.state}/>
+                <StateIcon translate={translate} state={participant.state} />
             </TableCell>
             <TableCell>
-                {!!representing?
-                    <span style={{fontWeight: '700'}}>{`${representing.name} ${representing.surname || ''} - ${translate.represented_by} ${participant.name} ${participant.surname || ''}`}</span>
-                :
-                    <span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
+                {!!representing ?
+                    <span style={{ fontWeight: '700' }}>{`${representing.name} ${representing.surname || ''} - ${translate.represented_by} ${participant.name} ${participant.surname || ''}`}</span>
+                    :
+                    <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
                 }
             </TableCell>
             <TableCell>
@@ -224,7 +216,7 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
 
 const formatParticipant = participant => {
     let { representing, ...newParticipant } = participant;
-    if(representing && representing.type === 3){
+    if (representing && representing.type === 3) {
         let { representative, ...rest } = newParticipant;
         newParticipant = {
             ...representing,
@@ -237,78 +229,72 @@ const formatParticipant = participant => {
 
 
 const applyFilters = (participants, filters) => {
-	return applyOrder(participants.filter(item => {
-		const participant = formatParticipant(item);
-		if(filters.text){
-			const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
+    return applyOrder(participants.filter(item => {
+        const participant = formatParticipant(item);
+        if (filters.text) {
+            const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
 
-			if(filters.field === 'fullName'){
-				const fullName = `${participant.name} ${participant.surname || ''}`;
-				let repreName = '';
-				if(participant.representative){
-					repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
-				}
-				if(!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
-					&& !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)){
-					return false;
-				}
-			}
+            if (filters.field === 'fullName') {
+                const fullName = `${participant.name} ${participant.surname || ''}`;
+                let repreName = '';
+                if (participant.representative) {
+                    repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
+                }
+                if (!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
+                    && !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)) {
+                    return false;
+                }
+            }
 
-			if(filters.field === 'position'){
-				if(participant.representative){
-					if(!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
-						!CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)){
-						return false;
-					}
-				} else {
-					if(!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)){
-						return false;
-					}
-				}
-			}
+            if (filters.field === 'position') {
+                if (participant.representative) {
+                    if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
+                        !CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
+                        return false;
+                    }
+                } else {
+                    if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
+                        return false;
+                    }
+                }
+            }
 
-			if(filters.field === 'dni'){
-				if(participant.representative){
-					if(!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
-						!CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)){
-						return false;
-					}
-				} else {
-					if(!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)){
-						return false;
-					}
-				}
-			}
-		}
+            if (filters.field === 'dni') {
+                if (participant.representative) {
+                    if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
+                        !CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
+                        return false;
+                    }
+                } else {
+                    if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
+                        return false;
+                    }
+                }
+            }
+        }
 
-		if(filters.notificationStatus){
-			if(participant.representative){
-				if(participant.representative.notifications[0].reqCode !== filters.notificationStatus){
-					return false;
-				}
-			} else {
-				if(participant.notifications[0].reqCode !== filters.notificationStatus){
-					return false;
-				}
-			}
-		}
+        if (filters.notificationStatus) {
+            if (participant.representative) {
+                if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
+                    return false;
+                }
+            } else {
+                if (participant.notifications[0].reqCode !== filters.notificationStatus) {
+                    return false;
+                }
+            }
+        }
 
-		return true;
-	}), filters.orderBy, filters.orderDirection);
+        return true;
+    }), filters.orderBy, filters.orderDirection);
 }
 
 const applyOrder = (participants, orderBy, orderDirection) => {
-	return participants.sort((a, b) => {
-		let participantA = formatParticipant(a);
-		let participantB = formatParticipant(b);
-		return participantA[orderBy] > participantB[orderBy]
-	});
+    return participants.sort((a, b) => {
+        let participantA = formatParticipant(a);
+        let participantB = formatParticipant(b);
+        return participantA[orderBy] > participantB[orderBy]
+    });
 }
 
-export default graphql(councilAttendants, {
-    options: props => ({
-        variables: {
-            councilId: props.council.id
-        }
-    })
-})(withApollo(ActAttendantsTable));
+export default withApollo(ActAttendantsTable);

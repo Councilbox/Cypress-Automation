@@ -8,7 +8,7 @@ import AgendaManager from "./AgendaManager";
 import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
-import { showVideo, councilHasSession, showNumParticipations } from "../../../utils/CBX";
+import { showVideo, councilHasSession, showNumParticipations, formatInt } from "../../../utils/CBX";
 import { Tooltip, Badge, Tabs, Tab } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
@@ -16,6 +16,7 @@ import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
 import { useOldState } from "../../../hooks";
 import { isMobile } from '../../../utils/screen';
+import QuorumDisplay from "./quorum/QuorumDisplay";
 const calcMinWidth = () => window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450);
 const calcMinHeight = () => "42vh";
 
@@ -25,7 +26,7 @@ let minVideoHeight = calcMinHeight();
 const initScreenSizes = size => {
 	const sizes = {
 		'MIN': () => {
-			localStorage.setItem('screenSize', 'MIX');
+			localStorage.setItem('screenSize', 'MIN');
 			return ({
 				videoWidth: minVideoWidth,
 				videoHeight: minVideoHeight,
@@ -56,7 +57,7 @@ const initScreenSizes = size => {
 		}
 	}
 
-	return sizes[size]? sizes[size]() : sizes['MIN']();
+	return sizes[size] ? sizes[size]() : sizes['MIN']();
 }
 
 
@@ -150,15 +151,14 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 			setState(initScreenSizes('MED'));
 		}
 
-		if(state.screenSize === 'MED'){
+		if (state.screenSize === 'MED') {
 			setState(initScreenSizes('MAX'));
 		}
 
-		if(state.screenSize === 'MAX'){
+		if (state.screenSize === 'MAX') {
 			setState(initScreenSizes('MIN'));
 		}
 	};
-
 	const { council } = data;
 
 	const councilStartedState = () => {
@@ -339,11 +339,11 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 											cursor: "pointer",
 											position: "absolute",
 											right: "5%",
-											top: "20px",
+											top: "16px",
 											backgroundColor:
 												"rgba(0, 0, 0, 0.5)",
-											width: "2.5em",
-											height: "2.5em",
+											width: "2.9em",
+											height: "2.9em",
 											display: "flex",
 											alignItems: "center",
 											justifyContent: "center"
@@ -436,29 +436,16 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									}}>
 										{data.councilRecount &&
 											<>
-												{council.quorumPrototype === 0 ?
-													<b>{`${translate.current_quorum}: ${showNumParticipations(data.councilRecount.partRightVoting, company)} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal ? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
-														(councilStartedState() && council.councilStarted === 1 && councilHasSession(council)) ?
-															` / ${translate.initial_quorum}: ${
-															council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
-															} (${((data.council.initialQuorum / (data.councilRecount.partTotal ? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
-															:
-															''
-														}`}</b>
-													:
-													<b>{`${translate.current_quorum}: ${showNumParticipations(data.councilRecount.socialCapitalRightVoting, company)} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
-														(councilStartedState() && council.councilStarted === 1 && councilHasSession(council)) ?
-															` / ${translate.initial_quorum}: ${
-															council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
-															} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal ? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
-															:
-															''
-														}`}</b>
-												}
+												<QuorumDisplay
+													company={company}
+													recount={data.councilRecount}
+													council={council}
+													translate={translate}
+												/>
 											</>
 
 										}
-										
+
 									</div>
 								</Tabs>
 							}

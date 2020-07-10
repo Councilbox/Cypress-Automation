@@ -224,7 +224,7 @@ class AdminPrivateMessage extends React.Component {
                         >
                             <i className="material-icons" style={{ width: '1em' }}>
                                 chat_buble_outline
-                        </i>
+                            </i>
                         </IconButton>
                     </Tooltip>
                 </Popover>

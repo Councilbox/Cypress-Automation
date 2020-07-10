@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { getSecondary, getPrimary } from "../../styles/colors";
 import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
+import CreateNoBoard from "./CreateNoBoard";
 import { checkSecondDateAfterFirst } from "../../utils/CBX";
 import { Paper } from "material-ui";
 import { useHoverRow } from "../../hooks";
@@ -140,7 +141,8 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 	}
 
 	const boardWithoutSessionStep = () => {
-		sendCreateCouncil(4);
+		setStep(steps.BOARD_NO_SESSION);
+		//sendCreateCouncil(4);
 	}
 
 	return (
@@ -204,7 +206,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											<div>{translate.without_session_description}</div>
 											}
 										/>
-										{config['boardWithoutSession'] && false &&
+										{config['boardWithoutSession'] &&
 											<ButtonCreateCouncil
 												onClick={boardWithoutSessionStep}
 												title={translate.board_without_session}
@@ -216,7 +218,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												}
 											/>
 										}
-										{config['2stepsCouncil'] && false &&
+										{config['2stepsCouncil'] &&
 											<ButtonCreateCouncil
 												onClick={noSessionHybridStep}
 												title={translate.elections}
@@ -304,6 +306,15 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 									errors={errors}
 								/>
 							}
+							{step === steps.BOARD_NO_SESSION &&
+								<CreateNoBoard
+									setOptions={setOptions}
+									translate={translate}
+									setTitle={setTitle}
+									options={options}
+									errors={errors}
+								/>
+							}
 							{step === steps.COUNCIL &&
 								<CreateWithSession setOptions={setOptions} />
 							}
@@ -322,7 +333,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 			}
 			hideAccept={step === steps.COUNCIL || step === 1 || step === 10}
 			buttonAccept={translate.accept}
-			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ? 3 : 2)}
+			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ?
+				3 : 
+			step === steps.BOARD_NO_SESSION? 4 : 2)}
 			requestClose={step != 10 && history.goBack}
 			cancelAction={history.goBack}
 			buttonCancel={translate.cancel}

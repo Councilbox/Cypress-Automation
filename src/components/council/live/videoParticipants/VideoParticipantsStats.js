@@ -1,7 +1,7 @@
 import React from "react";
 import { Tooltip } from "material-ui";
 import { Icon } from "../../../../displayComponents";
-import { getSecondary, mediumGrey, lightGrey } from "../../../../styles/colors";
+import { mediumGrey, lightGrey, turquoise } from "../../../../styles/colors";
 
 const VideoParticipantsStats = ({
 	videoFullScreen,
@@ -68,7 +68,7 @@ const VideoParticipantsStats = ({
 					style={{
 						fontSize: "1.1em",
 						marginRight: "0.3em",
-						color: getSecondary()
+						color: turquoise
 					}}
 				>
 					language
@@ -131,7 +131,7 @@ const VideoParticipantsStats = ({
 					style={{
 						fontSize: "1.1em",
 						marginRight: "0.3em",
-						color: getSecondary()
+						color: turquoise
 					}}
 				>
 					videocam
@@ -194,7 +194,7 @@ const VideoParticipantsStats = ({
 					style={{
 						fontSize: "1.1em",
 						marginRight: "0.3em",
-						color: getSecondary()
+						color: turquoise
 					}}
 				>
 					pan_tool
@@ -225,7 +225,7 @@ const VideoParticipantsStats = ({
 					style={{
 						fontSize: "1.1em",
 						marginRight: "0.3em",
-						color: getSecondary()
+						color: turquoise
 					}}
 				>
 					tv_off

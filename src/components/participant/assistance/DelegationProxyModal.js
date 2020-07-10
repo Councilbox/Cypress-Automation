@@ -8,6 +8,7 @@ import { isMobile } from "../../../utils/screen";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import DownloadUnsignedProxy from './DownloadUnsignedProxy';
+import { voteValuesText } from '../../../utils/CBX';
 
 
 const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action }) => {
@@ -334,6 +335,23 @@ const proxyTranslations = {
 
 
 export const replaceDocsTags = (text, data = {}) => {
+    const translations = {
+        es: {
+            'no_vote': 'No vota',
+            'against_btn': 'En contra',
+            'in_favor_btn': 'A favor',
+            'abstention': 'Abstención'
+        },
+        en: {
+            'no_vote': 'No vote',
+            'against_btn': 'Against',
+            'in_favor_btn': 'In favor',
+            'abstention': 'Abstention'
+        }
+    }
+
+    const translate = translations[data.language]? translations[data.language] : translations.es;
+
     if(!text){
         return '';
     }
@@ -342,6 +360,22 @@ export const replaceDocsTags = (text, data = {}) => {
     if(data.delegate){
         text = text.replace(/{{delegateName}}/g, `${data.delegate.name} ${data.delegate.surname || ''}`);
     }
+
+    if(data.votes) {
+        text = text.replace(/{{votes}}/, data.council.agendas.reduce((acc, point) => {
+            const vote = data.votes.find(vote => vote.agendaId === point.id);
+
+            acc += `
+                <div style="margin-top: 1em">
+                    <b>${point.agendaSubject}</b>
+                </div>
+                ${translate[voteValuesText(vote.value)]}
+            `
+
+            return acc;
+        }, ''))
+    }
+
     text = text.replace(/{{business_name}}/g, data.council.company.businessName);
     text = text.replace(/{{city}}/g, data.council.city);
     text = text.replace(/{{address}}/g, data.council.street);

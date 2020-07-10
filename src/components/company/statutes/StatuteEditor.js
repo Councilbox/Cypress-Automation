@@ -16,11 +16,13 @@ import QuorumInput from "../../../displayComponents/QuorumInput";
 import { ConfigContext } from "../../../containers/AppControl";
 import StatuteDocSection from "./StatuteDocSection";
 import { useValidRTMP } from "../../../hooks";
+import withSharedProps from "../../../HOCs/withSharedProps";
 
 
-const StatuteEditor = ({ statute, translate, updateState, errors, client, ...props }) => {
+const StatuteEditor = ({ statute, translate, updateState, errors, client, company, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
+	const config = React.useContext(ConfigContext);
 
 	const primary = getPrimary();
 	const getData = React.useCallback(async () => {
@@ -331,6 +333,33 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 							}
 						/>
 					</GridItem>
+					{config.earlyVoting &&
+						<>
+							<GridItem xs={12} md={7} lg={7}>
+								<Checkbox
+									disabled={statute.existsDelegatedVote !== 1}
+									label={translate.can_sense_vote_delegation}
+									value={statute.canSenseVoteDelegate === 1}
+									onChange={(event, isInputChecked) =>
+										updateState({
+											canSenseVoteDelegate: isInputChecked ? 1 : 0
+										})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={7} lg={7}>
+								<Checkbox
+									label={translate.exists_early_voting}
+									value={statute.canEarlyVote === 1}
+									onChange={(event, isInputChecked) =>
+										updateState({
+											canEarlyVote: isInputChecked ? 1 : 0
+										})
+									}
+								/>
+							</GridItem>
+						</>
+					}
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							helpPopover={true}
@@ -476,6 +505,17 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							label={translate.hide_votings_recount}
+							value={statute.hideVotingsRecountFinished === 1}
+							onChange={(event, isInputChecked) =>
+								updateState({
+									hideVotingsRecountFinished: isInputChecked ? 1 : 0
+								})
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={7} lg={7}>
+						<Checkbox
 							helpPopover={true}
 							helpTitle={translate.exist_present_with_remote_vote}
 							helpDescription={translate.exists_present_with_remote_vote_desc}
@@ -561,7 +601,18 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 											</MenuItem>
 										);
 									}
-								)}
+								)
+							}
+							{(CBX.multipleGoverningBody(company.governingBodyType) &&
+								company.governingBodyData &&
+								company.governingBodyData.list &&
+								company.governingBodyData.list.length > 0) &&
+									<MenuItem
+										value={parseInt(-1, 10)}
+									>
+										{translate.governing_body}
+									</MenuItem>
+							}
 						</SelectInput>
 					</GridItem>
 				</Grid>
@@ -571,6 +622,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 					key={statute.id}
 					statute={statute}
 					data={data}
+					company={company}
 					updateState={updateState}
 					errors={errors}
 					{...props}
@@ -621,7 +673,7 @@ const VideoSection = ({ updateState, statute, translate }) => {
 	)
 }
 
-export default withApollo(StatuteEditor);
+export default withApollo(withSharedProps()(StatuteEditor));
 
 
 

@@ -729,6 +729,7 @@ export const statutes = gql`
 			language
 			companyType
 			videoConfig
+			hideVotingsRecountFinished
 			addParticipantsListToAct
 			existsAdvanceNoticeDays
 			advanceNoticeDays
@@ -759,6 +760,8 @@ export const statutes = gql`
 			prototype
 			intro
 			constitution
+			canEarlyVote
+			canSenseVoteDelegate
 			conclusion
 			actTemplate
 			conveneHeader
@@ -776,6 +779,8 @@ export const statutes = gql`
 			proxySecondary
 			voteLetter
 			voteLetterSecondary
+			voteLetterWithSense
+			voteLetterWithSenseSecondary
 			introSecondary
 			conclusionSecondary
 			constitutionSecondary
@@ -1052,6 +1057,7 @@ export const councilStepFive = gql`
 				canUnblock
 				censusId
 				conveneHeader
+				canEarlyVote
 				councilId
 				existPublicUrl
 				existsAct
@@ -1454,6 +1460,7 @@ export const councilLiveQuery = gql`
 			quorumPrototype
 			room {
 				id
+				videoLink
 				htmlVideoCouncil
 				videoConfig
 			}
@@ -1503,6 +1510,7 @@ export const councilLiveQuery = gql`
 				existsAct
 				existsWhoSignTheAct
 				includedInActBook
+				canEarlyVote
 				includeParticipantsList
 				existsComments
 				conveneHeader
@@ -1852,6 +1860,8 @@ export const videoParticipants = gql`
 				video
 				videoParticipant{
 					mutedMic
+					mutedCam
+					online
 					id
 				}
 				councilId

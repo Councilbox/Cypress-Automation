@@ -11,7 +11,7 @@ import {
 	Grid,
 	GridItem
 } from "../../../displayComponents";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { downloadCBXData, updateConveneSends } from "../../../queries";
 import { convenedcouncilParticipants } from "../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
@@ -22,32 +22,305 @@ import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
 import AttendComment from "./modals/AttendComment";
 import { isMobile } from "../../../utils/screen";
+import { useOldState, usePolling } from "../../../hooks";
 
 
+const ConvenedParticipantsTable = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
+	const [filters, setFilters] = React.useState({
+		options: {
+			limit: PARTICIPANTS_LIMITS[0],
+			//page: 1,
+			offset: 0,
+			orderBy: 'name',
+			orderDirection: 'asc',
+		},
+		filters: [],
+		attendanceIntention: null,
+		notificationStatus: null,
+		intentionFilter: null
+	});
 
-class ConvenedParticipantsTable extends React.Component {
-
-	state = {
+	const [data, setData] = React.useState(null);
+	const [loading, setLoading] = React.useState(true);
+	const [refreshing, setRefreshing] = React.useState(false);
+	const [state, setState] = useOldState({
 		editingParticipant: false,
 		participant: {},
-		activeStatusFilter: "",
 		loadingRefresh: false,
 		showCommentModal: false,
 		showComment: '',
-		appliedFilters: {
-			limit: PARTICIPANTS_LIMITS[0],
-			text: 0,
-			field: 'fullName',
-			page: 1,
-			notificationStatus: null,
-			orderBy: 'name',
-			orderDirection: 'asc'
+	});
+	const table = React.useRef();
+
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: convenedcouncilParticipants,
+			variables: {
+				councilId: council.id,
+				notificationStatus: filters.notificationStatus,
+				attendanceIntention: filters.attendanceIntention,
+				options: filters.options,
+				filters: filters.filters
+			}
+		});
+		setData(response.data);
+		setLoading(false);
+	}, [council.id, filters])
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	usePolling(getData, 9000);
+
+	React.useEffect(() => {
+		//refreshEmailStates();
+	}, [council.id]);
+
+
+	const refreshEmailStates = async () => {
+		setRefreshing(true);
+		const response = await props.updateConveneSends({
+			variables: {
+				councilId: council.id
+			}
+		});
+
+		if (response.data.updateConveneSends.success) {
+			getData();
+			setRefreshing(false);
 		}
 	};
 
-	componentDidMount(){
-		this.refreshEmailStates();
+	const closeParticipantEditor = () => {
+		getData();
+		setState({ editingParticipant: false });
+	};
+
+	const updateNotificationFilter = object => {
+		setFilters({
+			...filters,
+			...object
+		});
 	}
+
+	const updateFilters = object => {
+		setFilters({
+			...filters,
+			...object
+		})
+	}
+
+	const resetPage = () => {
+		table.current.setPage(filters.page);
+	}
+
+	const showModalComment = comment => event => {
+		event.stopPropagation();
+		setState({
+			showCommentModal: true,
+			showComment: comment
+		})
+	}
+
+	if(loading){
+		return <LoadingSection />
+	}
+
+	const refetch = getData;
+	const councilParticipants = data.councilParticipantsWithNotifications;
+	const { participant, editingParticipant } = state;
+
+	let headers = [
+		{
+			text: translate.name,
+			name: "name",
+			canOrder: true
+		},
+		{
+			text: translate.dni,
+			name: "dni",
+			canOrder: true
+		},
+		{ text: translate.position },
+		{
+			text: translate.votes,
+			name: "numParticipations",
+			canOrder: true
+		}
+	];
+
+	if (participations) {
+		headers.push({
+			text: translate.census_type_social_capital,
+			name: "socialCapital",
+			canOrder: true
+		});
+	}
+
+	if (CBX.councilIsNotified(council)) {
+		if (!hideNotifications) {
+			headers.push({
+				text: translate.convene
+			});
+			if (CBX.councilHasAssistanceConfirmation(council)) {
+				headers.push({
+					text: translate.assistance_intention
+				});
+			}
+		}
+	}
+	
+	headers.push({text: ''});
+	return (
+		<div style={{ width: "100%", height: '100%' }}>
+			<React.Fragment>
+				<Grid style={{ margin: "0.5em 0" }}>
+					<GridItem xs={12} lg={6} md={6}>
+						{!hideNotifications &&
+							<NotificationFilters
+								translate={translate}
+								refetch={updateNotificationFilter}
+								council={council}
+							/>
+						}
+					</GridItem>
+				</Grid>
+				{!!councilParticipants?
+					<EnhancedTable
+						ref={table}
+						translate={translate}
+						menuButtons={
+							<div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'}}>
+								{!hideNotifications &&
+									<Tooltip
+										title={
+											translate.tooltip_refresh_convene_email_state_assistance
+										}
+									>
+										<div>
+											<BasicButton
+												floatRight
+												text={translate.refresh_convened}
+												color={getSecondary()}
+												loading={refreshing}
+												buttonStyle={{
+													margin: "0",
+													marginRight: '1.2em'
+												}}
+												textStyle={{
+													color: "white",
+													fontWeight: "700",
+													fontSize: "0.9em",
+													textTransform: "none"
+												}}
+												icon={
+													<ButtonIcon
+														color="white"
+														type="refresh"
+													/>
+												}
+												textPosition="after"
+												onClick={refreshEmailStates}
+											/>
+										</div>
+									</Tooltip>
+								}
+								{!hideAddParticipant &&
+									<div>
+										<AddConvenedParticipantButton
+											participations={participations}
+											translate={translate}
+											councilId={council.id}
+											council={council}
+											refetch={refetch}
+										/>
+									</div>
+								}
+							</div>
+						}
+						defaultLimit={filters.options.limit}
+						defaultFilter={"fullName"}
+						defaultOrder={["name", "asc"]}
+						limits={PARTICIPANTS_LIMITS}
+						page={filters.page}
+						loading={loading}
+						length={councilParticipants.list.length}
+						total={councilParticipants.total}
+						refetch={updateFilters}
+						headers={headers}
+					>
+						{councilParticipants.list.map(
+							item => {
+								let participant = formatParticipant(item);
+								return (
+									<React.Fragment
+										key={`participant${participant.id}_${filters.notificationStatus}`}
+									>
+										<HoverableRow
+											translate={translate}
+											participant={participant}
+											representative={participant.representative}
+											showModalComment={showModalComment}
+											cbxData={false}
+											participations={participations}
+											editParticipant={() => {
+												!props.cantEdit &&
+													setState({
+														editingParticipant: true,
+														participant
+													})
+											}}
+											council={council}
+											{...props}
+										/>
+									</React.Fragment>
+								);
+							}
+						)}
+					</EnhancedTable>
+				:
+					<div
+						style={{
+							height: '10em',
+							display: 'flex',
+							alignItems: 'center'
+						}}
+					>
+						<LoadingSection/>
+					</div>
+				}
+				{editingParticipant &&
+					<ConvenedParticipantEditor
+						key={participant.id}
+						translate={translate}
+						close={closeParticipantEditor}
+						councilId={council.id}
+						council={council}
+						participations={participations}
+						participant={participant}
+						opened={editingParticipant}
+						refetch={refetch}
+					/>
+				}
+				<AttendComment
+					 requestClose={() => setState({
+						showCommentModal: false,
+						showComment: false
+					})}
+					open={state.showCommentModal}
+					comment={state.showComment}
+					translate={translate}
+				/>
+			</React.Fragment>
+			{props.children}
+		</div>
+	);
+
+}
+
+/*
+class ConvenedParticipantsTable extends React.Component {
 
 	static getDerivedStateFromProps(nextProps, prevState){
 		if(!nextProps.data.loading){
@@ -73,27 +346,6 @@ class ConvenedParticipantsTable extends React.Component {
 			participants: paginatedParticipants,
 			total: filteredParticipants.length
 		}
-	}
-
-	closeParticipantEditor = () => {
-		this.props.refetch();
-		this.setState({ editingParticipant: false });
-	};
-
-	refresh = object => {
-		this.table.refresh(object);
-	};
-
-	resetPage = () => {
-		this.table.setPage(this.state.appliedFilters.page);
-	}
-
-	showModalComment = comment => event => {
-		event.stopPropagation();
-		this.setState({
-			showCommentModal: true,
-			showComment: comment
-		})
 	}
 
 	updateFilters = value => {
@@ -132,230 +384,12 @@ class ConvenedParticipantsTable extends React.Component {
 		}, () => this.resetPage());
 	}
 
-	refreshEmailStates = async () => {
-		this.setState({
-			loadingRefresh: true
-		});
-		const response = await this.props.updateConveneSends({
-			variables: {
-				councilId: this.props.council.id
-			}
-		});
-
-		if (response.data.updateConveneSends.success) {
-			await this.props.data.refetch();
-			this.setState({
-				loadingRefresh: false
-			});
-		}
-	};
-
-	render() {
-		const { translate, council, participations, hideNotifications, hideAddParticipant } = this.props;
-		const { loading, refetch } = this.props.data;
-		const councilParticipants = this.props.data.councilParticipantsWithNotifications;
-		const { participant, editingParticipant } = this.state;
-
-		let headers = [
-			{
-				text: translate.name,
-				name: "name",
-				canOrder: true
-			},
-			{
-				text: translate.dni,
-				name: "dni",
-				canOrder: true
-			},
-			{ text: translate.position },
-			{
-				text: translate.votes,
-				name: "numParticipations",
-				canOrder: true
-			}
-		];
-
-		if (participations) {
-			headers.push({
-				text: translate.census_type_social_capital,
-				name: "socialCapital",
-				canOrder: true
-			});
-		}
-
-		if (CBX.councilIsNotified(council)) {
-			if (!hideNotifications) {
-				headers.push({
-					text: translate.convene
-				});
-				if (CBX.councilHasAssistanceConfirmation(council)) {
-					headers.push({
-						text: translate.assistance_intention
-					});
-				}
-			}
-		}
-
-		headers.push({text: ''});
-		return (
-			<div style={{ width: "100%", height: '100%' }}>
-				<React.Fragment>
-					<Grid style={{ margin: "0.5em 0" }}>
-						<GridItem xs={12} lg={6} md={6}>
-							{!hideNotifications &&
-								<NotificationFilters
-									translate={translate}
-									refetch={this.updateNotificationFilter}
-								/>
-							}
-						</GridItem>
-					</Grid>
-					{!!councilParticipants?
-						<EnhancedTable
-							ref={table => (this.table = table)}
-							translate={translate}
-							menuButtons={
-								<div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'}}>
-									{!hideNotifications &&
-										<Tooltip
-											title={
-												translate.tooltip_refresh_convene_email_state_assistance
-											}
-										>
-											<div>
-												<BasicButton
-													floatRight
-													text={translate.refresh_convened}
-													color={getSecondary()}
-													loading={this.state.loadingRefresh}
-													buttonStyle={{
-														margin: "0",
-														marginRight: '1.2em'
-													}}
-													textStyle={{
-														color: "white",
-														fontWeight: "700",
-														fontSize: "0.9em",
-														textTransform: "none"
-													}}
-													icon={
-														<ButtonIcon
-															color="white"
-															type="refresh"
-														/>
-													}
-													textPosition="after"
-													onClick={() =>
-														this.refreshEmailStates()
-													}
-												/>
-											</div>
-										</Tooltip>
-									}
-									{!hideAddParticipant &&
-										<div>
-											<AddConvenedParticipantButton
-												participations={participations}
-												translate={translate}
-												councilId={council.id}
-												refetch={refetch}
-											/>
-										</div>
-									}
-								</div>
-							}
-							defaultLimit={PARTICIPANTS_LIMITS[0]}
-							defaultFilter={"fullName"}
-							defaultOrder={["name", "asc"]}
-							limits={PARTICIPANTS_LIMITS}
-							page={this.state.appliedFilters.page}
-							loading={loading}
-							length={this.state.participants.length}
-							total={this.state.total}
-							refetch={this.updateFilters}
-							action={this._renderDeleteIcon}
-							fields={[
-								{
-									value: "fullName",
-									translation: translate.participant_data
-								},
-								{
-									value: "dni",
-									translation: translate.dni
-								},
-								{
-									value: "position",
-									translation: translate.position
-								}
-							]}
-							headers={headers}
-						>
-							{this.state.participants.map(
-								item => {
-									let participant = formatParticipant(item);
-									return (
-										<React.Fragment
-											key={`participant${participant.id}_${this.state.appliedFilters.notificationStatus}`}
-										>
-											<HoverableRow
-												translate={translate}
-												participant={participant}
-												representative={participant.representative}
-												showModalComment={this.showModalComment}
-												cbxData={false}
-												editParticipant={() => {
-													!this.props.cantEdit &&
-														this.setState({
-															editingParticipant: true,
-															participant
-														})
-												}}
-												{...this.props}
-											/>
-										</React.Fragment>
-									);
-								}
-							)}
-						</EnhancedTable>
-					:
-						<div
-							style={{
-								height: '10em',
-								display: 'flex',
-								alignItems: 'center'
-							}}
-						>
-							<LoadingSection/>
-						</div>
-					}
-					{editingParticipant &&
-						<ConvenedParticipantEditor
-							key={participant.id}
-							translate={translate}
-							close={this.closeParticipantEditor}
-							councilId={council.id}
-							participations={participations}
-							participant={participant}
-							opened={editingParticipant}
-							refetch={refetch}
-						/>
-					}
-					<AttendComment
-					 	requestClose={() => this.setState({
-							showCommentModal: false,
-							showComment: false
-						})}
-						open={this.state.showCommentModal}
-						comment={this.state.showComment}
-						translate={translate}
-					/>
-				</React.Fragment>
-				{this.props.children}
-			</div>
-		);
+	
+		
+		
 	}
 }
-
+*/
 class HoverableRow extends React.Component {
 
 	state = {
@@ -732,13 +766,5 @@ export default compose(
 	graphql(downloadCBXData, {
 		name: "downloadCBXData"
 	}),
-	graphql(convenedcouncilParticipants, {
-		options: props => ({
-			variables: {
-				councilId: props.council.id,
-			},
-			forceFetch: true,
-			pollInterval: 12000
-		})
-	})
+	withApollo
 )(ConvenedParticipantsTable);

@@ -28,6 +28,9 @@ import { useOldState } from "../../../hooks";
 import { ConfigContext } from "../../../containers/AppControl";
 import DelegationRestriction from "../editor/DelegationRestriction";
 import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
+import gql from "graphql-tag";
+import ShareholdersRequestsPage from "./shareholders/ShareholdersRequestsPage";
+import EstimatedQuorum from "./EstimatedQuorum";
 
 
 const CouncilPreparePage = ({ company, translate, data, ...props }) => {
@@ -94,6 +97,12 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 			})
 		}
 
+		if(council.statute.shareholdersPortal){
+			tabs.push({
+				text: 'Solicitudes de participación'
+			});
+		}
+
 		let tabsListNames = [];
 		tabs.map(item => {
 			tabsListNames.push(item.text)
@@ -135,6 +144,14 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									height: '100%'
 								}}
 							>
+								{CBX.councilHasAssistanceConfirmation(council) &&
+									<EstimatedQuorum
+										council={council}
+										totalVotes={data.councilTotalVotes}
+										socialCapital={data.councilSocialCapital}
+										translate={translate}
+									/>
+								}
 								<ConvenedParticipantsTable
 									council={council}
 									totalVotes={data.councilTotalVotes}
@@ -160,6 +177,12 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 							</div>
 						</Scrollbar>
 					</div>
+				}
+				{selecteReuniones === 'Solicitudes de participación' &&
+					<ShareholdersRequestsPage
+						council={council}
+						translate={translate}
+					/>
 				}
 			</div>
 			{/* <div style={{ height: '100%' }}>
@@ -212,7 +235,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div>
 						<BasicButton
-							text={translate.prepare_room}
+							text={council.councilType === 4? 'Administrar' /**TRADUCCION */ :translate.prepare_room}
 							id={'prepararSalaNew'}
 							color={primary}
 							buttonStyle={{
@@ -325,7 +348,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 											>
 												notifications
 											</Icon>
-											{translate.new_send}
+											{'Enviar notificación'}{/**TRADUCCION */}
 										</MenuItem>
 									)}
 								<MenuItem
@@ -372,7 +395,115 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 	);
 }
 
-export default graphql(councilDetails, {
+
+export default graphql(gql`
+	query CouncilDetails($councilID: Int!) {
+		council(id: $councilID) {
+			active
+			attachments {
+				councilId
+				filename
+				filesize
+				filetype
+				id
+			}
+			businessName
+			city
+			companyId
+			confirmAssistance
+			conveneText
+			councilStarted
+			councilType
+			country
+			countryState
+			currentQuorum
+			dateEnd
+			dateOpenRoom
+			dateRealStart
+			dateStart
+			dateStart2NdCall
+			duration
+			emailText
+			firstOrSecondConvene
+			fullVideoRecord
+			hasLimitDate
+			headerLogo
+			id
+			limitDateResponse
+			name
+			neededQuorum
+			noCelebrateComment
+			president
+			proposedActSent
+			prototype
+			quorumPrototype
+			satisfyQuorum
+			secretary
+			securityKey
+			securityType
+			selectedCensusId
+			sendDate
+			sendPointsMode
+			shortname
+			state
+			statute {
+				id
+				prototype
+				councilId
+				statuteId
+				title
+				shareholdersPortal
+				existPublicUrl
+				addParticipantsListToAct
+				existsAdvanceNoticeDays
+				advanceNoticeDays
+				existsSecondCall
+				minimumSeparationBetweenCall
+				canEditConvene
+				canEarlyVote
+				requireProxy
+				firstCallQuorumType
+				firstCallQuorum
+				firstCallQuorumDivider
+				secondCallQuorumType
+				secondCallQuorum
+				secondCallQuorumDivider
+				existsDelegatedVote
+				delegatedVoteWay
+				existMaxNumDelegatedVotes
+				maxNumDelegatedVotes
+				existsLimitedAccessRoom
+				limitedAccessRoomMinutes
+				existsQualityVote
+				qualityVoteOption
+				canUnblock
+				canAddPoints
+				canReorderPoints
+				existsAct
+				existsWhoSignTheAct
+				includedInActBook
+				includeParticipantsList
+				existsComments
+				conveneHeader
+				intro
+				constitution
+				conclusion
+				actTemplate
+				censusId
+			}
+			street
+			tin
+			videoEmailsDate
+			videoMode
+			videoRecodingInitialized
+			votationType
+			weightedVoting
+			zipcode
+		}
+		councilTotalVotes(councilId: $councilID)
+		councilSocialCapital(councilId: $councilID)
+	}
+`, {
 	name: "data",
 	options: props => ({
 		variables: {

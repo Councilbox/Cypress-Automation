@@ -5,7 +5,9 @@ import {
 	AlertConfirm,
 	BasicButton,
 	Checkbox,
-	Icon
+	Icon,
+	Radio,
+	HelpPopover
 } from "../../../../displayComponents";
 import { getPrimary } from "../../../../styles/colors";
 import { moment } from '../../../../containers/App';
@@ -18,6 +20,7 @@ import { isMobile } from "../../../../utils/screen";
 const OpenRoomButton = ({ council, translate, ...props }) => {
 	const [state, setState] = useOldState({
 		sendCredentials: !council.videoEmailsDate,
+		sendOptions: 'all',
 		confirmModal: false,
 		showSMS: false
 	});
@@ -31,7 +34,8 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 			variables: {
 				councilId: council.id,
 				timezone: moment().utcOffset(),
-				sendCredentials: state.sendCredentials
+				sendCredentials: state.sendCredentials,
+				group: state.sendOptions
 			}
 		});
 		if (response.data.openCouncilRoom.success) {
@@ -75,6 +79,37 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 					}
 					id={'checkEnviarEmail'}
 				/>
+				{state.sendCredentials &&
+					<>
+						<Radio
+							value={"all"}
+							checked={state.sendOptions === 'all'}
+							onChange={event =>
+								setState({
+									sendOptions: event.target.value
+								})
+							}
+							name="sendOptions"
+							label={translate.all_plural}
+						/>
+						<Radio
+							value={"remotes"}
+							checked={state.sendOptions === 'remotes'}
+							onChange={event =>
+								setState({
+									sendOptions: event.target.value
+								})
+							}
+							name="sendOptions"
+							label={'Remotos'}
+						/>
+						<HelpPopover
+							title={translate.remotes}
+							content={translate.creds_remotes_description}
+						/>
+					</>
+
+				}
 				<a
 					href={`https://app.councilbox.com/recommendations/${council.language}`}
 					rel="noopener noreferrer"

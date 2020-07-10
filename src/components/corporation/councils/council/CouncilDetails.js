@@ -497,7 +497,7 @@ const CouncilDetailsRoot = gql`
 			president
 			street
 			price
-			priceObservations
+			promoCode
 			city
 			state
 			dateStart

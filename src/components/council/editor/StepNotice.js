@@ -153,7 +153,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			...state,
 			loading: true
 		});
-		const { __typename, statute, councilType, ...rest } = council;
+		const { __typename, statute, councilType, selectedCensusId, ...rest } = council;
 		const response = await props.updateCouncil({
 			variables: {
 				council: {
@@ -454,7 +454,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										})}
 									</SelectInput>
 									<div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary}}>
-										Ver detalles
+										{translate.read_details}
 									</div>
 								</GridItem>
 								<GridItem

@@ -176,6 +176,7 @@ export const addConvenedParticipant = gql`
 			sendConvene: $sendConvene
 		) {
 			success
+			message
 		}
 	}
 `;
@@ -185,12 +186,14 @@ export const convenedcouncilParticipants = gql`
 	query participants(
 		$councilId: Int!
 		$filters: [FilterInput]
-		$notificationStatus: Int
+		$notificationStatus: String
+		$attendanceIntention: Int
 		$options: OptionsInput
 	) {
 		councilParticipantsWithNotifications(
 			councilId: $councilId
 			filters: $filters
+			attendanceIntention: $attendanceIntention
 			notificationStatus: $notificationStatus
 			options: $options
 		) {

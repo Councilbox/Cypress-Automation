@@ -14,12 +14,15 @@ export const agendaTypes = [
 
 export const COUNCIL_TYPES = {
 	FORMAL: 0,
-	NO_VIDEO: 1
+	NO_VIDEO: 1,
+	NO_SESSION: 2,
+	ELECTIONS: 3,
+	BOARD_WITHOUT_SESSION: 4
 }
 
 export const DRAFTS_LIMITS = [25, 50, 100, 250];
 export const CENSUS_LIMITS = [25, 50, 100, 250];
-export const PARTICIPANTS_LIMITS = [25, 50, 100, 250];
+export const PARTICIPANTS_LIMITS = [20, 50, 100, 250];
 export const DELEGATION_USERS_LOAD = 25;
 
 export const VOTE_VALUES = {
@@ -81,7 +84,8 @@ export const PARTICIPANT_STATES = {
 	SENT_VOTE_LETTER: 8,
 	REMOTE_VOTE: 9,
 	PRESENT_VOTE: 10,
-	LEFT: 11
+	LEFT: 11,
+	EARLY_VOTE: 12
 };
 
 export const DRAFT_TYPES = {

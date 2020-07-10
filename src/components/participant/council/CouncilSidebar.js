@@ -5,7 +5,7 @@ import { Grid, Button } from "material-ui";
 import { withApollo, graphql } from 'react-apollo';
 import ResultsTimeline from '../ResultsTimeline';
 import gql from 'graphql-tag';
-import { darkGrey, secondary, primary, getSecondary } from '../../../styles/colors';
+import { darkGrey, secondary, primary, getSecondary, getPrimary } from '../../../styles/colors';
 import { AlertConfirm, Badge } from '../../../displayComponents';
 import iconVoteInsert from '../../../../src/assets/img/dropping-vote-in-box2.svg';
 import { usePolling } from '../../../hooks';
@@ -218,10 +218,10 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                         height: '1em',
                         overflow: 'hidden',
                         userSelect: 'none',
-                        color: props.adminMessage ? primary : "#ffffffcc",
+                        color: props.adminMessage ? getPrimary() : "#ffffffcc",
                     }}>
                         chat_bubble_outline
-                        </i>
+                    </i>
                 </div>
                 <div style={{
                     color: "white",

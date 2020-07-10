@@ -21,7 +21,7 @@ import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
 import { Tooltip, MenuItem } from "material-ui";
-import { isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations } from "../../../../utils/CBX";
+import { isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage } from "../../../../utils/CBX";
 import PropTypes from "prop-types";
 import NominalCustomVoting, { DisplayVoting } from './NominalCustomVoting';
 import { isMobile } from '../../../../utils/screen';
@@ -86,6 +86,15 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 		clearTimeout(timeout);
 		setTimeout(props.refetch, 1000);
 	};
+
+	const printPercentage = value => {
+		//This companies work based on coefficients
+		if(props.company.type === 10){
+			return '';
+		}
+
+		return `(${getPercentage(value, props.recount.partTotal)}%)`
+	}
 
 	let votings = [];
 
@@ -152,6 +161,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 						<DisplayVoting
 							ballots={vote.ballots}
 							translate={translate}
+							items={agenda.items}
 						/>
 					}
 				</React.Fragment>
@@ -161,7 +171,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 
 	const renderParticipantInfo = vote => {
 		return (
-			<div style={{ minWidth: '7em', fontSize: '0.9em' }}>
+			<div style={{ minWidth: '7em' }}>
 				<span style={{ fontWeight: '700' }}>
 					{!!vote.authorRepresentative ?
 						<React.Fragment>
@@ -199,7 +209,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 								{`${translate.representative_of} ${delegatedVote.author.name} ${
 									delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${
 										delegatedVote.author.position}` : ''} ${isMobile? ` - ${
-											showNumParticipations(delegatedVote.author.numParticipations, props.company)}` : ''}`}
+											showNumParticipations(delegatedVote.author.numParticipations, props.company)} ${printPercentage(delegatedVote.author.numParticipations)}` : ''}`}
 								{delegatedVote.author.voteDenied &&
 									<Tooltip title={delegatedVote.author.voteDeniedReason}>
 										<span style={{color: 'red', fontWeight: '700'}}>
@@ -226,7 +236,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 										/>
 									</Tooltip>
 								}
-								{`${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${showNumParticipations(delegatedVote.author.numParticipations, props.company)}` : ''}`}
+								{`${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${showNumParticipations(delegatedVote.author.numParticipations, props.company)} ` : ''}`}
 								{delegatedVote.author.voteDenied &&
 									<Tooltip title={delegatedVote.author.voteDeniedReason}>
 										<span style={{color: 'red', fontWeight: '700'}}>
@@ -357,14 +367,14 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					isMobile ?
 						<React.Fragment>
 							{votings.map(vote => (
-								<Card key={vote.id} style={{ marginBottom: "1em" }}>
+								<Card key={vote.id} style={{ marginBottom: "1em", fontSize: '0.9em' }}>
 									<CardContent>
 										{renderParticipantInfo(vote)}
 										<div>
 											{translate.votes}:
-											{vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company)}` : 0}
+											{vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company)} ${printPercentage(vote.numParticipations)}` : 0}
 											{!!vote.representing &&
-												`${vote.numParticipations > 0 ? showNumParticipations(vote.numParticipations, props.company) : 0}`
+												`${vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company)}${printPercentage(vote.numParticipations)}` : 0}`
 											}
 										</div>
 										<div style={{ marginLeft: "-5px" }}>
@@ -414,7 +424,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 							>
 								{votings.map(vote => (
 									<TableRow key={`vote_${vote.id}`}>
-										<TableCell>
+										<TableCell style={{ fontSize: '0.95em' }}>
 											{vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0 ?
 												'-'
 												:
@@ -436,14 +446,14 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 												</div>
 											}
 										</TableCell>
-										<TableCell>
+										<TableCell style={{ fontSize: '0.95em' }}>
 											{renderParticipantInfo(vote)}
 										</TableCell>
-										<TableCell>
+										<TableCell style={{ fontSize: '0.95em' }}>
 											{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED)?
-												(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company)}` : 0)
+												(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company)} ${printPercentage(vote.numParticipations)}` : 0)
 											:
-												vote.authorRepresentative.numParticipations > 0? showNumParticipations(vote.authorRepresentative.numParticipations, props.company) : '-'
+												vote.authorRepresentative.numParticipations > 0? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
 											}
 
 											<React.Fragment>
@@ -451,7 +461,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 													vote.delegatedVotes.filter(vote => vote.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 															<br />
-															{`${delegatedVote.author.numParticipations > 0 ? showNumParticipations(delegatedVote.author.numParticipations, props.company) : 0}`}
+															{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.author.numParticipations, props.company)} ${printPercentage(delegatedVote.author.numParticipations)}` : 0}`}
 														</React.Fragment>
 													))
 												}
@@ -461,7 +471,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 													vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 															<br />
-															{`${delegatedVote.author.numParticipations > 0 ? showNumParticipations(delegatedVote.author.numParticipations, props.company) : 0}`}
+															{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.author.numParticipations, props.company)}  ${printPercentage(delegatedVote.author.numParticipations)}` : 0}`}
 														</React.Fragment>
 													))
 												}

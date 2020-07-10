@@ -10,11 +10,12 @@ import {
 	secondary,
 	primary
 } from "../../../styles/colors";
-import { PARTICIPANT_ERRORS } from "../../../constants";
+import { PARTICIPANT_ERRORS, PARTICIPANT_STATES } from "../../../constants";
 import background from "../../../assets/img/fondo_test_mundo2.jpg";
 import { moment } from '../../../containers/App';
 import { variant } from "../../../config";
 import { getCustomBackground } from "../../../utils/subdomain";
+import RemoveDelegationAndEnter from "./RemoveDelegationAndEnter";
 //import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {
@@ -58,25 +59,25 @@ const styles = {
 	}
 };
 
-const ErrorState = ({ code, translate, data, windowSize, windowOrientation }) => {
+const ErrorState = ({ code, translate, data, windowSize, windowOrientation, refetch }) => {
 	const customBackground = getCustomBackground();
 
 	const renderError = code => {
 		switch (code) {
 			case PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED:
-				return <ParticipantBlocked translate={translate} />;
+				return <ParticipantBlocked translate={translate} data={data} />;
 
 			case PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE:
-				return <ParticipantNotInRemoteState translate={translate} />;
+				return <ParticipantNotInRemoteState translate={translate} data={data} refetch={refetch} />;
 
 			case 'REMOTE_CLOSED':
 				return <RemoteClosed translate={translate} />;
 
 			case PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED:
-				return <TimeLimitExceeded translate={translate} />;
+				return <TimeLimitExceeded translate={translate} data={data} />;
 
 			case PARTICIPANT_ERRORS.REPRESENTED_DELEGATED:
-				return <RepresentedDelegated translate={translate} />
+				return <RepresentedDelegated translate={translate} data={data} refetch={refetch} />
 			default:
 				return <div />;
 		}
@@ -220,52 +221,73 @@ const RemoteClosed = ({ translate }) => (
 	</React.Fragment>
 );
 
-const RepresentedDelegated = ({ translate }) => (
-	<React.Fragment>
-		<h5 style={{ color: primary, fontWeight: "bold" }}>
-			{translate.we_are_sorry}
-		</h5>
+const RepresentedDelegated = ({ translate, data, refetch }) => {
+	return (
+			<React.Fragment>
+			<h5 style={{ color: primary, fontWeight: "bold" }}>
+				{translate.we_are_sorry}
+			</h5>
 
-		<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
-			<FontAwesome
-				name={"user"}
-				stack={"1x"}
-				style={{ color: primary }}
+			<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
+				<FontAwesome
+					name={"user"}
+					stack={"1x"}
+					style={{ color: primary }}
+				/>
+				<FontAwesome
+					name={"ban"}
+					stack={"2x"}
+					style={{ color: secondary }}
+				/>
+			</div>
+
+			{'El voto de su representado ha sido delegado en otro participante' /*TRADUCCION*/}
+			<RemoveDelegationAndEnter
+				represented={data.participant.represented}
+				participant={data.participant}
+				refetch={refetch}
+				translate={translate}
 			/>
-			<FontAwesome
-				name={"ban"}
-				stack={"2x"}
-				style={{ color: secondary }}
-			/>
-		</div>
-
-		{'El voto de su representado ha sido delegado en otro participante' /*TRADUCCION*/}
-	</React.Fragment>
-);
+		</React.Fragment>
+	)
+};
 
 
-const ParticipantNotInRemoteState = ({ translate }) => (
-	<React.Fragment>
-		<h5 style={{ color: primary, fontWeight: "bold" }}>
-			{translate.we_are_sorry}
-		</h5>
+const ParticipantNotInRemoteState = ({ translate, data, refetch }) => {
 
-		<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
-			<FontAwesome
-				name={"globe"}
-				stack={"2x"}
-				style={{ color: secondary }}
-			/>
-			<FontAwesome
-				name={"times"}
-				stack={"1x"}
-				style={{ color: primary }}
-			/>
-		</div>
+	return (
+		<React.Fragment>
+			<h5 style={{ color: primary, fontWeight: "bold" }}>
+				{translate.we_are_sorry}
+			</h5>
+			<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
+				<FontAwesome
+					name={"globe"}
+					stack={"2x"}
+					style={{ color: secondary }}
+				/>
+				<FontAwesome
+					name={"times"}
+					stack={"1x"}
+					style={{ color: primary }}
+				/>
+			</div>
+			{data.participant.state === PARTICIPANT_STATES.DELEGATED?
+				<>
+					No puedes acceder porque tu voto ha sido delegado
+					<RemoveDelegationAndEnter
+						participant={data.participant}
+						refetch={refetch}
+						translate={translate}
+					/>
+				</>
+			:
+				translate.cant_access_video_room_no_remote_assistance
+			}
+		</React.Fragment>
+	)
 
-		{translate.cant_access_video_room_no_remote_assistance}
-	</React.Fragment>
-);
+};
 
 const TimeLimitExceeded = ({ translate }) => (
 	<React.Fragment>

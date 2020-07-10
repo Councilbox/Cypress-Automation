@@ -13,7 +13,7 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 	React.useEffect(() => {
 		const company = companies.list[companies.selected];
 		if(company){
-			store.dispatch(addSpecificTranslations(company.type));
+			store.dispatch(addSpecificTranslations(company));
 		}
 	}, [store, companies.selected]);
 

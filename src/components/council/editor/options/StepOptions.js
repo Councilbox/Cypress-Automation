@@ -13,19 +13,20 @@ import {
 	SelectInput,
 	TextInput,
 	GridItem
-} from "../../../displayComponents";
-import { councilStepFive, updateCouncil } from "../../../queries";
-import { checkValidMajority } from '../../../utils/validation';
+} from "../../../../displayComponents";
+import { councilStepFive, updateCouncil } from "../../../../queries";
+import { checkValidMajority } from '../../../../utils/validation';
 import { compose, graphql, withApollo } from "react-apollo";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import * as CBX from "../../../utils/CBX";
-import withWindowSize from '../../../HOCs/withWindowSize';
-import EditorStepLayout from './EditorStepLayout';
-import { moment } from '../../../containers/App';
-import DelegationRestriction from "./DelegationRestriction";
-import { ConfigContext } from "../../../containers/AppControl";
-import { useValidRTMP } from "../../../hooks";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
+import * as CBX from "../../../../utils/CBX";
+import withWindowSize from '../../../../HOCs/withWindowSize';
+import EditorStepLayout from '../EditorStepLayout';
+import { moment } from '../../../../containers/App';
+import DelegationRestriction from "../DelegationRestriction";
+import { ConfigContext } from "../../../../containers/AppControl";
+import { useValidRTMP } from "../../../../hooks";
 import gql from 'graphql-tag';
+import VoteLetterWithSenseOption from "./VoteLetterWithSenseOption";
 
 
 
@@ -49,7 +50,22 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 	React.useEffect(() => {
 		if(!data.loading){
 			if(!state.data.council){
-				updateCouncilData(data.council);
+				setState({
+					...state,
+					data: {
+						council: {
+							...state.data.council,
+							...data.council,
+		
+							room: data.council.room? data.council.room : {
+								videoConfig: {}
+							},
+							...(!config.video? {
+								councilType: 1
+							} : {})
+						}
+					}
+				});
 			}
 		}
 	});
@@ -76,8 +92,6 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				councilRoom
 			}
 		});
-
-		console.log(response);
 
 		await props.updateCouncil({
 			variables: {
@@ -142,6 +156,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 	}
 
 
+
 	function updateCouncilData(data) {
 		setState({
 			...state,
@@ -149,10 +164,6 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				council: {
 					...state.data.council,
 					...data,
-
-					room: data.room? data.room : {
-						videoConfig: {}
-					},
 					...(!config.video? {
 						councilType: 1
 					} : {})
@@ -336,7 +347,16 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				</React.Fragment>
 			),
 			4: (
-				<></>
+				<>
+					<div style={{display: 'flex'}}>
+						<div>
+							<VoteLetterWithSenseOption
+								council={council}
+								translate={translate}
+							/>
+						</div>
+					</div>
+				</>
 			)
 		}
 
@@ -426,7 +446,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 							<LoadingSection />
 						</div>
 					:
-						<React.Fragment>
+						<div style={{marginLeft: '1em'}}>
 							{council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle
@@ -562,7 +582,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 									majorityAlert: false
 								})}
 							/>
-						</React.Fragment>
+						</div>
 					}
 				</React.Fragment>
 			}

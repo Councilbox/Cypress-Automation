@@ -49,6 +49,7 @@ class MuteToggleButton extends React.Component {
 	render() {
 		const { participant } = this.props;
 
+		//TRADUCCION
 		return (
 			<div style={{marginRight: '0.3em'}}>
 				{haveGrantedWord(participant) && (

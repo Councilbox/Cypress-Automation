@@ -1,5 +1,5 @@
 import React from "react";
-import { darkGrey, getSecondary, lightGrey } from "../../../styles/colors";
+import { darkGrey, getSecondary, lightGrey, turquoise } from "../../../styles/colors";
 import {
 	CollapsibleSection,
 	Icon,
@@ -21,6 +21,7 @@ import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal
 import MuteToggleButton from './videoParticipants/MuteToggleButton';
 import { isMobile } from "../../../utils/screen";
 import { usePolling } from "../../../hooks";
+import MuteCamToggleButton from "./videoParticipants/MuteCamToggleButton";
 
 
 const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) => {
@@ -167,9 +168,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 				}}
 			>
 				<GridItem
-					xs={6}
-					lg={6}
-					md={6}
+					xs={5}
+					lg={5}
+					md={5}
 					style={{ display: "flex", flexDirection: "row" }}
 				>
 					{_participantVideoIcon(participant)}
@@ -218,11 +219,27 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 						justifyContent: "space-between"
 					}}
 				>
-					{true && <MuteToggleButton
+					<MuteCamToggleButton
 						translate={translate}
 						participant={participant}
 						refetch={getData}
-					/>}
+					/>
+				</GridItem>
+				<GridItem
+					xs={isMobile? 2 : 1}
+					lg={isMobile? 2 : 1}
+					md={isMobile? 2 : 1}
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "space-between"
+					}}
+				>
+					<MuteToggleButton
+						translate={translate}
+						participant={participant}
+						refetch={getData}
+					/>
 				</GridItem>
 				<GridItem
 					xs={isMobile? 2 : 1}
@@ -271,7 +288,34 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 		if (participant.online !== 1) {
 			return "crimson";
 		}
-		return getSecondary();
+		if(!participant.videoParticipant){
+			return turquoise;
+		}
+
+		if(participant.videoParticipant && council.room && council.room.videoConfig){
+			const { videoConfig } = council.room;
+			const { videoParticipant } = participant;
+
+			if((videoConfig.rtmp && videoConfig.viewerURL) || videoConfig.autoHybrid || videoConfig.fixedURL || council.room.videoLink){
+				if(participant.requestWord !== 2){
+					return turquoise;
+				} else {
+					if(videoParticipant.online === 1){
+						return turquoise;
+					}
+					return "darkorange";
+				}
+			}
+
+			if(videoParticipant.online === 1){
+				return turquoise;
+			} else{
+				return "darkorange";
+			}
+		}
+
+		return turquoise;
+
 	}
 
 	const _button = () => {

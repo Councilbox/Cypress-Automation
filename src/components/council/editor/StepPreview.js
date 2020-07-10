@@ -80,7 +80,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 	}, [getData]);
 
 	const conveneWithNotice = async () => {
-		const { __typename, ...council } = data.council;
+		const { __typename, selectedCensusId, ...council } = data.council;
 		if (!checkInvalidDates()) {
 			setLoading(true);
 			const response = await props.conveneWithNotice({
