@@ -97,7 +97,7 @@ class RichTextInput extends React.Component {
 					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify' }], [ this.state.companyTags && this.state.companyTags.length > 0  || tags && tags.length > 0 ? 'custom' : '']
+					[{ 'align': 'justify' }], [ (this.state.companyTags && this.state.companyTags.length > 0  || tags && tags.length > 0) ? 'custom' : '']
 				],
 				handlers: {
 					// 'custom': (...args) => {
