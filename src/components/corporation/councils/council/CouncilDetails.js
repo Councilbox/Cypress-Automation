@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, BasicButton, AlertConfirm, Scrollbar } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, AlertConfirm, Scrollbar, Link } from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
@@ -16,6 +16,7 @@ import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
 import { Table, TableHead, TableRow, TableCell, TableBody, } from 'material-ui';
 import FailedSMSList from './FailedSMSList';
+import CouncilDetailsParticipants from './CouncilDetailsParticipants';
 
 
 const cancelAct = gql`
@@ -36,7 +37,8 @@ class CouncilDetails extends React.Component {
 		councilTypeModal: false,
 		credManager: false,
 		locked: true,
-		data: null
+		data: null,
+		councilDetailsParticipants: false
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
@@ -198,6 +200,34 @@ class CouncilDetails extends React.Component {
 			)
 		}
 
+		if (this.state.councilDetailsParticipants && council) {
+			return (
+				<div style={{ height: "100%" }}>
+					<BasicButton
+						text="sadasd agenda manager"
+						color={secondary}
+						textStyle={{ fontWeight: '700', color: 'white' }}
+						onClick={this.closeAgendaManager}
+					/>
+					<div style={{ height: "100%" }} >
+						<CouncilDetailsParticipants
+							council={council}
+							// totalVotes={data.councilTotalVotes}
+							// socialCapital={data.councilSocialCapital}
+							// participations={CBX.hasParticipations(council)}
+							// translate={translate}
+							// refetch={refetch}
+						/>
+						{/* <CredentialsManager
+							council={council}
+							translate={this.props.translate}
+						/> */}
+					</div>
+
+				</div>
+			)
+		}
+
 		//const { council } = this.props.data;
 
 		return (
@@ -325,7 +355,7 @@ class CouncilDetails extends React.Component {
 								open={this.state.credManager}
 								buttonCancel={'Cancelar'}
 								classNameDialog={'height100'}
-								bodyStyle={{minWidth: "100vh",maxWidth: "100vh",height: '100%',overflowY: 'hidden'}}
+								bodyStyle={{ minWidth: "100vh", maxWidth: "100vh", height: '100%', overflowY: 'hidden' }}
 								bodyText={
 									<CredentialsManager
 										council={council}
@@ -339,6 +369,29 @@ class CouncilDetails extends React.Component {
 								council={council}
 								requestClose={this.closeCredsModal}
 								translate={translate}
+							/>
+						</div>
+						{/* //montar en una aparte */}
+						{/* <Link to={`/council/${council.company.id}/participants`} >
+							asdasd
+						</Link> */}
+						<div
+							style={{
+								width: '100%',
+								fontSize: '18px',
+								color: secondary,
+								fontWeight: '700',
+								padding: '1em',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center'
+							}}
+						>
+							<BasicButton
+								text="Participantes"
+								color={secondary}
+								textStyle={{ fontWeight: '700', color: 'white' }}
+								onClick={() => this.setState({ councilDetailsParticipants: true })}
 							/>
 						</div>
 						<div
@@ -376,7 +429,7 @@ class CouncilDetails extends React.Component {
 						</div>
 					</div>
 				</Scrollbar>
-			</div>
+			</div >
 		)
 	}
 }
@@ -454,7 +507,7 @@ const showSendsRecount = (sends) => {
 	}
 
 	sends.forEach(send => {
-		if(recount[list[send.sendType]] !== undefined ){
+		if (recount[list[send.sendType]] !== undefined) {
 			recount[list[send.sendType]]++;
 		} else {
 			recount['Otros']++;
