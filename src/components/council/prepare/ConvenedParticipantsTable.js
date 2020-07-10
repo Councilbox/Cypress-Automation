@@ -92,7 +92,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 		}
 	};
 
-	usePolling(CBX.councilIsNotified(council) ? refreshEmailStates : {}, 60000);
+	usePolling(CBX.councilIsNotified(council) ? refreshEmailStates : () => {}, 60000);
 
 	const closeParticipantEditor = () => {
 		getData();
