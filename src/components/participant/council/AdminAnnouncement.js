@@ -11,6 +11,7 @@ import aviso from '../../../assets/img/aviso.svg';
 
 const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, blockFunctionsRoomAnnouncement, openHelp, isAdmin, ...props }) => {
     const context = React.useContext(ConfigContext);
+    const [announcement, setAnnouncement] = React.useState(null);
     const [mostrarInfo, setMostrarInfo] = React.useState(openHelp ? openHelp : false);
     const [showCloseButton, setShowCloseButton] = React.useState(false);
     const [showInParticipant, setShowInParticipant] = React.useState(true);
@@ -28,11 +29,16 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
         // data.refetch();
     }
 
+
     React.useEffect(() => {
         if (!data.loading) {
-            setShowCloseButton(data.adminAnnouncement.blockUser)
+            if(data.adminAnnouncement){
+                if(!announcement || data.adminAnnouncement.id !== announcement){
+                    setAnnouncement(data.adminAnnouncement);
+                }
+            }
         }
-    }, [data.loading])
+    }, [data])
 
     React.useEffect(() => {
         if (isAdmin && !data.loading && data.adminAnnouncement) {
@@ -41,7 +47,6 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
     }, [showCloseButton])
 
     const buttonCloseShow = async () => {
-        console.log(showCloseButton)
         const response = await blockFunctionsRoomAnnouncement({
             variables: {
                 message: {
@@ -60,7 +65,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
     if (data.loading || !context.roomAnnouncement) {
         return <span />;
     }
-    console.log(data)
+
     return (
         data.adminAnnouncement && showInParticipant ?
             <div
@@ -190,7 +195,7 @@ export default compose(
             variables: {
                 councilId: props.council.id
             },
-            pollInterval: 60000,
+            pollInterval: 15000,
         }),
         props: props => {
             return {
