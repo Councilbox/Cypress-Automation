@@ -75,7 +75,7 @@ const MeetingLivePage = ({ data }) => {
 					display: "flex",
 					flexDirection: "row",
 					justifyContent: "flex-end",
-					paddingRight: "2em"
+					marginRight: "2em"
 				}}
 			>
 				<Icon
