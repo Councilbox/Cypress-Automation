@@ -158,25 +158,25 @@ class SignUpUser extends React.Component {
 		const data = this.props.formData;
 		let errorsBar
 		let porcentaje = 100
-
+		const { translate } = this.props;
 		if (!(/[a-z]/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/(?=.*[A-Z])/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/(?=.*[0-9])/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/.{8,}/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		let color = "Green"
