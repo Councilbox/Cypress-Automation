@@ -25,17 +25,19 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
     const videoRef = React.useRef();
     const canvasRef = React.useRef();
     const canvasRef2 = React.useRef();
+    const streamRef = React.useRef();
 
     const initMedia = async () => {
+        if(streamRef.current){
+            return videoRef.current.srcObject = streamRef.current;
+        }
+
         try {
             if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        facingMode: {
-                            exact: 'environment'
-                        }
-                    },
+                    video: true
                 });
+                streamRef.current = stream;
                 videoRef.current.srcObject = stream;
                 setLoadingCamera(false)
             } else {
@@ -52,8 +54,18 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
 
     React.useLayoutEffect(() => {
         let interval;
-        if (open && videoRef.current) {
+        if(open && videoRef.current && !videoRef.current.srcObject){
             initMedia();
+        }
+
+        if(!open && streamRef.current){
+            streamRef.current.getTracks().forEach(function(track) {
+                track.stop();
+            });
+            streamRef.current = null;
+        }
+
+        if (open && videoRef.current) {
             interval = setInterval(check, 500);
         }
         return () => clearInterval(interval);
@@ -89,7 +101,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
             const result = jsQR(canvasCTX.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height).data, canvasRef.current.width, canvasRef.current.height);
             if (result) {
                 setSearch(result);
-                setCode(result)
+                setCode(result);
             }
         }
     }
@@ -97,11 +109,6 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
     const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
         council.statute
     );
-
-    const checkImage = async image => {
-        console.log(image);
-
-    }
 
     const searchParticipant = React.useCallback(async () => {
         if (search) {
@@ -157,16 +164,6 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
     React.useEffect(() => {
         searchParticipant();
     }, [searchParticipant])
-
-    const handleError = error => {
-        //console.log('failed to read');
-    }
-
-    const handleScan = data => {
-        if (data) {
-            setSearch(data);
-        }
-    }
 
     const isPresent = state => {
         return state === PARTICIPANT_STATES.PHYSICALLY_PRESENT || state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
@@ -272,8 +269,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         setParticipant(null);
         setWithSignature(false);
         setParticipantState(5);
-        setError(null)
-        setLoadingCamera(false)
+        setError(null);
     }
 
     const renderBody = () => {
