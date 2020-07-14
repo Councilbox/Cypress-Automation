@@ -30,10 +30,11 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         try {
             if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: true,
-                    facingMode: {
-                        exact: 'environment'
-                    }
+                    video: {
+                        facingMode: {
+                            exact: 'environment'
+                        }
+                    },
                 });
                 videoRef.current.srcObject = stream;
                 setLoadingCamera(false)
