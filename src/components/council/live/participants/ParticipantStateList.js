@@ -106,11 +106,12 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 								width: "100%",
 								display: "flex",
 								flexDirection: "row",
+								minWidth: '17em',
 								alignItems: "center",
 								margin: 0
 							}}
 						>
-							<GridItem xs={landscape ? 6 : 12} md={12} lg={12} style={{padding: "0px" }}>
+	
 								<div style={{ display: 'flex', alignItems: 'center',  padding: "0px", width: '100%' }}>
 									<FilterButton
 										styles={{ width: '100%', border: 'none', boxShadow: 'none',margin: "none", borderRadius: "0" }}
@@ -187,7 +188,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 								{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
 									participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE 
 								) && council.councilType < 2) && (
-									<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0" }}>
+									<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
 										<FilterButton
 											tooltip={translate.change_to_present_with_remote_vote}
 											styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
@@ -240,7 +241,6 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 										</FilterButton>
 									</div>
 								)}
-							</GridItem>
 						</Grid>
 					</>
 				}
