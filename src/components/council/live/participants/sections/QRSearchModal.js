@@ -36,7 +36,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         try {
             if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: isMobile? true : {
+                    video: !isMobile? true : {
                         facingMode: {
                             exact: 'environment'
                         }
