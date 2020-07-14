@@ -8,6 +8,7 @@ import { canBePresentWithRemoteVote } from '../../../../../utils/CBX';
 import { changeParticipantState, setLiveParticipantSignature } from '../../../../../queries/liveParticipant';
 import { getPrimary } from '../../../../../styles/colors';
 import jsQR from "jsqr";
+import { isMobile } from '../../../../../utils/screen';
 
 
 const QRSearchModal = ({ updateSearch, open, requestClose, client, council, translate }) => {
@@ -35,7 +36,11 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         try {
             if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: true
+                    video: isMobile? true : {
+                        facingMode: {
+                            exact: 'environment'
+                        }
+                    }
                 });
                 streamRef.current = stream;
                 videoRef.current.srcObject = stream;
