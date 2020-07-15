@@ -145,7 +145,7 @@ const ParticipantForm = ({
 					floatingText={translate.administrative_email}
 					min={1}
 					errorText={errors.secondaryEmail}
-					value={participant.secondaryEmail}
+					value={participant.secondaryEmail || ''}
 					onChange={event => {
 						updateState({
 							secondaryEmail: event.target.value

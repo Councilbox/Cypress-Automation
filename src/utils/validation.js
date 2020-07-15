@@ -72,7 +72,7 @@ export const checkRequiredFieldsParticipant = (
 		if (participant.secondaryEmail) {
 			if (!checkValidEmail(participant.secondaryEmail.toLocaleLowerCase())) {
 				hasError = true;
-				errors.secondaryEmail = translate.valid_email_required;
+				errors.secondaryEmail = translate.tooltip_invalid_email_address;
 			}
 		}
 		if (participant.email) {
@@ -144,6 +144,13 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 	if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
 		hasError = true;
 		errors.email = translate.valid_email_required;
+	}
+
+	if (participant.secondaryEmail && !!participant.secondaryEmail.trim()) {
+		if (!checkValidEmail(participant.secondaryEmail.toLocaleLowerCase())) {
+			hasError = true;
+			errors.secondaryEmail = translate.tooltip_invalid_email_address;
+		}
 	}
 
 	// if (!participant.phone) {
