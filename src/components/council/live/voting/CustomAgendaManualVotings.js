@@ -152,7 +152,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                                     whiteSpace: 'nowrap',
                                                     overflow: 'hidden',
                                                     textOverflow: 'ellipsis',
-                                                    maxWidth: isMobile ? "50px" : "150px"
+                                                    maxWidth: isMobile ? "50px" : "100%"
                                                 }}
                                             >
                                                 {item.value}
