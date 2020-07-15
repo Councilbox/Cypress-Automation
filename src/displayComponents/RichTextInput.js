@@ -89,6 +89,7 @@ class RichTextInput extends React.Component {
 		}, 500);
 	};
 
+
 	render() {
 		const { tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder } = this.props;
 		const modules = {
@@ -160,16 +161,14 @@ class RichTextInput extends React.Component {
 											alignItems: 'center',
 											justifyContent: 'flex-end'
 										}}>
-											{!!tags &&
-												<SmartTags
-													tags={tags}
-													open={this.state.showTags}
-													translate={translate}
-													requestClose={() => this.setState({ showTags: false })}
-													paste={this.paste}
-													setData={(e) => this.setState({ companyTags: e })}
-												/>
-											}
+											<SmartTags
+												tags={tags}
+												open={this.state.showTags}
+												translate={translate}
+												requestClose={() => this.setState({ showTags: false })}
+												paste={this.paste}
+												setData={e => this.setState({ companyTags: e })}
+											/>
 											<div>
 												{!!loadDraft && loadDraft}
 											</div>
@@ -215,14 +214,14 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	const [loading, setLoading] = React.useState(true);
 	const [ocultar, setOcultar] = React.useState(false);
 	const [searchModal, setSearchModal] = React.useState("");
-	const [filteredTags, setFilteredTags] = React.useState(tags);
+	const [filteredTags, setFilteredTags] = React.useState(tags? tags : []);
 
 
 	React.useEffect(() => {
 		if (searchModal) {
 			setFilteredTags([...tags, ...companyTags].filter(tag => (tag.label && tag.label.toLowerCase().includes(searchModal)) || (tag.key && tag.key.toLowerCase().includes(searchModal))));
 		} else {
-			let newTags = tags;
+			let newTags = tags || [];
 			if (companyTags) {
 				newTags = [...newTags, ...companyTags];
 			}
@@ -266,7 +265,6 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 		}
 		return tag.value;
 	}
-
 
 	return (
 		<DropDownMenu
