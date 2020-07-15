@@ -303,10 +303,6 @@ class PartnersBookPage extends React.Component {
                             translation: translate.dni
                         },
                         {
-                            value: "state",
-                            translation: translate.state
-                        },
-                        {
                             value: "position",
                             translation: translate.position
                         },
@@ -506,8 +502,8 @@ const applyFilters = (participants, filters) => {
 
     return applyOrder(participants.filter(participant => {
 
-        if (filters.text) {
-            const unaccentedText = unaccent(filters.text.toLowerCase());
+        if (filters.text && filters.field !== 'state') {
+            const unaccentedText = unaccent((''+filters.text).toLowerCase());
 
             if (filters.field === 'fullName') {
                 const fullName = participant.name + " " + participant.surname;
@@ -546,20 +542,6 @@ const applyFilters = (participants, filters) => {
                     }
                 }
             }
-
-            if (filters.field === 'state') {
-                if (participant.representative !== null) {
-                    if (!unaccent(participant.state.toString().toLowerCase()).includes(unaccentedText) &&
-                        !unaccent(participant.representative.state.toString().toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-                } else {
-                    if (!unaccent(participant.state.toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-                }
-            }
-
             if (filters.field === 'nActa') {
                 const nActa = `${participant.subscribeActNumber} ${participant.unsubscribeActNumber}`;
                 if (!unaccent(nActa.toLowerCase()).includes(unaccentedText)) {
@@ -567,6 +549,22 @@ const applyFilters = (participants, filters) => {
                 }
             }
         }
+
+        if(filters.field === 'state'){
+            if (participant.representative !== null) {
+                if (participant.state != filters.text &&
+                    participant.representative.state != filters.text) {
+                    return false;
+                }
+            } else {
+                if (participant.state != filters.text) {
+                    return false;
+                }
+            }
+        }
+        
+
+
 
         if (filters.notificationStatus) {
             if (participant.representative) {
