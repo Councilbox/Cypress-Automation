@@ -244,7 +244,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div>
 						<BasicButton
-							text={council.councilType === 4? 'Administrar' /**TRADUCCION */ :translate.prepare_room}
+							text={council.councilType === 4? translate.manage :translate.prepare_room}
 							id={'prepararSalaNew'}
 							color={primary}
 							buttonStyle={{
@@ -314,7 +314,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 										style={{ color: primary }}
 									>
 										keyboard_arrow_down
-										</Icon>
+									</Icon>
 								</MenuItem>
 							</Paper>
 						}
@@ -337,7 +337,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 											}}
 										>
 											update
-											</Icon>
+										</Icon>
 										{translate.send_reminder}
 									</MenuItem>
 								) : (
@@ -357,7 +357,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 											>
 												notifications
 											</Icon>
-											{'Enviar notificación'}{/**TRADUCCION */}
+											{translate.send_notification}
 										</MenuItem>
 									)}
 								<MenuItem
@@ -376,9 +376,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									>
 										attach_file
 									</Icon>
-									{'Añadir documentación adicional'
-									//TRADUCCION
-									}
+									{translate.add_documentation}
 								</MenuItem>
 								<MenuItem
 									onClick={() =>
