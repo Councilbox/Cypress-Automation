@@ -204,27 +204,58 @@ class CouncilDetails extends React.Component {
 		if (this.state.councilDetailsParticipants && council) {
 			return (
 				<div style={{ height: "100%" }}>
-					<BasicButton
-						text="sadasd agenda manager"
-						color={secondary}
-						textStyle={{ fontWeight: '700', color: 'white' }}
-						onClick={this.closeAgendaManager}
-					/>
+					<div
+						style={{
+							color: 'rgb(125, 33, 128)',
+							maxWidth: ' calc(100% - 2em)',
+							overflow: 'hidden',
+							whiteSpace: 'nowrap',
+							textOverflow: 'ellipsis',
+							verticalAlign: 'middle',
+							zIndex: '20',
+							marginLeft: '2em',
+							marginRight: '1em',
+							position: 'relative',
+							fontWeight: '300',
+							display: 'flex',
+							fontStyle: 'italic',
+							fontFamily: 'Lato',
+							fontSize: '28px',
+							top: '45px',
+						}}>
+						<div style={{
+							cursor: 'pointer',
+							visibility: 'visible',
+						}}
+						onClick={() => this.setState({ councilDetailsParticipants: false })}>
+							<i className="fa fa-angle-left" ></i>
+							<span style={{
+								fontStyle: 'normal',
+								marginRight: '8px',
+								marginLeft: '5px',
+							}}>
+								|
+						</span>
+						</div>
+						<div>
+							Participantes
+							</div>
+					</div >
 					<div style={{ height: "100%" }} >
 						<CouncilDetailsParticipants
 							council={council}
 							participations={CBX.hasParticipations(council)}
 							translate={translate}
-							// refetch={refetch}
+						// refetch={refetch}
 						/>
-						<br></br>
+						{/* <br></br>
 						<CredentialsManager
 							council={council}
 							translate={this.props.translate}
-						/>
+						/> */}
 					</div>
 
-				</div>
+				</div >
 			)
 		}
 

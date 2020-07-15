@@ -236,6 +236,17 @@ export const convenedcouncilParticipants = gql`
 						name
 						id
 						surname
+						state
+						phone
+						email
+						notifications {
+							participantId
+							email
+							reqCode
+							refreshDate
+							sendDate
+							sendType
+						}
 						assistanceComment
 						assistanceLastDateConfirmed
 						assistanceIntention
@@ -272,6 +283,8 @@ export const convenedcouncilParticipants = gql`
 					id
 					state
 					surname
+					email
+					phone
 					delegationProxy {
 						signedBy
 						id
@@ -284,6 +297,14 @@ export const convenedcouncilParticipants = gql`
 						participantId
 					}
 					delegateId
+					notifications {
+						participantId
+						email
+						reqCode
+						refreshDate
+						sendDate
+						sendType
+					}
 					assistanceComment
 					assistanceLastDateConfirmed
 					assistanceIntention
@@ -293,6 +314,8 @@ export const convenedcouncilParticipants = gql`
 						surname
 						dni
 						position
+						email
+						state
 					}
 				}
 				city
