@@ -86,9 +86,7 @@ class ChangePasswordForm extends React.Component {
 			newPassword: "",
 			newPasswordConfirm: ""
 		};
-
-		//current_password_incorrect
-
+		
 		if (data.newPassword !== data.newPasswordConfirm) {
 			errors.newPasswordConfirm = translate.register_unmatch_pwds;
 			hasError = true;
@@ -102,10 +100,6 @@ class ChangePasswordForm extends React.Component {
 		if (!data.currentPassword) {
 			errors.currentPassword = translate.no_empty_pwd;
 		}
-
-		// if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.newPassword))) {
-		// 	errors.currentPassword = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
-		// }
 
 		this.setState({
 			errors: errors
@@ -189,10 +183,9 @@ class ChangePasswordForm extends React.Component {
 				<Grid>
 					<GridItem xs={12} md={12} lg={12} >
 						{/* //TRADUCCION */}
-						<div style={{ color: "black" }}>{"Actual"}</div>
+						<div style={{ color: "black" }}>{translate.current_password}</div>
 						<div>
 							<TextInput
-								// floatingText={translate.current_password}
 								type="password"
 								styles={{ width: isMobile ? "100%" : "300px" }}
 								onKeyUp={this.handleKeyUp}
@@ -209,12 +202,10 @@ class ChangePasswordForm extends React.Component {
 						</div>
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12} >
-						{/* //TRADUCCION */}
-						<div style={{ color: "black" }}>{"Nueva"}</div>
+						<div style={{ color: "black" }}>{translate.new_password}</div>
 						<div style={{ display: isMobile? "" : "flex" }}>
 							<div style={{ marginRight: "1em" }}>
 								<TextInput
-									// floatingText={translate.current_password}
 									type="password"
 									styles={{ width: isMobile ? "100%" :"300px" }}
 									onKeyUp={this.handleKeyUp}
@@ -246,18 +237,16 @@ class ChangePasswordForm extends React.Component {
 									</div>
 									{/* TRADUCCION */}
 									<div style={{ width: "50%" }}>
-										{this.state.errorsBar !== undefined ? this.state.errorsBar : "Contraseña segura"} {/*TRADUCCION*/}
+										{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password}
 									</div>
 								</div>
 							}
 						</div>
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12} >
-						{/* //TRADUCCION */}
-						<div style={{ color: "black" }}>{"Confirmar"}</div>
+						<div style={{ color: "black" }}>{translate.confirm}</div>
 						<div>
 							<TextInput
-								// floatingText={translate.current_password}
 								type="password"
 								styles={{ width: isMobile ? "100%" :"300px" }}
 								onKeyUp={this.handleKeyUp}
