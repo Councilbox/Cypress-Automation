@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import RecordingButton from './RecordingButton';
 import { darkGrey } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
-import AdminAnnouncement from '../../../participant/council/AdminAnnouncement';
+import AdminAnnouncement from '../adminAnnouncement/AdminAnnouncement';
 import { useInterval, useRoomUpdated } from '../../../../hooks';
 import { LoadingSection } from '../../../../displayComponents';
 

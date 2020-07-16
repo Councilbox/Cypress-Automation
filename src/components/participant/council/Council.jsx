@@ -13,7 +13,7 @@ import { councilHasVideo } from '../../../utils/CBX';
 import { isLandscape, isMobile } from '../../../utils/screen';
 import VideoContainer from '../VideoContainer';
 import { API_URL, SERVER_URL } from "../../../config";
-import AdminAnnouncement from './AdminAnnouncement';
+import AdminAnnouncement from '../../council/live/adminAnnouncement/AdminAnnouncement';
 // import { isMobile } from '../../../utils/screen';
 import CouncilSidebar from './CouncilSidebar';
 import AdminPrivateMessage from "../menus/AdminPrivateMessage";
