@@ -30,7 +30,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
     usePolling(data.refetch, council.councilStarted === 1? 60000 : 20000);
 
     const stopStreamingAlert = async () => {
-        if (council.room.videoConfig.autoHybrid) {
+        if (council.room.videoConfig && council.room.videoConfig.autoHybrid) {
             setAutoHybridModal(council.room.videoConfig.autoHybrid)
         } else {
             stopStreaming()
@@ -183,7 +183,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                             }
                         </Tooltip>
                     }
-                    {council.room.videoConfig.autoHybrid &&
+                    {(council.room.videoConfig && council.room.videoConfig.autoHybrid) &&
                         <AlertConfirm
                             requestClose={() => setAutoHybridModal(false)}
                             open={autoHybridModal}
