@@ -198,7 +198,7 @@ class SignUpUser extends React.Component {
 		const primary = getPrimary();
 		const { translate, classes } = this.props;
 		const data = this.props.formData;
-
+	
 		return (
 			<div
 				style={{
@@ -354,7 +354,7 @@ class SignUpUser extends React.Component {
 							/>
 						</div>
 						<div style={{ width: "100%" }}>
-							{this.state.errorsBar !== undefined ? this.state.errorsBar : "Contraseña segura"} {/*TRADUCCION*/}
+							{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password} 
 						</div>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
