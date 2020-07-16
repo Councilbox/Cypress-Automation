@@ -230,24 +230,30 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	}, [searchModal, companyTags, tags]);
 
 	const loadCompanyTags = React.useCallback(async () => {
-		const response = await client.query({
-			query,
-			variables: {
-				companyId: company.id,
-				...(searchModal ? {
-					filters: [
-						{
-							field: "key",
-							text: searchModal
-						},
-					]
-				} : {}),
-			}
-		});
-		setLoading(false);
-		setData(response.data.companyTags)
-		setCompanyTags(response.data.companyTags);
-	}, [company.id, searchModal]);
+		if(company) {
+			const response = await client.query({
+				query,
+				variables: {
+					companyId: company.id,
+					...(searchModal ? {
+						filters: [
+							{
+								field: "key",
+								text: searchModal
+							},
+						]
+					} : {}),
+				}
+			});
+			setLoading(false);
+			setData(response.data.companyTags)
+			setCompanyTags(response.data.companyTags);
+		} else {
+			setLoading(false);
+			setData([])
+			setCompanyTags([]);
+		}
+	}, [company? company.id : null, searchModal]);
 
 	React.useEffect(() => {
 		loadCompanyTags();
