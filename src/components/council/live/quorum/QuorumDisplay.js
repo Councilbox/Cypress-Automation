@@ -121,6 +121,7 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                         numEarlyVotes
                         present
                         numPresent
+                        numTotal
                         total
                     }
                 }
@@ -220,7 +221,7 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                                 Total
                             </TableCell>
                             <TableCell>
-                                {recount.numRightVoting}
+                                {data.numTotal}
                             </TableCell>
                             <TableCell>
                                 {data.total}
