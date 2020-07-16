@@ -1375,7 +1375,9 @@ export const getSendType = value => {
 };
 
 export const removeHTMLTags = string => {
-	return string.replace(/<(?:.|\n)*?>/gm, "");
+	return string.replace(/<(?:.|\n)*?>/gm, "").replace(/&#(\d+);/g, function(match, dec) {
+		return String.fromCharCode(dec);
+	}).replace(/&nbsp;/g, ' ');
 };
 
 export const councilHasActPoint = council => {

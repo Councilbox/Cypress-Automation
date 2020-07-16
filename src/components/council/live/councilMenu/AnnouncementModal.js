@@ -9,6 +9,9 @@ import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { graphql, compose } from "react-apollo";
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { removeHTMLTags } from "../../../../utils/CBX";
+
+const CHAR_LIMIT = 240;
 
 class AnnouncementModal extends React.Component {
 	state = {
@@ -68,15 +71,17 @@ class AnnouncementModal extends React.Component {
                     value={this.state.blockUser}
                     onChange={() => this.setState({ blockUser: !this.state.blockUser })}
                 />
+
 				<RichTextInput
 					translate={translate}
-					type="text"
+                    type="text"
+                    maxChars={CHAR_LIMIT}
 					errorText={this.state.errorText}
 					value={this.state.text}
 					onChange={value => {
-						this.setState({
-							text: value
-						});
+                        this.setState({
+                            text: value
+                        });
 					}}
 				/>
 			</div>

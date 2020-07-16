@@ -1,10 +1,9 @@
 import React from "react";
 import { Grid, GridItem } from "./index";
-import { Typography, MenuItem, TableRow, TableHead, Table, TableBody, TableCell, IconButton } from "material-ui";
-import { getSecondary, getPrimary } from "../styles/colors";
+import { Typography, TableRow, TableHead, Table, TableBody, TableCell, IconButton } from "material-ui";
+import { getPrimary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
-// import RichTextEditor from 'react-rte';
 import { isChrome } from 'react-device-detect';
 import { withApollo } from 'react-apollo';
 import DropDownMenu from './DropDownMenu';
@@ -55,8 +54,14 @@ class RichTextInput extends React.Component {
 		if (!this.rtEditor) {
 			return;
 		}
-		this.setState({ value });
+
+		if (this.props.maxChars && removeHTMLTags(value.toString()).length > this.props.maxChars) {
+			return this.setState({ value: removeHTMLTags(value.toString()).slice(0, this.props.maxChars) });;
+		}
+
 		const html = value.toString('html');
+
+		this.setState({ value });
 		if (this.props.onChange) {
 			if (removeHTMLTags(html).length > 0) {
 				this.props.onChange(
@@ -75,6 +80,10 @@ class RichTextInput extends React.Component {
 	};
 
 	paste = text => {
+		if(this.props.maxChars && text){
+			text = text.splice(this.props.maxChars);
+		}
+
 		const quill = this.rtEditor.getEditor();
 		let selection = quill.getSelection();
 		if (!selection) {
@@ -88,7 +97,16 @@ class RichTextInput extends React.Component {
 		}, 500);
 	};
 
+	checkCharacterCount = event => {
+		if (this.props.maxChars && removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars && event.key !== 'Backspace') {
+			event.preventDefault();
+		}
+	}
+
+
 	render() {
+		console.log(this.state.value.toString());
+
 		const { tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder } = this.props;
 		const modules = {
 			toolbar: {
@@ -116,6 +134,8 @@ class RichTextInput extends React.Component {
 			style.innerHTML = `.ql-editor{ ${styles} }`;
 			document.head.appendChild(style);
 		}
+
+		console.log(removeHTMLTags(this.state.value.toString()));
 
 
 		return (
@@ -192,12 +212,16 @@ class RichTextInput extends React.Component {
 								value={this.state.value}
 								onChange={this.onChange}
 								modules={modules}
+								onKeyDown={this.checkCharacterCount}
 								placeholder={placeholder ? placeholder : ""}
 								ref={editor => this.rtEditor = editor}
 								id={this.props.id}
 								style={{ ...stylesQuill }}
 								className={`text-editor ${this.props.quillEditorButtonsEmpty} ${!!errorText ? 'text-editor-error' : ''} ${!!borderless ? 'borderless-text-editor' : ''}`}
 							/>
+							{this.props.maxChars &&
+								`${removeHTMLTags(this.state.value.toString()).length} / ${this.props.maxChars}`
+							}
 						</div>
 					</GridItem>
 				</Grid>
