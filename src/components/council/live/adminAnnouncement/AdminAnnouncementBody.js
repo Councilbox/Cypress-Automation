@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper } from 'material-ui';
-import { BasicButton, Checkbox } from '../../../../displayComponents';
+import { BasicButton, Checkbox, Scrollbar } from '../../../../displayComponents';
 import aviso from '../../../../assets/img/aviso.svg';
 import { getPrimary } from '../../../../styles/colors';
 
@@ -10,7 +10,7 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
 
     return (
         <>
-            <div style={{ display: "flex", alignItems: "center", color: "black" }}>
+            <div style={{ display: "flex", alignItems: "center", color: "black", marginBottom: '0.5em' }}>
                 {/* TRADUCCION */}
                 <div style={{ paddingRight: "0.5em" }}><img src={aviso}></img></div>
                 <div style={{ fontSize: "18px", color: "black" }}>Aviso del administrador</div>
@@ -28,30 +28,42 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
                         </div>}
                 </div>
             </div>
-            <div
-                style={{
-                    paddingTop: '0.5em'
-                }}
-            >
+            {admin &&
                 <div style={{
-                    color: primary
+                    color: primary,
+                    marginTop: '0.5'
                 }}>
                     {/* TRADUCCION */}
-                    {admin &&
-                        <Checkbox
-                            label={"Bloquear funciones a los participantes hasta cerrar el aviso"}
-                            styleInLabel={{ color: primary, fontSize: "12px" }}
-                            colorCheckbox={"primary"}
-                            value={blockUser}
-                            onChange={() => updateAnnouncement({ blockUser: !blockUser })}
-                        />
-                    }
+                    <Checkbox
+                        label={"Bloquear funciones a los participantes hasta cerrar el aviso"}
+                        styleInLabel={{ color: primary, fontSize: "12px" }}
+                        colorCheckbox={"primary"}
+                        value={blockUser}
+                        onChange={() => updateAnnouncement({ blockUser: !blockUser })}
+                    />
                 </div>
-                <div style={{ marginTop: "5px" }} >
-                    <div style={{ width: "100%", border: "1px solid" + primary, minHeight: "80px", margin: "0 auto", padding: "5px", fontSize: "13px", color: "black" }}>
-                        <div dangerouslySetInnerHTML={{ __html: announcement.text }} />
+            }
+            <div
+                style={{
+                    paddingTop: '0.5em',
+                    height: '100px',
+                    width: '100%',
+                    overflow: 'hidden',
+                    padding: '.5em',
+                    border: "1px solid" + primary,
+                }}
+            >
+                <Scrollbar>
+                    <div style={{ height: 'calc(100% - 0.6em)' }} >
+                        <div style={{
+                            width: "calc(100% - 3px)",
+                            fontSize: "13px",
+                            color: "black",
+                        }}>
+                            <div dangerouslySetInnerHTML={{ __html: announcement.text }} />
+                        </div>
                     </div>
-                </div>
+                </Scrollbar>
             </div>
         </>
     )

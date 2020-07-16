@@ -7,6 +7,7 @@ import { ConfigContext } from '../../../../containers/AppControl';
 import aviso from '../../../../assets/img/aviso.svg';
 import { getPrimary } from '../../../../styles/colors';
 import AdminAnnouncementBody from './AdminAnnouncementBody';
+import ScrollBar from 'react-perfect-scrollbar';
 
 
 const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, updateAdminAnnouncement, openHelp, isAdmin, ...props }) => {
@@ -15,6 +16,14 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
     const [mostrarInfo, setMostrarInfo] = React.useState(openHelp ? openHelp : false);
     const [blockUser, setBlockUser] = React.useState(false);
     const [showInParticipant, setShowInParticipant] = React.useState(true);
+
+    const container = document.getElementById('announcement-container');
+
+    const containerWidth = container? container.offsetWidth : 0;
+    const containerHeight = container? container.offsetHeight : 0;
+
+    const maxWidth = containerWidth > 640? '600px' : `${containerWidth - 50}px`;
+      
 
     React.useEffect(() => {
         props.subscribeToAdminAnnoucement({ councilId: council.id });
@@ -62,7 +71,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
     }
 
     return (
-        data.adminAnnouncement && showInParticipant ?
+        (data.adminAnnouncement && (showInParticipant || data.adminAnnouncement.blockUser)) ?
             <div
                 id="announcement-container"
                 style={{
@@ -80,40 +89,55 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
             >
                 <Paper elevation={5}
                     style={{
-                        padding: '1.5em',
-                        maxWidth: '95%',
-                        borderRadius: "8px"
+                        padding: '20px',
+                        maxHeight: '100%',
+                        borderRadius: "8px",
+                        position: 'relative'
                     }}
                 >
-                    <AdminAnnouncementBody
-                        announcement={data.adminAnnouncement}
-                        admin={isAdmin}
-                        updateAnnouncement={updateAnnouncement}
-                        blockUser={blockUser}
-                    />
-                    <div style={{ width: "100%" }} >
-                        {isAdmin &&
-                            <BasicButton
-                                text={"Cerrar aviso"}
-                                // text={translate.close}
-                                textStyle={{ textTransform: 'none', color: "white", }}
-                                onClick={closeAnnouncement}
-                                buttonStyle={{ marginTop: '.8em', width: "100%" }}
-                                backgroundColor={{ backgroundColor: getPrimary(), boxShadow: "none", borderRadius: "0" }}
-                            />
-                        }
+                    <div style={{paddingBottom: '2.5em', width: maxWidth }}>
+                        <AdminAnnouncementBody
+                            announcement={data.adminAnnouncement}
+                            admin={isAdmin}
+                            updateAnnouncement={updateAnnouncement}
+                            blockUser={blockUser}
+                        />
                     </div>
-                    <div style={{ width: "100%" }} >
-                        {!isAdmin && data.adminAnnouncement.blockUser &&
-                            <BasicButton
-                                text={"Cerrar aviso"}
-                                // text={translate.close}
-                                textStyle={{ textTransform: 'none', color: "white", }}
-                                onClick={() => setShowInParticipant(false)}
-                                buttonStyle={{ marginTop: '.8em', width: "100%" }}
-                                backgroundColor={{ backgroundColor: getPrimary(), boxShadow: "none", borderRadius: "0" }}
-                            />
-                        }
+
+                    <div style={{
+                        width: "100%",
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        display: 'flex',
+                        height: '4em',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <div style={{
+                            width: "80%"
+                        }}>
+                            {isAdmin &&
+                                <BasicButton
+                                    text={"Cerrar aviso"}
+                                    // text={translate.close}
+                                    textStyle={{ textTransform: 'none', color: "white", }}
+                                    onClick={closeAnnouncement}
+                                    buttonStyle={{ marginTop: '.8em', width: "100%" }}
+                                    backgroundColor={{ backgroundColor: getPrimary(), boxShadow: "none", borderRadius: "0" }}
+                                />
+                            }
+                            {!isAdmin && !data.adminAnnouncement.blockUser &&
+                                <BasicButton
+                                    text={"Cerrar aviso"}
+                                    // text={translate.close}
+                                    textStyle={{ textTransform: 'none', color: "white", }}
+                                    onClick={() => setShowInParticipant(false)}
+                                    buttonStyle={{ marginTop: '.8em', width: "100%" }}
+                                    backgroundColor={{ backgroundColor: getPrimary(), boxShadow: "none", borderRadius: "0" }}
+                                />
+                            }
+                        </div>
                     </div>
                 </Paper>
             </div>
