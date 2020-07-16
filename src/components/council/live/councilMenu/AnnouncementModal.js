@@ -2,7 +2,8 @@ import React from "react";
 import {
 	CustomDialog,
     BasicButton,
-    LoadingSection
+    LoadingSection,
+    Checkbox
 } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { graphql, compose } from "react-apollo";
@@ -12,6 +13,7 @@ import { getPrimary, getSecondary } from '../../../../styles/colors';
 class AnnouncementModal extends React.Component {
 	state = {
         text: '',
+        blockUser: true,
         errorText: ''
     };
 
@@ -31,6 +33,7 @@ class AnnouncementModal extends React.Component {
                 message: {
                     councilId: this.props.council.id,
                     text: this.state.text,
+                    blockUser: this.state.blockUser,
                     participantId: -1
                 }
             }
@@ -50,6 +53,7 @@ class AnnouncementModal extends React.Component {
 
 	_renderBody() {
         const { translate } = this.props;
+        const primary = getPrimary();
 
         if(this.props.data.loading){
             return <LoadingSection />;
@@ -57,6 +61,13 @@ class AnnouncementModal extends React.Component {
 
 		return (
 			<div style={{ width: "650px" }}>
+                 <Checkbox
+                    label={translate.notice_block_check}
+                    styleInLabel={{ color: primary, fontSize: "12px" }}
+                    colorCheckbox={"primary"}
+                    value={this.state.blockUser}
+                    onChange={() => this.setState({ blockUser: !this.state.blockUser })}
+                />
 				<RichTextInput
 					translate={translate}
 					type="text"

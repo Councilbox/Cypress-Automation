@@ -5,37 +5,41 @@ import aviso from '../../../../assets/img/aviso.svg';
 import { getPrimary } from '../../../../styles/colors';
 
 
-const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockUser }) => {
-    const primary = getPrimary()
+const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockUser, translate }) => {
+    const primary = getPrimary();
+    const [showInfo, setShowInfo] = React.useState(true);
 
     return (
         <>
             <div style={{ display: "flex", alignItems: "center", color: "black", marginBottom: '0.5em' }}>
-                {/* TRADUCCION */}
                 <div style={{ paddingRight: "0.5em" }}><img src={aviso}></img></div>
-                <div style={{ fontSize: "18px", color: "black" }}>Aviso del administrador</div>
-                <div style={{ paddingLeft: "0.5em", width: announcement.blockUser && "230px", display: "flex" }} >
-                    <i
-                        className="material-icons"
-                        style={{ color: primary, fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }}
-                        //onClick={() => setMostrarInfo(!mostrarInfo)}
-                    >
-                        help
-                    </i>
-                    {announcement.blockUser &&
-                        <div style={{ color: "rgba(0, 0, 0, 0.37)", fontSize: "10px" }}>
-                            Este aviso bloquea todas las funciones de los participantes hasta que haya sido cerrado
-                        </div>}
-                </div>
+                <div style={{ fontSize: "18px", color: "black" }}>{translate.admin_announcement}</div>
+                {(announcement.blockUser && !admin) &&
+                    <>
+                        <div style={{ paddingLeft: "0.5em", width: announcement.blockUser && "230px", display: "flex" }} >
+                        <i
+                            className="material-icons"
+                            style={{ color: primary, fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }}
+                            onClick={() => setShowInfo(!showInfo)}
+                        >
+                            help
+                        </i>
+                        {showInfo &&
+                            <div style={{ color: "rgba(0, 0, 0, 0.37)", fontSize: "10px" }}>
+                                {translate.notice_block_user_option}
+                            </div>
+                        }
+                        </div>
+                    </>
+                }
             </div>
             {admin &&
                 <div style={{
                     color: primary,
                     marginTop: '0.5'
                 }}>
-                    {/* TRADUCCION */}
                     <Checkbox
-                        label={"Bloquear funciones a los participantes hasta cerrar el aviso"}
+                        label={translate.notice_block_check}
                         styleInLabel={{ color: primary, fontSize: "12px" }}
                         colorCheckbox={"primary"}
                         value={blockUser}

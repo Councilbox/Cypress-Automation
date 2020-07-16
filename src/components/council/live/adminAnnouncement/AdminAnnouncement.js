@@ -99,6 +99,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                         <AdminAnnouncementBody
                             announcement={data.adminAnnouncement}
                             admin={isAdmin}
+                            translate={translate}
                             updateAnnouncement={updateAnnouncement}
                             blockUser={blockUser}
                         />
@@ -119,8 +120,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                         }}>
                             {isAdmin &&
                                 <BasicButton
-                                    text={"Cerrar aviso"}
-                                    // text={translate.close}
+                                    text={translate.hide_announcement}
                                     textStyle={{ textTransform: 'none', color: "white", }}
                                     onClick={closeAnnouncement}
                                     buttonStyle={{ marginTop: '.8em', width: "100%" }}
@@ -129,8 +129,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                             }
                             {!isAdmin && !data.adminAnnouncement.blockUser &&
                                 <BasicButton
-                                    text={"Cerrar aviso"}
-                                    // text={translate.close}
+                                    text={translate.hide_announcement}
                                     textStyle={{ textTransform: 'none', color: "white", }}
                                     onClick={() => setShowInParticipant(false)}
                                     buttonStyle={{ marginTop: '.8em', width: "100%" }}
