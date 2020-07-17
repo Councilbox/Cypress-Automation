@@ -7,12 +7,14 @@ import { addCouncilAttachment } from '../../../queries';
 import CompanyDocumentsBrowser from '../../company/drafts/documents/CompanyDocumentsBrowser';
 import AttachmentList from '../../attachments/AttachmentList';
 import AttachmentItem from '../../attachments/AttachmentItem';
+import RichTextInput from '../../../displayComponents/RichTextInput';
 
 
 const AttachmentsModal = ({ open, requestClose, company, council, translate, refetch }) => {
     const { client } = React.useContext(MainContext);
     const primary = getPrimary();
     const secondary = getSecondary();
+    const [message, setMessage] = React.useState('');
     const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false);
     const [attachments, setAttachments] = React.useState([]);
     const [step, setStep] = React.useState(0);
@@ -94,15 +96,16 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
     const notifyAttachmentsAdded = async attachments => {
         const response = await client.mutate({
             mutation: gql`
-                mutation NotifyAddedCouncilAttachments($councilId: Int!, $attachments: [Int]){
-                    notifyAddedCouncilAttachments(councilId: $councilId, attachments: $attachments){
+                mutation NotifyAddedCouncilAttachments($councilId: Int!, $attachments: [Int], $message: String){
+                    notifyAddedCouncilAttachments(councilId: $councilId, attachments: $attachments, message: $message){
                         success
                     }
                 }
             `,
             variables: {
                 councilId: council.id,
-                attachments
+                attachments,
+                message
             }
         });
         refetch();
@@ -179,7 +182,8 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                                 color: 'white'
                             }}
                             buttonStyle={{
-                                width: '100%'
+                                width: '100%',
+                                marginBottom: '1em'
                             }}
                         />
                     }
@@ -231,6 +235,13 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                         />
                     ))
                 )}
+                <div style={{marginTop: '1em'}}>
+                    <RichTextInput
+                        value={message}
+                        onChange={value => setMessage(value)}
+                    />
+                </div>
+
             </>
         )
     }
@@ -240,7 +251,10 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
             <AlertConfirm
                 open={open}
                 title={translate.add}
-                requestClose={requestClose}
+                requestClose={() => {
+                    setStep(0)
+                    requestClose();
+                }}
                 bodyText={modalBody()}
                 loadingAction={step > 0 && step < 3}
                 buttonAccept={translate.accept}
