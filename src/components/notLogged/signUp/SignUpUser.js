@@ -111,6 +111,16 @@ class SignUpUser extends React.Component {
 					? translate.register_exists_email
 					: translate.email_not_valid;
 			}
+			if (!checkValidEmail(data.email) || existsCif) {
+				hasError = true;
+				errors.email = existsCif
+					? translate.register_exists_email
+					: translate.email_not_valid;
+			}
+			if (!(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(data.phone))) {
+				hasError = true;
+				errors.phone = "Ingrese un número de teléfono válido"
+			}
 		}
 
 		if (!data.pwd) {
@@ -148,25 +158,25 @@ class SignUpUser extends React.Component {
 		const data = this.props.formData;
 		let errorsBar
 		let porcentaje = 100
-
+		const { translate } = this.props;
 		if (!(/[a-z]/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/(?=.*[A-Z])/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/(?=.*[0-9])/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/.{8,}/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		let color = "Green"
@@ -174,7 +184,7 @@ class SignUpUser extends React.Component {
 		this.setState({
 			errorsBar: errorsBar,
 			porcentaje,
-			color:color,
+			color: color,
 		})
 		if (event.nativeEvent.keyCode === 13) {
 			this.nextPage();
@@ -351,7 +361,7 @@ class SignUpUser extends React.Component {
 						{" "}
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12}>
-						<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 							<Checkbox
 								label={translate.login_read_terms + ' '}
 								value={this.state.termsCheck}
@@ -373,7 +383,7 @@ class SignUpUser extends React.Component {
 									cursor: 'pointer',
 									textTransform: 'lowerCase',
 									marginLeft: '0.4em'
-								 }}
+								}}
 								onClick={event => {
 									event.stopPropagation();
 									this.setState({

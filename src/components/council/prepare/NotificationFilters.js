@@ -71,8 +71,12 @@ class NotificationFilters extends React.Component {
 					src={CBX.getEmailIconByReqCode(value)}
 					alt={value}
 					style={{
-						width: "22px",
+						width: "100%",
+						maxWidth: "22px",
 						height: "auto",
+						display: 'flex',
+						alignContent: 'center',
+						justifyContent: 'center'
 					}}
 				/>
 			</FilterButton>
@@ -91,7 +95,9 @@ class NotificationFilters extends React.Component {
 				active={selectedFilter === value}
 				tooltip={translate[CBX.getAttendanceIntentionTooltip(value)]}
 			>
-				{CBX.getAttendanceIntentionIcon(value, { width: "24px", height: "auto", color: primary })}
+				{CBX.getAttendanceIntentionIcon(value, { width: "24px", height: "auto", color: primary, display: 'flex',
+						alignContent: 'center',
+						justifyContent: 'center' })}
 
 			</FilterButton>
 		);

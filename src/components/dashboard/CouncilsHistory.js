@@ -33,10 +33,10 @@ class CouncilsHistory extends React.Component {
         })
     }
 
-    render(){
+    render() {
         const { councils, translate, openDeleteModal, company } = this.props;
 
-        return(
+        return (
             <Table
                 headers={[
                     { name: translate.state },
@@ -90,9 +90,9 @@ class HoverableRow extends React.Component {
 
     getCouncilState = state => {
         const { translate } = this.props;
-        switch (state){
+        switch (state) {
             case COUNCIL_STATES.NOT_CELEBRATED:
-                return  translate.not_held_council;
+                return translate.not_held_council;
             case COUNCIL_STATES.FINISHED:
                 return translate.council_finished;
             case COUNCIL_STATES.APPROVED:
@@ -106,37 +106,37 @@ class HoverableRow extends React.Component {
         }
     }
 
-    render(){
+    render() {
         const { council, company, translate } = this.props;
         const primary = getPrimary();
 
-        if(isMobile){
-            return(
+        if (isMobile) {
+            return (
                 <Card
-                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+                    style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
                     onClick={() => {
-                        this.props.disabled?
+                        this.props.disabled ?
                             this.props.showModal()
-                        :
+                            :
                             bHistory.push(
                                 generateLink(council, company)
                             )
                     }}
                 >
                     <Grid>
-                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                        <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.name}
                         </GridItem>
                         <GridItem xs={7} md={7}>
                             {council.name || translate.dashboard_new}
                         </GridItem>
-                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                        <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.type}
                         </GridItem>
                         <GridItem xs={7} md={7}>
                             {this.getCouncilState(council.state)}
                         </GridItem>
-                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                        <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.table_councils_duration}
                         </GridItem>
                         <GridItem xs={7} md={7}>
@@ -153,29 +153,43 @@ class HoverableRow extends React.Component {
                                 }
                             />
                         </GridItem>
+                        <GridItem xs={12} md={12}>
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: '10px' }}>
+                                <BasicButton
+                                    text={translate.certificates}
+                                    color="white"
+                                    textStyle={{ textTransform: 'none', fontWeight: '700', color: primary }}
+                                    buttonStyle={{ border: `2px solid ${primary}` }}
+                                    onClick={(event) => {
+                                        bHistory.push(`/company/${company.id}/council/${council.id}/certificates`);
+                                        event.stopPropagation();
+                                    }}
+                                />
+                            </div>
+                        </GridItem>
                     </Grid>
                 </Card>
             )
         }
 
-        return(
+        return (
             <TableRow
                 hover
                 onMouseOver={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
-                style={{...TableStyles.ROW, backgroundColor: this.props.disabled? 'whiteSmoke' : 'inherit'}}
+                style={{ ...TableStyles.ROW, backgroundColor: this.props.disabled ? 'whiteSmoke' : 'inherit' }}
                 key={`council${council.id}`}
                 onClick={() => {
-                    this.props.disabled?
+                    this.props.disabled ?
                         this.props.showModal()
-                    :
+                        :
                         bHistory.push(
                             generateLink(council, company)
                         )
                 }}
             >
                 <TableCell>
-                    <div style={{minWidth: '12em'}}>
+                    <div style={{ minWidth: '12em' }}>
                         {this.getCouncilState(council.state)}
                     </div>
                 </TableCell>
@@ -193,7 +207,7 @@ class HoverableRow extends React.Component {
                 <TableCell
                     style={TableStyles.TD}
                 >
-                    <div style={{width: '10em', display: 'flex', flexDirection: 'row'}}>
+                    <div style={{ width: '10em', display: 'flex', flexDirection: 'row' }}>
                         <DateWrapper
                             format="HH:mm"
                             date={
@@ -220,13 +234,13 @@ class HoverableRow extends React.Component {
                 <TableCell
                     style={TableStyles.TD}
                 >
-                    <div style={{width: '12em'}}>
+                    <div style={{ width: '12em' }}>
                         {this.state.showActions &&
                             <BasicButton
                                 text={translate.certificates}
                                 color="white"
-                                textStyle={{textTransform: 'none', fontWeight: '700', color: primary}}
-                                buttonStyle={{border: `2px solid ${primary}`}}
+                                textStyle={{ textTransform: 'none', fontWeight: '700', color: primary }}
+                                buttonStyle={{ border: `2px solid ${primary}` }}
                                 onClick={(event) => {
                                     bHistory.push(`/company/${company.id}/council/${council.id}/certificates`);
                                     event.stopPropagation();

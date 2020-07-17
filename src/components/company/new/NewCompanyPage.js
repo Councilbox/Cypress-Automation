@@ -418,7 +418,7 @@ class NewCompanyPage extends React.PureComponent {
 									</GridItem>
 									<GridItem xs={12} md={12} lg={12}>
 										<FileUploadButton
-											text={'Logo de la entidad'}
+											text={translate.entity_logo}
 											image
 											color={secondary}
 											textStyle={{

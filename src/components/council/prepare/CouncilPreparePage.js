@@ -31,6 +31,7 @@ import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
 import gql from "graphql-tag";
 import ShareholdersRequestsPage from "./shareholders/ShareholdersRequestsPage";
 import EstimatedQuorum from "./EstimatedQuorum";
+import AttachmentsModal from "./AttachmentsModal";
 
 
 const CouncilPreparePage = ({ company, translate, data, ...props }) => {
@@ -213,6 +214,14 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				requestClose={() => setState({ sendConvene: false })}
 				translate={translate}
 			/>
+			<AttachmentsModal
+				open={state.attachmentsModal}
+				council={council}
+				refetch={refetch}
+				company={company}
+				translate={translate}
+				requestClose={() => { setState({ ...state, attachmentsModal: false })}}
+			/>
 			<RescheduleModal
 				show={state.rescheduleCouncil}
 				council={council}
@@ -235,7 +244,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div>
 						<BasicButton
-							text={council.councilType === 4? 'Administrar' /**TRADUCCION */ :translate.prepare_room}
+							text={council.councilType === 4? translate.manage :translate.prepare_room}
 							id={'prepararSalaNew'}
 							color={primary}
 							buttonStyle={{
@@ -305,7 +314,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 										style={{ color: primary }}
 									>
 										keyboard_arrow_down
-										</Icon>
+									</Icon>
 								</MenuItem>
 							</Paper>
 						}
@@ -328,7 +337,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 											}}
 										>
 											update
-											</Icon>
+										</Icon>
 										{translate.send_reminder}
 									</MenuItem>
 								) : (
@@ -348,9 +357,27 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 											>
 												notifications
 											</Icon>
-											{'Enviar notificación'}{/**TRADUCCION */}
+											{translate.send_notification}
 										</MenuItem>
 									)}
+								<MenuItem
+									onClick={() =>
+										setState({
+											attachmentsModal:true
+										})
+									}
+								>
+									<Icon
+										className="material-icons"
+										style={{
+											color: secondary,
+											marginRight: "0.4em"
+										}}
+									>
+										attach_file
+									</Icon>
+									{translate.add_documentation}
+								</MenuItem>
 								<MenuItem
 									onClick={() =>
 										setState({

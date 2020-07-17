@@ -1780,6 +1780,8 @@ export const getTranslationReqCode = reqCode => {
 			return "tooltip_invalid_email_address";
 		case 37:
 			return "tooltip_dropped";
+		case 40:
+			return "tooltip_dropped";
 		default:
 			return;
 	}

@@ -113,7 +113,6 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 	const constitutionTags = React.useMemo(() => getTagsByActSection('constitution', translate), [statute.id]);
 	const conveneHeaderTags = React.useMemo(() => getTagsByActSection('conveneHeader', translate), [statute.id]);
 
-
 	return (
 		<>
 			<SectionTitle
@@ -342,7 +341,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 							<RichTextInput
 								ref={introSecondary}
 								translate={translate}
-								floatingText={'Intro columna derecha'}
+								floatingText={translate.right_column_introduction}
 								value={
 									!!internalState.introSecondary
 										? internalState.introSecondary
@@ -410,7 +409,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 							<RichTextInput
 								ref={constitutionSecondary}
 								translate={translate}
-								floatingText={'Constitución columna derecha'}
+								floatingText={translate.constitution_right_column}
 								value={
 									!!internalState.constitutionSecondary
 										? internalState.constitutionSecondary
@@ -479,7 +478,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 							<RichTextInput
 								ref={conclusionSecondary}
 								translate={translate}
-								floatingText={'Conclusión columna derecha'}
+								floatingText={translate.right_column_conclusion}
 								value={
 									!!internalState.conclusionSecondary
 										? internalState.conclusionSecondary

@@ -203,7 +203,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                 <RichTextInput
                     ref={voteLetterWithSense}
                     translate={translate}
-                    floatingText={'Carta de voto con sentidos del voto'}
+                    floatingText={translate.vote_letter_with_voting_sense}
                     value={
                         !!internalState.voteLetterWithSense
                             ? internalState.voteLetterWithSense
@@ -221,7 +221,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                 <RichTextInput
                     ref={voteLetterWithSenseSecondary}
                     translate={translate}
-                    floatingText={'Carta de voto con sentidos del voto columna derecha'}
+                    floatingText={translate.right_column_vote_letter_with_voting_sense}
                     value={
                         !!internalState.voteLetterWithSenseSecondary
                             ? internalState.voteLetterWithSenseSecondary

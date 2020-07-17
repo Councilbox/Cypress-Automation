@@ -37,6 +37,7 @@ class SendCredentialsTestModal extends React.Component {
 
 			}
 		});
+
 		if (response.data.sendRoomEmailTest.success) {
 			this.setState({
 				sending: false,

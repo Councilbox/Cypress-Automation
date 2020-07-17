@@ -31,7 +31,8 @@ Quill.register(AlignStyle, true);
 class RichTextInput extends React.Component {
 	state = {
 		value: this.props.value,
-		showTags: false
+		showTags: false,
+		companyTags: []
 	};
 
 	componentDidMount() {
@@ -107,7 +108,7 @@ class RichTextInput extends React.Component {
 					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify' }], ['custom']
+					[{ 'align': 'justify' }], [ (this.state.companyTags && this.state.companyTags.length > 0  || tags && tags.length > 0) ? 'custom' : '']
 				],
 				handlers: {
 					// 'custom': (...args) => {
@@ -169,15 +170,14 @@ class RichTextInput extends React.Component {
 											alignItems: 'center',
 											justifyContent: 'flex-end'
 										}}>
-											{!!tags &&
-												<SmartTags
-													tags={tags}
-													open={this.state.showTags}
-													translate={translate}
-													requestClose={() => this.setState({ showTags: false })}
-													paste={this.paste}
-												/>
-											}
+											<SmartTags
+												tags={tags}
+												open={this.state.showTags}
+												translate={translate}
+												requestClose={() => this.setState({ showTags: false })}
+												paste={this.paste}
+												setData={e => this.setState({ companyTags: e })}
+											/>
 											<div>
 												{!!loadDraft && loadDraft}
 											</div>
@@ -223,20 +223,20 @@ class RichTextInput extends React.Component {
 }
 
 
-const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client }) => {
+const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client, setData }) => {
 	const primary = getPrimary();
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 	const [ocultar, setOcultar] = React.useState(false);
 	const [searchModal, setSearchModal] = React.useState("");
-	const [filteredTags, setFilteredTags] = React.useState(tags);
+	const [filteredTags, setFilteredTags] = React.useState(tags? tags : []);
 
 
 	React.useEffect(() => {
 		if (searchModal) {
 			setFilteredTags([...tags, ...companyTags].filter(tag => (tag.label && tag.label.toLowerCase().includes(searchModal)) || (tag.key && tag.key.toLowerCase().includes(searchModal))));
 		} else {
-			let newTags = tags;
+			let newTags = tags || [];
 			if (companyTags) {
 				newTags = [...newTags, ...companyTags];
 			}
@@ -245,23 +245,30 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	}, [searchModal, companyTags, tags]);
 
 	const loadCompanyTags = React.useCallback(async () => {
-		const response = await client.query({
-			query,
-			variables: {
-				companyId: company.id,
-				...(searchModal ? {
-					filters: [
-						{
-							field: "key",
-							text: searchModal
-						},
-					]
-				} : {}),
-			}
-		});
-		setLoading(false);
-		setCompanyTags(response.data.companyTags);
-	}, [company.id, searchModal]);
+		if(company) {
+			const response = await client.query({
+				query,
+				variables: {
+					companyId: company.id,
+					...(searchModal ? {
+						filters: [
+							{
+								field: "key",
+								text: searchModal
+							},
+						]
+					} : {}),
+				}
+			});
+			setLoading(false);
+			setData(response.data.companyTags)
+			setCompanyTags(response.data.companyTags);
+		} else {
+			setLoading(false);
+			setData([])
+			setCompanyTags([]);
+		}
+	}, [company? company.id : null, searchModal]);
 
 	React.useEffect(() => {
 		loadCompanyTags();
@@ -279,7 +286,6 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 		}
 		return tag.value;
 	}
-
 
 	return (
 		<DropDownMenu

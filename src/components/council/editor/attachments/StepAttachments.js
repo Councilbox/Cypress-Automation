@@ -75,7 +75,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 			mutation: gql`
 				mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
 					attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
-						success
+						id
 					}
 				}
 			`,
