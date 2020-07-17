@@ -104,7 +104,9 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
 
             attachments.forEach((a, index) => {
                 const found = council.attachments.find(attachment => a.filename === attachment.filename);
-                alreadyUsed.push(index);
+                if(found){
+                    alreadyUsed.push(a.filename);
+                }
             });
 
             if(alreadyUsed.length > 0){
@@ -147,9 +149,9 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
         setStep(3);
     }
 
-    const documentIsAlreadyUsed = index => {
-        return errors.repeatedAttachments? ((errors.repeatedAttachments.findIndex(item => item === index) !== -1)?
-            'Un documento con el mismo nombre ya se encuentra en la reunión'
+    const documentIsAlreadyUsed = filename => {
+        return errors.repeatedAttachments? ((errors.repeatedAttachments.findIndex(item => item === filename) !== -1)?
+            translate.used_attachment_error
         : null) : null
     }
 
@@ -269,16 +271,23 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                     attachments.map((attachment, index) => (
                         <AttachmentItem
                             edit={false}
-                            error={documentIsAlreadyUsed(index)}
+                            error={documentIsAlreadyUsed(attachment.filename)}
                             loadingId={null}
                             key={`attachment${index}`}
                             attachment={attachment}
                             translate={translate}
-                            //loadingId={this.props.loadingId}
-                            //removeAttachment={this.deleteAttachment}
-                            // editName={() => {
-                            //     this.editIndex(index);
-                            // }}
+                            icon={
+                                <CloseIcon
+                                    style={{
+                                        float: "right",
+                                        color: primary
+                                    }}
+                                    onClick={() => {
+                                        attachments.splice(index, 1);                             
+                                        setAttachments([...attachments]);
+                                    }}
+                                />
+                            }
                         />
                     ))
                 )}
