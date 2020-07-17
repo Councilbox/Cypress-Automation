@@ -14,11 +14,6 @@ class SignatureConfirmed extends React.Component {
         downloading: false
     }
 
-    signes = null;
-
-    componentDidMount(){
-        //this.refreshStates();
-    }
 
     downloadSignedDocument = async () => {
         this.setState({
@@ -44,22 +39,6 @@ class SignatureConfirmed extends React.Component {
         this.setState({
             downloading: false
         })
-    }
-
-    refreshStates = async () => {
-        await this.props.updateSignatureStatus({
-            variables: {
-                id: this.props.data.signature.id
-            }
-        });
-        await this.props.data.refetch();
-        if(this.signers){
-            if(this.signers.wrappedInstance){
-                if(this.signers.wrappedInstance.wrappedInstance){
-                    this.signers.wrappedInstance.wrappedInstance.reloadParticipants();
-                }
-            }
-        }
     }
 
     render(){
@@ -122,6 +101,7 @@ class SignatureConfirmed extends React.Component {
                         <div style={{width: '100%', height: '100%'}}>
                             <SignersList
                                 ref={ref => this.signers = ref}
+                                refetch={this.props.data.refetch}
                                 signature={signature}
                                 translate={this.props.translate}
                                 refreshStates={this.refreshStates}

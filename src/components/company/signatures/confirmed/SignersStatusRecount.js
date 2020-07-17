@@ -40,8 +40,6 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
         return <span />
     }
 
-    //TRADUCCION
-
     return (
         <Grid
             style={{

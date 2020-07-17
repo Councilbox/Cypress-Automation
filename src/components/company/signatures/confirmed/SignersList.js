@@ -8,8 +8,18 @@ import { getSignerStatusTranslateField } from '../../../../utils/CBX';
 
 class SignersList extends React.Component {
 
-    refresh = async () => {
-        await this.props.refreshStates();
+    state = {
+        refreshing: false
+    }
+
+    refreshStates = async () => {
+        this.setState({
+            refreshing: true
+        });
+        await this.props.refetch();
+        this.setState({
+            refreshing: false
+        })
     }
 
     reloadParticipants = () => {
@@ -33,8 +43,9 @@ class SignersList extends React.Component {
                         <div style={{marginRight: '0.8em'}}>
                             <RefreshButton
                                 translate={translate}
+                                loading={this.state.refreshing}
                                 tooltip={translate.refresh_convened}
-                                onClick={this.refresh}
+                                onClick={this.refreshStates}
                             />
                         </div>
                     }
