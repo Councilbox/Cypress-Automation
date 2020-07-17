@@ -304,11 +304,9 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 	}
 
 	const forceStartWarning = () => {
-
-		//
 		return (
 			<div>
-				La reunión se iniciará ahora, ¿Desea continuar?
+				{translate.council_will_start}
 			</div>
 		)
 	}
@@ -541,7 +539,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		return (
 			<React.Fragment>
 				<BasicButton
-					text={'Iniciar ahora' /*TRADUCCION*/}
+					text={translate.start_council}
 					color={primary}
 					textPosition="before"
 					onClick={() =>
