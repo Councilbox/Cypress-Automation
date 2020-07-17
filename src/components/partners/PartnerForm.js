@@ -227,7 +227,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
                                 floatingText={translate.votes}
-                                type="text"
+                                type="number"
                                 errorText={errors.numParticipations}
                                 value={participant.numParticipations || ''}
                                 onChange={event =>
@@ -240,7 +240,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
                                 floatingText={translate.social_capital}
-                                type="text"
+                                type="number"
                                 errorText={errors.socialCapital}
                                 value={participant.socialCapital || ''}
                                 onChange={event =>
