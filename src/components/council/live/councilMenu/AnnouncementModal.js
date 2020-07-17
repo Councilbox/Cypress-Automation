@@ -45,7 +45,7 @@ class AnnouncementModal extends React.Component {
             this.props.requestClose();
         } else {
             this.setState({
-                errorText: 'Máximo de caracteres excedido'
+                errorText: this.props.translate.max_chars_exceeded
             });
         }
         
