@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { removeHTMLTags } from "../../../../utils/CBX";
 
-const CHAR_LIMIT = 240;
+const CHAR_LIMIT = 300;
 
 class AnnouncementModal extends React.Component {
 	state = {
@@ -31,17 +31,24 @@ class AnnouncementModal extends React.Component {
     }
 
     addAnnouncement = async () => {
-        const response = await this.props.addRoomAnnouncement({
-            variables: {
-                message: {
-                    councilId: this.props.council.id,
-                    text: this.state.text,
-                    blockUser: this.state.blockUser,
-                    participantId: -1
+        if(removeHTMLTags(this.state.text.toString()).length <= CHAR_LIMIT){
+            const response = await this.props.addRoomAnnouncement({
+                variables: {
+                    message: {
+                        councilId: this.props.council.id,
+                        text: this.state.text,
+                        blockUser: this.state.blockUser,
+                        participantId: -1
+                    }
                 }
-            }
-        })
-        this.props.requestClose();
+            })
+            this.props.requestClose();
+        } else {
+            this.setState({
+                errorText: 'Máximo de caracteres excedido'
+            });
+        }
+        
     }
 
     closeAnnouncement = async () => {
@@ -76,7 +83,8 @@ class AnnouncementModal extends React.Component {
 					translate={translate}
                     type="text"
                     maxChars={CHAR_LIMIT}
-					errorText={this.state.errorText}
+                    errorText={this.state.errorText}
+                    floatingText={this.state.errorText}
 					value={this.state.text}
 					onChange={value => {
                         this.setState({

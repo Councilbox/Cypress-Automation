@@ -41,7 +41,9 @@ class RichTextInput extends React.Component {
 	}
 
 	shouldComponentUpdate(prevProps, prevState) {
-		return (prevProps.value !== this.props.value || prevProps.tags !== this.props.tags) || prevState !== this.state;
+		return (prevProps.value !== this.props.value ||
+			prevProps.tags !== this.props.tags ||
+			prevProps.errorText !== this.props.errorText) || prevState !== this.state;
 	}
 
 	changeShowTags = () => {
@@ -54,11 +56,6 @@ class RichTextInput extends React.Component {
 		if (!this.rtEditor) {
 			return;
 		}
-
-		if (this.props.maxChars && removeHTMLTags(value.toString()).length > this.props.maxChars) {
-			return this.setState({ value: removeHTMLTags(value.toString()).slice(0, this.props.maxChars) });;
-		}
-
 		const html = value.toString('html');
 
 		this.setState({ value });
@@ -80,10 +77,6 @@ class RichTextInput extends React.Component {
 	};
 
 	paste = text => {
-		if(this.props.maxChars && text){
-			text = text.splice(this.props.maxChars);
-		}
-
 		const quill = this.rtEditor.getEditor();
 		let selection = quill.getSelection();
 		if (!selection) {
@@ -98,15 +91,15 @@ class RichTextInput extends React.Component {
 	};
 
 	checkCharacterCount = event => {
-		if (this.props.maxChars && removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars && event.key !== 'Backspace') {
-			event.preventDefault();
+		if (this.props.maxChars){
+			if(removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars && event.key !== 'Backspace') {
+				event.preventDefault();
+			}
 		}
 	}
 
 
 	render() {
-		console.log(this.state.value.toString());
-
 		const { tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder } = this.props;
 		const modules = {
 			toolbar: {
@@ -134,9 +127,6 @@ class RichTextInput extends React.Component {
 			style.innerHTML = `.ql-editor{ ${styles} }`;
 			document.head.appendChild(style);
 		}
-
-		console.log(removeHTMLTags(this.state.value.toString()));
-
 
 		return (
 			<React.Fragment>
@@ -220,7 +210,9 @@ class RichTextInput extends React.Component {
 								className={`text-editor ${this.props.quillEditorButtonsEmpty} ${!!errorText ? 'text-editor-error' : ''} ${!!borderless ? 'borderless-text-editor' : ''}`}
 							/>
 							{this.props.maxChars &&
-								`${removeHTMLTags(this.state.value.toString()).length} / ${this.props.maxChars}`
+								<span style={{ color: removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars? 'red' : 'inherit'}}>
+									{`${removeHTMLTags(this.state.value.toString()).length} / ${this.props.maxChars}`}
+								</span>
 							}
 						</div>
 					</GridItem>
