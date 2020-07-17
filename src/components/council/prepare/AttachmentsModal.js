@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { MainContext } from '../../../containers/App';
-import { AlertConfirm, DropDownMenu, BasicButton, SuccessMessage, LoadingSection } from '../../../displayComponents';
+import { AlertConfirm, DropDownMenu, BasicButton, SuccessMessage, LoadingSection, CloseIcon } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { addCouncilAttachment } from '../../../queries';
 import CompanyDocumentsBrowser from '../../company/drafts/documents/CompanyDocumentsBrowser';
@@ -19,6 +19,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
     const [attachments, setAttachments] = React.useState([]);
     const [step, setStep] = React.useState(0);
     const [uploading, setUploading] = React.useState(null);
+    const [errors, setErrors] = React.useState({});
 
     const handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
@@ -54,43 +55,77 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
     }
 
     const sendAttachments = async () => {
-        setStep(1);
-        let addedAttachments = [];
-
-        for(let i = 0; i < attachments.length; i++){
-            const attachment = attachments[i];
-            setUploading(i);
-            if(attachment.id){
-                const response = await client.mutate({
-                    mutation: gql`
-                        mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
-                            attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
-                                id
+        if(!await validateForm()){
+            setStep(1);
+            let addedAttachments = [];
+    
+            for(let i = 0; i < attachments.length; i++){
+                const attachment = attachments[i];
+                setUploading(i);
+                if(attachment.id){
+                    const response = await client.mutate({
+                        mutation: gql`
+                            mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
+                                attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
+                                    id
+                                }
                             }
+                        `,
+                        variables: {
+                            councilId: council.id,
+                            companyDocumentId: attachment.id
                         }
-                    `,
-                    variables: {
-                        councilId: council.id,
-                        companyDocumentId: attachment.id
-                    }
-                });
-                addedAttachments.push(response.data.attachCompanyDocumentToCouncil.id);
-            } else {
-                const response = await client.mutate({
-                    mutation: addCouncilAttachment,
-                    variables: {
-                        attachment
-                    }
-                });
-                addedAttachments.push(response.data.addCouncilAttachment.id);
+                    });
+                    addedAttachments.push(response.data.attachCompanyDocumentToCouncil.id);
+                } else {
+                    const response = await client.mutate({
+                        mutation: addCouncilAttachment,
+                        variables: {
+                            attachment
+                        }
+                    });
+                    addedAttachments.push(response.data.addCouncilAttachment.id);
+                }
             }
+    
+            setUploading(null);
+            setStep(2);
+            notifyAttachmentsAdded(addedAttachments);
+        }
+    }
+
+    const validateForm = async () => {
+        let errors = {};
+
+        if(attachments.length === 0){
+            errors.attachments = 'No se indicado ningún archivo';
+        } else {
+            let alreadyUsed = [];
+
+            attachments.forEach((a, index) => {
+                const found = council.attachments.find(attachment => a.filename === attachment.filename);
+                alreadyUsed.push(index);
+            });
+
+            if(alreadyUsed.length > 0){
+                errors.repeatedAttachments = alreadyUsed;
+            }
+            
         }
 
-        setUploading(null);
-        setStep(2);
+        if(Object.keys(errors).length > 0){
+            setErrors(errors);
+            return true;
+        }
 
-        notifyAttachmentsAdded(addedAttachments);
+        return false;
+    }
 
+    const resetAndClose = () => {
+        requestClose();
+        setStep(0);
+        setAttachments([]);
+        setMessage('');
     }
 
     const notifyAttachmentsAdded = async attachments => {
@@ -112,6 +147,12 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
         setStep(3);
     }
 
+    const documentIsAlreadyUsed = index => {
+        return errors.repeatedAttachments? ((errors.repeatedAttachments.findIndex(item => item === index) !== -1)?
+            'Un documento con el mismo nombre ya se encuentra en la reunión'
+        : null) : null
+    }
+
     const modalBody = () => {
         if(step === 1){
             //TRADUCCION
@@ -124,7 +165,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                         attachments.map((attachment, index) => (
                             <AttachmentItem
                                 edit={false}
-                                icon={uploading > index && <i className="fa fa-check" style={{color: 'green'}}/>}
+                                icon={(uploading > index) && <i className="fa fa-check" style={{color: 'green'}}/>}
                                 loading={index === uploading}
                                 key={`attachment${index}`}
                                 attachment={attachment}
@@ -219,10 +260,16 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                     </div>
                     }
                 />
+                {errors.attachments &&
+                    <div style={{ color: 'red' }}>
+                        {errors.attachments}
+                    </div>
+                }
                 {attachments.length > 0 && (
                     attachments.map((attachment, index) => (
                         <AttachmentItem
                             edit={false}
+                            error={documentIsAlreadyUsed(index)}
                             loadingId={null}
                             key={`attachment${index}`}
                             attachment={attachment}
@@ -251,17 +298,11 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
             <AlertConfirm
                 open={open}
                 title={translate.add}
-                requestClose={() => {
-                    setStep(0)
-                    requestClose();
-                }}
+                requestClose={resetAndClose}
                 bodyText={modalBody()}
                 loadingAction={step > 0 && step < 3}
                 buttonAccept={translate.accept}
-                acceptAction={step === 0? sendAttachments : () => {
-                    setStep(0)
-                    requestClose();
-                }}
+                acceptAction={step === 0? sendAttachments : resetAndClose}
             />
             <CompanyDocumentsBrowser
                 company={company}
