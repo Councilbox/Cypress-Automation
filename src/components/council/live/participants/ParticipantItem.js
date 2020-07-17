@@ -90,6 +90,7 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 
 const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary, council, refetch }) => {
 	const primary = getPrimary();
+	const representative = getMainRepresentative(participant);
 
 	return (
 		<Grid
@@ -130,7 +131,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 								justifyContent: 'center'
 							}}
 						>
-							{_getIcon(mode, participant, translate)}
+							{_getIcon({ mode, participant, translate, council, representative })}
 						</div>
 					}
 				</div>
@@ -235,7 +236,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									justifyContent: 'center'
 								}}
 							>
-								{_getIcon(mode, participant, translate)}
+								{_getIcon({ mode, participant, translate, council, representative })}
 							</div>
 						}
 					</div>
@@ -513,7 +514,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 	)
 }
 
-const _getIcon = (mode, participant, translate, showCommentModal) => {
+const _getIcon = ({ mode, participant, translate, showCommentModal, council, representative }) => {
 	switch (mode) {
 		case 'STATES':
 			return <StateIcon translate={translate} state={participant.state} />
@@ -527,7 +528,14 @@ const _getIcon = (mode, participant, translate, showCommentModal) => {
 		case 'TYPE':
 			return <TypeIcon translate={translate} type={participant.type} />
 		case 'ATTENDANCE':
-			return <AttendIntentionIcon participant={participant} translate={translate} size="2em" color={getSecondary()} />
+			return <AttendIntentionIcon
+				participant={participant}
+				translate={translate}
+				council={council}
+				size="2em"
+				color={getSecondary()}
+				representative={representative}
+			/>
 		default:
 			break;
 	}
