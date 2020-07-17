@@ -325,7 +325,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						}
 					</div>
 					<SectionTitle
-						text={'Opciones de voto' /**TRADUCCION */}
+						text={translate.voting_options}
 						color={primary}
 						style={{
 							marginTop: '1.6em'
@@ -334,7 +334,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					<div style={{display: 'flex'}}>
 						<div>
 							<Checkbox
-								label={'Se acepta voto presencial de usuario que ha votado telemáticamente (presencial prevalece)' /*TRADUCCION*/}
+								label={translate.in_person_vote_prevails}
 								value={council.presentVoteOverwrite === 1}
 								onChange={(event, isInputChecked) =>
 									updateCouncilData({

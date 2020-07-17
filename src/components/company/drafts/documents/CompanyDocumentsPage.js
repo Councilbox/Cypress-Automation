@@ -6,7 +6,7 @@ import folderIcon from '../../../../assets/img/folder.svg';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
-import { Icon, Table, TableRow, TableCell } from 'material-ui';
+import { Icon, Table, TableRow, TableCell, TableBody } from 'material-ui';
 import { CardPageLayout, TextInput, ProgressBar, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm, Scrollbar } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
@@ -28,7 +28,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const [documents, setDocuments] = React.useState(null);
     const [folderModal, setFolderModal] = React.useState(false);
     const [search, setSearch] = React.useState("");
-    const [deleteModal, setDeleteModal] = React.useState(null);
+    const [deleteModal, setDeleteModal] = React.useState(false);
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -364,107 +364,109 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             <div style={{ marginTop: "2em", height: 'calc(100% - 5em)' }}>
                 <Scrollbar>
                     <Table style={{ width: '100%', minWidth: "100%" }}>
-                        <TableRow>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }}>
-                                {translate.name}
-                            </TableCell>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }}>
-                                {translate.type}
-                            </TableCell>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }}>
-                                {translate.last_edit}
-                            </TableCell>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }}>
-                                {translate.size}
-                            </TableCell>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }} />
-                        </TableRow>
-                        {documents && documents.map(doc => (
-                            doc.type === 0 ?
-                                <TableRow onClick={() => navigateTo(doc)} style={{ cursor: 'pointer' }}>
-                                    <TableCell>
-                                        <img src={folderIcon} style={{ marginRight: '0.6em' }} />
-                                        {doc.name}
-                                    </TableCell>
-                                    <TableCell>
-                                        {translate.folder}
-                                    </TableCell>
-                                    <TableCell>
-                                        {moment(doc.lastUpdated).format('LLL')}
-                                    </TableCell>
-                                    <TableCell />
-                                    <TableCell>
-                                        {!action &&
-                                            <div onClick={event => {
-                                                event.stopPropagation();
-                                                setDeleteModal(doc)
-                                            }} style={{
-                                                cursor: 'pointer',
-                                                color: secondary,
-                                                background: 'white',
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                padding: "0.3em",
-                                                width: "100px"
-                                            }}>
-                                                {translate.delete}
-                                            </div>
-                                        }
+                        <TableBody>
+                            <TableRow>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }}>
+                                    {translate.name}
+                                </TableCell>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }}>
+                                    {translate.type}
+                                </TableCell>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }}>
+                                    {translate.last_edit}
+                                </TableCell>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }}>
+                                    {translate.size}
+                                </TableCell>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }} />
+                            </TableRow>
+                            {documents && documents.map(doc => (
+                                doc.type === 0 ?
+                                    <TableRow onClick={() => navigateTo(doc)} style={{ cursor: 'pointer' }}>
+                                        <TableCell>
+                                            <img src={folderIcon} style={{ marginRight: '0.6em' }} />
+                                            {doc.name}
+                                        </TableCell>
+                                        <TableCell>
+                                            {translate.folder}
+                                        </TableCell>
+                                        <TableCell>
+                                            {moment(doc.lastUpdated).format('LLL')}
+                                        </TableCell>
+                                        <TableCell />
+                                        <TableCell>
+                                            {!action &&
+                                                <div onClick={event => {
+                                                    event.stopPropagation();
+                                                    setDeleteModal(doc)
+                                                }} style={{
+                                                    cursor: 'pointer',
+                                                    color: secondary,
+                                                    background: 'white',
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    padding: "0.3em",
+                                                    width: "100px"
+                                                }}>
+                                                    {translate.delete}
+                                                </div>
+                                            }
 
-                                    </TableCell>
-                                </TableRow>
-                                :
-                                <FileRow
-                                    translate={translate}
-                                    file={doc}
-                                    trigger={trigger}
-                                    action={action}
-                                    setDeleteModal={setDeleteModal}
-                                    refetch={getData}
-                                />
-                        ))}
-                        {queue.map((item, index) => (
-                            <DelayedRow delay={1000}>
-                                <TableRow>
-                                    <TableCell>
-                                        {item.name}
-                                    </TableCell>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell>
-                                        <ProgressBar
-                                            value={item.uploaded}
-                                            color={getSecondary()}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                    </TableCell>
-                                </TableRow>
-                            </DelayedRow>
-                        ))}
+                                        </TableCell>
+                                    </TableRow>
+                                    :
+                                    <FileRow
+                                        translate={translate}
+                                        file={doc}
+                                        trigger={trigger}
+                                        action={action}
+                                        setDeleteModal={setDeleteModal}
+                                        refetch={getData}
+                                    />
+                            ))}
+                            {queue.map((item, index) => (
+                                <DelayedRow delay={1000}>
+                                    <TableRow>
+                                        <TableCell>
+                                            {item.name}
+                                        </TableCell>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell>
+                                            <ProgressBar
+                                                value={item.uploaded}
+                                                color={getSecondary()}
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                        </TableCell>
+                                    </TableRow>
+                                </DelayedRow>
+                            ))}
+                        </TableBody>
                     </Table>
                 </Scrollbar>
             </div>

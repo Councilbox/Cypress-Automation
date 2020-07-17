@@ -67,7 +67,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 										marginLeft: index > 0? '5px' : '0',
 										borderRadius: '5px',
 										color: 'primary'
-									}}>
+									}} key={`attachment_${attachment.id}`}>
 										{attachment.filename || attachment.name}
 									</div>
 								))}
