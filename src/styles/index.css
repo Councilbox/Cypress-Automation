@@ -240,7 +240,7 @@ h4 {
 
 @keyframes animationFrames {
     0% {
-        transform: rotate(NaNdeg) scaleX(1.00) scaleY(1.00);
+        transform: rotate(0deg) scaleX(1.00) scaleY(1.00);
     }
     20% {
         transform: scaleX(2.00) scaleY(2.00);
@@ -258,7 +258,7 @@ h4 {
 
 @-moz-keyframes animationFrames {
     0% {
-        -moz-transform: rotate(NaNdeg) scaleX(1.00) scaleY(1.00);
+        -moz-transform: rotate(0deg) scaleX(1.00) scaleY(1.00);
     }
     20% {
         -moz-transform: scaleX(2.00) scaleY(2.00);
@@ -276,7 +276,7 @@ h4 {
 
 @-webkit-keyframes animationFrames {
     0% {
-        -webkit-transform: rotate(NaNdeg) scaleX(1.00) scaleY(1.00);
+        -webkit-transform: rotate(0deg) scaleX(1.00) scaleY(1.00);
     }
     20% {
         -webkit-transform: scaleX(2.00) scaleY(2.00);
@@ -294,7 +294,7 @@ h4 {
 
 @-o-keyframes animationFrames {
     0% {
-        -o-transform: rotate(NaNdeg) scaleX(1.00) scaleY(1.00);
+        -o-transform: rotate(0deg) scaleX(1.00) scaleY(1.00);
     }
     20% {
         -o-transform: scaleX(2.00) scaleY(2.00);
@@ -312,7 +312,7 @@ h4 {
 
 @-ms-keyframes animationFrames {
     0% {
-        -ms-transform: rotate(NaNdeg) scaleX(1.00) scaleY(1.00);
+        -ms-transform: rotate(0deg) scaleX(1.00) scaleY(1.00);
     }
     20% {
         -ms-transform: scaleX(2.00) scaleY(2.00);
