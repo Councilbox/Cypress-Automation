@@ -158,7 +158,7 @@ export const councilCertificates = gql`
 `;
 
 export const councilActEmail = gql`
-	query CouncilActEmail($councilId: String!) {
+	query CouncilActEmail($councilId: Int!) {
 		councilAct(councilId: $councilId) {
 			emailAct
 			document

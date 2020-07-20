@@ -64,7 +64,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			query: councilStepSix,
 			variables: {
 				id: props.councilID,
-				timezone: moment().utcOffset()
+				timezone: moment().utcOffset().toString()
 			}
 		});
 
