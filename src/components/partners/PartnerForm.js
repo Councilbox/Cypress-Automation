@@ -423,6 +423,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.company_new_country}
                                 type="text"
                                 value={participant.country || ''}
+                                errorText={errors.country !== "España" && errors.country }
                                 onChange={event =>
                                     updateState({
                                         country: this.onParse(event.nativeEvent.target.value) 

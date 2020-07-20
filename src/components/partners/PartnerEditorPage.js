@@ -53,18 +53,18 @@ class Page extends React.PureComponent {
                 participant: this.state.data
             }
 
-            if (this.state.data.personOrEntity === 1 && this.state.representative ) {
+            if (this.state.data.personOrEntity === 1 && this.state.representative) {
                 const { __typename, ...cleanedRepresentative } = this.state.representative;
                 variables.representative = {
                     ...cleanedRepresentative,
                     companyId: this.state.data.companyId
                 }
             }
-            
+
             const { participant, representative } = variables;
             let trimmedData = {};
             let trimmedRepresentative = {};
-            
+
             if (participant) {
                 Object.keys(participant).forEach(key => {
                     trimmedData[key] = (participant[key] && participant[key].trim) ? participant[key].trim() : participant[key];
@@ -137,6 +137,7 @@ class Page extends React.PureComponent {
 
         const { data } = this.state;
         const { translate } = this.props;
+        var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
 
         if (!data.name) {
             hasError = true;
@@ -146,7 +147,99 @@ class Page extends React.PureComponent {
         if (data.personOrEntity === 0 && !data.surname) {
             hasError = true;
             errors.surname = translate.required_field;
+        }  
+
+        if (data.name) {
+            if (!(regex.test(data.name)) || !data.name.trim()) {
+                hasError = true;
+                errors.name = translate.invalid_field;
+            }
         }
+ 
+        if (data.personOrEntity === 0 && data.surname) {
+            if (!(regex.test(data.surname)) || !data.surname.trim()) {
+                hasError = true;
+                errors.surname = translate.invalid_field;
+            }
+        } 
+
+        if (data.dni) {
+            if (!(regex.test(data.dni)) || !data.dni.trim()) {
+                hasError = true;
+                errors.dni = translate.invalid_field;
+            }
+        }
+
+        if (data.landlinePhone) {
+            if (!(regex.test(data.landlinePhone)) || !data.landlinePhone.trim()) {
+                hasError = true;
+                errors.landlinePhone = translate.invalid_field;
+            }
+        }
+
+        if (data.phone) {
+            if (!(regex.test(data.phone)) || !data.phone.trim()) {
+                hasError = true;
+                errors.phone = translate.invalid_field;
+            }
+        }
+
+        if (data.position) {
+            if (!(regex.test(data.position)) || !data.position.trim()) {
+                hasError = true;
+                errors.position = translate.invalid_field;
+            }
+        }
+
+        if (data.nationality) {
+            if (!(regex.test(data.nationality)) || !data.nationality.trim()) {
+                hasError = true;
+                errors.nationality = translate.invalid_field;
+            }
+        }
+
+        if (data.numParticipations) {
+            if (!(/^[0-9]+$/.test(data.numParticipations)) || !String(data.numParticipations).trim()) {
+                hasError = true;
+                errors.numParticipations = translate.invalid_field;
+            }
+        }
+
+        if (data.socialCapital) {
+            if (!(/^[0-9]+$/.test(data.socialCapital)) || !String(data.socialCapital).trim()) {
+                hasError = true;
+                errors.socialCapital = translate.invalid_field;
+            }
+        }
+
+        if (data.zipcode) {
+            if (!(/^[0-9]+$/.test(data.zipcode)) || !data.zipcode.trim()) {
+                hasError = true;
+                errors.zipcode = translate.invalid_field;
+            }
+        }
+
+        if (data.address) {
+            if (!(regex.test(data.address)) || !data.address.trim()) {
+                hasError = true;
+                errors.address = translate.invalid_field;
+            }
+        }
+
+        if (data.city) {
+            if (!(regex.test(data.city)) || !data.city.trim()) {
+                hasError = true;
+                errors.city = translate.invalid_field;
+            }
+        }
+
+        if (data.countryState) {
+            if (!(regex.test(data.countryState)) || !data.countryState.trim()) {
+                hasError = true;
+                errors.countryState = translate.invalid_field;
+            }
+        }
+
         /*
                 if (!data.dni) {
                     hasError = true;
@@ -172,14 +265,14 @@ class Page extends React.PureComponent {
                 errors.email = translate.valid_email_required;
             }
         }
-
+       
         this.setState({
             errors
         });
 
         return hasError;
     }
-
+ 
     updateState = object => {
         this.setState({
             data: {
