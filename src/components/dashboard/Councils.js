@@ -83,7 +83,7 @@ const Councils = ({ translate, client, ...props }) => {
 			variables: {
 				state: statesTabInfo[selecteReuniones],
 				// state: props.state,
-				companyId: props.company.id,
+				companyId: +props.company.id,
 				isMeeting: false,
 				active: 1,
 				options: {

@@ -322,7 +322,7 @@ class PartnersBookPage extends React.Component {
                                     participant={participant}
                                     representative={participant.representative}
                                     translate={translate}
-                                    companyId={this.props.match.params.company}
+                                    companyId={+this.props.match.params.company}
                                 />
                             );
                         }
@@ -633,7 +633,7 @@ export default compose(
     graphql(bookParticipants, {
         options: props => ({
             variables: {
-                companyId: props.match.params.company,
+                companyId: +props.match.params.company,
                 options: {
                     orderBy: 'fullName',
                     orderDirection: 'asc'

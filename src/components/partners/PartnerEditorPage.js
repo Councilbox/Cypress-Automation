@@ -360,7 +360,7 @@ export default compose(
     graphql(getBookParticipant, {
         options: props => ({
             variables: {
-                participantId: props.match.params.id
+                participantId: +props.match.params.id
             },
             notifyOnNetworkStatusChange: true
         })

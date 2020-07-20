@@ -42,13 +42,13 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 				<CouncilLivePage
 					companies={companies}
 					translate={translate}
-					councilID={match.params.id}
+					councilID={+match.params.id}
 				/>
 			:
 				<CouncilLiveMobilePage
 					companies={companies}
 					translate={translate}
-					councilID={match.params.id}
+					councilID={+match.params.id}
 				/>
 			}
 		</div>

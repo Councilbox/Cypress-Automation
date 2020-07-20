@@ -63,7 +63,7 @@ export default withSharedProps()(
 	graphql(census, {
 		options: props => ({
 			variables: {
-				id: props.match.params.id
+				id: +props.match.params.id
 			},
 		})
 	})(withRouter(CensusEditorPage))

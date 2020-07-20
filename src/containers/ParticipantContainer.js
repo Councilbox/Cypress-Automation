@@ -85,7 +85,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 	}, [data]);
 
 	React.useEffect(() => {
-		props.subscribeToCouncilStateUpdated({ councilId: match.params.councilId });
+		props.subscribeToCouncilStateUpdated({ councilId: +match.params.councilId });
 	}, [match.params.councilId])
 
 

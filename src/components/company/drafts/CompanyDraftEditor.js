@@ -53,8 +53,8 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 		const response = await client.query({
 			query: getCompanyDraftData,
 			variables: {
-				id: props.match.params.id,
-				companyId: props.match.params.company
+				id: +props.match.params.id,
+				companyId: +props.match.params.company
 			}
 		});
 

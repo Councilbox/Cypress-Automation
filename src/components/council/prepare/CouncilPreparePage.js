@@ -66,9 +66,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 
 	const goToPrepareRoom = () => {
 		bHistory.push(
-			`/company/${company.id}/council/${
-			props.match.params.id
-			}/live`
+			`/company/${company.id}/council/${props.match.params.id}/live`
 		);
 	}
 
@@ -534,7 +532,7 @@ export default graphql(gql`
 	name: "data",
 	options: props => ({
 		variables: {
-			councilID: props.match.params.id
+			councilID: +props.match.params.id
 		},
 		pollInterval: 10000
 	})

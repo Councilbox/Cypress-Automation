@@ -637,7 +637,7 @@ export default compose(
 	graphql(CouncilDetailsRoot, {
 		options: props => ({
 			variables: {
-				id: props.match.params.id
+				id: +props.match.params.id
 			}
 		}),
 	}),

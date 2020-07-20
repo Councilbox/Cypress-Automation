@@ -42,7 +42,7 @@ export default withTranslations()(
 		graphql(iframeParticipant, {
 			options: props => ({
 				variables: {
-					participantId: props.match.params.id
+					participantId: +props.match.params.id
 				}
 			})
 		})(ParticipantPage)

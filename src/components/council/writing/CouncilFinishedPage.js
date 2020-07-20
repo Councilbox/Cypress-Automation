@@ -21,7 +21,7 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 		const response = await client.query({
 			query: councilDetails,
 			variables: {
-				councilID: match.params.council
+				councilID: +match.params.council
 			}
 		});
 		if(response.data){

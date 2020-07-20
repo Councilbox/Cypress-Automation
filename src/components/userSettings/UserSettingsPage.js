@@ -17,7 +17,7 @@ const UserSettingsPage = ({ data, user, translate, company, match, client, ...pr
 		const response = await client.query({
 			query: userquery,
 			variables: {
-				id: match.params.id
+				id: +match.params.id
 			}
 		});
 		setDataUser(response.data.user);

@@ -21,7 +21,7 @@ const CouncilLiveContainer = ({ main, companies, user, match, translate }) => {
         return <LoadingMainApp />
     }
 
-	return <CouncilLiveTest councilId={match.params.id} userId={user.id} />;
+	return <CouncilLiveTest councilId={+match.params.id} userId={user.id} />;
 };
 
 const mapStateToProps = state => ({

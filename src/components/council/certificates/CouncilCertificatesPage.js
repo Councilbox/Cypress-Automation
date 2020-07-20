@@ -152,7 +152,7 @@ export default compose(
     graphql(councilCertificates, {
         options: props => ({
             variables: {
-                councilId: props.match.params.council
+                councilId: +props.match.params.council
             }
         })
     }),

@@ -181,7 +181,7 @@ const participantQuery = gql`
 export default graphql(participantQuery, {
 	options: props => ({
 		variables: {
-			councilId: props.match.params.councilId
+			councilId: +props.match.params.councilId
 		},
 		fetchPolicy: "network-only"
 	})

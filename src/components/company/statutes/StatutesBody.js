@@ -82,7 +82,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			const response = await client.query({
 				query: censuses,
 				variables: {
-					companyId: props.company.id
+					companyId: +props.company.id
 				}
 			});
 
