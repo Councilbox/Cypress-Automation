@@ -14,31 +14,20 @@ import withSharedProps from "../../../../HOCs/withSharedProps";
 import { GOVERNING_BODY_TYPES } from "../../../../constants";
 
 
-const ChangeCensusMenu = ({
-	showAddModal,
-	handleCensusChange,
-	reloadCensus,
-	council,
-	company,
-	translate,
-	censuses,
-	totalVotes,
-	totalSocialCapital,
-	participations,
-	refetch
-}) => {
+const ChangeCensusMenu = ({ showAddModal, handleCensusChange, reloadCensus, council, company, translate, censuses, totalVotes, totalSocialCapital, participations, refetch }) => {
+
 	return (
 		<Grid>
-				<GridItem
-					lg={3}
-					md={3}
-					xs={6}
-					style={{
-						height: "4em",
-						verticalAlign: "middle"
-					}}
-				>
-				{censuses && censuses.list && censuses.list.length > 0?
+			<GridItem
+				lg={3}
+				md={3}
+				xs={6}
+				style={{
+					height: "4em",
+					verticalAlign: "middle"
+				}}
+			>
+				{censuses && censuses.list && censuses.list.length > 0 ?
 					<SelectInput
 						floatingText={translate.current_census}
 						value={council.selectedCensusId || '-3'}
@@ -58,59 +47,70 @@ const ChangeCensusMenu = ({
 							company.governingBodyData &&
 							company.governingBodyData.list &&
 							company.governingBodyData.list.length > 0) &&
-								<MenuItem
-									value={parseInt(-1, 10)}
-								>
-									{translate.governing_body}
-								</MenuItem>
+							<MenuItem
+								value={parseInt(-1, 10)}
+							>
+								{translate.governing_body}
+							</MenuItem>
 						}
 					</SelectInput>
-				:
+					:
 					<span>{translate.empty_censuses}</span>
 				}
 
-				</GridItem>
-				<GridItem
-					lg={1}
-					md={1}
-					xs={6}
+			</GridItem>
+			<GridItem
+				lg={1}
+				md={1}
+				xs={6}
+				style={{
+					height: "4em",
+					display: "flex",
+					alignItems: "center"
+				}}
+			>
+				<Tooltip title={translate.try_again_census} >
+					<div>
+						<BasicButton
+							color={getSecondary()}
+							buttonStyle={{
+								margin: "0"
+							}}
+							icon={
+								<ButtonIcon
+									color="white"
+									type="refresh"
+								/>
+							}
+							textPosition="after"
+							onClick={() =>
+								reloadCensus()
+							}
+						/>
+					</div>
+				</Tooltip>
+			</GridItem>
+			<GridItem
+				lg={5}
+				md={5}
+				xs={12}
+				style={{
+					height: "4em",
+					display: "flex",
+					alignItems: "center"
+				}}
+			>
+				<Typography
+					variant="body2"
 					style={{
-						height: "4em",
-						display: "flex",
-						alignItems: "center"
+						padding: "1.1em 1em 0 1em",
+						fontWeight: "600",
+						fontSize: "1em"
 					}}
 				>
-					<Tooltip title={translate.try_again_census} >
-						<div>
-							<BasicButton
-								color={getSecondary()}
-								buttonStyle={{
-									margin: "0"
-								}}
-								icon={
-									<ButtonIcon
-										color="white"
-										type="refresh"
-									/>
-								}
-								textPosition="after"
-								onClick={() =>
-									reloadCensus()
-								}
-							/>
-						</div>
-					</Tooltip>
-				</GridItem>
-				<GridItem
-					lg={5}
-					md={5}
-					xs={12}
-					style={{
-						height: "4em",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
+					{`${translate.total_votes}: ${totalVotes ? totalVotes : 0}`}
+				</Typography>
+				{CBX.hasParticipations(council) &&
 					<Typography
 						variant="body2"
 						style={{
@@ -119,38 +119,27 @@ const ChangeCensusMenu = ({
 							fontSize: "1em"
 						}}
 					>
-						{`${translate.total_votes}: ${totalVotes? totalVotes : 0}`}
+						{`${translate.total_social_capital}: ${totalSocialCapital ? totalSocialCapital : 0}`}
 					</Typography>
-					{CBX.hasParticipations(council) &&
-						<Typography
-							variant="body2"
-							style={{
-								padding: "1.1em 1em 0 1em",
-								fontWeight: "600",
-								fontSize: "1em"
-							}}
-						>
-							{`${translate.total_social_capital}: ${totalSocialCapital? totalSocialCapital : 0}`}
-						</Typography>
-					}
-				</GridItem>
-				<GridItem
-					lg={3}
-					md={3}
-					xs={12}
-					style={{
-						height: "4em",
-						display: 'flex',
-						alignItems: "center"
-					}}
-				>
-					<AddCouncilParticipantButton
-						participations={participations}
-						translate={translate}
-						councilId={council.id}
-						refetch={refetch}
-					/>
-				</GridItem>
+				}
+			</GridItem>
+			<GridItem
+				lg={3}
+				md={3}
+				xs={12}
+				style={{
+					height: "4em",
+					display: 'flex',
+					alignItems: "center"
+				}}
+			>
+				<AddCouncilParticipantButton
+					participations={participations}
+					translate={translate}
+					councilId={council.id}
+					refetch={refetch}
+				/>
+			</GridItem>
 		</Grid>
 	)
 }
