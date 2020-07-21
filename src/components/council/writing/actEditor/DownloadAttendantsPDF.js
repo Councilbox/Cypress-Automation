@@ -21,7 +21,7 @@ class DownloadAttendantsPDF extends React.Component {
             query: downloadAttendPDF,
             variables: {
                 councilId: this.props.council.id,
-                timezone: moment().utcOffset(),
+                timezone: moment().utcOffset().toString(),
             }
         });
 

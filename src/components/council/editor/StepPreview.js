@@ -86,7 +86,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			const response = await props.conveneWithNotice({
 				variables: {
 					councilId: council.id,
-					timezone: moment().utcOffset(),
+					timezone: moment().utcOffset().toString(),
 				}
 			});
 
@@ -116,7 +116,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 				variables: {
 					councilId: data.council.id,
 					email: state.data.conveneTestEmail,
-					timezone: moment().utcOffset(),
+					timezone: moment().utcOffset().toString(),
 				}
 			});
 
@@ -166,7 +166,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 		const response = await props.sendPreConvene({
 			variables: {
 				councilId: data.council.id,
-				timezone: moment().utcOffset(),
+				timezone: moment().utcOffset().toString(),
 			}
 		});
 
@@ -233,7 +233,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			const response = await props.conveneWithoutNotice({
 				variables: {
 					councilId: data.council.id,
-					timezone: moment().utcOffset(),
+					timezone: moment().utcOffset().toString(),
 				}
 			});
 			setLoading(false);

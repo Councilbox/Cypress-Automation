@@ -32,7 +32,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		const response = await props.resendRoomEmails({
 			variables: {
 				councilId: council.id,
-				timezone: ''+moment().utcOffset(),
+				timezone: ''+moment().utcOffset().toString(),
 				participantsIds: [participant.id]
 			}
 		});
@@ -46,7 +46,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		const response = await props.resendRoomEmails({
 			variables: {
 				councilId: council.id,
-				timezone: moment().utcOffset(),
+				timezone: moment().utcOffset().toString(),
 				participantsIds: [participant.id],
 				onlyAccessLink: true
 			}
@@ -62,7 +62,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
             variables: {
                 councilId: council.id,
                 participantIds: [participant.id],
-                timezone: moment().utcOffset()
+                timezone: moment().utcOffset().toString()
             }
         });
 

@@ -283,7 +283,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             variables: {
                 councilId: council.id,
                 participantIds: [participant.id],
-                timezone: moment().utcOffset()
+                timezone: moment().utcOffset().toString()
             }
         });
 

@@ -61,7 +61,7 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
         await props.resendRoomEmails({
 			variables: {
 				councilId: council.id,
-				timezone: moment().utcOffset(),
+				timezone: moment().utcOffset().toString(),
 				participantsIds: [participant.id]
 			}
         });
@@ -99,7 +99,7 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
             variables: {
                 councilId: council.id,
                 participantIds: [participant.id],
-                timezone: moment().utcOffset()
+                timezone: moment().utcOffset().toString()
             }
         });
 

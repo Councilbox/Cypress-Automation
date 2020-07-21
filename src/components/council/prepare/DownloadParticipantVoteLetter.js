@@ -24,7 +24,7 @@ const DownloadCBXDataButton = props => {
             `,
 			variables: {
 				participantId: id,
-				timezone: moment().utcOffset()
+				timezone: moment().utcOffset().toString()
 			}
 		});
 

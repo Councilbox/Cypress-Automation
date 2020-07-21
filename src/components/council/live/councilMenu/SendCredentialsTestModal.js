@@ -33,7 +33,7 @@ class SendCredentialsTestModal extends React.Component {
 				councilId: this.props.council.id,
 				email: this.state.email,
 				phone: '',
-				timezone: moment().utcOffset()
+				timezone: moment().utcOffset().toString()
 
 			}
 		});

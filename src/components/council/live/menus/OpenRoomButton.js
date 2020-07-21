@@ -33,7 +33,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 		const response = await props.openCouncilRoom({
 			variables: {
 				councilId: council.id,
-				timezone: moment().utcOffset(),
+				timezone: moment().utcOffset().toString(),
 				sendCredentials: state.sendCredentials,
 				group: state.sendOptions
 			}

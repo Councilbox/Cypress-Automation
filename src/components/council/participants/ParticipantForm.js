@@ -233,14 +233,14 @@ const ParticipantForm = ({
 			<GridItem xs={6} md={4} lg={1}>
 				<TextInput
 					floatingText={translate.votes}
-					type="tel"
+					type="num"
 					min={1}
 					errorText={errors.numParticipations}
 					value={participant.numParticipations}
 					onChange={event => {
 						if(!isNaN(event.target.value) || +event.target.value > 0){
 							updateState({
-								numParticipations: event.target.value
+								numParticipations: +event.target.value
 							})
 						}
 					}}
@@ -250,14 +250,14 @@ const ParticipantForm = ({
 				{participations && (
 					<TextInput
 						floatingText={translate.social_capital}
-						type="tel"
+						type="num"
 						min={1}
 						errorText={errors.socialCapital}
 						value={participant.socialCapital}
 						onChange={event => {
 							if(!isNaN(event.target.value) || +event.target.value > 0){
 								updateState({
-									socialCapital: event.target.value
+									socialCapital: +event.target.value
 								})
 							}
 						}}
