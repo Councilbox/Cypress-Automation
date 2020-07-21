@@ -48,6 +48,14 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
             return setCanRequest(config.androidWord);
         }
 
+        if(config.requestWordFirefox && DetectRTC.browser.name === 'Firefox'){
+            return setCanRequest(true);
+        }
+
+        if(config.requestWordSafari && DetectRTC.browser.name === 'Safari'){
+            return setCanRequest(true);
+        }
+
         if(DetectRTC.browser.name !== 'Chrome' || (+DetectRTC.browser.version < 72)){
             return setCanRequest(false);
         }
