@@ -53,7 +53,7 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                 const response = await client.subscribe({
                     query: appControlChange,
                     variables: {
-                        userId: user.id
+                        userId: +user.id
                     }
                 });
                 response.subscribe(subscriptionData => {
@@ -107,7 +107,7 @@ const AppControl = ({ companies, user = {}, children, client }) => {
 
 
 const appControlChange = gql`
-    subscription AppControlChange($userId: String!) {
+    subscription AppControlChange($userId: Int!) {
         appControlChange(userId: $userId) {
             command
             userId

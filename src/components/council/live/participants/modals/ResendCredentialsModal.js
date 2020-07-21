@@ -32,7 +32,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		const response = await props.resendRoomEmails({
 			variables: {
 				councilId: council.id,
-				timezone: moment().utcOffset(),
+				timezone: ''+moment().utcOffset(),
 				participantsIds: [participant.id]
 			}
 		});
