@@ -233,7 +233,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 			{agenda.votingState === 3 &&
 				<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {}) }}>
 					<BasicButton
-						text={'Abrir votaciones presentes' /*TRADUCCION*/}
+						text={translate.open_in_person_votings}
 						color={"white"}
 						loading={loading}
 						disabled={loading}
