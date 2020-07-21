@@ -96,7 +96,7 @@ class AddCensusButton extends React.Component {
 				})
 			}
 		}
-		console.log(this.state)
+		
 		if (!this.state.data.censusName) {
 			hasError = true;
 			this.setState({
