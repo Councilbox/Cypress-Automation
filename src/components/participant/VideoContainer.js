@@ -14,7 +14,7 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
         const response = await client.query({
             query: videoURLQuery,
             variables: {
-                participantId: props.participant.id
+                participantId: +props.participant.id
             }
         })
 
@@ -73,7 +73,7 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
 }
 
 const videoURLQuery = gql`
-    query participantVideoURL($participantId: String!){
+    query participantVideoURL($participantId: Int!){
         participantVideoURL(participantId: $participantId)
     }
 `;
