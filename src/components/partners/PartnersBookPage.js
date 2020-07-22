@@ -96,6 +96,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
             deleteModal: false,
             selectedId: null
         })
+        
     }
 
     const selectedIdToDelete = id => {
