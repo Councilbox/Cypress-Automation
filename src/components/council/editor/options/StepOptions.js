@@ -141,7 +141,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					...state,
 					errors: {
 						...state.errors,
-						closeDate: `La fecha de fin no puede ser anterior a la de comienzo (${moment(council.dateStart).format('LLL')})`
+						closeDate: `${translate.end_date_earlier_the_start} (${moment(council.dateStart).format('LLL')})`
 					}
 				});
 				return true;
@@ -183,7 +183,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		await updateCouncil(5);
 		props.previousStep();
 	};
-	console.log(translate)
+	
 	function renderCouncilTypeSpecificOptions(type) {
 		const councilOptions = {
 			1: (
@@ -296,7 +296,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			3: (
 				<React.Fragment>
 					<SectionTitle
-						text={'Cierre de votaciones telemáticas' /**TRADUCCION */}
+						text={translate.closing_telematic_voting}
 						color={primary}
 						style={{
 							marginTop: '1.6em'
