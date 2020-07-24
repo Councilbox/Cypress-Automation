@@ -44,7 +44,7 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
         <Grid
             style={{
                 width: '100%',
-                height: '3em',
+                minHeight: '3em',
                 border: '1px solid gainsboro',
                 padding: '0.4em',
                 marginBottom: '0.6em',
