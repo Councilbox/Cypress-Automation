@@ -206,7 +206,7 @@ class ConvenedParticipantEditor extends React.Component {
 							onClick={this.props.close}
 						/>
 						<BasicButton
-							text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? 'Guardar y notificar' : translate.save_changes_and_send}
+							text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? translate.save_and_notify : translate.save_changes_and_send}
 							textStyle={{
 								color: "white",
 								textTransform: "none",
