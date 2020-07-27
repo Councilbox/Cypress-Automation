@@ -184,7 +184,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		props.previousStep();
 	};
 	
-	function renderCouncilTypeSpecificOptions(type) {
+	function renderCouncilTypeSpecificOptions(type){
 		const councilOptions = {
 			1: (
 				<React.Fragment>
