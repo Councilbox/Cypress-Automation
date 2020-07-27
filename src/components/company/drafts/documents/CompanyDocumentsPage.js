@@ -7,7 +7,7 @@ import { getPrimary, getSecondary } from '../../../../styles/colors';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
 import { Icon, Table, TableRow, TableCell, TableBody } from 'material-ui';
-import { CardPageLayout, TextInput, ProgressBar, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm, Scrollbar } from "../../../../displayComponents";
+import { TextInput, ProgressBar, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm, Scrollbar } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
 import filesize from 'filesize';
@@ -137,6 +137,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 return setErrorModal(translate.file_exceeds_rest);
             }
 
+            //TRADUCCION
             if (file.size > (50 * 1024 * 1024)) {
                 return setErrorModal('El archivo supera el límite de tamaño');
             }
@@ -243,7 +244,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 <div style={{ display: "flex", borderBottom: "1px solid" + primary, alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", alignItems: "center", }}>
                         {breadCrumbs.map((item, index) => (
-                            <>
+                            <React.Fragment key={index}>
                                 {index > 0 &&
                                     ` > `
                                 }
@@ -329,7 +330,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         }}
                                     >{item.label}</span>
                                 }
-                            </>
+                            </React.Fragment>
                         ))}
                     </div>
 
@@ -402,7 +403,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                             </TableRow>
                             {documents && documents.map(doc => (
                                 doc.type === 0 ?
-                                    <TableRow onClick={() => navigateTo(doc)} style={{ cursor: 'pointer' }}>
+                                    <TableRow onClick={() => navigateTo(doc)} style={{ cursor: 'pointer' }} key={`folder_${doc.id}`}>
                                         <TableCell>
                                             <img src={folderIcon} style={{ marginRight: '0.6em' }} />
                                             {doc.name}
@@ -437,6 +438,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                     </TableRow>
                                     :
                                     <FileRow
+                                        key={`doc_${doc.id}`}
                                         translate={translate}
                                         file={doc}
                                         trigger={trigger}

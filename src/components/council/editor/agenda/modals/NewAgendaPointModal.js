@@ -89,7 +89,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 					} else {
 						let fileInfo = {
 							filename: attachment.name,
-							filesize: attachment.filesize,
+							filesize: attachment.filesize.toString(),
 							documentId: attachment.id,
 							filetype: attachment.filetype,
 							state: 0,

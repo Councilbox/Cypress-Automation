@@ -121,7 +121,7 @@ class NewCompanyPage extends React.PureComponent {
 			let fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: Math.round(file.size / 1000),
+				filesize: Math.round(file.size / 1000).toString(),
 				base64: reader.result,
 				councilId: this.props.councilID
 			};

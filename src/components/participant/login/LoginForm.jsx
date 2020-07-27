@@ -186,7 +186,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                 const response = await props.checkParticipantKey({
                     variables: {
                         participantId: participant.id,
-                        key: state.password
+                        key: +state.password
                     }
                 });
 

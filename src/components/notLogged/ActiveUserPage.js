@@ -21,7 +21,7 @@ class ActiveUserPage extends React.Component {
     async componentDidMount(){
         const response = await this.props.activeUser({
             variables: {
-                token: +this.props.match.params.token
+                token: this.props.match.params.token
             }
         });
 

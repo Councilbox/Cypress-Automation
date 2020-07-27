@@ -108,7 +108,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 			let fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: event.loaded,
+				filesize: event.loaded.toString(),
 				base64: btoa(event.target.result),
 				councilId: props.councilID
 			};
