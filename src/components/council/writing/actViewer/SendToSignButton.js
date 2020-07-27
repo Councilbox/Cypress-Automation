@@ -71,7 +71,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
             setLoading(3);
         }
     }
-
+    
     return (
         <>
             <AlertConfirm
@@ -116,7 +116,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
                 }
             />
             <BasicButton
-                text={translate.send_a_sign}
+                text={translate.new_send_to_sign}
                 color={'white'}
                 //loading={downloading}
                 onClick={createSignature}
