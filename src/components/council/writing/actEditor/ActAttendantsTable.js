@@ -59,7 +59,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                 total <= 0 && total !== null ?
                     <div style={{ display: 'flex', fontSize: '1.2em', flexDirection: 'column', fontWeight: '700', height: '80%', alignItems: 'center', justifyContent: 'center' }}>
                         <i className="fa fa-user-times" aria-hidden="true" style={{ fontSize: '6em', color: secondary }}></i>
-                        No ha asistido ningún participante
+                        {translate.no_participant_attended}
                     </div>
                     :
                     <Scrollbar>
