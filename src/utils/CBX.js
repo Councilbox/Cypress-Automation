@@ -1761,6 +1761,8 @@ export const getAgendaTypeLabel = agenda => {
 
 export const getTranslationReqCode = reqCode => {
 	switch (reqCode) {
+		case "ALL":
+			return "all_plural";
 		case -1:
 			return "tooltip_failed_shipping";
 		case 0:
