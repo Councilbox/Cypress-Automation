@@ -240,7 +240,10 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 					setMostrarMenu(true)
 				}}
 				company={company}
-				setMostrarMenu={setMostrarMenu}
+				back={() => {
+					setState({ newForm: false });
+					setMostrarMenu(true);
+				}}
 			/>
 		);
 	}

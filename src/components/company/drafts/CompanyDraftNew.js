@@ -155,7 +155,7 @@ class CompanyDraftNew extends React.Component {
 							fontWeight: "700",
 							marginRight: "1em"
 						}}
-						onClick={() => this.goBack()}
+						onClick={() => this.props.back()}
 					/>
 
 
