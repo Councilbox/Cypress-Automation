@@ -93,12 +93,12 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
             notifyAttachmentsAdded(addedAttachments);
         }
     }
-
+    
     const validateForm = async () => {
         let errors = {};
 
         if(attachments.length === 0){
-            errors.attachments = 'No se indicado ningún archivo';
+            errors.attachments = translate.no_file_indicated;
         } else {
             let alreadyUsed = [];
 
