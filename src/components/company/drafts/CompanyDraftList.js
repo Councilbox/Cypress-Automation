@@ -237,8 +237,10 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 				closeForm={() => {
 					setState({ newForm: false });
 					getDrafts();
+					setMostrarMenu(true)
 				}}
 				company={company}
+				setMostrarMenu={setMostrarMenu}
 			/>
 		);
 	}
