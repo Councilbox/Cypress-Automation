@@ -8,6 +8,7 @@ import { graphql } from "react-apollo";
 import { getPrimary } from "../../../styles/colors";
 import { createCensus } from "../../../queries/census";
 import CensusInfoForm from './CensusInfoForm';
+import { isMobile } from "../../../utils/screen";
 
 class AddCensusButton extends React.Component {
 	state = {
@@ -58,7 +59,7 @@ class AddCensusButton extends React.Component {
 
 	_renderBody = () => {
 		return (
-			<div style={{ minWidth: "800px" }}>
+			<div style={{ minWidth: !isMobile && "800px" }}>
 				<CensusInfoForm
 					translate={this.props.translate}
 					errors={this.state.errors}

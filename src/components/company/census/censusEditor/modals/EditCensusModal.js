@@ -6,6 +6,7 @@ import {
 import { graphql, compose } from "react-apollo";
 import { census, updateCensus } from "../../../../../queries/census";
 import CensusInfoForm from '../../CensusInfoForm';
+import { isMobile } from "../../../../../utils/screen";
 
 class EditCensusButton extends React.Component {
     state = {
