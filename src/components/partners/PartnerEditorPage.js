@@ -137,7 +137,7 @@ class Page extends React.PureComponent {
 
         const { data } = this.state;
         const { translate } = this.props;
-        var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+        var regex = new RegExp("[ A-Za-z0-9äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
 
         if (!data.name) {
             hasError = true;
