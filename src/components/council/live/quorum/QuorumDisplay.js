@@ -125,8 +125,12 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                         earlyVotes
                         numEarlyVotes
                         present
+                        withoutVote
+                        numWithoutVote
                         numPresent
                         numTotal
+                        others
+                        numOthers
                         total
                     }
                 }
@@ -210,13 +214,13 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                         <TableCell>
 
                         </TableCell>
-                        <TableCell>
+                        <TableCell style={{fontSize: '16px', fontWeight: '700'}}>
                             {translate.participants}
                         </TableCell>
-                        <TableCell>
+                        <TableCell style={{fontSize: '16px', fontWeight: '700'}}>
                             Participaciones
                         </TableCell>
-                        <TableCell>
+                        <TableCell style={{fontSize: '16px', fontWeight: '700'}}>
                             % Capital social
                         </TableCell>
                     </TableHead>
@@ -293,6 +297,34 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 </TableCell>
                             </TableRow>
                         }
+                        <TableRow>
+                            <TableCell>
+                                {'Sin derecho a voto'}
+                            </TableCell>
+                            <TableCell>
+                                {showNumParticipations(data.numWithoutVote, company)}
+                            </TableCell>
+                            <TableCell>
+                                {showNumParticipations(data.withoutVote, company)}
+                            </TableCell>
+                            <TableCell>
+                                {getPercentage(data.withoutVote)}%
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                {'Otros'}
+                            </TableCell>
+                            <TableCell>
+                                {showNumParticipations(data.numOthers, company)}
+                            </TableCell>
+                            <TableCell>
+                                -
+                            </TableCell>
+                            <TableCell>
+                                -
+                            </TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
                 {renderVotingsTable &&
