@@ -11,6 +11,7 @@ import { CardContent } from 'material-ui';
 
 const SignersList = ({ translate, client, ...props }) => {
     const [loading, setLoading] = React.useState(true);
+    const [refreshing, setRefreshing] = React.useState(false);
     const [signatureParticipantsList, setSignatureParticipantsList] = React.useState([]);
     const [signatureParticipantsTotal, setSignatureParticipantsTotal] = React.useState(0);
 
@@ -45,12 +46,12 @@ const SignersList = ({ translate, client, ...props }) => {
                 participantId: ''
             }
         });
-
     }
 
     const refresh = async () => {
-        setLoading(true)
-        await getData();
+        setRefreshing(true);
+        await props.refetch();
+        setRefreshing(false);
     }
 
     if (loading) {
@@ -71,6 +72,7 @@ const SignersList = ({ translate, client, ...props }) => {
                 menuButtons={
                     <div style={{ marginRight: '0.8em' }}>
                         <RefreshButton
+                            loading={refreshing}
                             translate={translate}
                             tooltip={translate.refresh_convened}
                             onClick={refresh}
