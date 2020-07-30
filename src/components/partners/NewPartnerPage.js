@@ -7,6 +7,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { bHistory } from '../../containers/App';
 import { checkValidEmail } from "../../utils";
+import { INPUT_REGEX } from '../../constants';
 
 class NewPartnerPage extends React.Component {
 
@@ -127,7 +128,6 @@ class NewPartnerPage extends React.Component {
 
         const { data } = this.state;
         const { translate } = this.props;
-        var regex = new  RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+") ; 
         
         if (!data.name) {
             hasError = true;
@@ -140,49 +140,49 @@ class NewPartnerPage extends React.Component {
         }  
 
         if (data.name) {
-            if (!(regex.test(data.name)) || !data.name.trim()) {
+            if (!(INPUT_REGEX.test(data.name)) || !data.name.trim()) {
                 hasError = true;
                 errors.name = translate.invalid_field;
             }
         }
  
         if (data.personOrEntity === 0 && data.surname) {
-            if (!(regex.test(data.surname)) || !data.surname.trim()) {
+            if (!(INPUT_REGEX.test(data.surname)) || !data.surname.trim()) {
                 hasError = true;
                 errors.surname = translate.invalid_field;
             }
         } 
 
         if (data.dni) {
-            if (!(regex.test(data.dni)) || !data.dni.trim()) {
+            if (!(INPUT_REGEX.test(data.dni)) || !data.dni.trim()) {
                 hasError = true;
                 errors.dni = translate.invalid_field;
             }
         }
 
         if (data.landlinePhone) {
-            if (!(regex.test(data.landlinePhone)) || !data.landlinePhone.trim()) {
+            if (!(INPUT_REGEX.test(data.landlinePhone)) || !data.landlinePhone.trim()) {
                 hasError = true;
                 errors.landlinePhone = translate.invalid_field;
             }
         }
 
         if (data.phone) {
-            if (!(regex.test(data.phone)) || !data.phone.trim()) {
+            if (!(INPUT_REGEX.test(data.phone)) || !data.phone.trim()) {
                 hasError = true;
                 errors.phone = translate.invalid_field;
             }
         }
 
         if (data.position) {
-            if (!(regex.test(data.position)) || !data.position.trim()) {
+            if (!(INPUT_REGEX.test(data.position)) || !data.position.trim()) {
                 hasError = true;
                 errors.position = translate.invalid_field;
             }
         }
 
         if (data.nationality) {
-            if (!(regex.test(data.nationality)) || !data.nationality.trim()) {
+            if (!(INPUT_REGEX.test(data.nationality)) || !data.nationality.trim()) {
                 hasError = true;
                 errors.nationality = translate.invalid_field;
             }
@@ -210,14 +210,14 @@ class NewPartnerPage extends React.Component {
         }
 
         if (data.address) {
-            if (!(regex.test(data.address)) || !data.address.trim()) {
+            if (!(INPUT_REGEX.test(data.address)) || !data.address.trim()) {
                 hasError = true;
                 errors.address = translate.invalid_field;
             }
         }
 
         if (data.city) {
-            if (!(regex.test(data.city)) || !data.city.trim()) {
+            if (!(INPUT_REGEX.test(data.city)) || !data.city.trim()) {
                 hasError = true;
                 errors.city = translate.invalid_field;
             }
@@ -225,25 +225,12 @@ class NewPartnerPage extends React.Component {
 
 
         if (data.countryState) {
-            if (!(regex.test(data.countryState)) || !data.countryState.trim()) {
+            if (!(INPUT_REGEX.test(data.countryState)) || !data.countryState.trim()) {
                 hasError = true;
                 errors.countryState = translate.invalid_field;
             }
         }
        
-
-
-
-        /*         if (!data.dni) {
-                    hasError = true;
-                    errors.dni = translate.required_field;
-                }
-        
-                if (!data.email) {
-                    hasError = true;
-                    errors.email = translate.required_field;
-                } */
-
         if (!data.email) {
             hasError = true;
             errors.email = translate.required_field;

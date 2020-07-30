@@ -7,6 +7,7 @@ import { graphql, compose } from "react-apollo";
 import { census, updateCensus } from "../../../../../queries/census";
 import CensusInfoForm from '../../CensusInfoForm';
 import { isMobile } from "../../../../../utils/screen";
+import { INPUT_REGEX } from "../../../../../constants";
 
 class EditCensusButton extends React.Component {
     state = {
@@ -67,10 +68,9 @@ class EditCensusButton extends React.Component {
     checkRequiredFields() {
         let hasError = false;
         const { translate } = this.props;
-        var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
 
         if (this.state.data.censusName) {
-            if (!(regex.test(this.state.data.censusName)) || !this.state.data.censusName.trim()) {
+            if (!(INPUT_REGEX.test(this.state.data.censusName)) || !this.state.data.censusName.trim()) {
                 hasError = true;
                 this.setState({
                     errors: {
@@ -81,7 +81,7 @@ class EditCensusButton extends React.Component {
             }
         }
         if (this.state.data.censusDescription) {
-            if (!(regex.test(this.state.data.censusDescription)) || !this.state.data.censusDescription.trim()) {
+            if (!(INPUT_REGEX.test(this.state.data.censusDescription)) || !this.state.data.censusDescription.trim()) {
                 hasError = true;
                 this.setState({
                     errors: {
