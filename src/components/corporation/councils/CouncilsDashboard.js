@@ -16,8 +16,6 @@ import { bHistory } from '../../../containers/App';
 const CouncilsDashboard = ({ translate, client, ...props }) => {
     const [councils, setCouncils] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
-    const [idCouncilSearch, setIdCouncilSearch] = React.useState(0);
-    const [error, setError] = React.useState('');
 
 
     const getData = React.useCallback(async () => {
@@ -34,27 +32,6 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
         getData();
     }, [getData]);
 
-    const goToId = async () => {
-        if (!isNaN(idCouncilSearch) || idCouncilSearch !== 0) {
-            const response = await client.query({
-                query: CouncilDetailsRoot,
-                variables: {
-                    id: parseInt(idCouncilSearch)
-                }
-            });
-            console.log(response)
-            if (response.data.council && response.data.council.id) {
-                console.log("entro")
-                setError("")
-                bHistory.push(`/council/${idCouncilSearch}`);
-            } else {
-                setError("Estar reunion no existe")
-            }
-        } else {
-            setError("Escribe un numero")
-        }
-
-    };
 
     const _convenedTrigger = () => {
         return (
@@ -135,44 +112,7 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
                         onClick={() => getData()}
                     />
                 </div>
-                <div
-                    style={{
-                        margin: '1.4em',
-                        boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
-                        border: '1px solid' + getSecondary(),
-                        borderRadius: '4px',
-                        padding: '0.5em',
-                        color: "black"
-                    }}>
-                    <div>
-                        <div>Id de reunión:</div>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                            <div style={{ marginRight: "10px" }}>Id</div>
-                            <div style={{ display: "flex", alignItems: "center" }}>
-                                <TextInput
-                                    type="text"
-                                    value={idCouncilSearch == 0 ? "" : idCouncilSearch}
-                                    disableUnderline={true}
-                                    styles={{ fontWeight: "bold", width: '300px', }}
-                                    styleInInput={{ backgroundColor: "#ececec", paddingLeft: "5px", border: !!error && "2px solid red" }}
-                                    onChange={event => setIdCouncilSearch(event.target.value)}
-                                />
-                            </div>
-                            <div style={{ display: "flex", alignItems: "center", marginTop: "6px" }}>
-                                <BasicButton
-                                    text={<i className="fa fa-search" style={{ color: "black" }} />}
-                                    onClick={goToId}
-                                    backgroundColor={{ backgroundColor: "white", minWidth: "0", marginLeft: '1em', minHeight: '0px', boxShadow: "none", borderRadius: "4px", border: " 1px solid black" }}
-                                />
-                            </div>
-                            {error &&
-                                <div style={{ display: "flex", alignItems: "center", marginTop: "6px", marginLeft: "15px", color: "red", fontWeight: "bold" }}>
-                                    {error}
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
+                <SearchCouncils />
                 {loading ?
                     <LoadingSection />
                     :
@@ -190,7 +130,78 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
     )
 }
 
+export const SearchCouncils = withApollo(({ client, reload }) => {
+    const [idCouncilSearch, setIdCouncilSearch] = React.useState(0);
+    const [error, setError] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
+    const goToId = async () => {
+        if (!isNaN(idCouncilSearch) || idCouncilSearch !== 0) {
+            setLoading(true)
+            const response = await client.query({
+                query: CouncilDetailsRoot,
+                variables: {
+                    id: parseInt(idCouncilSearch)
+                }
+            });
+            if (response.data.council && response.data.council.id) {
+                setError("")
+                bHistory.push(`/council/${idCouncilSearch}`);
+                if (reload) {
+                    window.location.reload(true);
+                }
+                setLoading(false)
+            } else {
+                setError("Estar reunion no existe")
+                setLoading(false)
+            }
+        } else {
+            setError("Escribe un numero")
+            setLoading(false)
+        }
+
+    };
+    return (
+        <div
+            style={{
+                margin: '1.4em',
+                boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+                border: '1px solid' + getSecondary(),
+                borderRadius: '4px',
+                padding: '0.5em',
+                color: "black"
+            }}>
+            <div>
+                <div>Id de reunión:</div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ marginRight: "10px" }}>Id</div>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        <TextInput
+                            type="text"
+                            value={idCouncilSearch == 0 ? "" : idCouncilSearch}
+                            disableUnderline={true}
+                            styles={{ fontWeight: "bold", width: '300px', }}
+                            styleInInput={{ backgroundColor: "#ececec", paddingLeft: "5px", border: !!error && "2px solid red" }}
+                            onChange={event => setIdCouncilSearch(event.target.value)}
+                        />
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", marginTop: "6px" }}>
+                        <BasicButton
+                            text={<i className={loading ?'fa fa-circle-o-notch fa-spin' : "fa fa-search"} style={{ color: "black" }} />}
+                            onClick={goToId}
+                            backgroundColor={{ backgroundColor: "white", minWidth: "0", marginLeft: '1em', minHeight: '0px', boxShadow: "none", borderRadius: "4px", border: " 1px solid black" }}
+                        />
+                    </div>
+                    {error &&
+                        <div style={{ display: "flex", alignItems: "center", marginTop: "6px", marginLeft: "15px", color: "red", fontWeight: "bold" }}>
+                            {error}
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    )
+})
 
 const corporationCouncils = gql`
     query corporationCouncils{

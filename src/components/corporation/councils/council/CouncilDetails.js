@@ -16,6 +16,7 @@ import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
 import { Table, TableHead, TableRow, TableCell, TableBody, } from 'material-ui';
 import FailedSMSList from './FailedSMSList';
+import { SearchCouncils } from '../CouncilsDashboard';
 
 
 const cancelAct = gql`
@@ -128,18 +129,9 @@ class CouncilDetails extends React.Component {
 		const { council } = this.state.data;
 
 		if (!council) {
-			console.log()
-			return (
-				<div style={{ fontSize: "25px", color: "black", display: "flex", alignItems: "center", width: "100%", justifyContent: "center", marginTop: "4em" }}>
-					<div style={{ color: "#dc7373", fontSize: "35px", marginRight: "1em" }}>
-						<i className="fa fa-exclamation-triangle" />
-					</div>
-					<div>
-						La reunión con id <b>{this.props.match.params.id}</b> no existe
-					</div>
-
-				</div>
-			)
+			return <FailPageSearchId
+				id={this.props.match.params.id}
+			/>
 		}
 		if (this.state.showAgenda && council) {
 			return (
@@ -393,6 +385,24 @@ class CouncilDetails extends React.Component {
 			</div>
 		)
 	}
+}
+
+const FailPageSearchId = ({ id }) => {
+
+	return (
+		<div>
+			<SearchCouncils reload={true} />
+			<div style={{ fontSize: "25px", color: "black", display: "flex", alignItems: "center", width: "100%", justifyContent: "center", marginTop: "4em" }}>
+				<div style={{ color: "#dc7373", fontSize: "35px", marginRight: "1em" }}>
+					<i className="fa fa-exclamation-triangle" />
+				</div>
+				<div>
+					La reunión con id <b>{id}</b> no existe
+					</div>
+
+			</div>
+		</div>
+	)
 }
 
 const showGroupAttendees = attendees => {
