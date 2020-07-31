@@ -127,6 +127,20 @@ class CouncilDetails extends React.Component {
 
 		const { council } = this.state.data;
 
+		if (!council) {
+			console.log()
+			return (
+				<div style={{ fontSize: "25px", color: "black", display: "flex", alignItems: "center", width: "100%", justifyContent: "center", marginTop: "4em" }}>
+					<div style={{ color: "#dc7373", fontSize: "35px", marginRight: "1em" }}>
+						<i className="fa fa-exclamation-triangle" />
+					</div>
+					<div>
+						La reunión con id <b>{this.props.match.params.id}</b> no existe
+					</div>
+
+				</div>
+			)
+		}
 		if (this.state.showAgenda && council) {
 			return (
 				<React.Fragment>
@@ -325,7 +339,7 @@ class CouncilDetails extends React.Component {
 								open={this.state.credManager}
 								buttonCancel={'Cancelar'}
 								classNameDialog={'height100'}
-								bodyStyle={{minWidth: "100vh",maxWidth: "100vh",height: '100%',overflowY: 'hidden'}}
+								bodyStyle={{ minWidth: "100vh", maxWidth: "100vh", height: '100%', overflowY: 'hidden' }}
 								bodyText={
 									<CredentialsManager
 										council={council}
@@ -454,7 +468,7 @@ const showSendsRecount = (sends) => {
 	}
 
 	sends.forEach(send => {
-		if(recount[list[send.sendType]] !== undefined ){
+		if (recount[list[send.sendType]] !== undefined) {
 			recount[list[send.sendType]]++;
 		} else {
 			recount['Otros']++;
