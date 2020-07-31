@@ -1,115 +1,196 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar } from '../../../displayComponents';
+import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { lightGrey, getSecondary } from '../../../styles/colors';
+import { lightGrey, getSecondary, getPrimary } from '../../../styles/colors';
 import FontAwesome from 'react-fontawesome';
 import { Card } from 'material-ui';
 import CouncilItem from './CouncilItem';
 import CouncilsSectionTrigger from './CouncilsSectionTrigger';
+import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { bHistory } from '../../../containers/App';
 
 
-class CouncilsDashboard extends React.PureComponent {
+const CouncilsDashboard = ({ translate, client, ...props }) => {
+    const [councils, setCouncils] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+    const [idCouncilSearch, setIdCouncilSearch] = React.useState(0);
+    const [error, setError] = React.useState('');
 
-    _convenedTrigger = () => {
-        return(
+
+    const getData = React.useCallback(async () => {
+        setLoading(true)
+        const response = await client.query({
+            query: corporationCouncils,
+        });
+
+        setCouncils(response.data);
+        setLoading(false)
+    }, []);
+
+    React.useEffect(() => {
+        getData();
+    }, [getData]);
+
+    const goToId = async () => {
+        if (!isNaN(idCouncilSearch) || idCouncilSearch !== 0) {
+            const response = await client.query({
+                query: CouncilDetailsRoot,
+                variables: {
+                    id: parseInt(idCouncilSearch)
+                }
+            });
+            console.log(response)
+            if (response.data.council && response.data.council.id) {
+                console.log("entro")
+                setError("")
+                bHistory.push(`/council/${idCouncilSearch}`);
+            } else {
+                setError("Estar reunion no existe")
+            }
+        } else {
+            setError("Escribe un numero")
+        }
+
+    };
+
+    const _convenedTrigger = () => {
+        return (
             <CouncilsSectionTrigger
-                text={this.props.translate.companies_calendar}
+                text={translate.companies_calendar}
                 icon={'calendar-o'}
-                description={this.props.translate.companies_calendar_desc}
+                description={translate.companies_calendar_desc}
             />
         )
     }
 
-    _convenedSection = () => {
+    const _convenedSection = () => {
         return (
-            <div style={{width: '100%'}}>
-                {this.props.data.corporationConvenedCouncils.map(council =>
+            <div style={{ width: '100%' }}>
+                {councils.corporationConvenedCouncils.map(council =>
                     <CouncilItem
                         key={`council_${council.id}`}
                         council={council}
-                        translate={this.props.translate}
+                        translate={translate}
                     />
                 )}
             </div>
         )
     }
 
-    _celebrationTrigger = () => {
-        return(
+    const _celebrationTrigger = () => {
+        return (
             <CouncilsSectionTrigger
-                text={this.props.translate.companies_live}
+                text={translate.companies_live}
                 icon={'users'}
-                description={this.props.translate.companies_live_desc}
+                description={translate.companies_live_desc}
             />
         )
     }
 
-    _celebrationSection = () => {
+    const _celebrationSection = () => {
         return (
-            <div style={{width: '100%'}}>
-                {this.props.data.corporationLiveCouncils.map(council => (
+            <div style={{ width: '100%' }}>
+                {councils.corporationLiveCouncils.map(council => (
                     <CouncilItem
                         key={`council_${council.id}`}
                         council={council}
-                        translate={this.props.translate}
+                        translate={translate}
                     />
                 ))}
             </div>
         )
     }
 
-    render(){
-        return(
-            <div
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: lightGrey
-                }}
-            >
-                <Scrollbar>
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            paddingBottom: '2em',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            margin: '1.4em'
-                        }}
-                    >
-                        <BasicButton
-                            icon={
-                                <FontAwesome
-                                    name={'refresh'}
-                                    style={{
-                                        color: getSecondary()
-                                    }}
+    return (
+        <div
+            style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: lightGrey
+            }}
+        >
+            <Scrollbar>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        paddingBottom: '2em',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        margin: '1.4em'
+                    }}
+                >
+                    <BasicButton
+                        icon={
+                            <FontAwesome
+                                name={'refresh'}
+                                style={{
+                                    color: getSecondary()
+                                }}
+                            />
+                        }
+                        onClick={() => getData()}
+                    />
+                </div>
+                <div
+                    style={{
+                        margin: '1.4em',
+                        boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+                        border: '1px solid' + getSecondary(),
+                        borderRadius: '4px',
+                        padding: '0.5em',
+                        color: "black"
+                    }}>
+                    <div>
+                        <div>Id de reunión:</div>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <div style={{ marginRight: "10px" }}>Id</div>
+                            <div style={{ display: "flex", alignItems: "center" }}>
+                                <TextInput
+                                    type="text"
+                                    value={idCouncilSearch == 0 ? "" : idCouncilSearch}
+                                    disableUnderline={true}
+                                    styles={{ fontWeight: "bold", width: '300px', }}
+                                    styleInInput={{ backgroundColor: "#ececec", paddingLeft: "5px", border: !!error && "2px solid red" }}
+                                    onChange={event => setIdCouncilSearch(event.target.value)}
                                 />
+                            </div>
+                            <div style={{ display: "flex", alignItems: "center", marginTop: "6px" }}>
+                                <BasicButton
+                                    text={<i className="fa fa-search" style={{ color: "black" }} />}
+                                    onClick={goToId}
+                                    backgroundColor={{ backgroundColor: "white", minWidth: "0", marginLeft: '1em', minHeight: '0px', boxShadow: "none", borderRadius: "4px", border: " 1px solid black" }}
+                                />
+                            </div>
+                            {error &&
+                                <div style={{ display: "flex", alignItems: "center", marginTop: "6px", marginLeft: "15px", color: "red", fontWeight: "bold" }}>
+                                    {error}
+                                </div>
                             }
-                            onClick={() => this.props.data.refetch()}
-                        />
+                        </div>
                     </div>
-                    {this.props.data.loading?
-                        <LoadingSection />
-
+                </div>
+                {loading ?
+                    <LoadingSection />
                     :
-                        <React.Fragment>
-                            <Card style={{margin: '1.4em'}}>
-                                <CollapsibleSection trigger={this._convenedTrigger} collapse={this._convenedSection} />
-                            </Card>
-                            <Card style={{margin: '1.4em'}}>
-                                <CollapsibleSection trigger={this._celebrationTrigger} collapse={this._celebrationSection} />
-                            </Card>
-                        </React.Fragment>
-                    }
-                </Scrollbar>
-            </div>
-        )
-    }
+                    <React.Fragment>
+                        <Card style={{ margin: '1.4em' }}>
+                            <CollapsibleSection trigger={_convenedTrigger} collapse={_convenedSection} />
+                        </Card>
+                        <Card style={{ margin: '1.4em' }}>
+                            <CollapsibleSection trigger={_celebrationTrigger} collapse={_celebrationSection} />
+                        </Card>
+                    </React.Fragment>
+                }
+            </Scrollbar>
+        </div>
+    )
 }
+
+
 
 const corporationCouncils = gql`
     query corporationCouncils{
@@ -147,4 +228,12 @@ const corporationCouncils = gql`
     }
 `;
 
-export default graphql(corporationCouncils)(withTranslations()(CouncilsDashboard));
+const CouncilDetailsRoot = gql`
+    query CouncilDetailsRoot($id: Int!){
+        council(id: $id) {
+			id
+		}
+    }
+`;
+
+export default withTranslations()(withApollo(CouncilsDashboard));
