@@ -36,7 +36,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 
 
     const checkDelegationConditions = () => {
-        return ((participant.numParticipations > 0 || participant.socialCapital > 0)
+        return 	council.statute.existsDelegatedVote === 1 && ((participant.numParticipations > 0 || participant.socialCapital > 0)
             || participant.represented.filter(p => (p.numParticipations > 0)).length > 0)
     }
 
