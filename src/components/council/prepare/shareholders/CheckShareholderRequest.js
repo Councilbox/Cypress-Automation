@@ -12,7 +12,8 @@ import { getVote } from '../../../participant/ResultsTimeline';
 
 export const getTypeText = text => {
     const texts = {
-        'access': 'Asistencia a la junta general',
+        'access': 'Solicitud',
+        // 'access': 'Asistencia a la junta general',
         'vote': 'Voto anticipado',
         'represent': 'Representación de voto'
     }
@@ -25,7 +26,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
     const [modal, setModal] = React.useState(false);
     const secondary = getSecondary();
 
-        console.log(request);
+    console.log(request);
 
 
     const downloadAttachment = async (requestId, index) => {
@@ -49,7 +50,6 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
         downloadFile(base64, file.filetype, file.filename)
     }
 
-
     const modalBody = () => {
         return (
             <>
@@ -60,42 +60,43 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     </div>
                     {request.data.requestType === 'vote' &&
                         <>
-                          {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
-                              <div key={`early_vote_${index}`}>
-                                <div style={{fontWeight: '700'}}>{vote.name}</div>
-                                <div>-{getVote(+vote.value, translate)}</div>
-                              </div>
-                          ))}
+                            {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+                                <div key={`early_vote_${index}`}>
+                                    <div style={{ fontWeight: '700' }}>{vote.name}</div>
+                                    <div>-{getVote(+vote.value, translate)}</div>
+                                </div>
+                            ))}
                         </>
                     }
                     {request.data.requestType === 'represent' &&
                         <>
                             En:
-                            <div style={{marginBotton: '2em'}}>
-                                {request.data.representative[0].value === 'el presidente'?
+                            <div style={{ marginBotton: '2em' }}>
+                                {request.data.representative[0].value === 'el presidente' ?
                                     request.data.representative[0].value
-                                :
-                                request.data.representative[0].info.map((data, index) => (
-                                    <div key={index}>
-                                        {data.name}  - {data.value}
-                                    </div>
-                                ))}
+                                    :
+                                    request.data.representative[0].info.map((data, index) => (
+                                        data.value &&
+                                        <div key={index}>
+                                            {data.name}  - {data.value}
+                                        </div>
+                                    ))}
                             </div>
                             {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
-                              <div key={`early_vote_${index}`}>
-                                <div style={{fontWeight: '700'}}>{vote.name}</div>
-                                <div>-{getVote(+vote.value, translate)}</div>
-                              </div>
-                          ))}
+                                <div key={`early_vote_${index}`}>
+                                    <div style={{ fontWeight: '700' }}>{vote.name}</div>
+                                    <div>-{getVote(+vote.value, translate)}</div>
+                                </div>
+                            ))}
                         </>
                     }
                 </div>
-                <div style={{ marginTop: '1em', marginBottom: '1.6em'}}>
+                <div style={{ marginTop: '1em', marginBottom: '1.6em' }}>
                     Adjuntos:
                     {request.data.attachments ?
                         request.data.attachments.map((attachment, index) => (
-                            <div onClick={() => downloadAttachment(request.id, index)} style={{cursor: 'pointer'}}>
-                                <i className='fa fa-file-pdf-o'></i>  {attachment.filename}
+                            <div onClick={() => downloadAttachment(request.id, index)} style={{ cursor: 'pointer' }}>
+                                <i className='fa fa-file-pdf-o'></i>  {attachment.name}
                             </div>
                         ))
                         :
@@ -140,17 +141,17 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                 }}
                 color="white"
                 textStyle={{ color: secondary }}
-                //onClick={approveRequest}
+            //onClick={approveRequest}
             />
             <AlertConfirm
-                title={'Solicitud de accionista'}
+                title={'Solicitud'}
                 bodyText={modalBody()}
                 requestClose={() => setModal(false)}
                 open={modal}
             />
         </>
     )
-    
+
 }
 
 export default withApollo(CheckShareholderRequest);

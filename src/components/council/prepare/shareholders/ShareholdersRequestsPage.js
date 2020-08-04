@@ -131,7 +131,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                         {data.map(request => (
                             <TableRow key={`request_${request.id}`}>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.data.name}
+                                    {request.data.name}  {request.data.surname ? request.data.surname : ""} 
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {request.data.email}
