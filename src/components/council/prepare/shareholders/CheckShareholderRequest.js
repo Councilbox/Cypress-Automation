@@ -57,9 +57,9 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
         return (
             <>
                 <div>
-                    <h5>Datos:</h5>
+                    <h5>{translate.data}:</h5>
                     <div>
-                        Tipo de solicitud: {getTypeText(request.data.requestType)}
+                        {translate.type_of_request}: {getTypeText(request.data.requestType)}
                     </div>
                     {request.data.requestType === 'vote' &&
                         <>
@@ -95,7 +95,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     }
                 </div>
                 <div style={{ marginTop: '1em', marginBottom: '1.6em' }}>
-                    Adjuntos:
+                    {translate.attachments}:
                     {request.data.attachments ?
                         request.data.attachments.map((attachment, index) => (
                             <div key={`adjuntos_${index}`} onClick={() => downloadAttachment(request.id, index)} style={{ cursor: 'pointer' }}>
@@ -151,8 +151,8 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
 
     const closeModalAlert = () => {
         setModalAlert(false)
-        if(inModal){
-            setInModal(false)  
+        if (inModal) {
+            setInModal(false)
         }
         refetch()
     }
@@ -167,7 +167,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                         {inModal ?
                             <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
                                 <DelegateVoteButton
-                                    text="Continuar"
+                                    text={translate.continue}
                                     request={request}
                                     refetch={refetch}
                                     translate={translate}
@@ -175,15 +175,15 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                                     closeModal={() => setModalAlert(false)}
                                     setInModal={setInModal}
                                     inModal={inModal}
-                                    closeModalAlert={()=>{setModalAlert(false);refetch()}}
+                                    closeModalAlert={() => { setModalAlert(false); refetch() }}
                                 />
                             </div>
                             :
                             <div>
-                                <div>El usuario ha marcado delegación de voto y no se ha realizado</div>
+                                <div>{translate.user_marked_delegation_vote}</div>
                                 <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
                                     <DelegateVoteButton
-                                        text="Continuar"
+                                        text={translate.continue}
                                         request={request}
                                         refetch={refetch}
                                         translate={translate}
@@ -193,7 +193,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                                         inModal={inModal}
                                     />
                                     <BasicButton
-                                        text="Cancelar"
+                                        text={translate.cancel}
                                         onClick={closeModals}
                                         buttonStyle={{
                                             border: `1px solid ${secondary}`,

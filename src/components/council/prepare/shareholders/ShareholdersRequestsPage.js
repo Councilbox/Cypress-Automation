@@ -71,7 +71,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
     if (loading) {
         return <LoadingSection />
     }
-    // console.log(data)
+    console.log(translate)
     return (
         <div style={{ padding: '2em 1em 1em', height: "calc( 100% - 3em )" }}>
             <Scrollbar>
@@ -94,12 +94,11 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                             type="flat"
                             items={
                                 <div style={{ color: "" }}>
-                                    {/* TRADUCCION */}
                                     <MenuItem onClick={() => setSearch('1')} >
-                                        Aceptada
+                                        {translate.accepted}
                                     </MenuItem>
                                     <MenuItem onClick={() => setSearch('0')}>
-                                        Pendiente
+                                        {translate.pending}
                                     </MenuItem>
                                 </div>
                             }
@@ -146,7 +145,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                     {moment(request.date).format('LLL')}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.participantCreated === false ? "Pendiente" : request.data.requestType === 'represent' ? "Confirmada/ Delegación pendiente" : "Confirmada"}
+                                    {request.participantCreated === false ? translate.pending : request.data.requestType === 'represent' ? translate.confirmed_pending_delegation : translate.confirmed}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     <CheckShareholderRequest
