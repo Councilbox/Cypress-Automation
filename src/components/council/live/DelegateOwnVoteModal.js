@@ -15,7 +15,7 @@ import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { addDelegation } from "../../../queries/liveParticipant";
 import { toast } from "react-toastify";
 
-const DelegateOwnVoteModal = ({ translate, participant, show, client, council, inModal, ...props }) => {
+const DelegateOwnVoteModal = ({ translate, participant, show, client, council, inModal, setInModal, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 	const [filters, setFilters] = React.useState({

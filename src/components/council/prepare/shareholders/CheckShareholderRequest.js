@@ -121,7 +121,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     refetch={refetch}
                     translate={translate}
                 />
-                {request.participantCreated &&
+                {request.participantCreated && request.data.requestType === 'represent' &&
                     <DelegateVoteButton
                         request={request}
                         refetch={refetch}
@@ -146,6 +146,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
     const closeModals = () => {
         setModal(false)
         setModalAlert(false)
+        refetch()
     }
 
     const closeModalAlert = () => {
@@ -153,6 +154,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
         if(inModal){
             setInModal(false)  
         }
+        refetch()
     }
 
 
@@ -173,6 +175,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                                     closeModal={() => setModalAlert(false)}
                                     setInModal={setInModal}
                                     inModal={inModal}
+                                    closeModalAlert={()=>{setModalAlert(false);refetch()}}
                                 />
                             </div>
                             :

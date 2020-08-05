@@ -9,7 +9,7 @@ import DelegateOwnVoteModal from '../../live/DelegateOwnVoteModal';
 import { PARTICIPANT_STATES } from '../../../../constants';
 
 
-const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text, translate, inModal, setInModal }) => {
+const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text, translate, inModal, setInModal, closeModalAlert }) => {
     const [modal, setModal] = React.useState(null);
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
@@ -205,6 +205,7 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
     if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
         setRepresentative(true)
     }
+
     if (inModal) {
         return (
             <>
@@ -213,7 +214,7 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
                     council={data.council}
                     participant={participant.live}
                     refetch={refetch}
-                    requestClose={() => setModal(false)}
+                    requestClose={() => { setInModal(false); closeModalAlert() }}
                     translate={translate}
                     inModal={inModal}
                 />
