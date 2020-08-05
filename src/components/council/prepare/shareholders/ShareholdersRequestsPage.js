@@ -60,7 +60,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
             setUsersTotal(response.data.shareholdersRequests.total);
         }
         setLoading(false);
-    }, [council.id])
+    }, [council.id, usersPage, search])
 
     usePolling(getData, 8000);
 
