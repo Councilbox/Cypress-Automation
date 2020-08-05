@@ -24,7 +24,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
     const [search, setSearch] = React.useState('');
     const [usersPage, setUsersPage] = React.useState(1);
     const [usersTotal, setUsersTotal] = React.useState(false);
-    
+
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -71,7 +71,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
     if (loading) {
         return <LoadingSection />
     }
-
+    console.log(data)
     return (
         <div style={{ padding: '2em 1em 1em', height: "calc( 100% - 3em )" }}>
             <Scrollbar>
@@ -129,9 +129,9 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                     </TableHead>
                     <TableBody>
                         {data.map(request => (
-                            <TableRow key={`request_${request.id}`}>
+                            <TableRow key={`request_${request.id}`} style={{ background: request.data.requestType === 'represent' && "#ddd" }}>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.data.name}  {request.data.surname ? request.data.surname : ""} 
+                                    {request.data.name}  {request.data.surname ? request.data.surname : ""}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {request.data.email}
@@ -146,7 +146,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                     {moment(request.date).format('LLL')}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.state === '0' ? "Pendiente" : "Aceptada"}
+                                    {request.participantCreated === false ? "Pendiente" : request.data.requestType === 'represent' ? "Confirmada/ Delegación pendiente" : "Confirmada"}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     <CheckShareholderRequest

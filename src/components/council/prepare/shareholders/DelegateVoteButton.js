@@ -9,7 +9,7 @@ import DelegateOwnVoteModal from '../../live/DelegateOwnVoteModal';
 import { PARTICIPANT_STATES } from '../../../../constants';
 
 
-const DelegateVoteButton = ({ request, client, refetch, translate }) => {
+const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text, translate }) => {
     const [modal, setModal] = React.useState(null);
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
@@ -195,11 +195,13 @@ const DelegateVoteButton = ({ request, client, refetch, translate }) => {
 
 
     const participant = data.councilParticipant;
-
+    if(participant.live.state === PARTICIPANT_STATES.DELEGATED){
+        setRepresentative(true)
+    }
     return (
         <>
             <BasicButton
-                text={participant.live.state === PARTICIPANT_STATES.DELEGATED? 'Voto representado' : "Añadir representación"}
+                text={ text ? text : participant.live.state === PARTICIPANT_STATES.DELEGATED? 'Voto representado' : "Añadir representación"}
                 onClick={() => setModal(request)}
                 buttonStyle={{
                     border: `1px solid ${buttonColor}`,

@@ -24,9 +24,11 @@ export const getTypeText = text => {
 
 const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
     const [modal, setModal] = React.useState(false);
+    const [modalAlert, setModalAlert] = React.useState(false);
+    const [representative, setRepresentative] = React.useState(false);
     const secondary = getSecondary();
 
-    console.log(request);
+    // console.log(request);
 
 
     const downloadAttachment = async (requestId, index) => {
@@ -50,7 +52,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
         downloadFile(base64, file.filetype, file.filename)
     }
 
-    const modalBody = () => {
+    const modalBody = (representative) => {
         return (
             <>
                 <div>
@@ -72,7 +74,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                         <>
                             En:
                             <div style={{ marginBotton: '2em' }}>
-                                {request.data.representative[0].value === 'el presidente' ?
+                                {request.data.representative[0].value === 'el presidente' || request.data.representative[0].value.includes('Presidente') ?
                                     request.data.representative[0].value
                                     :
                                     request.data.representative[0].info.map((data, index) => (
@@ -123,16 +125,65 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                         request={request}
                         refetch={refetch}
                         translate={translate}
+                        setRepresentative={setRepresentative}
                     />
-
                 }
             </>
         )
     }
 
 
+    const closeModal = () => {
+        if (!representative && request.data.requestType === 'represent' && request.participantCreated) {
+            setModalAlert(true)
+
+        } else {
+            setModal(false)
+        }
+    }
+
     return (
         <>
+            <AlertConfirm
+                title={'Alerta'}
+                bodyText={
+                    <div>
+                        <div>El usuario ha marcado delegación de voto y no se ha realizado</div>
+                        <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
+                            {/* <BasicButton
+                                text="Continuar"
+                                onClick={() => setModal(request)}
+                                buttonStyle={{
+                                    border: `1px solid ${secondary}`,
+                                    marginRight: "1em"
+                                }}
+                                color="white"
+                                textStyle={{ color: secondary }}
+                            //onClick={approveRequest}
+                            /> */}
+                            <DelegateVoteButton
+                                text="Continuar"
+                                request={request}
+                                refetch={refetch}
+                                translate={translate}
+                                setRepresentative={setRepresentative}
+                            />
+                            <BasicButton
+                                text="Cancelar"
+                                onClick={closeModal}
+                                buttonStyle={{
+                                    border: `1px solid ${secondary}`
+                                }}
+                                color="white"
+                                textStyle={{ color: secondary }}
+                            //onClick={approveRequest}
+                            />
+                        </div>
+                    </div>
+                }
+                requestClose={setModalAlert}
+                open={modalAlert}
+            />
             <BasicButton
                 text="Revisar"
                 onClick={() => setModal(request)}
@@ -146,7 +197,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
             <AlertConfirm
                 title={'Solicitud'}
                 bodyText={modalBody()}
-                requestClose={() => setModal(false)}
+                requestClose={closeModal}
                 open={modal}
             />
         </>
