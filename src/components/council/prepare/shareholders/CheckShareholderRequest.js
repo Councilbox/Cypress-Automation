@@ -86,7 +86,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                                     ))}
                             </div>
                             {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
-                                <div key={`early_vote_${index}`}>
+                                <div key={`early_votes_${index}`}>
                                     <div style={{ fontWeight: '700' }}>{vote.name}</div>
                                     <div>-{getVote(+vote.value, translate)}</div>
                                 </div>
@@ -98,7 +98,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     Adjuntos:
                     {request.data.attachments ?
                         request.data.attachments.map((attachment, index) => (
-                            <div onClick={() => downloadAttachment(request.id, index)} style={{ cursor: 'pointer' }}>
+                            <div key={`adjuntos_${index}`} onClick={() => downloadAttachment(request.id, index)} style={{ cursor: 'pointer' }}>
                                 <i className='fa fa-file-pdf-o'></i>  {attachment.name}
                             </div>
                         ))

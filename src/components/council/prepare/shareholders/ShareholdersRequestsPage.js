@@ -71,7 +71,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
     if (loading) {
         return <LoadingSection />
     }
-    console.log(data)
+    // console.log(data)
     return (
         <div style={{ padding: '2em 1em 1em', height: "calc( 100% - 3em )" }}>
             <Scrollbar>
