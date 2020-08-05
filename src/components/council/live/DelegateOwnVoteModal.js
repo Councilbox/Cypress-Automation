@@ -15,7 +15,7 @@ import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { addDelegation } from "../../../queries/liveParticipant";
 import { toast } from "react-toastify";
 
-const DelegateOwnVoteModal = ({ translate, participant, show, client, council, ...props }) => {
+const DelegateOwnVoteModal = ({ translate, participant, show, client, council, inModal, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 	const [filters, setFilters] = React.useState({
@@ -37,7 +37,7 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 	}, [filters.text, participant.id]);
 
 	const getMore = React.useCallback(async () => {
-		if(options.offset !== 0){
+		if (options.offset !== 0) {
 			const response = await client.query({
 				query: participantsToDelegate,
 				variables: buildVariables()
@@ -70,7 +70,7 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 			participantId: participant.id,
 		}
 
-		if(filters.text){
+		if (filters.text) {
 			variables.filters = [{
 				field: "fullName",
 				text: filters.text.trim()
@@ -112,30 +112,30 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 					<LiveToast
 						message={translate.just_delegate_vote}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "errorToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
 				)
 			} else if (response.errors[0].code === 711) {
 				toast(
 					<LiveToast
 						message={translate.number_of_delegated_votes_exceeded}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "errorToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
 				)
 			} else if (response.errors[0].code === 715) {
 				toast(
 					<LiveToast
 						message={translate.cant_delegate_has_delegated_votes}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "errorToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
 				)
 			}
 		}
@@ -211,12 +211,12 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 												elevation={1}
 												onClick={loadMore}
 											>
-												<MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+												<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
 													{`DESCARGAR ${
-													rest > DELEGATION_USERS_LOAD
-														? `${1} de ${rest} RESTANTES`
-														: translate.all_plural.toLowerCase()
-													}`}
+														rest > DELEGATION_USERS_LOAD
+															? `${1} de ${rest} RESTANTES`
+															: translate.all_plural.toLowerCase()
+														}`}
 													{loading &&
 														<div>
 															<LoadingSection size={25} />
@@ -235,17 +235,19 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 			</div>
 		);
 	}
-
-	return (
-		<AlertConfirm
-			requestClose={close}
-			open={show}
-			buttonCancel={translate.close}
-			bodyText={_renderBody()}
-			title={translate.to_delegate_vote}
-		/>
-	);
-
+	if (inModal) {
+		return(<div>{_renderBody()}</div>)
+	} else {
+		return (
+			<AlertConfirm
+				requestClose={close}
+				open={show}
+				buttonCancel={translate.close}
+				bodyText={_renderBody()}
+				title={translate.to_delegate_vote}
+			/>
+		);
+	}
 }
 
 

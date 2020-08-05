@@ -25,6 +25,7 @@ export const getTypeText = text => {
 const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
     const [modal, setModal] = React.useState(false);
     const [modalAlert, setModalAlert] = React.useState(false);
+    const [inModal, setInModal] = React.useState(null);
     const [representative, setRepresentative] = React.useState(false);
     const secondary = getSecondary();
 
@@ -142,46 +143,69 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
         }
     }
 
+    const closeModals = () => {
+        setModal(false)
+        setModalAlert(false)
+    }
+
+    const closeModalAlert = () => {
+        setModalAlert(false)
+        if(inModal){
+            setInModal(false)  
+        }
+    }
+
+
     return (
         <>
             <AlertConfirm
-                title={'Alerta'}
+                title={inModal ? translate.to_delegate_vote : 'Alerta'}
                 bodyText={
                     <div>
-                        <div>El usuario ha marcado delegación de voto y no se ha realizado</div>
-                        <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
-                            {/* <BasicButton
-                                text="Continuar"
-                                onClick={() => setModal(request)}
-                                buttonStyle={{
-                                    border: `1px solid ${secondary}`,
-                                    marginRight: "1em"
-                                }}
-                                color="white"
-                                textStyle={{ color: secondary }}
-                            //onClick={approveRequest}
-                            /> */}
-                            <DelegateVoteButton
-                                text="Continuar"
-                                request={request}
-                                refetch={refetch}
-                                translate={translate}
-                                setRepresentative={setRepresentative}
-                            />
-                            <BasicButton
-                                text="Cancelar"
-                                onClick={closeModal}
-                                buttonStyle={{
-                                    border: `1px solid ${secondary}`
-                                }}
-                                color="white"
-                                textStyle={{ color: secondary }}
-                            //onClick={approveRequest}
-                            />
-                        </div>
+                        {inModal ?
+                            <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
+                                <DelegateVoteButton
+                                    text="Continuar"
+                                    request={request}
+                                    refetch={refetch}
+                                    translate={translate}
+                                    setRepresentative={setRepresentative}
+                                    closeModal={() => setModalAlert(false)}
+                                    setInModal={setInModal}
+                                    inModal={inModal}
+                                />
+                            </div>
+                            :
+                            <div>
+                                <div>El usuario ha marcado delegación de voto y no se ha realizado</div>
+                                <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
+                                    <DelegateVoteButton
+                                        text="Continuar"
+                                        request={request}
+                                        refetch={refetch}
+                                        translate={translate}
+                                        setRepresentative={setRepresentative}
+                                        closeModal={() => setModalAlert(false)}
+                                        setInModal={setInModal}
+                                        inModal={inModal}
+                                    />
+                                    <BasicButton
+                                        text="Cancelar"
+                                        onClick={closeModals}
+                                        buttonStyle={{
+                                            border: `1px solid ${secondary}`,
+                                            marginLeft: "1em"
+                                        }}
+                                        color="white"
+                                        textStyle={{ color: secondary }}
+                                    //onClick={approveRequest}
+                                    />
+                                </div>
+                            </div>
+                        }
                     </div>
                 }
-                requestClose={setModalAlert}
+                requestClose={closeModalAlert}
                 open={modalAlert}
             />
             <BasicButton
