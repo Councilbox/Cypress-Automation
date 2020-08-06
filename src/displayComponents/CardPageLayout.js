@@ -9,10 +9,15 @@ import { bHistory } from "../containers/App";
 import { isMobile } from "react-device-detect";
 
 
-const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false }) => {
+const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact }) => {
 
 	const goBack = () => {
-		bHistory.goBack();
+		if (inMenuExact) {
+			bHistory.push(`/company/569/drafts/plantillas`);
+		} else {
+			bHistory.goBack();
+		}
+
 	};
 
 	return (
@@ -42,7 +47,7 @@ const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, a
 					verticalAlign: "middle",
 					// padding: windowSize !== "xs" ? "0.5em" : "0.2em",
 					// height: windowSize !== "xs" ? "2.8em" : "2em",
-					zIndex: title? "20" : -1,
+					zIndex: title ? "20" : -1,
 					marginLeft:
 						windowSize !== "xs"
 							? windowSize === "xl"
@@ -60,7 +65,7 @@ const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, a
 					// justifyContent: "center",
 					// alignItems: "center"
 				}}>
-					<div style={{ cursor: "pointer", visibility: title? 'visible' : 'hidden' }} onClick={goBack}>
+					<div style={{ cursor: "pointer", visibility: title ? 'visible' : 'hidden' }} onClick={goBack}>
 						<i className="fa fa-angle-left" ></i>
 						<span style={{ fontStyle: "normal", marginRight: "8px", marginLeft: "5px" }}>
 							|
@@ -100,7 +105,7 @@ const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, a
 							position: "relative",
 							overflow: "hidden",
 							height: "100%",
-							paddingTop: title? isMobile ? "4em" : "6em" : '0.6em'
+							paddingTop: title ? isMobile ? "4em" : "6em" : '0.6em'
 						}}
 					>
 						{!disableScroll && (

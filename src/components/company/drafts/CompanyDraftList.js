@@ -703,7 +703,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 										{columns[key].map((tag, index) => {
 											return (
 												index > 0 ?
-													<Collapse in={expanded} timeout="auto" unmountOnExit>
+													<Collapse in={expanded} timeout="auto" unmountOnExit key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_1`}>
 														<SelectedTag
 															key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
 															text={translate[tag.label] || tag.label}
