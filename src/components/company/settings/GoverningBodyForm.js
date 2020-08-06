@@ -329,7 +329,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     {translate.social_capital}
                                 </TableCell>
                                 <TableCell>
-                                    Borrar
+                                    {translate.new_delete}
                                 </TableCell>
                             </TableHead>
                             <TableBody>
