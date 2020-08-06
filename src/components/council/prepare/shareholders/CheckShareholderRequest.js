@@ -161,7 +161,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
     return (
         <>
             <AlertConfirm
-                title={inModal ? translate.to_delegate_vote : 'Alerta'}
+                title={inModal ? translate.to_delegate_vote : 'Alerta'}//TRADUCCION
                 bodyText={
                     <div>
                         {inModal ?
@@ -183,7 +183,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                                 <div>{translate.user_marked_delegation_vote}</div>
                                 <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
                                     <DelegateVoteButton
-                                        text={translate.continue}
+                                        text={translate.to_delegate_vote}
                                         request={request}
                                         refetch={refetch}
                                         translate={translate}
@@ -193,7 +193,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                                         inModal={inModal}
                                     />
                                     <BasicButton
-                                        text={translate.cancel}
+                                        text={translate.close}
                                         onClick={closeModals}
                                         buttonStyle={{
                                             border: `1px solid ${secondary}`,
