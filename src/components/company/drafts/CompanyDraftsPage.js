@@ -47,7 +47,6 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
     }
 
     React.useEffect(() => {
-        // console.log(Object.keys(testTags).map(key => testTags[key].name))
         getDrafts({
             companyId: props.company.id,
             ...(search ? {
