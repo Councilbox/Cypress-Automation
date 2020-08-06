@@ -67,7 +67,7 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
                             totalVotes={recount.partRightVoting}
                         />
                     }
-                    buttonCancel={'Cerrar'}
+                    buttonCancel={translate.close}
                     cancelAction={() => setModal(false)}
                     requestClose={() => setModal(false)}
                 />
