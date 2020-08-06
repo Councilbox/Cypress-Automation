@@ -132,6 +132,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
     let toastId = null;
 
     const checkRequiredFields = () => {
+        var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
         const errors = {
             expirationDateToSign: '',
             title: '',
@@ -151,6 +152,13 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         if (!data.title) {
             errors.title = translate.required_field;
             hasError = true;
+        }
+
+        if (data.title) {
+            if (!(regex.test(data.title)) || !data.title.trim()) {
+                hasError = true;
+                errors.title =  translate.invalid_field;
+            }
         }
 
         if (!data.description) {
