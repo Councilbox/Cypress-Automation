@@ -257,7 +257,7 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 	const { loading, error, platformDrafts, draftTypes } = data;
 	const { selectedIndex, selectedValues } = state;
 	const primary = getPrimary();
-
+	
 	return (
 		<CardPageLayout title={translate.general_drafts}>
 			{selectedIndex >= 0 ? (
@@ -355,7 +355,7 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 											floatingText={" "}
 											type="text"
 											value={search}
-											placeholder={"Buscar plantillas"}
+											placeholder={translate.search_templates}
 											onChange={event => {
 												setSearch(event.target.value);
 											}}
