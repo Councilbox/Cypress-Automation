@@ -20,7 +20,6 @@ const defaultValues = {
 }
 
 export const useValidateAgenda = (translate, setErrors) => (items, options, agenda) => {
-    console.log(translate)
     let hasError = false;
     let newErrors = {
         items: items.map(item => ({ error: '' }))

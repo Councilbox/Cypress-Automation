@@ -29,9 +29,6 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
     const [representative, setRepresentative] = React.useState(false);
     const secondary = getSecondary();
 
-    // console.log(request);
-
-
     const downloadAttachment = async (requestId, index) => {
         const response = await client.query({
             query: gql`

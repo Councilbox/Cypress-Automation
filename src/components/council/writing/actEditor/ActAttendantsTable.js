@@ -20,7 +20,6 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
     const [loading, setLoading] = React.useState(true);
 
     const getCouncilAttendants = async (value) => {
-        console.log(value)
         const response = await client.query({
             query: councilAttendants,
             variables: {

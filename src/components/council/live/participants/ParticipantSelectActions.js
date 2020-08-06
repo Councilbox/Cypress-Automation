@@ -48,7 +48,6 @@ class ParticipantSelectActions extends React.Component {
 		const { translate, participant, council, onlyButtonDelegateVote } = this.props;
 		const { loading } = this.state;
 		if (onlyButtonDelegateVote) {
-			// console.log(participant)
 			return (
 				// CBX.canAddDelegateVotes(council.statute, participant) && (
 				// <GridItem xs={12} md={6} lg={4}>

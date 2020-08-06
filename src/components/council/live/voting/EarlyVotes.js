@@ -60,7 +60,6 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
             }
         });
 
-        console.log(response);
         setEarlyVotes(response.data.earlyVotes);
         setRecount(response.data.earlyVotesRecount);
         setLoading(false);

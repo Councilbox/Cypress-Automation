@@ -179,7 +179,6 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
         });
         setData(response.data);
         setLoading(false);
-        console.log(response);
     }, [request.participantId]);
 
     const sendNotification = async () => {
