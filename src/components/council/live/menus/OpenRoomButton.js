@@ -101,7 +101,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 								})
 							}
 							name="sendOptions"
-							label={'Remotos'}
+							label={translate.remotes}
 						/>
 						<HelpPopover
 							title={translate.remotes}
