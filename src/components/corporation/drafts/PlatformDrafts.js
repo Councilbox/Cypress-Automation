@@ -407,7 +407,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 														floatingText={" "}
 														type="text"
 														value={search}
-														placeholder={"Buscar plantillas"}
+														placeholder={translate.search_templates}
 														onChange={event => {
 															setSearch(event.target.value);
 														}}
