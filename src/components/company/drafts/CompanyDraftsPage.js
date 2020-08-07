@@ -14,15 +14,21 @@ import CompanyDocumentsPage from './documents/CompanyDocumentsPage';
 import { showOrganizationDashboard } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 import StatutesBody from '../statutes/StatutesBody';
+import { bHistory } from '../../../containers/App';
+import { withRouter } from 'react-router';
 
 
 const CompanyDraftsPage = ({ translate, client, ...props }) => {
     const config = React.useContext(ConfigContext);
     const [data, setData] = React.useState({});
-    const tabs = showOrganizationDashboard(props.company, config, props.user)?
+    const tabs = showOrganizationDashboard(props.company, config, props.user) ?
         [translate.dasboard_documentation, translate.drafts, '<Tags>', translate.council_types]
-    :
+        :
         [translate.dasboard_documentation, translate.drafts, '<Tags>']
+    const tabsUrl = showOrganizationDashboard(props.company, config, props.user) ?
+        ['documentation', 'drafts', 'tags', 'councilTypes']
+        :
+        ['documentation', 'drafts', 'tags']
     const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(tabs[0]);
     const [mostrarMenu, setMostrarMenu] = React.useState(true);
     const [inputSearch, setInputSearch] = React.useState(false);
@@ -76,6 +82,20 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
         getData();
     }, [props.company.id]);
 
+    React.useEffect(() => {
+        let pathname = window.location.pathname.split('/')[4];
+        let index = tabs.indexOf(selecteDraftPadre)
+        let index2 = tabsUrl.indexOf(pathname)
+        if (pathname !== tabsUrl[index]) {
+            setSelecteDraftPadre(tabs[index2])
+        }
+    }, [window.location.pathname]);
+
+    const goToPadre = (item) => {
+        let indexPadre = tabs.indexOf(item)
+        bHistory.push(`/company/${props.company.id}/drafts/${tabsUrl[indexPadre]}`)
+    }
+
 
     return (
         <CardPageLayout title={translate.tooltip_knowledge_base} disableScroll>
@@ -87,6 +107,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
                                 items={tabs}
                                 setSelect={setSelecteDraftPadre}
                                 selected={selecteDraftPadre}
+                                goToPadre={goToPadre}
                             />
                         </div>
                         {isMobile && selecteDraftPadre !== '<Tags>' &&
