@@ -130,7 +130,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
         if(hasParticipations(council)){
             tabs.push({
-                label: 'Resultados',
+                label: translate.results,
                 value: 'results',
                 persistent: true,
                 component: () => {
