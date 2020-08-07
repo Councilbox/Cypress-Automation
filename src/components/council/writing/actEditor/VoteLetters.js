@@ -55,7 +55,7 @@ const DelegationDocuments = ({ council, translate, client }) => {
             :
                 <>
                     <div>
-                        Numero de cartas emitidas {data.total} / Numero de participaciones: {data.totalShares} ({((data.totalShares / data.quorum) * 100).toFixed(2)}%)
+                        {translate.number_of_letters_issued} {data.total} / {translate.participation_number}: {data.totalShares} ({((data.totalShares / data.quorum) * 100).toFixed(2)}%)
                     </div>
                     {data.list.map(item => (
                         <Card style={{marginTop: '1em', width: '70%', padding: '0.6em'}}>
