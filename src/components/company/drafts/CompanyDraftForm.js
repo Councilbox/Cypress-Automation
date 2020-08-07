@@ -64,10 +64,10 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
 			let statute = null;
-			if(companyStatutes){
+			if (companyStatutes) {
 				statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
 			}
-			const title = statute? translate[statute.title]? translate[statute.title] : statute.title : tag.label;
+			const title = statute ? translate[statute.title] ? translate[statute.title] : statute.title : tag.label;
 			return translate[title] || title;
 		}
 
@@ -144,7 +144,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 							color: "rgba(0, 0, 0, 0.65)",
 							fontSize: '15px',
 							boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-							border: !!errors.title? '2px solid red' : '1px solid #d7d7d7',
+							border: !!errors.title ? '2px solid red' : '1px solid #d7d7d7',
 							width: "100%",
 							padding: '.5em 1.6em',
 							marginTop: "1em"
@@ -159,7 +159,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					>
 					</Input>
 					{!!errors.title &&
-						<span style={{color: 'red'}}>{errors.title}</span>
+						<span style={{ color: 'red' }}>{errors.title}</span>
 					}
 				</div>
 			</React.Fragment>
@@ -310,7 +310,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					</div>
 				</div>
 				<div style={{ minHeight: props.innerWidth > 960 ? "300px" : "", height: "calc( 100% - 4em )" }}>
-					<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", height: "100%" }}>
+					<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", height: "100%", paddingBottom: isMobile && "1em" }}>
 						<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
 							<div style={{ marginBottom: "1em", display: "flex" }}>
 								<TextInput
@@ -459,12 +459,12 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 								{renderTitle()}
 							</GridItem>
 							{Object.keys(testTags).length > 0 &&
-								<GridItem xs={12} lg={8} md={8} style={{ marginTop: " 1em" }}>
-									{renderSelectorEtiquetas()}
+								<GridItem xs={12} lg={12} md={12} style={{}}>
+									{renderEtiquetasSeleccionadas()}
 								</GridItem>
 							}
-							<GridItem xs={12} lg={8} md={8} style={{ marginTop: " 1em" }}>
-								{renderEtiquetasSeleccionadas()}
+							<GridItem xs={12} lg={4} md={4} style={{}}>
+								{renderSelectorEtiquetas()}
 							</GridItem>
 							{/* <GridItem xs={12} lg={8} md={8}>
 								{renderDescription()}

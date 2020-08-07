@@ -1,99 +1,162 @@
 import React from 'react';
-import { EnhancedTable, RefreshButton } from '../../../../displayComponents';
+import { EnhancedTable, RefreshButton, LoadingSection } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS, SIGNATURE_PARTICIPANTS_STATES } from '../../../../constants';
-import { TableRow, TableCell } from 'material-ui';
-import { graphql, compose } from 'react-apollo';
+import { TableRow, TableCell, Card } from 'material-ui';
+import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getSignerStatusTranslateField } from '../../../../utils/CBX';
+import { isMobile } from '../../../../utils/screen';
+import { CardContent } from 'material-ui';
 
-class SignersList extends React.Component {
 
-    state = {
-        refreshing: false
-    }
+const SignersList = ({ translate, client, ...props }) => {
+    const [loading, setLoading] = React.useState(true);
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [signatureParticipantsList, setSignatureParticipantsList] = React.useState([]);
+    const [signatureParticipantsTotal, setSignatureParticipantsTotal] = React.useState(0);
 
-    refreshStates = async () => {
-        this.setState({
-            refreshing: true
+    const table = React.useRef();
+
+    const getData = React.useCallback(async (filtros) => {
+        const response = await client.query({
+            query: signatureParticipants,
+            variables: {
+                signatureId: props.signature.id,
+                ...(filtros ? {
+                    ...filtros
+                } :
+                    {}
+                )
+            },
         });
-        await this.props.refetch();
-        this.setState({
-            refreshing: false
-        })
+        setSignatureParticipantsList(response.data.signatureParticipants.list)
+        setSignatureParticipantsTotal(response.data.signatureParticipants.total)
+        setLoading(false)
+    }, []);
+
+    React.useEffect(() => {
+        getData();
+    }, [getData]);
+
+
+    const removeSignature = async (id) => {
+        const response = await client.mutate({
+            mutation: removeSignatureParticipant,
+            variables: {
+                participantId: ''
+            }
+        });
     }
 
-    reloadParticipants = () => {
-        this.props.data.refetch();
+    const refresh = async () => {
+        setRefreshing(true);
+        await props.refetch();
+        setRefreshing(false);
     }
 
-    render(){
-        const { translate } = this.props;
-        const { signatureParticipants = { list: [], total: 0}, loading } = this.props.data;
+    if (loading) {
+        return <LoadingSection />
+    }
 
-        return(
-            <React.Fragment>
-                <EnhancedTable
-                    ref={table => (this.table = table)}
-                    translate={translate}
-                    defaultLimit={PARTICIPANTS_LIMITS[0]}
-                    defaultFilter={"fullName"}
-                    defaultOrder={["fullName", "asc"]}
-                    limits={PARTICIPANTS_LIMITS}
-                    menuButtons={
-                        <div style={{marginRight: '0.8em'}}>
-                            <RefreshButton
-                                translate={translate}
-                                loading={this.state.refreshing}
-                                tooltip={translate.refresh_convened}
-                                onClick={this.refreshStates}
-                            />
-                        </div>
+    return (
+        <React.Fragment>
+            <EnhancedTable
+                hideTextFilter={isMobile}
+                searchInMovil={isMobile}
+                ref={table}
+                translate={translate}
+                defaultLimit={PARTICIPANTS_LIMITS[0]}
+                defaultFilter={"fullName"}
+                defaultOrder={["fullName", "asc"]}
+                limits={PARTICIPANTS_LIMITS}
+                menuButtons={
+                    <div style={{ marginRight: '0.8em' }}>
+                        <RefreshButton
+                            loading={refreshing}
+                            translate={translate}
+                            tooltip={translate.refresh_convened}
+                            onClick={refresh}
+                        />
+                    </div>
+                }
+                page={1}
+                length={signatureParticipantsList.length}
+                total={signatureParticipantsTotal}
+                refetch={getData}
+                fields={[
+                    {
+                        value: "fullName",
+                        translation: translate.participant_data
+                    },
+                    {
+                        value: "dni",
+                        translation: translate.dni
+                    },
+                    {
+                        value: "email",
+                        translation: translate.email
                     }
-                    page={1}
-                    //loading={loading}
-                    length={signatureParticipants.list.length}
-                    total={signatureParticipants.total}
-                    refetch={this.props.data.refetch}
-                    action={this._renderDeleteIcon}
-                    fields={[
-                        {
-                            value: "fullName",
-                            translation: translate.participant_data
-                        },
-                        {
-                            value: "dni",
-                            translation: translate.dni
-                        },
-                        {
-                            value: "email",
-                            translation: translate.email
-                        }
-                    ]}
-                    headers={[
-                        {
-                            name: 'fullName',
-                            text: translate.participant_data,
-                            canOrder: true
-                        },
-                        {
-                            name: 'dni',
-                            text: translate.dni,
-                            canOrder: true
-                        },
-                        {
-                            name: 'email',
-                            text: translate.email,
-                            canOrder: true
-                        },
-                        {
-                            name: 'status',
-                            text: translate.signed,
-                            canOrder: true
-                        }
-                    ]}
-                >
-                    {signatureParticipants.list.length > 0 &&
-                        signatureParticipants.list.map(participant => (
+                ]}
+                headers={[
+                    {
+                        name: 'fullName',
+                        text: translate.participant_data,
+                        canOrder: true
+                    },
+                    {
+                        name: 'dni',
+                        text: translate.dni,
+                        canOrder: true
+                    },
+                    {
+                        name: 'email',
+                        text: translate.email,
+                        canOrder: true
+                    },
+                    {
+                        name: 'status',
+                        text: translate.signed,
+                        canOrder: true
+                    }
+                ]}
+            >
+                {signatureParticipantsList.length > 0 &&
+                    signatureParticipantsList.map(participant => (
+                        isMobile ?
+                            <Card style={{ marginBottom: "1em", fontSize: '0.9em' }} key={`participant_${participant.id}`}>
+                                <CardContent>
+                                    <div>
+                                        <div style={{ display: "flex" }}>
+                                            <div style={{ fontWeight: "bold" }}>{translate.participant_data}: </div>
+                                            <div style={{ marginLeft: "5px" }}>
+                                                {participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED &&
+                                                    <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
+                                                }
+                                                {`${participant.name} ${participant.surname || ''}`}
+                                            </div>
+                                        </div>
+                                        <div style={{ display: "flex" }}>
+                                            <div style={{ fontWeight: "bold" }}>{translate.dni}: </div>
+                                            <div style={{ marginLeft: "5px" }}>
+                                                {participant.dni}
+                                            </div>
+                                        </div>
+                                        <div style={{ display: "flex" }}>
+                                            <div style={{ fontWeight: "bold" }}>{translate.email}: </div>
+                                            <div style={{ marginLeft: "5px" }}>
+                                                {participant.email}
+                                            </div>
+                                        </div>
+                                        <div style={{ display: "flex" }}>
+                                            <div style={{ fontWeight: "bold" }}>{translate.signed}: </div>
+                                            <div style={{ marginLeft: "5px" }}>
+                                                {translate[getSignerStatusTranslateField(participant.status)]}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                            :
                             <TableRow
                                 key={`participant_${participant.id}`}
                             >
@@ -110,15 +173,14 @@ class SignersList extends React.Component {
                                     {participant.email}
                                 </TableCell>
                                 <TableCell>
-                                {translate[getSignerStatusTranslateField(participant.status)]}
+                                    {translate[getSignerStatusTranslateField(participant.status)]}
                                 </TableCell>
                             </TableRow>
-                        ))
-                    }
-                </EnhancedTable>
-            </React.Fragment>
-        )
-    }
+                    ))
+                }
+            </EnhancedTable>
+        </React.Fragment>
+    )
 }
 
 const signatureParticipants = gql`
@@ -146,24 +208,4 @@ const removeSignatureParticipant = gql`
     }
 `;
 
-export default compose(
-    graphql(removeSignatureParticipant, {
-        name: 'removeSignatureParticipant',
-        withRef: true
-    }),
-    graphql(signatureParticipants, {
-        options: props => ({
-            variables: {
-                signatureId: props.signature.id,
-                options: {
-                    limit: PARTICIPANTS_LIMITS[0],
-                    offset: 0
-                }
-            },
-            pollInterval: 8000,
-            fetchPolicy: 'network-only',
-            notifyOnNetworkStatusChange: true
-        }),
-        withRef: true
-    })
-)(SignersList);
+export default withApollo(SignersList);

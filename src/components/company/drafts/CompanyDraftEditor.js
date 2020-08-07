@@ -84,12 +84,17 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 			title: "",
 		}
 		let hasError = false;
+		var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
 		if (!checkRequiredFields(translate, data, updateErrors, null, toast)) {
-			if (data.title.trim() == "") {
-				errors.title = translate.required_field;
-				updateErrors(errors);
-				hasError = true;
+
+			if (data.title) {
+				if (!(regex.test(data.title)) || !data.title.trim()) {
+					hasError = true;
+					errors.title =  translate.invalid_field;
+					updateErrors(errors);
+				}
 			}
+
 			if (!hasError) {
 				setLoading(true);
 				const { __typename, ...cleanData } = data;
@@ -138,10 +143,8 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 							match={props.match}
 						/>
 					</div>
-					{/* <br /> */}
+
 					<div style={{
-						// height: '3.5em',
-						// borderTop: '1px solid gainsboro',
 						paddingRight: '0.8em',
 						width: '100%',
 						display: 'flex',
@@ -150,12 +153,9 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 						paddingTop: isMobile && "0.5em"
 					}}>
 						<BasicButton
-							// id={"saveDraft"}
 							floatRight
 							text={translate.back}
 							color={getPrimary()}
-							// loading={this.state.loading}
-							// success={this.state.success}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",

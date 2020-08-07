@@ -48,28 +48,29 @@ class ParticipantSelectActions extends React.Component {
 		const { translate, participant, council, onlyButtonDelegateVote } = this.props;
 		const { loading } = this.state;
 		if (onlyButtonDelegateVote) {
-			// console.log(participant)
 			return (
 				// CBX.canAddDelegateVotes(council.statute, participant) && (
 				// <GridItem xs={12} md={6} lg={4}>
 				<div>
-					<ButtonActions
-						loading={loading === 6}
-						active={participant.state === PARTICIPANT_STATES.DELEGATED}
-						onClick={() => {
-							this.setState({
-								delegateVote: true
-							})
-						}}
-					>
-						<div
-							style={{ display: "flex", alignItems: "center" }}
+					{CBX.canAddDelegateVotes(council.statute, participant) && (
+						<ButtonActions
+							loading={loading === 6}
+							active={participant.state === PARTICIPANT_STATES.DELEGATED}
+							onClick={() => {
+								this.setState({
+									delegateVote: true
+								})
+							}}
 						>
-							<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-								<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
+							<div
+								style={{ display: "flex", alignItems: "center" }}
+							>
+								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
+								</div>
 							</div>
-						</div>
-					</ButtonActions>
+						</ButtonActions>
+					)}
 					<DelegateVoteModal
 						show={this.state.delegateVote}
 						council={council}

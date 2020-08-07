@@ -31,7 +31,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
             }
         });
 
-        if(response.data.createSignature.id){
+        if (response.data.createSignature.id) {
             setSignatureId(response.data.createSignature.id);
             setLoading(2);
             const actQuery = await client.query({
@@ -71,26 +71,26 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
             setLoading(3);
         }
     }
-
+    
     return (
         <>
             <AlertConfirm
                 title={translate.uploading}
                 open={loading}
-                buttonAccept={'Ir al editor de firma'}
+                buttonAccept={translate.go_to_signature_editor}
                 acceptAction={() => bHistory.push(`/company/${council.companyId}/signature/${signatureId}`)}
                 requestClose={() => setLoading(false)}
                 bodyText={
                     <>
                         {loading >= 1 &&
-                            <div style={{width: '90%', display: 'flex', justifyContent: 'space-between'}}>
+                            <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
                                 <div>
-                                    {'Creando firma'}
+                                    {translate.creant_signatura}
                                 </div>
                                 <div>
-                                    {loading > 1?
+                                    {loading > 1 ?
                                         <i className="fa fa-check" style={{ color: 'green' }}></i>
-                                    :
+                                        :
                                         <LoadingSection size={14} />
 
                                     }
@@ -98,14 +98,14 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
                             </div>
                         }
                         {loading >= 2 &&
-                            <div style={{width: '90%', display: 'flex', justifyContent: 'space-between'}}>
+                            <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
                                 <div>
-                                    {'Subiendo acta para firmar'}
+                                    {translate.uploading_act_to_sign}
                                 </div>
                                 <div>
-                                    {loading > 2?
+                                    {loading > 2 ?
                                         <i className="fa fa-check" style={{ color: 'green' }}></i>
-                                    :
+                                        :
                                         <LoadingSection size={14} />
 
                                     }
@@ -116,7 +116,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
                 }
             />
             <BasicButton
-                text='Enviar a firmar'
+                text={translate.new_send_to_sign}
                 color={'white'}
                 //loading={downloading}
                 onClick={createSignature}

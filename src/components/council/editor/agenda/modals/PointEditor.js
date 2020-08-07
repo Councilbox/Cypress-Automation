@@ -42,10 +42,6 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 	const editor = React.useRef();
 	const secondary = getSecondary();
 
-	// console.log(attachments);
-	// console.log(attachmentsToRemove);
-
-
 	const loadDraft = async draft => {
 		const correctedText = await CBX.changeVariablesToValues(draft.text, {
 			company: company,

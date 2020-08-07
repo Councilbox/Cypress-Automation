@@ -231,7 +231,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 							}}>
 								<div>
 									<TextInput
-										placeholder={"Buscar Plantillas"}
+										placeholder={translate.search_templates}
 										adornment={<Icon>search</Icon>}
 										type="text"
 										value={searchModalPlantillas}

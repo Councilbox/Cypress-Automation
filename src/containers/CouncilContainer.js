@@ -67,7 +67,7 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 						title={translate.dashboard_historical}
 						icon={"history"}
 					/>
-					{!isMobile &&
+					{!isMobile ?
 						<div
 							style={{
 								position: 'absolute',
@@ -84,6 +84,34 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 												add
 											</Icon>
 										}
+										onClick={() =>
+											cantAccessPremium ?
+												showCantAccessPremiumModal()
+												:
+												bHistory.push(`/company/${company.id}/council/new`)
+										}
+									/>
+								</div>
+							</Tooltip>
+						</div>
+						:
+						<div
+							style={{
+								position: 'absolute',
+								right: '1%',
+								bottom: '0%'
+							}}
+						>
+							<Tooltip title={`${translate.dashboard_new}`}>
+								<div style={{ marginBottom: "0.3em" }}>
+									<FabButton
+										{...(cantAccessPremium ? { color: 'grey' } : {})}
+										icon={
+											<Icon className="material-icons">
+												add
+											</Icon>
+										}
+										style={{ width: '38px', height: "38px" }}
 										onClick={() =>
 											cantAccessPremium ?
 												showCantAccessPremiumModal()

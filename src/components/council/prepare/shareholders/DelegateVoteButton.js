@@ -1,15 +1,13 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { BasicButton, AlertConfirm } from '../../../../displayComponents';
-import ShareholderEditor from './ShareholderEditor';
-import { liveParticipant } from '../../../../queries';
+import { BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 import DelegateOwnVoteModal from '../../live/DelegateOwnVoteModal';
 import { PARTICIPANT_STATES } from '../../../../constants';
 
 
-const DelegateVoteButton = ({ request, client, refetch, translate }) => {
+const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text, translate, inModal, setInModal, closeModalAlert }) => {
     const [modal, setModal] = React.useState(null);
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
@@ -181,44 +179,89 @@ const DelegateVoteButton = ({ request, client, refetch, translate }) => {
         });
         setData(response.data);
         setLoading(false);
-
-        console.log(response);
     }, [request.participantId]);
+
+    const sendNotification = async () => {
+        const response = await client.mutate({
+            mutation: gql`
+                mutation SendRequestDelegationConfirmation($requestId: Int!, $participantId: Int!){
+                    sendRequestDelegationConfirmation(requestId: $requestId, participantId: $participantId){
+                        success
+                    }
+                }
+                `,
+            variables: {
+                requestId: request.id,
+                participantId: data.councilParticipant.id
+            }
+        });
+        await getParticipant();
+        await refetch();
+    }
 
     React.useEffect(() => {
         getParticipant();
     }, [getParticipant])
 
-    if(loading){
+    if (loading) {
         return '';
     }
 
+    const closeModals = () => {
+        setModal(request)
+        if (!inModal && setInModal) {
+            setInModal(true)
+        }
+    }
 
     const participant = data.councilParticipant;
 
-    return (
-        <>
-            <BasicButton
-                text={participant.live.state === PARTICIPANT_STATES.DELEGATED? 'Voto representado' : "Añadir representación"}
-                onClick={() => setModal(request)}
-                buttonStyle={{
-                    border: `1px solid ${buttonColor}`,
-                    marginLeft: '0.3em'
-                }}
-                color="white"
-                textStyle={{ color: buttonColor }}
-                //onClick={approveRequest}
-            />
-            <DelegateOwnVoteModal
-                show={modal}
-                council={data.council}
-                participant={participant.live}
-                refetch={refetch}
-                requestClose={() => setModal(false)}
-                translate={translate}
-            />
-        </>
-    )
+    if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
+        setRepresentative(true)
+    }
+
+    if (inModal) {
+        return (
+            <>
+                <DelegateOwnVoteModal
+                    show={modal}
+                    council={data.council}
+                    participant={participant.live}
+                    refetch={sendNotification}
+                    requestClose={() => { setInModal(false); closeModalAlert() }}
+                    translate={translate}
+                    inModal={inModal}
+                />
+            </>
+        )
+    } else {
+        return (
+            <>
+                <BasicButton
+                    text={text ? text : participant.live.state === PARTICIPANT_STATES.DELEGATED ?
+                        `${translate.delegated_in} ${participant.live.representative.name} ${participant.live.representative.surname || ''}`
+                    :
+                        translate.to_delegate_vote}
+                    onClick={closeModals}
+                    buttonStyle={{
+                        border: `1px solid ${buttonColor}`,
+                        marginLeft: '0.3em'
+                    }}
+                    color="white"
+                    textStyle={{ color: buttonColor }}
+                />
+                <DelegateOwnVoteModal
+                    show={modal}
+                    council={data.council}
+                    participant={participant.live}
+                    refetch={sendNotification}
+                    requestClose={() => setModal(false)}
+                    translate={translate}
+                    inModal={inModal}
+                />
+            </>
+        )
+    }
 }
 
 export default withApollo(DelegateVoteButton);

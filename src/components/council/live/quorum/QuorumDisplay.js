@@ -67,7 +67,7 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
                             totalVotes={recount.partRightVoting}
                         />
                     }
-                    buttonCancel={'Cerrar'}
+                    buttonCancel={translate.close}
                     cancelAction={() => setModal(false)}
                     requestClose={() => setModal(false)}
                 />
@@ -83,7 +83,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
 
     const getPercentage = value => {
         let base = totalVotes;
-        if(hasParticipations(council)){
+        if (hasParticipations(council)) {
             base = socialCapital;
         }
 
@@ -148,14 +148,14 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
         getData();
     }, [getData]);
 
-    usePolling(getData, council.state < 40? 10000 : 60000);
+    usePolling(getData, council.state < 40 ? 10000 : 60000);
 
-    if(loading){
+    if (loading) {
         return '';
     }
 
     return (
-        <div style={{fontSize: '1em'}}>
+        <div style={{ fontSize: '1em' }}>
             <div style={{
                 width: '100%',
                 display: 'flex',
@@ -170,16 +170,16 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                     id={'user-menu-trigger'}
                     loading={loading}
                     loadingColor={secondary}
-                    text={'Exportar'}
+                    text={translate.to_export}
                     textStyle={{ color: secondary }}
                     type="flat"
-                    buttonStyle={{border: `1px solid ${secondary}`}}
+                    buttonStyle={{ border: `1px solid ${secondary}` }}
                     icon={
                         <i className="fa fa-download" style={{
-                                fontSize: "1em",
-                                color: secondary,
-                                marginLeft: "0.3em"
-                            }}
+                            fontSize: "1em",
+                            color: secondary,
+                            marginLeft: "0.3em"
+                        }}
                         />
                     }
                     items={
@@ -194,12 +194,12 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                     }}
                                 >
                                     <i className="fa fa-file-pdf-o" style={{
-                                            fontSize: "1em",
-                                            color: secondary,
-                                            marginLeft: "0.3em"
-                                        }}
+                                        fontSize: "1em",
+                                        color: secondary,
+                                        marginLeft: "0.3em"
+                                    }}
                                     />
-                                    <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                                    <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
                                         PDF
                                     </span>
                                 </div>
@@ -214,14 +214,14 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                         <TableCell>
 
                         </TableCell>
-                        <TableCell style={{fontSize: '16px', fontWeight: '700'}}>
+                        <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
                             {translate.participants}
                         </TableCell>
-                        <TableCell style={{fontSize: '16px', fontWeight: '700'}}>
-                            Participaciones
+                        <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
+                            {translate.census_type_social_capital}
                         </TableCell>
-                        <TableCell style={{fontSize: '16px', fontWeight: '700'}}>
-                            % Capital social
+                        <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
+                            % {translate.social_capital_desc}
                         </TableCell>
                     </TableHead>
                     <TableBody>
@@ -284,7 +284,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                         {council.statute.canEarlyVote === 1 &&
                             <TableRow>
                                 <TableCell>
-                                    {council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION? 'Carta de voto' : translate.quorum_early_votes}
+                                    {council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.vote_letter : translate.quorum_early_votes}
                                 </TableCell>
                                 <TableCell>
                                     {showNumParticipations(data.numEarlyVotes, company)}
@@ -299,7 +299,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                         }
                         <TableRow>
                             <TableCell>
-                                {'Sin derecho a voto'}
+                                {translate.no_voting_rights}
                             </TableCell>
                             <TableCell>
                                 {showNumParticipations(data.numWithoutVote, company)}
@@ -313,7 +313,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                         </TableRow>
                         <TableRow>
                             <TableCell>
-                                {'Otros'}
+                                {translate.others}
                             </TableCell>
                             <TableCell>
                                 {showNumParticipations(data.numOthers, company)}
@@ -328,18 +328,18 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                     </TableBody>
                 </Table>
                 {renderVotingsTable &&
-                    <Table style={{marginTop: '3em'}}>
+                    <Table style={{ marginTop: '3em' }}>
                         <TableHead>
-                            <TableCell style={{fontSize: '16px', fontWeight: '700'}}>
+                            <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
                                 {translate.title}
                             </TableCell>
-                            <TableCell colSpan={2} style={{fontSize: '16px', fontWeight: '700'}}>
+                            <TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
                                 {translate.in_favor_btn}
                             </TableCell>
-                            <TableCell colSpan={2} style={{fontSize: '16px', fontWeight: '700'}}>
+                            <TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
                                 {translate.against_btn}
                             </TableCell>
-                            <TableCell colSpan={2} style={{fontSize: '16px', fontWeight: '700'}}>
+                            <TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
                                 {translate.abstention_btn}
                             </TableCell>
                         </TableHead>
@@ -347,11 +347,11 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                             {agendas.map(point => (
                                 <TableRow>
                                     <TableCell>
-                                        <div className="truncate" style={{ width: '6em'}}>
+                                        <div className="truncate" style={{ width: '6em' }}>
                                             {point.agendaSubject.substr(0, 10)}
                                         </div>
                                     </TableCell>
-                                    {hasVotation(point.subjectType)?
+                                    {hasVotation(point.subjectType) ?
                                         <>
                                             <TableCell>
                                                 {showNumParticipations(point.positiveVotings + point.positiveManual, company)}
@@ -372,7 +372,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                                 {`${getVotingPercentage(point.abstentionVotings + point.abstentionManual)}%`}
                                             </TableCell>
                                         </>
-                                    :
+                                        :
                                         <>
                                             <TableCell colSpan={2} align="center">
                                                 -
@@ -386,14 +386,14 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                         </>
 
                                     }
-                                    
+
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 }
             </div>
-            
+
         </div>
     )
 })

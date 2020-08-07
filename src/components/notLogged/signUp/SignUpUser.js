@@ -119,7 +119,7 @@ class SignUpUser extends React.Component {
 			}
 			if (!(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(data.phone))) {
 				hasError = true;
-				errors.phone = "Ingrese un número de teléfono válido"
+				errors.phone = translate.enter_valid_phone_number
 			}
 		}
 
@@ -133,6 +133,16 @@ class SignUpUser extends React.Component {
 			errors.confirmPWD = translate.no_match_pwd;
 		}
 
+		if (!(/^[A-Za-z\s]+$/.test(data.name))) {
+			hasError = true;
+			errors.name = translate.enter_valid_name
+		}
+
+		if (!(/^[A-Za-z\s]+$/.test(data.surname))) {
+			hasError = true;
+			errors.surname = translate.enter_valid_last_names
+		}
+		
 		// if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.pwd))) {
 		// 	hasError = true;
 		// 	errors.pwd = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
@@ -198,7 +208,7 @@ class SignUpUser extends React.Component {
 		const primary = getPrimary();
 		const { translate, classes } = this.props;
 		const data = this.props.formData;
-
+	
 		return (
 			<div
 				style={{
@@ -354,7 +364,7 @@ class SignUpUser extends React.Component {
 							/>
 						</div>
 						<div style={{ width: "100%" }}>
-							{this.state.errorsBar !== undefined ? this.state.errorsBar : "Contraseña segura"} {/*TRADUCCION*/}
+							{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password} 
 						</div>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>

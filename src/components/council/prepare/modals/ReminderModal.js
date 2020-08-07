@@ -84,7 +84,7 @@ class ReminderModal extends React.Component {
 						})
 					}
 					name="group"
-					label={'Personas que no leyeron el correo'}
+					label={translate.people_not_read_mail}
 				/>
 			</div>
 		);

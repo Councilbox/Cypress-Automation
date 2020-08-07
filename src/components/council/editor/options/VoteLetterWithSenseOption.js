@@ -32,14 +32,14 @@ const VoteLetterWithSenseOption = ({ council, client, translate }) => {
     return (
         <>
             <SectionTitle
-                text={'Opciones de voto' /**TRADUCCION */}
+                text={translate.voting_options}
                 color={primary}
                 style={{
                     marginTop: '1.6em'
                 }}
             />
             <Checkbox
-                label={'Permite indicar sentido del voto por punto en la carta de voto' /*TRADUCCION*/}
+                label={translate.allows_indicate_direction_voting_letter}
                 value={canEarlyVote}
                 onChange={(event, isInputChecked) => {
                     send(isInputChecked)

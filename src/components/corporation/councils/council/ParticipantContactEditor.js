@@ -49,7 +49,6 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
                 participantId: participant.id
             }
         });
-        console.log(response.data);
         setRoomLink(response.data.participantRoomLink);
     }
 

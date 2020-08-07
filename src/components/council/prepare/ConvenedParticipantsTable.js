@@ -102,15 +102,21 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 	const updateNotificationFilter = object => {
 		setFilters({
 			...filters,
+			options: {
+				...filters.options,
+				limit: PARTICIPANTS_LIMITS[0],
+				offset: 0,
+			},
 			...object
 		});
+		table.current.setPage(1);
 	}
 
 	const updateFilters = object => {
 		setFilters({
 			...filters,
 			...object
-		})
+		});
 	}
 
 	const resetPage = () => {

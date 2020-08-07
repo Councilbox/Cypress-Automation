@@ -304,8 +304,7 @@ export const councilHasComments = statute => {
 };
 
 export const canDelegateVotes = (statute, participant) => {
-	return (
-		statute.existsDelegatedVote === 1 &&
+	return (statute.existsDelegatedVote === 1 &&
 		!(participant.delegatedVotes.filter(p => p.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0) &&
 		participant.type !== PARTICIPANT_TYPE.GUEST
 	);
@@ -1762,6 +1761,8 @@ export const getAgendaTypeLabel = agenda => {
 
 export const getTranslationReqCode = reqCode => {
 	switch (reqCode) {
+		case "ALL":
+			return "all_plural";
 		case -1:
 			return "tooltip_failed_shipping";
 		case 0:

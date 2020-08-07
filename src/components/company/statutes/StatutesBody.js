@@ -50,7 +50,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		rollbackAlert: false,
 		unsavedAlert: false,
 		errors: {},
-		deleteModal: false
+		deleteModal: false,
 	});
 	const [censusList, setCensusList] = React.useState(null);
 	const [tabs, setTabs] = React.useState([]);
@@ -251,33 +251,45 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const createStatute = async () => {
+		var regex = new RegExp("^[a-zA-Z0-9 ]+$");
+
 		if (state.newStatuteName) {
-			setState({
-				...state,
-				newLoading: true
-			});
-			const statute = {
-				title: state.newStatuteName,
-				companyId: props.company.id
-			};
-			const response = await props.createStatute({
-				variables: {
-					statute
-				}
-			});
-			if (!response.errors) {
-				const updated = await data.refetch();
-				if (updated) {
-					setState({
-						...state,
-						newStatute: false
-					});
-					handleStatuteChange(data.companyStatutes.length - 1);
-				}
+			if ((regex.test(state.newStatuteName)) && state.newStatuteName.trim()) {
 				setState({
 					...state,
-					newStatute: false,
-					newLoading: false
+					newLoading: true
+				});
+				const statute = {
+					title: state.newStatuteName,
+					companyId: props.company.id
+				};
+				const response = await props.createStatute({
+					variables: {
+						statute
+					}
+				});
+				if (!response.errors) {
+					const updated = await data.refetch();
+					if (updated) {
+						setState({
+							...state,
+							newStatute: false
+						});
+						handleStatuteChange(data.companyStatutes.length - 1);
+					}
+					setState({
+						...state,
+						newStatute: false,
+						newLoading: false
+					});
+				}
+			} else {
+				setState({
+					...state,
+					errors: {
+						...state.errors,
+						newStatuteName: translate.enter_valid_name
+					}
 				});
 			}
 		} else {
@@ -290,7 +302,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			});
 		}
 	};
-
+	
 	const updateState = object => {
 		if (!state.unsavedChanges) {
 			store.dispatch(setUnsavedChanges(true));
@@ -323,7 +335,10 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		}
 	};
 
-	const showNewStatute = () => setState({ ...state, newStatute: true });
+	const showNewStatute = () => setState({ ...state, newStatute: true, errors: {
+		...state.errors,
+		newStatuteName: ""
+	} });
 
 	const restoreStatute = () => {
 		setState({
@@ -373,12 +388,12 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 						>
 						</VTabs>
 					</div>
-					<div style={{ width: "100%", height:"100%"}}>
+					<div style={{ width: "100%", height: "100%" }}>
 						{!!statute && (
 							<React.Fragment>
 								<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
 									<Scrollbar>
-										<div style={{ paddingLeft: '1em', paddingRight: '1.5em' , overflow: 'hidden'}}>
+										<div style={{ paddingLeft: '1em', paddingRight: '1.5em', overflow: 'hidden' }}>
 											<StatuteEditor
 												companyStatutes={companyStatutes}
 												statute={statute}

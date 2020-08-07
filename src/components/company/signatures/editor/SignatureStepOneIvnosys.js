@@ -10,6 +10,7 @@ import AttachmentItem from '../../../attachments/AttachmentItem';
 import DocumentNameEditor from './DocumentNameEditor';
 import { checkForUnclosedBraces } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
+import { INPUT_REGEX } from '../../../../constants';
 
 const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, client, ...props }) => {
     const [state, setState] = React.useState({
@@ -151,6 +152,13 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         if (!data.title) {
             errors.title = translate.required_field;
             hasError = true;
+        }
+
+        if (data.title) {
+            if (!(INPUT_REGEX.test(data.title)) || !data.title.trim()) {
+                hasError = true;
+                errors.title =  translate.invalid_field;
+            }
         }
 
         if (!data.description) {

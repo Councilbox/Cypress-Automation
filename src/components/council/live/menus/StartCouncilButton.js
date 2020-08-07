@@ -51,7 +51,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		video: {
 			startRecording: council.fullVideoRecord === 1,
 			//hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
-			startStreaming: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false
+			startStreaming: (council.room.videoConfig && council.room.videoConfig.rtmp) ? true : false
 		},
 		errors: {
 			president: "",
@@ -70,7 +70,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 
 	const startCouncil = async () => {
 		if (!checkRequiredFields()) {
-			if(state.video.startRecording) {
+			if (state.video.startRecording) {
 				let step = {
 					text: translate.start_recording,
 					status: 'loading'
@@ -104,7 +104,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				}));
 			}
 
-			if(state.video.startStreaming) {
+			if (state.video.startStreaming) {
 				let step = {
 					text: translate.starting_broadcast,
 					status: 'loading'
@@ -318,9 +318,9 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		const { total } = loading ? 0 : data.councilOfficials;
 		const rest = total - participants.length - 1;
 
-		if(loadingSteps.steps.length > 0) {
+		if (loadingSteps.steps.length > 0) {
 			return loadingSteps.steps.map(step => (
-				<div style={{width: '90%', display: 'flex', justifyContent: 'space-between'}} key={`step_${step.text}`}>
+				<div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }} key={`step_${step.text}`}>
 					<div>
 						{step.text}
 					</div>
@@ -444,7 +444,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				{council.statute.hasSecretary === 1 &&
 					<React.Fragment>
 						<GridItem xs={3} md={3} lg={3}>
-					{translate.secretary}
+							{translate.secretary}
 						</GridItem>
 						<GridItem xs={4} md={4} lg={4}>
 							<button
@@ -617,20 +617,20 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				open={state.alert}
 				loadingAction={state.loading || loadingSteps.status === 'loading'}
 				buttonAccept={translate.accept}
-				buttonCancel={loadingSteps.status === 'loading'? null : loadingSteps.status === 'done'? translate.close : translate.cancel}
+				buttonCancel={loadingSteps.status === 'loading' ? null : loadingSteps.status === 'done' ? translate.close : translate.cancel}
 				hideAccept={state.selecting !== 0 || loadingSteps.status !== 'idle'}
 				modal={true}
 				acceptAction={startCouncil}
 				requestClose={
-					loadingSteps.status === 'done'?
+					loadingSteps.status === 'done' ?
 						() => {
 							props.refetch();
 							setState({ alert: false })
 						}
-					:
-					state.selecting === 0
-						? () => setState({ alert: false })
-						: () => setState({ selecting: 0 })
+						:
+						state.selecting === 0
+							? () => setState({ alert: false })
+							: () => setState({ selecting: 0 })
 				}
 			/>
 		</React.Fragment>

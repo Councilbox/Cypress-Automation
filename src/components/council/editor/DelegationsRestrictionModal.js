@@ -95,7 +95,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 				<Grid>
 					<GridItem xs={12} lg={12} md={12} >
 						<TextInput
-							placeholder={"Buscar"}
+							placeholder={translate.search}
 							adornment={<Icon>search</Icon>}
 							type="text"
 							// value={searchModalPlantillas}

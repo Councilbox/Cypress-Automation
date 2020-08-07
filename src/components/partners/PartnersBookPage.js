@@ -5,7 +5,7 @@ import { bHistory } from '../../containers/App';
 import { getPrimary } from '../../styles/colors';
 import withTranslations from '../../HOCs/withTranslations';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { moment } from '../../containers/App';
@@ -14,57 +14,57 @@ import { isMobile } from '../../utils/screen';
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 
-
-class PartnersBookPage extends React.Component {
-
-    state = {
+const PartnersBookPage = ({ translate, client, ...props }) => {
+    const [state, setState] = React.useState({
         deleteModal: false,
         selectedId: null,
         partners: [],
         appliedFilters: {
             limit: 50,
-            text: 0,
+            text: "",
             field: 'fullName',
             page: 1,
             notificationStatus: null,
             orderBy: 'name',
             orderDirection: 'asc'
         }
-    }
+    })
+    const [bookParticipantsData, setBookParticipantsData] = React.useState()
+    const [bookParticipantsTotal, setBookParticipantsTotal] = React.useState()
+    const [loading, setLoading] = React.useState(true)
+    const table = React.useRef();
+    const primary = getPrimary();
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (!nextProps.data.loading) {
-            const councilParticipants = nextProps.data.bookParticipants;
-            const filteredParticipants = applyFilters(councilParticipants ? councilParticipants.list : [], prevState.appliedFilters)
-            const offset = (prevState.appliedFilters.page - 1) * prevState.appliedFilters.limit;
-            let paginatedParticipants = filteredParticipants.slice(offset, offset + prevState.appliedFilters.limit);
-            return {
-                participants: paginatedParticipants,
-                total: filteredParticipants.length
-            }
+
+    const getData = React.useCallback(async (sinFiltros) => {
+        const response = await client.query({
+            query: bookParticipants,
+            variables: {
+                companyId: +props.match.params.company,
+                filters: !sinFiltros ? [{ field: state.appliedFilters.field, text: state.appliedFilters.text }] :  [{ field: 'fullName', text: "" }] ,
+                options: {
+                    limit: !sinFiltros ? state.appliedFilters.limit : 0,
+                    offset: !sinFiltros ? (state.appliedFilters.page - 1) * state.appliedFilters.limit : 0,
+                    orderDirection: !sinFiltros ? state.appliedFilters.orderDirection : 'asc',
+                    orderBy: !sinFiltros ? state.appliedFilters.orderBy : 'name',
+                },
+            },
+        });
+        setBookParticipantsData(response.data.bookParticipants.list)
+        setBookParticipantsTotal(response.data.bookParticipants.total)
+        setLoading(false)
+        if(sinFiltros){
+            return response.data.bookParticipants.list
         }
+    }, [state.appliedFilters.page, state.appliedFilters.orderDirection, state.appliedFilters.orderBy, state.appliedFilters.text, state.appliedFilters.limit])
 
-        return null;
-    }
+    React.useEffect(() => {
+        getData();
+    }, [getData])
 
-    updateFilteredParticipants = appliedFilters => {
-        const councilParticipants = this.props.data.bookParticipants;
-        const filteredParticipants = applyFilters(councilParticipants ? councilParticipants.list : [], appliedFilters)
-        const offset = (appliedFilters.page - 1) * appliedFilters.limit;
-        let paginatedParticipants = filteredParticipants.slice(offset, offset + appliedFilters.limit);
-        return {
-            participants: paginatedParticipants,
-            total: filteredParticipants.length
-        }
-    }
-
-    resetPage = () => {
-        this.table.setPage(this.state.appliedFilters.page);
-    }
-
-    updateFilters = value => {
+    const updateFilters = value => {
         const appliedFilters = {
-            ...this.state.appliedFilters,
+            ...state.appliedFilters,
             text: value.filters[0] ? value.filters[0].text : '',
             field: value.filters[0] ? value.filters[0].field : '',
             page: (value.options.offset / value.options.limit) + 1,
@@ -73,86 +73,82 @@ class PartnersBookPage extends React.Component {
             orderDirection: value.options.orderDirection
         }
 
-        const filteredParticipants = this.updateFilteredParticipants(appliedFilters);
-
-        this.setState({
+        setState({
+            ...state,
             appliedFilters,
-            participants: filteredParticipants.participants,
-            total: filteredParticipants.total
-        }, () => this.resetPage());
+        });
     }
 
-
-    componentDidMount() {
-        this.props.data.refetch();
+    const addPartner = () => {
+        bHistory.push(`/company/${props.match.params.company}/book/new`);
     }
 
-    addPartner = () => {
-        bHistory.push(`/company/${this.props.match.params.company}/book/new`);
-    }
-
-    showDeleteModal = () => {
-        this.setState({
+    const showDeleteModal = () => {
+        setState({
+            ...state,
             deleteModal: true
         });
     }
 
-    closeDeleteModal = () => {
-        this.setState({
+    const closeDeleteModal = () => {
+        setState({
+            ...state,
             deleteModal: false,
             selectedId: null
         })
+        
     }
 
-    selectedIdToDelete = id => {
-        this.setState({
+    const selectedIdToDelete = id => {
+        setState({
+            ...state,
             selectedId: id,
             deleteModal: true
         })
     }
 
-    deleteBookParticipant = async () => {
-        const response = await this.props.mutate({
+    const deleteBookParticipant = async () => {
+        const response = await client.mutate({
+            mutation: deleteBookParticipants,
             variables: {
-                participantId: this.state.selectedId
+                participantId: state.selectedId
             }
         });
 
         if (response) {
-            this.props.data.refetch();
-            this.closeDeleteModal();
+            getData();
+            closeDeleteModal();
         }
     }
 
 
-    createXLSX = () => {
-        this.props.data.refetch();
-        let lista = this.props.data.bookParticipants.list;
+    const createXLSX = async () => {
+        let lista =  await getData(true);
         let arrayFinal = [];
         for (let index = 0; index < lista.length; index++) {
             let arrayRepresentative
             let { representative, __typename, name, dni, state, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
             let listaFinal = {
                 id: id,
-                [this.props.translate.state]: state === 1 ? "Alta" : "Baja",
-                [this.props.translate.name]:name,
-                [this.props.translate.surname]:surname,
-                [this.props.translate.dni]:dni,
-                [this.props.translate.position]:position,
-                [this.props.translate.subscribe_date]:subscribeDate,
-                [this.props.translate.unsubscribe_date]:unsubscribeDate,
-                [this.props.translate.subscribe_act_number]:subscribeActNumber,
-                [this.props.translate.unsubscribe_act_number]:unsubscribeActNumber,
+                [translate.state]: state === 1 ? "Alta" : "Baja",
+                [translate.name]: name,
+                [translate.surname]: surname,
+                [translate.dni]: dni,
+                [translate.position]: position,
+                [translate.subscribe_date]: subscribeDate,
+                [translate.unsubscribe_date]: unsubscribeDate,
+                [translate.subscribe_act_number]: subscribeActNumber,
+                [translate.unsubscribe_act_number]: unsubscribeActNumber,
             }
             if (representative !== null) {
                 let { id, dni, name, position, state, surname } = representative;
                 arrayRepresentative = {
                     rId: id,
-                    ["r" + this.props.translate.state]: state === 1 ? "Alta" : "Baja",
-                    ["r" + this.props.translate.name]: name,
-                    ["r" + this.props.translate.surname]: surname,
-                    ["r" + this.props.translate.dni]: dni,
-                    ["r" + this.props.translate.position]: position,
+                    ["r" + translate.state]: state === 1 ? "Alta" : "Baja",
+                    ["r" + translate.name]: name,
+                    ["r" + translate.surname]: surname,
+                    ["r" + translate.dni]: dni,
+                    ["r" + translate.position]: position,
                 }
             }
             let a = Object.assign(listaFinal, arrayRepresentative)
@@ -162,175 +158,169 @@ class PartnersBookPage extends React.Component {
         var ws = XLSX.utils.json_to_sheet(arrayFinal);
         var wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Libro de socios");
-        XLSX.writeFile(wb, "LibroDeSocios-" + this.props.match.params.company + ".xlsx");
+        XLSX.writeFile(wb, "LibroDeSocios-" + props.match.params.company + ".xlsx");
     }
 
-    render() {
+    if (loading) {
+        return <LoadingSection />;
+    }
 
-        const { translate } = this.props;
-        const primary = getPrimary();
+    let headers = [
+        {
+            text: translate.state,
+            name: 'state',
+            canOrder: true
+        },
+        {
+            text: translate.participant_data,
+            name: "fullName",
+            canOrder: true
+        },
+        {
+            text: translate.dni,
+            name: "dni",
+            canOrder: true
+        },
+        {
+            text: translate.position,
+            name: "position",
+            canOrder: true
+        },
+        {
+            text: translate.subscribe_date,
+            name: 'subscribeDate',
+            canOrder: true
+        },
+        {
+            text: translate.unsubscribe_date,
+            name: 'unsubscribeDate',
+            canOrder: true
+        },
+        {
+            text: translate.subscribe_act_number,
+            name: 'actaAlta',
+            canOrder: true
+        },
+        {
+            text: translate.unsubscribe_act_number,
+            name: 'actaBaja',
+            canOrder: true
+        },
+        {
+            text: '',
+            name: '',
+            canOrder: false
+        },
+    ];
 
-        if (!this.props.data.bookParticipants) {
-            return <LoadingSection />;
-        }
-
-        let headers = [
-            {
-                text: translate.state,
-                name: 'state',
-                canOrder: true
-            },
-            {
-                text: translate.participant_data,
-                name: "fullName",
-                canOrder: true
-            },
-            {
-                text: translate.dni,
-                name: "dni",
-                canOrder: true
-            },
-            {
-                text: translate.position,
-                name: "position",
-                canOrder: true
-            },
-            {
-                text: translate.subscribe_date,
-                name: 'subscribeDate',
-                canOrder: true
-            },
-            {
-                text: translate.unsubscribe_date,
-                name: 'unsubscribeDate',
-                canOrder: true
-            },
-            {
-                text: translate.subscribe_act_number,
-                name: 'actaAlta',
-                canOrder: true
-            },
-            {
-                text: translate.unsubscribe_act_number,
-                name: 'actaBaja',
-                canOrder: true
-            },
-            {
-                text: '',
-                name: '',
-                canOrder: false
-            },
-        ];
-        
-        return (
-            <CardPageLayout title={this.props.translate.simple_book}>
-                <AlertConfirm
-                    title={translate.send_to_trash}
-                    bodyText={translate.delete_items}
-                    open={this.state.deleteModal}
-                    buttonAccept={translate.send_to_trash}
-                    buttonCancel={translate.cancel}
-                    modal={true}
-                    acceptAction={this.deleteBookParticipant}
-                    requestClose={this.closeDeleteModal}
-                />
-                <EnhancedTable
-                    exporXLSX={true}
-                    ref={table => (this.table = table)}
-                    translate={translate}
-                    defaultLimit={50}
-                    menuButtons={
-                        <div style={{ marginRight: '0.9em' }}>
-                            <BasicButton
-                                text={this.props.translate.add_partner}
-                                onClick={this.addPartner}
-                                color={'white'}
-                                buttonStyle={{ border: `2px solid ${primary}`, marginRight: "0.9em" }}
-                                textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
-                                id={'anadirSocioLibroSocios'}
-                            />
-                            <BasicButton
-                                text={"Exportar a XLSX"} //TRADUCCION
-                                onClick={this.createXLSX}
-                                color={'white'}
-                                buttonStyle={{ border: `2px solid ${primary}` }}
-                                textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
-                            />
-                        </div>
-                    }
-                    selectedCategories={[{
+    return (
+        <CardPageLayout title={translate.simple_book}>
+            <AlertConfirm
+                title={translate.send_to_trash}
+                bodyText={translate.delete_items}
+                open={state.deleteModal}
+                buttonAccept={translate.send_to_trash}
+                buttonCancel={translate.cancel}
+                modal={true}
+                acceptAction={deleteBookParticipant}
+                requestClose={closeDeleteModal}
+            />
+            <EnhancedTable
+                exporXLSX={true}
+                ref={table}
+                translate={translate}
+                defaultLimit={state.appliedFilters.limit}
+                menuButtons={
+                    <div style={{ marginRight: '0.9em' }}>
+                        <BasicButton
+                            text={translate.add_partner}
+                            onClick={addPartner}
+                            color={'white'}
+                            buttonStyle={{ border: `2px solid ${primary}`, marginRight: "0.9em" }}
+                            textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
+                            id={'anadirSocioLibroSocios'}
+                        />
+                        <BasicButton
+                            text={"Exportar a XLSX"} //TRADUCCION
+                            onClick={createXLSX}
+                            color={'white'}
+                            buttonStyle={{ border: `2px solid ${primary}` }}
+                            textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
+                        />
+                    </div>
+                }
+                selectedCategories={[{
+                    field: "state",
+                    value: 'all',
+                    label: translate.all_plural
+                }]}
+                categories={[[
+                    {
                         field: "state",
                         value: 'all',
                         label: translate.all_plural
-                    }]}
-                    categories={[[
-                        {
-                            field: "state",
-                            value: 'all',
-                            label: translate.all_plural
-                        },
-                        {
-                            field: "state",
-                            value: 1,
-                            label: translate.subscribed
-                        },
-                        {
-                            field: "state",
-                            value: 0,
-                            label: translate.unsubscribed
-                        },
-                        {
-                            field: "state",
-                            value: 2,
-                            label: translate.other
-                        }
-                    ]]}
-                    defaultFilter={"fullName"}
-                    defaultOrder={["fullName", "asc"]}
-                    limits={[50, 100]}
-                    page={this.state.appliedFilters.page}
-                    loading={this.props.data.loading}
-                    length={this.state.participants.length}
-                    total={this.state.total}
-                    refetch={this.updateFilters}
-                    fields={[
-                        {
-                            value: "fullName",
-                            translation: translate.participant_data
-                        },
-                        {
-                            value: "dni",
-                            translation: translate.dni
-                        },
-                        {
-                            value: "position",
-                            translation: translate.position
-                        },
-                        {
-                            value: "nActa",
-                            translation: "Nº de acta"//translate.subscribe_act
-                        },
-                    ]}
-                    headers={headers}
-                >
-                    {this.state.participants.map(
-                        (participant, index) => {
-                            return (
-                                <HoverableRow
-                                    key={`participant${participant.id}`}
-                                    deleteBookParticipant={this.selectedIdToDelete}
-                                    participant={participant}
-                                    representative={participant.representative}
-                                    translate={translate}
-                                    companyId={+this.props.match.params.company}
-                                />
-                            );
-                        }
-                    )}
-                </EnhancedTable>
-            </CardPageLayout>
-        )
-    }
+                    },
+                    {
+                        field: "state",
+                        value: 1,
+                        label: translate.subscribed
+                    },
+                    {
+                        field: "state",
+                        value: 0,
+                        label: translate.unsubscribed
+                    },
+                    {
+                        field: "state",
+                        value: 2,
+                        label: translate.other
+                    }
+                ]]}
+                defaultFilter={"fullName"}
+                defaultOrder={["fullName", "asc"]}
+                limits={[50, 100]}
+                page={1}
+                loading={loading}
+                length={bookParticipantsData.length}
+                total={bookParticipantsTotal}
+                refetch={updateFilters}
+                fields={[
+                    {
+                        value: "fullName",
+                        translation: translate.participant_data
+                    },
+                    {
+                        value: "dni",
+                        translation: translate.dni
+                    },
+                    {
+                        value: "position",
+                        translation: translate.position
+                    },
+                    {
+                        value: "nActa",
+                        translation: "Nº de acta"//translate.subscribe_act
+                    },
+                ]}
+                headers={headers}
+            >
+                {bookParticipantsData.map(
+                    (participant, index) => {
+                        return (
+                            <HoverableRow
+                                key={`participant${participant.id}`}
+                                deleteBookParticipant={selectedIdToDelete}
+                                participant={participant}
+                                representative={participant.representative}
+                                translate={translate}
+                                companyId={props.match.params.company}
+                            />
+                        );
+                    }
+                )}
+            </EnhancedTable>
+        </CardPageLayout>
+    )
 }
 
 class HoverableRow extends React.PureComponent {
@@ -498,99 +488,6 @@ class HoverableRow extends React.PureComponent {
     }
 }
 
-const applyFilters = (participants, filters) => {
-
-    return applyOrder(participants.filter(participant => {
-
-        if (filters.text && filters.field !== 'state') {
-            const unaccentedText = unaccent((''+filters.text).toLowerCase());
-
-            if (filters.field === 'fullName') {
-                const fullName = participant.name + " " + participant.surname;
-                let repreName = '';
-                if (participant.representative !== null) {
-                    repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
-                }
-                if (!unaccent(fullName.toLowerCase()).includes(unaccentedText)
-                    && !unaccent(repreName.toLowerCase()).includes(unaccentedText)) {
-                    return false;
-                }
-            }
-
-            if (filters.field === 'position') {
-                if (participant.representative !== null) {
-                    if (!unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
-                        !unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-                } else {
-                    if (!unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-                }
-            }
-
-            if (filters.field === 'dni') {
-                if (participant.representative !== null) {
-                    if (!unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
-                        !unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-                } else {
-                    if (!unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-                }
-            }
-            if (filters.field === 'nActa') {
-                const nActa = `${participant.subscribeActNumber} ${participant.unsubscribeActNumber}`;
-                if (!unaccent(nActa.toLowerCase()).includes(unaccentedText)) {
-                    return false;
-                }
-            }
-        }
-
-        if(filters.field === 'state'){
-            if (participant.representative !== null) {
-                if (participant.state != filters.text &&
-                    participant.representative.state != filters.text) {
-                    return false;
-                }
-            } else {
-                if (participant.state != filters.text) {
-                    return false;
-                }
-            }
-        }
-        
-
-
-
-        if (filters.notificationStatus) {
-            if (participant.representative) {
-                if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
-                    return false;
-                }
-            } else {
-                if (participant.notifications[0].reqCode !== filters.notificationStatus) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }), filters.orderBy, filters.orderDirection);
-}
-
-const applyOrder = (participants, orderBy, orderDirection) => {
-    return participants;
-    // return participants.sort((a, b) => {
-    //     let participantA = a;
-    //     let participantB = b;
-    //     return participantA[orderBy] > participantB[orderBy]
-    // });
-}
-
 const bookParticipants = gql`
     query BookParticipants($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
         bookParticipants(companyId: $companyId, filters: $filters, options: $options){
@@ -620,7 +517,7 @@ const bookParticipants = gql`
         }
     }
 `;
-const deleteBookParticipant = gql`
+const deleteBookParticipants = gql`
     mutation deleteBookParticipant($participantId: Int!){
         deleteBookParticipant(participantId: $participantId){
             success
@@ -629,18 +526,4 @@ const deleteBookParticipant = gql`
     }
 `;
 
-export default compose(
-    graphql(bookParticipants, {
-        options: props => ({
-            variables: {
-                companyId: +props.match.params.company,
-                options: {
-                    orderBy: 'fullName',
-                    orderDirection: 'asc'
-                }
-            },
-            notifyOnNetworkStatusChange: true
-        })
-    }),
-    graphql(deleteBookParticipant)
-)(withTranslations()(withRouter(PartnersBookPage)));
+export default withTranslations()(withRouter(withApollo(PartnersBookPage)));
