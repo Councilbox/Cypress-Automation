@@ -61,7 +61,7 @@ const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes
             | <b>{translate.delegated_plural}:</b> {data.delegated} ({getPercentage(data.delegated)}%) {
                 council.statute.canEarlyVote === 1 &&
                     <>
-                        | <b>{council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? 'Carta de voto' : translate.quorum_early_votes}:</b> {data.earlyVotes} ({getPercentage(data.earlyVotes)}%)
+                        | <b>{council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? translate.vote_letter : translate.quorum_early_votes}:</b> {data.earlyVotes} ({getPercentage(data.earlyVotes)}%)
                     </>
             }
         </div>
