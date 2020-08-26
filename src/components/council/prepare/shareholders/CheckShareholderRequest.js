@@ -113,11 +113,13 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     refetch={refetch}
                     translate={translate}
                 />
-                <ApproveRequestButton
-                    request={request}
-                    refetch={refetch}
-                    translate={translate}
-                />
+                {request.state !== "1" &&
+                    < ApproveRequestButton
+                        request={request}
+                        refetch={refetch}
+                        translate={translate}
+                    />
+                }
                 {request.participantCreated && request.data.requestType === 'represent' &&
                     <DelegateVoteButton
                         request={request}
