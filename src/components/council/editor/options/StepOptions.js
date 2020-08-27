@@ -480,6 +480,22 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 								</>
 							}
 							{(council.statute.existsDelegatedVote === 1 && config.councilDelegates) && _renderDelegationRestriction()}
+							<SectionTitle
+								text={translate.options}
+								color={primary}
+								style={{
+									marginTop: '1.6em'
+								}}
+							/>
+							<Checkbox
+								label={'Reunión de prueba'}
+								value={council.promoCode === 'COUNCILBOX'}
+								onChange={(event, isInputChecked) =>
+									updateCouncilData({
+										promoCode: isInputChecked ? 'COUNCILBOX' : null
+									})
+								}
+							/>
 							{CBX.hasAct(council.statute) && council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle

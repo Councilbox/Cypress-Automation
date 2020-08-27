@@ -1021,6 +1021,7 @@ export const councilStepFive = gql`
 			actPointQuorumType
 			approveActDraft
 			autoClose
+			promoCode
 			dateStart
 			closeDate
 			companyId
