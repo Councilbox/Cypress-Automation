@@ -2071,6 +2071,12 @@ export const checkHybridConditions = council => {
 	}
 }
 
+export const prepareTextForFilename = text => {
+	if(!text) return '';
+
+	return text.replace(/ /g, '_').replace(/\./g, '_');
+}
+
 export const formatSize = size => {
 	let mb = Math.pow(1024, 2);
 	let kb = 1024;

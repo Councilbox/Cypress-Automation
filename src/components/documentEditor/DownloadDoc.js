@@ -3,12 +3,12 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { DropDownMenu } from '../../displayComponents';
 import { MenuItem, Divider } from 'material-ui';
-import { downloadFile } from '../../utils/CBX';
+import { downloadFile, prepareTextForFilename } from '../../utils/CBX';
 import FileSaver from 'file-saver';
 import { buildDocVariable } from './utils';
 
 
-const DownloadDoc = ({ client, doc, council, options, translate, styles }) => {
+const DownloadDoc = ({ client, doc, council, options, translate, filename, styles }) => {
     const [loading, setLoading] = React.useState(false);
 
     const downloadPDF = async () => {
@@ -33,7 +33,7 @@ const DownloadDoc = ({ client, doc, council, options, translate, styles }) => {
                 downloadFile(
                     response.data.generateDocPDF,
                     "application/pdf",
-                    `${translate.act.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '_')}`
+                    filename? filename : `${translate.act.replace(/ /g, '_')}_${prepareTextForFilename(council.name)}`
                 );
             }
         }

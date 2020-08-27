@@ -33,6 +33,7 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
                     "application/pdf",
                     `${certificate.title.replace(/\./, '')}`
                 );
+                setDownloading(false);
             }
         }
     }
