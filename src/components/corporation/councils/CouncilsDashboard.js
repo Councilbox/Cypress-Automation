@@ -17,7 +17,6 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
     const [councils, setCouncils] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
-
     const getData = React.useCallback(async () => {
         setLoading(true)
         const response = await client.query({
@@ -152,7 +151,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
                 }
                 setLoading(false)
             } else {
-                setError("Estar reunion no existe")
+                setError("Esta reunion no existe")
                 setLoading(false)
             }
         } else {
@@ -182,6 +181,11 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
                             disableUnderline={true}
                             styles={{ fontWeight: "bold", width: '300px', }}
                             styleInInput={{ backgroundColor: "#ececec", paddingLeft: "5px", border: !!error && "2px solid red" }}
+                            onKeyUp={event => {
+                                if(event.keyCode === 13){
+                                    goToId(event);
+                                }
+                            }}
                             onChange={event => setIdCouncilSearch(event.target.value)}
                         />
                     </div>
