@@ -34,7 +34,7 @@ export default compose(
     graphql(signature, {
         options: props => ({
             variables: {
-                id: props.match.params.id
+                id: +props.match.params.id
             },
             fetchPolicy: 'network-only',
             pollInterval: 8000

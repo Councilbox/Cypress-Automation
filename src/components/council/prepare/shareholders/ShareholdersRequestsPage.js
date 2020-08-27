@@ -1,19 +1,14 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, PaginationFooter, TextInput, DropDownMenu, Scrollbar } from '../../../../displayComponents';
+import { LoadingSection, PaginationFooter, DropDownMenu, Scrollbar } from '../../../../displayComponents';
 import { usePolling } from '../../../../hooks';
 import { Table, TableBody, TableRow, MenuItem } from 'material-ui';
 import { TableHead } from 'material-ui';
 import { TableCell } from 'material-ui';
 import { moment } from '../../../../containers/App';
-import { isMobile } from 'react-device-detect';
-import { Icon } from 'material-ui';
-import ApproveRequestButton from './ApproveRequestButton';
-import ShareholderEditor from './ShareholderEditor';
-import RefuseRequestButton from './RefuseRequestButton';
-import { downloadFile } from '../../../../utils/CBX';
 import CheckShareholderRequest, { getTypeText } from './CheckShareholderRequest';
+import { PARTICIPANT_STATES } from '../../../../constants';
 
 
 const ShareholdersRequestsPage = ({ council, translate, client }) => {
@@ -21,10 +16,10 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
     const [modal, setModal] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const [inputSearch, setInputSearch] = React.useState(false);
-    const [search, setSearch] = React.useState('');
+    const [search, setSearch] = React.useState({ state: '0' });
     const [usersPage, setUsersPage] = React.useState(1);
     const [usersTotal, setUsersTotal] = React.useState(false);
-    
+
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -38,6 +33,15 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                             data
                             participantCreated
                             date
+                            participant {
+                                name
+                                surname
+                                live {
+                                    name
+                                    surname
+                                    state
+                                }
+                            }
                             state
                         }
                         total
@@ -46,7 +50,15 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
             `,
             variables: {
                 councilId: council.id,
-                filters: [{ field: 'state', text: search }],
+                filters: search?
+                    Object.keys(search).map(key => {
+                        return {
+                            field: key,
+                            text: search[key]
+                        }
+                    })
+                :
+                    [],
                 options: {
                     limit: 10,
                     offset: (usersPage - 1) * 10,
@@ -60,7 +72,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
             setUsersTotal(response.data.shareholdersRequests.total);
         }
         setLoading(false);
-    }, [council.id])
+    }, [council.id, usersPage, search])
 
     usePolling(getData, 8000);
 
@@ -94,12 +106,15 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                             type="flat"
                             items={
                                 <div style={{ color: "" }}>
-                                    {/* TRADUCCION */}
-                                    <MenuItem onClick={() => setSearch('1')} >
-                                        Aceptada
+                                    <MenuItem onClick={() => setSearch({
+                                        state: '1'
+                                    })} checked={search && search.state === '1'}>
+                                        {'Archivadas' /*TRADUCCION*/}
                                     </MenuItem>
-                                    <MenuItem onClick={() => setSearch('0')}>
-                                        Pendiente
+                                    <MenuItem onClick={() => setSearch({
+                                        state: '0'
+                                    })} checked={search && search.state === '0'}>
+                                        {translate.pending}
                                     </MenuItem>
                                 </div>
                             }
@@ -128,10 +143,15 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                         </TableCell>
                     </TableHead>
                     <TableBody>
-                        {data.map(request => (
-                            <TableRow key={`request_${request.id}`}>
+                        {data.map(request => {
+                            const delegationPending = (request.participantCreated &&
+                                request.data.requestType === 'represent' &&
+                                (!request.participant || !request.participant.live ||
+                                    (request.participant.live.state !== PARTICIPANT_STATES.DELEGATED))
+                                )
+                            return (<TableRow key={`request_${request.id}`} style={{ background: delegationPending && "gainsboro" }}>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.data.name}
+                                    {request.data.name}  {request.data.surname ? request.data.surname : ""}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {request.data.email}
@@ -146,7 +166,11 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                     {moment(request.date).format('LLL')}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.state === '0' ? "Pendiente" : "Aceptada"}
+                                    {request.participantCreated === false ?
+                                        translate.pending :
+                                            delegationPending ?
+                                                translate.confirmed_pending_delegation :
+                                            translate.confirmed}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     <CheckShareholderRequest
@@ -155,8 +179,8 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                         translate={translate}
                                     />
                                 </TableCell>
-                            </TableRow>
-                        ))}
+                            </TableRow>)
+                        })}
                     </TableBody>
                 </Table>
                 <div style={{ display: "flex", alignItems: "center", marginTop: "2em" }}>

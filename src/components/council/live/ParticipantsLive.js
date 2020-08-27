@@ -293,7 +293,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 		}
 
 		if(participant.videoParticipant && council.room && council.room.videoConfig){
-			const { videoConfig } = council.room;
+			const videoConfig = council.room.videoConfig? council.room.videoConfig : {};
 			const { videoParticipant } = participant;
 
 			if((videoConfig.rtmp && videoConfig.viewerURL) || videoConfig.autoHybrid || videoConfig.fixedURL || council.room.videoLink){

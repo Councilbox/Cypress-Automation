@@ -2,7 +2,6 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BasicButton } from '../../../../displayComponents';
-import ShareholderEditor from './ShareholderEditor';
 import { getSecondary } from '../../../../styles/colors';
 
 

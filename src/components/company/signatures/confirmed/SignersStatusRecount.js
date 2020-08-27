@@ -40,13 +40,11 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
         return <span />
     }
 
-    //TRADUCCION
-
     return (
         <Grid
             style={{
                 width: '100%',
-                height: '3em',
+                minHeight: '3em',
                 border: '1px solid gainsboro',
                 padding: '0.4em',
                 marginBottom: '0.6em',
@@ -68,13 +66,13 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
             :
                 <React.Fragment>
                     <GridItem xs={4} md={4} lg={4}>
-                        {`Firmas requeridas: ${count.signed + count.unsigned}`}
+                        {`${translate.required_signatures}: ${count.signed + count.unsigned}`}
                     </GridItem>
                     <GridItem xs={4} md={4} lg={4} style={{display: 'flex', justifyContent: 'center'}}>
-                        {`Firmas realizadas: ${count.signed}`}
+                        {`${translate.signatures_done}: ${count.signed}`}
                     </GridItem>
                     <GridItem xs={4} md={4} lg={4} style={{display: 'flex', justifyContent: 'flex-end'}}>
-                        {`Firmas no realizadas: ${count.unsigned}`}
+                        {`${translate.unrealized_signatures}: ${count.unsigned}`}
                     </GridItem>
 
                 </React.Fragment>

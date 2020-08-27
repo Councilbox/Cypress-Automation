@@ -13,7 +13,7 @@ import { councilHasVideo } from '../../../utils/CBX';
 import { isLandscape, isMobile } from '../../../utils/screen';
 import VideoContainer from '../VideoContainer';
 import { API_URL, SERVER_URL } from "../../../config";
-import AdminAnnouncement from './AdminAnnouncement';
+import AdminAnnouncement from '../../council/live/adminAnnouncement/AdminAnnouncement';
 // import { isMobile } from '../../../utils/screen';
 import CouncilSidebar from './CouncilSidebar';
 import AdminPrivateMessage from "../menus/AdminPrivateMessage";
@@ -135,7 +135,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     const [drawerTop, setDrawerTop] = React.useState(false);
 
     const leaveRoom = React.useCallback(() => {
-        if(navigator.sendBeacon){
+        if (navigator.sendBeacon) {
             navigator.sendBeacon(`${SERVER_URL}/participantDisconnected/${sessionStorage.getItem("participantToken")}`);
         } else {
             let request = new XMLHttpRequest();
@@ -221,7 +221,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
         if (event) {
             event.preventDefault()
             event.stopPropagation()
-            
+
         }
         setState({
             ...state,
@@ -365,10 +365,13 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     }
 
     const renderAdminAnnouncement = () => {
+        // es aqui
         return (
             <AdminAnnouncement
+                openHelp={true}
                 council={council}
                 translate={translate}
+                closeButton={false}
             />
         )
     }

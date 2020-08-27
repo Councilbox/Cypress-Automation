@@ -639,8 +639,6 @@ const VideoSection = ({ updateState, statute, translate }) => {
 
 	const { validURL } = useValidRTMP(statute);
 
-	console.log(validURL);
-
 	return (
 		<>
 			<SectionTitle

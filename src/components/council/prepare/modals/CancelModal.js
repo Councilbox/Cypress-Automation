@@ -31,7 +31,7 @@ class CancelModal extends React.Component {
 		const response = await this.props.cancelCouncil({
 			variables: {
 				councilId: this.props.council.id,
-				timezone: moment().utcOffset(),
+				timezone: moment().utcOffset().toString(),
 				message: this.state.message
 			}
 		});

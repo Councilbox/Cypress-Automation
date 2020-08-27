@@ -11,11 +11,11 @@ import { useOldState } from "../../../../hooks";
 import { removeLiveParticipantSignature } from "./modals/SignatureModal";
 
 const getActualParticipant = (participant, representative) => {
-	if(CBX.hasHisVoteDelegated(participant)){
+	if (CBX.hasHisVoteDelegated(participant)) {
 		return participant;
 	}
 
-	return representative? representative : participant;
+	return representative ? representative : participant;
 }
 
 
@@ -44,7 +44,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 			}
 		});
 
-		if(state === PARTICIPANT_STATES.NO_PARTICIPATE && participant.signed){
+		if (state === PARTICIPANT_STATES.NO_PARTICIPATE && participant.signed) {
 			removeParticipantSignature();
 		}
 
@@ -56,7 +56,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 		}
 	};
 
-	const removeParticipantSignature = async () => {		
+	const removeParticipantSignature = async () => {
 		await client.mutate({
 			mutation: removeLiveParticipantSignature,
 			variables: {
@@ -84,7 +84,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 					setLeaveAlert(false);
 				}}
 				bodyText={
-					<div style={{maxWidth: '620px'}} dangerouslySetInnerHTML={{__html: translate.leaves_the_council_warning }} />
+					<div style={{ maxWidth: '620px' }} dangerouslySetInnerHTML={{ __html: translate.leaves_the_council_warning }} />
 				}
 			/>
 			<DropDownMenu
@@ -106,88 +106,89 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 								width: "100%",
 								display: "flex",
 								flexDirection: "row",
+								minWidth: '17em',
 								alignItems: "center",
 								margin: 0
 							}}
 						>
-							<GridItem xs={landscape ? 6 : 12} md={12} lg={12} style={{padding: "0px" }}>
-								<div style={{ display: 'flex', alignItems: 'center',  padding: "0px", width: '100%' }}>
-									<FilterButton
-										styles={{ width: '100%', border: 'none', boxShadow: 'none',margin: "none", borderRadius: "0" }}
-										tooltip={translate.change_to_no_participate}
-										loading={loading === 0}
-										size="2.8em"
-										onClick={() => changeParticipantState(6, 0, null)}
-										active={
-											participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
-										}
-									>
-										<div style={{ width: '30%', marginRight: "20px" }}>
-											<StateIcon
-												translate={translate}
-												state={PARTICIPANT_STATES.NO_PARTICIPATE}
-												color={secondary}
-												hideTooltip={true}
-											/>
-										</div>
-										<div style={{ width: '70%' }}>
-											<span style={{ fontSize: '0.9em' }}>{translate.wont_participate}</span>
-										</div>
-									</FilterButton>
-								</div>
-								{council.councilType !== 1 &&
-									<div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-										<FilterButton
-											styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", borderRadius: "0"}}
-											tooltip={translate.change_to_remote}
-											loading={loading === 1}
-											size="2.8em"
-											onClick={() => changeParticipantState(0, 1, null)}
-											active={participant.state === PARTICIPANT_STATES.REMOTE}
-										>
-											<div style={{ width: '30%', marginRight: "20px" }}>
-												<StateIcon
-													translate={translate}
-													state={PARTICIPANT_STATES.REMOTE}
-													color={secondary}
-													hideTooltip={true}
-												/>
-											</div>
-											<div style={{ width: '70%' }}>
-												<span style={{ fontSize: '0.9em' }}>{translate.remote_participant}</span>
-											</div>
-										</FilterButton>
+
+							<div style={{ display: 'flex', alignItems: 'center', padding: "0px", width: '100%' }}>
+								<FilterButton
+									styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: "none", borderRadius: "0" }}
+									tooltip={translate.change_to_no_participate}
+									loading={loading === 0}
+									size="2.8em"
+									onClick={() => changeParticipantState(6, 0, null)}
+									active={
+										participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
+									}
+								>
+									<div style={{ width: '30%', marginRight: "20px" }}>
+										<StateIcon
+											translate={translate}
+											state={PARTICIPANT_STATES.NO_PARTICIPATE}
+											color={secondary}
+											hideTooltip={true}
+										/>
 									</div>
-								}
-								<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
+									<div style={{ width: '70%' }}>
+										<span style={{ fontSize: '0.9em' }}>{translate.wont_participate}</span>
+									</div>
+								</FilterButton>
+							</div>
+							{council.councilType !== 1 &&
+								<div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
 									<FilterButton
-										styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
-										tooltip={translate.physically_present_assistance}
-										loading={loading === 2}
+										styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", borderRadius: "0" }}
+										tooltip={translate.change_to_remote}
+										loading={loading === 1}
 										size="2.8em"
-										onClick={() => changeParticipantState(5, 2, null)}
-										active={
-											participant.state ===
-											PARTICIPANT_STATES.PHYSICALLY_PRESENT
-										}
+										onClick={() => changeParticipantState(0, 1, null)}
+										active={participant.state === PARTICIPANT_STATES.REMOTE}
 									>
 										<div style={{ width: '30%', marginRight: "20px" }}>
 											<StateIcon
 												translate={translate}
-												state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+												state={PARTICIPANT_STATES.REMOTE}
 												color={secondary}
 												hideTooltip={true}
 											/>
 										</div>
 										<div style={{ width: '70%' }}>
-											<span style={{ fontSize: '0.9em' }}>{translate.physically_present_assistance}</span>
+											<span style={{ fontSize: '0.9em' }}>{translate.remote_participant}</span>
 										</div>
 									</FilterButton>
 								</div>
-								{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
-									participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE 
-								) && council.councilType < 2) && (
-									<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0" }}>
+							}
+							<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
+								<FilterButton
+									styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
+									tooltip={translate.physically_present_assistance}
+									loading={loading === 2}
+									size="2.8em"
+									onClick={() => changeParticipantState(5, 2, null)}
+									active={
+										participant.state ===
+										PARTICIPANT_STATES.PHYSICALLY_PRESENT
+									}
+								>
+									<div style={{ width: '30%', marginRight: "20px" }}>
+										<StateIcon
+											translate={translate}
+											state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+											color={secondary}
+											hideTooltip={true}
+										/>
+									</div>
+									<div style={{ width: '70%' }}>
+										<span style={{ fontSize: '0.9em' }}>{translate.physically_present_assistance}</span>
+									</div>
+								</FilterButton>
+							</div>
+							{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
+								participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+							) && council.councilType < 2) && (
+									<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
 										<FilterButton
 											tooltip={translate.change_to_present_with_remote_vote}
 											styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
@@ -213,34 +214,33 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 										</FilterButton>
 									</div>
 								)}
-								{CBX.canBePresentWithRemoteVote(council.statute) && (
-									<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0" }}>
-										<FilterButton
-											tooltip={translate.change_to_present_with_remote_vote}
-											styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
-											loading={loading === 3}
-											size="2.8em"
-											onClick={() => changeParticipantState(7, 3, null)}
-											active={
-												participant.state ===
-												PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-											}
-										>
-											<div style={{ width: '30%', marginRight: "20px" }}>
-												<StateIcon
-													translate={translate}
-													state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
-													color={secondary}
-													hideTooltip={true}
-												/>
-											</div>
-											<div style={{ width: '70%' }}>
-												<span style={{ fontSize: '0.9em' }}>{translate.physically_present_with_remote_vote}</span>
-											</div>
-										</FilterButton>
-									</div>
-								)}
-							</GridItem>
+							{CBX.canBePresentWithRemoteVote(council.statute) && (
+								<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
+									<FilterButton
+										tooltip={translate.change_to_present_with_remote_vote}
+										styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
+										loading={loading === 3}
+										size="2.8em"
+										onClick={() => changeParticipantState(7, 3, null)}
+										active={
+											participant.state ===
+											PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+										}
+									>
+										<div style={{ width: '30%', marginRight: "20px" }}>
+											<StateIcon
+												translate={translate}
+												state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
+												color={secondary}
+												hideTooltip={true}
+											/>
+										</div>
+										<div style={{ width: '70%' }}>
+											<span style={{ fontSize: '0.9em' }}>{translate.physically_present_with_remote_vote}</span>
+										</div>
+									</FilterButton>
+								</div>
+							)}
 						</Grid>
 					</>
 				}

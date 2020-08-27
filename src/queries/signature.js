@@ -36,7 +36,7 @@ export const signature = gql`
 				title
 				description
 				filename
-				filesize
+				
 				filetype
 			}
 

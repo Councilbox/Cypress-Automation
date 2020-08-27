@@ -390,6 +390,8 @@ const getQuery = type => {
                         surname
                         signed
                         state
+                        assistanceLastDateConfirmed
+                        assistanceIntention
                         dni
                         position
                         email

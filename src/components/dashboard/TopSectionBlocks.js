@@ -97,7 +97,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 
 			<GridItem xs={12} md={size} lg={size}>
 				<Block
-					link={`/company/${company.id}/drafts`}
+					link={`/company/${company.id}/drafts/documentation`}
 					icon="class"
 					id={'edit-drafts-block'}
 					text={translate.tooltip_knowledge_base}

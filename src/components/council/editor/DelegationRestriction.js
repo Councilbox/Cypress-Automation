@@ -262,7 +262,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                 border: `2px solid ${primary}`
                             }}
                             onClick={openSelectModal}
-                            text={'Añadir'}
+                            text={translate.add}
                         >
                         </BasicButton>
                     </div>

@@ -328,7 +328,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 					<div style={{marginTop: '1em'}}>
 						<RichTextInput
 							ref={editorRightColumn}
-							floatingText={'Toma de acuerdos columna derecha'}
+							floatingText={translate.decision_making_right_column}
 							errorText={error}
 							translate={translate}
 							tags={tags}

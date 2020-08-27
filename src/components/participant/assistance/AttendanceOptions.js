@@ -6,9 +6,7 @@ import DelegationItem from './DelegationItem';
 import { canDelegateVotes } from '../../../utils/CBX';
 import AddRepresentativeModal from '../../council/live/AddRepresentativeModal';
 import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning';
-import EarlyVoteModal from './EarlyVoteOption';
 import EarlyVoteOption from './EarlyVoteOption';
-import { BasicButton } from '../../../displayComponents';
 import FixDelegationVoteButton from './FixDelegationVoteButton';
 import { ConfigContext } from '../../../containers/AppControl';
 import { AECOC_ID } from './Assistance';
@@ -36,8 +34,8 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 
 
     const checkDelegationConditions = () => {
-        return ((participant.numParticipations > 0 || participant.socialCapital > 0)
-            || participant.represented.filter(p => (p.numParticipations > 0)).length > 0)
+        return  config.attendanceDelegationOption && council.statute.existsDelegatedVote === 1 && ((participant.numParticipations > 0 || participant.socialCapital > 0)
+            || participant.represented.filter(p => (p.numParticipations > 0)).length > 0);
     }
 
     if(council.councilType === 4){

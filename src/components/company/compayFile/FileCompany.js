@@ -62,7 +62,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         const response = await client.query({
             query: company,
             variables: {
-                id: match.params.id
+                id: +match.params.id
             }
         });
         dispatch({ type: 'SET_DATA', payload: response.data.company });

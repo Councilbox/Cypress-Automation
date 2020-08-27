@@ -3,6 +3,8 @@ export const MAX_COUNCIL_FILE_SIZE = 15360;
 export const MAX_COUNCIL_ATTACHMENTS = 5;
 export const ALPHA_RELEASE_DATE = '10/26/2018';
 
+export const INPUT_REGEX = new RegExp("[ A-Za-z0-9äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+
 export const agendaTypes = [
 	"text",
 	"public_voting",

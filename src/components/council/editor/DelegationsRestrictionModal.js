@@ -15,6 +15,7 @@ import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Card, MenuItem, Typography, withStyles, IconButton, CardHeader, Collapse } from 'material-ui';
 import { councilParticipantsFilterIds } from "../../../queries/councilParticipant";
 import { getPrimary } from '../../../styles/colors';
+import { isMobile } from '../../../utils/screen';
 
 
 
@@ -90,11 +91,11 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 		const rest = total - participants.length - 1;
 
 		return (
-			<div>
+			<div style={{ height: '100%', overflow: 'hidden' }}>
 				<Grid>
 					<GridItem xs={12} lg={12} md={12} >
 						<TextInput
-							placeholder={"Buscar"}
+							placeholder={translate.search}
 							adornment={<Icon>search</Icon>}
 							type="text"
 							// value={searchModalPlantillas}
@@ -108,7 +109,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 						/>
 					</GridItem>
 				</Grid>
-				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", minHeight: "20em", height: '0', overflow: "hidden" }}>
+				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%",  }}>
 					{loading ? (
 						<LoadingSection />
 					) : (
@@ -184,19 +185,21 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 		<AlertConfirm
 			requestClose={close}
 			open={open}
+			widthModal={{ height: "100%" }}
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
-			title={translate.select}
-			bodyStyle={{ width: "75vw", minWidth: "50vw", }}
-			titleRigth={
-				<div style={{ display: 'flex', alignItems: "center" }}>
-					<div>
-						<ButtonIcon className="material-icons" style={{ color: getPrimary(), fontSize: "15px", marginTop: "5px", marginRight: "5px" }} type={'help'} />
+			title={
+				<div style={{ display: isMobile ? "" : "flex", justifyContent: "space-between" }}>
+					<div>{translate.select}</div>
+					<div style={{ display: 'flex', alignItems: !isMobile && "center", color: ' rgba(0, 0, 0, 0.37)', fontSize: isMobile && '12px' }}>
+						<div>
+							<ButtonIcon className="material-icons" style={{ color: getPrimary(), fontSize: "15px", marginTop: "5px", marginRight: "5px", marginLeft: isMobile ? "0px" : "2em"}} type={'help'} />
+						</div>
+						{translate.select_who_can_receive_delegations}
 					</div>
-					{translate.select_who_can_receive_delegations}
 				</div>
-
 			}
+			bodyStyle={{ width: "75vw", minWidth: "50vw", overflow: isMobile && "hidden", width: isMobile && "100%", height: isMobile && '100%' }}
 		/>
 	);
 }

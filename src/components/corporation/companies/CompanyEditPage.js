@@ -35,7 +35,7 @@ const CompanyEditPage = ({ data, user, match, company, translate }) => {
 export default graphql(company, {
     options: props => ({
         variables: {
-            id: props.match.params.id
+            id: +props.match.params.id
         },
         notifyOnNetworkStatusChange: true,
         fetchPolicy: 'network-only'

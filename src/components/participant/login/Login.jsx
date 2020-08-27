@@ -68,6 +68,8 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
 	const [{ status, message }, updateState] = React.useReducer(reducer, { status: 'WAITING' });
 
+	const finishedVoted = (councilIsFinished(council) || participant.hasVoted);
+
 	const loginForm = () => (
 		<LoginForm
 			participant={participant}
@@ -80,7 +82,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	)
 
 
-	if ((councilIsFinished(council) || !councilIsLive(council) || participant.hasVoted) && isMobile) {
+	if ((finishedVoted || !councilIsLive(council)) && isMobile) {
 		return (
 			<NotLoggedLayout
 				translate={props.translate}
@@ -108,16 +110,16 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 					<div style={styles.mainContainer}>
 						<Card style={{
 							...styles.cardContainer,
-							background: councilIsFinished(council) && 'transparent',
-							boxShadow: councilIsFinished(council) && "none",
-							minHeight: councilIsFinished(council) && "100%",
+							background: finishedVoted && 'transparent',
+							boxShadow: finishedVoted && "none",
+							minHeight: finishedVoted && "100%",
 							...((councilIsLive(council) && !participant.hasVoted) ? {
 								minWidth: window.innerWidth > 450 ? '550px' : '100%'
 							} : {
 									minWidth: width
 								})
 						}} elevation={6}>
-							{councilIsFinished(council) ?
+							{finishedVoted ?
 								<div style={{ height: "100%" }}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										loginForm()

@@ -4,9 +4,12 @@ import { MenuItem } from "material-ui";
 import { SelectInput } from "../../displayComponents";
 import { isMobile } from "../../utils/screen";
 
-const MenuSuperiorTabs = ({ items, setSelect, translate, selected }) => {
+const MenuSuperiorTabs = ({ items, setSelect, translate, selected, goToPadre }) => {
 	const set = item => {
 		setSelect(item);
+		if(goToPadre){
+			goToPadre(item)
+		}
 	}
 	
 	if (isMobile) {

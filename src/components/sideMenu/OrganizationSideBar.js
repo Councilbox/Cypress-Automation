@@ -65,7 +65,7 @@ class Sidebar extends React.Component {
 				icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
 			},
 			{
-				path: `/company/${this.props.company.id}/drafts`,
+				path: `/company/${this.props.company.id}/drafts/documentation`,
 				name: 'drafts',
 				//TRADUCCION
 				sidebarName: 'B. conocimiento',

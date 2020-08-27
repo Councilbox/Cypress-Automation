@@ -185,7 +185,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
                                 id={'anadirSocioTipoSocio'}
-                                floatingText={'Tipo de socio'}
+                                floatingText={translate.partner_type}
                                 type="text"
                                 errorText={errors.position}
                                 value={participant.position || ''}
@@ -227,7 +227,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
                                 floatingText={translate.votes}
-                                type="text"
+                                type="number"
                                 errorText={errors.numParticipations}
                                 value={participant.numParticipations || ''}
                                 onChange={event =>
@@ -240,7 +240,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
                                 floatingText={translate.social_capital}
-                                type="text"
+                                type="number"
                                 errorText={errors.socialCapital}
                                 value={participant.socialCapital || ''}
                                 onChange={event =>
@@ -423,6 +423,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.company_new_country}
                                 type="text"
                                 value={participant.country || ''}
+                                errorText={errors.country !== "España" && errors.country }
                                 onChange={event =>
                                     updateState({
                                         country: this.onParse(event.nativeEvent.target.value) 

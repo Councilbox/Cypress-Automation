@@ -149,7 +149,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 				<React.Fragment>
 					{council.councilType === 3 ?
 						<div style={{ fontSize: '0.9em' }}>
-							<div>{`Las votaciones se cerrarán automáticamente ${moment(council.closeDate).format('LLL')}`/*TRADUCCION*/}</div>
+							<div>{`${translate.votings_closing_date} ${moment(council.closeDate).format('LLL')}`}</div>
 							<div style={{ ...(!isMobile? { float: 'right' } : {})  }}>
 								<BasicButton
 									text={translate.close_point_votations}
@@ -233,7 +233,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 			{agenda.votingState === 3 &&
 				<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {}) }}>
 					<BasicButton
-						text={'Abrir votaciones presentes' /*TRADUCCION*/}
+						text={translate.open_in_person_votings}
 						color={"white"}
 						loading={loading}
 						disabled={loading}

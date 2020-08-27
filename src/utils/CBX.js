@@ -304,8 +304,7 @@ export const councilHasComments = statute => {
 };
 
 export const canDelegateVotes = (statute, participant) => {
-	return (
-		statute.existsDelegatedVote === 1 &&
+	return (statute.existsDelegatedVote === 1 &&
 		!(participant.delegatedVotes.filter(p => p.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0) &&
 		participant.type !== PARTICIPANT_TYPE.GUEST
 	);
@@ -817,7 +816,7 @@ export const formatInt = num => {
 	if(num < 1000){
 		return num;
 	}
-	num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+	num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1 ');
 	num = num.split('').reverse().join('').replace(/^[\.]/, '');
 	return num;
 }
@@ -1375,7 +1374,9 @@ export const getSendType = value => {
 };
 
 export const removeHTMLTags = string => {
-	return string.replace(/<(?:.|\n)*?>/gm, "");
+	return string.replace(/<(?:.|\n)*?>/gm, "").replace(/&#(\d+);/g, function(match, dec) {
+		return String.fromCharCode(dec);
+	}).replace(/&nbsp;/g, ' ');
 };
 
 export const councilHasActPoint = council => {
@@ -1760,6 +1761,8 @@ export const getAgendaTypeLabel = agenda => {
 
 export const getTranslationReqCode = reqCode => {
 	switch (reqCode) {
+		case "ALL":
+			return "all_plural";
 		case -1:
 			return "tooltip_failed_shipping";
 		case 0:
@@ -1777,6 +1780,8 @@ export const getTranslationReqCode = reqCode => {
 		case 36:
 			return "tooltip_invalid_email_address";
 		case 37:
+			return "tooltip_dropped";
+		case 40:
 			return "tooltip_dropped";
 		default:
 			return;
@@ -2064,6 +2069,12 @@ export const checkHybridConditions = council => {
 	if(checkSecondDateAfterFirst(council.closeDate, new Date())){
 		return true;
 	}
+}
+
+export const prepareTextForFilename = text => {
+	if(!text) return '';
+
+	return text.replace(/ /g, '_').replace(/\./g, '_');
 }
 
 export const formatSize = size => {

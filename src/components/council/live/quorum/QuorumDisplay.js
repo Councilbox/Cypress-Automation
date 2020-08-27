@@ -1,5 +1,5 @@
 import React from 'react';
-import { showNumParticipations, councilHasSession, hasParticipations } from '../../../../utils/CBX';
+import { showNumParticipations, councilHasSession, hasParticipations, hasVotation } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { AlertConfirm, DropDownMenu } from '../../../../displayComponents';
 import { usePolling } from '../../../../hooks';
@@ -61,12 +61,13 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
                         <QuorumDetails
                             council={council}
                             recount={recount}
+                            company={company}
                             translate={translate}
                             socialCapital={recount.socialCapitalTotal}
                             totalVotes={recount.partRightVoting}
                         />
                     }
-                    buttonCancel={'Cerrar'}
+                    buttonCancel={translate.close}
                     cancelAction={() => setModal(false)}
                     requestClose={() => setModal(false)}
                 />
@@ -75,18 +76,22 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
     )
 }
 
-const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, socialCapital, client }) => {
+export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas = [], company, translate, recount, totalVotes, socialCapital, client }) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const secondary = getSecondary();
 
     const getPercentage = value => {
         let base = totalVotes;
-        if(hasParticipations(council)){
+        if (hasParticipations(council)) {
             base = socialCapital;
         }
 
         return ((value / base) * 100).toFixed(3);
+    }
+
+    const getVotingPercentage = value => {
+        return ((value / totalVotes) * 100).toFixed(3);
     }
 
     const downloadPDF = async () => {
@@ -120,7 +125,12 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                         earlyVotes
                         numEarlyVotes
                         present
+                        withoutVote
+                        numWithoutVote
                         numPresent
+                        numTotal
+                        others
+                        numOthers
                         total
                     }
                 }
@@ -138,14 +148,14 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
         getData();
     }, [getData]);
 
-    usePolling(getData, 10000);
+    usePolling(getData, council.state < 40 ? 10000 : 60000);
 
-    if(loading){
+    if (loading) {
         return '';
     }
 
     return (
-        <div style={{fontSize: '1em'}}>
+        <div style={{ fontSize: '1em' }}>
             <div style={{
                 width: '100%',
                 display: 'flex',
@@ -160,16 +170,16 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                     id={'user-menu-trigger'}
                     loading={loading}
                     loadingColor={secondary}
-                    text={'Exportar'}
+                    text={translate.to_export}
                     textStyle={{ color: secondary }}
                     type="flat"
-                    buttonStyle={{border: `1px solid ${secondary}`}}
+                    buttonStyle={{ border: `1px solid ${secondary}` }}
                     icon={
                         <i className="fa fa-download" style={{
-                                fontSize: "1em",
-                                color: secondary,
-                                marginLeft: "0.3em"
-                            }}
+                            fontSize: "1em",
+                            color: secondary,
+                            marginLeft: "0.3em"
+                        }}
                         />
                     }
                     items={
@@ -184,12 +194,12 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                                     }}
                                 >
                                     <i className="fa fa-file-pdf-o" style={{
-                                            fontSize: "1em",
-                                            color: secondary,
-                                            marginLeft: "0.3em"
-                                        }}
+                                        fontSize: "1em",
+                                        color: secondary,
+                                        marginLeft: "0.3em"
+                                    }}
                                     />
-                                    <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                                    <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
                                         PDF
                                     </span>
                                 </div>
@@ -204,14 +214,14 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                         <TableCell>
 
                         </TableCell>
-                        <TableCell>
+                        <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
                             {translate.participants}
                         </TableCell>
-                        <TableCell>
-                            Participaciones
+                        <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
+                            {translate.census_type_social_capital}
                         </TableCell>
-                        <TableCell>
-                            % Capital social
+                        <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
+                            % {translate.social_capital_desc}
                         </TableCell>
                     </TableHead>
                     <TableBody>
@@ -220,10 +230,10 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                                 Total
                             </TableCell>
                             <TableCell>
-                                {recount.numRightVoting}
+                                {showNumParticipations(data.numTotal, company)}
                             </TableCell>
                             <TableCell>
-                                {data.total}
+                                {showNumParticipations(data.total, company)}
                             </TableCell>
                             <TableCell>
                                 {getPercentage(data.total)}%
@@ -234,10 +244,10 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                                 {translate.face_to_face}
                             </TableCell>
                             <TableCell>
-                                {data.numPresent}
+                                {showNumParticipations(data.numPresent, company)}
                             </TableCell>
                             <TableCell>
-                                {data.present}
+                                {showNumParticipations(data.present, company)}
                             </TableCell>
                             <TableCell>
                                 {getPercentage(data.present)}%
@@ -248,10 +258,10 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                                 {translate.remotes}
                             </TableCell>
                             <TableCell>
-                                {data.numRemote}
+                                {showNumParticipations(data.numRemote, company)}
                             </TableCell>
                             <TableCell>
-                                {data.remote}
+                                {showNumParticipations(data.remote, company)}
                             </TableCell>
                             <TableCell>
                                 {getPercentage(data.remote)}%
@@ -262,10 +272,10 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                                 {translate.delegated_plural}
                             </TableCell>
                             <TableCell>
-                                {data.numDelegated}
+                                {showNumParticipations(data.numDelegated, company)}
                             </TableCell>
                             <TableCell>
-                                {data.delegated}
+                                {showNumParticipations(data.delegated, company)}
                             </TableCell>
                             <TableCell>
                                 {getPercentage(data.delegated)}%
@@ -274,23 +284,116 @@ const QuorumDetails = withApollo(({ council, translate, recount, totalVotes, soc
                         {council.statute.canEarlyVote === 1 &&
                             <TableRow>
                                 <TableCell>
-                                    {council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION? 'Carta de voto' : translate.quorum_early_votes}
+                                    {council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.vote_letter : translate.quorum_early_votes}
                                 </TableCell>
                                 <TableCell>
-                                    {data.numEarlyVotes}
+                                    {showNumParticipations(data.numEarlyVotes, company)}
                                 </TableCell>
                                 <TableCell>
-                                    {data.earlyVotes}
+                                    {showNumParticipations(data.earlyVotes, company)}
                                 </TableCell>
                                 <TableCell>
                                     {getPercentage(data.earlyVotes)}%
                                 </TableCell>
                             </TableRow>
                         }
+                        <TableRow>
+                            <TableCell>
+                                {translate.no_voting_rights}
+                            </TableCell>
+                            <TableCell>
+                                {showNumParticipations(data.numWithoutVote, company)}
+                            </TableCell>
+                            <TableCell>
+                                {showNumParticipations(data.withoutVote, company)}
+                            </TableCell>
+                            <TableCell>
+                                {getPercentage(data.withoutVote)}%
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                {translate.others}
+                            </TableCell>
+                            <TableCell>
+                                {showNumParticipations(data.numOthers, company)}
+                            </TableCell>
+                            <TableCell>
+                                -
+                            </TableCell>
+                            <TableCell>
+                                -
+                            </TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
+                {renderVotingsTable &&
+                    <Table style={{ marginTop: '3em' }}>
+                        <TableHead>
+                            <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
+                                {translate.title}
+                            </TableCell>
+                            <TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
+                                {translate.in_favor_btn}
+                            </TableCell>
+                            <TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
+                                {translate.against_btn}
+                            </TableCell>
+                            <TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
+                                {translate.abstention_btn}
+                            </TableCell>
+                        </TableHead>
+                        <TableBody>
+                            {agendas.map(point => (
+                                <TableRow>
+                                    <TableCell>
+                                        <div className="truncate" style={{ width: '6em' }}>
+                                            {point.agendaSubject.substr(0, 10)}
+                                        </div>
+                                    </TableCell>
+                                    {hasVotation(point.subjectType) ?
+                                        <>
+                                            <TableCell>
+                                                {showNumParticipations(point.positiveVotings + point.positiveManual, company)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {`${getVotingPercentage(point.positiveVotings + point.positiveManual)}%`}
+                                            </TableCell>
+                                            <TableCell>
+                                                {showNumParticipations(point.negativeVotings + point.negativeManual, company)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {`${getVotingPercentage(point.negativeVotings + point.negativeManual)}%`}
+                                            </TableCell>
+                                            <TableCell>
+                                                {showNumParticipations(point.abstentionVotings + point.abstentionManual, company)}
+                                            </TableCell>
+                                            <TableCell>
+                                                {`${getVotingPercentage(point.abstentionVotings + point.abstentionManual)}%`}
+                                            </TableCell>
+                                        </>
+                                        :
+                                        <>
+                                            <TableCell colSpan={2} align="center">
+                                                -
+                                            </TableCell>
+                                            <TableCell colSpan={2} align="center">
+                                                -
+                                            </TableCell>
+                                            <TableCell colSpan={2} align="center">
+                                                -
+                                            </TableCell>
+                                        </>
+
+                                    }
+
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                }
             </div>
-            
+
         </div>
     )
 })

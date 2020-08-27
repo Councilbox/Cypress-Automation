@@ -13,7 +13,7 @@ class CreateSignature extends React.Component {
 	createSignature = async companyId => {
 		const response = await this.props.createSignature({
 			variables: {
-				companyId: companyId
+				companyId: +companyId
 			}
 		});
 		return response.data.createSignature.id;

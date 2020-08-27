@@ -515,7 +515,7 @@ const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }
 	const body = () => {
 		return (
 			<div>
-				Anulará de forma permanente el voto telemático de este asistente, ¿Desea continuar?
+				{translate.void_remote_vote_warning}
 			</div>
 		)
 	}
@@ -617,16 +617,16 @@ const PrivateVotingDisplay = compose(
 						vote.vote === 3 && council.presentVoteOverwrite === 1 ?
 							<div onClick={toggleVote} style={{ cursor: 'pointer' }}>
 								<i className="fa fa-times" style={{ marginRight: '1em' }} />
-								{'Anular voto telemático'}
+								{translate.vote_remote_vote}
 							</div>
 							:
 							<Checkbox
 								label={vote.vote === -1 ?
-									'No ha votado presencialmente' :
+									translate.mark_voted_in_person :
 									vote.vote === -3 ?
-										'Voto remoto anulado - Ha votado presencialmente'
+										`${translate.remote_vote_voided} - ${translate.voted_in_person}`
 										:
-										'Ha votado presencialmente'
+										translate.voted_in_person
 								}
 								onChange={toggleVote}
 								loading={loading}

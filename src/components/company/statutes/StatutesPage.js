@@ -7,7 +7,7 @@ const StatutesPage = ({ match, translate }) => {
 	return (
 		<CardPageLayout title={translate.council_types} disableScroll={true}>
 			<StatutesBody
-				companyId={match.params.company}
+				companyId={+match.params.company}
 			/>
 		</CardPageLayout>
 	)

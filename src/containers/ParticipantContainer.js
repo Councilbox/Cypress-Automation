@@ -85,7 +85,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 	}, [data]);
 
 	React.useEffect(() => {
-		props.subscribeToCouncilStateUpdated({ councilId: match.params.councilId });
+		props.subscribeToCouncilStateUpdated({ councilId: +match.params.councilId });
 	}, [match.params.councilId])
 
 
@@ -379,7 +379,7 @@ export default graphql(councilQuery, {
 	name: 'council',
 	options: props => ({
 		variables: {
-			councilId: props.match.params.councilId
+			councilId: +props.match.params.councilId
 		},
 		pollInterval: 60000
 	}),
@@ -397,7 +397,7 @@ export default graphql(councilQuery, {
 						}
 					}`,
 				variables: {
-					councilId: params.councilId
+					councilId: +params.councilId
 				},
 				updateQuery: (prev, { subscriptionData }) => {
 					const newData = subscriptionData.data.councilStateUpdated;
