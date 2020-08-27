@@ -16,6 +16,7 @@ import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
 import { Table, TableHead, TableRow, TableCell, TableBody, } from 'material-ui';
 import FailedSMSList from './FailedSMSList';
+import { SearchCouncils } from '../CouncilsDashboard';
 
 
 const cancelAct = gql`
@@ -127,6 +128,11 @@ class CouncilDetails extends React.Component {
 
 		const { council } = this.state.data;
 
+		if (!council) {
+			return <FailPageSearchId
+				id={this.props.match.params.id}
+			/>
+		}
 		if (this.state.showAgenda && council) {
 			return (
 				<React.Fragment>
@@ -325,7 +331,7 @@ class CouncilDetails extends React.Component {
 								open={this.state.credManager}
 								buttonCancel={'Cancelar'}
 								classNameDialog={'height100'}
-								bodyStyle={{minWidth: "100vh",maxWidth: "100vh",height: '100%',overflowY: 'hidden'}}
+								bodyStyle={{ minWidth: "100vh", maxWidth: "100vh", height: '100%', overflowY: 'hidden' }}
 								bodyText={
 									<CredentialsManager
 										council={council}
@@ -379,6 +385,24 @@ class CouncilDetails extends React.Component {
 			</div>
 		)
 	}
+}
+
+const FailPageSearchId = ({ id }) => {
+
+	return (
+		<div>
+			<SearchCouncils reload={true} />
+			<div style={{ fontSize: "25px", color: "black", display: "flex", alignItems: "center", width: "100%", justifyContent: "center", marginTop: "4em" }}>
+				<div style={{ color: "#dc7373", fontSize: "35px", marginRight: "1em" }}>
+					<i className="fa fa-exclamation-triangle" />
+				</div>
+				<div>
+					La reunión con id <b>{id}</b> no existe
+					</div>
+
+			</div>
+		</div>
+	)
 }
 
 const showGroupAttendees = attendees => {
@@ -454,7 +478,7 @@ const showSendsRecount = (sends) => {
 	}
 
 	sends.forEach(send => {
-		if(recount[list[send.sendType]] !== undefined ){
+		if (recount[list[send.sendType]] !== undefined) {
 			recount[list[send.sendType]]++;
 		} else {
 			recount['Otros']++;
