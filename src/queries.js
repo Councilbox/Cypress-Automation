@@ -1067,6 +1067,7 @@ export const councilStepFive = gql`
 				existsAdvanceNoticeDays
 				existsSecondCall
 				id
+				attendanceText
 				minimumSeparationBetweenCall
 				prototype
 				statuteId

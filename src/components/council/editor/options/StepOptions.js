@@ -27,6 +27,7 @@ import { ConfigContext } from "../../../../containers/AppControl";
 import { useValidRTMP } from "../../../../hooks";
 import gql from 'graphql-tag';
 import VoteLetterWithSenseOption from "./VoteLetterWithSenseOption";
+import AttendanceTextEditor from "./AttendanceTextEditor";
 
 
 
@@ -462,6 +463,14 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 											})
 										}
 									/>
+									{council.confirmAssistance === 1 &&
+										<>
+											<AttendanceTextEditor
+												council={council}
+												translate={translate}
+											/>
+										</>
+									}
 								</React.Fragment>
 							)}
 							{renderCouncilTypeSpecificOptions(council.councilType)}
