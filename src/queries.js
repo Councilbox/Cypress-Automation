@@ -115,6 +115,7 @@ export const councils = gql`
 			companyId
 			dateRealStart
 			state
+			promoCode
 			dateEnd
 			name
 			step

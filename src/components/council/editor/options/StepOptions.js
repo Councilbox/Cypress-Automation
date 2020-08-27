@@ -488,7 +488,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 								}}
 							/>
 							<Checkbox
-								label={'Reunión de prueba'}
+								label={translate.test_meeting}
 								value={council.promoCode === 'COUNCILBOX'}
 								onChange={(event, isInputChecked) =>
 									updateCouncilData({

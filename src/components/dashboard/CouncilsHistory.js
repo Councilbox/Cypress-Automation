@@ -3,13 +3,14 @@ import { Table, DateWrapper, BasicButton, Grid, GridItem } from '../../displayCo
 import { bHistory } from '../../containers/App';
 import { TableRow, TableCell, Card } from 'material-ui';
 import TableStyles from "../../styles/table";
-import { getPrimary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import { COUNCIL_STATES } from '../../constants';
 import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
 import { isMobile } from '../../utils/screen';
+import { Tooltip } from 'material-ui';
 
 const generateLink = (council, company) => {
     return `/company/${company.id}/council/${council.id}/finished`;
@@ -125,6 +126,13 @@ class HoverableRow extends React.Component {
                 >
                     <Grid>
                         <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+                            {council.promoCode === 'COUNCILBOX' &&
+                                <Tooltip title={translate.test_meeting}>
+                                    <span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
+                                        miscellaneous_services
+                                    </span>
+                                </Tooltip>
+                            }
                             {translate.name}
                         </GridItem>
                         <GridItem xs={7} md={7}>
@@ -154,18 +162,20 @@ class HoverableRow extends React.Component {
                             />
                         </GridItem>
                         <GridItem xs={12} md={12}>
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: '10px' }}>
-                                <BasicButton
-                                    text={translate.certificates}
-                                    color="white"
-                                    textStyle={{ textTransform: 'none', fontWeight: '700', color: primary }}
-                                    buttonStyle={{ border: `2px solid ${primary}` }}
-                                    onClick={(event) => {
-                                        bHistory.push(`/company/${company.id}/council/${council.id}/certificates`);
-                                        event.stopPropagation();
-                                    }}
-                                />
-                            </div>
+                            {council.promoCode !== 'COUNCILBOX' &&
+                                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: '10px' }}>
+                                    <BasicButton
+                                        text={translate.certificates}
+                                        color="white"
+                                        textStyle={{ textTransform: 'none', fontWeight: '700', color: primary }}
+                                        buttonStyle={{ border: `2px solid ${primary}` }}
+                                        onClick={(event) => {
+                                            bHistory.push(`/company/${company.id}/council/${council.id}/certificates`);
+                                            event.stopPropagation();
+                                        }}
+                                    />
+                                </div>
+                            }
                         </GridItem>
                     </Grid>
                 </Card>
@@ -228,14 +238,20 @@ class HoverableRow extends React.Component {
                         width: "35%"
                     }}
                 >
-                    {council.name ||
-                        translate.dashboard_new}
+                    {council.promoCode === 'COUNCILBOX' &&
+                        <Tooltip title={translate.test_meeting}>
+                            <span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
+                                miscellaneous_services
+                            </span>
+                        </Tooltip>
+                    }
+                    {council.name || translate.dashboard_new}
                 </TableCell>
                 <TableCell
                     style={TableStyles.TD}
                 >
                     <div style={{ width: '12em' }}>
-                        {this.state.showActions &&
+                        {(this.state.showActions && council.promoCode !== 'COUNCILBOX') &&
                             <BasicButton
                                 text={translate.certificates}
                                 color="white"

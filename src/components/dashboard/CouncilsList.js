@@ -4,7 +4,7 @@ import { bHistory } from '../../containers/App';
 import { TableRow, TableCell } from 'material-ui';
 import { withRouter } from 'react-router-dom';
 import TableStyles from "../../styles/table";
-import { getPrimary } from "../../styles/colors";
+import { getPrimary, getSecondary } from "../../styles/colors";
 import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
@@ -13,6 +13,7 @@ import { Card } from 'material-ui';
 import { sendGAevent } from '../../utils/analytics';
 import { useHoverRow } from '../../hooks';
 import { isMobile } from '../../utils/screen';
+import { Tooltip } from 'material-ui';
 
 const CouncilsList = ({ councils, translate, openDeleteModal, company, link, selectedIds, ...props }) => {
     const [open, setOpen] = React.useState(false);
@@ -229,6 +230,14 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                     width: "65%"
                 }}
             >
+                {council.promoCode === 'COUNCILBOX' &&
+                    <Tooltip title={translate.test_meeting}>
+                        <span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
+                            miscellaneous_services
+                        </span>
+                    </Tooltip>
+
+                }
                 {council.name || translate.dashboard_new}
             </TableCell>
             <TableCell
