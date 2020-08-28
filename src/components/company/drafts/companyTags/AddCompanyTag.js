@@ -126,14 +126,14 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
             />
         )
     }
-
+    
     return (
         <React.Fragment>
             <BasicButton
                 onClick={openModal}
                 color={primary}
                 icon={<ButtonIcon type="add" color="white" />}
-                text="Añadir"
+                text={translate.add}
                 textStyle={{
                     color: 'white',
                     fontWeight: '700',
@@ -143,7 +143,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
             />
             <AlertConfirm
                 open={modal}
-                title={'Añadir etiqueta'}
+                title={translate.add_tag}
                 requestClose={closeModal}
                 acceptAction={createCompanyTag}
                 bodyText={renderModalBody()}

@@ -115,6 +115,7 @@ export const councils = gql`
 			companyId
 			dateRealStart
 			state
+			promoCode
 			dateEnd
 			name
 			step
@@ -158,7 +159,7 @@ export const councilCertificates = gql`
 `;
 
 export const councilActEmail = gql`
-	query CouncilActEmail($councilId: String!) {
+	query CouncilActEmail($councilId: Int!) {
 		councilAct(councilId: $councilId) {
 			emailAct
 			document
@@ -779,6 +780,8 @@ export const statutes = gql`
 			proxySecondary
 			voteLetter
 			voteLetterSecondary
+			voteLetterWithSense
+			voteLetterWithSenseSecondary
 			introSecondary
 			conclusionSecondary
 			constitutionSecondary
@@ -1019,6 +1022,7 @@ export const councilStepFive = gql`
 			actPointQuorumType
 			approveActDraft
 			autoClose
+			promoCode
 			dateStart
 			closeDate
 			companyId
@@ -1063,6 +1067,7 @@ export const councilStepFive = gql`
 				existsAdvanceNoticeDays
 				existsSecondCall
 				id
+				attendanceText
 				minimumSeparationBetweenCall
 				prototype
 				statuteId

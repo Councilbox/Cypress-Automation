@@ -32,7 +32,7 @@ const FilterButton = ({
 					display: "flex",
 					alignItems: "center",
 					margin: '1px 0.2em',
-					width: size,
+					// width: size,
 					justifyContent: "center",
 					cursor: "pointer",
 					overflow: "hidden",
@@ -55,7 +55,9 @@ const FilterButton = ({
 						display: "flex",
 						flexGrow: 1,
 						alignItems: "center",
-						justifyContent: "center"
+						justifyContent: "center",
+						width: size,
+						padding: '5px'
 					}}
 				>
 					{loading ? (

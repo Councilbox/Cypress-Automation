@@ -28,7 +28,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
 			let fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: event.loaded,
+				filesize: event.loaded.toString(),
 				base64: btoa(event.target.result)
             };
             setAttachments([...attachments, fileInfo]);

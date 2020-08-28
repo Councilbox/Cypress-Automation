@@ -2,7 +2,9 @@ import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
-	CustomDialog
+	CustomDialog,
+	AlertConfirm,
+	Scrollbar
 } from "../../../../displayComponents";
 import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary, secondary } from "../../../../styles/colors";
@@ -18,6 +20,7 @@ import { useOldState } from "../../../../hooks";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { isMobile } from "../../../../utils/screen";
 import { COUNCIL_TYPES } from "../../../../constants";
+import { councilIsFinished } from "../../../../utils/CBX";
 
 
 
@@ -36,9 +39,9 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 		const { hasRepresentative, ...data } = state.representative;
 		const representative = state.representative.hasRepresentative
 			? {
-					...data,
-					councilId: props.councilId
-			  }
+				...data,
+				councilId: props.councilId
+			}
 			: null;
 
 		if (!await checkRequiredFields()) {
@@ -92,7 +95,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 			hasError: false
 		};
 
-		if(!onlyEmail){
+		if (!onlyEmail) {
 			let hasSocialCapital = participations;
 			errorsParticipant = checkRequiredFieldsParticipant(
 				participant,
@@ -109,7 +112,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 
 
 		if (representative.hasRepresentative) {
-			if(!onlyEmail){
+			if (!onlyEmail) {
 				errorsRepresentative = checkRequiredFieldsRepresentative(
 					representative,
 					translate
@@ -118,10 +121,10 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 		}
 
 
-		if(participant.email && company.type !== 10){
+		if (participant.email && company.type !== 10) {
 			let emailsToCheck = [participant.email];
 
-			if(representative.email){
+			if (representative.email) {
 				emailsToCheck.push(representative.email);
 			}
 
@@ -133,21 +136,21 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 				}
 			});
 
-			if(!response.data.checkUniqueCouncilEmails.success){
+			if (!response.data.checkUniqueCouncilEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if(participant.email === email){
+					if (participant.email === email) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if(representative.email === email){
+					if (representative.email === email) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				})
 			}
 
-			if(participant.email === representative.email){
+			if (participant.email === representative.email) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
@@ -177,6 +180,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 		<React.Fragment>
 			<BasicButton
 				text={translate.add_participant}
+				disabled={councilIsFinished(council)}
 				color={"white"}
 				textStyle={{
 					color: primary,
@@ -185,14 +189,55 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 					textTransform: "none"
 				}}
 				textPosition="after"
-				icon={!isMobile? <ButtonIcon type="add" color={primary} /> : null}
+				icon={!isMobile ? <ButtonIcon type="add" color={primary} /> : null}
 				onClick={() => setState({ modal: true })}
 				buttonStyle={{
 					marginRight: "1em",
 					border: `2px solid ${primary}`
 				}}
 			/>
-			<CustomDialog
+			<AlertConfirm
+				bodyStyle={{ height: '400px', width: '950px' }}
+				bodyText={
+					<Scrollbar>
+						<div style={{ marginRight: "1em" }}>
+							<div style={{
+								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+								border: '1px solid rgb(97, 171, 183)',
+								borderRadius: '4px',
+								padding: '1em',
+								marginBottom: "1em",
+								color: 'black',
+							}}>
+								<ParticipantForm
+									type={participant.personOrEntity}
+									participant={participant}
+									participations={participations}
+									translate={translate}
+									languages={languages}
+									errors={errors}
+									updateState={updateState}
+								/>
+							</div>
+							<div style={{
+								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+								border: '1px solid rgb(97, 171, 183)',
+								borderRadius: '4px',
+								padding: '1em',
+								color: 'black',
+								marginBottom: ".5em",
+							}}>
+								<RepresentativeForm
+									translate={translate}
+									state={representative}
+									updateState={updateRepresentative}
+									errors={representativeErrors}
+									languages={languages}
+								/>
+							</div>
+						</div>
+					</Scrollbar>
+				}
 				title={translate.add_participant}
 				requestClose={() => setState({ modal: false })}
 				open={state.modal}
@@ -211,7 +256,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 							})}
 						/>
 						<BasicButton
-							text={council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? 'Guardar y notificar' : translate.save_changes_and_send}
+							text={council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION?  translate.save_and_notify : translate.save_changes_and_send}
 							textStyle={{
 								color: "white",
 								textTransform: "none",
@@ -237,27 +282,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 							}}
 						/>
 					</React.Fragment>
-				}
-			>
-				<div style={{maxWidth: '900px'}}>
-					<ParticipantForm
-						type={participant.personOrEntity}
-						participant={participant}
-						participations={participations}
-						translate={translate}
-						languages={languages}
-						errors={errors}
-						updateState={updateState}
-					/>
-					<RepresentativeForm
-						translate={translate}
-						state={representative}
-						updateState={updateRepresentative}
-						errors={representativeErrors}
-						languages={languages}
-					/>
-				</div>
-			</CustomDialog>
+				} />
 		</React.Fragment>
 	);
 }

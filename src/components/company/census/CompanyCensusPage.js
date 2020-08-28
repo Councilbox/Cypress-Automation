@@ -442,7 +442,7 @@ export default compose(
 		name: "data",
 		options: props => ({
 			variables: {
-				companyId: props.match.params.company,
+				companyId: +props.match.params.company,
 				options: {
 					limit: CENSUS_LIMITS[0],
 					offset: 0

@@ -1,10 +1,9 @@
 import React from "react";
 import { Grid, GridItem } from "./index";
-import { Typography, MenuItem, TableRow, TableHead, Table, TableBody, TableCell, IconButton } from "material-ui";
-import { getSecondary, getPrimary } from "../styles/colors";
+import { Typography, TableRow, TableHead, Table, TableBody, TableCell, IconButton } from "material-ui";
+import { getPrimary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
-// import RichTextEditor from 'react-rte';
 import { isChrome } from 'react-device-detect';
 import { withApollo } from 'react-apollo';
 import DropDownMenu from './DropDownMenu';
@@ -32,7 +31,8 @@ Quill.register(AlignStyle, true);
 class RichTextInput extends React.Component {
 	state = {
 		value: this.props.value,
-		showTags: false
+		showTags: false,
+		companyTags: []
 	};
 
 	componentDidMount() {
@@ -42,7 +42,9 @@ class RichTextInput extends React.Component {
 	}
 
 	shouldComponentUpdate(prevProps, prevState) {
-		return (prevProps.value !== this.props.value || prevProps.tags !== this.props.tags) || prevState !== this.state;
+		return (prevProps.value !== this.props.value ||
+			prevProps.tags !== this.props.tags ||
+			prevProps.errorText !== this.props.errorText) || prevState !== this.state;
 	}
 
 	changeShowTags = () => {
@@ -55,8 +57,9 @@ class RichTextInput extends React.Component {
 		if (!this.rtEditor) {
 			return;
 		}
-		this.setState({ value });
 		const html = value.toString('html');
+
+		this.setState({ value });
 		if (this.props.onChange) {
 			if (removeHTMLTags(html).length > 0) {
 				this.props.onChange(
@@ -88,6 +91,15 @@ class RichTextInput extends React.Component {
 		}, 500);
 	};
 
+	checkCharacterCount = event => {
+		if (this.props.maxChars){
+			if(removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars && event.key !== 'Backspace') {
+				event.preventDefault();
+			}
+		}
+	}
+
+
 	render() {
 		const { tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder } = this.props;
 		const modules = {
@@ -96,7 +108,7 @@ class RichTextInput extends React.Component {
 					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify' }], ['custom']
+					[{ 'align': 'justify' }], [ (this.state.companyTags && this.state.companyTags.length > 0  || tags && tags.length > 0) ? 'custom' : '']
 				],
 				handlers: {
 					// 'custom': (...args) => {
@@ -116,7 +128,6 @@ class RichTextInput extends React.Component {
 			style.innerHTML = `.ql-editor{ ${styles} }`;
 			document.head.appendChild(style);
 		}
-
 
 		return (
 			<React.Fragment>
@@ -159,15 +170,14 @@ class RichTextInput extends React.Component {
 											alignItems: 'center',
 											justifyContent: 'flex-end'
 										}}>
-											{!!tags &&
-												<SmartTags
-													tags={tags}
-													open={this.state.showTags}
-													translate={translate}
-													requestClose={() => this.setState({ showTags: false })}
-													paste={this.paste}
-												/>
-											}
+											<SmartTags
+												tags={tags}
+												open={this.state.showTags}
+												translate={translate}
+												requestClose={() => this.setState({ showTags: false })}
+												paste={this.paste}
+												setData={e => this.setState({ companyTags: e })}
+											/>
 											<div>
 												{!!loadDraft && loadDraft}
 											</div>
@@ -192,12 +202,18 @@ class RichTextInput extends React.Component {
 								value={this.state.value}
 								onChange={this.onChange}
 								modules={modules}
+								onKeyDown={this.checkCharacterCount}
 								placeholder={placeholder ? placeholder : ""}
 								ref={editor => this.rtEditor = editor}
 								id={this.props.id}
 								style={{ ...stylesQuill }}
 								className={`text-editor ${this.props.quillEditorButtonsEmpty} ${!!errorText ? 'text-editor-error' : ''} ${!!borderless ? 'borderless-text-editor' : ''}`}
 							/>
+							{this.props.maxChars &&
+								<span style={{ color: removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars? 'red' : 'inherit'}}>
+									{`${removeHTMLTags(this.state.value.toString()).length} / ${this.props.maxChars}`}
+								</span>
+							}
 						</div>
 					</GridItem>
 				</Grid>
@@ -207,20 +223,20 @@ class RichTextInput extends React.Component {
 }
 
 
-const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client }) => {
+const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client, setData }) => {
 	const primary = getPrimary();
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 	const [ocultar, setOcultar] = React.useState(false);
 	const [searchModal, setSearchModal] = React.useState("");
-	const [filteredTags, setFilteredTags] = React.useState(tags);
+	const [filteredTags, setFilteredTags] = React.useState(tags? tags : []);
 
 
 	React.useEffect(() => {
 		if (searchModal) {
 			setFilteredTags([...tags, ...companyTags].filter(tag => (tag.label && tag.label.toLowerCase().includes(searchModal)) || (tag.key && tag.key.toLowerCase().includes(searchModal))));
 		} else {
-			let newTags = tags;
+			let newTags = tags || [];
 			if (companyTags) {
 				newTags = [...newTags, ...companyTags];
 			}
@@ -229,23 +245,30 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	}, [searchModal, companyTags, tags]);
 
 	const loadCompanyTags = React.useCallback(async () => {
-		const response = await client.query({
-			query,
-			variables: {
-				companyId: company.id,
-				...(searchModal ? {
-					filters: [
-						{
-							field: "key",
-							text: searchModal
-						},
-					]
-				} : {}),
-			}
-		});
-		setLoading(false);
-		setCompanyTags(response.data.companyTags);
-	}, [company.id, searchModal]);
+		if(company) {
+			const response = await client.query({
+				query,
+				variables: {
+					companyId: company.id,
+					...(searchModal ? {
+						filters: [
+							{
+								field: "key",
+								text: searchModal
+							},
+						]
+					} : {}),
+				}
+			});
+			setLoading(false);
+			setData(response.data.companyTags)
+			setCompanyTags(response.data.companyTags);
+		} else {
+			setLoading(false);
+			setData([])
+			setCompanyTags([]);
+		}
+	}, [company? company.id : null, searchModal]);
 
 	React.useEffect(() => {
 		loadCompanyTags();
@@ -263,7 +286,6 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 		}
 		return tag.value;
 	}
-
 
 	return (
 		<DropDownMenu

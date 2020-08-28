@@ -52,7 +52,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
         <>
             <BasicButton
                 disabled={request.participantCreated}
-                text={request.participantCreated? 'Accionista ya creado' : "Añadir el accionista al censo"}
+                text={request.participantCreated? 'Ya creado' : "Añadir al censo"}
                 onClick={() => {
                     request.participantCreated?
                     sendPrueba()

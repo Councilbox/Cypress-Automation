@@ -20,7 +20,7 @@ const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => 
 		const response = await client.query({
 			query: councilActEmail,
 			variables: {
-				councilId: council.id
+				councilId: +council.id
 			}
 		});
 

@@ -46,7 +46,7 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
         let error = null;
 
         if(!titleBlock.text){
-            error = 'Debe rellenar el título antes de crear el certificado';
+            error = translate.cert_title_error;
         }
 
         if(error){

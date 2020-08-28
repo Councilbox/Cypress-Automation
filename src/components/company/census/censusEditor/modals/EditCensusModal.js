@@ -1,20 +1,22 @@
 
 import React from "react";
 import {
-	AlertConfirm
+    AlertConfirm
 } from "../../../../../displayComponents";
 import { graphql, compose } from "react-apollo";
 import { census, updateCensus } from "../../../../../queries/census";
 import CensusInfoForm from '../../CensusInfoForm';
+import { isMobile } from "../../../../../utils/screen";
+import { INPUT_REGEX } from "../../../../../constants";
 
 class EditCensusButton extends React.Component {
-	state = {
-		data: {},
-		errors: {}
+    state = {
+        data: {},
+        errors: {}
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(!nextProps.data.loading && !prevState.data.id){
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (!nextProps.data.loading && !prevState.data.id) {
             return {
                 data: {
                     ...nextProps.data.census
@@ -26,7 +28,7 @@ class EditCensusButton extends React.Component {
     }
 
     updateCensus = async () => {
-        if(!this.checkRequiredFields()){
+        if (!this.checkRequiredFields()) {
             const { __typename, ...census } = this.state.data;
             const response = await this.props.updateCensus({
                 variables: {
@@ -34,43 +36,82 @@ class EditCensusButton extends React.Component {
                 }
             })
 
-            if(!response.errors){
+            if (!response.errors) {
                 await this.props.refetch();
                 this.props.requestClose();
             }
         }
     }
 
-	updateState = object => {
-		this.setState({
-			data: {
-				...this.state.data,
-				...object
-			}
-		});
+    updateState = object => {
+        this.setState({
+            data: {
+                ...this.state.data,
+                ...object
+            }
+        });
     };
 
-	_renderBody = () => {
-		return (
-			<div style={{ minWidth: "800px" }}>
-				<CensusInfoForm
-					translate={this.props.translate}
-					errors={this.state.errors}
-					updateState={this.updateState}
-					census={this.state.data}
-				/>
-			</div>
-		);
-	};
+    _renderBody = () => {
+        return (
+            <div style={{ minWidth: "800px" }}>
+                <CensusInfoForm
+                    translate={this.props.translate}
+                    errors={this.state.errors}
+                    updateState={this.updateState}
+                    census={this.state.data}
+                />
+            </div>
+        );
+    };
 
-	checkRequiredFields() {
-		return false;
-	}
+    checkRequiredFields() {
+        let hasError = false;
+        const { translate } = this.props;
 
-	render() {
-		const { translate } = this.props;
+        if (this.state.data.censusName) {
+            if (!(INPUT_REGEX.test(this.state.data.censusName)) || !this.state.data.censusName.trim()) {
+                hasError = true;
+                this.setState({
+                    errors: {
+                        ...this.state.errors,
+                        censusName: translate.invalid_field
+                    }
+                })
+            }
+        }
+        if (this.state.data.censusDescription) {
+            if (!(INPUT_REGEX.test(this.state.data.censusDescription)) || !this.state.data.censusDescription.trim()) {
+                hasError = true;
+                this.setState({
+                    errors: {
+                        ...this.state.errors,
+                        censusDescription: translate.invalid_field
+                    }
+                })
+            }
+        }
 
-		return (
+        if (!this.state.data.censusName) {
+            hasError = true;
+            this.setState({
+                errors: {
+                    ...this.state.errors,
+                    censusName: this.props.translate.required_field
+                }
+            });
+        }
+        if (hasError) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    render() {
+        const { translate } = this.props;
+
+        return (
             <AlertConfirm
                 requestClose={this.props.requestClose}
                 open={this.props.open}
@@ -80,8 +121,8 @@ class EditCensusButton extends React.Component {
                 bodyText={this._renderBody()}
                 title={translate.census}
             />
-		);
-	}
+        );
+    }
 }
 
 export default compose(

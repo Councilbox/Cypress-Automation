@@ -138,7 +138,7 @@ class CouncilMenu extends React.Component {
 									}
 									{!(council.state === 20 || council.state === 30) &&
 										<React.Fragment>
-											<MenuItem
+											{/* <MenuItem
 												onClick={() =>
 													this.setState({ sendCredentialsTest: true })
 												}
@@ -151,7 +151,7 @@ class CouncilMenu extends React.Component {
 													}}
 												/>
 												{translate.send_video_test}
-											</MenuItem>
+											</MenuItem> */}
 											<MenuItem
 												onClick={() =>
 													this.setState({ noCelebrate: true })
@@ -237,14 +237,14 @@ class CouncilMenu extends React.Component {
 					translate={translate}
 					requestClose={this.closeAnnouncementModal}
 				/>
-				<SendCredentialsTestModal
+				{/* <SendCredentialsTestModal
 					show={this.state.sendCredentialsTest}
 					council={this.props.council}
 					requestClose={() =>
 						this.setState({ sendCredentialsTest: false })
 					}
 					translate={translate}
-				/>
+				/> */}
 				<NoCelebrateModal
 					show={this.state.noCelebrate}
 					council={this.props.council}

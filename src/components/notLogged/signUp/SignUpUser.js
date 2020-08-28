@@ -111,6 +111,16 @@ class SignUpUser extends React.Component {
 					? translate.register_exists_email
 					: translate.email_not_valid;
 			}
+			if (!checkValidEmail(data.email) || existsCif) {
+				hasError = true;
+				errors.email = existsCif
+					? translate.register_exists_email
+					: translate.email_not_valid;
+			}
+			if (!(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(data.phone))) {
+				hasError = true;
+				errors.phone = translate.enter_valid_phone_number
+			}
 		}
 
 		if (!data.pwd) {
@@ -123,6 +133,16 @@ class SignUpUser extends React.Component {
 			errors.confirmPWD = translate.no_match_pwd;
 		}
 
+		if (!(/^[A-Za-z\s]+$/.test(data.name))) {
+			hasError = true;
+			errors.name = translate.enter_valid_name
+		}
+
+		if (!(/^[A-Za-z\s]+$/.test(data.surname))) {
+			hasError = true;
+			errors.surname = translate.enter_valid_last_names
+		}
+		
 		// if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.pwd))) {
 		// 	hasError = true;
 		// 	errors.pwd = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
@@ -148,25 +168,25 @@ class SignUpUser extends React.Component {
 		const data = this.props.formData;
 		let errorsBar
 		let porcentaje = 100
-
+		const { translate } = this.props;
 		if (!(/[a-z]/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/(?=.*[A-Z])/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/(?=.*[0-9])/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		if (!(/.{8,}/.test(data.pwd))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			errorsBar = translate.insecure_password;
 			porcentaje = porcentaje - 20;
 		}
 		let color = "Green"
@@ -174,7 +194,7 @@ class SignUpUser extends React.Component {
 		this.setState({
 			errorsBar: errorsBar,
 			porcentaje,
-			color:color,
+			color: color,
 		})
 		if (event.nativeEvent.keyCode === 13) {
 			this.nextPage();
@@ -188,7 +208,7 @@ class SignUpUser extends React.Component {
 		const primary = getPrimary();
 		const { translate, classes } = this.props;
 		const data = this.props.formData;
-
+	
 		return (
 			<div
 				style={{
@@ -344,14 +364,14 @@ class SignUpUser extends React.Component {
 							/>
 						</div>
 						<div style={{ width: "100%" }}>
-							{this.state.errorsBar !== undefined ? this.state.errorsBar : "Contraseña segura"} {/*TRADUCCION*/}
+							{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password} 
 						</div>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						{" "}
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12}>
-						<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 							<Checkbox
 								label={translate.login_read_terms + ' '}
 								value={this.state.termsCheck}
@@ -373,7 +393,7 @@ class SignUpUser extends React.Component {
 									cursor: 'pointer',
 									textTransform: 'lowerCase',
 									marginLeft: '0.4em'
-								 }}
+								}}
 								onClick={event => {
 									event.stopPropagation();
 									this.setState({

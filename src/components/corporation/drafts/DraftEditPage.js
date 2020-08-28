@@ -126,7 +126,7 @@ export default compose(
     graphql(corporationDraft, {
         options: props => ({
             variables: {
-                id: props.match.params.id
+                id: +props.match.params.id
             }
         })
     }),

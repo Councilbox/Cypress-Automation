@@ -3,7 +3,7 @@ import { TextInput, BasicButton, CardPageLayout, Scrollbar, LoadingSection, Sect
 import { graphql, withApollo } from 'react-apollo';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { toast } from 'react-toastify';
-import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag } from '../../../utils/CBX';
+import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag, prepareTextForFilename } from '../../../utils/CBX';
 import gql from 'graphql-tag';
 import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../documentEditor/utils";
 import { certBlocks } from "../../documentEditor/actBlocks";
@@ -170,6 +170,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 						<div>
 							<DownloadDoc
 								translate={translate}
+								filename={`${translate.certificate}_${prepareTextForFilename(council.name)}`}
 								doc={doc}
 								options={options}
 								council={data.council}

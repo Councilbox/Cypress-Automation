@@ -335,7 +335,7 @@ class SendActDraftModal extends React.Component {
 											{participants.length > 0 ? (
 												participants.filter(p => !!p.email).map(participant => {
 													return (
-														<TableRow>
+														<TableRow key={'participant_' + participant.id}>
 															<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
 																<Checkbox
 																	value={this.isChecked(participant.email)}

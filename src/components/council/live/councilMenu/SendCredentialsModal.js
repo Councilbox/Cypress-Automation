@@ -49,7 +49,7 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 		const response = await props.sendVideoEmails({
 			variables: {
 				councilId: council.id,
-				timezone: moment().utcOffset(),
+				timezone: moment().utcOffset().toString(),
 				type: state.sendType
 			}
 		});

@@ -188,6 +188,7 @@ export const convenedcouncilParticipants = gql`
 		$filters: [FilterInput]
 		$notificationStatus: String
 		$attendanceIntention: Int
+		$comment: Boolean
 		$options: OptionsInput
 	) {
 		councilParticipantsWithNotifications(
@@ -195,6 +196,7 @@ export const convenedcouncilParticipants = gql`
 			filters: $filters
 			attendanceIntention: $attendanceIntention
 			notificationStatus: $notificationStatus
+			comment: $comment
 			options: $options
 		) {
 			list {
@@ -236,6 +238,17 @@ export const convenedcouncilParticipants = gql`
 						name
 						id
 						surname
+						state
+						phone
+						email
+						notifications {
+							participantId
+							email
+							reqCode
+							refreshDate
+							sendDate
+							sendType
+						}
 						assistanceComment
 						assistanceLastDateConfirmed
 						assistanceIntention
@@ -272,6 +285,8 @@ export const convenedcouncilParticipants = gql`
 					id
 					state
 					surname
+					email
+					phone
 					delegationProxy {
 						signedBy
 						id
@@ -284,6 +299,14 @@ export const convenedcouncilParticipants = gql`
 						participantId
 					}
 					delegateId
+					notifications {
+						participantId
+						email
+						reqCode
+						refreshDate
+						sendDate
+						sendType
+					}
 					assistanceComment
 					assistanceLastDateConfirmed
 					assistanceIntention
@@ -293,12 +316,15 @@ export const convenedcouncilParticipants = gql`
 						surname
 						dni
 						position
+						email
+						state
 					}
 				}
 				city
 				personOrEntity
 				notifications {
 					id
+					participantId
 					reqCode
 					sendDate
 					refreshDate

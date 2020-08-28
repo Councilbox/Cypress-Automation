@@ -109,7 +109,7 @@ const CompanyTags = ({ client, translate, company }) => {
                             floatingText={" "}
                             type="text"
                             value={buscarTags}
-                            placeholder={isMobile ? "" : "Buscar plantillas"}
+                            placeholder={isMobile ? "" : translate.search_templates}
                             onChange={event => {
                                 setBuscarTags(event.target.value);
                             }}
@@ -153,7 +153,7 @@ const CompanyTags = ({ client, translate, company }) => {
                                                                             </div>
                                                                             <AlertConfirm
                                                                                 open={!toggleText}
-                                                                                title={"Ayuda"}
+                                                                                title={translate.help}
                                                                                 requestClose={() => setToggleText(!toggleText)}
                                                                                 acceptAction={() => setToggleText(!toggleText)}
                                                                                 bodyText={
@@ -344,7 +344,7 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                     </div>
                     <AlertConfirm
                         open={modal}
-                        title={'Eliminar etiqueta'}
+                        title={translate.delete_tag}
                         requestClose={() => setModal(false)}
                         acceptAction={event => {
                             deleteTag(tag.id);
@@ -410,7 +410,7 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                     </div>
                     <AlertConfirm
                         open={modal}
-                        title={'Eliminar etiqueta'}
+                        title={translate.delete_tag}
                         requestClose={() => setModal(false)}
                         acceptAction={event => {
                             deleteTag(tag.id);

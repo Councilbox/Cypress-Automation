@@ -52,18 +52,33 @@ class CompanyDraftNew extends React.Component {
 	createCompanyDraft = async () => {
 		const { translate } = this.props;
 		const { draft } = this.state;
-
+		let errors = {
+			title: "",
+		}
+		let hasError = false;
+		var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+		console.log(this.state.draft.title)
 		if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
-			this.setState({ loading: true });
-			const response = await this.props.createCompanyDraft({
-				variables: {
-					draft: this.state.draft
+			if (this.state.draft.title) {
+				if (!(regex.test(this.state.draft.title)) || !this.state.draft.title.trim()) {
+					hasError = true;
+					errors.title = translate.invalid_field;
+					this.updateErrors(errors);
 				}
-			});
+			}
 
-			if (!response.errors) {
-				this.setState({ success: true });
-				this.timeout = setTimeout(() => this.resetAndClose(), 2000);
+			if (!hasError) {
+				this.setState({ loading: true });
+				const response = await this.props.createCompanyDraft({
+					variables: {
+						draft: this.state.draft
+					}
+				});
+
+				if (!response.errors) {
+					this.setState({ success: true });
+					this.timeout = setTimeout(() => this.resetAndClose(), 2000);
+				}
 			}
 		}
 	};
@@ -102,7 +117,7 @@ class CompanyDraftNew extends React.Component {
 		if (loading) {
 			return <LoadingSection />;
 		}
-		
+
 		return (
 			<React.Fragment>
 				<div style={{ marginTop: "1.8em", height: 'calc( 100% - 3em )' }}>
@@ -140,10 +155,10 @@ class CompanyDraftNew extends React.Component {
 							fontWeight: "700",
 							marginRight: "1em"
 						}}
-						onClick={() => this.goBack()}
+						onClick={() => this.props.back()}
 					/>
-					
-					
+
+
 					<br /><br />
 				</div>
 			</React.Fragment>

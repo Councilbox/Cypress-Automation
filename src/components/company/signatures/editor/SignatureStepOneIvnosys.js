@@ -10,6 +10,7 @@ import AttachmentItem from '../../../attachments/AttachmentItem';
 import DocumentNameEditor from './DocumentNameEditor';
 import { checkForUnclosedBraces } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
+import { INPUT_REGEX } from '../../../../constants';
 
 const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, client, ...props }) => {
     const [state, setState] = React.useState({
@@ -62,7 +63,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
             let fileInfo = {
                 filename: file.name,
                 filetype: file.type,
-                filesize: event.loaded,
+                filesize: event.loaded.toString(),
                 base64: btoa(event.target.result),
                 signatureId: state.data.id
             };
@@ -151,6 +152,13 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         if (!data.title) {
             errors.title = translate.required_field;
             hasError = true;
+        }
+
+        if (data.title) {
+            if (!(INPUT_REGEX.test(data.title)) || !data.title.trim()) {
+                hasError = true;
+                errors.title =  translate.invalid_field;
+            }
         }
 
         if (!data.description) {
@@ -256,9 +264,9 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                                 }
                             })}
                         >
-                            <MenuItem value="ACEP">Firma simple</MenuItem>
-                            <MenuItem value="SIGBIO">Firma biométrica</MenuItem>
-                            <MenuItem value="SIG">Firma con certificado</MenuItem>
+                            <MenuItem value="ACEP">{translate.simple_signature}</MenuItem>
+                            <MenuItem value="SIGBIO">{translate.biometric_signature}</MenuItem>
+                            <MenuItem value="SIG">{translate.signature_with_certificate}</MenuItem>
                         </SelectInput>
                     </div>
                     <div

@@ -39,7 +39,7 @@ class AllSelector extends React.Component {
 				<div
 					style={{
 						border: "solid 2px grey",
-						width: "85px",
+						width: "92px",
 						cursor: "pointer",
 						float: "left",
 						marginRight: "1em"

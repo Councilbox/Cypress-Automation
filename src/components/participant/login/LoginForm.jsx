@@ -186,7 +186,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                 const response = await props.checkParticipantKey({
                     variables: {
                         participantId: participant.id,
-                        key: state.password
+                        key: +state.password
                     }
                 });
 
@@ -283,7 +283,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             variables: {
                 councilId: council.id,
                 participantIds: [participant.id],
-                timezone: moment().utcOffset()
+                timezone: moment().utcOffset().toString()
             }
         });
 

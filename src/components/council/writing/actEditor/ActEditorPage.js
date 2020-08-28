@@ -20,6 +20,8 @@ import DelegationDocuments from './DelegationDocuments';
 import DocumentEditor2 from '../../../documentEditor/DocumentEditor2';
 import NavigationHeader from './NavigationHeader';
 import VoteLetters from './VoteLetters';
+import Results from './Results';
+import { hasParticipations } from '../../../../utils/CBX';
 
 
 const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
@@ -105,6 +107,8 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                         </div>
                 );
             }
+
+        
         })
         if (props.confirmed) {
             tabs.push({
@@ -117,6 +121,26 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                 council={council}
                                 translate={translate}
                                 refetch={props.refetch}
+                            />
+                        </Scrollbar>
+                    );
+                }
+            });
+        }
+
+        if(hasParticipations(council)){
+            tabs.push({
+                label: translate.results,
+                value: 'results',
+                persistent: true,
+                component: () => {
+                    return (
+                        <Scrollbar>
+                            <Results
+                                council={council}
+                                agendas={props.agendas}
+                                recount={props.councilRecount}
+                                translate={translate}
                             />
                         </Scrollbar>
                     );

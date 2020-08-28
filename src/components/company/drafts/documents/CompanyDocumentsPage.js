@@ -6,8 +6,8 @@ import folderIcon from '../../../../assets/img/folder.svg';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
-import { Icon, Table, TableRow, TableCell } from 'material-ui';
-import { CardPageLayout, TextInput, ProgressBar, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm, Scrollbar } from "../../../../displayComponents";
+import { Icon, Table, TableRow, TableCell, TableBody } from 'material-ui';
+import { TextInput, ProgressBar, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm, Scrollbar } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
 import filesize from 'filesize';
@@ -28,7 +28,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const [documents, setDocuments] = React.useState(null);
     const [folderModal, setFolderModal] = React.useState(false);
     const [search, setSearch] = React.useState("");
-    const [deleteModal, setDeleteModal] = React.useState(null);
+    const [deleteModal, setDeleteModal] = React.useState(false);
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -37,8 +37,9 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const getData = React.useCallback(async () => {
         const response = await client.query({
             query: gql`
-                query CompanyDocuments($companyId: Int!, $folderId: Int){
-                    companyDocuments(companyId: $companyId, folderId: $folderId){
+                query CompanyDocuments($companyId: Int!, $folderId: Int, $filters: [FilterInput]){
+                    companyDocuments(companyId: $companyId, folderId: $folderId, filters: $filters){
+                        list{
                         name
                         filesize
                         type
@@ -46,6 +47,8 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                         filetype
                         date
                         lastUpdated
+                    }
+                        total
                     }
                     companyDocumentsQuota(companyId: $companyId){
                         total
@@ -55,13 +58,21 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             `,
             variables: {
                 companyId: company.id,
-                folderId: breadCrumbs.length > 1? actualFolder : null
+                folderId: breadCrumbs.length > 1 ? actualFolder : null,
+                ...(search ? {
+                    filters: [
+                        {
+                            field: "name",
+                            text: search
+                        },
+                    ]
+                } : {}),
             }
         });
 
-        setDocuments(response.data.companyDocuments);
+        setDocuments(response.data.companyDocuments.list);
         setQuota(response.data.companyDocumentsQuota);
-    }, [company.id, breadCrumbs])
+    }, [company.id, breadCrumbs, search])
 
     React.useEffect(() => {
         getData();
@@ -114,19 +125,20 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 
     const handleFileWithLoading = async event => {
         const file = event.nativeEvent.target.files[0];
-		if (!file) {
-			return;
+        if (!file) {
+            return;
         }
 
-		let reader = new FileReader();
-		reader.readAsBinaryString(file);
+        let reader = new FileReader();
+        reader.readAsBinaryString(file);
 
-		reader.onload = async () => {
-             if((+quota.used + file.size) > quota.total){
+        reader.onload = async () => {
+            if ((+quota.used + file.size) > quota.total) {
                 return setErrorModal(translate.file_exceeds_rest);
             }
 
-            if(file.size > (50 * 1024 * 1024)){
+            //TRADUCCION
+            if (file.size > (50 * 1024 * 1024)) {
                 return setErrorModal('El archivo supera el límite de tamaño');
             }
 
@@ -134,11 +146,11 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             formData.append('file', file);
             formData.append('data', JSON.stringify({
                 companyId: company.id,
-                ...(breadCrumbs.length > 1?
+                ...(breadCrumbs.length > 1 ?
                     {
                         parentFolder: actualFolder
                     }
-                : {})
+                    : {})
             }));
             const id = Math.random().toString(36).substr(2, 9);
 
@@ -150,12 +162,12 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             });
 
             var xhr = new XMLHttpRequest();
-            xhr.onload = function(e) {
+            xhr.onload = function (e) {
                 console.log(e);
             };
 
-            xhr.upload.onprogress = function(e) {
-                if(e.loaded === e.total){
+            xhr.upload.onprogress = function (e) {
+                if (e.loaded === e.total) {
                     removeFromQueue(id);
                     getData();
                 } else {
@@ -166,7 +178,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
             xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem("token"));
             xhr.send(formData);
-		}
+        }
     }
 
     return (
@@ -179,13 +191,13 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                     requestClose={() => setDeleteModal(false)}
                     bodyText={
                         <div>
-                            {deleteModal && deleteModal.type === 0?
+                            {deleteModal && deleteModal.type === 0 ?
                                 <>
-                                    <div dangerouslySetInnerHTML={{__html: translate.delete_folder_warning.replace(/{{folderName}}/, deleteModal? deleteModal.name : '')}} />
+                                    <div dangerouslySetInnerHTML={{ __html: translate.delete_folder_warning.replace(/{{folderName}}/, deleteModal ? deleteModal.name : '') }} />
                                 </>
-                            :
+                                :
                                 <>
-                                    <div dangerouslySetInnerHTML={{__html: translate.delete_document_warning.replace(/{{name}}/, deleteModal? deleteModal.name : '')}} />
+                                    <div dangerouslySetInnerHTML={{ __html: translate.delete_document_warning.replace(/{{name}}/, deleteModal ? deleteModal.name : '') }} />
                                 </>
                             }
                         </div>
@@ -211,7 +223,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                     translate={translate}
                     refetch={getData}
                     company={company}
-                    parentFolder={breadCrumbs.length > 1? actualFolder : null}
+                    parentFolder={breadCrumbs.length > 1 ? actualFolder : null}
                 />
                 <input
                     type="file"
@@ -232,11 +244,11 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 <div style={{ display: "flex", borderBottom: "1px solid" + primary, alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", alignItems: "center", }}>
                         {breadCrumbs.map((item, index) => (
-                            <>
+                            <React.Fragment key={index}>
                                 {index > 0 &&
                                     ` > `
                                 }
-                                {(index === breadCrumbs.length -1) && !hideUpload?
+                                {(index === breadCrumbs.length - 1) && !hideUpload ?
                                     <DropDownMenu
                                         color="transparent"
                                         styleComponent={{ width: "" }}
@@ -275,49 +287,50 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                             <img src={upload} style={{ width: "100%" }}></img>
                                                         </div>
                                                         <div style={{ paddingLeft: "10px" }}>
-                                                            {queue.length > 0?
+                                                            {queue.length > 0 ?
                                                                 `${translate.uploading}...`
-                                                            :
+                                                                :
                                                                 translate.upload_file
                                                             }
                                                         </div>
                                                     </div>
                                                 </label>
-                                            <div
-                                                style={{
-                                                    display: "flex",
-                                                    color: "black",
-                                                    padding: ".5em 0em",
-                                                    borderTop: "1px solid" + primary,
-                                                    cursor: "pointer"
-                                                }}
-                                                onClick={() => setFolderModal(true)}
-                                            >
-                                                <div style={{ width: "15px" }}>
-                                                    <img src={folder} style={{ width: "100%" }}></img>
-                                                </div>
-                                                <div style={{ paddingLeft: "10px" }}>
-                                                    {translate.new_folder}
+                                                <div
+                                                    style={{
+                                                        display: "flex",
+                                                        color: "black",
+                                                        padding: ".5em 0em",
+                                                        borderTop: "1px solid" + primary,
+                                                        cursor: "pointer"
+                                                    }}
+                                                    onClick={() => setFolderModal(true)}
+                                                >
+                                                    <div style={{ width: "15px" }}>
+                                                        <img src={folder} style={{ width: "100%" }}></img>
+                                                    </div>
+                                                    <div style={{ paddingLeft: "10px" }}>
+                                                        {translate.new_folder}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         }
                                     />
-                                :
+                                    :
                                     <span
                                         style={{
-                                            ...(index === breadCrumbs.length - 1? {
-                                                color: (index === breadCrumbs.length - 1)? primary : 'inherit'
-                                            }: {
-                                                cursor: 'pointer'
-                                            })}}
+                                            ...(index === breadCrumbs.length - 1 ? {
+                                                color: (index === breadCrumbs.length - 1) ? primary : 'inherit'
+                                            } : {
+                                                    cursor: 'pointer'
+                                                })
+                                        }}
                                         onClick={() => {
                                             breadCrumbs.splice(index + 1);
                                             setBreadCrumbs([...breadCrumbs]);
                                         }}
                                     >{item.label}</span>
                                 }
-                            </>
+                            </React.Fragment>
                         ))}
                     </div>
 
@@ -352,107 +365,110 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             <div style={{ marginTop: "2em", height: 'calc(100% - 5em)' }}>
                 <Scrollbar>
                     <Table style={{ width: '100%', minWidth: "100%" }}>
-                        <TableRow>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }}>
-                                {translate.name}
-                            </TableCell>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }}>
-                                {translate.type}
-                            </TableCell>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }}>
-                                {translate.last_edit}
-                            </TableCell>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }}>
-                                {translate.size}
-                            </TableCell>
-                            <TableCell style={{
-                                color: "#a09aa0",
-                                fontWeight: "bold",
-                                borderBottom: "1px solid #979797"
-                            }} />
-                        </TableRow>
-                        {documents && documents.map(doc => (
-                            doc.type === 0?
-                                <TableRow onClick={() => navigateTo(doc)} style={{ cursor: 'pointer'}}>
-                                    <TableCell>
-                                        <img src={folderIcon} style={{ marginRight: '0.6em' }} />
-                                        {doc.name}
-                                    </TableCell>
-                                    <TableCell>
-                                        {translate.folder}
-                                    </TableCell>
-                                    <TableCell>
-                                        {moment(doc.lastUpdated).format('LLL')}
-                                    </TableCell>
-                                    <TableCell/>
-                                    <TableCell>
-                                        {!action &&
-                                            <div onClick={event => {
-                                                event.stopPropagation();
-                                                setDeleteModal(doc)
-                                            }} style={{
-                                                cursor: 'pointer',
-                                                color: secondary,
-                                                background: 'white',
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                padding: "0.3em",
-                                                width: "100px"
-                                            }}>
-                                                {translate.delete}
-                                            </div>
-                                        }
+                        <TableBody>
+                            <TableRow>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }}>
+                                    {translate.name}
+                                </TableCell>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }}>
+                                    {translate.type}
+                                </TableCell>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }}>
+                                    {translate.last_edit}
+                                </TableCell>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }}>
+                                    {translate.size}
+                                </TableCell>
+                                <TableCell style={{
+                                    color: "#a09aa0",
+                                    fontWeight: "bold",
+                                    borderBottom: "1px solid #979797"
+                                }} />
+                            </TableRow>
+                            {documents && documents.map(doc => (
+                                doc.type === 0 ?
+                                    <TableRow onClick={() => navigateTo(doc)} style={{ cursor: 'pointer' }} key={`folder_${doc.id}`}>
+                                        <TableCell>
+                                            <img src={folderIcon} style={{ marginRight: '0.6em' }} />
+                                            {doc.name}
+                                        </TableCell>
+                                        <TableCell>
+                                            {translate.folder}
+                                        </TableCell>
+                                        <TableCell>
+                                            {moment(doc.lastUpdated).format('LLL')}
+                                        </TableCell>
+                                        <TableCell />
+                                        <TableCell>
+                                            {!action &&
+                                                <div onClick={event => {
+                                                    event.stopPropagation();
+                                                    setDeleteModal(doc)
+                                                }} style={{
+                                                    cursor: 'pointer',
+                                                    color: secondary,
+                                                    background: 'white',
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    justifyContent: "center",
+                                                    padding: "0.3em",
+                                                    width: "100px"
+                                                }}>
+                                                    {translate.delete}
+                                                </div>
+                                            }
 
-                                    </TableCell>
-                                </TableRow>
-                            :
-                                <FileRow
-                                    translate={translate}
-                                    file={doc}
-                                    trigger={trigger}
-                                    action={action}
-                                    setDeleteModal={setDeleteModal}
-                                    refetch={getData}
-                                />
-                        ))}
-                        {queue.map((item, index) => (
-                            <DelayedRow delay={1000}>
-                                <TableRow>
-                                    <TableCell>
-                                        {item.name}
-                                    </TableCell>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell>
-                                        <ProgressBar
-                                            value={item.uploaded}
-                                            color={getSecondary()}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                    </TableCell>
-                                </TableRow>
-                            </DelayedRow>
-                        ))}
+                                        </TableCell>
+                                    </TableRow>
+                                    :
+                                    <FileRow
+                                        key={`doc_${doc.id}`}
+                                        translate={translate}
+                                        file={doc}
+                                        trigger={trigger}
+                                        action={action}
+                                        setDeleteModal={setDeleteModal}
+                                        refetch={getData}
+                                    />
+                            ))}
+                            {queue.map((item, index) => (
+                                <DelayedRow delay={1000}>
+                                    <TableRow>
+                                        <TableCell>
+                                            {item.name}
+                                        </TableCell>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell>
+                                        </TableCell>
+                                        <TableCell>
+                                            <ProgressBar
+                                                value={item.uploaded}
+                                                color={getSecondary()}
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                        </TableCell>
+                                    </TableRow>
+                                </DelayedRow>
+                            ))}
+                        </TableBody>
                     </Table>
                 </Scrollbar>
             </div>
@@ -466,7 +482,7 @@ const DelayedRow = ({ children, delay }) => {
 
     React.useEffect(() => {
         let timeout = null;
-        if(!ready){
+        if (!ready) {
             timeout = setTimeout(() => {
                 setReady(true);
             }, delay);
@@ -474,7 +490,7 @@ const DelayedRow = ({ children, delay }) => {
         return () => clearTimeout(timeout)
     }, [delay])
 
-    if(ready){
+    if (ready) {
         return children;
     }
 
@@ -495,7 +511,7 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
 
 
     const updateFile = async () => {
-        if(!filename){
+        if (!filename) {
             return setError(translate.required_field);
         }
 
@@ -536,7 +552,7 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
                         style={{
                             color: "rgba(0, 0, 0, 0.65)",
                             fontSize: '15px',
-                            border: error? '2px solid red' : '1px solid #d7d7d7',
+                            border: error ? '2px solid red' : '1px solid #d7d7d7',
                             boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
                             width: "100%",
                             padding: '.5em 1.6em',
@@ -563,14 +579,14 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
             </TableCell>
             <TableCell>
                 {(action && trigger) ?
-                    file.type !== 0?
+                    file.type !== 0 ?
                         <div onClick={() => action(file)} style={{ cursor: 'pointer' }}>
                             {trigger}
                         </div>
-                    :
+                        :
                         <span />
-                :
-                    <div style={{display: 'flex', alignItems: 'center'}}>
+                    :
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
                         <DownloadCompanyDocument
                             translate={translate}
                             file={file}

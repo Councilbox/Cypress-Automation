@@ -40,24 +40,24 @@ const StepCensus = ({ translate, data, ...props }) => {
 	const secondary = getSecondary();
 
 	React.useEffect(() => {
-		if(!data.loading){
+		if (!data.loading) {
 			props.participants.refetch();
 		}
 	}, [props.councilID])
 
 	React.useEffect(() => {
-		if(!data.loading){
+		if (!data.loading) {
 			setState({
 				data: {
 					...data.council
 				}
 			});
 		}
-		if(props.participants){
+		if (props.participants) {
 			const { councilParticipants } = props.participants;
-			if(councilParticipants){
-				if(councilParticipants.total > 0){
-					if(state.participantsLength !== councilParticipants.total){
+			if (councilParticipants) {
+				if (councilParticipants.total > 0) {
+					if (state.participantsLength !== councilParticipants.total) {
 						setState({
 							participantsLength: councilParticipants.total
 						});
@@ -76,7 +76,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 		})
 	}
 
-	 const saveDraft = async step => {
+	const saveDraft = async step => {
 		setState({
 			loading: true
 		})
@@ -113,7 +113,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 	};
 
 	const nextPage = async () => {
-		if(state.participantsLength > 0){
+		if (state.participantsLength > 0) {
 			await saveDraft(3);
 			props.nextStep();
 		} else {
@@ -155,37 +155,58 @@ const StepCensus = ({ translate, data, ...props }) => {
 		}
 	};
 
-	function _renderCensusChangeButtons() {
-		return (
-			<React.Fragment>
-				<BasicButton
-					text={translate.cancel}
-					color={"white"}
-					type="flat"
-					textStyle={{
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					textPosition="after"
-					onClick={() => setState({ censusChangeAlert: false })}
-					buttonStyle={{ marginRight: "1em" }}
-				/>
-				<BasicButton
-					text={translate.want_census_change}
-					color={primary}
-					textStyle={{
-						color: "white",
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					icon={<ButtonIcon type="save" color="white" />}
-					textPosition="after"
-					onClick={sendCensusChange}
-				/>
-			</React.Fragment>
-		);
+	function _renderCensusChangeButtons(selectedCensusId) {
+		if (selectedCensusId) {
+			return (
+				<React.Fragment>
+					<BasicButton
+						text={translate.cancel}
+						color={"white"}
+						type="flat"
+						textStyle={{
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						textPosition="after"
+						onClick={() => setState({ censusChangeAlert: false })}
+						buttonStyle={{ marginRight: "1em" }}
+					/>
+					<BasicButton
+						text={translate.want_census_change}
+						color={primary}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						icon={<ButtonIcon type="save" color="white" />}
+						textPosition="after"
+						onClick={sendCensusChange}
+					/>
+				</React.Fragment>
+			);
+		} else {
+			return (
+				<React.Fragment>
+					<BasicButton
+						text={translate.cancel}
+						color={"white"}
+						type="flat"
+						textStyle={{
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						textPosition="after"
+						onClick={() => setState({ censusChangeAlert: false })}
+						buttonStyle={{ marginRight: "1em" }}
+					/>
+				</React.Fragment>
+			);
+		}
+
 	}
 
 	const checkParticipants = () => {
@@ -208,15 +229,15 @@ const StepCensus = ({ translate, data, ...props }) => {
 		);
 	}
 
-	if(state.loading){
+	if (state.loading) {
 		return <LoadingSection />
 	}
-
+	
 	return (
 		<EditorStepLayout
 			body={
 				<React.Fragment>
-					{!council?
+					{!council ?
 						<div
 							style={{
 								height: "300px",
@@ -228,7 +249,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						>
 							<LoadingSection />
 						</div>
-					:
+						:
 						<React.Fragment>
 							<ParticipantsTable
 								translate={translate}
@@ -236,7 +257,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 								refetch={async type => {
 									data.refetch();
 									const participants = await props.participants.refetch();
-									if(type === 'delete'){
+									if (type === 'delete') {
 										setState({
 											participantsLength: participants.data.councilParticipants.total
 										})
@@ -278,15 +299,47 @@ const StepCensus = ({ translate, data, ...props }) => {
 						}
 					>
 						<DialogTitle>{translate.census_change}</DialogTitle>
-						<DialogContent>
-							{translate.census_change_warning.replace(
-								"<br/>",
-								""
-							)}
-						</DialogContent>
-						<DialogActions>
-							{_renderCensusChangeButtons()}
-						</DialogActions>
+						{!council ?
+							<LoadingSection />
+							:
+							council.selectedCensusId !== null || state.censusChangeId ?
+								<div>
+									<DialogContent>
+										{translate.census_change_warning.replace(
+											"<br/>",
+											""
+										)}
+									</DialogContent>
+									<DialogActions>
+										{_renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
+									</DialogActions>
+								</div>
+								:
+								<div style={{ minWidth: "500px" }}>
+									<DialogContent>
+										{translate.need_pick_census}
+									</DialogContent>
+									<DialogActions>
+										{_renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
+									</DialogActions>
+								</div>
+						}
+
+
+						{/* {council.selectedCensusId === null ?
+							<div><DialogContent>
+								{translate.census_change_warning.replace(
+									"<br/>",
+									""
+								)}
+							</DialogContent>
+								<DialogActions>
+									{_renderCensusChangeButtons()}
+								</DialogActions>
+							</div>
+							:
+							<div>ASDASD</div>
+						} */}
 					</Dialog>
 				</React.Fragment>
 			}
@@ -383,7 +436,7 @@ export default compose(
 			notifyOnNetworkStatusChange: true
 		})
 	}),
-	graphql(changeCensus,  {
+	graphql(changeCensus, {
 		name: "changeCensus"
 	}),
 	graphql(updateCouncil, {

@@ -12,7 +12,8 @@ import { getVote } from '../../../participant/ResultsTimeline';
 
 export const getTypeText = text => {
     const texts = {
-        'access': 'Asistencia a la junta general',
+        'access': 'Solicitud',
+        // 'access': 'Asistencia a la junta general',
         'vote': 'Voto anticipado',
         'represent': 'Representación de voto'
     }
@@ -23,10 +24,10 @@ export const getTypeText = text => {
 
 const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
     const [modal, setModal] = React.useState(false);
+    const [modalAlert, setModalAlert] = React.useState(false);
+    const [inModal, setInModal] = React.useState(null);
+    const [representative, setRepresentative] = React.useState(false);
     const secondary = getSecondary();
-
-        console.log(request);
-
 
     const downloadAttachment = async (requestId, index) => {
         const response = await client.query({
@@ -49,53 +50,53 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
         downloadFile(base64, file.filetype, file.filename)
     }
 
-
-    const modalBody = () => {
+    const modalBody = (representative) => {
         return (
             <>
                 <div>
-                    <h5>Datos:</h5>
+                    <h5>{translate.data}:</h5>
                     <div>
-                        Tipo de solicitud: {getTypeText(request.data.requestType)}
+                        {translate.type_of_request}: {getTypeText(request.data.requestType)}
                     </div>
                     {request.data.requestType === 'vote' &&
                         <>
-                          {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
-                              <div key={`early_vote_${index}`}>
-                                <div style={{fontWeight: '700'}}>{vote.name}</div>
-                                <div>-{getVote(+vote.value, translate)}</div>
-                              </div>
-                          ))}
+                            {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+                                <div key={`early_vote_${index}`}>
+                                    <div style={{ fontWeight: '700' }}>{vote.name}</div>
+                                    <div>-{getVote(+vote.value, translate)}</div>
+                                </div>
+                            ))}
                         </>
                     }
                     {request.data.requestType === 'represent' &&
                         <>
                             En:
-                            <div style={{marginBotton: '2em'}}>
-                                {request.data.representative[0].value === 'el presidente'?
+                            <div style={{ marginBotton: '2em' }}>
+                                {request.data.representative[0].value === 'el presidente' || request.data.representative[0].value.includes('Presidente') ?
                                     request.data.representative[0].value
-                                :
-                                request.data.representative[0].info.map((data, index) => (
-                                    <div key={index}>
-                                        {data.name}  - {data.value}
-                                    </div>
-                                ))}
+                                    :
+                                    request.data.representative[0].info.map((data, index) => (
+                                        data.value &&
+                                        <div key={index}>
+                                            {data.name}  - {data.value}
+                                        </div>
+                                    ))}
                             </div>
                             {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
-                              <div key={`early_vote_${index}`}>
-                                <div style={{fontWeight: '700'}}>{vote.name}</div>
-                                <div>-{getVote(+vote.value, translate)}</div>
-                              </div>
-                          ))}
+                                <div key={`early_votes_${index}`}>
+                                    <div style={{ fontWeight: '700' }}>{vote.name}</div>
+                                    <div>-{getVote(+vote.value, translate)}</div>
+                                </div>
+                            ))}
                         </>
                     }
                 </div>
-                <div style={{ marginTop: '1em', marginBottom: '1.6em'}}>
-                    Adjuntos:
+                <div style={{ marginTop: '1em', marginBottom: '1.6em' }}>
+                    {translate.attachments}:
                     {request.data.attachments ?
                         request.data.attachments.map((attachment, index) => (
-                            <div onClick={() => downloadAttachment(request.id, index)} style={{cursor: 'pointer'}}>
-                                <i className='fa fa-file-pdf-o'></i>  {attachment.filename}
+                            <div key={`adjuntos_${index}`} onClick={() => downloadAttachment(request.id, index)} style={{ cursor: 'pointer' }}>
+                                <i className='fa fa-file-pdf-o'></i>  {attachment.name}
                             </div>
                         ))
                         :
@@ -117,21 +118,96 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     refetch={refetch}
                     translate={translate}
                 />
-                {request.participantCreated &&
+                {request.participantCreated && request.data.requestType === 'represent' &&
                     <DelegateVoteButton
                         request={request}
                         refetch={refetch}
                         translate={translate}
+                        setRepresentative={setRepresentative}
                     />
-
                 }
             </>
         )
     }
 
 
+    const closeModal = () => {
+        if (!representative && request.data.requestType === 'represent' && request.participantCreated) {
+            setModalAlert(true)
+
+        } else {
+            setModal(false)
+        }
+    }
+
+    const closeModals = () => {
+        setModal(false)
+        setModalAlert(false)
+        refetch()
+    }
+
+    const closeModalAlert = () => {
+        setModalAlert(false)
+        if (inModal) {
+            setInModal(false)
+        }
+        refetch()
+    }
+
+
     return (
         <>
+            <AlertConfirm
+                title={inModal ? translate.to_delegate_vote : 'Alerta'}//TRADUCCION
+                bodyText={
+                    <div>
+                        {inModal ?
+                            <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
+                                <DelegateVoteButton
+                                    text={translate.continue}
+                                    request={request}
+                                    refetch={refetch}
+                                    translate={translate}
+                                    setRepresentative={setRepresentative}
+                                    closeModal={() => setModalAlert(false)}
+                                    setInModal={setInModal}
+                                    inModal={inModal}
+                                    closeModalAlert={() => { setModalAlert(false); refetch() }}
+                                />
+                            </div>
+                            :
+                            <div>
+                                <div>{translate.user_marked_delegation_vote}</div>
+                                <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
+                                    <DelegateVoteButton
+                                        text={translate.to_delegate_vote}
+                                        request={request}
+                                        refetch={refetch}
+                                        translate={translate}
+                                        setRepresentative={setRepresentative}
+                                        closeModal={() => setModalAlert(false)}
+                                        setInModal={setInModal}
+                                        inModal={inModal}
+                                    />
+                                    <BasicButton
+                                        text={translate.close}
+                                        onClick={closeModals}
+                                        buttonStyle={{
+                                            border: `1px solid ${secondary}`,
+                                            marginLeft: "1em"
+                                        }}
+                                        color="white"
+                                        textStyle={{ color: secondary }}
+                                    //onClick={approveRequest}
+                                    />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                requestClose={closeModalAlert}
+                open={modalAlert}
+            />
             <BasicButton
                 text="Revisar"
                 onClick={() => setModal(request)}
@@ -140,17 +216,17 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                 }}
                 color="white"
                 textStyle={{ color: secondary }}
-                //onClick={approveRequest}
+            //onClick={approveRequest}
             />
             <AlertConfirm
-                title={'Solicitud de accionista'}
+                title={'Solicitud'}
                 bodyText={modalBody()}
-                requestClose={() => setModal(false)}
+                requestClose={closeModal}
                 open={modal}
             />
         </>
     )
-    
+
 }
 
 export default withApollo(CheckShareholderRequest);

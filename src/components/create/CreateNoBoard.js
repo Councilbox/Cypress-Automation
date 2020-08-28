@@ -18,7 +18,6 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
             }
         });
 
-        console.log(response);
         setData(response.data);
         setLoading(false);
         setOptions({
@@ -34,8 +33,6 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
     if(loading){
         return null;
     }
-
-    console.log(options);
 
     return (
         <div>

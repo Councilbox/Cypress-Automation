@@ -103,7 +103,7 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
                 </Tooltip>
             :
                 <Typography variant="body1" className="truncate" style={{cursor: 'pointer'}} onClick={() => setModal(true)}>
-                    Denegar derecho a voto
+                    {translate.deny_right_to_vote}
                 </Typography>
             }
 

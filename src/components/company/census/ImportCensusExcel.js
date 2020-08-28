@@ -6,7 +6,8 @@ import {
 	Grid,
 	GridItem,
 	CustomDialog,
-	FileUploadButton
+	FileUploadButton,
+	AlertConfirm
 } from "../../../displayComponents";
 import { Paper } from 'material-ui';
 import { graphql, compose, withApollo } from "react-apollo";
@@ -145,7 +146,7 @@ class ImportCensusButton extends React.Component {
 			if (censusP.participant.email) {
 				let item = uniqueEmails.get(censusP.participant.email)
 				if (item) {
-					if(item.name !== censusP.participant.name || item.surname !== censusP.participant.surname || item.dni !== censusP.participant.dni){
+					if (item.name !== censusP.participant.name || item.surname !== censusP.participant.surname || item.dni !== censusP.participant.dni) {
 						duplicatedEmails.set(censusP.participant.email, [index + 2]);
 					}
 				} else {
@@ -158,7 +159,7 @@ class ImportCensusButton extends React.Component {
 				if (censusP.representative.email) {
 					let item = uniqueEmails.get(censusP.representative.email)
 					if (item) {
-						if(item.name !== censusP.representative.name || item.surname !== censusP.representative.surname || item.dni !== censusP.representative.dni){
+						if (item.name !== censusP.representative.name || item.surname !== censusP.representative.surname || item.dni !== censusP.representative.dni) {
 							duplicatedEmails.set(censusP.representative.email, [index + 2]);
 						}
 					} else {
@@ -352,7 +353,7 @@ class ImportCensusButton extends React.Component {
 
 
 	cleanPhone = phone => {
-		if(!phone){
+		if (!phone) {
 			return '';
 		}
 
@@ -372,7 +373,7 @@ class ImportCensusButton extends React.Component {
 				name: participant.name || '',
 				position: participant.position || '',
 				surname: participant.surname || '',
-				email: participant.email? participant.email.toLowerCase() : '',
+				email: participant.email ? participant.email.toLowerCase() : '',
 				dni: participant.dni || '',
 				phone: this.cleanPhone(participant.phone),
 				language: participant.language,
@@ -383,22 +384,23 @@ class ImportCensusButton extends React.Component {
 			return { ...errors, ...participantError };
 		}
 
-		const numParticipations = participant.numParticipations?
+		const numParticipations = participant.numParticipations ?
 			participant.numParticipations.replace(/[.,]/g, '') :
-			participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : 0;
+			participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
 
 		return {
 			participant: {
 				companyId: this.props.companyId,
 				censusId: this.props.censusId,
 				name: participant.r_name || '',
-				email: participant.r_email? participant.r_email.toLowerCase() : null,
+				email: participant.r_email ? participant.r_email.toLowerCase() : null,
 				dni: participant.r_dni || '',
 				phone: this.cleanPhone(participant.r_phone),
 				personOrEntity: 1,
 				language: participant.language,
-				numParticipations,
-				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations
+				numParticipations: +numParticipations,
+				socialCapital: participant.socialCapital ? +participant.socialCapital.replace(/[.,]/g, '') : +numParticipations,
+				position: participant.position,
 			},
 			...mappedParticipant
 		};
@@ -410,9 +412,9 @@ class ImportCensusButton extends React.Component {
 			return participantError;
 		}
 
-		const numParticipations = participant.numParticipations?
+		const numParticipations = participant.numParticipations ?
 			participant.numParticipations.replace(/[.,]/g, '') :
-			participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : 0;
+			participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
 
 
 		return {
@@ -426,8 +428,8 @@ class ImportCensusButton extends React.Component {
 				email: participant.email,
 				phone: this.cleanPhone(participant.phone),
 				language: participant.language,
-				numParticipations,
-				socialCapital: participant.socialCapital? participant.socialCapital.replace(/[.,]/g, '') : numParticipations,
+				numParticipations: +numParticipations,
+				socialCapital: participant.socialCapital ? +participant.socialCapital.replace(/[.,]/g, '') : +numParticipations,
 			}
 		}
 	}
@@ -515,9 +517,9 @@ class ImportCensusButton extends React.Component {
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
-		if(isMobile){
-			return <span />
-		}
+		// if(isMobile){
+		// 	return <span />
+		// }
 
 		return (
 			<React.Fragment>
@@ -537,8 +539,185 @@ class ImportCensusButton extends React.Component {
 						marginRight: "1em",
 					}}
 				/>
+				<AlertConfirm
+					bodyStyle={{ overflow: "hidden" }}
+					requestClose={this.close}
+					open={this.state.modal}
+					bodyText={
+						<div>
+							{step === 1 && (
+								<React.Fragment>
+									<Grid>
+										<GridItem xs={6} md={6} lg={6} style={{ display: 'flex', justifyContent: 'center' }}>
+											<div>
+												<BasicButton
+													text={translate.download_template}
+													color={secondary}
+													disabled={this.state.loading}
+													textStyle={{
+														color: 'white',
+														fontWeight: "700",
+														fontSize: "0.9em",
+														textTransform: "none"
+													}}
+													loading={downloading}
+													textPosition="after"
+													icon={<ButtonIcon type="add" color="white" />}
+													onClick={this.getCensusTemplate}
+													buttonStyle={{
+														marginRight: "1em",
+													}}
+												/>
+											</div>
+										</GridItem>
+										<GridItem xs={6} md={6} lg={6}>
+											<FileUploadButton
+												accept=".xlsx"
+												loading={this.state.loading}
+												text={translate.import_template}
+												style={{
+													width: "100%"
+												}}
+												buttonStyle={{ width: "100%" }}
+												color={primary}
+												textStyle={{
+													color: "white",
+													fontWeight: "700",
+													fontSize: "0.9em",
+													textTransform: "none"
+												}}
+												icon={
+													<ButtonIcon type="publish" color="white" />
+												}
+												onChange={this.handleFile}
+											/>
+											{this.state.loading &&
+												<span style={{ fontSize: '0.85em' }}>
+													{this.state.processing ? `Procesando ${this.state.processing} participantes` : 'Cargando archivo'}
+												</span>
+											}
+										</GridItem>
+									</Grid>
+								</React.Fragment>
+							)}
+							{step === 2 && (
+								<div
+									style={{ height: '100px' }}
+								>
+									{translate.no_valid_participants}
+								</div>
+							)}
+							{step === 3 && (
+								<div>
+									<div
+										style={{ height: '70vh', overflow: "hidden" }}
+									>
+										{translate.result_reading_press_confirm}:
+										<div style={{ height: 'calc( 100% - 4em )' }}>
+											<Scrollbar>
+												<div
+													style={{ width: '100%' }}
+												>
+													{this.state.readedParticipants.map((item, index) => (
+														<Paper
+															style={{ margin: '0.4em', marginBottom: 0, fontSize: '14px', padding: '0.4em' }}
+															key={`excelParticipant_${index}`}
+														>
+															<FontAwesome
+																name={"tag"}
+																style={{
+																	color: secondary,
+																	fontSize: "0.8em",
+																	marginRight: '0.3em'
+																}}
+															/>{`${item.participant.name} ${item.participant.surname || ''} - ${item.participant.dni || ''}`}<br />
+															<FontAwesome
+																name={"at"}
+																style={{
+																	color: secondary,
+																	fontSize: "0.8em",
+																	marginRight: '0.3em'
+																}}
+															/>{`${item.participant.email || ''}`}<br />
+															{!!item.representative &&
+																<React.Fragment>
+																	{`${translate.represented_by}: ${item.representative.name} ${item.representative.surname || ''}`}
+																	<br />
+																</React.Fragment>
+															}
+														</Paper>
+													))}
+												</div>
+											</Scrollbar>
+										</div>
+									</div>
+									<BasicButton
+										text={translate.send}
+										color={primary}
+										icon={<ButtonIcon type="send" color="white" />}
+										textStyle={{ fontWeight: '700', color: 'white', textTransform: 'none' }}
+										onClick={this.sendImportedParticipants}
+									/>
+								</div>
+							)}
+							{step === 4 && (
+								<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
+									<div
+										style={{
+											fontSize: '1.2em',
+											color: primary,
+											fontWeight: '700',
+										}}
+									>
+										{translate.attention}
+									</div>
+									{translate.import_can_not_be_done}<br />
+									{translate.please_correct_errors_and_resend}
+									<div
+										style={{ width: '100%' }}
+									>
+										{this.state.invalidEmails.map((item, index) => (
+											<React.Fragment key={`invalidEmails_${item.line}`}>
+												{this.buildErrorString(item)}<br />
+											</React.Fragment>
+										))}
+									</div>
+								</div>
+							)}
+							{step === 5 && (
+								<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
+									<div
+										style={{
+											fontSize: '1.2em',
+											color: primary,
+											fontWeight: '700',
+										}}
+									>
+										{translate.attention}
+									</div>
+								No se puede realizar la importación.<br />
+									{this.state.duplicatedType === 'DB' ?
+										translate.following_emails_already_present_in_current_census
+										:
+										translate.following_emails_are_duplicated_in_sent_file
+									}
+									<div
+										style={{ width: '100%' }}
+									>
+										{this.state.invalidEmails.map((item, index) => (
+											<React.Fragment key={`invalidEmails_${item[0]}`}>
+												{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
+											</React.Fragment>
+										))}
+									</div>
+								</div>
+							)}
+						</div>
+					}
+					title={translate.import_census}
+				/>
 
-				<CustomDialog
+				{/* <CustomDialog
 					requestClose={this.close}
 					open={this.state.modal}
 					title={translate.import_census}
@@ -709,7 +888,7 @@ class ImportCensusButton extends React.Component {
 							</div>
 						</div>
 					)}
-				</CustomDialog>
+				</CustomDialog> */}
 			</React.Fragment>
 		);
 	}

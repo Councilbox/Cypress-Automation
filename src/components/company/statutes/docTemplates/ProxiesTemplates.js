@@ -41,27 +41,37 @@ const getCustomDocsTags = (type, translate) => {
         }
     }
 
+    const votes = {
+        value: '{{votes}}',
+        label: translate.votes
+    }
+
     const types = {
         'PROXY': Object.keys(TAGS).map(key => TAGS[key]),
-        'VOTE_LETTER': Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key])
+        'VOTE_LETTER': Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]),
+        'VOTE_LETTER_WITH_SENSE':  [...Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]), votes],
     }
 
     return types[type]? types[type] : [];
 }
 
 const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...props }) => {
+
     const primary = getPrimary();
     const internalState = React.useRef({
         proxy: statute.proxy,
         proxySecondary: statute.proxySecondary,
         voteLetter: statute.voteLetter,
-        voteLetterSecondary: statute.voteLetterSecondary
+        voteLetterSecondary: statute.voteLetterSecondary,
+        voteLetterWithSense: statute.voteLetterWithSense,
+        voteLetterWithSenseSecondary: statute.voteLetterWithSenseSecondary,
     });
     const proxyTemplate = React.useRef();
     const proxySecondary = React.useRef();
     const voteLetter = React.useRef();
     const voteLetterSecondary = React.useRef();
-
+    const voteLetterWithSense = React.useRef();
+    const voteLetterWithSenseSecondary = React.useRef();
 
     const handleUpdate = object => {
         clearTimeout(timeout);
@@ -80,8 +90,9 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
         proxySecondary.current.setValue(statute.proxySecondary || '');
         voteLetter.current.setValue(statute.voteLetter || '');
         voteLetterSecondary.current.setValue(statute.voteLetterSecondary || '');
+        voteLetterWithSense.current.setValue(statute.voteLetterWithSense || '');
+        voteLetterWithSenseSecondary.current.setValue(statute.voteLetterWithSenseSecondary || '');
     }, [statute.id]);
-
 
     return (
         <>
@@ -186,6 +197,42 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                         })
                     }
                     tags={getCustomDocsTags('VOTE_LETTER', translate)}
+                />
+            </GridItem>
+            <GridItem xs={12} md={12} lg={12}>
+                <RichTextInput
+                    ref={voteLetterWithSense}
+                    translate={translate}
+                    floatingText={translate.vote_letter_with_voting_sense}
+                    value={
+                        !!internalState.voteLetterWithSense
+                            ? internalState.voteLetterWithSense
+                            : ""
+                    }
+                    onChange={value =>
+                        handleUpdate({
+                            voteLetterWithSense: value
+                        })
+                    }
+                    tags={getCustomDocsTags('VOTE_LETTER_WITH_SENSE', translate)}
+                />
+            </GridItem>
+            <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+                <RichTextInput
+                    ref={voteLetterWithSenseSecondary}
+                    translate={translate}
+                    floatingText={translate.right_column_vote_letter_with_voting_sense}
+                    value={
+                        !!internalState.voteLetterWithSenseSecondary
+                            ? internalState.voteLetterWithSenseSecondary
+                            : ""
+                    }
+                    onChange={value =>
+                        handleUpdate({
+                            voteLetterWithSenseSecondary: value
+                        })
+                    }
+                    tags={getCustomDocsTags('VOTE_LETTER_WITH_SENSE', translate)}
                 />
             </GridItem>
         </>

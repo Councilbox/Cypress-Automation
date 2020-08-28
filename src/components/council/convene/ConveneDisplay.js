@@ -22,7 +22,7 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
                     councilPublicConvene(councilId: $councilId)
                 }
             `,
-            variables: { councilId: match.params.id },
+            variables: { councilId: +match.params.id },
             fetchPolicy: "network-only"
         });
 

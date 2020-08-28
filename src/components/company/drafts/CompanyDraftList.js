@@ -237,8 +237,13 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 				closeForm={() => {
 					setState({ newForm: false });
 					getDrafts();
+					setMostrarMenu(true)
 				}}
 				company={company}
+				back={() => {
+					setState({ newForm: false });
+					setMostrarMenu(true);
+				}}
 			/>
 		);
 	}
@@ -250,135 +255,137 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 	return (
 		<React.Fragment>
 			<div style={{ height: isMobile ? ' calc( 100% - 1em )' : ' calc( 100% - 6em )' }}>
-				{!isMobile &&
-					<div style={{ marginRight: '0.8em', display: "flex", justifyContent: isMobile ? "space-between" : 'flex-end', alignItems: "center", marginBottom: "0.5em" }}>
-						<div>
+				<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end', alignItems: "center", marginBottom: "0.5em" }}>
+					<div>
+						<BasicButton
+							text={translate.drafts_new}
+							color={primary}
+							id={"newDraft"}
+							textStyle={{
+								...(isMobile ?
+									{
+										textTransform: 'none',
+										boxShadow: 'none',
+										marginRight: '1em',
+										borderRadius: '4px',
+										border: '1px solid rgb(125, 33, 128)',
+										padding: '0.2em 0.4em',
+										marginTop: '5px',
+										color: 'white',
+										fontSize: '0.9em',
+										backgroundColor: 'rgb(125, 33, 128)',
+										outline: '0px',
+										cursor: 'pointer',
+										minHeight: '0px',
+										fontWeight: 'bold',
+									} : {
+										color: "white",
+										fontWeight: "700",
+										textTransform: 'none',
+										fontSize: '0.85em',
+										whiteSpace: isMobile && 'nowrap',
+										overflow: isMobile && 'hidden',
+										textOverflow: isMobile && 'ellipsis',
+										padding: isMobile && "8px 8px",
+										minHeight: '0',
+										padding: '8px',
+									}
+								)
+							}}
+							onClick={() =>
+								setState({
+									newForm: true
+								})
+							}
+						/>
+					</div>
+					<div style={{ marginLeft: "1em" }}>
+						<Link
+							to={`/company/${company.id}/platform/drafts/`}
+						>
 							<BasicButton
-								text={translate.drafts_new}
-								color={primary}
-								id={"newDraft"}
+								text={translate.general_drafts}
+								color={getSecondary()}
 								textStyle={{
 									...(isMobile ?
 										{
 											textTransform: 'none',
 											boxShadow: 'none',
-											marginRight: '1em',
+											marginRight: !isMobile && '1em',
 											borderRadius: '4px',
-											border: '1px solid rgb(125, 33, 128)',
+											border: '1px solid' + getSecondary(),
 											padding: '0.2em 0.4em',
 											marginTop: '5px',
 											color: 'white',
-											fontSize: '0.9em',
-											backgroundColor: 'rgb(125, 33, 128)',
+											backgroundColor: getSecondary(),
 											outline: '0px',
 											cursor: 'pointer',
+											fontSize: '0.9em',
 											minHeight: '0px',
 											fontWeight: 'bold',
 										} : {
 											color: "white",
 											fontWeight: "700",
-											textTransform: 'none',
 											fontSize: '0.85em',
+											textTransform: 'none',
 											whiteSpace: isMobile && 'nowrap',
 											overflow: isMobile && 'hidden',
 											textOverflow: isMobile && 'ellipsis',
 											padding: isMobile && "8px 8px",
 											minHeight: '0',
-    										padding: '8px',
+											padding: '8px',
 										}
 									)
 								}}
-								onClick={() =>
-									setState({
-										newForm: true
-									})
-								}
 							/>
-						</div>
-						<div style={{ marginLeft: "1em" }}>
-							<Link
-								to={`/company/${company.id}/platform/drafts/`}
-							>
-								<BasicButton
-									text={translate.general_drafts}
-									color={getSecondary()}
-									textStyle={{
-										...(isMobile ?
-											{
-												textTransform: 'none',
-												boxShadow: 'none',
-												marginRight: '1em',
-												borderRadius: '4px',
-												border: '1px solid' + getSecondary(),
-												padding: '0.2em 0.4em',
-												marginTop: '5px',
-												color: 'white',
-												backgroundColor: getSecondary(),
-												outline: '0px',
-												cursor: 'pointer',
-												fontSize: '0.9em',
-												minHeight: '0px',
-												fontWeight: 'bold',
-											} : {
-												color: "white",
-												fontWeight: "700",
-												fontSize: '0.85em',
-												textTransform: 'none',
-												whiteSpace: isMobile && 'nowrap',
-												overflow: isMobile && 'hidden',
-												textOverflow: isMobile && 'ellipsis',
-												padding: isMobile && "8px 8px",
-												minHeight: '0',
-												padding: '8px',
-											}
-										)
-									}}
-								/>
-							</Link>
-						</div>
-						<div style={{ marginRight: isMobile ? "0.5em" : "3em", marginLeft: "1em" }}>
-							<DropdownEtiquetas
-								translate={translate}
-								search={tagText}
-								setSearchModal={setTagText}
-								matchSearch={filteredTags}
-								company={company}
-								vars={vars}
-								testTags={testTags}
-								addTag={addTag}
-								styleBody={{ minWidth: '50vw' }}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								removeTag={removeTag}
-								stylesMenuItem={{ padding: "3px 3px", marginTop: isMobile && '0', width: isMobile && "" }}
-							/>
-						</div>
-						<div>
-							<TextInput
-								className={isMobile && !inputSearch ? "openInput" : ""}
-								disableUnderline={true}
-								styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
-								stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
-								adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
-								floatingText={" "}
-								type="text"
-								value={search}
-								placeholder={isMobile ? "" : translate.search}
-								onChange={event => {
-									setSearch(event.target.value);
-								}}
-								styles={{ marginTop: "-16px" }}
-								stylesTextField={{ marginBottom: "0px" }}
-							/>
-						</div>
+						</Link>
 					</div>
-				}
+					{!isMobile &&
+						<React.Fragment>
+							<div style={{ marginRight: isMobile ? "0.5em" : "3em", marginLeft: "1em" }}>
+								<DropdownEtiquetas
+									translate={translate}
+									search={tagText}
+									setSearchModal={setTagText}
+									matchSearch={filteredTags}
+									company={company}
+									vars={vars}
+									testTags={testTags}
+									addTag={addTag}
+									styleBody={{ minWidth: '50vw' }}
+									anchorOrigin={{
+										vertical: 'top',
+										horizontal: 'right',
+									}}
+									transformOrigin={{
+										vertical: 'top',
+										horizontal: 'right',
+									}}
+									removeTag={removeTag}
+									stylesMenuItem={{ padding: "3px 3px", marginTop: isMobile && '0', width: isMobile && "" }}
+								/>
+							</div>
+							<div>
+								<TextInput
+									className={isMobile && !inputSearch ? "openInput" : ""}
+									disableUnderline={true}
+									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+									adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
+									floatingText={" "}
+									type="text"
+									value={search}
+									placeholder={isMobile ? "" : translate.search}
+									onChange={event => {
+										setSearch(event.target.value);
+									}}
+									styles={{ marginTop: "-16px" }}
+									stylesTextField={{ marginBottom: "0px" }}
+								/>
+							</div>
+						</React.Fragment>
+					}
+				</div>
 				<Scrollbar>
 					<div style={{ height: '100%', paddingRight: !isMobile && '1em' }}>
 						{error ? (
@@ -420,7 +427,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 												},
 												{
 													name: "type",
-													text: 'Etiquetas',
+													text: translate.labels,
 													canOrder: true
 												},
 												{
@@ -558,8 +565,24 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 							}
 							style={{ padding: "10px 16px 10px 16px", width: '100%', overflow: 'hidden', display: "flex", justifyContent: "space-between", }}
 							title={
-								<div style={{ display: "flex", justifyContent: "space-between", fontSize: "14px", padding: "0px" }}>
-									<div style={{
+								<div style={{ display: "flex", justifyContent: "space-between", fontSize: "14px", padding: "0px" }} >
+									{selectable &&
+										<div>
+											<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+												{getCheckbox()}
+												{props.alreadySaved(draft.id) &&
+													<i className="fa fa-floppy-o"
+														style={{
+															cursor: "pointer",
+															fontSize: "2em",
+															color: getSecondary()
+														}}
+													/>
+												}
+											</div>
+										</div>
+									}
+									<div onClick={props.action} style={{
 										fontWeight: '700',
 										whiteSpace: 'nowrap',
 										overflow: 'hidden',
@@ -652,7 +675,9 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 									</div>
 								</GridItem>
 								<CardActions>
-									{props.renderDeleteIcon(draft.id)}
+									{props.renderDeleteIcon &&
+										props.renderDeleteIcon(draft.id)
+									}
 								</CardActions>
 							</CardContent>
 						</Collapse>
@@ -703,7 +728,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 										{columns[key].map((tag, index) => {
 											return (
 												index > 0 ?
-													<Collapse in={expanded} timeout="auto" unmountOnExit>
+													<Collapse in={expanded} timeout="auto" unmountOnExit key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_1`}>
 														<SelectedTag
 															key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
 															text={translate[tag.label] || tag.label}

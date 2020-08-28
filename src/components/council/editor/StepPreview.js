@@ -64,7 +64,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			query: councilStepSix,
 			variables: {
 				id: props.councilID,
-				timezone: moment().utcOffset()
+				timezone: moment().utcOffset().toString()
 			}
 		});
 
@@ -86,7 +86,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			const response = await props.conveneWithNotice({
 				variables: {
 					councilId: council.id,
-					timezone: moment().utcOffset(),
+					timezone: moment().utcOffset().toString(),
 				}
 			});
 
@@ -97,10 +97,10 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 						<LiveToast
 							message={translate.council_sended}
 						/>, {
-							position: toast.POSITION.TOP_RIGHT,
-							autoClose: true,
-							className: "successToast"
-						}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: "successToast"
+					}
 					)
 					bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
 				}
@@ -116,7 +116,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 				variables: {
 					councilId: data.council.id,
 					email: state.data.conveneTestEmail,
-					timezone: moment().utcOffset(),
+					timezone: moment().utcOffset().toString(),
 				}
 			});
 
@@ -166,7 +166,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 		const response = await props.sendPreConvene({
 			variables: {
 				councilId: data.council.id,
-				timezone: moment().utcOffset(),
+				timezone: moment().utcOffset().toString(),
 			}
 		});
 
@@ -233,7 +233,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			const response = await props.conveneWithoutNotice({
 				variables: {
 					councilId: data.council.id,
-					timezone: moment().utcOffset(),
+					timezone: moment().utcOffset().toString(),
 				}
 			});
 			setLoading(false);
@@ -246,10 +246,10 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 						<LiveToast
 							message={translate.changes_saved}
 						/>, {
-							position: toast.POSITION.TOP_RIGHT,
-							autoClose: true,
-							className: "successToast"
-						}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: "successToast"
+					}
 					);
 					bHistory.push(`/company/${company.id}/council/${data.council.id}/prepare`);
 				}
@@ -425,7 +425,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 						}
 						buttonCancel={translate.close}
 						bodyText={<div />}
-						title={data.council.councilType === 4? 'Confirmar sin notificar' /*TRADUCCION*/ : translate.new_save_convene}
+						title={data.council.councilType === 4 ? translate.confirm_without_notifying : translate.new_save_convene}
 					/>
 				</div>
 			}
@@ -556,14 +556,14 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 												>
 													notifications_off
 												</Icon>
-												{data.council.councilType === 4? 'Confirmar sin notificar' /*TRADUCCION*/ : translate.new_save_convene}
+												{data.council.councilType === 4 ? translate.confirm_without_notifying : translate.new_save_convene}
 											</MenuItem>
 										</React.Fragment>
 									}
 								/>
 							</div>
 							<BasicButton
-								text={data.council.councilType === 4? 'Confirmar y notificar' /*TRADUCCION*/  : translate.new_save_and_send}
+								text={data.council.councilType === 4 ? translate.confirm_and_notify : translate.new_save_and_send}
 								color={primary}
 								textStyle={{
 									color: "white",
