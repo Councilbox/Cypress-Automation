@@ -563,8 +563,6 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
     //     return variables;
     // }
 
-
-
     const agendaStateIcon = agenda => {
         let title = '';
         if (council.councilType >= 2) {

@@ -1,6 +1,6 @@
 import React from "react";
 import { AlertConfirm, Grid, GridItem, Scrollbar } from "../../../../displayComponents";
-import { hasSecondCall } from "../../../../utils/CBX";
+import { hasSecondCall, agendaPointNotOpened, agendaClosed, agendaPointOpened, agendaVotingsOpened } from "../../../../utils/CBX";
 import { moment } from '../../../../containers/App';
 import { StatuteDisplay } from "../../display/StatuteDisplay";
 import { Paper } from "material-ui";
@@ -11,16 +11,15 @@ import elecciones from "../../../../assets/img/elecciones.svg";
 import sinSesionIcon from '../../../../assets/img/sin-sesion-icon.svg';
 import { Collapse } from "material-ui";
 import gql from "graphql-tag";
-import { getSubjectAbrv } from "../../../../displayComponents/AgendaNumber";
 import { isMobile } from "../../../../utils/screen";
-
+import { Tooltip } from "material-ui";
 
 
 const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...props }) => {
 	const [open, setOpen] = React.useState(false);
 	const [openPoints, setOpenPoints] = React.useState(false);
 	const [data, setData] = React.useState(false);
-	const [loading, setLoading] = React.useState(false);
+	const [loading, setLoading] = React.useState(true);
 	
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -30,14 +29,67 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 				councilId: council.id
 			}
 		});
-		console.log(response)
-		setData(response.data)
-		setLoading(true)
+		setData(response.data);
+		setLoading(false);
 	}, [council.id]);
 
 	React.useEffect(() => {
-		getData()
-	}, []);
+		if(show){
+			getData();
+		}
+	}, [show]);
+
+	const agendaStateIcon = agenda => {
+        let title = '';
+        if (council.councilType >= 2) {
+            return <span />;
+        }
+
+        let icon = 'fa fa-lock';
+        let color = ""
+        if (agendaPointNotOpened(agenda) || agendaClosed(agenda)) {
+            icon = "fa fa-lock colorGrey";
+            title = translate.closed;
+        }
+        if (agendaPointOpened(agenda)) {
+            icon = "fa fa-unlock-alt colorGren";
+            color = "#278289";
+            title = translate.in_discussion;
+        }
+        return (
+            <Tooltip title={title}>
+                <i
+                    className={icon}
+                    aria-label={icon === "fa fa-lock colorGrey" ? "punto cerrado" : "punto abierto"}
+                    style={{ marginRight: '0.6em', cursor: 'auto', fontSize: "18px", color: color }}
+                ></i>
+            </Tooltip>
+        );
+	}
+	
+	const agendaVotingIcon = agenda => {
+        let mostrar = agenda.subjectType !== 0;
+        if (mostrar) {
+            let title = translate.closed_votings;
+            let color = 'default';
+            if (agendaVotingsOpened(agenda)) {
+                title = translate.opened_votings;
+                color = "#278289";
+            }
+            return (
+                <Tooltip title={title}>
+                    <i
+                        className={"material-icons"}
+                        aria-label={title}
+                        style={{ marginRight: '0.6em', fontSize: "18px", color, cursor: 'context-menu', }}
+                    >
+                        how_to_vote
+                    </i>
+                </Tooltip>
+            );
+        }
+        return <span />;
+    }
 
 	const getTypeText = subjectType => {
 		const votingType = data.votingTypes.find(item => item.value === subjectType)
@@ -56,7 +108,6 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 						<GridItem xs={12} lg={12} md={12} style={{ marginRight: "1em", marginBottom: "1em" }}>
 							<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "18px" }}>
 								<div>{council.businessName}</div>
-								<div style={{ width: "140px", height: '100%' }}><img style={{ width: "100%" }} src={props.logo} /></div>
 							</div>
 						</GridItem>
 						<GridItem xs={12} lg={12} md={12}
@@ -84,11 +135,11 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 										{open ?
 											<i className="material-icons" style={{ fontSize: "27px", cursor: "pointer" }} onClick={() => setOpen(false)}>
 												arrow_drop_up
-								</i>
+											</i>
 											:
 											<i className="material-icons" style={{ fontSize: "27px", cursor: "pointer" }} onClick={() => setOpen(true)}>
 												arrow_drop_down
-								</i>
+											</i>
 										}
 									</div>
 								</div>
@@ -128,10 +179,10 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 							</div>
 							<div>
 								{council.autoClose === 1 &&
-									<span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span>
+									<span>{translate.date_end}: {moment(council.closeDate).format('LLL')}</span>
 								}
 								{council.dateEnd &&
-									<span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span>
+									<span>{translate.date_end}: {moment(council.dateEnd).format('LLL')}</span>
 								}
 							</div>
 						</GridItem>
@@ -163,34 +214,32 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 											{openPoints ?
 												<i className="material-icons" style={{ fontSize: "27px", cursor: "pointer" }} onClick={() => setOpenPoints(false)}>
 													arrow_drop_up
-								</i>
+												</i>
 												:
 												<i className="material-icons" style={{ fontSize: "27px", cursor: "pointer" }} onClick={() => setOpenPoints(true)}>
 													arrow_drop_down
-								</i>
+												</i>
 											}
 										</div>
 									</div>
 									<Collapse in={openPoints} timeout="auto" unmountOnExit >
-										{loading &&
+										{!loading &&
 											<div>{data.agendas.map(agenda => (
 												<Paper style={{ marginTop: '0.8em', padding: '0.8em', margin: '0.3em', boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
-												border: '1px solid rgb(125, 33, 128, 0.58)',
+												border: `${agendaPointOpened(agenda) ? '2' : '1'}px solid rgb(125, 33, 128, 0.58)`,
 												borderRadius: '4px', }} key={`agenda_${agenda.id}`}>
 													<Grid>
-														<GridItem xs={1} md={1} lg={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-															{getSubjectAbrv(agenda.agendaSubject)}
-														</GridItem>
-														<GridItem xs={11} md={11} lg={11}>
+														<GridItem xs={12} md={12} lg={12}>
 															<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-																<span>
+																<div style={{display: 'flex', alignItems: 'center', width: '80%'}}>
+																	{agendaStateIcon(agenda)}
+																	{agendaVotingIcon(agenda)}
 																	{agenda.agendaSubject}
-																</span>
-																<span>
+																</div>
+																<div>
 																	{getTypeText(agenda.subjectType)}
-																</span>
+																</div>
 															</div>
-															<div dangerouslySetInnerHTML={{ __html: agenda.description }} />
 														</GridItem>
 													</Grid>
 												</Paper>
@@ -211,11 +260,14 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 								padding: "1em"
 							}}
 						>
-							<StatuteDisplay
-								statute={council.statute}
-								translate={translate}
-								quorumTypes={data.quorumTypes}
-							/>
+							{!loading &&
+								<StatuteDisplay
+									statute={council.statute}
+									translate={translate}
+									quorumTypes={data.quorumTypes}
+								/>
+							}
+
 						</GridItem>
 					</Scrollbar>
 				</Grid >
@@ -234,93 +286,16 @@ const councilTypes = [
 
 
 export const agendaManager = gql`
-	query AgendaManagerFields($companyId: Int!, $councilId: Int!) {
+	query AgendaManagerFields($councilId: Int!) {
 		agendas(councilId: $councilId) {
 			abstentionManual
 			abstentionVotings
 			agendaSubject
-			items {
-				id
-				value
-			}
-			ballots {
-				id
-				weight
-				admin
-				value
-				participantId
-				itemId
-			}
-			options {
-				maxSelections
-				minSelections
-				id
-				writeIn
-			}
-			attachments {
-				id
-				agendaId
-				filename
-				filesize
-				filetype
-				councilId
-				state
-			}
-			comment
-			commentRightColumn
-			councilId
-			currentRemoteCensus
-			dateEndVotation
-			dateStart
-			dateStartVotation
-			description
 			id
-			majority
-			majorityDivider
-			majorityType
-			negativeManual
-			negativeVotings
-			noParticipateCensus
-			noVoteManual
-			noVoteVotings
-			numAbstentionManual
-			numAbstentionVotings
-			numCurrentRemoteCensus
-			numNegativeManual
-			numNegativeVotings
-			numNoParticipateCensus
-			numNoVoteManual
-			numNoVoteVotings
-			numPositiveManual
-			numPositiveVotings
-			numPresentCensus
-			numRemoteCensus
-			numTotalManual
-			numTotalVotings
-			orderIndex
-			pointState
-			positiveManual
-			positiveVotings
-			presentCensus
-			remoteCensus
-			socialCapitalCurrentRemote
-			socialCapitalNoParticipate
-			socialCapitalPresent
-			socialCapitalRemote
-			sortable
 			subjectType
-			totalManual
-			totalVotings
+			pointState
+			councilId
 			votingState
-		}
-		languages {
-			desc
-			columnName
-		}
-
-		companyStatutes(companyId: $companyId) {
-			title
-			id
 		}
 
 		majorityTypes {
@@ -336,11 +311,6 @@ export const agendaManager = gql`
 		votingTypes {
 			label
 			value
-		}
-
-		draftTypes {
-			id
-			label
 		}
 	}
 `;
