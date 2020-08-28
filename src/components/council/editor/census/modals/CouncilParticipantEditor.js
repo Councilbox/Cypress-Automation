@@ -11,6 +11,7 @@ import {
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 import withSharedProps from "../../../../../HOCs/withSharedProps";
+import { Card } from "material-ui";
 
 class CouncilParticipantEditor extends React.Component {
 	state = {
@@ -18,7 +19,8 @@ class CouncilParticipantEditor extends React.Component {
 		data: {},
 		representative: {},
 		errors: {},
-		representativeErrors: {}
+		representativeErrors: {},
+		selectRepresentative: false
 	};
 
 	updateParticipantData(){
@@ -237,24 +239,50 @@ class CouncilParticipantEditor extends React.Component {
 		const { languages } = this.props.data;
 		return (
 			<div>
-				<ParticipantForm
-					type={participant.personOrEntity}
-					participant={participant}
-					checkEmail={this.emailKeyUp}
-					participations={participations}
-					translate={translate}
-					languages={languages}
-					errors={errors}
-					updateState={this.updateState}
-				/>
-				<RepresentativeForm
-					translate={translate}
-					state={representative}
-					checkEmail={this.emailKeyUp}
-					updateState={this.updateRepresentative}
-					errors={representativeErrors}
-					languages={languages}
-				/>
+
+				<div style={{marginRight: "1em"}}>
+					<AlertConfirm
+						open={this.state.selectRepresentative}
+						bodyText={
+							<div>
+								PRUEBA
+							</div>
+						}
+					/>
+					<Card style={{
+						padding: '1em',
+						marginBottom: "1em",
+						color: 'black',
+					}}>
+						<ParticipantForm
+							type={participant.personOrEntity}
+							participant={participant}
+							checkEmail={this.emailKeyUp}
+							participations={participations}
+							translate={translate}
+							languages={languages}
+							errors={errors}
+							updateState={this.updateState}
+						/>
+					</Card>
+					<Card style={{
+						padding: '1em',
+						marginBottom: "1em",
+						color: 'black',
+					}}>
+						<RepresentativeForm
+							translate={translate}
+							state={representative}
+							setSelectRepresentative={value => this.setState({
+								selectRepresentative: value
+							})}
+							checkEmail={this.emailKeyUp}
+							updateState={this.updateRepresentative}
+							errors={representativeErrors}
+							languages={languages}
+						/>
+					</Card>
+				</div>
 			</div>
 		);
 	}

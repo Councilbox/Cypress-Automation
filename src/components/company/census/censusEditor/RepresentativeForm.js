@@ -4,10 +4,47 @@ import {
 	Grid,
 	GridItem,
 	SelectInput,
-	TextInput
+	TextInput,
+	BasicButton,
+	LoadingSection
 } from "../../../../displayComponents";
 import { MenuItem } from "material-ui";
 import { Collapse } from "material-ui";
+import { getSecondary } from "../../../../styles/colors";
+
+const Action = ({ children, loading, onClick, active, styles }) => {
+	return (
+		<div
+			style={{
+				display: 'flex',
+				alignItems: 'center',
+				height: "37px",
+				borderRadius: '4px',
+				border: `solid 1px ${getSecondary()}` ,
+				padding: "0.3em 1.3em",
+				cursor: "pointer",
+				marginRight: "0.5em",
+				...styles
+			}}
+			onClick={onClick}
+		>
+			{loading ? (
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+					}}
+				>
+					<LoadingSection size={20} />
+				</div>
+			) : (
+					children
+				)}
+		</div>
+	)
+}
+
 
 const RepresentativeForm = ({
 	updateState,
@@ -15,21 +52,46 @@ const RepresentativeForm = ({
 	state,
 	checkEmail,
 	errors,
-	languages
+	languages,
+	setSelectRepresentative
 }) => {
 	const representative = state;
 	return (
 		<Grid>
-			<GridItem xs={12} lg={12} md={12}>
-				<Checkbox
-					label={translate.add_representative}
-					value={state.hasRepresentative}
-					onChange={(event, isInputChecked) =>
+			<GridItem xs={12} lg={12} md={12} style={{ display: 'flex' }}>
+				<Action
+					style={{ display: "flex", alignItems: "center", overflow: "hidden", cursor: "pointer" }}
+					onClick={() =>
 						updateState({
-							hasRepresentative: isInputChecked
+							hasRepresentative: !state.hasRepresentative
 						})
 					}
-				/>
+				>
+					<div style={{ width: "3em", color: getSecondary() }}>
+						<i className={'fa fa-plus'} style={{ position: "relative" }}></i>
+						<i className={'fa fa-user-o'} style={{ position: "relative", fontSize: "20px" }}></i>
+						<i className={'fa fa-user'} style={{ position: "relative", left: "-5px" }}></i>
+					</div>
+					<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: getSecondary() }}>
+						<span style={{ fontSize: '0.9em' }}>{state.hasRepresentative? 'Quitar representante' : "Añadir representante" }</span>
+					</div>
+				</Action>
+				<Action
+					onClick={() => setSelectRepresentative(true)}
+				>
+					<div
+						style={{ display: "flex", alignItems: "center", overflow: "hidden", cursor: "pointer" }}
+					>
+						<div style={{ width: "3em", color: getSecondary() }}>
+							<i className={'fa fa-plus'} style={{ position: "relative" }}></i>
+							<i className={'fa fa-user-o'} style={{ position: "relative", fontSize: "20px" }}></i>
+							<i className={'fa fa-user'} style={{ position: "relative", left: "-5px" }}></i>
+						</div>
+						<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: getSecondary() }}>
+							<span style={{ fontSize: '0.9em' }}>Seleccionar representante</span>
+						</div>
+					</div>
+				</Action>			
 			</GridItem>
 			<Collapse in={state.hasRepresentative} >
 				{state.hasRepresentative && (
