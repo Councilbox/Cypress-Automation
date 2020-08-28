@@ -12,6 +12,7 @@ import {
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 import withSharedProps from "../../../../../HOCs/withSharedProps";
 import { Card } from "material-ui";
+import SelectRepresentative from "./SelectRepresentative";
 
 class CouncilParticipantEditor extends React.Component {
 	state = {
@@ -239,16 +240,14 @@ class CouncilParticipantEditor extends React.Component {
 		const { languages } = this.props.data;
 		return (
 			<div>
-
+				<SelectRepresentative
+					open={this.state.selectRepresentative}
+					updateRepresentative={this.updateRepresentative}
+					requestClose={() => this.setState({
+						selectRepresentative: false
+					})}
+				/>
 				<div style={{marginRight: "1em"}}>
-					<AlertConfirm
-						open={this.state.selectRepresentative}
-						bodyText={
-							<div>
-								PRUEBA
-							</div>
-						}
-					/>
 					<Card style={{
 						padding: '1em',
 						marginBottom: "1em",
