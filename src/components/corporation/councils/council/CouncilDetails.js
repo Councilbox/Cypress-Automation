@@ -19,6 +19,8 @@ import FailedSMSList from './FailedSMSList';
 import CouncilDetailsParticipants from './CouncilDetailsParticipants';
 import * as CBX from '../../../../utils/CBX';
 import { SearchCouncils } from '../CouncilsDashboard';
+import ParticipantsManager from '../../../council/live/participants/ParticipantsManager';
+import AddConvenedParticipantButton from '../../../council/prepare/modals/AddConvenedParticipantButton';
 
 
 const cancelAct = gql`
@@ -247,20 +249,31 @@ class CouncilDetails extends React.Component {
 							Participantes
 							</div>
 					</div >
-					<div style={{ height: "100%" }} >
-						<CouncilDetailsParticipants
-							council={council}
-							participations={CBX.hasParticipations(council)}
-							translate={translate}
-						// refetch={refetch}
-						/>
+					<div style={{ height: "100%" }}>
+						{council.state >= 20 ?
+							<>
+								<ParticipantsManager
+									stylesDiv={{ margin: "0", marginTop: "3.5em", height: "calc( 100% - 10em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
+									translate={translate}
+									council={council}
+									root={true}
+								/>
+							</>
+						:
+							<CouncilDetailsParticipants
+								council={council}
+								participations={CBX.hasParticipations(council)}
+								translate={translate}
+								//refetch={refetch}
+							/>
+						}
+
 						{/* <br></br>
 						<CredentialsManager
 							council={council}
 							translate={this.props.translate}
 						/> */}
 					</div>
-
 				</div >
 			)
 		}

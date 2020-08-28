@@ -1,6 +1,6 @@
 import React from 'react';
 import { TableCell, TableRow } from "material-ui/Table";
-import { Tooltip, Card, CardHeader, IconButton } from "material-ui";
+import { Tooltip } from "material-ui";
 import { getSecondary, getPrimary } from "../../../../styles/colors";
 import * as CBX from "../../../../utils/CBX";
 import {
@@ -17,7 +17,6 @@ import { compose, graphql, withApollo } from "react-apollo";
 import { downloadCBXData, updateConveneSends } from "../../../../queries";
 import { convenedcouncilParticipants } from "../../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
-import { isMobile } from "../../../../utils/screen";
 import { useOldState, usePolling } from "../../../../hooks";
 import AttendIntentionIcon from '../../../council/live/participants/AttendIntentionIcon';
 import DownloadCBXDataButton from '../../../council/prepare/DownloadCBXDataButton';
@@ -25,7 +24,6 @@ import NotificationFilters from '../../../council/prepare/NotificationFilters';
 import AddConvenedParticipantButton from '../../../council/prepare/modals/AddConvenedParticipantButton';
 import AttendComment from '../../../council/prepare/modals/AttendComment';
 import ConvenedParticipantEditor from '../../../council/prepare/modals/ConvenedParticipantEditor';
-import gql from 'graphql-tag';
 import StateIcon from '../../../council/live/participants/StateIcon';
 import ParticipantContactEditor from './ParticipantContactEditor';
 import NotificationsTable from '../../../notifications/NotificationsTable';
@@ -62,6 +60,9 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	const secondary = getSecondary();
 
 	const getData = React.useCallback(async () => {
+
+		//liveParticipantsCredentials
+
 		const response = await client.query({
 			query: convenedcouncilParticipants,
 			variables: {
@@ -191,6 +192,88 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 		headers.push({ text: '' });
 	}
 
+	const menuButtons = () => {
+		return (
+			<>
+				<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
+					{!hideNotifications &&
+						<Tooltip
+							title={
+								translate.tooltip_refresh_convene_email_state_assistance
+							}
+						>
+							<div>
+								<BasicButton
+									floatRight
+									text={translate.refresh_convened}
+									color={secondary}
+									loading={refreshing}
+									buttonStyle={{
+										margin: "0",
+										marginRight: '1.2em'
+									}}
+									textStyle={{
+										color: "white",
+										fontWeight: "700",
+										fontSize: "0.9em",
+										textTransform: "none"
+									}}
+									icon={
+										<ButtonIcon
+											color="white"
+											type="refresh"
+										/>
+									}
+									textPosition="after"
+									onClick={refreshEmailStates}
+								/>
+							</div>
+						</Tooltip>
+					}
+					<>
+						<BasicButton
+							floatRight
+							disabled={CBX.councilIsFinished(council)}
+							text={translate.add_guest}
+							color="white"
+							buttonStyle={{
+								margin: "0",
+								marginRight: '1.2em',
+								border: `1px solid ${secondary}`
+							}}
+							textStyle={{
+								color: secondary,
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							textPosition="after"
+							onClick={() => setAddGuest(true)}
+						/>
+						<AddGuestModal
+							show={addGuest}
+							requestClose={() => setAddGuest(false)}
+							refetch={refetch}
+							council={council}
+							translate={translate}
+						/>
+					</>
+					{!hideAddParticipant &&
+						<div>
+							<AddConvenedParticipantButton
+								participations={participations}
+								translate={translate}
+								councilId={council.id}
+								council={council}
+								refetch={refetch}
+							/>
+						</div>
+					}
+				</div>
+			</>
+		)
+	}
+
 	return (
 		<div style={{ width: "100%", height: 'calc( 100%  - 10em )', marginTop: "3.5em" }}>
 			<React.Fragment>
@@ -211,83 +294,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 							<EnhancedTable
 								ref={table}
 								translate={translate}
-								menuButtons={
-									<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
-										{!hideNotifications &&
-											<Tooltip
-												title={
-													translate.tooltip_refresh_convene_email_state_assistance
-												}
-											>
-												<div>
-													<BasicButton
-														floatRight
-														text={translate.refresh_convened}
-														color={secondary}
-														loading={refreshing}
-														buttonStyle={{
-															margin: "0",
-															marginRight: '1.2em'
-														}}
-														textStyle={{
-															color: "white",
-															fontWeight: "700",
-															fontSize: "0.9em",
-															textTransform: "none"
-														}}
-														icon={
-															<ButtonIcon
-																color="white"
-																type="refresh"
-															/>
-														}
-														textPosition="after"
-														onClick={refreshEmailStates}
-													/>
-												</div>
-											</Tooltip>
-										}
-										<>
-											<BasicButton
-												floatRight
-												disabled={CBX.councilIsFinished(council)}
-												text={translate.add_guest}
-												color="white"
-												buttonStyle={{
-													margin: "0",
-													marginRight: '1.2em',
-													border: `1px solid ${secondary}`
-												}}
-												textStyle={{
-													color: secondary,
-													fontWeight: "700",
-													fontSize: "0.9em",
-													textTransform: "none"
-												}}
-												textPosition="after"
-												onClick={() => setAddGuest(true)}
-											/>
-											<AddGuestModal
-												show={addGuest}
-												requestClose={() => setAddGuest(false)}
-												refetch={refetch}
-												council={council}
-												translate={translate}
-											/>
-										</>
-										{!hideAddParticipant &&
-											<div>
-												<AddConvenedParticipantButton
-													participations={participations}
-													translate={translate}
-													councilId={council.id}
-													council={council}
-													refetch={refetch}
-												/>
-											</div>
-										}
-									</div>
-								}
+								menuButtons={menuButtons()}
 								defaultLimit={filters.options.limit}
 								defaultFilter={"fullName"}
 								defaultOrder={["name", "asc"]}
@@ -424,8 +431,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				bodyText={
 					credentials == "participant" ?
 						<div>
-							<div style={{color:"black", marginBottom:".5em"}}>Credenciales de: {`${participant.name} ${
-								participant.surname
+							<div style={{color:"black", marginBottom:".5em"}}>Credenciales de: {`${participant.name} ${participant.surname
 								}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
 									participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${
 									participant.representatives[0].name} ${
@@ -570,13 +576,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 							{!representative && notifications
 								.length > 0 ? (
 									<Tooltip
-										title={
-											translate[
-											CBX.getTranslationReqCode(
-												notifications[0].reqCode
-											)
-											]
-										}
+										title={translate[CBX.getTranslationReqCode(notifications[0].reqCode)]}
 									>
 										<img
 											style={{
@@ -672,7 +672,6 @@ const formatParticipant = participant => {
 }
 
 const applyFilters = (participants, filters) => {
-
 	return applyOrder(participants.filter(item => {
 		const participant = formatParticipant(item);
 		if (filters.text) {

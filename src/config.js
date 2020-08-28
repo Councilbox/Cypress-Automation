@@ -24,7 +24,7 @@ export const variant = getVariant();
 export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
 
 export const CLIENT_VERSION = process.env.REACT_APP_VERSION || '6.7.1';
-export const API_URL = `${SERVER_URL}/graphql`;
+export const API_URL = `${'http://51.144.61.54'}/graphql`;
 export const videoVersions = {
 	CMP: 'CMP',
 	OLD: 'OLD'

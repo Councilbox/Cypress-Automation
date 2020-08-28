@@ -17,7 +17,7 @@ const initialState = {
     view: 'STATES' // CONVENE, CREDENTIALS, ATTENDANCE, TYPE
 }
 
-const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
+const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) => {
     const [state, setState] = React.useState(initialState);
     const [participants, setParticipants] = React.useState(null);
     const [filters, setFilters] = useOldState({
@@ -141,6 +141,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
                 council={council}
                 translate={translate}
                 layout={layout}
+                root={root}
                 data={participants}
                 view={state.view}
                 loading={state.loading}

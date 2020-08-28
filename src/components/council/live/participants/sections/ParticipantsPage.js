@@ -25,6 +25,8 @@ import RefreshCredsSendsButton from "../RefreshCredsSendsButton";
 import QRSearchModal from "./QRSearchModal";
 import { ConfigContext } from "../../../../../containers/AppControl";
 import { isMobile } from "../../../../../utils/screen";
+import AddConvenedParticipantButton from "../../../prepare/modals/AddConvenedParticipantButton";
+import { hasParticipations } from "../../../../../utils/CBX";
 
 
 const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {
@@ -188,6 +190,15 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 						textStyle={{ color: secondary, fontWeight: '700', border: `1px solid ${secondary}` }}
 						onClick={toggleOnlyNotSigned}
 					/>
+					{props.root &&
+						<AddConvenedParticipantButton
+							participations={hasParticipations(council)}
+							translate={translate}
+							councilId={council.id}
+							council={council}
+						/>
+					}
+
 					{props.view === 'CREDENTIALS' &&
 						<RefreshCredsSendsButton translate={translate} council={council} />
 					}
