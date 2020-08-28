@@ -324,6 +324,7 @@ export const convenedcouncilParticipants = gql`
 				personOrEntity
 				notifications {
 					id
+					participantId
 					reqCode
 					sendDate
 					refreshDate

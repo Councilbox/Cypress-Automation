@@ -30,6 +30,7 @@ class NotificationFilters extends React.Component {
 			}
 			refetch({
 				attendanceIntention: null,
+				comment: null,
 				notificationStatus: `${code}`
 			});
 		}
@@ -44,10 +45,12 @@ class NotificationFilters extends React.Component {
 				selectedFilter: ""
 			});
 			refetch({
+				comment: null,
 				attendanceIntention: null
 			});
 		} else {
 			refetch({
+				comment: null,
 				notificationStatus: null,
 				attendanceIntention: intention
 			});
@@ -200,12 +203,14 @@ class NotificationFilters extends React.Component {
 									selectedFilter: 'comment'
 								});
 								this.props.refetch({
+									notificationStatus: null,
+									attendanceIntention: null,
 									comment: true,
 								});
 							}
 						}}
 						active={this.state.selectedFilter === 'comment'}
-						tooltip={'Con comentario'}
+						tooltip={translate.show_comments}
 					>
 						<i className={"fa fa-comment"} style={{
 							width: "24px", height: "auto", color: primary, display: 'flex',

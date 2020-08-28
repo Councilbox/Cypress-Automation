@@ -75,6 +75,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 				filters: filters.filters
 			}
 		});
+
 		setData(response.data);
 		setLoading(false);
 	}, [council.id, filters])
@@ -393,21 +394,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 	const mouseLeaveHandler = () => {
 		setShowActions(false)
 	}
-
-	const { delegate } = participant;
-	let { notifications } = participant.type === PARTICIPANT_TYPE.PARTICIPANT ? participant : participant.representatives.length > 0 ? representative : participant;
-
-	notifications = [...notifications].sort((a, b) => {
-		if (a.sendDate > b.sendDate) {
-			return -1;
-		}
-
-		if ((b.sendDate > a.sendDate) || a.reqCode === 25) {
-			return 1;
-		}
-
-		return 0;
-	});
+	const { delegate, notifications } = participant;
 
 	const voteParticipantInfo = (
 		participant.live.state === PARTICIPANT_STATES.DELEGATED ?
@@ -574,28 +561,26 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				{!hideNotifications &&
 					<React.Fragment>
 						<TableCell>
-
-							{!representative && notifications
-								.length > 0 ? (
-									<Tooltip
-										title={translate[CBX.getTranslationReqCode(notifications[0].reqCode)]}
-									>
-										<img
-											style={{
-												height:
-													"2.1em",
-												width:
-													"auto"
-											}}
-											src={CBX.getEmailIconByReqCode(
-												notifications[0].reqCode
-											)}
-											alt="email-state-icon"
-										/>
-									</Tooltip>
-								) : (
-									""
-								)}
+							{notifications.length > 0 ? (
+								<Tooltip
+									title={translate[CBX.getTranslationReqCode(notifications[0].reqCode)]}
+								>
+									<img
+										style={{
+											height:
+												"2.1em",
+											width:
+												"auto"
+										}}
+										src={CBX.getEmailIconByReqCode(
+											notifications[0].reqCode
+										)}
+										alt="email-state-icon"
+									/>
+								</Tooltip>
+							) : (
+								""
+							)}
 						</TableCell>
 						{CBX.councilHasAssistanceConfirmation(council) &&
 							(
@@ -620,19 +605,19 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 						<TableCell>
 							<div style={{ display: 'flex' }}>
 								<div style={{ color: getPrimary(), position: "relative", marginRight: "1.5em", cursor: "pointer", }} onClick={editParticipant}>
-									<Tooltip
+									{/* <Tooltip
 										title={'Editar Participante'}
 									>
 										<div style={{ fontSize: "23px", fontWeight: "bold" }}>
 											P
 									</div>
-									</Tooltip>
-									<div style={{ position: "absolute", left: '9px', top: '21px' }}>
+									</Tooltip> */}
+									<div style={{ fontSize: '20px' }}>
 										<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
 									</div>
 
 								</div>
-								<div style={{ color: getPrimary(), position: "relative", marginRight: "1em", cursor: "pointer", }} onClick={() => setCredentials(representative ? 'representative' : 'participant')}>
+								{/* <div style={{ color: getPrimary(), position: "relative", marginRight: "1em", cursor: "pointer", }} onClick={() => setCredentials(representative ? 'representative' : 'participant')}>
 									<Tooltip
 										title={'Editar Credenciales'}
 									>
@@ -643,7 +628,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 									<div style={{ position: "absolute", left: '9px', top: '21px' }}>
 										<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
 									</div>
-								</div>
+								</div> */}
 							</div>
 						</TableCell>
 					</React.Fragment>

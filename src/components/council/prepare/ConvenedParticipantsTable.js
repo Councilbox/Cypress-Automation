@@ -420,20 +420,7 @@ class HoverableRow extends React.Component {
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 		let representative = this.props.representative;
-		const { delegate } = participant;
-		let { notifications } = participant.type === PARTICIPANT_TYPE.PARTICIPANT ? participant : participant.representatives.length > 0 ? representative : participant;
-
-		notifications = [...notifications].sort((a, b) => {
-			if (a.sendDate > b.sendDate) {
-				return -1;
-			}
-
-			if ((b.sendDate > a.sendDate) || a.reqCode === 25) {
-				return 1;
-			}
-
-			return 0;
-		});
+		const { delegate, notifications } = participant;
 
 		const voteParticipantInfo = (
 			participant.live.state === PARTICIPANT_STATES.DELEGATED ?
@@ -622,8 +609,7 @@ class HoverableRow extends React.Component {
 					<React.Fragment>
 						<TableCell>
 
-							{notifications
-								.length > 0 ? (
+							{notifications.length > 0 ? (
 									<Tooltip
 										title={
 											translate[
