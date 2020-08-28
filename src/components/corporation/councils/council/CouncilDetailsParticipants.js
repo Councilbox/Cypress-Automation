@@ -29,11 +29,9 @@ import gql from 'graphql-tag';
 import StateIcon from '../../../council/live/participants/StateIcon';
 import ParticipantContactEditor from './ParticipantContactEditor';
 import NotificationsTable from '../../../notifications/NotificationsTable';
-
-
+import AddGuestModal from '../../../council/live/participants/AddGuestModal';
 
 const limit = PARTICIPANTS_LIMITS[0];
-
 
 const CouncilDetailsParticipants = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
 	const [filters, setFilters] = React.useState({
@@ -50,6 +48,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 		intentionFilter: null
 	});
 	const [data, setData] = React.useState(null);
+	const [addGuest, setAddGuest] = React.useState(false);
 	const [loading, setLoading] = React.useState(true);
 	const [refreshing, setRefreshing] = React.useState(false);
 	const [state, setState] = useOldState({
@@ -60,6 +59,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 		showComment: '',
 	});
 	const table = React.useRef();
+	const secondary = getSecondary();
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -223,7 +223,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 													<BasicButton
 														floatRight
 														text={translate.refresh_convened}
-														color={getSecondary()}
+														color={secondary}
 														loading={refreshing}
 														buttonStyle={{
 															margin: "0",
@@ -247,6 +247,34 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 												</div>
 											</Tooltip>
 										}
+										<>
+											<BasicButton
+												floatRight
+												disabled={CBX.councilIsFinished(council)}
+												text={translate.add_guest}
+												color="white"
+												buttonStyle={{
+													margin: "0",
+													marginRight: '1.2em',
+													border: `1px solid ${secondary}`
+												}}
+												textStyle={{
+													color: secondary,
+													fontWeight: "700",
+													fontSize: "0.9em",
+													textTransform: "none"
+												}}
+												textPosition="after"
+												onClick={() => setAddGuest(true)}
+											/>
+											<AddGuestModal
+												show={addGuest}
+												requestClose={() => setAddGuest(false)}
+												refetch={refetch}
+												council={council}
+												translate={translate}
+											/>
+										</>
 										{!hideAddParticipant &&
 											<div>
 												<AddConvenedParticipantButton

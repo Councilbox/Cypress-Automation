@@ -20,6 +20,7 @@ import { useOldState } from "../../../../hooks";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { isMobile } from "../../../../utils/screen";
 import { COUNCIL_TYPES } from "../../../../constants";
+import { councilIsFinished } from "../../../../utils/CBX";
 
 
 
@@ -179,6 +180,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 		<React.Fragment>
 			<BasicButton
 				text={translate.add_participant}
+				disabled={councilIsFinished(council)}
 				color={"white"}
 				textStyle={{
 					color: primary,
