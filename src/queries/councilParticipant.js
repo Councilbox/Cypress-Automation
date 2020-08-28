@@ -188,6 +188,7 @@ export const convenedcouncilParticipants = gql`
 		$filters: [FilterInput]
 		$notificationStatus: String
 		$attendanceIntention: Int
+		$comment: Boolean
 		$options: OptionsInput
 	) {
 		councilParticipantsWithNotifications(
@@ -195,6 +196,7 @@ export const convenedcouncilParticipants = gql`
 			filters: $filters
 			attendanceIntention: $attendanceIntention
 			notificationStatus: $notificationStatus
+			comment: $comment
 			options: $options
 		) {
 			list {

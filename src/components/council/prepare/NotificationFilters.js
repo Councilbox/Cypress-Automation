@@ -108,6 +108,7 @@ class NotificationFilters extends React.Component {
 
 	render() {
 		const { translate, council } = this.props;
+		const primary = getPrimary();
 
 		const intentionStates = [
 			PARTICIPANT_STATES.REMOTE,
@@ -185,6 +186,33 @@ class NotificationFilters extends React.Component {
 							this._renderIntentionIcon(intention)
 						))
 					}
+					<FilterButton
+						onClick={() => {
+							if(this.state.selectedFilter === 'comment'){
+								this.setState({
+									selectedFilter: null
+								});
+								this.props.refetch({
+									comment: null,
+								});
+							} else {
+								this.setState({
+									selectedFilter: 'comment'
+								});
+								this.props.refetch({
+									comment: true,
+								});
+							}
+						}}
+						active={this.state.selectedFilter === 'comment'}
+						tooltip={'Con comentario'}
+					>
+						<i className={"fa fa-comment"} style={{
+							width: "24px", height: "auto", color: primary, display: 'flex',
+							alignContent: 'center',
+							justifyContent: 'center'
+						 }}></i>
+					</FilterButton>
 				</GridItem>
 			</Grid>
 		);

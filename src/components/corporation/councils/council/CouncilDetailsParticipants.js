@@ -43,6 +43,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 		filters: [],
 		attendanceIntention: null,
 		notificationStatus: null,
+		comment: null,
 		intentionFilter: null
 	});
 	const [data, setData] = React.useState(null);
@@ -69,6 +70,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 				councilId: council.id,
 				notificationStatus: filters.notificationStatus,
 				attendanceIntention: filters.attendanceIntention,
+				comment: filters.comment,
 				options: filters.options,
 				filters: filters.filters
 			}

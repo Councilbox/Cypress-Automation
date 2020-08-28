@@ -59,6 +59,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 				councilId: council.id,
 				notificationStatus: filters.notificationStatus,
 				attendanceIntention: filters.attendanceIntention,
+				comment: filters.comment,
 				options: filters.options,
 				filters: filters.filters
 			}
