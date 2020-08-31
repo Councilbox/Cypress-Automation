@@ -88,6 +88,7 @@ export const councilParticipantsFilterIds = gql`
 				numParticipations
 				socialCapital
 				uuid
+				initialState
 				delegateUuid
 				delegateId
 				representative {

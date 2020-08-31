@@ -54,7 +54,7 @@ class CouncilParticipantEditor extends React.Component {
 		const representative = this.state.representative.hasRepresentative
 			? {
 					...data,
-					councilId: this.props.councilId
+					councilId: this.props.council.id
 			  }
 			: null;
 
@@ -63,7 +63,7 @@ class CouncilParticipantEditor extends React.Component {
 				variables: {
 					participant: {
 						...this.state.data,
-						councilId: this.props.councilId
+						councilId: this.props.council.id
 					},
 					representative: representative
 				}
@@ -144,7 +144,7 @@ class CouncilParticipantEditor extends React.Component {
 			const response = await this.props.client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
-					councilId: this.props.councilId,
+					councilId: this.props.council.id,
 					emailList: emailsToCheck
 				}
 			});
@@ -186,7 +186,7 @@ class CouncilParticipantEditor extends React.Component {
 					const response = await this.props.client.query({
 						query: checkUniqueCouncilEmails,
 						variables: {
-							councilId: this.props.councilId,
+							councilId: this.props.council.id,
 							emailList: [email]
 						}
 					});
@@ -242,7 +242,14 @@ class CouncilParticipantEditor extends React.Component {
 			<div>
 				<SelectRepresentative
 					open={this.state.selectRepresentative}
-					updateRepresentative={this.updateRepresentative}
+					council={this.props.council}
+					translate={translate}
+					updateRepresentative={representative => {
+						this.updateRepresentative({
+							...representative,
+							hasRepresentative: true
+						});
+					}}
 					requestClose={() => this.setState({
 						selectRepresentative: false
 					})}
