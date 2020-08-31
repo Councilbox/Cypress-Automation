@@ -22,7 +22,7 @@ const Action = ({ children, loading, onClick, disabled = false, styles }) => {
 				borderRadius: '4px',
 				border: `solid 1px ${disabled? 'grey' : getSecondary()}` ,
 				padding: "0.3em 1.3em",
-				cursor: "pointer",
+				cursor: disabled? 'auto' : "pointer",
 				marginRight: "0.5em",
 				...styles
 			}}
@@ -83,7 +83,7 @@ const RepresentativeForm = ({
 					disabled={disabled}
 				>
 					<div
-						style={{ display: "flex", alignItems: "center", overflow: "hidden", cursor: "pointer" }}
+						style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
 					>
 						<div style={{ width: "3em", color: disabled? 'grey' : getSecondary() }}>
 							<i className={'fa fa-plus'} style={{ position: "relative" }}></i>
@@ -91,11 +91,16 @@ const RepresentativeForm = ({
 							<i className={'fa fa-user'} style={{ position: "relative", left: "-5px" }}></i>
 						</div>
 						<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled? 'grey' : getSecondary() }}>
-							<span style={{ fontSize: '0.9em' }}>Seleccionar representante</span>
+						<span style={{ fontSize: '0.9em' }}>{translate.select_representative}</span>
 						</div>
 					</div>
-				</Action>			
+				</Action>	
 			</GridItem>
+			{disabled && 
+				<div style={{ width: '100%', padding: '1em' }}>
+					{translate.cant_add_representative}
+				</div>
+			}	
 			<Collapse in={state.hasRepresentative} >
 				{state.hasRepresentative && (
 					<Grid >
