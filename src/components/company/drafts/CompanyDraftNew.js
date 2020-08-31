@@ -57,7 +57,6 @@ class CompanyDraftNew extends React.Component {
 		}
 		let hasError = false;
 		var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
-		console.log(this.state.draft.title)
 		if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
 			if (this.state.draft.title) {
 				if (!(regex.test(this.state.draft.title)) || !this.state.draft.title.trim()) {

@@ -187,9 +187,6 @@ class ConvenedParticipantEditor extends React.Component {
 	render() {
 		const primary = getPrimary();
 		const participant = this.state.data;
-
-		console.log(participant);
-		console.log(this.props.participant);
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
