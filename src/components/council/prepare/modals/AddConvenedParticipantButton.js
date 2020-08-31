@@ -21,6 +21,7 @@ import withSharedProps from "../../../../HOCs/withSharedProps";
 import { isMobile } from "../../../../utils/screen";
 import { COUNCIL_TYPES } from "../../../../constants";
 import { councilIsFinished } from "../../../../utils/CBX";
+import SelectRepresentative from "../../editor/census/modals/SelectRepresentative";
 
 
 
@@ -124,7 +125,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 		if (participant.email && company.type !== 10) {
 			let emailsToCheck = [participant.email];
 
-			if (representative.email) {
+			if (representative.email && !representative.id) {
 				emailsToCheck.push(representative.email);
 			}
 
@@ -200,6 +201,20 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 				bodyStyle={{ height: '400px', width: '950px' }}
 				bodyText={
 					<Scrollbar>
+						<SelectRepresentative
+							open={state.selectRepresentative}
+							council={council}
+							translate={translate}
+							updateRepresentative={representative => {
+								updateRepresentative({
+									...representative,
+									hasRepresentative: true
+								});
+							}}
+							requestClose={() => setState({
+								selectRepresentative: false
+							})}
+						/>
 						<div style={{ marginRight: "1em" }}>
 							<div style={{
 								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
@@ -231,6 +246,9 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 									translate={translate}
 									state={representative}
 									updateState={updateRepresentative}
+									setSelectRepresentative={value => setState({
+										selectRepresentative: value
+									})}
 									errors={representativeErrors}
 									languages={languages}
 								/>
