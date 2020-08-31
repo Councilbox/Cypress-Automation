@@ -136,7 +136,7 @@ const ChangeCensusMenu = ({ showAddModal, handleCensusChange, reloadCensus, coun
 				<AddCouncilParticipantButton
 					participations={participations}
 					translate={translate}
-					councilId={council.id}
+					council={council}
 					refetch={refetch}
 				/>
 			</GridItem>
