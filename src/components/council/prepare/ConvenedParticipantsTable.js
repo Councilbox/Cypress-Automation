@@ -328,77 +328,6 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 
 }
 
-/*
-class ConvenedParticipantsTable extends React.Component {
-
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(!nextProps.data.loading){
-			const councilParticipants = nextProps.data.councilParticipantsWithNotifications;
-			const filteredParticipants = applyFilters(councilParticipants? councilParticipants.list : [], prevState.appliedFilters)
-			const offset = (prevState.appliedFilters.page - 1) * prevState.appliedFilters.limit;
-			let paginatedParticipants = filteredParticipants.slice(offset, offset + prevState.appliedFilters.limit);
-			return {
-				participants: paginatedParticipants,
-				total: filteredParticipants.length
-			}
-		}
-
-		return null;
-	}
-
-	updateFilteredParticipants = appliedFilters => {
-		const councilParticipants = this.props.data.councilParticipantsWithNotifications;
-		const filteredParticipants = applyFilters(councilParticipants? councilParticipants.list : [], appliedFilters)
-		const offset = (appliedFilters.page - 1) * appliedFilters.limit;
-		let paginatedParticipants = filteredParticipants.slice(offset, offset + appliedFilters.limit);
-		return {
-			participants: paginatedParticipants,
-			total: filteredParticipants.length
-		}
-	}
-
-	updateFilters = value => {
-		const appliedFilters =  {
-			...this.state.appliedFilters,
-			text: value.filters[0]? value.filters[0].text : '',
-			field: value.filters[0]? value.filters[0].field : '',
-			page: (value.options.offset / value.options.limit) + 1,
-			limit: value.options.limit,
-			orderBy: value.options.orderBy,
-			orderDirection: value.options.orderDirection
-		}
-
-		const filteredParticipants = this.updateFilteredParticipants(appliedFilters);
-
-		this.setState({
-			appliedFilters,
-			participants: filteredParticipants.participants,
-			total: filteredParticipants.total
-		}, () => this.resetPage());
-	}
-
-	updateNotificationFilter = value => {
-		const appliedFilters = {
-			...this.state.appliedFilters,
-			notificationStatus: value.notificationStatus,
-			page: 1
-		}
-
-		const filteredParticipants = this.updateFilteredParticipants(appliedFilters);
-
-		this.setState({
-			appliedFilters,
-			participants: filteredParticipants.participants,
-			total: filteredParticipants.total
-		}, () => this.resetPage());
-	}
-
-	
-		
-		
-	}
-}
-*/
 class HoverableRow extends React.Component {
 
 	state = {
@@ -665,92 +594,22 @@ class HoverableRow extends React.Component {
 }
 
 const formatParticipant = participant => {
-	let { representing, ...newParticipant } = participant;
+	let { ...newParticipant } = participant;
 
 	if (participant.representatives.length > 0) {
 		newParticipant = {
-			...newParticipant,
+			...participant,
 			representative: participant.representatives[0]
 		}
 	}
 
 	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
 		newParticipant = {
-			...newParticipant,
+			...participant,
 			delegate: participant.live.representative
 		}
 	}
 	return newParticipant;
-}
-
-const applyFilters = (participants, filters) => {
-
-	return applyOrder(participants.filter(item => {
-		const participant = formatParticipant(item);
-		if (filters.text) {
-			const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
-
-			if (filters.field === 'fullName') {
-				const fullName = `${participant.name} ${participant.surname || ''}`;
-				let repreName = '';
-				if (participant.representative) {
-					repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
-				}
-				if (!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
-					&& !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)) {
-					return false;
-				}
-			}
-
-			if (filters.field === 'position') {
-				if (participant.representative) {
-					if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
-						!CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
-						return false;
-					}
-				} else {
-					if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
-						return false;
-					}
-				}
-			}
-
-			if (filters.field === 'dni') {
-				if (participant.representative) {
-					if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
-						!CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
-						return false;
-					}
-				} else {
-					if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
-						return false;
-					}
-				}
-			}
-		}
-
-		if (filters.notificationStatus) {
-			if (participant.representative) {
-				if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
-					return false;
-				}
-			} else {
-				if (participant.notifications[0].reqCode !== filters.notificationStatus) {
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}), filters.orderBy, filters.orderDirection);
-}
-
-const applyOrder = (participants, orderBy, orderDirection) => {
-	return participants.sort((a, b) => {
-		let participantA = formatParticipant(a);
-		let participantB = formatParticipant(b);
-		return participantA[orderBy] > participantB[orderBy]
-	});
 }
 
 export default compose(

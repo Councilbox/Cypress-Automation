@@ -25,7 +25,7 @@ class CouncilParticipantEditor extends React.Component {
 	};
 
 	updateParticipantData(){
-		let { representative, representatives, ...participant } = extractTypeName(
+		let { representative, representatives, representing, ...participant } = extractTypeName(
 			this.props.participant
 		);
 		representative = representative
@@ -279,6 +279,7 @@ class CouncilParticipantEditor extends React.Component {
 						<RepresentativeForm
 							translate={translate}
 							state={representative}
+							disabled={!!this.props.participant.representing}
 							setSelectRepresentative={value => this.setState({
 								selectRepresentative: value
 							})}

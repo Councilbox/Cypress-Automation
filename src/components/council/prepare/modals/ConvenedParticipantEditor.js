@@ -46,6 +46,7 @@ class ConvenedParticipantEditor extends React.Component {
 
 		delete representative.live;
 		delete representative.notifications;
+		delete participant.representing;
 		delete participant.live;
 		delete participant.notifications;
 
@@ -186,6 +187,9 @@ class ConvenedParticipantEditor extends React.Component {
 	render() {
 		const primary = getPrimary();
 		const participant = this.state.data;
+
+		console.log(participant);
+		console.log(this.props.participant);
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
@@ -240,6 +244,7 @@ class ConvenedParticipantEditor extends React.Component {
 								<RepresentativeForm
 									translate={translate}
 									state={representative}
+									disabled={!!this.props.participant.representing}
 									setSelectRepresentative={value => this.setState({
 										selectRepresentative: value
 									})}
@@ -258,6 +263,7 @@ class ConvenedParticipantEditor extends React.Component {
 					<React.Fragment>
 						<BasicButton
 							text={translate.cancel}
+							color="transparent"
 							textStyle={{
 								boxShadow: "none",
 								borderRadius: '4px',

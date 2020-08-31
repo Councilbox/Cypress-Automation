@@ -12,7 +12,7 @@ import { MenuItem } from "material-ui";
 import { Collapse } from "material-ui";
 import { getSecondary } from "../../../../styles/colors";
 
-const Action = ({ children, loading, onClick, active, styles }) => {
+const Action = ({ children, loading, onClick, disabled = false, styles }) => {
 	return (
 		<div
 			style={{
@@ -20,13 +20,13 @@ const Action = ({ children, loading, onClick, active, styles }) => {
 				alignItems: 'center',
 				height: "37px",
 				borderRadius: '4px',
-				border: `solid 1px ${getSecondary()}` ,
+				border: `solid 1px ${disabled? 'grey' : getSecondary()}` ,
 				padding: "0.3em 1.3em",
 				cursor: "pointer",
 				marginRight: "0.5em",
 				...styles
 			}}
-			onClick={onClick}
+			onClick={!disabled ? onClick : () => {}}
 		>
 			{loading ? (
 				<div
@@ -53,6 +53,7 @@ const RepresentativeForm = ({
 	checkEmail,
 	errors,
 	languages,
+	disabled,
 	setSelectRepresentative
 }) => {
 	const representative = state;
@@ -60,6 +61,7 @@ const RepresentativeForm = ({
 		<Grid>
 			<GridItem xs={12} lg={12} md={12} style={{ display: 'flex' }}>
 				<Action
+					disabled={disabled}
 					style={{ display: "flex", alignItems: "center", overflow: "hidden", cursor: "pointer" }}
 					onClick={() =>
 						updateState({
@@ -67,27 +69,28 @@ const RepresentativeForm = ({
 						})
 					}
 				>
-					<div style={{ width: "3em", color: getSecondary() }}>
+					<div style={{ width: "3em", color: disabled? 'grey' : getSecondary() }}>
 						<i className={'fa fa-plus'} style={{ position: "relative" }}></i>
 						<i className={'fa fa-user-o'} style={{ position: "relative", fontSize: "20px" }}></i>
 						<i className={'fa fa-user'} style={{ position: "relative", left: "-5px" }}></i>
 					</div>
-					<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: getSecondary() }}>
+					<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled? 'grey' : getSecondary() }}>
 						<span style={{ fontSize: '0.9em' }}>{state.hasRepresentative? 'Quitar representante' : "Añadir representante" }</span>
 					</div>
 				</Action>
 				<Action
 					onClick={() => setSelectRepresentative(true)}
+					disabled={disabled}
 				>
 					<div
 						style={{ display: "flex", alignItems: "center", overflow: "hidden", cursor: "pointer" }}
 					>
-						<div style={{ width: "3em", color: getSecondary() }}>
+						<div style={{ width: "3em", color: disabled? 'grey' : getSecondary() }}>
 							<i className={'fa fa-plus'} style={{ position: "relative" }}></i>
 							<i className={'fa fa-user-o'} style={{ position: "relative", fontSize: "20px" }}></i>
 							<i className={'fa fa-user'} style={{ position: "relative", left: "-5px" }}></i>
 						</div>
-						<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: getSecondary() }}>
+						<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled? 'grey' : getSecondary() }}>
 							<span style={{ fontSize: '0.9em' }}>Seleccionar representante</span>
 						</div>
 					</div>

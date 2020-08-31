@@ -6,14 +6,12 @@ import {
 	ErrorWrapper,
 	Icon,
 	Scrollbar,
-	TabsScreen,
 	LoadingSection
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { Divider, MenuItem, Paper } from "material-ui";
 import { graphql, withApollo } from "react-apollo";
 import { bHistory } from "../../../containers/App";
-import { councilDetails } from "../../../queries";
 import { withRouter } from 'react-router-dom';
 import * as CBX from "../../../utils/CBX";
 import ReminderModal from "./modals/ReminderModal";

@@ -41,6 +41,10 @@ export const councilParticipants = gql`
 					name
 					surname
 				}
+				representing {
+					id
+					name
+				}
 				representative {
 					id
 					name
