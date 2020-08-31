@@ -13,9 +13,7 @@ import { PARTICIPANT_STATES } from '../../../../constants';
 
 const ShareholdersRequestsPage = ({ council, translate, client }) => {
     const [data, setData] = React.useState(null);
-    const [modal, setModal] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
-    const [inputSearch, setInputSearch] = React.useState(false);
     const [search, setSearch] = React.useState({ state: '0' });
     const [usersPage, setUsersPage] = React.useState(1);
     const [usersTotal, setUsersTotal] = React.useState(false);
@@ -157,7 +155,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                     {request.data.email}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {getTypeText(request.data.requestType)}
+                                    {getTypeText(request.data.requestType, translate)}
                                 </TableCell>
                                 {/* <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     
