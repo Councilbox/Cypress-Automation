@@ -12,6 +12,7 @@ import RepresentativeForm from "../../../company/census/censusEditor/Representat
 import { upsertConvenedParticipant, checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
 import { PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
+import SelectRepresentative from "../../editor/census/modals/SelectRepresentative";
 
 class ConvenedParticipantEditor extends React.Component {
 
@@ -195,6 +196,20 @@ class ConvenedParticipantEditor extends React.Component {
 				bodyStyle={{ height: '400px', width: '950px' }}
 				bodyText={
 					<Scrollbar>
+						<SelectRepresentative
+							open={this.state.selectRepresentative}
+							council={this.props.council}
+							translate={translate}
+							updateRepresentative={representative => {
+								this.updateRepresentative({
+									...representative,
+									hasRepresentative: true
+								});
+							}}
+							requestClose={() => this.setState({
+								selectRepresentative: false
+							})}
+						/>
 						<div style={{marginRight: "1em"}}>
 							<div style={{
 								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
@@ -225,6 +240,9 @@ class ConvenedParticipantEditor extends React.Component {
 								<RepresentativeForm
 									translate={translate}
 									state={representative}
+									setSelectRepresentative={value => this.setState({
+										selectRepresentative: value
+									})}
 									updateState={this.updateRepresentative}
 									errors={representativeErrors}
 									languages={languages}
