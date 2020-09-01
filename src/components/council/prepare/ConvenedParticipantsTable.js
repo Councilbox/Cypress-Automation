@@ -605,7 +605,7 @@ const formatParticipant = participant => {
 
 	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
 		newParticipant = {
-			...participant,
+			...newParticipant,
 			delegate: participant.live.representative
 		}
 	}

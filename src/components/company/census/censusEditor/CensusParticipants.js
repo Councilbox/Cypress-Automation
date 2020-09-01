@@ -465,12 +465,7 @@ class HoverableRow extends React.PureComponent {
 					<div style={{width: '6em'}}>
 
 						{this.state.showActions &&
-							!CBX.isRepresentative(
-								participant
-							) &&
-								_renderDeleteIcon(
-									participant.id
-								)
+							!CBX.isRepresentative(participant) && _renderDeleteIcon(participant.id)
 						}
 						{!!representative &&
 							<br/>
