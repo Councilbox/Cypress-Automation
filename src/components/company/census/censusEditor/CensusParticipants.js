@@ -487,7 +487,9 @@ const deleteCensusParticipant = gql`
 		deleteCensusParticipant(
 			ids: $ids
 			censusId: $censusId
-		)
+		) {
+			success
+		}
 	}
 `;
 
