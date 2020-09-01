@@ -88,8 +88,8 @@ export const updateAgenda = gql`
 `;
 
 export const sendReminder = gql`
-	mutation sendReminder($councilId: Int!) {
-		sendReminder(councilId: $councilId) {
+	mutation sendReminder($councilId: Int!, $group: String) {
+		sendReminder(councilId: $councilId, group: $group) {
 			success
 		}
 	}
@@ -114,8 +114,8 @@ export const rescheduleCouncil = gql`
 `;
 
 export const cancelCouncil = gql`
-	mutation cancelCouncil($councilId: Int!, $timezone: String) {
-		cancelCouncil(councilId: $councilId, timezone: $timezone) {
+	mutation cancelCouncil($councilId: Int!, $timezone: String, $message: String) {
+		cancelCouncil(councilId: $councilId, timezone: $timezone, message: $message) {
 			success
 		}
 	}
@@ -164,10 +164,11 @@ export const conveneWithoutNotice = gql`
 export const startCouncil = gql`
 	mutation startCouncil(
 		$councilId: Int!
-		$presidentId: Int!
-		$secretaryId: Int!
+		$presidentId: Int
+		$secretaryId: Int
 		$firstOrSecondConvene: Int
 		$qualityVoteId: Int
+		$videoOptions: VideoOptions
 	) {
 		startCouncil(
 			councilId: $councilId
@@ -175,6 +176,7 @@ export const startCouncil = gql`
 			secretaryId: $secretaryId
 			firstOrSecondConvene: $firstOrSecondConvene
 			qualityVoteId: $qualityVoteId
+			videoOptions: $videoOptions
 		) {
 			success
 			message
@@ -207,6 +209,7 @@ export const councilAttendants = gql`
 				name
 				position
 				dni
+				lastDateConnection
 				participantId
 				surname
 				state

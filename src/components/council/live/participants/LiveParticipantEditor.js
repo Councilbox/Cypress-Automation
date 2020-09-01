@@ -1,16 +1,10 @@
 import React from "react";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
-import { isLandscape } from "../../../../utils/screen";
-import { isMobile } from 'react-device-detect';
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { isLandscape, isMobile } from "../../../../utils/screen";
+import { getSecondary } from "../../../../styles/colors";
 import {
 	Typography,
-	Table,
-	TableHead,
-	TableBody,
-	TableRow,
-	TableCell
 } from "material-ui";
 import {
 	Grid,
@@ -19,90 +13,62 @@ import {
 	LoadingSection,
 	DropDownMenu,
 	ParticipantDisplay,
-	RefreshButton,
-	CloseIcon,
-	Scrollbar
+	Scrollbar,
+	TextInput
 } from "../../../../displayComponents";
 import * as CBX from "../../../../utils/CBX";
-import SignatureModal from "./modals/SignatureModal";
 import withWindowSize from '../../../../HOCs/withWindowSize';
-import ParticipantStateSelector from "./ParticipantStateSelector";
 import ParticipantStateList from "./ParticipantStateList";
 import NotificationsTable from "../../../notifications/NotificationsTable";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
 import StateIcon from "./StateIcon";
-import TypeIcon from "./TypeIcon";
 import ParticipantSelectActions from "./ParticipantSelectActions";
-import DownloadCBXDataButton from "../../prepare/DownloadCBXDataButton";
 import ResendCredentialsModal from "./modals/ResendCredentialsModal";
 import { PARTICIPANT_STATES } from "../../../../constants";
-import { useOldState } from "../../../../hooks";
+import SignatureButton from "./SignatureButton";
+import { client } from "../../../../containers/App";
+import gql from "graphql-tag";
+import RemoveDelegationButton from "./RemoveDelegationButton";
+import { useParticipantContactEdit } from "../../../../hooks";
+import { Tooltip } from "material-ui";
+import EarlyVotingModal from "./EarlyVotingModal";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
-	const [state, setState] = useOldState({
-		loadingSends: false,
-		showSignatureModal: false,
-		visib: false
-	});
-	const primary = getPrimary();
-	const secondary = getSecondary();
 	const landscape = isLandscape() || window.innerWidth > 700;
 
-	const openSignModal = () => {
-		setState({
-			showSignatureModal: true
-		});
-	}
-
-	const closeSignModal = () => {
-		setState({
-			showSignatureModal: false
-		});
-	}
-
 	const refreshEmailStates = async () => {
-		setState({
-			loadingSends: true
-		});
 		const response = await props.updateParticipantSends({
 			variables: {
-				participantId: data.liveParticipant.id
+				participantId: showStateMenu() ? data.liveParticipant.id : participant.representatives[0].id
 			}
 		});
 
 		if (response.data.updateParticipantSends.success) {
 			data.refetch();
-			setState({
-				loadingSends: false
-			});
 		}
 	};
 
-	const removeDelegatedVote = async id => {
-		const response = await props.changeParticipantState({
-			variables: {
-				participantId: id,
-				state: 0
-			}
-		});
+	let participant = { ...data.liveParticipant };
 
-		if (response) {
-			data.refetch();
+	React.useEffect(() => {
+		let interval;
+		if (participant.id) {
+			refreshEmailStates();
+			interval = setInterval(refreshEmailStates, 15000);
 		}
+		return () => clearInterval(interval);
+	}, [participant.id]);
+
+
+	const showStateMenu = () => {
+		return !(participant.representatives && participant.representatives.length > 0);
 	}
 
-	const handleToggleVisib = () => {
-		const visib = !state.visib;
-		setState({
-			visib
-		});
-	}
 
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
 	}
 
-	let participant = { ...data.liveParticipant };
 
 	participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 	participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
@@ -123,444 +89,387 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 			}}
 		>
 			<Scrollbar>
-				<div>
-					<Grid >
-						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
-							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", marginBottom: "0.8em" }}>
-								<h4 style={{ width: '100%' }}>Info</h4>{/**TRADUCCION */}
-							</div>
-							<div style={{ display: "flex", padding: "5px" }} >
-								<GridItem xs={landscape ? 2 : 12} md={2} style={{ textAlign: "center" }}>
-									<TypeIcon
-										translate={translate}
-										type={participant.type}
-										ratio={1.3}
-									/>
-								</GridItem>
-								<GridItem xs={landscape ? 3 : 12} md={10} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'left' } : {}) }}>
-									<div style={{ marginLeft: isMobile ? "1em" : "2em", width: "100%", overflow: "hidden" }}>
-										<Typography variant="body2" >
-											<div style={{ paddingLeft: '1em' }}>
-											</div>
-											<div >
-												<ParticipantDisplay
-													participant={participant}
-													translate={translate}
-													refetch={data.refetch}
-													council={props.council}
-												/>
-											</div>
-										</Typography>
+				<div style={{ height: '100%', display: 'flex', alignItems: 'center', }}>
+					<div style={{ width: "100%", padding: "0.5em", height: "100%", }}>
+						<Grid style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: CBX.hasHisVoteDelegated(participant) ? "" : 'solid 1px #61abb7', borderRadius: '4px', padding: "1em" }}>
+							<GridItem xs={12} md={4} lg={4}>
+								<Typography variant="body2" >
+									<div style={{ paddingLeft: '1em' }}>
 									</div>
-								</GridItem>
-							</div>
-						</GridItem>
-						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
-							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", marginBottom: "0.8em" }}>
-								{participant.personOrEntity !== 1 &&
-									<h4 style={{ width: '100%' }}>{translate.state}</h4>
-								}
-							</div>
-							<div style={{ display: "flex", padding: "5px" }} >
-								{participant.personOrEntity !== 1 &&
-									<React.Fragment>
-										<GridItem xs={landscape ? 1 : 12} md={3}>
-											<div >
-												<DropDownMenu
-													claseHover={"classHover"}
-													color="transparent"
-													id={'dropdownEstados'}
-													style={{ paddingLeft: '0px', paddingRight: '0px' }}
-													icon={
-														<StateIcon
-															translate={translate}
-															state={participant.state}
-															ratio={1.3}
-														/>
-													}
-													items={
-														<React.Fragment>
-															<ParticipantStateList
-																participant={participant}
-																council={props.council}
-																translate={translate}
-																refetch={props.refetch}
-																inDropDown={true}
-															/>
-														</React.Fragment>
-													}
-													anchorOrigin={{
-														vertical: 'bottom',
-														horizontal: 'left',
-													}}
-												/>
-											</div>
-											<div
-												style={{
-
-													marginTop: "1em"
-												}}
-											>
-											</div>
-											<div
-												style={{
-													marginLeft: isMobile ? '0' : "0",
-													marginTop: "0.5em"
-												}}
-											>
-											</div>
-										</GridItem>
-										<GridItem xs={landscape ? 3 : 12} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
-											<div style={{ marginLeft: '1.3em', width: "100%" }}>
-												<Typography variant="body2" >
-													<div style={{ paddingLeft: landscape ? '1em' : "0", marginBottom: "0.5em" }}>
-														<b>{`${translate.current_status}:  `}</b>
-														{translate[CBX.getParticipantStateField(participant)]}
-													</div>
-													<div style={{ paddingLeft: '1em', display: isMobile ? "none" : "block" }}>
-														<ParticipantStateSelector
-															inDropDown={true}
-															participant={participant}
-															council={props.council}
-															translate={translate}
-															refetch={data.refetch}
-														/>
-													</div>
-												</Typography>
-
-											</div>
-										</GridItem>
-									</React.Fragment>
-								}
-							</div>
-						</GridItem>
-						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
-							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", marginBottom: "0.8em" }}>
-								<h4 style={{ width: '100%' }}>{translate.actions}</h4>
-							</div>
-							<div style={{ display: "flex", padding: "5px" }} >
-								<GridItem xs={landscape ? 3 : 12} md={11} style={{ marginLeft: isMobile ? "0" : "25px" }}>
-									<React.Fragment>
-										<ParticipantSelectActions
+									<div >
+										<ParticipantDisplay
 											participant={participant}
-											council={props.council}
 											translate={translate}
+											canEdit={!CBX.hasHisVoteDelegated(participant) && !CBX.isRepresented(participant)}
+											council={props.council}
 											refetch={data.refetch}
 										/>
-									</React.Fragment>
-								</GridItem>
-							</div>
-						</GridItem>
-					</Grid>
-				</div>
-				<hr
-					style={{
-						width: "100%"
-					}}>
-				</hr>
-				<div
-					style={{
-						minHeight: 0,
-						paddingRight: "0.5em"
-					}}
-				>
-					<Grid>
-						{(CBX.isRepresented(participant) ||
-							CBX.hasHisVoteDelegated(participant)) && (
-								<GridItem xs={12} lg={12} md={12}>
-									{CBX.isRepresented(participant) && (
-										<Typography variant="subheading">
-											{translate.represented_by}
-										</Typography>
-									)}
-									{CBX.hasHisVoteDelegated(participant) && (
-										<Typography variant="subheading">
-											{translate.voting_delegate}
-										</Typography>
-									)}
-									{participant.representative && (
-										<ParticipantTable
-											representative={true}
-											translate={translate}
-											participants={[participant.representative]}
-										/>
-									)}
-								</GridItem>
-							)}
-
-						{participant.representing && (
-							<React.Fragment>
-								<GridItem xs={12} lg={12} md={12} style={{ marginBottom: '1em' }}>
-									<Typography variant="subheading">
-										{'Representando a'}
-									</Typography>
-									<ParticipantTable
-										translate={translate}
-										participants={[participant.representing]}
-										enableActions
-										quitDelegatedVote={removeDelegatedVote}
-										primary={primary}
-									/>
-								</GridItem>
-							</React.Fragment>
-						)}
-						{participant.delegatedVotes.length > 0 && (
-							<React.Fragment>
-								<GridItem xs={12} lg={12} md={12}>
-									<Typography variant="subheading">
-										{translate.delegated_votes}
-									</Typography>
-									<ParticipantTable
-										translate={translate}
-										participants={participant.delegatedVotes}
-										enableActions
-										quitDelegatedVote={removeDelegatedVote}
-										primary={primary}
-									/>
-								</GridItem>
-							</React.Fragment>
-						)}
-
-						{!!participant.assistanceComment &&
-							<GridItem xs={12} md={12} lg={12}>
-								<Typography
-									variant="subheading"
-									style={{
-										marginRight: "1em"
-									}}
-								>
-									{translate.assistance_comment}
+									</div>
 								</Typography>
-								<div dangerouslySetInnerHTML={{ __html: participant.assistanceComment }} />
 							</GridItem>
-						}
-						<React.Fragment>
-							<GridItem
-								xs={12}
-								lg={12}
-								md={12}
-								style={{
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center",
-									margin: "0"
-								}}
-							>
-								<Grid>
-									{!isMobile &&
-										<GridItem xs={12} md={3} lg={2}
-											style={{
-												display: "flex"
-											}}
-										>
-											<Typography
-												variant="subheading"
-												style={{
-													marginRight: "1em"
-												}}
-											>
-												{translate.sends}
-											</Typography>
-											<RefreshButton
-												tooltip={translate.refresh_emails}
-												loading={state.loadingSends}
-												onClick={refreshEmailStates}
+							<GridItem xs={12} md={8} lg={8}>
+								{participant.personOrEntity !== 1 &&
+									<div style={{ display: "flex", alignItems: "center" }}>
+										{showStateMenu() &&
+											<ParticipantStateList
+												participant={participant}
+												council={props.council}
+												translate={translate}
+												refetch={props.refetch}
+												inDropDown={true}
 											/>
-										</GridItem>
-									}
-									<GridItem xs={12} md={9} lg={10}
-										style={{
-											display: "flex",
-											justifyContent: 'flex-end',
-											marginLeft: "auto"
-										}}
-									>
-										{CBX.showSendCredentials(participant.state) &&
-											<div>
+										}
+										<div style={{ paddingLeft: landscape ? '1em' : "0", marginBottom: "0.5em" }}>
+											<b>{`${translate.current_status}:  `}</b>
+											{translate[CBX.getParticipantStateField(participant)]}
+										</div>
+									</div>
+								}
+								<div style={{}}>
+									<ParticipantSelectActions
+										participant={participant}
+										council={props.council}
+										translate={translate}
+										refetch={data.refetch}
+									/>
+								</div>
+								{props.council.councilType !== 4 &&
+									<EarlyVotingModal
+										council={props.council}
+										participant={participant}
+										translate={translate}
+									/>
+								}
+								<Grid style={{ marginTop: "1em", display: "flex" }}>
+									{(CBX.showSendCredentials(participant.state) && props.council.councilType !== 4) &&
+										<GridItem xs={12} md={7} lg={5} style={{}}>
+											<div style={{}}>
 												<ResendCredentialsModal
 													participant={participant}
 													council={props.council}
 													translate={translate}
-													security={props.council.securityType > 0}
+													security={CBX.hasAccessKey(props.council)}
 													refetch={data.refetch}
 												/>
 											</div>
-										}
+										</GridItem>
+									}
+									<GridItem xs={12} md={5} lg={5}>
 										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 											<div>
-												<BasicButton
-													text={participant.signed ? translate.user_signed : translate.to_sign}
-													fullWidth
-													buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
-													type="flat"
-													color={"white"}
-													onClick={openSignModal}
-													textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+												<SignatureButton
+													participant={participant}
+													council={props.council}
+													refetch={data.refetch}
+													translate={translate}
 												/>
 											</div>
 										}
-										{state.showSignatureModal &&
-											<SignatureModal
-												show={state.showSignatureModal}
-												council={props.council}
-												participant={participant}
-												refetch={data.refetch}
-												requestClose={closeSignModal}
-												translate={translate}
-											/>
-										}
-
-										{!isMobile &&
-											<DownloadCBXDataButton
-												style={{ width: "5.85em", marginLeft: "0px", height: "2.45em" }}
-												translate={translate}
-												participantId={participant.id}
-											/>
-										}
 									</GridItem>
-									{isMobile &&
-										<GridItem xs={12} md={3} lg={2}
-											style={{
-												display: "flex"
-											}}
-										>
-											<Typography
-												variant="subheading"
-												style={{
-													marginRight: "1em"
-												}}
-											>
-												{translate.sends}
-											</Typography>
-											<RefreshButton
-												tooltip={translate.refresh_emails}
-												loading={state.loadingSends}
-												onClick={refreshEmailStates}
-											/>
-										</GridItem>
-									}
 								</Grid>
 							</GridItem>
-							{participant.notifications.length > 0 ? (
-								<GridItem xs={12} lg={12} md={12}>
-									<NotificationsTable
-										liveMobil={isMobile}
-										notifications={participant.notifications}
+						</Grid>
+						{/* Representado */}
+						{CBX.isRepresented(participant) ?
+							<ParticipantBlock
+								{...props}
+								participant={participant.representative}
+								translate={translate}
+								active={true}
+								data={data}
+								type={PARTICIPANT_STATES.REPRESENTATED}
+							/>
+							:
+							(participant.representatives && participant.representatives.length > 0) &&
+							<ParticipantBlock
+								{...props}
+								participant={participant.representatives[0]}
+								translate={translate}
+								active={false}
+								action={
+									<GrantVoteButton
+										participant={participant}
+										refetch={data.refetch}
+										representative={participant.representatives[0]}
 										translate={translate}
-										handleToggleVisib={handleToggleVisib}
-										visib={state.visib}
 									/>
-								</GridItem>
-							) : (
-									<GridItem xs={12} md={12} lg={12}>
-										{translate.no_files_sent}
-									</GridItem>
-								)
-							}
-						</React.Fragment>
-					</Grid>
+								}
+								data={data}
+								type={PARTICIPANT_STATES.REPRESENTATED}
+							/>
+						}
+
+						{(participant.representatives && participant.representatives.length > 0 && participant.representatives[0].delegatedVotes) &&
+							participant.representatives[0].delegatedVotes.map(delegatedVote => (
+								<ParticipantBlock
+									{...props}
+									active={false}
+									participant={delegatedVote}
+									translate={translate}
+									action={
+										<RemoveDelegationButton
+											delegatedVote={delegatedVote}
+											participant={participant.representatives[0]? participant.representatives[0] : participant}
+											translate={translate}
+											refetch={data.refetch}
+										/>
+									}
+									data={data}
+									type={3}
+								/>
+							))
+						}
+
+						{(participant.delegatedVotes && participant.delegatedVotes.length > 0) &&
+							participant.delegatedVotes.map(delegatedVote => (
+								<ParticipantBlock
+									{...props}
+									active={false}
+									participant={delegatedVote}
+									translate={translate}
+									action={
+										<RemoveDelegationButton
+											delegatedVote={delegatedVote}
+											participant={participant}
+											translate={translate}
+											refetch={data.refetch}
+										/>
+									}
+									data={data}
+									type={3}
+								/>
+							))
+						}
+
+						{CBX.hasHisVoteDelegated(participant) &&
+							<ParticipantBlock
+								{...props}
+								active={false}
+								participant={participant.representative}
+								translate={translate}
+								data={data}
+								type={PARTICIPANT_STATES.DELEGATED}
+							/>
+						}
+						<NotificationsTable
+							liveMobil={isMobile}
+							notifications={(participant.representatives && participant.representatives.length > 0) ? participant.representatives[0].notifications : participant.notifications}
+							translate={translate}
+						/>
+					</div>
 				</div>
 			</Scrollbar>
 		</div>
 	);
 }
 
+const ParticipantBlock = withApollo(({ children, translate, type, client, data, action, active, participant, ...props }) => {
+	const {
+		edit,
+		setEdit,
+		saving,
+		success,
+		email,
+		setEmail,
+		phone,
+		setPhone,
+		errors,
+		updateParticipantContactInfo
+	} = useParticipantContactEdit({ participant, client, translate, council: props.council });
 
-const ParticipantTable = ({
-	participants,
-	representative,
-	translate,
-	enableActions,
-	quitDelegatedVote,
-	primary
-}) => (
-		<Table style={{ maxWidth: "100%", width: "100%" }}>
-			<TableHead>
-				<TableRow>
-					<TableCell style={{ padding: "0.2em" }}>
-						{translate.name}
-					</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>
-						{translate.dni}
-					</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>
-						{translate.position}
-					</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>
-						{!representative && translate.votes}
-					</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>
-					</TableCell>
-				</TableRow>
-			</TableHead>
-			<TableBody style={{ height: "100px", overflowY: 'auto', overflowX: 'hidden' }}>
-				{participants.map((participant, index) => (
-					<HoverableRow
-						key={`del_${index}`}
-						primary={primary}
-						participant={participant}
-						enableActions={enableActions}
-						representative={representative}
-						quitDelegatedVote={quitDelegatedVote}
-					/>
-				))}
-			</TableBody>
-		</Table>
-	);
+	const secondary = getSecondary();
 
-class HoverableRow extends React.PureComponent {
-	state = {
-		showActions: false
-	};
-
-	mouseEnterHandler = () => {
-		this.setState({ showActions: true });
-	};
-
-	mouseLeaveHandler = () => {
-		this.setState({ showActions: false });
-	};
-
-	render() {
-		const {
-			primary,
-			participant,
-			quitDelegatedVote,
-			enableActions
-		} = this.props;
-		const { showActions } = this.state;
-
-		return (
-			<TableRow
-				onMouseOver={this.mouseEnterHandler}
-				onMouseLeave={this.mouseLeaveHandler}>
-				<TableCell style={{ padding: "0.2em" }}>
-					{`${participant.name} ${participant.surname}`}
-				</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>{`${
-					participant.dni
-					}`}</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>{`${
-					participant.position
-					}`}</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>{!this.props.representative && participant.numParticipations}</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>
-					<div style={{ width: '4em' }}>
-						{showActions &&
-							enableActions && (
-								<CloseIcon
-									style={{ color: primary }}
-									onClick={event => {
-										quitDelegatedVote(participant.id);
-										event.stopPropagation();
-									}}
-								/>
-							)}
-					</div>
-				</TableCell>
-			</TableRow>
-		);
+	const texts = {
+		[PARTICIPANT_STATES.DELEGATED]: translate.delegated_in,
+		[PARTICIPANT_STATES.REPRESENTATED]: translate.represented_by,
+		3: translate.delegated_vote_from.capitalize()
 	}
+
+	const text = texts[type]
+	
+	return (
+		<Grid style={{ marginBottom: "1em", display: "flex", alignItems: "center", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: 'solid 1px #61abb7', borderRadius: '4px', padding: "1em", marginTop: "1em", justifyContent: "space-between" }}>
+			<GridItem xs={12} md={4} lg={3}>
+				<div style={{ display: "flex" }}>
+					<div style={{ color: secondary, position: "relative", width: "1.5em" }}>
+						<i
+							className={type === PARTICIPANT_STATES.REPRESENTATED ? "fa fa-user-o" : 'fa fa-user'}
+							style={{ position: "absolute", left: "0", top: "0", fontSize: "19px" }}
+						/>
+						<i
+							className={"fa fa-user"}
+							style={{ position: "absolute", right: "4px", bottom: "4px" }}
+						/>
+					</div>
+					<div style={{
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis'
+					}}>
+						{`${text}:`}
+						<b>{`${participant.name} ${participant.surname || ''}`}</b>
+						{type === PARTICIPANT_STATES.REPRESENTATED &&
+							<Tooltip title={translate.edit_participant_contact}>
+								<i
+									onClick={() => setEdit(!edit)}
+									className="fa fa-pencil-square-o"
+									aria-hidden="true"
+									style={{
+										color: secondary,
+										fontSize: "0.8em",
+										cursor: 'pointer',
+										marginLeft: "0.3em"
+									}}>
+								</i>
+							</Tooltip>
+							
+						}
+					</div>
+				</div>
+				{edit &&
+					<>
+						<TextInput
+							floatingText={translate.email}
+							type="text"
+							required
+							value={email}
+							errorText={errors.email}
+							onChange={event =>
+								setEmail(event.target.value)
+							}
+						/>
+						{props.council.securityType === 2 &&
+							<TextInput
+								type="text"
+								floatingText={translate.phone}
+								required
+								value={phone}
+								errorText={errors.phone}
+								onChange={event =>
+									setPhone(event.target.value)
+								}
+							/>
+						}
+						<BasicButton
+							text={translate.save}
+							color={secondary}
+							loading={saving}
+							success={success}
+							textStyle={{
+								color: 'white'
+							}}
+							onClick={updateParticipantContactInfo}
+							buttonStyle={{
+								marginTop: '0.6em'
+							}}
+						/>
+					</>
+				}
+			</GridItem>
+			{active &&
+				<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
+					<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
+						<div>
+							<ParticipantStateList
+								participant={participant}
+								council={props.council}
+								translate={translate}
+								refetch={props.refetch}
+								inDropDown={true}
+							/>
+						</div>
+						<div style={{
+							width: "100%",
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis'
+						}}>
+							{translate[CBX.getParticipantStateField(participant)]}
+						</div>
+					</div>
+				</GridItem>
+			}
+			<GridItem xs={12} md={5} lg={6}>
+				<Grid style={{}}>
+					{(active && props.council.councilType !== 4) &&
+						<GridItem xs={12} md={9} lg={6} style={{}}>
+							<div style={{ marginRight: "1em", borderRadius: "4px", }}>
+								<ResendCredentialsModal
+									participant={participant}
+									council={props.council}
+									translate={translate}
+									security={CBX.hasAccessKey(props.council)}
+									refetch={data.refetch}
+								/>
+							</div>
+						</GridItem>
+					}
+					<GridItem xs={12} md={5} lg={5}>
+						{action ||
+							<div>
+								{(active && props.council.councilType < 2) &&
+									<SignatureButton
+										participant={participant}
+										council={props.council}
+										refetch={data.refetch}
+										translate={translate}
+									/>
+								}
+							</div>
+						}
+					</GridItem>
+					<GridItem xs={12} md={9} lg={6} style={{ display: 'flex' }}>
+						{active &&
+							<ParticipantSelectActions
+								participant={participant}
+								council={props.council}
+								translate={translate}
+								refetch={data.refetch}
+								onlyButtonDelegateVote={true}
+							/>
+						}
+					</GridItem>
+				</Grid>
+			</GridItem>
+		</Grid>
+	)
+})
+
+const setMainRepresentative = gql`
+	mutation setMainRepresentative($participantId: Int!, $representativeId: Int!){
+		setMainRepresentative(participantId: $participantId, representativeId: $representativeId){
+		success
+	}
+}`;
+
+
+const GrantVoteButton = ({ participant, representative, refetch, translate }) => {
+	const secondary = getSecondary();
+
+	const appointRepresentative = async () => {
+		const response = await client.mutate({
+			mutation: setMainRepresentative,
+			variables: {
+				participantId: participant.id,
+				representativeId: representative.id
+			}
+		});
+
+		if (response.data) {
+			refetch();
+		}
+	}
+
+	return (
+		<BasicButton
+			text={translate.grant_vote}
+			type="flat"
+			color="white"
+			textStyle={{ color: secondary }}
+			onClick={appointRepresentative}
+			buttonStyle={{ border: `1px solid ${secondary}` }}
+		/>
+	)
 }
 
 export default compose(

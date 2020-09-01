@@ -8,19 +8,59 @@ import AgendaManager from "./AgendaManager";
 import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
-import { showVideo, councilHasSession } from "../../../utils/CBX";
+import { showVideo, councilHasSession, showNumParticipations, formatInt } from "../../../utils/CBX";
 import { Tooltip, Badge, Tabs, Tab } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
 import { useOldState } from "../../../hooks";
-import { isMobile } from "react-device-detect";
-const calcMinWidth = () => window.innerWidth * 0.33 > 450 ? 33 : 100 / (window.innerWidth / 450);
-const calcMinHeight = () => window.innerHeight * 0.42 > 300 ? "42vh" : '300px';
+import { isMobile } from '../../../utils/screen';
+import QuorumDisplay from "./quorum/QuorumDisplay";
+const calcMinWidth = () => window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450);
+const calcMinHeight = () => "42vh";
 
 let minVideoWidth = calcMinWidth();
 let minVideoHeight = calcMinHeight();
+
+const initScreenSizes = size => {
+	const sizes = {
+		'MIN': () => {
+			localStorage.setItem('screenSize', 'MIN');
+			return ({
+				videoWidth: minVideoWidth,
+				videoHeight: minVideoHeight,
+				fullScreen: false,
+				participants: false,
+				screenSize: 'MIN'
+			})
+		},
+		'MED': () => {
+			localStorage.setItem('screenSize', 'MED');
+			return {
+				videoWidth: minVideoWidth * 1.40,
+				videoHeight: '56vh',
+				fullScreen: false,
+				participants: false,
+				screenSize: 'MED'
+			}
+		},
+		'MAX': () => {
+			localStorage.setItem('screenSize', 'MAX');
+			return {
+				fullScreen: true,
+				videoWidth: 94,
+				videoHeight: '100%',
+				participants: false,
+				screenSize: 'MAX'
+			}
+		}
+	}
+
+	return sizes[size] ? sizes[size]() : sizes['MIN']();
+}
+
+
 
 const CouncilLivePage = ({ translate, data, ...props }) => {
 	const [state, setState] = useOldState({
@@ -29,11 +69,8 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 		unreadComments: 0,
 		videoURL: '',
 		wallTooltip: false,
-		videoWidth: minVideoWidth,
-		videoHeight: minVideoHeight,
-		fullScreen: false
+		...initScreenSizes(localStorage.getItem('screenSize') || 'MIN')
 	});
-
 	const agendaManager = React.useRef(null);
 	const company = props.companies.list[props.companies.selected];
 
@@ -55,7 +92,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 	const updateMinSizes = React.useCallback(() => {
 		minVideoWidth = calcMinWidth();
 		minVideoHeight = calcMinHeight();
-		if (!state.fullScreen) {
+		if (!state.screenSize === 'MIN') {
 			setState({
 				videoWidth: minVideoWidth,
 				videoHeight: minVideoHeight,
@@ -110,22 +147,18 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 	}
 
 	const toggleFullScreen = () => {
-		if (state.fullScreen) {
-			setState({
-				videoWidth: minVideoWidth,
-				videoHeight: minVideoHeight,
-				fullScreen: false,
-				participants: false
-			});
-		} else {
-			setState({
-				videoWidth: 94,
-				videoHeight: "100%",
-				fullScreen: true
-			});
+		if (state.screenSize === 'MIN') {
+			setState(initScreenSizes('MED'));
+		}
+
+		if (state.screenSize === 'MED') {
+			setState(initScreenSizes('MAX'));
+		}
+
+		if (state.screenSize === 'MAX') {
+			setState(initScreenSizes('MIN'));
 		}
 	};
-
 	const { council } = data;
 
 	const councilStartedState = () => {
@@ -136,6 +169,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 	if (!checkLoadingComplete()) {
 		return <LoadingMainApp />;
 	}
+
 
 	return (
 		<div
@@ -152,9 +186,12 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 				logo={!!company && company.logo}
 				companyName={!!company && company.businessName}
 				councilName={council.name}
+				council={council}
 				translate={translate}
 				participants={state.participants}
 				toggleScreens={toggleScreens}
+				recount={data.councilRecount}
+				refetch={data.refetch}
 			/>
 
 			<div
@@ -262,7 +299,8 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									council={council}
 									videoURL={state.videoURL}
 									translate={translate}
-									videoFullScreen={state.fullScreen}
+									videoHeight={state.videoHeight}
+									screenSize={state.screenSize}
 									toggleFullScreen={toggleFullScreen}
 								/>
 							</div>
@@ -301,11 +339,11 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 											cursor: "pointer",
 											position: "absolute",
 											right: "5%",
-											top: "20px",
+											top: "16px",
 											backgroundColor:
 												"rgba(0, 0, 0, 0.5)",
-											width: "2.5em",
-											height: "2.5em",
+											width: "2.9em",
+											height: "2.9em",
 											display: "flex",
 											alignItems: "center",
 											justifyContent: "center"
@@ -327,7 +365,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 						{!state.fullScreen && (
 							<div
 								style={{
-									height: `calc(100% - ${minVideoHeight})`,
+									height: `calc(100% - ${state.videoHeight})`,
 									width: "100%",
 									overflow: "hidden",
 									backgroundColor: darkGrey
@@ -337,6 +375,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									councilId={props.councilID}
 									council={council}
 									videoURL={state.videoURL}
+									videoHeight={state.videoHeight}
 									translate={translate}
 									videoFullScreen={state.fullScreen}
 									toggleFullScreen={toggleFullScreen}
@@ -385,9 +424,9 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 						:
 						<React.Fragment>
 							{!state.fullScreen &&
-								<Tabs value={state.participants? 0 : 1}>
+								<Tabs value={state.participants ? 0 : 1}>
 									<Tab label={translate.participants} onClick={() => toggleScreens(true)} />
-									<Tab label={translate.agenda} onClick={() => toggleScreens(false)} id={'ordenDelDiaParticipantesButton'}/>
+									<Tab label={translate.agenda} onClick={() => toggleScreens(false)} id={'ordenDelDiaParticipantesButton'} />
 									<div style={{
 										width: '100%',
 										display: 'flex',
@@ -395,25 +434,18 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 										alignItems: 'center',
 										paddingRight: '1em'
 									}}>
-										{council.quorumPrototype === 0?
-											<b>{`${translate.current_quorum}: ${data.councilRecount.partRightVoting} (${((data.councilRecount.partRightVoting / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1)) * 100).toFixed(3)}%)${
-												(councilStartedState() && council.councilStarted === 1 && councilHasSession(council))?
-													` / ${translate.initial_quorum}: ${
-														council.initialQuorum? council.initialQuorum : council.currentQuorum
-													} (${((data.council.initialQuorum / (data.councilRecount.partTotal? data.councilRecount.partTotal : 1) * 100).toFixed(3))}%)`
-												:
-													''
-											}`}</b>
-										:
-											<b>{`${translate.current_quorum}: ${data.councilRecount.socialCapitalRightVoting} (${((data.councilRecount.socialCapitalRightVoting / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
-												(councilStartedState() && council.councilStarted === 1 && councilHasSession(council))?
-													` / ${translate.initial_quorum}: ${
-														council.initialQuorum? council.initialQuorum : council.currentQuorum
-													} (${((council.initialQuorum / (data.councilRecount.socialCapitalTotal? data.councilRecount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
-												:
-													''
-											}`}</b>
+										{data.councilRecount &&
+											<>
+												<QuorumDisplay
+													company={company}
+													recount={data.councilRecount}
+													council={council}
+													translate={translate}
+												/>
+											</>
+
 										}
+
 									</div>
 								</Tabs>
 							}

@@ -8,16 +8,15 @@ import { Icon, AlertConfirm } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { IconButton, Tooltip, Card, Drawer, withStyles } from "material-ui";
-import { councilIsFinished } from '../../utils/CBX';
-import { isMobile } from "react-device-detect";
+import { councilIsFinished, showNumParticipations } from '../../utils/CBX';
 import Convene from "../council/convene/Convene";
 import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { PARTICIPANT_STATES } from "../../constants";
 import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
-import gorro from "../../assets/img/navidadGorro.png";
 import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
+import { isMobile } from "../../utils/screen";
 
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props }) => {
@@ -27,6 +26,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		showParticipantInfo: false,
 		drawerTop: false
 	});
+	const [exitModal, setExitModal] = React.useState(false);
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const customLogo = getCustomLogo();
@@ -39,6 +39,19 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 	}, [council]);
 
 	const logout = () => {
+		props.actions.logoutParticipant(participant, council);
+	}
+
+	const leaveRoom = async () => {
+		await props.client.mutate({
+			mutation: gql`
+				mutation LeaveRoom {
+					participantLeaveRoom{
+						success
+					}
+				}
+			`
+		});
 		props.actions.logoutParticipant(participant, council);
 	}
 
@@ -70,21 +83,19 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 
 
 	const calculateParticipantVotes = () => {
-		return participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations);
+		return showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company);
 	}
 
 	const _renderParticipantInfo = () => {
 		const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
 		const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 
-		console.log(participant);
-
 		//TRADUCCION
 		return (
 			<div>
 				<Card style={{ padding: "20px" }}>
 					<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
+						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname || ''}`}
 					</div>
 					<div style={{ marginBottom: '1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
@@ -103,7 +114,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}
 					{delegations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company)}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
@@ -111,11 +122,11 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					)
 					)}
 					{representations.length > 0 &&
-						'Está representando a:'
+						translate.representative_of
 					}
 					{representations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company)}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
@@ -149,7 +160,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					flexDirection: "row",
 					height: "100%",
 					width: windowSize === "xs" ? '5em' : '15em',
-					alignItems: "center"
+					alignItems: "center",
 				}}
 			>
 				<div style={{ position: "relative" }}>
@@ -165,19 +176,6 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						alt="logo"
 					>
 					</img>
-					<img
-						src={gorro}
-						style={{
-							height: "1.5em",
-							position: 'absolute',
-							top: '-7px',
-							right: '-8px',
-							// top: '2px',
-							// right: '10%',
-							transform: 'rotate(17deg)',
-						}}
-						alt="logo"
-					/>
 				</div>
 			</div>
 			{(council && council.autoClose !== 1) &&
@@ -256,24 +254,35 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						</Tooltip>
 					}
 					{(council && logoutButton) && (
-						<IconButton
-							style={{
-								marginRight: "0.5em",
-								outline: "0"
-							}}
-							aria-label="help"
-							onClick={logout}
-						>
-							<Icon
-								className="material-icons"
+						<>
+							<AlertConfirm
+								bodyText={translate.participant_leave_room_warning}
+								title={translate.warning}
+								acceptAction={leaveRoom}
+								open={exitModal}
+								requestClose={() => setExitModal(false)}
+								buttonCancel={translate.cancel}
+								buttonAccept={translate.exit}
+							/>
+							<IconButton
 								style={{
-									color: primaryColor ? primary : 'white',
-									fontSize: "0.9em"
+									marginRight: "0.5em",
+									outline: "0"
 								}}
+								aria-label="help"
+								onClick={() => setExitModal(true)}
 							>
-								exit_to_app
-							</Icon>
-						</IconButton>
+								<Icon
+									className="material-icons"
+									style={{
+										color: primaryColor ? primary : 'white',
+										fontSize: "0.9em"
+									}}
+								>
+									exit_to_app
+								</Icon>
+							</IconButton>
+						</>
 					)
 					}
 				</div>

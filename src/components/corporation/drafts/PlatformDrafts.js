@@ -4,60 +4,57 @@ import {
 	BasicButton,
 	ButtonIcon,
 	CardPageLayout,
-	Checkbox,
-	Grid,
 	LoadingSection,
-	GridItem,
 	EnhancedTable,
 	ErrorWrapper,
-	TextInput
+	TextInput,
+	CloseIcon
 } from "../../../displayComponents";
-import { Card, Icon } from 'material-ui';
-import { isMobile } from 'react-device-detect';
+import { Icon, IconButton } from 'material-ui';
 import { compose, graphql, withApollo } from "react-apollo";
 import { cloneDrafts, platformDrafts as query } from "../../../queries";
-import { TableCell, TableRow } from "material-ui/Table";
-import FontAwesome from "react-fontawesome";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary } from "../../../styles/colors";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { withRouter } from "react-router-dom";
 import PlatformDraftDetails from "./PlatformDraftDetails";
 import DraftDetailsModal from './DraftDetailsModal';
 import { DRAFTS_LIMITS } from "../../../constants";
-import TableStyles from "../../../styles/table";
 import { useOldState } from "../../../hooks";
 import { useTags, DraftRow } from "../../company/drafts/CompanyDraftList";
 import { DropdownEtiquetas } from "../../company/drafts/LoadDraft";
 import gql from "graphql-tag";
+import { withStyles } from "material-ui";
+import { isMobile } from "../../../utils/screen";
+import { bHistory } from "../../../containers/App";
 
 export const statute_types = [
 	{
-        prototype: 1,
-        title: 'ordinary_general_assembly',
-    }, {
-        prototype: 2,
-        title: 'special_general_assembly'
-    }, {
-        prototype: 3,
-        title: 'board_of_directors',
-    },
-    {
-        prototype: 10,
-        title: 'ordinary_general_assembly_association',
-    }, {
-        prototype: 11,
-        title: 'special_general_assembly_association',
-    }, {
-        prototype: 12,
-        title: 'council_of_directors_association',
-    }, {
-        prototype: 13,
-        title: 'executive_committee',
-    }];
+		prototype: 1,
+		title: 'ordinary_general_assembly',
+	}, {
+		prototype: 2,
+		title: 'special_general_assembly'
+	}, {
+		prototype: 3,
+		title: 'board_of_directors',
+	},
+	{
+		prototype: 10,
+		title: 'ordinary_general_assembly_association',
+	}, {
+		prototype: 11,
+		title: 'special_general_assembly_association',
+	}, {
+		prototype: 12,
+		title: 'council_of_directors_association',
+	}, {
+		prototype: 13,
+		title: 'executive_committee',
+	}];
 
 
 
-const PlatformDrafts = ({ client, company, translate, ...props }) => {
+const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 	const [state, setState] = useOldState({
 		selectedIndex: -1,
 		selectedValues: [],
@@ -66,6 +63,7 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 	const [data, setData] = React.useState(null);
 	const { testTags, vars, setVars, removeTag, addTag, filteredTags, tagText, setTagText, } = useTags(translate);
 	const [search, setSearch] = React.useState('');
+	const [inputSearch, setInputSearch] = React.useState(false);
 
 	const getData = async variables => {
 		const response = await client.query({
@@ -121,6 +119,7 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 			}
 		`,
 		});
+
 		setVars({
 			...response.data,
 			companyStatutes: statute_types
@@ -133,7 +132,7 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 	}, [company.id]);
 
 
-	if(!data){
+	if (!data) {
 		return <LoadingSection />
 	}
 
@@ -264,7 +263,7 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 	const { loading, error, platformDrafts, draftTypes } = data;
 	const { selectedIndex, selectedValues } = state;
 	const primary = getPrimary();
-
+	
 	return (
 		<CardPageLayout title={translate.general_drafts}>
 			{selectedIndex >= 0 ? (
@@ -274,136 +273,187 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 					translate={translate}
 				/>
 			) : (
-				<React.Fragment>
-					{error ? (
-						<div>
-							{error.graphQLErrors.map((error, index) => {
-								return (
-									<ErrorWrapper
-										key={`error_${index}`}
-										error={error}
-										translate={translate}
-									/>
-								);
-							})}
-						</div>
-					) : (
-						!!platformDrafts && (
-							<React.Fragment>
-								<div style={{ display: 'flex' }}>
-									<AllSelector
-										selectAll={selectAll}
-										deselectAll={deselectAll}
-										anySelected={anySelected()}
-										allSelected={allSelected()}
-										translate={translate}
-									/>
-									{selectedValues.length > 0 && (
-										<div>
-											<BasicButton
-												text={`${translate.download} ${
-													selectedValues.length
-													} ${translate.drafts} ${
-														translate.to
-													} '${translate.my_drafts}'`
-												}
-												color={"white"}
-												textStyle={{
-													color: primary,
-													fontWeight: "700",
-													textTransform: "none"
-												}}
-												textPosition="after"
-												icon={
-													<ButtonIcon
-														type="add"
-														color={primary}
-													/>
-												}
-												onClick={cloneDrafts}
-												buttonStyle={{
-													marginRight: "1em",
-													border: `2px solid ${primary}`,
-												}}
-											/>
-										</div>
-									)}
-								</div>
-								<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end' }}>
-									<div style={{ marginRight: "3em" }}>
-										<DropdownEtiquetas
+					<React.Fragment>
+						{error ? (
+							<div>
+								{error.graphQLErrors.map((error, index) => {
+									return (
+										<ErrorWrapper
+											key={`error_${index}`}
+											error={error}
 											translate={translate}
-											search={tagText}
-											setSearchModal={setTagText}
-											matchSearch={filteredTags}
-											corporation={true}
-											company={company}
-											vars={vars}
-											testTags={testTags}
-											addTag={addTag}
-											styleBody={{ minWidth: '50vw' }}
-											anchorOrigin={{
-												vertical: 'top',
-												horizontal: 'right',
-											}}
-											transformOrigin={{
-												vertical: 'top',
-												horizontal: 'right',
-											}}
-											removeTag={removeTag}
 										/>
-									</div>
-									<div>
-										<TextInput
-											disableUnderline={true}
-											styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding:"4px 5px" }}
-											stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-											adornment={<Icon>search</Icon>}
-											floatingText={" "}
-											type="text"
-											value={search}
-											placeholder={"Buscar plantillas"}
-											onChange={event => {
-												setSearch(event.target.value);
-											}}
-										/>
-									</div>
-								</div>
-								<EnhancedTable
-									translate={translate}
-									page={1}
-									hideTextFilter
-									loading={loading}
-									length={platformDrafts.list.length}
-									total={platformDrafts.total}
-									refetch={getData}
-									headers={[]}
-								>
-									{platformDrafts.list.map(
-										(draft, index) => {
-											return (
-												<DraftRow
-													key={`draft${draft.id}`}
-													translate={translate}
-													action={() => { showDraftDetails(draft) }}
-													draft={draft}
-													selectable={true}
-													companyStatutes={vars.companyStatutes}
-													draftTypes={draftTypes}
-													company={company}
-													isChecked={isChecked}
-													alreadySaved={alreadySaved}
-													updateSelectedValues={updateSelectedValues}
-												/>
-											);
+									);
+								})}
+							</div>
+						) : (
+								!!platformDrafts && (
+									<React.Fragment>
+										<div style={{ display: 'flex' }}>
+											<AllSelector
+												selectAll={selectAll}
+												deselectAll={deselectAll}
+												anySelected={anySelected()}
+												allSelected={allSelected()}
+												translate={translate}
+											/>
+											{selectedValues.length > 0 && (
+												<div>
+													<BasicButton
+														text={`${translate.download} ${
+															selectedValues.length
+															} ${translate.drafts} ${
+															translate.to
+															} '${translate.my_drafts}'`
+														}
+														color={"white"}
+														textStyle={{
+															color: primary,
+															fontWeight: "700",
+															textTransform: "none"
+														}}
+														textPosition="after"
+														icon={
+															<ButtonIcon
+																type="add"
+																color={primary}
+															/>
+														}
+														onClick={cloneDrafts}
+														buttonStyle={{
+															marginRight: "1em",
+															border: `2px solid ${primary}`,
+														}}
+													/>
+												</div>
+											)}
+										</div>
+										{isMobile ?
+											<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end', alignItems: "center", marginTop: '.3em', marginBottom: "0.3em" }}>
+												<div style={{ marginRight: isMobile ? "0.5em" : "3em" }}>
+													<DropdownEtiquetas
+														translate={translate}
+														search={tagText}
+														setSearchModal={setTagText}
+														matchSearch={filteredTags}
+														company={props.company}
+														vars={vars}
+														testTags={testTags}
+														addTag={addTag}
+														styleBody={{ minWidth: '50vw' }}
+														anchorOrigin={{
+															vertical: 'top',
+															horizontal: 'right',
+														}}
+														transformOrigin={{
+															vertical: 'top',
+															horizontal: 'right',
+														}}
+														removeTag={removeTag}
+														stylesMenuItem={{ padding: "3px 3px", marginTop: isMobile && '0', width: isMobile && "" }}
+														soloIcono={true}
+													/>
+												</div>
+												<div>
+													<TextInput
+														className={isMobile && !inputSearch ? "openInput" : ""}
+														disableUnderline={true}
+														styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
+														stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+														adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
+														floatingText={" "}
+														type="text"
+														value={search}
+														styles={{ marginTop: "-16px" }}
+														stylesTextField={{ marginBottom: "0px" }}
+														placeholder={isMobile ? "" : translate.search}
+														onChange={event => {
+															setSearch(event.target.value);
+														}}
+													/>
+												</div>
+											</div>
+											:
+											<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end' }}>
+												<div style={{ marginRight: "3em" }}>
+													<DropdownEtiquetas
+														translate={translate}
+														search={tagText}
+														setSearchModal={setTagText}
+														matchSearch={filteredTags}
+														corporation={true}
+														company={company}
+														vars={vars}
+														testTags={testTags}
+														addTag={addTag}
+														styleBody={{ minWidth: '50vw' }}
+														anchorOrigin={{
+															vertical: 'top',
+															horizontal: 'right',
+														}}
+														transformOrigin={{
+															vertical: 'top',
+															horizontal: 'right',
+														}}
+														removeTag={removeTag}
+													/>
+												</div>
+												<div>
+													<TextInput
+														disableUnderline={true}
+														styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding: "4px 5px" }}
+														stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+														adornment={<Icon>search</Icon>}
+														floatingText={" "}
+														type="text"
+														value={search}
+														placeholder={translate.search_templates}
+														onChange={event => {
+															setSearch(event.target.value);
+														}}
+													/>
+												</div>
+											</div>
 										}
-									)}
-								</EnhancedTable>
-							</React.Fragment>
-						)
-					)}
-				</React.Fragment>
-			)}
+										<EnhancedTable
+											translate={translate}
+											page={1}
+											hideTextFilter
+											loading={loading}
+											length={platformDrafts.list.length}
+											total={platformDrafts.total}
+											refetch={getData}
+											headers={[]}
+											defaultLimit={25}
+										>
+											{platformDrafts.list.map(
+												(draft, index) => {
+													return (
+														<DraftRow
+															classes={classes}
+															key={`draft${draft.id}${draft.title}`}
+															translate={translate}
+															action={() => { showDraftDetails(draft) }}
+															draft={draft}
+															selectable={true}
+															companyStatutes={vars.companyStatutes}
+															draftTypes={draftTypes}
+															company={company}
+															isChecked={isChecked}
+															alreadySaved={alreadySaved}
+															updateSelectedValues={updateSelectedValues}
+															stylesBackground={{ background: index % 2 ? "#edf4fb" : "" }}
+															info={props}
+														/>
+													);
+												}
+											)}
+										</EnhancedTable>
+									</React.Fragment>
+								)
+							)}
+					</React.Fragment>
+				)}
 			<DraftDetailsModal
 				draft={state.draftModal}
 				requestClose={closeDraftDetails}
@@ -417,11 +467,17 @@ const PlatformDrafts = ({ client, company, translate, ...props }) => {
 		</CardPageLayout>
 	);
 }
+const regularCardStyle = {
+	cardTitle: {
+		width: "100%",
+		overflow: "hidden"
+	},
+}
 
 export default withSharedProps()(
 	compose(
 		graphql(cloneDrafts, {
 			name: "cloneDrafts"
 		})
-	)(withRouter(withApollo(PlatformDrafts)))
+	)(withRouter(withApollo(withStyles(regularCardStyle)(PlatformDrafts))))
 );

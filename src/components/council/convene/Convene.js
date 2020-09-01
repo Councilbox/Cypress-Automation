@@ -355,7 +355,7 @@ class Convene extends React.Component {
 								/>
 								{council.publicConvene === 1 &&
 									<div style={{ userSelect: 'text' }}>
-										{`${translate.link}: ${window.location.origin}/convene/${this.props.data.council.id}`/*TRADUCCION*/}
+										{`${translate.link}: ${window.location.origin}/convene/${this.props.data.council.id}`}
 									</div>
 								}
 

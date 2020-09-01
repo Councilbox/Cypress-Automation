@@ -39,8 +39,11 @@ const TextInput = ({
 	styleInInput,
 	disableUnderline,
 	stylesAdornment,
+	labelNone,
+	className,
+	stylesTextField,
+	autoComplete = "true"
 	styleFloatText,
-	labelNone
 }) => (
 		<FormControl
 			style={{
@@ -50,45 +53,46 @@ const TextInput = ({
 			}}
 		>
 			<TextField
+				className={className}
 				onSelect={onClick}
 				onBlur={onBlur}
 				label={
-					labelNone? "" :
-					helpPopoverInLabel ? floatingText :
-					<div style={{ display: 'flex', ...styleFloatText }}>
-						{`${floatingText}${required ? "*" : ""}`}
-						{!!errorText &&
-							<FontAwesome
-								name={"times"}
-								style={{
-									fontSize: "17px",
-									color: 'red',
-									marginLeft: '0.2em'
-								}}
-							/>
-						}
-						{helpPopover &&
-							<HelpPopover
-								title={helpTitle}
-								content={helpDescription}
-							/>
-						}
-					</div>
+					labelNone ? "" :
+						helpPopoverInLabel ? floatingText :
+							<div style={{ display: 'flex', ...styleFloatText }}>
+								{`${floatingText}${required ? "*" : ""}`}
+								{!!errorText &&
+									<FontAwesome
+										name={"times"}
+										style={{
+											fontSize: "17px",
+											color: 'red',
+											marginLeft: '0.2em'
+										}}
+									/>
+								}
+								{helpPopover &&
+									<HelpPopover
+										title={helpTitle}
+										content={helpDescription}
+									/>
+								}
+							</div>
 				}
 				value={value}
 				multiline={multiline}
 				style={{
 					marginTop: 0,
-					width: "100%"
+					width: "100%",
+					...stylesTextField
 				}}
 				placeholder={placeholder}
 				InputLabelProps={{
 					shrink: true
 				}}
 				InputProps={{
-					disableUnderline:disableUnderline,
+					disableUnderline,
 					startAdornment: "",
-					disableUnderline: disableUnderline,
 					inputProps: {
 						min: min,
 						id: id,
@@ -114,9 +118,7 @@ const TextInput = ({
 							</IconButton>
 						</InputAdornment>
 					) : adornment ? (
-						<InputAdornment position="end"
-						style={{...stylesAdornment}} 
-						>
+						<InputAdornment position="end" style={{ ...stylesAdornment }}>
 							{adornment}
 						</InputAdornment>
 					) : (
@@ -129,6 +131,7 @@ const TextInput = ({
 				}}
 				color="secondary"
 				type={type}
+				autoComplete={autoComplete}
 				disabled={!!disabled}
 				onKeyUp={onKeyUp}
 				onChange={onChange}

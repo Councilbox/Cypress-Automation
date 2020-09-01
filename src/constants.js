@@ -1,7 +1,9 @@
-export const MAX_FILE_SIZE = 10240;
-export const MAX_COUNCIL_FILE_SIZE = 10240;
+export const MAX_FILE_SIZE = 15360;
+export const MAX_COUNCIL_FILE_SIZE = 15360;
 export const MAX_COUNCIL_ATTACHMENTS = 5;
 export const ALPHA_RELEASE_DATE = '10/26/2018';
+
+export const INPUT_REGEX = new RegExp("[ A-Za-z0-9äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
 
 export const agendaTypes = [
 	"text",
@@ -14,12 +16,15 @@ export const agendaTypes = [
 
 export const COUNCIL_TYPES = {
 	FORMAL: 0,
-	NO_VIDEO: 1
+	NO_VIDEO: 1,
+	NO_SESSION: 2,
+	ELECTIONS: 3,
+	BOARD_WITHOUT_SESSION: 4
 }
 
 export const DRAFTS_LIMITS = [25, 50, 100, 250];
 export const CENSUS_LIMITS = [25, 50, 100, 250];
-export const PARTICIPANTS_LIMITS = [25, 50, 100, 250];
+export const PARTICIPANTS_LIMITS = [20, 50, 100, 250];
 export const DELEGATION_USERS_LOAD = 25;
 
 export const VOTE_VALUES = {
@@ -34,7 +39,9 @@ export const USER_ACTIVATIONS = {
 	NOT_CONFIRMED: 0,
 	CONFIRMED: 1,
 	PREMIUM: 2,
-	FREE_TRIAL: 3
+	FREE_TRIAL: 3,
+	UNSUBSCRIBED: 4,
+	DEACTIVATED: 5
 };
 
 export const EMAIL_TRACK_STATES = {
@@ -75,7 +82,12 @@ export const PARTICIPANT_STATES = {
 	DELEGATED: 4,
 	PHYSICALLY_PRESENT: 5,
 	NO_PARTICIPATE: 6,
-	PRESENT_WITH_REMOTE_VOTE: 7
+	PRESENT_WITH_REMOTE_VOTE: 7,
+	SENT_VOTE_LETTER: 8,
+	REMOTE_VOTE: 9,
+	PRESENT_VOTE: 10,
+	LEFT: 11,
+	EARLY_VOTE: 12
 };
 
 export const DRAFT_TYPES = {
@@ -223,7 +235,8 @@ export const CUSTOM_AGENDA_VOTING_TYPES = [
 export const PARTICIPANT_ERRORS = {
 	PARTICIPANT_BLOCKED: 470,
 	PARTICIPANT_IS_NOT_REMOTE: 471,
-	DEADLINE_FOR_LOGIN_EXCEEDED: 472
+	DEADLINE_FOR_LOGIN_EXCEEDED: 472,
+	REPRESENTED_DELEGATED: 473
 };
 
 export const AGENDA_STATES = {

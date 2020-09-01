@@ -63,8 +63,11 @@ const SelectInput = ({
 	required,
 	disabled,
 	noLabel,
+	labelStyle = {},
 	autoWidth,
 	colorText,
+	styles,
+	disableUnderline = false,
 	...props
 }) => {
 
@@ -82,18 +85,20 @@ const SelectInput = ({
 					}`}</InputLabel>
 			)}
 			<Select
+				disableUnderline={disableUnderline}
 				inputProps={{
 					name: floatingText,
 					id: id,
 					style: {
-						fontSize: '12px !important'
+						fontSize: '12px !important',
+						...labelStyle
 					}
 				}}
 				input={
 					<Input
-						// classes={{
-						// 	underline: props.classes[colorText],
-						// }}
+					// classes={{
+					// 	underline: props.classes[colorText],
+					// }}
 					/>
 				}
 				// classes={{ select: props.classes[colorText], icon: props.classes[colorText] }}
@@ -102,6 +107,7 @@ const SelectInput = ({
 				value={value}
 				onChange={onChange}
 				error={!!errorText}
+				style={{ ...styles }}
 			// color={'red'}
 			>
 				{children}

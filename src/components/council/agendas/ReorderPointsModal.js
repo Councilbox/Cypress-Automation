@@ -13,7 +13,7 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props}) => {
 
 	React.useEffect(() => {
 		setAgendas(props.agendas);
-	}, [props.agendas]);
+	}, [JSON.stringify(props.agendas)]);
 
 	const updateOrder = async () => {
 		const reorderedAgenda = agendas.map((agenda, index) => {
@@ -72,7 +72,7 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props}) => {
 						}}
 						className="draggable"
 					>
-						{`${agenda.orderIndex} - ${agenda.agendaSubject}`}
+						{agenda.agendaSubject}
 					</li>
 				))}
 				<SortableList

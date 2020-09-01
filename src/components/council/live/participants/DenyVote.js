@@ -45,7 +45,7 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
     }
 
     const toggleDeniedVote = async value => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation SetParticipantVoteDenied($participantId: Int, $value: Boolean!, $text: String){
                     setParticipantVoteDenied(participantId: $participantId, value: $value, text: $text){
@@ -59,8 +59,6 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
                 text
             }
         });
-
-        console.log(response);
 
         refetch();
         setModal(false);
@@ -105,7 +103,7 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
                 </Tooltip>
             :
                 <Typography variant="body1" className="truncate" style={{cursor: 'pointer'}} onClick={() => setModal(true)}>
-                    Denegar derecho a voto
+                    {translate.deny_right_to_vote}
                 </Typography>
             }
 

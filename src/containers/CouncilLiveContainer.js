@@ -3,11 +3,20 @@ import CouncilLivePage from "../components/council/live/CouncilLivePage";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import { Redirect, withRouter } from "react-router-dom";
-import { isMobile } from "react-device-detect";
 import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 import NoConnectionModal from '../components/NoConnectionModal';
+import { isMobile } from "../utils/screen";
+import { store } from "./App";
+import { addSpecificTranslations } from "../actions/companyActions";
 
 const CouncilLiveContainer = ({ main, companies, match, translate }) => {
+	React.useEffect(() => {
+		const company = companies.list[companies.selected];
+		if(company){
+			store.dispatch(addSpecificTranslations(company));
+		}
+	}, [store, companies.selected]);
+
 	if (!main.isLogged) {
 		return <Redirect to="/" />;
 	}
@@ -33,13 +42,13 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 				<CouncilLivePage
 					companies={companies}
 					translate={translate}
-					councilID={match.params.id}
+					councilID={+match.params.id}
 				/>
 			:
 				<CouncilLiveMobilePage
 					companies={companies}
 					translate={translate}
-					councilID={match.params.id}
+					councilID={+match.params.id}
 				/>
 			}
 		</div>

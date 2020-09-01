@@ -12,10 +12,14 @@ export const setAssistanceIntention = gql`
 	mutation setAssistanceIntention(
 		$assistanceIntention: Int!
 		$representativeId: Int
+		$signature: String
+		$earlyVotes: [EarlyVote]
 	) {
 		setAssistanceIntention(
 			assistanceIntention: $assistanceIntention
 			representativeId: $representativeId
+			proxySignature: $signature
+			earlyVotes: $earlyVotes
 		) {
 			success
 		}

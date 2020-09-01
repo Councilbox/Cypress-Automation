@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, BasicButton, AlertConfirm, Scrollbar } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, AlertConfirm, Scrollbar, Link } from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
@@ -16,6 +16,11 @@ import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
 import { Table, TableHead, TableRow, TableCell, TableBody, } from 'material-ui';
 import FailedSMSList from './FailedSMSList';
+import CouncilDetailsParticipants from './CouncilDetailsParticipants';
+import * as CBX from '../../../../utils/CBX';
+import { SearchCouncils } from '../CouncilsDashboard';
+import ParticipantsManager from '../../../council/live/participants/ParticipantsManager';
+import AddConvenedParticipantButton from '../../../council/prepare/modals/AddConvenedParticipantButton';
 
 
 const cancelAct = gql`
@@ -36,7 +41,8 @@ class CouncilDetails extends React.Component {
 		councilTypeModal: false,
 		credManager: false,
 		locked: true,
-		data: null
+		data: null,
+		councilDetailsParticipants: false
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
@@ -127,6 +133,11 @@ class CouncilDetails extends React.Component {
 
 		const { council } = this.state.data;
 
+		if (!council) {
+			return <FailPageSearchId
+				id={this.props.match.params.id}
+			/>
+		}
 		if (this.state.showAgenda && council) {
 			return (
 				<React.Fragment>
@@ -195,6 +206,75 @@ class CouncilDetails extends React.Component {
 						</div>
 					}
 				</React.Fragment>
+			)
+		}
+
+		if (this.state.councilDetailsParticipants && council) {
+			return (
+				<div style={{ height: "100%" }}>
+					<div
+						style={{
+							color: 'rgb(125, 33, 128)',
+							maxWidth: ' calc(100% - 2em)',
+							overflow: 'hidden',
+							whiteSpace: 'nowrap',
+							textOverflow: 'ellipsis',
+							verticalAlign: 'middle',
+							zIndex: '20',
+							marginLeft: '2em',
+							marginRight: '1em',
+							position: 'relative',
+							fontWeight: '300',
+							display: 'flex',
+							fontStyle: 'italic',
+							fontFamily: 'Lato',
+							fontSize: '28px',
+							top: '45px',
+						}}>
+						<div style={{
+							cursor: 'pointer',
+							visibility: 'visible',
+						}}
+						onClick={() => this.setState({ councilDetailsParticipants: false })}>
+							<i className="fa fa-angle-left" ></i>
+							<span style={{
+								fontStyle: 'normal',
+								marginRight: '8px',
+								marginLeft: '5px',
+							}}>
+								|
+						</span>
+						</div>
+						<div>
+							Participantes
+							</div>
+					</div >
+					<div style={{ height: "100%" }}>
+						{council.state >= 20 ?
+							<>
+								<ParticipantsManager
+									stylesDiv={{ margin: "0", marginTop: "3.5em", height: "calc( 100% - 10em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
+									translate={translate}
+									council={council}
+									root={true}
+								/>
+							</>
+						:
+							<CouncilDetailsParticipants
+								council={council}
+								participations={CBX.hasParticipations(council)}
+								translate={translate}
+								//refetch={refetch}
+							/>
+						}
+
+						{/* <br></br>
+						<CredentialsManager
+							council={council}
+							translate={this.props.translate}
+						/> */}
+					</div>
+				</div >
 			)
 		}
 
@@ -325,7 +405,7 @@ class CouncilDetails extends React.Component {
 								open={this.state.credManager}
 								buttonCancel={'Cancelar'}
 								classNameDialog={'height100'}
-								bodyStyle={{minWidth: "100vh",maxWidth: "100vh",height: '100%',overflowY: 'hidden'}}
+								bodyStyle={{ minWidth: "100vh", maxWidth: "100vh", height: '100%', overflowY: 'hidden' }}
 								bodyText={
 									<CredentialsManager
 										council={council}
@@ -339,6 +419,29 @@ class CouncilDetails extends React.Component {
 								council={council}
 								requestClose={this.closeCredsModal}
 								translate={translate}
+							/>
+						</div>
+						{/* //montar en una aparte */}
+						{/* <Link to={`/council/${council.company.id}/participants`} >
+							asdasd
+						</Link> */}
+						<div
+							style={{
+								width: '100%',
+								fontSize: '18px',
+								color: secondary,
+								fontWeight: '700',
+								padding: '1em',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center'
+							}}
+						>
+							<BasicButton
+								text="Participantes"
+								color={secondary}
+								textStyle={{ fontWeight: '700', color: 'white' }}
+								onClick={() => this.setState({ councilDetailsParticipants: true })}
 							/>
 						</div>
 						<div
@@ -376,9 +479,27 @@ class CouncilDetails extends React.Component {
 						</div>
 					</div>
 				</Scrollbar>
-			</div>
+			</div >
 		)
 	}
+}
+
+const FailPageSearchId = ({ id }) => {
+
+	return (
+		<div>
+			<SearchCouncils reload={true} />
+			<div style={{ fontSize: "25px", color: "black", display: "flex", alignItems: "center", width: "100%", justifyContent: "center", marginTop: "4em" }}>
+				<div style={{ color: "#dc7373", fontSize: "35px", marginRight: "1em" }}>
+					<i className="fa fa-exclamation-triangle" />
+				</div>
+				<div>
+					La reunión con id <b>{id}</b> no existe
+					</div>
+
+			</div>
+		</div>
+	)
 }
 
 const showGroupAttendees = attendees => {
@@ -454,7 +575,7 @@ const showSendsRecount = (sends) => {
 	}
 
 	sends.forEach(send => {
-		if(recount[list[send.sendType]] !== undefined ){
+		if (recount[list[send.sendType]] !== undefined) {
 			recount[list[send.sendType]]++;
 		} else {
 			recount['Otros']++;
@@ -497,7 +618,7 @@ const CouncilDetailsRoot = gql`
 			president
 			street
 			price
-			priceObservations
+			promoCode
 			city
 			state
 			dateStart
@@ -637,7 +758,7 @@ export default compose(
 	graphql(CouncilDetailsRoot, {
 		options: props => ({
 			variables: {
-				id: props.match.params.id
+				id: +props.match.params.id
 			}
 		}),
 	}),

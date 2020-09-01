@@ -2,12 +2,13 @@ import React from 'react';
 import FontAwesome from "react-fontawesome";
 import FloatGroup from 'react-float-button';
 import { Grid, Button } from "material-ui";
-import { withApollo } from 'react-apollo';
-import TimelineSection from '../timeline/TimelineSection';
+import { withApollo, graphql } from 'react-apollo';
+import ResultsTimeline from '../ResultsTimeline';
 import gql from 'graphql-tag';
-import { darkGrey, secondary, primary } from '../../../styles/colors';
-import { AlertConfirm, Badge, Scrollbar } from '../../../displayComponents';
-import { isMobile, isIOS } from 'react-device-detect';
+import { darkGrey, secondary, primary, getSecondary, getPrimary } from '../../../styles/colors';
+import { AlertConfirm, Badge } from '../../../displayComponents';
+import iconVoteInsert from '../../../../src/assets/img/dropping-vote-in-box2.svg';
+import { usePolling } from '../../../hooks';
 
 
 const styles = {
@@ -23,12 +24,14 @@ const styles = {
 }
 
 
-const CouncilSidebar = ({ translate, council, participant, ...props }) => {
+const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) => {
     const scrollbar = React.useRef();
-    const [modal, setModal] = React.useState(false)
+    const [modal, setModal] = React.useState(false);
+    const prevAgendas = React.useRef(null);
+    const [votingsWarning, setVotingsWarning] = React.useState(null);
+
     const closeAll = () => {
         props.setContent(null);
-        // props.toggl;
     }
 
     const renderVideoButton = () => {
@@ -65,14 +68,114 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
         )
     }
 
-    const renderAgendaButton = () => (
-        <Button
-            className={"NoOutline"}
-            style={styles.button}
-            onClick={() => props.setContent('agenda')}
-        >
-            <div style={{ display: "unset" }}>
-                <Badge badgeContent={8} dot color="primary" styleDot={{ color: primary }} hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
+    function checkAgendas() {
+        const opened = agendas.agendas.reduce((acc, agenda) => {
+            if(agenda.votingState === 1){
+                acc.push(agenda);
+            }
+            return acc;
+        }, []);
+        if(!votingsWarning){
+            return {
+                opened,
+                read: new Set(),
+                show: opened.length > 0
+            }
+        }
+        prevAgendas.current = agendas.agendas;
+
+        return {
+            ...votingsWarning,
+            opened,
+            show: opened.filter(item => !votingsWarning.read.has(item.id)).length > 0,
+            read: (opened.length > votingsWarning.opened.length)? new Set(opened) : votingsWarning.read
+        }
+
+    }
+
+    React.useEffect(() => {
+        if(agendas){
+            if(JSON.stringify(agendas.agendas) !== JSON.stringify(prevAgendas.current)){
+                setVotingsWarning(checkAgendas())
+            }
+        }
+    }, [agendas]);
+
+    const renderVotingsWarning = () => {
+        let hideEnterModal = props.modalContent === "agenda" ? true : false;
+        return (
+            ((votingsWarning && votingsWarning.show) && !hideEnterModal) && (
+                <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
+                    <div
+                        onClick={selectAgenda}
+                        style={{
+                            background: "white",
+                            width: '100%',
+                            fontWeight: "bold",
+                            padding: "0.7em",
+                            paddingRight: '1em',
+                            display: "flex",
+                            justifyContent: "space-between",
+                            fontSize: "14px"
+                        }}
+                    >
+                        <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: "10px" }}>
+                            {translate.opened_votings} ({votingsWarning.opened.length})
+                        </div>
+                        {/* <div style={{ color: "#3b3b3b", marginRight: "10px", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis", maxWidth: "30%" }}>
+                            {council.businessName}
+                        </div> */}
+                        <div style={{ maxWidth: '40%', color: "#3b3b3b", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis" }}>
+                            {votingsWarning.opened[votingsWarning.opened.length - 1].agendaSubject}
+                        </div>
+                    </div>
+                    <div style={{
+                        width: '0',
+                        height: '0',
+                        borderLeft: '5px solid transparent',
+                        borderRight: '5px solid transparent',
+                        borderTop: '11px solid white',
+                        left: '28.8%',
+                        position: 'relative'
+                    }}></div>
+                </div>
+            )
+        )
+    }
+
+    const buildReadArray = (read, opened) => {
+        return new Set([...Array.from(read), ...opened.map(agenda => agenda.id)])
+    }
+
+
+    const updateReadVotings = () => {
+        setVotingsWarning({
+            ...votingsWarning,
+            read: buildReadArray(votingsWarning.read, votingsWarning.opened),
+            show: false
+        });
+    }
+
+    function selectAgenda(){
+        props.setContent('agenda');
+        updateReadVotings();
+    }
+
+    const renderAgendaButton = () => {
+        let activeIcon = false;
+        if (agendas) {
+            agendas.agendas.map(item => {
+                activeIcon = item.votingState === 1 || activeIcon ? true : false
+            })
+        }
+
+        return (
+            <Button
+                className={"NoOutline"}
+                style={styles.button}
+                onClick={selectAgenda}
+            >
+                <div style={{ display: "unset" }}>
                     <div>
                         <i className="material-icons" style={{
                             color: props.modalContent === "agenda" ? secondary : "",
@@ -81,28 +184,32 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                             height: '1em',
                             overflow: 'hidden',
                             userSelect: 'none',
+                            position: "relative"
                         }}>
                             calendar_today
+                            {activeIcon &&
+                                <img src={iconVoteInsert} style={{ color: secondary, position: "absolute", left: "5.2px", width: "13px" }}></img>
+                            }
                         </i>
                     </div>
-                </Badge>
-                <div style={{
-                    color: 'white',
-                    fontSize: '0.55rem',
-                    textTransform: "none"
-                }}>
-                    {translate.agenda}
+                    <div style={{
+                        color: 'white',
+                        fontSize: '0.55rem',
+                        textTransform: "none"
+                    }}>
+                        {translate.agenda}
+                    </div>
                 </div>
-            </div>
-        </Button>
-    )
+            </Button>
+        )
+    }
 
     const renderPrivateMessageButton = () => (
         <Button
             className={"NoOutline"}
             title={"sendMessage"}
             style={styles.button}
-            onClick={() => props.setAdminMessage(!props.adminMessage)}>
+            onClick={(event) => props.setAdminMessage(!props.adminMessage, event)}>
             <div style={{ display: "unset" }}>
                 <div>
                     <i className="material-icons" style={{
@@ -111,21 +218,17 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                         height: '1em',
                         overflow: 'hidden',
                         userSelect: 'none',
-                        color: props.adminMessage ? primary : "#ffffffcc",
+                        color: props.adminMessage ? getPrimary() : "#ffffffcc",
                     }}>
                         chat_bubble_outline
-                        </i>
+                    </i>
                 </div>
                 <div style={{
                     color: "white",
                     fontSize: '0.55rem',
                     textTransform: "none"
                 }}>
-                    {props.isMobile ?
-                        translate.message
-                        :
-                        'Mensaje al admin'/*TRADUCCION*/
-                    }
+                    {translate.message}
                 </div>
             </div>
         </Button>
@@ -248,6 +351,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 renderVideoButton()
                             }
                         </div>
+                        {renderVotingsWarning()}
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             {renderAgendaButton()}
                         </div>
@@ -281,14 +385,12 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 props.agenda
                             }
                             {props.modalContent === 'timeline' &&
-                                <Scrollbar ref={scrollbar}>
-                                    <TimelineSection
-                                        council={council}
-                                        translate={translate}
-                                        participant={participant}
-                                        scrollToBottom={scrollToBottom}
-                                    />
-                                </Scrollbar>
+                                <ResultsTimeline
+                                    council={council}
+                                    participant={participant}
+                                    translate={translate}
+                                    endPage={true}
+                                />
                             }
                         </div>
                     }
@@ -417,7 +519,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                         left: "0",
                         alignItems: "center",
                         justifyContent: "center",
-                        zIndex: '1010',
+                        zIndex: '1000',
                     }}>
                         <div style={{
                             width: '100vw',
@@ -447,62 +549,81 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
 }
 
 
-const TimelineButton = withApollo(({ onClick, actived, council, translate, client, participant }) => {
+const TimelineButton = graphql(gql`
+    subscription councilTimelineTotal($councilId: Int!){
+        councilTimelineTotal(councilId: $councilId)
+    }
+`, {
+name: 'timelineTotal',
+options: props => ({
+    variables: {
+        councilId: props.council.id
+    }
+})
+})(withApollo(({ onClick, actived, council, translate, client, participant, timelineTotal }) => {
     const [total, setTotal] = React.useState(0);
     const [lastEvidenceId, setlastEvidenceId] = React.useState(0);
     const [timelineLastRead, setTimelineLastRead] = React.useState(0);
     const [arrayTimeline, setArrayTimeline] = React.useState(null);
 
+    React.useEffect(() => {
+        if(timelineTotal.councilTimelineTotal){
+            if(timelineTotal.councilTimelineTotal !== total){
+                setTotal(timelineTotal.councilTimelineTotal);
+            }
+        }
+    }, [timelineTotal])
+
+    const readTimelines = React.useCallback(async () => {
+        const response = await client.query({
+            query: readTimeline,
+            variables: {
+                councilId: council.id,
+            }
+        });
+
+        if (response.data && response.data.readTimeline.length > 0) {
+            setTimelineLastRead(JSON.parse(response.data.readTimeline[response.data.readTimeline.length - 1].content).data.participant.timeline)
+        }
+    }, [participant.id]);
 
     React.useEffect(() => {
-        const getTimeline = async () => {
-            const response = await client.query({
-                query: councilTimelineQuery,
-                variables: {
-                    councilId: council.id,
-                }
-            });
-
-            if (response.data && response.data.councilTimeline) {
-                setTotal(response.data.councilTimeline.length);
-                setArrayTimeline(response.data.councilTimeline)
-                if (response.data.councilTimeline[response.data.councilTimeline.length - 1] !== undefined) {
-                    setlastEvidenceId(response.data.councilTimeline[response.data.councilTimeline.length - 1].id)
-                }
-            }
-        }
-        const readTimelines = async () => {
-            const response = await client.query({
-                query: readTimeline,
-                variables: {
-                    councilId: council.id,
-                }
-            });
-
-            if (response.data && response.data.readTimeline.length > 0) {
-                setTimelineLastRead(JSON.parse(response.data.readTimeline[response.data.readTimeline.length - 1].content).data.participant.timeline)
-            }
-        }
-
-        getTimeline();
         readTimelines();
-        const interval = setInterval(() => {
-            getTimeline();
-            readTimelines();
-        }, 5000);
-        return () => clearInterval(interval);
-    }, [council.id, client, councilTimelineQuery]);
+    }, [readTimelines])
+
+    const getTimeline = React.useCallback(async () => {
+        const response = await client.query({
+            query: councilTimelineQuery,
+            variables: {
+                councilId: council.id,
+            }
+        });
+
+        if (response.data && response.data.councilTimeline) {
+            setTotal(response.data.councilTimeline.length);
+            setArrayTimeline(response.data.councilTimeline)
+            if (response.data.councilTimeline[response.data.councilTimeline.length - 1] !== undefined) {
+                setlastEvidenceId(response.data.councilTimeline[response.data.councilTimeline.length - 1].id)
+            }
+        }
+    }, [council.id, client, councilTimelineQuery])
+
+
+    React.useEffect(() => {
+        getTimeline();
+    }, [getTimeline]);
+
+    usePolling(getTimeline, 100000);
 
 
     const evidenceRead = async () => {
         await client.mutate({
             mutation: createEvidenceRead,
             variables: {
-                evidenceId: lastEvidenceId,
-                councilId: council.id,
-                participantId: participant.id,
+                evidenceId: lastEvidenceId
             }
         });
+        readTimelines();
     }
 
 
@@ -553,7 +674,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, translate, clien
             </div>
         </Button>
     )
-})
+}))
 
 const councilTimelineQuery = gql`
     query CouncilTimeline($councilId: Int!, ){
@@ -575,8 +696,8 @@ const readTimeline = gql`
 `;
 
 const createEvidenceRead = gql`
-    mutation CreateEvidenceRead($evidenceId: Int!, $councilId: Int!, $participantId: Int! ){
-        createEvidenceRead(evidenceId: $evidenceId, councilId: $councilId, participantId: $participantId){
+    mutation CreateEvidenceRead($evidenceId: Int!){
+        createEvidenceRead(evidenceId: $evidenceId){
             success
         }
     }

@@ -3,22 +3,9 @@ import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
-import '../../src/styles/snow.css';
 
 
-const Snow = () => {
-    return (
-        <div className="snowfall" >
-            {Array(99).fill(1).map((el, i) =>
-                <div className="snowflake" key={i} id={i}></div>
-            )}
-        </div>
-    )
-}
-
-
-
-const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished }) => {
+const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props }) => {
     const [loadingImg, setLoadingImg] = React.useState(true);
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
@@ -37,7 +24,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     if (loadingImg) {
         return <LoadingMainApp />
     }
-
+    
     return (
         <div
             style={{
@@ -49,7 +36,9 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 background: `url(${imgUrl})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center center',
+                ...((customBackground || customRoomBackground) ? {} : {
+                    backgroundPosition: 'center center',
+                }),
                 padding: 0,
                 margin: 0,
                 width: '100%'
@@ -62,6 +51,9 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 councilIsFinished={councilIsFinished}
                 setSelectHeadFinished={setSelectHeadFinished}
                 selectHeadFinished={selectHeadFinished}
+                contactAdmin={window.location.pathname.search("attendance")}
+                council={props.council}
+                participant={props.participant}
             />
             <div
                 className="row"
@@ -73,7 +65,6 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                     height: "100%",
                 }}
             >
-                <Snow ></Snow>
                 {children}
             </div>
         </div>

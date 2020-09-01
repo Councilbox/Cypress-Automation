@@ -7,6 +7,7 @@ import * as mainActions from '../actions/mainActions';
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl.jsx";
+import { refreshWSLink } from "./App";
 
 const initialState = {
 	loading: true,
@@ -61,6 +62,7 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 					fetchPolicy: "network-only"
 				});
 				const participant = responseQueryMe.data.participantMe;
+				refreshWSLink();
 
 				dispatch({ type: 'SET_DATA', value: {
 					token,

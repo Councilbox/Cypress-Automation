@@ -2,7 +2,7 @@ import React from 'react';
 import { AlertConfirm, BasicButton } from "../../../../displayComponents";
 import { getSecondary } from "../../../../styles/colors";
 import CustomPointVotingMenu from '../../../participant/agendas/CustomPointVotingMenu';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
 
 const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council, ...props }) => {
     const [modal, setModal] = React.useState(false);
@@ -35,14 +35,14 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
             <AlertConfirm
                 open={modal}
                 modal={false}
-                title="Marcar selección"
+                title={translate.mark_choices}
                 requestClose={closeModal}
                 cancelAction={closeModal}
                 buttonCancel={translate.close}
                 bodyText={renderVotingMenu()}
             />
             <BasicButton
-                text="Menu votación"
+                text={translate.voting_menu}
                 onClick={openModal}
                 color="white"
                 buttonStyle={{ border: `1px solid ${secondary}`, marginRight: '0.6em'}}
@@ -62,14 +62,24 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
     )
 }
 
-export const DisplayVoting = ({ ballots, translate }) => {
-    const getVoteValueText = value => {
+export const DisplayVoting = ({ ballots, translate, items = [] }) => {
+    let map = new Map();
+
+    items.forEach(item => {
+        map.set(item.id, item);
+    });
+
+    const getValueFromItems = ballot => {
+        return map.get(ballot.itemId).value;
+    }
+
+    const getVoteValueText = ballot => {
         const texts = {
             'Abstention': translate.abstention_btn,
-            'default': value
+            'default': ballot.value? ballot.value : getValueFromItems(ballot)
         }
 
-        return texts[value]? texts[value] : texts.default;
+        return texts[ballot.value]? texts[ballot.value] : texts.default;
     }
 
     return (
@@ -77,7 +87,7 @@ export const DisplayVoting = ({ ballots, translate }) => {
             {isMobile && 'Selección:'}
             {ballots.map(ballot => (
                 <div className="truncate" style={{marginTop: '0.3em', maxWidth: '20em', fontWeight: isMobile? '700' : '400', whiteSpace: 'pre-wrap'}}>
-                    {getVoteValueText(ballot.value)}
+                    {getVoteValueText(ballot)}
                 </div>
             ))}
         </div>

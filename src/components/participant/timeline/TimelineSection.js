@@ -7,6 +7,7 @@ import { moment } from '../../../containers/App';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary, getPrimary } from '../../../styles/colors';
+import { usePolling } from '../../../hooks';
 
 
 const TimelineSection = ({ translate, participant, council, scrollToBottom, isMobile, client, endPage, ...props }) => {
@@ -31,11 +32,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
         getTimeline();
     }, [council.id, setLoading, setLoaded, setTimeline, client]);
 
-    React.useEffect(() => {
-        getData();
-        let interval = setInterval(() => getData(), 6000);
-        return () => clearInterval(interval);
-    }, [getData]);
+    usePolling(getData, 6000);
 
     React.useEffect(() => {
         if (loaded && scrollToBottom) {
@@ -148,7 +145,7 @@ const isValidResult = type => {
     return types[type] ? !types[type] : types.default;
 }
 
-const councilTimelineQuery = gql`
+export const councilTimelineQuery = gql`
     query CouncilTimeline($councilId: Int!){
         councilTimeline(councilId: $councilId){
             id
@@ -160,7 +157,7 @@ const councilTimelineQuery = gql`
 `;
 
 
-const getTimelineTranslation = (type, content, translate) => {
+export const getTimelineTranslation = (type, content, translate) => {
     const types = {
         'START_COUNCIL': () => translate.council_started,
         'START_AUTO_COUNCIL': () => translate.council_started,
@@ -176,7 +173,7 @@ const getTimelineTranslation = (type, content, translate) => {
     return types[type] ? types[type]() : types.default();
 }
 
-const getTimelineTranslationReverse = (type, content, translate) => {
+export const getTimelineTranslationReverse = (type, content, translate) => {
     const types = {
         'START_COUNCIL': () => <b>{translate.council_started}</b>,
         'START_AUTO_COUNCIL': () => translate.council_started,

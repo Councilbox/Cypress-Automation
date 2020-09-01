@@ -147,7 +147,7 @@ const Results = ({ data, translate, requestClose, open, participant, council, st
                         })}
                     </div>
                 }
-                title={`${participant.name} ${participant.surname}`}
+                title={`${participant.name} ${participant.surname || ''}`}
             />
         )
     }

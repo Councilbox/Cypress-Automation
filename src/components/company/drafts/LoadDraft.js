@@ -11,7 +11,7 @@ import { MenuItem, Card, CardHeader, Tooltip, TableCell, TableRow } from "materi
 import { levelColor, ContenedorEtiquetas } from "./CompanyDraftForm";
 import { Divider } from "material-ui";
 import { primary } from "../../../styles/colors";
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 import { withStyles } from "material-ui";
 import { IconButton } from "material-ui";
 import { Collapse } from "material-ui";
@@ -75,6 +75,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 					offset: 0
 				},
 				tags: Object.keys(testTags).map(key => testTags[key].name),
+				showCorporationResults: true,
 				...variables
 			}
 		});
@@ -182,8 +183,6 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 
 			const columns = buildTagColumns(testTags);
 
-			console.log(testTags);
-
 			return (
 				<div style={{ display: isMobile ? "" : 'flex' }}>
 					{Object.keys(columns).map(key => (
@@ -232,7 +231,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 							}}>
 								<div>
 									<TextInput
-										placeholder={"Buscar Plantillas"}
+										placeholder={translate.search_templates}
 										adornment={<Icon>search</Icon>}
 										type="text"
 										value={searchModalPlantillas}
@@ -361,7 +360,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
 			const statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
-			const title = statute? statute.title : 'Tipo no encontrado';
+			const title = statute ? statute.title : tag.label;
 			return translate[title] || title;
 		}
 
@@ -397,7 +396,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 
 	const buildTagColumns = tags => {
 		const columns = {};
-		if(tags){
+		if (tags) {
 			Object.keys(tags).forEach(key => {
 				const tag = tags[key];
 				const formatted = {
@@ -469,7 +468,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 
 				{expanded &&
 					<React.Fragment>
-						<div style={{fontWeight: '700', marginTop: '1em'}}>{translate.content}</div>
+						<div style={{ fontWeight: '700', marginTop: '1em' }}>{translate.content}</div>
 						<div dangerouslySetInnerHTML={{ __html: draft.text }} />
 					</React.Fragment>
 				}
@@ -525,7 +524,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 }
 
 
-export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, ...props }) => {
+export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props }) => {
 	return (
 		<DropDownMenu
 			id={"cargarPlantillasSelectorEtiquetas"}
@@ -535,27 +534,33 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 			anchorOrigin={anchorOrigin}
 			transformOrigin={transformOrigin}
 			Component={() =>
-				<MenuItem
-					style={{
-						height: '100%',
-						border: " solid 1px #35343496",
-						borderRadius: '3px',
-						width: '100%',
-						margin: 0,
-						padding: 0,
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						marginTop: '14px',
-						padding: "3px 7px",
-						color: "#353434ed",
-					}}
-				>
-					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
+				soloIcono ?
+					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingRight: "10px" }}>
 						local_offer
 					</i>
-					{translate.filter_by}
-				</MenuItem>
+					:
+					<MenuItem
+						style={{
+							height: '100%',
+							border: " solid 1px #35343496",
+							borderRadius: '3px',
+							width: '100%',
+							margin: 0,
+							padding: 0,
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '14px',
+							padding: "3px 7px",
+							color: "#353434ed",
+							...stylesMenuItem
+						}}
+					>
+						<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
+							local_offer
+						</i>
+						{translate.filter_by}
+					</MenuItem>
 			}
 			text={translate.add_agenda_point}
 			textStyle={"ETIQUETA"}
@@ -571,12 +576,12 @@ export const DropdownEtiquetas = withStyles(styles)(({ translate, corporation, s
 						<div style={{
 							width: "100%",
 							display: "flex",
-							flexDirection: "row",
+							// flexDirection: "row",
+							justifyContent: "space-between",
 							width: "100%"
 						}}
 						>
 							<div style={{
-								marginRight: "2em",
 								display: "flex",
 								color: "rgb(53, 52, 52)",
 								alignItems: "center",
@@ -761,7 +766,7 @@ const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => 
 					//maxHeight: '150px',
 					width: "100%"
 				}}
-				id={'tipoDeReunion'}
+					id={'tipoDeReunion'}
 				>
 					{tags.map((tag, index) => {
 						return (
@@ -792,18 +797,5 @@ const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => 
 }
 
 export default compose(
-	graphql(companyDrafts, {
-		name: "data",
-		options: props => ({
-			variables: {
-				companyId: props.companyId,
-				options: {
-					limit: DRAFTS_LIMITS[0],
-					offset: 0
-				}
-			}
-		})
-	}),
 	graphql(draftTypes, { name: "info" })
 )(withStyles(styles)(LoadDraft));
-

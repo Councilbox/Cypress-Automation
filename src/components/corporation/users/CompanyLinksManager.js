@@ -5,6 +5,7 @@ import { Typography, Table, TableHead, TableRow, TableCell } from 'material-ui';
 import CompanyItem from '../companies/CompanyItem';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { isMobile } from 'react-device-detect';
 
 const DEFAULT_OPTIONS = {
     limit: 10,
@@ -150,12 +151,11 @@ class CompanyLinksManager extends React.PureComponent {
     }
 
 
-
     render() {
         const { translate } = this.props;
 
         return (
-        <div style={{height: "calc( 100% - 16em )", overflow: "hidden"}}> {/**"calc( 100% - 16em )" */}
+            <div> {/**"calc( 100% - 16em )" */}
                 <div style={{ width: '100%', display: "flex", flexDirection: 'row', marginTop: '2em', alignItems: 'center', justifyContent: "space-between" }}>
                     <Typography variant="subheading" style={{ color: getPrimary(), marginRight: '0.6em' }}>
                         {this.props.linkedCompanies.length} {translate.linked_companies}
@@ -172,40 +172,36 @@ class CompanyLinksManager extends React.PureComponent {
                         }}
                     />
                 </div>
-                <div style={{ width: '100%',height: "100%"  }}> {/**flexDirection: 'column',display: 'flex',  marginTop: '0.9em', marginBottom: '0.9em', height: "100%", overflow: "hidden" */}
+                <div style={{ width: '100%' }}> {/**flexDirection: 'column',display: 'flex',  marginTop: '0.9em', marginBottom: '0.9em', height: "100%", overflow: "hidden" */}
                     <Table
-                        style={{ width: "100%", maxWidth: "100%", height: "100%"  }}
+                        style={{ width: "100%", maxWidth: "100%" }}
                     >
                         <TableHead>
                             <TableRow>
                                 <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>Logo</TableCell>
                                 <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Id</TableCell>
-                                <TableCell style={{ width: "75%", padding: '4px 56px 4px 5px' }}>Nombre</TableCell>
+                                <TableCell style={{ width: "75%", padding: '4px 56px 4px 5px' }}>{translate.name}</TableCell>
                             </TableRow>
                         </TableHead>
                     </Table>
-                    <div style={{ height: "calc( 100% - 10em )", overflow: "hidden" }}>
-                        <Scrollbar>
-                            {this.props.data.loading ?
-                                <LoadingSection />
-                                :
-                                this.props.linkedCompanies.map(company => (
-                                    <CompanyItem
-                                        tableRoot={true}
-                                        key={`company_${company.id}`}
-                                        company={company}
-                                    />
-                                )) 
-                            }
-                        </Scrollbar>
-                    </div>
+                    {this.props.data.loading ?
+                        <LoadingSection />
+                        :
+                        this.props.linkedCompanies.map(company => (
+                            <CompanyItem
+                                tableRoot={true}
+                                key={`company_${company.id}`}
+                                company={company}
+                            />
+                        ))
+                    }
+                </div>
                     {/* {this.props.linkedCompanies.map(company => (
                         <CompanyItem
                             key={`company_${company.id}`}
                             company={company}
                         />
                     ))} */}
-                </div>
                 <AlertConfirm
                     requestClose={this.close}
                     open={this.state.modal}
@@ -221,8 +217,8 @@ class CompanyLinksManager extends React.PureComponent {
 }
 
 const corporationCompanies = gql`
-    query corporationCompanies($filters: [FilterInput], $options: OptionsInput){
-        corporationCompanies(filters: $filters, options: $options){
+    query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
+        corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
             list{
                 id
                 businessName
@@ -236,7 +232,8 @@ const corporationCompanies = gql`
 export default graphql(corporationCompanies, {
     options: props => ({
         variables: {
-            options: DEFAULT_OPTIONS
+            options: DEFAULT_OPTIONS,
+            corporationId: props.company ? props.company.corporationId : 1
         }
     })
 })(CompanyLinksManager);

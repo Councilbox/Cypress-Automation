@@ -7,7 +7,6 @@ const ToggleRecordings = ({ toggleRecordings }) => {
     return(
         <BasicButton
             text="Toggle recordings"
-            onClick={this.toggle}
         />
     )
 }

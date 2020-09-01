@@ -2,7 +2,6 @@ import React from "react";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { TableCell, TableRow, Card } from "material-ui";
 import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm } from "../../../../displayComponents";
-import { isMobile } from 'react-device-detect';
 import * as CBX from '../../../../utils/CBX';
 import { compose, graphql } from "react-apollo";
 import { censusParticipants } from "../../../../queries/census";
@@ -11,6 +10,7 @@ import AddCensusParticipantButton from "./modals/AddCensusParticipantButton";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import CensusParticipantEditor from "./modals/CensusParticipantEditor";
 import ImportCensusExcel from '../ImportCensusExcel';
+import { isMobile } from "../../../../utils/screen";
 
 class CensusParticipants extends React.Component {
 	state = {
@@ -313,11 +313,11 @@ class HoverableRow extends React.PureComponent {
                             {translate.participant_data}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
 							{!!representative &&
 								<React.Fragment>
 									<br/>
-									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 								</React.Fragment>
 							}
                         </GridItem>
@@ -409,11 +409,11 @@ class HoverableRow extends React.PureComponent {
 					</div>
 				</TableCell>
 				<TableCell>
-					<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+					<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
 					{!!representative &&
 						<React.Fragment>
 							<br/>
-							{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+							{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 						</React.Fragment>
 					}
 				</TableCell>
@@ -465,12 +465,7 @@ class HoverableRow extends React.PureComponent {
 					<div style={{width: '6em'}}>
 
 						{this.state.showActions &&
-							!CBX.isRepresentative(
-								participant
-							) &&
-								_renderDeleteIcon(
-									participant.id
-								)
+							!CBX.isRepresentative(participant) && _renderDeleteIcon(participant.id)
 						}
 						{!!representative &&
 							<br/>
@@ -487,7 +482,9 @@ const deleteCensusParticipant = gql`
 		deleteCensusParticipant(
 			ids: $ids
 			censusId: $censusId
-		)
+		) {
+			success
+		}
 	}
 `;
 

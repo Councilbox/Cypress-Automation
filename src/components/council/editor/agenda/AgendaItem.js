@@ -3,8 +3,10 @@ import { CloseIcon, Grid, GridItem } from "../../../../displayComponents";
 import { isCustomPoint } from "../../../../utils/CBX";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { IconButton, Paper } from "material-ui";
+import withTranslations from "../../../../HOCs/withTranslations";
+import { getSubjectAbrv } from "../../../../displayComponents/AgendaNumber";
 
-const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft }) => {
+const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
@@ -33,7 +35,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 									fontSize: "1.5em"
 								}}
 							>
-								{agenda.orderIndex}
+								{getSubjectAbrv(agenda.agendaSubject)}
 							</div>
 						</GridItem>
 						<GridItem xs={11}>
@@ -55,12 +57,27 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 									dangerouslySetInnerHTML={{ __html: agenda.description }}
 								/>
 							)}
+							<GridItem xs={12} md={12} lg={12}>
+								{agenda.attachments && agenda.attachments.map((attachment, index) => (
+									<div style={{
+										border: `1px solid ${secondary}`,
+										float: 'left',
+										marginTop: '1em',
+										padding: '5px',
+										marginLeft: index > 0? '5px' : '0',
+										borderRadius: '5px',
+										color: 'primary'
+									}} key={`attachment_${attachment.id}`}>
+										{attachment.filename || attachment.name}
+									</div>
+								))}
+							</GridItem>
 						</GridItem>
 						{agenda.items.length > 0 &&
 							<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>
-								{`Respuestas posibles: Máximo: ${agenda.options.maxSelections}${
-									agenda.options.minSelections > 1? ` - Mínimo: ${agenda.options.minSelections}` : ''
-								}`/*TRADUCCION*/}
+								{`${translate.answers_options}: ${translate.max}: ${agenda.options.maxSelections}${
+									agenda.options.minSelections > 1? ` - ${translate.min}: ${agenda.options.minSelections}` : ''
+								}`}
 								<ul>
 									{agenda.items.map(item => (
 										<li key={`agenda_item_${item.id}`} style={{ whiteSpace: 'pre-wrap', marginTop: '0.3em' }}>
@@ -120,4 +137,4 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 	)
 };
 
-export default AgendaItem;
+export default withTranslations()(AgendaItem);

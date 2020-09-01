@@ -33,7 +33,7 @@ class AgendaAttachmentsManager extends React.Component {
 			let fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: event.loaded,
+				filesize: event.loaded.toString(),
 				base64: btoa(event.target.result),
 				state: 0,
 				agendaId: this.props.agendaID,

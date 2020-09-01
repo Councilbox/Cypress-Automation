@@ -31,7 +31,7 @@ class SetUserPasswordPage extends React.Component {
             });
             const response = await this.props.confirmEmailAndSetPwd({
                 variables: {
-                    token: this.props.match.params.token,
+                    token: +this.props.match.params.token,
                     pwd: this.state.password
                 }
             });

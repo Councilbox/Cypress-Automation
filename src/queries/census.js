@@ -82,9 +82,11 @@ export const censusParticipants = gql`
 				surname
 				position
 				email
+				secondaryEmail
 				phone
 				dni
 				type
+				initialState
 				delegateId
 				numParticipations
 				socialCapital
@@ -99,9 +101,11 @@ export const censusParticipants = gql`
 					name
 					surname
 					dni
+					secondaryEmail
 					email
 					phone
 					position
+					initialState
 					language
 				}
 			}

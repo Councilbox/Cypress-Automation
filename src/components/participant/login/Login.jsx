@@ -7,7 +7,8 @@ import { checkIsCompatible } from '../../../utils/webRTC';
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../utils/screen";
+import RequestDataInfo from "./RequestDataInfo";
 
 // '850px'
 const width = window.innerWidth > 450 ? '850px' : '100%'
@@ -29,25 +30,65 @@ const styles = {
 		padding: isMobile ? "" : "10px"
 	},
 	cardContainer: {
-		margin: isMobile ? "" : "20px",
+		margin: isMobile ? "20%" : "20px",
+		marginBottom: '5px',
 		minWidth: width,
 		maxWidth: "100%",
 		//height: '50vh',
-		minHeight: '50vh'
-		// height: '70vh'
+		minHeight: isMobile? '70vh' : '50vh',
+		...(isMobile? {
+			height: '60vh'
+		} : {})
 	}
 };
 
+const reducer = (state, action) => {
+    const actions = {
+        'SUCCESS': () => {
+            return ({
+                ...state,
+                status: 'SUCCESS',
+                message: action.payload.message
+            })
+        },
+        'ERROR': () => ({
+            ...state,
+            status: 'ERROR',
+            message: action.payload.message
+        })
+	}
+
+    return actions[action.type]? actions[action.type]() : state;
+}
+
+
+
+
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
+	const [{ status, message }, updateState] = React.useReducer(reducer, { status: 'WAITING' });
 
-	if ((councilIsFinished(council) || participant.hasVoted) && isMobile) {
+	const finishedVoted = (councilIsFinished(council) || participant.hasVoted);
+
+	const loginForm = () => (
+		<LoginForm
+			participant={participant}
+			council={council}
+			company={company}
+			status={status}
+			message={message}
+			updateState={updateState}
+		/>
+	)
+
+
+	if ((finishedVoted || !councilIsLive(council)) && isMobile) {
 		return (
 			<NotLoggedLayout
 				translate={props.translate}
 				helpIcon={true}
 				languageSelector={false}
-				councilIsFinished={true}
+				councilIsFinished={councilIsFinished(council)}
 				setSelectHeadFinished={setSelectHeadFinished}
 				selectHeadFinished={selectHeadFinished}
 			>
@@ -69,42 +110,51 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 					<div style={styles.mainContainer}>
 						<Card style={{
 							...styles.cardContainer,
+							background: finishedVoted && 'transparent',
+							boxShadow: finishedVoted && "none",
+							minHeight: finishedVoted && "100%",
 							...((councilIsLive(council) && !participant.hasVoted) ? {
 								minWidth: window.innerWidth > 450 ? '550px' : '100%'
 							} : {
 									minWidth: width
-							})
+								})
 						}} elevation={6}>
-							{councilIsFinished(council) ?
-								<div>
+							{finishedVoted ?
+								<div style={{ height: "100%" }}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										<LoginForm
-											participant={participant}
-											council={council}
-											company={company}
-										/>
+										loginForm()
 									) : (
 											<CouncilState council={council} company={company} participant={participant} />
 										)}
 								</div>
 								:
-								<div>
+								<div style={{ height: "100%" }}>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										<LoginForm
-											participant={participant}
-											council={council}
-											company={company}
-										/>
-
+										loginForm()
 									) : (
 											<CouncilState council={council} company={company} participant={participant} />
 										)}
 								</div>
 							}
 						</Card>
+						<Card style={{
+							...((councilIsLive(council) && !participant.hasVoted) ? {
+								minWidth: window.innerWidth > 450 ? '550px' : '100%'
+							} : {
+									minWidth: width
+								})
+							
+						}}>
+							<RequestDataInfo
+								data={{}}
+								translate={props.translate}
+								message={message}
+								status={status}
+							/>
+						</Card>
 					</div>
 				</Scrollbar>
-				
+
 			</NotLoggedLayout>
 		);
 	}

@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import { getPrimary } from '../../../../styles/colors';
 import NewParticipantModal from './NewParticipantModal';
 import ParticipantEditorModal from './ParticipantEditorModal';
+import { multipleGoverningBody } from '../../../../utils/CBX';
 
 class SignatureParticipants extends React.Component {
 
@@ -77,7 +78,7 @@ class SignatureParticipants extends React.Component {
     }
 
     render(){
-        const { translate } = this.props;
+        const { translate, company } = this.props;
         const { signatureParticipants = { list: [], total: 0}, loading, censuses = { list: [], total: 0}} = this.props.data;
         const primary = getPrimary();
 
@@ -125,6 +126,16 @@ class SignatureParticipants extends React.Component {
                                             </MenuItem>
                                         );
                                     })}
+                                    {(multipleGoverningBody(company.governingBodyType) &&
+                                        company.governingBodyData &&
+                                        company.governingBodyData.list &&
+                                        company.governingBodyData.list.length > 0) &&
+                                            <MenuItem
+                                                value={parseInt(-1, 10)}
+                                            >
+                                                {translate.governing_body}
+                                            </MenuItem>
+                                    }
                                 </SelectInput>
                             </div>
                             <div style={{width: '15em', display: 'flex', justifyContent: 'flex-end'}}>
@@ -240,7 +251,7 @@ class HoverableRow extends React.Component {
                 onClick={() => this.props.editParticipant(participant.id)}
             >
                 <TableCell>
-                    {`${participant.name} ${participant.surname}`}
+                    {`${participant.name} ${participant.surname || ''}`}
                 </TableCell>
                 <TableCell>
                     {participant.dni}

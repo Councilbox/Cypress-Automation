@@ -131,7 +131,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	};
 
 	const nextPage = async () => {
-		if (checkConditions()) {
+		if(data.council.statute.canAddPoints === 1 || checkConditions()){
 			await updateCouncil(4);
 			props.nextStep();
 		}
@@ -315,22 +315,24 @@ const StepAgenda = ({ client, translate, ...props }) => {
 						</Grid>
 						{!loading && (
 							<React.Fragment>
-								<PointEditor
-									translate={translate}
-									draftTypes={draftTypes}
-									statute={council.statute}
-									company={props.company}
-									council={council}
-									companyStatutes={data.companyStatutes}
-									open={!!state.editAgenda}
-									agenda={state.editAgenda}
-									votingTypes={votingTypes}
-									majorityTypes={majorityTypes}
-									refetch={getData}
-									requestClose={() =>
-										setState({ editAgenda: null })
-									}
-								/>
+								{!!state.editAgenda &&
+									<PointEditor
+										translate={translate}
+										draftTypes={draftTypes}
+										statute={council.statute}
+										company={props.company}
+										council={council}
+										companyStatutes={data.companyStatutes}
+										open={!!state.editAgenda}
+										agenda={state.editAgenda}
+										votingTypes={votingTypes}
+										majorityTypes={majorityTypes}
+										refetch={getData}
+										requestClose={() =>
+											setState({ editAgenda: null })
+										}
+									/>
+								}
 								{!!state.editCustomAgenda && (
 									<CustomPointEditor
 										translate={translate}

@@ -25,7 +25,8 @@ const BasicButton = ({
 	claseHover,
 	backgroundColor,
 	resetSuccess,
-	successSoloColor
+	successSoloColor,
+	iconInit
 }) => {
 
 	React.useEffect(() => {
@@ -38,7 +39,7 @@ const BasicButton = ({
 		};
 	}, [error, success, reset, resetDelay]);
 
-
+	
 	return (
 		<Button
 			id={id}
@@ -51,7 +52,7 @@ const BasicButton = ({
 				float: floatRight && "right",
 				outline: "0",
 				cursor: loading? 'wait' : 'pointer',
-				...backgroundColor
+				...backgroundColor,
 			}}
 			disabled={disabled || loading}
 			variant={type}
@@ -59,6 +60,9 @@ const BasicButton = ({
 			fullWidth={fullWidth}
 			className={claseHover}
 		>
+			{iconInit &&
+			iconInit
+			}
 			{text}
 			{success ? (
 				successSoloColor ?

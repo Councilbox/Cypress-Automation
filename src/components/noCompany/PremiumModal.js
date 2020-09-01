@@ -62,14 +62,14 @@ class PremiumModal extends React.Component {
                                         text={translate.free_trial}
                                         color={primary}
                                         textStyle={{fontWeight: '700', color: 'white', fontSize: '18px',}}
-                                        onClick={this.showActivateTrialPage}
+                                        onClick={this.activateTrial}
                                     />
                                 </div>
                             </React.Fragment>
                         }
                         {this.state.step === 2 &&
                             <React.Fragment>
-                                <div style={{display: 'flex', flexDirection: 'column'}}>
+                                {/* <div style={{display: 'flex', flexDirection: 'column'}}>
                                     {translate.trial_begin_first_company}
                                 </div>
                                 <Grid style={{width: '100%', display: 'flex'}}>
@@ -94,7 +94,7 @@ class PremiumModal extends React.Component {
                                     <GridItem xs={12} lg={12} md={12} style={{padding: '0.6em'}}>
                                         {translate.when_the_trial_ends.replace('{{TRIAL_DAYS}}', TRIAL_DAYS)}
                                     </GridItem>
-                                </Grid>
+                                </Grid> */}
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                                     <div>
                                         <BasicButton

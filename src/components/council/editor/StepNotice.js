@@ -51,27 +51,27 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	});
 
 	const setCouncilWithRemoveValues = React.useCallback(async data => {
-		if(!data.loading && !council.id){
+		if (!data.loading && !council.id) {
 			setCouncil({
 				...data.council,
-				name: !data.council.name? `${translate[data.council.statute.title]? translate[data.council.statute.title] : data.council.statute.title} - ${moment().format('DD/MM/YYYY')}` : data.council.name,
+				name: !data.council.name ? `${translate[data.council.statute.title] ? translate[data.council.statute.title] : data.council.statute.title} - ${moment().format('DD/MM/YYYY')}` : data.council.name,
 				conveneText: await CBX.changeVariablesToValues(data.council.conveneText, {
 					company,
 					council: {
 						...data.council,
-						dateStart: data.council.dateStart? data.council.dateStart : new Date().toISOString(),
+						dateStart: data.council.dateStart ? data.council.dateStart : new Date().toISOString(),
 					}
 				}, translate),
-				dateStart: !data.council.dateStart? new Date().toISOString() : data.council.dateStart,
+				dateStart: !data.council.dateStart ? new Date().toISOString() : data.council.dateStart,
 				conveneFooter: await CBX.changeVariablesToValues(data.council.conveneFooter, {
 					company,
 					council: {
 						...data.council,
-						dateStart: data.council.dateStart? data.council.dateStart : new Date().toISOString(),
+						dateStart: data.council.dateStart ? data.council.dateStart : new Date().toISOString(),
 					}
 				}, translate),
 			});
-			dates.current.dateStart = !data.council.dateStart? new Date().toISOString() : data.council.dateStart;
+			dates.current.dateStart = !data.council.dateStart ? new Date().toISOString() : data.council.dateStart;
 			dates.current.dateStart2NdCall = data.council.dateStart2NdCall;
 		}
 	}, [data]);
@@ -81,7 +81,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	}, [setCouncilWithRemoveValues]);
 
 	React.useEffect(() => {
-		if(council.id){
+		if (council.id) {
 			checkDates();
 		}
 	}, [council.dateStart, council.dateStart2NdCall]);
@@ -108,28 +108,26 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		const oldFirstDate = dates.current.dateStart;
 		const oldSecondDate = dates.current.dateStart2NdCall;
 
-		//console.log(council.dateStart, council.dateStart2NdCall);
-
-		if(!CBX.checkMinimumAdvance(firstDate, statute)){
+		if (!CBX.checkMinimumAdvance(firstDate, statute)) {
 			errors.dateStart = translate.new_statutes_warning
 				.replace('{{council_prototype}}', translate[statute.title] || statute.title)
 				.replace('{{days}}', statute.advanceNoticeDays)
 		}
 
 		if (CBX.hasSecondCall(council.statute) && (!CBX.checkSecondDateAfterFirst(firstDate, secondDate) || !council.dateStart2NdCall)) {
-			//errors.dateStart2NdCall = translate["2nd_call_date_changed"];
 			const first = moment(new Date(firstDate).toISOString(), moment.ISO_8601);
 			const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
 			const difference = second.diff(first, "minutes");
-			if(difference < statute.minimumSeparationBetweenCall){
+
+			if (difference < statute.minimumSeparationBetweenCall || !council.dateStart2NdCall) {
 				updateState({
 					dateStart: firstDate,
 					dateStart2NdCall: CBX.addMinimumDistance(firstDate, statute).toISOString()
 				});
 			}
-			updateConveneDates(oldFirstDate? oldFirstDate : firstDate, firstDate, oldSecondDate? oldSecondDate : secondDate, CBX.addMinimumDistance(firstDate, statute));
+			updateConveneDates(oldFirstDate ? oldFirstDate : firstDate, firstDate, oldSecondDate ? oldSecondDate : secondDate, CBX.addMinimumDistance(firstDate, statute));
 		} else {
-			if(oldFirstDate !== firstDate || oldSecondDate !== secondDate){
+			if (oldFirstDate !== firstDate || oldSecondDate !== secondDate) {
 				updateConveneDates(oldFirstDate, firstDate, oldSecondDate, secondDate);
 			}
 			if (!CBX.checkMinimumDistanceBetweenCalls(firstDate, secondDate, statute)) {
@@ -143,7 +141,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	const nextPage = async () => {
 		if (!checkRequiredFields()) {
 			const response = await updateCouncil(2);
-			if(!response.data.errors){
+			if (!response.data.errors) {
 				props.nextStep();
 				data.refetch();
 			}
@@ -155,7 +153,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			...state,
 			loading: true
 		});
-		const { __typename, statute, councilType, ...rest } = council;
+		const { __typename, statute, councilType, selectedCensusId, ...rest } = council;
 		const response = await props.updateCouncil({
 			variables: {
 				council: {
@@ -165,7 +163,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			}
 		});
 
-		if(!response.data.errors){
+		if (!response.data.errors) {
 			setState({
 				...state,
 				loading: false,
@@ -217,9 +215,9 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 				text: response.data.changeCouncilStatute.conveneFooter
 			});
 
-			const name = council.name.replace(new RegExp(`${translate[oldTitle]?
+			const name = council.name.replace(new RegExp(`${translate[oldTitle] ?
 				translate[oldTitle] : oldTitle}`),
-				translate[response.data.changeCouncilStatute.title]?
+				translate[response.data.changeCouncilStatute.title] ?
 					translate[response.data.changeCouncilStatute.title] : response.data.changeCouncilStatute.title);
 			updateState({
 				name
@@ -270,16 +268,16 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		) {
 			errors.conveneText = translate.field_required;
 		} else {
-			if(CBX.checkForUnclosedBraces(council.conveneText)){
+			if (CBX.checkForUnclosedBraces(council.conveneText)) {
 				errors.conveneText = translate.revise_text;
 				toast(
 					<LiveToast
 						message={translate.revise_text}
 					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "errorToast"
-					}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
 				);
 			}
 		}
@@ -313,7 +311,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 
 	const checkAssociatedCensus = statuteId => {
 		const statute = data.companyStatutes.find(statute => statute.id === statuteId);
-		if(!!statute.censusId){
+		if (!!statute.censusId) {
 			setCensusModal(true);
 		}
 	}
@@ -321,7 +319,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	const { companyStatutes, draftTypes } = data;
 
 	let statute = {};
-	if(!!council.id){
+	if (!!council.id) {
 		statute = data.council.statute;
 	}
 
@@ -329,7 +327,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 
 
 
-	if(CBX.hasSecondCall(statute)){
+	if (CBX.hasSecondCall(statute)) {
 		tags = [{
 			value: moment(council.dateStart).format(
 				"LLL"
@@ -351,27 +349,27 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	}
 
 	tags = [...tags,
-		{
-			value: company.businessName,
-			label: translate.business_name
-		},
-		{
-			value: council.remoteCelebration === 1? translate.remote_celebration : `${council.street}, ${
-				council.country
+	{
+		value: company.businessName,
+		label: translate.business_name
+	},
+	{
+		value: council.remoteCelebration === 1 ? translate.remote_celebration : `${council.street}, ${
+			council.country
 			}`,
-			label: translate.new_location_of_celebrate
-		}
+		label: translate.new_location_of_celebrate
+	}
 	];
 
-	if(council.remoteCelebration !== 1){
+	if (council.remoteCelebration !== 1) {
 		tags = [...tags, {
-				value: council.country,
-				label: translate.company_new_country
-			},
-			{
-				value: council.countryState,
-				label: translate.company_new_country_state
-			}
+			value: council.country,
+			label: translate.company_new_country
+		},
+		{
+			value: council.countryState,
+			label: translate.company_new_country_state
+		}
 		];
 	}
 
@@ -399,18 +397,17 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	}
 
 	const updateDate = (firstDate = council.dateStart, secondDate = council.dateStart2NdCall) => {
- 		updateState({
+		updateState({
 			dateStart: firstDate,
 			dateStart2NdCall: secondDate,
 		});
 	};
 
-
 	return (
 		<React.Fragment>
 			<EditorStepLayout
 				body={
-					!council.id && !data.errors?
+					!council.id && !data.errors ?
 						<div
 							style={{
 								height: "300px",
@@ -422,7 +419,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 						>
 							<LoadingSection />
 						</div>
-					:
+						:
 						<React.Fragment>
 							{
 								<LoadFromPreviousCouncil
@@ -434,7 +431,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 								/>
 							}
 							<Grid>
-								<GridItem xs={12} md={4} lg={4} style={{paddingRight: '3.5em' }}>
+								<GridItem xs={12} md={4} lg={4} style={{ paddingRight: '3.5em' }}>
 									<SelectInput
 										required
 										floatingText={translate.council_type}
@@ -455,8 +452,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 											);
 										})}
 									</SelectInput>
-									<div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary}}>
-										Ver detalles
+									<div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary }}>
+										{translate.read_details}
 									</div>
 								</GridItem>
 								<GridItem
@@ -466,7 +463,12 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 									style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}
 								>
 									<BasicButton
-										text={translate.change_location}
+										text={
+											<div style={{ display: "flex", alignItems: "center" }}>
+												<div>{translate.change_location}</div>
+												<div><ButtonIcon type="location_on" color="white" /></div>
+											</div>
+										}
 										id={'change-place'}
 										color={secondary}
 										textStyle={{
@@ -477,9 +479,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										}}
 										textPosition="after"
 										onClick={showPlaceModal}
-										icon={
-											<ButtonIcon type="location_on" color="white" />
-										}
 									/>
 									<h6 style={{ paddingTop: "0.8em", marginLeft: '1em' }}>
 										<b>{`${translate.new_location_of_celebrate}: `}</b>
@@ -489,7 +488,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 									</h6>
 								</GridItem>
 
-								<GridItem xs={12} md={4} lg={4} style={{marginTop: '1.3em'}}>
+								<GridItem xs={12} md={4} lg={4} style={{ marginTop: '1.3em' }}>
 									<DateTimePicker
 										required
 										onChange={date => {
@@ -506,7 +505,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										value={council.dateStart}
 									/>
 								</GridItem>
-								<GridItem xs={12} md={4} lg={4} style={{marginTop: '1.3em'}}>
+								<GridItem xs={12} md={4} lg={4} style={{ marginTop: '1.3em' }}>
 									{CBX.hasSecondCall(statute) && (
 										<DateTimePicker
 											required
@@ -529,7 +528,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										/>
 									)}
 								</GridItem>
-								<GridItem xs={12} md={10} lg={10} style={{marginTop: '2em'}}>
+								<GridItem xs={12} md={10} lg={10} style={{ marginTop: '2em' }}>
 									<TextInput
 										required
 										floatingText={translate.meeting_title}
@@ -639,7 +638,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 								requestClose={closeStatuteDetailsModal}
 								open={statuteModal}
 								buttonCancel={translate.close}
-								title={council.statute? translate[council.statute.title] || council.statute.title : ''}
+								title={council.statute ? translate[council.statute.title] || council.statute.title : ''}
 								bodyText={
 									<StatuteDisplay
 										statute={council.statute}

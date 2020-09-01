@@ -7,32 +7,48 @@ import {
 	Grid,
 	GridItem,
 	LoadingSection,
-	ProgressBar
+	ProgressBar,
+	DropDownMenu
 } from "../../../../displayComponents/index";
-import { getPrimary, getSecondary, secondary } from "../../../../styles/colors";
-import { compose, graphql } from "react-apollo";
+import upload from '../../../../assets/img/upload.png';
+import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { compose, graphql, withApollo } from "react-apollo";
 import { MAX_FILE_SIZE } from "../../../../constants";
 import { Typography } from "material-ui";
 import AttachmentList from "../../../attachments/AttachmentList";
 import { formatSize, showAddCouncilAttachment } from "../../../../utils/CBX";
-import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil} from "../../../../queries";
+import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil } from "../../../../queries";
 import EditorStepLayout from '../EditorStepLayout';
+import gql from 'graphql-tag';
+import CompanyDocumentsBrowser from "../../../company/drafts/documents/CompanyDocumentsBrowser";
+import withSharedProps from "../../../../HOCs/withSharedProps";
 
-class StepAttachments extends React.Component {
 
-	state = {
-		uploading: false,
-		totalSize: 0,
+const StepAttachments = ({ client, translate, ...props }) => {
+	const [uploading, setUploading] = React.useState(false);
+	const [data, setData] = React.useState(null);
+	const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false);
+	const [loading, setLoading] = React.useState(true);
+	const [state, setState] = React.useState({
 		loading: false,
 		success: false,
 		alert: false
-	};
+	});
+	const [totalSize, setTotalSize] = React.useState(0);
+	const primary = getPrimary();
+	const secondary = getSecondary();
 
-	static getDerivedStateFromProps(nextProps) {
-		if (!nextProps.data.council) {
-			return null;
-		}
-		const { attachments } = nextProps.data.council;
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: councilStepFour,
+			variables: {
+				id: props.councilID
+			}
+		});
+
+		setData(response.data);
+		const { attachments } = response.data.council;
+
 		let totalSize = 0;
 		if (attachments.length !== 0) {
 			if (attachments.length > 1) {
@@ -43,28 +59,44 @@ class StepAttachments extends React.Component {
 			} else {
 				totalSize = attachments[0].filesize / 1000;
 			}
-
-			return {
-				totalSize: totalSize
-			};
 		}
-		return { totalSize: 0};
+		setTotalSize(totalSize);
+		setLoading(false);
+
+	}, [props.councilID]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+
+	const addCompanyDocumentCouncilAttachment = async id => {
+		const response = await client.mutate({
+			mutation: gql`
+				mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
+					attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
+						id
+					}
+				}
+			`,
+			variables: {
+				councilId: props.councilID,
+				companyDocumentId: id
+			}
+		});
+		getData();
+		setCompanyDocumentsModal(false);
 	}
 
-	componentDidMount() {
-		this.props.data.refetch();
-	}
 
-	handleFile = async event => {
+	const handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
 			return;
 		}
-		if (
-			file.size / 1000 + parseInt(this.state.totalSize, 10) >
-			MAX_FILE_SIZE
-		) {
-			this.setState({
+		if ((file.size / 1000 + totalSize) > MAX_FILE_SIZE) {
+			setState({
+				...state,
 				alert: true
 			});
 			return;
@@ -76,53 +108,41 @@ class StepAttachments extends React.Component {
 			let fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: event.loaded,
+				filesize: event.loaded.toString(),
 				base64: btoa(event.target.result),
-				councilId: this.props.councilID
+				councilId: props.councilID
 			};
 
-			this.setState({
-				uploading: true
-			});
-			const response = await this.props.addAttachment({
+			setUploading(true);
+			const response = await props.addAttachment({
 				variables: {
 					attachment: fileInfo
 				}
 			});
 			if (response) {
-				this.props.data.refetch();
-				this.setState({
-					uploading: false
-				});
+				getData();
+				setUploading(false);
 			}
 		};
 	};
 
-	removeCouncilAttachment = async attachmentID => {
-		await this.props.removeCouncilAttachment({
+	const removeCouncilAttachment = async attachmentID => {
+		await props.removeCouncilAttachment({
 			variables: {
 				attachmentId: attachmentID,
-				councilId: this.props.councilID
-			},
-			refetchQueries: [
-				{
-					query: councilStepFour,
-					name: "data",
-					variables: {
-						id: this.props.councilID
-					}
-				}
-			]
+				councilId: props.councilID
+			}
 		});
-		this.props.data.refetch();
+		getData();
 	};
 
-	updateCouncil = async step => {
-		this.setState({
+	const updateCouncil = async step => {
+		setState({
+			...state,
 			loading: true
-		});
-		const { attachments, __typename, ...council } = this.props.data.council;
-		await this.props.updateCouncil({
+		})
+		const { attachments, __typename, ...council } = data.council;
+		await props.updateCouncil({
 			variables: {
 				council: {
 					...council,
@@ -131,180 +151,222 @@ class StepAttachments extends React.Component {
 			}
 		});
 
-		this.setState({
+		setState({
+			...state,
 			loading: false,
 			success: true
-		})
+		});
 	};
 
-	resetButtonStates = () => {
-		this.setState({
+	const resetButtonStates = () => {
+		setState({
+			...state,
 			loading: false,
 			success: false,
-			uploading: false
-		})
+		});
+		setUploading(false);
 	}
 
-	nextPage = async () => {
-		if (!this.state.uploading) {
-			await this.updateCouncil(5);
-			this.props.nextStep();
+	const nextPage = async () => {
+		if (!uploading) {
+			await updateCouncil(5);
+			props.nextStep();
 		}
 	};
 
-	previousPage = async () => {
-		if (!this.state.uploading) {
-			await this.updateCouncil(4);
-			this.props.previousStep();
-		}
-	};
+	let attachments = [];
+	if(!loading){
+		attachments = data.council.attachments;
+	}
 
-	render() {
-		const { translate } = this.props;
-		let attachments = [];
-		if(!this.props.data.loading){
-			attachments = this.props.data.council.attachments;
-		}
-		const primary = getPrimary();
+	return (
+		<EditorStepLayout
+			body={
+				<React.Fragment>
+					<Grid>
+						<CompanyDocumentsBrowser
+							company={props.company}
+							translate={translate}
+							open={companyDocumentsModal}
+							action={file => addCompanyDocumentCouncilAttachment(file.id)}
+							trigger={
+								<div style={{ color: secondary }}>
+									{translate.select}
+								</div>
+							}
+						/>
+						<GridItem xs={12} md={10} style={{marginTop: '0.5em'}}>
+							<ProgressBar
+								value={
+									totalSize > 0
+										? (totalSize / MAX_FILE_SIZE) *
+										100
+										: 0
+								}
+								color={secondary}
+								style={{ height: "1.2em" }}
+							/>
 
-		return (
-			<EditorStepLayout
-				body={
-					<React.Fragment>
-						<Grid>
-							<GridItem xs={12} md={10}>
-								<Typography
-									variant="subheading"
-									style={{ marginTop: "0.5em" }}
-								>
-									{translate.new_files_desc}
-								</Typography>
-
-								<ProgressBar
-									value={
-										this.state.totalSize > 0
-											? (this.state.totalSize / MAX_FILE_SIZE) *
-											100
-											: 0
-									}
-									color={getSecondary()}
-									style={{ height: "1.2em" }}
-								/>
-
-								<Typography variant="caption">
-									{formatSize(this.state.totalSize * 1000)}
-								</Typography>
-							</GridItem>
-							<GridItem xs={12} md={2}>
-								{showAddCouncilAttachment(attachments) && (
-									<FileUploadButton
-										text={translate.new_add}
+							<Typography variant="caption">
+								{`${formatSize(totalSize * 1000)} (${translate.max}. 15Mb)`}
+							</Typography>
+						</GridItem>
+						<GridItem xs={12} md={2}>
+							{showAddCouncilAttachment(attachments) && (
+								<>
+									<input
+										type="file"
+										id={"raised-button-file"}
+										onChange={handleFile}
+										disabled={uploading}
 										style={{
-											marginTop: "2em",
-											width: "100%"
+											cursor: "pointer",
+											position: "absolute",
+											top: 0,
+											width: 0,
+											bottom: 0,
+											right: 0,
+											left: 0,
+											opacity: 0
 										}}
-										buttonStyle={{ width: "100%" }}
-										color={primary}
-										textStyle={{
-											color: "white",
-											fontWeight: "700",
-											fontSize: "0.9em",
-											textTransform: "none"
-										}}
-										loading={this.state.uploading}
-										icon={<ButtonIcon type="publish" color="white" />}
-										onChange={this.handleFile}
 									/>
-								)}
-							</GridItem>
-						</Grid>
+									<DropDownMenu
+										color="transparent"
+										styleComponent={{ width: "" }}
+										Component={() =>
+											<BasicButton
+												color={primary}
+												icon={<i className={"fa fa-plus"}
+												style={{
+													cursor: 'pointer',
+													color: 'white',
+													fontWeight: '700',
+													paddingLeft: "5px"
+												}}></i>}
+												text={translate.add}
+												textStyle={{
+													color: 'white'
+												}}
+												buttonStyle={{
+													width: '100%'
+												}}
+											/>
+										}
+										textStyle={{ color: primary }}
+										anchorOrigin={{
+											vertical: 'bottom',
+											horizontal: 'left',
+										}}
+										type="flat"
+										items={
+											<div style={{ padding: "1em" }}>
+												<label htmlFor="raised-button-file">
+													<div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
+														<div style={{ paddingLeft: "10px" }}>
+															{translate.upload_file}
+														</div>
+													</div>
+												</label>
+											<div
+												style={{
+													display: "flex",
+													color: "black",
+													padding: ".5em 0em",
+													borderTop: "1px solid" + primary,
+													cursor: "pointer"
+												}}
+												onClick={() => setCompanyDocumentsModal(true)}
+											>
+												<div style={{ paddingLeft: "10px" }} >
+													{translate.my_documentation}
+												</div>
+											</div>
+										</div>
+										}
+									/>
+								</>
+							)}
+						</GridItem>
+					</Grid>
 
-						{this.props.data.loading?
-								<LoadingSection />
-							:
-							attachments.length > 0 && (
-								<AttachmentList
-									attachments={attachments}
-									refetch={this.props.data.refetch}
-									deleteAction={this.removeCouncilAttachment}
-									translate={translate}
-								/>
-							)
-						}
-						<ErrorAlert
-							title={translate.error}
-							bodyText={translate.file_exceeds_rest}
-							open={this.state.alert}
-							requestClose={() => this.setState({ alert: false })}
-							buttonAccept={translate.accept}
-						/>
-					</React.Fragment>
-				}
-				buttons={
-					<React.Fragment>
-						<BasicButton
-							text={translate.previous}
-							disabled={this.state.uploading}
-							color={getSecondary()}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							textPosition="after"
-							onClick={this.props.previousStep}
-						/>
-						<BasicButton
-							text={translate.save}
-							color={secondary}
-							loading={this.state.loading}
-							success={this.state.success}
-							reset={this.resetButtonStates}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								marginLeft: "0.5em",
-								marginRight: "0.5em",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							icon={<ButtonIcon color="white" type="save" />}
-							textPosition="after"
-							onClick={() => this.updateCouncil(4)}
-						/>
-						<BasicButton
-							text={translate.next}
-							loading={this.props.data.loading || this.state.uploading}
-							id={'attachmentSiguienteNew'}
-							loadingColor={'white'}
-							color={primary}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							textPosition="after"
-							onClick={this.nextPage}
-						/>
-					</React.Fragment>
-				}
-			/>
-		);
-	}
+					{loading?
+							<LoadingSection />
+						:
+						attachments.length > 0 && (
+							<AttachmentList
+								attachments={attachments}
+								refetch={getData}
+								deleteAction={removeCouncilAttachment}
+								translate={translate}
+							/>
+						)
+					}
+					<ErrorAlert
+						title={translate.error}
+						bodyText={translate.file_exceeds_rest}
+						open={state.alert}
+						requestClose={() => setState({ ...state, alert: false })}
+						buttonAccept={translate.accept}
+					/>
+				</React.Fragment>
+			}
+			buttons={
+				<React.Fragment>
+					<BasicButton
+						text={translate.previous}
+						disabled={uploading}
+						color={secondary}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						textPosition="after"
+						onClick={props.previousStep}
+					/>
+					<BasicButton
+						text={translate.save}
+						color={secondary}
+						loading={state.loading}
+						success={state.success}
+						reset={resetButtonStates}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							marginLeft: "0.5em",
+							marginRight: "0.5em",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						icon={<ButtonIcon color="white" type="save" />}
+						textPosition="after"
+						onClick={() => updateCouncil(4)}
+					/>
+					<BasicButton
+						text={translate.next}
+						loading={loading || uploading}
+						id={'attachmentSiguienteNew'}
+						loadingColor={'white'}
+						color={primary}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						textPosition="after"
+						onClick={nextPage}
+					/>
+				</React.Fragment>
+			}
+		/>
+	);
 }
 
 export default compose(
-	graphql(councilStepFour, {
-		name: "data",
-		options: props => ({
-			variables: {
-				id: props.councilID
-			},
-			notifyOnNetworkStatusChange: true
-		})
-	}),
+	withApollo,
+	withSharedProps(),
 	graphql(addCouncilAttachment, {
 		name: "addAttachment"
 	}),

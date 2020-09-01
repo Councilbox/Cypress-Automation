@@ -7,7 +7,7 @@ import { Table, TableCell, TableRow, TableBody, TableHead, CardContent, CardHead
 import { getSMSStatusByCode } from '../../../../utils/CBX';
 import { sendParticipantRoomKey } from "../../../corporation/councils/council/FailedSMSList";
 import { getSecondary, getPrimary } from '../../../../styles/colors';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
 
 const limitPerPage = 10;
 
@@ -62,14 +62,13 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
             variables: {
                 councilId: council.id,
                 participantIds: [id],
-                timezone: moment().utcOffset(),
+                timezone: moment().utcOffset().toString(),
                 newPhone: modifiedValues.get(id)
             }
         });
         setResendLoading(null);
         getData();
     }
-    console.log(data)
     if (isMobile) {
         return (
             <div style={{ height: "100%" }}>
@@ -90,7 +89,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                 {data.sendsSMS.map(send => (
                                     <Card style={{ margin: "5px", marginBottom: "15px" }} key={send.id}>
                                         <CardHeader
-                                            title={send.recipient.name + " " + send.recipient.surname}
+                                            title={send.recipient.name + " " + send.recipient.surname || ''}
                                             subheader={translate.state + ": " + getSMSStatusByCode(send.reqCode)}
                                         />
                                         <CardContent>
@@ -156,7 +155,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                         {data.sendsSMS.list.map(send => (
                                             <Row send={send} resendRoomAccessKey={resendRoomAccessKey} resendLoading={resendLoading} key={send.id}>
                                                 <TableCell>
-                                                    {send.recipient.name + " " + send.recipient.surname}
+                                                    {send.recipient.name + " " + send.recipient.surname || ''}
                                                 </TableCell>
                                                 <TableCell>
                                                     <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />

@@ -124,7 +124,7 @@ const updateCustomAgenda = gql`
 
 
 const cleanObject = object => {
-    const { __typename, items, options, ...rest } = object;
+    const { __typename, items, options, attachments, ...rest } = object;
     return rest;
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { getSecondary } from "../../../../styles/colors";
 import {
 	getParticipantStateString,
 	isRepresentative,
@@ -15,8 +15,8 @@ const DoubleIcon = ({
 	main,
 	sub,
 	subSize = subIconSize,
-	subColor = getPrimary(),
-	mainColor = getPrimary()
+	subColor = getSecondary(),
+	mainColor = getSecondary()
 }) => {
 	return (
 		<div
@@ -66,7 +66,7 @@ const IconSwitch = ({
 	} else {
 		state = getParticipantStateString(participant.live.assistanceIntention);
 	}
-	const primary = getPrimary();
+	const secondary = getSecondary();
 	let tooltipValue;
 	let icon;
 
@@ -84,7 +84,7 @@ const IconSwitch = ({
 					name={"globe"}
 					style={{
 						margin: "0.5em",
-						color: primary,
+						color: secondary,
 						fontSize: `${mainIconSize}em`
 					}}
 				/>
@@ -104,7 +104,7 @@ const IconSwitch = ({
 					name={"user"}
 					style={{
 						margin: "0.5em",
-						color: primary,
+						color: secondary,
 						fontSize: `${mainIconSize}em`
 					}}
 				/>
@@ -153,7 +153,7 @@ const IconSwitch = ({
 					name={"user"}
 					style={{
 						margin: "0.5em",
-						color: primary,
+						color: secondary,
 						fontSize: `${mainIconSize}em`
 					}}
 				/>
@@ -192,7 +192,7 @@ const IconSwitch = ({
 					name={"question"}
 					style={{
 						margin: "0.5em",
-						color: primary,
+						color: secondary,
 						fontSize: `${mainIconSize}em`
 					}}
 				/>

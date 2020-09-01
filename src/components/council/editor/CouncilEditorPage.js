@@ -4,7 +4,7 @@ import CouncilEditorNotice from "./StepNotice";
 import CouncilEditorCensus from "./census/StepCensus";
 import CouncilEditorAgenda from "./agenda/StepAgenda";
 import CouncilEditorAttachments from "./attachments/StepAttachments";
-import CouncilEditorOptions from "./StepOptions";
+import CouncilEditorOptions from "./options/StepOptions";
 import CouncilEditorPreview from "./StepPreview";
 import { bHistory } from "../../../containers/App";
 import { checkCouncilState } from "../../../utils/CBX";
@@ -52,7 +52,7 @@ const CouncilEditorPage = ({ council, translate, company, ...props }) => {
 	}
 
 	return (
-		<CardPageLayout title={!!council.name ? `${council.name}` : translate.dashboard_new} disableScroll={true}>
+		<CardPageLayout disableScroll={true}>
 			<div
 				style={{
 					width: "100%",

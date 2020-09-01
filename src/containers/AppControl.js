@@ -14,7 +14,8 @@ const ConfigContext = React.createContext({
 export { ConfigContext };
 
 const AppControl = ({ companies, user = {}, children, client }) => {
-    const [config, setConfig] = React.useState(null);
+    const [config, setConfig] = React.useState({});
+    const [loading, setLoading] = React.useState(true);
 
     const getData = React.useCallback(async companyId => {
         const response = await client.query({
@@ -37,6 +38,7 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                 }
             }
             setConfig(newConfig);
+            setLoading(false);
         }
     }, [client]);
 
@@ -51,10 +53,13 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                 const response = await client.subscribe({
                     query: appControlChange,
                     variables: {
-                        userId: user.id
+                        userId: +user.id
                     }
                 });
                 response.subscribe(subscriptionData => {
+                    if(!subscriptionData.data.appControlChange){
+                        return;
+                    }
                     if(subscriptionData.data.appControlChange.command === 'logout'){
                         store.dispatch(mainActions.logout());
                     }
@@ -87,15 +92,22 @@ const AppControl = ({ companies, user = {}, children, client }) => {
     }, [companies.selected]);
 
     return(
-        <ConfigContext.Provider value={config}>
-            {children}
+        <ConfigContext.Provider value={{
+            ...config,
+            updateConfig: getData
+        }}>
+            {loading?
+                <></>
+            :
+                children
+            }
         </ConfigContext.Provider>
     )
 }
 
 
 const appControlChange = gql`
-    subscription AppControlChange($userId: String!) {
+    subscription AppControlChange($userId: Int!) {
         appControlChange(userId: $userId) {
             command
             userId

@@ -6,7 +6,7 @@ import { TextInput, BasicButton } from '../../../../displayComponents';
 const CostManager = ({ council, updateCouncil }) => {
     const [formData, setFormData] = React.useState({
         price: council.price,
-        priceObservations: council.priceObservations
+        promoCode: council.promoCode
     });
     const [loading, setLoading] = React.useState(false);
 
@@ -20,7 +20,7 @@ const CostManager = ({ council, updateCouncil }) => {
     const updateObservations = event => {
         setFormData({
             ...formData,
-            priceObservations: event.target.value
+            promoCode: event.target.value
         });
     }
 
@@ -31,7 +31,7 @@ const CostManager = ({ council, updateCouncil }) => {
                 council: {
                     id: council.id,
                     price: formData.price,
-                    priceObservations: formData.priceObservations
+                    promoCode: formData.promoCode
                 }
             }
         });
@@ -49,7 +49,7 @@ const CostManager = ({ council, updateCouncil }) => {
             />
             <TextInput
                 floatingText="Observaciones sobre el coste"
-                value={formData.priceObservations || ''}
+                value={formData.promoCode || ''}
                 onChange={updateObservations}
             />
             <BasicButton
@@ -67,7 +67,7 @@ const updateCouncil = gql`
         updateCouncil(council: $council){
             id
             price
-            priceObservations
+            promoCode
         }
     }
 `;

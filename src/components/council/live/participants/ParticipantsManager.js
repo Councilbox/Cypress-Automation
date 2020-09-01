@@ -2,11 +2,11 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection } from '../../../../displayComponents';
-import { isMobile } from 'react-device-detect';
 import { MenuItem, Paper } from 'material-ui';
 import ParticipantsPage from "./sections/ParticipantsPage";
 import { useOldState } from '../../../../hooks';
 import gql from 'graphql-tag';
+import { isMobile } from '../../../../utils/screen';
 
 const initialState = {
     layout: 'squares', // table, compact
@@ -17,7 +17,7 @@ const initialState = {
     view: 'STATES' // CONVENE, CREDENTIALS, ATTENDANCE, TYPE
 }
 
-const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
+const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) => {
     const [state, setState] = React.useState(initialState);
     const [participants, setParticipants] = React.useState(null);
     const [filters, setFilters] = useOldState({
@@ -141,6 +141,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
                 council={council}
                 translate={translate}
                 layout={layout}
+                root={root}
                 data={participants}
                 view={state.view}
                 loading={state.loading}
@@ -384,6 +385,23 @@ const getQuery = type => {
                     dni
                     type
                     signed
+                    representatives {
+                        name
+                        id
+                        surname
+                        signed
+                        state
+                        assistanceLastDateConfirmed
+                        assistanceIntention
+                        dni
+                        position
+                        email
+                    }
+                    representative {
+                        id
+                        name
+                        surname
+                    }
                     assistanceIntention
                     assistanceLastDateConfirmed
                     online

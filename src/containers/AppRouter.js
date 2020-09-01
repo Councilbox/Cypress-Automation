@@ -4,11 +4,13 @@ import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import withWindowSize from '../HOCs/withWindowSize';
 import appStyle from "../styles/appStyle.jsx";
-import { isLandscape } from '../utils/screen';
+import { isLandscape, isMobile } from '../utils/screen';
 import image from "../assets/img/sidebar-2.jpg";
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
-import { isMobile } from "react-device-detect";
+import GicarLoginContainer from "./GicarLoginContainer";
+import RoomAdminContainer from "./RoomAdminContainer";
+
 
 
 const LoadRecommendations = Loadable({
@@ -19,6 +21,11 @@ const LoadRecommendations = Loadable({
 
 const LoadCorporationTree = Loadable({
 	loader: () => import('../components/corporation/Router'),
+	loading: LoadingMainApp
+});
+
+const RoomAdminRouter = Loadable({
+	loader: () => import('../containers/RoomAdminRouter'),
 	loading: LoadingMainApp
 });
 
@@ -169,12 +176,19 @@ class AppRouter extends React.Component {
 			);
 		}
 
+		if(this.props.user.accessLimitedTo) {
+			return (
+				<RoomAdminRouter user={this.props.user} location={this.props.location} />
+			)
+		}
+
 		return this.props.main.isLogged && this.props.user.type === 'company' ? (
-			<div style={{ width: "100%", height: '100%', position: isMobile ? "relative" : "", background: "#f5f5f5" }}>
+			<div style={{ width: "100%", height: '100%', position: isMobile ? "relative" : "" }}>
 				<SidebarLite
 					companies={this.props.companies.list}
 					company={this.props.companies.list[this.props.companies.selected]}
 					open={this.state.mobileOpen}
+					user={this.props.user}
 					handleDrawerToggle={this.handleDrawerToggle}
 					image={image}
 					translate={translate}
@@ -240,7 +254,9 @@ class AppRouter extends React.Component {
 			<Switch>
 					<Route exact path="/" component={Login} />
 					<Route path="/signup" component={SignUpPage} />
+					<Route path="/sso/gicar/token/:token/refresh/:refresh" component={GicarLoginContainer} />
 					<Route path="/forgetPwd" component={ForgetPwd} />
+					<Route path="/roomAdmin/:token" component={RoomAdminContainer} />
 					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
 					<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
 					<Route path="/recommendations/:language" component={LoadRecommendations} />

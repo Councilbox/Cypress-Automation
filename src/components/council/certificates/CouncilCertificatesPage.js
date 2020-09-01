@@ -33,6 +33,7 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
                     "application/pdf",
                     `${certificate.title.replace(/\./, '')}`
                 );
+                setDownloading(false);
             }
         }
     }
@@ -152,7 +153,7 @@ export default compose(
     graphql(councilCertificates, {
         options: props => ({
             variables: {
-                councilId: props.match.params.council
+                councilId: +props.match.params.council
             }
         })
     }),

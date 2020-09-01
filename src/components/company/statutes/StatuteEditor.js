@@ -7,36 +7,28 @@ import {
 	SelectInput,
 	TextInput,
 } from "../../../displayComponents";
-import RichTextInput from "../../../displayComponents/RichTextInput";
-import LoadDraftModal from '../../company/drafts/LoadDraftModal';
-import SaveDraftModal from '../../company/drafts/SaveDraftModal';
-import { MenuItem, Tooltip } from "material-ui";
+import * as CBX from "../../../utils/CBX";
+import { MenuItem } from "material-ui";
 import { draftDetails } from "../../../queries";
 import { withApollo } from "react-apollo";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import * as CBX from "../../../utils/CBX";
+import { getPrimary } from "../../../styles/colors";
 import QuorumInput from "../../../displayComponents/QuorumInput";
-import { DRAFT_TYPES } from "../../../constants";
-import { TAG_TYPES } from "../drafts/draftTags/utils";
+import { ConfigContext } from "../../../containers/AppControl";
+import StatuteDocSection from "./StatuteDocSection";
+import { useValidRTMP } from "../../../hooks";
+import withSharedProps from "../../../HOCs/withSharedProps";
 
 
-const StatuteEditor = ({ statute, translate, updateState, errors, client, ...props }) => {
-	const [saveDraft, setSaveDraft] = React.useState(false);
+const StatuteEditor = ({ statute, translate, updateState, errors, client, company, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
-	const editor = React.useRef();
-	const intro = React.useRef();
-	const footer = React.useRef();
-	const constitution = React.useRef();
-	const conclusion = React.useRef();
+	const config = React.useContext(ConfigContext);
+
 	const primary = getPrimary();
-
-
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: draftDetails
 		});
-
 		setData(response.data);
 		setLoading(false);
 	}, [statute.id])
@@ -45,60 +37,97 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 		getData();
 	}, [getData]);
 
-	const closeDraftModal = () => {
-		setSaveDraft(false);
-	}
-
-	const showSaveDraft = type => () => {
-		setSaveDraft(type);
-	}
-
-	const getText = type => {
-		const types = {
-			'CONVENE_HEADER': statute.conveneHeader,
-			'CONVENE_FOOTER': statute.conveneFooter,
-			default: statute[type.toString().toLowerCase()]
-		}
-		return types[type]? types[type] : types.default;
-	}
-
-	const loadDraft = draft => {
-		updateState({
-			conveneHeader: draft.text
-		});
-		editor.current.setValue(draft.text);
-	};
-
-	const loadFooterDraft = draft => {
-		updateState({
-			conveneFooter: draft.text
-		});
-		footer.current.setValue(draft.text);
-	};
-
-	const conclusionTags = React.useMemo(() => getTagsByActSection('conclusion', translate), [statute.id]);
-	const introTags = React.useMemo(() => getTagsByActSection('intro', translate), [statute.id]);
-	const constitutionTags = React.useMemo(() => getTagsByActSection('constitution', translate), [statute.id]);
-	const conveneHeaderTags = React.useMemo(() => getTagsByActSection('conveneHeader', translate), [statute.id]);
-
 
 	const { quorumTypes } = data;
 	return (
 		<Fragment>
-			<Grid>
+			<Grid style={{ overflow: "hidden" }}>
 				<SectionTitle
 					text={translate.convene}
 					color={primary}
 				/>
 				<br />
-				<Grid>
+				<Grid style={{ overflow: "hidden" }}>
+					{props.organization &&
+						<>
+							<GridItem xs={12} md={12} lg={12}>
+								<div style={{ maxWidth: '20em' }}>
+									<SelectInput
+										floatingText={translate.company_type}
+										value={'' + statute.companyType || '-1'}
+										onChange={event =>
+											updateState({
+												companyType: +event.target.value
+											})
+										}
+										errorText={errors.type}
+									>
+										<MenuItem
+											value={'-1'}
+										>
+											{translate.all_plural}
+										</MenuItem>
+										{data.companyTypes && data.companyTypes.map(
+											companyType => {
+												return (
+													<MenuItem
+														key={companyType.label}
+														value={'' + companyType.value}
+													>
+														{
+															translate[
+															companyType.label
+															]
+														}
+													</MenuItem>
+												);
+											}
+										)}
+									</SelectInput>
+								</div>
+							</GridItem>
+							<GridItem xs={12} md={12} lg={12}>
+								<div style={{ maxWidth: '20em' }}>
+									<SelectInput
+										floatingText={translate.language}
+										value={statute.language || 'all'}
+										onChange={event =>
+											updateState({
+												language: event.target.value
+											})
+										}
+										errorText={errors.language}
+									>
+										<MenuItem
+											value={'all'}
+										>
+											{translate.all_plural}
+										</MenuItem>
+										{data.languages && data.languages.map(
+											language => {
+												return (
+													<MenuItem
+														key={language.columnName}
+														value={language.columnName}
+													>
+														{language.desc}
+													</MenuItem>
+												);
+											}
+										)}
+									</SelectInput>
+								</div>
+							</GridItem>
+						</>
+					}
+
 					<GridItem xs={12} md={8} lg={6}>
 						<Checkbox
 							label={translate.exists_advance_notice_days}
 							value={statute.existsAdvanceNoticeDays === 1}
 							onChange={(event, isInputChecked) =>
 								updateState({
-									existsAdvanceNoticeDays: isInputChecked? 1 : 0
+									existsAdvanceNoticeDays: isInputChecked ? 1 : 0
 								})
 							}
 						/>
@@ -204,7 +233,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 							}
 						>
 							{quorumTypes !== undefined &&
-							!loading &&
+								!loading &&
 								quorumTypes.map(quorumType => {
 									return (
 										<MenuItem
@@ -215,7 +244,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 										</MenuItem>
 									);
 								})
-								}
+							}
 						</SelectInput>
 					</GridItem>
 					<GridItem xs={6} md={2} lg={2}>
@@ -270,27 +299,27 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 					{statute.existsSecondCall === 1 && (
 						<GridItem xs={6} md={2} lg={2}>
 							{CBX.quorumNeedsInput(statute.secondCallQuorumType) && (
-									<QuorumInput
-										type={statute.secondCallQuorumType}
-										style={{ marginLeft: "1em" }}
-										value={statute.secondCallQuorum}
-										divider={statute.secondCallQuorumDivider}
-										quorumError={errors.secondCallQuorum}
-										dividerError={
-											errors.secondCallQuorumDivider
-										}
-										onChange={value =>
-											updateState({
-												secondCallQuorum: +value
-											})
-										}
-										onChangeDivider={value =>
-											updateState({
-												secondCallQuorumDivider: +value
-											})
-										}
-									/>
-								)}
+								<QuorumInput
+									type={statute.secondCallQuorumType}
+									style={{ marginLeft: "1em" }}
+									value={statute.secondCallQuorum}
+									divider={statute.secondCallQuorumDivider}
+									quorumError={errors.secondCallQuorum}
+									dividerError={
+										errors.secondCallQuorumDivider
+									}
+									onChange={value =>
+										updateState({
+											secondCallQuorum: +value
+										})
+									}
+									onChangeDivider={value =>
+										updateState({
+											secondCallQuorumDivider: +value
+										})
+									}
+								/>
+							)}
 						</GridItem>
 					)}
 					<GridItem xs={12} md={7} lg={7}>
@@ -304,6 +333,33 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 							}
 						/>
 					</GridItem>
+					{config.earlyVoting &&
+						<>
+							<GridItem xs={12} md={7} lg={7}>
+								<Checkbox
+									disabled={statute.existsDelegatedVote !== 1}
+									label={translate.can_sense_vote_delegation}
+									value={statute.canSenseVoteDelegate === 1}
+									onChange={(event, isInputChecked) =>
+										updateState({
+											canSenseVoteDelegate: isInputChecked ? 1 : 0
+										})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={7} lg={7}>
+								<Checkbox
+									label={translate.exists_early_voting}
+									value={statute.canEarlyVote === 1}
+									onChange={(event, isInputChecked) =>
+										updateState({
+											canEarlyVote: isInputChecked ? 1 : 0
+										})
+									}
+								/>
+							</GridItem>
+						</>
+					}
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							helpPopover={true}
@@ -312,9 +368,10 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 							label={translate.exist_max_num_delegated_votes}
 							value={statute.existMaxNumDelegatedVotes === 1}
 							onChange={(event, isInputChecked) =>
-								updateState({existMaxNumDelegatedVotes: isInputChecked
-									? 1
-									: 0
+								updateState({
+									existMaxNumDelegatedVotes: isInputChecked
+										? 1
+										: 0
 								})
 							}
 						/>
@@ -426,6 +483,39 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							label={translate.president}
+							value={statute.hasPresident === 1}
+							onChange={(event, isInputChecked) =>
+								updateState({
+									hasPresident: isInputChecked ? 1 : 0
+								})
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={7} lg={7}>
+						<Checkbox
+							label={translate.secretary}
+							value={statute.hasSecretary === 1}
+							onChange={(event, isInputChecked) =>
+								updateState({
+									hasSecretary: isInputChecked ? 1 : 0
+								})
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={7} lg={7}>
+						<Checkbox
+							label={translate.hide_votings_recount}
+							value={statute.hideVotingsRecountFinished === 1}
+							onChange={(event, isInputChecked) =>
+								updateState({
+									hideVotingsRecountFinished: isInputChecked ? 1 : 0
+								})
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={7} lg={7}>
+						<Checkbox
 							helpPopover={true}
 							helpTitle={translate.exist_present_with_remote_vote}
 							helpDescription={translate.exists_present_with_remote_vote_desc}
@@ -474,6 +564,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 						/>
 					</GridItem>
 				</Grid>
+				<VideoSection
+					updateState={updateState}
+					statute={statute}
+					translate={translate}
+				/>
 
 				<SectionTitle
 					text={translate.census}
@@ -483,7 +578,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 						marginBottom: "1em"
 					}}
 				/>
-				<Grid>
+				<Grid style={{ overflow: "hidden" }}>
 					<GridItem xs={12} md={4} lg={4}>
 						<SelectInput
 							floatingText={translate.associated_census}
@@ -506,407 +601,77 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, ...pro
 											</MenuItem>
 										);
 									}
-								)}
+								)
+							}
+							{(CBX.multipleGoverningBody(company.governingBodyType) &&
+								company.governingBodyData &&
+								company.governingBodyData.list &&
+								company.governingBodyData.list.length > 0) &&
+									<MenuItem
+										value={parseInt(-1, 10)}
+									>
+										{translate.governing_body}
+									</MenuItem>
+							}
 						</SelectInput>
 					</GridItem>
 				</Grid>
-				<SectionTitle
-					text={translate.act_and_documentation}
-					color={primary}
-					style={{
-						marginTop: "2em",
-						marginBottom: "1em"
-					}}
+				{/* /////// esto no esta ajustando en movil */}
+				<StatuteDocSection
+					translate={translate}
+					key={statute.id}
+					statute={statute}
+					data={data}
+					company={company}
+					updateState={updateState}
+					errors={errors}
+					{...props}
 				/>
-				<Grid>
-					<GridItem xs={12} md={7} lg={7}>
-						<Checkbox
-							label={translate.exists_act}
-							value={statute.existsAct === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
-									existsAct: isInputChecked ? 1 : 0
-								})
-							}
-						/>
-					</GridItem>
-					<GridItem xs={12} md={7} lg={7}>
-						<Checkbox
-							label={translate.included_in_act_book}
-							value={statute.includedInActBook === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
-									includedInActBook: isInputChecked ? 1 : 0
-								})
-							}
-						/>
-					</GridItem>
-					<GridItem xs={12} md={7} lg={7}>
-						<Checkbox
-							label={translate.include_participants_list_in_act}
-							value={statute.includeParticipantsList === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
-									includeParticipantsList: isInputChecked
-										? 1
-										: 0
-								})
-							}
-						/>
-					</GridItem>
-				</Grid>
-
-				{statute.conveneHeader !== undefined && (
-					<React.Fragment>
-						<SectionTitle
-							text={translate.call_template}
-							color={primary}
-							style={{
-								marginTop: "2em",
-								marginBottom: "1em"
-							}}
-						/>
-						<GridItem xs={12} md={12} lg={12}>
-							<RichTextInput
-								ref={editor}
-								errorText={errors.conveneHeader}
-								translate={translate}
-								floatingText={translate.convene_header}
-								value={
-									!!statute.conveneHeader
-										? statute.conveneHeader
-										: ""
-								}
-								onChange={value =>
-									updateState({
-										conveneHeader: value
-									})
-								}
-								saveDraft={
-									<SaveDraftIcon
-										onClick={showSaveDraft('CONVENE_HEADER')}
-										translate={translate}
-									/>
-								}
-								tags={conveneHeaderTags}
-								loadDraft={
-									<LoadDraftModal
-										translate={translate}
-										companyId={props.company.id}
-										loadDraft={loadDraft}
-										statute={{
-											...statute,
-											statuteId: statute.id
-										}}
-										defaultTags={{
-											"convene_header": {
-												active: true,
-												type: TAG_TYPES.DRAFT_TYPE,
-												name: 'convene_header',
-												label: translate.convene_header
-											}
-										}}
-										statutes={props.companyStatutes}
-										draftType={0}
-									/>
-								}
-							/>
-						</GridItem>
-					</React.Fragment>
-				)}
-				{statute.conveneFooter !== undefined && (
-					<GridItem xs={12} md={12} lg={12}>
-						<RichTextInput
-							ref={footer}
-							errorText={errors.conveneFooter}
-							translate={translate}
-							saveDraft={
-								<SaveDraftIcon
-									onClick={showSaveDraft('CONVENE_FOOTER')}
-									translate={translate}
-								/>
-							}
-							loadDraft={
-								<LoadDraftModal
-									translate={translate}
-									companyId={props.company.id}
-									loadDraft={loadFooterDraft}
-									statute={{
-										...statute,
-										statuteId: statute.id
-									}}
-									defaultTags={{
-										"convene_footer": {
-											active: true,
-											type: TAG_TYPES.DRAFT_TYPE,
-											name: 'convene_footer',
-											label: translate.convene_footer
-										}
-									}}
-									statutes={props.companyStatutes}
-									draftType={6}
-								/>
-							}
-							floatingText={translate.convene_footer}
-							value={statute.conveneFooter || ""}
-							onChange={value =>
-								updateState({
-									conveneFooter: value
-								})
-							}
-						/>
-					</GridItem>
-				)}
 			</Grid>
-			{statute.existsAct === 1 && (
-				<Fragment>
-					<SectionTitle
-						text={translate.act_templates}
-						color={primary}
-						style={{
-							marginTop: "2em",
-							marginBottom: "1em"
-						}}
-					/>
-					<Grid>
-						<GridItem xs={12} md={12} lg={12}>
-							<RichTextInput
-								ref={intro}
-								floatingText={translate.intro}
-								translate={translate}
-								errorText={errors.intro}
-								value={statute.intro || ""}
-								onChange={value =>
-									updateState({
-										intro: value
-									})
-								}
-								saveDraft={
-									<SaveDraftIcon
-										onClick={showSaveDraft('INTRO')}
-										translate={translate}
-									/>
-								}
-								tags={introTags}
-								loadDraft={
-									<LoadDraftModal
-										translate={translate}
-										companyId={props.company.id}
-										loadDraft={draft => {
-											updateState({
-												intro: draft.text
-											})
-											intro.current.setValue(draft.text);
-
-										}}
-										defaultTags={{
-											"intro": {
-												active: true,
-												type: TAG_TYPES.DRAFT_TYPE,
-												name: 'intro',
-												label: translate.intro
-											}
-										}}
-										statute={{
-											...statute,
-											statuteId: statute.id
-										}}
-										statutes={props.companyStatutes}
-										draftType={2}
-									/>
-								}
-							/>
-						</GridItem>
-
-						<GridItem xs={12} md={12} lg={12}>
-							<RichTextInput
-								errorText={errors.constitution}
-								ref={constitution}
-								floatingText={translate.constitution}
-								translate={translate}
-								value={statute.constitution || ""}
-								onChange={value =>
-									updateState({
-										constitution: value
-									})
-								}
-								saveDraft={
-									<SaveDraftIcon
-										onClick={showSaveDraft('CONSTITUTION')}
-										translate={translate}
-									/>
-								}
-								tags={constitutionTags}
-								loadDraft={
-									<LoadDraftModal
-										translate={translate}
-										companyId={props.company.id}
-										defaultTags={{
-											"constitution": {
-												active: true,
-												type: TAG_TYPES.DRAFT_TYPE,
-												name: 'constitution',
-												label: translate.constitution
-											}
-										}}
-										loadDraft={draft => {
-											updateState({
-												constitution: draft.text
-											})
-											constitution.current.setValue(draft.text);
-
-										}}
-										statute={{
-											...statute,
-											statuteId: statute.id
-										}}
-										statutes={props.companyStatutes}
-										draftType={3}
-									/>
-								}
-							/>
-						</GridItem>
-
-						<GridItem xs={12} md={12} lg={12}>
-							<RichTextInput
-								errorText={errors.conclusion}
-								ref={conclusion}
-								floatingText={translate.conclusion}
-								translate={translate}
-								value={statute.conclusion || ""}
-								onChange={value =>
-									updateState({
-										conclusion: value
-									})
-								}
-								saveDraft={
-									<SaveDraftIcon
-										onClick={showSaveDraft('CONCLUSION')}
-										translate={translate}
-									/>
-								}
-								tags={conclusionTags}
-								loadDraft={
-									<LoadDraftModal
-										translate={translate}
-										defaultTags={{
-											"conclusion": {
-												active: true,
-												type: TAG_TYPES.DRAFT_TYPE,
-												name: 'conclusion',
-												label: translate.conclusion
-											}
-										}}
-										companyId={props.company.id}
-										loadDraft={draft => {
-											updateState({
-												conclusion: draft.text
-											})
-											conclusion.current.setValue(draft.text);
-
-										}}
-										statute={{
-											...statute,
-											statuteId: statute.id
-										}}
-										statutes={props.companyStatutes}
-										draftType={4}
-									/>
-								}
-							/>
-						</GridItem>
-					</Grid>
-					{!!saveDraft &&
-						<SaveDraftModal
-							key={saveDraft}
-							open={!!saveDraft}
-							data={{
-								text: getText(saveDraft),
-								description: "",
-								title: '',
-								votationType: 0,
-								type: DRAFT_TYPES[saveDraft],
-								statuteId: statute.id,
-								tags: {
-									[`statute_${statute.id}`]: {
-										label: translate[statute.title] || statute.title,
-										name: `statute_${statute.id}`,
-										active: true,
-										type: TAG_TYPES.STATUTE
-									},
-									[saveDraft.toLowerCase()]: {
-										type: TAG_TYPES.DRAFT_TYPE,
-										active: true,
-										label: translate[saveDraft.toLowerCase()],
-										name: saveDraft.toLowerCase()
-									}
-								}
-							}}
-							company={props.company}
-							requestClose={closeDraftModal}
-							companyStatutes={props.companyStatutes}
-							votingTypes={data.votingTypes}
-							majorityTypes={data.majorityTypes}
-							draftTypes={data.draftTypes}
-						/>
-					}
-
-				</Fragment>
-			)}
 		</Fragment>
 	);
 
 }
 
 
-const SaveDraftIcon = ({ onClick, translate }) => {
+const VideoSection = ({ updateState, statute, translate }) => {
+	const primary = getPrimary();
+
+	const { validURL } = useValidRTMP(statute);
+
 	return (
-		<Tooltip title={translate.new_save}>
-			<div onClick={onClick} style={{marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer'}}>
-				<i className="fa fa-save" style={{color: getSecondary(), fontSize: '1.75em'}}></i>
-			</div>
-		</Tooltip>
+		<>
+			<SectionTitle
+				text={translate.video_config}
+				color={primary}
+				style={{
+					marginTop: "2em",
+					marginBottom: "1em"
+				}}
+			/>
+			<Grid style={{ overflow: "hidden" }}>
+				<GridItem xs={12} md={8} lg={6}>
+					<TextInput
+						floatingText={'RTMP'}
+						required
+						errorText={!validURL? translate.invalid_url : null}
+						value={statute.videoConfig? statute.videoConfig.rtmp : ''}
+						onChange={event => {
+							updateState({
+								videoConfig: {
+									...statute.videoConfig,
+									rtmp: event.target.value
+								}
+							})
+						}}
+					/>
+				</GridItem>
+			</Grid>
+		</>
 	)
 }
 
-export default withApollo(StatuteEditor);
+export default withApollo(withSharedProps()(StatuteEditor));
 
 
 
-const getTagsByActSection = (section, translate) => {
-	switch(section) {
-
-		case 'conveneHeader':
-			return [
-				{
-					value: '{{dateFirstCall}}',
-					label: translate.date
-				},
-				{
-					value: '{{business_name}}',
-					label: translate.business_name
-				},
-				{
-					value: '{{address}}',
-					label: translate.new_location_of_celebrate
-				},
-				{
-					value: '{{city}}',
-					label: translate.company_new_locality
-				},
-				{
-					value: '{{country_state}}',
-					label: translate.company_new_country_state
-				},
-			];
-
-		case 'intro':
-			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.INTRO, translate);
-		case 'constitution':
-			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONSTITUTION, translate);
-		case 'conclusion':
-			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONCLUSION, translate);
-		default:
-			return [];
-	}
-}

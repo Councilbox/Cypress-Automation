@@ -19,7 +19,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 			<div>
 				{!!participant && (
 					<React.Fragment>
-						{`${participant.name} ${participant.surname} - ${
+						{`${participant.name} ${participant.surname || ''} - ${
 							participant.email
 						} - ${participant.position? participant.position : ''}`}
 
@@ -92,7 +92,7 @@ const getLogText = (type, translate) => {
 			return 'El administrador le retiró la palabra';
 
 		case 'GRANTED WORD':
-			return 'Palabra concedida';
+			return translate.granted_word;
 
 		default:
 			return type;

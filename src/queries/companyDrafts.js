@@ -30,12 +30,14 @@ export const companyDrafts = gql`
 		$filters: [FilterInput]
 		$options: OptionsInput
 		$tags: [String]
+		$showCorporationResults: Boolean
 	) {
 		companyDrafts(
 			companyId: $companyId
 			filters: $filters
 			options: $options
 			tags: $tags
+			showCorporationResults: $showCorporationResults
 		) {
 			list {
 				id
@@ -44,6 +46,7 @@ export const companyDrafts = gql`
 				description
 				majority
 				majorityType
+				secondaryText
 				majorityDivider
 				votationType
 				tags
@@ -87,6 +90,7 @@ export const getCompanyDraftData = gql`
 			id
 			userId
 			companyId
+			secondaryText
 			title
 			description
 			text

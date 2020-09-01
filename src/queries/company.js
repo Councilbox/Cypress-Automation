@@ -11,6 +11,7 @@ export const companyFragment = `
 	zipcode
 	country
 	category
+	file
 	countryState
 	linkKey
 	creatorId

@@ -29,7 +29,7 @@ const CouncilEditorContainer = ({
 			council={data.council}
 			company={company}
 			updateStep={() => data.refetch}
-			councilID={match.params.id}
+			councilID={+match.params.id}
 		/>
 	);
 };
@@ -42,7 +42,7 @@ const mapStateToProps = state => ({
 export default graphql(council, {
 	options: props => ({
 		variables: {
-			id: props.match.params.id
+			id: +props.match.params.id
 		}
 	})
 })(connect(mapStateToProps)(withRouter(CouncilEditorContainer)));

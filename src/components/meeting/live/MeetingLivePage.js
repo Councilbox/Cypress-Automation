@@ -6,9 +6,7 @@ import withWindowSize from '../../../HOCs/withWindowSize';
 import { Icon } from '../../../displayComponents';
 import { useOldState } from "../../../hooks";
 //import { useAdom } from 'adom-client';
-
-let logo;
-import("../../../assets/img/logo-white.png").then(data => logo = data);
+import logo from "../../../assets/img/logo-white.png";
 
 const minVideoWidth = 30;
 const minVideoHeight = "50%";
@@ -77,7 +75,7 @@ const MeetingLivePage = ({ data }) => {
 					display: "flex",
 					flexDirection: "row",
 					justifyContent: "flex-end",
-					paddingRight: "2em"
+					marginRight: "2em"
 				}}
 			>
 				<Icon

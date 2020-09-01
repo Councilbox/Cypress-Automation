@@ -25,7 +25,7 @@ export const checkUsedKey = gql`
 `;
 
 
-const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
+const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }) => {
     const [modal, setModal] = React.useState(false);
     const [errors, setErrors] = React.useState({
         key: '',
@@ -42,7 +42,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
 
 
     const createCompanyTag = async () => {
-        if(!await checkRequiredFields()){
+        if (!await checkRequiredFields()) {
             const response = await client.mutate({
                 mutation: addTag,
                 variables: {
@@ -55,7 +55,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
                 }
             });
 
-            if(response.data.createCompanyTag){
+            if (response.data.createCompanyTag) {
                 sendGAevent({
                     category: 'Etiquetas',
                     action: `Crear etiqueta`,
@@ -73,10 +73,10 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
 
     }
 
-    const checkRequiredFields = async() => {
+    const checkRequiredFields = async () => {
         let errors = {}
 
-        if(!tag.key){
+        if (!tag.key) {
             errors.key = translate.required_field;
         } else {
             const response = await client.query({
@@ -87,12 +87,12 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
                 }
             });
 
-            if(response.data.companyTagKeyUsed){
+            if (response.data.companyTagKeyUsed) {
                 errors.key = translate.key_already_used;
             }
         }
 
-        if(!tag.value){
+        if (!tag.value) {
             errors.value = translate.required_field;
         }
 
@@ -126,23 +126,24 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
             />
         )
     }
-
+    
     return (
         <React.Fragment>
             <BasicButton
                 onClick={openModal}
                 color={primary}
                 icon={<ButtonIcon type="add" color="white" />}
-                text="Añadir"
+                text={translate.add}
                 textStyle={{
                     color: 'white',
-                    fontWeight: '700'
+                    fontWeight: '700',
+                    ...styles
                 }}
                 id={'idAddEtiqueta'}
             />
             <AlertConfirm
                 open={modal}
-                title={'Añadir etiqueta'}
+                title={translate.add_tag}
                 requestClose={closeModal}
                 acceptAction={createCompanyTag}
                 bodyText={renderModalBody()}

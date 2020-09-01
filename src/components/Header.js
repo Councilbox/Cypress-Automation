@@ -5,20 +5,20 @@ import { Link } from "react-router-dom";
 import LanguageSelector from "./menus/LanguageSelector";
 import UserMenu from "./menus/UserMenu";
 import CommandLine from './dashboard/CommandLine';
-import { Icon, DropDownMenu } from "../displayComponents";
+import { Icon, DropDownMenu, BasicButton } from "../displayComponents";
 import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
-import { getSecondary, getPrimary } from "../styles/colors";
+import { getSecondary, getPrimary, primary } from "../styles/colors";
 import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION, variant } from "../config";
 import { getCustomLogo, getCustomIcon } from "../utils/subdomain";
 import { MenuItem } from "material-ui";
-import gorro from "../assets/img/navidadGorro.png";
+import ContactModal from "./participant/login/ContactModal";
 
 
-const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props }) => {
+const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props }) => {
 	const goBack = () => {
 		bHistory.goBack();
 	};
@@ -26,7 +26,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 	const showVerticalLayout = () => {
 		return windowSize === 'xs' && !isLandscape();
 	}
-
+	const [modal, setModal] = React.useState(false);
 	const secondary = getSecondary();
 	const language = translate && translate.selectedLanguage;
 	const customIcon = getCustomIcon();
@@ -55,7 +55,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					alignItems: "center"
 				}}
 			>
-				{backButton && (
+				{/* {backButton && (
 					<Tooltip
 						title={translate.back}
 						placement="bottom"
@@ -80,7 +80,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 							</Icon>
 						</div>
 					</Tooltip>
-				)}
+				)} */}
 				<Link to="/">
 					<div style={{ position: "relative" }}>
 						<img
@@ -91,17 +91,6 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 								marginLeft: "1em",
 								// marginLeft: "2em",
 								userSelect: 'none'
-							}}
-							alt="logo"
-						/>
-						<img
-							src={gorro}
-							style={{
-								height: "1.5em",
-								position: 'absolute',
-								top: '-7px',
-								right: '-8px',
-								transform: 'rotate(17deg)',
 							}}
 							alt="logo"
 						/>
@@ -142,20 +131,12 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 							<div style={{ color: getPrimary() }}>
 								{selectHeadFinished !== 'participacion' &&
 									<MenuItem onClick={() => setSelectHeadFinished("participacion")} >
-										Mi participación
-									</MenuItem>
-								}
-								{selectHeadFinished !== 'reunion' &&
-									<MenuItem onClick={() => setSelectHeadFinished("reunion")} >
-										{translate.summary}
+										{translate.my_participation}
 									</MenuItem>
 								}
 								{selectHeadFinished !== 'contactAdmin' &&
 									<MenuItem onClick={() => setSelectHeadFinished("contactAdmin")} >
-										{
-											//TRADUCCION
-										}
-										Contacta al admin
+										{translate.mail_contact_admin}									
 									</MenuItem>
 								}
 								<MenuItem onClick={() => bHistory.push('/')}>
@@ -165,6 +146,39 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 						}
 					/>
 				}
+
+				{contactAdmin === 1 &&
+					<BasicButton
+						onClick={() => setModal(true)}
+						textStyle={{
+							color: ` ${primary}`,
+						}}
+						backgroundColor={{ background: "white", justifyContent: "inherit" }}
+						text={
+							<div>
+								{!showVerticalLayout() && translate.mail_contact_admin}
+								<i className={"fa fa-envelope-o"} style={{ marginLeft: "5px" }}></i>
+							</div>}
+						buttonStyle={{
+							border: "1px solid " + getPrimary(),
+							color: getPrimary(),
+							boxShadow: "0 2px 1px 0 rgba(0, 0, 0, 0.25)",
+							padding: "4px 15px",
+							margin: "5px 15px",
+							cursor: "pointer",
+							fontSize: "12px",
+							borderRadius: "0",
+							minHeight: "0"
+						}}>
+					</BasicButton>
+				}
+				<ContactModal
+					open={modal}
+					requestClose={() => setModal(false)}
+					participant={props.participant}
+					translate={translate}
+					council={props.council}
+				/>
 				{languageSelector &&
 					<span style={{ fontSize: '0.85em' }}>
 						{`v${CLIENT_VERSION}`}

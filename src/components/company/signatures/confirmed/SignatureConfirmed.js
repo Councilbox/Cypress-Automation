@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import SignersStatusRecount from './SignersStatusRecount';
 import { SIGNATURE_STATES } from '../../../../constants';
 import { getPrimary } from '../../../../styles/colors';
-import { downloadFile } from '../../../../utils/CBX';
+import { SERVER_URL } from '../../../../config';
 
 class SignatureConfirmed extends React.Component {
 
@@ -14,47 +14,31 @@ class SignatureConfirmed extends React.Component {
         downloading: false
     }
 
-    signes = null;
-
-    componentDidMount(){
-        this.refreshStates();
-    }
 
     downloadSignedDocument = async () => {
         this.setState({
             downloading: true
         });
-        const response = await this.props.downloadSignedDocument({
-            variables: {
-                signatureId: this.props.data.signature.id
-            }
+        const token = sessionStorage.getItem("token");
+        const response = await fetch(`${SERVER_URL}/signedDocument/${this.props.data.signature.id}`, {
+            headers: new Headers({
+                "x-jwt-token": token
+            })
         });
-        if(response.data.downloadSignedDocument){
-            downloadFile(
-                response.data.downloadSignedDocument,
-                "application/pdf",
-                `${this.props.data.signature.title.split(' ').join('_').replace(/\./, '')}`
-            );
-            this.setState({
-                downloading: false
-            });
-        }
-    }
 
-    refreshStates = async () => {
-        await this.props.updateSignatureStatus({
-            variables: {
-                id: this.props.data.signature.id
-            }
-        });
-        await this.props.data.refetch();
-        if(this.signers){
-            if(this.signers.wrappedInstance){
-                if(this.signers.wrappedInstance.wrappedInstance){
-                    this.signers.wrappedInstance.wrappedInstance.reloadParticipants();
-                }
-            }
+        if(response.status === 200){
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = this.props.data.signature.title + ".pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
         }
+        this.setState({
+            downloading: false
+        })
     }
 
     render(){
@@ -102,7 +86,7 @@ class SignatureConfirmed extends React.Component {
                         height: 'calc(100% - 3em)'
                     }}
                 >
-                    {this.props.data.loading?
+                    {!signature?
                         <div
                             style={{
                                 height: '400px',
@@ -117,6 +101,7 @@ class SignatureConfirmed extends React.Component {
                         <div style={{width: '100%', height: '100%'}}>
                             <SignersList
                                 ref={ref => this.signers = ref}
+                                refetch={this.props.data.refetch}
                                 signature={signature}
                                 translate={this.props.translate}
                                 refreshStates={this.refreshStates}

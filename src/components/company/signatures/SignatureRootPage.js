@@ -29,31 +29,15 @@ const SignatureRootPage = props => {
     }
 }
 
-const signersRecount = gql`
-    query SignersRecount($signatureId: Int!){
-        signatureParticipantsStatusRecount(signatureId: $signatureId){
-            signed
-            unsigned
-        }
-    }
-`;
-
 
 export default compose(
     graphql(signature, {
         options: props => ({
             variables: {
-                id: props.match.params.id
+                id: +props.match.params.id
             },
-            fetchPolicy: 'network-only'
-        })
-    }),
-    graphql(signersRecount, {
-        name: 'recount',
-        options: props => ({
-            variables: {
-                signatureId: props.match.params.id
-            }
+            fetchPolicy: 'network-only',
+            pollInterval: 8000
         })
     })
 )(withSharedProps()(withRouter(SignatureRootPage)));

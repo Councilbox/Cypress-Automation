@@ -1,7 +1,7 @@
 import React from 'react';
 import Popover from 'antd/lib/popover';
 import 'antd/lib/popover/style/index.css';
-import { getSecondary } from '../styles/colors';
+import { getSecondary, getPrimary } from '../styles/colors';
 
 class HelpPopover extends React.Component {
 
@@ -15,7 +15,8 @@ class HelpPopover extends React.Component {
         });
     }
 
-    toggleVisible = () => {
+    toggleVisible = event => {
+        event.stopPropagation();
         this.setState({
             visible: !this.state.visible
         });
@@ -47,25 +48,23 @@ class HelpPopover extends React.Component {
     }
 }
 
-const DefaultTrigger = ({ onClick, colorFail }) => (
-    <span
-        onClick={onClick}
-        style={{
-            borderRadius: '1em',
-            color: colorFail ? "#f44336" : getSecondary(),
-            cursor: 'pointer',
-            fontSize: '0.82em',
-            border: colorFail ? `1px solid #f44336` : `1px solid ${getSecondary()}`,
-            width: '1.1em',
-            height: '1.1em',
-            marginLeft: '0.4em',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-        }}
-    >
-        ?
-    </span>
-)
+const DefaultTrigger = ({ onClick, colorFail }) => {
+    const primary = getPrimary();
+
+    return (
+        <span onClick={onClick}>
+            <i className="material-icons" style={{
+                color: primary,
+                fontSize: '14px',
+                paddingRight: "0.3em",
+                cursor: "pointer",
+                marginLeft: "5px"
+            }} >
+                help
+            </i>
+        </span>
+
+    )
+}
 
 export default HelpPopover;

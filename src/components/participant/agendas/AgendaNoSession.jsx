@@ -6,7 +6,6 @@ import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
 import { getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
-import { isMobile } from "react-device-detect";
 import TimelineSection from "../timeline/TimelineSection";
 import * as CBX from '../../../utils/CBX';
 import { withApollo } from 'react-apollo';
@@ -17,6 +16,11 @@ import { logoutParticipant } from "../../../actions/mainActions";
 import { updateCustomPointVoting } from "./CustomPointVotingMenu";
 import FinishModal from "./FinishModal";
 import Results from "../Results";
+import ResultsTimeline from "../ResultsTimeline";
+import { isMobile } from "../../../utils/screen";
+import { agendaVotings } from "../../../queries/agenda";
+import { usePolling } from "../../../hooks";
+import { getSubjectAbrv } from "../../../displayComponents/AgendaNumber";
 
 
 export const VotingContext = React.createContext({});
@@ -58,8 +62,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     const [responses, setResponses] = React.useState(new Map());
     const [finishModal, setFinishModal] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
+    const [idActive, setIdActive] = React.useState(false);
 
-    //console.log(responses);
+    let itemRefs = [];
 
     const renderAgendaCard = agenda => {
         return (
@@ -71,6 +76,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 refetch={data.refetch}
                 responses={responses}
                 setResponse={setResponses}
+                client={client}
             />
         )
     }
@@ -81,7 +87,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
     const sendVoteAndExit = async () => {
         const response = await Promise.all(Array.from(responses).filter(response => response[1] !== -1).map(response => {
-            if(Array.isArray(response[1])){
+            if (Array.isArray(response[1])) {
                 return client.mutate({
                     mutation: updateCustomPointVoting,
                     variables: {
@@ -118,13 +124,13 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     }
 
     React.useEffect(() => {
-        if(data.participantVotings && responses.size === 0){
+        if (data.participantVotings && responses.size === 0) {
             data.participantVotings.filter(voting => (
                 voting.participantId === participant.id
                 || voting.delegateId === participant.id ||
                 voting.author.representative.id === participant.id)).forEach(voting => {
-                responses.set(voting.id, -1);
-            });
+                    responses.set(voting.id, -1);
+                });
             setResponses(new Map(responses));
         }
     }, [data]);
@@ -147,8 +153,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         return (
             <div style={{ width: "100%", height: "100%" }}>
                 <div style={{ height: "100%", marginTop: "1em", overflow: "hidden", padding: "1em" }}>
-                    {/* TRADUCCION */}
-                    <div style={{ marginBottom: "1em" }}>Mi participanción - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname}</span></div>
+                    <div style={{ marginBottom: "1em" }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname || ''}</span></div>
                     <div style={{ height: "calc( 100% - 2.5em )", }}>
                         <Scrollbar>
                             <Results
@@ -190,6 +195,30 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         store.dispatch(logoutParticipant(participant, council));
     };
 
+    React.useLayoutEffect(() => {
+        let id = "";
+        data.agendas.map(agenda => {
+            if (CBX.agendaPointOpened(agenda)) {
+                id = agenda.id
+            }
+        });
+        
+        if (id !== idActive) {
+            scrollTo(id);
+            setIdActive(id);
+        }
+
+        if(props.timeline && idActive){
+            setIdActive(false);
+        }
+    }, [data.agendas, props.timeline]);
+
+    const scrollTo = (id) => {
+        if (itemRefs[id] != null) {
+            itemRefs[id].scrollIntoView();
+        }
+    }
+
 
     const renderExitModal = () => (
         <AlertConfirm
@@ -197,7 +226,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             open={showModal}
             acceptAction={logout}
             buttonCancel={translate.cancel}
-            buttonAccept={"Finalizar"}
+            buttonAccept={translate.finish}
             bodyText={_renderModalBody()}
             bodyStyle={{ height: "60vh", overflow: "hidden" }}
             title={translate.summary}
@@ -214,7 +243,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     )
 
     const renderExitButton = () => (
-        CBX.voteAllAtOnce({ council })?
+        CBX.voteAllAtOnce({ council }) ?
             <Button
                 onClick={showFinishModal}
                 style={{
@@ -232,9 +261,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     marginRight: "0.5em"
                 }}
             >
-                <b> Votar {/**TRADUCCION*/} </b>
+                <b>{translate.to_vote}</b>
             </Button>
-        :
+            :
             <Button
                 onClick={() => setShowModal(true)}
                 style={{
@@ -251,7 +280,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     marginRight: "0.5em"
                 }}
             >
-                <b> Finalizar{/**TRADUCCION*/}  </b>
+                <b>{translate.finish}</b>
             </Button>
     )
 
@@ -273,7 +302,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             }}>
                 {renderFinishModal()}
                 <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
-                    <div style={{ height: "100%" }}>
+                    <div style={{ height: "calc(100% - 2.5em)" }}>
                         {!props.sinCabecera &&
                             <React.Fragment>
                                 <div style={{
@@ -299,7 +328,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             </React.Fragment>
                                         )
                                     }
-                                    <div style={{ position: "absolute", top:"3px", right:"5px" }}>
+                                    <div style={{ position: "absolute", top: "3px", right: "5px" }}>
                                         {/* <div style={{ width: '9em' }}> */}
                                         <CouncilInfoMenu
                                             {...props}
@@ -326,41 +355,57 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                 />
                             </div>
                         }
-                        <Scrollbar ref={scrollbar}>
-                            {!councilStarted(council) &&
-                                <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-                                    {translate.council_not_started_yet}
-                                </div>
-                            }
-                            <div style={{ marginTop: '20px', marginBottom: '5rem', }}>
-                                {data.agendas ?
-                                    props.timeline ? (
-                                        <TimelineSection
-                                            timelineSeeId={timelineSeeId}
-                                            council={council}
-                                            scrollToBottom={scrollToBottom}
-                                            councilTimeline={data.councilTimeline}
-                                            isMobile={isMobile}
-                                        />
-                                    ) : (
+                        {props.timeline ? (
+                            <div style={{ height: '100%', paddingBottom: '3em' }}>
+                                <ResultsTimeline
+                                    council={council}
+                                    participant={participant}
+                                    translate={translate}
+                                    endPage={true}
+                                />
+                            </div>
+                        ) : (
+                                <Scrollbar ref={scrollbar}>
+                                    {!councilStarted(council) &&
+                                        <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+                                            {translate.council_not_started_yet}
+                                        </div>
+                                    }
+                                    {council.company.logo &&
+                                        <div
+                                            style={{
+                                                width: '100%',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                height: '2.5em'
+                                            }}
+                                        >
+                                            <img src={council.company.logo} style={{ height: '100%', width: 'auto', marginTop: '0.6em' }}></img>
+                                        </div>
+                                    }
+                                    <div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
+                                        {data.agendas ?
                                             <React.Fragment>
                                                 {agendas.map((agenda, index) => {
-                                                // agenda.options =  {
-                                                //     maxSelections: 2,
-                                                //     id: 140
-                                                // }
-                                                return (
-                                                    <React.Fragment key={`agenda_card_${index}`}>
-                                                        {renderAgendaCard(agenda)}
-                                                    </React.Fragment>
-                                                )})}
+                                                    // agenda.options =  {
+                                                    //     maxSelections: 2,
+                                                    //     id: 140
+                                                    // }
+                                                    return (
+                                                        <React.Fragment key={`agenda_card_${index}`} >
+                                                            <div ref={el => { itemRefs[agenda.id] = el }}>
+                                                                {renderAgendaCard(agenda)}
+                                                            </div>
+                                                        </React.Fragment>
+                                                    )
+                                                })}
                                             </React.Fragment>
-                                        )
-                                    :
-                                    <LoadingSection />
-                                }
-                            </div>
-                        </Scrollbar>
+                                            :
+                                            <LoadingSection />
+                                        }
+                                    </div>
+                                </Scrollbar>
+                            )}
                     </div>
                 </Paper>
                 {!noSession &&
@@ -398,9 +443,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     </React.Fragment>
                 }
                 {props.sinCabecera &&
-                    <div style={{ position: "relative", top: '5px',  width: "100%", height: "32px", }}>
+                    <div style={{ position: "relative", top: '5px', width: "100%", height: "32px", }}>
                         <CouncilInfoMenu
-                        noSession={noSession}
+                            noSession={noSession}
                             {...props}
                             translate={translate}
                             participant={participant}
@@ -418,8 +463,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                         <React.Fragment>
                             {agendas.map((agenda, index) => {
                                 return (
-                                    <React.Fragment key={`agenda_card_${index}`}>
-                                        {renderAgendaCard(agenda)}
+                                    <React.Fragment key={`agenda_card_${index}`} >
+                                        <div ref={el => { itemRefs[agenda.id] = el }}>
+                                            {renderAgendaCard(agenda)}
+                                        </div>
                                     </React.Fragment>
                                 )
 
@@ -442,10 +489,79 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     );
 }
 
-const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props }) => {
+const AgendaCard = ({ agenda, translate, participant, refetch, council, client, ...props }) => {
     const ownVote = CBX.findOwnVote(agenda.votings, participant);
     const primary = getPrimary();
+    const [state, setState] = React.useState({
+        open: false,
+        voteFilter: "all",
+        stateFilter: "all",
+        filterText: "",
+        page: 1,
+    });
+    const [data, setData] = React.useState({});
 
+
+    // const getData = async () => {
+    //     ////ESTO ES AÑADIDO PROBAR BIEN
+    //     const responseAgendaVotings = await client.query({
+    //         query: agendaVotings,
+    //         variables: {
+    //             agendaId: agenda.id,
+    //             ...buildVariables()
+    //         }
+    //     });
+
+    //     setData(responseAgendaVotings.data);
+    // }
+
+    // usePolling(getData, 2000, []);
+    // // usePolling(getData, 2000, [state.voteFilter, state.stateFilter, state.filterText, state.page]);
+
+    // const buildVariables = () => {
+    //     let variables = {
+    //         filters: [],
+    //         authorFilters: null
+    //     };
+
+    //     variables.options = {
+    //         limit: 10,
+    //         offset: (state.page - 1) * 10
+    //     }
+
+    //     if (state.voteFilter !== "all") {
+    //         variables.filters = [
+    //             {
+    //                 field: "vote",
+    //                 text: state.voteFilter
+    //             }
+    //         ];
+    //     }
+
+    //     if (state.filterText) {
+    //         variables = {
+    //             ...variables,
+    //             authorFilters: {
+    //                 username: state.filterText
+    //             }
+    //         };
+    //     }
+
+    //     if (state.stateFilter !== "all") {
+    //         variables = {
+    //             ...variables,
+    //             filters: [
+    //                 ...variables.filters,
+    //                 {
+    //                     field: "presentVote",
+    //                     text: state.stateFilter
+    //                 }
+    //             ]
+    //         };
+    //     }
+
+    //     return variables;
+    // }
 
     const agendaStateIcon = agenda => {
         let title = '';
@@ -503,13 +619,11 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
 
     return (
         <div style={{ margin: "0 auto", marginBottom: "15px", width: isMobile ? "100%" : '93%', }} key={agenda.id}>
-            <Card aria-label={"punto" + (agenda.orderIndex + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}>
+            <Card
+                aria-label={"punto" + (agenda.orderIndex + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}
+                style={{ border: CBX.agendaPointOpened(agenda) ? "1px solid purple" : 'none' }}
+            >
                 <CardHeader
-                    avatar={
-                        <Avatar aria-label="Recipe" style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid grey", color: CBX.agendaPointOpened(agenda) ? "purple" : 'grey' }}>
-                            {agenda.orderIndex}
-                        </Avatar>
-                    }
                     action={
                         <div style={{ display: "flex" }}>
                             <div>
@@ -520,20 +634,21 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                             </div>
                         </div>
                     }
-                    title={agenda.agendaSubject}
+                    title={<div style={{ fontSize: '17px', fontWeight: '700' }}>{agenda.agendaSubject}</div>}
                     subheader={translate[getAgendaTypeLabel(agenda)]}
                 />
                 <Collapse in={true} timeout="auto" unmountOnExit>
                     <CardContent>
                         <AgendaDescription agenda={agenda} translate={translate} />
-                            <AgendaMenu
-                                horizontal={true}
-                                agenda={agenda}
-                                council={council}
-                                participant={participant}
-                                translate={translate}
-                                refetch={refetch}
-                            />
+                        <AgendaMenu
+                            horizontal={true}
+                            agenda={agenda}
+                            council={council}
+                            participant={participant}
+                            translate={translate}
+                            refetch={refetch}
+                        // votings={data}
+                        />
                     </CardContent>
                 </Collapse>
 
@@ -558,7 +673,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                                 fontWeight: '700'
                             }}
                         >
-                            {`Voto registrado (${moment(ownVote.date).format('LLL')})`}
+                            {`${translate.vote_registered} (${moment(ownVote.date).format('LLL')})`}
                         </Button>
                     }
                 </CardActions>

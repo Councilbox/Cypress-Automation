@@ -2,12 +2,12 @@ import React from 'react';
 import { NotLoggedLayout, LoadingSection } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { Card, Button, CardHeader, Avatar, CardContent } from 'material-ui';
-import { isMobile } from 'react-device-detect';
 import { EXPLORER_URL } from '../../../config';
 import { moment } from '../../../containers/App';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import ToolTip from '../../../displayComponents/Tooltip';
+import { isMobile } from '../../../utils/screen';
 
 class ValidatorPage extends React.Component {
 
@@ -246,10 +246,10 @@ const UserSection = ({ evidence, translate }) => {
                 </div>
                 <div style={{ display: "flex" }}>
                     <div style={{ width: '100px' }}>
-                        <b>{translate.surname}:</b>
+                        <b>{translate.surname || ''}:</b>
                     </div>
                     <div>
-                        {evidence.data.user.surname}
+                        {evidence.data.user.surname || ''}
                     </div>
                 </div>
             </div>
@@ -283,10 +283,10 @@ const ParticipantSection = ({ evidence, translate }) => {
                 </div>
                 <div style={{ display: "flex" }}>
                     <div style={{ width: '100px' }}>
-                        <b>{translate.surname}:</b>
+                        <b>{translate.surname || ''}:</b>
                     </div>
                     <div>
-                        {evidence.data.participant.surname}
+                        {evidence.data.participant.surname || ''}
                     </div>
                 </div>
                 <div style={{ display: "flex" }}>

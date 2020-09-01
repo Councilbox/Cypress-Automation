@@ -27,7 +27,8 @@ const AlertConfirm = ({
 	classNameDialog,
 	PaperProps,
 	widthModal,
-	titleRigth
+	titleRigth,
+	actions
 }) => {
 	const primary = getPrimary();
 	const buttons = (
@@ -127,8 +128,7 @@ const AlertConfirm = ({
 			>
 				{bodyText}
 			</DialogContent>
-			{!!buttonCancel && !hideAccept &&
-				!!buttonAccept &&
+			{(!!buttonCancel || !!buttonAccept) &&
 				<DialogActions
 					style={{
 						paddingRight: "0.6em",
@@ -139,6 +139,19 @@ const AlertConfirm = ({
 					}}
 				>
 					{buttons}
+				</DialogActions>
+			}
+			{actions &&
+				<DialogActions
+					style={{
+						paddingRight: "0.6em",
+						borderTop: "1px solid gainsboro",
+						paddingTop: '0.5em',
+						margin: '8px 8px',
+						minHeight: '25px'
+					}}
+				>
+					{actions}
 				</DialogActions>
 			}
 		</Dialog>

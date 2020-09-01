@@ -38,21 +38,33 @@ const httpLink = new HttpLink({
 });
 
 
+const getToken = () => {
+	const token = sessionStorage.getItem("token");
+	const apiToken = sessionStorage.getItem('apiToken');
+	const participantToken = sessionStorage.getItem("participantToken");
+	return token ? token : apiToken? apiToken : participantToken
+}
+
+
 const wsLink = new WebSocketLink({
 	uri: WS_URL,
 	options: {
 		reconnect: true,
 		timeout: 3000,
-		connectionParams: {
-			token: sessionStorage.getItem("token"),
-		},
+		connectionParams: () => ({
+			token: getToken()
+		})
 	}
 });
 
+export const refreshWSLink = () => {
+	wsLink.subscriptionClient.close(false, false);
+	wsLink.subscriptionClient.connect();
+}
+  
+
 const authLink = setContext((_, { headers }) => {
-	const token = sessionStorage.getItem("token");
-	const apiToken = sessionStorage.getItem('apiToken');
-	const participantToken = sessionStorage.getItem("participantToken");
+	
 	return {
 		headers: {
 			...headers,
@@ -60,7 +72,7 @@ const authLink = setContext((_, { headers }) => {
 				? `Bearer ${token}`
 				: apiToken? `Bearer ${apiToken}` :
 				`Bearer ${participantToken}`, */
-			"x-jwt-token": token ? token : apiToken? apiToken : participantToken,
+			"x-jwt-token": getToken(),
 			"cbx-client-v": CLIENT_VERSION
 		}
 	};
@@ -73,7 +85,7 @@ const link = split(
 	},
 	wsLink,
 	httpLink,
-  );
+);
 
 const CouncilLiveContainer = Loadable({
 	loader: () => import('./CouncilLiveContainer'),
@@ -127,8 +139,10 @@ const addStatusLink = new ApolloLink((operation, forward) => {
 
 
 const logoutLink = onError(({ graphQLErrors, networkError, operation, response, forward}) => {
-	console.error(graphQLErrors);
-	console.error(networkError);
+	console.info(graphQLErrors);
+	// console.error(graphQLErrors);
+	console.info(networkError);
+	// console.error(networkError);
 
  	if (graphQLErrors) {
 		if (graphQLErrors[0].code === 440) {
@@ -201,18 +215,27 @@ if(sessionStorage.getItem("participantLoginSuccess")){
 	store.dispatch({ type: "PARTICIPANT_LOGIN_SUCCESS" });
 }
 
+export const MainContext = React.createContext();
+
 const App = () => {
+
+
 	return (
 		<ApolloProvider client={client}>
 			<Provider store={store}>
 				<ThemeProvider>
 					<ErrorHandler>
 						<AppControl>
-							<AdomWrapper>
-								<Router history={bHistory}>
-									<RouterWrapper />
-								</Router>
-							</AdomWrapper>
+							<MainContext.Provider value={{
+								client,
+								bHistory
+							}}>
+								<AdomWrapper>
+									<Router history={bHistory}>
+										<RouterWrapper />
+									</Router>
+								</AdomWrapper>
+							</MainContext.Provider>
 						</AppControl>
 					</ErrorHandler>
 				</ThemeProvider>

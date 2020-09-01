@@ -22,7 +22,7 @@ import CouncilDetails from '../../components/council/display/CouncilDetails'
 import { Paper, Tooltip } from 'material-ui';
 import gql from 'graphql-tag';
 import AgendaEvent from './AgendaEvent';
-import { isMobile } from "react-device-detect";
+import { isMobile } from '../../../utils/screen';
 import { Doughnut, Chart } from "react-chartjs-2";
 
 

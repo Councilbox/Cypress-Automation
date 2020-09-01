@@ -29,12 +29,25 @@ import { LiveToast } from '../displayComponents';
 import { moment, client, store } from '../containers/App';
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
 import { TAG_TYPES } from "../components/company/drafts/draftTags/utils";
+import fileSize from "filesize";
 
 export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
 };
 
-export const splitExtensionFilename = (filename) => {
+export const showNumParticipations = (numParticipations, company) => {
+	if(!company || !company.type){
+		return formatInt(numParticipations);
+	}
+
+	if(company.type === 10){
+		return numParticipations / 1000;
+	}
+
+	return formatInt(numParticipations);
+}
+
+export const splitExtensionFilename = filename => {
 	const array = filename.split('.');
 	if (array.length < 2) {
 		return 'That`s not a filename';
@@ -46,8 +59,16 @@ export const splitExtensionFilename = (filename) => {
 }
 
 export const showAddCouncilAttachment = attachments => {
-	return attachments.length < MAX_COUNCIL_ATTACHMENTS;
+	return true;
 };
+
+export const hasAccessKey = council => {
+	if(!council || !council.hasOwnProperty('securityType')){
+		throw new Error('Council securityType missing!');
+	}
+
+	return (council.securityType === 1 || council.securityType === 2);
+}
 
 export const canAddCouncilAttachment = (council, filesize) => {
 	return (
@@ -91,6 +112,28 @@ export const showAgendaVotingsTable = agenda => {
 		agenda.votingState > 0 &&
 		agenda.subjectType !== 0
 	)
+}
+
+export const getAgendaResult = (agenda, type) => {
+	const totalVotes = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
+	const types = {
+		POSITIVE: `${agenda.positiveVotings + agenda.positiveManual} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (totalVotes))}%)`,
+		NEGATIVE: `${agenda.negativeVotings + agenda.negativeManual} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (totalVotes))}%)`,
+		ABSTENTION: `${agenda.abstentionVotings + agenda.abstentionManual} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (totalVotes))}%)`,
+		NO_VOTE: `${agenda.noVoteVotings + agenda.noVoteManual} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`
+	}
+
+	return types[type];
+};
+
+export const getPercentage = (num, total) => {
+    let percentage = ((num * 100) / (total)).toFixed(3);
+    let zero = 0;
+    if (isNaN(percentage)) {
+        return zero.toFixed(3)
+    } else {
+        return percentage;
+    }
 }
 
 export const userCanCreateCompany = (user, companies) => {
@@ -163,9 +206,9 @@ export const majorityNeedsInput = majorityType => {
 };
 
 export const haveQualityVoteConditions = (agenda, council) => {
-	return (agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING) &&
+	return ((agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING) &&
 		(agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings +
-			agenda.negativeManual) && council.statute.existsQualityVote;
+			agenda.negativeManual) && council.statute.existsQualityVote === 1);
 };
 
 export const canEditPresentVotings = agenda => {
@@ -189,6 +232,21 @@ export const approvedByQualityVote = (agenda, qualityVoteId) => {
 		}
 	}
 	return false;
+}
+
+export const voteValuesText = vote => {
+	switch (vote) {
+		case VOTE_VALUES.NO_VOTE:
+			return 'no_vote';
+		case VOTE_VALUES.NEGATIVE:
+			return 'against_btn';
+		case VOTE_VALUES.POSITIVE:
+			return 'in_favor_btn';
+		case VOTE_VALUES.ABSTENTION:
+			return 'abstention';
+		default:
+			return "-";
+	}
 }
 
 export const isMajorityPercentage = majorityType => {
@@ -246,10 +304,9 @@ export const councilHasComments = statute => {
 };
 
 export const canDelegateVotes = (statute, participant) => {
-	return (
-		statute.existsDelegatedVote === 1 &&
-		!(participant.delegatedVotes.length > 0) &&
-		participant.type !== 1 && participant.type !== 2
+	return (statute.existsDelegatedVote === 1 &&
+		!(participant.delegatedVotes.filter(p => p.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0) &&
+		participant.type !== PARTICIPANT_TYPE.GUEST
 	);
 };
 export const canAddDelegateVotes = (statute, participant) => {
@@ -484,6 +541,15 @@ export const getGoverningText = (translate, type) => {
 	return labels[type]? labels[type] : labels[0];
 }
 
+
+const sir = {
+	es: 'D. / D.ª',
+	en: 'Sir / Madam',
+	pt: 'D. / D.ª',
+	cat: 'D. / D.ª',
+	gal: 'D. / D.ª'
+}
+
 export const generateGBSoleDecidesText = (translate, type) => {
 	const labels = {
 		0: `${translate.the_general_meeting} ${translate.agrees}`,
@@ -515,19 +581,19 @@ export const getGoverningBodySignatories = (translate, type, data) => {
 	const labels = {
 		0: () => '',
 		1: () => {
-			return `${data.name} ${data.surname}`;
+			return `${sir[translate.selectedLanguage]} ${data.name} ${data.surname || ''}`;
 		},
 		2: () => {
-			return `${data.name} ${data.surname}`;
+			return `${sir[translate.selectedLanguage]} ${data.name} ${data.surname || ''}`;
 		},
 		3: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname}${(index < array.length -1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length -1)? blankSpaces : ''}`, '');
 		},
 		4: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? blankSpaces : ''}`, '');
 		},
 		5: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname}${(index < array.length - 1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? blankSpaces : ''}`, '');
 		},
 	}
 
@@ -539,6 +605,221 @@ export const generateAgendaText = (translate, agenda) => {
 	return agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '');
 }
 
+export const buildDelegationsString = (delegated, council, translate) => {
+	if(!delegated || delegated.length === 0){
+		return '';
+	}
+
+	const texts = {
+		es: 'titular de',
+		en: 'owner of',
+		gal: 'dono de',
+		cat: 'con',
+		pt: 'proprietário de'
+	}
+
+	return delegated.reduce((acc, vote) => {
+		return acc + `<p style="border: 1px solid black; padding: 5px;">-${
+			vote.name} ${
+			vote.surname || ''} ${texts[council.language]} ${vote.numParticipations} ${
+				council.quorumPrototype === 1? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
+			translate.delegates.toLowerCase()} ${
+			vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname || ''} </p><br/>`
+	},  '');
+}
+
+export const buildAttendantString = ({ attendant, council, total, type }) => {
+	if(type === 'counselors'){
+		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''}`;
+	}
+
+	const texts = {
+		es: `${sir[council.language]} NAME SURNAME titular de SHARES ${
+			type === 'partners'? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
+		en: `${sir[council.language]} NAME SURNAME owner of SHARES ${
+			type === 'partners'? 'participations' : 'shares'}, representing the PERCENTAGE% of the total shares `,
+		gal: `${sir[council.language]} NAME SURNAME dono de SHARES ${
+			type === 'partners'? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
+		cat: `${sir[council.language]}  NAME SURNAME con SHARES ${
+			type === 'partners'? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
+		pt: `${sir[council.language]} NAME SURNAME proprietário de SHARES ${
+			type === 'partners'? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
+	}
+
+	const representativeOf = {
+		es: 'representante de ',
+		en: 'representative of ',
+		gal: 'representante de ',
+		cat: 'representant de ',
+		pt: 'representante de ',
+	}
+
+	const representativeText = {
+		es: `RNAME RSURNAME con SHARES ${
+			type === 'partners'? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
+		en: `RNAME RSURNAME with SHARES ${
+			type === 'partners'? 'participations' : 'shares'}, representing PERCENTAGE% of the total shares `,
+		gal: `RNAME RSURNAME con SHARES ${
+			type === 'partners'? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
+		cat: `RNAME RSURNAME con SHARES ${
+			type === 'partners'? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
+		pt: `RNAME RSURNAME con SHARES ${
+			type === 'partners'? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
+	}
+
+	if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
+		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''} ${representativeOf[council.language]} ${
+			attendant.delegationsAndRepresentations.reduce((acc, representated, index) => {
+				return (acc + (index > 0? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname? representated.surname + " " : ''}`)
+					.replace('SHARES', representated.socialCapital)
+					.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2)))
+		}, '')}`;
+	}
+
+	return texts[council.language]
+		.replace('NAME SURNAME', `${attendant.name} ${attendant.surname || ''}`)
+		.replace('SHARES', attendant.socialCapital)
+		.replace('PERCENTAGE', ((attendant.socialCapital / total) * 100).toFixed(2));
+
+}
+
+
+export const buildAttendantsString = ({ council, total, type }) => (acc, curr, index) => {
+	if(!hasParticipations(council)){
+		return acc + `${curr.name} ${curr.surname || ''} <br/>`;
+	}
+
+	return acc + buildAttendantString({ attendant: curr, council, total, type });
+};
+
+export const isAdmin = user => {
+	return user.roles === 'admin' || user.roles === 'devAdmin';
+}
+
+export const showOrganizationDashboard = (company, config, user = {}) => {
+	return (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
+}
+
+
+export const generateCompanyAdminsText = ({ council, company, list, type }) => {
+	const data = company.governingBodyData;
+	const governingType = company.governingBodyType;
+
+	const admins = {
+		es: 'Administradores',
+		en: 'Administrators',
+		gal: 'Administradores',
+		cat: 'Administradors',
+		pt: 'Administradores'
+	}
+
+
+	const buildMultipleAdmins = adminList => {
+		return adminList.reduce((acc, curr, index, array) => acc + `${sir[council.language]} ${
+			curr.name} ${curr.surname || ''}${(index < array.length -1)? list? '<br>' : ', ' : ''}`, list? `${admins[council.language]}: <br>` : '');
+	}
+
+	const labels = {
+		0: () => '',
+		1: () => {
+			return `${data.name} ${data.surname || ''}`;
+		},
+		2: () => {
+			return `${data.name} ${data.surname || ''}`;
+		},
+		3: () => buildMultipleAdmins(data.list),
+		4: () => buildMultipleAdmins(data.list),
+		5: () => buildMultipleAdmins(data.list),
+	}
+
+
+	return labels[governingType]? labels[governingType]() : labels[0]();
+}
+
+export const checkIfHasVote = attendant => {
+	return (attendant.numParticipations > 0 || attendant.socialCapital > 0) ||
+		attendant.delegationsAndRepresentations
+			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (item.numParticipations > 0 || item.socialCapital > 0)).length > 0;
+}
+
+export const buildGuestString = ({ guest, council }) => {
+	const inQualityOf = {
+		es: 'en su calidad de',
+		en: 'in quality of',
+		gal: 'na sua calidade de',
+		cat: 'en la seva qualitat de',
+		pt: 'na sua capacidade como'
+	}
+
+	return `${sir[council.language]} ${guest.name} ${guest.surname || ''} ${guest.position? `${inQualityOf[council.language]} ${guest.position}` : ''}`;
+}
+
+export const buildShareholdersList = ({ council, total, type }) => {
+	if(!council.attendants || council.attendants.length === 0){
+		return '';
+	}
+
+	const shareholdersText = {
+		es: 'Accionistas',
+		en: 'Shareholders',
+		gal: 'Accionistas',
+		cat: 'Accionistes',
+		pt: 'Acionistas'
+	}
+
+	const partnersText = {
+		es: 'Socios',
+		en: 'Partners',
+		gal: 'Socios',
+		cat: 'Socis',
+		pt: 'Parceiros'
+	}
+
+	const counselorsList = {
+		es: 'Consejeros',
+		en: 'Counselors',
+		gal: 'Conselleiros',
+		cat: 'Consellers',
+		pt: 'Conselheiros'
+	}
+
+	return council.attendants.filter(checkIfHasVote)
+		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({ attendant: curr, total, council, type })}`, `${
+			type === 'partners'?
+				partnersText[council.language]
+			:
+				type === 'counselors'?
+					counselorsList[council.language]
+				:
+					shareholdersText[council.language]}:`);
+}
+
+
+export const buildGuestList = ({ council, total }) => {
+	if(!council.attendants || council.attendants.length === 0){
+		return '';
+	}
+	
+	const otherAttendants = {
+		es: 'Otros asistentes',
+		en: 'Other attendants',
+		gal: 'Outros asistentes',
+		cat: 'Altres assistents',
+		pt: 'Outros atendentes'
+	}
+
+	return council.attendants.filter(attendant => !checkIfHasVote(attendant))
+		.reduce((acc, curr) => `${acc}<br>${buildGuestString({ guest: curr, total, council })}`, `${otherAttendants[council.language]}:`);
+}
+
+export const formatInt = num => {
+	if(num < 1000){
+		return num;
+	}
+	num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1 ');
+	num = num.split('').reverse().join('').replace(/^[\.]/, '');
+	return num;
+}
 
 
 export const changeVariablesToValues = async (text, data, translate) => {
@@ -625,7 +906,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 		}
 	}
 
-	text = text.replace(/{{now}}/g, new moment().format('LLL'));
+	text = text.replace(/{{now}}/g, new moment().format('LL'));
 	text = text.replace(/{{signatories}}/g, getGoverningBodySignatories(translate, data.company.governingBodyType, data.company.governingBodyData));
 
 	text = text.replace(/{{convene}}/g, data.council.emailText);
@@ -638,6 +919,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{percentageSCTotal}}/g, `${data.council.percentageSCTotal}%`);
 	text = text.replace(/{{numParticipationsPresent}}/g, data.council.numParticipationsPresent);
 	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
+	text = text.replace(/{{delegations}}/, buildDelegationsString(data.council.delegatedVotes, data.council, translate));
 
 
 	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
@@ -657,13 +939,12 @@ export const changeVariablesToValues = async (text, data, translate) => {
 
 	const base = data.council.partTotal;
 
-
 	text = text.replace(/{{president}}/g, data.council.president);
 	text = text.replace(/{{secretary}}/g, data.council.secretary);
 	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`)
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
-	text = text.replace(/{{attendants}}/g, data.council.attendants? data.council.attendants.reduce((acc, curr, index) => acc + `${index > 0? ', ' : ' '} ${curr.name} ${curr.surname}`, '') : '');
+	text = text.replace(/{{attendants|Attendants}}/g, data.council.attendants? data.council.attendants.reduce(buildAttendantsString(data.council, base), '') : '');
 
 	if (data.council.street) {
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
@@ -688,9 +969,16 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{GoverningBody}}/g, getGoverningText(translate, data.company.governingBodyType));
 	text = text.replace(/{{GM\/SoleDecides}}/g, generateGBSoleDecidesText(translate, data.company.type));
 	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
-	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements(translate, data.company.governingBodyType));
+	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements({ translate, company: data.company.governingBodyType }));
+	text = text.replace(/{{companyAdmins}}/, generateCompanyAdminsText({ translate, company: data.company, council: data.council }));
+	text = text.replace(/{{shareholdersList}}/, buildShareholdersList({ council: data.council, total: base }));
+	text = text.replace(/{{companyAdminsList}}/, generateCompanyAdminsText({ translate, company: data.company, council: data.council, list: true }));
+	text = text.replace(/{{guestList}}/, buildGuestList({ council: data.council, total: base }));
+	text = text.replace(/{{partnersList}}/, buildShareholdersList({ council: data.council, total: base, type: 'partners' }));
+	text = text.replace(/{{counselorsList}}/, buildShareholdersList({ council: data.council, total: base, type: 'counselors' }));
 
-	text = text.replace(/{{Agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
+
+	text = text.replace(/{{Agenda}}|{{agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
 
 	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
 	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);
@@ -889,6 +1177,34 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		attendants: {
 			value: '{{attendants}}',
 			label: translate.census_type_assistants
+		},
+		shareholdersList: {
+			value: '{{shareholdersList}}',
+			label: 'Lista de accionistas'//TRADUCCION
+		},
+		partnersList: {
+			value: '{{partnersList}}',
+			label: 'Lista de socios'//TRADUCCION
+		},
+		counselorsList: {
+			value: '{{counselorsList}}',
+			label: 'Lista de consejeros'//TRADUCCION
+		},
+		guestList: {
+			value: '{{guestList}}',
+			label: 'Lista de otros asistentes'//TRADUCCION
+		},
+		companyAdmins: {
+			value: '{{companyAdmins}}',
+			label: 'Administradores de la entidad'//TRADUCCION
+		},
+		companyAdminsList: {
+			value: '{{companyAdminsList}}',
+			label: 'Listado de administradores'//TRADUCCION
+		},
+		delegations: {
+			value: '{{delegations}}',
+			label: translate.delegations
 		}
 	}
 
@@ -933,6 +1249,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.governingBody,
 			smartTags.president,
 			smartTags.secretary,
+			smartTags.attendants,
+			smartTags.delegations,
 			smartTags.numPresentOrRemote,
 			smartTags.numRepresented,
 			smartTags.numParticipants,
@@ -953,6 +1271,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.city,
 			smartTags.dateRealStart,
 			smartTags.now,
+			smartTags.attendants,
+			smartTags.delegations,
 			smartTags.numPresentOrRemote,
 			smartTags.numRepresented,
 			smartTags.numParticipants,
@@ -1034,7 +1354,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		]
 	}
 
-	return types[draftType]? types[draftType] : types[DRAFT_TYPES.CONVENE_HEADER];
+	return types[draftType]? types[draftType] : Object.keys(tags).map(key => tags[key]);
 }
 
 export const hasParticipations = (statute = {}) => {
@@ -1054,7 +1374,9 @@ export const getSendType = value => {
 };
 
 export const removeHTMLTags = string => {
-	return string.replace(/<(?:.|\n)*?>/gm, "");
+	return string.replace(/<(?:.|\n)*?>/gm, "").replace(/&#(\d+);/g, function(match, dec) {
+		return String.fromCharCode(dec);
+	}).replace(/&nbsp;/g, ' ');
 };
 
 export const councilHasActPoint = council => {
@@ -1176,16 +1498,7 @@ export const councilHasAssistanceConfirmation = council => {
 };
 
 export const printPrettyFilesize = filesize => {
-	if (filesize < 1024) {
-		return `${filesize} Bytes`;
-	}
-	if (filesize < 1048576) {
-		return `${addDecimals(filesize / 1024, 2)} KBs`;
-	}
-	if (filesize < 1073741824) {
-		return `${addDecimals(filesize / 1048576, 2)} MBs`;
-	}
-	return `${addDecimals(filesize / 1073741824, 2)} GBs`;
+	return fileSize(filesize);
 };
 
 export const isPresentVote = vote => {
@@ -1238,7 +1551,7 @@ export const downloadFile = (base64, filetype, filename) => {
 		a.style.cssText = "display: none";
 		document.body.appendChild(a);
 		a.href = objectUrl;
-		a.download = filename.replace(/\./, '');
+		a.download = filename//.replace(/\./, '');
 		a.click();
 	}
 };
@@ -1308,6 +1621,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 			}
 			break;
 		case COUNCIL_STATES.ROOM_OPENED:
+		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
 			if (expected !== "live") {
 				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/live`
@@ -1337,6 +1651,48 @@ export const participantIsGuest = participant => {
 export const participantIsRepresentative = participant => {
 	return participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
 };
+
+export const getAttendanceIntentionTooltip = intention => {
+	switch(intention){
+		case PARTICIPANT_STATES.REMOTE:
+			return'remote_assistance_short';
+
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return 'confirmed_assistance';
+
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return 'no_assist_assistance';
+
+		case PARTICIPANT_STATES.DELEGATED:
+			return 'delegated_in';
+			
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+			return 'vote_letter_sent';
+
+		case PARTICIPANT_STATES.EARLY_VOTE:
+			return 'participant_vote_fixed'
+		default:
+			break;
+	}
+}
+
+export const getAttendanceIntentionIcon = (intention, style) => {
+	switch(intention) {
+		case PARTICIPANT_STATES.REMOTE:
+			return <i className={'fa fa-globe'} style={style}></i>;
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return <i className={'fa fa-user'} style={style}></i>;
+		case PARTICIPANT_STATES.DELEGATED:
+			return <i className={'fa fa-users'} style={style}></i>;
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return <i className={'fa fa-times'} style={style}></i>;
+		case PARTICIPANT_STATES.EARLY_VOTE:
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+			return <i class="material-icons" style={{...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
+		default:
+			return 'fa fa-question'
+	}
+}
 
 export const getEmailIconByReqCode = reqCode => {
 	switch (reqCode) {
@@ -1405,6 +1761,8 @@ export const getAgendaTypeLabel = agenda => {
 
 export const getTranslationReqCode = reqCode => {
 	switch (reqCode) {
+		case "ALL":
+			return "all_plural";
 		case -1:
 			return "tooltip_failed_shipping";
 		case 0:
@@ -1422,6 +1780,8 @@ export const getTranslationReqCode = reqCode => {
 		case 36:
 			return "tooltip_invalid_email_address";
 		case 37:
+			return "tooltip_dropped";
+		case 40:
 			return "tooltip_dropped";
 		default:
 			return;
@@ -1479,8 +1839,12 @@ export const showVideo = council => {
 	return (council.state === 20 || council.state === 30) && council.councilType === 0;
 };
 
+export const getMainRepresentative = participant => {
+	return (participant.representatives && participant.representatives.length > 0)? participant.representatives[0] : null;
+}
+
 export const canAddPoints = council => {
-	return council.statute.canAddPoints === 1 && council.councilType < 2;
+	return council.statute.canAddPoints === 1;
 };
 
 export const hasHisVoteDelegated = participant => {
@@ -1515,28 +1879,34 @@ export const getParticipantStateString = state => {
 	}
 };
 
+export const multipleGoverningBody = type => {
+	return !![
+		GOVERNING_BODY_TYPES.COUNCIL,
+		GOVERNING_BODY_TYPES.JOINT_ADMIN,
+		GOVERNING_BODY_TYPES.SOLIDARY_ADMIN
+	].find(item => type === item.value);
+}
+
 export const getParticipantStateField = participant => {
 	switch (participant.state) {
 		case 0:
 			return "remote_assistance";
-
 		case 1:
 			return "physically_present_assistance";
-
 		case 2:
 			return "representated";
-
 		case 4:
 			return "delegated";
-
 		case 5:
 			return "physically_present_assistance";
-
 		case 6:
-			return "no_assist_assistance";
-
+			return "no_participate";
 		case 7:
 			return "physically_present_with_remote_vote";
+		case 8:
+			return 'participant_vote_fixed';
+		case 11:
+			return 'left_the_council';
 
 		default:
 			return "remote_assistance";
@@ -1568,6 +1938,33 @@ export const exceedsOnlineTimeout = date => {
 	return timeout > 15;
 };
 
+export const formatCountryName = (country, language) => {
+	const texts = {
+		es: {
+			ES: 'España',
+			Spain: 'España'
+		},
+		gal: {
+			ES: 'España',
+			Spain: 'España'
+		},
+		cat: {
+			ES: 'Espanya',
+			Spain: 'Espanya'
+		},
+		pt: {
+			ES: 'Espanha',
+			Spain: 'Espanha'
+		},
+		en: {
+			ES: 'Spain',
+			Spain: 'Spain'
+		}
+	};
+
+	return texts[language][country]? texts[language][country] : country;
+}
+
 export const checkRequiredFields = (translate, draft, updateErrors, corporation, toast) => {
 	let errors = {
 		title: "",
@@ -1593,6 +1990,25 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 	} else {
 		if (checkForUnclosedBraces(draft.text)) {
 			errors.text = true;
+			hasError = true;
+			toast(
+				<LiveToast
+					message={translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
+			);
+		}
+	}
+
+	if (!draft.secondaryText) {
+		//hasError = true;
+		//errors.text = translate.required_field;
+	} else {
+		if (checkForUnclosedBraces(draft.secondaryText)) {
+			errors.secondaryText = true;
 			hasError = true;
 			toast(
 				<LiveToast
@@ -1655,6 +2071,12 @@ export const checkHybridConditions = council => {
 	}
 }
 
+export const prepareTextForFilename = text => {
+	if(!text) return '';
+
+	return text.replace(/ /g, '_').replace(/\./g, '_');
+}
+
 export const formatSize = size => {
 	let mb = Math.pow(1024, 2);
 	let kb = 1024;
@@ -1693,6 +2115,6 @@ export const calculateQuorum = (council, recount) => {
 
 
 export const councilHasSession = council => {
-	return !((council.councilType > 1) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
+	return !((council.councilType > 1 && council.councilType !== 4) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
 }
 

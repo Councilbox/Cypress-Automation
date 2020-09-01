@@ -1,5 +1,5 @@
 import React from "react";
-import { BasicButton, CustomDialog } from "../../../../displayComponents/index";
+import { BasicButton, CustomDialog, AlertConfirm, Scrollbar } from "../../../../displayComponents/index";
 import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary, secondary } from "../../../../styles/colors";
 import { languages } from "../../../../queries/masters";
@@ -10,8 +10,9 @@ import {
 } from "../../../../utils/validation";
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
 import { upsertConvenedParticipant, checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
-import { PARTICIPANT_STATES } from "../../../../constants";
+import { PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
+import SelectRepresentative from "../../editor/census/modals/SelectRepresentative";
 
 class ConvenedParticipantEditor extends React.Component {
 
@@ -23,34 +24,36 @@ class ConvenedParticipantEditor extends React.Component {
 		representativeErrors: {}
 	};
 
-	componentDidMount(){
+	componentDidMount() {
 		this.setParticipantData();
 	}
 
-	componentWillUnmount(){
+	componentWillUnmount() {
 		this.setParticipantData();
 	}
 
-	setParticipantData(){
-		let { representative, ...participant } = extractTypeName(
+	setParticipantData() {
+		let { representative, delegateId, delegateUuid, __typename, councilId, ...participant } = extractTypeName(
 			this.props.participant
 		);
 
-		representative = (!!representative && this.props.participant.live.state !== PARTICIPANT_STATES.DELEGATED)
+		representative = (participant.representatives.length > 0)
 			? {
-					hasRepresentative: true,
-					...extractTypeName(representative)
-			  }
+				hasRepresentative: true,
+				...extractTypeName(participant.representatives[0])
+			}
 			: initialRepresentative;
 
 		delete representative.live;
 		delete representative.notifications;
+		delete participant.representing;
 		delete participant.live;
 		delete participant.notifications;
 
+
 		this.setState({
 			data: participant,
-			representative: representative
+			representative
 		});
 	}
 
@@ -58,20 +61,22 @@ class ConvenedParticipantEditor extends React.Component {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative
 			? {
-					...data,
-					councilId: this.props.councilId
-			  }
+				...data,
+				councilId: this.props.councilId
+			}
 			: null;
 
+
 		if (!await this.checkRequiredFields()) {
+			const { representatives, delegate, ...participant } = this.state.data;
 			const response = await this.props.updateConvenedParticipant({
 				variables: {
 					participant: {
-						...this.state.data,
+						...participant,
 						councilId: this.props.councilId
 					},
-					representative: representative,
-					sendConvene: sendConvene
+					representative,
+					sendConvene
 				}
 			});
 			if (!response.errors) {
@@ -109,7 +114,7 @@ class ConvenedParticipantEditor extends React.Component {
 			hasError: false
 		};
 
-		if(!onlyEmail){
+		if (!onlyEmail) {
 			let hasSocialCapital = participations;
 			errorsParticipant = checkRequiredFieldsParticipant(
 				participant,
@@ -126,7 +131,7 @@ class ConvenedParticipantEditor extends React.Component {
 
 
 		if (representative.hasRepresentative) {
-			if(!onlyEmail){
+			if (!onlyEmail) {
 				errorsRepresentative = checkRequiredFieldsRepresentative(
 					representative,
 					translate
@@ -135,10 +140,10 @@ class ConvenedParticipantEditor extends React.Component {
 		}
 
 
-		if(participant.email && participant.email !== this.props.participant.email && company.type !== 10){
+		if (participant.email && participant.email !== this.props.participant.email && company.type !== 10) {
 			let emailsToCheck = [participant.email];
 
-			if(representative.email && ((this.props.participant.representative && representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)){
+			if (representative.email && ((this.props.participant.representative && representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)) {
 				emailsToCheck.push(representative.email);
 			}
 
@@ -150,20 +155,20 @@ class ConvenedParticipantEditor extends React.Component {
 				}
 			});
 
-			if(!response.data.checkUniqueCouncilEmails.success){
+			if (!response.data.checkUniqueCouncilEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if(participant.email === email){
+					if (participant.email === email) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if(representative.email === email){
+					if (representative.email === email) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				})
 			}
-			if(participant.email === representative.email){
+			if (participant.email === representative.email) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
@@ -186,8 +191,68 @@ class ConvenedParticipantEditor extends React.Component {
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
 
+
 		return (
-			<CustomDialog
+			<AlertConfirm
+				bodyStyle={{ height: '400px', width: '950px' }}
+				bodyText={
+					<Scrollbar>
+						<SelectRepresentative
+							open={this.state.selectRepresentative}
+							council={this.props.council}
+							translate={translate}
+							updateRepresentative={representative => {
+								this.updateRepresentative({
+									...representative,
+									hasRepresentative: true
+								});
+							}}
+							requestClose={() => this.setState({
+								selectRepresentative: false
+							})}
+						/>
+						<div style={{marginRight: "1em"}}>
+							<div style={{
+								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+								border: '1px solid rgb(97, 171, 183)',
+								borderRadius: '4px',
+								padding: '1em',
+								marginBottom: "1em",
+								color: 'black',
+							}}>
+								<ParticipantForm
+									type={participant.personOrEntity}
+									participant={participant}
+									participations={participations}
+									translate={translate}
+									languages={languages}
+									errors={errors}
+									updateState={this.updateState}
+								/>
+							</div>
+							<div style={{
+								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+								border: '1px solid rgb(97, 171, 183)',
+								borderRadius: '4px',
+								padding: '1em',
+								color: 'black',
+								marginBottom: ".5em",
+							}}>
+								<RepresentativeForm
+									translate={translate}
+									state={representative}
+									disabled={!!this.props.participant.representing}
+									setSelectRepresentative={value => this.setState({
+										selectRepresentative: value
+									})}
+									updateState={this.updateRepresentative}
+									errors={representativeErrors}
+									languages={languages}
+								/>
+							</div>
+						</div>
+					</Scrollbar>
+				}
 				title={translate.edit_participant}
 				requestClose={() => this.props.close()}
 				open={this.props.opened}
@@ -195,15 +260,20 @@ class ConvenedParticipantEditor extends React.Component {
 					<React.Fragment>
 						<BasicButton
 							text={translate.cancel}
+							color="transparent"
 							textStyle={{
+								boxShadow: "none",
+								borderRadius: '4px',
 								textTransform: "none",
-								fontWeight: "700"
+								fontWeight: "700",
 							}}
 							onClick={this.props.close}
 						/>
 						<BasicButton
-							text={translate.save_changes_and_send}
+							text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? translate.save_and_notify : translate.save_changes_and_send}
 							textStyle={{
+								boxShadow: "none",
+								borderRadius: '4px',
 								color: "white",
 								textTransform: "none",
 								fontWeight: "700"
@@ -217,6 +287,8 @@ class ConvenedParticipantEditor extends React.Component {
 						<BasicButton
 							text={translate.save_changes}
 							textStyle={{
+								boxShadow: "none",
+								borderRadius: '4px',
 								color: "white",
 								textTransform: "none",
 								fontWeight: "700"
@@ -230,25 +302,8 @@ class ConvenedParticipantEditor extends React.Component {
 					</React.Fragment>
 				}
 			>
-				<div style={{maxWidth: '900px'}}>
-					<ParticipantForm
-						type={participant.personOrEntity}
-						participant={participant}
-						participations={participations}
-						translate={translate}
-						languages={languages}
-						errors={errors}
-						updateState={this.updateState}
-					/>
-					<RepresentativeForm
-						translate={translate}
-						state={representative}
-						updateState={this.updateRepresentative}
-						errors={representativeErrors}
-						languages={languages}
-					/>
-				</div>
-			</CustomDialog>
+
+			</AlertConfirm>
 		);
 	}
 }

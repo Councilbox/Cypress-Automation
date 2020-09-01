@@ -2,33 +2,41 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import { LoadingSection } from '../../../../displayComponents';
+import { withApollo } from 'react-apollo';
 
-class ActHTML extends React.Component {
 
-    componentDidMount(){
-        this.props.data.refetch();
+const ActHTML = ({ council, client }) => {
+    const [act, setAct] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+
+    const getData = async () => {
+        const response = await client.query({
+            query: councilActEmail,
+            variables: {
+                councilId: +council.id
+            }
+        });
+
+        setAct(response.data.councilAct);
+        setLoading(false);
     }
 
-    render(){
-        if(this.props.data.loading){
-            return (
-                <LoadingSection />
-            );
-        }
+    React.useEffect(() => {
+        getData();
+    }, [council.id]);
 
-        return(
-            <div style={{width: '100%', position: 'relative'}}>
-                <div dangerouslySetInnerHTML={{__html: this.props.data.councilAct.emailAct}} />
-            </div>
-        )
+
+    if(loading){
+        return <LoadingSection />
     }
+
+    return(
+        <div style={{width: '100%', position: 'relative'}}>
+            <div dangerouslySetInnerHTML={{__html: act.emailAct}} />
+        </div>
+    )
 }
 
-export default graphql(councilActEmail, {
-    options: props => ({
-        variables: {
-            councilId: props.council.id
-        },
-        notifyOnNetworkStatusChange: true
-    })
-})(ActHTML);
+
+
+export default withApollo(ActHTML);

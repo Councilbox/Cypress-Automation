@@ -1,5 +1,5 @@
 import { getCompanies } from "./companyActions";
-import { client, bHistory } from "../containers/App";
+import { client, bHistory, refreshWSLink } from "../containers/App";
 import { getMe, getTranslations } from "../queries";
 import DetectRTC from "detectrtc";
 import { moment } from '../containers/App';
@@ -10,6 +10,7 @@ export const loginSuccess = (token, refreshToken) => {
 	return dispatch => {
 		sessionStorage.setItem("token", token);
 		sessionStorage.setItem("refreshToken", refreshToken);
+		refreshWSLink();
 		dispatch(initUserData());
 		dispatch(getCompanies());
 		dispatch({ type: "LOGIN_SUCCESS" });
@@ -21,6 +22,7 @@ export const setUnsavedChanges = value => (
 )
 
 export const loadSubdomainConfig = () => {
+	const subdomain = window.location.hostname.split('.')[0];
 	return async dispatch => {
 		const response = await client.query({
 			query: gql`
@@ -38,7 +40,7 @@ export const loadSubdomainConfig = () => {
 				}
 			`,
 			variables: {
-				subdomain: window.location.hostname.split('.')[0]
+				subdomain
 			}
 		});
 
@@ -60,7 +62,10 @@ export const loadSubdomainConfig = () => {
 			document.title = config.title;
 		}
 
-		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: response.data.subdomainConfig });
+		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: {
+			...response.data.subdomainConfig,
+			name: subdomain
+		}});
 	}
 }
 
@@ -124,6 +129,15 @@ export const logoutParticipant = (participant, council) => {
 	return { type: "PARTICIPANT_LOGOUT" };
 };
 
+export const buildTranslateObject = translations => {
+	let translationObject = {};
+	translations.forEach(translation => {
+		translationObject[translation.label] = translation.text;
+	});
+
+	return translationObject;
+}
+
 export const setLanguage = language => {
 	return async dispatch => {
 		const response = await client.query({
@@ -133,11 +147,7 @@ export const setLanguage = language => {
 			}
 		});
 		if(!response.errors){
-			const translationObject = {};
-
-			response.data.translations.forEach(translation => {
-				translationObject[translation.label] = translation.text;
-			});
+			const translationObject = buildTranslateObject(response.data.translations);
 			let locale = language;
 			if (language === "cat" || language === "gal") {
 				locale = "es";

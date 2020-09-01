@@ -21,7 +21,7 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 		const response = await client.query({
 			query: councilDetails,
 			variables: {
-				councilID: match.params.council
+				councilID: +match.params.council
 			}
 		});
 		if(response.data){
@@ -132,6 +132,8 @@ export const councilDetails = gql`
 			countryState
 			street
 			zipcode
+			companyId
+			councilType
 			quorumPrototype
 			dateStart2NdCall
 			state
@@ -178,6 +180,7 @@ export const councilDetails = gql`
 				existsComments
 				conveneHeader
 				intro
+				requireProxy
 				constitution
 				conclusion
 				actTemplate

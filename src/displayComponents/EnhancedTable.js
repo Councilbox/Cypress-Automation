@@ -16,9 +16,7 @@ import Table, {
 } from "material-ui/Table";
 import TableStyles from "../styles/table";
 import PaginationFooter from "./PaginationFooter";
-import { isMobile } from 'react-device-detect';
-import Scrollbar from "./Scrollbar";
-import LoadDraft, { DropdownEtiquetas } from "../components/company/drafts/LoadDraft";
+import { isMobile } from "../utils/screen";
 
 class EnhancedTable extends React.Component {
 	state = {
@@ -169,6 +167,39 @@ class EnhancedTable extends React.Component {
 				{isMobile && !!this.props.menuButtons &&
 					this.props.menuButtons
 				}
+				{this.props.searchInMovil &&
+					<div style={{ width: '100%', justifyContent: "flex-end", display: "flex", marginTop: "0.5em" }}>
+						{fields && (
+							<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
+								<SelectInput
+									floatingText={translate.filter_by}
+									value={filterField}
+									onChange={event =>
+										this.updateFilterField(event.target.value)
+									}
+								>
+									{fields.map(field => (
+										<MenuItem
+											key={`field_${field.value}`}
+											value={field.value}
+										>
+											{field.translation}
+										</MenuItem>
+									))}
+								</SelectInput>
+							</div>
+						)}
+						<TextInput
+							adornment={<Icon>search</Icon>}
+							floatingText={" "}
+							type="text"
+							value={filterText}
+							onChange={event => {
+								this.updateFilterText(event.target.value);
+							}}
+						/>
+					</div>
+				}
 				<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
 					{limits && (
 						<div style={{ width: '5em' }}>
@@ -217,26 +248,27 @@ class EnhancedTable extends React.Component {
 						{!!this.props.menuButtons && !isMobile &&
 							this.props.menuButtons
 						}
-						{fields && (
-							<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
-								<SelectInput
-									floatingText={translate.filter_by}
-									value={filterField}
-									onChange={event =>
-										this.updateFilterField(event.target.value)
-									}
-								>
-									{fields.map(field => (
-										<MenuItem
-											key={`field_${field.value}`}
-											value={field.value}
-										>
-											{field.translation}
-										</MenuItem>
-									))}
-								</SelectInput>
-							</div>
-						)}
+						{!this.props.searchInMovil &&
+							fields && (
+								<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
+									<SelectInput
+										floatingText={translate.filter_by}
+										value={filterField}
+										onChange={event =>
+											this.updateFilterField(event.target.value)
+										}
+									>
+										{fields.map(field => (
+											<MenuItem
+												key={`field_${field.value}`}
+												value={field.value}
+											>
+												{field.translation}
+											</MenuItem>
+										))}
+									</SelectInput>
+								</div>
+							)}
 						{!this.props.hideTextFilter &&
 							<div style={{ width: '16em' }}>
 								<TextInput

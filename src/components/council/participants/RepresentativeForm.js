@@ -32,10 +32,10 @@ const RepresentativeForm = ({
 		</GridItem>
 		<GridItem xs={6} lg={4} md={4}>
 			<TextInput
-				floatingText={translate.surname}
+				floatingText={translate.surname || ''}
 				type="text"
-				errorText={errors.surname}
-				value={representative.surname}
+				errorText={errors.surname || ''}
+				value={representative.surname || ''}
 				onChange={event =>
 					updateState({
 						surname: event.nativeEvent.target.value
@@ -85,6 +85,19 @@ const RepresentativeForm = ({
 				}
 			/>
 		</GridItem>
+		<GridItem xs={6} md={4} lg={3}>
+			<TextInput
+				floatingText={translate.administrative_email || ''}
+				min={1}
+				errorText={errors.secondaryEmail}
+				value={representative.secondaryEmail}
+				onChange={event => {
+					updateState({
+						secondaryEmail: event.target.value
+					})
+				}}
+			/>
+		</GridItem>
 		<GridItem xs={6} lg={4} md={4}>
 			<TextInput
 				floatingText={translate.phone}
@@ -126,6 +139,38 @@ const RepresentativeForm = ({
 						</MenuItem>
 					);
 				})}
+			</SelectInput>
+		</GridItem>
+		<GridItem xs={6} md={4} lg={3}>
+			<SelectInput
+				floatingText={translate.participation_type}
+				value={''+representative.initialState}
+				onChange={event =>
+					updateState({
+						initialState: +event.target.value
+					})
+				}
+			>
+				<MenuItem
+					value={'0'}
+				>
+					{translate.viewer}
+				</MenuItem>
+				<MenuItem
+					value={'2'}
+				>
+					{translate.granted_word}
+				</MenuItem>
+				<MenuItem
+					value={'4'}
+				>
+					{translate.cant_ask_word}
+				</MenuItem>
+				<MenuItem
+					value={'3'}
+				>
+					{translate.waiting_room}
+				</MenuItem>
 			</SelectInput>
 		</GridItem>
 	</Grid>

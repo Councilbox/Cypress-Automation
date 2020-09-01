@@ -1,13 +1,13 @@
 import React from 'react';
 import { LoadingSection } from '../../../displayComponents';
 import CompanySettingsPage from '../../company/settings/CompanySettingsPage';
-import withTranslations from '../../../HOCs/withTranslations';
+import withSharedProps from '../../../HOCs/withSharedProps';
 import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { company } from '../../../queries';
 import { bHistory } from '../../../containers/App';
 
-const CompanyEditPage = ({ data, match, translate }) => {
+const CompanyEditPage = ({ data, user, match, company, translate }) => {
 
     if(data.loading){
         return <LoadingSection />
@@ -18,13 +18,14 @@ const CompanyEditPage = ({ data, match, translate }) => {
     }
 
     return(
-        <div style={{height: 'calc(100% - 3em)'}}>
+        <div style={{height: '100%', width: '100%'}}>
             <CompanySettingsPage
                 key={`company_${company.id}`}
                 company={data.company}
                 translate={translate}
-                confirmCompany={true}
-                root={true}
+                confirmCompany={user.roles === 'root'}
+                organization={company.id !== data.company.id && company.id === data.company.corporationId}
+                root={user.roles === 'root'}
                 refetch={data.refetch}
             />
         </div>
@@ -34,9 +35,9 @@ const CompanyEditPage = ({ data, match, translate }) => {
 export default graphql(company, {
     options: props => ({
         variables: {
-            id: props.match.params.id
+            id: +props.match.params.id
         },
         notifyOnNetworkStatusChange: true,
         fetchPolicy: 'network-only'
     })
-})(withRouter(withTranslations()(CompanyEditPage)));
+})(withRouter(withSharedProps()(CompanyEditPage)));

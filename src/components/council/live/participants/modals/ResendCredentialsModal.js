@@ -11,9 +11,9 @@ import { getPrimary, getSecondary } from "../../../../../styles/colors";
 import FontAwesome from "react-fontawesome";
 import { graphql, compose } from "react-apollo";
 import { moment } from "../../../../../containers/App";
-import { isMobile } from 'react-device-detect';
 import { MenuItem } from 'material-ui';
 import gql from 'graphql-tag';
+import { isMobile } from "../../../../../utils/screen";
 
 const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council, ...props }) => {
 	const [modal, setModal] = React.useState(false);
@@ -21,7 +21,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 	const primary = getPrimary();
 	const translation = translate.sure_send_video.replace(
 		"{{name}}",
-		`${participant.name} ${participant.surname}`
+		`${participant.name} ${participant.surname || ''}`
 	);
 
 	const close = () => {
@@ -32,7 +32,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		const response = await props.resendRoomEmails({
 			variables: {
 				councilId: council.id,
-				timezone: moment().utcOffset(),
+				timezone: ''+moment().utcOffset().toString(),
 				participantsIds: [participant.id]
 			}
 		});
@@ -46,7 +46,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		const response = await props.resendRoomEmails({
 			variables: {
 				councilId: council.id,
-				timezone: moment().utcOffset(),
+				timezone: moment().utcOffset().toString(),
 				participantsIds: [participant.id],
 				onlyAccessLink: true
 			}
@@ -62,7 +62,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
             variables: {
                 councilId: council.id,
                 participantIds: [participant.id],
-                timezone: moment().utcOffset()
+                timezone: moment().utcOffset().toString()
             }
         });
 
@@ -80,7 +80,6 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		setModal(true);
 	}
 
-	/*TRADUCCION*/
 	return (
 		<React.Fragment>
 			{props.security?
@@ -97,13 +96,13 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 					items={
 						<React.Fragment>
 							<MenuItem onClick={resendOnlyAccessLink}>
-								Enviar email de acceso
+								{translate.send_access_mail}
 							</MenuItem>
 							<MenuItem onClick={sendKey}>
-								Enviar clave de entrada
+								{translate.send_access_key}
 							</MenuItem>
 							<MenuItem onClick={resend}>
-								Enviar ambos
+								{translate.send_both}
 							</MenuItem>
 						</React.Fragment>
 					}

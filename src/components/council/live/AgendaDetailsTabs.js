@@ -7,12 +7,11 @@ import Comments from './Comments';
 import RecountSection from './RecountSection';
 import Votings from "./Votings";
 import { AGENDA_TYPES } from '../../../constants';
-import { isMobile } from 'react-device-detect';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
-import { isLandscape } from '../../../utils/screen';
-
+import { isLandscape, isMobile } from '../../../utils/screen';
+import EarlyVotes from './voting/EarlyVotes';
 
 const styles = theme => ({
     scrollable: {
@@ -21,6 +20,8 @@ const styles = theme => ({
 });
 const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...props }) => {
     const [selected, setSelected] = React.useState(0);
+
+    const showEarlyVotings = !council.statute.canEarlyVote === 1 && (!CBX.councilStarted(council) || !CBX.showAgendaVotingsTable(agenda));
 
     const handleChange = (event, index) => {
         const cb = () => {
@@ -58,7 +59,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                 <Tab label={isMobile? translate.agreements : translate.comments_and_agreements} />
                 <Tab label={isMobile? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />
                 {agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
-                    <Tab label={translate.voting} disabled={!CBX.councilStarted(council) || !CBX.showAgendaVotingsTable(agenda)}/>
+                    <Tab label={translate.voting} disabled={showEarlyVotings}/>
                 }
                 <Tab label={isMobile? translate.attachments : translate.attachment_files} />
             </Tabs>
@@ -103,29 +104,40 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                         />
                                     :
                                         <React.Fragment>
-                                            {agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
-                                                <PrivateRecountMessage translate={translate} />
-                                            :
-                                                <RecountSection
-                                                    agenda={agenda}
-                                                    key={`agendaRecount_${agenda.id}`}
-                                                    council={council}
+                                            {(council.statute.canEarlyVote === 1 && (!CBX.councilStarted(council)))?
+                                                <EarlyVotes
                                                     translate={translate}
+                                                    agenda={agenda}
+                                                    council={council}
                                                     recount={props.recount}
-                                                    refetch={refetch}
-                                                    majorityTypes={props.majorityTypes}
                                                 />
+                                            :
+                                                <>
+                                                    {agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
+                                                        <PrivateRecountMessage translate={translate} />
+                                                    :
+                                                        <RecountSection
+                                                            agenda={agenda}
+                                                            key={`agendaRecount_${agenda.id}`}
+                                                            council={council}
+                                                            translate={translate}
+                                                            recount={props.recount}
+                                                            refetch={refetch}
+                                                            majorityTypes={props.majorityTypes}
+                                                        />
+                                                    }
+                                                    <Votings
+                                                        key={`agendaVotings_${agenda.id}`}
+                                                        refetch={refetch}
+                                                        changeEditedVotings={props.changeEditedVotings}
+                                                        editedVotings={props.editedVotings}
+                                                        agenda={agenda}
+                                                        council={council}
+                                                        recount={props.recount}
+                                                        translate={translate}
+                                                    />
+                                                </>
                                             }
-                                            <Votings
-                                                key={`agendaVotings_${agenda.id}`}
-                                                refetch={refetch}
-                                                changeEditedVotings={props.changeEditedVotings}
-                                                editedVotings={props.editedVotings}
-                                                agenda={agenda}
-                                                council={council}
-                                                recount={props.recount}
-                                                translate={translate}
-                                            />
                                         </React.Fragment>
                                     }
                                 </div>

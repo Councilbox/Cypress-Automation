@@ -1,39 +1,40 @@
-import React, { Component, Fragment } from "react";
-import { graphql, compose } from "react-apollo";
+import React from "react";
+import { graphql, compose, withApollo } from "react-apollo";
 import { getSecondary, getPrimary } from "../../../../styles/colors";
 import gql from "graphql-tag";
 import {
 	BasicButton,
-	ErrorWrapper,
 	Scrollbar,
 	LoadingSection,
 	LiveToast
 } from "../../../../displayComponents";
-import LoadDraft from "../../../company/drafts/LoadDraft";
-import RichTextInput from "../../../../displayComponents/RichTextInput";
-import AgendaEditor from "./AgendaEditor";
-import { DRAFT_TYPES, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
+import { PARTICIPANT_STATES, AGENDA_STATES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { moment } from '../../../../containers/App';
-import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import SendActDraftModal from './SendActDraftModal';
 import FinishActModal from "./FinishActModal";
 import { updateCouncilAct } from '../../../../queries';
-import DownloadActPDF from '../actViewer/DownloadActPDF';
-import ExportActToMenu from '../actViewer/ExportActToMenu';
 import { ConfigContext } from '../../../../containers/AppControl';
 import {
 	getActPointSubjectType,
 	checkForUnclosedBraces,
 	changeVariablesToValues,
 	hasSecondCall,
+	buildAttendantsString,
 	generateAgendaText,
 	getGoverningBodySignatories,
-	generateStatuteTag
+	generateStatuteTag,
+	buildDelegationsString
 } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
-import { isMobile } from "react-device-detect";
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
+import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
+import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../../documentEditor/utils";
+import DownloadDoc from "../../../documentEditor/DownloadDoc";
+import { actBlocks } from "../../../documentEditor/actBlocks";
+import SendActToVote from "../../live/act/SendActToVote";
+import SendActDraftModal from "./SendActDraftModal";
+import { isMobile } from "../../../../utils/screen";
+
 
 export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
@@ -50,6 +51,7 @@ export const CouncilActData = gql`
 			street
 			city
 			name
+			language
 			remoteCelebration
 			dateStart
 			dateStart2NdCall
@@ -60,16 +62,25 @@ export const CouncilActData = gql`
 			act {
 				id
 				intro
+				document
 				constitution
 				conclusion
+				introRightColumn
+				constitutionRightColumn
+				conclusionRightColumn
 			}
 			statute {
 				id
 				title
 				statuteId
+				doubleColumnDocs
 				prototype
 				existsSecondCall
 				existsQualityVote
+				introSecondary
+				conclusionSecondary
+				constitutionSecondary
+				existsComments
 			}
 		}
 		agendas(councilId: $councilID) {
@@ -117,6 +128,7 @@ export const CouncilActData = gql`
 			socialCapitalCurrentRemote
 			socialCapitalNoParticipate
 			comment
+			commentRightColumn
 		}
 		councilRecount(councilId: $councilID){
 			socialCapitalTotal
@@ -159,6 +171,7 @@ export const CouncilActData = gql`
 				id
 				name
 				dni
+				position
 				state
 				type
 				socialCapital
@@ -191,14 +204,14 @@ const cache = new Map();
 
 export const generateCouncilSmartTagsValues = data => {
 	const string = JSON.stringify(data);
-	if(cache.has(string)){
+	if (cache.has(string)) {
 		return cache.get(string);
 	}
 
 	const numParticipationsPresent = (data.councilAttendants.list.reduce((acc, curr) => {
 		let counter = acc;
 		counter = counter + curr.numParticipations;
-		if(curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0){
+		if (curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0) {
 			counter = counter + curr.delegationsAndRepresentations.reduce((acc, curr) => {
 				return acc + curr.numParticipations;
 			}, 0);
@@ -233,563 +246,370 @@ export const generateCouncilSmartTagsValues = data => {
 	return calculatedObject;
 }
 
-class ActEditor extends Component {
+export const ActContext = React.createContext();
+const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, refetch, withDrawer, liveMode }) => {
+	const [saving, setSaving] = React.useState(false);
+	const [sendToVote, setSendToVote] = React.useState(false);
+	const [sendActDraft, setSendActDraft] = React.useState(false);
+	const [finishModal, setFinishModal] = React.useState(false);
+	const [data, setData] = React.useState(null);
+	const [loading, setLoading] = React.useState(true);
+	const primary = getPrimary();
+	const secondary = getSecondary();
+	const {
+		doc,
+		options,
+		...handlers
+	} = useDoc({
+		transformText: async text => changeVariablesToValues(text, {
+			council: {
+				...generateCouncilSmartTagsValues(data),
+			},
+			company
+		}, translate)
+	});
 
-	state = {
-		loading: false,
-		data: {},
-		updating: false,
-		draftType: null,
-		sendActDraft: false,
-		disableButtons: false,
-		agendaErrors: new Map(),
-		finishActModal: false,
-		loadDraft: false,
-		errors: {}
-	};
-
-	timeout = null;
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if (!nextProps.data.loading) {
-			if (!prevState.data.council) {
-				return {
-					data: {
-						...nextProps.data,
-						council: {
-							...nextProps.data.council,
-							agendas: nextProps.data.agendas,
-							act: nextProps.data.council.act || {}
-						}
-					}
-				};
-			}
-		}
-
-		return null;
-	};
-
-	componentDidUpdate(prevProps, prevState){
-		if(!this.props.data.loading){
-			if(prevState.data.council){
-				if(prevState.data.council.id !== this.state.data.council.id){
-					this.updateCouncilAct();
-				}
-			}else{
-				this.updateCouncilAct();
-			}
-		}
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
-
-	loadDraft = async draft => {
-		const { data } = this.state;
- 		const correctedText = await changeVariablesToValues(draft.text, {
-			company: this.props.company,
-			council: generateCouncilSmartTagsValues(data)
-		}, this.props.translate);
-
-		this[this.state.load].paste(correctedText);
-		this.setState({
-			loadDraft: false
-		});
-	};
-
-	updateActState = async object => {
-		this.setState({
-			data: {
-				...this.state.data,
-				council: {
-					...this.state.data.council,
-					act: {
-						...this.state.data.council.act,
-						...object
-					}
-				}
-			}
-		}, async () => {
-			clearTimeout(this.timeout);
-			this.timeout = setTimeout(() => this.updateCouncilAct(), 450);
-		});
-	};
-
-	checkBraces = () => {
-		const act = this.state.data.council.act;
-		let errors = {
-			intro: false,
-			conclusion: false,
-			constitution: false
-		};
-		let hasError = false;
-
-		if(act.intro){
-			if(checkForUnclosedBraces(act.intro)){
-				errors.intro = true;
-				hasError = true;
-			}
-		}
-
-		if(act.constitution){
-			if(checkForUnclosedBraces(act.constitution)){
-				errors.constitution = true;
-				hasError = true;
-			}
-		}
-
-		if(act.conclusion){
-			if(checkForUnclosedBraces(act.conclusion)){
-				errors.conclusion = true;
-				hasError = true;
-			}
-		}
-
-		if(hasError){
-			toast(
-				<LiveToast
-					message={this.props.translate.revise_text}
-				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "errorToast"
-				}
-			);
-		}
-
-		this.setState({
-			disableButtons: hasError,
-			errors
-		});
-
-		return hasError;
-	}
-
-	updateCouncilAct = async () => {
-		if(this.state.data.council.act){
-			const { __typename, ...act } = this.state.data.council.act;
-
-			if(!this.checkBraces()){
-				this.setState({
-					updating: true,
-					disableButtons: false
-				});
-				const response = await this.props.updateCouncilAct({
-					variables: {
-						councilAct: {
-							...act,
-							councilId: this.state.data.council.id
-						}
-					}
-				});
-				if(!!response){
-					this.setState({
-						updating: false
-					});
-				}
-			}
-		}
-	}
-
-	getTypeText = subjectType => {
-		const votingType = this.state.data.votingTypes.find(item => item.value === subjectType)
-		return !!votingType? this.props.translate[votingType.label] : '';
-	}
-
-	render() {
-		const secondary = getSecondary();
-		const primary = getPrimary();
-		const { translate, company } = this.props;
-		const {
-			error,
-			loading,
-		} = this.props.data;
-		const { errors, data } = this.state;
-		let { council } = data;
-
-		if (loading) {
-			return <LoadingSection />;
-		}
-
-		if (error) {
-			return <ErrorWrapper error={error} translate={translate} />;
-		}
-
-		council.attendants = this.state.data.councilAttendants.list;
-		council.delegatedVotes = this.state.data.participantsWithDelegatedVote;
-
-		return (
-			<ConfigContext.Consumer>
-				{config => (
-					<div style={{ height: "100%", background: 'transparent' }}>
-						<div style={{overflow: 'hidden', height: 'calc(100% - 3.5em)'}}>
-								<Scrollbar>
-									<div style={{padding: '1.2em 5%'}}>
-										<div
-											style={{
-												display: 'flex',
-												width: '100%',
-												padding: '0.6em 0px',
-												justifyContent: 'flex-end'
-											}}
-										>
-											{!this.props.liveMode &&
-												<React.Fragment>
-													{config.exportActToWord?
-														<div style={{display: 'flex'}}>
-															<ExportActToMenu
-																translate={this.props.translate}
-																council={council}
-																html={this.state.data.council.act.emailAct}
-															/>
-														</div>
-													:
-														<DownloadActPDF
-															translate={this.props.translate}
-															council={council}
-														/>
-													}
-													{config.actCouncilInfo?
-														<BasicButton
-															text={translate.governing_body_members}
-															color={'white'}
-															type="flat"
-															textStyle={{ color: secondary }}
-															buttonStyle={{border: `1px solid ${secondary}`, marginLeft: '0.6em'}}
-															onClick={this.props.toggleInfoMenu}
-														/>
-													:
-														<Config config={config}/>
-													}
-												</React.Fragment>
-											}
-										</div>
-										{!!data.council.act && data.council.act.intro !== undefined &&
-											<RichTextInput
-												ref={editor => this.intro = editor}
-												translate={translate}
-												floatingText={translate.intro}
-												type="text"
-												id="act-intro"
-												loadDraft={
-													<BasicButton
-														text={translate.load_draft}
-														color={secondary}
-														textStyle={{
-															color: "white",
-															fontWeight: "600",
-															fontSize: "0.8em",
-															textTransform: "none",
-															marginLeft: "0.4em",
-															minHeight: 0,
-															lineHeight: "1em"
-														}}
-														textPosition="after"
-														onClick={() =>
-															this.setState({
-																loadDraft: true,
-																load: 'intro',
-																draftType: DRAFT_TYPES.INTRO
-															})
-														}
-													/>
-												}
-												tags={generateActTags('intro', {
-													council: {
-														...council,
-														...generateCouncilSmartTagsValues(data)
-													},
-													company,
-													recount: this.props.councilRecount || data.councilRecount
-												}, translate)}
-												errorText={errors.intro}
-												value={data.council.act.intro || ''}
-												onChange={value => {
-													if(value !== data.council.act.intro){
-														this.updateActState({
-															intro: value
-														})
-													}
-												}}
-											/>
-										}
-										<div style={{marginTop: '1em'}}>
-											<RichTextInput
-												ref={editor => (this.constitution = editor)}
-												floatingText={translate.constitution}
-												translate={translate}
-												type="text"
-												id="act-constitution"
-												loadDraft={
-													<BasicButton
-														text={translate.load_draft}
-														color={secondary}
-														textStyle={{
-															color: "white",
-															fontWeight: "600",
-															fontSize: "0.8em",
-															textTransform: "none",
-															marginLeft: "0.4em",
-															minHeight: 0,
-															lineHeight: "1em"
-														}}
-														textPosition="after"
-														onClick={() =>
-															this.setState({
-																loadDraft: true,
-																load: 'constitution',
-																draftType: DRAFT_TYPES.CONSTITUTION
-															})
-														}
-													/>
-												}
-												tags={generateActTags('constitution', {
-													council: {
-														...council,
-														...generateCouncilSmartTagsValues(data)
-													},
-													company,
-													recount: this.props.councilRecount || data.councilRecount
-												}, translate)}
-												errorText={errors.constitution}
-												value={data.council.act.constitution || ''}
-												onChange={value => {
-													if(value !== data.council.act.constitution){
-														this.updateActState({
-															constitution: value
-														})
-													}
-												}}
-											/>
-										</div>
-										{!!council.agendas && (
-											<Fragment>
-												{council.agendas.filter(agenda => agenda.subjectType !== getActPointSubjectType()).map((agenda, index) => {
-													return (
-														<div style={{marginTop: '2.5em' }} key={`agenda${agenda.id}`}>
-															<AgendaEditor
-																agenda={agenda}
-																council={council}
-																updateCouncilAct={this.updateCouncilAct}
-																recount={this.state.data.councilRecount}
-																statutes={this.state.data.companyStatutes}
-																translate={translate}
-																majorityTypes={this.state.data.majorityTypes}
-																typeText={this.getTypeText(agenda.subjectType)}
-																company={this.props.company}
-																data={this.state.data}
-															/>
-															{index < council.agendas.length -1 &&
-																<hr style={{marginTop: '2.5em'}} />
-															}
-														</div>
-													);
-												})}
-											</Fragment>
-										)}
-										{!this.props.liveMode &&
-											<div
-												ref={ref => this.conclusionSection = ref}
-											>
-												<RichTextInput
-													ref={editor => (this.conclusion = editor)}
-													floatingText={translate.conclusion}
-													translate={translate}
-													type="text"
-													id="act-conclusion"
-													loadDraft={
-														<BasicButton
-															text={translate.load_draft}
-															color={secondary}
-															textStyle={{
-																color: "white",
-																fontWeight: "600",
-																fontSize: "0.8em",
-																textTransform: "none",
-																marginLeft: "0.4em",
-																minHeight: 0,
-																lineHeight: "1em"
-															}}
-															textPosition="after"
-															onClick={() =>
-																this.setState({
-																	loadDraft: true,
-																	load: 'conclusion',
-																	draftType: DRAFT_TYPES.CONCLUSION
-																})
-															}
-														/>
-													}
-													tags={generateActTags('conclusion', {
-														council: {
-															...council,
-															...generateCouncilSmartTagsValues(data)
-														},
-														company,
-														recount: this.props.councilRecount || data.councilRecount
-													}, translate)}
-													errorText={errors.conclusion}
-													value={data.council.act.conclusion || ''}
-													onChange={value => {
-														this.updateActState({
-															conclusion: value
-														})
-													}}
-												/>
-											</div>
-										}
-									</div>
-								</Scrollbar>
-							</div>
-							<div
-								style={{
-									height: '3.5em',
-									zIndex: '100',
-									width: '100%',
-									borderTop: '1px solid gainsboro',
-									borderBottom: '1px solid gainsboro',
-									display: 'flex',
-									borderBottomRadius: '3px',
-									justifyContent: 'flex-end',
-									alignItems: 'center'
-								}}
-							>
-								{!this.props.liveMode &&
-									<div>
-										<BasicButton
-											text={translate.save_draft}
-											color={"white"}
-											loadingColor={primary}
-											disabled={this.state.disableButtons}
-											loading={this.state.updating}
-											textStyle={{
-												color: primary,
-												fontWeight: "700",
-												fontSize: "0.9em",
-												textTransform: "none"
-											}}
-											onClick={() => this.updateActState({})}
-											buttonStyle={{
-												marginRight: "1em",
-												border: `2px solid ${primary}`
-											}}
-										/>
-										<BasicButton
-											text={isMobile? translate.send_draft_phone_button : translate.send_draft_act_review}
-											color={"white"}
-											disabled={this.state.disableButtons}
-											textStyle={{
-												color: primary,
-												fontWeight: "700",
-												fontSize: "0.9em",
-												textTransform: "none"
-											}}
-											onClick={() => this.setState({
-												sendActDraft: true
-											})}
-											buttonStyle={{
-												marginRight: "1em",
-												border: `2px solid ${primary}`
-											}}
-										/>
-										<BasicButton
-											text={isMobile? translate.finish : translate.end_writing_act}
-											loading={this.state.updating}
-											loadingColor={primary}
-											id={'finalizarRedaccionDeActa'}
-											disabled={this.state.updating || this.state.disableButtons}
-											color={"white"}
-											textStyle={{
-												color: primary,
-												fontWeight: "700",
-												fontSize: "0.9em",
-												textTransform: "none"
-											}}
-											onClick={() => this.setState({
-												finishActModal: true
-											})}
-											buttonStyle={{
-												marginRight: "1em",
-												border: `2px solid ${primary}`
-											}}
-										/>
-									</div>
-
-								}
-							</div>
-						<Dialog
-							open={this.state.loadDraft}
-							maxWidth={false}
-							onClose={() => this.setState({ loadDraft: false })}
-						>
-							<DialogTitle>{translate.load_draft}</DialogTitle>
-							<DialogContent style={{ width: "800px" }}>
-								<LoadDraft
-									translate={translate}
-									companyId={this.props.company.id}
-									loadDraft={this.loadDraft}
-									statute={council.statute}
-									defaultTags={{
-										[this.state.load]: {
-											active: true,
-											type: TAG_TYPES.DRAFT_TYPE,
-											name: this.state.load,
-											label: translate[this.state.load]
-										},
-										...generateStatuteTag(council.statute, translate)
-									}}
-									statutes={this.state.data.companyStatutes}
-									draftType={this.state.draftType}
-								/>
-							</DialogContent>
-						</Dialog>
-						<SendActDraftModal
-							council={council}
-							translate={translate}
-							show={this.state.sendActDraft}
-							requestClose={() => this.setState({ sendActDraft: false })}
-						/>
-						<FinishActModal
-							refetch={this.props.refetch}
-							council={council}
-							config={config}
-							liveMode={this.props.liveMode}
-							translate={translate}
-							show={this.state.finishActModal}
-							requestClose={() => this.setState({ finishActModal: false })}
-						/>
-					</div>
-				)}
-			</ConfigContext.Consumer>
-		);
-	}
-}
-
-const Config = config => {
-	return <span/>
-}
-
-
-export default compose(
-	graphql(CouncilActData, {
-		name: "data",
-		options: props => ({
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: CouncilActData,
 			variables: {
-				councilID: props.councilID,
-				companyId: props.companyID,
+				councilID,
+				companyId: company.id,
 				options: {
 					limit: 10000,
 					offset: 0
 				}
-			},
-			fetchPolicy: 'network-only',
-			notifyOnNetworkStatusChange: true
-		})
-	}),
+			}
+		});
+
+		const actDocument = response.data.council.act.document;
+
+		setData(response.data);
+
+		handlers.initializeDoc(actDocument ? {
+			doc: actDocument.fragments,
+			options: actDocument.options
+		} : {
+				doc: buildDoc(response.data, translate, 'act'),
+				options: {
+					stamp: true,
+					doubleColumn: response.data.council.statute.doubleColumnDocs === 1? true : false,
+					language: response.data.council.language,
+					secondaryLanguage: 'en'
+				}
+			});
+		setLoading(false);
+	}, [councilID]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	const checkBraces = () => {
+		// const act = this.state.data.council.act;
+		// let errors = {
+		// 	intro: false,
+		// 	conclusion: false,
+		// 	constitution: false
+		// };
+		// let hasError = false;
+
+		// if(act.intro){
+		// 	if(checkForUnclosedBraces(act.intro)){
+		// 		errors.intro = true;
+		// 		hasError = true;
+		// 	}
+		// }
+
+		// if(act.constitution){
+		// 	if(checkForUnclosedBraces(act.constitution)){
+		// 		errors.constitution = true;
+		// 		hasError = true;
+		// 	}
+		// }
+
+		// if(act.conclusion){
+		// 	if(checkForUnclosedBraces(act.conclusion)){
+		// 		errors.conclusion = true;
+		// 		hasError = true;
+		// 	}
+		// }
+
+		// if(hasError){
+		// 	toast(
+		// 		<LiveToast
+		// 			message={this.props.translate.revise_text}
+		// 		/>, {
+		// 			position: toast.POSITION.TOP_RIGHT,
+		// 			autoClose: true,
+		// 			className: "errorToast"
+		// 		}
+		// 	);
+		// }
+
+		// this.setState({
+		// 	disableButtons: hasError,
+		// 	errors
+		// });
+
+		// return hasError;
+	}
+
+	const generatePreview = async () => {
+		const response = await client.mutate({
+			mutation: gql`
+				mutation ACTHTML($doc: Document, $councilId: Int!){
+					generateDocumentHTML(document: $doc, councilId: $councilId)
+				}
+			`,
+			variables: {
+				doc: buildDocVariable(doc, options),
+				councilId: data.council.id
+			}
+		});
+		return response.data.generateDocumentHTML;
+	}
+
+	const updateAct = async () => {
+		setSaving(true);
+		const response = await updateCouncilAct({
+			variables: {
+				councilAct: {
+					document: {
+						fragments: doc,
+						options
+					},
+					councilId: data.council.id
+				}
+			}
+		});
+		if (!!response) {
+			setSaving(false);
+		}
+	}
+
+	const finishAct = async () => {
+		setFinishModal(true);
+	}
+
+	if (loading) {
+		return <LoadingSection />;
+	}
+
+	let council = { ...data.council };
+	council.attendants = data.councilAttendants.list;
+	council.delegatedVotes = data.participantsWithDelegatedVote;
+
+
+	const finishedToolbar = () => {
+		return (
+			<>
+				<DownloadDoc
+					translate={translate}
+					doc={doc}
+					options={options}
+					council={data.council}
+					styles={{
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis',
+					}}
+				/>
+				<BasicButton
+					text={translate.save}
+					color={primary}
+					onClick={updateAct}
+					loading={saving}
+					textStyle={{
+						color: "white",
+						fontSize: "0.9em",
+						textTransform: "none"
+					}}
+					textPosition="after"
+					iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+					buttonStyle={{
+						marginRight: "1em",
+						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+						borderRadius: '3px'
+					}}
+				/>
+				<BasicButton
+					text={translate.send_draft_phone_button}
+					color={secondary}
+					onClick={() => setSendActDraft(true)}
+					loading={saving}
+					textStyle={{
+						color: "white",
+						fontSize: "0.9em",
+						textTransform: "none"
+					}}
+					textPosition="after"
+					iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-file-text-o" aria-hidden="true"></i>}
+					buttonStyle={{
+						marginRight: "1em",
+						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+						borderRadius: '3px'
+					}}
+				/>
+				<SendActDraftModal
+					translate={translate}
+					council={council}
+					updateAct={updateAct}
+					show={sendActDraft}
+					requestClose={() => setSendActDraft(false)}
+				/>
+				<FinishActModal
+					finishInModal={true}
+					show={finishModal}
+					generatePreview={generatePreview}
+					doc={doc}
+					options={options}
+					refetch={refetch}
+					company={company}
+					updateAct={updateAct}
+					translate={translate}
+					council={data.council}
+					requestClose={() => {
+						setFinishModal(false)
+					}}
+				/>
+				<BasicButton
+					text={
+						<span style={{
+
+						}}>
+							{translate.finish_and_aprove_act}
+						</span>
+					}
+					color={secondary}
+					textStyle={{
+						color: "white",
+						fontSize: "0.9em",
+						textTransform: "none"
+					}}
+					onClick={finishAct}
+					textPosition="after"
+					iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-check" aria-hidden="true"></i>}
+					buttonStyle={{
+						marginRight: "1em",
+						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+						borderRadius: '3px',
+						overflow: "hidden"
+					}}
+				/>
+
+			</>
+		)
+	}
+
+	const liveToolbar = () => {
+		const actPoint = data.agendas[data.agendas.length - 1];
+
+		return (
+			<>
+				{actPoint.pointState === AGENDA_STATES.CLOSED ?
+					<>
+						<FinishActModal
+							finishInModal={true}
+							show={finishModal}
+							generatePreview={generatePreview}
+							doc={doc}
+							options={options}
+							refetch={refetch}
+							company={company}
+							updateAct={updateAct}
+							translate={translate}
+							council={data.council}
+							requestClose={() => {
+								setFinishModal(false)
+							}}
+						/>
+						<BasicButton
+							text={
+								<span style={{
+
+								}}>
+									{translate.finish_and_aprove_act}
+								</span>
+							}
+							color={secondary}
+							textStyle={{
+								color: "white",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							onClick={finishAct}
+							textPosition="after"
+							iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+							buttonStyle={{
+								marginRight: "1em",
+								boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+								borderRadius: '3px',
+								overflow: "hidden"
+							}}
+						/>
+					</>
+
+				:
+					<>
+						<BasicButton
+							text={translate.save_preview_act}
+							color={'white'}
+							textStyle={{
+								color: primary,
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							onClick={() => setSendToVote(true)}
+							buttonStyle={{
+								marginRight: "1em",
+								border: `2px solid ${primary}`
+							}}
+						/>
+						<SendActToVote
+							council={data.council}
+							agenda={actPoint}
+							refetch={refetch}
+							updateAct={updateAct}
+							generatePreview={generatePreview}
+							doc={doc}
+							options={options}
+							company={company}
+							translate={translate}
+							show={sendToVote}
+							requestClose={() => setSendToVote(false)}
+						/>
+					</>
+				}
+			</>
+		)
+	}
+
+	return (
+		<React.Fragment>
+			<DocumentEditor2
+				withDrawer={withDrawer}
+				doc={doc}
+				data={data}
+				{...handlers}
+				documentId={data.council.id}
+				blocks={Object.keys(actBlocks).map(key => buildDocBlock(actBlocks[key], data, data.council.language, 'en'))}
+				options={options}
+				generatePreview={generatePreview}
+				download={true}
+				documentMenu={liveMode? liveToolbar() : finishedToolbar()}
+				translate={translate}
+			/>
+		</React.Fragment>
+	)
+}
+
+export default compose(
 	graphql(updateCouncilAct, {
 		name: 'updateCouncilAct'
-	})
+	}),
+	withApollo
 )(withSharedProps()(ActEditor));
 
 
@@ -800,35 +620,14 @@ export const generateActTags = (type, data, translate) => {
 	let attendantsString = cache.get(`${council.id}_attendants`);
 	let delegatedVotesString = cache.get(`${council.id}_delegated`);
 
-	//TRADUCCION
-
+	
 	if(!attendantsString){
-		attendantsString = council.attendants.reduce((acc, attendant) => {
-			if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
-				const represented = attendant.delegationsAndRepresentations.find(p => p.state === PARTICIPANT_STATES.REPRESENTATED);
-				return acc + `
-				<p style="border: 1px solid black; padding: 5px;">-
-					${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
-						represented.name + ' ' + represented.surname
-					}${(council.statute.quorumPrototype === 1)? ` titular de ${represented.numParticipations} acciones` : ''}
-				<p><br/>`;
-			}
-			return acc + `
-			<p style="border: 1px solid black; padding: 5px;">-
-				${attendant.name} ${attendant.surname} - con DNI ${attendant.dni}${(council.statute.quorumPrototype === 1 && attendant.numParticipations > 0)? ` titular de ${attendant.numParticipations} participaciones` : ''}
-			<p><br/>
-		`}, `<br/><h4>${translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)}</h4><br/>`);
+		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');
 		cache.set(`${council.id}_attendants`, attendantsString);
 	}
 
 	if(!delegatedVotesString){
-		delegatedVotesString = council.delegatedVotes.reduce((acc, vote) => {
-			return acc + `<p style="border: 1px solid black; padding: 5px;">-${
-				vote.name} ${
-				vote.surname} titular de ${vote.numParticipations} ${
-				translate.delegates.toLowerCase()} ${
-				vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} </p><br/>`
-		}, `<br/><h4>${translate.delegations}</h4><br/>`);
+		delegatedVotesString = buildDelegationsString(council.delegatedVotes, council, translate);
 		cache.set(`${council.id}_delegated`, delegatedVotesString);
 	}
 
@@ -857,11 +656,11 @@ export const generateActTags = (type, data, translate) => {
 				council.firstOrSecondConvene
 					? translate.first
 					: translate.second
-			} `,
+				} `,
 			label: translate.first_or_second_call
 		},
 		location: {
-			value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
+			value: council.remoteCelebration === 1 ? translate.remote_celebration : council.street,
 			label: translate.new_location_of_celebrate
 		},
 		now: {
@@ -948,39 +747,39 @@ export const generateActTags = (type, data, translate) => {
 		}
 	}
 
-	switch(type){
+	switch (type) {
 		case 'intro':
 			tags = [
 				smartTags.businessName,
 				smartTags.dateStart
 			]
 
-			if(hasSecondCall(council.statute)){
+			if (hasSecondCall(council.statute)) {
 				tags = [...tags, smartTags.dateStart2NdCall];
 			}
 
-			if(council.remoteCelebration !== 1){
+			if (council.remoteCelebration !== 1) {
 				tags = [...tags, smartTags.city, smartTags.country];
 			}
 
 			tags = [...tags,
-				smartTags.dateRealStart,
-				smartTags.firstOrSecondConvene,
-				smartTags.president,
-				smartTags.secretary,
-				smartTags.location,
-				smartTags.now,
-				smartTags.convene,
-				smartTags.attendants,
-				smartTags.agenda,
-				smartTags.delegatedVotes,
-				smartTags.numPresentOrRemote,
-				smartTags.numDelegations,
-				smartTags.numParticipationsPresent,
-				smartTags.numParticipationsRepresented,
-				smartTags.percentageSCPresent,
-				smartTags.percentageSCDelegated,
-				smartTags.percentageSCTotal
+			smartTags.dateRealStart,
+			smartTags.firstOrSecondConvene,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.location,
+			smartTags.now,
+			smartTags.convene,
+			smartTags.attendants,
+			smartTags.agenda,
+			smartTags.delegatedVotes,
+			smartTags.numPresentOrRemote,
+			smartTags.numDelegations,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCDelegated,
+			smartTags.percentageSCTotal
 			]
 
 			return tags;
@@ -991,32 +790,32 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.dateStart
 			]
 
-			if(hasSecondCall(council.statute)){
+			if (hasSecondCall(council.statute)) {
 				tags = [...tags, smartTags.dateStart2NdCall];
 			}
 
-			if(council.remoteCelebration !== 1){
+			if (council.remoteCelebration !== 1) {
 				tags = [...tags, smartTags.city, smartTags.country];
 			}
 
 			tags = [...tags,
-				smartTags.dateRealStart,
-				smartTags.firstOrSecondConvene,
-				smartTags.president,
-				smartTags.secretary,
-				smartTags.location,
-				smartTags.now,
-				smartTags.convene,
-				smartTags.agenda,
-				smartTags.attendants,
-				smartTags.delegatedVotes,
-				smartTags.numPresentOrRemote,
-				smartTags.numDelegations,
-				smartTags.numParticipationsPresent,
-				smartTags.numParticipationsRepresented,
-				smartTags.percentageSCPresent,
-				smartTags.percentageSCDelegated,
-				smartTags.percentageSCTotal
+			smartTags.dateRealStart,
+			smartTags.firstOrSecondConvene,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.location,
+			smartTags.now,
+			smartTags.convene,
+			smartTags.agenda,
+			smartTags.attendants,
+			smartTags.delegatedVotes,
+			smartTags.numPresentOrRemote,
+			smartTags.numDelegations,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCDelegated,
+			smartTags.percentageSCTotal
 			]
 			return tags;
 
@@ -1034,19 +833,19 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.percentageSCTotal
 			]
 
-			if(council.remoteCelebration !== 1){
+			if (council.remoteCelebration !== 1) {
 				tags = [...tags, smartTags.city, smartTags.country];
 			}
 
 
 			tags = [...tags,
-				smartTags.attendants,
-				smartTags.delegatedVotes,
-				smartTags.numPresentOrRemote,
-				smartTags.numDelegations,
-				smartTags.numParticipationsPresent,
-				smartTags.numParticipationsRepresented,
-				smartTags.currentQuorum,
+			smartTags.attendants,
+			smartTags.delegatedVotes,
+			smartTags.numPresentOrRemote,
+			smartTags.numDelegations,
+			smartTags.numParticipationsPresent,
+			smartTags.numParticipationsRepresented,
+			smartTags.currentQuorum,
 			];
 
 			return tags;

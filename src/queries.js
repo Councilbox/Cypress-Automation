@@ -44,6 +44,7 @@ export const getMe = gql`
 			surname
 			id
 			type
+			accessLimitedTo
 			actived
 			roles
 			phone
@@ -54,8 +55,8 @@ export const getMe = gql`
 `;
 
 export const updateUser = gql`
-	mutation updateUser($user: UserInput) {
-		updateUser(user: $user) {
+	mutation updateUser($user: UserInput, $companies: [Int]) {
+		updateUser(user: $user, companies: $companies) {
 			name
 			surname
 			id
@@ -114,6 +115,7 @@ export const councils = gql`
 			companyId
 			dateRealStart
 			state
+			promoCode
 			dateEnd
 			name
 			step
@@ -127,15 +129,6 @@ export const councils = gql`
 export const downloadCertificate = gql`
 	mutation DownloadCertificate($id: Int!) {
 		downloadCertificate(id: $id)
-	}
-`;
-
-export const createCertificate = gql`
-	mutation CreateCertificate($certificate: CertificateInput, $points: [Int]) {
-		createCertificate(certificate: $certificate, points: $points) {
-			success
-			message
-		}
 	}
 `;
 
@@ -166,9 +159,10 @@ export const councilCertificates = gql`
 `;
 
 export const councilActEmail = gql`
-	query CouncilActEmail($councilId: String!) {
+	query CouncilActEmail($councilId: Int!) {
 		councilAct(councilId: $councilId) {
 			emailAct
+			document
 			type
 		}
 	}
@@ -733,6 +727,10 @@ export const statutes = gql`
 			companyId
 			title
 			existPublicUrl
+			language
+			companyType
+			videoConfig
+			hideVotingsRecountFinished
 			addParticipantsListToAct
 			existsAdvanceNoticeDays
 			advanceNoticeDays
@@ -758,20 +756,35 @@ export const statutes = gql`
 			canUnblock
 			includeParticipantsList
 			existsWhoSignTheAct
+			hasPresident
+			hasSecretary
 			prototype
 			intro
 			constitution
+			canEarlyVote
+			canSenseVoteDelegate
 			conclusion
 			actTemplate
 			conveneHeader
 			conveneFooter
 			censusId
+			requireProxy
 			quorumPrototype
 			existsComments
 			firstCallQuorumDivider
 			secondCallQuorumDivider
 			canEditConvene
 			notifyPoints
+			doubleColumnDocs
+			proxy
+			proxySecondary
+			voteLetter
+			voteLetterSecondary
+			voteLetterWithSense
+			voteLetterWithSenseSecondary
+			introSecondary
+			conclusionSecondary
+			constitutionSecondary
 		}
 	}
 `;
@@ -823,6 +836,11 @@ export const councilStepThree = gql`
 				agendaSubject
 				comment
 				councilId
+				attachments{
+					id
+					filename
+					filesize
+				}
 				items {
 					id
 					value
@@ -1004,6 +1022,7 @@ export const councilStepFive = gql`
 			actPointQuorumType
 			approveActDraft
 			autoClose
+			promoCode
 			dateStart
 			closeDate
 			companyId
@@ -1015,6 +1034,9 @@ export const councilStepFive = gql`
 			id
 			securityType
 			step
+			room {
+				videoConfig
+			}
 			platform {
 				act
 				companyId
@@ -1037,6 +1059,7 @@ export const councilStepFive = gql`
 				canUnblock
 				censusId
 				conveneHeader
+				canEarlyVote
 				councilId
 				existPublicUrl
 				existsAct
@@ -1044,6 +1067,7 @@ export const councilStepFive = gql`
 				existsAdvanceNoticeDays
 				existsSecondCall
 				id
+				attendanceText
 				minimumSeparationBetweenCall
 				prototype
 				statuteId
@@ -1076,7 +1100,7 @@ export const councilStepFive = gql`
  }*/
 
 export const councilStepSix = gql`
-	query CouncilStepSix($id: Int!, $timezone: Int) {
+	query CouncilStepSix($id: Int!, $timezone: String) {
 		council(id: $id) {
 			actPointMajority
 			actPointMajorityDivider
@@ -1237,6 +1261,7 @@ export const councilDetails = gql`
 				existsSecondCall
 				minimumSeparationBetweenCall
 				canEditConvene
+				requireProxy
 				firstCallQuorumType
 				firstCallQuorum
 				firstCallQuorumDivider
@@ -1426,6 +1451,7 @@ export const councilLiveQuery = gql`
 			id
 			language
 			limitDateResponse
+			remoteCelebration
 			name
 			neededQuorum
 			noCelebrateComment
@@ -1437,7 +1463,9 @@ export const councilLiveQuery = gql`
 			quorumPrototype
 			room {
 				id
+				videoLink
 				htmlVideoCouncil
+				videoConfig
 			}
 			satisfyQuorum
 			secretary
@@ -1460,8 +1488,11 @@ export const councilLiveQuery = gql`
 				existsAdvanceNoticeDays
 				advanceNoticeDays
 				existsSecondCall
+				hasPresident
+				hasSecretary
 				minimumSeparationBetweenCall
 				canEditConvene
+				doubleColumnDocs
 				firstCallQuorumType
 				firstCallQuorum
 				firstCallQuorumDivider
@@ -1482,6 +1513,7 @@ export const councilLiveQuery = gql`
 				existsAct
 				existsWhoSignTheAct
 				includedInActBook
+				canEarlyVote
 				includeParticipantsList
 				existsComments
 				conveneHeader
@@ -1831,6 +1863,8 @@ export const videoParticipants = gql`
 				video
 				videoParticipant{
 					mutedMic
+					mutedCam
+					online
 					id
 				}
 				councilId
@@ -1838,6 +1872,7 @@ export const videoParticipants = gql`
 				email
 				position
 				date
+				geoLocation
 				participantId
 				online
 				requestWord
@@ -1852,6 +1887,7 @@ export const videoParticipants = gql`
 			}
 			total
 		}
+		videoParticipantsStats(councilId: $councilId)
 	}
 `;
 
@@ -1974,10 +2010,12 @@ export const participantsWhoCanDelegate = gql`
 		$councilId: Int!
 		$filters: [FilterInput]
 		$options: OptionsInput
+		$participantId: Int
 	) {
 		liveParticipantsWhoCanDelegate(
 			councilId: $councilId
 			filters: $filters
+			participantId: $participantId
 			options: $options
 		) {
 			list {
@@ -2053,11 +2091,49 @@ export const liveParticipant = gql`
 				surname
 				dni
 				email
+				state
+				signed
 				phone
 				position
 				language
 				numParticipations
 				socialCapital
+			}
+			representatives {
+				id
+				name
+				surname
+				dni
+				email
+				phone
+				state
+				signed
+				position
+				language
+				numParticipations
+				socialCapital
+				delegatedVotes {
+					id
+					name
+					surname
+					dni
+					email
+					state
+					signed
+					phone
+					position
+					language
+					numParticipations
+					socialCapital
+				}
+				notifications {
+					participantId
+					email
+					reqCode
+					refreshDate
+					sendDate
+					sendType
+				}
 			}
 			delegatedVotes {
 				id
@@ -2066,6 +2142,7 @@ export const liveParticipant = gql`
 				dni
 				email
 				state
+				signed
 				phone
 				position
 				language
@@ -2142,6 +2219,11 @@ export const draftDetails = gql`
 		majorityTypes {
 			label
 			value
+		}
+
+		languages {
+			desc
+			columnName
 		}
 
 		votingTypes {

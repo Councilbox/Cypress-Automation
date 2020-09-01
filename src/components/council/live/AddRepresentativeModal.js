@@ -4,96 +4,90 @@ import { compose, graphql } from "react-apollo";
 import { addRepresentative } from "../../../queries";
 import RepresentativeForm from "../participants/RepresentativeForm";
 import { languages } from "../../../queries/masters";
+import { useOldState } from "../../../hooks";
 
-class AddRepresentativeModal extends React.Component {
-
-	state = {
+const AddRepresentativeModal = ({ translate, participant, ...props }) => {
+	const [state, setState] = useOldState({
 		success: "",
 		errors: {},
 		representative: {
 			...newRepresentativeInitialValues
 		}
-	};
+	});
 
-	close = () => {
-		this.props.requestClose();
-		this.resetForm();
-	};
+	const close = () => {
+		props.requestClose();
+		resetForm();
+	}
 
-	addRepresentative = async () => {
-		const response = await this.props.addRepresentative({
+	const addRepresentative = async () => {
+		const response = await props.addRepresentative({
 			variables: {
-				representative: this.state.representative,
-				participantId: this.props.participant.id
+				representative: state.representative,
+				participantId: participant.id
 			}
 		});
 		if (response.data.addRepresentative) {
 			if (response.data.addRepresentative.success) {
-				this.props.refetch();
-				this.close();
+				props.refetch();
+				close();
 			}
 		}
 		if(response.errors){
-			if(response.errors[0].message === 'Email already used'){
-				this.setState({
+			if(response.errors[0].message = 'Email already used'){
+				setState({
 					errors: {
-						email: this.props.translate.repeated_email
+						email: translate.repeated_email
 					}
 				})
 			}
 		}
-	};
+	}
 
-	resetForm = () => {
-		this.setState({
+	const resetForm = () => {
+		setState({
 			representative: {
 				...newRepresentativeInitialValues
 			}
 		});
 	};
 
-	updateRepresentative = object => {
-		this.setState({
+	const updateRepresentative = object => {
+		setState({
 			representative: {
-				...this.state.representative,
+				...state.representative,
 				...object
 			}
 		});
-	};
+	}
 
-	_renderReminderBody() {
-		const { translate } = this.props;
-
-		if (this.state.sending) {
+	function _renderReminderBody() {
+		if (state.sending) {
 			return <div>{translate.sending_convene_reminder}</div>;
 		}
 
 		return (
 			<RepresentativeForm
-				translate={this.props.translate}
-				representative={this.state.representative}
-				updateState={this.updateRepresentative}
-				errors={this.state.errors}
-				languages={this.props.data.languages}
+				translate={translate}
+				representative={state.representative}
+				updateState={updateRepresentative}
+				errors={state.errors}
+				languages={props.data.languages}
 			/>
 		);
 	}
 
-	render() {
-		const { translate } = this.props;
-
-		return (
-			<AlertConfirm
-				requestClose={this.close}
-				open={this.props.show}
-				acceptAction={this.addRepresentative}
-				buttonAccept={translate.send}
-				buttonCancel={translate.close}
-				bodyText={this._renderReminderBody()}
-				title={this.props.participant.representative? translate.change_representative : translate.add_representative}
-			/>
-		);
-	}
+	return (
+		<AlertConfirm
+			requestClose={close}
+			open={props.show}
+			acceptAction={addRepresentative}
+			buttonAccept={translate.send}
+			buttonCancel={translate.close}
+			bodyText={_renderReminderBody()}
+			title={participant.representative? translate.change_representative : translate.add_representative}
+		/>
+	);
 }
 
 export default compose(

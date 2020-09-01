@@ -4,18 +4,16 @@ import { PARTICIPANT_STATES } from "../../../../constants";
 import { Icon } from "../../../../displayComponents";
 import { Tooltip } from "material-ui";
 
-class StateIcon extends React.PureComponent {
-	render() {
-		const {
-			color = "grey",
-			state,
-			number,
-			translate,
-			ratio = 1,
-			hideTooltip = false
-		} = this.props;
-		return _renderIcon(color, state, number, translate, ratio, hideTooltip);
-	}
+const StateIcon = ({
+	color = "grey",
+	state,
+	number,
+	translate,
+	ratio = 1,
+	hideTooltip = false
+}) => {
+	return _renderIcon(color, state, number, translate, ratio, hideTooltip);
+
 }
 
 const styleMainIcon = (color, ratio) => {
@@ -27,6 +25,7 @@ const styleMainIcon = (color, ratio) => {
 const styleSubIcon = (color, ratio) => {
 	return {
 		marginLeft: `${-0.3 * ratio}em`,
+		marginTop:  `${0.4 * ratio}em`,
 		fontSize: `${1 * ratio}em`,
 		color
 	};
@@ -49,16 +48,18 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 		case PARTICIPANT_STATES.NO_PARTICIPATE:
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.no_participate}>
-					<div style={{ padding: "0.5em" }}>
-						<FontAwesome
-							name={"user-o"}
-							style={styleMainIcon(color, ratio)}
-						/>
-						<FontAwesome
-							name={"times"}
-							style={styleSubIcon(color, ratio)}
-						/>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+					<div style={{ padding: "0.5em", display: 'flex' }}>	
+							<FontAwesome
+								name={"user-o"}
+								style={styleMainIcon(color, ratio)}
+							/>
+
+							<FontAwesome
+								name={"times"}
+								style={styleSubIcon(color, ratio)}
+							/>
+						
+						{(!!number || number === 0) && <span style={{paddingLeft:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -150,7 +151,41 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 					</div>
 				</Tooltip>
 			);
-
+		case PARTICIPANT_STATES.LEFT:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.left_the_council}>
+					<div style={{ padding: "0.5em" }}>
+						<i className="fa fa-sign-out" aria-hidden="true" style={styleMainIcon(color, ratio)}></i>
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+				return (
+					<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
+						<div style={{ padding: "0.5em" }}>
+							<span class="material-icons"
+								style={styleMainIcon(color, ratio)}
+							>
+								how_to_vote
+							</span>
+							{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						</div>
+					</Tooltip>
+				);
+		case PARTICIPANT_STATES.EARLY_VOTE:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
+					<div style={{ padding: "0.5em" }}>
+						<span class="material-icons"
+							style={styleMainIcon(color, ratio)}
+						>
+							how_to_vote
+						</span>
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
 		default:
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.not_confirmed_assistance}>

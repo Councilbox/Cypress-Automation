@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo';
 import { BasicButton, TextInput, LoadingSection } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 import { Table, TableBody, TableCell, TableRow } from 'material-ui';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
 
 
 
@@ -152,7 +152,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                                     whiteSpace: 'nowrap',
                                                     overflow: 'hidden',
                                                     textOverflow: 'ellipsis',
-                                                    maxWidth: isMobile ? "50px" : "150px"
+                                                    maxWidth: isMobile ? "50px" : "100%"
                                                 }}
                                             >
                                                 {item.value}

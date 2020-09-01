@@ -4,10 +4,8 @@ import CompaniesManagerButton from '../menus/CompaniesManagerButton';
 import CompanySelector from '../menus/CompanySelector';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { getSecondary } from '../../styles/colors';
-import { isLandscape } from '../../utils/screen';
-import { isMobile } from "react-device-detect";
-let icon;
-import('../../assets/img/imago-councilbox-inverse-xl.png').then(data => icon = data);
+import { isLandscape, isMobile } from '../../utils/screen';
+import icon from '../../assets/img/imago-councilbox-inverse-xl.png';
 
 
 const sidebarStyle = theme => ({

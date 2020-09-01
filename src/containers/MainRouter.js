@@ -15,6 +15,7 @@ import MeetingCreateContainer from "../components/meeting/MeetingCreateContainer
 import NewCompanyPage from "../components/company/new/NewCompanyPage";
 import LinkCompanyPage from "../components/company/link/LinkCompanyPage";
 import PlatformDrafts from "../components/corporation/drafts/PlatformDrafts";
+import CompanyEditPage from "../components/corporation/companies/CompanyEditPage";
 import CensusEditorPage from "../components/company/census/censusEditor/CensusEditorPage";
 import CompanyDraftEditor from "../components/company/drafts/CompanyDraftEditor";
 import CouncilFinishedPage from "../components/council/writing/CouncilFinishedPage";
@@ -30,6 +31,11 @@ import NewPartnerPage from '../components/partners/NewPartnerPage';
 import Loadable from 'react-loadable';
 import { bHistory, store } from './App';
 import { addSpecificTranslations } from '../actions/companyActions';
+import TablaCompanies from '../components/corporation/companies/TablaCompanies';
+import UserEdit from '../components/corporation/users/UserEdit';
+import UsersDashboard from '../components/corporation/users/UsersDashboard';
+import OrganizationUsers from '../components/corporation/users/OrganizationUsers';
+import FileCompany from '../components/company/compayFile/FileCompany';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),
@@ -42,8 +48,8 @@ const redirect = company => () => {
 
 const MainRouter = ({ company, user, location, disabled }) => {
     React.useEffect(() => {
-		store.dispatch(addSpecificTranslations(company.type === 10? 'realEstate' : 'society'));
-	}, [store, company.type]);
+		store.dispatch(addSpecificTranslations(company));
+	}, [store, company]);
 
     if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`) && !location.pathname.includes('/admin')){
         bHistory.push(`/company/${company.id}`);
@@ -73,6 +79,23 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 path="/company/:company"
                 component={Dashboard}
             />
+            <Route
+                exact
+                path="/company/:company/companies"
+                component={TablaCompanies}
+            />
+            <Route
+                exact
+                path="/company/:company/edit/:id"
+                component={CompanyEditPage}
+            />
+            <Route
+                exact
+                path="/company/:company/users"
+                component={OrganizationUsers}
+            />
+            <Route exact path="/company/:company/users/:id" component={UserEdit} />
+
             <Route
                 exact
                 path="/company/:company/settings"
@@ -138,11 +161,20 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 component={CreateSignature}
             />
             <Route
+                exact
+                path="/company/:company/signatureIvCert/new"
+                component={CreateSignature}
+            />
+            <Route
                 path="/company/:company/signatures/:section"
                 component={SignatureContainer}
             />
             <Route
                 path="/company/:company/signature/:id"
+                component={SignatureRootPage}
+            />
+            <Route
+                path="/company/:company/signatureIvCert/:id"
                 component={SignatureRootPage}
             />
             <Route
@@ -194,6 +226,8 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 path="/user/:id"
                 component={UserSettingsPage}
             />
+             <Route exact path="/company/:company/users/:id/edit" component={UserSettingsPage} />
+             <Route exact path="/company/:company/file/:id" component={FileCompany} />
             <Route
                 path="*"
                 component={redirect(company)}

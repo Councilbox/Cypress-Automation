@@ -83,7 +83,7 @@ class ParticipantsWithActTable extends React.Component {
                                             }}
                                         >
                                             <TableCell>
-                                                {`${participant.name} ${participant.surname}`}
+                                                {`${participant.name} ${participant.surname || ''}`}
                                             </TableCell>
                                             <TableCell>
                                                 {participant.dni}

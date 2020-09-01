@@ -13,18 +13,14 @@ class CreateSignature extends React.Component {
 	createSignature = async companyId => {
 		const response = await this.props.createSignature({
 			variables: {
-				companyId: companyId
+				companyId: +companyId
 			}
 		});
 		return response.data.createSignature.id;
 	}
 
 	async componentDidMount() {
-		if (
-			this.props.match.url ===
-			`/company/${this.props.match.params.company}/signature/new` &&
-			!this.state.creating
-		) {
+		if (this.props.match.url === `/company/${this.props.match.params.company}/signature/new` && !this.state.creating) {
 			this.setState({
 				creating: true
 			});
@@ -32,6 +28,16 @@ class CreateSignature extends React.Component {
 				this.props.match.params.company
 			);
 			bHistory.replace(`/company/${this.props.match.params.company}/signature/${newSignatureId}`);
+		}
+		//Nueva forma de firmar signatureIvCert
+		if (this.props.match.url === `/company/${this.props.match.params.company}/signatureIvCert/new` && !this.state.creating) {
+			this.setState({
+				creating: true
+			});
+			let newSignatureId = await this.createSignature(
+				this.props.match.params.company
+			);
+			bHistory.replace(`/company/${this.props.match.params.company}/signatureIvCert/${newSignatureId}`);
 		}
 	}
 

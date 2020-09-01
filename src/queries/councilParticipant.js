@@ -27,18 +27,31 @@ export const councilParticipants = gql`
 				position
 				email
 				phone
+				secondaryEmail
 				dni
 				type
 				numParticipations
 				socialCapital
+				initialState
 				uuid
 				delegateUuid
 				delegateId
-				representative {
+				representatives {
 					id
 					name
 					surname
+				}
+				representing {
+					id
+					name
+				}
+				representative {
+					id
+					name
+					initialState
+					surname
 					dni
+					secondaryEmail
 					email
 					phone
 					position
@@ -74,10 +87,12 @@ export const councilParticipantsFilterIds = gql`
 				email
 				phone
 				dni
+				secondaryEmail
 				type
 				numParticipations
 				socialCapital
 				uuid
+				initialState
 				delegateUuid
 				delegateId
 				representative {
@@ -85,6 +100,7 @@ export const councilParticipantsFilterIds = gql`
 					name
 					surname
 					dni
+					secondaryEmail
 					email
 					phone
 					position
@@ -101,11 +117,11 @@ export const councilParticipantsFilterIds = gql`
 `;
 
 export const addParticipant = gql`
-	mutation upsertCouncilParticipant(
+	mutation addCouncilParticipant(
 		$participant: ParticipantInput
 		$representative: RepresentativeInput
 	) {
-		upsertCouncilParticipant(
+		addCouncilParticipant(
 			participant: $participant
 			representative: $representative
 		) {
@@ -128,7 +144,7 @@ export const updateCouncilParticipant = gql`
 		$participant: ParticipantInput
 		$representative: RepresentativeInput
 	) {
-		upsertCouncilParticipant(
+		updateCouncilParticipant(
 			participant: $participant
 			representative: $representative
 		) {
@@ -143,7 +159,7 @@ export const upsertConvenedParticipant = gql`
 		$representative: RepresentativeInput
 		$sendConvene: Boolean
 	) {
-		upsertConvenedParticipant(
+		updateConvenedParticipant(
 			participant: $participant
 			representative: $representative
 			sendConvene: $sendConvene
@@ -153,17 +169,39 @@ export const upsertConvenedParticipant = gql`
 	}
 `;
 
+export const addConvenedParticipant = gql`
+	mutation upsertConvenedParticipant(
+		$participant: ParticipantInput
+		$representative: RepresentativeInput
+		$sendConvene: Boolean
+	) {
+		addConvenedParticipant(
+			participant: $participant
+			representative: $representative
+			sendConvene: $sendConvene
+		) {
+			success
+			message
+		}
+	}
+`;
+
+
 export const convenedcouncilParticipants = gql`
 	query participants(
 		$councilId: Int!
 		$filters: [FilterInput]
-		$notificationStatus: Int
+		$notificationStatus: String
+		$attendanceIntention: Int
+		$comment: Boolean
 		$options: OptionsInput
 	) {
 		councilParticipantsWithNotifications(
 			councilId: $councilId
 			filters: $filters
+			attendanceIntention: $attendanceIntention
 			notificationStatus: $notificationStatus
+			comment: $comment
 			options: $options
 		) {
 			list {
@@ -176,6 +214,8 @@ export const convenedcouncilParticipants = gql`
 				phone
 				dni
 				type
+				secondaryEmail
+				initialState
 				numParticipations
 				socialCapital
 				uuid
@@ -183,12 +223,14 @@ export const convenedcouncilParticipants = gql`
 				delegateId
 				position
 				language
-				representative {
+				representatives {
 					id
 					name
 					surname
 					dni
 					email
+					initialState
+					secondaryEmail
 					phone
 					position
 					language
@@ -201,6 +243,17 @@ export const convenedcouncilParticipants = gql`
 						name
 						id
 						surname
+						state
+						phone
+						email
+						notifications {
+							participantId
+							email
+							reqCode
+							refreshDate
+							sendDate
+							sendType
+						}
 						assistanceComment
 						assistanceLastDateConfirmed
 						assistanceIntention
@@ -237,7 +290,28 @@ export const convenedcouncilParticipants = gql`
 					id
 					state
 					surname
+					email
+					phone
+					delegationProxy {
+						signedBy
+						id
+						participantId
+						delegateId
+					}
+					voteLetter {
+						signedBy
+						id
+						participantId
+					}
 					delegateId
+					notifications {
+						participantId
+						email
+						reqCode
+						refreshDate
+						sendDate
+						sendType
+					}
 					assistanceComment
 					assistanceLastDateConfirmed
 					assistanceIntention
@@ -247,12 +321,15 @@ export const convenedcouncilParticipants = gql`
 						surname
 						dni
 						position
+						email
+						state
 					}
 				}
 				city
 				personOrEntity
 				notifications {
 					id
+					participantId
 					reqCode
 					sendDate
 					refreshDate

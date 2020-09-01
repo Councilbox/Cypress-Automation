@@ -1,13 +1,56 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { roomUpdateSubscription } from '../council/live/video/CMPVideoIFrame';
+import { useRoomUpdated } from '../../hooks';
 
 const rand = Math.random();
 
-const VideoContainer = ({ data, setVideoURL, videoURL, announcement }) => {
-    if(!data.loading){
+const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props }) => {
+    const [url, setUrl] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+
+    const getData = React.useCallback(async () => {
+        const response = await client.query({
+            query: videoURLQuery,
+            variables: {
+                participantId: +props.participant.id
+            }
+        })
+
+        return response.data.participantVideoURL;
+    }, [props.participant.id])
+
+    const updateUrl = async () => {
+        const newUrl = await getData();
+        if(newUrl !== url){
+            setUrl(newUrl);
+        }
+        if(loading){
+            setLoading(false);
+        }
+    }
+
+    React.useEffect(() => {
+        updateUrl();
+    }, [getData]);
+
+    useRoomUpdated({
+        refetch: updateUrl,
+        props,
+        participant: props.participant
+    });
+
+    const requestWord = props.participant.requestWord;
+
+    React.useEffect(() => {
+        updateUrl();
+    }, [requestWord]);
+
+
+    if(!loading){
         if(!videoURL){
-            setVideoURL(data.participantVideoURL? data.participantVideoURL : 'Error reaching CMP');
+            setVideoURL(url? url : 'Error reaching CMP');
         }
         return(
             <iframe
@@ -15,7 +58,7 @@ const VideoContainer = ({ data, setVideoURL, videoURL, announcement }) => {
                 allow="geolocation; microphone; camera"
                 scrolling="no"
                 className="temp_video"
-                src={`https://${data.participantVideoURL}?rand=${rand}`}
+                src={`https://${url}?rand=${rand}`}
                 allowFullScreen={true}
                 style={{
                     border: "none !important",
@@ -30,17 +73,19 @@ const VideoContainer = ({ data, setVideoURL, videoURL, announcement }) => {
 }
 
 const videoURLQuery = gql`
-    query participantVideoURL($participantId: String!){
+    query participantVideoURL($participantId: Int!){
         participantVideoURL(participantId: $participantId)
     }
 `;
 
-export default graphql(videoURLQuery, {
-    options: props => ({
-        variables: {
-            participantId: props.participant.id
-        }
-    })
-})(VideoContainer);
-
-
+export default compose(
+    graphql(roomUpdateSubscription, {
+        name: 'subs',
+        options: props => ({
+			variables: {
+				councilId: props.council.id
+			}
+		})
+    }),
+    withApollo
+)(VideoContainer);

@@ -192,5 +192,6 @@ const newGuestInitialValues = {
 	position: "",
 	dni: "",
 	email: "",
-	phone: ""
+	phone: "",
+	initialState: 0
 };

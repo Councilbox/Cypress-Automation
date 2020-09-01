@@ -2,16 +2,21 @@ import React from "react";
 import {
 	CustomDialog,
     BasicButton,
-    LoadingSection
+    LoadingSection,
+    Checkbox
 } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { graphql, compose } from "react-apollo";
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { removeHTMLTags } from "../../../../utils/CBX";
+
+const CHAR_LIMIT = 300;
 
 class AnnouncementModal extends React.Component {
 	state = {
         text: '',
+        blockUser: true,
         errorText: ''
     };
 
@@ -26,16 +31,24 @@ class AnnouncementModal extends React.Component {
     }
 
     addAnnouncement = async () => {
-        const response = await this.props.addRoomAnnouncement({
-            variables: {
-                message: {
-                    councilId: this.props.council.id,
-                    text: this.state.text,
-                    participantId: -1
+        if(removeHTMLTags(this.state.text.toString()).length <= CHAR_LIMIT){
+            const response = await this.props.addRoomAnnouncement({
+                variables: {
+                    message: {
+                        councilId: this.props.council.id,
+                        text: this.state.text,
+                        blockUser: this.state.blockUser,
+                        participantId: -1
+                    }
                 }
-            }
-        })
-        this.props.requestClose();
+            })
+            this.props.requestClose();
+        } else {
+            this.setState({
+                errorText: this.props.translate.max_chars_exceeded
+            });
+        }
+        
     }
 
     closeAnnouncement = async () => {
@@ -50,6 +63,7 @@ class AnnouncementModal extends React.Component {
 
 	_renderBody() {
         const { translate } = this.props;
+        const primary = getPrimary();
 
         if(this.props.data.loading){
             return <LoadingSection />;
@@ -57,15 +71,25 @@ class AnnouncementModal extends React.Component {
 
 		return (
 			<div style={{ width: "650px" }}>
+                 <Checkbox
+                    label={translate.notice_block_check}
+                    styleInLabel={{ color: primary, fontSize: "12px" }}
+                    colorCheckbox={"primary"}
+                    value={this.state.blockUser}
+                    onChange={() => this.setState({ blockUser: !this.state.blockUser })}
+                />
+
 				<RichTextInput
 					translate={translate}
-					type="text"
-					errorText={this.state.errorText}
+                    type="text"
+                    maxChars={CHAR_LIMIT}
+                    errorText={this.state.errorText}
+                    floatingText={this.state.errorText}
 					value={this.state.text}
 					onChange={value => {
-						this.setState({
-							text: value
-						});
+                        this.setState({
+                            text: value
+                        });
 					}}
 				/>
 			</div>

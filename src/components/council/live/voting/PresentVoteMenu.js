@@ -6,9 +6,13 @@ import { graphql } from "react-apollo";
 import { updateAgendaVoting } from "../../../../queries/agenda";
 import { MenuItem, Tooltip } from "material-ui";
 import { CircularProgress } from "material-ui/Progress";
+import withTranslations from "../../../../HOCs/withTranslations";
+
 
 const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
+	const [fixedAlert, setFixedAlert] = React.useState(false);
+	const fixed = agendaVoting.fixed;
 
 	const updateAgendaVoting = async value => {
 		setLoading(value);
@@ -25,8 +29,6 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 		setLoading(false);
 		props.refetch();
 	};
-
-	console.log(agendaVoting.author);
 
 	const _block = (value, active) => {
 		if(!agendaVotingsOpened(agenda)){
@@ -48,10 +50,13 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 					alignItems: "center",
 					justifyContent: "center"
 				}}
-				onClick={() => updateAgendaVoting(value)}
+				onClick={() => {
+					return agendaVoting.fixed? setFixedAlert(!fixedAlert) : updateAgendaVoting(value)
+				}}
 			>
 				<MenuItem
 					selected={active}
+					disabled={fixed}
 					style={{
 						display: "flex",
 						fontSize: "0.9em",
@@ -77,28 +82,30 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 	};
 
 	return (
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "row",
-				marginRight: "0.7em"
-			}}
-		>
-			{agendaVoting.author.voteDenied? //TRADUCCION
-				<React.Fragment>
-					<Tooltip title={agendaVoting.author.voteDeniedReason}>
-						<div>Derecho a voto denegado</div>
-					</Tooltip>
-				</React.Fragment>
+		<Tooltip title={props.translate.participant_vote_fixed} open={fixedAlert}>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					marginRight: "0.7em"
+				}}
+			>
+				{agendaVoting.author.voteDenied? //TRADUCCION
+					<React.Fragment>
+						<Tooltip title={agendaVoting.author.voteDeniedReason}>
+							<div>Derecho a voto denegado</div>
+						</Tooltip>
+					</React.Fragment>
 
-			:
-				<React.Fragment>
-					{_block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
-					{_block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
-					{_block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}
-				</React.Fragment>
-			}
-		</div>
+				:
+					<React.Fragment>
+						{_block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
+						{_block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
+						{_block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}
+					</React.Fragment>
+				}
+			</div>
+		</Tooltip>
 	);
 
 }
@@ -106,4 +113,4 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 
 export default graphql(updateAgendaVoting, {
 	name: "updateAgendaVoting"
-})(PresentVoteMenu);
+})(withTranslations()(PresentVoteMenu));

@@ -1,5 +1,5 @@
 import React from "react";
-import { darkGrey, getSecondary, lightGrey } from "../../../styles/colors";
+import { darkGrey, getSecondary, lightGrey, turquoise } from "../../../styles/colors";
 import {
 	CollapsibleSection,
 	Icon,
@@ -10,71 +10,86 @@ import {
 	AlertConfirm
 } from "../../../displayComponents";
 import gql from 'graphql-tag';
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
 import { Tooltip } from "material-ui";
-import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord } from "../../../utils/CBX";
+import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName } from "../../../utils/CBX";
 import VideoParticipantMenu from "./videoParticipants/VideoParticipantMenu";
 import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton";
 import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
 import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal";
 import MuteToggleButton from './videoParticipants/MuteToggleButton';
-import { isMobile } from 'react-device-detect';
-
-const countParticipants = participants => {
-	let online = 0;
-	let offline = 0;
-	let broadcasting = 0;
-	let askingForWord = 0;
-	let banned = 0;
-	participants.forEach(
-		participant => {
-			if (participantIsBlocked(participant)) {
-				banned++;
-			}
-			if(isAskingForWord(participant)){
-				askingForWord++;
-			}
-			if (exceedsOnlineTimeout(participant.lastDateConnection) || participant.online !== 1) {
-				offline++;
-			} else {
-				if (participant.requestWord === 2) {
-					broadcasting++;
-				}
-				online++;
-			}
-		}
-	);
-	return {
-		online,
-		offline,
-		broadcasting,
-		askingForWord,
-		banned
-	};
-}
+import { isMobile } from "../../../utils/screen";
+import { usePolling } from "../../../hooks";
+import MuteCamToggleButton from "./videoParticipants/MuteCamToggleButton";
 
 
-const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}) => {
+const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) => {
 	const [stats, setStats] = React.useState({
 		online: "-",
 		offline: "-",
 		broadcasting: "-",
 		banned: "-"
 	});
+	const [data, setData] = React.useState({});
+	const [loading, setLoading] = React.useState(true);
 	const [options, setOptions] = React.useState({
 		banParticipant: false,
 		page: 1,
-		limit: isMobile? 15 : 10
+		limit: isMobile? 15 : 20
 	});
+	
+
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: videoParticipants,
+			variables: {
+				councilId: props.councilId,
+				options: {
+					limit: options.limit,
+					offset: options.limit * (options.page - 1)
+				}
+			}
+		});
+
+		setData(response.data);
+		setStats(response.data.videoParticipantsStats)
+		setLoading(false);
+	}, [council.id, options]);
+
+	usePolling(getData, 8000);
 
 	React.useEffect(() => {
-		if(!data.loading){
+		getData();
+	}, [getData]);
+
+	React.useEffect(() => {
+		if(!loading){
 			if(data.videoParticipants){
-				setStats(countParticipants(data.videoParticipants.list));
+				checkParticipantsStatus(data.videoParticipants.list);
 			}
 		}
-	}, [data.loading, data.videoParticipants, setStats]);
+	}, [loading, data.videoParticipants, setStats]);
+
+
+	const checkParticipantsStatus = async participants => {
+		const offline = participants.filter(participant => (participant.online !== 2 && exceedsOnlineTimeout(participant.lastDateConnection)));
+		if(offline.length > 0){
+			await client.mutate({
+				mutation: gql`
+					mutation CheckParticipantsOnlineState($councilId: Int!){
+						checkParticipantsOnlineState(councilId: $councilId){
+							success
+						}
+					}
+				`,
+				variables: {
+					councilId: council.id
+				}
+			});
+		}
+
+	}
 
 	const banParticipant = async () => {
 		const response = await props.banParticipant({
@@ -85,7 +100,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 
 		if (response) {
 			if (response.data.banParticipant.success) {
-				data.refetch();
+				getData();
 				setOptions({
 					...options,
 					banParticipant: false
@@ -142,7 +157,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 		return (
 			<Grid
 				key={`participant${participant.id}`}
-				className={isAskingForWord(participant)? "colorToggle" : ''}
+				className={(isAskingForWord(participant) && participant.online === 1)? "colorToggle" : ''}
 				style={{
 					display: "flex",
 					flexDirection: "row",
@@ -153,14 +168,14 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 				}}
 			>
 				<GridItem
-					xs={6}
-					lg={6}
-					md={6}
+					xs={5}
+					lg={5}
+					md={5}
 					style={{ display: "flex", flexDirection: "row" }}
 				>
 					{_participantVideoIcon(participant)}
 					<Tooltip
-						title={`${participant.name} ${participant.surname}`}
+						title={`${participant.name} ${participant.surname || ''}`}
 					>
 						<div
 							style={{
@@ -171,7 +186,12 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 							}}
 							className="truncate"
 						>
-							{`${participant.name} ${participant.surname}`}
+							{`${participant.name} ${participant.surname || ''}`}<br/>
+							{(participant.geoLocation && participant.geoLocation.city) &&
+								<span style={{fontSize: '0.85em'}}>
+									{`${participant.geoLocation.ip || participant.geoLocation.query}, ${formatCountryName(participant.geoLocation.country, translate.selectedLanguage)}`}
+								</span>
+							}
 						</div>
 					</Tooltip>
 				</GridItem>
@@ -199,11 +219,27 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 						justifyContent: "space-between"
 					}}
 				>
-					{true && <MuteToggleButton
+					<MuteCamToggleButton
 						translate={translate}
 						participant={participant}
-						refetch={data.refetch}
-					/>}
+						refetch={getData}
+					/>
+				</GridItem>
+				<GridItem
+					xs={isMobile? 2 : 1}
+					lg={isMobile? 2 : 1}
+					md={isMobile? 2 : 1}
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "space-between"
+					}}
+				>
+					<MuteToggleButton
+						translate={translate}
+						participant={participant}
+						refetch={getData}
+					/>
 				</GridItem>
 				<GridItem
 					xs={isMobile? 2 : 1}
@@ -218,7 +254,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 					<ChangeRequestWordButton
 						translate={translate}
 						participant={participant}
-						refetch={data.refetch}
+						refetch={getData}
 					/>
 				</GridItem>
 				<GridItem
@@ -234,7 +270,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 					<VideoParticipantMenu
 						council={council}
 						participant={participant}
-						refetch={data.refetch}
+						refetch={getData}
 						setBanParticipant={() =>
 							setOptions({ ...options, banParticipant: participant })
 						}
@@ -251,33 +287,43 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 	const participantLiveColor = participant => {
 		if (participant.online !== 1) {
 			return "crimson";
-		} else {
-			if(exceedsOnlineTimeout(participant.lastDateConnection)){
-				props.changeParticipantOnlineState({
-					variables: {
-						participantId: participant.id,
-						online: 2
+		}
+		if(!participant.videoParticipant){
+			return turquoise;
+		}
+
+		if(participant.videoParticipant && council.room && council.room.videoConfig){
+			const videoConfig = council.room.videoConfig? council.room.videoConfig : {};
+			const { videoParticipant } = participant;
+
+			if((videoConfig.rtmp && videoConfig.viewerURL) || videoConfig.autoHybrid || videoConfig.fixedURL || council.room.videoLink){
+				if(participant.requestWord !== 2){
+					return turquoise;
+				} else {
+					if(videoParticipant.online === 1){
+						return turquoise;
 					}
-				});
-				return 'crimson';
+					return "darkorange";
+				}
+			}
+
+			if(videoParticipant.online === 1){
+				return turquoise;
+			} else{
+				return "darkorange";
 			}
 		}
-		return getSecondary();
+
+		return turquoise;
+
 	}
 
 	const _button = () => {
-		const videoParticipants = !data.videoParticipants
-			? []
-			: data.videoParticipants.list;
-
 		return (
 			<VideoParticipantsStats
-				videoFullScreen={videoFullScreen}
+				videoFullScreen={screenSize === 'MAX'}
 				translate={translate}
-				stats={{
-					...stats,
-					total: videoParticipants.length
-				}}
+				stats={stats}
 				toggleFullScreen={props.toggleFullScreen}
 			/>
 		);
@@ -290,19 +336,16 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 			return <LoadingSection />;
 		}
 
-		const preparedParticipants = prepareParticipants([...videoParticipants.list]);
-		const slicedParticipants = preparedParticipants.slice((options.page - 1) * options.limit, ((options.page - 1) * options.limit) + options.limit);
-
 		return (
-			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${!isMobile? '45vh' : '17vh'} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
-				<div style={{height: `calc(100% - ${videoParticipants.list.length > 10? '1.5em' : '0px'})`}}>
+			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${props.videoHeight} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
+				<div style={{height: `calc(100% - ${videoParticipants.total > options.limit? '3em' : '0px'})`}}>
 					<Scrollbar>
-						{slicedParticipants.map(participant => {
+						{videoParticipants.list.map(participant => {
 							return _participantEntry(participant);
 						})}
 					</Scrollbar>
 				</div>
-				{videoParticipants.list.length > options.limit &&
+				{videoParticipants.total > options.limit &&
 					<div style={{height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em'}}>
 							{_paginationFooter(videoParticipants)}
 					</div>
@@ -318,7 +361,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 					<div onClick={() => setOptions({ ...options, page: options.page - 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'<'}</div>
 				}
 				<div style={{margin: '0 0.3em'}}>{options.page}</div>
-				{(options.page < (participants.list.length / options.limit)) &&
+				{(options.page < (participants.total / options.limit)) &&
 					<div onClick={() => setOptions({ ...options, page: options.page + 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'>'}</div>
 				}
 
@@ -328,7 +371,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 
 	const CMPVideo = true;//this.props.videoURL && this.props.videoURL.includes('councilbox');
 
-	if (videoFullScreen) {
+	if (screenSize === 'MAX') {
 		return <div style={{ height: "100%" }}>{CMPVideo && _button()}</div>;
 	}
 	return (
@@ -355,7 +398,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 								{!!options.banParticipant &&
 									`${translate.want_eject} ${
 										options.banParticipant.name
-									} ${options.banParticipant.surname} ${
+									} ${options.banParticipant.surname || ''} ${
 										translate.from_room
 									}?`
 								}
@@ -379,18 +422,6 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 
 }
 
-const prepareParticipants = participants => {
-	return participants.sort((a, b) => {
-		if(a.online === 1 && b.online !== 1) {
-			return -1;
-		}
-		if(a.online !== 1 && b.online === 1){
-			return 1;
-		}
-		return 0;
-	})
-}
-
 const changeParticipantOnlineState = gql`
     mutation changeParticipantOnlineState($participantId: Int!, $online: Int!){
         changeParticipantOnlineState(participantId: $participantId, online: $online){
@@ -401,25 +432,13 @@ const changeParticipantOnlineState = gql`
 `;
 
 export default compose(
-	graphql(videoParticipants, {
-		options: props => ({
-			variables: {
-				councilId: props.councilId
-			},
-			fetchPolicy: "network-only",
-			notifyOnNetworkStatusChange: true,
-			pollInterval: 8000
-		})
-	}),
-
+	withApollo,
 	graphql(changeRequestWord, {
 		name: "changeRequestWord"
 	}),
-
 	graphql(banParticipant, {
 		name: "banParticipant"
 	}),
-
 	graphql(changeParticipantOnlineState, {
 		name: 'changeParticipantOnlineState'
 	})

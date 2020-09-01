@@ -7,14 +7,14 @@ import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { PARTICIPANT_STATES } from '../../../constants';
 import Agendas from '../agendas/Agendas';
 import Header from "../Header";
-import { darkGrey } from '../../../styles/colors';
+import { darkGrey, getPrimary } from '../../../styles/colors';
 import RequestWordMenu from '../menus/RequestWordMenu';
 import { councilHasVideo } from '../../../utils/CBX';
-import { isLandscape } from '../../../utils/screen';
+import { isLandscape, isMobile } from '../../../utils/screen';
 import VideoContainer from '../VideoContainer';
-import { API_URL } from "../../../config";
-import AdminAnnouncement from './AdminAnnouncement';
-import { isMobile } from "react-device-detect";
+import { API_URL, SERVER_URL } from "../../../config";
+import AdminAnnouncement from '../../council/live/adminAnnouncement/AdminAnnouncement';
+// import { isMobile } from '../../../utils/screen';
 import CouncilSidebar from './CouncilSidebar';
 import AdminPrivateMessage from "../menus/AdminPrivateMessage";
 import * as CBX from '../../../utils/CBX';
@@ -22,6 +22,10 @@ import UsersHeader from "../UsersHeader";
 import { ConfigContext } from "../../../containers/AppControl";
 import TextInputChat from "../../../displayComponents/TextInputChat";
 import { TextField } from "material-ui";
+import { usePolling } from "../../../hooks";
+import { LoadingSection } from "../../../displayComponents";
+import { agendaVotings } from "../../../queries/agenda";
+import { ConnectionInfoContext } from "../../../containers/ParticipantContainer";
 
 
 const styles = {
@@ -111,7 +115,7 @@ const stylesVideo = {
     }],
 }
 
-const ParticipantCouncil = ({ translate, participant, data, council, agendas, ...props }) => {
+const ParticipantCouncil = ({ translate, participant, council, client, ...props }) => {
     const [state, setState] = React.useState({
         agendasAnchor: 'right',
         hasVideo: councilHasVideo(council),
@@ -127,28 +131,54 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     const [agendaBadge, setAgendaBadge] = React.useState(false);
     const grantedWord = React.useRef(participant.grantedWord);
     const config = React.useContext(ConfigContext);
+    const [agendas, setData] = React.useState(null);
+    const [drawerTop, setDrawerTop] = React.useState(false);
 
     const leaveRoom = React.useCallback(() => {
-        let request = new XMLHttpRequest();
-        request.open('POST', API_URL, false);  // `false` makes the request synchronous
-        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        request.setRequestHeader("Accept", "application/json");
-        request.setRequestHeader('authorization', sessionStorage.getItem("participantToken"));
-        request.setRequestHeader('x-jwt-token', sessionStorage.getItem("participantToken"));
-        request.send(JSON.stringify({
-            query: changeParticipantOnlineState,
+        if (navigator.sendBeacon) {
+            navigator.sendBeacon(`${SERVER_URL}/participantDisconnected/${sessionStorage.getItem("participantToken")}`);
+        } else {
+            let request = new XMLHttpRequest();
+            request.open('POST', API_URL, false);
+            request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            request.setRequestHeader("Accept", "application/json");
+            request.setRequestHeader('authorization', sessionStorage.getItem("participantToken"));
+            request.setRequestHeader('x-jwt-token', sessionStorage.getItem("participantToken"));
+            request.send(JSON.stringify({
+                query: changeParticipantOnlineState,
+                variables: {
+                    participantId: participant.id,
+                    online: 2
+                }
+            }));
+        }
+    }, [participant.id]);
+
+    const getData = async () => {
+        const response = await client.query({
+            query: agendasQuery,
             variables: {
-                participantId: participant.id,
-                online: 2
+                councilId: council.id,
+                participantId: participant.id
             }
-        }));
-    });
+        });
+
+        setData({
+            ...response.data,
+            refetch: getData
+        });
+    }
+
+    usePolling(getData, 7000);
+
+    const connectionInfo = React.useContext(ConnectionInfoContext);
 
     React.useEffect(() => {
         props.changeParticipantOnlineState({
             variables: {
                 participantId: participant.id,
-                online: 1
+                online: 1,
+                data: JSON.stringify(connectionInfo.data)
             }
         });
         if (navigator.userAgent.indexOf("Firefox") !== -1) {
@@ -158,6 +188,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
             window.onunload = leaveRoom;
         }
     }, [participant.id, leaveRoom, props.changeParticipantOnlineState]);
+
 
     React.useEffect(() => {
         if (!CBX.haveGrantedWord({ requestWord: grantedWord.current }) && CBX.haveGrantedWord(participant)) {
@@ -186,11 +217,27 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
         });
     }
 
-    const setAdminMessage = value => {
+    const setAdminMessage = (value, event) => {
+        if (event) {
+            event.preventDefault()
+            event.stopPropagation()
+
+        }
         setState({
             ...state,
             adminMessage: value
         })
+        setDrawerTop(false)
+    }
+
+    const drawerTopToggle = (event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        setState({
+            ...state,
+            adminMessage: false
+        })
+        setDrawerTop(!drawerTop)
     }
 
     const _renderAgendaSection = () => {
@@ -214,6 +261,29 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     }
 
     const renderVideoContainer = () => {
+        if (participant.requestWord === 3) {
+            //TRADUCCION
+            return (
+                <div style={{
+                    backgroundColor: 'white',
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '1em'
+                }}>
+                    <span className="material-icons" style={{ color: getPrimary(), fontSize: '50px' }}>
+                        tv_off
+                    </span>
+                    <div style={{ textAlign: 'center' }}>En la <strong style={{ color: getPrimary(), marginRight: '0.5em' }}>sala de espera.</strong>
+                        Podrá acceder a la emisión cuando el administrador de sala le conceda la entrada.
+                    </div>
+                </div>
+            )
+        }
+
         return (
             <VideoContainer
                 council={council}
@@ -295,20 +365,24 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     }
 
     const renderAdminAnnouncement = () => {
+        // es aqui
         return (
             <AdminAnnouncement
+                openHelp={true}
                 council={council}
                 translate={translate}
+                closeButton={false}
             />
         )
     }
 
     const { agendasAnchor } = state;
-    let type = "agenda";
     let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
     let titleHeader = null
-    if (!agendas.loading) {
+    if (agendas) {
         titleHeader = agendas.agendas.filter(item => { return CBX.agendaPointOpened(item) })
+    } else {
+        return <LoadingSection />
     }
 
     const landscape = isLandscape() && window.innerWidth < 700;
@@ -337,6 +411,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                     {!landscape &&
                         <React.Fragment>
                             <CouncilSidebar
+                                agendas={agendas}
                                 noSession={noSession}
                                 isMobile={isMobile}
                                 council={council}
@@ -367,6 +442,8 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                                     isMobile={isMobile}
                                     council={council}
                                     translate={translate}
+                                    drawerTop={drawerTop}
+                                    setDrawerTop={drawerTopToggle}
                                 />
                             }
                         </React.Fragment>
@@ -434,6 +511,8 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                                             isMobile={isMobile}
                                             council={council}
                                             translate={translate}
+                                            drawerTop={drawerTop}
+                                            setDrawerTop={drawerTopToggle}
                                         />
                                     }
                                 </div>
@@ -453,6 +532,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                                 <CouncilSidebar
                                     isMobile={isMobile}
                                     council={council}
+                                    agendas={agendas}
                                     translate={translate}
                                     setAgendaBadge={setAgendaBadge}
                                     agendaBadge={agendaBadge}
@@ -479,8 +559,8 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
 
 
 const changeParticipantOnlineState = gql`
-    mutation changeParticipantOnlineState($participantId: Int!, $online: Int!){
-        changeParticipantOnlineState(participantId: $participantId, online: $online){
+    mutation changeParticipantOnlineState($participantId: Int!, $online: Int!, $data: String){
+        changeParticipantOnlineState(participantId: $participantId, online: $online, data: $data){
             success
             message
         }
@@ -488,13 +568,22 @@ const changeParticipantOnlineState = gql`
 `;
 
 const participantPing = gql`
-    query participantPing {
-        participantPing
+    query participantPing($data: String) {
+        participantPing(data: $data)
     }
 `;
-const agendas = gql`
+
+const agendasQuery = gql`
     query Agendas($councilId: Int!, $participantId: Int!){
         agendas(councilId: $councilId){
+            positiveVotings
+            negativeVotings
+            abstentionVotings
+            positiveManual
+            negativeManual
+            abstentionManual
+            noVoteManual
+            noVoteVotings
             agendaSubject
             attachments {
                 id
@@ -540,6 +629,7 @@ const agendas = gql`
                 id
             }
             agendaId
+            fixed
             numParticipations
             author {
                 id
@@ -563,20 +653,13 @@ const agendas = gql`
 export default compose(
     graphql(participantPing, {
         options: props => ({
-            pollInterval: 5000
+            pollInterval: 5000,
+            variables: {
+                data: JSON.stringify(props.reqData)
+            }
         })
     }),
     graphql(changeParticipantOnlineState, {
         name: 'changeParticipantOnlineState'
-    }),
-    graphql(agendas, {
-        options: props => ({
-            variables: {
-                councilId: props.council.id,
-                participantId: props.participant.id
-            },
-            pollInterval: 7000
-        }),
-        name: 'agendas'
     })
 )(withApollo(withTranslations()(withDetectRTC()(ParticipantCouncil))));

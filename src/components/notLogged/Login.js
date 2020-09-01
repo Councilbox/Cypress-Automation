@@ -8,10 +8,13 @@ import { login } from "../../queries";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
 import withTranslations from "../../HOCs/withTranslations";
-import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem } from "../../displayComponents";
+import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem, CBXFooter } from "../../displayComponents";
 import { useOldState } from "../../hooks";
 import { useSubdomain, getCustomLogo } from "../../utils/subdomain";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../utils/screen";
+import GenCatLogin from "./GenCatLogin";
+import { ConfigContext } from "../../containers/AppControl";
+
 
 
 const Login = ({ translate, windowSize, ...props }) => {
@@ -28,6 +31,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const subdomain = useSubdomain();
+	const config = React.useContext(ConfigContext);
 
 	const login = async () => {
 		const { user, password } = state;
@@ -77,10 +81,19 @@ const Login = ({ translate, windowSize, ...props }) => {
 								user: translate.domain_invalid_creds
 							}
 						})
+					},
+
+					'Unsubscribed account': () => {
+						setState({
+							loading: false,
+							errors: {
+								user: 'Cuenta deshabilitada'
+							}
+						})
 					}
 				}
 
-				return errors[response.errors[0].message]? errors[response.errors[0].message]() : null;
+				return errors[response.errors[0].message] ? errors[response.errors[0].message]() : null;
 			}
 			if (response.data.login) {
 				setState({
@@ -123,13 +136,14 @@ const Login = ({ translate, windowSize, ...props }) => {
 		return hasError;
 	}
 
+
 	return (
 		<NotLoggedLayout
 			translate={translate}
 			helpIcon={true}
 			languageSelector={true}
 		>
-			<Grid style={{width: '100%', overflowX: 'hidden', padding: '0', margin: '0'}}>
+			<Grid style={{ width: '100%', overflowX: 'hidden', padding: '0', margin: '0' }}>
 				<GridItem xs={12} md={7} lg={7}
 					style={{
 						color: "white",
@@ -181,20 +195,23 @@ const Login = ({ translate, windowSize, ...props }) => {
 									marginTop: windowSize === "xs" ? 0 : "1em"
 								}}
 							>
-								<div
-									className="col-lg-6 col-md-6 col-xs-6"
-									style={{ padding: "1em" }}
-								>
-									<Link to="/meeting/new">
-										<BasicButton
-											text={translate.start_conference_test}
-											color={'transparent'}
-											fullWidth
-											buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-											textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none'}}
-										/>
-									</Link>
-								</div>
+								{config.meeting &&
+									<div
+										className="col-lg-6 col-md-6 col-xs-6"
+										style={{ padding: "1em" }}
+									>
+										<Link to="/meeting/new">
+											<BasicButton
+												text={translate.start_conference_test}
+												color={'transparent'}
+												fullWidth
+												buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
+												textStyle={{ color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none' }}
+											/>
+										</Link>
+									</div>
+								}
+
 								<div
 									className="col-lg-6 col-md-6 col-xs-6"
 									style={{ padding: "1em" }}
@@ -234,7 +251,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 							minHeight: "60%",
 							width: windowSize === "xs" ? "100vw" : "70%",
 							padding: "8%",
+							paddingBottom: '1em',
 							margin: '0',
+							position: 'relative',
 							marginBottom: windowSize === "xs" ? 0 : "5em",
 							marginRight: windowSize === "xs" ? 0 : "5em"
 						}}
@@ -345,6 +364,13 @@ const Login = ({ translate, windowSize, ...props }) => {
 								}
 							/>
 						</div>
+						{(!!subdomain.name && subdomain.name.includes('gencat')) &&
+							<div style={{ marginTop: "1em" }}>
+								<GenCatLogin
+									loginSuccess={props.actions.loginSuccess}
+								/>
+							</div>
+						}
 						<div
 							style={{
 								marginTop: "2em",
@@ -355,6 +381,12 @@ const Login = ({ translate, windowSize, ...props }) => {
 								{translate.login_forgot}
 							</Link>
 						</div>
+						{(!!subdomain.name && subdomain.name === 'madrid') &&
+							<div style={{ width: '100%', textAlign: 'center' }}>
+								<img src="/img/logo-1.png" style={{ marginTop: "2.5em", height: '3.5em', width: 'auto' }} alt="logo-seneca" />
+							</div>
+						}
+						<CBXFooter style={{marginTop: '5em'}} />
 					</Card>
 				</GridItem>
 			</Grid>

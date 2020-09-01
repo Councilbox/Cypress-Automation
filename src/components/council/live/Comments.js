@@ -68,6 +68,7 @@ class CommentsSection extends Component {
 				<CommentsTable
 					translate={this.props.translate}
 					agenda={this.props.agenda}
+					council={this.props.council}
 					key={this.props.agenda.id}
 				/>
 			:

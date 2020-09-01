@@ -8,7 +8,7 @@ import {
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { withRouter } from "react-router-dom";
 import CensusParticipants from "./CensusParticipants";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../../../../utils/screen";
 
 class CensusEditorPage extends React.Component {
 	state = {
@@ -63,7 +63,7 @@ export default withSharedProps()(
 	graphql(census, {
 		options: props => ({
 			variables: {
-				id: props.match.params.id
+				id: +props.match.params.id
 			},
 		})
 	})(withRouter(CensusEditorPage))

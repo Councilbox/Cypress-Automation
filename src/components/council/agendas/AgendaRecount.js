@@ -9,10 +9,8 @@ import { Input } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { CONSENTIO_ID } from '../../../config';
-import { isMobile } from 'react-device-detect';
 import PropTypes from "prop-types";
-
-
+import { isMobile } from '../../../utils/screen';
 
 const columnStyle = {
     display: 'flex',
@@ -40,10 +38,136 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
 
         if (council.companyId === CONSENTIO_ID) {
             if (agenda.orderIndex >= 2 && agenda.orderIndex <= 9) {
-                return `${translate.votes}: ${recount.weighedPartTotal || 0}`
+                return `${translate.votes}: ${CBX.showNumParticipations(recount.weighedPartTotal, company) || 0}`
             }
         }
-        return `${translate.votes}: ${recount.partTotal || 0}`
+        return `${translate.votes}: ${CBX.showNumParticipations(recount.partTotal, company) || 0}`
+    }
+
+    const printPercentage = num => {
+        if(company.type === 10){
+            return '';
+        }
+
+        const total = recount.partTotal;
+        return `(${((num / total) * 100).toFixed(3)}%)`
+    }
+
+    const renderTotal = () => {
+        return (
+            <>
+                <div style={itemStyle}>
+                    {translate.convene_census}
+                </div>
+                <div style={itemStyle}>
+                    {`${translate.participants}: ${recount.numTotal || 0}`}
+                </div>
+                <div style={itemStyle}>
+                    {getPartTotal()}
+                </div>
+            </>
+        )
+    }
+
+    const printPositiveRemote = () => {
+        return `${CBX.showNumParticipations(agenda.positiveVotings, company)} ${printPercentage(agenda.positiveVotings)}`;
+    }
+
+    const printNegativeRemote = () => {
+        return `${CBX.showNumParticipations(agenda.negativeVotings, company)} ${printPercentage(agenda.negativeVotings)}`;
+    }
+
+    const printAbstentionRemote = () => {
+        return `${CBX.showNumParticipations(agenda.abstentionVotings, company)} ${printPercentage(agenda.abstentionVotings)}`;
+    }
+
+    const printNoVoteRemote = () => {
+        return `${CBX.showNumParticipations(agenda.noVoteVotings, company)} ${printPercentage(agenda.noVoteVotings)}`;
+    }
+
+    const printPositivePresent = () => {
+        return `${CBX.showNumParticipations(agenda.positiveManual, company)} ${printPercentage(agenda.positiveManual)}`;
+    }
+
+    const printNegativePresent = () => {
+        return `${CBX.showNumParticipations(agenda.negativeManual, company)} ${printPercentage(agenda.negativeManual)}`;
+    }
+
+    const printAbstentionPresent = () => {
+        return `${CBX.showNumParticipations(agenda.abstentionManual, company)} ${printPercentage(agenda.abstentionManual)}`;
+    }
+
+    const printNoVotePresent = () => {
+        return `${CBX.showNumParticipations(agenda.noVoteManual, company)} ${printPercentage(agenda.noVoteManual)}`;
+    }
+
+    const printPositiveTotal = () => {
+        return `${CBX.showNumParticipations(agenda.positiveVotings + agenda.positiveManual, company)} ${printPercentage(agenda.positiveVotings + agenda.positiveManual)}`;
+    }
+
+    const printNegativeTotal = () => {
+        return `${CBX.showNumParticipations(agenda.negativeVotings + agenda.negativeManual, company)} ${printPercentage(agenda.negativeVotings + agenda.negativeManual)}`;
+    }
+
+    const printAbstentionTotal = () => {
+        return `${CBX.showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, company)} ${printPercentage(agenda.abstentionVotings + agenda.abstentionManual)}`;
+    }
+
+    const printNoVoteTotal = () => {
+        return `${CBX.showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, company)} ${printPercentage(agenda.noVoteVotings + agenda.noVoteManual)}`;
+
+    }
+
+
+    const renderPresentTotal = () => {
+        return (
+            <>
+                <div style={itemStyle}>
+                    {translate.present_census}
+                </div>
+                <div style={itemStyle}>
+                    {`${translate.participants}: ${agenda.numPresentCensus || 0}`}
+                </div>
+                <div style={itemStyle}>
+                    {`${translate.votes}: ${(editable && activatePresentOneVote) ?
+                        CBX.showNumParticipations(agenda.numPresentCensus, company) :
+                        CBX.showNumParticipations(agenda.presentCensus, company) || 0} ${printPercentage(agenda.presentCensus)}`}
+                </div>
+            </>
+        )
+    }
+
+    const renderRemoteTotal = () => {
+        return (
+            <>
+                <div style={itemStyle}>
+                    {translate.current_remote_census}
+                </div>
+                <div style={itemStyle}>
+                    {`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
+                </div>
+                <div style={itemStyle}>
+                    {`${translate.votes}: ${CBX.showNumParticipations(agenda.currentRemoteCensus, company) || 0} ${printPercentage(agenda.currentRemoteCensus)}`}
+                </div>
+            </>
+        )
+    }
+
+    const renderCurrentTotal = () => {
+        const totalCensus = agenda.presentCensus + agenda.currentRemoteCensus;
+        return (
+            <>
+                <div style={itemStyle}>
+                    {translate.voting_rights_census}
+                </div>
+                <div style={itemStyle}>
+                    {`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
+                </div>
+                <div style={itemStyle}>
+                    {`${translate.votes}: ${CBX.showNumParticipations(totalCensus, company) || 0} ${printPercentage(totalCensus)}`}
+                </div>
+            </>
+        )
     }
 
     if (isMobile) {
@@ -51,48 +175,16 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
             <React.Fragment>
                 <Grid style={{ border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em' }}>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
-                        <div style={itemStyle}>
-                            {translate.convene_census}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.participants}: ${recount.numTotal || 0}`}
-                        </div>
-                        <div style={itemStyle}>
-                            {getPartTotal()}
-                        </div>
+                        {renderTotal()}
                     </GridItem>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
-                        <div style={itemStyle}>
-                            {translate.present_census}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.participants}: ${agenda.numPresentCensus || 0}`}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.votes}: ${editable && activatePresentOneVote ? agenda.numPresentCensus : agenda.presentCensus || 0}`}
-                        </div>
+                        {renderPresentTotal()}
                     </GridItem>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
-                        <div style={itemStyle}>
-                            {translate.current_remote_census}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.votes}: ${agenda.currentRemoteCensus || 0}`}
-                        </div>
+                        {renderRemoteTotal()}
                     </GridItem>
                     <GridItem xs={3} lg={3} md={3} style={{ ...columnStyle, backgroundColor: 'lightcyan' }}>
-                        <div style={itemStyle}>
-                            {translate.voting_rights_census}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.votes}: ${agenda.presentCensus + agenda.currentRemoteCensus || 0}`}
-                        </div>
+                        {renderCurrentTotal()}
                     </GridItem>
                 </Grid>
                 <Grid style={{ border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em' }}>
@@ -150,13 +242,13 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                     />
                     <CardContent style={{ paddingTop: "5px" }}>
                         <div style={{ fontSize: "0.8em" }}>
-                            {translate.in_favor} : {agenda.positiveVotings}
+                            {translate.in_favor} : {printPositiveRemote()}
                             <br></br>
-                            {translate.against} : {agenda.negativeVotings}
+                            {translate.against} : {printNegativeRemote()}
                             <br></br>
-                            {translate.abstentions} : {agenda.abstentionVotings}
+                            {translate.abstentions} : {printAbstentionRemote()}
                             <br></br>
-                            {translate.no_vote} : {agenda.noVoteVotings}
+                            {translate.no_vote} : {printNoVoteRemote()}
                         </div>
                     </CardContent>
                 </Card>
@@ -207,13 +299,13 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                                 </React.Fragment>
                                 :
                                 <React.Fragment>
-                                    {translate.in_favor} : {agenda.positiveManual}
+                                    {translate.in_favor} : {printPositivePresent()}
                                     <br></br>
-                                    {translate.against} : {agenda.negativeManual}
+                                    {translate.against} : {printNegativePresent()}
                                     <br></br>
-                                    {translate.abstentions} : {agenda.abstentionManual}
+                                    {translate.abstentions} : {printAbstentionPresent()}
                                     <br></br>
-                                    {translate.no_vote} : {agenda.noVoteManual}
+                                    {translate.no_vote} : {printNoVotePresent()}
                                 </React.Fragment>
                             }
                         </div>
@@ -229,13 +321,13 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                     />
                     <CardContent style={{ paddingTop: "5px" }}>
                         <div style={{ fontSize: "0.8em" }}>
-                            {translate.in_favor} : {agenda.positiveVotings + agenda.positiveManual}
+                            {translate.in_favor} : {printPositiveTotal()}
                             <br></br>
-                            {translate.against} :  {agenda.negativeVotings + agenda.negativeManual}
+                            {translate.against} :  {printNegativeTotal()}
                             <br></br>
-                            {translate.abstentions} : {agenda.abstentionVotings + agenda.abstentionManual}
+                            {translate.abstentions} : {printAbstentionTotal()}
                             <br></br>
-                            {translate.no_vote} : {agenda.noVoteVotings + agenda.noVoteManual}
+                            {translate.no_vote} : {printNoVoteTotal()}
                         </div>
                     </CardContent>
                 </Card>
@@ -248,48 +340,16 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
             {council.autoClose !== 1 &&
                 <Grid style={{border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em'}}>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
-                        <div style={itemStyle}>
-                            {translate.convene_census}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.participants}: ${recount.numTotal || 0}`}
-                        </div>
-                        <div style={itemStyle}>
-                            {getPartTotal()}
-                        </div>
+                        {renderTotal()}
                     </GridItem>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
-                        <div style={itemStyle}>
-                            {translate.present_census}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.participants}: ${agenda.numPresentCensus || 0}`}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.votes}: ${editable && activatePresentOneVote? agenda.numPresentCensus : agenda.presentCensus || 0}`}
-                        </div>
+                        {renderPresentTotal()}
                     </GridItem>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
-                        <div style={itemStyle}>
-                            {translate.current_remote_census}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.votes}: ${agenda.currentRemoteCensus || 0}`}
-                        </div>
+                        {renderRemoteTotal()}
                     </GridItem>
                     <GridItem xs={3} lg={3} md={3} style={{...columnStyle, backgroundColor: 'lightcyan'}}>
-                        <div style={itemStyle}>
-                            {translate.voting_rights_census}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
-                        </div>
-                        <div style={itemStyle}>
-                            {`${translate.votes}: ${agenda.presentCensus + agenda.currentRemoteCensus || 0}`}
-                        </div>
+                        {renderCurrentTotal()}
                     </GridItem>
                 </Grid>
             }
@@ -315,9 +375,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                 </GridItem>
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                     <div style={itemStyle}>
-                        {`${
-                            translate.votes_in_favor_for_approve
-                            }: ${agendaNeededMajority}`}
+                        {`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company)}`}
                         {agendaNeededMajority > (agenda.positiveVotings + agenda.positiveManual) ? (
                             <FontAwesome
                                 name={"times"}
@@ -343,7 +401,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
             <Table
                 forceMobileTable={true}
                 headers={[
-                    { name: translate.voting },
+                    { name: '' },
                     { name: translate.in_favor },
                     { name: translate.against },
                     { name: translate.abstentions },
@@ -355,16 +413,16 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         {translate.remote_vote}
                     </TableCell>
                     <TableCell>
-                        {agenda.positiveVotings}
+                        {printPositiveRemote()}
                     </TableCell>
                     <TableCell>
-                        {agenda.negativeVotings}
+                        {printNegativeRemote()}
                     </TableCell>
                     <TableCell>
-                        {agenda.abstentionVotings}
+                        {printAbstentionRemote()}
                     </TableCell>
                     <TableCell>
-                        {agenda.noVoteVotings}
+                        {printNoVoteRemote()}
                     </TableCell>
                 </TableRow>
                 <TableRow>
@@ -393,16 +451,16 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         :
                         <React.Fragment>
                             <TableCell>
-                                {agenda.positiveManual}
+                                {printPositivePresent()}
                             </TableCell>
                             <TableCell>
-                                {agenda.negativeManual}
+                                {printNegativePresent()}
                             </TableCell>
                             <TableCell>
-                                {agenda.abstentionManual}
+                                {printAbstentionPresent()}
                             </TableCell>
                             <TableCell>
-                                {agenda.noVoteManual}
+                                {printNoVotePresent()}
                             </TableCell>
                         </React.Fragment>
                     }
@@ -412,16 +470,16 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         Total
                     </TableCell>
                     <TableCell>
-                        {agenda.positiveVotings + agenda.positiveManual}
+                        {printPositiveTotal()}
                     </TableCell>
                     <TableCell>
-                        {agenda.negativeVotings + agenda.negativeManual}
+                        {printNegativeTotal()}
                     </TableCell>
                     <TableCell>
-                        {agenda.abstentionVotings + agenda.abstentionManual}
+                        {printAbstentionTotal()}
                     </TableCell>
                     <TableCell>
-                        {agenda.noVoteVotings + agenda.noVoteManual}
+                        {printNoVoteTotal()}
                     </TableCell>
                 </TableRow>
             </Table>

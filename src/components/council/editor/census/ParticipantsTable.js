@@ -9,8 +9,8 @@ import { deleteParticipant } from "../../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import ChangeCensusMenu from "./ChangeCensusMenu";
 import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
-import { isMobile } from 'react-device-detect';
 import { useOldState, useHoverRow } from "../../../../hooks";
+import { isMobile } from "../../../../utils/screen";
 
 
 const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, participations, council, ...props }) => {
@@ -179,7 +179,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 					translate={translate}
 					close={closeParticipantEditor}
 					key={participant.id}
-					councilId={council.id}
+					council={council}
 					participations={participations}
 					participant={participant}
 					opened={editingParticipant}
@@ -273,11 +273,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, totalVo
 						{translate.participant_data}
 					</GridItem>
 					<GridItem xs={7} md={7}>
-						<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+						<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
 						{!!representative &&
 							<React.Fragment>
 								<br />
-								{`${translate.represented_by}: ${representative.name} ${representative.surname}`}
+								{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 							</React.Fragment>
 						}
 					</GridItem>
@@ -367,11 +367,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, totalVo
 				</div>
 			</TableCell>
 			<TableCell>
-				<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+				<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
 				{!!representative &&
 					<React.Fragment>
 						<br/>
-						{`${translate.represented_by}: ${representative.name} ${representative.surname}`}
+						{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 					</React.Fragment>
 				}
 			</TableCell>

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { graphql, withApollo, compose } from "react-apollo";
+import { withApollo, graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { store } from './App';
 import { setDetectRTC } from '../actions/mainActions';
@@ -14,27 +14,102 @@ import Council from '../components/participant/council/Council';
 import Meet from '../components/participant/meet/Meet';
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
-import { checkSecondDateAfterFirst } from "../utils/CBX";
 import { shouldLoadSubdomain } from "../utils/subdomain";
 import withTranslations from "../HOCs/withTranslations";
-import CouncilState from "../components/participant/login/CouncilState";
+import { usePolling } from "../hooks";
+import { ConfigContext } from "./AppControl";
+import { SERVER_URL } from "../config";
+import { addSpecificTranslations } from "../actions/companyActions";
 
 
-class ParticipantContainer extends React.PureComponent {
+export const ConnectionInfoContext = React.createContext(null);
 
-	componentDidMount(){
-		store.dispatch(setDetectRTC());
-	}
+const ParticipantContainer = ({ client, council, match, detectRTC, main, actions, translate, ...props }) => {
+	const [data, setData] = React.useState(null);
+	const config = React.useContext(ConfigContext);
+	const [companyId, setCompanyId] = React.useState();
+	const [loadingConfig, setLoadingConfig] = React.useState(true);
+	const [reqData, setConnectionData] = React.useState(null);
+	
 
-	componentDidUpdate(){
-		if(this.props.data.participant){
-			if(this.props.data.participant.language !== this.props.translate.selectedLanguage){
-				this.props.actions.setLanguage(this.props.data.participant.language);
-			}
+	const getReqData = React.useCallback(async () => {
+        //const response = await fetch(`${SERVER_URL}/connectionInfo`);
+		let json = {};//await response.json();
+
+		const getDataFromBackend = async () => {
+			const response = await fetch(`${SERVER_URL}/connectionInfo`);
+			return await response.json();
 		}
 
-		if(this.props.state.councilState){
-			const { subdomain } = this.props.state.councilState;
+		if('geolocation' in navigator){
+			navigator.geolocation.getCurrentPosition(async position => {
+				const geoRequest = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${
+					position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=${translate.selectedLanguage}`);
+				const response = await fetch(`${SERVER_URL}/connectionInfo/requestOnly`);
+				json = await response.json();
+				if(geoRequest.status === 200){
+					const geoLocation = await geoRequest.json();
+					json.geoLocation = {
+						...geoLocation,
+						ip: json.requestInfo.ip,
+						city: geoLocation.locality,
+						state: geoLocation.principalSubdivision,
+						country: geoLocation.countryName,
+					}
+				} else {
+					json = await getDataFromBackend();
+				}
+
+				setConnectionData(json);
+			}, async error => {
+				json = await getDataFromBackend();
+				setConnectionData(json);
+			});
+        } else {
+			json = await getDataFromBackend();
+			setConnectionData(json);
+		}
+	}, [])
+
+    React.useEffect(() => {
+        getReqData();
+    }, [getReqData]);
+
+
+	React.useEffect(() => {
+		if(data && data.participant){
+			if(data.participant.language !== translate.selectedLanguage){
+				actions.setLanguage(data.participant.language);
+			}
+		}
+	}, [data]);
+
+	React.useEffect(() => {
+		props.subscribeToCouncilStateUpdated({ councilId: +match.params.councilId });
+	}, [match.params.councilId])
+
+
+	React.useEffect(() => {
+		if(council.councilVideo){
+			setCompanyId(council.councilVideo.companyId);
+		}
+	}, [council])
+
+	const updateConfig = async companyId => {
+		await config.updateConfig(companyId);
+		setLoadingConfig(false);
+	}
+
+	React.useEffect(() => {
+		if(companyId){
+			updateConfig(companyId)
+			store.dispatch(addSpecificTranslations(council.councilVideo.company));
+		}
+	}, [companyId]);
+
+	React.useEffect(() => {
+		if(council && council.councilVideo){
+			const { subdomain } = council.councilVideo;
 			const actualSubdomain = window.location.hostname.split('.')[0];
 
 			if(subdomain){
@@ -47,37 +122,64 @@ class ParticipantContainer extends React.PureComponent {
 				}
 			}
 		}
+	}, [council]);
+
+
+	const getData = async () => {
+		const response = await client.query({
+			query: participantQuery
+		});
+
+		if(response.errors){
+			setData(response);
+		} else {
+			setData(response.data);
+		}
+	}
+	usePolling(getData, 10000);
+
+
+	React.useEffect(() => {
+		store.dispatch(setDetectRTC());
+	}, []);
+
+	if(!data || !council || !reqData || loadingConfig){
+		return <LoadingMainApp />;
 	}
 
-	render() {
-		const { data, detectRTC, main, match } = this.props;
-
-		if (data.error && data.error.graphQLErrors["0"]) {
-			const code = data.error.graphQLErrors["0"].code;
-			if (
-				code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
-				code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
-				code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
-			) {
-				if (!this.props.council.councilVideo) {
-					return <LoadingMainApp />;
-				}
-				return (
-					<ErrorState
-						code={code}
-						data={{ council: this.props.council.councilVideo }}
-					/>
-				);
-			} else {
-				return <InvalidUrl />;
+	if (data.errors && data.errors[0]) {
+		const code = data.errors[0].code;
+		if (
+			code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
+			code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
+			code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED ||
+			code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
+		) {
+			if (!council.councilVideo) {
+				return <LoadingMainApp />;
 			}
+			return (
+				<ErrorState
+					code={code}
+					refetch={getData}
+					data={{ council: council.councilVideo, participant: data.errors[0].data }}
+				/>
+			);
+		} else {
+			return <InvalidUrl />;
 		}
+	}
 
-		if (!data.participant || !this.props.council.councilVideo || !this.props.state.councilState || Object.keys(detectRTC).length === 0) {
-			return <LoadingMainApp />;
-		}
+	if (!data.participant || !council.councilVideo || Object.keys(detectRTC).length === 0) {
+		return <LoadingMainApp />;
+	}
 
-		return (
+	return (
+		<ConnectionInfoContext.Provider value={{
+			data: reqData,
+			setConnectionData
+		}}>
+
 			<div
 				id={"mainContainer"}
 				style={{
@@ -90,47 +192,44 @@ class ParticipantContainer extends React.PureComponent {
 					margin: 0
 				}}
 			>
-                <React.Fragment>
-                    {main.isParticipantLogged ?
-                            <React.Fragment>
-                                {match.path.includes('meet') ?
-                                        <Meet
-                                            participant={data.participant}
-                                            council={{
-												...this.props.council.councilVideo,
-												state: this.props.state.councilState.state,
-												councilStarted: this.props.state.councilState.councilStarted,
+				<React.Fragment>
+					{main.isParticipantLogged ?
+							<React.Fragment>
+								{match.path.includes('meet') ?
+										<Meet
+											participant={data.participant}
+											reqData={reqData}
+											council={{
+												...council.councilVideo
 											}}
-                                            company={this.props.council.councilVideo.company}
-                                        />
-                                    :
-                                        <Council
-                                            participant={data.participant}
-                                            council={{
-												...this.props.council.councilVideo,
-												state: this.props.state.councilState.state,
-												councilStarted: this.props.state.councilState.councilStarted,
+											company={council.councilVideo.company}
+										/>
+									:
+										<Council
+											participant={data.participant}
+											reqData={reqData}
+											council={{
+												...council.councilVideo
 											}}
-                                            company={this.props.council.councilVideo.company}
-											refetchParticipant={data.refetch}
-                                        />
-                                }
-                            </React.Fragment>
-                        :
-                            <ParticipantLogin
-                                participant={data.participant}
-                                council={{
-									...this.props.council.councilVideo,
-									state: this.props.state.councilState.state,
-									councilStarted: this.props.state.councilState.councilStarted,
+											company={council.councilVideo.company}
+											refetchParticipant={getData}
+										/>
+								}
+							</React.Fragment>
+						:
+							<ParticipantLogin
+								participant={data.participant}
+								council={{
+									...council.councilVideo
 								}}
-                                company={this.props.council.councilVideo.company}
-                            />
-                    }
-                </React.Fragment>
+								company={council.councilVideo.company}
+							/>
+					}
+				</React.Fragment>
 			</div>
-		);
-	}
+		</ConnectionInfoContext.Provider>
+		
+	);
 }
 
 
@@ -142,11 +241,14 @@ const councilQuery = gql`
 			autoClose
 			businessName
 			subdomain
+			councilStarted
+			state
 			city
 			closeDate
 			companyId
 			company {
 				logo
+				type
 			}
 			conveneText
 			councilType
@@ -186,6 +288,7 @@ const councilQuery = gql`
 				addParticipantsListToAct
 				existsAdvanceNoticeDays
 				advanceNoticeDays
+				hideVotingsRecountFinished
 				existsSecondCall
 				minimumSeparationBetweenCall
 				canEditConvene
@@ -225,17 +328,6 @@ const councilQuery = gql`
 			votationType
 			weightedVoting
 			zipcode
-		}
-	}
-`;
-
-const stateQuery = gql`
-	query info($councilId: Int!) {
-		councilState(id: $councilId) {
-			state
-			councilStarted
-			id
-			subdomain
 		}
 	}
 `;
@@ -283,34 +375,45 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default compose(
-	graphql(councilQuery, {
-		name: 'council',
-		options: props => ({
-			variables: {
-				councilId: props.match.params.councilId
-			},
-			fetchPolicy: "network-only",
-			notifyOnNetworkStatusChange: true,
-			pollInterval: 60000
-		})
+export default graphql(councilQuery, {
+	name: 'council',
+	options: props => ({
+		variables: {
+			councilId: +props.match.params.councilId
+		},
+		pollInterval: 60000
 	}),
-	graphql(stateQuery, {
-		name: 'state',
-		options: props => ({
-			variables: {
-				councilId: props.match.params.councilId
-			},
-			fetchPolicy: "network-only",
-			notifyOnNetworkStatusChange: true,
-			pollInterval: 6000
-		})
-	}),
-	graphql(participantQuery, {
-		options: props => ({
-			fetchPolicy: "network-only",
-			notifyOnNetworkStatusChange: true,
-			pollInterval: 10000
-		})
-	})
-)(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));
+	props: props => {
+		return {
+		  ...props,
+		  subscribeToCouncilStateUpdated: params => {
+			return props.council.subscribeToMore({
+				document: gql`
+					subscription councilStateUpdated($councilId: Int!){
+						councilStateUpdated(councilId: $councilId){
+							state
+							councilStarted
+							subdomain
+						}
+					}`,
+				variables: {
+					councilId: +params.councilId
+				},
+				updateQuery: (prev, { subscriptionData }) => {
+					const newData = subscriptionData.data.councilStateUpdated;
+
+					return ({
+						...prev,
+						councilVideo: {
+							...prev.councilVideo,
+							state: newData.state? newData.state : prev.councilVideo.state,
+							subdomain: (newData.subdomain !== null)? newData.subdomain : prev.councilVideo.subdomain,
+							councilStarted: (newData.councilStarted !== null)? newData.councilStarted : prev.councilVideo.councilStarted
+						}
+					});
+				}
+			});
+		  }
+		};
+	  }
+})(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));

@@ -4,27 +4,27 @@ import gql from 'graphql-tag';
 import RecordingButton from './RecordingButton';
 import { darkGrey } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
-import AdminAnnouncement from '../../../participant/council/AdminAnnouncement';
-import { useInterval } from '../../../../hooks';
+import AdminAnnouncement from '../adminAnnouncement/AdminAnnouncement';
+import { useInterval, useRoomUpdated } from '../../../../hooks';
 import { LoadingSection } from '../../../../displayComponents';
 
-const rand = Date.now();
-
-if(!sessionStorage.getItem('adminId')){
-    sessionStorage.setItem('adminId', rand);
-}
 
 
 const CMPVideoIFrame = props => {
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState(null);
     const config = React.useContext(ConfigContext);
+    const adminId = React.useRef(sessionStorage.getItem('adminId') || Date.now());
+
+    if(!sessionStorage.getItem('adminId')){
+        sessionStorage.setItem('adminId', adminId.current);
+    };
 
     React.useEffect(() => {
         if(!data){
-            fetchVideoURL(setData, props.client, );
+            fetchVideoURL();
         }
-    }, []);
+    }, [data]);
 
     React.useEffect(() => {
         if(!loading){
@@ -64,6 +64,8 @@ const CMPVideoIFrame = props => {
         setLoading(false);
     }
 
+    useRoomUpdated({ refetch: fetchVideoURL, props, participant: null });
+
     const sendAdminPing = () => {
         props.adminPing({
             variables: {
@@ -77,7 +79,6 @@ const CMPVideoIFrame = props => {
         return <LoadingSection />
     }
 
-
     return (
         <div style={{width: '100%', height: '100%', position: 'relative'}}>
             <AdminAnnouncement
@@ -85,10 +86,11 @@ const CMPVideoIFrame = props => {
                 council={props.council}
                 context={config}
                 closeButton
+                isAdmin={true}
             />
             {!!data.roomVideoURL && config.video?
                 <React.Fragment>
-                    {data.roomVideoURL.includes('councilbox') &&
+                    {(config.recording && data.roomVideoURL.includes('councilbox') && !data.roomVideoURL.includes('rivulet')) &&
                         <RecordingButton
                             config={config}
                             council={props.council}
@@ -100,7 +102,7 @@ const CMPVideoIFrame = props => {
                         allow="geolocation; microphone; camera"
                         scrolling="no"
                         className="temp_video"
-                        src={`https://${data.roomVideoURL}?rand=${rand}`}
+                        src={`https://${data.roomVideoURL}?rand=${adminId.current}`}
                         allowFullScreen={true}
                         style={{
                             border: "none !important"
@@ -166,8 +168,27 @@ const adminPing = gql`
     }
 `;
 
+export const roomUpdateSubscription = gql`
+    subscription RoomUpdated($councilId: Int!){
+        roomUpdated(councilId: $councilId){
+            videoLink
+            platformVideo
+            action
+            videoConfig
+        }
+    }
+`
+
 export default compose(
     graphql(adminPing, {
         name: 'adminPing'
+    }),
+    graphql(roomUpdateSubscription, {
+        name: 'subs',
+        options: props => ({
+			variables: {
+				councilId: props.council.id
+			}
+		})
     })
 )(withApollo(CMPVideoIFrame));

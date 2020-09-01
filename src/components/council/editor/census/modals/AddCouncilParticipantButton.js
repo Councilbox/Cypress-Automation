@@ -16,6 +16,8 @@ import {
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 import withSharedProps from "../../../../../HOCs/withSharedProps";
+import SelectRepresentative from "./SelectRepresentative";
+import { Card } from "material-ui";
 
 
 class AddCouncilParticipantButton extends React.Component {
@@ -35,7 +37,7 @@ class AddCouncilParticipantButton extends React.Component {
 		const representative = this.state.representative.hasRepresentative
 			? {
 					...data,
-					councilId: this.props.councilId
+					councilId: this.props.council.id
 			  }
 			: null;
 
@@ -47,7 +49,7 @@ class AddCouncilParticipantButton extends React.Component {
 				variables: {
 					participant: {
 						...this.state.data,
-						councilId: this.props.councilId
+						councilId: this.props.council.id
 					},
 					representative: representative
 				}
@@ -114,15 +116,16 @@ class AddCouncilParticipantButton extends React.Component {
 				translate
 			);
 
-			emailsToCheck.push(representative.email);
+			if(!representative.id){
+				emailsToCheck.push(representative.email);
+			}
 		}
-
 
 		if(emailsToCheck.length > 0){
 			const response = await this.props.client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
-					councilId: this.props.councilId,
+					councilId: this.props.council.id,
 					emailList: emailsToCheck
 				}
 			});
@@ -168,7 +171,7 @@ class AddCouncilParticipantButton extends React.Component {
 					const response = await this.props.client.query({
 						query: checkUniqueCouncilEmails,
 						variables: {
-							councilId: this.props.councilId,
+							councilId: this.props.council.id,
 							emailList: [email]
 						}
 					});
@@ -221,25 +224,56 @@ class AddCouncilParticipantButton extends React.Component {
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
 		return (
-			<div style={{width: '850px'}}>
-				<ParticipantForm
-					type={participant.personOrEntity}
-					participant={participant}
-					participations={participations}
+			<div>
+				<SelectRepresentative
+					open={this.state.selectRepresentative}
+					council={this.props.council}
 					translate={translate}
-					languages={languages}
-					checkEmail={this.emailKeyUp}
-					errors={errors}
-					updateState={this.updateState}
+					updateRepresentative={representative => {
+						this.updateRepresentative({
+							...representative,
+							hasRepresentative: true
+						});
+					}}
+					requestClose={() => this.setState({
+						selectRepresentative: false
+					})}
 				/>
-				<RepresentativeForm
-					translate={this.props.translate}
-					state={this.state.representative}
-					updateState={this.updateRepresentative}
-					checkEmail={this.emailKeyUp}
-					errors={this.state.representativeErrors}
-					languages={this.props.data.languages}
-				/>
+				<div style={{marginRight: "1em"}}>
+					<Card style={{
+						padding: '1em',
+						marginBottom: "1em",
+						color: 'black',
+					}}>
+						<ParticipantForm
+							type={participant.personOrEntity}
+							participant={participant}
+							participations={participations}
+							translate={translate}
+							languages={languages}
+							checkEmail={this.emailKeyUp}
+							errors={errors}
+							updateState={this.updateState}
+						/>
+					</Card>
+					<Card style={{
+						padding: '1em',
+						marginBottom: "1em",
+						color: 'black',
+					}}>
+						<RepresentativeForm
+							translate={this.props.translate}
+							state={this.state.representative}
+							updateState={this.updateRepresentative}
+							setSelectRepresentative={value => this.setState({
+								selectRepresentative: value
+							})}
+							checkEmail={this.emailKeyUp}
+							errors={this.state.representativeErrors}
+							languages={this.props.data.languages}
+						/>
+					</Card>
+				</div>
 			</div>
 		);
 	}
@@ -309,6 +343,7 @@ const initialParticipant = {
 	email: "",
 	phone: "",
 	dni: "",
+	initialState: 0,
 	type: 0,
 	delegateId: null,
 	numParticipations: 1,
@@ -324,6 +359,7 @@ const initialRepresentative = {
 	hasRepresentative: false,
 	language: "es",
 	type: 2,
+	initialState: 0,
 	name: "",
 	surname: "",
 	position: "",

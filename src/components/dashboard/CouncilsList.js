@@ -4,15 +4,16 @@ import { bHistory } from '../../containers/App';
 import { TableRow, TableCell } from 'material-ui';
 import { withRouter } from 'react-router-dom';
 import TableStyles from "../../styles/table";
-import { getPrimary } from "../../styles/colors";
+import { getPrimary, getSecondary } from "../../styles/colors";
 import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
-import { isMobile } from 'react-device-detect';
 import { Card } from 'material-ui';
 import { sendGAevent } from '../../utils/analytics';
 import { useHoverRow } from '../../hooks';
+import { isMobile } from '../../utils/screen';
+import { Tooltip } from 'material-ui';
 
 const CouncilsList = ({ councils, translate, openDeleteModal, company, link, selectedIds, ...props }) => {
     const [open, setOpen] = React.useState(false);
@@ -32,16 +33,18 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
         { name: translate.name },
         { name: '' }
     ] : [
-        { selectAll: <Checkbox onChange={props.selectAll} value={selectedIds.size === councils.length} /> },
-        { name: translate.date_real_start },
-        { name: translate.name },
-        { name: '' }
-    ]
-    
+            { selectAll: <Checkbox onChange={props.selectAll} value={selectedIds.size === councils.length} /> },
+            { name: translate.date_real_start },
+            { name: translate.name },
+            { name: '' }
+        ]
+
     return (
         <Table
             headers={headers}
             companyID={company.id}
+            stylesHeader={{}}
+            stylesHeaderRow={{ border: 'none' }}
         >
             {councils.map(council => {
                 return (
@@ -86,17 +89,17 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
     }
 
     const getSectionTranslation = type => {
-		const texts = {
-			drafts: translate.companies_draft,
-			calendar: translate.companies_calendar,
-			live: translate.companies_live,
-			act: translate.companies_writing,
-			confirmed: translate.act_book,
-			history: translate.dashboard_historical
-		}
+        const texts = {
+            drafts: translate.companies_draft,
+            calendar: translate.companies_calendar,
+            live: translate.companies_live,
+            act: translate.companies_writing,
+            confirmed: translate.act_book,
+            history: translate.dashboard_historical
+        }
 
-		return texts[type];
-	}
+        return texts[type];
+    }
 
     if (isMobile) {
         return (
@@ -111,7 +114,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                             action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                             label: company.businessName
                         })
-                        bHistory.push(`/company/${company.id}/council/${council.id}${link}`)
+                    bHistory.push(`/company/${company.id}/council/${council.id}`)
                 }}
             >
                 <Grid>
@@ -178,9 +181,9 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                         action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                         label: company.businessName
                     })
-                    bHistory.push(
-                        `/company/${company.id}/council/${council.id}${link}`
-                    )
+                bHistory.push(
+                    `/company/${company.id}/council/${council.id}`
+                )
             }}
         >
             <TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
@@ -227,6 +230,14 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                     width: "65%"
                 }}
             >
+                {council.promoCode === 'COUNCILBOX' &&
+                    <Tooltip title={translate.test_meeting}>
+                        <span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
+                            miscellaneous_services
+                        </span>
+                    </Tooltip>
+
+                }
                 {council.name || translate.dashboard_new}
             </TableCell>
             <TableCell

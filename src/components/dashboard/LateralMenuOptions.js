@@ -3,10 +3,13 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import LateralOption from "./LateralOption";
 import { darkGrey } from "../../styles/styles";
 import logo from '../../assets/img/logo-icono.png';
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../utils/screen";
+import { ConfigContext } from "../../containers/AppControl";
+
 
 
 const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType }) => {
+	const config = React.useContext(ConfigContext);
 
 	const renderMenuOptions = type => {
 		const menuOptions = {
@@ -14,7 +17,7 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 				<React.Fragment>
 					<LateralOption
 						customIcon={<i className="fa fa-pencil-square-o"></i>}
-						text={translate.drafts}
+						text={translate.companies_draft}
 						link={`/company/${company.id}/councils/drafts`}
 						style={{ marginTop: "10px", color: "#ffffffcc" }}
 					/>
@@ -59,7 +62,7 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 						link={`/company/${company.id}/statutes`}
 						style={{ marginTop: "10px" }}
 					/>
-					{company.category === 'society' &&
+					{(config.partnerBook && company.type !== 10) &&
 						<LateralOption
 							icon={'contacts'}
 							text={translate.book}

@@ -109,7 +109,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
                     />
                 }
                 loadingAction={loading}
-                title={"Enviar comentario"}
+                title={translate.send_comment}
                 acceptAction={updateComment}
                 buttonAccept={translate.send}
                 buttonCancel={translate.cancel}

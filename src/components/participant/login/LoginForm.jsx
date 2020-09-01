@@ -12,10 +12,12 @@ import withWindowOrientation from "../../../HOCs/withWindowOrientation";
 import { checkValidEmail } from "../../../utils/validation";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection } from "../../../displayComponents";
-import { councilStarted, participantNeverConnected, getSMSStatusByCode } from '../../../utils/CBX';
+import { councilStarted, participantNeverConnected, getSMSStatusByCode, hasAccessKey } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
 import { useOldState, useCountdown, useSendRoomKey } from "../../../hooks";
 import { withApollo } from 'react-apollo';
+import CertModal from "./CertModal";
+import LoginWithCert from "./LoginWithCert";
 import CouncilKeyModal from "./CouncilKeyModal";
 import CouncilKeyButton from "./CouncilKeyButton";
 import SteperAcceso from "./SteperAcceso";
@@ -103,6 +105,12 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     const [loadingKey, sendKey] = useSendRoomKey(client, participant);
     const [errorAcces, setErrorAcces] = React.useState(false);
 
+    const [data, setData] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const [filter, setFilter] = React.useState(null);
+    const [modal, setModal] = React.useState(false);
+    // const [filter, setFilter] = React.useState(showAll ? null : 'failed');
+
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -137,7 +145,11 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             password: ""
         };
 
-        if (council.securityType === 0) {
+        //CHECK REQUIRED
+        errors.email =
+            !(state.email.length > 0) ? translate.field_required : "";
+
+        if (council.securityType === 0 || council.securityType == 3) {
             errors.password = "";
         } else {
             errors.password =
@@ -172,13 +184,18 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }
 
     const login = async () => {
+        if(council.securityType === 3){
+            return setModal(true);
+        }
+
+
         const isValidForm = checkFieldsValidationState();
-        if (council.securityType !== 0) {
+        if (hasAccessKey(council)) {
             try {
                 const response = await props.checkParticipantKey({
                     variables: {
                         participantId: participant.id,
-                        key: state.password
+                        key: +state.password
                     }
                 });
 
@@ -200,11 +217,15 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             }
         }
         if (isValidForm) {
-            props.actions.participantLoginSuccess();
-            bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
+            handleSuccess();
         }
 
     };
+
+    const handleSuccess = () => {
+        props.actions.participantLoginSuccess();
+        bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
+    }
 
     const handleKeyUp = event => {
         if (event.nativeEvent.keyCode === 13) {
@@ -212,6 +233,26 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         }
     };
 
+    const _sendPassModalBody = () => {
+        return (
+            <div>
+                {council.securityType === 1 &&
+                    translate.receive_access_key_email
+                }
+                {council.securityType === 2 &&
+                    data ?
+                    <div>
+                        {renderStatusSMS(data.reqCode)}
+                    </div>
+                    :
+                    <LoadingSection></LoadingSection>
+                }
+                {!!state.phoneError &&
+                    <div style={{ color: 'red' }}>{state.phoneError}</div>
+                }
+            </div>
+        )
+    }
 
     const _tooltipContent = () => {
         const securityTypes = {
@@ -223,6 +264,17 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
     }
 
+    const sendParticipantRoomKey = async () => {
+        setState({
+            loading: true
+        });
+        const response = await props.sendParticipantRoomKey({
+            variables: {
+                councilId: council.id,
+                participantIds: [participant.id],
+                timezone: moment().utcOffset().toString()
+            }
+        });
 
     const onMouseEnter = () => {
         setState({
@@ -337,7 +389,8 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 }
                                 disabled={true}
                             />
-                            {council.securityType !== 0 &&
+
+                            {hasAccessKey(council) && (
                                 <React.Fragment>
                                     <TextInput
                                         onKeyUp={handleKeyUp}
@@ -494,10 +547,18 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
                                     } */}
                                 </React.Fragment>
+                            )}
+                            {council.securityType === 3?
+                                <LoginWithCert
+                                    translate={translate}
+                                    participant={participant}
+                                    handleSuccess={handleSuccess}
+                                    status={props.status}
+                                    message={props.message}
+                                    dispatch={props.updateState}
+                                />
+                            :
 
-                            }
-                            {/* //Boton de entrar a sala, si se no hay clave mantener si no quitar  / /  COMPROBAR VALIDACION    */}
-                            {council.securityType === 0 &&
                                 <div style={styles.enterButtonContainer}>
                                     <BasicButton
                                         text={translate.enter_room}

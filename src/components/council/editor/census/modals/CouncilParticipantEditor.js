@@ -11,6 +11,8 @@ import {
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 import withSharedProps from "../../../../../HOCs/withSharedProps";
+import { Card } from "material-ui";
+import SelectRepresentative from "./SelectRepresentative";
 
 class CouncilParticipantEditor extends React.Component {
 	state = {
@@ -18,11 +20,12 @@ class CouncilParticipantEditor extends React.Component {
 		data: {},
 		representative: {},
 		errors: {},
-		representativeErrors: {}
+		representativeErrors: {},
+		selectRepresentative: false
 	};
 
 	updateParticipantData(){
-		let { representative, ...participant } = extractTypeName(
+		let { representative, representatives, representing, ...participant } = extractTypeName(
 			this.props.participant
 		);
 		representative = representative
@@ -51,7 +54,7 @@ class CouncilParticipantEditor extends React.Component {
 		const representative = this.state.representative.hasRepresentative
 			? {
 					...data,
-					councilId: this.props.councilId
+					councilId: this.props.council.id
 			  }
 			: null;
 
@@ -60,7 +63,7 @@ class CouncilParticipantEditor extends React.Component {
 				variables: {
 					participant: {
 						...this.state.data,
-						councilId: this.props.councilId
+						councilId: this.props.council.id
 					},
 					representative: representative
 				}
@@ -141,7 +144,7 @@ class CouncilParticipantEditor extends React.Component {
 			const response = await this.props.client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
-					councilId: this.props.councilId,
+					councilId: this.props.council.id,
 					emailList: emailsToCheck
 				}
 			});
@@ -183,7 +186,7 @@ class CouncilParticipantEditor extends React.Component {
 					const response = await this.props.client.query({
 						query: checkUniqueCouncilEmails,
 						variables: {
-							councilId: this.props.councilId,
+							councilId: this.props.council.id,
 							emailList: [email]
 						}
 					});
@@ -237,24 +240,56 @@ class CouncilParticipantEditor extends React.Component {
 		const { languages } = this.props.data;
 		return (
 			<div>
-				<ParticipantForm
-					type={participant.personOrEntity}
-					participant={participant}
-					checkEmail={this.emailKeyUp}
-					participations={participations}
+				<SelectRepresentative
+					open={this.state.selectRepresentative}
+					council={this.props.council}
 					translate={translate}
-					languages={languages}
-					errors={errors}
-					updateState={this.updateState}
+					updateRepresentative={representative => {
+						this.updateRepresentative({
+							...representative,
+							hasRepresentative: true
+						});
+					}}
+					requestClose={() => this.setState({
+						selectRepresentative: false
+					})}
 				/>
-				<RepresentativeForm
-					translate={translate}
-					state={representative}
-					checkEmail={this.emailKeyUp}
-					updateState={this.updateRepresentative}
-					errors={representativeErrors}
-					languages={languages}
-				/>
+				<div style={{marginRight: "1em"}}>
+					<Card style={{
+						padding: '1em',
+						marginBottom: "1em",
+						color: 'black',
+					}}>
+						<ParticipantForm
+							type={participant.personOrEntity}
+							participant={participant}
+							checkEmail={this.emailKeyUp}
+							participations={participations}
+							translate={translate}
+							languages={languages}
+							errors={errors}
+							updateState={this.updateState}
+						/>
+					</Card>
+					<Card style={{
+						padding: '1em',
+						marginBottom: "1em",
+						color: 'black',
+					}}>
+						<RepresentativeForm
+							translate={translate}
+							state={representative}
+							disabled={!!this.props.participant.representing}
+							setSelectRepresentative={value => this.setState({
+								selectRepresentative: value
+							})}
+							checkEmail={this.emailKeyUp}
+							updateState={this.updateRepresentative}
+							errors={representativeErrors}
+							languages={languages}
+						/>
+					</Card>
+				</div>
 			</div>
 		);
 	}

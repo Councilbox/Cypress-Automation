@@ -10,6 +10,8 @@ import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
 } from "../../../../../utils/validation";
+import { Card } from "material-ui";
+import SelectCensusParticipantRepresentative from "./SelectCensusParticipantRepresentative";
 
 class CensusParticipantEditor extends React.Component {
 	state = {
@@ -137,22 +139,57 @@ class CensusParticipantEditor extends React.Component {
 		const { languages } = this.props.data;
 		return (
 			<React.Fragment>
-				<ParticipantForm
-					type={participant.personOrEntity}
-					participant={participant}
-					participations={censusHasParticipations(this.props.census)}
-					translate={translate}
-					languages={languages}
-					errors={errors}
-					updateState={this.updateState}
-				/>
-				<RepresentativeForm
-					translate={this.props.translate}
-					state={this.state.representative}
-					updateState={this.updateRepresentative}
-					errors={this.state.representativeErrors}
-					languages={this.props.data.languages}
-				/>
+				<div>
+					<SelectCensusParticipantRepresentative
+						open={this.state.selectRepresentative}
+						census={this.props.census}
+						translate={translate}
+						updateRepresentative={representative => {
+							this.updateRepresentative({
+								...representative,
+								hasRepresentative: true
+							});
+						}}
+						requestClose={() => this.setState({
+							selectRepresentative: false
+						})}
+					/>
+					<div style={{marginRight: "1em"}}>
+						<Card style={{
+							padding: '1em',
+							marginBottom: "1em",
+							color: 'black',
+						}}>
+							<ParticipantForm
+								type={participant.personOrEntity}
+								participant={participant}
+								participations={censusHasParticipations(this.props.census)}
+								translate={translate}
+								languages={languages}
+								errors={errors}
+								updateState={this.updateState}
+							/>
+						</Card>
+						<Card style={{
+							padding: '1em',
+							marginBottom: "1em",
+							color: 'black',
+						}}>
+							<RepresentativeForm
+								translate={this.props.translate}
+								state={this.state.representative}
+								setSelectRepresentative={value => this.setState({
+									selectRepresentative: value
+								})}
+								updateState={this.updateRepresentative}
+								errors={this.state.representativeErrors}
+								languages={this.props.data.languages}
+							/>
+						</Card>
+					</div>
+				</div>
+
+
 			</React.Fragment>
 		);
 	}
@@ -191,6 +228,7 @@ const initialRepresentative = {
 	hasRepresentative: false,
 	language: "es",
 	type: 2,
+	initialState: 0,
 	name: "",
 	surname: "",
 	position: "",

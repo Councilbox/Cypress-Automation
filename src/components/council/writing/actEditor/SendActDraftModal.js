@@ -5,22 +5,21 @@ import {
 	LoadingSection,
 	ParticipantRow,
 	TextInput,
+	Scrollbar,
 	BasicButton,
 	ButtonIcon,
 	CollapsibleSection,
-	SuccessMessage
+	SuccessMessage,
+	Checkbox
 } from "../../../../displayComponents";
-import { Typography } from "material-ui";
+import { Typography, TableRowColumn, TableRow, Table, TableCell } from "material-ui";
 import { compose, graphql } from "react-apollo";
-import { councilParticipants } from "../../../../queries/councilParticipant";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
-import Scrollbar from "react-perfect-scrollbar";
-import { getPrimary } from '../../../../styles/colors';
+import { getPrimary, secondary, getSecondary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
-import { sendActDraft } from '../../../../queries';
-import { isMobile } from "react-device-detect";
-
+import { sendActDraft, councilParticipantsActSends } from '../../../../queries';
+import { isMobile } from "../../../../utils/screen";
 
 
 class SendActDraftModal extends React.Component {
@@ -57,7 +56,7 @@ class SendActDraftModal extends React.Component {
 		this.props.data.fetchMore({
 			variables: {
 				options: {
-					offset: this.props.data.councilParticipants.list
+					offset: this.props.data.councilParticipantsActSends.list
 						.length,
 					limit: DELEGATION_USERS_LOAD
 				}
@@ -68,11 +67,11 @@ class SendActDraftModal extends React.Component {
 				}
 				return {
 					...prev,
-					councilParticipants: {
-						...prev.councilParticipants,
+					councilParticipantsActSends: {
+						...prev.councilParticipantsActSends,
 						list: [
-							...prev.councilParticipants.list,
-							...fetchMoreResult.councilParticipants
+							...prev.councilParticipantsActSends.list,
+							...fetchMoreResult.councilParticipantsActSends
 								.list
 						]
 					}
@@ -149,7 +148,7 @@ class SendActDraftModal extends React.Component {
 
 	_section = () => {
 		return (
-			<div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+			<div style={{ width: '100%', display: 'flex', flexDirection: 'column', paddingBottom: "1.5em", border: "1px solid " + getSecondary(), borderRadius: "4px", padding: "1em", marginTop: "1em" }}>
 				<div style={{ width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row' }}>
 					<div style={{ width: '75%', marginRight: '0.8em' }}>
 						<TextInput
@@ -160,12 +159,14 @@ class SendActDraftModal extends React.Component {
 							errorText={this.state.errors.newEmail}
 						/>
 					</div>
-					<BasicButton
-						text={this.props.translate.add_email}
-						textStyle={{ textTransform: 'none', color: 'white', fontSize: '700' }}
-						color={getPrimary()}
-						onClick={() => this.addEmail()}
-					/>
+					<div style={{ display: "flex", alignItems: "center" }}>
+						<BasicButton
+							text={this.props.translate.add_email}
+							textStyle={{ textTransform: 'none', color: 'white', fontSize: '700', boxShadow: "none", borderRadius: "4px" }}
+							color={getPrimary()}
+							onClick={() => this.addEmail()}
+						/>
+					</div>
 				</div>
 				<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 					{this._renderEmails()}
@@ -216,13 +217,16 @@ class SendActDraftModal extends React.Component {
 				onClick={() => this.setState({ modal: true })}
 				buttonStyle={{
 					marginRight: "1em",
-					border: `2px solid ${primary}`
+					border: `1px solid ${primary}`,
+					borderRadius: "4px",
+					boxShadow: "none"
 				}}
 			/>
 		)
 	}
 
 	sendActDraft = async () => {
+		await this.props.updateAct();
 		const response = await this.props.sendActDraft({
 			variables: {
 				councilId: this.props.council.id,
@@ -246,10 +250,10 @@ class SendActDraftModal extends React.Component {
 			const index = this.state.emailList.findIndex(email => email === item);
 			return !!index;
 		});
-		let emails=[]
+		let emails = []
 		emails.push(...this.state.emailList)
 		for (let i = 0; i < filteredEmails.length; i++) {
-			if(emails.findIndex(email => email === filteredEmails[i])===-1){
+			if (emails.findIndex(email => email === filteredEmails[i]) === -1) {
 				emails.push(filteredEmails[i])
 			}
 		}
@@ -275,40 +279,100 @@ class SendActDraftModal extends React.Component {
 
 		const participants = loading
 			? []
-			: this.props.data.councilParticipants.list;
+			: this.props.data.councilParticipantsActSends.list;
 		const { total } = loading
 			? 0
-			: this.props.data.councilParticipants;
+			: this.props.data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
 		
 		if (this.state.step === 1) {
 			return (
-				<div style={{ width: isMobile ? "" : "600px" }}>
+				<div style={{}}>
+					{/* width: isMobile ? "" : "600px"  */}
 					<CollapsibleSection
 						trigger={this._button}
 						collapse={this._section}
 					/>
-					<TextInput
-						adornment={<Icon>search</Icon>}
-						floatingText={" "}
-						type="text"
-						value={this.state.filterText}
-						onChange={event => {
-							this.updateFilterText(event.target.value);
-						}}
-					/>
+					<div style={{ display: "flex", justifyContent: "flex-end" }}>
+						<div style={{ width: "200px" }}>
+							<TextInput
+								adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+								floatingText={" "}
+								type="text"
+								value={this.state.filterText}
+								onChange={event => {
+									this.updateFilterText(event.target.value);
+								}}
+								disableUnderline={true}
+								styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+								stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+								placeholder={translate.search}
+							/>
+						</div>
+					</div>
 					<div
 						style={{
 							height: "300px",
 							overflow: "hidden",
-							position: "relative"
+							position: "relative",
 						}}
 					>
+
+						<Table style={{ width: "600px", margin: "0 auto" }}>
+							<TableRow>
+								<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}></TableCell>
+								<TableCell style={{ width: "305px" }}>{translate.participant_data}</TableCell>
+								<TableCell>{translate.email}</TableCell>
+							</TableRow>
+						</Table>
+
 						{loading ? (
 							<LoadingSection />
 						) : (
-								<Scrollbar style={{ height: "100%", marginBottom: '0.5em' }} option={{ suppressScrollX: true }}>
-									{participants.length > 0 ? (
+								<div style={{ height: "calc( 100% - 4em )", marginBottom: '0.5em', width: "600px", margin: "0 auto" }}>
+									<Scrollbar option={{ suppressScrollX: true }}>
+										<Table style={{ marginBottom: "1em", width: "600px", margin: "0 auto" }}>
+											{participants.length > 0 ? (
+												participants.filter(p => !!p.email).map(participant => {
+													return (
+														<TableRow key={'participant_' + participant.id}>
+															<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
+																<Checkbox
+																	value={this.isChecked(participant.email)}
+																	onChange={(event, isInputChecked) =>
+																		this.checkRow(participant.email, isInputChecked)
+																	}
+																/>
+															</TableCell>
+															<TableCell style={{ width: "305px" }}>
+																<div style={{
+																	whiteSpace: 'nowrap',
+																	overflow: 'hidden',
+																	textOverflow: 'ellipsis',
+																	width: '200px',
+																}}>
+																	{`${participant.name} ${participant.surname || ''}`}
+																</div>
+															</TableCell>
+														<TableCell>
+															<div style={{
+																whiteSpace: 'nowrap',
+																overflow: 'hidden',
+																textOverflow: 'ellipsis',
+																width: '200px',
+															}}>
+																{participant.email}
+															</div>
+														</TableCell>
+														</TableRow>
+													);
+												})) : (
+													<Typography>{translate.no_results}</Typography>
+												)
+											}
+										</Table>
+
+									{/* {participants.length > 0 ? (
 										<div style={{ marginTop: '1em' }}>
 											{participants.map(participant => {
 												return (
@@ -325,22 +389,48 @@ class SendActDraftModal extends React.Component {
 													</div>
 												);
 											})}
-											{participants.length < total - 1 && (
-												<div onClick={this.loadMore}>
-													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD
-															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-															: translate.all_plural.toLowerCase()
-														}`}
-												</div>
-											)}
 										</div>
 									) : (
 											<Typography>{translate.no_results}</Typography>
-										)}
-								</Scrollbar>
+										)
+									} */}
+
+									</Scrollbar>
+								</div>
 							)}
 					</div>
+					{(participants.length > 0 && (
+						participants.length < total - 1 && (
+							<div
+								style={{
+									width: "100%",
+									display: "flex",
+									justifyContent: "flex-end"
+								}}
+							>
+								<BasicButton
+									text={
+										`DESCARGAR ${
+										rest > DELEGATION_USERS_LOAD
+											? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+											: translate.all_plural.toLowerCase()
+										}`
+									}
+									color={secondary}
+									onClick={this.loadMore}
+									textStyle={{ color: "white" }}
+								/>
+							</div>
+							// <div onClick={this.loadMore}>
+							// 	{`DESCARGAR ${
+							// 		rest > DELEGATION_USERS_LOAD
+							// 			? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+							// 			: translate.all_plural.toLowerCase()
+							// 		}`}
+							// </div>
+						)
+					))
+				}
 				</div>
 			);
 		}
@@ -437,7 +527,7 @@ class RowTabla extends React.Component {
 }
 
 export default compose(
-	graphql(councilParticipants, {
+	graphql(councilParticipantsActSends, {
 		options: props => ({
 			variables: {
 				councilId: props.council.id,

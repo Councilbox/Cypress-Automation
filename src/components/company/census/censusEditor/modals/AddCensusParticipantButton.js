@@ -15,7 +15,9 @@ import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
 } from "../../../../../utils/validation";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "../../../../../utils/screen";
+import { Card } from "material-ui";
+import SelectCensusParticipantRepresentative from "./SelectCensusParticipantRepresentative";
 
 
 class AddCensusParticipantButton extends React.Component {
@@ -94,7 +96,9 @@ class AddCensusParticipantButton extends React.Component {
 		const emailsToCheck = [];
 
 		if(this.props.company.type !== 10){
-			emailsToCheck.push(participant.email);
+			if(participant.personOrEntity === 0 && participant.email){
+				emailsToCheck.push(participant.email);
+			}
 		}
 
 		let errorsRepresentative = {
@@ -107,7 +111,9 @@ class AddCensusParticipantButton extends React.Component {
 				translate
 			);
 
-			emailsToCheck.push(representative.email);
+			if(!representative.id){
+				emailsToCheck.push(representative.email);
+			}
 		}
 
 		if(emailsToCheck.length > 0){
@@ -157,22 +163,56 @@ class AddCensusParticipantButton extends React.Component {
 		const { languages } = this.props.data;
 		return (
 			<div style={{maxWidth: '950px'}}>
-				<ParticipantForm
-					type={participant.personOrEntity}
-					participant={participant}
-					participations={censusHasParticipations(this.props.census)}
+				<SelectCensusParticipantRepresentative
+					open={this.state.selectRepresentative}
+					census={this.props.census}
 					translate={translate}
-					languages={languages}
-					errors={errors}
-					updateState={this.updateState}
+					updateRepresentative={representative => {
+						this.updateRepresentative({
+							...representative,
+							hasRepresentative: true
+						});
+					}}
+					requestClose={() => this.setState({
+						selectRepresentative: false
+					})}
 				/>
-				<RepresentativeForm
-					translate={this.props.translate}
-					state={this.state.representative}
-					updateState={this.updateRepresentative}
-					errors={this.state.representativeErrors}
-					languages={this.props.data.languages}
-				/>
+
+				<div style={{marginRight: "1em"}}>
+					<Card style={{
+						padding: '1em',
+						marginBottom: "1em",
+						color: 'black',
+					}}>
+						<ParticipantForm
+							type={participant.personOrEntity}
+							participant={participant}
+							participations={censusHasParticipations(this.props.census)}
+							translate={translate}
+							languages={languages}
+							errors={errors}
+							updateState={this.updateState}
+						/>
+					</Card>
+					<Card style={{
+						padding: '1em',
+						marginBottom: "1em",
+						color: 'black',
+					}}>
+						<RepresentativeForm
+							translate={this.props.translate}
+							state={this.state.representative}
+							updateState={this.updateRepresentative}
+							setSelectRepresentative={value => this.setState({
+								selectRepresentative: value
+							})}
+							errors={this.state.representativeErrors}
+							languages={this.props.data.languages}
+						/>
+					</Card>
+				</div>
+
+				
 			</div>
 		);
 	}
@@ -232,6 +272,7 @@ const initialParticipant = {
 	email: "",
 	phone: "",
 	dni: "",
+	initialState: 0,
 	type: 0,
 	delegateId: null,
 	numParticipations: 1,
@@ -249,6 +290,7 @@ const initialRepresentative = {
 	type: 2,
 	name: "",
 	surname: "",
+	initialState: 0,
 	position: "",
 	email: "",
 	phone: "",

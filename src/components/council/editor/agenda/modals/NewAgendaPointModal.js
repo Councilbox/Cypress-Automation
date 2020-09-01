@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import { graphql, withApollo } from "react-apollo";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -9,6 +9,7 @@ import {
 	SelectInput,
 	TextInput
 } from "../../../../../displayComponents/index";
+import gql from 'graphql-tag';
 import RichTextInput from "../../../../../displayComponents/RichTextInput";
 import { MenuItem } from "material-ui";
 import LoadDraft from "../../../../company/drafts/LoadDraft";
@@ -19,6 +20,8 @@ import { checkRequiredFieldsAgenda, checkValidMajority } from "../../../../../ut
 import { toast } from 'react-toastify';
 import { useOldState } from "../../../../../hooks";
 import { withRouter } from "react-router-dom";
+import PointAttachments from "./PointAttachments";
+import { addAgendaAttachment } from "../../../../../queries";
 
 const defaultValues = {
 	agendaSubject: "",
@@ -33,6 +36,7 @@ const defaultValues = {
 const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council, company, companyStatutes, ...props }) => {
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 	const secondary = getSecondary();
+	const [attachments, setAttachments] = React.useState([]);
 	const [state, setState] = useOldState({
 		newPoint: {
 			...defaultValues,
@@ -65,6 +69,49 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 					}
 				}
 			});
+
+			if(attachments.length > 0){
+				await Promise.all(attachments.map(attachment => {
+					if(attachment.filename){
+						let fileInfo = {
+							...attachment,
+							state: 0,
+							agendaId: response.data.addAgenda.id,
+							councilId: council.id
+						};
+
+						return props.client.mutate({
+							mutation: addAgendaAttachment,
+							variables: {
+								attachment: fileInfo
+							}
+						});
+					} else {
+						let fileInfo = {
+							filename: attachment.name,
+							filesize: attachment.filesize.toString(),
+							documentId: attachment.id,
+							filetype: attachment.filetype,
+							state: 0,
+							agendaId: response.data.addAgenda.id,
+							councilId: council.id
+						};
+
+						return props.client.mutate({
+							mutation: gql`
+								mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
+									attachCompanyDocumentToAgenda(attachment: $attachment){
+										id
+									}
+								}
+							`,
+							variables: {
+								attachment: fileInfo
+							}
+						})
+					}
+				}))
+			}
 
 			if (response) {
 				setState({ loadDraft: false });
@@ -106,17 +153,22 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 			company,
 			council
 		}, translate);
-
-		const { segments } = draft.tags.agenda;
 		let majorityType = 0, subjectType = 0;
 
-		if(segments[1]){
-			subjectType = votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
-		}
 
-		if(segments[2]){
-			majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
-		}
+		if(draft.tags.agenda){
+			const { segments } = draft.tags.agenda;
+			if(segments){
+				if(segments[1]){
+					subjectType = votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
+				}
+		
+				if(segments[2]){
+					majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
+				}
+			}
+
+		}		
 
 		updateState({
 			description: correctedText,
@@ -258,6 +310,14 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 					<div>
 						<span style={{ color: 'red' }}>{state.majorityError}</span>
 					</div>
+					<div style={{marginBottom: '1.6em'}}>
+						<PointAttachments
+							translate={translate}
+							setAttachments={setAttachments}
+							attachments={attachments}
+							company={company}
+						/>
+					</div>
 					<RichTextInput
 						ref={editor}
 						floatingText={translate.description}
@@ -337,4 +397,4 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 
 export default graphql(addAgenda, {
 	name: "addAgenda"
-})(withRouter(NewAgendaPointModal));
+})(withRouter(withApollo(NewAgendaPointModal)));

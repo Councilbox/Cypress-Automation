@@ -1,20 +1,23 @@
 import React from 'react';
 import { TextInput, BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { resendRoomEmails } from "../../../../queries/liveParticipant";
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
 import { updateParticipantSends } from '../../../../queries';
+import { hasAccessKey, copyStringToClipboard } from '../../../../utils/CBX';
 
-const ParticipantContactEditor = ({ translate, council, updateParticipantSends, sendAccessKey, participant, ...props }) => {
+
+const ParticipantContactEditor = ({ translate, council, client, updateParticipantSends, sendAccessKey, participant, ...props }) => {
     const [state, setState] = useOldState({
         email: participant.email,
         phone: participant.phone,
         sendsLoading: false,
         loading: false
     });
+    const [roomLink, setRoomLink] = React.useState('');
     const secondary = getSecondary();
 
 
@@ -35,6 +38,20 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
         });
     }
 
+    const getParticipantRoomLink = async () => {
+        const response = await client.query({
+            query: gql`
+                query ParticipantRoomLink($participantId: Int!){
+                    participantRoomLink(participantId: $participantId)
+                }
+            `,
+            variables: {
+                participantId: participant.id
+            }
+        });
+        setRoomLink(response.data.participantRoomLink);
+    }
+
     const resendRoomEmails = async () => {
         setState({
             sendsLoading: true
@@ -43,7 +60,7 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
         await props.resendRoomEmails({
 			variables: {
 				councilId: council.id,
-				timezone: moment().utcOffset(),
+				timezone: moment().utcOffset().toString(),
 				participantsIds: [participant.id]
 			}
         });
@@ -81,7 +98,7 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
             variables: {
                 councilId: council.id,
                 participantIds: [participant.id],
-                timezone: moment().utcOffset()
+                timezone: moment().utcOffset().toString()
             }
         });
 
@@ -99,6 +116,16 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
             });
             props.refetch();
         }
+    }
+
+    const copy = text => {
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        //copyStringToClipboard(value);
     }
 
     const updateEmail = event => {
@@ -139,6 +166,13 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
                 />
                 <BasicButton
                     color={secondary}
+                    text="Obtener link de acceso"
+                    textStyle={{ color: 'white', fontWeight: '700' }}
+                    loading={state.sendsLoading}
+                    onClick={getParticipantRoomLink}
+                />
+                <BasicButton
+                    color={secondary}
                     text="Guardar"
                     onClick={updateParticipantContactInfo}
                     loading={state.loading}
@@ -152,7 +186,14 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
                     textStyle={{ color: 'white', fontWeight: '700' }}
                 />
             </div>
-            {council.securityType !== 0 &&
+            {roomLink &&
+                <>
+                    <div style={{wordWrap: 'break-word', width: '100%'}}>
+                        {roomLink}
+                    </div>
+                </>
+            }
+            {hasAccessKey(council) &&
                 <BasicButton
                     color={secondary}
                     text="Enviar contraseña de entrada"
@@ -196,5 +237,6 @@ export default compose(
     }),
     graphql(sendParticipantRoomKey, {
         name: 'sendAccessKey'
-    })
+    }),
+    withApollo
 )(ParticipantContactEditor);

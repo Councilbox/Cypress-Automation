@@ -7,9 +7,12 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import DetectRTC from 'detectrtc';
 import { AlertConfirm } from '../../../displayComponents';
-import { isSafari, isMobile } from 'react-device-detect';
+import { isSafari, isAndroid, isIOS } from 'react-device-detect';
 import FontAwesome from "react-fontawesome";
 import { useOldState } from '../../../hooks';
+import { ConfigContext } from '../../../containers/AppControl';
+import { isMobile } from '../../../utils/screen';
+
 
 const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const [state, setState] = useOldState({
@@ -17,6 +20,8 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
         safariModal: false,
         confirmWordModal: false,
     });
+    const [canRequest, setCanRequest] = React.useState(false);
+    const config = React.useContext(ConfigContext);
 
     React.useEffect(() => {
         let interval;
@@ -28,42 +33,60 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
         return () => clearInterval(interval);
     }, [participant.requestWord]);
 
+    React.useEffect(() => {
+        checkCanRequest();
+    }, [DetectRTC]);
+
+    const checkCanRequest = async () => {
+        await updateRTC();
+
+        if(isIOS){
+            return setCanRequest(config.iOSWord);
+        }
+
+        if(isAndroid){
+            return setCanRequest(config.androidWord);
+        }
+
+        if(config.requestWordFirefox && DetectRTC.browser.name === 'Firefox'){
+            return setCanRequest(true);
+        }
+
+        if(config.requestWordSafari && DetectRTC.browser.name === 'Safari'){
+            return setCanRequest(true);
+        }
+
+        if(DetectRTC.browser.name !== 'Chrome' || (+DetectRTC.browser.version < 72)){
+            return setCanRequest(false);
+        }
+
+        setCanRequest(DetectRTC.audioInputDevices.length > 0);
+    }
+
     const secondary = getSecondary();
     const primary = getPrimary();
 
     const askForWord = async () => {
-        if (await checkWordRequisites()) {
-            setState({
-                loading: true
-            });
-            await props.changeRequestWord({
-                variables: {
-                    participantId: participant.id,
-                    requestWord: 1,
-                }
-            });
-            await props.refetchParticipant();
-            setState({
-                loading: false,
-                confirmWordModal: false
-            });
-        } else {
-            setState({
-                alertCantRequestWord: true,
-                confirmWordModal: false
-            });
-        }
+        setState({
+            loading: true
+        });
+        await props.changeRequestWord({
+            variables: {
+                participantId: participant.id,
+                requestWord: 1,
+            }
+        });
+        await props.refetchParticipant();
+        setState({
+            loading: false,
+            confirmWordModal: false
+        });
     }
 
     const updateRTC = () => {
         return new Promise((resolve) => {
             DetectRTC.load(() => resolve());
         })
-    }
-
-    const checkWordRequisites = async () => {
-        await updateRTC();
-        return DetectRTC.audioInputDevices.length > 0;
     }
 
     const cancelAskForWord = async () => {
@@ -122,23 +145,25 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const _renderSafariAlertBody = () => {
         return (
             <div>
-                {translate.safari_word_ask_info}
+                {DetectRTC.audioInputDevices.length > 0?
+                    translate.safari_word_ask_info
+                :
+                    translate.sorry_cant_ask_word
+                }
             </div>
         )
     }
 
     const _renderWordButtonIconMobil = () => {
-        const grantedWord = CBX.haveGrantedWord(participant);
-        if (grantedWord || CBX.isAskingForWord(participant)) {
-            return (
-                <div style={{
-                    width: props.isPc ? "50%" : "20%",
-                    textAlign: "center",
-                    paddingTop: '0.35rem',
-                    color: grantedWord ? 'grey' : secondary,
-                    borderLeft: props.isPc ? "1px solid dimgrey" : "",
-                    borderTop: props.isPc ? "1px solid dimgrey" : "",
-                }}>
+        const renderButton = () => {
+            if(participant.requestWord === 3 || participant.requestWord === 4){
+                return <span />
+            }
+           
+            const grantedWord = CBX.haveGrantedWord(participant);
+
+            if(grantedWord || CBX.isAskingForWord(participant)){
+                return (
                     <Button
                         className={"NoOutline"}
                         style={{
@@ -192,29 +217,65 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                                 fontSize: '0.55rem',
                                 textTransform: "none"
                             }}>
-                                Palabra {/*TRADUCCION*/}
+                                {translate.ask_word_short}
                             </div>
                         </div>
                     </Button>
-                </div>
-            )
-        }
+                )
+            }
 
-        return (
-            <div
-                style={{
-                    width: props.isPc ? "50%" : "20%",
-                    textAlign: "center",
-                    paddingTop: '0.35rem',
-                    color: isSafari ? 'grey' : secondary,
-                    borderTop: props.isPc ? "1px solid dimgrey" : "",
-                    borderLeft: props.isPc ? "1px solid dimgrey" : ""
-                }}
-            >
+            if(!canRequest && !props.videoURL.includes('cmp5')){
+                return (
+                    <Button
+                        className={"NoOutline"}
+                        style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
+                        onClick={showSafariAskingModal}
+                    >
+                        <div style={{ display: "unset" }}>
+                            <div style={{ position: "relative" }}>
+                                {state.loading &&
+                                    <FontAwesome
+                                        name={"circle-o-notch fa-spin"}
+                                        style={{
+                                            top: "-8px",
+                                            fontWeight: "bold",
+                                            right: "-10px",
+                                            position: "absolute",
+                                            fontSize: "1rem",
+                                            marginRight: '0.3em',
+                                            color: secondary
+                                        }}
+                                    />
+                                }
+                                <FontAwesome
+                                    name={"hand-paper-o"}
+                                    style={{
+                                        color:'grey',
+                                        fontSize: '24px',
+                                        width: '1em',
+                                        height: '1em',
+                                        overflow: 'hidden',
+                                        userSelect: 'none'
+                                    }}
+                                />
+                            </div>
+                            <div style={{
+                                fontSize: '0.55rem',
+                                textTransform: "none",
+                                color: 'grey',
+                            }}>
+                                {translate.ask_word_short}
+                            </div>
+                        </div>
+                    </Button>
+                )
+            }
+
+            return (
                 <Button
                     className={"NoOutline"}
                     style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
-                    onClick={isSafari ? showSafariAskingModal : showConfirmWord}
+                    onClick={(isSafari && !config.safariRequestWord) ? showSafariAskingModal : showConfirmWord}
                 >
                     <div style={{ display: "unset" }}>
                         <div style={{ position: "relative" }}>
@@ -235,7 +296,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                             <FontAwesome
                                 name={"hand-paper-o"}
                                 style={{
-                                    color: isSafari ? 'grey' : "#ffffffcc",
+                                    color: (isSafari && !config.safariRequestWord) ? 'grey' : "#ffffffcc",
                                     fontSize: '24px',
                                     width: '1em',
                                     height: '1em',
@@ -247,18 +308,31 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                         <div style={{
                             fontSize: '0.55rem',
                             textTransform: "none",
-                            color: isSafari ? 'grey' : "#ffffffcc",
+                            color: (isSafari && !config.safariRequestWord) ? 'grey' : "#ffffffcc",
                         }}>
-                            Palabra {/*TRADUCCION*/}
+                            {translate.ask_word_short}
                         </div>
                     </div>
                 </Button>
+            )
+        }
+
+        return (
+            <div style={{
+                width: props.isPc ? "50%" : "20%",
+                textAlign: "center",
+                paddingTop: '0.35rem',
+                color: grantedWord ? 'grey' : secondary,
+                borderLeft: props.isPc ? "1px solid dimgrey" : "",
+                borderTop: props.isPc ? "1px solid dimgrey" : "",
+            }}>
+                {renderButton()}
             </div>
         )
     }
 
     const grantedWord = CBX.haveGrantedWord(participant);
-    const fixedURLMode = props.videoURL && !props.videoURL.includes('councilbox');
+    const fixedURLMode = (props.videoURL && (!props.videoURL.includes('councilbox') && !props.videoURL.includes('rivulet')  && !props.videoURL.includes('cbx')));
 
     return (
         <React.Fragment>

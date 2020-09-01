@@ -129,7 +129,7 @@ const sidebarStyle = theme => ({
 		borderRadius: "3px",
 		position: "relative",
 		display: "block",
-		padding: "10px 10px",
+		padding: "10px 6px",
 		backgroundColor: "transparent",
 		...defaultFont
 	},

@@ -13,18 +13,18 @@ import { canBePresentWithRemoteVote } from "../../../../../utils/CBX";
 import { PARTICIPANT_STATES } from "../../../../../constants";
 import gql from "graphql-tag";
 import { useOldState } from "../../../../../hooks";
-import { isMobile } from "react-device-detect";
+import { isMobile } from "../../../../../utils/screen";
 
 const SignatureModal = ({ data, translate, council, participant, ...props }) => {
 	const [state, setState] = useOldState({
 		success: "",
-		loading: false,
 		errors: {},
 		liveParticipantSignature: {},
 		participant: {},
 		clean: true,
 		participantState: PARTICIPANT_STATES.PHYSICALLY_PRESENT
 	});
+	const [saving, setSaving] = React.useState(false);
 
 	const signature = React.useRef(null);
 	const primary = getPrimary();
@@ -33,16 +33,22 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 		props.requestClose();
 	};
 
-	React.useEffect(() => {
-		if (!data.loading && !signature.current) {
+	React.useLayoutEffect(() => {
+		if (signature.current && !data.loading) {
 			setSignature();
 		}
 	}, [data.loading]);
 
 
 	const save = async () => {
+		if(saving){
+			return;
+		}
+
+		setSaving(true);
 		let signatureData = signature.current.toDataURL();
 		let response;
+
 		if (state.clean) {
 			response = await props.removeLiveParticipantSignature({
 				variables: {
@@ -63,6 +69,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 		}
 
 		if (!response.errors) {
+			setSaving(false);
 			await data.refetch();
 			await props.refetch();
 			close();
@@ -132,6 +139,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							onClick={close}
 						/>
 						<BasicButton
+							loading={saving}
 							text={translate.save_changes}
 							textStyle={{
 								color: "white",

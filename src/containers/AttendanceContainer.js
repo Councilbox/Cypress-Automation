@@ -7,37 +7,60 @@ import InvalidUrl from "../components/participant/InvalidUrl";
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import Assistance from "../components/participant/assistance/Assistance";
+import { ConfigContext } from "./AppControl";
 
-class AttendanceContainer extends React.PureComponent {
+const AttendanceContainer = ({ data, translate, actions }) => {
+	const [companyId, setCompanyId] = React.useState(null)
+	const config = React.useContext(ConfigContext);
+	const [loadingConfig, setLoadingConfig] = React.useState(true);
 
-	componentDidUpdate(){
-		if(!this.props.data.loading){
-			if(this.props.translate.selectedLanguage !== this.props.data.participant.language){
-				this.props.actions.setLanguage(this.props.data.participant.language);
-			}
+	React.useEffect(() => {
+		if(!data.loading && translate.selectedLanguage !== data.participant.language){
+			actions.setLanguage(data.participant.language);
 		}
+	}, [data.loading, data.participant]);
+
+	React.useEffect(() => {
+		if(data.councilVideo){
+			setCompanyId(data.councilVideo.companyId);
+		}
+	}, [data.councilVideo])
+
+	const updateConfig = async companyId => {
+		await config.updateConfig(companyId);
+		setLoadingConfig(false);
 	}
 
-	render() {
-		const { data } = this.props;
 
-		if (data.error && data.error.graphQLErrors["0"]) {
-			return <InvalidUrl />;
+	React.useEffect(() => {
+		if(companyId){
+			updateConfig(companyId);
+			//store.dispatch(addSpecificTranslations(data.councilVideo.company.type));
 		}
+	}, [companyId]);
+	
 
-		if (!this.props.translate || data.loading) {
-			return <LoadingMainApp />;
-		}
-
-		return (
-			<Assistance
-				participant={data.participant}
-				council={data.councilVideo}
-				company={data.councilVideo.company}
-				refetch={data.refetch}
-			/>
-		);
+	if (data.error && data.error.graphQLErrors["0"]) {
+		return <InvalidUrl />;
 	}
+
+	if (!translate || data.loading || loadingConfig) {
+		return <LoadingMainApp />;
+	}
+
+	if(translate.selectedLanguage !== data.participant.language){
+		return <LoadingMainApp />;
+	}
+
+	return (
+		<Assistance
+			participant={data.participant}
+			council={data.councilVideo}
+			company={data.councilVideo.company}
+			refetch={data.refetch}
+		/>
+	);
+
 }
 
 const mapStateToProps = state => ({
@@ -70,6 +93,20 @@ const participantQuery = gql`
 			assistanceComment
 			state
 			type
+			represented {
+				name
+				id
+				surname
+				numParticipations
+				state
+				assistanceIntention
+				delegateId
+				representative {
+					id
+					name
+					surname
+				}
+			}
 			representative {
 				id
 				name
@@ -80,6 +117,7 @@ const participantQuery = gql`
 			delegatedVotes {
 				id
 				name
+				numParticipations
 				state
 				surname
 				dni
@@ -92,10 +130,15 @@ const participantQuery = gql`
 			companyId
 			company {
 				logo
+				type
 				businessName
 			}
 			conveneText
 			councilStarted
+			agendas {
+				id
+				agendaSubject
+			}
 			councilType
 			country
 			countryState
@@ -113,8 +156,19 @@ const participantQuery = gql`
 			statute {
 				id
 				councilId
+				requireProxy
 				existsDelegatedVote
 				existMaxNumDelegatedVotes
+				attendanceText
+				doubleColumnDocs
+				canEarlyVote
+				canSenseVoteDelegate
+				proxy
+				proxySecondary
+				voteLetter
+				voteLetterSecondary
+				voteLetterWithSense
+				voteLetterWithSenseSecondary
 				maxNumDelegatedVotes
 			}
 			street
@@ -127,7 +181,7 @@ const participantQuery = gql`
 export default graphql(participantQuery, {
 	options: props => ({
 		variables: {
-			councilId: props.match.params.councilId
+			councilId: +props.match.params.councilId
 		},
 		fetchPolicy: "network-only"
 	})

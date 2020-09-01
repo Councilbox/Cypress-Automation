@@ -67,7 +67,7 @@ class CouncilInfoMenu extends React.Component {
             <div>
                 <Card style={{ padding: "20px" }}>
                     <div>
-                        <b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
+                        <b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname || ''}`}
                     </div>
                     <div style={{ marginBottom: '1em' }}>
                         <b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
@@ -76,7 +76,7 @@ class CouncilInfoMenu extends React.Component {
                         {`${this.props.translate.you_have_following_delegated_votes}:`}
                         {participant.delegatedVotes.map(vote => (
                             <div key={`delegatedVote_${vote.id}`}>
-                                <b>{`${vote.name} ${vote.surname} - ${translate.votes} `}</b> : {`${vote.numParticipations}`}
+                                <b>{`${vote.name} ${vote.surname || ''} - ${translate.votes} `}</b> : {`${vote.numParticipations}`}
                             </div>
                         ))}
                         <br></br>

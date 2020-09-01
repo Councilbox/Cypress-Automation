@@ -4,134 +4,129 @@ import { LoadMoreButton, Scrollbar, LoadingSection, AlertConfirm } from "../../.
 import ParticipantItem from "./ParticipantItem";
 import SignatureModal from "./modals/SignatureModal";
 import LiveParticipantEditor from "./LiveParticipantEditor";
-import { isMobile } from 'react-device-detect';
+import { useOldState } from "../../../../hooks";
+import { PARTICIPANT_STATES } from "../../../../constants";
+import { getMainRepresentative } from "../../../../utils/CBX";
+import { isMobile } from "../../../../utils/screen";
 
-class ParticipantsList extends React.PureComponent {
-
-	state = {
+const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore, loading, loadingMore, participants }) => {
+	const [state, setState] = useOldState({
 		showSignatureModal: false,
 		participantToSign: null,
 		editParticipant: null
-	}
+	});
 
-	showSignatureModal = participant => () => {
-		this.setState({
+	const showSignatureModal = participant => () => {
+		setState({
 			showSignatureModal: true,
-			participantToSign: participant
-		})
+			participantToSign: getSignatureParticipant(participant)
+		});
 	}
 
+	const getSignatureParticipant = participant => {
+		if(participant.state === PARTICIPANT_STATES.REPRESENTATED){
+			return getMainRepresentative(participant);
+		}
+		return participant;
+	}
 
-	render() {
-		const {
-			mode,
-			translate,
-			layout,
-			council,
-			loadMore,
-			loading,
-			loadingMore,
-			participants
-		} = this.props;
+	return (
+		<React.Fragment>
+			{loading && false ?
+				<div
+					style={{
+						marginTop: "5em",
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center"
+					}}
+				>
+					<LoadingSection />
+				</div>
 
-		return (
-			<React.Fragment>
-				{loading && false ?
-					<div
-						style={{
-							marginTop: "5em",
-							width: "100%",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center"
-						}}
-					>
-						<LoadingSection />
-					</div>
-
-					:
-					participants.list.length > 0 ? (
-						<Scrollbar>
-							<Grid spacing={0} style={{paddingBottom: '6em', padding: '1em'}}>
-								{participants.list.map(
-									participant =>
-										<React.Fragment key={`participant_${participant.id}`}>
-											<ParticipantItem
-												layout={layout}
-												key={`participant_${participant.id}`}
-												participant={participant}
-												translate={translate}
-												mode={mode}
-												refetch={this.props.refetch}
-												showSignatureModal={this.showSignatureModal(participant)}
-												editParticipant={() => this.setState({
-													editParticipant: participant.id
-												})}
-												council={council}
-											/>
-										</React.Fragment>
-								)}
-								{participants.list.length <
-									participants.total && (
-										<LoadMoreButton
-											onClick={loadMore}
-											loading={loadingMore}
+				:
+				participants.list.length > 0 ? (
+					<Scrollbar>
+						<Grid spacing={0} style={{paddingBottom: '6em', padding: '1em'}}>
+							{participants.list.map(
+								participant =>
+									<React.Fragment key={`participant_${participant.id}`}>
+										<ParticipantItem
+											layout={layout}
+											key={`participant_${participant.id}`}
+											participant={participant}
+											translate={translate}
+											mode={mode}
+											refetch={refetch}
+											showSignatureModal={showSignatureModal(participant)}
+											editParticipant={() => setState({
+												editParticipant: participant.id
+											})}
+											council={council}
 										/>
-									)}
-							</Grid>
-							{this.state.showSignatureModal &&
-								<SignatureModal
-									show={this.state.showSignatureModal}
-									council={council}
-									participant={this.state.participantToSign}
-									refetch={this.props.refetch}
-									requestClose={() => {
-										this.setState({ showSignatureModal: false, participantToSign: null })}
-									}
-									translate={translate}
-								/>
-							}
-							{this.state.editParticipant &&
-								<AlertConfirm
-									open={!!this.state.editParticipant}
-									classNameDialog={isMobile? 'livePArticipants' : ""}
-									bodyStyle={
-										isMobile? { padding: '0.3em', maxWidth: "100%"} : { minWidth: "90vw",  overflowY: 'hidden' }
-									}
-									fullWidth={true}
-									// fullScreen={true}
-									requestClose={() => {
-										this.setState({
-											editParticipant: undefined
-										});
-										this.props.refetch();
-									}}
-									bodyText={
-										<div style={{height: '70vh'}}>
-											<LiveParticipantEditor
-												translate={translate}
-												council={council}
-												refetch={this.props.refetch}
-												id={this.state.editParticipant}
+									</React.Fragment>
+							)}
+							{participants.list.length <
+								participants.total && (
+									<LoadMoreButton
+										onClick={loadMore}
+										loading={loadingMore}
+									/>
+								)}
+						</Grid>
+						{state.showSignatureModal &&
+							<SignatureModal
+								show={state.showSignatureModal}
+								council={council}
+								participant={state.participantToSign}
+								refetch={refetch}
+								requestClose={() => {
+									setState({ showSignatureModal: false, participantToSign: null })}
+								}
+								translate={translate}
+							/>
+						}
+						{state.editParticipant &&
+							<AlertConfirm
+								open={!!state.editParticipant}
+								classNameDialog={isMobile? 'livePArticipants' : ""}
+								bodyStyle={
+									isMobile? { padding: '0.3em', maxWidth: "100%"} : { minWidth: "90vw",  overflowY: 'hidden' }
+								}
+								fullWidth={true}
+								// fullScreen={true}
+								requestClose={() => {
+									setState({
+										editParticipant: undefined
+									});
+									refetch();
+								}}
+								bodyText={
+									<div style={{height: '70vh'}}>
+										<LiveParticipantEditor
+											translate={translate}
+											council={council}
+											refetch={refetch}
+											id={state.editParticipant}
 
-											/>
-										</div>
-									}
-
-								/>
-							}
-						</Scrollbar>
+										/>
+									</div>
+								}
+							/>
+						}
+					</Scrollbar>
+				)
+					:
+					(
+						<div style={{ marginLeft: "2em" }}>
+							{translate.no_results}
+						</div>
 					)
-						:
-						(
-							<div style={{ marginLeft: "2em" }}>
-								{translate.no_results}
-							</div>
-						)
-				}
-			</React.Fragment>
-		);
-	}
+			}
+		</React.Fragment>
+	);
 }
+
 
 export default ParticipantsList;

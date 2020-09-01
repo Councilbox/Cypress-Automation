@@ -8,6 +8,7 @@ import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import PartnerForm from './PartnerForm';
 import { checkValidEmail } from "../../utils";
+import { INPUT_REGEX } from '../../constants';
 
 class Page extends React.PureComponent {
 
@@ -53,19 +54,18 @@ class Page extends React.PureComponent {
                 participant: this.state.data
             }
 
-            if (this.state.data.personOrEntity === 1 && this.state.representative ) {
+            if (this.state.data.personOrEntity === 1 && this.state.representative) {
                 const { __typename, ...cleanedRepresentative } = this.state.representative;
                 variables.representative = {
                     ...cleanedRepresentative,
                     companyId: this.state.data.companyId
                 }
             }
-            console.log(variables)
-            
+
             const { participant, representative } = variables;
             let trimmedData = {};
             let trimmedRepresentative = {};
-            
+
             if (participant) {
                 Object.keys(participant).forEach(key => {
                     trimmedData[key] = (participant[key] && participant[key].trim) ? participant[key].trim() : participant[key];
@@ -147,22 +147,98 @@ class Page extends React.PureComponent {
         if (data.personOrEntity === 0 && !data.surname) {
             hasError = true;
             errors.surname = translate.required_field;
+        }  
+
+        if (data.name) {
+            if (!(INPUT_REGEX.test(data.name)) || !data.name.trim()) {
+                hasError = true;
+                errors.name = translate.invalid_field;
+            }
         }
-        /*
-                if (!data.dni) {
-                    hasError = true;
-                    errors.dni = translate.required_field;
-                }
-        
-                 if (!data.phone) {
-                    hasError = true;
-                    errors.phone = translate.required_field;
-                }
-        
-                if (!data.email) {
-                    hasError = true;
-                    errors.email = translate.required_field;
-                } */
+ 
+        if (data.personOrEntity === 0 && data.surname) {
+            if (!(INPUT_REGEX.test(data.surname)) || !data.surname.trim()) {
+                hasError = true;
+                errors.surname = translate.invalid_field;
+            }
+        } 
+
+        if (data.dni) {
+            if (!(INPUT_REGEX.test(data.dni)) || !data.dni.trim()) {
+                hasError = true;
+                errors.dni = translate.invalid_field;
+            }
+        }
+
+        if (data.landlinePhone) {
+            if (!(INPUT_REGEX.test(data.landlinePhone)) || !data.landlinePhone.trim()) {
+                hasError = true;
+                errors.landlinePhone = translate.invalid_field;
+            }
+        }
+
+        if (data.phone) {
+            if (!(INPUT_REGEX.test(data.phone)) || !data.phone.trim()) {
+                hasError = true;
+                errors.phone = translate.invalid_field;
+            }
+        }
+
+        if (data.position) {
+            if (!(INPUT_REGEX.test(data.position)) || !data.position.trim()) {
+                hasError = true;
+                errors.position = translate.invalid_field;
+            }
+        }
+
+        if (data.nationality) {
+            if (!(INPUT_REGEX.test(data.nationality)) || !data.nationality.trim()) {
+                hasError = true;
+                errors.nationality = translate.invalid_field;
+            }
+        }
+
+        if (data.numParticipations) {
+            if (!(/^[0-9]+$/.test(data.numParticipations)) || !String(data.numParticipations).trim()) {
+                hasError = true;
+                errors.numParticipations = translate.invalid_field;
+            }
+        }
+
+        if (data.socialCapital) {
+            if (!(/^[0-9]+$/.test(data.socialCapital)) || !String(data.socialCapital).trim()) {
+                hasError = true;
+                errors.socialCapital = translate.invalid_field;
+            }
+        }
+
+        if (data.zipcode) {
+            if (!(/^[0-9]+$/.test(data.zipcode)) || !data.zipcode.trim()) {
+                hasError = true;
+                errors.zipcode = translate.invalid_field;
+            }
+        }
+
+        if (data.address) {
+            if (!(INPUT_REGEX.test(data.address)) || !data.address.trim()) {
+                hasError = true;
+                errors.address = translate.invalid_field;
+            }
+        }
+
+        if (data.city) {
+            if (!(INPUT_REGEX.test(data.city)) || !data.city.trim()) {
+                hasError = true;
+                errors.city = translate.invalid_field;
+            }
+        }
+
+        if (data.countryState) {
+            if (!(INPUT_REGEX.test(data.countryState)) || !data.countryState.trim()) {
+                hasError = true;
+                errors.countryState = translate.invalid_field;
+            }
+        }
 
         if (!data.email) {
             hasError = true;
@@ -173,14 +249,14 @@ class Page extends React.PureComponent {
                 errors.email = translate.valid_email_required;
             }
         }
-
+       
         this.setState({
             errors
         });
 
         return hasError;
     }
-
+ 
     updateState = object => {
         this.setState({
             data: {
@@ -299,6 +375,8 @@ const getBookParticipant = gql`
             nationality
             home
             language
+            socialCapital
+            numParticipations
             email
             id
             representative {
@@ -359,7 +437,7 @@ export default compose(
     graphql(getBookParticipant, {
         options: props => ({
             variables: {
-                participantId: props.match.params.id
+                participantId: +props.match.params.id
             },
             notifyOnNetworkStatusChange: true
         })

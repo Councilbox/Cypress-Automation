@@ -12,6 +12,7 @@ import CouncilInfoModal from "./CouncilInfoModal";
 import { councilHasVideo } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from "./SMSManagerModal";
+import { isMobile } from "../../../../utils/screen";
 
 class CouncilMenu extends React.Component {
 	state = {
@@ -53,7 +54,7 @@ class CouncilMenu extends React.Component {
 									style={{
 										boxSizing: "border-box",
 										padding: "0",
-										width: '5em',
+										width: isMobile ? "4em" : '5em',
 										height: '36px',
 										display: 'flex',
 										alignItems: 'center',
@@ -131,13 +132,13 @@ class CouncilMenu extends React.Component {
 													color: secondary
 												}}
 											></i>
-											{'Administrador de SMS' /*TRADUCCION*/}
+											{'SMS' /*TRADUCCION*/}
 										</MenuItem>
 
 									}
 									{!(council.state === 20 || council.state === 30) &&
 										<React.Fragment>
-											<MenuItem
+											{/* <MenuItem
 												onClick={() =>
 													this.setState({ sendCredentialsTest: true })
 												}
@@ -150,7 +151,7 @@ class CouncilMenu extends React.Component {
 													}}
 												/>
 												{translate.send_video_test}
-											</MenuItem>
+											</MenuItem> */}
 											<MenuItem
 												onClick={() =>
 													this.setState({ noCelebrate: true })
@@ -236,14 +237,14 @@ class CouncilMenu extends React.Component {
 					translate={translate}
 					requestClose={this.closeAnnouncementModal}
 				/>
-				<SendCredentialsTestModal
+				{/* <SendCredentialsTestModal
 					show={this.state.sendCredentialsTest}
 					council={this.props.council}
 					requestClose={() =>
 						this.setState({ sendCredentialsTest: false })
 					}
 					translate={translate}
-				/>
+				/> */}
 				<NoCelebrateModal
 					show={this.state.noCelebrate}
 					council={this.props.council}
@@ -263,6 +264,7 @@ class CouncilMenu extends React.Component {
 					council={this.props.council}
 					requestClose={() => this.setState({ councilInfo: false })}
 					translate={translate}
+					logo={this.props.logo}
 				/>
 			</React.Fragment>
 		);
