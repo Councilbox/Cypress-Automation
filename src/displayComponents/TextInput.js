@@ -42,7 +42,7 @@ const TextInput = ({
 	labelNone,
 	className,
 	stylesTextField,
-	autoComplete = "true"
+	autoComplete = "true",
 	styleFloatText,
 }) => (
 		<FormControl

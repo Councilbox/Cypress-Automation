@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import gql from 'graphql-tag';
 import { checkValidEmail } from './utils';
 import { checkUniqueCouncilEmails } from './queries/councilParticipant';
+import { moment } from './containers/App';
+
 
 export const useInterval = (callback, delay, deps = []) => {
     const savedCallback = useRef();
@@ -296,24 +298,19 @@ export const useCouncilAgendas = ({
 	}
 }
 
-export const useSendRoomKey = (client, participant) => {
+export const useSendRoomKey = client => {
 	const [loading, setLoading] = React.useState(false);
 
 	const sendKey = async () => {
 		setLoading(true);
 		const response = await client.mutate({
 			mutation: gql`
-                mutation SendParticipantRoomKey($participantId: Int!, $timezone: String!){
-                    sendParticipantRoomKey(participantId: $participantId, timezone: $timezone){
-                        success
-                        message
-                    }
-                }
+				mutation SendMyRoomKey{
+					sendMyRoomKey{
+						success
+					}
+				}
             `,
-			variables: {
-				participantId: participant.id,
-				timezone: moment().utcOffset()
-			}
 		});
 
 		setLoading(false);

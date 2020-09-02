@@ -19,7 +19,7 @@ const SteperAcceso = ({ council, responseSMS, error }) => {
                 </StepLabel>
             </Step>
             {responseSMS ?
-                <Step className={error ? 'stepperAcceso' : responseSMS.data.sendParticipantRoomKey.success ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
+                <Step className={error ? 'stepperAcceso' : responseSMS.data.sendMyRoomKey.success ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                     <StepLabel>
                         <span style={{ color: getPrimary() }}>  SMS enviado</span>
                     </StepLabel>
@@ -32,7 +32,7 @@ const SteperAcceso = ({ council, responseSMS, error }) => {
                 </Step>
             }
             {responseSMS ?
-                <Step className={error ? 'stepperAccesoFail' : responseSMS.data.sendParticipantRoomKey.success ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
+                <Step className={error ? 'stepperAccesoFail' : responseSMS.data.sendMyRoomKey.success ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                     <StepLabel>
                         <span style={{ color: getPrimary() }}>  SMS Entregado</span>
                     </StepLabel>

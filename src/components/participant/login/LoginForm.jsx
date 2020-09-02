@@ -23,9 +23,6 @@ import CouncilKeyButton from "./CouncilKeyButton";
 import SteperAcceso from "./SteperAcceso";
 import { isMobile } from "react-device-detect";
 
-
-
-
 const styles = {
     loginContainerMax: {
         width: "100%",
@@ -106,7 +103,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     const [errorAcces, setErrorAcces] = React.useState(false);
 
     const [data, setData] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
+    //const [loading, setLoading] = React.useState(true);
     const [filter, setFilter] = React.useState(null);
     const [modal, setModal] = React.useState(false);
     // const [filter, setFilter] = React.useState(showAll ? null : 'failed');
@@ -144,10 +141,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         let errors = {
             password: ""
         };
-
-        //CHECK REQUIRED
-        errors.email =
-            !(state.email.length > 0) ? translate.field_required : "";
 
         if (council.securityType === 0 || council.securityType == 3) {
             errors.password = "";
@@ -268,13 +261,19 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         setState({
             loading: true
         });
-        const response = await props.sendParticipantRoomKey({
-            variables: {
-                councilId: council.id,
-                participantIds: [participant.id],
-                timezone: moment().utcOffset().toString()
-            }
-        });
+        const response = await sendKey();
+        setResponseSMS(response);
+        
+        if (!response.data.sendMyRoomKey.success) {
+            // TRADUCCION
+            setError('Hay un error con la entrega de SMS a tu teléfono. Contacta con el admin para confirmar que tus datos son correctos antes de volver a enviarlo.');
+            setErrorAcces(true);
+            setCountdown(60);
+        } else {
+            setError('')
+            setCountdown(60);
+        }
+    }
 
     const onMouseEnter = () => {
         setState({
@@ -292,27 +291,35 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         setCountdown(60);
     }
 
-    const acortarNumeroTelf = (num) => {
-        let str = num.toString().replace(/\d(?=\d{4})/g, "");
-        return parseInt(str)
+    const acortarNumeroTelf = num => {
+        if(!num){
+            return '';
+        }
+
+        return num.toString().substr(num.length - 4);
     }
 
-    const sendParticipantRoomKey = async () => {
-        const response = await sendKey();
-        setResponseSMS(response)
-        if (!response.data.sendParticipantRoomKey.success) {
-            // TRADUCCION
-            setError('Hay un error con la entrega de SMS a tu teléfono. Contacta con el admin para confirmar que tus datos son correctos antes de volver a enviarlo.');
-            setErrorAcces(true)
-            setCountdown(60);
-        } else {
-            setError('')
-            setCountdown(60);
+    const renderStatusSMS = (reqCode) => {
+        switch (reqCode) {
+            case 22:
+                return (<div>El SMS ha sido enviado</div>)
+                break;
+
+            case 20:
+                return (<div>El SMS ha sido enviado</div>)
+                break;
+
+            case -2:
+                return (<div>El SMS no se ha podido enviar porque el número no es válido. Por favor contacte con el administrador</div>)
+                break;
+
+            default:
+                return (<div>El SMS ha fallado.</div>)
         }
 
     }
 
-    const { email, password, errors, showPassword } = state;
+    const { password, errors, showPassword } = state;
 
 
     return (
@@ -383,14 +390,11 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 type="email"
                                 fullWidth
                                 errorText={errors.email}
-                                value={email}
-                                onChange={event =>
-                                    handleChange("email", event)
-                                }
+                                value={participant.email}
                                 disabled={true}
                             />
 
-                            {hasAccessKey(council) && (
+                            {hasAccessKey(council) ? (
                                 <React.Fragment>
                                     <TextInput
                                         onKeyUp={handleKeyUp}
@@ -482,7 +486,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                     </div>
                                     {/* no recibi el sms, un state para abrir y modal */}
                                     <AlertConfirm
-                                        open={responseSMS != "" && state.modal && responseSMS.data.sendParticipantRoomKey.success}
+                                        open={responseSMS != "" && state.modal && responseSMS.data.sendMyRoomKey.success}
                                         requestClose={() => setState({ modal: false })}
                                         bodyText={
                                             <div style={{ margin: isMobile ? "4em 0em 2em" : "4em 4em 2em" }}>
@@ -491,18 +495,20 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                                     :
                                                     <React.Fragment>
                                                         <div style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>
-                                                            {/* Cambiar el numero de telefono por el que sea */}
-                                                            El SMS se ha enviado con éxito al número terminado en ...{acortarNumeroTelf(sends[0].recipient.phone)}
+                                                            El SMS se ha enviado con éxito al número terminado en ...{acortarNumeroTelf(participant.phone)}
                                                         </div>
                                                         <div style={{ marginTop: "3em", display: isMobile ? "" : "flex", justifyContent: "center" }}>
                                                             <BasicButton
                                                                 text={
                                                                     <div>
                                                                         <span>Volver a enviar SMS</span>
-                                                                        <span style={{ fontWeight: "300", marginLeft: "5px" }}>{`(${secondsLeft}seg)`}</span>
+                                                                        {secondsLeft > 0 &&
+                                                                            <span style={{ fontWeight: "300", marginLeft: "5px" }}>{`(${secondsLeft}seg)`}</span>
+                                                                        }
                                                                     </div>
                                                                 }
-                                                                color={primary}
+                                                                disabled={secondsLeft > 0}
+                                                                color={secondsLeft <= 0 ? primary : 'grey'}
                                                                 backgroundColor={{ borderRadius: '4px', minWidth: "200px" }}
                                                                 textStyle={{
                                                                     width: "auto",
@@ -547,8 +553,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
                                     } */}
                                 </React.Fragment>
-                            )}
-                            {council.securityType === 3?
+                            )
+                        :
+                            council.securityType === 3?
                                 <LoginWithCert
                                     translate={translate}
                                     participant={participant}
@@ -578,7 +585,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                         onClick={login}
                                     />
                                 </div>
-                            }
+                        } 
                         </form>
                     </Card>
                     {error &&
@@ -588,22 +595,24 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                             </div>
                         </div>
                     }
-                    <div style={{ marginTop: "1em", marginBottom: "3em", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <div style={{ width: "100%" }}>
-                            {/* width: "90%" */}
-                            <SteperAcceso
-                                council={council}
-                                responseSMS={responseSMS}
-                                error={error}
-                            />
+                    {council.securityType === 2 &&
+                        <div style={{ marginTop: "1em", marginBottom: "3em", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <div style={{ width: "100%" }}>
+                                {/* width: "90%" */}
+                                <SteperAcceso
+                                    council={council}
+                                    responseSMS={responseSMS}
+                                    error={error}
+                                />
+                            </div>
                         </div>
-                    </div>
+                    }
+
                 </div>
             </div>
         </div>
     );
 }
-
 
 
 const mapDispatchToProps = dispatch => {
@@ -622,8 +631,8 @@ const checkParticipantKey = gql`
     `;
 
 const sendParticipantRoomKey = gql`
-    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
-        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
+    mutation SendMyRoomKey{
+        sendMyRoomKey{
             success
         }
     }
@@ -642,17 +651,15 @@ const participantSend = gql`
                 recipient{
                     name
                     id
-                surname
-                phone
-                email
+                    surname
+                    phone
+                    email
+                }
             }
-        }
         total
     }
 }
 `;
-
-
 
 
 export default compose(
