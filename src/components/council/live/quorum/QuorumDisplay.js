@@ -284,7 +284,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                         {council.statute.canEarlyVote === 1 &&
                             <TableRow>
                                 <TableCell>
-                                    {council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.vote_letter : translate.quorum_early_votes}
+                                    {council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION? translate.vote_letter : translate.quorum_early_votes}
                                 </TableCell>
                                 <TableCell>
                                     {showNumParticipations(data.numEarlyVotes, company)}
