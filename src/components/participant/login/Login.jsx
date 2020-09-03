@@ -22,6 +22,7 @@ const styles = {
 	mainContainer: {
 		width: "100%",
 		display: "flex",
+		height: '100%',
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
@@ -106,7 +107,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 					<div style={{
 						...styles.mainContainer,
 						...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
-						} : { height: '100%' })
+						} : { height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' })
 					}}>
 						<Card style={{
 							...styles.cardContainer,

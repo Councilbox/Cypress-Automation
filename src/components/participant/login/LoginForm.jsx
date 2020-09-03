@@ -1,5 +1,5 @@
 import React from "react";
-import { Tooltip, Card, Stepper, Step, StepButton } from "material-ui";
+import { Tooltip, Card } from "material-ui";
 import * as mainActions from "../../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -9,16 +9,13 @@ import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
-import { checkValidEmail } from "../../../utils/validation";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection } from "../../../displayComponents";
-import { councilStarted, participantNeverConnected, getSMSStatusByCode, hasAccessKey } from '../../../utils/CBX';
+import { councilStarted, participantNeverConnected, hasAccessKey } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
 import { useOldState, useCountdown, useSendRoomKey } from "../../../hooks";
 import { withApollo } from 'react-apollo';
-import CertModal from "./CertModal";
 import LoginWithCert from "./LoginWithCert";
-import CouncilKeyModal from "./CouncilKeyModal";
 import CouncilKeyButton from "./CouncilKeyButton";
 import SteperAcceso from "./SteperAcceso";
 import { isMobile } from "react-device-detect";
@@ -98,13 +95,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     const [responseSMS, setResponseSMS] = React.useState('');
     const { secondsLeft, setCountdown } = useCountdown(0);
     const [loadingKey, sendKey] = useSendRoomKey(client, participant);
-    const [errorAcces, setErrorAcces] = React.useState(false);
-
-    const [data, setData] = React.useState(null);
-    //const [loading, setLoading] = React.useState(true);
-    const [filter, setFilter] = React.useState(null);
     const [modal, setModal] = React.useState(false);
-    // const [filter, setFilter] = React.useState(showAll ? null : 'failed');
 
     const primary = getPrimary();
     const secondary = getSecondary();
@@ -245,27 +236,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         }
     };
 
-    const _sendPassModalBody = () => {
-        return (
-            <div>
-                {council.securityType === 1 &&
-                    translate.receive_access_key_email
-                }
-                {council.securityType === 2 &&
-                    data ?
-                    <div>
-                        {renderStatusSMS(data.reqCode)}
-                    </div>
-                    :
-                    <LoadingSection></LoadingSection>
-                }
-                {!!state.phoneError &&
-                    <div style={{ color: 'red' }}>{state.phoneError}</div>
-                }
-            </div>
-        )
-    }
-
     const _tooltipContent = () => {
         const securityTypes = {
             1: translate.key_should_receive_email,
@@ -273,7 +243,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         }
 
         return securityTypes[council.securityType];
-
     }
 
     const sendParticipantRoomKey = async () => {
@@ -393,7 +362,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                             </p>
                         }
                         {/* //comprobar bien que esta sea la validacion */}
-                        {council.securityType !== 0 &&
+                        {council.securityType === 2 &&
                             <div style={{ color: '#61abb7', fontWeight: 'bold', margin: "1em" }}>
                                 Esta reunión es privada y el administrador ha protegido el acceso con doble verificación. Recibirás la clave en tu móvil
                             </div>
@@ -475,18 +444,16 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                             text={responseSMS === 'ERROR' ? `SMS Enviado. Reenviar en (${secondsLeft}sec)` : 
                                                 responseSMS === 'SUCCESS'? "Entrar en la sala" : 'Solicita la clave de acceso'}
                                             color={primary}
-                                            buttonStyle={
-                                                secondsLeft ? responseSMS === 'ERROR' ? { border: `solid 1px ${getPrimary()}`, color: "#7d2180", borderRadius: '4px', minWidth: "200px", backgroundColor: "rgba(124, 39, 130, 0.34)" } :
-                                                    { borderRadius: '4px', minWidth: "200px", } :
-                                                    { borderRadius: '4px', minWidth: "200px", }}
                                             textStyle={{
-                                                width: "auto",
                                                 color: "white",
                                                 fontWeight: "700",
                                                 marginTop: isMobile ? "1em" : ""
                                             }}
+                                            buttonStyle={{
+                                                minWidth: '200px'
+                                            }}
                                             textPosition="before"
-                                            fullWidth={true}
+                                            fullWidth={isMobile}
                                             onClick={responseSMS === 'ERROR' ?
                                                 () => {} :
                                                 responseSMS === 'SUCCESS'? 
@@ -606,7 +573,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                         </div>
                     }
                     {council.securityType === 2 &&
-                        <div style={{ marginTop: "1em", marginBottom: "3em", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <div style={{ marginTop: "1em", marginBottom: "1em", display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <div style={{ width: "100%" }}>
                                 {/* width: "90%" */}
                                 <SteperAcceso

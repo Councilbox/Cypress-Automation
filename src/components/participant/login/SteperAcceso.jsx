@@ -7,7 +7,7 @@ import { BasicButton } from "../../../displayComponents";
 
 const SteperAcceso = ({ resendKey, translate, responseSMS, error }) => {
     return (
-        <Stepper nonLinear alternativeLabel style={{ height: '8em' }} >
+        <Stepper nonLinear alternativeLabel style={{ height: '10em' }} >
             <Step className={'stepperAcceso'}>
                 <StepLabel >
                     <span style={{ color: getPrimary() }}>Acceso previo</span>
