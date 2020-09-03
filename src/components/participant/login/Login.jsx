@@ -21,7 +21,6 @@ const styles = {
 	},
 	mainContainer: {
 		width: "100%",
-		height: "calc(100% - 48px)",
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
@@ -35,10 +34,7 @@ const styles = {
 		minWidth: width,
 		maxWidth: "100%",
 		//height: '50vh',
-		minHeight: isMobile? '70vh' : '50vh',
-		...(isMobile? {
-			height: '60vh'
-		} : {})
+		//minHeight: isMobile? '70vh' : '50vh',
 	}
 };
 
@@ -107,51 +103,57 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 				languageSelector={false}
 			>
 				<Scrollbar>
-					<div style={styles.mainContainer}>
+					<div style={{
+						...styles.mainContainer,
+						...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
+						} : { height: '100%' })
+					}}>
 						<Card style={{
 							...styles.cardContainer,
 							background: finishedVoted && 'transparent',
 							boxShadow: finishedVoted && "none",
-							minHeight: finishedVoted && "100%",
-							...((councilIsLive(council) && !participant.hasVoted) ? {
+							...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
 								minWidth: window.innerWidth > 450 ? '550px' : '100%'
 							} : {
-									minWidth: width
-								})
+								minWidth: width,
+								height: '90%'
+							})
 						}} elevation={6}>
 							{finishedVoted ?
-								<div style={{ height: "100%" }}>
+								<>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										loginForm()
 									) : (
 											<CouncilState council={council} company={company} participant={participant} />
 										)}
-								</div>
+								</>
 								:
-								<div style={{ height: "100%" }}>
+								<>
 									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
 										loginForm()
 									) : (
-											<CouncilState council={council} company={company} participant={participant} />
-										)}
-								</div>
+										<CouncilState council={council} company={company} participant={participant} />
+									)}
+								</>
 							}
 						</Card>
-						<Card style={{
-							...((councilIsLive(council) && !participant.hasVoted) ? {
-								minWidth: window.innerWidth > 450 ? '550px' : '100%'
-							} : {
-									minWidth: width
-								})
-							
-						}}>
-							<RequestDataInfo
-								data={{}}
-								translate={props.translate}
-								message={message}
-								status={status}
-							/>
-						</Card>
+						{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) && 
+							<Card style={{
+								...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
+									width: window.innerWidth > 450 ? '550px' : '100%'
+								} : {
+										minWidth: width
+									})
+								
+							}}>
+								<RequestDataInfo
+									data={{}}
+									translate={props.translate}
+									message={message}
+									status={status}
+								/>
+							</Card>
+						}
 					</div>
 				</Scrollbar>
 

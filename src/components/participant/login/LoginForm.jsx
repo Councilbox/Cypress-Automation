@@ -82,7 +82,6 @@ const limitPerPage = 10;
 
 const LoginForm = ({ participant, translate, company, council, client, ...props }) => {
     const [loading, setLoading] = React.useState(true);
-    const [contador, setContador] = React.useState(60);
     const [state, setState] = useOldState({
         password: "",
         sendPassModal: council.securityType !== 0 ? true : false,
@@ -93,10 +92,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         },
         hover: false,
         helpPopover: true,
-        modal: true
+        modal: false
     });
     const [sends, setSends] = React.useState(null);
-    const [error, setError] = React.useState('');
     const [responseSMS, setResponseSMS] = React.useState('');
     const { secondsLeft, setCountdown } = useCountdown(0);
     const [loadingKey, sendKey] = useSendRoomKey(client, participant);
@@ -135,6 +133,27 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             getData();
         }
     }, [getData, council.id]);
+
+    React.useEffect(() => {
+        if(sends && sends.length > 0){
+            const lastSend = sends[sends.length - 1];
+            const end = moment(new Date());
+            const start = moment(lastSend.sendDate);
+            const duration = moment.duration(start.diff(end));
+            const seconds = duration.asSeconds();
+            if(seconds > -60){
+                setCountdown(Math.round(60 + seconds));
+            }
+
+            if(lastSend.reqCode === -2){
+                setResponseSMS('ERROR');
+            } else {
+                setResponseSMS('SUCCESS');
+            }
+        }
+    }, [sends]);
+
+    console.log(secondsLeft);
 
 
     const checkFieldsValidationState = () => {
@@ -262,15 +281,15 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             loading: true
         });
         const response = await sendKey();
-        setResponseSMS(response);
-        
+
         if (!response.data.sendMyRoomKey.success) {
-            // TRADUCCION
-            setError('Hay un error con la entrega de SMS a tu teléfono. Contacta con el admin para confirmar que tus datos son correctos antes de volver a enviarlo.');
-            setErrorAcces(true);
+            setResponseSMS('ERROR');
             setCountdown(60);
         } else {
-            setError('')
+            setResponseSMS('SUCCESS');
+            setState({
+                modal: true
+            });
             setCountdown(60);
         }
     }
@@ -440,37 +459,24 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                             })
                                         }
                                     />
-                                    {/* Esto es el modal de que si no te llego el email */}
-                                    {/* <span
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: state.hover ? secondary : "",
-                                            borderBottom: state.hover ? `1px solid ${secondary}` : ""
-                                        }}
-                                        onClick={showSendPassModal}
-                                        onMouseEnter={onMouseEnter}
-                                        onMouseLeave={onMouseLeave}
-                                    >
-                                        {translate.didnt_receive_access_key}
-                                    </span> */}
-                                    {/* boton de Recibir clave de acceso / tiene que rotar nombre y lo k hace */}
+
                                     <div style={{ margin: "0 auto", marginTop: "1em", display: isMobile ? "" : "flex", justifyContent: "space-between", width: "90%", }}>
                                         <CouncilKeyButton
                                             participant={participant}
                                             council={council}
                                             translate={translate}
-                                            setError={setError}
                                             open={state.sendPassModal}
+                                            fullWidth={isMobile}
                                             requestclose={closeSendPassModal}
                                             council={council}
-                                        // setResponseSMS={setResponseSMS}
                                         />
                                         <BasicButton
                                             // TRADUCCION
-                                            text={secondsLeft ? error ? `SMS Enviado. Reenviar en (${secondsLeft}sec)` : "Entrar en la sala" : 'Solicita la clave de acceso'}
+                                            text={responseSMS === 'ERROR' ? `SMS Enviado. Reenviar en (${secondsLeft}sec)` : 
+                                                responseSMS === 'SUCCESS'? "Entrar en la sala" : 'Solicita la clave de acceso'}
                                             color={primary}
-                                            backgroundColor={
-                                                secondsLeft ? error ? { border: `solid 1px ${getPrimary()}`, color: "#7d2180", borderRadius: '4px', minWidth: "200px", backgroundColor: "rgba(124, 39, 130, 0.34)" } :
+                                            buttonStyle={
+                                                secondsLeft ? responseSMS === 'ERROR' ? { border: `solid 1px ${getPrimary()}`, color: "#7d2180", borderRadius: '4px', minWidth: "200px", backgroundColor: "rgba(124, 39, 130, 0.34)" } :
                                                     { borderRadius: '4px', minWidth: "200px", } :
                                                     { borderRadius: '4px', minWidth: "200px", }}
                                             textStyle={{
@@ -481,12 +487,17 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                             }}
                                             textPosition="before"
                                             fullWidth={true}
-                                            onClick={secondsLeft ? error ? "" : login : sendParticipantRoomKey}
+                                            onClick={responseSMS === 'ERROR' ?
+                                                () => {} :
+                                                responseSMS === 'SUCCESS'? 
+                                                    login
+                                                : 
+                                                    sendParticipantRoomKey}
                                         />
                                     </div>
                                     {/* no recibi el sms, un state para abrir y modal */}
                                     <AlertConfirm
-                                        open={responseSMS != "" && state.modal && responseSMS.data.sendMyRoomKey.success}
+                                        open={responseSMS != "" && state.modal && responseSMS === 'SUCCESS'}
                                         requestClose={() => setState({ modal: false })}
                                         bodyText={
                                             <div style={{ margin: isMobile ? "4em 0em 2em" : "4em 4em 2em" }}>
@@ -525,7 +536,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                                                 participant={participant}
                                                                 council={council}
                                                                 translate={translate}
-                                                                setError={setError}
                                                                 open={state.sendPassModal}
                                                                 requestclose={closeSendPassModal}
                                                                 council={council}
@@ -588,10 +598,10 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                         } 
                         </form>
                     </Card>
-                    {error &&
+                    {responseSMS === 'ERROR' &&
                         <div style={{ fontWeight: "bold", color: "#f11a1a", marginTop: "2em", display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <div style={{ width: "90%", }}>
-                                {error}
+                                {'Hay un error con la entrega de SMS a tu teléfono. Contacta con el admin para confirmar que tus datos son correctos antes de volver a enviarlo.'}
                             </div>
                         </div>
                     }
@@ -601,8 +611,10 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 {/* width: "90%" */}
                                 <SteperAcceso
                                     council={council}
+                                    translate={translate}
                                     responseSMS={responseSMS}
-                                    error={error}
+                                    resendKey={sendParticipantRoomKey}
+                                    error={responseSMS === 'ERROR'}
                                 />
                             </div>
                         </div>
@@ -647,6 +659,7 @@ const participantSend = gql`
                 sendType
                 id
                 reqCode
+                sendDate
                 councilId
                 recipient{
                     name

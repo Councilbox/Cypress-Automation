@@ -1,13 +1,11 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm, LoadingSection, BasicButton } from '../../../displayComponents';
-import { moment } from '../../../containers/App';
-import gql from 'graphql-tag';
+import { BasicButton } from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { useSendRoomKey, useCountdown } from '../../../hooks';
 import ContactModal from './ContactModal';
 
-const CouncilKeyButton = ({ participant, setError, translate, setResponseSMS, council, styles, client }) => {
+const CouncilKeyButton = ({ participant, translate, council, styles, client }) => {
     const { secondsLeft, setCountdown } = useCountdown();
     const secondary = getSecondary();
     const primary = getPrimary();
@@ -15,19 +13,6 @@ const CouncilKeyButton = ({ participant, setError, translate, setResponseSMS, co
     const [loading, sendKey] = useSendRoomKey(client, participant);
     const [errorAcces, setErrorAcces] = React.useState(false);
     const [modal, setModal] = React.useState(false);
-
-    const sendParticipantRoomKey = async () => {
-        const response = await sendKey();
-        // setResponseSMS(response)
-        if (!response.data.sendParticipantRoomKey.success) {
-            // TRADUCCION
-            setError('Hay un error con la entrega de SMS a tu teléfono. Contacta con el admin para confirmar que tus datos son correctos antes de volver a enviarlo.');
-            setErrorAcces(true)
-        } else {
-            setCountdown(60);
-        }
-    }
-
 
 
     return (

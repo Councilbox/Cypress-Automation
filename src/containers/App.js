@@ -218,8 +218,6 @@ if(sessionStorage.getItem("participantLoginSuccess")){
 export const MainContext = React.createContext();
 
 const App = () => {
-
-
 	return (
 		<ApolloProvider client={client}>
 			<Provider store={store}>
