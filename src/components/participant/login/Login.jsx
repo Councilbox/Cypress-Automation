@@ -58,9 +58,6 @@ const reducer = (state, action) => {
     return actions[action.type]? actions[action.type]() : state;
 }
 
-
-
-
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
 	const [{ status, message }, updateState] = React.useReducer(reducer, { status: 'WAITING' });

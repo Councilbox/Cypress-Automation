@@ -13,11 +13,11 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection } from "../../../displayComponents";
 import { councilStarted, participantNeverConnected, hasAccessKey } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
-import { useOldState, useCountdown, useSendRoomKey } from "../../../hooks";
+import { useOldState, useCountdown, useSendRoomKey, useInterval } from "../../../hooks";
 import { withApollo } from 'react-apollo';
 import LoginWithCert from "./LoginWithCert";
 import CouncilKeyButton from "./CouncilKeyButton";
-import SteperAcceso from "./SteperAcceso";
+import SMSStepper from "./SMSAccess/SMSStepper";
 import { isMobile } from "react-device-detect";
 
 const styles = {
@@ -74,9 +74,6 @@ const styles = {
     }
 };
 
-/////////Quitar
-const limitPerPage = 10;
-
 const LoginForm = ({ participant, translate, company, council, client, ...props }) => {
     const [loading, setLoading] = React.useState(true);
     const [state, setState] = useOldState({
@@ -95,8 +92,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     const [responseSMS, setResponseSMS] = React.useState('');
     const { secondsLeft, setCountdown } = useCountdown(0);
     const [loadingKey, sendKey] = useSendRoomKey(client, participant);
-    const [modal, setModal] = React.useState(false);
-
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -120,10 +115,12 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }, [council.id]);
 
     React.useEffect(() => {
-        if (council.securityType !== 0) {
+        if (council.securityType === 2) {
             getData();
         }
     }, [getData, council.id]);
+
+    useInterval(getData, responseSMS === 20? 5000 : null);
 
     React.useEffect(() => {
         if(sends && sends.length > 0){
@@ -135,17 +132,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             if(seconds > -60){
                 setCountdown(Math.round(60 + seconds));
             }
-
-            if(lastSend.reqCode === -2){
-                setResponseSMS('ERROR');
-            } else {
-                setResponseSMS('SUCCESS');
-            }
+            setResponseSMS(lastSend.reqCode);
         }
     }, [sends]);
-
-    console.log(secondsLeft);
-
 
     const checkFieldsValidationState = () => {
         let errors = {
@@ -187,11 +176,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }
 
     const login = async () => {
-        if(council.securityType === 3){
-            return setModal(true);
-        }
-
-
         const isValidForm = checkFieldsValidationState();
         if (hasAccessKey(council)) {
             try {
@@ -252,10 +236,10 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         const response = await sendKey();
 
         if (!response.data.sendMyRoomKey.success) {
-            setResponseSMS('ERROR');
+            setResponseSMS(-2);
             setCountdown(60);
         } else {
-            setResponseSMS('SUCCESS');
+            setResponseSMS(20);
             setState({
                 modal: true
             });
@@ -263,23 +247,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         }
     }
 
-    const onMouseEnter = () => {
-        setState({
-            hover: true
-        })
-    }
-
-    const onMouseLeave = () => {
-        setState({
-            hover: false
-        })
-    }
-
-    const cuentaAtras = () => {
-        setCountdown(60);
-    }
-
-    const acortarNumeroTelf = num => {
+    const showHiddenPhone = num => {
         if(!num){
             return '';
         }
@@ -287,24 +255,147 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         return num.toString().substr(num.length - 4);
     }
 
-    const renderStatusSMS = (reqCode) => {
-        switch (reqCode) {
-            case 22:
-                return (<div>El SMS ha sido enviado</div>)
-                break;
+    const success = !!responseSMS && (responseSMS === 20 || responseSMS === 22);
+    const error = !!responseSMS && !success;
 
-            case 20:
-                return (<div>El SMS ha sido enviado</div>)
-                break;
-
-            case -2:
-                return (<div>El SMS no se ha podido enviar porque el número no es válido. Por favor contacte con el administrador</div>)
-                break;
-
-            default:
-                return (<div>El SMS ha fallado.</div>)
+    const renderAccessButton = () => {
+        if(council.securityType === 3){
+            return (
+                <LoginWithCert
+                    translate={translate}
+                    participant={participant}
+                    handleSuccess={handleSuccess}
+                    status={props.status}
+                    message={props.message}
+                    dispatch={props.updateState}
+                />
+            )
         }
 
+        if(council.securityType === 0){
+            return (
+                <div style={styles.enterButtonContainer}>
+                    <BasicButton
+                        text={translate.enter_room}
+                        color={primary}
+                        textStyle={{
+                            color: "white",
+                            fontWeight: "700"
+                        }}
+                        textPosition="before"
+                        fullWidth={true}
+                        icon={
+                            <ButtonIcon
+                                color="white"
+                                type="directions_walk"
+                            />
+                        }
+                        onClick={login}
+                    />
+                </div>
+            )
+        }
+
+        const disabled = secondsLeft > 0 && error;
+
+        return (
+            <>
+                <div style={{ margin: "0 auto", marginTop: "1em", display: isMobile ? "" : "flex", justifyContent: "space-between", width: "90%", }}>
+                    <CouncilKeyButton
+                        participant={participant}
+                        council={council}
+                        translate={translate}
+                        open={state.sendPassModal}
+                        fullWidth={isMobile}
+                        requestclose={closeSendPassModal}
+                        council={council}
+                    />
+                    <BasicButton
+                        // TRADUCCION
+                        text={disabled ? `SMS Enviado. Reenviar en (${secondsLeft}sec)` : 
+                            success? translate.enter_room : 'Solicita la clave de acceso'}
+                        color={primary}
+                        textStyle={{
+                            color: "white",
+                            fontWeight: "700",
+                            marginTop: isMobile ? "1em" : ""
+                        }}
+                        disabled={disabled}
+                        buttonStyle={{
+                            minWidth: '200px'
+                        }}
+                        textPosition="before"
+                        fullWidth={isMobile}
+                        onClick={
+                            success? 
+                                login
+                            : 
+                            sendParticipantRoomKey
+                        }
+                    />
+                </div>
+                {/* no recibi el sms, un state para abrir y modal */}
+                <AlertConfirm
+                    open={responseSMS != "" && state.modal && success}
+                    requestClose={() => setState({ modal: false })}
+                    bodyText={
+                        <div style={{ margin: isMobile ? "4em 0em 2em" : "4em 4em 2em" }}>
+                            {loading ?
+                                <LoadingSection />
+                                :
+                                <React.Fragment>
+                                    <div style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>
+                                        El SMS se ha enviado con éxito al número terminado en ...{showHiddenPhone(participant.phone)}
+                                    </div>
+                                    <div style={{ marginTop: "3em", display: isMobile ? "" : "flex", justifyContent: "center" }}>
+                                        <BasicButton
+                                            text={
+                                                <div>
+                                                    <span>Volver a enviar SMS</span>
+                                                    {secondsLeft > 0 &&
+                                                        <span style={{ fontWeight: "300", marginLeft: "5px" }}>{`(${secondsLeft}seg)`}</span>
+                                                    }
+                                                </div>
+                                            }
+                                            disabled={secondsLeft > 0}
+                                            color={secondsLeft <= 0 ? primary : 'grey'}
+                                            backgroundColor={{ borderRadius: '4px', minWidth: "200px" }}
+                                            textStyle={{
+                                                width: "auto",
+                                                color: "white",
+                                                fontWeight: "700",
+                                                marginRight: "1em",
+                                                marginBottom: isMobile? "1em" : "",
+                                            }}
+                                            textPosition="before"
+                                            fullWidth={true}
+                                            onClick={!secondsLeft && sendParticipantRoomKey}
+                                        />
+                                        <CouncilKeyButton
+                                            participant={participant}
+                                            council={council}
+                                            translate={translate}
+                                            open={state.sendPassModal}
+                                            requestclose={closeSendPassModal}
+                                            council={council}
+                                            styles={{
+                                                border: ``, 
+                                                color: "white",
+                                                fontWeight: "700",
+                                                borderRadius: '4px',
+                                                minWidth: "200px",
+                                                backgroundColor: getPrimary(),
+                                            }}
+                                        // setResponseSMS={setResponseSMS}
+                                        />
+                                    </div>
+                                </React.Fragment>
+                            }
+                        </div>
+                    }
+                />
+            </>
+        )
     }
 
     const { password, errors, showPassword } = state;
@@ -317,7 +408,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                 height: ""
             } : {}),
         }}>
-            {/* <div style={styles.loginContainerMax, ...()  height: "100%" }> */}
             <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: 'center', alignItems: 'center' }}>
                 <div style={{
                     width: "100%",
@@ -382,7 +472,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                 disabled={true}
                             />
 
-                            {hasAccessKey(council) ? (
+                            {hasAccessKey(council) && (
                                 <React.Fragment>
                                     <TextInput
                                         onKeyUp={handleKeyUp}
@@ -429,143 +519,13 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                         }
                                     />
 
-                                    <div style={{ margin: "0 auto", marginTop: "1em", display: isMobile ? "" : "flex", justifyContent: "space-between", width: "90%", }}>
-                                        <CouncilKeyButton
-                                            participant={participant}
-                                            council={council}
-                                            translate={translate}
-                                            open={state.sendPassModal}
-                                            fullWidth={isMobile}
-                                            requestclose={closeSendPassModal}
-                                            council={council}
-                                        />
-                                        <BasicButton
-                                            // TRADUCCION
-                                            text={responseSMS === 'ERROR' ? `SMS Enviado. Reenviar en (${secondsLeft}sec)` : 
-                                                responseSMS === 'SUCCESS'? "Entrar en la sala" : 'Solicita la clave de acceso'}
-                                            color={primary}
-                                            textStyle={{
-                                                color: "white",
-                                                fontWeight: "700",
-                                                marginTop: isMobile ? "1em" : ""
-                                            }}
-                                            buttonStyle={{
-                                                minWidth: '200px'
-                                            }}
-                                            textPosition="before"
-                                            fullWidth={isMobile}
-                                            onClick={responseSMS === 'ERROR' ?
-                                                () => {} :
-                                                responseSMS === 'SUCCESS'? 
-                                                    login
-                                                : 
-                                                    sendParticipantRoomKey}
-                                        />
-                                    </div>
-                                    {/* no recibi el sms, un state para abrir y modal */}
-                                    <AlertConfirm
-                                        open={responseSMS != "" && state.modal && responseSMS === 'SUCCESS'}
-                                        requestClose={() => setState({ modal: false })}
-                                        bodyText={
-                                            <div style={{ margin: isMobile ? "4em 0em 2em" : "4em 4em 2em" }}>
-                                                {loading ?
-                                                    <LoadingSection />
-                                                    :
-                                                    <React.Fragment>
-                                                        <div style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>
-                                                            El SMS se ha enviado con éxito al número terminado en ...{acortarNumeroTelf(participant.phone)}
-                                                        </div>
-                                                        <div style={{ marginTop: "3em", display: isMobile ? "" : "flex", justifyContent: "center" }}>
-                                                            <BasicButton
-                                                                text={
-                                                                    <div>
-                                                                        <span>Volver a enviar SMS</span>
-                                                                        {secondsLeft > 0 &&
-                                                                            <span style={{ fontWeight: "300", marginLeft: "5px" }}>{`(${secondsLeft}seg)`}</span>
-                                                                        }
-                                                                    </div>
-                                                                }
-                                                                disabled={secondsLeft > 0}
-                                                                color={secondsLeft <= 0 ? primary : 'grey'}
-                                                                backgroundColor={{ borderRadius: '4px', minWidth: "200px" }}
-                                                                textStyle={{
-                                                                    width: "auto",
-                                                                    color: "white",
-                                                                    fontWeight: "700",
-                                                                    marginRight: "1em",
-                                                                    marginBottom: isMobile? "1em" : "",
-                                                                }}
-                                                                textPosition="before"
-                                                                fullWidth={true}
-                                                                onClick={!secondsLeft && sendParticipantRoomKey}
-                                                            />
-                                                            <CouncilKeyButton
-                                                                participant={participant}
-                                                                council={council}
-                                                                translate={translate}
-                                                                open={state.sendPassModal}
-                                                                requestclose={closeSendPassModal}
-                                                                council={council}
-                                                                styles={{
-                                                                    border: ``, 
-                                                                    color: "white",
-                                                                    fontWeight: "700",
-                                                                    borderRadius: '4px',
-                                                                    minWidth: "200px",
-                                                                    backgroundColor: getPrimary(),
-                                                                }}
-                                                            // setResponseSMS={setResponseSMS}
-                                                            />
-                                                        </div>
-                                                    </React.Fragment>
-                                                }
-                                            </div>
-                                        }
-                                    // title={translate.edit}
-                                    />
-
-
-                                    {/* {error &&
-                                        <span style={{ color: 'red' }}>{error}</span>
-
-                                    } */}
+                                    
                                 </React.Fragment>
-                            )
-                        :
-                            council.securityType === 3?
-                                <LoginWithCert
-                                    translate={translate}
-                                    participant={participant}
-                                    handleSuccess={handleSuccess}
-                                    status={props.status}
-                                    message={props.message}
-                                    dispatch={props.updateState}
-                                />
-                            :
-
-                                <div style={styles.enterButtonContainer}>
-                                    <BasicButton
-                                        text={translate.enter_room}
-                                        color={primary}
-                                        textStyle={{
-                                            color: "white",
-                                            fontWeight: "700"
-                                        }}
-                                        textPosition="before"
-                                        fullWidth={true}
-                                        icon={
-                                            <ButtonIcon
-                                                color="white"
-                                                type="directions_walk"
-                                            />
-                                        }
-                                        onClick={login}
-                                    />
-                                </div>
-                        } 
+                            )} 
+                            {renderAccessButton()}
                         </form>
                     </Card>
-                    {responseSMS === 'ERROR' &&
+                    {error &&
                         <div style={{ fontWeight: "bold", color: "#f11a1a", marginTop: "2em", display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <div style={{ width: "90%", }}>
                                 {'Hay un error con la entrega de SMS a tu teléfono. Contacta con el admin para confirmar que tus datos son correctos antes de volver a enviarlo.'}
@@ -575,18 +535,16 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                     {council.securityType === 2 &&
                         <div style={{ marginTop: "1em", marginBottom: "1em", display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <div style={{ width: "100%" }}>
-                                {/* width: "90%" */}
-                                <SteperAcceso
+                                <SMSStepper
                                     council={council}
                                     translate={translate}
                                     responseSMS={responseSMS}
                                     resendKey={sendParticipantRoomKey}
-                                    error={responseSMS === 'ERROR'}
+                                    error={error}
                                 />
                             </div>
                         </div>
                     }
-
                 </div>
             </div>
         </div>

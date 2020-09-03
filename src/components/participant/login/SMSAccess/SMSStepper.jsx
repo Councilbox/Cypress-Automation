@@ -1,49 +1,48 @@
 import React from "react";
 import { Stepper, Step, StepLabel } from "material-ui";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { BasicButton } from "../../../displayComponents";
-
-
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 
 const SteperAcceso = ({ resendKey, translate, responseSMS, error }) => {
+    const primary = getPrimary();
+    const secondary = getSecondary();
     return (
         <Stepper nonLinear alternativeLabel style={{ height: '10em' }} >
             <Step className={'stepperAcceso'}>
                 <StepLabel >
-                    <span style={{ color: getPrimary() }}>Acceso previo</span>
+                    <span style={{ color: primary }}>Acceso previo</span>
                 </StepLabel>
             </Step>
             {responseSMS ?
-                <Step className={error ? 'stepperAcceso' : responseSMS === 'SUCCESS' ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
+                <Step className={error ? 'stepperAcceso' : responseSMS === 20 || responseSMS === 22 ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                     <StepLabel>
-                        <span style={{ color: getPrimary() }}>SMS enviado</span>
+                        <span style={{ color: primary }}>SMS enviado</span>
                     </StepLabel>
                 </Step>
                 :
                 <Step className={error ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                     <StepLabel>
-                        <span style={{ color: getPrimary() }}>SMS Enviado</span>
+                        <span style={{ color: primary }}>SMS Enviado</span>
                     </StepLabel>
                 </Step>
             }
             {responseSMS ?
-                <Step className={error ? 'stepperAccesoFail' : responseSMS === 'SUCCESS' ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
+                <Step className={error ? 'stepperAccesoFail' : responseSMS === 22 ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                     <StepLabel>
-                        <span style={{ color: getPrimary() }}>SMS Entregado</span>
+                        <span style={{ color: primary }}>SMS Entregado</span>
                         <br></br>
-                        <span style={{ color: getSecondary(), cursor: 'pointer' }} onClick={resendKey}>{translate.resend}</span>
+                        <span style={{ color: secondary, cursor: 'pointer' }} onClick={resendKey}>{translate.resend}</span>
                     </StepLabel>
                 </Step>
                 :
                 <Step className={error ? 'stepperAccesoFail' : 'stepperAccesoNoActived'}>
                     <StepLabel>
-                        <span style={{ color: getPrimary() }}>SMS Entregado</span>
+                        <span style={{ color: primary }}>SMS Entregado</span>
                     </StepLabel>
                 </Step>
             }
             <Step className={'stepperAccesoNoActived'}>
                 <StepLabel>
-                    <span style={{ color: getPrimary() }}>Clave validada</span>
+                    <span style={{ color: primary }}>Clave validada</span>
                 </StepLabel>
             </Step>
         </Stepper>
