@@ -9,26 +9,26 @@ const SteperAcceso = ({ resendKey, translate, responseSMS, error }) => {
         <Stepper nonLinear alternativeLabel style={{ height: '10em' }} >
             <Step className={'stepperAcceso'}>
                 <StepLabel >
-                    <span style={{ color: primary }}>Acceso previo</span>
+                    <span style={{ color: primary }}>{translate.room_access}</span>
                 </StepLabel>
             </Step>
             {responseSMS ?
                 <Step className={error ? 'stepperAcceso' : responseSMS === 20 || responseSMS === 22 ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                     <StepLabel>
-                        <span style={{ color: primary }}>SMS enviado</span>
+                        <span style={{ color: primary }}>{translate.sms_sent}</span>
                     </StepLabel>
                 </Step>
                 :
                 <Step className={error ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                     <StepLabel>
-                        <span style={{ color: primary }}>SMS Enviado</span>
+                        <span style={{ color: primary }}>{translate.sms_sent}</span>
                     </StepLabel>
                 </Step>
             }
             {responseSMS ?
                 <Step className={error ? 'stepperAccesoFail' : responseSMS === 22 ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                     <StepLabel>
-                        <span style={{ color: primary }}>SMS Entregado</span>
+                        <span style={{ color: primary }}>{translate.sms_delivered}</span>
                         <br></br>
                         <span style={{ color: secondary, cursor: 'pointer' }} onClick={resendKey}>{translate.resend}</span>
                     </StepLabel>
@@ -36,7 +36,7 @@ const SteperAcceso = ({ resendKey, translate, responseSMS, error }) => {
                 :
                 <Step className={error ? 'stepperAccesoFail' : 'stepperAccesoNoActived'}>
                     <StepLabel>
-                        <span style={{ color: primary }}>SMS Entregado</span>
+                        <span style={{ color: primary }}>{translate.sms_delivered}</span>
                     </StepLabel>
                 </Step>
             }

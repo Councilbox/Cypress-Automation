@@ -312,8 +312,8 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                     />
                     <BasicButton
                         // TRADUCCION
-                        text={disabled ? `SMS Enviado. Reenviar en (${secondsLeft}sec)` : 
-                            success? translate.enter_room : 'Solicita la clave de acceso'}
+                        text={disabled ? translate.sms_sent_seconds_left.replace('secondsLeft', secondsLeft) : 
+                            success? translate.enter_room : translate.request_access_code}
                         color={primary}
                         textStyle={{
                             color: "white",
@@ -351,7 +351,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                         <BasicButton
                                             text={
                                                 <div>
-                                                    <span>Volver a enviar SMS</span>
+                                                    <span>{translate.resend_sms}</span>
                                                     {secondsLeft > 0 &&
                                                         <span style={{ fontWeight: "300", marginLeft: "5px" }}>{`(${secondsLeft}seg)`}</span>
                                                     }
@@ -386,7 +386,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                                 minWidth: "200px",
                                                 backgroundColor: getPrimary(),
                                             }}
-                                        // setResponseSMS={setResponseSMS}
                                         />
                                     </div>
                                 </React.Fragment>
@@ -399,7 +398,6 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
     }
 
     const { password, errors, showPassword } = state;
-
 
     return (
         <div style={{
