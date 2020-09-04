@@ -79,14 +79,14 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
 
 
     const buildRecountText = recount => {
-        const showRecount = council.statute.hideVotingsRecountFinished === 0 || agenda.votingState === AGENDA_STATES.CLOSED;
+        const showRecount = (CBX.getAgendaTypeLabel(agenda) !== 'private_votation'
+            && council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED;
 
-        return (CBX.getAgendaTypeLabel(agenda) === 'private_votation' ?
-        "" : 
-        showRecount? 
-            ` (${translate.recount}: ${recount})`
-        :
-            ''
+        return (
+            showRecount? 
+                ` (${translate.recount}: ${recount})`
+            :
+                ''
         )
     }
 
