@@ -4,14 +4,14 @@ import { BasicButton } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import ContactModal from './ContactModal';
 
-const CouncilKeyButton = ({ participant, translate, council, styles, fullWidth }) => {
+const ContactAdminButton = ({ participant, translate, council, styles, fullWidth }) => {
     const primary = getPrimary();
     const [modal, setModal] = React.useState(false);
 
     return (
         <React.Fragment>
             <BasicButton
-                text={`Contacta con el admin`}
+                text={translate.mail_contact_admin}
                 onClick={() => setModal(true)}
                 fullWidth={fullWidth}
                 color={primary}
@@ -29,4 +29,4 @@ const CouncilKeyButton = ({ participant, translate, council, styles, fullWidth }
     )
 }
 
-export default withApollo(CouncilKeyButton);
+export default withApollo(ContactAdminButton);

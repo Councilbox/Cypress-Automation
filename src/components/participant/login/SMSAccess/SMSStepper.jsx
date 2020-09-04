@@ -12,37 +12,21 @@ const SteperAcceso = ({ resendKey, translate, responseSMS, error }) => {
                     <span style={{ color: primary }}>{translate.room_access}</span>
                 </StepLabel>
             </Step>
-            {responseSMS ?
-                <Step className={error ? 'stepperAcceso' : responseSMS === 20 || responseSMS === 22 ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
-                    <StepLabel>
-                        <span style={{ color: primary }}>{translate.sms_sent}</span>
-                    </StepLabel>
-                </Step>
-                :
-                <Step className={error ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
-                    <StepLabel>
-                        <span style={{ color: primary }}>{translate.sms_sent}</span>
-                    </StepLabel>
-                </Step>
-            }
-            {responseSMS ?
-                <Step className={error ? 'stepperAccesoFail' : responseSMS === 22 ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
-                    <StepLabel>
-                        <span style={{ color: primary }}>{translate.sms_delivered}</span>
-                        <br></br>
-                        <span style={{ color: secondary, cursor: 'pointer' }} onClick={resendKey}>{translate.resend}</span>
-                    </StepLabel>
-                </Step>
-                :
-                <Step className={error ? 'stepperAccesoFail' : 'stepperAccesoNoActived'}>
-                    <StepLabel>
-                        <span style={{ color: primary }}>{translate.sms_delivered}</span>
-                    </StepLabel>
-                </Step>
-            }
+            <Step className={error ? 'stepperAcceso' : (responseSMS === 20 || responseSMS === 22) ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
+                <StepLabel>
+                    <span style={{ color: primary }}>{translate.sms_sent}</span>
+                </StepLabel>
+            </Step>
+            <Step className={error ? 'stepperAccesoFail' : responseSMS === 22 ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
+                <StepLabel>
+                    <span style={{ color: primary }}>{translate.sms_delivered}</span>
+                    <br></br>
+                    <span style={{ color: secondary, cursor: 'pointer' }} onClick={resendKey}>{translate.resend}</span>
+                </StepLabel>
+            </Step>
             <Step className={'stepperAccesoNoActived'}>
                 <StepLabel>
-                    <span style={{ color: primary }}>Clave validada</span>
+                    <span style={{ color: primary }}>{translate.validate_key}</span>
                 </StepLabel>
             </Step>
         </Stepper>

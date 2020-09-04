@@ -28,27 +28,13 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		setModal(false);
 	}
 
-	const resend = async () => {
-		const response = await props.resendRoomEmails({
-			variables: {
-				councilId: council.id,
-				timezone: ''+moment().utcOffset().toString(),
-				participantsIds: [participant.id]
-			}
-		});
-		if (!response.errors) {
-			props.refetch();
-			close();
-		}
-	}
-
-	const resendOnlyAccessLink = async () => {
+	const resend = async onlyAccessLink => {
 		const response = await props.resendRoomEmails({
 			variables: {
 				councilId: council.id,
 				timezone: moment().utcOffset().toString(),
 				participantsIds: [participant.id],
-				onlyAccessLink: true
+				onlyAccessLink
 			}
 		});
 		if (!response.errors) {
@@ -57,19 +43,19 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		}
 	}
 
-	const sendKey = async () => {
+	const sendKey = async type => {
         const response = await sendAccessKey({
             variables: {
                 councilId: council.id,
-                participantIds: [participant.id],
+				participantIds: [participant.id],
+				type,
                 timezone: moment().utcOffset().toString()
             }
         });
 
         if(response.errors){
-            if(response.errors[0].message = 'Invalid phone number'){
+            if(response.errors[0].message === 'Invalid phone number'){
                 setPhoneError(true);
-                //translate.invalid_phone_number,
             }
         } else {
             props.refetch();
@@ -95,13 +81,16 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 					type="flat"
 					items={
 						<React.Fragment>
-							<MenuItem onClick={resendOnlyAccessLink}>
+							<MenuItem onClick={() => resend(true)}>
 								{translate.send_access_mail}
 							</MenuItem>
-							<MenuItem onClick={sendKey}>
-								{translate.send_access_key}
+							<MenuItem onClick={() => sendKey('SECURITY_EMAIL')}>
+								{translate.key_by_email}
 							</MenuItem>
-							<MenuItem onClick={resend}>
+							<MenuItem onClick={() => sendKey('SECURITY_SMS')}>
+								{translate.key_by_sms}
+							</MenuItem>
+							<MenuItem onClick={() => resend(false)}>
 								{translate.send_both}
 							</MenuItem>
 						</React.Fragment>
@@ -188,8 +177,8 @@ const ResendButton = ({ active, action, translate }) => {
 }
 
 const sendParticipantRoomKey = gql`
-    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
-        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
+    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!, $type: String){
+        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone, type: $type){
             success
         }
     }
