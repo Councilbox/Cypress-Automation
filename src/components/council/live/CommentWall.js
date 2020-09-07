@@ -13,164 +13,154 @@ import { Icon, LoadingSection, Scrollbar } from "../../../displayComponents";
 //import Scrollbar from "react-perfect-scrollbar";
 import { moment } from '../../../containers/App';
 
-class CommentWall extends React.Component {
-	state = {
-		commentsRead: 0,
-		subscribed: false
-	};
+const CommentWall = ({ open, data, council, translate, subscribeToWallComments, requestClose, updateState, unreadComments }) => {
+	const [commentsRead, setCommentsRead] = React.useState(0);
 
-	static getDerivedStateFromProps(nextProps) {
-		if (nextProps.open && !nextProps.data.loading) {
-			return {
-				commentsRead: nextProps.data.councilRoomMessages.length
-			};
+	React.useEffect(() => {
+		if(open && !data.loading){
+			setCommentsRead(data.councilRoomMessages.length);
 		}
+	}, [open]);
 
-		return null;
-	}
+	React.useEffect(() => {
+		if(!data.loading){
+			const newUnread = data.councilRoomMessages.length - commentsRead;
 
-	componentDidUpdate(prevProps, prevState) {
-		if (!this.props.data.loading && this.props.unreadComments !== this.props.data.councilRoomMessages.length - this.state.commentsRead) {
-			this.props.updateState({
-				unreadComments:
-					this.props.data.councilRoomMessages.length -
-					this.state.commentsRead
-			});
+			if(newUnread !== unreadComments){
+				updateState({
+					unreadComments: newUnread
+				});
+			}
 		}
+	}, [data])
 
-		if(prevProps.data.loading && !this.props.data.loading && !this.state.subscribed){
-			this.props.subscribeToWallComments({
-				councilId: this.props.council.id
-			});
-			this.setState({
-				subscribed: true
-			});
-		}
-	}
+	React.useEffect(() => {
+		subscribeToWallComments({
+			councilId: council.id
+		})
+	}, [council.id])
 
-	render() {
-		const { data, translate, open, requestClose } = this.props;
-		return (
-			<React.Fragment>
-				{open &&
-					<Drawer
+	return (
+		<>
+			{open &&
+				<Drawer
+					style={{
+						zIndex: -1,
+						width: "300px"
+					}}
+					anchor="right"
+					variant="persistent"
+					open={open}
+					onClose={() => requestClose(data.councilRoomMessages.length)}
+				>
+					<div
 						style={{
-							zIndex: -1,
-							width: "300px"
+							height: "100%",
+							width: "300px",
+							paddingTop: "3em",
+							overflow: "hidden"
 						}}
-						anchor="right"
-						variant="persistent"
-						open={open}
-						onClose={() => requestClose(data.councilRoomMessages.length)}
 					>
 						<div
 							style={{
-								height: "100%",
-								width: "300px",
-								paddingTop: "3em",
-								overflow: "hidden"
+								display: "flex",
+								cursor: "pointer",
+								alignItems: "center",
+								justifyContent: "space-between",
+								paddingLeft: "0.8em",
+								fontSize: "0.90rem",
+								width: "100%",
+								height: "3.5em",
+								fontWeight: '700',
+								backgroundColor: darkGrey,
+								textTransform: "uppercase",
+								color: "grey"
 							}}
+							onClick={requestClose}
 						>
+							{translate.wall}
+							<Icon
+								className="material-icons"
+								style={{
+									color: "grey",
+									marginRight: "1.1em"
+								}}
+							>
+								keyboard_arrow_right
+							</Icon>
+						</div>
+						{data.loading ? (
+							<LoadingSection />
+						) : (
 							<div
 								style={{
-									display: "flex",
-									cursor: "pointer",
-									alignItems: "center",
-									justifyContent: "space-between",
-									paddingLeft: "0.8em",
-									fontSize: "0.90rem",
 									width: "100%",
-									height: "3.5em",
-									fontWeight: '700',
-									backgroundColor: darkGrey,
-									textTransform: "uppercase",
-									color: "grey"
+									height: "100%",
+									overflow: "hidden",
+									paddingBottom: "3em",
+									position: "relative"
 								}}
-								onClick={requestClose}
 							>
-								{translate.wall}
-								<Icon
-									className="material-icons"
-									style={{
-										color: "grey",
-										marginRight: "1.1em"
-									}}
-								>
-									keyboard_arrow_right
-								</Icon>
-							</div>
-							{data.loading ? (
-								<LoadingSection />
-							) : (
-								<div
-									style={{
-										width: "100%",
-										height: "100%",
-										overflow: "hidden",
-										paddingBottom: "3em",
-										position: "relative"
-									}}
-								>
-									<Scrollbar>
-										{data.councilRoomMessages.map(comment => (
+								<Scrollbar>
+									{data.councilRoomMessages.map(comment => (
+										<div
+											key={`comment_${comment.id}`}
+											style={{
+												fontSize: "0.85rem",
+												padding: "1em 0.8em",
+												backgroundColor:
+													comment.participantId === -1
+														? lightGrey
+														: "transparent"
+											}}
+										>
 											<div
-												key={`comment_${comment.id}`}
 												style={{
-													fontSize: "0.85rem",
-													padding: "1em 0.8em",
-													backgroundColor:
-														comment.participantId === -1
-															? lightGrey
-															: "transparent"
+													display: "flex",
+													flexDirection: "row",
+													justifyContent: "space-between"
 												}}
 											>
-												<div
-													style={{
-														display: "flex",
-														flexDirection: "row",
-														justifyContent: "space-between"
-													}}
-												>
-													<div>
-														{comment.author ? (
-															<span
-																style={{
-																	fontWeight: "700",
-																	color: getPrimary()
-																}}
-															>{`${comment.author.name} ${comment.author.surname || ''} ${
-																comment.author.position? `- ${comment.author.position}` : ''}
-															`}</span>
-														) : (
-															<span
-																style={{
-																	fontWeight: "700",
-																	color: getSecondary()
-																}}
-															>
-																Room
-															</span>
-														)}
-													</div>
-													<div>
-														{moment(comment.date).format(
-															"HH:mm"
-														)}
-													</div>
+												<div>
+													{comment.author ? (
+														<span
+															style={{
+																fontWeight: "700",
+																color: getPrimary()
+															}}
+														>{`${comment.author.name} ${comment.author.surname || ''} ${
+															comment.author.position? `- ${comment.author.position}` : ''}
+														`}</span>
+													) : (
+														<span
+															style={{
+																fontWeight: "700",
+																color: getSecondary()
+															}}
+														>
+															Room
+														</span>
+													)}
 												</div>
-												{comment.text}
+												<div>
+													{moment(comment.date).format(
+														"HH:mm"
+													)}
+												</div>
 											</div>
-										))}
-									</Scrollbar>
-								</div>
-							)}
-						</div>
-					</Drawer>
-				}
-			</React.Fragment>
-		);
-	}
+											{comment.text}
+										</div>
+									))}
+								</Scrollbar>
+							</div>
+						)}
+					</div>
+				</Drawer>
+			}
+		</>
+	);
 }
+
 
 const roomMessagesSubscription = gql`
   subscription roomMessageAdded($councilId: Int!) {
@@ -195,30 +185,32 @@ export default graphql(wallComments, {
 		variables: {
 			councilId: props.council.id
 		},
-		pollInterval: 5000
+		pollInterval: 30000
 	}),
 	props: props => {
 		return {
-		  ...props,
-		  subscribeToWallComments: params => {
-			return props.data.subscribeToMore({
-			  document: roomMessagesSubscription,
-			  variables: {
-				councilId: params.councilId
-			  },
-			  updateQuery: (prev, { subscriptionData }) => {
-				if (!subscriptionData.data.roomMessageAdded) {
-				  return prev;
-				}
-				return ({
-					councilRoomMessages: [
-						...prev.councilRoomMessages,
-						...[subscriptionData.data.roomMessageAdded]
-					]
+			...props,
+			subscribeToWallComments: params => {
+				return props.data.subscribeToMore({
+					document: roomMessagesSubscription,
+					variables: {
+						councilId: params.councilId
+					},
+					updateQuery: (prev, { subscriptionData }) => {
+						console.log(subscriptionData);
+						
+						if (!subscriptionData.data.roomMessageAdded) {
+						return prev;
+						}
+						return ({
+							councilRoomMessages: [
+								...prev.councilRoomMessages,
+								...[subscriptionData.data.roomMessageAdded]
+							]
+						});
+					}
 				});
-			  }
-			});
-		  }
+		  	}
 		};
-	  }
+	}
 })(CommentWall);
