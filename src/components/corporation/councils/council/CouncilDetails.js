@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, BasicButton, AlertConfirm, Scrollbar, Link } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, AlertConfirm, Scrollbar } from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
@@ -20,7 +20,6 @@ import CouncilDetailsParticipants from './CouncilDetailsParticipants';
 import * as CBX from '../../../../utils/CBX';
 import { SearchCouncils } from '../CouncilsDashboard';
 import ParticipantsManager from '../../../council/live/participants/ParticipantsManager';
-import AddConvenedParticipantButton from '../../../council/prepare/modals/AddConvenedParticipantButton';
 
 
 const cancelAct = gql`
@@ -284,7 +283,7 @@ class CouncilDetails extends React.Component {
 			<div style={{ width: '100%', height: '100%', }}>
 				<Scrollbar>
 					<div style={{ padding: "1em" }}>
-						<CouncilItem council={council} hideFixedUrl={council.state > 30} enRoot={true} />
+						<CouncilItem council={council} hideFixedUrl={council.state > 30} enRoot={true} translate={translate} />
 						<div
 							style={{
 								width: '100%',
@@ -503,9 +502,12 @@ const FailPageSearchId = ({ id }) => {
 }
 
 const showGroupAttendees = attendees => {
+	console.log(attendees);
+
 	const list = {
 		remotos: 0,
 		presenciales: 0,
+		'Dejaron la sala': 0,
 		'presente con voto telématico': 0
 	};
 
@@ -513,11 +515,16 @@ const showGroupAttendees = attendees => {
 		if (attendee.state === 5) {
 			list.presenciales++;
 		}
-		if (attendee.state === 0) {
+		if (attendee.state === 0 && attendee.online !== 0) {
 			list.remotos++;
 		}
+
+		if(attendee.state === 11){
+			list['Dejaron la sala']++;
+		}
+
 		if (attendee.state === 7) {
-			list.presenteVotoRemoto++;
+			list['presente con voto telématico']++;
 		}
 	})
 
@@ -746,6 +753,7 @@ const CouncilDetailsRoot = gql`
 				id
 				name
 				surname
+				online
 				state
 				type
 			}

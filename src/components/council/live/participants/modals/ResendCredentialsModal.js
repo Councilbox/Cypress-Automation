@@ -1,7 +1,5 @@
 import React from "react";
-import {
-	resendRoomEmails
-} from "../../../../../queries/liveParticipant";
+import { resendRoomEmails } from "../../../../../queries/liveParticipant";
 import {
 	CustomDialog,
 	BasicButton,

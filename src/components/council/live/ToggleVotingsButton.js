@@ -84,7 +84,6 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 	}
 
 	const getVotingClosedSection = () => {
-
 		if (isAnonym(agenda.subjectType)) {
 			return <span />
 		}

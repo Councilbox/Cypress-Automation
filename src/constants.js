@@ -1,7 +1,13 @@
+import conSesionIcon from "./assets/img/con-sesion-icon.svg";
+import consejoSinSesion from "./assets/img/consejo-sin-sesion-icon.svg";
+import elecciones from "./assets/img/elecciones.svg";
+import sinSesionIcon from './assets/img/sin-sesion-icon.svg';
+
 export const MAX_FILE_SIZE = 15360;
 export const MAX_COUNCIL_FILE_SIZE = 15360;
 export const MAX_COUNCIL_ATTACHMENTS = 5;
 export const ALPHA_RELEASE_DATE = '10/26/2018';
+
 
 export const INPUT_REGEX = new RegExp("[ A-Za-z0-9äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
 
@@ -21,6 +27,15 @@ export const COUNCIL_TYPES = {
 	ELECTIONS: 3,
 	BOARD_WITHOUT_SESSION: 4
 }
+
+export const councilTypesInfo = [
+	{ name: 'with_session', logo: conSesionIcon, description: 'with_session_description' },
+	{ name: 'without_session', logo: sinSesionIcon, description: 'without_session_description' },
+	{ name: 'without_session', logo: sinSesionIcon, description: 'without_session_description' },
+	{ name: 'elections', logo: elecciones, description: 'elections_description' },
+	{ name: 'board_without_session', logo: consejoSinSesion, description: 'board_without_session_description' },
+]
+
 
 export const DRAFTS_LIMITS = [25, 50, 100, 250];
 export const CENSUS_LIMITS = [25, 50, 100, 250];

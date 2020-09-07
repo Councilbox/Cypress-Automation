@@ -5,14 +5,11 @@ import { moment } from '../../../../containers/App';
 import { StatuteDisplay } from "../../display/StatuteDisplay";
 import { Paper } from "material-ui";
 import { withApollo } from "react-apollo";
-import conSesionIcon from "../../../../assets/img/con-sesion-icon.svg";
-import consejoSinSesion from "../../../../assets/img/consejo-sin-sesion-icon.svg";
-import elecciones from "../../../../assets/img/elecciones.svg";
-import sinSesionIcon from '../../../../assets/img/sin-sesion-icon.svg';
 import { Collapse } from "material-ui";
 import gql from "graphql-tag";
 import { isMobile } from "../../../../utils/screen";
 import { Tooltip } from "material-ui";
+import { councilTypesInfo } from "../../../../constants";
 
 
 const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...props }) => {
@@ -125,10 +122,10 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 								<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
 									<div style={{ display: "flex", alignItems: "center" }}>
 										<div style={{ width: "25px", height: "100%", marginRight: "1em" }}>
-											<img src={councilTypes[council.councilType].logo} style={{ width: "100%" }} />
+											<img src={councilTypesInfo[council.councilType].logo} style={{ width: "100%" }} />
 										</div>
 										<div>
-											{translate[councilTypes[council.councilType].name]}
+											{translate[councilTypesInfo[council.councilType].name]}
 										</div>
 									</div>
 									<div>
@@ -144,7 +141,7 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 									</div>
 								</div>
 								<Collapse in={open} timeout="auto" unmountOnExit >
-									<div style={{ fontSize: "13px" }}>{translate[councilTypes[council.councilType].description]}</div>
+									<div style={{ fontSize: "13px" }}>{translate[councilTypesInfo[council.councilType].description]}</div>
 								</Collapse>
 							</div>
 						</GridItem>
@@ -277,12 +274,7 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 	);
 }
 
-const councilTypes = [
-	{ name: 'with_session', logo: conSesionIcon, description: 'with_session_description' },
-	{ name: 'without_session', logo: sinSesionIcon, description: 'without_session_description' },
-	{ name: 'board_without_session', logo: consejoSinSesion, description: 'board_without_session_description' },
-	{ name: 'elections', logo: elecciones, description: 'elections_description' }
-]
+
 
 
 export const agendaManager = gql`
