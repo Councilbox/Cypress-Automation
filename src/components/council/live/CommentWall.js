@@ -15,9 +15,11 @@ import { moment } from '../../../containers/App';
 
 const CommentWall = ({ open, data, council, translate, subscribeToWallComments, requestClose, updateState, unreadComments }) => {
 	const [commentsRead, setCommentsRead] = React.useState(0);
+	const scrollbar = React.useRef();
 
 	React.useEffect(() => {
 		if(open && !data.loading){
+			scrollbar.current.scrollToBottom();
 			setCommentsRead(data.councilRoomMessages.length);
 		}
 	}, [open]);
@@ -101,7 +103,7 @@ const CommentWall = ({ open, data, council, translate, subscribeToWallComments, 
 									position: "relative"
 								}}
 							>
-								<Scrollbar>
+								<Scrollbar ref={scrollbar}>
 									{data.councilRoomMessages.map(comment => (
 										<div
 											key={`comment_${comment.id}`}
