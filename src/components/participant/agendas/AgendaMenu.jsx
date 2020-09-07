@@ -134,6 +134,7 @@ class AgendaMenu extends React.Component {
                                                     agenda={agenda}
                                                     refetch={this.props.refetch}
                                                     ownVote={ownVote}
+                                                    cantVote={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
                                                     council={this.props.council}
                                                     translate={translate}
                                                 />
