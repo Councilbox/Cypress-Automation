@@ -492,76 +492,6 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 const AgendaCard = ({ agenda, translate, participant, refetch, council, client, ...props }) => {
     const ownVote = CBX.findOwnVote(agenda.votings, participant);
     const primary = getPrimary();
-    const [state, setState] = React.useState({
-        open: false,
-        voteFilter: "all",
-        stateFilter: "all",
-        filterText: "",
-        page: 1,
-    });
-    const [data, setData] = React.useState({});
-
-
-    // const getData = async () => {
-    //     ////ESTO ES AÑADIDO PROBAR BIEN
-    //     const responseAgendaVotings = await client.query({
-    //         query: agendaVotings,
-    //         variables: {
-    //             agendaId: agenda.id,
-    //             ...buildVariables()
-    //         }
-    //     });
-
-    //     setData(responseAgendaVotings.data);
-    // }
-
-    // usePolling(getData, 2000, []);
-    // // usePolling(getData, 2000, [state.voteFilter, state.stateFilter, state.filterText, state.page]);
-
-    // const buildVariables = () => {
-    //     let variables = {
-    //         filters: [],
-    //         authorFilters: null
-    //     };
-
-    //     variables.options = {
-    //         limit: 10,
-    //         offset: (state.page - 1) * 10
-    //     }
-
-    //     if (state.voteFilter !== "all") {
-    //         variables.filters = [
-    //             {
-    //                 field: "vote",
-    //                 text: state.voteFilter
-    //             }
-    //         ];
-    //     }
-
-    //     if (state.filterText) {
-    //         variables = {
-    //             ...variables,
-    //             authorFilters: {
-    //                 username: state.filterText
-    //             }
-    //         };
-    //     }
-
-    //     if (state.stateFilter !== "all") {
-    //         variables = {
-    //             ...variables,
-    //             filters: [
-    //                 ...variables.filters,
-    //                 {
-    //                     field: "presentVote",
-    //                     text: state.stateFilter
-    //                 }
-    //             ]
-    //         };
-    //     }
-
-    //     return variables;
-    // }
 
     const agendaStateIcon = agenda => {
         let title = '';
@@ -647,7 +577,6 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
                             participant={participant}
                             translate={translate}
                             refetch={refetch}
-                        // votings={data}
                         />
                     </CardContent>
                 </Collapse>

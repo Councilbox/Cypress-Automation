@@ -134,12 +134,13 @@ class AgendaMenu extends React.Component {
                                                     agenda={agenda}
                                                     refetch={this.props.refetch}
                                                     ownVote={ownVote}
+                                                    cantVote={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
                                                     council={this.props.council}
                                                     translate={translate}
                                                 />
                                                 :
                                                 <VotingSection
-                                                    disabledColor={(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))?  false : true}
+                                                    disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
                                                     agenda={agenda}
                                                     ownVote={checkVotings(agenda.votings)? ownVote : null}
                                                     open={this.state.open}

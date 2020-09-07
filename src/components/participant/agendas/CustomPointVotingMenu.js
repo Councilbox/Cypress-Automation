@@ -23,12 +23,12 @@ const asbtentionOption = {
     value: 'Abstention'
 }
 
-const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCustomPointVoting, ...props }) => {
+const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCustomPointVoting, cantVote, ...props }) => {
     const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
     const votingContext = React.useContext(VotingContext);
     const config = React.useContext(ConfigContext);
 
-    const disabled = agenda.votingState !== AGENDA_STATES.DISCUSSION;
+    const disabled = agenda.votingState !== AGENDA_STATES.DISCUSSION || cantVote;
 
     const addSelection = item => {
         let newSelections = [...selections, cleanObject(item)];;
