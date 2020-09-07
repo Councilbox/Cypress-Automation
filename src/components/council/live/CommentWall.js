@@ -10,7 +10,6 @@ import {
 import { wallComments } from "../../../queries";
 import gql from 'graphql-tag';
 import { Icon, LoadingSection, Scrollbar } from "../../../displayComponents";
-//import Scrollbar from "react-perfect-scrollbar";
 import { moment } from '../../../containers/App';
 
 const CommentWall = ({ open, data, council, translate, subscribeToWallComments, requestClose, updateState, unreadComments }) => {
@@ -20,6 +19,8 @@ const CommentWall = ({ open, data, council, translate, subscribeToWallComments, 
 	React.useEffect(() => {
 		if(open && !data.loading){
 			scrollbar.current.scrollToBottom();
+		}
+		if(!open && !data.loading){
 			setCommentsRead(data.councilRoomMessages.length);
 		}
 	}, [open]);
@@ -104,12 +105,13 @@ const CommentWall = ({ open, data, council, translate, subscribeToWallComments, 
 								}}
 							>
 								<Scrollbar ref={scrollbar}>
-									{data.councilRoomMessages.map(comment => (
+									{data.councilRoomMessages.map((comment, index) => (
 										<div
 											key={`comment_${comment.id}`}
 											style={{
 												fontSize: "0.85rem",
 												padding: "1em 0.8em",
+												fontWeight: (index + 1) > commentsRead? '700' : '400',
 												backgroundColor:
 													comment.participantId === -1
 														? lightGrey
