@@ -13,11 +13,12 @@ import { Icon, LoadingSection, Scrollbar } from "../../../displayComponents";
 import { moment } from '../../../containers/App';
 
 const CommentWall = ({ open, data, council, translate, subscribeToWallComments, requestClose, updateState, unreadComments }) => {
-	const [commentsRead, setCommentsRead] = React.useState(0);
+	const [commentsRead, setCommentsRead] = React.useState(sessionStorage.getItem(`readMessages_${council.id}`) || 0);
 	const scrollbar = React.useRef();
 
 	React.useEffect(() => {
 		if(open && !data.loading){
+			sessionStorage.setItem(`readMessages_${council.id}`, data.councilRoomMessages.length)
 			scrollbar.current.scrollToBottom();
 		}
 		if(!open && !data.loading){
@@ -27,7 +28,7 @@ const CommentWall = ({ open, data, council, translate, subscribeToWallComments, 
 
 	React.useEffect(() => {
 		if(!data.loading){
-			const newUnread = data.councilRoomMessages.length - commentsRead;
+			const newUnread = data.councilRoomMessages.length - sessionStorage.getItem(`readMessages_${council.id}`);
 
 			if(newUnread !== unreadComments){
 				updateState({
