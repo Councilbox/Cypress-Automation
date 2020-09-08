@@ -10,12 +10,12 @@ import RefuseRequestButton from './RefuseRequestButton';
 import DelegateVoteButton from './DelegateVoteButton';
 import { getVote } from '../../../participant/ResultsTimeline';
 
-export const getTypeText = text => {
+export const getTypeText = (text, translate) => {
     const texts = {
-        'access': 'Solicitud',
+        'access': translate.assistance,
         // 'access': 'Asistencia a la junta general',
-        'vote': 'Voto anticipado',
-        'represent': 'Representación de voto'
+        'vote': translate.early_voto,
+        'represent': translate.vote_delegation
     }
 
     return texts[text];
@@ -50,13 +50,19 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
         downloadFile(base64, file.filetype, file.filename)
     }
 
-    const modalBody = (representative) => {
+    const modalBody = () => {
         return (
             <>
                 <div>
                     <h5>{translate.data}:</h5>
                     <div>
-                        {translate.type_of_request}: {getTypeText(request.data.requestType)}
+                        {`${translate.name}: ${request.data.name} ${request.data.surname || ''}`}
+                    </div>
+                    <div>
+                        {`${translate.dni}: ${request.data.dni}`}
+                    </div>
+                    <div>
+                        {translate.type_of_request}: {getTypeText(request.data.requestType, translate)}
                     </div>
                     {request.data.requestType === 'vote' &&
                         <>
@@ -113,11 +119,13 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     refetch={refetch}
                     translate={translate}
                 />
-                <ApproveRequestButton
-                    request={request}
-                    refetch={refetch}
-                    translate={translate}
-                />
+                {request.state !== "1" &&
+                    < ApproveRequestButton
+                        request={request}
+                        refetch={refetch}
+                        translate={translate}
+                    />
+                }
                 {request.participantCreated && request.data.requestType === 'represent' &&
                     <DelegateVoteButton
                         request={request}

@@ -316,6 +316,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
             <CompanyDocumentsBrowser
                 company={company}
                 translate={translate}
+                requestClose={() => setCompanyDocumentsModal(false)}
                 open={companyDocumentsModal}
                 action={file => addCompanyDocumentCouncilAttachment({
                     ...file,

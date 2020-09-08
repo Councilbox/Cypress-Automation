@@ -187,6 +187,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 						<CompanyDocumentsBrowser
 							company={props.company}
 							translate={translate}
+							requestClose={() => setCompanyDocumentsModal(false)}
 							open={companyDocumentsModal}
 							action={file => addCompanyDocumentCouncilAttachment(file.id)}
 							trigger={
