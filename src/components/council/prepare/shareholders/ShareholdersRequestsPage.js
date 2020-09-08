@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, PaginationFooter, DropDownMenu, Scrollbar } from '../../../../displayComponents';
+import { LoadingSection, PaginationFooter, DropDownMenu, Scrollbar, TextInput, Icon } from '../../../../displayComponents';
 import { usePolling } from '../../../../hooks';
 import { Table, TableBody, TableRow, MenuItem } from 'material-ui';
 import { TableHead } from 'material-ui';
@@ -9,6 +9,7 @@ import { TableCell } from 'material-ui';
 import { moment } from '../../../../containers/App';
 import CheckShareholderRequest, { getTypeText } from './CheckShareholderRequest';
 import { PARTICIPANT_STATES } from '../../../../constants';
+import { isMobile } from '../../../../utils/screen';
 
 
 const ShareholdersRequestsPage = ({ council, translate, client }) => {
@@ -17,13 +18,14 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
     const [search, setSearch] = React.useState({ state: '0' });
     const [usersPage, setUsersPage] = React.useState(1);
     const [usersTotal, setUsersTotal] = React.useState(false);
+    const [searchText, setSearchText] = React.useState('');
 
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
             query: gql`
-                query ShareholdersRequest($councilId: Int!,$filters: [FilterInput],$options: OptionsInput){
-                    shareholdersRequests(councilId: $councilId, filters: $filters, options: $options){
+                query ShareholdersRequest($councilId: Int!,$filters: [FilterInput],$options: OptionsInput, $searchText: String){
+                    shareholdersRequests(councilId: $councilId, filters: $filters, options: $options, searchText: $searchText){
                         list { 
                             councilId
                             id
@@ -60,8 +62,10 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                 options: {
                     limit: 10,
                     offset: (usersPage - 1) * 10,
-                    orderDirection: 'ASC'
+                    orderDirection: 'ASC',
+
                 },
+                searchText
             }
         });
 
@@ -70,13 +74,14 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
             setUsersTotal(response.data.shareholdersRequests.total);
         }
         setLoading(false);
-    }, [council.id, usersPage, search])
+    }, [council.id, usersPage, search, searchText])
 
     usePolling(getData, 8000);
 
     React.useEffect(() => {
-        getData();
-    }, [getData, usersPage, search])
+        const timeout = setTimeout(getData, 300);
+        return () => clearTimeout(timeout);
+    }, [getData, usersPage, search, searchText])
 
     if (loading) {
         return <LoadingSection />
@@ -86,7 +91,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
         <div style={{ padding: '2em 1em 1em', height: "calc( 100% - 3em )" }}>
             <Scrollbar>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <div style={{ width: "200px", marginBottom: "2em" }}>
+                    <div style={{ display: "flex", width: "50px", marginBottom: "2em" }}>
                         <DropDownMenu
                             anchorOrigin={{
                                 vertical: 'bottom',
@@ -94,7 +99,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                             }}
                             color="transparent"
                             Component={() =>
-                                <div style={{ marginRight: "1em", marginTop: "0.5em", cursor: "pointer" }}>
+                                <div style={{ marginTop: "0.5em", cursor: "pointer" }}>
                                     <div>
                                         <i class="fa fa-filter" aria-hidden="true" style={{ color: '#c196c3', fontSize: "24px" }}></i>
                                     </div>
@@ -117,7 +122,24 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                 </div>
                             }
                         />
+                        
                     </div>
+                    <TextInput
+                        className={isMobile && !searchText ? "openInput" : ""}
+                        disableUnderline={true}
+                        styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && searchText && "4px 5px", paddingLeft: !isMobile && "5px" }}
+                        stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && searchText ? "8px" : "4px" }}
+                        adornment={<Icon onClick={() => setSearchText(!searchText)} >search</Icon>}
+                        floatingText={" "}
+                        type="text"
+                        value={searchText}
+                        placeholder={isMobile ? "" : translate.search}
+                        onChange={event => {
+                            setSearchText(event.target.value);
+                        }}
+                        styles={{ marginTop: "-16px", width: '200px' }}
+                        stylesTextField={{ marginBottom: "0px" }}
+                    />
                 </div>
                 <Table>
                     <TableHead>
