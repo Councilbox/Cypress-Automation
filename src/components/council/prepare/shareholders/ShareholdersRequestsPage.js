@@ -150,6 +150,9 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                             {translate.email}
                         </TableCell>
                         <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
+                            {translate.dni}
+                        </TableCell>
+                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
                             {translate.type}
                         </TableCell>
                         <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
@@ -175,6 +178,9 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {request.data.email}
+                                </TableCell>
+                                <TableCell style={{ color: "black", borderBottom: 'none' }}>
+                                    {request.data.dni}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {getTypeText(request.data.requestType, translate)}
