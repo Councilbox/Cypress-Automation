@@ -56,6 +56,12 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                 <div>
                     <h5>{translate.data}:</h5>
                     <div>
+                        {`${translate.name}: ${request.data.name} ${request.data.surname || ''}`}
+                    </div>
+                    <div>
+                        {`${translate.dni}: ${request.data.dni}`}
+                    </div>
+                    <div>
                         {translate.type_of_request}: {getTypeText(request.data.requestType, translate)}
                     </div>
                     {request.data.requestType === 'vote' &&
