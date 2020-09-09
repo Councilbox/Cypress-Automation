@@ -49,8 +49,8 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
         const base64 = file.base64.split(';base64,').pop();
         downloadFile(base64, file.filetype, file.filename)
     }
-
     const modalBody = () => {
+        
         return (
             <>
                 <div>
@@ -78,7 +78,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                         <>
                             En:
                             <div style={{ marginBotton: '2em' }}>
-                                {request.data.representative[0].value === 'el presidente' || request.data.representative[0].value.includes('Presidente') ?
+                                {request.data.representative[0].value === 'el presidente' ||   request.data.representative[0].value && request.data.representative[0].value.includes('Presidente') ?
                                     request.data.representative[0].value
                                     :
                                     request.data.representative[0].info.map((data, index) => (
