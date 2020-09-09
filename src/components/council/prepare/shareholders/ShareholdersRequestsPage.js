@@ -7,14 +7,7 @@ import { Table, TableBody, TableRow, MenuItem } from 'material-ui';
 import { TableHead } from 'material-ui';
 import { TableCell } from 'material-ui';
 import { moment } from '../../../../containers/App';
-import { isMobile } from 'react-device-detect';
-import { Icon } from 'material-ui';
-import ApproveRequestButton from './ApproveRequestButton';
-import ShareholderEditor from './ShareholderEditor';
-import RefuseRequestButton from './RefuseRequestButton';
-import { downloadFile } from '../../../../utils/CBX';
 import CheckShareholderRequest, { getTypeText } from './CheckShareholderRequest';
-import { PARTICIPANT_STATES } from '../../../../constants';
 import { isMobile } from '../../../../utils/screen';
 
 
