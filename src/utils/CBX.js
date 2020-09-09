@@ -374,6 +374,9 @@ export const filterAgendaVotingTypes = (votingTypes, statute = {}, council = {})
 };
 
 export const hasSecondCall = statute => {
+	if(!statute){
+		return false;
+	}
 	return statute.existsSecondCall === 1;
 };
 

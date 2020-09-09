@@ -84,7 +84,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		if (council.id) {
 			checkDates();
 		}
-	}, [council.dateStart, council.dateStart2NdCall]);
+	}, [council.dateStart, council.dateStart2NdCall, CBX.hasSecondCall(data.council ? data.council.statute : null)]);
 
 	const resetButtonStates = () => {
 		setState({
@@ -114,7 +114,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 				.replace('{{days}}', statute.advanceNoticeDays)
 		}
 
-		if (CBX.hasSecondCall(council.statute) && (!CBX.checkSecondDateAfterFirst(firstDate, secondDate) || !council.dateStart2NdCall)) {
+		if (CBX.hasSecondCall(statute)) {
 			const first = moment(new Date(firstDate).toISOString(), moment.ISO_8601);
 			const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
 			const difference = second.diff(first, "minutes");
@@ -396,7 +396,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		editor.current.setValue(replacedText);
 	}
 
-	const updateDate = (firstDate = council.dateStart, secondDate = council.dateStart2NdCall) => {
+	const updateDate = (firstDate = council.dateStart, secondDate = council.dateStart2NdCall || new Date().toISOString()) => {
 		updateState({
 			dateStart: firstDate,
 			dateStart2NdCall: secondDate,
