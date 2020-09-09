@@ -16,6 +16,9 @@ import { getSubjectAbrv } from '../../displayComponents/AgendaNumber';
 
 const ResultsTimeline = ({ data, translate, council, classes, client, disableScroll }) => {
     const [timeline, setTimeline] = React.useState([]);
+    const [loaded, setLoaded] = React.useState(false);
+    const scrollbar = React.useRef();
+
     const getData = React.useCallback(async () => {
         const getTimeline = async () => {
             const response = await client.query({
@@ -28,7 +31,18 @@ const ResultsTimeline = ({ data, translate, council, classes, client, disableScr
         }
 
         getTimeline();
+        setLoaded(true);
     }, [council.id, client]);
+
+    React.useEffect(() => {
+        let timeout;
+        if(scrollbar.current && loaded){
+            timeout = setTimeout(() => {
+                scrollbar.current.scrollToBottom();
+            }, 500);
+        }
+        return () => clearTimeout(timeout);
+    }, [loaded, scrollbar.current])
 
     usePolling(getData, 6000);
 
@@ -92,7 +106,7 @@ const ResultsTimeline = ({ data, translate, council, classes, client, disableScr
             {disableScroll?
                 body()
             :
-                <Scrollbar>
+                <Scrollbar ref={scrollbar}>
                     {body()}
                 </Scrollbar>
             }
