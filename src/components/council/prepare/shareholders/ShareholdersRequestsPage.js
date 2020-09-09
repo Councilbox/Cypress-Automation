@@ -1,12 +1,18 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, PaginationFooter, DropDownMenu, Scrollbar, TextInput, Icon } from '../../../../displayComponents';
+import { LoadingSection, PaginationFooter, DropDownMenu, Scrollbar, TextInput, Icon, Grid } from '../../../../displayComponents';
 import { usePolling } from '../../../../hooks';
 import { Table, TableBody, TableRow, MenuItem } from 'material-ui';
 import { TableHead } from 'material-ui';
 import { TableCell } from 'material-ui';
 import { moment } from '../../../../containers/App';
+import { isMobile } from 'react-device-detect';
+import { Icon } from 'material-ui';
+import ApproveRequestButton from './ApproveRequestButton';
+import ShareholderEditor from './ShareholderEditor';
+import RefuseRequestButton from './RefuseRequestButton';
+import { downloadFile } from '../../../../utils/CBX';
 import CheckShareholderRequest, { getTypeText } from './CheckShareholderRequest';
 import { PARTICIPANT_STATES } from '../../../../constants';
 import { isMobile } from '../../../../utils/screen';
@@ -33,15 +39,6 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                             data
                             participantCreated
                             date
-                            participant {
-                                name
-                                surname
-                                live {
-                                    name
-                                    surname
-                                    state
-                                }
-                            }
                             state
                         }
                         total
@@ -50,15 +47,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
             `,
             variables: {
                 councilId: council.id,
-                filters: search?
-                    Object.keys(search).map(key => {
-                        return {
-                            field: key,
-                            text: search[key]
-                        }
-                    })
-                :
-                    [],
+                filters: [{ field: 'state', text: search }],
                 options: {
                     limit: 10,
                     offset: (usersPage - 1) * 10,
@@ -109,15 +98,12 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                             type="flat"
                             items={
                                 <div style={{ color: "" }}>
-                                    <MenuItem onClick={() => setSearch({
-                                        state: '1'
-                                    })} checked={search && search.state === '1'}>
-                                        {'Archivadas' /*TRADUCCION*/}
+                                    {/* TRADUCCION */}
+                                    <MenuItem onClick={() => setSearch('1')} >
+                                        Aceptada
                                     </MenuItem>
-                                    <MenuItem onClick={() => setSearch({
-                                        state: '0'
-                                    })} checked={search && search.state === '0'}>
-                                        {translate.pending}
+                                    <MenuItem onClick={() => setSearch('0')}>
+                                        Pendiente
                                     </MenuItem>
                                 </div>
                             }
@@ -166,15 +152,10 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                         </TableCell>
                     </TableHead>
                     <TableBody>
-                        {data.map(request => {
-                            const delegationPending = (request.participantCreated &&
-                                request.data.requestType === 'represent' &&
-                                (!request.participant || !request.participant.live ||
-                                    (request.participant.live.state !== PARTICIPANT_STATES.DELEGATED))
-                                )
-                            return (<TableRow key={`request_${request.id}`} style={{ background: delegationPending && "gainsboro" }}>
+                        {data.map(request => (
+                            <TableRow key={`request_${request.id}`}>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.data.name}  {request.data.surname ? request.data.surname : ""}
+                                    {request.data.name}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {request.data.email}
@@ -192,11 +173,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                     {moment(request.date).format('LLL')}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.participantCreated === false ?
-                                        translate.pending :
-                                            delegationPending ?
-                                                translate.confirmed_pending_delegation :
-                                            translate.confirmed}
+                                    {request.state === '0' ? "Pendiente" : "Aceptada"}
                                 </TableCell>
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     <CheckShareholderRequest
@@ -205,11 +182,11 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                         translate={translate}
                                     />
                                 </TableCell>
-                            </TableRow>)
-                        })}
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
-                <div style={{ display: "flex", alignItems: "center", marginTop: "2em" }}>
+                <Grid style={{ margin: "1em", width: "97%" }} >
                     <PaginationFooter
                         page={usersPage}
                         translate={translate}
@@ -220,7 +197,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                         md={12}
                         xs={12}
                     />
-                </div>
+                </Grid>
             </Scrollbar>
         </div >
     )
