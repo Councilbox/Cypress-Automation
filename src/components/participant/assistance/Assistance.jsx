@@ -6,7 +6,7 @@ import AssistanceOption from "./AssistanceOption";
 import { compose, graphql } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
 import { PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
-import { BasicButton, ButtonIcon, NotLoggedLayout, SectionTitle, LiveToast, Scrollbar } from '../../../displayComponents';
+import { BasicButton, ButtonIcon, NotLoggedLayout, SectionTitle, LiveToast, Scrollbar, Checkbox } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import DelegateOwnVoteAttendantModal from "./DelegateOwnVoteAttendantModal";
 import RefuseDelegationConfirm from '../delegations/RefuseDelegationConfirm';
@@ -49,7 +49,7 @@ const styles = {
 		padding: '0'
 	},
 	cardContainer: {
-		margin: isMobile? '5px' : "20px",
+		margin: isMobile ? '5px' : "20px",
 		maxWidth: "100%",
 		height: 'calc(100% - 40px)'
 	},
@@ -79,15 +79,15 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	const [selecteAssistance, setSelecteAssistance] = React.useState(translate.council);
 	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
 	const [openModalVoteLetter, setOpenModalVoteLetter] = React.useState(false);
+	const [check, setCheck] = React.useState(false);
 	const config = React.useContext(ConfigContext);
 
 	function generateAttendanceData() {
-		
+
 		let defaultIntention;
 
-		switch(council.councilType){
-			case 0: 
-			case 1:
+		switch (council.councilType) {
+			case 0:
 				defaultIntention = PARTICIPANT_STATES.REMOTE;
 			case 4:
 				defaultIntention = PARTICIPANT_STATES.SENT_VOTE_LETTER;
@@ -101,7 +101,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				return {
 					assistanceIntention: represented.assistanceIntention || defaultIntention,
 					delegateId: represented.delegateId,
-					delegateInfoUser: represented.state === PARTICIPANT_STATES.DELEGATED? represented.representative : null
+					delegateInfoUser: represented.state === PARTICIPANT_STATES.DELEGATED ? represented.representative : null
 				}
 			}
 		}
@@ -148,10 +148,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 			variables: {
 				assistanceIntention: option,
 				representativeId: quitRepresentative ? null : state.participant.delegateId,
-				...(signature? {
+				...(signature ? {
 					signature
 				} : {}),
-				...(isValidEarlyVoteState(state.assistanceIntention)? {
+				...(isValidEarlyVoteState(state.assistanceIntention) ? {
 					earlyVotes: state.earlyVotes
 				} : {})
 			}
@@ -196,10 +196,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 						variables: {
 							assistanceIntention: state.assistanceIntention,
 							representativeId: state.delegateId,
-							...(signature? {
+							...(signature ? {
 								signature
 							} : {}),
-							...(isValidEarlyVoteState(state.assistanceIntention)? {
+							...(isValidEarlyVoteState(state.assistanceIntention) ? {
 								earlyVotes: state.earlyVotes
 							} : {})
 						}
@@ -209,7 +209,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				}
 			}
 
-			if(council.companyId === 708){
+			if (council.companyId === 708) {
 				setAttendanceConfirmation(true);
 			}
 
@@ -235,10 +235,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				<LiveToast
 					message={translate.revise_text}
 				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "errorToast"
-				}
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: "errorToast"
+			}
 			);
 		}
 	}
@@ -252,19 +252,19 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	}
 
 	const sendButtonAction = () => {
-		if(council.statute.requireProxy && state.assistanceIntention === PARTICIPANT_STATES.DELEGATED){
+		if (council.statute.requireProxy && state.assistanceIntention === PARTICIPANT_STATES.DELEGATED) {
 			return openModalFirmas();
 		}
 
-		if(state.assistanceIntention === PARTICIPANT_STATES.SENT_VOTE_LETTER){
+		if (state.assistanceIntention === PARTICIPANT_STATES.SENT_VOTE_LETTER) {
 			return setOpenModalVoteLetter(true);
 		}
-		
+
 		return sendAttendanceIntention();
 	}
 
 	const calculateVotesTabNumber = () => {
-		if(participant.state === PARTICIPANT_STATES.DELEGATED){
+		if (participant.state === PARTICIPANT_STATES.DELEGATED) {
 			return participant.delegatedVotes.length + participant.represented.length;
 		}
 
@@ -275,7 +275,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	const delegatedVotesNumber = calculateVotesTabNumber();
 
 	React.useEffect(() => {
-		if(selecteAssistance.includes(translate.representations_delegations)){
+		if (selecteAssistance.includes(translate.representations_delegations)) {
 			setSelecteAssistance(`${translate.representations_delegations} (${delegatedVotesNumber})`);
 		}
 	}, [delegatedVotesNumber]);
@@ -334,9 +334,9 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 					<br />
 				</div>
 
-				<div style={{ display: "flex", justifyContent: "space-between", flexDirection: isMobile? 'column' : 'row' }}>
+				<div style={{ display: "flex", justifyContent: "space-between", flexDirection: isMobile ? 'column' : 'row' }}>
 					<div style={{ width: "100%" }}>
-						{council.companyId === AECOC_ID?
+						{council.companyId === AECOC_ID ?
 							<>
 								<AssistanceOption
 									translate={translate}
@@ -362,7 +362,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 												? participant.assistanceComment
 												: ""
 										}
-										placeholder={council.companyId !== AECOC_ID? translate.attendance_comment : ''}
+										placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
 										stylesQuill={{ background: "#f0f3f6" }}
 										onChange={value =>
 											setState({
@@ -378,49 +378,49 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 									/>
 								}
 							</>
-						:
+							:
 							config.attendanceComment &&
-								<>
-									<div style={{ width: '100%', marginBottom: "1em" }}>
-										<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-											{translate.comments}
-										</div>
+							<>
+								<div style={{ width: '100%', marginBottom: "1em" }}>
+									<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+										{translate.comments}
 									</div>
-									<RichTextInput
-										errorText={state.commentError}
-										translate={translate}
-										value={
-											!!participant.assistanceComment
-												? participant.assistanceComment
-												: ""
-										}
-										placeholder={council.companyId !== AECOC_ID? translate.attendance_comment : ''}
-										stylesQuill={{ background: "#f0f3f6" }}
-										onChange={value =>
-											setState({
-												...state,
-												participant: {
-													...state.participant,
-													assistanceComment: value
-												},
-												locked: false
-											})
-										}
-										quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
-									/>
-								</>
+								</div>
+								<RichTextInput
+									errorText={state.commentError}
+									translate={translate}
+									value={
+										!!participant.assistanceComment
+											? participant.assistanceComment
+											: ""
+									}
+									placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
+									stylesQuill={{ background: "#f0f3f6" }}
+									onChange={value =>
+										setState({
+											...state,
+											participant: {
+												...state.participant,
+												assistanceComment: value
+											},
+											locked: false
+										})
+									}
+									quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
+								/>
+							</>
 						}
-						
+
 					</div>
-					<div style={{ marginLeft: isMobile? '0' : "5em", marginTop: isMobile? '1em' : '0', display: "flex", alignItems: "flex-end" }}>
+					<div style={{ marginLeft: isMobile ? '0' : "5em", marginTop: isMobile ? '1em' : '0', display: "flex", alignItems: "flex-end" }}>
 						<div>
 							{council.confirmAssistance !== 0 &&
 								<BasicButton
 									text={state.success || state.locked ? translate.tooltip_sent : translate.send}
-									color={state.locked ? 'grey' : primary}
+									color={state.locked || !check ? 'grey' : primary}
 									floatRight={!isMobile}
 									success={state.success}
-									disabled={state.locked}
+									disabled={state.locked || !check }
 									reset={resetButtonStates}
 									textStyle={{
 										color: "white",
@@ -551,7 +551,7 @@ al borrar una carta de voto se elimina el proxy vote
 				break;
 		}
 	}
-
+	
 	return (
 		<NotLoggedLayout
 			translate={translate}
@@ -565,15 +565,15 @@ al borrar una carta de voto se elimina el proxy vote
 					open={attendanceConfirmation}
 					requestClose={() => setAttendanceConfirmation(false)}
 				/>
-				<Card style={{ ...styles.cardContainer, width: isMobile? '100%' : "80%" }}>
-					{!councilStarted(council)?
+				<Card style={{ ...styles.cardContainer, width: isMobile ? '100%' : "80%" }}>
+					{!councilStarted(council) ?
 						<Scrollbar>
-							<div style={{ maxWidth: '98vw', margin: isMobile? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
+							<div style={{ maxWidth: '98vw', margin: isMobile ? '1em 1em 0em 1em' : "4em 4em 0em 4em" }}>
 								<div style={{ display: "flex", justifyContent: "space-between" }}>
 									<div style={{ fontSize: "25px", color: primary }}>
-										{council.companyId === AECOC_ID?
+										{council.companyId === AECOC_ID ?
 											'Sr./Sra.'
-										:
+											:
 											`${translate.hello},`
 										} {participant.name} {participant.surname || ''}
 									</div>
@@ -638,14 +638,28 @@ al borrar una carta de voto se elimina el proxy vote
 											{council.street}
 										</div>
 										{council.statute.attendanceText &&
-											<div dangerouslySetInnerHTML={{__html: council.statute.attendanceText }} style={{marginTop: '1em', fontSize: '15px'}} />
+											<div >
+												<div style={{ display: "flex", fontWeight: "bold", justifyContent: "space-between", fontSize: "15px", color: "#000000", marginTop: "1em" }}>
+													{translate.participation_conditions}
+												</div>
+												<div dangerouslySetInnerHTML={{ __html: council.statute.attendanceText }} style={{ marginTop: ".5em", fontSize: '15px' }} />
+												<div>
+													<Checkbox
+														value={check}
+														onChange={() =>
+															setCheck(check ? false : true)
+														}
+														label={translate.accept_participation_conditions}
+													/>
+												</div>
+											</div>
 										}
 										{getDatos(selecteAssistance)}
 									</div>
 								</Card>
 							</div>
 						</Scrollbar>
-					:
+						:
 						<CouncilState
 							council={council}
 							participant={participant}
