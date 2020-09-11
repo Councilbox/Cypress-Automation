@@ -262,7 +262,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                         })
                                     }
                                 ></i>
-                                {council.statute.canEarlyVote === 1 &&
+                                {council.statute.canSenseVoteDelegate === 1 &&
                                     <FixDelegationVoteButton
                                         translate={translate}
                                         state={state}

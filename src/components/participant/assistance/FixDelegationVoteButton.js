@@ -11,7 +11,7 @@ const FixDelegationVoteButton = ({ translate, setState, state, council, particip
     return (
         <>
             <BasicButton
-                text="Fijar sentido voto"
+                text={translate.indicate_vote_sense}
                 onClick={() => setModal(true)}
                 color='white'
                 textStyle={{
