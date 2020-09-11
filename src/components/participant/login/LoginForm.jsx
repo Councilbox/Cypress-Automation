@@ -268,7 +268,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
             )
         }
 
-        if(council.securityType === 0){
+        if(council.securityType === 0 || council.securityType === 1){
             return (
                 <div style={styles.enterButtonContainer}>
                     <BasicButton
