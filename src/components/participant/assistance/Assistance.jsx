@@ -87,6 +87,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 		switch(council.councilType){
 			case 0: 
+			case 1:
 				defaultIntention = PARTICIPANT_STATES.REMOTE;
 			case 4:
 				defaultIntention = PARTICIPANT_STATES.SENT_VOTE_LETTER;
@@ -106,7 +107,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		}
 
 		return {
-			assistanceIntention: participant.assistanceIntention || defaultIntention,
+			assistanceIntention: isNaN(participant.assistanceIntention) ? defaultIntention : participant.assistanceIntention,
 			delegateId: participant.delegateId,
 			delegateInfoUser: participant.representative
 		}
