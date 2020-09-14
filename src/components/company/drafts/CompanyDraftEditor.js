@@ -102,7 +102,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 					variables: {
 						draft: {
 							...cleanData,
-							companyId: props.match.params.company
+							companyId: +props.match.params.company
 						}
 					}
 				});
