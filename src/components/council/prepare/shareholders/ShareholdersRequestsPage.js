@@ -14,7 +14,7 @@ import { isMobile } from '../../../../utils/screen';
 const ShareholdersRequestsPage = ({ council, translate, client }) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
-    const [search, setSearch] = React.useState({ state: '0' });
+    const [search, setSearch] = React.useState('0');
     const [usersPage, setUsersPage] = React.useState(1);
     const [usersTotal, setUsersTotal] = React.useState(false);
     const [searchText, setSearchText] = React.useState('');
