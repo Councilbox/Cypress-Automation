@@ -357,7 +357,57 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
                                             </>
                                         }
                                     </div>
-                                    {buttons}
+                                    <div style={{ margin: "0 auto", marginTop: "1em", display: isMobile ? "" : "flex", justifyContent: "space-between", width: "90%", }}>
+                                        <ContactAdminButton
+                                            participant={participant}
+                                            council={council}
+                                            translate={translate}
+                                            open={state.sendPassModal}
+                                            fullWidth={isMobile}
+                                            requestclose={closeSendPassModal}
+                                            council={council}
+                                        />
+                                        {!success?
+                                            <BasicButton
+                                                text={disabled ? translate.sms_sent_seconds_left.replace('secondsLeft', secondsLeft) : 
+                                                    success? translate.enter_room : translate.request_access_code}
+                                                color={primary}
+                                                textStyle={{
+                                                    color: "white",
+                                                    fontWeight: "700",
+                                                    marginTop: isMobile ? "1em" : ""
+                                                }}
+                                                disabled={disabled}
+                                                buttonStyle={{
+                                                    minWidth: '200px'
+                                                }}
+                                                textPosition="before"
+                                                fullWidth={isMobile}
+                                                onClick={
+                                                    success? 
+                                                        login
+                                                    : 
+                                                    sendParticipantRoomKey
+                                                }
+                                            />
+                                        :
+                                            <BasicButton
+                                                text={translate.close}
+                                                color={primary}
+                                                textStyle={{
+                                                    color: "white",
+                                                    fontWeight: "700",
+                                                    marginTop: isMobile ? "1em" : ""
+                                                }}
+                                                buttonStyle={{
+                                                    minWidth: '200px'
+                                                }}
+                                                textPosition="before"
+                                                fullWidth={isMobile}
+                                                onClick={() => setState({ modal: false })}
+                                            />
+                                        }
+                                    </div>
                                 </React.Fragment>
                             }
                         </div>
