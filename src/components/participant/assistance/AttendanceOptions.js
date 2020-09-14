@@ -110,7 +110,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
             </div>
             {participant.personOrEntity === 0 ?
                 <React.Fragment>
-                    {(council.councilType === 0 && config.attendanceRemoteOption) &&
+                    {((council.councilType === 0 || council.councilType === 1) && config.attendanceRemoteOption) &&
                         <AssistanceOption
                             title={translate.attend_remotely_through_cbx}
                             translate={translate}
