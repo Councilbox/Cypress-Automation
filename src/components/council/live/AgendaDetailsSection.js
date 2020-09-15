@@ -82,7 +82,8 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 								WebkitLineClamp: 3,
 								WebkitBoxOrient: 'vertical',
 								overflow: 'hidden',
-								textOverflow: 'ellipsis'
+								textOverflow: 'ellipsis',
+								cursor: "pointer"
 							}}>
 								{`${agenda.agendaSubject}`}
 							</div>
