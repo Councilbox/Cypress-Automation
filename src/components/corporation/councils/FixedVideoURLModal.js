@@ -52,7 +52,8 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                 videoConfig: {
                     rtmp: '',
                     viewerURL: '',
-                    autoHybrid: false
+                    autoHybrid: false,
+                    disableHybrid: false
                 }
             })
         }
@@ -183,6 +184,14 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                     onChange={(event, isInputChecked) => setData({ ...data, videoConfig: {
                         ...data.videoConfig,
                         autoHybrid: isInputChecked
+                    }})}
+                />
+                <Checkbox
+                    label={'Desactivar detección automática del sistema híbrido'}
+                    value={data.videoConfig.disableHybrid}
+                    onChange={(event, isInputChecked) => setData({ ...data, videoConfig: {
+                        ...data.videoConfig,
+                        disableHybrid: isInputChecked
                     }})}
                 />
             </>
