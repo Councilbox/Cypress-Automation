@@ -172,6 +172,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                     <CheckShareholderRequest
                                         request={request}
                                         refetch={getData}
+                                        council={council}
                                         translate={translate}
                                     />
                                 </TableCell>

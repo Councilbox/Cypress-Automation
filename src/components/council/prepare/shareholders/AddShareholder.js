@@ -6,7 +6,7 @@ import ShareholderEditor from './ShareholderEditor';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const ApproveRequestButton = ({ request, client, refetch, translate }) => {
+const ApproveRequestButton = ({ request, client, refetch, translate, council }) => {
     const [modal, setModal] = React.useState(null);
     let { requestType, attachments, earlyVotes, representative, ...cleanData } = request.data;
     cleanData.socialCapital = cleanData.numParticipations || 1;
@@ -69,6 +69,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
             {modal &&
                 <ShareholderEditor
                     open={modal}
+                    council={council}
                     participations={true}
                     refetch={setParticipantCreated}
                     defaultValues={cleanData}

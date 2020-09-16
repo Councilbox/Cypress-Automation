@@ -18,6 +18,7 @@ import { checkUniqueCouncilEmails, addConvenedParticipant } from "../../../../qu
 import { useOldState } from "../../../../hooks";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { isMobile } from "../../../../utils/screen";
+import SelectRepresentative from "../../editor/census/modals/SelectRepresentative";
 
 
 
@@ -101,7 +102,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 		if(participant.email && company.type !== 10){
 			let emailsToCheck = [participant.email];
 
-			if(representative.email){
+			if (representative.email && !representative.id) {
 				emailsToCheck.push(representative.email);
 			}
 
@@ -192,6 +193,20 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 				}
 			>
 				<div style={{maxWidth: '900px'}}>
+					<SelectRepresentative
+						open={state.selectRepresentative}
+						council={props.council}
+						translate={translate}
+						updateRepresentative={representative => {
+							updateRepresentative({
+								...representative,
+								hasRepresentative: true
+							});
+						}}
+						requestClose={() => setState({
+							selectRepresentative: false
+						})}
+					/>
 					<ParticipantForm
 						type={participant.personOrEntity}
 						participant={participant}
@@ -205,6 +220,9 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 						translate={translate}
 						state={representative}
 						updateState={updateRepresentative}
+						setSelectRepresentative={value => setState({
+							selectRepresentative: value
+						})}
 						errors={representativeErrors}
 						languages={languages}
 					/>

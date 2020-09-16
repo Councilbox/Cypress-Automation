@@ -22,7 +22,7 @@ export const getTypeText = (text, translate) => {
 }
 
 
-const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
+const CheckShareholderRequest = ({ request, translate, refetch, client, council }) => {
     const [modal, setModal] = React.useState(false);
     const [modalAlert, setModalAlert] = React.useState(false);
     const [inModal, setInModal] = React.useState(null);
@@ -111,6 +111,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                 </div>
                 <AddShareholder
                     request={request}
+                    council={council}
                     refetch={refetch}
                     translate={translate}
                 />
@@ -120,7 +121,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client }) => {
                     translate={translate}
                 />
                 {request.state !== "1" &&
-                    < ApproveRequestButton
+                    <ApproveRequestButton
                         request={request}
                         refetch={refetch}
                         translate={translate}
