@@ -232,7 +232,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.numParticipations || ''}
                                 onChange={event =>
                                     updateState({
-                                        numParticipations: this.onParse(event.nativeEvent.target.value) 
+                                        numParticipations: +event.target.value
                                     })
                                 }
                             />
@@ -245,7 +245,7 @@ class PartnerForm extends React.PureComponent {
                                 value={participant.socialCapital || ''}
                                 onChange={event =>
                                     updateState({
-                                        socialCapital: this.onParse(event.nativeEvent.target.value) 
+                                        socialCapital: +event.target.value
                                     })
                                 }
                             />
