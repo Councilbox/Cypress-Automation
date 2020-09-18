@@ -4,11 +4,9 @@ import { BasicButton, AlertConfirm, LoadingSection } from '../../../../displayCo
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
 import gql from 'graphql-tag';
-import { AGENDA_TYPES, VOTE_VALUES } from '../../../../constants';
-import { MenuItem, CircularProgress } from 'material-ui';
-import VotingValueIcon from '../voting/VotingValueIcon';
+import { AGENDA_STATES, AGENDA_TYPES, VOTE_VALUES } from '../../../../constants';
 import { VotingButton } from '../../../participant/agendas/VotingMenu';
-import { agendaVotingsOpened } from '../../../../utils/CBX';
+import { agendaVotingsOpened, isCustomPoint } from '../../../../utils/CBX';
 
 
 const EarlyVotingModal = props => {
@@ -59,6 +57,15 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                         agendaSubject
                         subjectType
                         votingState
+                        items {
+                            id
+                            value
+                        }
+                        options {
+                            id
+                            maxSelections
+                            minSelections
+                        }
                     }
                     proxyVotes(participantId: $participantId){
                         value
@@ -77,28 +84,33 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
         setLoading(false);
     }
 
-    const isActive = (agendaId, value) => {
-        const vote = data.proxyVotes.find(proxy => proxy.agendaId === agendaId);
-        
+    const getProxyVote = (agendaId, value, custom) => {
+        const vote = data.proxyVotes.find(proxy => {
+            if(!custom){
+                return proxy.agendaId === agendaId;
+            } else {
+                return proxy.agendaId === agendaId && value === proxy.value;
+            }
+        });
+
         if(!vote){
             return false;
         }
 
-        return vote.value === value;
+        return vote;
     }
 
-    const deleteProxyVote = async agendaId => {
-        await client.mutate({
+    const deleteProxyVote = async proxyVoteId => {
+        const response = await client.mutate({
             mutation: gql`
-                mutation DeleteProxyVote($participantId: Int!, $agendaId: Int!){
-                    deleteProxyVote(participantId: $participantId, agendaId: $agendaId){
+                mutation DeleteProxyVote($proxyVoteId: Int!){
+                    deleteProxyVote(proxyVoteId: $proxyVoteId){
                         success
                     }
                 }
             `,
             variables: {
-                participantId: participant.id,
-                agendaId,
+                proxyVoteId
             }
         });
 
@@ -156,64 +168,109 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                 <LoadingSection />
             :
                 data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
-                    const disabled = agendaVotingsOpened(point)
-                    return (
-                        <div key={`point_${point.id}`} style={{marginTop: '1em'}}>
-                            <b>Punto: {point.agendaSubject}</b>
-                            {!disabled &&
-                                <BasicButton
-                                    color="white"
-                                    text="Eliminar"
-                                    buttonStyle={{
-                                        marginLeft: '1em'
-                                    }}
-                                    textStyle={{
-                                        color: getSecondary()
-                                    }}
-                                    onClick={() => deleteProxyVote(point.id)}
-                                />
-                            }
+                    const disabled = point.votingState !== AGENDA_STATES.INITIAL;
 
+                    if(!isCustomPoint(point.subjectType)){
+                        return (
+                            <div key={`point_${point.id}`}>
+                                <div style={{fontWeight: '700', marginTop: '1em'}}>{point.agendaSubject}</div>
+                                <div>
+                                    {[{
+                                        value: VOTE_VALUES.POSITIVE,
+                                        label: translate.in_favor_btn,
+                                        icon: "fa fa-check"
+                                    }, {
+                                        value: VOTE_VALUES.NEGATIVE,
+                                        label: translate.against_btn,
+                                        icon: "fa fa-times"
+                                    }, {
+                                        value: VOTE_VALUES.ABSTENTION,
+                                        label: translate.abstention_btn,
+                                        icon: 'fa fa-circle-o'
+                                    }].map(vote => {
+                                        const proxyVote = getProxyVote(point.id, vote.value);
+                                        const active = vote.value === proxyVote.value;
+                                        return (
+                                            <div
+                                                key={`vote_${vote.value}`}
+                                                style={{
+                                                    marginRight: "0.2em",
+                                                    borderRadius: "3px",
+                                                    display: "flex",
+                                                    cursor: "pointer",
+                                                    alignItems: "center",
+                                                    justifyContent: "center"
+                                                }}
+                                                onClick={() => {
+                                                    if(active && !disabled){
+                                                        deleteProxyVote(proxyVote.id);
+                                                    } else {
+                                                        setEarlyVote(point.id, vote.value);
+                                                    }
+                                                }}
+                                            >
+                                                <VotingButton
+                                                    text={vote.label}
+                                                    selected={active}
+                                                    icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
+                                                />
+                                            </div>
+                                        )
+                                    })}
+                                    <VotingButton
+                                        text={translate.cant_vote_this_point}
+                                        selected={getProxyVote(point.id, null)?  getProxyVote(point.id, null).value === null : false}
+                                        disabledColor={disabled? 'grey' : null}
+                                        disabled={disabled}
+                                        onClick={() => setVotingRightDenied(point.id)}
+                                    />
+                                </div>
+                                
+                            </div>
+                        )
+                    }
+
+                    const selections = point.items.reduce((acc, curr) => {
+                        if(getProxyVote(point.id, curr.id, true)){
+                            acc++;
+                            return acc;
+                        }
+                        return acc;
+                    }, 0)
+
+                    const disableCustom = (selections >= point.options.maxSelections) || disabled;
+                    return (
+                        <div key={`point_${point.id}`} style={{marginTop: '1.3em'}}>
+                            Punto: {point.agendaSubject}
                             <div>
-                                {[{
-                                    value: VOTE_VALUES.POSITIVE,
-                                    label: translate.in_favor_btn,
-                                    icon: "fa fa-check"
-                                }, {
-                                    value: VOTE_VALUES.NEGATIVE,
-                                    label: translate.against_btn,
-                                    icon: "fa fa-times"
-                                }, {
-                                    value: VOTE_VALUES.ABSTENTION,
-                                    label: translate.abstention_btn,
-                                    icon: 'fa fa-circle-o'
-                                }].map(vote => {
-                                    const active = isActive(point.id, vote.value);
+                                {point.items.map(item => {
+                                    const proxyVote = getProxyVote(point.id, item.id, true);
+                                    const active = proxyVote.value === item.id;
                                     return (
                                         <VotingButton
-                                            loading={loadingVote === point.id}
-                                            text={vote.label}
-                                            disabledColor={disabled? 'grey' : null}
-                                            disabled={disabled}
-                                            key={`vote_${vote.value}`}
+                                            disabled={disableCustom && !active}
+                                            disabledColor={disableCustom && !active}
+                                            styleButton={{ padding: '0', width: '100%' }}
+                                            selectCheckBox={active}
                                             onClick={() => {
-                                                setEarlyVote(point.id, vote.value)
+                                                if(active && !disabled){
+                                                    deleteProxyVote(proxyVote.id);
+                                                } else {
+                                                    setEarlyVote(point.id, item.id);
+                                                }
                                             }}
-                                            selected={active}
-                                            icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
+                                            text={item.value}
                                         />
                                     )
                                 })}
                                 <VotingButton
-                                    text={'No puede votar este punto'}
-                                    selected={isActive(point.id, null)}
+                                    text={translate.cant_vote_this_point}
+                                    selected={getProxyVote(point.id, null)?  getProxyVote(point.id, null).value === null : false}
                                     disabledColor={disabled? 'grey' : null}
                                     disabled={disabled}
                                     onClick={() => setVotingRightDenied(point.id)}
-                                    //icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
                                 />
                             </div>
-                            
                         </div>
                     )
                 })
