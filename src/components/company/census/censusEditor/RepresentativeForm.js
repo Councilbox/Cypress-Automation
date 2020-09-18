@@ -75,7 +75,7 @@ const RepresentativeForm = ({
 						<i className={'fa fa-user'} style={{ position: "relative", left: "-5px" }}></i>
 					</div>
 					<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled? 'grey' : getSecondary() }}>
-						<span style={{ fontSize: '0.9em' }}>{state.hasRepresentative? 'Quitar representante' : "Añadir representante" }</span>
+						<span style={{ fontSize: '0.9em' }}>{state.hasRepresentative? translate.remove_representative : translate.add_representative }</span>
 					</div>
 				</Action>
 				<Action
