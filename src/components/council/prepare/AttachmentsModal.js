@@ -5,7 +5,6 @@ import { AlertConfirm, DropDownMenu, BasicButton, SuccessMessage, LoadingSection
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { addCouncilAttachment } from '../../../queries';
 import CompanyDocumentsBrowser from '../../company/drafts/documents/CompanyDocumentsBrowser';
-import AttachmentList from '../../attachments/AttachmentList';
 import AttachmentItem from '../../attachments/AttachmentItem';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 
@@ -43,7 +42,8 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
 				filesize: event.loaded,
 				base64: btoa(event.target.result),
 				councilId: council.id
-			};
+            };
+
 
             setAttachments([...attachments, fileInfo]);
 		};
@@ -157,11 +157,10 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
 
     const modalBody = () => {
         if(step === 1){
-            //TRADUCCION
             return (
                 <>
                     <div>
-                        Subiendo archivos
+                        {translate.uploading_files}
                     </div>
                     {attachments.length > 0 && (
                         attachments.map((attachment, index) => (
