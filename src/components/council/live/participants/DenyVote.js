@@ -20,17 +20,16 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
         if(!participant.voteDenied){
             return (
             <div>
-                ¿Desea denegar el derecho a voto a este participante? Puede indicar el motivo en el cuadro de texto inferior.
+                {translate.deny_vote_warning_question}
                 <div style={{
                         marginTop: '1em'
                     }}
                 >
                     <TextInput
-                    floatingText={'Motivo denegación voto'}
-                    value={text}
-                    onChange={event => setText(event.target.value)}
-
-                />
+                        value={text}
+                        floatingText={translate.vote_denied_reason}
+                        onChange={event => setText(event.target.value)}
+                    />
                 </div>
 
             </div>
@@ -39,7 +38,7 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
 
         return (
             <div>
-                ¿Desea devolver el derecho a voto a este participante?
+                {translate.undeny_vote_question}
             </div>
         )
     }
@@ -97,8 +96,8 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
             {participant.voteDenied?
                 <Tooltip title={participant.voteDeniedReason}>
                     <Typography variant="body1" className="truncate">
-                        <span style={{color: 'red', fontWeight: '700'}}>Voto denegado </span>
-                        <span onClick={() => setModal(true)} style={{fontSize: '0.9em', color: secondary, cursor: 'pointer'}}>(Restaurar voto)</span>
+            <span style={{color: 'red', fontWeight: '700'}}>{translate.denied_vote}</span>
+                        <span onClick={() => setModal(true)} style={{fontSize: '0.9em', color: secondary, cursor: 'pointer'}}>({translate.restore_vote_right})</span>
                     </Typography>
                 </Tooltip>
             :
