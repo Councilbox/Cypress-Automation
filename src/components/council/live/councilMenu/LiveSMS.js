@@ -36,6 +36,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
             }
         });
 
+
         if (response.data.sendsSMS) {
             setData(response.data);
             setLoading(false);
@@ -86,7 +87,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                         </div>
                         <div style={{ height: "calc( 100% - 2em )", }}>
                             <Scrollbar>
-                                {data.sendsSMS.map(send => (
+                                {data.sendsSMS.list.map(send => (
                                     <Card style={{ margin: "5px", marginBottom: "15px" }} key={send.id}>
                                         <CardHeader
                                             title={send.recipient.name + " " + send.recipient.surname || ''}
