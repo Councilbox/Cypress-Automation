@@ -76,7 +76,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
     const checkRequiredFields = async () => {
         let errors = {}
 
-        if (!tag.key) {
+        if (!tag.key || !tag.key.trim()) {
             errors.key = translate.required_field;
         } else {
             const response = await client.query({
@@ -92,7 +92,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
             }
         }
 
-        if (!tag.value) {
+        if (!tag.value || !tag.key.trim()) {
             errors.value = translate.required_field;
         }
 
