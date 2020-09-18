@@ -42,7 +42,7 @@ const VoteLetterWithSenseOption = ({ council, client, translate }) => {
                 label={translate.allows_indicate_direction_voting_letter}
                 value={canEarlyVote}
                 onChange={(event, isInputChecked) => {
-                    send(isInputChecked)
+                    send(isInputChecked? 1 : 0)
                 }}
             />
         </>
