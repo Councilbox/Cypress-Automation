@@ -102,7 +102,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                             <BasicButton
                                                 size="small"
                                                 color="primary"
-                                                text={'Reenviar'}
+                                                text={translate.resend}
                                                 textStyle={{ boxShadow: "none", color: getPrimary(), background: "white" }}
                                                 loading={resendLoading === send.id}
                                                 onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
@@ -147,8 +147,8 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                                 {translate.state}
                                             </TableCell>
                                             <TableCell>
-                                                Reenviar
-                                </TableCell>
+                                                {translate.resend}
+                                            </TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -166,7 +166,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                                 <TableCell>
                                                     <BasicButton
                                                         color="white"
-                                                        text={'Reenviar'}
+                                                        text={translate.resend}
                                                         loading={resendLoading === send.id}
                                                         onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
                                                         loadingColor={"#000000de"}
