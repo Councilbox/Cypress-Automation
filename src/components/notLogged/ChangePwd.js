@@ -34,7 +34,7 @@ class ChangePwd extends React.PureComponent {
 		if (!this.checkRequiredFields()) {
 			const response = await this.props.changePwd({
 				variables: {
-					token: +this.props.match.params.token,
+					token: this.props.match.params.token,
 					pwd: this.state.pwd
 				}
 			});
@@ -61,7 +61,7 @@ class ChangePwd extends React.PureComponent {
 	checkExpiration = async () => {
 		const response = await this.props.checkExpiration({
 			variables: {
-				token: +this.props.match.params.token
+				token: this.props.match.params.token
 			}
 		});
 		if (response.errors) {
