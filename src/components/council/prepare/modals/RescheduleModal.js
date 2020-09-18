@@ -46,7 +46,7 @@ class RescheduleModal extends React.Component {
 				dateStart2NdCall: new Date(
 					this.state.dateStart2NdCall
 				).toISOString(),
-				timezone: moment().utcOffset()
+				timezone: moment().utcOffset().toString()
 			}
 		});
 		if (response.data.rescheduleCouncil.success) {
