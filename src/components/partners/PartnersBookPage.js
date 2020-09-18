@@ -298,7 +298,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                         translation: translate.position
                     },
                     {
-                        value: "nActa",
+                        value: "subscribeActNumber",
                         translation: "Nº de acta"//translate.subscribe_act
                     },
                 ]}
