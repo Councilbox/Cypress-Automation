@@ -183,6 +183,7 @@ const participants = gql`
                 surname
                 phone
                 email
+                participantId
                 state
                 id
                 notifications {

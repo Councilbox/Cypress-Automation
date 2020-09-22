@@ -72,6 +72,22 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
         });
     }
 
+    const sendParticipantPortalAccessMail = async () => {
+        const response = await client.mutate({
+            mutation: gql`
+                mutation sendPortalConfirmation($participantId: Int!, $type: String){
+                    sendShareholderConfirmation(participantId: $participantId, type: $type){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                participantId: participant.participantId,
+                type: 'ACCESS'
+            }
+        })
+    }
+
     const refreshEmailStates = async () => {
 		setState({
 			sendsLoading: true
@@ -186,6 +202,13 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
                     textStyle={{ color: 'white', fontWeight: '700' }}
                 />
             </div>
+            <BasicButton
+                color={secondary}
+                text="Email email acceso del portal"
+                textStyle={{ color: 'white', fontWeight: '700' }}
+                //loading={state.sendsLoading}
+                onClick={sendParticipantPortalAccessMail}
+            />
             {roomLink &&
                 <>
                     <div style={{wordWrap: 'break-word', width: '100%'}}>
