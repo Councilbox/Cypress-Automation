@@ -143,7 +143,7 @@ const CustomPointForm = ({
                         <TextInput
                             floatingText={translate.max_selections}
                             value={options.maxSelections}
-                            onChange={event => updateOptions({ maxSelections: validateNumber(event.target.value)})}
+                            onChange={event => updateOptions({ maxSelections: validateNumber(+event.target.value)})}
                         />
                         {errors.maxSelections &&
                             <div style={{color: 'red'}}>
@@ -153,7 +153,7 @@ const CustomPointForm = ({
                         <TextInput
                             floatingText={translate.minimum_selection}
                             value={options.minSelections}
-                            onChange={event => updateOptions({ minSelections: validateNumber(event.target.value) })}
+                            onChange={event => updateOptions({ minSelections: validateNumber(+event.target.value) })}
                         />
                         {errors.minSelections &&
                             <div style={{color: 'red'}}>
