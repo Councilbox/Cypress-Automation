@@ -9,7 +9,7 @@ import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
 import { Collapse } from 'react-collapse';
 import { BasicButton, Grid, GridItem, TextInput } from '../../../displayComponents';
-import { getSecondary, secondary } from '../../../styles/colors';
+import { getSecondary, secondary, getPrimary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
 import AgendaDescriptionModal from './AgendaDescriptionModal';
 import { updateAgenda } from "../../../queries/agenda";
@@ -31,6 +31,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const [expanded, setExpanded] = React.useState(false);
 	const [pointEditor, setPointEditor] = React.useState(false);
 	const [pointNameEditor, setPointNameEditor] = React.useState(false);
+	const [pointNameEditorText, setPointNameEditorText] = React.useState('');
 
 	React.useEffect(() => {
 		setOpenIndex(calculateOpenIndex(agendas));
@@ -48,6 +49,11 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const toggleDescription = () => {
 		const newValue = !expanded;
 		setExpanded(newValue);
+	}
+
+	const editNamePoint = (text) => {
+		console.log(text)
+		// setPointNameEditorText
 	}
 
 	const councilStarted = CBX.councilStarted(council);
@@ -78,38 +84,76 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 					<div style={{ fontWeight: '700', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 						{pointNameEditor ?
 							<div
-								// onClick={() => setPointNameEditor(false)}
 								style={{ display: "flex", alignItems: "center" }}
 							>
 								<TextInput
-									value={agenda.agendaSubject}
+									value={pointNameEditorText}
+									// value={agenda.agendaSubject}
 									disableUnderline={true}
-								// onChange={event => setData({
-								// 	...data,
-								// 	companyId: +event.target.value
-								// })}
+									styleInInput={{ marginRight: "0.5em", color: "rgba(0, 0, 0, 0.54)", background: "#e6e6e6", paddingLeft: "5px" }}
+									styles={{ marginTop: "-16px" }}
+									stylesTextField={{ marginBottom: "0px" }}
+									onChange={event => editNamePoint(event.target.value)}
 								/>
 								<BasicButton
+									backgroundColor={{
+										backgroundColor: "white",
+										border: "1px solid" + getPrimary(),
+										color: getPrimary(),
+										marginRight: "0.5em",
+										padding: "0px",
+										borderRadius: '4px',
+										minHeight: '30px',
+									}}
 									text={translate.save}
-									// onClick={addException}
+								// onClick={addException}
+								/>
+								<BasicButton
+									text={translate.cancel}
+									backgroundColor={{
+										backgroundColor: "white",
+										border: "1px solid" + getSecondary(),
+										padding: "0px",
+										borderRadius: '4px', color: getSecondary(),
+										minHeight: '30px',
+									}}
+									onClick={() => setPointNameEditor(false)}
 								/>
 							</div>
 							:
-							<ToolTip text={agenda.agendaSubject}>
-								<div style={{
-									display: '-webkit-box',
-									maxWidth: 'calc(100% - 10em)',
-									WebkitLineClamp: 3,
-									WebkitBoxOrient: 'vertical',
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									cursor: "pointer"
-								}}
-									onClick={() => setPointNameEditor(true)}
-								>
-									{`${agenda.agendaSubject}`}
+							<div style={{ display: "flex", alignItems: "center", maxWidth: 'calc(100% - 11em)' }}>
+								<div>
+									<ToolTip text={agenda.agendaSubject}>
+										<div style={{
+											display: '-webkit-box',
+											maxWidth: '100%',
+											WebkitLineClamp: 3,
+											WebkitBoxOrient: 'vertical',
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+											paddingRight: "0.5em"
+										}}
+										>
+											{`${agenda.agendaSubject}`}
+										</div>
+
+									</ToolTip>
 								</div>
-							</ToolTip>
+								<div>
+									<i
+										className="fa fa-pencil-square-o"
+										aria-hidden="true"
+										style={{
+											color: secondary,
+											fontSize: '1.3em',
+											cursor: 'pointer',
+											marginLeft: '0.2em'
+										}}
+										onClick={() => setPointNameEditor(true)}
+									></i>
+								</div>
+							</div>
+
 						}
 						<div style={{ paddingRight: '1em' }}>
 							{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL && agenda.subjectType !== CBX.getActPointSubjectType()) ?
