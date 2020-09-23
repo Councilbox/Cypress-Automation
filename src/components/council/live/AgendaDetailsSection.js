@@ -8,7 +8,7 @@ import { AGENDA_TYPES, AGENDA_STATES } from "../../../constants";
 import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
 import { Collapse } from 'react-collapse';
-import { BasicButton, Grid, GridItem } from '../../../displayComponents';
+import { BasicButton, Grid, GridItem, TextInput } from '../../../displayComponents';
 import { getSecondary, secondary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
 import AgendaDescriptionModal from './AgendaDescriptionModal';
@@ -30,6 +30,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const [openIndex, setOpenIndex] = React.useState(calculateOpenIndex(agendas));
 	const [expanded, setExpanded] = React.useState(false);
 	const [pointEditor, setPointEditor] = React.useState(false);
+	const [pointNameEditor, setPointNameEditor] = React.useState(false);
 
 	React.useEffect(() => {
 		setOpenIndex(calculateOpenIndex(agendas));
@@ -75,19 +76,41 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 			>
 				<GridItem xs={12} md={12} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '1em' }}>
 					<div style={{ fontWeight: '700', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
-						<ToolTip text={agenda.agendaSubject}>
-							<div style={{
-								display: '-webkit-box',
-								maxWidth: 'calc(100% - 10em)',
-								WebkitLineClamp: 3,
-								WebkitBoxOrient: 'vertical',
-								overflow: 'hidden',
-								textOverflow: 'ellipsis',
-								cursor: "pointer"
-							}}>
-								{`${agenda.agendaSubject}`}
+						{pointNameEditor ?
+							<div
+								// onClick={() => setPointNameEditor(false)}
+								style={{ display: "flex", alignItems: "center" }}
+							>
+								<TextInput
+									value={agenda.agendaSubject}
+									disableUnderline={true}
+								// onChange={event => setData({
+								// 	...data,
+								// 	companyId: +event.target.value
+								// })}
+								/>
+								<BasicButton
+									text={translate.save}
+									// onClick={addException}
+								/>
 							</div>
-						</ToolTip>
+							:
+							<ToolTip text={agenda.agendaSubject}>
+								<div style={{
+									display: '-webkit-box',
+									maxWidth: 'calc(100% - 10em)',
+									WebkitLineClamp: 3,
+									WebkitBoxOrient: 'vertical',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									cursor: "pointer"
+								}}
+									onClick={() => setPointNameEditor(true)}
+								>
+									{`${agenda.agendaSubject}`}
+								</div>
+							</ToolTip>
+						}
 						<div style={{ paddingRight: '1em' }}>
 							{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL && agenda.subjectType !== CBX.getActPointSubjectType()) ?
 								<React.Fragment>
