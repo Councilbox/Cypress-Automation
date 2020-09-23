@@ -28,6 +28,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const [expanded, setExpanded] = React.useState(false);
 	const [pointEditor, setPointEditor] = React.useState(false);
 	const [pointNameEditor, setPointNameEditor] = React.useState(false);
+	const [pointNameEditorText, setPointNameEditorText] = React.useState('');
 
 	React.useEffect(() => {
 		setOpenIndex(calculateOpenIndex(agendas));
@@ -44,6 +45,11 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const toggleDescription = () => {
 		const newValue = !expanded;
 		setExpanded(newValue);
+	}
+
+	const editNamePoint = (text) => {
+		console.log(text)
+		// setPointNameEditorText
 	}
 
 	const councilStarted = CBX.councilStarted(council);
