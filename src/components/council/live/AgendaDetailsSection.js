@@ -26,17 +26,15 @@ const calculateOpenIndex = agendas => {
 }
 
 
-const AgendaDetailsSection = ({ agendas, translate, council, participants, refetch, ...props }) => {
+const AgendaDetailsSection = ({ agendas, translate, council, participants, refetch, updateAgenda, ...props }) => {
 	const [openIndex, setOpenIndex] = React.useState(calculateOpenIndex(agendas));
 	const [expanded, setExpanded] = React.useState(false);
 	const [pointEditor, setPointEditor] = React.useState(false);
 	const [pointNameEditor, setPointNameEditor] = React.useState(false);
-	const [pointNameEditorText, setPointNameEditorText] = React.useState('');
 
 	React.useEffect(() => {
 		setOpenIndex(calculateOpenIndex(agendas));
 	}, [agendas]);
-
 
 	const showEditPointModal = () => {
 		setPointEditor(true);
@@ -51,16 +49,11 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 		setExpanded(newValue);
 	}
 
-	const editNamePoint = (text) => {
-		console.log(text)
-		// setPointNameEditorText
-	}
-
 	const councilStarted = CBX.councilStarted(council);
 	const agenda = agendas[props.selectedPoint];
 	const smallLayout = window.innerWidth < 500;
 	const normalLayout = window.innerWidth > 750;
-
+	
 	return (
 		<div
 			style={{
@@ -83,43 +76,14 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 				<GridItem xs={12} md={12} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '1em' }}>
 					<div style={{ fontWeight: '700', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 						{pointNameEditor ?
-							<div
-								style={{ display: "flex", alignItems: "center" }}
-							>
-								<TextInput
-									value={pointNameEditorText}
-									// value={agenda.agendaSubject}
-									disableUnderline={true}
-									styleInInput={{ marginRight: "0.5em", color: "rgba(0, 0, 0, 0.54)", background: "#e6e6e6", paddingLeft: "5px" }}
-									styles={{ marginTop: "-16px" }}
-									stylesTextField={{ marginBottom: "0px" }}
-									onChange={event => editNamePoint(event.target.value)}
-								/>
-								<BasicButton
-									backgroundColor={{
-										backgroundColor: "white",
-										border: "1px solid" + getPrimary(),
-										color: getPrimary(),
-										marginRight: "0.5em",
-										padding: "0px",
-										borderRadius: '4px',
-										minHeight: '30px',
-									}}
-									text={translate.save}
-								// onClick={addException}
-								/>
-								<BasicButton
-									text={translate.cancel}
-									backgroundColor={{
-										backgroundColor: "white",
-										border: "1px solid" + getSecondary(),
-										padding: "0px",
-										borderRadius: '4px', color: getSecondary(),
-										minHeight: '30px',
-									}}
-									onClick={() => setPointNameEditor(false)}
-								/>
-							</div>
+							<EditTitlePoint
+								title={agenda.agendaSubject}
+								translate={translate}
+								setPointNameEditor={setPointNameEditor}
+								updateAgenda={updateAgenda}
+								agenda={agenda}
+								council={council}
+							/>
 							:
 							<div style={{ display: "flex", alignItems: "center", maxWidth: 'calc(100% - 11em)' }}>
 								<div>
@@ -139,19 +103,21 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 
 									</ToolTip>
 								</div>
-								<div>
-									<i
-										className="fa fa-pencil-square-o"
-										aria-hidden="true"
-										style={{
-											color: secondary,
-											fontSize: '1.3em',
-											cursor: 'pointer',
-											marginLeft: '0.2em'
-										}}
-										onClick={() => setPointNameEditor(true)}
-									></i>
-								</div>
+								{agenda.pointState === AGENDA_STATES.INITIAL &&
+									<div>
+										<i
+											className="fa fa-pencil-square-o"
+											aria-hidden="true"
+											style={{
+												color: secondary,
+												fontSize: '1.3em',
+												cursor: 'pointer',
+												marginLeft: '0.2em'
+											}}
+											onClick={() => setPointNameEditor(true)}
+										></i>
+									</div>
+								}
 							</div>
 
 						}
@@ -320,6 +286,68 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	);
 }
 
+
+const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, agenda, council }) => {
+	const [pointNameEditorText, setPointNameEditorText] = React.useState('');
+
+	React.useEffect(() => {
+		setPointNameEditorText(title)
+	}, [title]);
+
+
+	const saveTitle = async () => {
+		const result = await updateAgenda({
+			variables: {
+				agenda: {
+					id: agenda.id,
+					agendaSubject: pointNameEditorText,
+					councilId: council.id
+				}
+			}
+		});
+		setPointNameEditor(false)
+	}
+
+
+	return (
+		<div
+			style={{ display: "flex", alignItems: "center" }}
+		>
+			<TextInput
+				value={pointNameEditorText}
+				disableUnderline={true}
+				styleInInput={{ marginRight: "0.5em", color: "rgba(0, 0, 0, 0.54)", background: "#e6e6e6", paddingLeft: "5px" }}
+				styles={{ marginTop: "-16px" }}
+				stylesTextField={{ marginBottom: "0px" }}
+				onChange={event => setPointNameEditorText(event.target.value)}
+			/>
+			<BasicButton
+				backgroundColor={{
+					backgroundColor: "white",
+					border: "1px solid" + getPrimary(),
+					color: getPrimary(),
+					marginRight: "0.5em",
+					padding: "0px",
+					borderRadius: '4px',
+					minHeight: '30px',
+				}}
+				text={translate.save}
+				onClick={saveTitle}
+			/>
+			<BasicButton
+				text={translate.cancel}
+				backgroundColor={{
+					backgroundColor: "white",
+					border: "1px solid" + getSecondary(),
+					padding: "0px",
+					borderRadius: '4px', color: getSecondary(),
+					minHeight: '30px',
+				}}
+				onClick={() => setPointNameEditor(false)}
+			/>
+		</div>
+	)
+}
 
 
 export default graphql(updateAgenda, {
