@@ -24,7 +24,7 @@ const asbtentionOption = {
 }
 
 const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCustomPointVoting, cantVote, ...props }) => {
-    const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
+    const [selections, setSelections] = React.useState(ownVote? createSelectionsFromBallots(ownVote.ballots, ownVote.participantId) : []); //(props.ownVote.ballots, props.ownVote.participantId));
     const votingContext = React.useContext(VotingContext);
     const config = React.useContext(ConfigContext);
 
@@ -96,7 +96,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
         return agenda.options.minSelections - selections.length
     }
 
-    if (ownVote.vote !== -1 && ownVote.ballots.length === 0 && agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE) {
+    if (ownVote && (ownVote.vote !== -1 && ownVote.ballots.length === 0 && agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE)) {
         //return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
     }
 
@@ -186,8 +186,9 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                             <div >
                                 <VotingButton
                                     styleButton={{ padding: '0', width: '100%' }}
+                                    disabledColor={disabled}
                                     selectCheckBox={getSelectedRadio(item.id)}
-                                    disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
+                                    disabled={(agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id) || disabled)}
                                     onClick={() => {
                                         if (!getSelectedRadio(item.id)) {
                                             addSelection(item)

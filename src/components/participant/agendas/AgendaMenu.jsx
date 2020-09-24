@@ -165,7 +165,7 @@ class AgendaMenu extends React.Component {
                                         ) &&
                                         translate.cant_exercise_vote
                                     }
-                                    {!CBX.isCustomPoint(agenda.subjectType) && 
+                                    {!CBX.isCustomPoint(agenda.subjectType) ?
                                         <VotingSection
                                             disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
                                             agenda={agenda}
@@ -178,6 +178,16 @@ class AgendaMenu extends React.Component {
                                             refetch={this.props.refetch}
                                             toggle={this.toggle}
                                         />
+                                    :
+                                        <CustomPointVotingMenu
+                                            agenda={agenda}
+                                            refetch={this.props.refetch}
+                                            ownVote={ownVote}
+                                            cantVote={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
+                                            council={this.props.council}
+                                            translate={translate}
+                                        />
+
                                     }
                                 </>
                             }
