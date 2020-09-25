@@ -603,6 +603,7 @@ const agendasQuery = gql`
                 id
                 value
             }
+            ballotsRecount
             councilId
             dateEndVotation
             dateStart

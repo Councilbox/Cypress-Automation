@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { AGENDA_TYPES, AGENDA_STATES } from '../../../constants';
 import { VotingButton, DeniedDisplay } from './VotingMenu';
 import { VotingContext } from './AgendaNoSession';
-import { voteAllAtOnce } from '../../../utils/CBX';
+import { agendaPointOpened, getAgendaTypeLabel, voteAllAtOnce } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
@@ -29,6 +29,22 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     const config = React.useContext(ConfigContext);
 
     const disabled = agenda.votingState !== AGENDA_STATES.DISCUSSION || cantVote;
+
+    const buildRecountText = itemId => {
+        if(!agenda.ballotsRecount){
+            return '';
+        }
+
+        const showRecount = ((getAgendaTypeLabel(agenda) !== 'private_votation'
+            && council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;
+
+        return (
+            showRecount? 
+                ` (${translate.recount}: ${agenda.ballotsRecount[itemId] !== undefined? agenda.ballotsRecount[itemId] : 0})`
+            :
+                ''
+        )
+    }
 
     const addSelection = item => {
         let newSelections = [...selections, cleanObject(item)];;
@@ -118,7 +134,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
             <div style={{ paddingTop: "20px" }}>
                 <div style={{ display: "flex", width: "52.5%", height: '2.5em' }}>
                     <VotingButton
-                        text={translate.abstention_btn}
+                        text={`${translate.abstention_btn} ${buildRecountText(-1)}`}
                         disabled={disabled}
                         disabledColor={disabled}
                         styleButton={{ width: "90%" }}
@@ -161,7 +177,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                                     styleButton={{ padding: '0', width: '100%' }}
                                     selectCheckBox={getSelectedRadio(item.id)}
                                     onClick={() => setSelection(item)}
-                                    text={item.value}
+                                    text={`${item.value} ${buildRecountText(item.id)}`}
                                 />
                             </div>
                             {agenda.items.length - 1 === index && renderCommonButtons()}
@@ -170,17 +186,19 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                 </React.Fragment>
                 :
                 <React.Fragment>
-                    <div style={{ fontSize: '0.85em',textAlign: 'left' }}>
-                        {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) &&
-                            <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
-                        }
-                        {(agenda.options.maxSelections > 1) &&
-                            <React.Fragment>{translate.can_select_between_min_max
-                                    .replace('{{min}}', agenda.options.minSelections)
-                                    .replace('{{max}}', agenda.options.maxSelections)}
-                            </React.Fragment>
-                        }
-                    </div>
+                    {agendaPointOpened(agenda) &&
+                        <div style={{ fontSize: '0.85em',textAlign: 'left' }}>
+                            {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) &&
+                                <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
+                            }
+                            {(agenda.options.maxSelections > 1) &&
+                                <React.Fragment>{translate.can_select_between_min_max
+                                        .replace('{{min}}', agenda.options.minSelections)
+                                        .replace('{{max}}', agenda.options.maxSelections)}
+                                </React.Fragment>
+                            }
+                        </div>
+                    }
                     {agenda.items.map((item, index) => (
                         <React.Fragment key={`item_${item.id}`}>
                             <div >
@@ -196,7 +214,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                                             removeSelection(item)
                                         }
                                     }}
-                                    text={item.value}
+                                    text={`${item.value} ${buildRecountText(item.id)}`}
                                 />
                             </div>
                             {agenda.items.length - 1 === index && renderCommonButtons()}
