@@ -9,10 +9,29 @@ import { CircularProgress } from "material-ui/Progress";
 import withTranslations from "../../../../HOCs/withTranslations";
 
 
-const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
+const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [fixedAlert, setFixedAlert] = React.useState(false);
-	const fixed = agendaVoting.fixed;
+
+
+	const getActiveVote = () => {
+		if(!agendaVoting.fixed) {
+			return agendaVoting;
+		}
+
+		const activedDelegated = agendaVoting.delegatedVotes.find(vote => !vote.fixed);
+		return activedDelegated || null;
+	}
+
+	const vote = getActiveVote();
+
+	const checkFixed = () => {
+		return agendaVoting.fixed && agendaVoting.delegatedVotes.filter(vote => !vote.fixed).length === 0;
+	}
+	
+	const fixed = checkFixed();
+
+	const active = vote? vote.vote : null;
 
 	const updateAgendaVoting = async value => {
 		setLoading(value);
@@ -51,7 +70,7 @@ const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
 					justifyContent: "center"
 				}}
 				onClick={() => {
-					return agendaVoting.fixed? setFixedAlert(!fixedAlert) : updateAgendaVoting(value)
+					return fixed? setFixedAlert(!fixedAlert) : updateAgendaVoting(value)
 				}}
 			>
 				<MenuItem
