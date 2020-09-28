@@ -150,7 +150,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                     value={data.platformVideo}
                     onKeyUp={handleEnter}
                     floatingText="Fijado al número"
-                    onChange={event => setData({ ...data, platformVideo: +event.target.value })}
+                    onChange={event => setData({ ...data, platformVideo: event.target.value })}
                 />
 
                 <TextInput
