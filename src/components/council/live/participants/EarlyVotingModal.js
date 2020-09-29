@@ -212,6 +212,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                                 <VotingButton
                                                     text={vote.label}
                                                     selected={active}
+                                                    disabledColor={disabled? 'grey' : null}
+                                                    disabled={disabled}
                                                     icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
                                                 />
                                             </div>
