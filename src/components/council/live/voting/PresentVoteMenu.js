@@ -1,6 +1,6 @@
 import React from "react";
 import { VOTE_VALUES } from "../../../../constants";
-import { agendaVotingsOpened } from '../../../../utils/CBX';
+import { agendaVotingsOpened, getActiveVote } from '../../../../utils/CBX';
 import VotingValueIcon from "./VotingValueIcon";
 import { graphql } from "react-apollo";
 import { updateAgendaVoting } from "../../../../queries/agenda";
@@ -8,22 +8,11 @@ import { MenuItem, Tooltip } from "material-ui";
 import { CircularProgress } from "material-ui/Progress";
 import withTranslations from "../../../../HOCs/withTranslations";
 
-
 const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [fixedAlert, setFixedAlert] = React.useState(false);
 
-
-	const getActiveVote = () => {
-		if(!agendaVoting.fixed) {
-			return agendaVoting;
-		}
-
-		const activedDelegated = agendaVoting.delegatedVotes.find(vote => !vote.fixed);
-		return activedDelegated || null;
-	}
-
-	const vote = getActiveVote();
+	const vote = getActiveVote(agendaVoting);
 
 	const checkFixed = () => {
 		return agendaVoting.fixed && agendaVoting.delegatedVotes.filter(vote => !vote.fixed).length === 0;
@@ -101,7 +90,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 	};
 
 	return (
-		<Tooltip title={props.translate.participant_vote_fixed} open={fixedAlert}>
+		<Tooltip title={agendaVoting.numParticipations === 0? props.translate.cant_vote_this_point : props.translate.participant_vote_fixed} open={fixedAlert}>
 			<div
 				style={{
 					display: "flex",

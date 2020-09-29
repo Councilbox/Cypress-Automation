@@ -35,6 +35,16 @@ export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
 };
 
+export const getActiveVote = agendaVoting => {
+	if(!agendaVoting.fixed) {
+		return agendaVoting;
+	}
+
+	const activedDelegated = agendaVoting.delegatedVotes.find(vote => !vote.fixed);
+	return activedDelegated || null;
+}
+
+
 export const showNumParticipations = (numParticipations, company) => {
 	if(!company || !company.type){
 		return formatInt(numParticipations);
