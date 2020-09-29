@@ -159,7 +159,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     hasVideo ?
                         translate.in_favor_btn
                         :
-                        translate.in_favor_btn + buildRecountText(CBX.showNumParticipations(agenda.positiveVotings + agenda.positiveManual, council.company))
+                        translate.in_favor_btn + buildRecountText(CBX.showNumParticipations(agenda.positiveVotings + agenda.positiveManual, council.company, council.statute))
                 }
                 loading={loading === 1}
                 disabledColor={disabledColor}
@@ -179,7 +179,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     hasVideo ?
                         translate.against_btn
                         :
-                        translate.against_btn + buildRecountText(CBX.showNumParticipations(agenda.negativeVotings + agenda.negativeManual, council.company))
+                        translate.against_btn + buildRecountText(CBX.showNumParticipations(agenda.negativeVotings + agenda.negativeManual, council.company, council.statute))
                 }
                 loading={loading === 0}
                 disabledColor={disabledColor}
@@ -200,7 +200,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     hasVideo ?
                         translate.abstention_btn
                         :
-                        translate.abstention_btn + buildRecountText(CBX.showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, council.company))
+                        translate.abstention_btn + buildRecountText(CBX.showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, council.company, council.statute))
                 }
                 loading={loading === 2}
                 disabledColor={disabledColor}
@@ -221,7 +221,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                         hasVideo ?
                             translate.dont_vote
                             :
-                            translate.dont_vote + buildRecountText(CBX.showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, council.company))
+                            translate.dont_vote + buildRecountText(CBX.showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, council.company, council.statute))
                     }
                     disabled={disabled}
                     disabledColor={disabledColor}

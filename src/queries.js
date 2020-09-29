@@ -1485,6 +1485,7 @@ export const councilLiveQuery = gql`
 				title
 				existPublicUrl
 				addParticipantsListToAct
+				decimalDigits
 				existsAdvanceNoticeDays
 				advanceNoticeDays
 				existsSecondCall

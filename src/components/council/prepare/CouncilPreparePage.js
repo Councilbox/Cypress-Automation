@@ -151,6 +151,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 								}
 								<ConvenedParticipantsTable
 									council={council}
+									company={company}
 									totalVotes={data.councilTotalVotes}
 									socialCapital={data.councilSocialCapital}
 									participations={CBX.hasParticipations(council)}
@@ -492,6 +493,7 @@ export default graphql(gql`
 				secondCallQuorum
 				secondCallQuorumDivider
 				existsDelegatedVote
+				decimalDigits
 				delegatedVoteWay
 				existMaxNumDelegatedVotes
 				maxNumDelegatedVotes

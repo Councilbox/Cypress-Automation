@@ -83,7 +83,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 
 
 	const calculateParticipantVotes = () => {
-		return showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company);
+		return showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute);
 	}
 
 	const _renderParticipantInfo = () => {
@@ -114,7 +114,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}
 					{delegations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company)}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute)}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
@@ -126,7 +126,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					}
 					{representations.map(vote => (
 						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company)}`}</span>
+							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute)}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}

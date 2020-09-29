@@ -293,6 +293,7 @@ const councilQuery = gql`
 				minimumSeparationBetweenCall
 				canEditConvene
 				firstCallQuorumType
+				decimalDigits
 				firstCallQuorum
 				firstCallQuorumDivider
 				secondCallQuorumType

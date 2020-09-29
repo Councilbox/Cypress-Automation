@@ -35,7 +35,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
                 {delegations.map(vote => (
                         <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                             <div>
-                                <span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company)}`}</span>
+                                <span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute, council.statute)}`}</span>
                                 {vote.voteDenied &&
                                     <span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
                                 }
@@ -55,7 +55,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
                 }
                 {representations.map(vote => (
                         <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', alignItems: 'center'}}>
-                            <span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company)}`}</span>
+                            <span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute)}`}</span>
                             {vote.voteDenied &&
 								<span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
 							}
@@ -68,7 +68,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
     }
 
     const calculateParticipantVotes = () => {
-        return showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company);
+        return showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute);
     }
 
     return (

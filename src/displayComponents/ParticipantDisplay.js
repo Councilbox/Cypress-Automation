@@ -250,7 +250,7 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 								</div>
 							</Tooltip>
 							<Typography variant="body1">
-								{`${CBX.showNumParticipations(participant.numParticipations, company)}`}
+								{`${CBX.showNumParticipations(participant.numParticipations, company, council.statute)}`}
 							</Typography>
 						</div>
 						{CBX.hasParticipations(council.statute) && (
@@ -283,7 +283,7 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 									</div>
 								</Tooltip>
 								<Typography variant="body1">
-									{`${CBX.showNumParticipations(participant.socialCapital, company)}`}
+									{`${CBX.showNumParticipations(participant.socialCapital, company, council.statute)}`}
 								</Typography>
 							</div>
 						)}

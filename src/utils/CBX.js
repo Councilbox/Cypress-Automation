@@ -45,7 +45,11 @@ export const getActiveVote = agendaVoting => {
 }
 
 
-export const showNumParticipations = (numParticipations, company) => {
+export const showNumParticipations = (numParticipations, company, statute) => {
+	if(statute && statute.decimalDigits && statute.decimalDigits){
+		return formatInt(numParticipations / Math.pow(10, statute.decimalDigits));
+	}
+
 	if(!company || !company.type){
 		return formatInt(numParticipations);
 	}

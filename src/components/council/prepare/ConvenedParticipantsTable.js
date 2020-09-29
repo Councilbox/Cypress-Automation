@@ -410,7 +410,7 @@ class HoverableRow extends React.Component {
 						<GridItem xs={7} md={7}>
 							{!CBX.isRepresentative(participant) ?
 								`${
-								participant.numParticipations
+								CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
 								} (${participant.numParticipations > 0 ? (
 									(participant.numParticipations /
 										totalVotes) *
@@ -418,7 +418,7 @@ class HoverableRow extends React.Component {
 								).toFixed(2) : 0}%)`
 								:
 								`${
-								participant.representing.numParticipations
+									CBX.showNumParticipations(participant.representing.numParticipations, this.props.company, council.statute)
 								} (${participant.representing.numParticipations > 0 ? (
 									(participant.representing.numParticipations /
 										totalVotes) *
@@ -492,7 +492,7 @@ class HoverableRow extends React.Component {
 				</TableCell>
 				<TableCell>
 					{`${
-						participant.numParticipations
+						CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
 						} (${participant.numParticipations > 0 ? (
 							(participant.numParticipations /
 								totalVotes) *
@@ -507,7 +507,7 @@ class HoverableRow extends React.Component {
 				{this.props.participations && (
 					<TableCell>
 						{`${
-							participant.socialCapital
+							CBX.showNumParticipations(participant.socialCapital, this.props.company, council.statute)
 							} (${participant.socialCapital > 0 ?
 								((participant.socialCapital / socialCapital) * 100).toFixed(2)
 								:

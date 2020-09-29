@@ -106,9 +106,6 @@ class AgendaMenu extends React.Component {
             ownVote = checkVotings(agenda.votings) || ownVote;
         }
 
-        console.log(ownVote);
-
-        // CBX.councilHasVideo(council)
         return (
             <div>
                 <Typography style={{ fontWeight: '700', fontSize: '16px' }}>

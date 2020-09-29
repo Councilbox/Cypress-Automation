@@ -25,19 +25,19 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
     return (
         <>
             {council.quorumPrototype === 0 ?
-                <b>{`${translate.current_quorum}: ${showNumParticipations(recount.partRightVoting, company)} (${((recount.partRightVoting / (recount.partTotal ? recount.partTotal : 1)) * 100).toFixed(3)}%)${
+                <b>{`${translate.current_quorum}: ${showNumParticipations(recount.partRightVoting, company, council.statute)} (${((recount.partRightVoting / (recount.partTotal ? recount.partTotal : 1)) * 100).toFixed(3)}%)${
                     (councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
                         ` / ${translate.initial_quorum}: ${
-                        council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
+                        council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)
                         } (${((council.initialQuorum / (recount.partTotal ? recount.partTotal : 1) * 100).toFixed(3))}%)`
                         :
                         ''
                     }`}</b>
                 :
-                <b>{`${translate.current_quorum}: ${showNumParticipations(recount.socialCapitalRightVoting, company)} (${((recount.socialCapitalRightVoting / (recount.socialCapitalTotal ? recount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
+                <b>{`${translate.current_quorum}: ${showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)} (${((recount.socialCapitalRightVoting / (recount.socialCapitalTotal ? recount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${
                     (councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
                         ` / ${translate.initial_quorum}: ${
-                        council.initialQuorum ? showNumParticipations(council.initialQuorum, company) : showNumParticipations(council.currentQuorum, company)
+                        council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)
                         } (${((council.initialQuorum / (recount.socialCapitalTotal ? recount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
                         :
                         ''
@@ -230,10 +230,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 Total
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.numTotal, company)}
+                                {showNumParticipations(data.numTotal, company, council.statute)}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.total, company)}
+                                {showNumParticipations(data.total, company, council.statute)}
                             </TableCell>
                             <TableCell>
                                 {getPercentage(data.total)}%
@@ -244,10 +244,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 {translate.face_to_face}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.numPresent, company)}
+                                {showNumParticipations(data.numPresent, company, council.statute)}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.present, company)}
+                                {showNumParticipations(data.present, company, council.statute)}
                             </TableCell>
                             <TableCell>
                                 {getPercentage(data.present)}%
@@ -258,10 +258,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 {translate.remotes}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.numRemote, company)}
+                                {showNumParticipations(data.numRemote, company, council.statute)}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.remote, company)}
+                                {showNumParticipations(data.remote, company, council.statute)}
                             </TableCell>
                             <TableCell>
                                 {getPercentage(data.remote)}%
@@ -272,10 +272,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 {translate.delegated_plural}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.numDelegated, company)}
+                                {showNumParticipations(data.numDelegated, company, council.statute)}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.delegated, company)}
+                                {showNumParticipations(data.delegated, company, council.statute)}
                             </TableCell>
                             <TableCell>
                                 {getPercentage(data.delegated)}%
@@ -287,10 +287,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                     {council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION? translate.vote_letter : translate.quorum_early_votes}
                                 </TableCell>
                                 <TableCell>
-                                    {showNumParticipations(data.numEarlyVotes, company)}
+                                    {showNumParticipations(data.numEarlyVotes, company, council.statute)}
                                 </TableCell>
                                 <TableCell>
-                                    {showNumParticipations(data.earlyVotes, company)}
+                                    {showNumParticipations(data.earlyVotes, company, council.statute)}
                                 </TableCell>
                                 <TableCell>
                                     {getPercentage(data.earlyVotes)}%
@@ -302,10 +302,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 {translate.no_voting_rights}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.numWithoutVote, company)}
+                                {showNumParticipations(data.numWithoutVote, company, council.statute)}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.withoutVote, company)}
+                                {showNumParticipations(data.withoutVote, company, council.statute)}
                             </TableCell>
                             <TableCell>
                                 {getPercentage(data.withoutVote)}%
@@ -316,7 +316,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 {translate.others}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.numOthers, company)}
+                                {showNumParticipations(data.numOthers, company, council.statute)}
                             </TableCell>
                             <TableCell>
                                 -
@@ -354,19 +354,19 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                     {hasVotation(point.subjectType) ?
                                         <>
                                             <TableCell>
-                                                {showNumParticipations(point.positiveVotings + point.positiveManual, company)}
+                                                {showNumParticipations(point.positiveVotings + point.positiveManual, company, council.statute)}
                                             </TableCell>
                                             <TableCell>
                                                 {`${getVotingPercentage(point.positiveVotings + point.positiveManual)}%`}
                                             </TableCell>
                                             <TableCell>
-                                                {showNumParticipations(point.negativeVotings + point.negativeManual, company)}
+                                                {showNumParticipations(point.negativeVotings + point.negativeManual, company, council.statute)}
                                             </TableCell>
                                             <TableCell>
                                                 {`${getVotingPercentage(point.negativeVotings + point.negativeManual)}%`}
                                             </TableCell>
                                             <TableCell>
-                                                {showNumParticipations(point.abstentionVotings + point.abstentionManual, company)}
+                                                {showNumParticipations(point.abstentionVotings + point.abstentionManual, company, council.statute)}
                                             </TableCell>
                                             <TableCell>
                                                 {`${getVotingPercentage(point.abstentionVotings + point.abstentionManual)}%`}
