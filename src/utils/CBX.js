@@ -363,7 +363,7 @@ export const getSMSStatusByCode = reqCode => {
 }
 
 export const filterAgendaVotingTypes = (votingTypes, statute = {}, council = {}) => {
-	if (statute.existsPresentWithRemoteVote === 1 && council.councilType < 2) {
+	if (council.councilType < 2) {
 		return votingTypes.filter(
 			type => type.label === "text" || type.label === "public_votation"
 		);
