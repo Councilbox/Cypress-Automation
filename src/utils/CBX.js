@@ -41,7 +41,7 @@ export const getActiveVote = agendaVoting => {
 	}
 
 	const activedDelegated = agendaVoting.delegatedVotes.find(vote => !vote.fixed);
-	return activedDelegated || null;
+	return activedDelegated || agendaVoting;
 }
 
 

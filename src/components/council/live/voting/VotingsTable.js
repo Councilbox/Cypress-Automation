@@ -123,7 +123,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 								title={vote? vote.vote : null}
 							>
 								<VotingValueIcon
-									vote={vote}
+									vote={vote.vote}
 								/>
 							</Tooltip>
 						}

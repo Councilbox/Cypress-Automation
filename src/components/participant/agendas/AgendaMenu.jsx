@@ -100,7 +100,13 @@ class AgendaMenu extends React.Component {
     render() {
         const { translate, agenda, council} = this.props;
         const secondary = getSecondary();
-        const ownVote = CBX.findOwnVote(agenda.votings, this.props.participant);
+        let ownVote = CBX.findOwnVote(agenda.votings, this.props.participant);
+
+        if(!ownVote || (ownVote.fixed && ownVote.numParticipations === 0)) {
+            ownVote = checkVotings(agenda.votings) || ownVote;
+        }
+
+        console.log(ownVote);
 
         // CBX.councilHasVideo(council)
         return (
@@ -271,7 +277,7 @@ class AgendaMenu extends React.Component {
 
 const checkVotings = votings => {
     const result = votings.find(voting => voting.numParticipations > 0);
-    return !!result;
+    return result;
 }
 
 export default AgendaMenu;
