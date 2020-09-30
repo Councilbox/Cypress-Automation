@@ -2,9 +2,10 @@ import React from 'react';
 import { HorizontalBar } from 'react-chartjs-2';
 import { Grid, GridItem } from '../../../../displayComponents';
 import { Table, TableCell, TableRow, TableHead, TableBody } from 'material-ui';
+import { showNumParticipations } from '../../../../utils/CBX';
 
 
-const CustomAgendaRecount = ({ agenda, translate }) => {
+const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
     const data = formatDataFromAgenda(agenda);
     return (
         <Grid>
@@ -47,7 +48,11 @@ const CustomAgendaRecount = ({ agenda, translate }) => {
                                     {item.value}
                                 </TableCell>
                                 <TableCell >
-                                    {` ${agenda.ballots.filter(ballot => ballot.itemId === item.id).reduce((a, b) => a + b.weight, 0)}`}
+                                    {` ${showNumParticipations(
+                                        agenda.ballots.filter(ballot => ballot.itemId === item.id).reduce((a, b) => a + b.weight, 0),
+                                        company,
+                                        council.statute
+                                    )}`}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -56,7 +61,11 @@ const CustomAgendaRecount = ({ agenda, translate }) => {
                                 {translate.abstention_btn}
                             </TableCell>
                             <TableCell >
-                                {`${agenda.ballots.filter(ballot => ballot.itemId === -1).reduce((a, b) => a + b.weight, 0)}`}
+                                {`${showNumParticipations(
+                                    agenda.ballots.filter(ballot => ballot.itemId === -1).reduce((a, b) => a + b.weight, 0),
+                                    company,
+                                    council.statute
+                                )}`}
                             </TableCell>
                         </TableRow>
                     </TableBody>

@@ -128,13 +128,13 @@ export const showAgendaVotingsTable = agenda => {
 	)
 }
 
-export const getAgendaResult = (agenda, type) => {
+export const getAgendaResult = (agenda, type, data = {}) => {
 	const totalVotes = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
 	const types = {
-		POSITIVE: `${agenda.positiveVotings + agenda.positiveManual} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (totalVotes))}%)`,
-		NEGATIVE: `${agenda.negativeVotings + agenda.negativeManual} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (totalVotes))}%)`,
-		ABSTENTION: `${agenda.abstentionVotings + agenda.abstentionManual} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (totalVotes))}%)`,
-		NO_VOTE: `${agenda.noVoteVotings + agenda.noVoteManual} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`
+		POSITIVE: `${showNumParticipations(agenda.positiveVotings + agenda.positiveManual, data.company, data.council? data.council.statute : {})} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (totalVotes))}%)`,
+		NEGATIVE: `${showNumParticipations(agenda.negativeVotings + agenda.negativeManual, data.company, data.council? data.council.statute : {})} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (totalVotes))}%)`,
+		ABSTENTION: `${showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, data.company, data.council? data.council.statute : {})} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (totalVotes))}%)`,
+		NO_VOTE: `${showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, data.company, data.council? data.council.statute : {})} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`
 	}
 
 	return types[type];

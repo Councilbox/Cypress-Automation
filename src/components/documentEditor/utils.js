@@ -3,7 +3,7 @@ import { blocks } from './actBlocks';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
 import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
-import { getAgendaResult, hasVotation, isCustomPoint } from '../../utils/CBX';
+import { getAgendaResult, hasVotation, isCustomPoint, showNumParticipations } from '../../utils/CBX';
 import iconDelegaciones from '../../assets/img/networking.svg';
 import { TAG_TYPES } from '../company/drafts/draftTags/utils';
 import { translations } from './translations';
@@ -178,7 +178,7 @@ const getCustomRecount = (ballots, itemId) => {
 }
 
 
-const buildAgendaText = (agenda, translate) => {
+const buildAgendaText = (agenda, translate, data) => {
     if(isCustomPoint(agenda.subjectType)){
         return `
             <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
@@ -186,13 +186,13 @@ const buildAgendaText = (agenda, translate) => {
                 ${agenda.items.reduce((acc, item) => {
                     return `${acc}
                         <li>
-                            ${item.value}: ${getCustomRecount(agenda.ballots, item.id)}
+                            ${item.value}: ${showNumParticipations(getCustomRecount(agenda.ballots, item.id), data.company, data.council.statute)}
                         </li>
                     `
 
                 }, '')}
                 <li>
-                    ${translate.abstentions}: ${getCustomRecount(agenda.ballots, -1)}
+                    ${translate.abstentions}: ${showNumParticipations(getCustomRecount(agenda.ballots, -1), data.company, data.council.statute)}
                 </li>
             </div>
         `;
@@ -203,10 +203,10 @@ const buildAgendaText = (agenda, translate) => {
             <b>${translate.votings}: </b>
             <br> ${
                 translate.inFavor.toUpperCase()}: ${
-                getAgendaResult(agenda, 'POSITIVE')} | ${
+                getAgendaResult(agenda, 'POSITIVE', data)} | ${
                 translate.against.toUpperCase()}: ${
-                getAgendaResult(agenda, 'NEGATIVE')} | ${translate.abstentions.toUpperCase()}:
-            ${getAgendaResult(agenda, 'ABSTENTION')} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NO_VOTE')}
+                getAgendaResult(agenda, 'NEGATIVE', data)} | ${translate.abstentions.toUpperCase()}:
+            ${getAgendaResult(agenda, 'ABSTENTION', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NO_VOTE', data)}
             <br>
         </div>
     `;
@@ -217,6 +217,8 @@ export function generateAgendaBlocks (data, language = 'es', secondaryLanguage =
     const agenda = data.agendas;
     const texts = translations[language];
     const secondaryTexts = translations[secondaryLanguage];
+
+    console.log(data);
 
 
     let newArray = [
@@ -276,8 +278,8 @@ export function generateAgendaBlocks (data, language = 'es', secondaryLanguage =
                     data: {
                         agendaId: element.id
                     },
-                    text: buildAgendaText(element, texts),
-                    secondaryText: buildAgendaText(element, secondaryTexts)
+                    text: buildAgendaText(element, texts, data),
+                    secondaryText: buildAgendaText(element, secondaryTexts, data)
                 },
                 {
                     id: Math.random().toString(36).substr(2, 9),

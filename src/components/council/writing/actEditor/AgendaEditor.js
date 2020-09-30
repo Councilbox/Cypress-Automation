@@ -249,6 +249,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 						:
 							<CustomAgendaRecount
 								agenda={agenda}
+								company={company}
 								translate={translate}
 								council={council}
 							/>

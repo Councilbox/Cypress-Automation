@@ -144,6 +144,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 								{CBX.councilHasAssistanceConfirmation(council) &&
 									<EstimatedQuorum
 										council={council}
+										company={company}
 										totalVotes={data.councilTotalVotes}
 										socialCapital={data.councilSocialCapital}
 										translate={translate}

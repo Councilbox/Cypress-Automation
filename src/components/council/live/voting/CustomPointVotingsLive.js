@@ -4,15 +4,21 @@ import VotingsTableFiltersContainer from './VotingsTableFiltersContainer';
 import CustomAgendaRecount from './CustomAgendaRecount';
 import PrivateRecountMessage from './PrivateRecountMessage';
 import { AGENDA_STATES } from '../../../../constants';
+import withSharedProps from '../../../../HOCs/withSharedProps';
 
-const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, data: fetchedData, ...props}) => {
+const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, data: fetchedData, company, ...props}) => {
     return (
         <div>
             <Grid style={{width: '100%', display: 'flex'}}>
                 {agenda.subjectType === 7 && agenda.votingState !== AGENDA_STATES.CLOSED?
 					<PrivateRecountMessage translate={translate} />
 				:
-                    <CustomAgendaRecount agenda={agenda} translate={translate} />
+                    <CustomAgendaRecount
+                        agenda={agenda}
+                        translate={translate}
+                        company={company}
+                        council={council}
+                    />
                 }
                 <GridItem xs={12} md={12} lg={12}>
                     <VotingsTableFiltersContainer
@@ -28,4 +34,4 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
     )
 }
 
-export default CustomPointVotingsLive;
+export default withSharedProps()(CustomPointVotingsLive);

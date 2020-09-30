@@ -73,6 +73,7 @@ export const CouncilActData = gql`
 				id
 				title
 				statuteId
+				decimalDigits
 				doubleColumnDocs
 				prototype
 				existsSecondCall
@@ -284,7 +285,10 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 
 		const actDocument = response.data.council.act.document;
 
-		setData(response.data);
+		setData({
+			...response.data,
+			company
+		});
 
 		handlers.initializeDoc(actDocument ? {
 			doc: actDocument.fragments,
