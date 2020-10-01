@@ -195,7 +195,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                         </TableCell>
                         <TableCell style={{ fontSize: '0.95em' }}>
                             {vote.numParticipations === 0 ? 
-                                'No puede votar este punto'
+                                translate.cant_vote_this_point
                             :
                                 <>
                                     {(vote.author.numParticipations > 0 ? `${showNumParticipations(vote.author.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.numParticipations)}` : 0)}
