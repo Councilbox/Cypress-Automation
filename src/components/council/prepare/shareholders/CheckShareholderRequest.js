@@ -14,8 +14,9 @@ export const getTypeText = (text, translate) => {
     const texts = {
         'access': translate.assistance,
         // 'access': 'Asistencia a la junta general',
-        'vote': translate.early_voto,
-        'represent': translate.vote_delegation
+        'vote': translate.early_vote,
+        'represent': translate.vote_delegation,
+        'representation': translate.vote_represented
     }
 
     return texts[text];
@@ -77,7 +78,8 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                     {request.data.requestType === 'represent' &&
                         <>
                             En:
-                            <div style={{ marginBotton: '2em' }}>
+                            {Array.isArray(request.data.representative) ?
+                                <div style={{ marginBotton: '2em' }}>
                                 {request.data.representative[0].value === 'el presidente' ||   request.data.representative[0].value && request.data.representative[0].value.includes('Presidente') ?
                                     request.data.representative[0].value
                                     :
@@ -87,7 +89,16 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                                             {data.name}  - {data.value}
                                         </div>
                                     ))}
-                            </div>
+                                </div>
+                            :
+                                <div style={{ marginBotton: '2em' }}>
+                                    <div>
+                                        {request.data.representative.name} {request.data.representative.surname || ''}
+                                    </div>
+                                </div>
+
+                            }
+
                             {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
                                 <div key={`early_votes_${index}`}>
                                     <div style={{ fontWeight: '700' }}>{vote.name}</div>

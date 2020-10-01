@@ -10,6 +10,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
     const [modal, setModal] = React.useState(null);
     let { requestType, attachments, earlyVotes, representative, ...cleanData } = request.data;
     cleanData.socialCapital = cleanData.numParticipations || 1;
+    cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;
     const secondary = getSecondary();
     const buttonColor = request.participantCreated? 'grey' : secondary;
 
