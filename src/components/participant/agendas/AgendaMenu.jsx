@@ -105,7 +105,7 @@ class AgendaMenu extends React.Component {
         if(!ownVote || (ownVote.fixed && ownVote.numParticipations === 0)) {
             ownVote = checkVotings(agenda.votings) || ownVote;
         }
-
+        
         return (
             <div>
                 <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
@@ -145,7 +145,7 @@ class AgendaMenu extends React.Component {
                                                 <VotingSection
                                                     disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
                                                     agenda={agenda}
-                                                    ownVote={checkVotings(agenda.votings)? ownVote : null}
+                                                    ownVote={ownVote}
                                                     open={this.state.open}
                                                     council={this.props.council}
                                                     voting={this.state.voting}
@@ -273,7 +273,7 @@ class AgendaMenu extends React.Component {
 }
 
 const checkVotings = votings => {
-    const result = votings.find(voting => voting.numParticipations > 0);
+    const result = votings.find(voting => (voting.numParticipations > 0 && !voting.fixed));
     return result;
 }
 

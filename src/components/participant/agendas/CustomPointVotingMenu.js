@@ -168,6 +168,9 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
             {denied.length > 0 &&
                 'Dentro de los votos depositados en usted, tiene votos denegados' //
             }
+            {ownVote.fixed &&
+                translate.participant_vote_fixed
+            }
             {agenda.options.maxSelections === 1 ?
                 <React.Fragment>
                     {agenda.items.map((item, index) => (
