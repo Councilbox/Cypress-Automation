@@ -9,6 +9,7 @@ import { downloadFile } from '../../../../utils/CBX';
 import RefuseRequestButton from './RefuseRequestButton';
 import DelegateVoteButton from './DelegateVoteButton';
 import { getVote } from '../../../participant/ResultsTimeline';
+import SendRequestConfirmationButton from './SendRequestConfirmationButton';
 
 export const getTypeText = (text, translate) => {
     const texts = {
@@ -91,11 +92,12 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                                     ))}
                                 </div>
                             :
-                                <div style={{ marginBotton: '2em' }}>
-                                    <div>
-                                        {request.data.representative.name} {request.data.representative.surname || ''}
+                                request.data.representative &&
+                                    <div style={{ marginBotton: '2em' }}>
+                                        <div>
+                                            {request.data.representative.name} {request.data.representative.surname || ''}
+                                        </div>
                                     </div>
-                                </div>
 
                             }
 
@@ -137,6 +139,14 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                         refetch={refetch}
                         translate={translate}
                     />
+                }
+                {request.participantCreated &&
+                    <SendRequestConfirmationButton
+                        request={request}
+                        refetch={refetch}
+                        translate={translate}
+                    />
+
                 }
                 {request.participantCreated && request.data.requestType === 'represent' &&
                     <DelegateVoteButton
