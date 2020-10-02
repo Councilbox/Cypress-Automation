@@ -140,14 +140,14 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                         translate={translate}
                     />
                 }
-                {/* {request.participantCreated &&
+                {request.participantCreated &&
                     <SendRequestConfirmationButton
                         request={request}
                         refetch={refetch}
                         translate={translate}
                     />
 
-                } */}
+                }
                 {request.participantCreated && request.data.requestType === 'represent' &&
                     <DelegateVoteButton
                         request={request}
