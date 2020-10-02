@@ -251,7 +251,7 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
         return num.toString().substr(num.length - 4);
     }
 
-    const success = !!responseSMS && (responseSMS === 20 || responseSMS === 22);
+    const success = !!responseSMS && (responseSMS === 20 || responseSMS === 22 || responseSMS === 25);
     const error = !!responseSMS && !success;
 
     const renderAccessButton = () => {

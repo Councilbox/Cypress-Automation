@@ -5,6 +5,9 @@ import { getPrimary, getSecondary } from "../../../../styles/colors";
 const SteperAcceso = ({ resendKey, translate, responseSMS, error }) => {
     const primary = getPrimary();
     const secondary = getSecondary();
+
+    const deliveredState = responseSMS === 22 || responseSMS === 25;
+
     return (
         <Stepper nonLinear alternativeLabel style={{ height: '10em' }} >
             <Step className={'stepperAcceso'}>
@@ -12,12 +15,12 @@ const SteperAcceso = ({ resendKey, translate, responseSMS, error }) => {
                     <span style={{ color: primary }}>{translate.room_access}</span>
                 </StepLabel>
             </Step>
-            <Step className={error ? 'stepperAcceso' : (responseSMS === 20 || responseSMS === 22) ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
+            <Step className={error ? 'stepperAcceso' : (responseSMS === 20 || deliveredState) ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                 <StepLabel>
                     <span style={{ color: primary }}>{translate.sms_sent}</span>
                 </StepLabel>
             </Step>
-            <Step className={error ? 'stepperAccesoFail' : responseSMS === 22 ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
+            <Step className={error ? 'stepperAccesoFail' : deliveredState ? 'stepperAcceso' : 'stepperAccesoNoActived'}>
                 <StepLabel>
                     <span style={{ color: primary }}>{translate.sms_delivered}</span>
                     <br></br>
