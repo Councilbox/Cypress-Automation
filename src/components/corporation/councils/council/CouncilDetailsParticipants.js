@@ -28,6 +28,7 @@ import StateIcon from '../../../council/live/participants/StateIcon';
 import ParticipantContactEditor from './ParticipantContactEditor';
 import NotificationsTable from '../../../notifications/NotificationsTable';
 import AddGuestModal from '../../../council/live/participants/AddGuestModal';
+import DeleteConvenedParticipantButton from './DeleteConvenedParticipantButton';
 
 const limit = PARTICIPANTS_LIMITS[0];
 
@@ -605,30 +606,17 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 						<TableCell>
 							<div style={{ display: 'flex' }}>
 								<div style={{ color: getPrimary(), position: "relative", marginRight: "1.5em", cursor: "pointer", }} onClick={editParticipant}>
-									{/* <Tooltip
-										title={'Editar Participante'}
-									>
-										<div style={{ fontSize: "23px", fontWeight: "bold" }}>
-											P
-									</div>
-									</Tooltip> */}
 									<div style={{ fontSize: '20px' }}>
 										<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
 									</div>
-
 								</div>
-								{/* <div style={{ color: getPrimary(), position: "relative", marginRight: "1em", cursor: "pointer", }} onClick={() => setCredentials(representative ? 'representative' : 'participant')}>
-									<Tooltip
-										title={'Editar Credenciales'}
-									>
-										<div style={{ fontSize: "23px", fontWeight: "bold" }}>
-											C
-									</div>
-									</Tooltip>
-									<div style={{ position: "absolute", left: '9px', top: '21px' }}>
-										<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-									</div>
-								</div> */}
+								<div>
+									<DeleteConvenedParticipantButton
+										translate={translate}
+										participant={participant}
+										refetch={refetch}
+									/>
+								</div>
 							</div>
 						</TableCell>
 					</React.Fragment>
