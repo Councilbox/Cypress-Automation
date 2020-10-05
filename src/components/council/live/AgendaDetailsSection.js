@@ -79,6 +79,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 							<EditTitlePoint
 								title={agenda.agendaSubject}
 								translate={translate}
+								refetch={refetch}
 								setPointNameEditor={setPointNameEditor}
 								updateAgenda={updateAgenda}
 								agenda={agenda}
@@ -103,7 +104,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 
 									</ToolTip>
 								</div>
-								{agenda.pointState === AGENDA_STATES.INITIAL &&
+								{(agenda.pointState === AGENDA_STATES.INITIAL || props.root) &&
 									<div>
 										<i
 											className="fa fa-pencil-square-o"
@@ -170,7 +171,19 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											onClick={() => setExpanded(!expanded)}
 										/>
 										:
-										translate.no_description
+										<>
+											<span style={{ marginRight: '0.6em' }}>{translate.no_description}</span>
+											<AgendaDescriptionModal
+												agenda={agenda}
+												translate={translate}
+												council={council}
+												companyStatutes={props.companyStatutes}
+												majorityTypes={props.majorityTypes}
+												draftTypes={props.draftTypes}
+												refetch={refetch}
+											/>
+										</>
+										
 									}
 								</React.Fragment>
 							}
@@ -215,43 +228,45 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 				</GridItem>
 			</Grid>
 			<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout ? '100vh' : '100%'} - ${smallLayout ? '14em' : '6.5em'})`, overflow: 'hidden' }}>
-				<Collapse isOpened={expanded}>
-					<div
-						style={{
-							visibility: expanded ? 'visible' : 'hidden',
-							cursor: 'pointer',
-							marginLeft: '0.2em',
-							position: 'absolute',
-							top: 5,
-							left: '0.5em'
-						}}
-					>
-						<AgendaDescriptionModal
-							agenda={agenda}
-							translate={translate}
-							council={council}
-							companyStatutes={props.companyStatutes}
-							majorityTypes={props.majorityTypes}
-							draftTypes={props.draftTypes}
-							refetch={refetch}
+				{agenda.description &&
+					<Collapse isOpened={expanded}>
+						<div
+							style={{
+								visibility: expanded ? 'visible' : 'hidden',
+								cursor: 'pointer',
+								marginLeft: '0.2em',
+								position: 'absolute',
+								top: 5,
+								left: '0.5em'
+							}}
+						>
+							<AgendaDescriptionModal
+								agenda={agenda}
+								translate={translate}
+								council={council}
+								companyStatutes={props.companyStatutes}
+								majorityTypes={props.majorityTypes}
+								draftTypes={props.draftTypes}
+								refetch={refetch}
+							/>
+						</div>
+						<div
+							style={{
+								fontSize: "0.9em",
+								padding: '1em',
+								marginTop: '0.8em',
+								paddingBottom: '1.5em',
+								lineHeight: '1.2em',
+								width: '100%',
+								backgroundColor: 'white',
+							}}
+							onClick={toggleDescription}
+							dangerouslySetInnerHTML={{
+								__html: agenda.description
+							}}
 						/>
-					</div>
-					<div
-						style={{
-							fontSize: "0.9em",
-							padding: '1em',
-							marginTop: '0.8em',
-							paddingBottom: '1.5em',
-							lineHeight: '1.2em',
-							width: '100%',
-							backgroundColor: 'white',
-						}}
-						onClick={toggleDescription}
-						dangerouslySetInnerHTML={{
-							__html: agenda.description
-						}}
-					/>
-				</Collapse>
+					</Collapse>
+				}
 				{agenda.subjectType !== CBX.getActPointSubjectType() ?
 					<AgendaDetailsTabs
 						key={`agenda_${agenda.id}`}
@@ -287,16 +302,16 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 }
 
 
-const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, agenda, council }) => {
+const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, agenda, council, refetch }) => {
 	const [pointNameEditorText, setPointNameEditorText] = React.useState('');
 
 	React.useEffect(() => {
-		setPointNameEditorText(title)
+		setPointNameEditorText(title);
 	}, [title]);
 
 
 	const saveTitle = async () => {
-		const result = await updateAgenda({
+		await updateAgenda({
 			variables: {
 				agenda: {
 					id: agenda.id,
@@ -305,7 +320,8 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 				}
 			}
 		});
-		setPointNameEditor(false)
+		refetch();
+		setPointNameEditor(false);
 	}
 
 
