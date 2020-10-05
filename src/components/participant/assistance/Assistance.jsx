@@ -79,7 +79,8 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	const [selecteAssistance, setSelecteAssistance] = React.useState(translate.council);
 	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
 	const [openModalVoteLetter, setOpenModalVoteLetter] = React.useState(false);
-	const [check, setCheck] = React.useState(false);
+	const [check, setCheck] = React.useState(!council.statute.attendanceText);
+	const [checkError, setCheckError] = React.useState(false);
 	const config = React.useContext(ConfigContext);
 
 	function generateAttendanceData() {
@@ -416,18 +417,20 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 						<div>
 							{council.confirmAssistance !== 0 &&
 								<BasicButton
-									text={state.success || state.locked ? translate.tooltip_sent : translate.send}
-									color={state.locked || !check ? 'grey' : primary}
+									text={(state.success || state.locked) ? translate.tooltip_sent : translate.send}
+									color={(state.locked || !check) ? 'grey' : primary}
 									floatRight={!isMobile}
 									success={state.success}
-									disabled={state.locked || !check }
+									disabled={state.locked}
 									reset={resetButtonStates}
 									textStyle={{
 										color: "white",
 										fontWeight: "700"
 									}}
 									loading={state.loading}
-									onClick={sendButtonAction}
+									onClick={!check? () => {
+										setCheckError(translate.accept_conditions_need);
+									} : sendButtonAction}
 									icon={<ButtonIcon type="save" color="white" />}
 								/>
 							}
@@ -646,12 +649,16 @@ al borrar una carta de voto se elimina el proxy vote
 												<div>
 													<Checkbox
 														value={check}
-														onChange={() =>
-															setCheck(check ? false : true)
-														}
+														onChange={() => {
+															setCheck(check ? false : true);
+															setCheckError(false);
+														}}
 														label={translate.accept_participation_conditions}
 													/>
 												</div>
+												{checkError &&
+													<span style={{ color: 'red' }}>{checkError}</span>
+												}
 											</div>
 										}
 										{getDatos(selecteAssistance)}
