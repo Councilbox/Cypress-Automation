@@ -169,6 +169,7 @@ class CouncilDetails extends React.Component {
 								company={council.company}
 								translate={translate}
 								fullScreen={this.state.fullScreen}
+								root={true}
 								refetch={this.props.data.refetch}
 								openMenu={() => { }}
 							/>
