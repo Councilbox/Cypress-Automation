@@ -421,7 +421,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 									color={(state.locked || !check) ? 'grey' : primary}
 									floatRight={!isMobile}
 									success={state.success}
-									disabled={state.locked || !check }
+									disabled={state.locked}
 									reset={resetButtonStates}
 									textStyle={{
 										color: "white",
