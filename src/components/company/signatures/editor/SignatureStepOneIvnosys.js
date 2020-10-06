@@ -48,15 +48,13 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         if (!file) {
             return;
         }
-        if (
-            file.size / 1000 + parseInt(state.totalSize, 10) >
-            10000
-        ) {
+        if (file.size / 1000 + parseInt(state.totalSize, 10) > 10000) {
             setState({
                 alert: true
             });
             return;
         }
+        
         let reader = new FileReader();
         reader.readAsBinaryString(file);
         reader.onload = async event => {

@@ -2,13 +2,14 @@ import React from 'react';
 import { BasicButton } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import SignatureParticipants from './SignatureParticipants';
 
-const SignatureStepTwoIvnosys = ({ ...props }) => {
+const SignatureStepTwoIvnosys = ({ client, ...props }) => {
     const [state, setState] = React.useState({
-        loading: false
+        loading: false,
+        error: false
     })
 
     const updateState = object => {
@@ -26,17 +27,34 @@ const SignatureStepTwoIvnosys = ({ ...props }) => {
             ...state,
             loading: true
         });
-        const response = await props.sendSignature({
+        const response = await client.mutate({
+            mutation: gql`
+                mutation SendSignature($id: Int!){
+                    sendSignature(id: $id){
+                        success
+                    }
+                }
+            `,
             variables: {
                 id: props.signature.id
             }
         });
-        if (response.data.sendSignature.success) {
+
+        if (response.data && response.data.sendSignature && response.data.sendSignature.success) {
             setState({
                 ...state,
+                error: false,
                 loading: false
             })
             props.refetch();
+        }
+
+        if(response.errors && response.errors[0].message === 'There is no participants added'){
+            setState({
+                ...state,
+                loading: false,
+                error: translate.participants_required
+            })
         }
     }
 
@@ -53,6 +71,13 @@ const SignatureStepTwoIvnosys = ({ ...props }) => {
                         refetch={props.refetch}
                         signature={props.signature}
                         translate={translate}
+                        error={state.error}
+                        setError={error => {
+                            setState({
+                                ...state,
+                                error
+                            })
+                        }}
                     />
                 </div>
             }
@@ -86,14 +111,6 @@ const SignatureStepTwoIvnosys = ({ ...props }) => {
     )
 }
 
-const sendSignature = gql`
-    mutation SendSignature($id: Int!){
-        sendSignature(id: $id){
-            success
-        }
-    }
-`;
 
-export default graphql(sendSignature, {
-    name: 'sendSignature'
-})(SignatureStepTwoIvnosys);
+
+export default withApollo(SignatureStepTwoIvnosys);

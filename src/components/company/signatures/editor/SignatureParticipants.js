@@ -53,6 +53,7 @@ class SignatureParticipants extends React.Component {
             if(response.data.addSignatureParticipantsFromCensus.success){
                 this.props.data.refetch();
                 this.props.refetch();
+                this.props.setError(false);
             }
         }
 
@@ -214,6 +215,9 @@ class SignatureParticipants extends React.Component {
                     bodyText={this._renderBody()}
                     title={translate.census}
                 />
+                 {this.props.error &&
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'red', fontWeight: '700' }}>{this.props.error}</div>
+                }
             </React.Fragment>
         )
     }
