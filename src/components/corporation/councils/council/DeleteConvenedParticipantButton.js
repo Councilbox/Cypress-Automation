@@ -2,12 +2,11 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { AlertConfirm, BasicButton } from '../../../../displayComponents';
+import { getSecondary } from '../../../../styles/colors';
 
 
-const DeleteConvenedParticipantButton = ({ translate, participant, client }) => {
+const DeleteConvenedParticipantButton = ({ translate, participant, client, refetch }) => {
     const [modal, setModal] = React.useState(false);
-    
-    console.log(participant);
 
     const killParticipant = async () => {
         const response = await client.mutate({
@@ -23,14 +22,21 @@ const DeleteConvenedParticipantButton = ({ translate, participant, client }) => 
                 participantId: participant.id
             }
         });
-
-        console.log(response)
+        refetch();
+        setModal(false);        
     }
 
     return (
         <>
             <BasicButton
                 text="Matar"
+                color="white"
+                buttonStyle={{
+                    border: `1px solid ${getSecondary()}`
+                }}
+                textStyle={{
+                    color: getSecondary()
+                }}
                 onClick={() => setModal(true)}
             />
             <AlertConfirm
