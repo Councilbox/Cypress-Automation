@@ -15,7 +15,7 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 	const [loadingConfig, setLoadingConfig] = React.useState(true);
 
 	React.useEffect(() => {
-		if(!data.loading && translate.selectedLanguage !== data.participant.language){
+		if(!data.error && !data.loading && translate.selectedLanguage !== data.participant.language){
 			actions.setLanguage(data.participant.language);
 		}
 	}, [data.loading, data.participant]);
@@ -38,10 +38,9 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 			//store.dispatch(addSpecificTranslations(data.councilVideo.company.type));
 		}
 	}, [companyId]);
-	
 
 	if (data.error && data.error.graphQLErrors["0"]) {
-		return <InvalidUrl />;
+		return <InvalidUrl error={data.error.graphQLErrors["0"]} />;
 	}
 
 	if (!translate || data.loading || loadingConfig) {

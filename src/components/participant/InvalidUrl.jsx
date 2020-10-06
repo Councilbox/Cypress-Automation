@@ -4,62 +4,72 @@ import FontAwesome from "react-fontawesome";
 import { darkGrey, secondary, lightGrey } from "../../styles/colors";
 import Header from "./Header";
 import { printSessionExpiredError } from "../../utils/CBX";
+import { PARTICIPANT_ERRORS } from "../../constants";
 
-class InvalidUrl extends React.Component {
-	render() {
-		return (
+const InvalidUrl = ({ error, test, translate }) => {
+
+	const printError = () => {
+		console.log(error);
+		if(error && error.code === PARTICIPANT_ERRORS.REMOVED){
+			return translate.participant_removed;
+		}
+
+		return printSessionExpiredError();
+	}
+	
+	return (
+		<div
+			style={{
+				height: "100vh",
+				width: "100vw"
+			}}
+		>
+			<Header />
 			<div
 				style={{
-					height: "100vh",
-					width: "100vw"
+					display: "flex",
+					backgroundColor: lightGrey,
+					height: "calc(100% - 48px)",
+					width: "100%",
+					alignItems: "center",
+					justifyContent: "center"
 				}}
 			>
-				<Header />
 				<div
 					style={{
 						display: "flex",
-						backgroundColor: lightGrey,
-						height: "calc(100% - 48px)",
-						width: "100%",
+						flexDirection: "column",
 						alignItems: "center",
-						justifyContent: "center"
+						justifyContent: "center",
+						textAlign: "center"
 					}}
 				>
-					<div
+					<FontAwesome
+						name={"exclamation-circle"}
 						style={{
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							justifyContent: "center",
-							textAlign: "center"
+							color: secondary,
+							fontSize: "70px"
 						}}
-					>
-						<FontAwesome
-							name={"exclamation-circle"}
-							style={{
-								color: secondary,
-								fontSize: "70px"
-							}}
-						/>
-						<h2 style={{ color: secondary }}>
-							{this.props.test?
-								this.props.translate.test_link.toUpperCase()
-							:
-								this.props.translate.invalid_url
-							}
-						</h2>
-						<h5 style={{ color: darkGrey }}>
-							{this.props.test?
-								this.props.translate.this_is_test_link
-							:
-								printSessionExpiredError()
-							}
-						</h5>
-					</div>
+					/>
+
+					<h2 style={{ color: secondary }}>
+						{test?
+							translate.test_link.toUpperCase()
+						:
+							translate.invalid_url
+						}
+					</h2>
+					<h5 style={{ color: darkGrey }}>
+						{test?
+							translate.this_is_test_link
+						:
+							printError()
+						}
+					</h5>
 				</div>
 			</div>
-		);
-	}
+		</div>
+	)
 }
 
 const mapStateToProps = state => ({

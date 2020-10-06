@@ -166,7 +166,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 				/>
 			);
 		} else {
-			return <InvalidUrl />;
+			return <InvalidUrl error={data.errors[0]} />;
 		}
 	}
 
