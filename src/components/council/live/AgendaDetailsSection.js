@@ -17,6 +17,7 @@ import PointEditorLive from './PointEditorLive';
 import { useOldState } from "../../../hooks";
 import CouncilStateButton from './menus/CouncilStateButton';
 import ToolTip from "../../../displayComponents/Tooltip";
+import PointEditor from "../editor/agenda/modals/PointEditor";
 
 const calculateOpenIndex = agendas => {
 	const openAgenda = agendas.find(
@@ -53,6 +54,47 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const agenda = agendas[props.selectedPoint];
 	const smallLayout = window.innerWidth < 500;
 	const normalLayout = window.innerWidth > 750;
+
+	
+
+	/*
+		{!!state.editAgenda &&
+			<PointEditor
+				translate={translate}
+				draftTypes={draftTypes}
+				statute={council.statute}
+				company={props.company}
+				council={council}
+				companyStatutes={data.companyStatutes}
+				open={!!state.editAgenda}
+				agenda={state.editAgenda}
+				votingTypes={votingTypes}
+				majorityTypes={majorityTypes}
+				refetch={getData}
+				requestClose={() =>
+					setState({ editAgenda: null })
+				}
+			/>
+		}
+		{!!state.editCustomAgenda && (
+			<CustomPointEditor
+				translate={translate}
+				draftTypes={draftTypes}
+				statute={council.statute}
+				company={props.company}
+				council={council}
+				companyStatutes={data.companyStatutes}
+				open={!!state.editCustomAgenda}
+				agenda={state.editCustomAgenda}
+				votingTypes={votingTypes}
+				majorityTypes={majorityTypes}
+				refetch={getData}
+				requestClose={() =>
+					setState({ editCustomAgenda: null })
+				}
+			/>
+		)}
+	^*/
 	
 	return (
 		<div
@@ -137,7 +179,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											marginLeft: '0.2em'
 										}}
 									></i>
-									<PointEditorLive
+									{/* <PointEditorLive
 										translate={translate}
 										agenda={agenda}
 										key={`point_editor_${agenda.id}`}
@@ -146,6 +188,20 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 										refetch={refetch}
 										majorityTypes={props.majorityTypes}
 										open={pointEditor}
+										requestClose={}
+									/> */}
+									<PointEditor
+										translate={translate}
+										draftTypes={props.draftTypes}
+										statute={council.statute}
+										company={props.company}
+										council={council}
+										companyStatutes={props.companyStatutes}
+										open={pointEditor}
+										agenda={agenda}
+										votingTypes={props.votingTypes}
+										majorityTypes={props.majorityTypes}
+										refetch={refetch}
 										requestClose={closePointEditor}
 									/>
 								</React.Fragment>
@@ -323,7 +379,6 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 		refetch();
 		setPointNameEditor(false);
 	}
-
 
 	return (
 		<div
