@@ -218,6 +218,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						showVotingsAlert={showVotingsAlert}
 						nextPoint={nextPoint}
 						data={data}
+						company={company}
 						root={props.root}
 						selectedPoint={state.selectedPoint}
 						majorityTypes={data.majorityTypes}
