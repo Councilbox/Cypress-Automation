@@ -195,6 +195,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 							participations={hasParticipations(council)}
 							translate={translate}
 							councilId={council.id}
+							refetch={data.refetch}
 							council={council}
 						/>
 					}
