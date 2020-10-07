@@ -51,47 +51,6 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const agenda = agendas[props.selectedPoint];
 	const smallLayout = window.innerWidth < 500;
 	const normalLayout = window.innerWidth > 750;
-
-	
-
-	/*
-		{!!state.editAgenda &&
-			<PointEditor
-				translate={translate}
-				draftTypes={draftTypes}
-				statute={council.statute}
-				company={props.company}
-				council={council}
-				companyStatutes={data.companyStatutes}
-				open={!!state.editAgenda}
-				agenda={state.editAgenda}
-				votingTypes={votingTypes}
-				majorityTypes={majorityTypes}
-				refetch={getData}
-				requestClose={() =>
-					setState({ editAgenda: null })
-				}
-			/>
-		}
-		{!!state.editCustomAgenda && (
-			<CustomPointEditor
-				translate={translate}
-				draftTypes={draftTypes}
-				statute={council.statute}
-				company={props.company}
-				council={council}
-				companyStatutes={data.companyStatutes}
-				open={!!state.editCustomAgenda}
-				agenda={state.editCustomAgenda}
-				votingTypes={votingTypes}
-				majorityTypes={majorityTypes}
-				refetch={getData}
-				requestClose={() =>
-					setState({ editCustomAgenda: null })
-				}
-			/>
-		)}
-	^*/
 	
 	return (
 		<div
