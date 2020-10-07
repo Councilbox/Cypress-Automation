@@ -24,9 +24,7 @@ const NotificationsTable = ({ notifications, translate, maxEmail, liveMobil }) =
 	if(!notifications || notifications.length === 0){
 		return (
 			<Grid style={{ marginBottom: "1em", display: "flex", alignItems: "center", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: 'solid 1px #61abb7', borderRadius: '4px', padding: "1em", marginTop: "1em", justifyContent: "space-between" }}>
-				{
-					'No se ha encontrado ningún envío a este participante' //TRADUCCION
-				}
+				{translate.no_notifications_text}
 			</Grid>
 		)
 	}
