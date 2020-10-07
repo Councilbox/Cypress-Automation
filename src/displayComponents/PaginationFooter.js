@@ -29,9 +29,10 @@ const PaginationFooter = ({
 	length,
 	total,
 	limit,
+	lg,
 	md,
 	xs,
-	changePage
+	changePage,
 }) => {
 	const totalPages = Math.ceil(total / limit);
 
@@ -76,7 +77,7 @@ const PaginationFooter = ({
 	}
 	return (
 		<React.Fragment>
-			<GridItem xs={window.innerWidth < 480 ? 12 : xs ? xs : 5} lg={5} md={md ? md : 6} style={{ fontSize: '0.7rem' }}>
+			<GridItem xs={window.innerWidth < 480 ? 12 : xs ? xs : 5} lg={lg ? lg :5} md={md ? md : 6} style={{ fontSize: '0.7rem' }}>
 				{length > 0
 					? `${translate.table_showing_part1} ${(page - 1) * limit +
 					1} ${translate.table_showing_part2} ${(page - 1) *
@@ -86,7 +87,7 @@ const PaginationFooter = ({
 					}`
 					: translate.table_no_results}
 			</GridItem>
-			<GridItem xs={window.innerWidth < 480 ? 12 : xs ? xs : 7} lg={7} md={md ? md : 7} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+			<GridItem xs={window.innerWidth < 480 ? 12 : xs ? xs : 7} lg={lg ? lg :7} md={md ? md : 7} style={{ display: 'flex', justifyContent: 'flex-end' }}>
 				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 					{page > 1 && (
 						<React.Fragment>
@@ -152,7 +153,7 @@ const showPages = (numPages, active, changePage) => {
 		if (i === 3 && numPages > 6) {
 			const value = (active > 3 && active < numPages - 3) ? active : '...';
 			const options = [];
-			console.log(numPages )
+			// console.log(numPages )
 			for (let j = 4; j < (numPages - 2); j++) {
 				options.push(<Select.Option key={`pagination_${j}`} value={j}><span>{j}</span></Select.Option>)
 			}
