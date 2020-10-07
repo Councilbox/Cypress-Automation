@@ -18,6 +18,7 @@ import { useOldState } from "../../../hooks";
 import CouncilStateButton from './menus/CouncilStateButton';
 import ToolTip from "../../../displayComponents/Tooltip";
 import PointEditor from "../editor/agenda/modals/PointEditor";
+import CustomPointEditor from "../editor/agenda/modals/CustomPointEditor";
 
 const calculateOpenIndex = agendas => {
 	const openAgenda = agendas.find(
@@ -54,47 +55,6 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const agenda = agendas[props.selectedPoint];
 	const smallLayout = window.innerWidth < 500;
 	const normalLayout = window.innerWidth > 750;
-
-	
-
-	/*
-		{!!state.editAgenda &&
-			<PointEditor
-				translate={translate}
-				draftTypes={draftTypes}
-				statute={council.statute}
-				company={props.company}
-				council={council}
-				companyStatutes={data.companyStatutes}
-				open={!!state.editAgenda}
-				agenda={state.editAgenda}
-				votingTypes={votingTypes}
-				majorityTypes={majorityTypes}
-				refetch={getData}
-				requestClose={() =>
-					setState({ editAgenda: null })
-				}
-			/>
-		}
-		{!!state.editCustomAgenda && (
-			<CustomPointEditor
-				translate={translate}
-				draftTypes={draftTypes}
-				statute={council.statute}
-				company={props.company}
-				council={council}
-				companyStatutes={data.companyStatutes}
-				open={!!state.editCustomAgenda}
-				agenda={state.editCustomAgenda}
-				votingTypes={votingTypes}
-				majorityTypes={majorityTypes}
-				refetch={getData}
-				requestClose={() =>
-					setState({ editCustomAgenda: null })
-				}
-			/>
-		)}
-	^*/
 	
 	return (
 		<div
@@ -140,27 +100,16 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											textOverflow: 'ellipsis',
 											paddingRight: "0.5em"
 										}}
+											onClick={() => {
+												if((agenda.pointState === AGENDA_STATES.INITIAL || props.root)) {
+													setPointNameEditor(true)
+												}
+											}}
 										>
 											{`${agenda.agendaSubject}`}
 										</div>
-
 									</ToolTip>
 								</div>
-								{(agenda.pointState === AGENDA_STATES.INITIAL || props.root) &&
-									<div>
-										<i
-											className="fa fa-pencil-square-o"
-											aria-hidden="true"
-											style={{
-												color: secondary,
-												fontSize: '1.3em',
-												cursor: 'pointer',
-												marginLeft: '0.2em'
-											}}
-											onClick={() => setPointNameEditor(true)}
-										></i>
-									</div>
-								}
 							</div>
 
 						}
@@ -179,31 +128,44 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											marginLeft: '0.2em'
 										}}
 									></i>
-									{/* <PointEditorLive
-										translate={translate}
-										agenda={agenda}
-										key={`point_editor_${agenda.id}`}
-										votingTypes={props.votingTypes}
-										council={council}
-										refetch={refetch}
-										majorityTypes={props.majorityTypes}
-										open={pointEditor}
-										requestClose={}
-									/> */}
-									<PointEditor
-										translate={translate}
-										draftTypes={props.draftTypes}
-										statute={council.statute}
-										company={props.company}
-										council={council}
-										companyStatutes={props.companyStatutes}
-										open={pointEditor}
-										agenda={agenda}
-										votingTypes={props.votingTypes}
-										majorityTypes={props.majorityTypes}
-										refetch={refetch}
-										requestClose={closePointEditor}
-									/>
+									{pointEditor &&
+										<>
+											{CBX.isCustomPoint(agenda.subjectType) ?
+												<CustomPointEditor
+													translate={translate}
+													draftTypes={props.draftTypes}
+													statute={council.statute}
+													company={props.company}
+													council={council}
+													companyStatutes={props.companyStatutes}
+													open={pointEditor}
+													agenda={agenda}
+													votingTypes={props.votingTypes}
+													majorityTypes={props.majorityTypes}
+													refetch={refetch}
+													requestClose={closePointEditor}
+												/>
+											:
+												<PointEditor
+													translate={translate}
+													draftTypes={props.draftTypes}
+													statute={council.statute}
+													company={props.company}
+													council={council}
+													companyStatutes={props.companyStatutes}
+													open={pointEditor}
+													agenda={agenda}
+													votingTypes={props.votingTypes}
+													majorityTypes={props.majorityTypes}
+													refetch={refetch}
+													requestClose={closePointEditor}
+												/>
+											}
+
+										</>
+										
+									}
+
 								</React.Fragment>
 								:
 								translate[CBX.getAgendaTypeLabel(agenda)]
@@ -227,19 +189,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											onClick={() => setExpanded(!expanded)}
 										/>
 										:
-										<>
-											<span style={{ marginRight: '0.6em' }}>{translate.no_description}</span>
-											<AgendaDescriptionModal
-												agenda={agenda}
-												translate={translate}
-												council={council}
-												companyStatutes={props.companyStatutes}
-												majorityTypes={props.majorityTypes}
-												draftTypes={props.draftTypes}
-												refetch={refetch}
-											/>
-										</>
-										
+										<span style={{ marginRight: '0.6em' }}>{translate.no_description}</span>
 									}
 								</React.Fragment>
 							}
@@ -286,26 +236,6 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 			<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout ? '100vh' : '100%'} - ${smallLayout ? '14em' : '6.5em'})`, overflow: 'hidden' }}>
 				{agenda.description &&
 					<Collapse isOpened={expanded}>
-						<div
-							style={{
-								visibility: expanded ? 'visible' : 'hidden',
-								cursor: 'pointer',
-								marginLeft: '0.2em',
-								position: 'absolute',
-								top: 5,
-								left: '0.5em'
-							}}
-						>
-							<AgendaDescriptionModal
-								agenda={agenda}
-								translate={translate}
-								council={council}
-								companyStatutes={props.companyStatutes}
-								majorityTypes={props.majorityTypes}
-								draftTypes={props.draftTypes}
-								refetch={refetch}
-							/>
-						</div>
 						<div
 							style={{
 								fontSize: "0.9em",
