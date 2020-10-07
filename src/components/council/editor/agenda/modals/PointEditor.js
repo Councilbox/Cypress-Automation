@@ -42,6 +42,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 	const editor = React.useRef();
 	const secondary = getSecondary();
 
+
 	const loadDraft = async draft => {
 		const correctedText = await CBX.changeVariablesToValues(draft.text, {
 			company: company,
@@ -321,7 +322,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 									lineHeight: "1em"
 								}}
 								textPosition="after"
-								onClick={() => setLoadDraftModal(false)}
+								onClick={() => setLoadDraftModal(true)}
 							/>
 						}
 						tags={[

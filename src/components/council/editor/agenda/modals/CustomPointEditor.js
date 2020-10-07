@@ -21,9 +21,9 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
         if(!validateCustomAgenda(items, options, agenda)){
             await updateCustomAgenda({
                 variables: {
-                    agenda: agenda,
-                    items: items,
-                    options: options
+                    agenda,
+                    items,
+                    options
                 }
             });
 
@@ -124,7 +124,7 @@ const updateCustomAgenda = gql`
 
 
 const cleanObject = object => {
-    const { __typename, items, options, attachments, ...rest } = object;
+    const { __typename, items, options, attachments, ballots, ...rest } = object;
     return rest;
 }
 
