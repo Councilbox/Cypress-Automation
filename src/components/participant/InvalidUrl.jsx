@@ -9,7 +9,6 @@ import { PARTICIPANT_ERRORS } from "../../constants";
 const InvalidUrl = ({ error, test, translate }) => {
 
 	const printError = () => {
-		console.log(error);
 		if(error && error.code === PARTICIPANT_ERRORS.REMOVED){
 			return translate.participant_removed;
 		}

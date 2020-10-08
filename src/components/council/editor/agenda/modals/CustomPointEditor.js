@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import CustomPointForm from './CustomPointForm';
 import { useValidateAgenda } from './NewCustomPointModal';
+import DeleteAgendaButton from './DeleteAgendaButton';
 
 
 const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
@@ -100,6 +101,15 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
             acceptAction={addCustomPoint}
             buttonAccept={translate.accept}
             buttonCancel={translate.cancel}
+            extraActions={
+				props.deleteButton &&
+					<DeleteAgendaButton
+						agenda={agenda}
+						refetch={props.refetch}
+						council={props.council}
+						translate={translate}
+					/>
+			}
             bodyText={renderBody()}
             title={translate.new_point}
         />

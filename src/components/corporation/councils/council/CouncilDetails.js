@@ -503,8 +503,6 @@ const FailPageSearchId = ({ id }) => {
 }
 
 const showGroupAttendees = attendees => {
-	console.log(attendees);
-
 	const list = {
 		remotos: 0,
 		presenciales: 0,

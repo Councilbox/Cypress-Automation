@@ -201,9 +201,7 @@ export default graphql(wallComments, {
 					variables: {
 						councilId: params.councilId
 					},
-					updateQuery: (prev, { subscriptionData }) => {
-						console.log(subscriptionData);
-						
+					updateQuery: (prev, { subscriptionData }) => {				
 						if (!subscriptionData.data.roomMessageAdded) {
 						return prev;
 						}
