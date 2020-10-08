@@ -153,7 +153,6 @@ const showPages = (numPages, active, changePage) => {
 		if (i === 3 && numPages > 6) {
 			const value = (active > 3 && active < numPages - 3) ? active : '...';
 			const options = [];
-			// console.log(numPages )
 			for (let j = 4; j < (numPages - 2); j++) {
 				options.push(<Select.Option key={`pagination_${j}`} value={j}><span>{j}</span></Select.Option>)
 			}

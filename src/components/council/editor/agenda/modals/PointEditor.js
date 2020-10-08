@@ -22,6 +22,7 @@ import PointAttachments from "./PointAttachments";
 import { addAgendaAttachment } from "../../../../../queries";
 import { useOldState } from "../../../../../hooks";
 import gql from 'graphql-tag';
+import DeleteAgendaButton from "./DeleteAgendaButton";
 
 
 const PointEditor = ({ agenda, translate, company, council, requestClose, open, ...props }) => {
@@ -41,7 +42,6 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 	});
 	const editor = React.useRef();
 	const secondary = getSecondary();
-
 
 	const loadDraft = async draft => {
 		const correctedText = await CBX.changeVariablesToValues(draft.text, {
@@ -363,6 +363,15 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 			requestClose={loadDraftModal? () => setLoadDraftModal(false) : requestClose}
 			open={open}
 			acceptAction={saveChanges}
+			extraActions={
+				props.deleteButton &&
+					<DeleteAgendaButton
+						agenda={agenda}
+						refetch={props.refetch}
+						council={council}
+						translate={translate}
+					/>
+			}
 			buttonAccept={translate.accept}
 			buttonCancel={translate.cancel}
 			bodyText={_renderModalBody()}

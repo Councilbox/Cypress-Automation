@@ -10,12 +10,29 @@ import { useOldState, usePolling } from "../../../hooks";
 import { isMobile } from "../../../utils/screen";
 
 
+const getInitialSelectedPoint = agendas => {
+	const index = agendas.findIndex(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
+	return index !== -1? index : 0;
+}
+
 const reducer = (state, action) => {
 	const actions = {
 		'LOAD_DATA': () => ({
 			...state,
 			data: action.value,
-			loading: false
+			loading: false,
+			selectedPoint: state.selectedPoint >= action.value.agendas.length ?
+				action.value.agendas.length - 1
+			:
+				state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
+		}),
+		'NEXT_POINT': () => ({
+			...state,
+			selectedPoint: state.selectedPoint + 1
+		}),
+		'SET_SELECTED_POINT': () => ({
+			...state,
+			selectedPoint: action.value
 		})
 	}
 
@@ -24,13 +41,14 @@ const reducer = (state, action) => {
 
 
 const AgendaManager = ({ translate, council, company, stylesDiv, client, ...props }, ref) => {
-	const [{ data, loading}, dispatch] = React.useReducer(reducer, {
+	const [{ data, loading, selectedPoint }, dispatch] = React.useReducer(reducer, {
 		data: {},
-		loading: true
+		loading: true,
+		selectedPoint: null
 	});
 
 	const [state, setState] = useOldState({
-		selectedPoint: null,
+		//selectedPoint: null,
 		loaded: false,
 		editedVotings: false,
 		votingsAlert: false
@@ -45,9 +63,9 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 				councilId: council.id
 			}
 		});
+
 		dispatch({ type: 'LOAD_DATA', value: response.data });
 	}, [council.id]);
-
 
 	usePolling(getData, 5000);
 
@@ -61,11 +79,11 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 
 
 	React.useEffect(() => {
-		if(state.loaded && state.selectedPoint === null){
-			setState({
-				selectedPoint: getInitialSelectedPoint()
-			})
-		}
+		// if(state.loaded && state.selectedPoint === null){
+		// 	setState({
+		// 		selectedPoint: getInitialSelectedPoint()
+		// 	})
+		// }
 	}, [state.loaded]);
 
 
@@ -94,15 +112,8 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 		});
 	}
 
-	const getInitialSelectedPoint = () => {
-		const index = data.agendas.findIndex(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
-		return index !== -1? index : 0;
-	}
-
 	const changeSelectedPoint = index => {
-		const cb = () => setState({
-			selectedPoint: index
-		});
+		const cb = () => dispatch({ type: 'SET_SELECTED_POINT', value: index });
 
 		if(state.editedVotings){
 			showVotingsAlert(cb);
@@ -112,10 +123,11 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	};
 
 	const nextPoint = () => {
-		if(state.selectedPoint < data.agendas.length - 1){
-			setState({
-				selectedPoint: state.selectedPoint + 1
-			});
+		if(selectedPoint < data.agendas.length - 1){
+			dispatch({ type: 'NEXT_POINT' })
+			// setState({
+			// 	selectedPoint: state.selectedPoint + 1
+			// });
 		}
 	}
 
@@ -124,7 +136,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 		state
 	}))
 
-	if (!data.agendas || state.selectedPoint === null) {
+	if (!data.agendas || selectedPoint === null) {
 		return <LoadingSection />;
 	}
 
@@ -151,7 +163,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						fullScreen={true}
 						votingTypes={data.votingTypes}
 						companyStatutes={data.companyStatutes}
-						selected={state.selectedPoint}
+						selected={selectedPoint}
 						onClick={changeSelectedPoint}
 						translate={translate}
 						councilID={council.id}
@@ -188,7 +200,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						votingTypes={data.votingTypes}
 						companyStatutes={data.companyStatutes}
 						majorityTypes={data.majorityTypes}
-						selected={state.selectedPoint}
+						selected={selectedPoint}
 						onClick={changeSelectedPoint}
 						translate={translate}
 						councilID={council.id}
@@ -212,6 +224,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						ref={agendaDetails}
 						recount={props.recount}
 						council={council}
+						key={selectedPoint}
 						agendas={agendas}
 						editedVotings={state.editedVotings}
 						changeEditedVotings={changeEditedVotings}
@@ -220,7 +233,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						data={data}
 						company={company}
 						root={props.root}
-						selectedPoint={state.selectedPoint}
+						selectedPoint={selectedPoint}
 						majorityTypes={data.majorityTypes}
 						votingTypes={data.votingTypes}
 						companyStatutes={data.companyStatutes}

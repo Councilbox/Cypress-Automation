@@ -1,7 +1,6 @@
 import React from "react";
 import ToggleAgendaButton from "./ToggleAgendaButton";
 import ToggleVotingsButton from "./ToggleVotingsButton";
-import CouncilMenu from './councilMenu/CouncilMenu';
 import * as CBX from "../../../utils/CBX";
 import { graphql } from 'react-apollo';
 import { AGENDA_TYPES, AGENDA_STATES } from "../../../constants";
@@ -11,11 +10,7 @@ import { Collapse } from 'react-collapse';
 import { BasicButton, Grid, GridItem, TextInput } from '../../../displayComponents';
 import { getSecondary, secondary, getPrimary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
-import AgendaDescriptionModal from './AgendaDescriptionModal';
 import { updateAgenda } from "../../../queries/agenda";
-import PointEditorLive from './PointEditorLive';
-import { useOldState } from "../../../hooks";
-import CouncilStateButton from './menus/CouncilStateButton';
 import ToolTip from "../../../displayComponents/Tooltip";
 import PointEditor from "../editor/agenda/modals/PointEditor";
 import CustomPointEditor from "../editor/agenda/modals/CustomPointEditor";
@@ -52,6 +47,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	}
 
 	const councilStarted = CBX.councilStarted(council);
+
 	const agenda = agendas[props.selectedPoint];
 	const smallLayout = window.innerWidth < 500;
 	const normalLayout = window.innerWidth > 750;
@@ -140,6 +136,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 													companyStatutes={props.companyStatutes}
 													open={pointEditor}
 													agenda={agenda}
+													deleteButton={true}
 													votingTypes={props.votingTypes}
 													majorityTypes={props.majorityTypes}
 													refetch={refetch}
@@ -155,6 +152,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 													companyStatutes={props.companyStatutes}
 													open={pointEditor}
 													agenda={agenda}
+													deleteButton={false}
 													votingTypes={props.votingTypes}
 													majorityTypes={props.majorityTypes}
 													refetch={refetch}

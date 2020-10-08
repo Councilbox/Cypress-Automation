@@ -24,6 +24,7 @@ const AlertConfirm = ({
 	bodyText,
 	bodyStyle = {},
 	hideAccept,
+	extraActions,
 	classNameDialog,
 	PaperProps,
 	widthModal,
@@ -46,6 +47,10 @@ const AlertConfirm = ({
 					onClick={!!cancelAction ? cancelAction : requestClose}
 				/>
 			)}
+
+			{extraActions &&
+				extraActions
+			}
 
 			{!hideAccept &&
 				!!buttonAccept && (

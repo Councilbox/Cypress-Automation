@@ -218,9 +218,6 @@ export function generateAgendaBlocks (data, language = 'es', secondaryLanguage =
     const texts = translations[language];
     const secondaryTexts = translations[secondaryLanguage];
 
-    console.log(data);
-
-
     let newArray = [
         {
             id: Math.random().toString(36).substr(2, 9),
