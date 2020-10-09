@@ -63,7 +63,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
             variables: {
                 councilId: council.id,
                 participantIds: [id],
-                timezone: moment().utcOffset().toString(),
+                timezone: moment(council.dateStart).utcOffset().toString(),
                 newPhone: modifiedValues.get(id)
             }
         });
