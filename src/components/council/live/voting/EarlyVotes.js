@@ -230,14 +230,13 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                     paddinRight: "10em"
                 }}
             >
-                <PaginationFooter
+                {/* <PaginationFooter
                     page={props.page}
                     translate={translate}
                     length={earlyVotes.length}
                     total={earlyVotes.length}
-                    limit={10}
                     changePage={props.changePage}
-                />
+                /> */}
             </div>
         </>
     )
