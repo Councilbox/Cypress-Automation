@@ -33,7 +33,7 @@ import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
 
 
-const StepPreview = ({ translate, company, client, ...props }) => {
+const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [fetchLoading, setFetchLoading] = React.useState(true);
 	const [errors, setErrors] = React.useState({});
@@ -64,7 +64,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			query: councilStepSix,
 			variables: {
 				id: props.councilID,
-				timezone: moment().utcOffset().toString()
+				timezone: moment(dateStart).utcOffset().toString()
 			}
 		});
 
@@ -86,7 +86,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			const response = await props.conveneWithNotice({
 				variables: {
 					councilId: council.id,
-					timezone: moment().utcOffset().toString(),
+					timezone: moment(dateStart).utcOffset().toString(),
 				}
 			});
 
@@ -116,7 +116,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 				variables: {
 					councilId: data.council.id,
 					email: state.data.conveneTestEmail,
-					timezone: moment().utcOffset().toString(),
+					timezone: moment(dateStart).utcOffset().toString(),
 				}
 			});
 
@@ -166,7 +166,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 		const response = await props.sendPreConvene({
 			variables: {
 				councilId: data.council.id,
-				timezone: moment().utcOffset().toString(),
+				timezone: moment(dateStart).utcOffset().toString(),
 			}
 		});
 
@@ -233,7 +233,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 			const response = await props.conveneWithoutNotice({
 				variables: {
 					councilId: data.council.id,
-					timezone: moment().utcOffset().toString(),
+					timezone: moment(dateStart).utcOffset().toString(),
 				}
 			});
 			setLoading(false);

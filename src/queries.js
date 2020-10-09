@@ -199,6 +199,7 @@ export const council = gql`
 		council(id: $id) {
 			id
 			name
+			dateStart
 			state
 			step
 		}

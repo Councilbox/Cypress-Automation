@@ -124,6 +124,7 @@ const CouncilEditorPage = ({ council, translate, company, ...props }) => {
 						previousStep={previousStep}
 						actualStep={actualStep}
 						councilID={council.id}
+						dateStart={council.dateStart}
 						company={company}
 						goToPage={goToPage}
 						translate={translate}
