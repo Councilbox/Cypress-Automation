@@ -288,6 +288,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 
 const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, agenda, council, refetch }) => {
 	const [pointNameEditorText, setPointNameEditorText] = React.useState('');
+	const [error, setError] = React.useState('');
 
 	React.useEffect(() => {
 		setPointNameEditorText(title);
@@ -295,31 +296,37 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 
 
 	const saveTitle = async () => {
-		await updateAgenda({
-			variables: {
-				agenda: {
-					id: agenda.id,
-					agendaSubject: pointNameEditorText,
-					councilId: council.id
+		if(!pointNameEditorText || !pointNameEditorText.trim()){
+			setError(translate.required_field);
+		} else {
+			await updateAgenda({
+				variables: {
+					agenda: {
+						id: agenda.id,
+						agendaSubject: pointNameEditorText,
+						councilId: council.id
+					}
 				}
-			}
-		});
-		refetch();
-		setPointNameEditor(false);
+			});
+			refetch();
+			setPointNameEditor(false);
+		}
 	}
 
 	return (
 		<div
 			style={{ display: "flex", alignItems: "center" }}
 		>
-			<TextInput
-				value={pointNameEditorText}
-				disableUnderline={true}
-				styleInInput={{ marginRight: "0.5em", color: "rgba(0, 0, 0, 0.54)", background: "#e6e6e6", paddingLeft: "5px" }}
-				styles={{ marginTop: "-16px" }}
-				stylesTextField={{ marginBottom: "0px" }}
-				onChange={event => setPointNameEditorText(event.target.value)}
-			/>
+			<div>
+				<TextInput
+					value={pointNameEditorText}
+					disableUnderline={true}
+					styleInInput={{ marginRight: "0.5em", color: "rgba(0, 0, 0, 0.54)", background: "#e6e6e6", paddingLeft: "5px" }}
+					styles={{ marginTop: "-16px" }}
+					stylesTextField={{ marginBottom: "0px" }}
+					onChange={event => setPointNameEditorText(event.target.value)}
+				/>
+			</div>
 			<BasicButton
 				backgroundColor={{
 					backgroundColor: "white",
@@ -343,7 +350,10 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 					minHeight: '30px',
 				}}
 				onClick={() => setPointNameEditor(false)}
-			/>
+			/>	
+			{error &&
+				<span style={{ color: 'red', marginLeft: '0.6em' }}>{error}</span>
+			}	
 		</div>
 	)
 }
