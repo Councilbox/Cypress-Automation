@@ -204,7 +204,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 					zIndex: 2
 				}}
 			>
-				{councilStartedState() &&
+				{(councilStartedState() && council.wallActive === 1) &&
 					<Tooltip title={`${translate.wall} - (ALT + W)`} open={state.wallTooltip}>
 						<div>
 							{state.unreadComments > 0 ?

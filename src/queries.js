@@ -1027,6 +1027,7 @@ export const councilStepFive = gql`
 			dateStart
 			closeDate
 			companyId
+			wallActive
 			confirmAssistance
 			councilType
 			presentVoteOverwrite
@@ -1417,6 +1418,7 @@ export const councilLiveQuery = gql`
 			active
 			autoClose
 			initialQuorum
+			wallActive
 			approveActDraft
 			attachments {
 				councilId

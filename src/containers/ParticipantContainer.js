@@ -242,6 +242,7 @@ const councilQuery = gql`
 			businessName
 			subdomain
 			councilStarted
+			wallActive
 			state
 			city
 			closeDate

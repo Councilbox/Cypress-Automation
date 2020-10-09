@@ -204,35 +204,42 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
         )
     }
 
-    const renderPrivateMessageButton = () => (
-        <Button
-            className={"NoOutline"}
-            title={"sendMessage"}
-            style={styles.button}
-            onClick={(event) => props.setAdminMessage(!props.adminMessage, event)}>
-            <div style={{ display: "unset" }}>
-                <div>
-                    <i className="material-icons" style={{
-                        fontSize: '24px', padding: '0', margin: "0",
-                        width: '1em',
-                        height: '1em',
-                        overflow: 'hidden',
-                        userSelect: 'none',
-                        color: props.adminMessage ? getPrimary() : "#ffffffcc",
+    const renderPrivateMessageButton = () => {
+        const disabled = council.wallActive !== 1;
+
+        return (
+            <Button
+                className={"NoOutline"}
+                title={"sendMessage"}
+                disabled={disabled}
+                style={styles.button}
+                onClick={(event) => props.setAdminMessage(!props.adminMessage, event)}
+            >
+                <div style={{ display: "unset" }}>
+                    <div>
+                        <i className="material-icons" style={{
+                            fontSize: '24px', padding: '0', margin: "0",
+                            width: '1em',
+                            height: '1em',
+                            overflow: 'hidden',
+                            userSelect: 'none',
+                            color: disabled ? 'grey' : props.adminMessage ? getPrimary() : "#ffffffcc",
+                        }}>
+                            chat_bubble_outline
+                        </i>
+                    </div>
+                    <div style={{
+                        color: disabled ? 'grey' : "white",
+                        fontSize: '0.55rem',
+                        textTransform: "none"
                     }}>
-                        chat_bubble_outline
-                    </i>
+                        {translate.message}
+                    </div>
                 </div>
-                <div style={{
-                    color: "white",
-                    fontSize: '0.55rem',
-                    textTransform: "none"
-                }}>
-                    {translate.message}
-                </div>
-            </div>
-        </Button>
-    )
+            </Button>
+        )      
+    }
+
 
     if (!props.noSession && props.isMobile) {
         return (
