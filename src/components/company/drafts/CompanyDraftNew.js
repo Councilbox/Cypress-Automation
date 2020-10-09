@@ -2,7 +2,8 @@ import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
-	LoadingSection
+	LoadingSection,
+	CardPageLayout
 } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
 import { createCompanyDraft, draftData } from "../../../queries/companyDrafts";
@@ -11,6 +12,9 @@ import { checkRequiredFields } from "../../../utils/CBX";
 import CompanyDraftForm from "./CompanyDraftForm";
 import { toast } from 'react-toastify';
 import { bHistory } from "../../../containers/App";
+import { withRouter } from "react-router";
+import withTranslations from "../../../HOCs/withTranslations";
+import { isMobile } from "react-device-detect";
 
 
 class CompanyDraftNew extends React.Component {
@@ -27,7 +31,7 @@ class CompanyDraftNew extends React.Component {
 				majorityType: -1,
 				majority: null,
 				majorityDivider: null,
-				companyId: this.props.company.id
+				companyId: +this.props.match.params.company
 			},
 
 			errors: {}
@@ -96,12 +100,13 @@ class CompanyDraftNew extends React.Component {
 				majorityType: -1,
 				majority: null,
 				majorityDivider: null,
-				companyId: this.props.company.id
+				companyId: +this.props.match.params.company
 			},
 			loading: false,
 			success: false
 		});
-		this.props.closeForm();
+		this.goBack()
+		// this.props.closeForm();
 	};
 
 	goBack = () => {
@@ -118,49 +123,58 @@ class CompanyDraftNew extends React.Component {
 		}
 
 		return (
-			<React.Fragment>
-				<div style={{ marginTop: "1.8em", height: 'calc( 100% - 3em )' }}>
-					<CompanyDraftForm
-						draft={draft}
-						errors={errors}
-						translate={translate}
-						updateState={this.updateState}
-						{...this.props.data}
-					/>
-					<br />
-					<BasicButton
-						id={"saveDraft"}
-						floatRight
-						text={translate.save}
-						color={getPrimary()}
-						loading={this.state.loading}
-						success={this.state.success}
-						textStyle={{
-							color: "white",
-							fontWeight: "700"
-						}}
-						onClick={() => this.createCompanyDraft()}
-						icon={<ButtonIcon type="save" color="white" />}
-					/>
-					<BasicButton
-						// id={"saveDraft"}
-						floatRight
-						text={translate.back}
-						color={getPrimary()}
-						loading={this.state.loading}
-						success={this.state.success}
-						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							marginRight: "1em"
-						}}
-						onClick={() => this.props.back()}
-					/>
+			<CardPageLayout title={this.props.translate.new_draft} disableScroll={true}>
+				<div style={{ height: 'calc( 100% - 5em )' }}>
+					<div style={{ marginTop: "1.8em", height: "100%", overflow: "hidden", padding: "0px 25px" }}>
+						<CompanyDraftForm
+							draft={draft}
+							errors={errors}
+							translate={translate}
+							updateState={this.updateState}
+							{...this.props.data}
+						/>
+					</div>
 
-
-					<br /><br />
+					<div style={{
+						paddingRight: '0.8em',
+						width: '100%',
+						display: 'flex',
+						justifyContent: 'flex-end',
+						alignItems: 'center',
+						paddingTop: isMobile && "0.5em"
+					}}>
+						<BasicButton
+							id={"saveDraft"}
+							floatRight
+							text={this.props.translate.save}
+							color={getPrimary()}
+							loading={this.state.loading}
+							success={this.state.success}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								marginRight: "1em"
+							}}
+							onClick={() => this.createCompanyDraft()}
+							icon={<ButtonIcon type="save" color="white" />}
+						/>
+						<BasicButton
+							// id={"saveDraft"}
+							floatRight
+							text={this.props.translate.back}
+							color={getPrimary()}
+							loading={this.state.loading}
+							success={this.state.success}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								marginRight: "1em"
+							}}
+							onClick={() => this.goBack()}
+						/>
+					</div>
 				</div>
-			</React.Fragment>
+			</CardPageLayout>
 		);
 	}
 }
@@ -175,8 +189,8 @@ export default compose(
 	graphql(draftData, {
 		options: props => ({
 			variables: {
-				companyId: props.company.id
+				companyId: +props.match.params.company
 			}
 		})
 	})
-)(CompanyDraftNew);
+)(withRouter(withTranslations()(CompanyDraftNew)));

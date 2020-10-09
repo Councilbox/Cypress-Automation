@@ -36,6 +36,7 @@ import UserEdit from '../components/corporation/users/UserEdit';
 import UsersDashboard from '../components/corporation/users/UsersDashboard';
 import OrganizationUsers from '../components/corporation/users/OrganizationUsers';
 import FileCompany from '../components/company/compayFile/FileCompany';
+import CompanyDraftNew from '../components/company/drafts/CompanyDraftNew';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),
@@ -195,6 +196,11 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 exact
                 path="/company/:company/drafts/:id?"
                 component={CompanyDraftsPage}
+            />
+             <Route
+                exact
+                path="/company/:company/draft/new"
+                component={CompanyDraftNew}
             />
             <Route
                 exact
