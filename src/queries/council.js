@@ -209,6 +209,7 @@ export const councilAttendants = gql`
 				name
 				position
 				dni
+				firstLoginDate
 				lastDateConnection
 				participantId
 				surname

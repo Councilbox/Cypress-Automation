@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { LoadingSection, EnhancedTable, Scrollbar } from '../../../../displayComponents';
 import { TableRow, TableCell } from 'material-ui';
 import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../../constants';
@@ -11,7 +11,6 @@ import DownloadAttendantsPDF from './DownloadAttendantsPDF';
 import StateIcon from '../../live/participants/StateIcon';
 import { useOldState, useHoverRow } from '../../../../hooks';
 import { moment } from '../../../../containers/App';
-import gql from 'graphql-tag';
 
 
 const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
@@ -19,7 +18,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
     const [councilAttendantsData, setCouncilAttendantsData] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
-    const getCouncilAttendants = async (value) => {
+    const getCouncilAttendants = async value => {
         const response = await client.query({
             query: councilAttendants,
             variables: {
@@ -110,15 +109,10 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                                 canOrder: true
                                             },
                                             {
-                                                text: translate.dni,
-                                                name: 'dni',
+                                                text: translate.entry_date,
+                                                name: 'firstLoginDate',
                                                 canOrder: true
 
-                                            },
-                                            {
-                                                text: translate.position,
-                                                name: 'position',
-                                                canOrder: true
                                             },
                                             {
                                                 text: translate.date_when_left,
@@ -173,9 +167,14 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
 
     const representing = delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 
+    console.log(participant);
+
     return (
         <TableRow
             {...rowHandlers}
+            style={{
+                backgroundColor: showActions ? 'gainsboro' : 'transparent'
+            }}
         >
             <TableCell>
                 <StateIcon translate={translate} state={participant.state} />
@@ -188,10 +187,9 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
                 }
             </TableCell>
             <TableCell>
-                {participant.dni}
-            </TableCell>
-            <TableCell>
-                {participant.position}
+                {participant.firstLoginDate &&
+                    moment(participant.firstLoginDate).format('LLL')
+                }
             </TableCell>
             <TableCell>
                 {participant.state === PARTICIPANT_STATES.LEFT &&
