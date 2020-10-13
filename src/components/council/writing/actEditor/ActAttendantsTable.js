@@ -11,6 +11,7 @@ import DownloadAttendantsPDF from './DownloadAttendantsPDF';
 import StateIcon from '../../live/participants/StateIcon';
 import { useOldState, useHoverRow } from '../../../../hooks';
 import { moment } from '../../../../containers/App';
+import CbxDataModal from './CbxDataModal';
 
 
 const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
@@ -157,57 +158,65 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
 
 const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
     const [showActions, rowHandlers] = useHoverRow();
-    const [state, setState] = useOldState({ loading: false });
-
-    const updateState = object => {
-        setState({
-            ...object
-        })
-    }
-
+    const [cbxDataModal, setCbxDataModal] = React.useState(false);
+    const [state, updateState] = useOldState({ loading: false });
     const representing = delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 
-    console.log(participant);
 
     return (
-        <TableRow
-            {...rowHandlers}
-            style={{
-                backgroundColor: showActions ? 'gainsboro' : 'transparent'
-            }}
-        >
-            <TableCell>
-                <StateIcon translate={translate} state={participant.state} />
-            </TableCell>
-            <TableCell>
-                {!!representing ?
-                    <span style={{ fontWeight: '700' }}>{`${representing.name} ${representing.surname || ''} - ${translate.represented_by} ${participant.name} ${participant.surname || ''}`}</span>
-                    :
-                    <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
-                }
-            </TableCell>
-            <TableCell>
-                {participant.firstLoginDate &&
-                    moment(participant.firstLoginDate).format('LLL')
-                }
-            </TableCell>
-            <TableCell>
-                {participant.state === PARTICIPANT_STATES.LEFT &&
-                    moment(participant.lastDateConnection).format('LLL')
-                }
-            </TableCell>
-            <TableCell>
-                <div style={{width: '4em'}}>
-                    {(showActions || state.loading) &&
-                        <DownloadCBXDataButton
-                            updateState={updateState}
-                            translate={translate}
-                            participantId={participant.id}
-                        />
+        <>
+            <CbxDataModal
+                open={cbxDataModal}
+                translate={translate}
+                requestClose={() => setCbxDataModal(false)}
+                participant={participant}
+            />
+            <TableRow
+                {...rowHandlers}
+                style={{
+                    backgroundColor: showActions ? 'gainsboro' : 'transparent'
+                }}
+            >
+                <TableCell>
+                    <StateIcon translate={translate} state={participant.state} />
+                </TableCell>
+                <TableCell>
+                    {!!representing ?
+                        <span style={{ fontWeight: '700' }}>{`${representing.name} ${representing.surname || ''} - ${translate.represented_by} ${participant.name} ${participant.surname || ''}`}</span>
+                        :
+                        <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
                     }
-                </div>
-            </TableCell>
-        </TableRow>
+                </TableCell>
+                <TableCell>
+                    {participant.firstLoginDate &&
+                        moment(participant.firstLoginDate).format('LLL')
+                    }
+                </TableCell>
+                <TableCell>
+                    {participant.state === PARTICIPANT_STATES.LEFT &&
+                        moment(participant.lastDateConnection).format('LLL')
+                    }
+                </TableCell>
+                <TableCell>
+                    <div style={{width: '4em'}}>
+                        {showActions &&
+                            <>
+                                <i
+                                    className="fa fa-info-circle"
+                                    aria-hidden="true"
+                                    style={{
+                                        fontSize: '24px',
+                                        color: getSecondary(),
+                                        cursor: 'pointer'
+                                    }}
+                                    onClick={() => setCbxDataModal(true)}
+                                ></i>
+                            </>
+                        }
+                    </div>
+                </TableCell>
+            </TableRow>
+        </>
     )
 }
 

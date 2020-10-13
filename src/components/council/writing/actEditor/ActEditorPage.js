@@ -12,12 +12,10 @@ import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
 import RecordingsSection from '../recordings/RecordingsSection';
 import ActHTMLTab from '../actViewer/ActHTMLTab';
-import GoverningBodyDisplay from './GoverningBodyDisplay';
 import EvidencesPage from '../evindences/EvidencesPage';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { COUNCIL_STATES } from '../../../../constants';
 import DelegationDocuments from './DelegationDocuments';
-import DocumentEditor2 from '../../../documentEditor/DocumentEditor2';
 import NavigationHeader from './NavigationHeader';
 import VoteLetters from './VoteLetters';
 import Results from './Results';
@@ -37,10 +35,6 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
     const config = React.useContext(ConfigContext);
 
-    const [selecteReuniones, setSelecteReuniones] = React.useState(translate.act);
-    const [selectComponent, setSelectComponent] = React.useState({});
-
-
     React.useEffect(() => {
         if (state.infoMenu && council.state > COUNCIL_STATES.FINISHED) {
             setState({
@@ -50,17 +44,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         }
     }, [council.state]);
 
-    const toggleInfoMenu = () => {
-        const menu = state.infoMenu;
-
-        setState({
-            ...state,
-            infoMenu: !menu
-        });
-    }
-
     let tabs = [];
-    let tabsListNames = [];
 
     if (withoutAct) {
         tabs = [
