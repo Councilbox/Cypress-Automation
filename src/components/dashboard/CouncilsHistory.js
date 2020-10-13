@@ -40,10 +40,10 @@ class CouncilsHistory extends React.Component {
         return (
             <Table
                 headers={[
-                    { name: translate.state },
                     { name: translate.date_real_start },
-                    { name: translate.table_councils_duration },
                     { name: translate.name },
+                    { name: translate.table_councils_duration },
+                    { name: translate.state },
                     { name: translate.certificates }
                 ]}
                 companyID={company.id}
@@ -92,6 +92,14 @@ class HoverableRow extends React.Component {
     getCouncilState = state => {
         const { translate } = this.props;
         switch (state) {
+            case COUNCIL_STATES.DRAFT:
+            case COUNCIL_STATES.PRECONVENE:
+                return translate.dasboard_draft;
+            case COUNCIL_STATES.PREPARING:
+                return translate.companies_calendar;
+            case COUNCIL_STATES.ROOM_OPENED:
+            case COUNCIL_STATES.APPROVING_ACT_DRAFT:
+                return translate.companies_live;
             case COUNCIL_STATES.NOT_CELEBRATED:
                 return translate.not_held_council;
             case COUNCIL_STATES.FINISHED:
@@ -198,11 +206,6 @@ class HoverableRow extends React.Component {
                         )
                 }}
             >
-                <TableCell>
-                    <div style={{ minWidth: '12em' }}>
-                        {this.getCouncilState(council.state)}
-                    </div>
-                </TableCell>
                 <TableCell
                     style={TableStyles.TD}
                 >
@@ -212,25 +215,6 @@ class HoverableRow extends React.Component {
                             council.dateStart
                         }
                     />
-                </TableCell>
-
-                <TableCell
-                    style={TableStyles.TD}
-                >
-                    <div style={{ width: '10em', display: 'flex', flexDirection: 'row' }}>
-                        <DateWrapper
-                            format="HH:mm"
-                            date={
-                                council.dateRealStart
-                            }
-                        /> {` - `}
-                        <DateWrapper
-                            format="HH:mm"
-                            date={
-                                council.dateEnd
-                            }
-                        />
-                    </div>
                 </TableCell>
                 <TableCell
                     style={{
@@ -246,6 +230,32 @@ class HoverableRow extends React.Component {
                         </Tooltip>
                     }
                     {council.name || translate.dashboard_new}
+                </TableCell>
+                <TableCell
+                    style={TableStyles.TD}
+                >
+                    <div style={{ width: '10em', display: 'flex', flexDirection: 'row' }}>
+                        {council.dateEnd &&
+                            <>
+                                <DateWrapper
+                                    format="HH:mm"
+                                    date={council.dateRealStart}
+                                /> 
+                        
+                                {` - `}
+                                <DateWrapper
+                                    format="HH:mm"
+                                    date={council.dateEnd}
+                                />
+                            </>
+
+                        }
+                    </div>
+                </TableCell>
+                <TableCell>
+                    <div style={{ minWidth: '12em' }}>
+                        {this.getCouncilState(council.state)}
+                    </div>
                 </TableCell>
                 <TableCell
                     style={TableStyles.TD}

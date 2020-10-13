@@ -28,6 +28,7 @@ import { bHistory } from "../../containers/App.js";
 const getSection = translate => {
 	const section = window.location.pathname.split('/').pop();
 	const sections = {
+		'all': translate.all,
 		'drafts': translate.companies_draft,
 		'calendar': translate.companies_calendar,
 		'live': translate.companies_live,
@@ -51,6 +52,7 @@ const Councils = ({ translate, client, ...props }) => {
 		page: 1,
 	});
 	const statesTabLink = {
+		[translate.all]: `/company/${props.company.id}/councils/all`,
 		[translate.companies_draft]: `/company/${props.company.id}/councils/drafts`,
 		[translate.companies_calendar]: `/company/${props.company.id}/councils/calendar`,
 		[translate.companies_live]: `/company/${props.company.id}/councils/live`,
@@ -59,6 +61,7 @@ const Councils = ({ translate, client, ...props }) => {
 		[translate.dashboard_historical]: `/company/${props.company.id}/councils/history`,
 	}
 	const statesTabInfo = {
+		[translate.all]: null,
 		[translate.companies_draft]: [0, 3],
 		[translate.companies_calendar]: [10, 5],
 		[translate.companies_live]: [20, 30],
@@ -67,13 +70,13 @@ const Councils = ({ translate, client, ...props }) => {
 		[translate.dashboard_historical]: [-1, 40, 60, 70, 80, 90]
 	}
 
-	const [selecteReuniones, setSelecteReuniones] = React.useState(getSection(translate));
-	const [selecteReunionesLink, setSelecteReunionesLink] = React.useState(statesTabLink[getSection(translate)]);
+	const [selectedTab, setselectedTab] = React.useState(getSection(translate));
+	const [selectedTabLink, setselectedTabLink] = React.useState(statesTabLink[getSection(translate)]);
 
 	React.useEffect(() => {
 		const section = getSection(translate);
-		if (section !== selecteReuniones) {
-			setSelecteReuniones(section);
+		if (section !== selectedTab) {
+			setselectedTab(section);
 		}
 	}, [window.location.pathname]);
 
@@ -81,7 +84,7 @@ const Councils = ({ translate, client, ...props }) => {
 		const response = await client.query({
 			query: councils,
 			variables: {
-				state: statesTabInfo[selecteReuniones],
+				state: statesTabInfo[selectedTab],
 				// state: props.state,
 				companyId: +props.company.id,
 				isMeeting: false,
@@ -97,14 +100,14 @@ const Councils = ({ translate, client, ...props }) => {
 		});
 		setCouncilsData(response.data.councils)
 		setLoading(false)
-		setSelecteReunionesLink(statesTabLink[selecteReuniones]);
+		setselectedTabLink(statesTabLink[selectedTab]);
 		handleChange();
 	}
 
 	React.useEffect(() => {
 		setLoading(true);
 		getData();
-	}, [selecteReuniones, state.page])
+	}, [selectedTab, state.page])
 
 	const select = id => {
 		if (state.selectedIds.has(id)) {
@@ -193,11 +196,17 @@ const Councils = ({ translate, client, ...props }) => {
 				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.6em" }}>
 					<div>
 						<MenuSuperiorTabs
-							items={[translate.companies_draft, translate.companies_calendar,
-							translate.companies_live, translate.companies_writing, translate.act_book,
-							translate.dashboard_historical]}
+							items={[
+								translate.all,
+								translate.companies_draft,
+								translate.companies_calendar,
+								translate.companies_live,
+								translate.companies_writing,
+								translate.act_book,
+								translate.dashboard_historical
+							]}
 							setSelect={handleChange}
-							selected={selecteReuniones}
+							selected={selectedTab}
 						/>
 					</div>
 					<div style={{ display: "flex" }}>
@@ -267,7 +276,10 @@ const Councils = ({ translate, client, ...props }) => {
 											})}
 										</div>
 									) : councilsData.list.length > 0 ? (
-										selecteReuniones === translate.companies_writing || selecteReuniones === translate.act_book || selecteReuniones === translate.dashboard_historical ?
+										(selectedTab === translate.companies_writing ||
+										selectedTab === translate.act_book ||
+										selectedTab === translate.dashboard_historical ||
+										selectedTab === translate.all) ?
 											<div>
 												<CouncilsHistory
 													councils={councilsData.list}
@@ -296,7 +308,7 @@ const Councils = ({ translate, client, ...props }) => {
 														selectedIds={state.selectedIds}
 														councils={councilsData.list}
 														company={props.company}
-														link={selecteReunionesLink}
+														link={selectedTabLink}
 													/>
 													<Grid style={{ padding: isMobile ? "1em 0em 0em 0em" : '2em 3em 1em 2em' }}>
 														<PaginationFooter
