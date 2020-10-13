@@ -243,6 +243,7 @@ const councilQuery = gql`
 			subdomain
 			councilStarted
 			wallActive
+			askWordMenu
 			state
 			city
 			closeDate

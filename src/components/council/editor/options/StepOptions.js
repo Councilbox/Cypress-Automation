@@ -219,11 +219,21 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						}
 					/>
 					<Checkbox
-						label={'Muro de comentarios'}
+						label={translate.wall}
 						value={council.wallActive !== 0}
 						onChange={(event, isInputChecked) =>
 							updateCouncilData({
 								wallActive: isInputChecked ? 1 : 0
+							})
+						}
+					/>
+					<Checkbox
+						disabled={council.councilType !== 0}
+						label={translate.can_ask_word}
+						value={council.askWordMenu}
+						onChange={(event, isInputChecked) =>
+							updateCouncilData({
+								askWordMenu: isInputChecked
 							})
 						}
 					/>

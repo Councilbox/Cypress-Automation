@@ -40,6 +40,10 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const checkCanRequest = async () => {
         await updateRTC();
 
+        if(!council.askWordMenu){
+            return false;
+        }
+
         if(isIOS){
             return setCanRequest(config.iOSWord);
         }
@@ -137,7 +141,11 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                     maxWidth: '500px'
                 }}
             >
-                {translate.sorry_cant_ask_word}
+                {!council.askWordMenu ?
+                    translate.cant_ask_word
+                :
+                    translate.sorry_cant_ask_word
+                }
             </div>
         )
     }
@@ -145,10 +153,10 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const _renderSafariAlertBody = () => {
         return (
             <div>
-                {DetectRTC.audioInputDevices.length > 0?
-                    translate.safari_word_ask_info
+                {!council.askWordMenu ?
+                    translate.cant_ask_word
                 :
-                    translate.sorry_cant_ask_word
+                    translate.safari_word_ask_info
                 }
             </div>
         )

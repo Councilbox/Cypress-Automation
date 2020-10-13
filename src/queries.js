@@ -1025,6 +1025,7 @@ export const councilStepFive = gql`
 			autoClose
 			promoCode
 			dateStart
+			askWordMenu
 			closeDate
 			companyId
 			wallActive
