@@ -532,7 +532,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
-							label={translate.can_add_points}
+							label={translate.agenda_can_be_modified}
 							value={statute.canAddPoints === 1}
 							onChange={(event, isInputChecked) =>
 								updateState({
