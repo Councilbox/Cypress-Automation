@@ -131,7 +131,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	};
 
 	const nextPage = async () => {
-		if(data.council.statute.canAddPoints === 1 || checkConditions()){
+		if (data.council.statute.canAddPoints === 1 || checkConditions()) {
 			await updateCouncil(4);
 			props.nextStep();
 		}
@@ -226,16 +226,17 @@ const StepAgenda = ({ client, translate, ...props }) => {
 										>
 											<BasicButton
 												text={
-													translate.reorder_agenda_points
+													<div style={{ display: "flex", alignItems: "center" }}>
+														<div>{translate.reorder_agenda_points}</div>
+														<div style={{ display: "flex" }}><ButtonIcon
+															type="cached"
+															color="white"
+															style={{marginTop: '3px'}}
+														/></div>
+													</div>
 												}
 												color={secondary}
 												textStyle={buttonStyle}
-												icon={
-													<ButtonIcon
-														type="cached"
-														color="white"
-													/>
-												}
 												textPosition="after"
 											/>
 										</ReorderPointsModal>
@@ -500,9 +501,13 @@ export const AddAgendaPoint = ({
 					id={"newPuntoDelDiaOrdenDelDiaNew"}
 					loading={false}
 					{...(!!Component ? (Component = { Component }) : {})}
-					text={translate.add_agenda_point}
+					text={
+						<div style={{ display: "flex", alignItems: "center" }}>
+							<div>{translate.add_agenda_point}</div>
+							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{marginTop: '3px'}} /></div>
+						</div>
+					}
 					textStyle={buttonStyle}
-					icon={<ButtonIcon type="add" color="white" />}
 					anchorOrigin={{
 						vertical: 'bottom',
 						horizontal: 'left',
