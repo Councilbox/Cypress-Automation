@@ -45,11 +45,11 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
             }
             <div
                 style={{ color: secondary, paddingLeft: '0.6em', cursor: 'pointer' }}
+                onClick={() => setModal(true)}
             >
                 <i
                     class="fa fa-info"
                     aria-hidden="true"
-                    onClick={() => setModal(true)}
                 ></i>
             </div>
 
@@ -74,6 +74,11 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
             }
         </>
     )
+}
+
+const mainRowsStyle = {
+    fontWeight: '700',
+    fontSize: '14px'
 }
 
 export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas = [], company, translate, recount, totalVotes, socialCapital, client }) => {
@@ -221,30 +226,44 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                             {translate.census_type_social_capital}
                         </TableCell>
                         <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
-                            % {translate.social_capital_desc}
+                            %
                         </TableCell>
                     </TableHead>
                     <TableBody>
                         <TableRow>
-                            <TableCell>
+                            <TableCell style={mainRowsStyle}>
                                 Total
                             </TableCell>
-                            <TableCell>
-                                {showNumParticipations(data.numTotal, company, council.statute)}
+                            <TableCell style={mainRowsStyle}>
+                                {data.numTotal}
                             </TableCell>
-                            <TableCell>
+                            <TableCell style={mainRowsStyle}>
                                 {showNumParticipations(data.total, company, council.statute)}
                             </TableCell>
-                            <TableCell>
+                            <TableCell style={mainRowsStyle}>
                                 {getPercentage(data.total)}%
                             </TableCell>
                         </TableRow>
                         <TableRow>
+                            <TableCell style={mainRowsStyle}>
+                                {translate.presents}
+                            </TableCell>
+                            <TableCell style={mainRowsStyle}>
+                                {data.numPresent + data.numRemote + data.numEarlyVotes}
+                            </TableCell>
+                            <TableCell style={mainRowsStyle}>
+                                {showNumParticipations(data.present + data.remote + data.earlyVotes, company, council.statute)}
+                            </TableCell>
+                            <TableCell style={mainRowsStyle}>
+                                {getPercentage(data.present + data.remote + data.earlyVotes)}%
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
                             <TableCell>
-                                {translate.face_to_face}
+                                -{translate.face_to_face}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.numPresent, company, council.statute)}
+                                {data.numPresent}
                             </TableCell>
                             <TableCell>
                                 {showNumParticipations(data.present, company, council.statute)}
@@ -255,10 +274,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                         </TableRow>
                         <TableRow>
                             <TableCell>
-                                {translate.remotes}
+                                -{translate.remotes}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.numRemote, company, council.statute)}
+                                {data.numRemote}
                             </TableCell>
                             <TableCell>
                                 {showNumParticipations(data.remote, company, council.statute)}
@@ -267,27 +286,13 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 {getPercentage(data.remote)}%
                             </TableCell>
                         </TableRow>
-                        <TableRow>
-                            <TableCell>
-                                {translate.delegated_plural}
-                            </TableCell>
-                            <TableCell>
-                                {showNumParticipations(data.numDelegated, company, council.statute)}
-                            </TableCell>
-                            <TableCell>
-                                {showNumParticipations(data.delegated, company, council.statute)}
-                            </TableCell>
-                            <TableCell>
-                                {getPercentage(data.delegated)}%
-                            </TableCell>
-                        </TableRow>
                         {council.statute.canEarlyVote === 1 &&
                             <TableRow>
                                 <TableCell>
-                                    {council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION? translate.vote_letter : translate.quorum_early_votes}
+                                    -{council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION? translate.vote_letter : translate.quorum_early_votes}
                                 </TableCell>
                                 <TableCell>
-                                    {showNumParticipations(data.numEarlyVotes, company, council.statute)}
+                                    {data.numEarlyVotes}
                                 </TableCell>
                                 <TableCell>
                                     {showNumParticipations(data.earlyVotes, company, council.statute)}
@@ -299,10 +304,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                         }
                         <TableRow>
                             <TableCell>
-                                {translate.no_voting_rights}
+                               -{translate.no_voting_rights}
                             </TableCell>
                             <TableCell>
-                                {showNumParticipations(data.numWithoutVote, company, council.statute)}
+                                {data.numWithoutVote}
                             </TableCell>
                             <TableCell>
                                 {showNumParticipations(data.withoutVote, company, council.statute)}
@@ -312,16 +317,30 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>
+                            <TableCell style={mainRowsStyle}>
+                                {translate.delegated_plural}
+                            </TableCell>
+                            <TableCell style={mainRowsStyle}>
+                                {data.numDelegated}
+                            </TableCell>
+                            <TableCell style={mainRowsStyle}>
+                                {showNumParticipations(data.delegated, company, council.statute)}
+                            </TableCell>
+                            <TableCell style={mainRowsStyle}>
+                                {getPercentage(data.delegated)}%
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell style={mainRowsStyle}>
                                 {translate.others}
                             </TableCell>
-                            <TableCell>
-                                {showNumParticipations(data.numOthers, company, council.statute)}
+                            <TableCell style={mainRowsStyle}>
+                                {data.numOthers}
                             </TableCell>
-                            <TableCell>
+                            <TableCell style={mainRowsStyle}>
                                 -
                             </TableCell>
-                            <TableCell>
+                            <TableCell style={mainRowsStyle}>
                                 -
                             </TableCell>
                         </TableRow>
