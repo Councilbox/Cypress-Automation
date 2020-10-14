@@ -117,6 +117,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				if (!response.errors) {
 					setSuccess(true);
 					setLoading(false);
+					goBack()
 				}
 			}
 		}
