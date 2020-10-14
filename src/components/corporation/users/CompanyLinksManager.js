@@ -1,11 +1,10 @@
 import React from 'react';
-import { BasicButton, AlertConfirm, ButtonIcon, LoadingSection, TextInput, Icon, Scrollbar, Grid, PaginationFooter, SelectInput, MenuItem } from '../../../displayComponents';
+import { BasicButton, AlertConfirm, ButtonIcon, LoadingSection, TextInput, Icon, Grid, PaginationFooter, SelectInput, MenuItem } from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { Typography, Table, TableHead, TableRow, TableCell } from 'material-ui';
 import CompanyItem from '../companies/CompanyItem';
 import gql from 'graphql-tag';
-import { graphql, withApollo } from 'react-apollo';
-import { isMobile } from 'react-device-detect';
+import { withApollo } from 'react-apollo';
 
 const DEFAULT_OPTIONS = {
     limit: 10,
@@ -15,7 +14,6 @@ const DEFAULT_OPTIONS = {
 }
 
 const CompanyLinksManager = ({ translate, client, ...props }) => {
-
     const [state, setState] = React.useState({
         checked: props.linkedCompanies || [],
         modal: false,
@@ -24,46 +22,37 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
         filterSelect: 'businessName',
         limit: DEFAULT_OPTIONS.limit
     })
-    // const [loading, setLoading] = React.useState(true)
-    // const [dataCorporationCompanies, setDataCorporationCompanies] = React.useState({})
-    // const [companiesPage, setCompaniesPage] = React.useState(1);
+    const [loading, setLoading] = React.useState(true);
+    const [dataCorporationCompanies, setDataCorporationCompanies] = React.useState({})
+    const [page, setPage] = React.useState(1);
 
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //     if (nextProps.linkedCompanies.length && !prevState.checked.length) {
-    //         return {
-    //             checked: nextProps.linkedCompanies
-    //         }
-    //     }
+    const getData = React.useCallback(async () => {
+        const response = await client.query({
+            query: corporationCompanies,
+            variables: {
+                filters: [{ field: state.filterSelect, text: state.filterText }],
+                options: {
+                    limit: 10,
+                    offset: (page - 1) * 10,
+                    orderDirection: 'DESC'
+                },
+                corporationId: props.company ? props.company.corporationId : 1
+            }
+        });
+        if (response.data.corporationCompanies.list) {
+            setDataCorporationCompanies(response.data.corporationCompanies);
+            setLoading(false);
+        }
+    }, [state.filterText, state.filterSelect, page])
 
-    //     return null
-    // }
-
-    // const getData = React.useCallback(async () => {
-    //     setLoading(true)
-    //     const response = await client.query({
-    //         query: corporationCompanies,
-    //         variables: {
-    //             filters: [{ field: state.filterSelect, text: state.filterText }],
-    //             options: {
-    //                 limit: 10,
-    //                 offset: (companiesPage - 1) * 10,
-    //                 orderDirection: 'DESC'
-    //             },
-    //             corporationId: props.company ? props.company.corporationId : 1
-    //         }
-    //     });
-    //     console.log(response)
-    //     if (response.data.corporationCompanies.list) {
-    //         setDataCorporationCompanies(response.data.corporationCompanies)
-    //         setLoading(false)
-    //     }
-    // }, [state.filterText, state.filterSelect, companiesPage])
-
-    // React.useEffect(() => {
-    //     getData();
-    // }, [getData])
-
-
+    React.useEffect(() => {
+        let timeout;
+        timeout = setTimeout(() => {
+            getData();
+        }, 350);
+ 
+        return () => clearTimeout(timeout);
+    }, [getData])
 
     const addCheckedCompanies = () => {
         props.addCheckedCompanies(state.checked);
@@ -75,52 +64,17 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
         });
     }
 
-    const checkRow = (email, check) => {
-        let checked = [...state.checked];
-        if (check) {
-            checked = [...checked, email];
-        } else {
-            const index = checked.findIndex(item => item === email);
-            checked.splice(index, 1);
-        }
-        setState({
-            ...state,
-            checked: checked
-        });
-    };
-
-
-
     const close = () => {
         setState({
             ...state,
-            modal: false
-        }, setState({
-            ...state,
             step: 1,
-            checked: props.linkedCompanies
-        }));
+            page: 1,
+            filterText: '',
+            filterSelect: 'businessName',
+            checked: props.linkedCompanies,
+            modal: false
+        });
     }
-
-    // const updateFilterText = (text) => {
-    //     setState({
-    //         ...state,
-    //         filterText: text
-    //     }, () => {
-    //         clearTimeout(timeout);
-    //         timeout = setTimeout(() => refresh(), 450);
-    //     });
-    // }
-
-    const refresh = () => {
-        let variables = {
-            options: DEFAULT_OPTIONS
-        };
-        variables.options.limit = state.limit;
-        variables.filters = [{ field: 'businessName', text: state.filterText }];
-        props.data.refetch(variables);
-    }
-    console.log(props.linkedCompanies)
 
     return (
         <div> {/**"calc( 100% - 16em )" */}
@@ -170,7 +124,7 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
             <AlertConfirm
                 requestClose={close}
                 open={state.modal}
-                acceptAction={state.step === 1 ? () => setState({ step: 2 }) : addCheckedCompanies}
+                acceptAction={state.step === 1 ? () => setState({ ...state, step: 2 }) : addCheckedCompanies}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={
@@ -178,7 +132,13 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
                         translate={translate}
                         linkedCompanies={props.linkedCompanies}
                         client={client}
+                        companies={dataCorporationCompanies}
                         company={props.company}
+                        page={page}
+                        state={state}
+                        setState={setState}
+                        setPage={setPage}
+                        loading={loading}
                     />
                 }
                 title={translate.link_companies}
@@ -188,63 +148,29 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
 }
 
 
-const LinksCompanies = ({ translate, linkedCompanies, client, company }) => {
-    const [state, setState] = React.useState({
-        checked: linkedCompanies || [],
-        modal: false,
-        step: 1,
-        filterText: '',
-        filterSelect: 'businessName',
-        limit: DEFAULT_OPTIONS.limit
-    })
-    const [loading, setLoading] = React.useState(true)
-    const [dataCorporationCompanies, setDataCorporationCompanies] = React.useState({})
-    const [companiesPage, setCompaniesPage] = React.useState(1);
-
-    const getData = React.useCallback(async () => {
-        setLoading(true)
-        console.log(company)
-        const response = await client.query({
-            query: corporationCompanies,
-            variables: {
-                filters: [{ field: state.filterSelect, text: state.filterText }],
-                options: {
-                    limit: 10,
-                    offset: (companiesPage - 1) * 10,
-                    orderDirection: 'DESC'
-                },
-                corporationId: company ? company.corporationId : 1
-            }
-        });
-        console.log(response)
-        if (response.data.corporationCompanies) {
-            setDataCorporationCompanies(response.data.corporationCompanies)
-            setLoading(false)
-        }
-    }, [state.filterText, state.filterSelect, companiesPage, state.filterId])
-
-    React.useEffect(() => {
-        getData();
-    }, [getData])
-
+const LinksCompanies = ({ translate, companies, setPage, page, state, setState, loading }) => {
     const isChecked = id => {
         const item = state.checked.find(item => item.id === id);
         return !!item;
     }
 
-    const checkCompany = (company, check) => {
+    const checkRow = (company, check) => {
         let checked = [...state.checked];
         if (check) {
             checked = [...checked, company];
         } else {
             const index = checked.findIndex(item => item.id === company.id);
-            checked.splice(index, 1);
+
+            if(index !== -1){
+                checked.splice(index, 1);
+            }
         }
         setState({
             ...state,
-            checked: checked
+            checked
         });
-    }
+    };
+
 
     if (state.step === 1) {
         return (
@@ -268,6 +194,7 @@ const LinksCompanies = ({ translate, linkedCompanies, client, company }) => {
                             onChange={event => {
                                 setState({
                                     ...state,
+                                    page: 1,
                                     filterText: event.target.value
                                 })
                             }}
@@ -278,23 +205,23 @@ const LinksCompanies = ({ translate, linkedCompanies, client, company }) => {
                     <LoadingSection />
                     :
                     <div>
-                        {dataCorporationCompanies.list.map(company => (
+                        {companies.list.map(company => (
                             <CompanyItem
                                 key={`company_${company.id}`}
                                 company={company}
                                 checkable={true}
                                 checked={isChecked(company.id)}
-                                onCheck={checkCompany}
+                                onCheck={checkRow}
                             />
                         ))}
                         <Grid style={{ marginTop: "1em" }}>
                             <PaginationFooter
-                                page={companiesPage}
+                                page={page}
                                 translate={translate}
-                                length={dataCorporationCompanies.list.length}
-                                total={dataCorporationCompanies.total}
+                                length={companies.list.length}
+                                total={companies.total}
                                 limit={10}
-                                changePage={setCompaniesPage}
+                                changePage={setPage}
                                 lg={12}
                                 md={12}
                             />
@@ -314,7 +241,7 @@ const LinksCompanies = ({ translate, linkedCompanies, client, company }) => {
                         company={company}
                         checkable={true}
                         checked={isChecked(company.id)}
-                        onCheck={checkCompany}
+                        onCheck={checkRow}
                     />
                 ))}
             </div>

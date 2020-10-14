@@ -3,26 +3,18 @@ import { graphql, withApollo, compose } from "react-apollo";
 import { checkValidEmail } from "../../utils";
 import {
 	BasicButton,
-	ButtonIcon,
-	SectionTitle,
 	AlertConfirm,
 	Scrollbar
 } from "../../displayComponents";
 import { updateUser } from "../../queries";
 import { store } from "../../containers/App";
 import { setUserData } from "../../actions/mainActions";
-import { getPrimary, secondary, getSecondary } from "../../styles/colors";
+import { getPrimary } from "../../styles/colors";
 import UserForm from './UserForm';
 import { checkEmailExists } from "../../queries/userAndCompanySignUp";
 import CompanyLinksManager from "../corporation/users/CompanyLinksManager";
 import ChangePasswordForm from "./ChangePasswordForm";
-import NotificationsTable from "../notifications/NotificationsTable";
-import * as CBX from "../../utils/CBX";
-import gql from "graphql-tag";
 import UserSendsList from "../corporation/users/UserSendsList";
-import { ButtonBase } from "material-ui";
-
-
 
 
 class UpdateUserForm extends React.Component {
