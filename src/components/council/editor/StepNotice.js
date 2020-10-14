@@ -51,7 +51,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	});
 
 	const setCouncilWithRemoveValues = React.useCallback(async data => {
-		if (!data.loading && !council.id) {
+		// if (!data.loading && !council.id) {
+		if (!data.loading) {
 			setCouncil({
 				...data.council,
 				name: !data.council.name ? `${translate[data.council.statute.title] ? translate[data.council.statute.title] : data.council.statute.title} - ${moment().format('DD/MM/YYYY')}` : data.council.name,
@@ -402,7 +403,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			dateStart2NdCall: secondDate,
 		});
 	};
-
+	
 	return (
 		<React.Fragment>
 			<EditorStepLayout
@@ -641,7 +642,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 								title={council.statute ? translate[council.statute.title] || council.statute.title : ''}
 								bodyText={
 									<StatuteDisplay
-										statute={council.statute}
+										statute={data.council.statute}
 										translate={translate}
 										quorumTypes={data.quorumTypes}
 									/>
