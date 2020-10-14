@@ -11,6 +11,7 @@ import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
+import { secondary } from "../../styles/colors";
 
 const TopSectionBlocks = ({ translate, company, user }) => {
 	const [open, setOpen] = React.useState(false);
@@ -39,8 +40,8 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 
 	const hasBook = companyHasBook();
 
-	const size = !hasBook? 4 : 3;
-	const blankSize = !hasBook? 2 : 3;
+	const size = 3;
+	const blankSize = 3;
 
 
 	return(
@@ -73,7 +74,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					text={translate.council_types}
 				/>
 			</GridItem>
-			{hasBook &&
+			{hasBook ?
 				<GridItem xs={12} md={3} lg={3}>
 					<Block
 						link={`/company/${company.id}/book`}
@@ -82,6 +83,24 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 						disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
 						disabledOnClick={showCouncilsModal}
 						text={translate.book}
+					/>
+				</GridItem>
+			:
+				<GridItem xs={12} md={3} lg={3}>
+					<Block
+						link={`/company/${company.id}/settings`}
+						customIcon={
+							<i
+								className="fa fa-building-o"
+								aria-hidden="true"
+								style={{
+									fontSize: '6em',
+									color: secondary,
+									marginBottom: '1rem'
+								}}
+							></i>}
+						id={'edit-company-block'}
+						text={translate.edit_company}
 					/>
 				</GridItem>
 			}
