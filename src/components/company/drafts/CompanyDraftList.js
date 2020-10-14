@@ -231,21 +231,22 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 
 	if (state.newForm) {
 		setMostrarMenu(false)
-		return (
-			<CompanyDraftNew
-				translate={translate}
-				closeForm={() => {
-					setState({ newForm: false });
-					getDrafts();
-					setMostrarMenu(true)
-				}}
-				company={company}
-				back={() => {
-					setState({ newForm: false });
-					setMostrarMenu(true);
-				}}
-			/>
-		);
+		bHistory.push(`/company/${company.id}/draft/new`);
+		// return (
+		// 	<CompanyDraftNew
+		// 		translate={translate}
+		// 		closeForm={() => {
+		// 			setState({ newForm: false });
+		// 			getDrafts();
+		// 			setMostrarMenu(true)
+		// 		}}
+		// 		company={company}
+		// 		back={() => {
+		// 			setState({ newForm: false });
+		// 			setMostrarMenu(true);
+		// 		}}
+		// 	/>
+		// );
 	}
 
 	if (!vars.companyStatutes) {
@@ -293,9 +294,10 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 								)
 							}}
 							onClick={() =>
-								setState({
-									newForm: true
-								})
+								bHistory.push(`/company/${company.id}/draft/new`)
+								// setState({
+								// 	newForm: true
+								// })
 							}
 						/>
 					</div>
