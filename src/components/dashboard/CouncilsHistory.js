@@ -95,14 +95,16 @@ class HoverableRow extends React.Component {
             case COUNCIL_STATES.DRAFT:
             case COUNCIL_STATES.PRECONVENE:
                 return translate.dasboard_draft;
+            case COUNCIL_STATES.SAVED:
             case COUNCIL_STATES.PREPARING:
-                return translate.companies_calendar;
+                return translate.convened;
             case COUNCIL_STATES.ROOM_OPENED:
             case COUNCIL_STATES.APPROVING_ACT_DRAFT:
                 return translate.companies_live;
             case COUNCIL_STATES.NOT_CELEBRATED:
                 return translate.not_held_council;
             case COUNCIL_STATES.FINISHED:
+            case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
                 return translate.council_finished;
             case COUNCIL_STATES.APPROVED:
                 return translate.minutes_not_sent;
@@ -170,7 +172,7 @@ class HoverableRow extends React.Component {
                             />
                         </GridItem>
                         <GridItem xs={12} md={12}>
-                            {council.promoCode !== 'COUNCILBOX' &&
+                            {(council.promoCode !== 'COUNCILBOX' && council.state >= 40) &&
                                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: '10px' }}>
                                     <BasicButton
                                         text={translate.certificates}
@@ -261,7 +263,7 @@ class HoverableRow extends React.Component {
                     style={TableStyles.TD}
                 >
                     <div style={{ width: '12em' }}>
-                        {(this.state.showActions && council.promoCode !== 'COUNCILBOX') &&
+                        {(this.state.showActions && council.promoCode !== 'COUNCILBOX' && council.state >= 40) &&
                             <BasicButton
                                 text={translate.certificates}
                                 color="white"

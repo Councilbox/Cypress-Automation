@@ -28,7 +28,7 @@ import { bHistory } from "../../containers/App.js";
 const getSection = translate => {
 	const section = window.location.pathname.split('/').pop();
 	const sections = {
-		'all': translate.all,
+		'all': translate.all_plural_fem,
 		'drafts': translate.companies_draft,
 		'calendar': translate.companies_calendar,
 		'live': translate.companies_live,
@@ -52,7 +52,7 @@ const Councils = ({ translate, client, ...props }) => {
 		page: 1,
 	});
 	const statesTabLink = {
-		[translate.all]: `/company/${props.company.id}/councils/all`,
+		[translate.all_plural_fem]: `/company/${props.company.id}/councils/all`,
 		[translate.companies_draft]: `/company/${props.company.id}/councils/drafts`,
 		[translate.companies_calendar]: `/company/${props.company.id}/councils/calendar`,
 		[translate.companies_live]: `/company/${props.company.id}/councils/live`,
@@ -61,7 +61,7 @@ const Councils = ({ translate, client, ...props }) => {
 		[translate.dashboard_historical]: `/company/${props.company.id}/councils/history`,
 	}
 	const statesTabInfo = {
-		[translate.all]: null,
+		[translate.all_plural_fem]: null,
 		[translate.companies_draft]: [0, 3],
 		[translate.companies_calendar]: [10, 5],
 		[translate.companies_live]: [20, 30],
@@ -197,7 +197,7 @@ const Councils = ({ translate, client, ...props }) => {
 					<div>
 						<MenuSuperiorTabs
 							items={[
-								translate.all,
+								translate.all_plural_fem,
 								translate.companies_draft,
 								translate.companies_calendar,
 								translate.companies_live,
@@ -279,7 +279,7 @@ const Councils = ({ translate, client, ...props }) => {
 										(selectedTab === translate.companies_writing ||
 										selectedTab === translate.act_book ||
 										selectedTab === translate.dashboard_historical ||
-										selectedTab === translate.all) ?
+										selectedTab === translate.all_plural_fem) ?
 											<div>
 												<CouncilsHistory
 													councils={councilsData.list}
