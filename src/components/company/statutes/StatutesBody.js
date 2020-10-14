@@ -302,11 +302,12 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			});
 		}
 	};
-	
+
 	const updateState = object => {
 		if (!state.unsavedChanges) {
 			store.dispatch(setUnsavedChanges(true));
 		}
+
 
 		setState(state => ({
 			...state,
@@ -314,7 +315,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				...state.statute,
 				...object
 			},
-			unsavedChanges: JSON.stringify(state.statute) !== JSON.stringify(data.companyStatutes[state.selectedStatute])
+			unsavedChanges: JSON.stringify({...state.statute, ...object}) !== JSON.stringify(data.companyStatutes[state.selectedStatute])
 		}));
 	};
 
@@ -335,10 +336,12 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		}
 	};
 
-	const showNewStatute = () => setState({ ...state, newStatute: true, errors: {
-		...state.errors,
-		newStatuteName: ""
-	} });
+	const showNewStatute = () => setState({
+		...state, newStatute: true, errors: {
+			...state.errors,
+			newStatuteName: ""
+		}
+	});
 
 	const restoreStatute = () => {
 		setState({
@@ -358,7 +361,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	if (!companyStatutes) {
 		return <LoadingSection />;
 	}
-
+	
 
 	const body = () => (
 		<>
