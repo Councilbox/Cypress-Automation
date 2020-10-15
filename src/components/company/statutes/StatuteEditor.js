@@ -563,6 +563,38 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							}
 						/>
 					</GridItem>
+					<GridItem xs={12} md={7} lg={7}>
+						<SelectInput
+								floatingText={translate.default_vote}
+								value={statute.defaultVote}
+								onChange={event =>
+									updateState({
+										defaultVote: event.target.value
+									})
+								}
+							>
+								<MenuItem
+									value={-1}
+								>
+									{translate.dont_vote}
+								</MenuItem>
+								<MenuItem
+									value={0}
+								>
+									{translate.against_btn}
+								</MenuItem>
+								<MenuItem
+									value={1}
+								>
+									{translate.in_favor_btn}
+								</MenuItem>
+								<MenuItem
+									value={2}
+								>
+									{translate.abstention_btn}
+								</MenuItem>
+							</SelectInput>
+					</GridItem>
 				</Grid>
 				<VideoSection
 					updateState={updateState}

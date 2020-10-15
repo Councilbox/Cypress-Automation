@@ -730,6 +730,7 @@ export const statutes = gql`
 			existPublicUrl
 			language
 			companyType
+			defaultVote
 			videoConfig
 			hideVotingsRecountFinished
 			addParticipantsListToAct
