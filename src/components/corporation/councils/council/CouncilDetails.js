@@ -20,6 +20,7 @@ import CouncilDetailsParticipants from './CouncilDetailsParticipants';
 import * as CBX from '../../../../utils/CBX';
 import { SearchCouncils } from '../CouncilsDashboard';
 import ParticipantsManager from '../../../council/live/participants/ParticipantsManager';
+import CouncilStatuteEditor from './CouncilStatuteEditor';
 
 
 const cancelAct = gql`
@@ -38,6 +39,7 @@ class CouncilDetails extends React.Component {
 		sendCredentials: false,
 		showAgenda: false,
 		councilTypeModal: false,
+		councilConfigEditor: false,
 		credManager: false,
 		locked: true,
 		data: null,
@@ -329,6 +331,26 @@ class CouncilDetails extends React.Component {
 												quorumTypes={this.state.data.quorumTypes}
 											/>
 										</React.Fragment>
+									}
+									title={"Detalle del tipo de reunión"}
+								/>
+								<BasicButton
+									text="Configurar reunión"
+									color={secondary}
+									textStyle={{ fontWeight: '700', color: 'white', marginTop: "0.5em", marginBottom: '1.4em', marginLeft: "1.5em" }}
+									onClick={() => this.setState({ councilConfigEditor: true })}
+								/>
+								<AlertConfirm
+									requestClose={() => this.setState({ councilConfigEditor: false })}
+									open={this.state.councilConfigEditor}
+									buttonCancel={'Cancelar'}
+									bodyText={
+										<CouncilStatuteEditor
+											translate={translate}
+											statute={this.props.data.council.statute}
+											council={council}
+											refetch={this.props.data.refetch}
+										/>
 									}
 									title={"Detalle del tipo de reunión"}
 								/>
@@ -649,13 +671,16 @@ const CouncilDetailsRoot = gql`
                 existsSecondCall
                 existsQualityVote
                 minimumSeparationBetweenCall
-                existsAdvanceNoticeDays
+				existsAdvanceNoticeDays
+				shareholdersPortal
+				defaultVote
                 advanceNoticeDays
                 quorumPrototype
                 firstCallQuorumType
                 secondCallQuorumType
                 existsDelegatedVote
-                existMaxNumDelegatedVotes
+				existMaxNumDelegatedVotes
+				hideVotingsRecountFinished
                 maxNumDelegatedVotes
                 limitedAccessRoomMinutes
                 existsLimitedAccessRoom
