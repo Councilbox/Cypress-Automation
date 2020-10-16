@@ -64,7 +64,7 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
                             company={company}
                             translate={translate}
                             socialCapital={recount.socialCapitalTotal}
-                            totalVotes={recount.partRightVoting}
+                            totalVotes={recount.partTotal}
                         />
                     }
                     buttonCancel={translate.close}
@@ -238,10 +238,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 {data.numTotal}
                             </TableCell>
                             <TableCell style={mainRowsStyle}>
-                                {showNumParticipations(data.total, company, council.statute)}
+                                {showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)}
                             </TableCell>
                             <TableCell style={mainRowsStyle}>
-                                {getPercentage(data.total)}%
+                                {getPercentage(recount.socialCapitalRightVoting)}%
                             </TableCell>
                         </TableRow>
                         <TableRow>
