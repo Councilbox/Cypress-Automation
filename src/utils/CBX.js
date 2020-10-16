@@ -1606,7 +1606,6 @@ export const getSignerStatusTranslateField = status => {
 }
 
 export const checkCouncilState = (council, company, bHistory, expected) => {
-	return true;
 	switch (council.state) {
 		case COUNCIL_STATES.DRAFT:
 			if (expected !== "draft") {
