@@ -1,8 +1,9 @@
 import React from 'react';
-import { AlertConfirm, BasicButton, TextInput, LoadingSection, Checkbox } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, TextInput, LoadingSection, Checkbox, SelectInput } from '../../../displayComponents';
 import { primary } from '../../../styles/colors';
 import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { MenuItem } from 'material-ui';
 
 let interval = null;
 
@@ -186,6 +187,20 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                         autoHybrid: isInputChecked
                     }})}
                 />
+                {data.videoConfig.autoHybrid &&
+                    <SelectInput
+                        value={data.videoConfig.hybridMode}
+                        floatingText={'Sistema híbrido'}
+                        onChange={event => setData({ ...data, videoConfig: {
+                            ...data.videoConfig,
+                            hybridMode: event.target.value
+                        }})}
+                    >
+                        <MenuItem value={'STREAMING'}>Streaming</MenuItem>
+                        <MenuItem value={'WEBRTC'}>WebRTC</MenuItem>
+                    </SelectInput>
+                }
+
                 <Checkbox
                     label={'Desactivar detección automática del sistema híbrido'}
                     value={data.videoConfig.disableHybrid}

@@ -1731,6 +1731,8 @@ export const getEmailIconByReqCode = reqCode => {
 			return invalidEmailAddress;
 
 		case 37:
+		case 39:
+		case 40:
 			return dropped;
 		default:
 			return null;
