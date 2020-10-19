@@ -24,7 +24,7 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
 
     return (
         <>
-            {council.quorumPrototype === 0 ?
+            {council.statute.quorumPrototype === 0 ?
                 <b>{`${translate.current_quorum}: ${showNumParticipations(recount.partRightVoting, company, council.statute)} (${((recount.partRightVoting / (recount.partTotal ? recount.partTotal : 1)) * 100).toFixed(3)}%)${
                     (councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
                         ` / ${translate.initial_quorum}: ${
@@ -86,9 +86,11 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
     const [loading, setLoading] = React.useState(true);
     const secondary = getSecondary();
 
+    const SC = hasParticipations(council.statute);
+
     const getPercentage = value => {
         let base = totalVotes;
-        if (hasParticipations(council)) {
+        if (SC) {
             base = socialCapital;
         }
 
@@ -223,7 +225,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                             {translate.participants}
                         </TableCell>
                         <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
-                            {translate.census_type_social_capital}
+                            {SC ? translate.census_type_social_capital : translate.votes}
                         </TableCell>
                         <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
                             %
@@ -238,10 +240,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 {data.numTotal}
                             </TableCell>
                             <TableCell style={mainRowsStyle}>
-                                {showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)}
+                                {showNumParticipations(SC ? recount.socialCapitalRightVoting : recount.partRightVoting, company, council.statute)}
                             </TableCell>
                             <TableCell style={mainRowsStyle}>
-                                {getPercentage(recount.socialCapitalRightVoting)}%
+                                {getPercentage(SC ? recount.socialCapitalRightVoting : recount.partRightVoting)}%
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -252,7 +254,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 {data.numPresent + data.numRemote + data.numEarlyVotes}
                             </TableCell>
                             <TableCell style={mainRowsStyle}>
-                                {showNumParticipations(data.present + data.remote + data.earlyVotes, company, council.statute)}
+                                {showNumParticipations(data.present + data.remote + data.earlyVotes + data.withoutVote, company, council.statute)}
                             </TableCell>
                             <TableCell style={mainRowsStyle}>
                                 {getPercentage(data.present + data.remote + data.earlyVotes)}%
