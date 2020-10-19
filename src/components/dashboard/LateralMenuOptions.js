@@ -5,7 +5,7 @@ import { darkGrey } from "../../styles/styles";
 import logo from '../../assets/img/logo-icono.png';
 import { isMobile } from "../../utils/screen";
 import { ConfigContext } from "../../containers/AppControl";
-
+import { Icon } from 'material-ui';
 
 
 const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType }) => {
@@ -15,6 +15,16 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 		const menuOptions = {
 			council: (
 				<React.Fragment>
+					<LateralOption
+						customIcon={
+							<Icon>
+								import_contacts
+							</Icon>
+						}
+						text={translate.all_plural_fem}
+						link={`/company/${company.id}/councils/all`}
+						style={{ marginTop: "10px", color: "#ffffffcc" }}
+					/>
 					<LateralOption
 						customIcon={<i className="fa fa-pencil-square-o"></i>}
 						text={translate.companies_draft}

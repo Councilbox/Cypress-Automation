@@ -14,7 +14,7 @@ import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { PARTICIPANT_STATES } from "../../constants";
 import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
-import { graphql, withApollo, compose } from "react-apollo";
+import { withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { isMobile } from "../../utils/screen";
 

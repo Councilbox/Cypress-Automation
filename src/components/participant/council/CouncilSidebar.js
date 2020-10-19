@@ -207,6 +207,10 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     const renderPrivateMessageButton = () => {
         const disabled = council.wallActive !== 1;
 
+        if(disabled){
+            return null;
+        }
+
         return (
             <Button
                 className={"NoOutline"}
