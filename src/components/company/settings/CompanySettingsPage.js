@@ -488,29 +488,31 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 					</GridItem>
 					<React.Fragment>
 						<GridItem xs={12} md={6} lg={3}>
-							<SelectInput
-								floatingText={translate.company_new_country}
-								value={countryInput? 'otro' : data.country}
-								onChange={handleCountryChange}
-								errorText={errors.country}
-							>
-								{props.info.countries.map(country => {
-									return (
-										<MenuItem
-											key={country.deno}
-											value={country.deno}
-										>
-											{country.deno}
-										</MenuItem>
-									);
-								})}
-								<MenuItem
-									key={'otro'}
-									value={'otro'}
+							{data.country &&
+								<SelectInput
+									floatingText={translate.company_new_country}
+									value={countryInput? 'otro' : data.country}
+									onChange={handleCountryChange}
+									errorText={errors.country}
 								>
-									{translate.other}
-								</MenuItem>
-							</SelectInput>
+									{props.info.countries.map(country => {
+										return (
+											<MenuItem
+												key={country.deno}
+												value={country.deno}
+											>
+												{country.deno}
+											</MenuItem>
+										);
+									})}
+									<MenuItem
+										key={'otro'}
+										value={'otro'}
+									>
+										{translate.other}
+									</MenuItem>
+								</SelectInput>
+							}
 						</GridItem>
 						{countryInput &&
 							<GridItem xs={12} md={6} lg={3}>

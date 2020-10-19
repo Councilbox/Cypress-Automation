@@ -21,6 +21,12 @@ export const OptionsDisplay = ({ council, translate }) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
             {getSelectionIcon(council.approveActDraft)} <span>{translate.approve_act_draft_at_end}</span>
         </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(council.wallActive)} <span>{translate.wall}</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(council.askWordMenu)} <span>{translate.can_ask_word}</span>
+        </div>
     </div>
 )
 
@@ -49,7 +55,7 @@ export const OptionsDisplayIconIzq = ({ council, translate }) => (
 )
 
 const getSelectionIcon = value => {
-    if (value === 1) {
+    if (value == 1) {
         return <i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: "15px" }} aria-hidden="true"></i>
     }
 

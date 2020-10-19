@@ -24,6 +24,26 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
         refetch();
     }
 
+    const updateCouncil = async object => {
+        const response = await client.mutate({
+            mutation: gql`
+                mutation UpdateCouncil($council: CouncilInput!){
+                    updateCouncil(council: $council){
+                        id
+                    }
+                }
+            `,
+            variables: {
+                council: {
+                    ...object,
+                    id: council.id
+                }
+            }
+        });
+        console.log(response);
+        refetch();
+    }
+
 
     return (
         <Grid style={{ overflow: "hidden" }}>
@@ -92,6 +112,60 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                         })
                     }
                 />
+            </GridItem>
+            <GridItem xs={12} md={7} lg={7}>
+                <Checkbox
+                    label={translate.wall}
+                    value={council.wallActive === 1}
+                    onChange={(event, isInputChecked) =>
+                        updateCouncil({
+                            wallActive: isInputChecked ? 1 : 0
+                        })
+                    }
+                />
+            </GridItem>
+            <GridItem xs={12} md={7} lg={7}>
+                <Checkbox
+                    label={translate.can_ask_word}
+                    value={council.askWordMenu}
+                    onChange={(event, isInputChecked) =>
+                        updateCouncil({
+                            askWordMenu: isInputChecked
+                        })
+                    }
+                />
+            </GridItem>
+            <GridItem xs={12} md={7} lg={7}>
+                <SelectInput
+                        floatingText={translate.security}
+                        value={''+council.securityType}
+                        onChange={event =>
+                            updateCouncil({
+                                securityType: +event.target.value
+                            })
+                        }
+                    >
+                        <MenuItem
+                            value={"0"}
+                        >
+                            {translate.new_security_none}
+                        </MenuItem>
+                        <MenuItem
+                            value={"1"}
+                        >
+                            {translate.new_security_email}
+                        </MenuItem>
+                        <MenuItem
+                            value={"2"}
+                        >
+                            {translate.new_security_sms}
+                        </MenuItem>
+                        <MenuItem
+                            value={"3"}
+                        >
+                            {translate.council_security_cert}
+                        </MenuItem>
+                    </SelectInput>
             </GridItem>
             <GridItem xs={12} md={7} lg={7}>
                 <SelectInput

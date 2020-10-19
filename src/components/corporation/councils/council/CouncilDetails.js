@@ -322,12 +322,12 @@ class CouncilDetails extends React.Component {
 										<React.Fragment>
 											<h6>Opciones</h6>
 											<OptionsDisplay
-												council={council}
+												council={this.props.data.council}
 												translate={translate}
 											/>
 											<h6 style={{ marginTop: '1.4em' }}>Tipo de reunión</h6>
 											<StatuteDisplay
-												statute={council.statute}
+												statute={this.props.data.council.statute}
 												translate={translate}
 												quorumTypes={this.state.data.quorumTypes}
 											/>
@@ -349,7 +349,7 @@ class CouncilDetails extends React.Component {
 										<CouncilStatuteEditor
 											translate={translate}
 											statute={this.props.data.council.statute}
-											council={council}
+											council={this.props.data.council}
 											refetch={this.props.data.refetch}
 										/>
 									}
@@ -661,9 +661,12 @@ const CouncilDetailsRoot = gql`
 			dateStart2NdCall
 			dateEnd
 			qualityVoteId
+			wallActive
+			askWordMenu
 			firstOrSecondConvene
 			confirmAssistance
 			councilType
+			askWordMenu
 			fullVideoRecord
 			autoClose
 			closeDate
