@@ -21,6 +21,7 @@ import * as CBX from '../../../../utils/CBX';
 import { SearchCouncils } from '../CouncilsDashboard';
 import ParticipantsManager from '../../../council/live/participants/ParticipantsManager';
 import CouncilStatuteEditor from './CouncilStatuteEditor';
+import CheckPhoneModal from './CheckPhoneModal';
 
 
 const cancelAct = gql`
@@ -462,8 +463,11 @@ class CouncilDetails extends React.Component {
 							<BasicButton
 								text="Participantes"
 								color={secondary}
-								textStyle={{ fontWeight: '700', color: 'white' }}
+								textStyle={{ fontWeight: '700', color: 'white', marginRight: '1em' }}
 								onClick={() => this.setState({ councilDetailsParticipants: true })}
+							/>
+							<CheckPhoneModal
+								translate={translate}
 							/>
 						</div>
 						<div
