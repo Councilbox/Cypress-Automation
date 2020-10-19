@@ -6,75 +6,64 @@ import FontAwesome from 'react-fontawesome';
 import { moment } from '../../../../containers/App';
 import { downloadFile } from '../../../../utils/CBX';
 
+export const useDownloadCouncilAttendants = client => {
+    const [loading, setLoading] = React.useState(false);
 
-class DownloadAttendantsPDF extends React.Component {
-
-    state = {
-        loading: false
-    }
-
-    downloadPDF = async () => {
-        this.setState({
-            loading: true
-        })
-        const response = await this.props.client.query({
+    const downloadPDF = async (council, filename) => {
+        setLoading(true);
+        const response = await client.query({
             query: downloadAttendPDF,
             variables: {
-                councilId: this.props.council.id,
-                timezone: moment().utcOffset().toString(),
+                councilId: council.id,
+                timezone: moment(council.startDate).utcOffset().toString(),
             }
         });
 
         if (response) {
             if (response.data.downloadAttendPDF) {
-                this.setState({
-                    loading: false
-                });
+                setLoading(false);
                 downloadFile(
                     response.data.downloadAttendPDF,
                     "application/pdf",
-                    `${this.props.translate.convene.replace(/ /g, '_')}-${
-                    this.props.council.name.replace(/ /g, '_').replace(/\./, '')
-                    }`
+                    filename
                 );
             }
         }
     };
 
-    render(){
-        const { translate, color } = this.props;
-
-
-        return (
-            <BasicButton
-                text={translate.export_participants}
-                color={color}
-                loading={this.state.loading}
-                buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em' }}
-                textStyle={{
-                    color: "white",
-                    fontWeight: "700",
-                    fontSize: "0.9em",
-                    textTransform: "none"
-                }}
-                icon={
-                    <FontAwesome
-                        name={"file-pdf-o"}
-                        style={{
-                            fontSize: "1em",
-                            color: "white",
-                            marginLeft: "0.3em"
-                        }}
-                    />
-                }
-                textPosition="after"
-                onClick={this.downloadPDF}
-            />
-        )
-    }
-
+    return { loading, downloadPDF }
 }
 
+const DownloadAttendantsPDF = ({ translate, color, council, client }) => {
+    const { loading, downloadPDF } = useDownloadCouncilAttendants(client);
+
+    return (
+        <BasicButton
+            text={translate.export_participants}
+            color={color}
+            loading={loading}
+            buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em' }}
+            textStyle={{
+                color: "white",
+                fontWeight: "700",
+                fontSize: "0.9em",
+                textTransform: "none"
+            }}
+            icon={
+                <FontAwesome
+                    name={"file-pdf-o"}
+                    style={{
+                        fontSize: "1em",
+                        color: "white",
+                        marginLeft: "0.3em"
+                    }}
+                />
+            }
+            textPosition="after"
+            onClick={() => downloadPDF(council, `${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./, '')}`)}
+        />
+    )
+}
 
 
 export default withApollo(DownloadAttendantsPDF);

@@ -4,7 +4,7 @@ import FontAwesome from "react-fontawesome";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { MenuItem, Paper } from "material-ui";
 import SendCredentialsModal from "./SendCredentialsModal";
-import SendCredentialsTestModal from "./SendCredentialsTestModal";
+import { moment } from '../../../../containers/App';
 import AnnouncementModal from './AnnouncementModal';
 import NoCelebrateModal from "./NoCelebrateModal";
 import OriginalConveneModal from "./OriginalConveneModal";
@@ -13,6 +13,8 @@ import { councilHasVideo } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from "./SMSManagerModal";
 import { isMobile } from "../../../../utils/screen";
+import { withApollo } from "react-apollo";
+import { useDownloadCouncilAttendants } from "../../writing/actEditor/DownloadAttendantsPDF";
 
 class CouncilMenu extends React.Component {
 	state = {
@@ -132,41 +134,25 @@ class CouncilMenu extends React.Component {
 													color: secondary
 												}}
 											></i>
-											{'SMS' /*TRADUCCION*/}
+											{'SMS'}
 										</MenuItem>
 
 									}
 									{!(council.state === 20 || council.state === 30) &&
-										<React.Fragment>
-											{/* <MenuItem
-												onClick={() =>
-													this.setState({ sendCredentialsTest: true })
-												}
-											>
-												<FontAwesome
-													name="flask"
-													style={{
-														marginRight: "0.8em",
-														color: secondary
-													}}
-												/>
-												{translate.send_video_test}
-											</MenuItem> */}
-											<MenuItem
-												onClick={() =>
-													this.setState({ noCelebrate: true })
-												}
-											>
-												<FontAwesome
-													name="exclamation-triangle"
-													style={{
-														marginRight: "0.8em",
-														color: "red"
-													}}
-												/>
-												{translate.no_celebrate_council}
-											</MenuItem>
-										</React.Fragment>
+										<MenuItem
+											onClick={() =>
+												this.setState({ noCelebrate: true })
+											}
+										>
+											<FontAwesome
+												name="exclamation-triangle"
+												style={{
+													marginRight: "0.8em",
+													color: "red"
+												}}
+											/>
+											{translate.no_celebrate_council}
+										</MenuItem>
 									}
 									<MenuItem
 										onClick={() =>
@@ -196,6 +182,10 @@ class CouncilMenu extends React.Component {
 										/>
 										{translate.council_info}
 									</MenuItem>
+									<DownloadAttendantsButton
+										translate={translate}
+										council={council}
+									/>
 									{councilHasVideo(council) && config.roomAnnouncement &&
 										<MenuItem
 											onClick={this.showAnnouncementModal}
@@ -237,14 +227,6 @@ class CouncilMenu extends React.Component {
 					translate={translate}
 					requestClose={this.closeAnnouncementModal}
 				/>
-				{/* <SendCredentialsTestModal
-					show={this.state.sendCredentialsTest}
-					council={this.props.council}
-					requestClose={() =>
-						this.setState({ sendCredentialsTest: false })
-					}
-					translate={translate}
-				/> */}
 				<NoCelebrateModal
 					show={this.state.noCelebrate}
 					council={this.props.council}
@@ -270,5 +252,28 @@ class CouncilMenu extends React.Component {
 		);
 	}
 }
+
+const DownloadAttendantsButton = withApollo(({ council, client, translate }) => {
+	const { downloadPDF } = useDownloadCouncilAttendants(client);
+	const secondary = getSecondary();
+
+	return (
+		<MenuItem
+			onClick={() => downloadPDF(
+				council,
+				`${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./, '')}_${moment().format('YYYY_MM_DD_HH_mm_ss')}`
+			)}
+		>
+			<FontAwesome
+				name="users"
+				style={{
+					marginRight: "0.8em",
+					color: secondary
+				}}
+			/>
+			{translate.export_participants}
+		</MenuItem>
+	)
+})
 
 export default CouncilMenu;
