@@ -103,6 +103,7 @@ class Page extends React.PureComponent {
                         success: true,
                         loading: false
                     })
+                    this.goBack()
                 }
             }
         }
