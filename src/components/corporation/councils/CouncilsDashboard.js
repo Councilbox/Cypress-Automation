@@ -3,7 +3,7 @@ import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { lightGrey, getSecondary, getPrimary } from '../../../styles/colors';
+import { lightGrey, getSecondary, getPrimary, secondary } from '../../../styles/colors';
 import FontAwesome from 'react-fontawesome';
 import { Card } from 'material-ui';
 import CouncilItem from './CouncilItem';
@@ -94,7 +94,6 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
                         display: 'flex',
                         flexDirection: 'row',
                         paddingBottom: '2em',
-                        justifyContent: 'space-between',
                         alignItems: 'center',
                         margin: '1.4em'
                     }}
@@ -109,6 +108,15 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
                             />
                         }
                         onClick={() => getData()}
+                    />
+                    <BasicButton
+                        text={'KPI'}
+                        color="white"
+                        onClick={() => bHistory.push('/kpi')}
+                        buttonStyle={{
+                            marginLeft: '1em',
+                            border: `1px solid ${secondary}`
+                        }}
                     />
                 </div>
                 <SearchCouncils />

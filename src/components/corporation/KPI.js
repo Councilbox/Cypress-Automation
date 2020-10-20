@@ -37,16 +37,16 @@ const KPI = ({ translate, client }) => {
 
     return (
         <div style={{ padding: '2em' }}>
-            <DatePicker onChange={value => setDateStart(value)} />
-            <DatePicker onChange={value => setDateEnd(value)} />
+            <DatePicker onChange={value => setDateStart(value)} placeholder={'Fecha inicial'} />
+            <DatePicker onChange={value => setDateEnd(value)} placeholder={'Fecha final'} style={{ marginLeft: '1em'}} />
             {KPI &&
-                <>
+                <div style={{ marginTop: '1em' }}>
                     {Object.keys(KPI).map((key, index) => (
                         <div key={`${key}_${index}`}>
                             {key}: {KPI[key]}
                         </div>
                     ))}
-                </>
+                </div>
             }
         </div>
     )
