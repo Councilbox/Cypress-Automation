@@ -19,6 +19,7 @@ import { lightGrey } from '../../styles/colors';
 import CouncilDetails from './councils/council/CouncilDetails';
 import RootUserSettings from './users/RootUserSettings';
 import FinishedPage from './finished/FinishedPage';
+import KPI from './KPI';
 let image;
 import("../../assets/img/sidebar-2.jpg").then(data => image = data);
 
@@ -50,6 +51,7 @@ const Router = ({ user, translate, location, data, classes }) => {
                         <Route path="/finished" component={FinishedPage} />
                         <Route path="/council/:id" component={CouncilDetails} />
                         <Route path="/user/:id" component={RootUserSettings} />
+                        <Route path="/kpi" component={KPI} />
                         <Route exact path="/companies" component={CompaniesDashboard} />
                         <Route exact path="/translations" component={TranslationsPage} />
                         <Route path="/companies/edit/:id" component={CompanyEditPage} />
