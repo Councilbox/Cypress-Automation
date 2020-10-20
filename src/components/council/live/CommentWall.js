@@ -203,13 +203,22 @@ export default graphql(wallComments, {
 					},
 					updateQuery: (prev, { subscriptionData }) => {				
 						if (!subscriptionData.data.roomMessageAdded) {
-						return prev;
+							return prev;
 						}
+
+						const messagesMap = new Map();
+
+						const newMessageList = [
+							...prev.councilRoomMessages,
+							...[subscriptionData.data.roomMessageAdded]
+						];
+
+						newMessageList.forEach(message => {
+							messagesMap.set(message.id, message);
+						});
+
 						return ({
-							councilRoomMessages: [
-								...prev.councilRoomMessages,
-								...[subscriptionData.data.roomMessageAdded]
-							]
+							councilRoomMessages: Array.from(messagesMap.values())
 						});
 					}
 				});
