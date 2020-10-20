@@ -2,6 +2,7 @@ import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
+	UnsavedChangesModal,
 	CardPageLayout,
 } from "../../../displayComponents";
 import CompanyDraftForm from "./CompanyDraftForm";
@@ -23,6 +24,8 @@ import { toast } from "react-toastify";
 
 
 const CompanyDraftEditor = ({ translate, client, ...props }) => {
+	const [dataInit, setDataInit] = React.useState(null)
+	const [unsavedAlert, setUnsavedAlert] = React.useState(false)
 	const [data, setData] = React.useState({
 		companyId: '',
 		companyType: '',
@@ -60,6 +63,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 
 		setVars(response.data);
 		setData(response.data.companyDraft);
+		setDataInit(response.data.companyDraft);
 		setFetching(false);
 	}, [props.match.params.id]);
 
@@ -123,8 +127,15 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 		}
 	}
 
+	const comprobateChanges = () => {
+		setUnsavedAlert(JSON.stringify(data) !== JSON.stringify(dataInit))
+	};
+
 	const goBack = () => {
-		bHistory.goBack()
+		comprobateChanges()
+		if(unsavedAlert){
+			bHistory.goBack()
+		}
 	};
 
 	return (
@@ -181,6 +192,10 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 					</div>
 				</div>
 			)}
+			<UnsavedChangesModal
+				requestClose={() => setUnsavedAlert(false)}
+				open={unsavedAlert}
+			/>
 		</CardPageLayout>
 	);
 }

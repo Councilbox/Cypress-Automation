@@ -144,6 +144,20 @@ class CompanyDraftNew extends React.Component {
 						paddingTop: isMobile && "0.5em"
 					}}>
 						<BasicButton
+							// id={"saveDraft"}
+							floatRight
+							text={this.props.translate.back}
+							color={getPrimary()}
+							loading={this.state.loading}
+							success={this.state.success}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								marginRight: "1em"
+							}}
+							onClick={() => this.goBack()}
+						/>
+						<BasicButton
 							id={"saveDraft"}
 							floatRight
 							text={this.props.translate.save}
@@ -157,20 +171,6 @@ class CompanyDraftNew extends React.Component {
 							}}
 							onClick={() => this.createCompanyDraft()}
 							icon={<ButtonIcon type="save" color="white" />}
-						/>
-						<BasicButton
-							// id={"saveDraft"}
-							floatRight
-							text={this.props.translate.back}
-							color={getPrimary()}
-							loading={this.state.loading}
-							success={this.state.success}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								marginRight: "1em"
-							}}
-							onClick={() => this.goBack()}
 						/>
 					</div>
 				</div>
