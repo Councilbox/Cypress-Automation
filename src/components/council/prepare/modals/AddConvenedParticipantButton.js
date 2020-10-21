@@ -52,8 +52,8 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 						...state.data,
 						councilId: props.councilId
 					},
-					representative: representative,
-					sendConvene: sendConvene
+					representative,
+					sendConvene
 				}
 			});
 			if (!response.errors) {
@@ -65,6 +65,22 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 					errors: {},
 					representativeErrors: {}
 				});
+			} else {
+				if(response.errors[0].message === 'Too many granted words'){
+					setState({
+						...(state.data.initialState === 2 ? {
+							errors: {
+								initialState: translate.initial_granted_word_error
+							}
+						} : {}),
+						...(representative && representative.initialState === 2 ? {
+							representativeErrors: {
+								initialState: translate.initial_granted_word_error
+							}
+						} : {})
+
+					});
+				}
 			}
 		}
 	};

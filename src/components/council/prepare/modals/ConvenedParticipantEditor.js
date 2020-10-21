@@ -82,6 +82,23 @@ class ConvenedParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
+			} else {
+				if(response.errors[0].message === 'Too many granted words'){
+					this.setState({
+						loading: false,
+						...(participant.initialState === 2 ? {
+							errors: {
+								initialState: this.props.translate.initial_granted_word_error
+							}
+						} : {}),
+						...(representative && representative.initialState === 2 ? {
+							representativeErrors: {
+								initialState: this.props.translate.initial_granted_word_error
+							}
+						} : {})
+
+					});
+				}
 			}
 		}
 	};
