@@ -73,6 +73,7 @@ const SelectInput = ({
 
 	return (
 		<FormControl
+			error={!!errorText}
 			style={{
 				width: "100%",
 				marginTop: "0",
@@ -112,6 +113,7 @@ const SelectInput = ({
 			>
 				{children}
 			</Select>
+			{errorText && <span style={{ color: 'red', fontSize: '12px' }}>{errorText}</span>}
 		</FormControl>
 	);
 }

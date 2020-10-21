@@ -200,6 +200,7 @@ const ParticipantForm = ({
 				<GridItem xs={6} md={4} lg={2}>
 					<SelectInput
 						floatingText={translate.participation_type}
+						errorText={errors.initialState}
 						value={''+participant.initialState}
 						onChange={event =>
 							updateState({
