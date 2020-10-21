@@ -47,7 +47,7 @@ class AddCensusParticipantButton extends React.Component {
 						companyId: this.props.census.companyId,
 						censusId: this.props.census.id
 					},
-					representative: representative
+					representative
 				}
 			});
 			if (!response.errors) {
@@ -59,6 +59,23 @@ class AddCensusParticipantButton extends React.Component {
 					errors: {},
 					representativeErrors: {}
 				});
+			} else {
+				if(response.errors[0].message === 'Too many granted words'){
+					this.setState({
+						loading: false,
+						...(this.state.data.initialState === 2 ? {
+							errors: {
+								initialState: this.props.translate.initial_granted_word_error
+							}
+						} : {}),
+						...(representative && representative.initialState === 2 ? {
+							representativeErrors: {
+								initialState: this.props.translate.initial_granted_word_error
+							}
+						} : {})
+
+					});
+				}
 			}
 		}
 	};
