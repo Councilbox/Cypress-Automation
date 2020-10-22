@@ -46,7 +46,7 @@ const UsersHeader = graphql(gql`
 		if(onlineCount.participantsOnlineCount){
 			setRecount(onlineCount.participantsOnlineCount);
 		}
-	}, [onlineCount])
+	}, [JSON.stringify(onlineCount)])
 
 	const getData = () => {
 		getarticipantsOnline();
