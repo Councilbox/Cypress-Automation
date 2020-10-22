@@ -16,16 +16,6 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 			council: (
 				<React.Fragment>
 					<LateralOption
-						customIcon={
-							<Icon>
-								import_contacts
-							</Icon>
-						}
-						text={translate.all_plural_fem}
-						link={`/company/${company.id}/councils/all`}
-						style={{ marginTop: "10px", color: "#ffffffcc" }}
-					/>
-					<LateralOption
 						customIcon={<i className="fa fa-pencil-square-o"></i>}
 						text={translate.companies_draft}
 						link={`/company/${company.id}/councils/drafts`}
@@ -61,6 +51,16 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 						customIcon={<i className="fa fa-history"></i>}
 						text={translate.dashboard_historical}
 						style={{ marginBottom: "10px", color: "#ffffffcc" }}
+					/>
+					<LateralOption
+						customIcon={
+							<Icon>
+								import_contacts
+							</Icon>
+						}
+						text={translate.all_plural_fem}
+						link={`/company/${company.id}/councils/all`}
+						style={{ marginTop: "10px", color: "#ffffffcc" }}
 					/>
 				</React.Fragment>
 			),

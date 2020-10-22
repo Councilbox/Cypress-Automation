@@ -52,7 +52,7 @@ class Sidebar extends React.Component {
 				icon: 'dashboard'
 			},
 			{
-				path: `/company/${this.props.company.id}/councils/all`,
+				path: `/company/${this.props.company.id}/councils/drafts`,
 				name: "council",
 				sidebarName: this.props.translate.councils_link,
 				icon: 'import_contacts'

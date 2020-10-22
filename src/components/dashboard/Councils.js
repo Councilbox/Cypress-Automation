@@ -28,13 +28,13 @@ import { bHistory } from "../../containers/App.js";
 const getSection = translate => {
 	const section = window.location.pathname.split('/').pop();
 	const sections = {
-		'all': translate.all_plural_fem,
 		'drafts': translate.companies_draft,
 		'calendar': translate.companies_calendar,
 		'live': translate.companies_live,
 		'act': translate.companies_writing,
 		'confirmed': translate.act_book,
-		'history': translate.dashboard_historical
+		'history': translate.dashboard_historical,
+		'all': translate.all_plural_fem
 	}
 
 	return sections[section];
@@ -52,22 +52,22 @@ const Councils = ({ translate, client, ...props }) => {
 		page: 1,
 	});
 	const statesTabLink = {
-		[translate.all_plural_fem]: `/company/${props.company.id}/councils/all`,
 		[translate.companies_draft]: `/company/${props.company.id}/councils/drafts`,
 		[translate.companies_calendar]: `/company/${props.company.id}/councils/calendar`,
 		[translate.companies_live]: `/company/${props.company.id}/councils/live`,
 		[translate.companies_writing]: `/company/${props.company.id}/councils/act`,
 		[translate.act_book]: `/company/${props.company.id}/councils/confirmed`,
 		[translate.dashboard_historical]: `/company/${props.company.id}/councils/history`,
+		[translate.all_plural_fem]: `/company/${props.company.id}/councils/all`
 	}
 	const statesTabInfo = {
-		[translate.all_plural_fem]: null,
 		[translate.companies_draft]: [0, 3],
 		[translate.companies_calendar]: [10, 5],
 		[translate.companies_live]: [20, 30],
 		[translate.companies_writing]: [40],
 		[translate.act_book]: [60, 70],
-		[translate.dashboard_historical]: [-1, 40, 60, 70, 80, 90]
+		[translate.dashboard_historical]: [-1, 40, 60, 70, 80, 90],
+		[translate.all_plural_fem]: null
 	}
 
 	const [selectedTab, setselectedTab] = React.useState(getSection(translate));
@@ -197,13 +197,13 @@ const Councils = ({ translate, client, ...props }) => {
 					<div>
 						<MenuSuperiorTabs
 							items={[
-								translate.all_plural_fem,
 								translate.companies_draft,
 								translate.companies_calendar,
 								translate.companies_live,
 								translate.companies_writing,
 								translate.act_book,
-								translate.dashboard_historical
+								translate.dashboard_historical,
+								translate.all_plural_fem,
 							]}
 							setSelect={handleChange}
 							selected={selectedTab}
