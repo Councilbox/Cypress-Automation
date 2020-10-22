@@ -25,7 +25,8 @@ export const COUNCIL_TYPES = {
 	NO_VIDEO: 1,
 	NO_SESSION: 2,
 	ELECTIONS: 3,
-	BOARD_WITHOUT_SESSION: 4
+	BOARD_WITHOUT_SESSION: 4,
+	ONE_ON_ONE: 5
 }
 
 export const councilTypesInfo = [
@@ -34,6 +35,7 @@ export const councilTypesInfo = [
 	{ name: 'without_session', logo: sinSesionIcon, description: 'without_session_description' },
 	{ name: 'elections', logo: elecciones, description: 'elections_description' },
 	{ name: 'board_without_session', logo: consejoSinSesion, description: 'board_without_session_description' },
+	{ name: 'with_session', logo: conSesionIcon, description: 'with_session_description' },
 ]
 
 

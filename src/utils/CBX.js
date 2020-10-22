@@ -170,7 +170,7 @@ export const agendaClosed = agenda => {
 };
 
 export const councilHasVideo = council => {
-	return council.councilType === 0;
+	return council.councilType === 0 || council.councilType === 5;
 };
 
 export const censusHasParticipations = census => {
@@ -1849,7 +1849,7 @@ export const printTrialEnded = () => {
 };
 
 export const showVideo = council => {
-	return (council.state === 20 || council.state === 30) && council.councilType === 0;
+	return (council.state === 20 || council.state === 30) && councilHasVideo(council);
 };
 
 export const getMainRepresentative = participant => {
