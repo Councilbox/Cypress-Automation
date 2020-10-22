@@ -93,6 +93,10 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		if(council.councilVideo){
 			setCompanyId(council.councilVideo.companyId);
 		}
+
+		if(data && data.errors && data.errors[0]){
+			setLoadingConfig(false);
+		}
 	}, [council])
 
 	const updateConfig = async companyId => {
