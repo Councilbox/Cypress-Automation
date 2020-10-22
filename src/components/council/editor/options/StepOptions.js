@@ -377,7 +377,33 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						</div>
 					</div>
 				</>
-			)
+			),
+			5: (
+				<>
+					<SectionTitle
+						text={translate.video}
+						color={primary}
+						style={{
+							marginTop: '1.6em'
+						}}
+					/>
+					<Checkbox
+						label={translate.room_video_broadcast}
+						disabled={true}
+						value={council.councilType === 5}
+					/>
+					<Checkbox
+						label={translate.full_video_record}
+						value={council.councilType === 5}
+						disabled={true}
+					/>
+					<Checkbox
+						label={translate.full_video_record}
+						value={council.councilType === 5}
+						disabled={true}
+					/>
+				</>
+			),
 		}
 
 		return councilOptions[type] ? councilOptions[type] : councilOptions[1];
