@@ -110,7 +110,7 @@ class EditCensusButton extends React.Component {
 
     render() {
         const { translate } = this.props;
-
+        
         return (
             <AlertConfirm
                 requestClose={this.props.requestClose}
@@ -119,7 +119,7 @@ class EditCensusButton extends React.Component {
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={this._renderBody()}
-                title={translate.census}
+                title={translate.census_edit}
             />
         );
     }
