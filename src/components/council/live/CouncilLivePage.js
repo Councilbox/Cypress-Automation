@@ -319,7 +319,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 										transitionTimingFunction: 'ease'
 									}}
 								>
-									{config.videoEnabled && config.videoVersion === videoVersions.CMP &&
+									{(config.videoEnabled && config.videoVersion === videoVersions.CMP) &&
 										<CMPVideoIFrame
 											council={council}
 											translate={translate}
@@ -327,7 +327,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 											setVideoURL={setVideoURL}
 										/>
 									}
-									{council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP &&
+									{(council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP) &&
 										<div
 											style={{ height: '100%', width: '100%' }}
 											dangerouslySetInnerHTML={{ __html: council.room.htmlVideoCouncil }}

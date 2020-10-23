@@ -11,26 +11,29 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 	const [error, setError] = React.useState(false);
 	const [participant, setParticipant] = React.useState(null);
 
+	const handleSuccessfulLogin = async token => {
+		sessionStorage.setItem("participantToken", token);
+		const responseQueryMe = await client.query({
+			query: getMe,
+			variables: {},
+			fetchPolicy: "network-only"
+		});
+		const participant = responseQueryMe.data.participantMe;
+
+		setParticipant(participant);
+		setLoading(false);
+	}
+
 	const getData = React.useCallback(async () => {
 		try {
 			const response = await participantToken();
 			if (response && !response.errors) {
-				const token = response.data.assistanceToken;
-				sessionStorage.setItem("participantToken", token);
-				const responseQueryMe = await client.query({
-					query: getMe,
-					variables: {},
-					fetchPolicy: "network-only"
-				});
-				const participant = responseQueryMe.data.participantMe;
-
-				setParticipant(participant);
-				setLoading(false);
+				await handleSuccessfulLogin(response.data.assistanceToken);
 			} else {
-				throw new Error("Error getting participant token");
+				throw response.errors[0];
 			}
 		} catch (error) {
-			setError(true);
+			setError(error.message);
 			setLoading(false);
 		}
 	}, [match.params.token]);
@@ -44,6 +47,10 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 	}
 
 	if (error) {
+		if(error === '2FA enabled'){
+			return '2FA SCREEN';
+		}
+
 		return <InvalidUrl test={match.params.token === 'fake' || match.params.token === 'test'} />;
 	}
 	if (match.params.token === 'fake') {
