@@ -8,6 +8,8 @@ import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import Assistance from "../components/participant/assistance/Assistance";
 import { ConfigContext } from "./AppControl";
+import { COUNCIL_TYPES } from "../constants";
+import OneOnOneDocumentation from "../components/participant/assistance/OneOnOneDocumentation";
 
 const AttendanceContainer = ({ data, translate, actions }) => {
 	const [companyId, setCompanyId] = React.useState(null)
@@ -49,6 +51,18 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 
 	if(translate.selectedLanguage !== data.participant.language){
 		return <LoadingMainApp />;
+	}
+
+	if(data.councilVideo.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+		return (
+			<OneOnOneDocumentation
+				translate={translate}
+				participant={data.participant}
+				council={data.councilVideo}
+				company={data.councilVideo.company}
+				refetch={data.refetch}
+			/>
+		)
 	}
 
 	return (
