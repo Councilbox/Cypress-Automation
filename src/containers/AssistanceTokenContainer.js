@@ -5,11 +5,13 @@ import gql from "graphql-tag";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl.jsx";
+import SMSAuthForm from "../components/participant/2FA/SMSAuthForm";
 
 const AssistanceTokenContainer = ({ participantToken, client, translate, match, ...props }) => {
 	const [loading, setLoading] = React.useState(true);
 	const [error, setError] = React.useState(false);
 	const [participant, setParticipant] = React.useState(null);
+	const [key, setKey] = React.useState('');
 
 	const handleSuccessfulLogin = async token => {
 		sessionStorage.setItem("participantToken", token);
@@ -26,8 +28,14 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 
 	const getData = React.useCallback(async () => {
 		try {
-			const response = await participantToken();
+			const response = await participantToken({
+				variables: {
+					token: match.params.token,
+					smsKey: key
+				}
+			});
 			if (response && !response.errors) {
+				setError(false);
 				await handleSuccessfulLogin(response.data.assistanceToken);
 			} else {
 				throw response.errors[0];
@@ -36,11 +44,11 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 			setError(error.message);
 			setLoading(false);
 		}
-	}, [match.params.token]);
+	}, [match.params.token, key]);
 
 	React.useEffect(() => {
 		getData();
-	}, [getData]);
+	}, [match.params.token]);
 
 	if (Object.keys(translate).length === 0 || loading) {
 		return <LoadingMainApp />;
@@ -48,7 +56,7 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 
 	if (error) {
 		if(error === '2FA enabled'){
-			return '2FA SCREEN';
+			return <SMSAuthForm value={key} updateValue={setKey} translate={translate} send={getData} />;
 		}
 
 		return <InvalidUrl test={match.params.token === 'fake' || match.params.token === 'test'} />;
@@ -79,8 +87,8 @@ const mapStateToProps = state => ({
 });
 
 const participantToken = gql`
-	mutation participantToken($token: String!) {
-		assistanceToken(token: $token)
+	mutation participantToken($token: String!, $smsKey: String) {
+		assistanceToken(token: $token, smsKey: $smsKey)
 	}
 `;
 
