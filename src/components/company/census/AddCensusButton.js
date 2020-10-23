@@ -117,7 +117,7 @@ class AddCensusButton extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const primary = getPrimary();
-
+		
 		return (
 			<React.Fragment>
 				<BasicButton
@@ -152,7 +152,7 @@ class AddCensusButton extends React.Component {
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
 					bodyText={this._renderBody()}
-					title={translate.census}
+					title={translate.add_census}
 				/>
 			</React.Fragment>
 		);
