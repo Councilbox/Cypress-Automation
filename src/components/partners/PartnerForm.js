@@ -218,7 +218,7 @@ class PartnerForm extends React.PureComponent {
                                     {translate.unsubscribed}
                                 </MenuItem>
                                 <MenuItem
-                                    value={2}
+                                    value={'2'}
                                 >
                                     {translate.other}
                                 </MenuItem>
