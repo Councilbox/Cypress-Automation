@@ -708,7 +708,7 @@ export const isAdmin = user => {
 }
 
 export const showOrganizationDashboard = (company, config, user = {}) => {
-	return (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
+	return company.type === 12 || (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
 }
 
 

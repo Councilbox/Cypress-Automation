@@ -7,7 +7,7 @@ import { addCouncilAttachment } from '../../../queries';
 import { getSecondary } from '../../../styles/colors';
 
 
-const OneOnOneDocumentation = ({ translate, participant, client, council }) => {
+const OneOnOneDocumentation = ({ translate, participant, client, council, refetch }) => {
     const [data, setData] = React.useState(null);
     const secondary = getSecondary();
 
@@ -64,6 +64,7 @@ const OneOnOneDocumentation = ({ translate, participant, client, council }) => {
             });
             
             console.log(response);
+            refetch();
 
 			// this.setState({
 			// 	uploading: true

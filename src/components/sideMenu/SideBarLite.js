@@ -7,7 +7,8 @@ import { showOrganizationDashboard } from '../../utils/CBX';
 const SideBarLite = props => {
 	const config = React.useContext(ConfigContext);
 
-	if(showOrganizationDashboard(props.company, config, props.user)){
+
+	if(showOrganizationDashboard(props.company, config, props.user) && props.company.type !== 12){
 		return <OrganizationSideBar {...props} />
 	}
 
