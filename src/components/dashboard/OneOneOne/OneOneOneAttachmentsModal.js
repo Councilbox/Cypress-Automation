@@ -27,8 +27,6 @@ const OneOneOneAttachmentsModal = ({ client, translate, council, open, requestCl
         }
     });
 
-    console.log(data);
-
     return (
         <AlertConfirm
             title={translate.attachments}

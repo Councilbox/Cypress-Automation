@@ -1289,6 +1289,9 @@ const corporationCouncils = gql`
 			state
 			dateStart
 			councilType
+			participants {
+				id
+			}
 			prototype
 			attachments {
 				filename
