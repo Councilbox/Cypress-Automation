@@ -338,3 +338,46 @@ export const useCountdown = (time) => {
 		setCountdown
 	}
 }
+
+const queryReducer = (state, action) => {
+	const actions = {
+		'DATA_LOADED': () => ({
+			...state,
+			loading: false,
+			data: action.payload
+		}),
+		'LOADING': () => ({
+			...state,
+			loading: true
+		})
+	}
+
+	return actions[action.type] ? actions[action.type]() : state;
+}
+
+export const useQueryReducer = ({ client, query, variables }) => {
+	const [{ data, errors, loading }, dispatch] = React.useReducer(queryReducer, { data: null, loading: true, errors: null });
+
+	const getData = React.useCallback(async () => {
+		dispatch({ type: 'LOADING' });
+		const response = await client.query({
+			query,
+			variables
+		});
+		
+		if(!response.errors){
+			dispatch({ type: 'DATA_LOADED', payload: response.data });
+		}
+	}, [JSON.stringify(variables)]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	return {
+		data,
+		errors,
+		loading
+	}
+	
+}

@@ -27,6 +27,7 @@ import GraficaEstadisiticas from "./GraficaEstadisiticas";
 import { sendGAevent } from "../../utils/analytics";
 import { getActivationText } from "../company/settings/CompanySettingsPage";
 import { isMobile } from "../../utils/screen";
+import OneOneOneItem from "./OneOneOne/OneOneOneItem";
 
 
 const styles = {
@@ -936,22 +937,18 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 }
 
 const TablaReunionesEnCurso = ({ item, index, translate }) => {
-
-	const getSectionTranslation = type => {
-		const texts = {
-			drafts: translate.companies_draft,
-			calendar: translate.companies_calendar,
-			live: translate.companies_live,
-			act: translate.companies_writing,
-			confirmed: translate.act_book,
-			history: translate.dashboard_historical
-		}
-
-		return texts[type];
+	if(item.councilType === 5){
+		return (
+			<OneOneOneItem
+				key={index}
+				index={index}
+				council={item}
+				translate={translate}
+			/>
+		)
 	}
 
 	if (isMobile) {
-
 		return (
 			<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
 				<div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -1293,8 +1290,9 @@ const corporationCouncils = gql`
 			dateStart
 			councilType
 			prototype
-			participants {
-				id
+			attachments {
+				filename
+				participantId
 			}
 			company{
 				id
