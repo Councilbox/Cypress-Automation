@@ -12,6 +12,11 @@ const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes
 
     const getPercentage = value => {
         let base = totalVotes;
+
+        if(totalVotes === 0){
+            return '-';
+        }
+
         if(hasParticipations(council)){
             base = socialCapital;
         }
