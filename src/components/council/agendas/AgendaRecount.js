@@ -49,7 +49,9 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
             return '';
         }
 
-        const total = council.quorumPrototype === 0 ? (agenda.presentCensus + agenda.remoteCensus) : recount.partTotal;
+        //const total = council.statute.quorumPrototype === 0 ? (agenda.presentCensus + agenda.remoteCensus) : recount.partTotal;
+        const total = agenda.presentCensus + agenda.remoteCensus;
+
 
         if(total === 0){
             return `(0%)`;
