@@ -34,6 +34,8 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 					smsKey: key
 				}
 			});
+			console.log(response);
+
 			if (response && !response.errors) {
 				setError(false);
 				await handleSuccessfulLogin(response.data.assistanceToken);
@@ -55,8 +57,16 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 	}
 
 	if (error) {
-		if(error === '2FA enabled'){
-			return <SMSAuthForm value={key} updateValue={setKey} translate={translate} send={getData} />;
+		if(error === '2FA enabled' || error === 'Invalid key'){
+			return (
+				<SMSAuthForm
+					value={key}
+					updateValue={setKey}
+					translate={translate}
+					send={getData}
+					error={error}
+				/>
+			);
 		}
 
 		return <InvalidUrl test={match.params.token === 'fake' || match.params.token === 'test'} />;
