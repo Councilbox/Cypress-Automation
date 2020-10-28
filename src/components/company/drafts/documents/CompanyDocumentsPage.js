@@ -538,7 +538,7 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
     return (
         <TableRow>
             <AlertConfirm
-                title={translate.edit}
+                title={translate.edit_document_name}
                 acceptAction={updateFile}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
