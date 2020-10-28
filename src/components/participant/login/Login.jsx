@@ -9,6 +9,7 @@ import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from "../../../utils/screen";
 import RequestDataInfo from "./RequestDataInfo";
+import DataAuthorization from "./DataAuthorization";
 
 // '850px'
 const width = window.innerWidth > 450 ? '850px' : '100%'
@@ -94,54 +95,6 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 			</NotLoggedLayout>
 		);
 	} else {
-		 /********login0*************/
-		return (
-			<NotLoggedLayout
-				translate={props.translate}
-				helpIcon={true}
-				languageSelector={false}
-			>
-				<Scrollbar>
-					<div style={{
-						...styles.mainContainer,
-						...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
-						} : { height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' })
-					}}>
-						<Card style={{
-							...styles.cardContainer,
-							background: finishedVoted && 'transparent',
-							boxShadow: finishedVoted && "none",
-							...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
-								minWidth: window.innerWidth > 450 ? '550px' : '100%'
-							} : {
-								minWidth: width,
-								height: '90%'
-							})
-						}} elevation={6}>
-							{finishedVoted ?
-								<>
-									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										loginForm()
-									) : (
-											<CouncilState council={council} company={company} participant={participant} />
-										)}
-								</>
-								:
-								<>
-									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										loginForm()
-									) : (
-										<CouncilState council={council} company={company} participant={participant} />
-									)}
-								</>
-							}
-						</Card>
-					</div>
-				</Scrollbar>
-
-			</NotLoggedLayout>
-		);
-		 /********login*************/
 		return (
 			<NotLoggedLayout
 				translate={props.translate}
@@ -197,69 +150,6 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 									translate={props.translate}
 									message={message}
 									status={'SUCCESS'} //SUCCESS
-								/>
-							</Card>
-						}
-					</div>
-				</Scrollbar>
-
-			</NotLoggedLayout>
-		);
-		return (
-			<NotLoggedLayout
-				translate={props.translate}
-				helpIcon={true}
-				languageSelector={false}
-			>
-				<Scrollbar>
-					<div style={{
-						...styles.mainContainer,
-						...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
-						} : { height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' })
-					}}>
-						<Card style={{
-							...styles.cardContainer,
-							background: finishedVoted && 'transparent',
-							boxShadow: finishedVoted && "none",
-							...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
-								minWidth: window.innerWidth > 450 ? '550px' : '100%'
-							} : {
-								minWidth: width,
-								height: '90%'
-							})
-						}} elevation={6}>
-							{finishedVoted ?
-								<>
-									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										loginForm()
-									) : (
-											<CouncilState council={council} company={company} participant={participant} />
-										)}
-								</>
-								:
-								<>
-									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										loginForm()
-									) : (
-										<CouncilState council={council} company={company} participant={participant} />
-									)}
-								</>
-							}
-						</Card>
-						{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) && 
-							<Card style={{
-								...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
-									width: window.innerWidth > 450 ? '550px' : '100%'
-								} : {
-										minWidth: width
-									})
-								
-							}}>
-								<RequestDataInfo
-									data={{}}
-									translate={props.translate}
-									message={message}
-									status={status} 
 								/>
 							</Card>
 						}
