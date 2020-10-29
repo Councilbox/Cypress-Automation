@@ -163,7 +163,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 						}}
 					>
 						<TextInput
-							floatingText={translate.country}
+							floatingText={translate.company_new_country}
 							type="text"
 							errorText={state.errors.country}
 							value={data.country}
