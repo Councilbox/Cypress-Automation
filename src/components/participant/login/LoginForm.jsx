@@ -421,59 +421,55 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
     const { password, errors, showPassword } = state;    
 
-    return <DataAuthorization />
+    // return (
+    //     <div style={{
+    //         ...styles.loginContainerMax,
+    //         ...(council.securityType !== 0 ? {
+    //             height: ""
+    //         } : {}),
+    //     }}>
+    //         <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: 'center', alignItems: 'center' }}>
+    //             <div style={{
+    //                 width: "100%",
+    //                 paddingLeft: "4px",
+    //             }}>
+    //                 <div style={{ textAlign: "center", padding: "1em", paddingTop: "2em", }} >
+    //                     <h3 style={{ color: '#154481', fontSize: '1.9em', }}>Cita nombre - 13/04/2020</h3>
+    //                 </div>
+    //                 <div style={{ display: "flex", justifyContent: "center", }}>
+    //                     <div style={{ width: '280px', }}>
+    //                         <div style={{ textAlign: "center", padding: "1em", }}>
+    //                             <TextInput
+    //                                 styleFloatText={{ fontSize: "20px", color: '#154481' }}
+    //                                 floatingText={translate.email}
+    //                                 type="email"
+    //                                 fullWidth
+    //                                 errorText={errors.email}
+    //                                 value={participant.email}
+    //                             // disabled={true}
+    //                             />
+    //                         </div>
+    //                         <div style={{ textAlign: "center", padding: "1em", paddingBottom: "2em" }}>
+    //                             <BasicButton
+    //                                 text={'Login'}
+    //                                 color={' #154481'}
+    //                                 textStyle={{
+    //                                     color: "white",
+    //                                     fontWeight: "700",
+    //                                     borderRadius: '4px',
+    //                                     boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)'
+    //                                 }}
+    //                                 textPosition="before"
+    //                                 fullWidth={true}
+    //                             />
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     </div>
 
-
-    /********login*************/
-    return (
-        <div style={{
-            ...styles.loginContainerMax,
-            ...(council.securityType !== 0 ? {
-                height: ""
-            } : {}),
-        }}>
-            <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{
-                    width: "100%",
-                    paddingLeft: "4px",
-                }}>
-                    <div style={{ textAlign: "center", padding: "1em", paddingTop: "2em", }} >
-                        <h3 style={{ color: '#154481', fontSize: '1.9em', }}>Cita nombre - 13/04/2020</h3>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "center", }}>
-                        <div style={{ width: '280px', }}>
-                            <div style={{ textAlign: "center", padding: "1em", }}>
-                                <TextInput
-                                    styleFloatText={{ fontSize: "20px", color: '#154481' }}
-                                    floatingText={translate.email}
-                                    type="email"
-                                    fullWidth
-                                    errorText={errors.email}
-                                    value={participant.email}
-                                // disabled={true}
-                                />
-                            </div>
-                            <div style={{ textAlign: "center", padding: "1em", paddingBottom: "2em" }}>
-                                <BasicButton
-                                    text={'Login'}
-                                    color={' #154481'}
-                                    textStyle={{
-                                        color: "white",
-                                        fontWeight: "700",
-                                        borderRadius: '4px',
-                                        boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)'
-                                    }}
-                                    textPosition="before"
-                                    fullWidth={true}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    );
+    // );
 
     return (
         <div style={{

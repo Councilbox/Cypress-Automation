@@ -73,7 +73,7 @@ const OneOneOnItem = ({ translate, council, index }) => {
                     <GridItem xs={1} md={1} lg={1}>
                     </GridItem>
                     <GridItem xs={11} md={11} lg={11}>
-                        {council.attachments.filter(attachment => !!attachment.participantId).length > 0 &&
+                        {council.attachments && council.attachments.filter(attachment => !!attachment.participantId).length > 0 &&
                             <>
                                 <BasicButton
                                     color="white"

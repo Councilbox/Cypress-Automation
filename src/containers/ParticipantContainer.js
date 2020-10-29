@@ -226,6 +226,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 								council={{
 									...council.councilVideo
 								}}
+								refetch={getData}
 								company={council.councilVideo.company}
 							/>
 					}
@@ -345,6 +346,7 @@ const participantQuery = gql`
 			name
 			surname
 			id
+			legalTermsAccepted
 			type
 			voteDenied
 			voteDeniedReason

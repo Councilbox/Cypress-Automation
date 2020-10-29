@@ -5,7 +5,8 @@ import { NotLoggedLayout, Scrollbar, BasicButton, Checkbox } from '../../../disp
 import { isMobile } from '../../../utils/screen';
 import { ReactComponent as VideoCamera } from '../../../../src/assets/img/video-camera.svg';
 import { ReactComponent as Folder } from '../../../../src/assets/img/folder-1.svg';
-import { getSecondary } from '../../../styles/colors';
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import gql from 'graphql-tag';
 
 const width = window.innerWidth > 450 ? '850px' : '100%'
 
@@ -36,8 +37,29 @@ const styles = {
 };
 
 
-const DataAuthorization = ({ council, participant = {}, props = {} }) => {
+const DataAuthorization = ({ council, participant, props = {}, client, refetch }) => {
+    const [checked, setChecked] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
     const secondary = getSecondary();
+
+    console.log(participant);
+
+    const sendConfirmation = async () => {
+        setLoading(true);
+        const response = await client.mutate({
+            mutation: gql`
+                mutation liveAcceptLegalTermsAndConditions{
+                    liveAcceptLegalTermsAndConditions{
+                        success
+                    }
+                }
+            `
+        });
+
+        console.log(response);
+        await refetch();
+        setLoading(false);
+    }
 
     return (
         <div style={styles.loginContainerMax}>
@@ -63,10 +85,10 @@ const DataAuthorization = ({ council, participant = {}, props = {} }) => {
                     <div style={{ display: "flex", justifyContent: "center", color: "black", maxWidth: "600px", marginBottom: "1em" }}>
                         <div>
                             <Checkbox
-                                // value={isChecked(item.id)}
-                                // onChange={(event, isInputChecked) => {
-                                //     checkUser(item, isInputChecked)
-                                // }}
+                                value={checked}
+                                onChange={(event, isInputChecked) => {
+                                    setChecked(isInputChecked)
+                                }}
                                 styleLabel={{ alignItems: "unset" }}
                                 label={"Confirmo y acepto la normativa de tratatimento de datos del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos y por el que se deroga la Directiva 95/46/CE (Reglamento general de protección de datos) (Texto pertinente a efectos del EEE)"}
                             />
@@ -75,7 +97,11 @@ const DataAuthorization = ({ council, participant = {}, props = {} }) => {
                     <div style={{ textAlign: "center", padding: "1em", paddingBottom: "2em", display: "flex", justifyContent: "center" }}>
                         <BasicButton
                             text={'Acceso seguro'}
-                            color={' #154481'}
+                            disabled={!checked}
+                            loading={loading}
+                            loadingColor="white"
+                            onClick={sendConfirmation}
+                            color={checked ? getPrimary() : 'grey'}
                             textStyle={{
                                 color: "white",
                                 fontWeight: "700",

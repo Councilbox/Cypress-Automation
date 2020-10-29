@@ -10,6 +10,7 @@ import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from "../../../utils/screen";
 import RequestDataInfo from "./RequestDataInfo";
 import DataAuthorization from "./DataAuthorization";
+import { ConfigContext } from "../../../containers/AppControl";
 
 // '850px'
 const width = window.innerWidth > 450 ? '850px' : '100%'
@@ -62,6 +63,7 @@ const reducer = (state, action) => {
 const ParticipantLogin = ({ participant, council, company, ...props }) => {
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState("participacion");
 	const [{ status, message }, updateState] = React.useReducer(reducer, { status: 'WAITING' });
+	const config = React.useContext(ConfigContext);
 
 	const finishedVoted = (councilIsFinished(council) || participant.hasVoted);
 
@@ -75,7 +77,6 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 			updateState={updateState}
 		/>
 	)
-
 
 	if ((finishedVoted || !councilIsLive(council)) && isMobile) {
 		return (
@@ -95,6 +96,8 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 			</NotLoggedLayout>
 		);
 	} else {
+
+		const renderLogin = ((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council));
 		return (
 			<NotLoggedLayout
 				translate={props.translate}
@@ -102,65 +105,86 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 				languageSelector={false}
 			>
 				<Scrollbar>
-					<div style={{
-						...styles.mainContainer,
-						...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
-						} : { height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' })
-					}}>
-						<Card style={{
-							...styles.cardContainer,
-							background: finishedVoted && 'transparent',
-							boxShadow: finishedVoted && "none",
-							...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
-								minWidth: window.innerWidth > 450 ? '550px' : '100%'
-							} : {
+					{renderLogin ?
+						<>
+							{(participant.legalTermsAccepted || !config.participantTermsCheck) ?
+								<div style={{
+									...styles.mainContainer
+								}}>
+									<Card style={{
+										...styles.cardContainer,
+										background: finishedVoted && 'transparent',
+										boxShadow: finishedVoted && "none",
+										minWidth: window.innerWidth > 450 ? '550px' : '100%'
+									}} elevation={6}>
+										{loginForm()}
+									</Card>
+									<Card style={{
+										width: window.innerWidth > 450 ? '550px' : '100%'								
+									}}>
+										<RequestDataInfo
+											data={{}}
+											translate={props.translate}
+											message={message}
+											status={'SUCCESS'} //SUCCESS
+										/>
+									</Card>
+								</div>
+							:
+								<div style={{
+									...styles.mainContainer
+								}}>
+									<Card style={{
+										...styles.cardContainer,
+										padding: '2em',
+										background: finishedVoted && 'transparent',
+										boxShadow: finishedVoted && "none",
+										minWidth: window.innerWidth > 750 ? '650px' : '100%'
+									}} elevation={6}>	
+										<DataAuthorization
+											participant={participant}
+											council={council}
+											company={company}
+											refetch={props.refetch}
+										/>
+									</Card>
+									<Card style={{
+										width: window.innerWidth > 750 ? '650px' : '100%'								
+									}}>
+										<RequestDataInfo
+											data={{}}
+											translate={props.translate}
+											message={message}
+											status={'SUCCESS'} //SUCCESS
+										/>
+									</Card>
+								</div>
+							}
+						</>
+					:
+						<div style={{
+							...styles.mainContainer,
+							height: '100%',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center'
+						}}>
+							<Card style={{
+								...styles.cardContainer,
+								background: finishedVoted && 'transparent',
+								boxShadow: finishedVoted && "none",
 								minWidth: width,
 								height: '90%'
-							})
-						}} elevation={6}>
-							{finishedVoted ?
-								<>
-									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										loginForm()
-									) : (
-											<CouncilState council={council} company={company} participant={participant} />
-										)}
-								</>
-								:
-								<>
-									{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? (
-										loginForm()
-									) : (
-										<CouncilState council={council} company={company} participant={participant} />
-									)}
-								</>
-							}
-						</Card>
-						{((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) && 
-							<Card style={{
-								...(((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council)) ? {
-									width: window.innerWidth > 450 ? '550px' : '100%'
-								} : {
-										minWidth: width
-									})
-								
-							}}>
-								<RequestDataInfo
-									data={{}}
-									translate={props.translate}
-									message={message}
-									status={'SUCCESS'} //SUCCESS
-								/>
+							}} elevation={6}>
+								<CouncilState council={council} company={company} participant={participant} />
 							</Card>
-						}
-					</div>
+						</div>
+					}
 				</Scrollbar>
-
 			</NotLoggedLayout>
 		);
 	}
 }
-
 
 
 export default withTranslations()(withDetectRTC()(ParticipantLogin));
