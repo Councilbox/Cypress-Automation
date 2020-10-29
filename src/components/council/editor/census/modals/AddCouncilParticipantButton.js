@@ -106,6 +106,26 @@ class AddCouncilParticipantButton extends React.Component {
 
 		const emailsToCheck = [];
 
+		var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+        console.log(participant)
+        console.log(representative)
+		if (participant.name) {
+			if (!(regex.test(participant.name)) || !participant.name.trim()) {
+				errorsParticipant.errors.name =  translate.invalid_field;
+				errorsParticipant.hasError = true;
+				// hasError = true;
+				// errors.name = translate.invalid_field;
+			}
+		}
+		if (participant.surname) {
+			if (!(regex.test(participant.surname)) || !participant.surname.trim()) {
+				errorsParticipant.errors.surname =  translate.invalid_field;
+				errorsParticipant.hasError = true;
+				// hasError = true;
+				// errors.name = translate.invalid_field;
+			}
+		}
+
 		if(this.props.company.type !== 10){
 			emailsToCheck.push(participant.email);
 		}
