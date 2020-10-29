@@ -29,6 +29,8 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const [folderModal, setFolderModal] = React.useState(false);
     const [search, setSearch] = React.useState("");
     const [deleteModal, setDeleteModal] = React.useState(false);
+    const [editFolder, setEditFolder] = React.useState(false);
+    const [modal, setModal] = React.useState(false);
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -180,7 +182,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             xhr.send(formData);
         }
     }
-
+    
     return (
         <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em", paddingTop: isMobile && "0em" }}>
             <div>
@@ -403,7 +405,8 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                             </TableRow>
                             {documents && documents.map(doc => (
                                 doc.type === 0 ?
-                                    <TableRow onClick={() => navigateTo(doc)} style={{ cursor: 'pointer' }} key={`folder_${doc.id}`}>
+                                    <TableRow style={{ cursor: 'pointer' }} key={`folder_${doc.id}`}>
+                                        {/* onClick={() => navigateTo(doc)} */}
                                         <TableCell>
                                             <img src={folderIcon} style={{ marginRight: '0.6em' }} />
                                             {doc.name}
@@ -417,20 +420,64 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         <TableCell />
                                         <TableCell>
                                             {!action &&
-                                                <div onClick={event => {
-                                                    event.stopPropagation();
-                                                    setDeleteModal(doc)
-                                                }} style={{
-                                                    cursor: 'pointer',
-                                                    color: secondary,
-                                                    background: 'white',
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    padding: "0.3em",
-                                                    width: "100px"
-                                                }}>
-                                                    {translate.delete}
+                                                <div style={{ display: "flex" }}>
+                                                    <EditFolder
+                                                        translate={translate}
+                                                        file={doc}
+                                                        trigger={trigger}
+                                                        action={action}
+                                                        setDeleteModal={setDeleteModal}
+                                                        refetch={getData}
+                                                        modal={modal}
+                                                        setModal={() => setModal(false)}
+                                                    />
+                                                    <div
+                                                        onClick={event => {
+                                                            event.stopPropagation();
+                                                            event.preventDefault();
+                                                            setModal(true);
+                                                        }}
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                            color: getSecondary(),
+                                                            background: 'white',
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                        }}>
+                                                        {translate.edit}
+                                                    </div>
+                                                    <div onClick={event => {
+                                                        event.stopPropagation();
+                                                        setDeleteModal(doc)
+                                                    }} style={{
+                                                        cursor: 'pointer',
+                                                        color: secondary,
+                                                        background: 'white',
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        padding: "0.3em",
+                                                        width: "100px"
+                                                    }}>
+                                                        {translate.delete}
+                                                    </div>
+                                                    <div
+                                                        onClick={event => {
+                                                            event.stopPropagation();
+                                                            event.preventDefault();
+                                                            navigateTo(doc)
+                                                        }}
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                            color: getSecondary(),
+                                                            background: 'white',
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            justifyContent: "center",
+                                                        }}>
+                                                        {translate.open}
+                                                    </div>
                                                 </div>
                                             }
 
@@ -498,6 +545,73 @@ const DelayedRow = ({ children, delay }) => {
 
 }
 
+
+const EditFolder = withApollo(({ client, translate, file, refetch, modal, setModal }) => {
+    const [filename, setFilename] = React.useState(file.name);
+    const primary = getPrimary();
+    const [error, setError] = React.useState('');
+    const editableRef = React.useRef();
+
+
+    const updateFile = async () => {
+        if (!filename) {
+            return setError(translate.required_field);
+        }
+
+        const response = await client.mutate({
+            mutation: gql`
+                mutation UpdateCompanyDocument($companyDocument: CompanyDocumentInput){
+                    updateCompanyDocument(companyDocument: $companyDocument){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                companyDocument: {
+                    id: file.id,
+                    name: `${filename}`
+                }
+            }
+        });
+
+        refetch();
+        setModal(false);
+    }
+
+    return (
+        <div style={{ display: 'flex' }}>
+
+            <AlertConfirm
+                title={translate.edit}
+                acceptAction={updateFile}
+                buttonAccept={translate.accept}
+                buttonCancel={translate.cancel}
+                requestClose={setModal}
+                open={modal}
+                bodyText={
+                    <Input
+                        error={error}
+                        disableUnderline={true}
+                        id={"titleDraft"}
+                        style={{
+                            color: "rgba(0, 0, 0, 0.65)",
+                            fontSize: '15px',
+                            border: error ? '2px solid red' : '1px solid #d7d7d7',
+                            boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+                            width: "100%",
+                            padding: '.5em 1.6em',
+                            marginTop: "1em"
+                        }}
+                        value={filename}
+                        onChange={event =>
+                            setFilename(event.target.value)
+                        }
+                    />
+                }
+            />
+        </div>
+    )
+})
 
 const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, action, trigger }) => {
     const nameData = file.name.split('.');
@@ -602,6 +716,17 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
                             width: "100px"
                         }}>
                             {translate.delete}
+                        </div>
+                        <div onClick={() => setModal(true)} style={{
+                            cursor: 'pointer',
+                            color: getSecondary(),
+                            background: 'white',
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            padding: "0.3em",
+                        }}>
+                            {translate.edit}
                         </div>
                     </div>
                 }
