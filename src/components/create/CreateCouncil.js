@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { LoadingMainApp, LiveToast, AlertConfirm, Scrollbar } from "../../displayComponents";
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { bHistory } from "../../containers/App";
 import { ConfigContext } from '../../containers/AppControl';
 import { toast } from 'react-toastify';
@@ -28,22 +28,10 @@ import sinSesionIcon from '../../assets/img/sin-sesion-icon.svg';
 const CreateCouncil = props => {
 	const config = React.useContext(ConfigContext);
 
-	const createCouncil = async companyId => {
-		const response = await props.createCouncil({
-			variables: {
-				companyId: companyId
-			}
-		});
-		if (response.data.createCouncil) {
-			return response.data.createCouncil.id;
-		} else {
-			return null;
-		}
-	}
-
 	return (
 		<CreateCouncilModal
 			history={props.history}
+			client={props.client}
 			createCouncil={props.createCouncil}
 			company={props.company}
 			translate={props.translate}
@@ -56,10 +44,11 @@ const steps = {
 	NO_SESSION: 'NO_SESSION',
 	COUNCIL: 'COUNCIL',
 	HYBRID_VOTING: 'HYBRID_VOTING',
-	BOARD_NO_SESSION: 'BOARD_NO_SESSION'
+	BOARD_NO_SESSION: 'BOARD_NO_SESSION',
+	ONE_ON_ONE: 'ONE_ON_ONE'
 }
 
-const CreateCouncilModal = ({ history, company, createCouncil, translate, config }) => {
+const CreateCouncilModal = ({ history, company, createCouncil, translate, config, client }) => {
 	const [options, setOptions] = React.useState(null);
 	const [step, setStep] = React.useState(1);
 	const [errors, setErrors] = React.useState({});
@@ -105,7 +94,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 		let hasError = false;
 		let errors = {}
 
-		if (type !== 0 && type !== 4) {
+		if (![0, 4, 5].find(item => item === type)) {
 			if (!options.dateStart) {
 				hasError = true;
 				errors.dateStart = translate.required_field;
@@ -130,6 +119,10 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 
 	const councilStep = () => {
 		sendCreateCouncil(0);
+	}
+
+	const createOneOneOne = () => {
+		sendCreateCouncil(5);
 	}
 
 	const noSessionStep = () => {
@@ -226,6 +219,13 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												list={
 													<div>{translate.elections_description}</div>
 												}
+											/>
+										}
+										{config['onOnOneCouncil'] &&
+											<ButtonCreateCouncil
+												onClick={createOneOneOne}
+												title={'Cita 1 a 1'}
+												isMobile={isMobile}
 											/>
 										}
 									</div>
@@ -450,4 +450,4 @@ export const createCouncil = gql`
 
 export default graphql(createCouncil, { name: 'createCouncil' })(connect(
 	mapStateToProps
-)(withRouter(withSharedProps()(CreateCouncil))));
+)(withRouter(withSharedProps()(withApollo(CreateCouncil)))));
