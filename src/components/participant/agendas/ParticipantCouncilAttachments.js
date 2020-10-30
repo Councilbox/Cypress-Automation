@@ -9,6 +9,7 @@ import { BasicButton, Checkbox, AlertConfirm } from '../../../displayComponents'
 import { addCouncilAttachment, removeCouncilAttachment } from '../../../queries';
 import { moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
+import { isMobile } from 'react-device-detect';
 
 const ParticipantCouncilAttachments = ({ translate, participant, client, council }) =>  {
     const [data, setData] = React.useState(null);
@@ -105,8 +106,12 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                 paddingLeft: "4px",
             }}>
                 <div style={{ padding: "1em", paddingTop: "2em", display: "flex" }} >
-                    <div style={{ color: '#154481', fontSize: '1.9em', marginRight: "1em" }}>{`${participant.name} ${participant.surname || ''}`}</div>
-                    <div style={{ color: 'black', fontSize: '1.9em', }}>Su documentación</div>
+                    {!isMobile &&
+                        <>
+                            <div style={{ color: '#154481', fontSize: '1.9em', marginRight: "1em" }}>{`${participant.name} ${participant.surname || ''}`}</div>
+                            <div style={{ color: 'black', fontSize: '1.9em', }}>Su documentación</div>
+                        </>
+                    }
                 </div>
                 <div style={{ padding: "1em", paddingBottom: "1em", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #154481" }}>
                     <div>
@@ -143,71 +148,98 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                 </div>
                 <div style={{ display: "flex", justifyContent: "center", width: '100%' }}>
                     <div style={{ marginTop: "2em", height: '100%', marginBottom: "2em", width: '100%' }}>
-                        <Table style={{ width: '100%', maxWidth: '100%' }}>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell style={{
-                                        color: "#a09aa0",
-                                        fontWeight: "bold",
-                                        borderBottom: "1px solid #979797",
-                                        width: '40%'
-                                    }}>
-                                        {translate.name}
-                                    </TableCell>
-                                    <TableCell style={{
-                                        color: "#a09aa0",
-                                        fontWeight: "bold",
-                                        borderBottom: "1px solid #979797"
-                                    }}>
-                                        {translate.type}
-                                    </TableCell>
-                                    <TableCell style={{
-                                        color: "#a09aa0",
-                                        fontWeight: "bold",
-                                        borderBottom: "1px solid #979797"
-                                    }}>
-                                        {translate.last_edit}
-                                    </TableCell>
-                                    <TableCell style={{
-                                        color: "#a09aa0",
-                                        fontWeight: "bold",
-                                        borderBottom: "1px solid #979797"
-                                    }}>
-                                        {translate.size}
-                                    </TableCell>
-                                    <TableCell style={{
-                                        color: "#a09aa0",
-                                        fontWeight: "bold",
-                                        borderBottom: "1px solid #979797"
-                                    }} />
-                                </TableRow>
+                        {isMobile ?
+                            <>
                                 {data && data.map(attachment => {
                                     return (
-                                        <TableRow key={`attachment_${attachment.id}`}>
-                                            <TableCell>
-                                                {attachment.filename}
-                                            </TableCell>
-                                            <TableCell>
-                                                {attachment.filetype}
-                                            </TableCell>
-                                            <TableCell>
-                                                {moment(attachment.creationDate).format('LLL')}
-                                            </TableCell>
-                                            <TableCell >
-                                                {fileSize(attachment.filesize)}
-                                            </TableCell>
-                                            <TableCell>
-                                                <i
-                                                    className="fa fa-trash-o"
-                                                    style={{ color: "red", fontSize: '18px', cursor: 'pointer' }}
-                                                    onClick={() => setConfirmationModal(attachment)}
-                                                ></i>
-                                            </TableCell>
-                                        </TableRow>
+                                        <Card style={{ position: "relative", padding: '1.2em', marginTop: '5px' }} key={attachment.id}>
+                                            <i
+                                                className="fa fa-trash-o"
+                                                style={{
+                                                    color: "red",
+                                                    fontSize: '18px',
+                                                    cursor: 'pointer',
+                                                    position: 'absolute',
+                                                    top: '10px',
+                                                    right: '10px'
+                                                }}
+                                                onClick={() => setConfirmationModal(attachment)}
+                                            ></i>
+                                            <div>
+                                                {translate.name} {attachment.filename}
+                                            </div>
+                                        </Card>
                                     )
                                 })}
-                            </TableBody>
-                        </Table>
+                            </>
+                        :
+                            <Table style={{ width: '100%', maxWidth: '100%' }}>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell style={{
+                                            color: "#a09aa0",
+                                            fontWeight: "bold",
+                                            borderBottom: "1px solid #979797",
+                                            width: '40%'
+                                        }}>
+                                            {translate.name}
+                                        </TableCell>
+                                        <TableCell style={{
+                                            color: "#a09aa0",
+                                            fontWeight: "bold",
+                                            borderBottom: "1px solid #979797"
+                                        }}>
+                                            {translate.type}
+                                        </TableCell>
+                                        <TableCell style={{
+                                            color: "#a09aa0",
+                                            fontWeight: "bold",
+                                            borderBottom: "1px solid #979797"
+                                        }}>
+                                            {translate.last_edit}
+                                        </TableCell>
+                                        <TableCell style={{
+                                            color: "#a09aa0",
+                                            fontWeight: "bold",
+                                            borderBottom: "1px solid #979797"
+                                        }}>
+                                            {translate.size}
+                                        </TableCell>
+                                        <TableCell style={{
+                                            color: "#a09aa0",
+                                            fontWeight: "bold",
+                                            borderBottom: "1px solid #979797"
+                                        }} />
+                                    </TableRow>
+                                    {data && data.map(attachment => {
+                                        return (
+                                            <TableRow key={`attachment_${attachment.id}`}>
+                                                <TableCell>
+                                                    {attachment.filename}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {attachment.filetype}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {moment(attachment.creationDate).format('LLL')}
+                                                </TableCell>
+                                                <TableCell >
+                                                    {fileSize(attachment.filesize)}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <i
+                                                        className="fa fa-trash-o"
+                                                        style={{ color: "red", fontSize: '18px', cursor: 'pointer' }}
+                                                        onClick={() => setConfirmationModal(attachment)}
+                                                    ></i>
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                    })}
+                                </TableBody>
+                            </Table>
+
+                        }
                     </div>
                 </div>
             </div>

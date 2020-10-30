@@ -466,6 +466,13 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     </div>
                 }
                 <div style={{ padding: '0.6em' }}> {/*marginTop: '10px',*/}
+                    {council.councilType === 5 &&
+                        <CouncilAttachmentsModal
+                            council={council}
+                            participant={participant}
+                            translate={translate}
+                        />
+                    }
                     {data.agendas ?
                         <React.Fragment>
                             {agendas.map((agenda, index) => {

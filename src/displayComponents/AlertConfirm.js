@@ -7,6 +7,7 @@ import Dialog, {
 import BasicButton from "./BasicButton";
 import { getPrimary, getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
+import { isMobile } from "../utils/screen";
 
 const AlertConfirm = ({
 	title,
@@ -76,7 +77,7 @@ const AlertConfirm = ({
 		<Dialog
 			className={classNameDialog}
 			disableBackdropClick={modal}
-			fullWidth={fullWidth}
+			fullWidth={isMobile || fullWidth}
 			fullScreen={fullScreen}
 			maxWidth={false}
 			open={open}

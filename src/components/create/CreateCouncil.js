@@ -94,7 +94,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 		let hasError = false;
 		let errors = {}
 
-		if (![0, 4, 5].find(item => item === type)) {
+		if ([0, 4, 5].findIndex(item => item === type) === -1) {
 			if (!options.dateStart) {
 				hasError = true;
 				errors.dateStart = translate.required_field;
