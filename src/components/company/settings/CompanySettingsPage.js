@@ -390,18 +390,32 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 								/>
 							</GridItem>
 							{props.root &&
-								<GridItem xs={12} md={6} lg={4}>
-									<TextInput
-										floatingText={'Saldo'}
-										type="text"
-										value={data.balance || ''}
-										onChange={event =>
-											updateState({
-												balance: event.target.value
-											})
-										}
-									/>
-								</GridItem>
+								<>
+									<GridItem xs={12} md={6} lg={4}>
+										<TextInput
+											floatingText={'Saldo'}
+											type="text"
+											value={data.balance || ''}
+											onChange={event =>
+												updateState({
+													balance: event.target.value
+												})
+											}
+										/>
+									</GridItem>
+									<GridItem xs={12} md={6} lg={4}>
+										<TextInput
+											floatingText={'Código cliente'}
+											type="text"
+											value={data.customerCode || ''}
+											onChange={event =>
+												updateState({
+													customerCode: event.target.value
+												})
+											}
+										/>
+									</GridItem>
+								</>
 							}
 						</Grid>
 					</GridItem>

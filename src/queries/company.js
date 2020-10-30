@@ -10,6 +10,7 @@ export const companyFragment = `
 	city
 	zipcode
 	country
+	customerCode
 	category
 	file
 	countryState
