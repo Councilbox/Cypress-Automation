@@ -156,6 +156,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				translate={translate}
 				council={council}
 				participations={participations}
+				disabled={council.councilType === 5 && councilParticipants.list.length > 0}
 				refetch={refresh}
 				handleCensusChange={props.handleCensusChange}
 				reloadCensus={props.reloadCensus}
@@ -163,7 +164,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				censuses={props.censuses}
 				totalVotes={totalVotes}
 				totalSocialCapital={totalSocialCapital}
-			/>
+			/>		
 			<AlertConfirm
 				title={translate.warning}
 				bodyText={translate.delete_items}
@@ -174,6 +175,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				acceptAction={deleteParticipant}
 				requestClose={closeDeleteModal}
 			/>
+
 			{editingParticipant &&
 				<CouncilParticipantEditor
 					translate={translate}

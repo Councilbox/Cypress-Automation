@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Tooltip } from 'material-ui';
 import { BasicButton, TextInput, NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
+import { getPrimary } from '../../../styles/colors';
 
 const styles = {
     loginContainerMax: {
@@ -113,7 +114,7 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
                                                 <BasicButton
                                                     text={'Validar'}
                                                     onClick={send}
-                                                    color={' #154481'}
+                                                    color={getPrimary()}
                                                     textStyle={{
                                                         color: "white",
                                                         fontWeight: "700",

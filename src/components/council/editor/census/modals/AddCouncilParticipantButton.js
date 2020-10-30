@@ -303,8 +303,9 @@ class AddCouncilParticipantButton extends React.Component {
 			<React.Fragment>
 				<BasicButton
 					text={translate.add_participant}
+					disabled={this.props.disabled}
 					floatRight
-					color={"white"}
+					color={this.props.disabled ? 'lightgrey' : "white"}
 					textStyle={{
 						color: primary,
 						fontWeight: "700",

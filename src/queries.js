@@ -466,6 +466,7 @@ export const councilStepTwo = gql`
 			quorumPrototype
 			selectedCensusId
 			name
+			councilType
 			dateStart
 			dateStart2NdCall
 		}
