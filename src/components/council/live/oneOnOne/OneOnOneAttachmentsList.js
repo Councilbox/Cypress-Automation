@@ -5,8 +5,6 @@ import { LoadingSection } from '../../../../displayComponents';
 import { useQueryReducer } from '../../../../hooks';
 import AttachmentDownload from '../../../attachments/AttachmentDownload';
 
-
-
 const OneOnOneAttachmentsList = ({ council, translate, client }) => {
     const { data, loading, errors } = useQueryReducer({
         client,
@@ -29,12 +27,10 @@ const OneOnOneAttachmentsList = ({ council, translate, client }) => {
         }
     });
 
-    console.log(data);
-
     return (
         <div style={{ padding: '1em' }}>
             <h4>{translate.dasboard_documentation}</h4>
-            {!loading ?
+            {data ?
                 data.council.attachments.length > 0 ? data.council.attachments.map(attachment => (
                     <AttachmentDownload
                         attachment={attachment}

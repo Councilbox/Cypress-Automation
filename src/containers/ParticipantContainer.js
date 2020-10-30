@@ -248,6 +248,7 @@ const councilQuery = gql`
 			subdomain
 			councilStarted
 			wallActive
+			councilType
 			askWordMenu
 			state
 			city

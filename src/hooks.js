@@ -370,6 +370,8 @@ export const useQueryReducer = ({ client, query, variables }) => {
 		}
 	}, [JSON.stringify(variables)]);
 
+	usePolling(getData, 10000);
+
 	React.useEffect(() => {
 		getData();
 	}, [getData]);

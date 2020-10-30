@@ -21,6 +21,7 @@ import { isMobile } from "../../../utils/screen";
 import { agendaVotings } from "../../../queries/agenda";
 import { usePolling } from "../../../hooks";
 import { getSubjectAbrv } from "../../../displayComponents/AgendaNumber";
+import CouncilAttachmentsModal from "./CouncilAttachmentsModal";
 
 
 export const VotingContext = React.createContext({});
@@ -284,7 +285,6 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             </Button>
     )
 
-
     if (data.agendas) {
         agendas = data.agendas.map(agenda => {
             return {
@@ -384,6 +384,13 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                         </div>
                                     }
                                     <div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
+                                        {council.councilType === 5 &&
+                                            <CouncilAttachmentsModal
+                                                council={council}
+                                                participant={participant}
+                                                translate={translate}
+                                            />
+                                        }
                                         {data.agendas ?
                                             <React.Fragment>
                                                 {agendas.map((agenda, index) => {
