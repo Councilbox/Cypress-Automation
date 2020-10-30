@@ -6,12 +6,13 @@ import gql from 'graphql-tag';
 import { Icon, Card, Table, TableCell, TableBody, TableRow } from 'material-ui';
 import { withApollo } from 'react-apollo';
 import { BasicButton, Checkbox, AlertConfirm } from '../../../displayComponents';
-import { addCouncilAttachment } from '../../../queries';
+import { addCouncilAttachment, removeCouncilAttachment } from '../../../queries';
 import { moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
 
 const ParticipantCouncilAttachments = ({ translate, participant, client, council }) =>  {
     const [data, setData] = React.useState(null);
+    const [confirmationModal, setConfirmationModal] = React.useState(false);
     const [check, setCheck] = React.useState(false);
     const [checkError, setCheckError] = React.useState('');
     const [uploadFile, setUploadFile] = React.useState(false);
@@ -39,7 +40,6 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
     }, [participant.id])
 
     const onDrop = (accepted, rejected) => {
-        console.log(accepted);
 		if (accepted.length === 0) {
 			return;
 		}
@@ -73,8 +73,33 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
 		};
     };
 
+    const deleteAttachment = async id => {
+        await client.mutate({
+            mutation: removeCouncilAttachment,
+            variables: {
+                attachmentId: id,
+                councilId: council.id
+            }
+        });
+        getData();
+        setConfirmationModal(false);
+    }
+
     return (
         <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: 'center', alignItems: 'center', }}>
+            <AlertConfirm
+                open={confirmationModal}
+                title={translate.warning}
+                buttonCancel={translate.close}
+                buttonAccept={translate.accept}
+                acceptAction={() => deleteAttachment(confirmationModal.id)}
+                bodyText={
+                    <div>
+                        ¿Desea eliminar el documento {confirmationModal.filename}?
+                    </div>
+                }
+                requestClose={() => setConfirmationModal(false)}
+            />
             <div style={{
                 width: "100%",
                 paddingLeft: "4px",
@@ -158,7 +183,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                 </TableRow>
                                 {data && data.map(attachment => {
                                     return (
-                                        <TableRow style={{ cursor: 'pointer' }} key={`attachment_${attachment.id}`}>
+                                        <TableRow key={`attachment_${attachment.id}`}>
                                             <TableCell>
                                                 {attachment.filename}
                                             </TableCell>
@@ -172,7 +197,11 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                                 {fileSize(attachment.filesize)}
                                             </TableCell>
                                             <TableCell>
-                                                <i className="fa fa-trash-o" style={{ color: "red", fontSize: '18px' }}></i>
+                                                <i
+                                                    className="fa fa-trash-o"
+                                                    style={{ color: "red", fontSize: '18px', cursor: 'pointer' }}
+                                                    onClick={() => setConfirmationModal(attachment)}
+                                                ></i>
                                             </TableCell>
                                         </TableRow>
                                     )
