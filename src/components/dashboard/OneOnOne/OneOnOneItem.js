@@ -2,13 +2,13 @@ import React from 'react';
 import { GridItem, Grid, AlertConfirm, BasicButton, ButtonIcon } from '../../../displayComponents';
 import { bHistory, moment } from '../../../containers/App';
 import { Avatar } from 'material-ui';
-import OneOneOneAttachmentsModal from './OneOneOneAttachmentsModal';
+import OneOnOneAttachmentsModal from './OneOnOneAttachmentsModal';
 import { getSecondary } from '../../../styles/colors';
 import SendMessageToParticipant from './SendMessageToParticipant';
 import withSharedProps from '../../../HOCs/withSharedProps';
 
 
-const OneOneOnItem = ({ translate, council, index, company }) => {
+const OneOnOneItem = ({ translate, council, index, company }) => {
     const [attachmentsModal, setAttachmentsModal] = React.useState(false);
     const [messageModal, setMessageModal] = React.useState(false);
     const secondary = getSecondary();
@@ -16,7 +16,7 @@ const OneOneOnItem = ({ translate, council, index, company }) => {
     return (
         <>
             {attachmentsModal &&
-                <OneOneOneAttachmentsModal
+                <OneOnOneAttachmentsModal
                     council={council}
                     translate={translate}
                     requestClose={event => {
@@ -124,4 +124,4 @@ const OneOneOnItem = ({ translate, council, index, company }) => {
     )
 }
 
-export default withSharedProps()(OneOneOnItem);
+export default withSharedProps()(OneOnOneItem);

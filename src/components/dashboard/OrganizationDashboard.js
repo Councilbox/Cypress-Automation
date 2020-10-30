@@ -27,7 +27,7 @@ import GraficaEstadisiticas from "./GraficaEstadisiticas";
 import { sendGAevent } from "../../utils/analytics";
 import { getActivationText } from "../company/settings/CompanySettingsPage";
 import { isMobile } from "../../utils/screen";
-import OneOneOneItem from "./OneOneOne/OneOneOneItem";
+import OneOnOneItem from "./OneOnOne/OneOnOneItem";
 import { usePolling } from "../../hooks";
 
 
@@ -944,7 +944,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 const TablaReunionesEnCurso = ({ item, index, translate }) => {
 	if(item.councilType === 5){
 		return (
-			<OneOneOneItem
+			<OneOnOneItem
 				key={index}
 				index={index}
 				council={item}

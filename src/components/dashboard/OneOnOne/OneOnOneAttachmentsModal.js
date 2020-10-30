@@ -5,7 +5,7 @@ import { useQueryReducer } from '../../../hooks';
 import gql from 'graphql-tag';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
 
-const OneOneOneAttachmentsModal = ({ client, translate, council, open, requestClose }) => {
+const OneOnOneAttachmentsModal = ({ client, translate, council, open, requestClose }) => {
     const { data, loading, errors } = useQueryReducer({
         client,
         query: gql`
@@ -55,4 +55,4 @@ const OneOneOneAttachmentsModal = ({ client, translate, council, open, requestCl
     )
 }
 
-export default withApollo(OneOneOneAttachmentsModal);
+export default withApollo(OneOnOneAttachmentsModal);
