@@ -533,7 +533,9 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 
 								</>
 							}
-							{(council.statute.existsDelegatedVote === 1 && config.councilDelegates) && _renderDelegationRestriction()}
+							{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
+								&& _renderDelegationRestriction()
+							}
 							<SectionTitle
 								text={translate.options}
 								color={primary}

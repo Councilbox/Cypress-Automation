@@ -1,13 +1,14 @@
 import React from 'react';
 import { GridItem, Grid, AlertConfirm, BasicButton, ButtonIcon } from '../../../displayComponents';
-import { moment } from '../../../containers/App';
+import { bHistory, moment } from '../../../containers/App';
 import { Avatar } from 'material-ui';
 import OneOneOneAttachmentsModal from './OneOneOneAttachmentsModal';
 import { getSecondary } from '../../../styles/colors';
 import SendMessageToParticipant from './SendMessageToParticipant';
+import withSharedProps from '../../../HOCs/withSharedProps';
 
 
-const OneOneOnItem = ({ translate, council, index }) => {
+const OneOneOnItem = ({ translate, council, index, company }) => {
     const [attachmentsModal, setAttachmentsModal] = React.useState(false);
     const [messageModal, setMessageModal] = React.useState(false);
     const secondary = getSecondary();
@@ -38,7 +39,9 @@ const OneOneOnItem = ({ translate, council, index }) => {
                 xs={12}
                 md={12}
                 lg={12}
-                onClick={() => setAttachmentsModal(true)}>
+                onClick={() => {
+                    bHistory.push(`/company/${company.id}/council/${council.id}/live`)
+                }}>
                 <Grid style={{ alignItems: "center" }}>
                     <GridItem xs={1} md={1} lg={1}>
                         {council.logo ?
@@ -85,7 +88,10 @@ const OneOneOnItem = ({ translate, council, index }) => {
                                     }
                                     type="flat"
                                     text="Ver documentación añadida por el participante"
-                                    onClick={() => setAttachmentsModal(true)}
+                                    onClick={event => {
+                                        event.stopPropagation();
+                                        setAttachmentsModal(true)
+                                    }}
                                     buttonStyle={{
                                         border: `1px solid ${secondary}`
                                     }}
@@ -118,4 +124,4 @@ const OneOneOnItem = ({ translate, council, index }) => {
     )
 }
 
-export default OneOneOnItem;
+export default withSharedProps()(OneOneOnItem);
