@@ -28,6 +28,7 @@ import { sendGAevent } from "../../utils/analytics";
 import { getActivationText } from "../company/settings/CompanySettingsPage";
 import { isMobile } from "../../utils/screen";
 import OneOneOneItem from "./OneOneOne/OneOneOneItem";
+import { usePolling } from "../../hooks";
 
 
 const styles = {
@@ -162,10 +163,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 
 	React.useEffect(() => {
-		if (usuariosEntidades === translate.users) {
-			getUsers();
-		} else {
-			getCompanies();
+		if(company.type !== 12){
+			if (usuariosEntidades === translate.users) {
+				getUsers();
+			} else {
+				getCompanies();
+			}
 		}
 	}, [company.id, state.filterTextUsuarios, state.filterTextCompanies, usuariosEntidades, usersPage, companiesPage]);
 
@@ -173,7 +176,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 	const getReuniones = async (fechaInicio, fechaFin, fechaReunionConcreta) => {
 
-		setReunionesLoading(true)
+		//setReunionesLoading(true)
 		const response = await client.query({
 			query: corporationCouncils,
 			variables: {
@@ -206,6 +209,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			}
 		}
 	}
+
+	usePolling(getReuniones, 12000);
 
 	const filtrarLasReuniones = (data) => {
 		let dataFiltrado = []
