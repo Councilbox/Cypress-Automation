@@ -22,7 +22,7 @@ const reducer = (state, action) => {
 			...state,
 			data: action.value,
 			loading: false,
-			selectedPoint: state.selectedPoint >= action.value.agendas.length ?
+			selectedPoint: (state.selectedPoint >= action.value.agendas.length && action.value.agendas.length !== 0) ?
 				action.value.agendas.length - 1
 			:
 				state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
@@ -227,7 +227,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 					/>
 				:
 					<>
-						{agendas.length > 0?
+						{(agendas.length > 0 && agendas[selectedPoint]) ?
 							<AgendaDetailsSection
 								ref={agendaDetails}
 								recount={props.recount}
