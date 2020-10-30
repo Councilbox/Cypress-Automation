@@ -36,9 +36,9 @@ class AddCouncilParticipantButton extends React.Component {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative
 			? {
-					...data,
-					councilId: this.props.council.id
-			  }
+				...data,
+				councilId: this.props.council.id
+			}
 			: null;
 
 		if (!await this.checkRequiredFields()) {
@@ -107,26 +107,22 @@ class AddCouncilParticipantButton extends React.Component {
 		const emailsToCheck = [];
 
 		var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
-        console.log(participant)
-        console.log(representative)
+
 		if (participant.name) {
 			if (!(regex.test(participant.name)) || !participant.name.trim()) {
-				errorsParticipant.errors.name =  translate.invalid_field;
+				errorsParticipant.errors.name = translate.invalid_field;
 				errorsParticipant.hasError = true;
-				// hasError = true;
-				// errors.name = translate.invalid_field;
 			}
 		}
 		if (participant.surname) {
 			if (!(regex.test(participant.surname)) || !participant.surname.trim()) {
-				errorsParticipant.errors.surname =  translate.invalid_field;
+				errorsParticipant.errors.surname = translate.invalid_field;
 				errorsParticipant.hasError = true;
-				// hasError = true;
-				// errors.name = translate.invalid_field;
 			}
 		}
+		
 
-		if(this.props.company.type !== 10){
+		if (this.props.company.type !== 10) {
 			emailsToCheck.push(participant.email);
 		}
 
@@ -136,12 +132,12 @@ class AddCouncilParticipantButton extends React.Component {
 				translate
 			);
 
-			if(!representative.id){
+			if (!representative.id) {
 				emailsToCheck.push(representative.email);
 			}
 		}
 
-		if(emailsToCheck.length > 0){
+		if (emailsToCheck.length > 0) {
 			const response = await this.props.client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
@@ -150,21 +146,21 @@ class AddCouncilParticipantButton extends React.Component {
 				}
 			});
 
-			if(!response.data.checkUniqueCouncilEmails.success){
+			if (!response.data.checkUniqueCouncilEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if(participant.email === email){
+					if (participant.email === email) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if(representative.email === email){
+					if (representative.email === email) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				})
 			}
 
-			if(participant.email === representative.email){
+			if (participant.email === representative.email) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
@@ -185,9 +181,9 @@ class AddCouncilParticipantButton extends React.Component {
 		let error;
 		const { translate } = this.props;
 
-		if(email.length > 0){
-			if(!this.props[type] || email !== this.props[type].email){
-				if(checkValidEmail(email)){
+		if (email.length > 0) {
+			if (!this.props[type] || email !== this.props[type].email) {
+				if (checkValidEmail(email)) {
 					const response = await this.props.client.query({
 						query: checkUniqueCouncilEmails,
 						variables: {
@@ -196,28 +192,28 @@ class AddCouncilParticipantButton extends React.Component {
 						}
 					});
 
-					if(!response.data.checkUniqueCouncilEmails.success){
+					if (!response.data.checkUniqueCouncilEmails.success) {
 						const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 						data.duplicatedEmails.forEach(email => {
-							if(this.state.data.email === email){
+							if (this.state.data.email === email) {
 								error = translate.register_exists_email;
 							}
-							if(this.state.representative.email === email){
+							if (this.state.representative.email === email) {
 								error = translate.register_exists_email;
 							}
 						})
 					}
-				}else{
+				} else {
 					error = translate.valid_email_required;
 				}
-				if(type === 'participant'){
+				if (type === 'participant') {
 					this.setState({
 						errors: {
 							...this.state.errors,
 							email: error
 						}
 					})
-				}else{
+				} else {
 					this.setState({
 						representativeErrors: {
 							...this.state.errors,
@@ -259,7 +255,7 @@ class AddCouncilParticipantButton extends React.Component {
 						selectRepresentative: false
 					})}
 				/>
-				<div style={{marginRight: "1em"}}>
+				<div style={{ marginRight: "1em" }}>
 					<Card style={{
 						padding: '1em',
 						marginBottom: "1em",

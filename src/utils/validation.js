@@ -126,6 +126,28 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 
 	let hasError = false;
 
+	var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+
+	if (participant.name) {
+		if (!(regex.test(participant.name)) || !participant.name.trim()) {
+			errors.name = translate.invalid_field;
+			hasError = true;
+		}
+	}
+	if (participant.surname) {
+		if (!(regex.test(participant.surname)) || !participant.surname.trim()) {
+			errors.surname = translate.invalid_field;
+			hasError = true;
+		}
+	}
+
+	if (participant.dni) {
+		if (!(regex.test(participant.surname)) || !participant.surname.trim()) {
+			errors.dni = translate.invalid_field;
+			hasError = true;
+		}
+	}
+
 	if (!participant.name) {
 		hasError = true;
 		errors.name = translate.field_required;
