@@ -121,20 +121,21 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				if (!response.errors) {
 					setSuccess(true);
 					setLoading(false);
-					goBack()
+					bHistory.goBack();
 				}
 			}
 		}
 	}
 
 	const comprobateChanges = () => {
-		setUnsavedAlert(JSON.stringify(data) !== JSON.stringify(dataInit))
+		return JSON.stringify(data) !== JSON.stringify(dataInit);
 	};
 
 	const goBack = () => {
-		comprobateChanges()
-		if(unsavedAlert){
-			bHistory.goBack()
+		if(!comprobateChanges()){
+			bHistory.goBack();
+		} else {
+			setUnsavedAlert(true);
 		}
 	};
 
@@ -166,10 +167,10 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 					}}>
 						<BasicButton
 							floatRight
+							type="flat"
 							text={translate.back}
-							color={getPrimary()}
+							color="white"
 							textStyle={{
-								color: "white",
 								fontWeight: "700",
 								marginRight: "1em"
 							}}

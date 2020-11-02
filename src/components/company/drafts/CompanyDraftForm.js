@@ -428,9 +428,6 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 									{renderEtiquetasSeleccionadas()}
 								</GridItem>
 							}
-							{/* <GridItem xs={12} lg={12} md={12}>
-								{renderDescription()}
-							</GridItem> */}
 							{openSelectorEtiquetas &&
 								<Fade show={openSelectorEtiquetas}>
 									{renderRichEditor()}
@@ -466,9 +463,6 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 							<GridItem xs={12} lg={4} md={4} style={{}}>
 								{renderSelectorEtiquetas()}
 							</GridItem>
-							{/* <GridItem xs={12} lg={8} md={8}>
-								{renderDescription()}
-							</GridItem> */}
 							<GridItem xs={12} lg={8} md={8}>
 								{renderRichEditor()}
 							</GridItem>
