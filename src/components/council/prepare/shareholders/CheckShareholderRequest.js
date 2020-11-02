@@ -81,23 +81,23 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                             En:
                             {Array.isArray(request.data.representative) ?
                                 <div style={{ marginBotton: '2em' }}>
-                                {request.data.representative[0].value === 'el presidente' ||   request.data.representative[0].value && request.data.representative[0].value.includes('Presidente') ?
-                                    request.data.representative[0].value
-                                    :
-                                    request.data.representative[0].info.map((data, index) => (
-                                        data.value &&
-                                        <div key={index}>
-                                            {data.name}  - {data.value}
-                                        </div>
-                                    ))}
+                                    {request.data.representative[0].value === 'el presidente' || request.data.representative[0].value && request.data.representative[0].value.includes('Presidente') ?
+                                        request.data.representative[0].value
+                                        :
+                                        request.data.representative[0].info.map((data, index) => (
+                                            data.value &&
+                                            <div key={index}>
+                                                {data.name}  - {data.value}
+                                            </div>
+                                        ))}
                                 </div>
-                            :
+                                :
                                 request.data.representative &&
-                                    <div style={{ marginBotton: '2em' }}>
-                                        <div>
-                                            {request.data.representative.name} {request.data.representative.surname || ''}
-                                        </div>
+                                <div style={{ marginBotton: '2em' }}>
+                                    <div>
+                                        {request.data.representative.name} {request.data.representative.surname || ''}
                                     </div>
+                                </div>
 
                             }
 
@@ -111,7 +111,9 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                     }
                 </div>
                 <div style={{ marginTop: '1em', marginBottom: '1.6em' }}>
-                    {translate.attachments}:
+                    {request.data.attachments.length > 0 &&
+                        <div>  {translate.attachments} :</div>
+                    }
                     {request.data.attachments ?
                         request.data.attachments.map((attachment, index) => (
                             <div key={`adjuntos_${index}`} onClick={() => downloadAttachment(request.id, index)} style={{ cursor: 'pointer' }}>
