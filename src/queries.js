@@ -2056,6 +2056,7 @@ export const liveParticipant = gql`
 			state
 			audio
 			video
+			firstLoginDate
 			councilId
 			name
 			position

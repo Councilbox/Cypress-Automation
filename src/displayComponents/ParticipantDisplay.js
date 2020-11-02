@@ -1,17 +1,15 @@
 import React from "react";
 import { getSecondary } from "../styles/colors";
-import FontAwesome from "react-fontawesome";
 import { Typography, Tooltip } from "material-ui";
 import * as CBX from "../utils/CBX";
 import { withApollo } from 'react-apollo';
 import DenyVote from "../components/council/live/participants/DenyVote";
+import { moment } from "../containers/App";
 import withSharedProps from "../HOCs/withSharedProps";
 import BasicButton from "./BasicButton";
 import TextInput from "./TextInput";
-import gql from "graphql-tag";
-import { checkValidEmail } from "../utils";
-import { checkUniqueCouncilEmails } from "../queries/councilParticipant";
 import { useParticipantContactEdit } from "../hooks";
+import { PARTICIPANT_STATES } from "../constants";
 
 const ParticipantDisplay = ({ participant, translate, refetch, council, delegate, company, client, canEdit }) => {
 	const {
@@ -294,6 +292,66 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 						/>
 					</React.Fragment>
 				)
+			}
+			{(CBX.isActiveState(participant.state) && participant.firstLoginDate) &&
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						alignItems: "center"
+					}}
+				>
+					<div
+						style={{
+							width: "2em",
+							display: "flex",
+							justifyContent: "center"
+						}}
+					>
+						<i
+							className="fa fa-sign-in"
+							aria-hidden="true"
+							style={{
+								color: secondary,
+								fontSize: "0.8em",
+								marginRight: "0.3em"
+							}}>
+						</i>
+					</div>
+					<Typography variant="body1" className="truncate">
+						{moment(participant.firstLoginDate).format('LLL')}
+					</Typography>
+				</div>
+			}
+			{(participant.state === PARTICIPANT_STATES.LEFT || participant.online === 2) &&
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						alignItems: "center"
+					}}
+				>
+					<div
+						style={{
+							width: "2em",
+							display: "flex",
+							justifyContent: "center"
+						}}
+					>
+						<i
+							className="fa fa-sign-out"
+							aria-hidden="true"
+							style={{
+								color: secondary,
+								fontSize: "0.8em",
+								marginRight: "0.3em"
+							}}>
+						</i>
+					</div>
+					<Typography variant="body1" className="truncate">
+						{moment(participant.lastDateConnection).format('LLL')}
+					</Typography>
+				</div>
 			}
 			{edit &&
 				<BasicButton

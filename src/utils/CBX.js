@@ -14,7 +14,8 @@ import {
 	CUSTOM_AGENDA_VOTING_TYPES,
 	PARTICIPANT_TYPE,
 	COUNCIL_TYPES,
-	GOVERNING_BODY_TYPES
+	GOVERNING_BODY_TYPES,
+	ACTIVE_STATES
 } from "../constants";
 import dropped from "../assets/img/dropped.png";
 import React from 'react';
@@ -694,6 +695,9 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 
 }
 
+export const isActiveState = state => {
+	return ACTIVE_STATES.findIndex(item => state === item) !== -1;
+}
 
 export const buildAttendantsString = ({ council, total, type }) => (acc, curr, index) => {
 	if(!hasParticipations(council)){
