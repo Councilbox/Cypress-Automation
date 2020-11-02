@@ -153,6 +153,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 								<ConvenedParticipantsTable
 									council={council}
 									company={company}
+									hideAddParticipant={council.councilType === 5}
 									totalVotes={data.councilTotalVotes}
 									socialCapital={data.councilSocialCapital}
 									participations={CBX.hasParticipations(council)}
