@@ -397,11 +397,6 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						value={council.councilType === 5}
 						disabled={true}
 					/>
-					<Checkbox
-						label={translate.full_video_record}
-						value={council.councilType === 5}
-						disabled={true}
-					/>
 				</>
 			),
 		}
