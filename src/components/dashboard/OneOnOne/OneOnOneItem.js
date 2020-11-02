@@ -57,7 +57,7 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                         <b>{council.company ? council.company.businessName : ""}</b>
                     </GridItem>
                     <GridItem xs={4} md={4} lg={4}>
-                        {council.name} - {moment(council.dateStart).subtract(10, 'days').calendar()}
+                        {council.name} - {moment(council.dateStart).format('DD/MM/YYYY HH:mm')}
                     </GridItem>
                     <GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
                         {(council.state === 5 || council.state === 10) &&

@@ -186,7 +186,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			}
 		});
 
-		let data = ""
+		let data = "";
 
 		if (fechaReunionConcreta) {
 			if (response.data.corporationConvenedCouncils) {
@@ -971,7 +971,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 						{item.name}
 					</div>
 					<div style={{ marginRight: '0.2em' }}>
-						{moment(item.dateStart).subtract(10, 'days').calendar()}
+						{moment(item.dateStart)}
 					</div>
 				</div>
 			</GridItem>
@@ -995,7 +995,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					<b>{item.company ? item.company.businessName : ""}</b>
 				</GridItem>
 				<GridItem xs={4} md={4} lg={4}>
-					{item.name} - {moment(item.dateStart).subtract(10, 'days').calendar()}
+					{item.name} - {moment(item.dateStart)}
 				</GridItem>
 				<GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
 					{(item.state === 5 || item.state === 10) &&
