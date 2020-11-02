@@ -120,6 +120,12 @@ class AddCouncilParticipantButton extends React.Component {
 				emailsToCheck.push(representative.email);
 			}
 		}
+		if (!participant.email) {
+			console.log("paso")
+			errorsParticipant.hasError = true;
+			// errors.email = 'Este campo es obligatorio.			'
+			errorsParticipant.email = translate.field_required;
+		} 
 
 		if(emailsToCheck.length > 0){
 			const response = await this.props.client.query({
@@ -150,7 +156,10 @@ class AddCouncilParticipantButton extends React.Component {
 				errorsParticipant.hasError = true;
 			}
 		}
-
+		if (!participant.email) {
+			errorsParticipant.hasError = true;
+			errorsParticipant.errors.email = translate.field_required;
+		} 
 
 		this.setState({
 			...this.state,

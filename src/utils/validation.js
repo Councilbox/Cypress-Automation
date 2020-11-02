@@ -58,6 +58,7 @@ export const checkRequiredFieldsParticipant = (
 		errors.name = translate.field_required;
 	}
 
+
 	if (company && company.type !== 10) {
 		if (!participant.surname && participant.personOrEntity === 0) {
 			hasError = true;
@@ -96,6 +97,7 @@ export const checkRequiredFieldsParticipant = (
 			hasError = true;
 			errors.language = translate.field_required;
 		}
+		
 
 		if (!participant.numParticipations && participant.numParticipations !== 0) {
 			hasError = true;
