@@ -29,8 +29,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const [folderModal, setFolderModal] = React.useState(false);
     const [search, setSearch] = React.useState("");
     const [deleteModal, setDeleteModal] = React.useState(false);
-    const [editFolder, setEditFolder] = React.useState(false);
-    const [modal, setModal] = React.useState(false);
+    const [editModal, setEditModal] = React.useState(false);
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -364,6 +363,18 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                     </div>
                 </div>
             </div>
+            <EditFolder
+                translate={translate}
+                file={editModal}
+                trigger={trigger}
+                action={action}
+                setDeleteModal={setDeleteModal}
+                refetch={getData}
+                modal={!!editModal}
+                setModal={() => {
+                    setEditModal(false);
+                }}
+            />
             <div style={{ marginTop: "2em", height: 'calc(100% - 5em)' }}>
                 <Scrollbar>
                     <Table style={{ width: '100%', minWidth: "100%" }}>
@@ -405,8 +416,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                             </TableRow>
                             {documents && documents.map(doc => (
                                 doc.type === 0 ?
-                                    <TableRow style={{ cursor: 'pointer' }} key={`folder_${doc.id}`}>
-                                        {/* onClick={() => navigateTo(doc)} */}
+                                    <TableRow style={{ cursor: 'pointer' }} key={`folder_${doc.id}`} onClick={() => navigateTo(doc)}>
                                         <TableCell>
                                             <img src={folderIcon} style={{ marginRight: '0.6em' }} />
                                             {doc.name}
@@ -421,21 +431,10 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         <TableCell>
                                             {!action &&
                                                 <div style={{ display: "flex" }}>
-                                                    <EditFolder
-                                                        translate={translate}
-                                                        file={doc}
-                                                        trigger={trigger}
-                                                        action={action}
-                                                        setDeleteModal={setDeleteModal}
-                                                        refetch={getData}
-                                                        modal={modal}
-                                                        setModal={() => setModal(false)}
-                                                    />
                                                     <div
                                                         onClick={event => {
                                                             event.stopPropagation();
-                                                            event.preventDefault();
-                                                            setModal(true);
+                                                            setEditModal(doc);
                                                         }}
                                                         style={{
                                                             cursor: 'pointer',
@@ -465,7 +464,6 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                     <div
                                                         onClick={event => {
                                                             event.stopPropagation();
-                                                            event.preventDefault();
                                                             navigateTo(doc)
                                                         }}
                                                         style={{
@@ -548,17 +546,20 @@ const DelayedRow = ({ children, delay }) => {
 
 const EditFolder = withApollo(({ client, translate, file, refetch, modal, setModal }) => {
     const [filename, setFilename] = React.useState(file.name);
-    const primary = getPrimary();
     const [error, setError] = React.useState('');
-    const editableRef = React.useRef();
 
+    React.useEffect(() => {
+        if(modal && file){
+            setFilename(file.name);
+        }
+    }, [file ? file.id : null, modal])
 
     const updateFile = async () => {
         if (!filename) {
             return setError(translate.required_field);
         }
-
-        const response = await client.mutate({
+        
+        await client.mutate({
             mutation: gql`
                 mutation UpdateCompanyDocument($companyDocument: CompanyDocumentInput){
                     updateCompanyDocument(companyDocument: $companyDocument){
@@ -619,9 +620,7 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
     const name = nameData.join('.');
     const [modal, setModal] = React.useState(false);
     const [filename, setFilename] = React.useState(name);
-    const primary = getPrimary();
     const [error, setError] = React.useState('');
-    const editableRef = React.useRef();
 
 
     const updateFile = async () => {
@@ -629,7 +628,7 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
             return setError(translate.required_field);
         }
 
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation UpdateCompanyDocument($companyDocument: CompanyDocumentInput){
                     updateCompanyDocument(companyDocument: $companyDocument){
