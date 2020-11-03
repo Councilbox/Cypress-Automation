@@ -1,13 +1,32 @@
 import React from 'react';
 import withTranslations from '../HOCs/withTranslations';
+import { getSecondary } from '../styles/colors';
 import { AlertConfirm } from './';
+import BasicButton from './BasicButton';
 
-const UnsavedChangesModal = ({ translate, open, requestClose }) => (
+const UnsavedChangesModal = ({ translate, open, requestClose, acceptAction, cancelAction }) => (
     <AlertConfirm
         title={translate.attention}
         bodyText={translate.changes_without_saving}
         open={open}
-        buttonCancel={translate.accept}
+        extraActions={
+            cancelAction ?
+                <BasicButton
+                    text={translate.discard_changes}
+                    onClick={cancelAction}
+                    color={getSecondary()}
+                    textStyle={{
+                        color: 'white',
+                        fontWeight: '700'
+                    }}
+                /> 
+            :
+                null
+        }
+        buttonCancel={translate.close}
+        cancelAction={requestClose}
+        acceptAction={acceptAction || null}
+        buttonAccept={acceptAction ? translate.save : ''}
         modal={true}
         requestClose={requestClose}
     />

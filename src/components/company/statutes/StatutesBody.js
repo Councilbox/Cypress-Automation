@@ -217,7 +217,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 					...state,
 					error: true,
 					loading: false,
-					success: false
+					success: false,
 				});
 			} else {
 				setState({
@@ -225,6 +225,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 					error: false,
 					loading: false,
 					success: true,
+					unsavedAlert: false,
 					unsavedChanges: false
 				});
 				await data.refetch();
@@ -245,7 +246,10 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				...state,
 				statute: data.companyStatutes[0],
 				selectedStatute: 0,
-				deleteModal: false
+				deleteModal: false,
+				error: false,
+				loading: false,
+				success: false
 			});
 		}
 	};
@@ -325,12 +329,18 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				setState({
 					...state,
 					selectedStatute: index,
-					statute: null
+					statute: null,
+					error: false,
+					loading: false,
+					success: false
 				})
 			} else {
 				setState({
 					...state,
-					unsavedAlert: true
+					unsavedAlert: true,
+					error: false,
+					loading: false,
+					success: false
 				});
 			}
 		}
@@ -348,7 +358,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			...state,
 			statute: null,
 			unsavedChanges: false,
-			rollbackAlert: false
+			rollbackAlert: false,
+			unsavedAlert: false
 		});
 
 		store.dispatch(setUnsavedChanges(false));
@@ -513,6 +524,10 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				requestClose={() => setState({ ...state, deleteModal: false, deleteId: null })}
 			/>
 			<UnsavedChangesModal
+				cancelAction={() => {
+					restoreStatute();
+				}}
+				acceptAction={updateStatute}
 				requestClose={() => setState({ ...state, unsavedAlert: false })}
 				open={state.unsavedAlert}
 			/>
