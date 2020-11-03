@@ -1,4 +1,4 @@
-import { AGENDA_TYPES, MAJORITY_TYPES } from "../constants";
+import { AGENDA_TYPES, INPUT_REGEX, MAJORITY_TYPES } from "../constants";
 import { checkForUnclosedBraces } from './CBX';
 import React from 'react';
 import { LiveToast } from '../displayComponents';
@@ -126,7 +126,7 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 
 	let hasError = false;
 
-	var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+	var regex = INPUT_REGEX;
 
 	if (participant.name) {
 		if (!(regex.test(participant.name)) || !participant.name.trim()) {

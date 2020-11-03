@@ -18,6 +18,7 @@ import RepresentativeForm from "../../../../company/census/censusEditor/Represen
 import withSharedProps from "../../../../../HOCs/withSharedProps";
 import SelectRepresentative from "./SelectRepresentative";
 import { Card } from "material-ui";
+import { INPUT_REGEX } from "../../../../../constants";
 
 
 class AddCouncilParticipantButton extends React.Component {
@@ -105,8 +106,7 @@ class AddCouncilParticipantButton extends React.Component {
 		};
 
 		const emailsToCheck = [];
-
-		var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+		const regex = INPUT_REGEX;
 
 		if (participant.name) {
 			if (!(regex.test(participant.name)) || !participant.name.trim()) {
