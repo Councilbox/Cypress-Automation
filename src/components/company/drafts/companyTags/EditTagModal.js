@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertConfirm } from '../../../../displayComponents';
+import { AlertConfirm, UnsavedChangesModal } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import CompanyTagForm from './CompanyTagForm';
@@ -15,9 +15,11 @@ const mutation = gql`
 `;
 
 const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, client, requestClose, ...props }) => {
-    const [tag, setTag] = React.useState(initialValue? initialValue : { key: '', value: '', description: "" });
+    const [tag, setTag] = React.useState(initialValue ? initialValue : { key: '', value: '', description: "" });
     const [errors, setErrors] = React.useState({});
-
+    const [initInfo, setInitInfo] = React.useState(tag)
+    const [unsavedAlert, setUnsavedAlert] = React.useState(false)
+    
     const updateTagData = object => {
         setTag({
             ...tag,
@@ -26,7 +28,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
     }
 
     const updateTag = async () => {
-        if(!await checkRequiredFields()){
+        if (!await checkRequiredFields()) {
             const { __typename, ...data } = tag;
             await client.mutate({
                 mutation,
@@ -41,10 +43,10 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
 
     }
 
-    const checkRequiredFields = async() => {
+    const checkRequiredFields = async () => {
         let errors = {}
 
-        if(!tag.key){
+        if (!tag.key) {
             errors.key = translate.required_field;
         } else {
             const response = await client.query({
@@ -55,12 +57,12 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
                 }
             });
 
-            if(response.data.companyTagKeyUsed && tag.key !== initialValue.key){
+            if (response.data.companyTagKeyUsed && tag.key !== initialValue.key) {
                 errors.key = translate.key_already_used;
             }
         }
 
-        if(!tag.value){
+        if (!tag.value) {
             errors.value = translate.required_field;
         }
 
@@ -80,16 +82,35 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
         )
     }
 
+    const comprobateChanges = () => {
+        let unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(tag)
+        setUnsavedAlert(unsavedAlert)
+        return unsavedAlert
+    };
+
+    const closeModal = () => {
+        let equals = comprobateChanges();
+        if (!equals) {
+            requestClose()
+        }
+    }
+
     return (
-        <AlertConfirm
-            title={translate.edit_tag}
-            buttonAccept={translate.save}
-            open={open}
-            bodyText={renderBody()}
-            acceptAction={updateTag}
-            requestClose={requestClose}
-            buttonCancel={translate.cancel}
-        />
+        <div>
+            <AlertConfirm
+                title={translate.edit_tag}
+                buttonAccept={translate.save}
+                open={open}
+                bodyText={renderBody()}
+                acceptAction={updateTag}
+                requestClose={closeModal}
+                buttonCancel={translate.cancel}
+            />
+            <UnsavedChangesModal
+                requestClose={() => setUnsavedAlert(false) }
+                open={unsavedAlert}
+            />
+        </div>
     )
 }
 
