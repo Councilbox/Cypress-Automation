@@ -6,13 +6,14 @@ import { Paper, Tooltip } from 'material-ui';
 import logo from "../../../assets/img/logo.png";
 import icon from "../../../assets/img/logo-icono.png";
 import withWindowSize from '../../../HOCs/withWindowSize';
-import { getCustomLogo, getCustomIcon } from "../../../utils/subdomain";
+import { getCustomLogo, getCustomIcon, useSubdomain } from "../../../utils/subdomain";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import CouncilStateButton from "./menus/CouncilStateButton";
 import CouncilMenu from "./councilMenu/CouncilMenu";
 
 const LiveHeader = ({ councilName, translate, windowSize, participants, user, toggleScreens, council, recount, refetch, ...props }) => {
 	const [showConfirm, setShowConfirm] = React.useState(false);
+	const subdomain = useSubdomain();
 	const primary = getPrimary();
 	const customLogo = getCustomLogo();
 	const customIcon = getCustomIcon();
@@ -39,7 +40,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, to
 					justifyContent: "space-between"
 				}}
 			>
-				<div style={{ display: "flex" }}>
+				<div style={{ display: "flex", height: '30px' }}>
 					{!user.accessLimitedTo ?
 						<div
 							style={{
@@ -111,8 +112,10 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, to
 							style={{
 								height: "1.5em",
 								marginLeft: "1em",
-								// marginLeft: "2em",
-								userSelect: 'none'
+								userSelect: 'none',
+								...(subdomain ? {
+									...subdomain.styles.liveLogo
+								} : {})
 							}}
 							alt="logo"
 						/>

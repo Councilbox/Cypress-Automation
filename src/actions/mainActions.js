@@ -30,6 +30,7 @@ export const loadSubdomainConfig = () => {
 					subdomainConfig(subdomain: $subdomain){
 						title
 						primary
+						styles
 						secondary
 						logo
 						icon

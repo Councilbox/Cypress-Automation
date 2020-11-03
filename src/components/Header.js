@@ -13,24 +13,21 @@ import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION, variant } from "../config";
-import { getCustomLogo, getCustomIcon } from "../utils/subdomain";
+import { getCustomLogo, getCustomIcon, useSubdomain } from "../utils/subdomain";
 import { MenuItem } from "material-ui";
 import ContactModal from "./participant/login/ContactModal";
 
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props }) => {
-	const goBack = () => {
-		bHistory.goBack();
-	};
+	const [modal, setModal] = React.useState(false);
+	const language = translate && translate.selectedLanguage;
+	const customIcon = getCustomIcon();
+	const customLogo = getCustomLogo();
+	const subdomain = useSubdomain();
 
 	const showVerticalLayout = () => {
 		return windowSize === 'xs' && !isLandscape();
 	}
-	const [modal, setModal] = React.useState(false);
-	const secondary = getSecondary();
-	const language = translate && translate.selectedLanguage;
-	const customIcon = getCustomIcon();
-	const customLogo = getCustomLogo();
 
 	return (
 		<Paper
@@ -55,32 +52,6 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					alignItems: "center"
 				}}
 			>
-				{/* {backButton && (
-					<Tooltip
-						title={translate.back}
-						placement="bottom"
-					>
-						<div
-							style={{
-								cursor: "pointer",
-								width: "2em",
-								height: "60%",
-								borderRight: "1px solid darkgrey",
-								display: "flex",
-								alignItems: "center"
-							}}
-							id="back-button"
-							onClick={goBack}
-						>
-							<Icon
-								className="material-icons"
-								style={{ color: secondary }}
-							>
-								keyboard_arrow_left
-							</Icon>
-						</div>
-					</Tooltip>
-				)} */}
 				<Link to="/">
 					<div style={{ position: "relative" }}>
 						<img
@@ -90,7 +61,10 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 								height: "1.5em",
 								marginLeft: "1em",
 								// marginLeft: "2em",
-								userSelect: 'none'
+								userSelect: 'none',
+								...(subdomain ? {
+									...subdomain.styles.logo
+								} : {})
 							}}
 							alt="logo"
 						/>

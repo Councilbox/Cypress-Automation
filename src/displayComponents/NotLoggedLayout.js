@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
-import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
+import { getCustomBackground, getCustomRoomBackground, useSubdomain } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
 
 
@@ -9,7 +9,6 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     const [loadingImg, setLoadingImg] = React.useState(true);
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
-
     const imgUrl = window.location.pathname.includes('participant') ?
         customRoomBackground ? customRoomBackground : customBackground ? customBackground : bg
         :
@@ -41,7 +40,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 }),
                 padding: 0,
                 margin: 0,
-                width: '100%'
+                width: '100%',
             }}
         >
             <Header
