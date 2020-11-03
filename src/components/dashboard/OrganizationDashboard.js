@@ -945,7 +945,6 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 	}
 
 	if (isMobile) {
-
 		return (
 			<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
 				<div style={{ display: "flex", justifyContent: "space-between" }}>
