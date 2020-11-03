@@ -107,6 +107,8 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
                 buttonCancel={translate.cancel}
             />
             <UnsavedChangesModal
+                acceptAction={updateTag}
+                cancelAction={requestClose}
                 requestClose={() => setUnsavedAlert(false) }
                 open={unsavedAlert}
             />
