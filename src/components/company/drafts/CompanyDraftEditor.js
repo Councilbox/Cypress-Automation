@@ -194,6 +194,8 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				</div>
 			)}
 			<UnsavedChangesModal
+				acceptAction={updateCompanyDraft}
+				cancelAction={() => bHistory.goBack()}
 				requestClose={() => setUnsavedAlert(false)}
 				open={unsavedAlert}
 			/>
