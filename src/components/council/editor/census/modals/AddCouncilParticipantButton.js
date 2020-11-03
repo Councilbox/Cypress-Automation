@@ -149,16 +149,10 @@ class AddCouncilParticipantButton extends React.Component {
 				translate
 			);
 
-			if (!representative.id) {
+			if (!representative.id && representative.email) {
 				emailsToCheck.push(representative.email);
 			}
 		}
-		if (!participant.email) {
-			console.log("paso")
-			errorsParticipant.hasError = true;
-			// errors.email = 'Este campo es obligatorio.			'
-			errorsParticipant.email = translate.field_required;
-		} 
 
 		if (emailsToCheck.length > 0) {
 			const response = await this.props.client.query({
@@ -172,27 +166,33 @@ class AddCouncilParticipantButton extends React.Component {
 			if (!response.data.checkUniqueCouncilEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if (participant.email === email) {
+					if (participant.email && participant.email === email) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if (representative.email === email) {
+					if (representative.email && representative.email === email) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				})
 			}
 
-			if (participant.email === representative.email) {
+			if (representative.hasRepresentative && participant.email === representative.email) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
 			}
+
+			if (!participant.email) {
+				errorsParticipant.hasError = true;
+				errorsParticipant.errors.email = translate.field_required;
+			} 
+
+			if (representative.hasRepresentative && !representative.email) {
+				errorsRepresentative.errors.email = translate.field_required;
+				errorsParticipant.hasError = true;
+			}
 		}
-		if (!participant.email) {
-			errorsParticipant.hasError = true;
-			errorsParticipant.errors.email = translate.field_required;
-		} 
 
 		this.setState({
 			...this.state,
