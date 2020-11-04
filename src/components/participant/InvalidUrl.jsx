@@ -5,6 +5,7 @@ import { darkGrey, secondary, lightGrey } from "../../styles/colors";
 import Header from "./Header";
 import { printSessionExpiredError } from "../../utils/CBX";
 import { PARTICIPANT_ERRORS } from "../../constants";
+import { HEADER_HEIGHT } from "../../styles/constants";
 
 const InvalidUrl = ({ error, test, translate }) => {
 
@@ -28,7 +29,7 @@ const InvalidUrl = ({ error, test, translate }) => {
 				style={{
 					display: "flex",
 					backgroundColor: lightGrey,
-					height: "calc(100% - 48px)",
+					height: `calc(100% - ${HEADER_HEIGHT})`,
 					width: "100%",
 					alignItems: "center",
 					justifyContent: "center"

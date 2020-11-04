@@ -20,6 +20,7 @@ import CouncilDetails from './councils/council/CouncilDetails';
 import RootUserSettings from './users/RootUserSettings';
 import FinishedPage from './finished/FinishedPage';
 import KPI from './KPI';
+import { HEADER_HEIGHT } from '../../styles/constants';
 let image;
 import("../../assets/img/sidebar-2.jpg").then(data => image = data);
 
@@ -44,7 +45,7 @@ const Router = ({ user, translate, location, data, classes }) => {
                     translate={translate}
                     backButton={location.pathname !== `/`}
                 />
-                <div style={{width: '100%', height: 'calc(100% - 3em)'}}>
+                <div style={{width: '100%', height: `calc(100% - ${HEADER_HEIGHT})`}}>
                     <Switch>
                         <Route exact path="/" component={() => <Redirect to="/councils" />} />
                         <Route path="/councils" component={() => <CouncilsDashboard corporation={data.corporation} />} />

@@ -10,6 +10,7 @@ import { getCustomLogo, getCustomIcon, useSubdomain } from "../../../utils/subdo
 import withSharedProps from "../../../HOCs/withSharedProps";
 import CouncilStateButton from "./menus/CouncilStateButton";
 import CouncilMenu from "./councilMenu/CouncilMenu";
+import { HEADER_HEIGHT } from "../../../styles/constants";
 
 const LiveHeader = ({ councilName, translate, windowSize, participants, user, toggleScreens, council, recount, refetch, ...props }) => {
 	const [showConfirm, setShowConfirm] = React.useState(false);
@@ -33,8 +34,8 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, to
 					width: "100%",
 					userSelect: "none",
 					position: "absolute",
-					zIndex: 1000,
-					height: "3em",
+					zIndex: 1000, 
+					height: HEADER_HEIGHT,
 					alignItems: "center",
 					justifyContent: "space-between"
 				}}

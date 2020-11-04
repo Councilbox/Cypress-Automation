@@ -17,6 +17,7 @@ import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
 import { withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { isMobile } from "../../utils/screen";
+import { HEADER_HEIGHT } from "../../styles/constants";
 
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props }) => {
@@ -143,7 +144,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		<header
 			className="App-header"
 			style={{
-				height: "3em",
+				height: HEADER_HEIGHT,
 				display: "flex",
 				flexDirection: "row",
 				width: "100%",

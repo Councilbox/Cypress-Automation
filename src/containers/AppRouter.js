@@ -10,6 +10,7 @@ import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
 import GicarLoginContainer from "./GicarLoginContainer";
 import RoomAdminContainer from "./RoomAdminContainer";
+import { HEADER_HEIGHT } from "../styles/constants";
 
 
 
@@ -235,7 +236,7 @@ class AppRouter extends React.Component {
 						<div
 							style={{
 								// height: '100%',
-								height: `calc(100% - ${isMobile ? isLandscape() ? "3.5em" : '6.5rem' : '3rem'})`,
+								height: `calc(100% - ${isMobile ? isLandscape() ? "3.5em" : '6.5rem' : HEADER_HEIGHT})`,
 								display: "flex",
 								width: "100%",
 								overflow: 'hidden',

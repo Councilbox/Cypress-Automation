@@ -16,6 +16,7 @@ import { CLIENT_VERSION, variant } from "../config";
 import { getCustomLogo, getCustomIcon, useSubdomain } from "../utils/subdomain";
 import { MenuItem } from "material-ui";
 import ContactModal from "./participant/login/ContactModal";
+import { HEADER_HEIGHT } from "../styles/constants";
 
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props }) => {
@@ -33,7 +34,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 		<Paper
 			elevation={0}
 			style={{
-				height: "3em",
+				height: HEADER_HEIGHT,
 				zIndex: 1000,
 				display: "flex",
 				flexDirection: "row",

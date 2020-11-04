@@ -6,6 +6,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import UserSettingsPage from '../userSettings/UserSettingsPage';
 import NewCompanyPage from '../company/new/NewCompanyPage';
 import LinkCompanyPage from '../company/link/LinkCompanyPage';
+import { HEADER_HEIGHT } from '../../styles/constants';
 
 
 class NoCompanyRouter extends React.Component {
@@ -26,7 +27,7 @@ class NoCompanyRouter extends React.Component {
                 />
                 <div
                     style={{
-                        height: 'calc(100vh - 3em)',
+                        height: `calc(100vh - ${HEADER_HEIGHT})`,
                         width: '100%',
                         backgroundColor: lightGrey,
                         overflow: 'hidden',
