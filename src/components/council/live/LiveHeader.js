@@ -22,7 +22,6 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, to
 		bHistory.push("/");
 	}
 
-
 	return (
 		<React.Fragment>
 			<Paper
@@ -113,7 +112,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, to
 								height: "1.5em",
 								marginLeft: "1em",
 								userSelect: 'none',
-								...(subdomain ? {
+								...(subdomain.styles ? {
 									...subdomain.styles.liveLogo
 								} : {})
 							}}

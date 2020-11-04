@@ -62,7 +62,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 								marginLeft: "1em",
 								// marginLeft: "2em",
 								userSelect: 'none',
-								...(subdomain ? {
+								...(subdomain.styles ? {
 									...subdomain.styles.logo
 								} : {})
 							}}

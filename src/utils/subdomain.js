@@ -39,7 +39,6 @@ export const getCustomRoomBackground = () => {
 
 export const useSubdomain = () => {
     const state = store.getState();
-
     return state.subdomain;
 }
 
