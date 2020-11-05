@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Tooltip } from 'material-ui';
 import { BasicButton, TextInput, NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
-import { getPrimary } from '../../../styles/colors';
+import { getPrimary, getSecondary } from '../../../styles/colors';
 
 const styles = {
     loginContainerMax: {
@@ -90,13 +90,19 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
                                     paddingLeft: "4px",
                                 }}>
                                     <div style={{ textAlign: "center", padding: "1em", paddingTop: "2em", }} >
-                                        <h3 style={{ color: 'black', fontSize: '1.9em', }}>Bienvenido, para acceder introduzca el código que se ha enviado a su teléfono</h3>
+                                        <h3 style={{ color: 'black', fontSize: '1.7em', }}>
+                                            Bienvenido, para acceder introduzca el código que se ha enviado a su teléfono {error.originalError.data ?
+                                                `(terminado en ${error.originalError.data.phone})`
+                                            :
+                                                ''
+                                            }
+                                        </h3>
                                     </div>
                                     <div style={{ display: "flex", justifyContent: "center", }}>
                                         <div style={{ width: '280px', }}>
                                             <div style={{ textAlign: "center", padding: "1em", }}>
                                                 <TextInput
-                                                    styleFloatText={{ fontSize: "20px", color: '#154481' }}
+                                                    styleFloatText={{ fontSize: "20px", color: getSecondary() }}
                                                     floatingText={'Código recibido por SMS'}
                                                     type="email"
                                                     fullWidth
@@ -105,7 +111,7 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
                                                             send();
                                                         }
                                                     }}
-                                                    errorText={error === 'Invalid key' ? 'Clave no válida' : ''}
+                                                    errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
                                                     value={value}
                                                     onChange={event => updateValue(event.target.value)}
                                                 />
@@ -127,10 +133,10 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
                                             </div>
                                             <div style={{ textAlign: "center", padding: "1em", paddingBottom: "2em" }}>
                                                 <BasicButton
-                                                    text={' No he recbidio ningún SMS'}
+                                                    text={'No he recibido ningún SMS'}
                                                     color={'white'}
                                                     textStyle={{
-                                                        color: "#154481",
+                                                        color: getSecondary(),
                                                         boxShadow: "none"
                                                     }}
                                                     textPosition="before"

@@ -206,7 +206,7 @@ class ConvenedParticipantEditor extends React.Component {
 		const participant = this.state.data;
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
-		const { languages } = this.props.data;
+		const { languages = [] } = this.props.data;
 
 
 		return (

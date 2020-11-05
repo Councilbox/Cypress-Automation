@@ -43,7 +43,7 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 				throw response.errors[0];
 			}
 		} catch (error) {
-			setError(error.message);
+			setError(error);
 			setLoading(false);
 		}
 	}, [match.params.token, key]);
@@ -57,7 +57,7 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 	}
 
 	if (error) {
-		if(error === '2FA enabled' || error === 'Invalid key'){
+		if(error.message === '2FA enabled' || error.message === 'Invalid key'){
 			return (
 				<SMSAuthForm
 					value={key}
