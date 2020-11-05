@@ -518,7 +518,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                 </div>
                                 <div style={{ transition: "all .3s ease-in-out", width: '100%', height: state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: state.avisoVideo ? "55px" : "0px" }}>
                                     {renderAdminAnnouncement()}
-                                    <div style={{ height: `calc( 100% - ${config.participantsHeader ? '3em' : '0px'} - 5px )`, width: '100%', }}>
+                                    <div style={{ height: `calc( 100% - ${config.participantsHeader ? state.adminMessage ? '6.3em' : '3em' : '0px'} - 5px )`, width: '100%', }}>
                                         {renderVideoContainer()}
                                     </div>
                                 </div>
