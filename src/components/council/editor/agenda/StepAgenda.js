@@ -5,7 +5,8 @@ import {
 	Grid,
 	GridItem,
 	DropDownMenu,
-	LoadingSection
+	LoadingSection,
+	AlertConfirm
 } from "../../../../displayComponents/index";
 import { compose, graphql, withApollo } from "react-apollo";
 import { Typography } from "material-ui";
@@ -40,6 +41,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		success: false,
 		loading: false,
 		saveAsDraftId: null,
+		deleteModal: false,
+		agendaIdRemove: false,
 		errors: {
 			agendaSubject: "",
 			description: "",
@@ -104,13 +107,15 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	const removeAgenda = async agendaId => {
 		const response = await props.removeAgenda({
 			variables: {
-				agendaId: agendaId,
+				agendaId: state.agendaIdRemove,
+				// agendaId: agendaId,
 				councilId: props.councilID
 			}
 		});
 
 		if (response) {
 			getData();
+			setState({ ...state, deleteModal: false, agendaIdRemove: false })
 		}
 	};
 
@@ -231,7 +236,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														<div style={{ display: "flex" }}><ButtonIcon
 															type="cached"
 															color="white"
-															style={{marginTop: '3px'}}
+															style={{ marginTop: '3px' }}
 														/></div>
 													</div>
 												}
@@ -264,7 +269,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														).label : ''
 														]
 													}
-													removeAgenda={removeAgenda}
+													// removeAgenda={removeAgenda}
+													removeAgenda={() => setState({ ...state, deleteModal: true, agendaIdRemove: agenda.id })}
 													selectAgenda={selectAgenda}
 													saveAsDraft={saveAsAgendaDraft}
 												/>
@@ -444,6 +450,18 @@ const StepAgenda = ({ client, translate, ...props }) => {
 					</React.Fragment>
 				}
 			/>
+			<AlertConfirm
+				title={translate.attention}
+				bodyText={translate.question_delete}
+				open={state.deleteModal}
+				buttonAccept={translate.delete}
+				buttonCancel={translate.cancel}
+				modal={true}
+				acceptAction={removeAgenda}
+				requestClose={() =>
+					setState({ ...state, deleteModal: false })
+				}
+			/>
 		</React.Fragment>
 	);
 };
@@ -504,7 +522,7 @@ export const AddAgendaPoint = ({
 					text={
 						<div style={{ display: "flex", alignItems: "center" }}>
 							<div>{translate.add_agenda_point}</div>
-							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{marginTop: '3px'}} /></div>
+							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{ marginTop: '3px' }} /></div>
 						</div>
 					}
 					textStyle={buttonStyle}
