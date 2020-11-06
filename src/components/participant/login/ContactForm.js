@@ -7,6 +7,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Input, withStyles } from 'material-ui';
 import { checkValidEmail } from '../../../utils';
+import { withRouter } from 'react-router';
 
 
 
@@ -24,7 +25,7 @@ const styles = {
 };
 
 
-const ContactForm = ({ participant, translate, council, client, ...props }) => {
+const ContactForm = ({ participant = {}, translate, council = {}, client, match, ...props }) => {
     const [state, setState] = useOldState({
         replyTo: participant.email,
         subject: '',
@@ -39,12 +40,12 @@ const ContactForm = ({ participant, translate, council, client, ...props }) => {
             const response = await client.mutate({
                 mutation: gql`
                 mutation sendAdminEmail(
-                    $councilId: Int!,
                     $message: AdminMessageInput
+                    $token: String
                 ){
                     sendAdminEmail(
-                        councilId: $councilId
                         message: $message
+                        token: $token
                     ){
                         success
                         message
@@ -52,8 +53,8 @@ const ContactForm = ({ participant, translate, council, client, ...props }) => {
                 }
             `,
                 variables: {
-                    councilId: council.id,
-                    message: state
+                    message: state,
+                    token: match.params.token
                 }
             });
             if (response.data.sendAdminEmail) {
@@ -164,4 +165,4 @@ const ContactForm = ({ participant, translate, council, client, ...props }) => {
     }
 }
 
-export default withStyles(styles)(withApollo(ContactForm));
+export default withStyles(styles)(withApollo(withRouter(ContactForm)));
