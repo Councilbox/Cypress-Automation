@@ -181,6 +181,15 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 
 	let hasError = false;
 
+	var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+
+	if (agenda.agendaSubject) {
+		if (!(regex.test(agenda.agendaSubject)) || !agenda.agendaSubject.trim()) {
+			hasError = true;
+			errors.agendaSubject = translate.invalid_field;
+		}
+	}
+
 	if (!agenda.agendaSubject) {
 		hasError = true;
 		errors.agendaSubject = translate.field_required;
