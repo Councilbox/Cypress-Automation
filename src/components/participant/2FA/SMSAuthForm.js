@@ -3,6 +3,7 @@ import { Card, Tooltip } from 'material-ui';
 import { BasicButton, TextInput, NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import { getPrimary, getSecondary } from '../../../styles/colors';
+import Resend2FAModal from './Resend2FAModal';
 
 const styles = {
     loginContainerMax: {
@@ -60,6 +61,8 @@ const styles = {
 
 
 const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
+    const [resendModal, setResendModal] = React.useState(false);
+
     return (
         <NotLoggedLayout
             translate={translate}
@@ -132,6 +135,11 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
                                                 />
                                             </div>
                                             <div style={{ textAlign: "center", padding: "1em", paddingBottom: "2em" }}>
+                                                <Resend2FAModal
+                                                    translate={translate}
+                                                    open={resendModal}
+                                                    requestClose={() => setResendModal(false)}
+                                                />
                                                 <BasicButton
                                                     text={'No he recibido ningún SMS'}
                                                     color={'white'}
@@ -141,6 +149,7 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
                                                     }}
                                                     textPosition="before"
                                                     fullWidth={true}
+                                                    onClick={() => setResendModal(true)}
                                                 />
                                             </div>
                                         </div>

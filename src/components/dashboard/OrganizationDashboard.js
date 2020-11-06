@@ -995,7 +995,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					<b>{item.company ? item.company.businessName : ""}</b>
 				</GridItem>
 				<GridItem xs={4} md={4} lg={4}>
-					{item.name} - {moment(item.dateStart)}
+					{item.name} - {moment(item.dateStart).format('DD/MM/YYYY HH:mm')}
 				</GridItem>
 				<GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
 					{(item.state === 5 || item.state === 10) &&

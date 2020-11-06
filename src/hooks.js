@@ -322,7 +322,7 @@ export const useSendRoomKey = client => {
 }
 
 
-export const useCountdown = (time) => {
+export const useCountdown = time => {
 	const [secondsLeft, setCountdown] = React.useState(time ? time : 0);
 
 	React.useEffect(() => {
