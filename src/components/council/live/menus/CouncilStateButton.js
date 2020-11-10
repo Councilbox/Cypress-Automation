@@ -122,6 +122,7 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
             {council.state === 25 &&
                 <ResumeCouncilButton
                     translate={translate}
+                    refetch={refetch}
                     council={council}
                 />
             }

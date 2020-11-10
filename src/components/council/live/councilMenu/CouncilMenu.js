@@ -319,7 +319,7 @@ const PauseCouncilItem = withApollo(({ council, client, translate, refetch }) =>
 					color: secondary
 				}}
 			/>
-			{council.state === 25 ? 'Reanudar reunión' : 'Pausar reunión'}
+			{council.state === 25 ? translate.resume : translate.pause_council}
 		</MenuItem>
 	)
 });
