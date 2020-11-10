@@ -1,5 +1,5 @@
 import React from "react";
-import { DropDownMenu, Icon } from "../../../../displayComponents";
+import { AlertConfirm, DropDownMenu, Icon } from "../../../../displayComponents";
 import FontAwesome from "react-fontawesome";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { MenuItem, Paper } from "material-ui";
@@ -9,7 +9,7 @@ import AnnouncementModal from './AnnouncementModal';
 import NoCelebrateModal from "./NoCelebrateModal";
 import OriginalConveneModal from "./OriginalConveneModal";
 import CouncilInfoModal from "./CouncilInfoModal";
-import { councilHasVideo, councilIsLive, councilStarted } from '../../../../utils/CBX';
+import { councilHasVideo, councilIsLive,  } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from "./SMSManagerModal";
 import { isMobile } from "../../../../utils/screen";
@@ -17,15 +17,18 @@ import { withApollo } from "react-apollo";
 import { useDownloadCouncilAttendants } from "../../writing/actEditor/DownloadAttendantsPDF";
 import gql from "graphql-tag";
 
+
 class CouncilMenu extends React.Component {
 	state = {
 		sendCredentials: false,
 		sendCredentialsTest: false,
 		noCelebrate: false,
 		originalConvene: false,
+		pauseModal: false,
 		councilInfo: false,
 		SMSManager: false,
-		announcementModal: false
+		announcementModal: false,
+		pausingCouncil: false
 	};
 
 	showAnnouncementModal = () => {
@@ -38,6 +41,33 @@ class CouncilMenu extends React.Component {
 		this.setState({
 			announcementModal: false
 		})
+	}
+
+	initPauseCouncil = async () => {
+		this.setState({
+			pausingCouncil: true,
+			pauseModal: true
+		});
+
+		await this.props.client.mutate({
+			mutation: gql`
+				mutation pauseCouncil($councilId: Int!){
+					pauseCouncil(councilId: $councilId){
+						success
+						message
+					}
+				}
+			`,
+			variables: {
+				councilId: this.props.council.id
+			}
+		});
+
+		this.setState({
+			pausingCouncil: false
+		});
+
+		this.props.refetch();
 	}
 
 	render() {
@@ -189,11 +219,18 @@ class CouncilMenu extends React.Component {
 												translate={translate}
 												council={council}
 											/>
-											<PauseCouncilItem
-												translate={translate}
-												council={council}
-												refetch={this.props.refetch}
-											/>
+											<MenuItem
+												onClick={this.initPauseCouncil}
+											>
+												<FontAwesome
+													name={council.state === 25 ? 'play' : 'pause-circle-o'}
+													style={{
+														marginRight: "0.8em",
+														color: secondary
+													}}
+												/>
+												{council.state === 25 ? translate.resume : translate.pause_council}
+											</MenuItem>
 										</>
 									}
 
@@ -231,6 +268,19 @@ class CouncilMenu extends React.Component {
 					requestClose={() => {
 						this.setState({ SMSManager: false })
 					}}
+				/>
+				<AlertConfirm
+					open={this.state.pauseModal}
+					requestClose={() => this.setState({ pauseModal: false })}
+					bodyText={
+						<>
+							{this.state.pausingCouncil ?
+								'Esta parando la reunión'
+							:
+								'Listo'
+							}
+						</>
+					}
 				/>
 				<AnnouncementModal
 					show={this.state.announcementModal}
@@ -287,41 +337,4 @@ const DownloadAttendantsButton = withApollo(({ council, client, translate }) => 
 	)
 });
 
-const PauseCouncilItem = withApollo(({ council, client, translate, refetch }) => {
-	const secondary = getSecondary();
-
-	const pauseCouncil = async () => {
-		await client.mutate({
-			mutation: gql`
-				mutation pauseCouncil($councilId: Int!){
-					pauseCouncil(councilId: $councilId){
-						success
-						message
-					}
-				}
-			`,
-			variables: {
-				councilId: council.id
-			}
-		});
-
-		refetch();
-	}
-
-	return (
-		<MenuItem
-			onClick={pauseCouncil}
-		>
-			<FontAwesome
-				name={council.state === 25 ? 'play' : 'pause-circle-o'}
-				style={{
-					marginRight: "0.8em",
-					color: secondary
-				}}
-			/>
-			{council.state === 25 ? translate.resume : translate.pause_council}
-		</MenuItem>
-	)
-});
-
-export default CouncilMenu;
+export default withApollo(CouncilMenu);
