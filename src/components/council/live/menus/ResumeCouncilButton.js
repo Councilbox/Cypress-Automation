@@ -130,9 +130,10 @@ const ResumeCouncilButton = ({ council, translate, ...props }) => {
 	return (
 		<>
             <BasicButton
-                text={'Reanudar reunión'}
+                text={'Reanudar'}
                 color={primary}
                 loading={loading}
+                fullWidth={true}
                 id={'abrirSalaEnReunion'}
                 onClick={() => setState({ confirmModal: true })}
                 textPosition="before"

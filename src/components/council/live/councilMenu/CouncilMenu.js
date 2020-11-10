@@ -313,7 +313,7 @@ const PauseCouncilItem = withApollo(({ council, client, translate, refetch }) =>
 			onClick={pauseCouncil}
 		>
 			<FontAwesome
-				name="users"
+				name={council.state === 25 ? 'play' : 'pause-circle-o'}
 				style={{
 					marginRight: "0.8em",
 					color: secondary
