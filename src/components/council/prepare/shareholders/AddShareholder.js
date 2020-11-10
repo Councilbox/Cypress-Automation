@@ -8,7 +8,7 @@ import { getSecondary } from '../../../../styles/colors';
 
 const ApproveRequestButton = ({ request, client, refetch, translate, council }) => {
     const [modal, setModal] = React.useState(null);
-    let { requestType, attachments, earlyVotes, representative, ...cleanData } = request.data;
+    let { requestType, legalTermsAccepted, attachments, earlyVotes, representative, ...cleanData } = request.data;
     cleanData.numParticipations = +cleanData.numParticipations || 1;
     cleanData.socialCapital = cleanData.numParticipations || 1;
     cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;
