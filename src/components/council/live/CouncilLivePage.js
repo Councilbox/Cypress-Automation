@@ -162,7 +162,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 	const { council } = data;
 
 	const councilStartedState = () => {
-		return council.state === 20 || council.state === 30;
+		return council.state >= 20 && council.state <= 30;
 	}
 
 

@@ -1853,7 +1853,7 @@ export const printTrialEnded = () => {
 };
 
 export const showVideo = council => {
-	return (council.state === 20 || council.state === 30) && councilHasVideo(council);
+	return (council.state >= 20 && council.state <= 30) && councilHasVideo(council);
 };
 
 export const getMainRepresentative = participant => {

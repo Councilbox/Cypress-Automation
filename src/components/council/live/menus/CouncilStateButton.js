@@ -7,6 +7,7 @@ import { moment } from '../../../../containers/App';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { LoadingSection } from '../../../../displayComponents';
+import ResumeCouncilButton from './ResumeCouncilButton';
 
 const CouncilStateButton = ({ translate, data, council, participants, refetch, recount, ...props }) => {
     const [unclosedAgendas, setUnclosedAgendas] = React.useState([]);
@@ -118,6 +119,12 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
                     </div>
                 )
             )}
+            {council.state === 25 &&
+                <ResumeCouncilButton
+                    translate={translate}
+                    council={council}
+                />
+            }
         </React.Fragment>
 
     )

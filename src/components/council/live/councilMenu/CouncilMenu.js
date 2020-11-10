@@ -15,6 +15,7 @@ import SMSManagerModal from "./SMSManagerModal";
 import { isMobile } from "../../../../utils/screen";
 import { withApollo } from "react-apollo";
 import { useDownloadCouncilAttendants } from "../../writing/actEditor/DownloadAttendantsPDF";
+import gql from "graphql-tag";
 
 class CouncilMenu extends React.Component {
 	state = {
@@ -188,6 +189,11 @@ class CouncilMenu extends React.Component {
 												translate={translate}
 												council={council}
 											/>
+											<PauseCouncilItem
+												translate={translate}
+												council={council}
+												refetch={this.props.refetch}
+											/>
 										</>
 									}
 
@@ -279,6 +285,43 @@ const DownloadAttendantsButton = withApollo(({ council, client, translate }) => 
 			{translate.export_participants}
 		</MenuItem>
 	)
-})
+});
+
+const PauseCouncilItem = withApollo(({ council, client, translate, refetch }) => {
+	const secondary = getSecondary();
+
+	const pauseCouncil = async () => {
+		await client.mutate({
+			mutation: gql`
+				mutation pauseCouncil($councilId: Int!){
+					pauseCouncil(councilId: $councilId){
+						success
+						message
+					}
+				}
+			`,
+			variables: {
+				councilId: council.id
+			}
+		});
+
+		refetch();
+	}
+
+	return (
+		<MenuItem
+			onClick={pauseCouncil}
+		>
+			<FontAwesome
+				name="users"
+				style={{
+					marginRight: "0.8em",
+					color: secondary
+				}}
+			/>
+			{council.state === 25 ? 'Reanudar reunión' : 'Pausar reunión'}
+		</MenuItem>
+	)
+});
 
 export default CouncilMenu;
