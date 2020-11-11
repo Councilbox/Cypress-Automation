@@ -6,32 +6,11 @@ import { useQueryReducer } from '../../../../hooks';
 import AttachmentDownload from '../../../attachments/AttachmentDownload';
 
 const OneOnOneAttachmentsList = ({ council, translate, client }) => {
-    const { data, loading, errors } = useQueryReducer({
-        client,
-        query: gql`
-            query council($id: Int!){
-                council(id: $id){
-                    id
-                    name
-                    attachments {
-                        filename
-                        filesize
-                        id
-                        participantId
-                    }
-                }
-            }
-        `,
-        variables: {
-            id: council.id
-        }
-    });
-
     return (
         <div style={{ padding: '1em' }}>
             <h4>{translate.dasboard_documentation}</h4>
-            {data ?
-                data.council.attachments.length > 0 ? data.council.attachments.map(attachment => (
+            {(council && council.attachments.length > 0) ?
+                council.attachments.length > 0 ? council.attachments.map(attachment => (
                     <AttachmentDownload
                         attachment={attachment}
                         //loading={this.state.downloading}
