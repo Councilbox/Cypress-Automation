@@ -219,19 +219,21 @@ class CouncilMenu extends React.Component {
 												translate={translate}
 												council={council}
 											/>
-											<MenuItem
-												onClick={this.initPauseCouncil}
-											>
-												<FontAwesome
-													name={council.state === 25 ? 'play' : 'pause-circle-o'}
-													style={{
-														marginRight: "0.8em",
-														color: secondary
-													}}
-												/>
-												{council.state === 25 ? translate.resume : translate.pause_council}
-											</MenuItem>
 										</>
+									}
+									{(councilHasVideo(council) && councilIsLive(council)) &&
+										<MenuItem
+											onClick={this.initPauseCouncil}
+										>
+											<FontAwesome
+												name={council.state === 25 ? 'play' : 'pause-circle-o'}
+												style={{
+													marginRight: "0.8em",
+													color: secondary
+												}}
+											/>
+											{council.state === 25 ? translate.resume : translate.pause_council}
+										</MenuItem>
 									}
 
 									{councilHasVideo(council) && config.roomAnnouncement &&
