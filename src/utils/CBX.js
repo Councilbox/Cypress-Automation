@@ -1636,6 +1636,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 			}
 			break;
 		case COUNCIL_STATES.ROOM_OPENED:
+		case COUNCIL_STATES.PAUSED:
 		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
 			if (expected !== "live") {
 				bHistory.replace(
