@@ -324,7 +324,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             </React.Fragment>
                                         ) : (
                                             <React.Fragment>
-                                                <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
+                                                <Typography variant="title" style={{ fontWeight: '700' }}>{council.councilType === 5 ? translate.council : translate.agenda}</Typography>
                                             </React.Fragment>
                                         )
                                     }
@@ -435,7 +435,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 {!props.sinCabecera &&
                     <React.Fragment>
                         <div style={styles.agendasHeader}>
-                            <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
+                            <Typography variant="title" style={{ fontWeight: '700' }}>{council.councilType === 5 ? translate.council : translate.agenda}</Typography>
                             <div style={{ width: '3em' }}>
                                 <CouncilInfoMenu
                                     {...props}

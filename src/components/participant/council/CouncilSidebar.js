@@ -197,7 +197,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                         fontSize: '0.55rem',
                         textTransform: "none"
                     }}>
-                        {translate.agenda}
+                        {council.councilType === 5? translate.council : translate.agenda}
                     </div>
                 </div>
             </Button>
