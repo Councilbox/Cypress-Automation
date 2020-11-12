@@ -128,7 +128,7 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 
 	let hasError = false;
 
-	var regex = INPUT_REGEX;
+	const regex = INPUT_REGEX;
 
 	if (participant.name) {
 		if (!(regex.test(participant.name)) || !participant.name.trim()) {
@@ -205,7 +205,7 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 
 	let hasError = false;
 
-	var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+	const regex = INPUT_REGEX;
 
 	if (agenda.agendaSubject) {
 		if (!(regex.test(agenda.agendaSubject)) || !agenda.agendaSubject.trim()) {
