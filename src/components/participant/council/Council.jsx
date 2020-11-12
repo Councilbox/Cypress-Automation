@@ -287,6 +287,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
         return (
             <VideoContainer
                 council={council}
+                translate={translate}
                 participant={participant}
                 videoURL={state.videoURL}
                 setVideoURL={url => setState({ ...state, videoURL: url })}

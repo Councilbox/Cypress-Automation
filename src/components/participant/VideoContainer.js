@@ -3,6 +3,8 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { roomUpdateSubscription } from '../council/live/video/CMPVideoIFrame';
 import { useRoomUpdated } from '../../hooks';
+import { COUNCIL_STATES } from '../../constants';
+import PausedCouncilPage from '../council/live/video/PausedCouncilPage';
 
 const rand = Math.random();
 
@@ -46,6 +48,17 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
     React.useEffect(() => {
         updateUrl();
     }, [requestWord]);
+
+    console.log(props.council);
+
+    if(props.council.state === COUNCIL_STATES.PAUSED){
+        return (
+            <PausedCouncilPage
+                council={props.council}
+                translate={props.translate}
+            />
+        )
+    }
 
 
     if(!loading){
