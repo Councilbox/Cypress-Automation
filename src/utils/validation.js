@@ -218,10 +218,15 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 		hasError = true;
 		errors.agendaSubject = translate.field_required;
 	}
-
+	
 	if (!agenda.subjectType && agenda.subjectType !== 0) {
 		hasError = true;
 		errors.subjectType = translate.field_required;
+	}
+	
+	if (!agenda.majority && agenda.majority !== 0) {
+		hasError = true;
+		errors.majority = translate.field_required;
 	}
 
 	if (agenda.description) {

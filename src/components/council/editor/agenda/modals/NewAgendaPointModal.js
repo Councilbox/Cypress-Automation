@@ -288,7 +288,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 										<MajorityInput
 											type={agenda.majorityType}
 											value={agenda.majority}
-											majorityError={!!state.majorityError}
+											majorityError={!!state.majorityError || errors.majority}
 											dividerError={!!state.majorityError}
 											divider={agenda.majorityDivider}
 											onChange={value =>
