@@ -16,6 +16,7 @@ import { isMobile } from "../../../../utils/screen";
 import { withApollo } from "react-apollo";
 import { useDownloadCouncilAttendants } from "../../writing/actEditor/DownloadAttendantsPDF";
 import gql from "graphql-tag";
+import PauseCouncilModal from "./PauseCouncilModal";
 
 
 class CouncilMenu extends React.Component {
@@ -41,33 +42,6 @@ class CouncilMenu extends React.Component {
 		this.setState({
 			announcementModal: false
 		})
-	}
-
-	initPauseCouncil = async () => {
-		this.setState({
-			pausingCouncil: true,
-			pauseModal: true
-		});
-
-		await this.props.client.mutate({
-			mutation: gql`
-				mutation pauseCouncil($councilId: Int!){
-					pauseCouncil(councilId: $councilId){
-						success
-						message
-					}
-				}
-			`,
-			variables: {
-				councilId: this.props.council.id
-			}
-		});
-
-		this.setState({
-			pausingCouncil: false
-		});
-
-		this.props.refetch();
 	}
 
 	render() {
@@ -223,7 +197,7 @@ class CouncilMenu extends React.Component {
 									}
 									{(councilHasVideo(council) && councilIsLive(council)) &&
 										<MenuItem
-											onClick={this.initPauseCouncil}
+											onClick={() => this.setState({ pauseModal: true })}
 										>
 											<FontAwesome
 												name={council.state === 25 ? 'play' : 'pause-circle-o'}
@@ -271,18 +245,12 @@ class CouncilMenu extends React.Component {
 						this.setState({ SMSManager: false })
 					}}
 				/>
-				<AlertConfirm
+				<PauseCouncilModal
+					council={council}
+					refetch={this.props.refetch}
+					translate={translate}
 					open={this.state.pauseModal}
 					requestClose={() => this.setState({ pauseModal: false })}
-					bodyText={
-						<>
-							{this.state.pausingCouncil ?
-								'Esta parando la reunión'
-							:
-								'Listo'
-							}
-						</>
-					}
 				/>
 				<AnnouncementModal
 					show={this.state.announcementModal}
