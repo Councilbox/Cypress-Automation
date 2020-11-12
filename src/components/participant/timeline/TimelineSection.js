@@ -177,6 +177,8 @@ export const getTimelineTranslationReverse = (type, content, translate) => {
     const types = {
         'START_COUNCIL': () => <b>{translate.council_started}</b>,
         'START_AUTO_COUNCIL': () => translate.council_started,
+        'COUNCIL_PAUSED': () => <b>Reunión pausada</b>,
+        'COUNCIL_RESUMED': () => <b>Reunión reanudada</b>,
         'OPEN_VOTING': () => <span><span style={{color:getPrimary()}}>{translate.voting_open}</span> - <b>{content.data.agendaPoint.name}</b></span>,
         'END_COUNCIL': () =>  <b>{translate.end_council}</b>,
         'CLOSE_REMOTE_VOTINGS': () => 'Cierre votaciones remotas',//TRADUCCION
