@@ -110,7 +110,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
                                 goToPadre={goToPadre}
                             />
                         </div>
-                        {isMobile && selecteDraftPadre !== '<Tags>' &&
+                        {isMobile && selecteDraftPadre !== '<Tags>' && selecteDraftPadre !== translate.dasboard_documentation &&
                             <div style={{ marginRight: '0.8em', display: "flex", justifyContent: isMobile ? "space-between" : 'flex-end', alignItems: "center" }}>
                                 <div style={{ marginRight: isMobile ? "0.5em" : "3em" }}>
                                     <DropdownEtiquetas
