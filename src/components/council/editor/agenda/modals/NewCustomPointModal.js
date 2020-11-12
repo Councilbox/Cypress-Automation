@@ -24,12 +24,20 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
     let newErrors = {
         items: items.map(item => ({ error: '' }))
     }
+    var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
 
     if(items.length === 0){
         newErrors.itemsLength = translate.necessary_add_least_one_option ;
         hasError = true;
     }
 
+	if (agenda.agendaSubject) {
+		if (!(regex.test(agenda.agendaSubject)) || !agenda.agendaSubject.trim()) {
+			hasError = true;
+			newErrors.agendaSubject = translate.invalid_field;
+		}
+    }
+    
     if (!agenda.agendaSubject) {
         newErrors.agendaSubject = translate.required_field;
         hasError = true;
