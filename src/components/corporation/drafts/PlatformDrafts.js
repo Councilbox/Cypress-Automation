@@ -208,6 +208,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 					selectedValues: []
 				});
 				getData();
+				bHistory.goBack();
 			}
 		}
 	}
