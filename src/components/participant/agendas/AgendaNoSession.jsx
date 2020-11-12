@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button } from "material-ui";
-import { LoadingSection, Scrollbar, AlertConfirm } from '../../../displayComponents';
+import { LoadingSection, Scrollbar, AlertConfirm, DisabledSection } from '../../../displayComponents';
 import { getPrimary } from "../../../styles/colors";
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
@@ -22,6 +22,7 @@ import { agendaVotings } from "../../../queries/agenda";
 import { usePolling } from "../../../hooks";
 import { getSubjectAbrv } from "../../../displayComponents/AgendaNumber";
 import CouncilAttachmentsModal from "./CouncilAttachmentsModal";
+import { COUNCIL_STATES } from "../../../constants";
 
 
 export const VotingContext = React.createContext({});
@@ -30,12 +31,14 @@ const styles = {
     container: {
         width: "100%",
         height: "calc( 100% - 2em )",
-        overflow: 'hidden'
+        overflow: 'hidden',
+        position: 'relative'
     },
     container100: {
         width: "100%",
         height: "100%",
-        overflow: 'hidden'
+        overflow: 'hidden',
+        position: 'relative'
     },
     agendasHeader: {
         display: 'flex',
@@ -302,6 +305,12 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             }}>
                 {renderFinishModal()}
                 <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
+                    {(council.state === COUNCIL_STATES.PAUSED && !props.timeline) &&
+                        <DisabledSection>
+                            Reunión pausada
+                        </DisabledSection>
+                    }
+
                     <div style={{ height: "calc(100% - 2.5em)" }}>
                         {!props.sinCabecera &&
                             <React.Fragment>
@@ -432,6 +441,11 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         }}>
             {renderFinishModal()}
             <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
+                {(council.state === COUNCIL_STATES.PAUSED && !props.timeline) &&
+                    <DisabledSection>
+                        Reunión pausada
+                    </DisabledSection>
+                }
                 {!props.sinCabecera &&
                     <React.Fragment>
                         <div style={styles.agendasHeader}>
