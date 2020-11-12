@@ -29,7 +29,7 @@ const PausedCouncilPage = ({ council, client, translate }) => {
         getData();
     }, [getData])
 
-    usePolling(getData, 3000);
+    usePolling(getData, 12000);
 
 
     return (

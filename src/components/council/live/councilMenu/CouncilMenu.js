@@ -9,7 +9,7 @@ import AnnouncementModal from './AnnouncementModal';
 import NoCelebrateModal from "./NoCelebrateModal";
 import OriginalConveneModal from "./OriginalConveneModal";
 import CouncilInfoModal from "./CouncilInfoModal";
-import { councilHasVideo, councilIsLive,  } from '../../../../utils/CBX';
+import { councilHasVideo, councilIsLive, councilStarted,  } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from "./SMSManagerModal";
 import { isMobile } from "../../../../utils/screen";
@@ -195,18 +195,18 @@ class CouncilMenu extends React.Component {
 											/>
 										</>
 									}
-									{(councilHasVideo(council) && councilIsLive(council)) &&
+									{(councilHasVideo(council) && councilStarted(council) && council.state === 20) &&
 										<MenuItem
 											onClick={() => this.setState({ pauseModal: true })}
 										>
 											<FontAwesome
-												name={council.state === 25 ? 'play' : 'pause-circle-o'}
+												name={'pause-circle-o'}
 												style={{
 													marginRight: "0.8em",
 													color: secondary
 												}}
 											/>
-											{council.state === 25 ? translate.resume : translate.pause_council}
+											{translate.pause_council}
 										</MenuItem>
 									}
 

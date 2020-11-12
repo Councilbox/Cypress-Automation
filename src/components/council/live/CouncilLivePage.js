@@ -1,5 +1,5 @@
 import React from "react";
-import { FabButton, Icon, LoadingMainApp } from "../../../displayComponents";
+import { DisabledSection, FabButton, Icon, LoadingMainApp } from "../../../displayComponents";
 import LiveHeader from "./LiveHeader";
 import { darkGrey, lightGrey } from "../../../styles/colors";
 import { graphql } from "react-apollo";
@@ -17,6 +17,8 @@ import CMPVideoIFrame from './video/CMPVideoIFrame';
 import { useOldState } from "../../../hooks";
 import { isMobile } from '../../../utils/screen';
 import QuorumDisplay from "./quorum/QuorumDisplay";
+import { COUNCIL_STATES } from "../../../constants";
+import ResumeCouncilButton from "./menus/ResumeCouncilButton";
 const calcMinWidth = () => window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450);
 const calcMinHeight = () => "42vh";
 
@@ -394,6 +396,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 							}%`,
 						height: "100%",
 						marginLeft: "5px",
+						position: 'relative'
 					}}
 				>
 					{isMobile ?
@@ -461,7 +464,19 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									</div>
 								}
 								{(!state.participants || state.fullScreen) &&
-									<div style={{ height: "calc( 100% - 2em )" }}>
+									<div style={{ height: "calc( 100% - 2em )", position: 'relative' }}>
+										{council.state === COUNCIL_STATES.PAUSED &&
+											<DisabledSection>
+												<div style={{marginBottom: '1em'}}>
+													Reunión pausada
+												</div>
+												<ResumeCouncilButton
+													council={council}
+													translate={translate}
+													refetch={data.refetch}
+												/>
+											</DisabledSection>
+										}
 										<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )", width: "100%" }}>
 											<AgendaManager
 												ref={agendaManager}
