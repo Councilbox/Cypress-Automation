@@ -1772,6 +1772,8 @@ export const getAgendaTypeLabel = agenda => {
 			return 'private_votation';
 		case AGENDA_TYPES.CUSTOM_NOMINAL:
 			return 'public_votation';
+		case AGENDA_TYPES.AGREEMENT:
+			return 'Acuerdo';
 		default:
 			return 'custom_point';
 	}
