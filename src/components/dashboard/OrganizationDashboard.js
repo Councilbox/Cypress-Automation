@@ -90,7 +90,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const [fechaBusqueda, setFechaBusqueda] = React.useState(moment().startOf('month').toDate());
 	const [usuariosEntidades, setUsuariosEntidades] = React.useState(translate.users);
 	const primary = getPrimary();
-
 	const config = React.useContext(ConfigContext);
 
 	const companyHasBook = () => {
@@ -182,7 +181,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			variables: {
 				fechaInicio: fechaInicio ? fechaFin : moment().endOf('month').toDate(),
 				fechaFin: fechaFin ? fechaInicio : moment().startOf('month').toDate(),
-				corporationId: company.id
+				corporationId: company.id,
+				options: {
+					orderBy: 'dateStart'
+				}
 			}
 		});
 
@@ -190,22 +192,39 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 		if (fechaReunionConcreta) {
 			if (response.data.corporationConvenedCouncils) {
-				data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+				data = [...response.data.corporationLiveCouncils, ...response.data.corporationConvenedCouncils].sort((a, b) => {
+					if(a.dateStart < b.dateStart){
+						return -1;
+					}
+					if(a.dateStart > b.dateStart){
+						return 1;
+					}
+					return 0;
+				});
 				if (filterReuniones !== translate.all) {
-					data = filtrarLasReuniones(data)
+					data = filtrarLasReuniones(data);
 				}
-				setReunionesPorDia(data)
-				setReunionesLoading(false)
+				setReunionesPorDia(data);
+				setReunionesLoading(false);
 			}
 		} else {
-			if (response.data.corporationConvenedCouncils) {
-				data = [...response.data.corporationConvenedCouncils, ...response.data.corporationLiveCouncils]
+			if (response.data.corporationConvenedCouncils) {	
+				data = [...response.data.corporationLiveCouncils, ...response.data.corporationConvenedCouncils].sort((a, b) => {
+					if(a.dateStart < b.dateStart){
+						return -1;
+					}
+					if(a.dateStart > b.dateStart){
+						return 1;
+					}
+					return 0;
+				});;
+				
 				if (filterReuniones !== translate.all) {
-					data = filtrarLasReuniones(data)
+					data = filtrarLasReuniones(data);
 				}
-				setReuniones(data)
-				calcularEstadisticas(data)
-				setReunionesLoading(false)
+				setReuniones(data);
+				calcularEstadisticas(data);
+				setReunionesLoading(false);
 			}
 		}
 	}
@@ -217,17 +236,22 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		data.map((item, index) => {
 			if (filterReuniones === translate.companies_calendar) {
 				if (item.state === 5 || item.state === 10) {
-					dataFiltrado.push(item)
+					dataFiltrado.push(item);
 				}
 			}
 			if (filterReuniones === translate.companies_live) {
 				if (item.state === 20 || item.state === 30) {
-					dataFiltrado.push(item)
+					dataFiltrado.push(item);
 				}
 			}
 			if (filterReuniones === translate.companies_writing) {
 				if (item.state === 40) {
-					dataFiltrado.push(item)
+					dataFiltrado.push(item);
+				}
+			}
+			if(filterReuniones === 'withoutAttachments'){
+				if(!item.attachments  || (item.attachments && item.attachments.length === 0)){
+					dataFiltrado.push(item);
 				}
 			}
 		})
@@ -240,9 +264,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 
 	const hasBook = companyHasBook();
-
-	const size = !hasBook ? 4 : 3;
-	const blankSize = !hasBook ? 2 : 3;
 
 	const clickDay = (value) => {
 		let fechaInicio = value
@@ -697,25 +718,46 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					overflow: "hidden"
 				}}>
 					<GridItem xs={8} md={8} lg={8} style={{ overflow: "hidden" }}>
-						<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Citas en curso</div>
-						{/* <div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div> */}
-						<Grid style={{ overflow: "hidden", height: "85%" }}>
+						{config.oneOnOneDashboard ? 
+							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Citas en curso</div>
+						:
+							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div>
+						}
+						{config.oneOnOneDashboard &&
 							<div style={{ display: "flex", alignItems: "center", marginBottom: "1em" }}>
 								<div style={{ display: "flex", marginRight: "1em" }}>
 									<BasicButton
 										text="Ver documentaciones pendientes"
-										// onClick={getDrafts}
-										backgroundColor={{ fontSize: "12px", fontStyle: "Lato", fontWeight: 'bold', color: '#ffffff', backgroundColor: '#154481', borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}
+										onClick={() => setFilterReuniones('withoutAttachments')}
+										backgroundColor={{
+											fontSize: "12px",
+											fontStyle: "Lato",
+											fontWeight: 'bold',
+											color: filterReuniones === 'withoutAttachments' ? 'white' : primary,
+											backgroundColor: filterReuniones === 'withoutAttachments' ? primary : 'white',
+											borderRadius: '4px',
+											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
+										}}
 									/>
 								</div>
 								<div>
 									<BasicButton
 										text="Ver todas las citas"
-										// onClick={getDrafts}
-										backgroundColor={{ fontSize: "12px", fontStyle: "Lato", fontWeight: 'bold', color: '#154481', backgroundColor: '#ffffff', borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}
+										onClick={() => setFilterReuniones(translate.all_plural)}
+										backgroundColor={{
+											fontSize: "12px",
+											fontStyle: "Lato",
+											fontWeight: 'bold',
+											color: filterReuniones === translate.all_plural ? 'white' : primary,
+											backgroundColor: filterReuniones === translate.all_plural ? primary : 'white',
+											borderRadius: '4px',
+											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
+										}}
 									/>
 								</div>
 							</div>
+						}
+						<Grid style={{ overflow: "hidden", height: `calc(90% - ${config.oneOnOneDashboard ? '4em' : '0px'})` }}>
 							<Scrollbar>
 								{day ?
 									reunionesPorDia.length === undefined || reunionesLoading ?
@@ -1310,9 +1352,12 @@ const corporationCouncils = gql`
 			name
 			state
 			dateStart
+			councilStarted
 			councilType
 			participants {
 				id
+				name
+				surname
 			}
 			prototype
 			attachments {
@@ -1332,9 +1377,12 @@ const corporationCouncils = gql`
 			state
 			dateStart
 			councilType
+			councilStarted
 			prototype
 			participants {
 				id
+				name
+				surname
 			}
 			company{
 				id

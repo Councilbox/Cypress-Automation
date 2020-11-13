@@ -712,7 +712,7 @@ export const isAdmin = user => {
 }
 
 export const showOrganizationDashboard = (company, config, user = {}) => {
-	return (company.type === 12 && config.newDashboard) || (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
+	return (company.type === 12 && (config.oneOnOneDashboard || config.newDashboard)) || (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
 }
 
 
