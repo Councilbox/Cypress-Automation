@@ -1,5 +1,5 @@
 import { AGENDA_TYPES, INPUT_REGEX, MAJORITY_TYPES } from "../constants";
-import { checkForUnclosedBraces } from './CBX';
+import { checkForUnclosedBraces, majorityNeedsInput } from './CBX';
 import React from 'react';
 import { LiveToast } from '../displayComponents';
 
@@ -224,7 +224,7 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 		errors.subjectType = translate.field_required;
 	}
 	
-	if (!agenda.majority && agenda.majority !== 0) {
+	if (majorityNeedsInput(agenda) && !agenda.majority && agenda.majority !== 0) {
 		hasError = true;
 		errors.majority = translate.field_required;
 	}
