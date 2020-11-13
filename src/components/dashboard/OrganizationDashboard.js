@@ -163,7 +163,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 
 	React.useEffect(() => {
-		if(company.type !== 12){
+		if (company.type !== 12) {
 			if (usuariosEntidades === translate.users) {
 				getUsers();
 			} else {
@@ -678,7 +678,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						</div>
 					</div>
 				}
-				
+
 			</div>
 		);
 	}
@@ -697,8 +697,25 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					overflow: "hidden"
 				}}>
 					<GridItem xs={8} md={8} lg={8} style={{ overflow: "hidden" }}>
-						<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div>
+						<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Citas en curso</div>
+						{/* <div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div> */}
 						<Grid style={{ overflow: "hidden", height: "85%" }}>
+							<div style={{ display: "flex", alignItems: "center", marginBottom: "1em" }}>
+								<div style={{ display: "flex", marginRight: "1em" }}>
+									<BasicButton
+										text="Ver documentaciones pendientes"
+										// onClick={getDrafts}
+										backgroundColor={{ fontSize: "12px", fontStyle: "Lato", fontWeight: 'bold', color: '#ffffff', backgroundColor: '#154481', borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}
+									/>
+								</div>
+								<div>
+									<BasicButton
+										text="Ver todas las citas"
+										// onClick={getDrafts}
+										backgroundColor={{ fontSize: "12px", fontStyle: "Lato", fontWeight: 'bold', color: '#154481', backgroundColor: '#ffffff', borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}
+									/>
+								</div>
+							</div>
 							<Scrollbar>
 								{day ?
 									reunionesPorDia.length === undefined || reunionesLoading ?
@@ -933,7 +950,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							</div>
 						</GridItem>
 					}
-					
+
 				</Grid>
 
 			</Grid>
@@ -942,7 +959,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 }
 
 const TablaReunionesEnCurso = ({ item, index, translate }) => {
-	if(item.councilType === 5){
+	if (item.councilType === 5) {
 		return (
 			<OneOnOneItem
 				key={index}
@@ -1007,7 +1024,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					}
 
 					{(item.state === 40) &&
-						translate.companies_writing	
+						translate.companies_writing
 					}
 
 				</GridItem>
