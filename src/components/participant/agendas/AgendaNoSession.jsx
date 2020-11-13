@@ -307,7 +307,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
                     {(council.state === COUNCIL_STATES.PAUSED && !props.timeline) &&
                         <DisabledSection>
-                            Reunión pausada
+                            {translate.council_paused}
                         </DisabledSection>
                     }
 
@@ -443,7 +443,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
                 {(council.state === COUNCIL_STATES.PAUSED && !props.timeline) &&
                     <DisabledSection>
-                        Reunión pausada
+                        {translate.council_paused}
                     </DisabledSection>
                 }
                 {!props.sinCabecera &&

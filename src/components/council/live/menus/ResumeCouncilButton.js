@@ -14,9 +14,11 @@ import gql from "graphql-tag";
 
 
 const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
+    const [loading, setLoading] = React.useState(false);
 	const primary = getPrimary();
 
 	const resumeCouncil = async () => {
+        setLoading(true);
 		const response = await client.mutate({
             mutation: gql`
                 mutation ResumeCouncil($councilId: Int!){
@@ -30,16 +32,7 @@ const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
             }
         });
         refetch();
-
-        console.log(response);
-	}
-
-	const getBody = () => {
-		return (
-			<React.Fragment>
-				
-			</React.Fragment>
-		)
+        setLoading(false);
 	}
 
 	return (
@@ -47,6 +40,8 @@ const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
             <BasicButton
                 text={translate.resume}
                 color={primary}
+                loading={loading}
+                loadingColor="white"
                 fullWidth={true}
                 onClick={resumeCouncil}
                 textPosition="before"

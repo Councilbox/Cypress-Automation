@@ -41,7 +41,7 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
     return (
         <AlertConfirm
             open={open}
-            title={'Pausar reunión'}
+            title={translate.pause_council}
             acceptAction={initPauseCouncil}
             buttonAccept={translate.confirm}
             buttonCancel={status !== 'IDDLE' ? translate.close : translate.cancel}
@@ -51,7 +51,7 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
                 <>
                     {status === 'IDDLE' ?
                         <RichTextInput
-                            floatingText={'Indicaciones (opcional)'}
+                            floatingText={translate.indications_optional}
                             type="text"
                             translate={translate}
                             value={message}
@@ -64,7 +64,7 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
                             {status === 'PAUSING' &&
                                 <>
                                     <div>
-                                        {'Pausando reunión'}
+                                        {translate.pausing_council}
                                     </div>
                                     <div>
                                         <LoadingSection size={14} />
@@ -74,7 +74,7 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
                             {status === 'SUCCESS' &&
                                 <>
                                     <div>
-                                        {'Reunión pausada'}
+                                        {translate.council_paused}
                                     </div>
                                     <div>
                                         <i className="fa fa-check" style={{ color: 'green' }}></i>

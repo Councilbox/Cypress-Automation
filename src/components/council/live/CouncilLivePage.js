@@ -468,7 +468,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 										{council.state === COUNCIL_STATES.PAUSED &&
 											<DisabledSection>
 												<div style={{marginBottom: '1em'}}>
-													Reunión pausada
+													{translate.council_paused}
 												</div>
 												<ResumeCouncilButton
 													council={council}

@@ -43,7 +43,7 @@ const PausedCouncilPage = ({ council, client, translate }) => {
             alignItems: 'center'
         }}>
             <div style={{ textAlign: 'center' }}>
-                <h5 style={{ color: primary, fontWeight: '700' }}>REUNIÓN PAUSADA</h5>
+                <h5 style={{ color: primary, fontWeight: '700' }}>{translate.council_paused.toUpperCase()}</h5>
                 <div
                     dangerouslySetInnerHTML={{ __html: message }}
                 ></div>
