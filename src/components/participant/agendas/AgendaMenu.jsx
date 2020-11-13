@@ -5,10 +5,11 @@ import * as CBX from '../../../utils/CBX';
 import { Typography } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
-import { PARTICIPANT_TYPE } from '../../../constants';
+import { AGENDA_TYPES, PARTICIPANT_TYPE } from '../../../constants';
 import VotingSection from './VotingSection';
 import CustomPointVotingMenu from './CustomPointVotingMenu';
 import { isMobile } from '../../../utils/screen';
+import AgreementVotingMenu from './AgreementVotingMenu';
 
 
 class AgendaMenu extends React.Component {
@@ -142,6 +143,21 @@ class AgendaMenu extends React.Component {
                                                     translate={translate}
                                                 />
                                                 :
+                                                agenda.subjectType === AGENDA_TYPES.AGREEMENT ?
+                                                    <AgreementVotingMenu
+                                                        disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
+                                                        agenda={agenda}
+                                                        ownVote={ownVote}
+                                                        open={this.state.open}
+                                                        council={this.props.council}
+                                                        voting={this.state.voting}
+                                                        translate={translate}
+                                                        activateVoting={this.activateVoting}
+                                                        refetch={this.props.refetch}
+                                                        toggle={this.toggle}
+                                                        hasVideo={council.councilType}
+                                                    />
+                                                :
                                                 <VotingSection
                                                     disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
                                                     agenda={agenda}
@@ -168,7 +184,21 @@ class AgendaMenu extends React.Component {
                                         ) &&
                                         translate.cant_exercise_vote
                                     }
-                                    {!CBX.isCustomPoint(agenda.subjectType) ?
+                                    {!CBX.isCustomPoint(agenda.subjectType) ?                                             
+                                        agenda.subjectType === AGENDA_TYPES.AGREEMENT ?
+                                            <AgreementVotingMenu
+                                                disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
+                                                agenda={agenda}
+                                                ownVote={ownVote}
+                                                open={this.state.open}
+                                                council={this.props.council}
+                                                voting={this.state.voting}
+                                                translate={translate}
+                                                activateVoting={this.activateVoting}
+                                                refetch={this.props.refetch}
+                                                toggle={this.toggle}
+                                            />
+                                        :
                                         <VotingSection
                                             disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
                                             agenda={agenda}

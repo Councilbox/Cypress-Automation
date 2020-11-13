@@ -61,6 +61,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                 {agenda.subjectType === AGENDA_TYPES.AGREEMENT ?
                     [
                         <Tab label={translate.voting} disabled={showEarlyVotings}/>,
+                        <Tab label={isMobile? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />,
                         <Tab label={isMobile? translate.attachments : translate.attachment_files} />
                     ]
 
@@ -93,6 +94,15 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                 </div>
                             }
                             {selected === 1 &&
+                                <div style={{marginTop: '6px'}}>
+                                    <Comments
+                                        agenda={agenda}
+                                        council={council}
+                                        translate={translate}
+                                    />
+                                </div>
+                            }
+                            {selected === 2 &&
                                 <div style={{marginTop: '6px'}}>
                                     <AgendaAttachmentsManager
                                         attachments={agenda.attachments}
