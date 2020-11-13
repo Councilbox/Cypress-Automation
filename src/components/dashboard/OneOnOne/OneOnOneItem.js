@@ -23,7 +23,7 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
         <div>
             <GridItem
                 key={council.id}
-                style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", cursor: 'pointer' }}
+                style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em"}}
                 xs={12}
                 md={12}
                 lg={12}
@@ -85,11 +85,19 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                             <div>
                                 <BasicButton
                                     text="Enviar correo al participante"
+                                    disabled={councilStarted(council)}
                                     onClick={event => {
                                         event.stopPropagation();
                                         setMessageModal(true)
                                     }}
-                                    backgroundColor={{ fontSize: "12px", fontStyle: "Lato", fontWeight: 'bold', color: primary, backgroundColor: '#ffffff', borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}
+                                    backgroundColor={{
+                                        fontSize: "12px",
+                                        fontStyle: "Lato",
+                                        fontWeight: 'bold',
+                                        color: primary,
+                                        backgroundColor: councilStarted(council) ? 'lightgray' : '#ffffff',
+                                        borderRadius: '4px'
+                                    }}
                                 />
                             </div>
                         </div>
