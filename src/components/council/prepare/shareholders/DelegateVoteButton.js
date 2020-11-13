@@ -239,7 +239,7 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
             <>
                 <BasicButton
                     text={text ? text : (participant.live.state === PARTICIPANT_STATES.DELEGATED || participant.live.state === PARTICIPANT_STATES.REPRESENTATED) ?
-                        `${participant.live.state === PARTICIPANT_STATES.DELEGATED ? translate.delegated_in : translate.represented_by} ${participant.live.representative.name} ${participant.live.representative.surname || ''}`
+                        `${participant.live.state === PARTICIPANT_STATES.DELEGATED ? translate.delegated_in : translate.represented_by} ${participant.live.representative ? participant.live.representative.name : '-'} ${participant.live.representative? participant.live.representative.surname : ''}`
                         :
                         translate.to_delegate_vote}
                     onClick={closeModals}
