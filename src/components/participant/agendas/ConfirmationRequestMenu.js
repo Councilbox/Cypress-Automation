@@ -134,8 +134,6 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
 
     const disabled = fixed || !props.ownVote;
 
-    console.log(agenda.positiveVotings + agenda.positiveManual, recount.numTotal)
-
     return (
         <Grid
             style={{

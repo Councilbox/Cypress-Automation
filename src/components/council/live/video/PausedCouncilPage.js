@@ -3,9 +3,10 @@ import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { usePolling } from '../../../../hooks';
 import { getPrimary } from '../../../../styles/colors';
+import pausedImg from '../../../../assets/img/paused.png';
 
 
-const PausedCouncilPage = ({ council, client, translate }) => {
+const PausedCouncilPage = ({ council, client, translate, heightImg = '15em' }) => {
     const [message, setMessage] = React.useState('');
     const primary = getPrimary();
 
@@ -37,14 +38,16 @@ const PausedCouncilPage = ({ council, client, translate }) => {
             position: 'relative',
             backgroundColor: 'white',
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
+            overflow: 'auto',
+            margin: 'auto',
+            flexDirection: 'column'
         }}>
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ margin: 'auto', textAlign: 'center' }}>
                 <h5 style={{ color: primary, fontWeight: '700' }}>{translate.council_paused.toUpperCase()}</h5>
                 <div
                     dangerouslySetInnerHTML={{ __html: message }}
                 ></div>
+                <img src={pausedImg} style={{ height: heightImg, width: 'auto', marginLeft: '7%', marginTop: '0.6em' }} alt="Council paused img" />
             </div>
         </div>
     )
