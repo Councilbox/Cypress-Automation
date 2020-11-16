@@ -81,7 +81,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                             En:
                             {Array.isArray(request.data.representative) ?
                                 <div style={{ marginBotton: '2em' }}>
-                                    {request.data.representative[0].value === 'el presidente' || request.data.representative[0].value && request.data.representative[0].value.includes('Presidente') ?
+                                    {request.data.representative[0].value === 'el presidente' || request.data.representative[0].value === 'el secretario' || request.data.representative[0].value && request.data.representative[0].value.includes('Presidente') ?
                                         request.data.representative[0].value
                                         :
                                         request.data.representative[0].info.map((data, index) => (
