@@ -27,7 +27,7 @@ const styles = {
     }
 }
 
-const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, client, disabledColor, hasVideo, ...props }) => {
+const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, votings, client, disabledColor, hasVideo, ...props }) => {
     const [loading, setLoading] = React.useState(false);
     const config = React.useContext(ConfigContext);
     const [modal, setModal] = React.useState(false);
@@ -99,7 +99,9 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
             setModal(false);
             setLoading(false);
             await props.refetch();
-            props.close();
+            if(props.close){
+                props.close();
+            }
         }
     }
 
@@ -255,4 +257,4 @@ const updateAgendaVoting = gql`
 
 export default graphql(updateAgendaVoting, {
     name: 'updateAgendaVoting'
-})(withApollo(VotingMenu));
+})(withApollo(ConfirmationRequestMenu));

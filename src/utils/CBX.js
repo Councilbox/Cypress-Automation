@@ -349,6 +349,10 @@ export const isCustomPoint = subjectType => {
 	return !!customPoint;
 }
 
+export const isConfirmationRequest = subjectType => {
+	return subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST;
+}
+
 export const canBePresentWithRemoteVote = statute => {
 	return statute.existsPresentWithRemoteVote === 1;
 };
@@ -379,7 +383,11 @@ export const filterAgendaVotingTypes = (votingTypes, statute = {}, council = {})
 	if(council.councilType === 3){
 		return votingTypes.filter(type => type.label === 'private_votation');
 	}
-	return votingTypes.filter(type => type.label !== 'custom_nominal_point' && type.label !== 'custom_anonym_point' && type.label !== 'custom_public_point');
+	return votingTypes.filter(type => type.value !== AGENDA_TYPES.CUSTOM_NOMINAL &&
+		type.value !== AGENDA_TYPES.CUSTOM_PRIVATE &&
+		type.value !== AGENDA_TYPES.CUSTOM_PUBLIC &&
+		type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST
+	);
 };
 
 export const hasSecondCall = statute => {
@@ -1772,8 +1780,8 @@ export const getAgendaTypeLabel = agenda => {
 			return 'private_votation';
 		case AGENDA_TYPES.CUSTOM_NOMINAL:
 			return 'public_votation';
-		case AGENDA_TYPES.AGREEMENT:
-			return 'Acuerdo';
+		case AGENDA_TYPES.CONFIRMATION_REQUEST:
+			return 'confirmation_request';
 		default:
 			return 'custom_point';
 	}

@@ -20,8 +20,6 @@ const PausedCouncilPage = ({ council, client, translate }) => {
                 councilId: council.id
             }
         });
-
-        console.log(response);
         setMessage(response.data.councilPausedMessage);
     }, [council.id]);
 

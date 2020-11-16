@@ -49,8 +49,6 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
         updateUrl();
     }, [requestWord]);
 
-    console.log(props.council);
-
     if(props.council.state === COUNCIL_STATES.PAUSED){
         return (
             <PausedCouncilPage

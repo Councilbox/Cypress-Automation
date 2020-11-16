@@ -12,6 +12,7 @@ import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
 import { isLandscape, isMobile } from '../../../utils/screen';
 import EarlyVotes from './voting/EarlyVotes';
+import ConfirmationRequestRecount from '../agendas/ConfirmationRequestRecount';
 
 const styles = theme => ({
     scrollable: {
@@ -34,8 +35,6 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
             cb();
         }
     }
- 
-    console.log(selected);
 
     return (
         <div style={{
@@ -58,7 +57,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                 textColor="secondary"
                 onChange={handleChange}
             >
-                {agenda.subjectType === AGENDA_TYPES.AGREEMENT ?
+                {CBX.isConfirmationRequest(agenda.subjectType) ?
                     [
                         <Tab label={translate.voting} disabled={showEarlyVotings}/>,
                         <Tab label={isMobile? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />,
@@ -77,10 +76,15 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
             </Tabs>
             <div style={{borderTop: '1px solid gainsboro', height: isMobile ? isLandscape() ? '100%' : 'calc(100% - 5em)' : 'calc(100% - 4em)'}}> {/**height: isMobile ? 'calc(100% - 5em)' : 'calc(100% - 4em)' */}
                 <Scrollbar>
-                    {agenda.subjectType === AGENDA_TYPES.AGREEMENT ?
+                    {CBX.isConfirmationRequest(agenda.subjectType) ?
                         <>
                             {selected === 0 &&
                                 <div style={{padding: '1em'}}>
+                                    <ConfirmationRequestRecount
+                                        agenda={agenda}
+                                        translate={translate}
+                                        recount={props.recount}
+                                    />
                                     <Votings
                                         key={`agendaVotings_${agenda.id}`}
                                         refetch={refetch}

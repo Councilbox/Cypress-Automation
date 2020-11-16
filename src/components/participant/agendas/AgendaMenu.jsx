@@ -9,7 +9,7 @@ import { AGENDA_TYPES, PARTICIPANT_TYPE } from '../../../constants';
 import VotingSection from './VotingSection';
 import CustomPointVotingMenu from './CustomPointVotingMenu';
 import { isMobile } from '../../../utils/screen';
-import AgreementVotingMenu from './AgreementVotingMenu';
+import ConfirmationRequestMenu from './ConfirmationRequestMenu';
 
 
 class AgendaMenu extends React.Component {
@@ -143,8 +143,8 @@ class AgendaMenu extends React.Component {
                                                     translate={translate}
                                                 />
                                                 :
-                                                agenda.subjectType === AGENDA_TYPES.AGREEMENT ?
-                                                    <AgreementVotingMenu
+                                                CBX.isConfirmationRequest(agenda.subjectType) ?
+                                                    <ConfirmationRequestMenu
                                                         disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
                                                         agenda={agenda}
                                                         ownVote={ownVote}
@@ -185,8 +185,8 @@ class AgendaMenu extends React.Component {
                                         translate.cant_exercise_vote
                                     }
                                     {!CBX.isCustomPoint(agenda.subjectType) ?                                             
-                                        agenda.subjectType === AGENDA_TYPES.AGREEMENT ?
-                                            <AgreementVotingMenu
+                                        CBX.isConfirmationRequest(agenda.subjectType) ?
+                                            <ConfirmationRequestMenu
                                                 disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
                                                 agenda={agenda}
                                                 ownVote={ownVote}

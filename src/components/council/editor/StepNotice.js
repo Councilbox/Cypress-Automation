@@ -403,7 +403,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			dateStart2NdCall: secondDate,
 		});
 	};
-	console.log(translate)
+	
 	return (
 		<React.Fragment>
 			<EditorStepLayout
