@@ -2,7 +2,7 @@ import { Tooltip } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { useHoverRow, usePolling } from '../../../hooks';
-import { agendaVotingsOpened } from '../../../utils/CBX';
+import { agendaVotingsOpened, getPercentage } from '../../../utils/CBX';
 import { agendaRecountQuery } from '../live/ActAgreements';
 
 
@@ -28,9 +28,9 @@ const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
 
     if(!data) return null;
 
-    const positivePercentage = (data.numPositive / recount.numRightVoting) * 100;
-    const negativePercentage = (data.numNegative / recount.numRightVoting) * 100;
-    const noVotePercentage = (data.numNoVote / recount.numRightVoting) * 100;
+    const positivePercentage = getPercentage(data.numPositive, data.numTotal, 2);
+    const negativePercentage = getPercentage(data.numNegative, data.numTotal, 2);
+    const noVotePercentage = getPercentage(data.numNoVote, data.numTotal, 2);
 
     return (
         <div>
@@ -39,13 +39,13 @@ const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
                     <PercentageSection
                         tooltip={`Aceptan: ${data.numPositive} (${positivePercentage}%)`}
                         value={positivePercentage}
-                        color="green"
+                        color='rgba(0, 128, 0, 0.5)'
                         text={`${positivePercentage}%`}
                     />
                     <PercentageSection
                         tooltip={`Rechazan: ${data.numNegative} (${negativePercentage}%)`}
                         value={negativePercentage}
-                        color="red"
+                        color='rgba(200, 0, 0, 0.6)'
                         text={`${negativePercentage}%`}
                     />
                     <PercentageSection
@@ -104,7 +104,7 @@ const PercentageSection = ({ value, color, tooltip, text = '', textColor = 'whit
         </div>
     )
 
-    if(tooltip && showValue){
+    if(tooltip && value > 0){
         return (
             <Tooltip title={tooltip}>
                 {renderSection()}

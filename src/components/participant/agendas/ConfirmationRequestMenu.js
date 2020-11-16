@@ -12,6 +12,7 @@ import { CONSENTIO_ID } from '../../../config';
 import { councilRecount } from '../../../queries/council';
 import * as CBX from '../../../utils/CBX';
 import { AGENDA_STATES } from '../../../constants';
+import { agendaRecountQuery } from '../../council/live/ActAgreements';
 
 
 const styles = {
@@ -42,18 +43,18 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
         fixed = props.ownVote.fixed;
     }
 
-    const getCouncilRecount = async () => {
+    const getAgendaRecount = async () => {
         const response = await client.query({
-            query: councilRecount,
+            query: agendaRecountQuery,
             variables: {
-                councilId: council.id,
+                agendaId: agenda.id,
             }
         });
-        setRecount(response)
+        setRecount(response.data.agendaRecount)
     }
 
     React.useEffect(() => {
-        getCouncilRecount()
+        getAgendaRecount()
     }, []);
 
     const setAgendaVoting = vote => {
@@ -75,7 +76,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
 
         return (
             showRecount? 
-                ` (${translate.recount}: ${recount})`
+                ` (${translate.recount}: ${recount}%)`
             :
                 ''
         )
@@ -99,6 +100,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
             setModal(false);
             setLoading(false);
             await props.refetch();
+            getAgendaRecount();
             if(props.close){
                 props.close();
             }
@@ -132,6 +134,8 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
 
     const disabled = fixed || !props.ownVote;
 
+    console.log(agenda.positiveVotings + agenda.positiveManual, recount.numTotal)
+
     return (
         <Grid
             style={{
@@ -152,7 +156,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                     hasVideo ?
                         'Aceptar'
                         :
-                        'Aceptar' + buildRecountText(CBX.showNumParticipations(agenda.positiveVotings + agenda.positiveManual, council.company, council.statute))
+                        'Aceptar' + buildRecountText(CBX.getPercentage(recount.numPositive, recount.numTotal, 2))
                 }
                 loading={loading === 1}
                 disabledColor={disabledColor}
@@ -172,7 +176,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                     hasVideo ?
                         'Rechazar'
                         :
-                        'Rechazar' + buildRecountText(CBX.showNumParticipations(agenda.negativeVotings + agenda.negativeManual, council.company, council.statute))
+                        'Rechazar' + buildRecountText(CBX.getPercentage(recount.numNegative, recount.numTotal, 2))
                 }
                 loading={loading === 0}
                 disabledColor={disabledColor}

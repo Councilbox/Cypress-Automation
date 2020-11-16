@@ -141,11 +141,11 @@ export const getAgendaResult = (agenda, type, data = {}) => {
 	return types[type];
 };
 
-export const getPercentage = (num, total) => {
-    let percentage = ((num * 100) / (total)).toFixed(3);
+export const getPercentage = (num, total, decimals = 3) => {
+    let percentage = ((num * 100) / (total)).toFixed(decimals);
     let zero = 0;
     if (isNaN(percentage)) {
-        return zero.toFixed(3)
+        return zero.toFixed(decimals)
     } else {
         return percentage;
     }
