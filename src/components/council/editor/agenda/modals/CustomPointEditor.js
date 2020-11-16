@@ -111,7 +111,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 					/>
 			}
             bodyText={renderBody()}
-            title={translate.new_point}
+            title={translate.edit}
         />
     )
 }
