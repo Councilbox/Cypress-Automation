@@ -5,7 +5,8 @@ import {
 	Grid,
 	GridItem,
 	DropDownMenu,
-	LoadingSection
+	LoadingSection,
+	AlertConfirm
 } from "../../../../displayComponents/index";
 import { compose, graphql, withApollo } from "react-apollo";
 import { Typography } from "material-ui";
@@ -47,6 +48,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		}
 	});
 	const [loading, setLoading] = React.useState(true);
+	const [deleteModal, setDeleteModal] = React.useState(false);
 	const [data, setData] = React.useState({});
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -231,7 +233,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														<div style={{ display: "flex" }}><ButtonIcon
 															type="cached"
 															color="white"
-															style={{marginTop: '3px'}}
+															style={{ marginTop: '3px' }}
 														/></div>
 													</div>
 												}
@@ -264,7 +266,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														).label : ''
 														]
 													}
-													removeAgenda={removeAgenda}
+													removeAgenda={() => setDeleteModal(true)}
+													// removeAgenda={removeAgenda}
 													selectAgenda={selectAgenda}
 													saveAsDraft={saveAsAgendaDraft}
 												/>
@@ -444,6 +447,15 @@ const StepAgenda = ({ client, translate, ...props }) => {
 					</React.Fragment>
 				}
 			/>
+			<AlertConfirm
+				title={translate.attention}
+				bodyText={translate.question_delete}
+				open={deleteModal}
+				buttonAccept={translate.delete}
+				buttonCancel={translate.cancel}
+				acceptAction={removeAgenda}
+				requestClose={() => setDeleteModal(false)}
+			/>
 		</React.Fragment>
 	);
 };
@@ -504,7 +516,7 @@ export const AddAgendaPoint = ({
 					text={
 						<div style={{ display: "flex", alignItems: "center" }}>
 							<div>{translate.add_agenda_point}</div>
-							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{marginTop: '3px'}} /></div>
+							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{ marginTop: '3px' }} /></div>
 						</div>
 					}
 					textStyle={buttonStyle}
