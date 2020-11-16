@@ -41,6 +41,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		success: false,
 		loading: false,
 		saveAsDraftId: null,
+		confirmationRequestModal: false,
 		deleteModal: false,
 		agendaIdRemove: false,
 		errors: {
@@ -510,7 +511,7 @@ export const AddAgendaPoint = ({
 			yesNoModal: false
 		});
 	};
-
+	
 	return (
 		<React.Fragment>
 			{config.customPoints ? (
@@ -591,6 +592,40 @@ export const AddAgendaPoint = ({
 									</span>
 								</div>
 							</MenuItem>
+							{config.confirmationRequestPoint &&
+								<>
+									<Divider />
+									<MenuItem onClick={() => setState({ ...state, confirmationRequestModal: true })}>
+										<div
+											id={'puntoPersonalizado'}
+											style={{
+												width: "100%",
+												display: "flex",
+												flexDirection: "row",
+												justifyContent: "space-between"
+											}}
+										>
+											<i
+												className="material-icons"
+												style={{
+													fontSize: "1.2em",
+													color: secondary
+												}}
+											>
+												check_circle_outline
+											</i>
+											<span
+												style={{
+													marginLeft: "2.5em",
+													marginRight: "0.8em"
+												}}
+											>
+												{translate.confirmation_request}
+											</span>
+										</div>
+									</MenuItem>
+								</>
+							}
 						</React.Fragment>
 					}
 				/>
@@ -613,6 +648,24 @@ export const AddAgendaPoint = ({
 					votingTypes={votingTypes}
 					open={state.yesNoModal}
 					requestClose={closeYesNoModal}
+					majorityTypes={majorityTypes}
+					draftTypes={draftTypes}
+					statute={council.statute}
+					company={props.company}
+					council={council}
+					companyStatutes={props.companyStatutes}
+					refetch={props.refetch}
+				/>
+			)}
+			{state.confirmationRequestModal && (
+				<NewAgendaPointModal
+					translate={translate}
+					confirmation={true}
+					agendas={council.agendas}
+					votingTypes={votingTypes}
+					showLoadDraft={false}
+					open={state.confirmationRequestModal}
+					requestClose={() => setState({ ...state, confirmationRequestModal: false })}
 					majorityTypes={majorityTypes}
 					draftTypes={draftTypes}
 					statute={council.statute}
