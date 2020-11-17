@@ -196,7 +196,7 @@ class PartnerForm extends React.PureComponent {
                                 }
                             />
                         </GridItem>
-                        <GridItem xs={6} md={4} lg={2}>
+                        <GridItem xs={6} md={4} lg={3}>
                             <SelectInput
                                 floatingText={translate.state}
                                 value={'' + participant.state}
