@@ -138,6 +138,21 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 			setState(initScreenSizes('MIN'));
 		}
 	};
+
+	const renderVideoParticipants = () => {
+		return (
+			<ParticipantsLive
+				councilId={council.id}
+				council={council}
+				videoURL={state.videoURL}
+				translate={translate}
+				videoHeight={state.videoHeight}
+				screenSize={state.screenSize}
+				toggleFullScreen={toggleFullScreen}
+			/>
+		)
+	}
+
 	const { council } = data;
 
 	const councilStartedState = () => {
@@ -269,15 +284,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									backgroundColor: darkGrey
 								}}
 							>
-								<ParticipantsLive
-									councilId={council.id}
-									council={council}
-									videoURL={state.videoURL}
-									translate={translate}
-									videoHeight={state.videoHeight}
-									screenSize={state.screenSize}
-									toggleFullScreen={toggleFullScreen}
-								/>
+								{renderVideoParticipants()}
 							</div>
 						)}
 
@@ -346,15 +353,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									backgroundColor: darkGrey
 								}}
 							>
-								<ParticipantsLive
-									councilId={council.id}
-									council={council}
-									videoURL={state.videoURL}
-									videoHeight={state.videoHeight}
-									translate={translate}
-									videoFullScreen={state.fullScreen}
-									toggleFullScreen={toggleFullScreen}
-								/>
+								{renderVideoParticipants()}
 							</div>
 						)}
 					</div>
