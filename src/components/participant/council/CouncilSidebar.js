@@ -9,6 +9,7 @@ import { darkGrey, secondary, primary, getSecondary, getPrimary } from '../../..
 import { AlertConfirm, Badge } from '../../../displayComponents';
 import iconVoteInsert from '../../../../src/assets/img/dropping-vote-in-box2.svg';
 import { usePolling } from '../../../hooks';
+import { COUNCIL_STATES } from '../../../constants';
 
 
 const styles = {
@@ -205,7 +206,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     }
 
     const renderPrivateMessageButton = () => {
-        const disabled = council.wallActive !== 1;
+        const disabled = council.wallActive !== 1 || council.state === COUNCIL_STATES.PAUSED;
 
         if(disabled){
             return null;

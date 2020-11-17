@@ -62,7 +62,7 @@ const initScreenSizes = size => {
 
 const CouncilLivePage = ({ translate, data, ...props }) => {
 	const [state, setState] = useOldState({
-		tab: data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? 'ATTACHMENTS' : 'PARTICIPANTS',
+		tab: data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? 'ATTACHMENTS' : 'AGENDA',
 		wall: false,
 		unreadComments: 0,
 		videoURL: '',
