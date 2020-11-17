@@ -358,7 +358,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									required
 								/>
 							</GridItem>
-							<GridItem xs={12} md={6} lg={4}>
+							<GridItem xs={12} md={6} lg={5}>
 								<TextInput
 									floatingText={translate.company_new_domain}
 									type="text"
