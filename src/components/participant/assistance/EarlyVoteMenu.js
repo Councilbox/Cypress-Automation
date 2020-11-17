@@ -4,7 +4,7 @@ import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_TYPE } from '../../../constants'
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { CircularProgress, MenuItem } from 'material-ui';
 import VotingValueIcon from '../../council/live/voting/VotingValueIcon';
-import { isCustomPoint } from '../../../utils/CBX';
+import { isConfirmationRequest, isCustomPoint } from '../../../utils/CBX';
 import { withApollo } from 'react-apollo';
 import { LoadingSection } from '../../../displayComponents';
 import { useCouncilAgendas } from '../../../hooks';
@@ -51,6 +51,55 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
     const earlyVoteMenu = participant => {
         return (
             data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
+
+                if(isConfirmationRequest(point.subjectType)){
+                    return (
+                        <div key={`point_${point.id}`}>
+                            <div style={{fontWeight: '700', marginTop: '1em'}}>{point.agendaSubject}</div>
+                            <div>
+                                {[{
+                                    value: VOTE_VALUES.POSITIVE,
+                                    label: translate.accept,
+                                    icon: "fa fa-check"
+                                }, {
+                                    value: VOTE_VALUES.NEGATIVE,
+                                    label: translate.refuse,
+                                    icon: "fa fa-times"
+                                }].map(vote => {
+                                    const active = isActive(`${point.id}_${participant.id}`, vote.value);
+                                    return (
+                                        <div
+                                            key={`vote_${vote.value}`}
+                                            style={{
+                                                marginRight: "0.2em",
+                                                borderRadius: "3px",
+                                                display: "flex",
+                                                cursor: "pointer",
+                                                alignItems: "center",
+                                                justifyContent: "center"
+                                            }}
+                                            onClick={() => {
+                                                setSelected(new Map(selected.set(`${point.id}_${participant.id}`, {
+                                                    value: vote.value,
+                                                    agendaId: point.id,
+                                                    participantId: participant.id
+                                                })));
+                                                //setEarlyVote(point.id, vote)
+                                            }}
+                                        >
+                                            <VotingButton
+                                                text={vote.label}
+                                                selected={active}
+                                                icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
+                                            />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            
+                        </div>
+                    )
+                }
 
                 if(!isCustomPoint(point.subjectType)){
                     return (
