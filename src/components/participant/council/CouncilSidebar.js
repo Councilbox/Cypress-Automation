@@ -207,11 +207,6 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
 
     const renderPrivateMessageButton = () => {
         const disabled = council.wallActive !== 1 || council.state === COUNCIL_STATES.PAUSED;
-
-        if(disabled){
-            return null;
-        }
-
         return (
             <Button
                 className={"NoOutline"}
@@ -367,7 +362,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             {renderAgendaButton()}
                         </div>
-                        {props.pedirPalabra}
+                        {props.askWordMenu}
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             {renderPrivateMessageButton()}
                         </div>
@@ -474,7 +469,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                             paddingRight: "3px"
                         }}
                     >
-                        {props.pedirPalabra}
+                        {props.askWordMenu}
                         <div
                             style={{
                                 width: "50%",

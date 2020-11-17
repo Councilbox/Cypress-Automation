@@ -334,17 +334,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                 activeInput={() => setState({ ...state, activeInput: true })}
                 onFocus={() => setState({ ...state, activeInput: true })}
                 onblur={() => setState({ ...state, activeInput: false })}
-            >
-                {/* <TextInputChat
-                    value={state.text}
-                  
-                    onChange={event => setState({ text: event.target.value, success: false })}
-                  
-                    onFocus={() => setState({ ...state, activeInput: true })}
-                    onblur={() => setState({ ...state, activeInput: false })}
-                   
-                /> */}
-            </AdminPrivateMessage>
+            />
         )
     }
 
@@ -429,7 +419,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                 click={state.activeInput}
                                 participant={participant}
                                 comentario={renderAdminMessageMenu()}
-                                pedirPalabra={renderRequestWordMenu()}
+                                askWordMenu={renderRequestWordMenu()}
                             />
                             <Header
                                 logoutButton={true}
@@ -547,7 +537,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                     modalContent={state.modalContent}
                                     participant={participant}
                                     comentario={renderAdminMessageMenu()}
-                                    pedirPalabra={renderRequestWordMenu()}
+                                    askWordMenu={renderRequestWordMenu()}
                                 />
                             </div>
                         }
