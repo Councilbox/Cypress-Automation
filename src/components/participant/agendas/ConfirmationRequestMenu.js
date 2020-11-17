@@ -152,9 +152,9 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
             <VotingButton
                 text={
                     hasVideo ?
-                        'Aceptar'
+                        translate.accept
                         :
-                        'Aceptar' + buildRecountText(CBX.getPercentage(recount.numPositive, recount.numTotal, 2))
+                        translate.accept + buildRecountText(CBX.getPercentage(recount.numPositive, recount.numTotal, 2))
                 }
                 loading={loading === 1}
                 disabledColor={disabledColor}
@@ -172,9 +172,9 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
             <VotingButton
                 text={
                     hasVideo ?
-                        'Rechazar'
+                        translate.refuse
                         :
-                        'Rechazar' + buildRecountText(CBX.getPercentage(recount.numNegative, recount.numTotal, 2))
+                        translate.refuse + buildRecountText(CBX.getPercentage(recount.numNegative, recount.numTotal, 2))
                 }
                 loading={loading === 0}
                 disabledColor={disabledColor}

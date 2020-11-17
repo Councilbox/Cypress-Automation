@@ -37,19 +37,19 @@ const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
             {agendaVotingsOpened(agenda) &&
                 <div style={{ display: 'flex', width: '100%', border: '1px solid grey', height: '1.6em', borderRadius: '2px'}}>
                     <PercentageSection
-                        tooltip={`Aceptan: ${data.numPositive} (${positivePercentage}%)`}
+                        tooltip={`${translate.they_accept}: ${data.numPositive} (${positivePercentage}%)`}
                         value={positivePercentage}
                         color='rgba(0, 128, 0, 0.5)'
                         text={`${positivePercentage}%`}
                     />
                     <PercentageSection
-                        tooltip={`Rechazan: ${data.numNegative} (${negativePercentage}%)`}
+                        tooltip={`${translate.they_refuse}: ${data.numNegative} (${negativePercentage}%)`}
                         value={negativePercentage}
                         color='rgba(200, 0, 0, 0.6)'
                         text={`${negativePercentage}%`}
                     />
                     <PercentageSection
-                        tooltip={`No han seleccionado: ${data.numNoVote} (${noVotePercentage}%)`}
+                        tooltip={`${translate.have_not_selected}: ${data.numNoVote} (${noVotePercentage}%)`}
                         value={noVotePercentage}
                         color="lightgrey"
                         text={`${noVotePercentage}%`}
