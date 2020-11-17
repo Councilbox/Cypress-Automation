@@ -231,7 +231,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														<div style={{ display: "flex" }}><ButtonIcon
 															type="cached"
 															color="white"
-															style={{marginTop: '3px'}}
+															style={{ marginTop: '3px' }}
 														/></div>
 													</div>
 												}
@@ -504,7 +504,7 @@ export const AddAgendaPoint = ({
 					text={
 						<div style={{ display: "flex", alignItems: "center" }}>
 							<div>{translate.add_agenda_point}</div>
-							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{marginTop: '3px'}} /></div>
+							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{ marginTop: '3px' }} /></div>
 						</div>
 					}
 					textStyle={buttonStyle}
@@ -521,7 +521,8 @@ export const AddAgendaPoint = ({
 										width: "100%",
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										alignItems: "center"
+										// justifyContent: "space-between"
 									}}
 								>
 									<i
@@ -551,7 +552,8 @@ export const AddAgendaPoint = ({
 										width: "100%",
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										alignItems: "center"
+										// justifyContent: "space-between"
 									}}
 								>
 									<i
