@@ -274,7 +274,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 							}
 						</GridItem>
 					</Grid>
-					{CBX.hasVotation(agenda.subjectType) && (
+					{(CBX.hasVotation(agenda.subjectType) && !props.hideMajority) && (
 						<Grid>
 							<GridItem xs={6} lg={3} md={3}>
 								<SelectInput

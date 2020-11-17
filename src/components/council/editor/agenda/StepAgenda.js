@@ -661,6 +661,7 @@ export const AddAgendaPoint = ({
 				<NewAgendaPointModal
 					translate={translate}
 					confirmation={true}
+					hideMajority={true}
 					agendas={council.agendas}
 					votingTypes={votingTypes}
 					showLoadDraft={false}
