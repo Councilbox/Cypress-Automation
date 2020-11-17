@@ -2143,6 +2143,9 @@ export const calculateQuorum = (council, recount) => {
 
 
 export const councilHasSession = council => {
-	return !((council.councilType > 1 && council.councilType !== 4) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
+	return !((council.councilType > 1 &&
+		council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION &&
+		council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
+	) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
 }
 

@@ -9,7 +9,7 @@ import { graphql, compose } from 'react-apollo';
 import VotingsTableFiltersContainer from '../../../council/live/voting/VotingsTableFiltersContainer';
 import CommentsTable from "../../live/comments/CommentsTable";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag } from '../../../../utils/CBX';
+import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag, isConfirmationRequest } from '../../../../utils/CBX';
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
 import { updateAgenda } from "../../../../queries/agenda";
@@ -17,6 +17,7 @@ import CustomAgendaRecount from "../../live/voting/CustomAgendaRecount";
 import { agendaRecountQuery } from "../../live/ActAgreements";
 import { useOldState } from "../../../../hooks";
 import { moment } from "../../../../containers/App";
+import ConfirmationRequestRecount from "../../agendas/ConfirmationRequestRecount";
 
 
 const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props }) => {
@@ -238,8 +239,16 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 			component: () => {
 				return (
 					<div style={{minHeight: '8em', padding: '1em'}}>
-						{!isCustomPoint(agenda.subjectType)?
-							<AgendaRecount
+						{isCustomPoint(agenda.subjectType) &&
+							<CustomAgendaRecount
+								agenda={agenda}
+								company={company}
+								translate={translate}
+								council={council}
+							/>
+						}
+						{isConfirmationRequest(agenda.subjectType) ?
+							<ConfirmationRequestRecount
 								agenda={agenda}
 								council={council}
 								translate={translate}
@@ -247,11 +256,12 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 								majorityTypes={majorityTypes}
 							/>
 						:
-							<CustomAgendaRecount
+							<AgendaRecount
 								agenda={agenda}
-								company={company}
-								translate={translate}
 								council={council}
+								translate={translate}
+								recount={recount}
+								majorityTypes={majorityTypes}
 							/>
 						}
 						<VotingsTableFiltersContainer

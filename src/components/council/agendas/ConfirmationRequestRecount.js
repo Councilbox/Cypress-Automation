@@ -6,7 +6,6 @@ import { agendaVotingsOpened, getPercentage } from '../../../utils/CBX';
 import { agendaRecountQuery } from '../live/ActAgreements';
 
 
-
 const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
     const [data, setData] = React.useState(null);
 

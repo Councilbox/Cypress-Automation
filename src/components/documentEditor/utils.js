@@ -177,20 +177,6 @@ const getCustomRecount = (ballots, itemId) => {
     return ballots.filter(ballot => ballot.itemId == itemId).reduce((a, b) => a + b.weight, 0)
 }
 
-const getConfirmationRequestRecount = (point, type) => {
-    const total = point.positiveVotings + point.positiveManual + point.negativeVotings + point.negativeManual + point.noVoteVotings + point.noVoteManual;
-    
-    const values = {
-        POSITIVE: point.positiveVotings + point.positiveManual,
-        NEGATIVE: point.negativeVotings + point.negativeManual,
-        NO_VOTE: point.noVoteVotings + point.noVoteManual
-    }
-
-    const value = values[type];
-
-    return `${value} (${getPercentage(value, total)})`
-}
-
 
 const buildAgendaText = (agenda, translate, data) => {
     if(isCustomPoint(agenda.subjectType)){
