@@ -198,7 +198,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
             buttonAccept={translate.accept}
             buttonCancel={translate.cancel}
             bodyText={renderBody()}
-            title={translate.new_point}
+            title={translate.new_custom_point}
         />
     )
 }

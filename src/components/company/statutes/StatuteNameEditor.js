@@ -11,7 +11,7 @@ class StatuteNameEditor extends React.Component {
     };
 
     updateStatute = async () => {
-        if(!this.checkRequiredFields()){
+        if (!this.checkRequiredFields()) {
             const response = await this.props.updateStatute({
                 variables: {
                     statute: {
@@ -21,8 +21,8 @@ class StatuteNameEditor extends React.Component {
                 }
             });
 
-            if(response.data){
-                if(response.data.updateCompanyStatute.id){
+            if (response.data) {
+                if (response.data.updateCompanyStatute.id) {
                     this.props.requestClose();
                     this.props.refetch();
                 }
@@ -31,18 +31,30 @@ class StatuteNameEditor extends React.Component {
     }
 
     checkRequiredFields = () => {
-        if(!this.state.title){
+        var regex = new RegExp("^[a-zA-Z0-9-áéíóú ]+$");
+        if (!this.state.title) {
             this.setState({
                 titleError: this.props.translate.required_field
             });
             return true;
         }
+        if (this.state.title) {
+            if ((regex.test(this.state.title)) && this.state.title.trim()) {
+                return false;
+            } else {
+                this.setState({
+                    titleError: this.props.translate.enter_valid_name
+                });
+                return true;
+            }
+        }
+
 
         return false;
     }
 
 
-    render(){
+    render() {
         const { translate } = this.props;
 
         return (
