@@ -538,7 +538,8 @@ export const AddAgendaPoint = ({
 										width: "100%",
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										alignItems: "center"
+										// justifyContent: "space-between"
 									}}
 								>
 									<i
@@ -568,7 +569,8 @@ export const AddAgendaPoint = ({
 										width: "100%",
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										alignItems: "center"
+										// justifyContent: "space-between"
 									}}
 								>
 									<i
