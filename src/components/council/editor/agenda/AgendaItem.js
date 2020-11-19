@@ -5,12 +5,13 @@ import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { IconButton, Paper } from "material-ui";
 import withTranslations from "../../../../HOCs/withTranslations";
 import { getSubjectAbrv } from "../../../../displayComponents/AgendaNumber";
+import { isMobile } from "react-device-detect";
 
 const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	return(
+	return (
 		<Paper
 			style={{
 				width: "100%",
@@ -23,26 +24,26 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 			}}
 		>
 			<Grid spacing={8}>
-				<GridItem xs={9} md={9}>
+				<GridItem xs={7} md={9}>
 					<Grid spacing={0}>
-						<GridItem xs={1} md={1} lg={1} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+						<GridItem xs={3} md={1} lg={1} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 							<div
 								style={{
 									color: primary,
 									width: "30px",
 									margin: "-0.25em 0",
 									fontWeight: "700",
-									fontSize: "1.5em"
+									fontSize: isMobile ? "1.1em" :  "1.5em"
 								}}
 							>
 								{getSubjectAbrv(agenda.agendaSubject)}
 							</div>
 						</GridItem>
-						<GridItem xs={11}>
+						<GridItem xs={9}>
 							<div
 								style={{
 									fontWeight: "600",
-									fontSize: "1em"
+									fontSize: isMobile ? "0.9em" : "1em"
 								}}
 							>
 								{agenda.agendaSubject}
@@ -64,7 +65,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 										float: 'left',
 										marginTop: '1em',
 										padding: '5px',
-										marginLeft: index > 0? '5px' : '0',
+										marginLeft: index > 0 ? '5px' : '0',
 										borderRadius: '5px',
 										color: 'primary'
 									}} key={`attachment_${attachment.id}`}>
@@ -74,10 +75,9 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 							</GridItem>
 						</GridItem>
 						{agenda.items.length > 0 &&
-							<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>
-								{`${translate.answers_options}: ${translate.max}: ${agenda.options.maxSelections}${
-									agenda.options.minSelections > 1? ` - ${translate.min}: ${agenda.options.minSelections}` : ''
-								}`}
+							<GridItem xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
+								{`${translate.answers_options}: ${translate.max}: ${agenda.options.maxSelections}${agenda.options.minSelections > 1 ? ` - ${translate.min}: ${agenda.options.minSelections}` : ''
+									}`}
 								<ul>
 									{agenda.items.map(item => (
 										<li key={`agenda_item_${item.id}`} style={{ whiteSpace: 'pre-wrap', marginTop: '0.3em' }}>
@@ -89,7 +89,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 						}
 					</Grid>
 				</GridItem>
-				<GridItem xs={3} md={3}>
+				<GridItem xs={5} md={3}>
 					<Grid spacing={0}>
 						<GridItem
 							xs={6}
