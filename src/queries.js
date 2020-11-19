@@ -1425,6 +1425,7 @@ export const councilLiveQuery = gql`
 			approveActDraft
 			attachments {
 				councilId
+				participantId
 				filename
 				filesize
 				filetype

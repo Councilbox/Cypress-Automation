@@ -1,5 +1,5 @@
 import { AGENDA_TYPES, INPUT_REGEX, MAJORITY_TYPES } from "../constants";
-import { checkForUnclosedBraces } from './CBX';
+import { checkForUnclosedBraces, majorityNeedsInput } from './CBX';
 import React from 'react';
 import { LiveToast } from '../displayComponents';
 
@@ -128,7 +128,7 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 
 	let hasError = false;
 
-	var regex = INPUT_REGEX;
+	const regex = INPUT_REGEX;
 
 	if (participant.name) {
 		if (!(regex.test(participant.name)) || !participant.name.trim()) {
@@ -205,14 +205,28 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 
 	let hasError = false;
 
+	const regex = INPUT_REGEX;
+
+	if (agenda.agendaSubject) {
+		if (!(regex.test(agenda.agendaSubject)) || !agenda.agendaSubject.trim()) {
+			hasError = true;
+			errors.agendaSubject = translate.invalid_field;
+		}
+	}
+
 	if (!agenda.agendaSubject) {
 		hasError = true;
 		errors.agendaSubject = translate.field_required;
 	}
-
+	
 	if (!agenda.subjectType && agenda.subjectType !== 0) {
 		hasError = true;
 		errors.subjectType = translate.field_required;
+	}
+	
+	if (majorityNeedsInput(agenda) && !agenda.majority && agenda.majority !== 0) {
+		hasError = true;
+		errors.majority = translate.field_required;
 	}
 
 	if (agenda.description) {

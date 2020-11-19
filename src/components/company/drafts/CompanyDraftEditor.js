@@ -20,6 +20,7 @@ import withSharedProps from "../../../HOCs/withSharedProps";
 import { bHistory } from "../../../containers/App";
 import { isMobile } from "../../../utils/screen";
 import { toast } from "react-toastify";
+import { INPUT_REGEX } from "../../../constants";
 
 
 
@@ -88,7 +89,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 			title: "",
 		}
 		let hasError = false;
-		var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+		const regex = INPUT_REGEX;
 		if (!checkRequiredFields(translate, data, updateErrors, null, toast)) {
 
 			if (data.title) {

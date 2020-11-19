@@ -535,7 +535,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										floatingText={translate.meeting_title}
 										type="text"
 										id={'TituloReunionEnConvocatoria'}
-										placeholder="Título que será el que aparezca en el acta"
+										placeholder={translate.title_appears_in_the_minutes}
 										errorText={errors.name}
 										value={council.name || ""}
 										onChange={event =>

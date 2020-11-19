@@ -93,7 +93,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
             </div>
         )
     }
-
+    
     return (
         <AlertConfirm
             requestClose={props.requestClose}
@@ -111,7 +111,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 					/>
 			}
             bodyText={renderBody()}
-            title={translate.new_point}
+            title={translate.edit}
         />
     )
 }

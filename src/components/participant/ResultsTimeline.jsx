@@ -79,6 +79,8 @@ const ResultsTimeline = ({ data, translate, council, classes, client, disableScr
                     switch (event.type) {
                         case 'START_COUNCIL':
                         case 'END_COUNCIL':
+                        case 'COUNCIL_PAUSED':
+                        case 'COUNCIL_RESUMED':
                             return getStepInit(event, content, translate, classes);
                         case 'START_AUTO_COUNCIL':
                         case 'CLOSE_REMOTE_VOTINGS':

@@ -82,22 +82,6 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
         setLoading(false);
     }
 
-    const startRecording = async () => {
-        if (loading) {
-            return;
-        }
-        setLoading(true);
-
-        await props.startRecording({
-            variables: {
-                councilId: council.id
-            }
-        });
-        data.refetch();
-
-        setLoading(false);
-    }
-
     const toggleRecordings = async () => {
         if (loading) {
             return;

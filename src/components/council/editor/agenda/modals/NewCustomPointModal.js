@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import CustomPointForm from './CustomPointForm';
 import { checkRepeatedItemValue } from '../../../../../utils/CBX';
+import { INPUT_REGEX } from '../../../../../constants';
 
 
 const defaultPollOptions = {
@@ -21,31 +22,39 @@ const defaultValues = {
 
 export const useValidateAgenda = (translate, setErrors) => (items, options, agenda) => {
     let hasError = false;
+    var regex = new RegExp("^[a-zA-Z0-9-áéíóú ]\.+$")
     let newErrors = {
         items: items.map(item => ({ error: '' }))
     }
-
-    if(items.length === 0){
-        newErrors.itemsLength = translate.necessary_add_least_one_option ;
+    
+    if (items.length === 0) {
+        newErrors.itemsLength = translate.necessary_add_least_one_option;
         hasError = true;
     }
 
+	if (agenda.agendaSubject) {
+		if (!(regex.test(agenda.agendaSubject)) || !agenda.agendaSubject.trim()) {
+			hasError = true;
+			newErrors.agendaSubject = translate.invalid_field;
+		}
+    }
+    
     if (!agenda.agendaSubject) {
         newErrors.agendaSubject = translate.required_field;
         hasError = true;
     }
 
-    if(options.multiselect && options.maxSelections > items.length){
-        newErrors.maxSelections = translate.maximum_number_available_options ;
+    if (options.multiselect && options.maxSelections > items.length) {
+        newErrors.maxSelections = translate.maximum_number_available_options;
         hasError = true;
     }
 
-    if(options.multiselect && options.minSelections > items.length){
+    if (options.multiselect && options.minSelections > items.length) {
         newErrors.minSelections = translate.minimum_number_available_options;
         hasError = true;
     }
 
-    if(options.multiselect && options.minSelections > options.maxSelections){
+    if (options.multiselect && options.minSelections > options.maxSelections) {
         newErrors.minSelections = translate.minimum_number_maximum_number;
         hasError = true;
     }
@@ -60,9 +69,15 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
     }
 
     items.forEach((item, index) => {
-        if(!item.value){
+        if (!item.value) {
             newErrors.items[index].error = translate.not_indicated_value_option;
             hasError = true;
+        }
+        if (item.value) {
+            if (!(regex.test(item.value)) || !item.value.trim()) {
+                hasError = true;
+                newErrors.items[index].error = translate.invalid_field;
+            }
         }
     });
 
@@ -183,7 +198,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
             buttonAccept={translate.accept}
             buttonCancel={translate.cancel}
             bodyText={renderBody()}
-            title={translate.new_point}
+            title={translate.new_custom_point}
         />
     )
 }

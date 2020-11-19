@@ -25,6 +25,7 @@ export const agendaRecountQuery = gql`
 			noVotes
 			numPositive
 			numNegative
+			numTotal
 			numAbstention
 			numNoVote
 			positiveSC

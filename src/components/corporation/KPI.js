@@ -25,15 +25,12 @@ const KPI = ({ translate, client }) => {
                 dateEnd: dateEnd.format('YYYY/MM/DD'),
             }
         });
-        console.log(response);
         setKPI(response.data.kpi);
     }, [dateStart, dateEnd]);
 
     React.useEffect(() => {
         getData();
     }, [getData])
-
-    console.log(dateStart);
 
     return (
         <div style={{ padding: '2em' }}>

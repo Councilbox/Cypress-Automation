@@ -5,7 +5,8 @@ import {
 	Grid,
 	GridItem,
 	DropDownMenu,
-	LoadingSection
+	LoadingSection,
+	AlertConfirm
 } from "../../../../displayComponents/index";
 import { compose, graphql, withApollo } from "react-apollo";
 import { Typography } from "material-ui";
@@ -40,6 +41,9 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		success: false,
 		loading: false,
 		saveAsDraftId: null,
+		confirmationRequestModal: false,
+		deleteModal: false,
+		agendaIdRemove: false,
 		errors: {
 			agendaSubject: "",
 			description: "",
@@ -47,6 +51,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		}
 	});
 	const [loading, setLoading] = React.useState(true);
+	const [deleteModal, setDeleteModal] = React.useState(false);
 	const [data, setData] = React.useState({});
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -104,13 +109,15 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	const removeAgenda = async agendaId => {
 		const response = await props.removeAgenda({
 			variables: {
-				agendaId: agendaId,
+				agendaId: state.agendaIdRemove,
+				// agendaId: agendaId,
 				councilId: props.councilID
 			}
 		});
 
 		if (response) {
 			getData();
+			setState({ ...state, deleteModal: false, agendaIdRemove: false })
 		}
 	};
 
@@ -231,7 +238,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														<div style={{ display: "flex" }}><ButtonIcon
 															type="cached"
 															color="white"
-															style={{marginTop: '3px'}}
+															style={{ marginTop: '3px' }}
 														/></div>
 													</div>
 												}
@@ -264,7 +271,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														).label : ''
 														]
 													}
-													removeAgenda={removeAgenda}
+
+													removeAgenda={() => setState({ ...state, deleteModal: true, agendaIdRemove: agenda.id })}
 													selectAgenda={selectAgenda}
 													saveAsDraft={saveAsAgendaDraft}
 												/>
@@ -444,6 +452,15 @@ const StepAgenda = ({ client, translate, ...props }) => {
 					</React.Fragment>
 				}
 			/>
+			<AlertConfirm
+				title={translate.attention}
+				bodyText={translate.question_delete}
+				open={deleteModal}
+				buttonAccept={translate.delete}
+				buttonCancel={translate.cancel}
+				acceptAction={removeAgenda}
+				requestClose={() => setDeleteModal(false)}
+			/>
 		</React.Fragment>
 	);
 };
@@ -492,7 +509,7 @@ export const AddAgendaPoint = ({
 			yesNoModal: false
 		});
 	};
-
+	
 	return (
 		<React.Fragment>
 			{config.customPoints ? (
@@ -504,7 +521,7 @@ export const AddAgendaPoint = ({
 					text={
 						<div style={{ display: "flex", alignItems: "center" }}>
 							<div>{translate.add_agenda_point}</div>
-							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{marginTop: '3px'}} /></div>
+							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{ marginTop: '3px' }} /></div>
 						</div>
 					}
 					textStyle={buttonStyle}
@@ -521,7 +538,8 @@ export const AddAgendaPoint = ({
 										width: "100%",
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										alignItems: "center"
+										// justifyContent: "space-between"
 									}}
 								>
 									<i
@@ -551,7 +569,8 @@ export const AddAgendaPoint = ({
 										width: "100%",
 										display: "flex",
 										flexDirection: "row",
-										justifyContent: "space-between"
+										alignItems: "center"
+										// justifyContent: "space-between"
 									}}
 								>
 									<i
@@ -573,6 +592,40 @@ export const AddAgendaPoint = ({
 									</span>
 								</div>
 							</MenuItem>
+							{config.confirmationRequestPoint &&
+								<>
+									<Divider />
+									<MenuItem onClick={() => setState({ ...state, confirmationRequestModal: true })}>
+										<div
+											id={'puntoPersonalizado'}
+											style={{
+												width: "100%",
+												display: "flex",
+												flexDirection: "row",
+												justifyContent: "space-between"
+											}}
+										>
+											<i
+												className="material-icons"
+												style={{
+													fontSize: "1.2em",
+													color: secondary
+												}}
+											>
+												check_circle_outline
+											</i>
+											<span
+												style={{
+													marginLeft: "2.5em",
+													marginRight: "0.8em"
+												}}
+											>
+												{translate.confirmation_request}
+											</span>
+										</div>
+									</MenuItem>
+								</>
+							}
 						</React.Fragment>
 					}
 				/>
@@ -595,6 +648,25 @@ export const AddAgendaPoint = ({
 					votingTypes={votingTypes}
 					open={state.yesNoModal}
 					requestClose={closeYesNoModal}
+					majorityTypes={majorityTypes}
+					draftTypes={draftTypes}
+					statute={council.statute}
+					company={props.company}
+					council={council}
+					companyStatutes={props.companyStatutes}
+					refetch={props.refetch}
+				/>
+			)}
+			{state.confirmationRequestModal && (
+				<NewAgendaPointModal
+					translate={translate}
+					confirmation={true}
+					hideMajority={true}
+					agendas={council.agendas}
+					votingTypes={votingTypes}
+					showLoadDraft={false}
+					open={state.confirmationRequestModal}
+					requestClose={() => setState({ ...state, confirmationRequestModal: false })}
 					majorityTypes={majorityTypes}
 					draftTypes={draftTypes}
 					statute={council.statute}

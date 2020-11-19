@@ -287,6 +287,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
         return (
             <VideoContainer
                 council={council}
+                translate={translate}
                 participant={participant}
                 videoURL={state.videoURL}
                 setVideoURL={url => setState({ ...state, videoURL: url })}
@@ -333,17 +334,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                 activeInput={() => setState({ ...state, activeInput: true })}
                 onFocus={() => setState({ ...state, activeInput: true })}
                 onblur={() => setState({ ...state, activeInput: false })}
-            >
-                {/* <TextInputChat
-                    value={state.text}
-                  
-                    onChange={event => setState({ text: event.target.value, success: false })}
-                  
-                    onFocus={() => setState({ ...state, activeInput: true })}
-                    onblur={() => setState({ ...state, activeInput: false })}
-                   
-                /> */}
-            </AdminPrivateMessage>
+            />
         )
     }
 
@@ -428,7 +419,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                 click={state.activeInput}
                                 participant={participant}
                                 comentario={renderAdminMessageMenu()}
-                                pedirPalabra={renderRequestWordMenu()}
+                                askWordMenu={renderRequestWordMenu()}
                             />
                             <Header
                                 logoutButton={true}
@@ -518,7 +509,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                 </div>
                                 <div style={{ transition: "all .3s ease-in-out", width: '100%', height: state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: state.avisoVideo ? "55px" : "0px" }}>
                                     {renderAdminAnnouncement()}
-                                    <div style={{ height: `calc( 100% - ${config.participantsHeader ? '3em' : '0px'} - 5px )`, width: '100%', }}>
+                                    <div style={{ height: `calc( 100% - ${config.participantsHeader ? state.adminMessage ? '6.3em' : '3em' : '0px'} - 5px )`, width: '100%', }}>
                                         {renderVideoContainer()}
                                     </div>
                                 </div>
@@ -546,7 +537,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                                     modalContent={state.modalContent}
                                     participant={participant}
                                     comentario={renderAdminMessageMenu()}
-                                    pedirPalabra={renderRequestWordMenu()}
+                                    askWordMenu={renderRequestWordMenu()}
                                 />
                             </div>
                         }

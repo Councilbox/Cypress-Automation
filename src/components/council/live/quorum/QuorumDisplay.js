@@ -1,5 +1,5 @@
 import React from 'react';
-import { showNumParticipations, councilHasSession, hasParticipations, hasVotation } from '../../../../utils/CBX';
+import { showNumParticipations, councilHasSession, hasParticipations, hasVotation, isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { AlertConfirm, DropDownMenu } from '../../../../displayComponents';
 import { usePolling } from '../../../../hooks';
@@ -88,10 +88,10 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
 
     const SC = hasParticipations(council.statute);
 
-    const getPercentage = value => {
-        let base = totalVotes;
+    const getPercentage = (value, defaultBase) => {
+        let base = defaultBase || totalVotes;
         if (SC) {
-            base = socialCapital;
+            base = defaultBase || socialCapital;
         }
 
         return ((value / base) * 100).toFixed(3);
@@ -160,6 +160,8 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
     if (loading) {
         return '';
     }
+
+    console.log(agendas);
 
     return (
         <div style={{ fontSize: '1em' }}>
@@ -372,26 +374,48 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                             {point.agendaSubject.substr(0, 10)}
                                         </div>
                                     </TableCell>
-                                    {hasVotation(point.subjectType) ?
+                                    {(hasVotation(point.subjectType) && !isCustomPoint(point.subjectType)) ?
                                         <>
-                                            <TableCell>
-                                                {showNumParticipations(point.positiveVotings + point.positiveManual, company, council.statute)}
-                                            </TableCell>
-                                            <TableCell>
-                                                {`${getVotingPercentage(point.positiveVotings + point.positiveManual)}%`}
-                                            </TableCell>
-                                            <TableCell>
-                                                {showNumParticipations(point.negativeVotings + point.negativeManual, company, council.statute)}
-                                            </TableCell>
-                                            <TableCell>
-                                                {`${getVotingPercentage(point.negativeVotings + point.negativeManual)}%`}
-                                            </TableCell>
-                                            <TableCell>
-                                                {showNumParticipations(point.abstentionVotings + point.abstentionManual, company, council.statute)}
-                                            </TableCell>
-                                            <TableCell>
-                                                {`${getVotingPercentage(point.abstentionVotings + point.abstentionManual)}%`}
-                                            </TableCell>
+                                            {isConfirmationRequest(point.subjectType) ?
+                                                <>
+                                                    <TableCell>
+                                                        {point.positiveVotings + point.positiveManual}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {`${getPercentage(point.positiveVotings + point.positiveManual, point.positiveVotings + point.positiveManual + point.negativeVotings + point.negativeManual + point.noVoteVotings + point.noVoteManual)}%`}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {point.negativeVotings + point.negativeManual}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {`${getPercentage(point.negativeVotings + point.negativeManual, point.positiveVotings + point.positiveManual + point.negativeVotings + point.negativeManual + point.noVoteVotings + point.noVoteManual)}%`}
+                                                    </TableCell>
+                                                    <TableCell colSpan={2} align="center">
+                                                        -
+                                                    </TableCell>
+                                                </>
+                                            :
+                                                <>
+                                                    <TableCell>
+                                                        {showNumParticipations(point.positiveVotings + point.positiveManual, company, council.statute)}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {`${getVotingPercentage(point.positiveVotings + point.positiveManual)}%`}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {showNumParticipations(point.negativeVotings + point.negativeManual, company, council.statute)}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {`${getVotingPercentage(point.negativeVotings + point.negativeManual)}%`}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {showNumParticipations(point.abstentionVotings + point.abstentionManual, company, council.statute)}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {`${getVotingPercentage(point.abstentionVotings + point.abstentionManual)}%`}
+                                                    </TableCell>
+                                                  </>
+                                            }
                                         </>
                                         :
                                         <>

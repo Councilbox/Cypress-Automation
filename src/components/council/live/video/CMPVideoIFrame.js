@@ -7,6 +7,8 @@ import { ConfigContext } from '../../../../containers/AppControl';
 import AdminAnnouncement from '../adminAnnouncement/AdminAnnouncement';
 import { useInterval, useRoomUpdated } from '../../../../hooks';
 import { LoadingSection } from '../../../../displayComponents';
+import { COUNCIL_STATES } from '../../../../constants';
+import PausedCouncilPage from './PausedCouncilPage';
 
 
 
@@ -77,6 +79,12 @@ const CMPVideoIFrame = props => {
 
     if(loading){
         return <LoadingSection />
+    }
+
+    if(props.council.state === COUNCIL_STATES.PAUSED){
+        return (
+            <PausedCouncilPage council={props.council} translate={props.translate} />
+        )
     }
 
     return (

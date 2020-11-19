@@ -34,7 +34,6 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 					smsKey: key
 				}
 			});
-			console.log(response);
 
 			if (response && !response.errors) {
 				setError(false);

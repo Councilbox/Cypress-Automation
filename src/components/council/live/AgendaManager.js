@@ -8,8 +8,6 @@ import { LoadingSection, Scrollbar, AlertConfirm } from "../../../displayCompone
 import { AGENDA_STATES } from '../../../constants';
 import { useOldState, usePolling } from "../../../hooks";
 import { isMobile } from "../../../utils/screen";
-import OneOnOneAttachmentsList from "./oneOnOne/OneOnOneAttachmentsList";
-
 
 const getInitialSelectedPoint = agendas => {
 	const index = agendas.findIndex(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
@@ -220,44 +218,35 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 				}}
 				tabIndex="0"
 			>
-				{council.councilType === 5 ?
-					<OneOnOneAttachmentsList
+				{(agendas.length > 0 && agendas[selectedPoint]) ?
+					<AgendaDetailsSection
+						ref={agendaDetails}
+						recount={props.recount}
 						council={council}
+						key={selectedPoint}
+						agendas={agendas}
+						editedVotings={state.editedVotings}
+						changeEditedVotings={changeEditedVotings}
+						showVotingsAlert={showVotingsAlert}
+						nextPoint={nextPoint}
+						data={data}
+						company={company}
+						root={props.root}
+						selectedPoint={selectedPoint}
+						majorityTypes={data.majorityTypes}
+						votingTypes={data.votingTypes}
+						companyStatutes={data.companyStatutes}
+						participants={props.participants}
+						councilID={props.councilID}
 						translate={translate}
+						refetchCouncil={props.refetch}
+						refetch={getData}
 					/>
 				:
-					<>
-						{(agendas.length > 0 && agendas[selectedPoint]) ?
-							<AgendaDetailsSection
-								ref={agendaDetails}
-								recount={props.recount}
-								council={council}
-								key={selectedPoint}
-								agendas={agendas}
-								editedVotings={state.editedVotings}
-								changeEditedVotings={changeEditedVotings}
-								showVotingsAlert={showVotingsAlert}
-								nextPoint={nextPoint}
-								data={data}
-								company={company}
-								root={props.root}
-								selectedPoint={selectedPoint}
-								majorityTypes={data.majorityTypes}
-								votingTypes={data.votingTypes}
-								companyStatutes={data.companyStatutes}
-								participants={props.participants}
-								councilID={props.councilID}
-								translate={translate}
-								refetchCouncil={props.refetch}
-								refetch={getData}
-							/>
-						:
-							<div style={{margin: '2em'}}>
-								{translate.empty_agendas}
-							</div>
-						}
-					</>
-				}
+					<div style={{margin: '2em'}}>
+						{translate.empty_agendas}
+					</div>
+					}
 			</div>
 			<AlertConfirm
 				requestClose={closeVotingsAlert}
