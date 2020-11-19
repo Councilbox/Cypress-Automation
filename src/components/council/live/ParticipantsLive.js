@@ -7,7 +7,8 @@ import {
 	LoadingSection,
 	Grid,
 	GridItem,
-	AlertConfirm
+	AlertConfirm,
+	CBXFooter
 } from "../../../displayComponents";
 import gql from 'graphql-tag';
 import { compose, graphql, withApollo } from "react-apollo";
@@ -22,9 +23,11 @@ import MuteToggleButton from './videoParticipants/MuteToggleButton';
 import { isMobile } from "../../../utils/screen";
 import { usePolling } from "../../../hooks";
 import MuteCamToggleButton from "./videoParticipants/MuteCamToggleButton";
+import imgCouncilbox from "../../../assets/img/imago-councilbox-inverse-mini.png";
+import imgCouncilbox2 from "../../../assets/img/logo-white-mini.png";
 
 
-const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) => {
+const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) => {
 	const [stats, setStats] = React.useState({
 		online: "-",
 		offline: "-",
@@ -36,9 +39,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 	const [options, setOptions] = React.useState({
 		banParticipant: false,
 		page: 1,
-		limit: isMobile? 15 : 20
+		limit: isMobile ? 15 : 20
 	});
-	
+
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -64,8 +67,8 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 	}, [getData]);
 
 	React.useEffect(() => {
-		if(!loading){
-			if(data.videoParticipants){
+		if (!loading) {
+			if (data.videoParticipants) {
 				checkParticipantsStatus(data.videoParticipants.list);
 			}
 		}
@@ -74,7 +77,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 
 	const checkParticipantsStatus = async participants => {
 		const offline = participants.filter(participant => (participant.online !== 2 && exceedsOnlineTimeout(participant.lastDateConnection)));
-		if(offline.length > 0){
+		if (offline.length > 0) {
 			await client.mutate({
 				mutation: gql`
 					mutation CheckParticipantsOnlineState($councilId: Int!){
@@ -157,7 +160,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 		return (
 			<Grid
 				key={`participant${participant.id}`}
-				className={(isAskingForWord(participant) && participant.online === 1)? "colorToggle" : ''}
+				className={(isAskingForWord(participant) && participant.online === 1) ? "colorToggle" : ''}
 				style={{
 					display: "flex",
 					flexDirection: "row",
@@ -168,7 +171,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 				}}
 			>
 				<GridItem
-					xs={5}
+					xs={4}
 					lg={5}
 					md={5}
 					style={{ display: "flex", flexDirection: "row" }}
@@ -186,9 +189,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 							}}
 							className="truncate"
 						>
-							{`${participant.name} ${participant.surname || ''}`}<br/>
+							{`${participant.name} ${participant.surname || ''}`}<br />
 							{(participant.geoLocation && participant.geoLocation.city) &&
-								<span style={{fontSize: '0.85em'}}>
+								<span style={{ fontSize: '0.85em' }}>
 									{`${participant.geoLocation.ip || participant.geoLocation.query}, ${formatCountryName(participant.geoLocation.country, translate.selectedLanguage)}`}
 								</span>
 							}
@@ -210,9 +213,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 					</GridItem>
 				}
 				<GridItem
-					xs={isMobile? 2 : 1}
-					lg={isMobile? 2 : 1}
-					md={isMobile? 2 : 1}
+					xs={isMobile ? 2 : 1}
+					lg={isMobile ? 2 : 1}
+					md={isMobile ? 2 : 1}
 					style={{
 						display: "flex",
 						flexDirection: "row",
@@ -226,9 +229,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 					/>
 				</GridItem>
 				<GridItem
-					xs={isMobile? 2 : 1}
-					lg={isMobile? 2 : 1}
-					md={isMobile? 2 : 1}
+					xs={isMobile ? 2 : 1}
+					lg={isMobile ? 2 : 1}
+					md={isMobile ? 2 : 1}
 					style={{
 						display: "flex",
 						flexDirection: "row",
@@ -242,9 +245,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 					/>
 				</GridItem>
 				<GridItem
-					xs={isMobile? 2 : 1}
-					lg={isMobile? 2 : 1}
-					md={isMobile? 2 : 1}
+					xs={isMobile ? 2 : 1}
+					lg={isMobile ? 2 : 1}
+					md={isMobile ? 2 : 1}
 					style={{
 						display: "flex",
 						flexDirection: "row",
@@ -258,9 +261,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 					/>
 				</GridItem>
 				<GridItem
-					xs={isMobile? 2 : 1}
-					lg={isMobile? 2 : 1}
-					md={isMobile? 2 : 1}
+					xs={isMobile ? 2 : 1}
+					lg={isMobile ? 2 : 1}
+					md={isMobile ? 2 : 1}
 					style={{
 						display: "flex",
 						flexDirection: "row",
@@ -288,28 +291,28 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 		if (participant.online !== 1) {
 			return "crimson";
 		}
-		if(!participant.videoParticipant){
+		if (!participant.videoParticipant) {
 			return turquoise;
 		}
 
-		if(participant.videoParticipant && council.room && council.room.videoConfig){
-			const videoConfig = council.room.videoConfig? council.room.videoConfig : {};
+		if (participant.videoParticipant && council.room && council.room.videoConfig) {
+			const videoConfig = council.room.videoConfig ? council.room.videoConfig : {};
 			const { videoParticipant } = participant;
 
-			if((videoConfig.rtmp && videoConfig.viewerURL) || videoConfig.autoHybrid || videoConfig.fixedURL || council.room.videoLink){
-				if(participant.requestWord !== 2){
+			if ((videoConfig.rtmp && videoConfig.viewerURL) || videoConfig.autoHybrid || videoConfig.fixedURL || council.room.videoLink) {
+				if (participant.requestWord !== 2) {
 					return turquoise;
 				} else {
-					if(videoParticipant.online === 1){
+					if (videoParticipant.online === 1) {
 						return turquoise;
 					}
 					return "darkorange";
 				}
 			}
 
-			if(videoParticipant.online === 1){
+			if (videoParticipant.online === 1) {
 				return turquoise;
-			} else{
+			} else {
 				return "darkorange";
 			}
 		}
@@ -337,8 +340,8 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 		}
 
 		return (
-			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${props.videoHeight} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
-				<div style={{height: `calc(100% - ${videoParticipants.total > options.limit? '3em' : '0px'})`}}>
+			<div style={{ backgroundColor: darkGrey, width: "100%", height: isMobile ? "430px" : `calc(100vh - ${props.videoHeight} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
+				<div style={{ height: `calc(100% - ${videoParticipants.total > options.limit ? '4em' : '2em'})` }}>
 					<Scrollbar>
 						{videoParticipants.list.map(participant => {
 							return _participantEntry(participant);
@@ -346,25 +349,32 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 					</Scrollbar>
 				</div>
 				{videoParticipants.total > options.limit &&
-					<div style={{height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em'}}>
-							{_paginationFooter(videoParticipants)}
+					<div style={{ height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em' }}>
+						{_paginationFooter(videoParticipants)}
 					</div>
 				}
+				<div style={{ display: 'flex', alignItems: "center", justifyContent: "center", paddingTop: "3px" }}>
+					<div style={{ width: '17px', marginRight: "5px", display: 'flex', }}>
+						<img src={imgCouncilbox} style={{ width: '100%' }}></img>
+					</div>
+					<div style={{ width: '84px', display: 'flex', marginTop: "1px" }}>
+						<img src={imgCouncilbox2} style={{ width: '100%' }}></img>
+					</div>
+				</div>
 			</div>
 		);
 	}
 
 	const _paginationFooter = participants => {
 		return (
-			<div style={{display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em'}}>
+			<div style={{ display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em' }}>
 				{options.page > 1 &&
-					<div onClick={() => setOptions({ ...options, page: options.page - 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'<'}</div>
+					<div onClick={() => setOptions({ ...options, page: options.page - 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'<'}</div>
 				}
-				<div style={{margin: '0 0.3em'}}>{options.page}</div>
+				<div style={{ margin: '0 0.3em' }}>{options.page}</div>
 				{(options.page < (participants.total / options.limit)) &&
-					<div onClick={() => setOptions({ ...options, page: options.page + 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'>'}</div>
+					<div onClick={() => setOptions({ ...options, page: options.page + 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'>'}</div>
 				}
-
 			</div>
 		)
 	}
@@ -375,15 +385,15 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 		return <div style={{ height: "100%" }}>{CMPVideo && _button()}</div>;
 	}
 	return (
-		<div style={{height: '100%'}}>
+		<div style={{}}>
 			{CMPVideo &&
-				<React.Fragment>
+				<div style={{}}>
 					<CollapsibleSection
 						trigger={_button}
 						controlled={true}
 						collapse={_section}
 						open={true}
-						style={{ cursor: 'auto'}}
+						style={{ cursor: 'auto', }}
 					/>
 					<AlertConfirm
 						requestClose={() =>
@@ -396,10 +406,8 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 						bodyText={
 							<div>
 								{!!options.banParticipant &&
-									`${translate.want_eject} ${
-										options.banParticipant.name
-									} ${options.banParticipant.surname || ''} ${
-										translate.from_room
+									`${translate.want_eject} ${options.banParticipant.name
+									} ${options.banParticipant.surname || ''} ${translate.from_room
 									}?`
 								}
 							</div>
@@ -415,7 +423,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 							translate={translate}
 						/>
 					)}
-				</React.Fragment>
+				</div>
 			}
 		</div>
 	);
