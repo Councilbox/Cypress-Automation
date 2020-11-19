@@ -399,7 +399,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 		});
 		return errors.hasError || majorityCheckResult.error;
 	}
-
+	
 	return (
 		<React.Fragment>
 			<AlertConfirm
@@ -409,7 +409,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				bodyText={_renderNewPointBody()}
-				title={translate.new_point}
+				title={translate.new_approving_point}
 			/>
 		</React.Fragment>
 	);

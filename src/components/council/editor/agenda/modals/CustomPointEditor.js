@@ -93,7 +93,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
             </div>
         )
     }
-
+    
     return (
         <AlertConfirm
             requestClose={props.requestClose}
