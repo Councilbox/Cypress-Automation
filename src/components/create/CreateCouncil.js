@@ -20,6 +20,7 @@ import { isMobile } from "../../utils/screen";
 import emptyMeetingTable from "../../assets/img/empty_meeting_table.png";
 import conSesionIcon from "../../assets/img/con-sesion-icon.svg";
 import consejoSinSesion from "../../assets/img/consejo-sin-sesion-icon.svg";
+import oneOnOne from "../../assets/img/one-on-one-icon.svg";
 import elecciones from "../../assets/img/elecciones.svg";
 import admin from '../../assets/img/admin.svg';
 import sinSesionIcon from '../../assets/img/sin-sesion-icon.svg';
@@ -225,7 +226,11 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											<ButtonCreateCouncil
 												onClick={createOneOneOne}
 												title={'Cita 1 a 1'}
+												icon={<img src={oneOnOne}></img>}
 												isMobile={isMobile}
+												list={
+													<div>{translate.one_on_one_description}</div>
+												}
 											/>
 										}
 									</div>
@@ -390,7 +395,7 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 					onClick={onClick}
 					{...hoverHandlers}
 				>
-					<div style={{ width: "90px", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</div>
+					<div style={{ width: "90px", display: 'flex', alignItems: 'center' }}>{icon}</div>
 					<div style={{ color: "black", marginLeft: "2em" }}>
 						<div style={{ fontSize: "24px" }}>{title}</div>
 						<div style={{ fontSize: "14px" }}>{list}</div>

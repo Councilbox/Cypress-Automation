@@ -51,6 +51,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		}
 	});
 	const [loading, setLoading] = React.useState(true);
+	const [deleteModal, setDeleteModal] = React.useState(false);
 	const [data, setData] = React.useState({});
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -270,7 +271,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														).label : ''
 														]
 													}
-													// removeAgenda={removeAgenda}
+
 													removeAgenda={() => setState({ ...state, deleteModal: true, agendaIdRemove: agenda.id })}
 													selectAgenda={selectAgenda}
 													saveAsDraft={saveAsAgendaDraft}
@@ -454,14 +455,11 @@ const StepAgenda = ({ client, translate, ...props }) => {
 			<AlertConfirm
 				title={translate.attention}
 				bodyText={translate.question_delete}
-				open={state.deleteModal}
+				open={deleteModal}
 				buttonAccept={translate.delete}
 				buttonCancel={translate.cancel}
-				modal={true}
 				acceptAction={removeAgenda}
-				requestClose={() =>
-					setState({ ...state, deleteModal: false })
-				}
+				requestClose={() => setDeleteModal(false)}
 			/>
 		</React.Fragment>
 	);
