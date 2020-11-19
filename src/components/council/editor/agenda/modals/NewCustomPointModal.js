@@ -25,7 +25,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
     let newErrors = {
         items: items.map(item => ({ error: '' }))
     }
-    console.log(items)
+    
     if (items.length === 0) {
         newErrors.itemsLength = translate.necessary_add_least_one_option;
         hasError = true;
