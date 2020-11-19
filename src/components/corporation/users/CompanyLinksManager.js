@@ -58,7 +58,6 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
         props.addCheckedCompanies(state.checked);
         setState({
             ...state,
-            checked: [],
             step: 1,
             modal: false
         });

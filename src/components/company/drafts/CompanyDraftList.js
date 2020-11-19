@@ -255,7 +255,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 
 	return (
 		<React.Fragment>
-			<div style={{ height: isMobile ? ' calc( 100% - 1em )' : ' calc( 100% - 6em )' }}>
+			<div style={{ height: isMobile ? ' calc( 100% - 3.5em )' : ' calc( 100% - 6em )' }}>
 				<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end', alignItems: "center", marginBottom: "0.5em" }}>
 					<div>
 						<BasicButton
