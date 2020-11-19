@@ -3,7 +3,7 @@ import { blocks } from './actBlocks';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
 import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
-import { getAgendaResult, hasVotation, isCustomPoint, showNumParticipations } from '../../utils/CBX';
+import { getAgendaResult, getPercentage, hasVotation, isConfirmationRequest, isCustomPoint, showNumParticipations } from '../../utils/CBX';
 import iconDelegaciones from '../../assets/img/networking.svg';
 import { TAG_TYPES } from '../company/drafts/draftTags/utils';
 import { translations } from './translations';
@@ -196,6 +196,20 @@ const buildAgendaText = (agenda, translate, data) => {
                 </li>
             </div>
         `;
+    }
+
+    if(isConfirmationRequest(agenda.subjectType)){
+        return `
+            <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+                <b>${translate.votings}: </b>
+                <br> ${
+                    translate.accept.toUpperCase()}: ${
+                    getAgendaResult(agenda, 'POSITIVE', data)} | ${
+                    translate.refuse.toUpperCase()}: ${
+                    getAgendaResult(agenda, 'NEGATIVE', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NO_VOTE', data)}
+                <br>
+            </div>
+        `
     }
 
     return `

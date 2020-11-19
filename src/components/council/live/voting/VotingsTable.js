@@ -21,7 +21,7 @@ import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
 import { Tooltip, MenuItem } from "material-ui";
-import { isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage, getActiveVote } from "../../../../utils/CBX";
+import { isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage, getActiveVote, isConfirmationRequest } from "../../../../utils/CBX";
 import PropTypes from "prop-types";
 import NominalCustomVoting, { DisplayVoting } from './NominalCustomVoting';
 import { isMobile } from '../../../../utils/screen';
@@ -307,13 +307,15 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 								>
 									<VotingValueIcon vote={VOTE_VALUES.NEGATIVE} />
 								</FilterButton>
-								<FilterButton
-									tooltip={`${translate.filter_by} - ${translate.abstention}`}
-									active={state.voteFilter === VOTE_VALUES.ABSTENTION}
-									onClick={() => props.changeVoteFilter(VOTE_VALUES.ABSTENTION)}
-								>
-									<VotingValueIcon vote={VOTE_VALUES.ABSTENTION} />
-								</FilterButton>
+								{!isConfirmationRequest(agenda.subjectType) &&
+									<FilterButton
+										tooltip={`${translate.filter_by} - ${translate.abstention}`}
+										active={state.voteFilter === VOTE_VALUES.ABSTENTION}
+										onClick={() => props.changeVoteFilter(VOTE_VALUES.ABSTENTION)}
+									>
+										<VotingValueIcon vote={VOTE_VALUES.ABSTENTION} />
+									</FilterButton>
+								}
 								{agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING &&
 									<React.Fragment>
 										<FilterButton
@@ -412,7 +414,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 								style={{ width: '100%', }}
 								forceMobileTable={true}
 								headers={[
-									(agenda.presentCensus > 0 && !isCustomPoint(agenda.subjectType) && props.council.councilType !== 3) ?
+									(agenda.presentCensus > 0 &&
+										!isCustomPoint(agenda.subjectType) &&
+										!isConfirmationRequest(agenda.subjectType) &&
+										props.council.councilType !== 3) ?
 										{
 											name:
 												<SelectAllMenu
@@ -422,7 +427,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 												/>
 										} : { name: '' },
 									{ name: translate.participant_data },
-									{ name: translate.votes }
+									{ name: isConfirmationRequest(agenda.subjectType) ? '' : translate.votes }
 								]}
 							>
 								{votings.map(vote => (
@@ -452,34 +457,37 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 										<TableCell style={{ fontSize: '0.95em' }}>
 											{renderParticipantInfo(vote)}
 										</TableCell>
-										<TableCell style={{ fontSize: '0.95em' }}>
-											{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED)?
-												(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : 0)
-											:
-												vote.authorRepresentative.numParticipations > 0? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
-											}
+										{!isConfirmationRequest(agenda.subjectType) &&
+											<TableCell style={{ fontSize: '0.95em' }}>
+												{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED)?
+													(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : 0)
+												:
+													vote.authorRepresentative.numParticipations > 0? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
+												}
 
-											<React.Fragment>
-												{!!vote.delegatedVotes &&
-													vote.delegatedVotes.filter(vote => vote.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-															<br />
-															{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}` : '-'}`}
-														</React.Fragment>
-													))
-												}
-											</React.Fragment>
-											<React.Fragment>
-												{!!vote.delegatedVotes &&
-													vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-															<br />
-															{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)}  ${printPercentage(delegatedVote.author.numParticipations)}` : 0}`}
-														</React.Fragment>
-													))
-												}
-											</React.Fragment>
-										</TableCell>
+												<React.Fragment>
+													{!!vote.delegatedVotes &&
+														vote.delegatedVotes.filter(vote => vote.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+															<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+																<br />
+																{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}` : '-'}`}
+															</React.Fragment>
+														))
+													}
+												</React.Fragment>
+												<React.Fragment>
+													{!!vote.delegatedVotes &&
+														vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+															<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+																<br />
+																{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)}  ${printPercentage(delegatedVote.author.numParticipations)}` : 0}`}
+															</React.Fragment>
+														))
+													}
+												</React.Fragment>
+											</TableCell>
+										}
+
 									</TableRow>
 								))}
 							</Table>

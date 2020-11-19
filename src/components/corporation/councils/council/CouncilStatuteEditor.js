@@ -40,7 +40,6 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 }
             }
         });
-        console.log(response);
         refetch();
     }
 

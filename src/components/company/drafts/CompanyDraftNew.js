@@ -15,6 +15,7 @@ import { bHistory } from "../../../containers/App";
 import { withRouter } from "react-router";
 import withTranslations from "../../../HOCs/withTranslations";
 import { isMobile } from "react-device-detect";
+import { INPUT_REGEX } from "../../../constants";
 
 
 class CompanyDraftNew extends React.Component {
@@ -60,7 +61,7 @@ class CompanyDraftNew extends React.Component {
 			title: "",
 		}
 		let hasError = false;
-		var regex = new RegExp("[ A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+		const regex = INPUT_REGEX;
 		if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
 			if (this.state.draft.title) {
 				if (!(regex.test(this.state.draft.title)) || !this.state.draft.title.trim()) {

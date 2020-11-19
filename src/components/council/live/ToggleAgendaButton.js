@@ -5,9 +5,9 @@ import { BasicButton, Icon, LiveToast } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import FontAwesome from "react-fontawesome";
 import { Tooltip } from "material-ui";
-import { getActPointSubjectType } from '../../../utils/CBX';
+import { councilHasSession, getActPointSubjectType } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
-import { AGENDA_STATES } from '../../../constants';
+import { AGENDA_STATES, COUNCIL_TYPES } from '../../../constants';
 
 const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) => {
 	const openAgenda = async () => {
@@ -58,7 +58,7 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	if(council.councilType > 1 && council.councilType !== 4){
+	if(!councilHasSession(council)){
 		return <span/>
 	}
 

@@ -3,11 +3,13 @@ import { AlertConfirm, BasicButton } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import RefuseDelegationConfirm from '../delegations/RefuseDelegationConfirm';
 import { PARTICIPANT_STATES } from '../../../constants';
-import { showNumParticipations } from '../../../utils/CBX';
+import { councilStarted, showNumParticipations } from '../../../utils/CBX';
+import RefusedDelegationDisabled from './RefusedDelegationDisabled';
 
 
 const DelegationsModal = ({ open, requestClose, translate, refetch, council, participant }) => {
     const [delegation, setDelegation] = React.useState(false);
+    const [refusedDisabledModal, setRefusedDisabledModal] = React.useState(false);
 
     const closeConfirm = () => {
         setDelegation(false);
@@ -43,7 +45,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
                             <BasicButton
                                 text={translate.refuse}
                                 color="white"
-                                onClick={() => setDelegation(vote)}
+                                onClick={!councilStarted(council) ? () => setDelegation(vote) : () => setRefusedDisabledModal(true)}
                                 buttonStyle={{ border: `1px solid ${getSecondary()}`}}
                                 textStyle={{ color: getSecondary() }}
                             />
@@ -80,6 +82,11 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
                 buttonCancel={translate.close}
                 bodyText={_renderDelegationsModalBody()}
                 title={translate.warning}
+            />
+            <RefusedDelegationDisabled
+                translate={translate}
+                open={refusedDisabledModal}
+                requestClose={() => setRefusedDisabledModal(false)}
             />
             {delegation &&
 				<RefuseDelegationConfirm

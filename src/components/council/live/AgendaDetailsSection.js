@@ -195,7 +195,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 						<GridItem xs={normalLayout ? 4 : 12} md={normalLayout ? 4 : 5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
 							{councilStarted && !CBX.agendaClosed(agenda) && (
 								<React.Fragment>
-									{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT ?
+									{(agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT) ?
 										<ActPointStateManager
 											council={council}
 											agenda={agenda}

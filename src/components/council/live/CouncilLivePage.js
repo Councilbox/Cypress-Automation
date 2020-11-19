@@ -1,22 +1,21 @@
 import React from "react";
-import { FabButton, Icon, LoadingMainApp } from "../../../displayComponents";
+import { DisabledSection, FabButton, Icon } from "../../../displayComponents";
 import LiveHeader from "./LiveHeader";
 import { darkGrey, lightGrey } from "../../../styles/colors";
-import { graphql } from "react-apollo";
-import { councilLiveQuery } from "../../../queries";
 import AgendaManager from "./AgendaManager";
 import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
-import { showVideo, councilHasSession, showNumParticipations, formatInt } from "../../../utils/CBX";
+import { showVideo } from "../../../utils/CBX";
 import { Tooltip, Badge, Tabs, Tab } from "material-ui";
-import { bHistory } from '../../../containers/App';
-import { checkCouncilState } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
 import { useOldState } from "../../../hooks";
 import { isMobile } from '../../../utils/screen';
 import QuorumDisplay from "./quorum/QuorumDisplay";
+import { COUNCIL_STATES, COUNCIL_TYPES } from "../../../constants";
+import ResumeCouncilButton from "./menus/ResumeCouncilButton";
+import OneOnOneAttachmentsList from "./oneOnOne/OneOnOneAttachmentsList";
 const calcMinWidth = () => window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450);
 const calcMinHeight = () => "42vh";
 
@@ -31,7 +30,6 @@ const initScreenSizes = size => {
 				videoWidth: minVideoWidth,
 				videoHeight: minVideoHeight,
 				fullScreen: false,
-				participants: false,
 				screenSize: 'MIN'
 			})
 		},
@@ -41,7 +39,7 @@ const initScreenSizes = size => {
 				videoWidth: minVideoWidth * 1.40,
 				videoHeight: '56vh',
 				fullScreen: false,
-				participants: false,
+				tab: 'AGENDA',
 				screenSize: 'MED'
 			}
 		},
@@ -51,7 +49,7 @@ const initScreenSizes = size => {
 				fullScreen: true,
 				videoWidth: 94,
 				videoHeight: '100%',
-				participants: false,
+				tab: 'AGENDA',
 				screenSize: 'MAX'
 			}
 		}
@@ -64,7 +62,7 @@ const initScreenSizes = size => {
 
 const CouncilLivePage = ({ translate, data, ...props }) => {
 	const [state, setState] = useOldState({
-		participants: true,
+		tab: data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? 'ATTACHMENTS' : 'AGENDA',
 		wall: false,
 		unreadComments: 0,
 		videoURL: '',
@@ -73,21 +71,6 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 	});
 	const agendaManager = React.useRef(null);
 	const company = props.companies.list[props.companies.selected];
-
-	React.useEffect(() => {
-		if (!data.loading) {
-			checkCouncilState(
-				{
-					state: data.council.state,
-					id: data.council.id
-				},
-				company,
-				bHistory,
-				"live"
-			);
-		}
-
-	}, [data.loading, data.council]);
 
 	const updateMinSizes = React.useCallback(() => {
 		minVideoWidth = calcMinWidth();
@@ -113,7 +96,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 	const toggleScreens = screen => {
 		const cb = () => {
 			setState({
-				participants: screen,
+				tab: screen,
 				videoWidth: minVideoWidth,
 				videoHeight: minVideoHeight,
 				fullScreen: false
@@ -138,10 +121,6 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 		});
 	};
 
-	const checkLoadingComplete = () => {
-		return data.council && props.companies.list;
-	};
-
 	const toggleWall = () => {
 		setState({ wall: !state.wall });
 	}
@@ -159,16 +138,28 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 			setState(initScreenSizes('MIN'));
 		}
 	};
+
+	const renderVideoParticipants = () => {
+		return (
+			<ParticipantsLive
+				councilId={council.id}
+				council={council}
+				videoURL={state.videoURL}
+				translate={translate}
+				videoHeight={state.videoHeight}
+				screenSize={state.screenSize}
+				toggleFullScreen={toggleFullScreen}
+			/>
+		)
+	}
+
 	const { council } = data;
 
 	const councilStartedState = () => {
-		return council.state === 20 || council.state === 30;
+		return council.state >= 20 && council.state <= 30;
 	}
 
-
-	if (!checkLoadingComplete()) {
-		return <LoadingMainApp />;
-	}
+	const showParticipants = state.tab === 'PARTICIPANTS';
 
 
 	return (
@@ -188,8 +179,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 				councilName={council.name}
 				council={council}
 				translate={translate}
-				participants={state.participants}
-				toggleScreens={toggleScreens}
+				participants={showParticipants}
 				recount={data.councilRecount}
 				refetch={data.refetch}
 			/>
@@ -294,15 +284,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									backgroundColor: darkGrey
 								}}
 							>
-								<ParticipantsLive
-									councilId={props.councilID}
-									council={council}
-									videoURL={state.videoURL}
-									translate={translate}
-									videoHeight={state.videoHeight}
-									screenSize={state.screenSize}
-									toggleFullScreen={toggleFullScreen}
-								/>
+								{renderVideoParticipants()}
 							</div>
 						)}
 
@@ -371,15 +353,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 									backgroundColor: darkGrey
 								}}
 							>
-								<ParticipantsLive
-									councilId={props.councilID}
-									council={council}
-									videoURL={state.videoURL}
-									videoHeight={state.videoHeight}
-									translate={translate}
-									videoFullScreen={state.fullScreen}
-									toggleFullScreen={toggleFullScreen}
-								/>
+								{renderVideoParticipants()}
 							</div>
 						)}
 					</div>
@@ -394,10 +368,11 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 							}%`,
 						height: "100%",
 						marginLeft: "5px",
+						position: 'relative'
 					}}
 				>
 					{isMobile ?
-						state.participants && !state.fullScreen ? (
+						showParticipants && !state.fullScreen ? (
 							<ParticipantsManager
 								translate={translate}
 								participants={data.council.participants}
@@ -424,9 +399,12 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 						:
 						<React.Fragment>
 							{!state.fullScreen &&
-								<Tabs value={state.participants ? 0 : 1}>
-									<Tab label={translate.participants} onClick={() => toggleScreens(true)} />
-									<Tab label={translate.agenda} onClick={() => toggleScreens(false)} id={'ordenDelDiaParticipantesButton'} />
+								<Tabs value={state.tab}>
+									<Tab value={'PARTICIPANTS'} label={translate.participants} onClick={() => toggleScreens('PARTICIPANTS')} />
+									<Tab value={'AGENDA'} label={translate.agenda} onClick={() => toggleScreens('AGENDA')} id={'ordenDelDiaParticipantesButton'} />
+									{council.councilType === COUNCIL_TYPES.ONE_ON_ONE &&
+										<Tab value={'ATTACHMENTS'} label={translate.attachments} onClick={() => toggleScreens('ATTACHMENTS')} id={'councilAttachmentsButton'} />
+									}
 									<div style={{
 										width: '100%',
 										display: 'flex',
@@ -450,7 +428,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 								</Tabs>
 							}
 							<div style={{ height: "100%" }}>
-								{(state.participants && !state.fullScreen) &&
+								{(showParticipants && !state.fullScreen) &&
 									<div style={{ height: "calc( 100% - 2em )" }}>
 										<ParticipantsManager
 											stylesDiv={{ margin: "0", height: "calc( 100% - 1.8em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
@@ -460,8 +438,28 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 										/>
 									</div>
 								}
-								{(!state.participants || state.fullScreen) &&
+								{(state.tab === 'ATTACHMENTS' && !state.fullScreen) &&
 									<div style={{ height: "calc( 100% - 2em )" }}>
+										<OneOnOneAttachmentsList
+											council={council}
+											translate={translate}
+										/>
+									</div>
+								}
+								{(state.tab === 'AGENDA' || state.fullScreen) &&
+									<div style={{ height: "calc( 100% - 2em )", position: 'relative' }}>
+										{council.state === COUNCIL_STATES.PAUSED &&
+											<DisabledSection>
+												<div style={{marginBottom: '1em'}}>
+													{translate.council_paused}
+												</div>
+												<ResumeCouncilButton
+													council={council}
+													translate={translate}
+													refetch={data.refetch}
+												/>
+											</DisabledSection>
+										}
 										<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )", width: "100%" }}>
 											<AgendaManager
 												ref={agendaManager}
@@ -491,13 +489,5 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 	);
 }
 
-export default graphql(councilLiveQuery, {
-	name: "data",
-	options: props => ({
-		variables: {
-			councilID: props.councilID
-		},
-		pollInterval: 10000
-	})
-})(CouncilLivePage);
+export default CouncilLivePage;
 

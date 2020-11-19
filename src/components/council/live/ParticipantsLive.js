@@ -22,6 +22,7 @@ import MuteToggleButton from './videoParticipants/MuteToggleButton';
 import { isMobile } from "../../../utils/screen";
 import { usePolling } from "../../../hooks";
 import MuteCamToggleButton from "./videoParticipants/MuteCamToggleButton";
+import { COUNCIL_STATES } from "../../../constants";
 
 
 const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) => {
@@ -195,91 +196,95 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props}) =
 						</div>
 					</Tooltip>
 				</GridItem>
-				{!isMobile &&
-					<GridItem xs={3} lg={3} md={3}>
-						<div
+				{council.state !== COUNCIL_STATES.PAUSED && 
+					<>
+						{!isMobile &&
+							<GridItem xs={3} lg={3} md={3}>
+								<div
+									style={{
+										color: lightGrey,
+										marginLeft: "1em",
+										fontSize: "0.8em"
+									}}
+									className="truncate"
+								>
+									{participant.position}
+								</div>
+							</GridItem>
+						}
+						<GridItem
+							xs={isMobile? 2 : 1}
+							lg={isMobile? 2 : 1}
+							md={isMobile? 2 : 1}
 							style={{
-								color: lightGrey,
-								marginLeft: "1em",
-								fontSize: "0.8em"
+								display: "flex",
+								flexDirection: "row",
+								justifyContent: "space-between"
 							}}
-							className="truncate"
 						>
-							{participant.position}
-						</div>
-					</GridItem>
+							<MuteCamToggleButton
+								translate={translate}
+								participant={participant}
+								refetch={getData}
+							/>
+						</GridItem>
+						<GridItem
+							xs={isMobile? 2 : 1}
+							lg={isMobile? 2 : 1}
+							md={isMobile? 2 : 1}
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								justifyContent: "space-between"
+							}}
+						>
+							<MuteToggleButton
+								translate={translate}
+								participant={participant}
+								refetch={getData}
+							/>
+						</GridItem>
+						<GridItem
+							xs={isMobile? 2 : 1}
+							lg={isMobile? 2 : 1}
+							md={isMobile? 2 : 1}
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								justifyContent: "space-between"
+							}}
+						>
+							<ChangeRequestWordButton
+								translate={translate}
+								participant={participant}
+								refetch={getData}
+							/>
+						</GridItem>
+						<GridItem
+							xs={isMobile? 2 : 1}
+							lg={isMobile? 2 : 1}
+							md={isMobile? 2 : 1}
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								justifyContent: "space-between"
+							}}
+						>
+							<VideoParticipantMenu
+								council={council}
+								participant={participant}
+								refetch={getData}
+								setBanParticipant={() =>
+									setOptions({ ...options, banParticipant: participant })
+								}
+								setParticipantHistory={() =>
+									setOptions({ ...options, participantHistory: participant })
+								}
+								translate={translate}
+							/>
+						</GridItem>
+					</>
 				}
-				<GridItem
-					xs={isMobile? 2 : 1}
-					lg={isMobile? 2 : 1}
-					md={isMobile? 2 : 1}
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "space-between"
-					}}
-				>
-					<MuteCamToggleButton
-						translate={translate}
-						participant={participant}
-						refetch={getData}
-					/>
-				</GridItem>
-				<GridItem
-					xs={isMobile? 2 : 1}
-					lg={isMobile? 2 : 1}
-					md={isMobile? 2 : 1}
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "space-between"
-					}}
-				>
-					<MuteToggleButton
-						translate={translate}
-						participant={participant}
-						refetch={getData}
-					/>
-				</GridItem>
-				<GridItem
-					xs={isMobile? 2 : 1}
-					lg={isMobile? 2 : 1}
-					md={isMobile? 2 : 1}
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "space-between"
-					}}
-				>
-					<ChangeRequestWordButton
-						translate={translate}
-						participant={participant}
-						refetch={getData}
-					/>
-				</GridItem>
-				<GridItem
-					xs={isMobile? 2 : 1}
-					lg={isMobile? 2 : 1}
-					md={isMobile? 2 : 1}
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "space-between"
-					}}
-				>
-					<VideoParticipantMenu
-						council={council}
-						participant={participant}
-						refetch={getData}
-						setBanParticipant={() =>
-							setOptions({ ...options, banParticipant: participant })
-						}
-						setParticipantHistory={() =>
-							setOptions({ ...options, participantHistory: participant })
-						}
-						translate={translate}
-					/>
-				</GridItem>
 			</Grid>
 		);
 	}

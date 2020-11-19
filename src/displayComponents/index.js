@@ -16,6 +16,7 @@ export { default as CustomDialog } from "./CustomDialog";
 export { default as DateWrapper } from "./DateWrapper";
 export { default as DateTimePicker } from "./DateTimePicker";
 export { default as DeleteIcon } from "./DeleteIcon";
+export { default as DisabledSection } from './DisabledSection';
 export { default as DropDownMenu } from "./DropDownMenu";
 export { default as EnhancedTable } from "./EnhancedTable";
 export { default as ErrorAlert } from "./ErrorAlert";

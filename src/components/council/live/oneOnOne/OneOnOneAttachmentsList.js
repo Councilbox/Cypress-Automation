@@ -9,7 +9,7 @@ const OneOnOneAttachmentsList = ({ council, translate, client }) => {
     return (
         <div style={{ padding: '1em' }}>
             <h4>{translate.dasboard_documentation}</h4>
-            {(council && council.attachments.length > 0) ?
+            {council ?
                 council.attachments.length > 0 ? council.attachments.map(attachment => (
                     <AttachmentDownload
                         attachment={attachment}

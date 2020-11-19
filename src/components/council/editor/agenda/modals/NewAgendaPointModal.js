@@ -22,6 +22,7 @@ import { useOldState } from "../../../../../hooks";
 import { withRouter } from "react-router-dom";
 import PointAttachments from "./PointAttachments";
 import { addAgendaAttachment } from "../../../../../queries";
+import { AGENDA_TYPES } from "../../../../../constants";
 
 const defaultValues = {
 	agendaSubject: "",
@@ -33,14 +34,14 @@ const defaultValues = {
 }
 
 
-const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council, company, companyStatutes, ...props }) => {
+const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council, company, companyStatutes, confirmation, showLoadDraft = true, ...props }) => {
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 	const secondary = getSecondary();
 	const [attachments, setAttachments] = React.useState([]);
 	const [state, setState] = useOldState({
 		newPoint: {
 			...defaultValues,
-			subjectType: filteredTypes[0].value
+			subjectType: confirmation ? AGENDA_TYPES.CONFIRMATION_REQUEST : filteredTypes[0].value
 		},
 		loadDraft: false,
 		newPointModal: false,
@@ -230,30 +231,50 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 							/>
 						</GridItem>
 						<GridItem xs={12} md={3} lg={3}>
-							<SelectInput
-								floatingText={translate.type}
-								value={"" + agenda.subjectType}
-								onChange={event =>
-									updateState({
-										subjectType: +event.target.value
-									})
-								}
-								required
-							>
-								{filteredTypes.map(voting => {
-									return (
-										<MenuItem
-											value={"" + voting.value}
-											key={`voting${voting.value}`}
-										>
-											{translate[voting.label]}
-										</MenuItem>
-									);
-								})}
-							</SelectInput>
+							{agenda.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ?
+								<SelectInput
+									floatingText={translate.type}
+									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
+									disabled={true}
+									onChange={event =>
+										updateState({
+											subjectType: +event.target.value
+										})
+									}
+									required
+								>
+									<MenuItem
+										value={AGENDA_TYPES.CONFIRMATION_REQUEST}
+									>
+										{translate.confirmation_request}
+									</MenuItem>
+								</SelectInput>
+							:
+								<SelectInput
+									floatingText={translate.type}
+									value={"" + agenda.subjectType}
+									onChange={event =>
+										updateState({
+											subjectType: +event.target.value
+										})
+									}
+									required
+								>
+									{filteredTypes.map(voting => {
+										return (
+											<MenuItem
+												value={"" + voting.value}
+												key={`voting${voting.value}`}
+											>
+												{translate[voting.label]}
+											</MenuItem>
+										);
+									})}
+								</SelectInput>
+							}
 						</GridItem>
 					</Grid>
-					{CBX.hasVotation(agenda.subjectType) && (
+					{(CBX.hasVotation(agenda.subjectType) && !props.hideMajority) && (
 						<Grid>
 							<GridItem xs={6} lg={3} md={3}>
 								<SelectInput
@@ -288,7 +309,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 										<MajorityInput
 											type={agenda.majorityType}
 											value={agenda.majority}
-											majorityError={!!state.majorityError}
+											majorityError={!!state.majorityError || errors.majority}
 											dividerError={!!state.majorityError}
 											divider={agenda.majorityDivider}
 											onChange={value =>
@@ -324,21 +345,22 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 						translate={translate}
 						type="text"
 						loadDraft={
-							<BasicButton
-								text={translate.load_draft}
-								color={secondary}
-								textStyle={{
-									color: "white",
-									fontWeight: "600",
-									fontSize: "0.8em",
-									textTransform: "none",
-									marginLeft: "0.4em",
-									minHeight: 0,
-									lineHeight: "1em"
-								}}
-								textPosition="after"
-								onClick={() => setState({ loadDraft: true })}
-							/>
+							showLoadDraft &&
+								<BasicButton
+									text={translate.load_draft}
+									color={secondary}
+									textStyle={{
+										color: "white",
+										fontWeight: "600",
+										fontSize: "0.8em",
+										textTransform: "none",
+										marginLeft: "0.4em",
+										minHeight: 0,
+										lineHeight: "1em"
+									}}
+									textPosition="after"
+									onClick={() => setState({ loadDraft: true })}
+								/>
 						}
 						tags={[
 							{

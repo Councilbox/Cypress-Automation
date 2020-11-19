@@ -1,6 +1,7 @@
 export const translations = {
     'es': {
         abstentions: 'Abstenciones',
+        accept: 'Aceptan',
         against: 'En contra',
         agenda: 'Orden del día',
         agendaIntro: '<b>A continuación se entra a debatir el primer punto del Orden del día</b><br>',
@@ -14,6 +15,7 @@ export const translations = {
         inFavor: 'A favor',
         insertText: 'Inserte el texto',
         noVote: 'No votan',
+        refuse: 'Rechazan',
         textBlock: 'Bloque de texto',
         title: 'Título',
         votersList: 'Listado de votantes',
@@ -22,6 +24,7 @@ export const translations = {
     },
     'en': {
         abstentions: 'Abstentions',
+        accept: 'Accept',
         against: 'Against',
         agenda: 'Agenda',
         agendaIntro: '<b>Next, the first item on the agenda will be discussed</b><br>',
@@ -35,6 +38,7 @@ export const translations = {
         inFavor: 'In favor',
         insertText: 'Write your text here',
         noVote: 'No vote',
+        refuse: 'Refuse',
         textBlock: 'Text block',
         title: 'Title',
         votersList: 'Voter list',
@@ -43,6 +47,7 @@ export const translations = {
     },
     'cat': {
         abstentions: 'Abstencions',
+        accept: 'Accepten',
         against: 'En contra',
         agenda: 'Ordre del dia',
         agendaIntro: "<b>A continuació s'entra a debatre el primer punt de l'ordre del dia.</b><br>",
@@ -56,6 +61,7 @@ export const translations = {
         inFavor: 'A favor',
         insertText: 'Inseriu el text',
         noVote: 'No votan',
+        refuse: 'Rebutgen',
         textBlock: 'Bloc de text',
         title: 'Títol',
         votersList: 'Llistat de votants',
@@ -64,6 +70,7 @@ export const translations = {
     },
     'gal': {
         abstentions: 'Abstencións',
+        accept: 'Aceptan',
         against: 'En contra',
         agenda: 'Orde do día',
         agendaIntro: '<b>A continuación, éntrase a debater o primeiro punto da Orde do Día.</b><br>',
@@ -77,6 +84,7 @@ export const translations = {
         inFavor: 'A favor',
         insertText: 'Inserir texto',
         noVote: 'Non votan',
+        refuse: 'Rexeitan',
         textBlock: 'Bloque de texto',
         title: 'Título',
         votersList: 'Listado de votantes',
@@ -85,6 +93,7 @@ export const translations = {
     },
     'pt': {
         abstentions: 'Abstenções',
+        accept: 'Aceitam',
         against: 'Contra',
         agenda: 'Agenda',
         agendaIntro: '<b>A seguir começa-se a debater o primeiro ponto da Ordem do dia.</b><br>',
@@ -98,6 +107,7 @@ export const translations = {
         inFavor: 'A favor',
         insertText: 'Inserir texto',
         noVote: 'Não votam',
+        refuse: 'Rejeitam',
         textBlock: 'Bloco de texto',
         title: 'Título',
         votersList: 'Lista de eleitores',

@@ -42,8 +42,6 @@ const DataAuthorization = ({ council, participant, props = {}, client, refetch }
     const [loading, setLoading] = React.useState(false);
     const secondary = getSecondary();
 
-    console.log(participant);
-
     const sendConfirmation = async () => {
         setLoading(true);
         const response = await client.mutate({
@@ -55,8 +53,6 @@ const DataAuthorization = ({ council, participant, props = {}, client, refetch }
                 }
             `
         });
-
-        console.log(response);
         await refetch();
         setLoading(false);
     }

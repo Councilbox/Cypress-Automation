@@ -9,6 +9,7 @@ import { darkGrey, secondary, primary, getSecondary, getPrimary } from '../../..
 import { AlertConfirm, Badge } from '../../../displayComponents';
 import iconVoteInsert from '../../../../src/assets/img/dropping-vote-in-box2.svg';
 import { usePolling } from '../../../hooks';
+import { COUNCIL_STATES } from '../../../constants';
 
 
 const styles = {
@@ -205,12 +206,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     }
 
     const renderPrivateMessageButton = () => {
-        const disabled = council.wallActive !== 1;
-
-        if(disabled){
-            return null;
-        }
-
+        const disabled = council.wallActive !== 1 || council.state === COUNCIL_STATES.PAUSED;
         return (
             <Button
                 className={"NoOutline"}
@@ -366,7 +362,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             {renderAgendaButton()}
                         </div>
-                        {props.pedirPalabra}
+                        {props.askWordMenu}
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             {renderPrivateMessageButton()}
                         </div>
@@ -473,7 +469,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                             paddingRight: "3px"
                         }}
                     >
-                        {props.pedirPalabra}
+                        {props.askWordMenu}
                         <div
                             style={{
                                 width: "50%",
