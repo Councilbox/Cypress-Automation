@@ -63,7 +63,7 @@ const Councils = ({ translate, client, ...props }) => {
 	const statesTabInfo = {
 		[translate.companies_draft]: [0, 3],
 		[translate.companies_calendar]: [10, 5],
-		[translate.companies_live]: [20, 30],
+		[translate.companies_live]: [20, 25, 30],
 		[translate.companies_writing]: [40],
 		[translate.act_book]: [60, 70],
 		[translate.dashboard_historical]: [-1, 40, 60, 70, 80, 90],

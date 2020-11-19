@@ -12,7 +12,6 @@ const AgendaTab = ({ council, translate, data }) => {
 		return !!votingType? translate[votingType.label] : '';
 	}
 
-
 	return(
 		<div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
 			<Scrollbar>

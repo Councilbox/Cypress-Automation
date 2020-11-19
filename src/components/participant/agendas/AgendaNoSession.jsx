@@ -1,12 +1,11 @@
 import React from "react";
-import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button } from "material-ui";
-import { LoadingSection, Scrollbar, AlertConfirm } from '../../../displayComponents';
+import { Paper, Typography, Divider, Card, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button } from "material-ui";
+import { LoadingSection, Scrollbar, AlertConfirm, DisabledSection } from '../../../displayComponents';
 import { getPrimary } from "../../../styles/colors";
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
 import { getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
-import TimelineSection from "../timeline/TimelineSection";
 import * as CBX from '../../../utils/CBX';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -18,10 +17,8 @@ import FinishModal from "./FinishModal";
 import Results from "../Results";
 import ResultsTimeline from "../ResultsTimeline";
 import { isMobile } from "../../../utils/screen";
-import { agendaVotings } from "../../../queries/agenda";
-import { usePolling } from "../../../hooks";
-import { getSubjectAbrv } from "../../../displayComponents/AgendaNumber";
 import CouncilAttachmentsModal from "./CouncilAttachmentsModal";
+import { COUNCIL_STATES, COUNCIL_TYPES } from "../../../constants";
 
 
 export const VotingContext = React.createContext({});
@@ -30,12 +27,14 @@ const styles = {
     container: {
         width: "100%",
         height: "calc( 100% - 2em )",
-        overflow: 'hidden'
+        overflow: 'hidden',
+        position: 'relative'
     },
     container100: {
         width: "100%",
         height: "100%",
-        overflow: 'hidden'
+        overflow: 'hidden',
+        position: 'relative'
     },
     agendasHeader: {
         display: 'flex',
@@ -302,6 +301,12 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             }}>
                 {renderFinishModal()}
                 <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
+                    {(council.state === COUNCIL_STATES.PAUSED && !props.timeline) &&
+                        <DisabledSection>
+                            {translate.council_paused}
+                        </DisabledSection>
+                    }
+
                     <div style={{ height: "calc(100% - 2.5em)" }}>
                         {!props.sinCabecera &&
                             <React.Fragment>
@@ -384,7 +389,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                         </div>
                                     }
                                     <div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
-                                        {council.councilType === 5 &&
+                                        {council.councilType === COUNCIL_TYPES.ONE_ON_ONE &&
                                             <CouncilAttachmentsModal
                                                 council={council}
                                                 participant={participant}
@@ -393,11 +398,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                         }
                                         {data.agendas ?
                                             <React.Fragment>
-                                                {agendas.map((agenda, index) => {
-                                                    // agenda.options =  {
-                                                    //     maxSelections: 2,
-                                                    //     id: 140
-                                                    // }
+                                                {agendas.filter(item => {
+                                                    return (council.councilType !== COUNCIL_TYPES.ONE_ON_ONE || CBX.agendaVotingsOpened(item))
+                                                }).map((agenda, index) => {
                                                     return (
                                                         <React.Fragment key={`agenda_card_${index}`} >
                                                             <div ref={el => { itemRefs[agenda.id] = el }}>
@@ -432,6 +435,11 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         }}>
             {renderFinishModal()}
             <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
+                {(council.state === COUNCIL_STATES.PAUSED && !props.timeline) &&
+                    <DisabledSection>
+                        {translate.council_paused}
+                    </DisabledSection>
+                }
                 {!props.sinCabecera &&
                     <React.Fragment>
                         <div style={styles.agendasHeader}>

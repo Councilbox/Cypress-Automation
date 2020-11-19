@@ -25,9 +25,8 @@ const EditCensusButton = ({ translate, client, ...props }) => {
                 id: props.censusId
             }
         });
-        console.log(response)
-        setState({ ...state, data: response.data.census })
-        setInitInfo(response.data.census)
+        setState({ ...state, data: response.data.census });
+        setInitInfo(response.data.census);
     }, []);
 
     React.useEffect(() => {

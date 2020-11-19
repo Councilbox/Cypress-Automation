@@ -141,11 +141,11 @@ export const getAgendaResult = (agenda, type, data = {}) => {
 	return types[type];
 };
 
-export const getPercentage = (num, total) => {
-    let percentage = ((num * 100) / (total)).toFixed(3);
+export const getPercentage = (num, total, decimals = 3) => {
+    let percentage = ((num * 100) / (total)).toFixed(decimals);
     let zero = 0;
     if (isNaN(percentage)) {
-        return zero.toFixed(3)
+        return zero.toFixed(decimals)
     } else {
         return percentage;
     }
@@ -349,6 +349,10 @@ export const isCustomPoint = subjectType => {
 	return !!customPoint;
 }
 
+export const isConfirmationRequest = subjectType => {
+	return subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST;
+}
+
 export const canBePresentWithRemoteVote = statute => {
 	return statute.existsPresentWithRemoteVote === 1;
 };
@@ -379,7 +383,11 @@ export const filterAgendaVotingTypes = (votingTypes, statute = {}, council = {})
 	if(council.councilType === 3){
 		return votingTypes.filter(type => type.label === 'private_votation');
 	}
-	return votingTypes.filter(type => type.label !== 'custom_nominal_point' && type.label !== 'custom_anonym_point' && type.label !== 'custom_public_point');
+	return votingTypes.filter(type => type.value !== AGENDA_TYPES.CUSTOM_NOMINAL &&
+		type.value !== AGENDA_TYPES.CUSTOM_PRIVATE &&
+		type.value !== AGENDA_TYPES.CUSTOM_PUBLIC &&
+		type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST
+	);
 };
 
 export const hasSecondCall = statute => {
@@ -712,7 +720,7 @@ export const isAdmin = user => {
 }
 
 export const showOrganizationDashboard = (company, config, user = {}) => {
-	return (company.type === 12 && config.newDashboard) || (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
+	return (company.type === 12 && (config.oneOnOneDashboard || config.newDashboard)) || (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
 }
 
 
@@ -1636,6 +1644,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 			}
 			break;
 		case COUNCIL_STATES.ROOM_OPENED:
+		case COUNCIL_STATES.PAUSED:
 		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
 			if (expected !== "live") {
 				bHistory.replace(
@@ -1771,6 +1780,8 @@ export const getAgendaTypeLabel = agenda => {
 			return 'private_votation';
 		case AGENDA_TYPES.CUSTOM_NOMINAL:
 			return 'public_votation';
+		case AGENDA_TYPES.CONFIRMATION_REQUEST:
+			return 'confirmation_request';
 		default:
 			return 'custom_point';
 	}
@@ -1853,7 +1864,7 @@ export const printTrialEnded = () => {
 };
 
 export const showVideo = council => {
-	return (council.state === 20 || council.state === 30) && councilHasVideo(council);
+	return (council.state >= 20 && council.state <= 30) && councilHasVideo(council);
 };
 
 export const getMainRepresentative = participant => {
@@ -2132,6 +2143,9 @@ export const calculateQuorum = (council, recount) => {
 
 
 export const councilHasSession = council => {
-	return !((council.councilType > 1 && council.councilType !== 4) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
+	return !((council.councilType > 1 &&
+		council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION &&
+		council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
+	) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
 }
 

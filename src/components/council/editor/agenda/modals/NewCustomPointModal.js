@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import CustomPointForm from './CustomPointForm';
 import { checkRepeatedItemValue } from '../../../../../utils/CBX';
+import { INPUT_REGEX } from '../../../../../constants';
 
 
 const defaultPollOptions = {
@@ -31,6 +32,13 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
         hasError = true;
     }
 
+	if (agenda.agendaSubject) {
+		if (!(regex.test(agenda.agendaSubject)) || !agenda.agendaSubject.trim()) {
+			hasError = true;
+			newErrors.agendaSubject = translate.invalid_field;
+		}
+    }
+    
     if (!agenda.agendaSubject) {
         newErrors.agendaSubject = translate.required_field;
         hasError = true;

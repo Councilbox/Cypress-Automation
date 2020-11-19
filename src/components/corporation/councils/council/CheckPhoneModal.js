@@ -25,8 +25,6 @@ const CheckPhoneModal = ({ translate, client }) => {
                 phone
             }
         });
-
-        console.log(response)
         setResult(JSON.parse(response.data.phoneLookup.message));
     }
 

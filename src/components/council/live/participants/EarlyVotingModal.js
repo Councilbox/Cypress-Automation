@@ -6,7 +6,7 @@ import { ConfigContext } from '../../../../containers/AppControl';
 import gql from 'graphql-tag';
 import { AGENDA_STATES, AGENDA_TYPES, VOTE_VALUES } from '../../../../constants';
 import { VotingButton } from '../../../participant/agendas/VotingMenu';
-import { agendaVotingsOpened, isCustomPoint } from '../../../../utils/CBX';
+import { agendaVotingsOpened, isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
 
 
 const EarlyVotingModal = props => {
@@ -169,6 +169,64 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
             :
                 data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
                     const disabled = point.votingState !== AGENDA_STATES.INITIAL;
+
+                    if(isConfirmationRequest(point.subjectType)){
+                        return (
+                            <div key={`point_${point.id}`}>
+                                <div style={{fontWeight: '700', marginTop: '1em'}}>{point.agendaSubject}</div>
+                                <div>
+                                    {[{
+                                        value: VOTE_VALUES.POSITIVE,
+                                        label: translate.accept,
+                                        icon: "fa fa-check"
+                                    }, {
+                                        value: VOTE_VALUES.NEGATIVE,
+                                        label: translate.refuse,
+                                        icon: "fa fa-times"
+                                    }].map(vote => {
+                                        const proxyVote = getProxyVote(point.id, vote.value);
+                                        const active = vote.value === proxyVote.value;
+                                        return (
+                                            <div
+                                                key={`vote_${vote.value}`}
+                                                style={{
+                                                    marginRight: "0.2em",
+                                                    borderRadius: "3px",
+                                                    display: "flex",
+                                                    cursor: "pointer",
+                                                    alignItems: "center",
+                                                    justifyContent: "center"
+                                                }}
+                                                onClick={() => {
+                                                    if(active && !disabled){
+                                                        deleteProxyVote(proxyVote.id);
+                                                    } else {
+                                                        setEarlyVote(point.id, vote.value);
+                                                    }
+                                                }}
+                                            >
+                                                <VotingButton
+                                                    text={vote.label}
+                                                    selected={active}
+                                                    disabledColor={disabled? 'grey' : null}
+                                                    disabled={disabled}
+                                                    icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
+                                                />
+                                            </div>
+                                        )
+                                    })}
+                                    <VotingButton
+                                        text={translate.cant_vote_this_point}
+                                        selected={getProxyVote(point.id, null)?  getProxyVote(point.id, null).value === null : false}
+                                        disabledColor={disabled? 'grey' : null}
+                                        disabled={disabled}
+                                        onClick={() => setVotingRightDenied(point.id)}
+                                    />
+                                </div>
+                                
+                            </div>
+                        )
+                    }
 
                     if(!isCustomPoint(point.subjectType)){
                         return (

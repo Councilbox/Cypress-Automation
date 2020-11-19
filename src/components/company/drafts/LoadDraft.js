@@ -19,6 +19,7 @@ import withSharedProps from "../../../HOCs/withSharedProps";
 import SelectedTag from './draftTags/SelectedTag';
 import { createTag, getTagColor, TAG_TYPES } from './draftTags/utils';
 import { useHoverRow } from "../../../hooks";
+import { DraftRow } from "./CompanyDraftList";
 
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
@@ -41,7 +42,12 @@ const styles = {
 	},
 	formControl: {
 		background: "red"
-	}
+	},
+	cardTitle: {
+		// fontSize: "1em",
+		width: "100%",
+		overflow: "hidden"
+	},
 };
 
 const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, translate, client, match, defaultTags, ...props }) => {
@@ -305,6 +311,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 															key={'key__' + item.id}
 															translate={translate}
 															draft={item}
+															classes={props.classes}
 															draftTypes={draftTypes}
 															company={company}
 															companyStatutes={vars.companyStatutes}
@@ -338,7 +345,7 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 }))
 
 
-const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, companyStatutes, ...props }) => {
+const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, companyStatutes, classes, ...props }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 	const [showActions, setShowActions] = React.useState(false);
@@ -428,32 +435,19 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 
 	const columns = buildTagColumns(draft.tags);
 
-
 	if (isMobile) {
 		return (
-			<Card
-				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
-				onClick={onClick}
-			>
-				<Grid>
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.name}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{draft.title}
-					</GridItem>
-
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.type}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{translate[draftTypes[draft.type].label]}
-					</GridItem>
-				</Grid>
-				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
-					{props.renderDeleteIcon()}
-				</div>
-			</Card>
+			<DraftRow
+				classes={classes}
+				key={`draft${draft.id}${draft.title}`}
+				translate={translate}
+				action={onClick}
+				draft={draft}
+				companyStatutes={companyStatutes}
+				draftTypes={draftTypes}
+				company={company}
+				info={props}
+			/>
 		)
 	}
 
@@ -730,7 +724,9 @@ export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate
 
 const regularCardStyle = {
 	cardTitle: {
-		fontSize: "1em",
+		// fontSize: "1em",
+		width: "100%",
+		overflow: "hidden"
 	},
 	content: {
 		whiteSpace: 'nowrap',

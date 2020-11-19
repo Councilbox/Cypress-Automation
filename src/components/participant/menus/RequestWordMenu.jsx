@@ -12,6 +12,7 @@ import FontAwesome from "react-fontawesome";
 import { useOldState } from '../../../hooks';
 import { ConfigContext } from '../../../containers/AppControl';
 import { isMobile } from '../../../utils/screen';
+import { COUNCIL_STATES } from '../../../constants';
 
 
 const RequestWordMenu = ({ translate, participant, council, ...props }) => {
@@ -40,8 +41,8 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     const checkCanRequest = async () => {
         await updateRTC();
 
-        if(!council.askWordMenu){
-            return false;
+        if(!council.askWordMenu || council.state === COUNCIL_STATES.PAUSED){
+            return setCanRequest(false);
         }
 
         if(isIOS){
@@ -134,22 +135,6 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
         });
     }
 
-    const _renderAlertBody = () => {
-        return (
-            <div
-                style={{
-                    maxWidth: '500px'
-                }}
-            >
-                {!council.askWordMenu ?
-                    translate.cant_ask_word
-                :
-                    translate.sorry_cant_ask_word
-                }
-            </div>
-        )
-    }
-
     const _renderSafariAlertBody = () => {
         return (
             <div>
@@ -163,6 +148,18 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     }
 
     const _renderWordButtonIconMobil = () => {
+        const buttonAction = () => {
+            if(council.state === COUNCIL_STATES.PAUSED){
+                return;
+            }
+
+            if(!canRequest){
+                return showSafariAskingModal();
+            }
+            
+            return showConfirmWord();
+        }
+
         const renderButton = () => {
             if(participant.requestWord === 3 || participant.requestWord === 4){
                 return <span />
@@ -232,58 +229,13 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                 )
             }
 
-            if(!canRequest && !props.videoURL.includes('cmp5')){
-                return (
-                    <Button
-                        className={"NoOutline"}
-                        style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
-                        onClick={showSafariAskingModal}
-                    >
-                        <div style={{ display: "unset" }}>
-                            <div style={{ position: "relative" }}>
-                                {state.loading &&
-                                    <FontAwesome
-                                        name={"circle-o-notch fa-spin"}
-                                        style={{
-                                            top: "-8px",
-                                            fontWeight: "bold",
-                                            right: "-10px",
-                                            position: "absolute",
-                                            fontSize: "1rem",
-                                            marginRight: '0.3em',
-                                            color: secondary
-                                        }}
-                                    />
-                                }
-                                <FontAwesome
-                                    name={"hand-paper-o"}
-                                    style={{
-                                        color:'grey',
-                                        fontSize: '24px',
-                                        width: '1em',
-                                        height: '1em',
-                                        overflow: 'hidden',
-                                        userSelect: 'none'
-                                    }}
-                                />
-                            </div>
-                            <div style={{
-                                fontSize: '0.55rem',
-                                textTransform: "none",
-                                color: 'grey',
-                            }}>
-                                {translate.ask_word_short}
-                            </div>
-                        </div>
-                    </Button>
-                )
-            }
+            console.log(canRequest);
 
             return (
                 <Button
                     className={"NoOutline"}
                     style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
-                    onClick={(isSafari && !config.safariRequestWord) ? showSafariAskingModal : showConfirmWord}
+                    onClick={buttonAction}
                 >
                     <div style={{ display: "unset" }}>
                         <div style={{ position: "relative" }}>
@@ -304,7 +256,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                             <FontAwesome
                                 name={"hand-paper-o"}
                                 style={{
-                                    color: (isSafari && !config.safariRequestWord) ? 'grey' : "#ffffffcc",
+                                    color: !canRequest ? 'grey' : "#ffffffcc",
                                     fontSize: '24px',
                                     width: '1em',
                                     height: '1em',
@@ -316,7 +268,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                         <div style={{
                             fontSize: '0.55rem',
                             textTransform: "none",
-                            color: (isSafari && !config.safariRequestWord) ? 'grey' : "#ffffffcc",
+                            color: !canRequest ? 'grey' : "#ffffffcc",
                         }}>
                             {translate.ask_word_short}
                         </div>
@@ -354,17 +306,6 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                 }}>
                 </div>
             }
-
-
-            <AlertConfirm
-                requestClose={() => setState({ alertCantRequestWord: false })}
-                open={state.alertCantRequestWord}
-                fullWidth={false}
-                acceptAction={closeAlertCantRequest}
-                buttonAccept={translate.accept}
-                bodyText={_renderAlertBody()}
-                title={translate.error}
-            />
             <AlertConfirm
                 requestClose={closeSafariModal}
                 open={state.safariModal}

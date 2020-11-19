@@ -30,7 +30,7 @@ const MajorityInput = ({
 
 	if (CBX.isMajorityFraction(type)) {
 		return (
-			<div style={{ width: "100%", display: 'flex', alignItems: 'center', marginTop: '0.95em', ...style }}>
+			<div style={{ width: "100%", display: 'flex', alignItems: 'center',  ...style }}>
 				<div style={{width: '5em', display: 'flex', alignItems: 'center'}}>
 					<TextInput
 						type={"number"}

@@ -1,5 +1,5 @@
 import React from "react";
-import { DropDownMenu, Icon } from "../../../../displayComponents";
+import { AlertConfirm, DropDownMenu, Icon } from "../../../../displayComponents";
 import FontAwesome from "react-fontawesome";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { MenuItem, Paper } from "material-ui";
@@ -9,12 +9,15 @@ import AnnouncementModal from './AnnouncementModal';
 import NoCelebrateModal from "./NoCelebrateModal";
 import OriginalConveneModal from "./OriginalConveneModal";
 import CouncilInfoModal from "./CouncilInfoModal";
-import { councilHasVideo } from '../../../../utils/CBX';
+import { councilHasVideo, councilIsLive, councilStarted,  } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from "./SMSManagerModal";
 import { isMobile } from "../../../../utils/screen";
 import { withApollo } from "react-apollo";
 import { useDownloadCouncilAttendants } from "../../writing/actEditor/DownloadAttendantsPDF";
+import gql from "graphql-tag";
+import PauseCouncilModal from "./PauseCouncilModal";
+
 
 class CouncilMenu extends React.Component {
 	state = {
@@ -22,9 +25,11 @@ class CouncilMenu extends React.Component {
 		sendCredentialsTest: false,
 		noCelebrate: false,
 		originalConvene: false,
+		pauseModal: false,
 		councilInfo: false,
 		SMSManager: false,
-		announcementModal: false
+		announcementModal: false,
+		pausingCouncil: false
 	};
 
 	showAnnouncementModal = () => {
@@ -182,10 +187,29 @@ class CouncilMenu extends React.Component {
 										/>
 										{translate.council_info}
 									</MenuItem>
-									<DownloadAttendantsButton
-										translate={translate}
-										council={council}
-									/>
+									{councilIsLive(council) &&
+										<>
+											<DownloadAttendantsButton
+												translate={translate}
+												council={council}
+											/>
+										</>
+									}
+									{(councilHasVideo(council) && councilStarted(council) && council.state === 20) &&
+										<MenuItem
+											onClick={() => this.setState({ pauseModal: true })}
+										>
+											<FontAwesome
+												name={'pause-circle-o'}
+												style={{
+													marginRight: "0.8em",
+													color: secondary
+												}}
+											/>
+											{translate.pause_council}
+										</MenuItem>
+									}
+
 									{councilHasVideo(council) && config.roomAnnouncement &&
 										<MenuItem
 											onClick={this.showAnnouncementModal}
@@ -220,6 +244,13 @@ class CouncilMenu extends React.Component {
 					requestClose={() => {
 						this.setState({ SMSManager: false })
 					}}
+				/>
+				<PauseCouncilModal
+					council={council}
+					refetch={this.props.refetch}
+					translate={translate}
+					open={this.state.pauseModal}
+					requestClose={() => this.setState({ pauseModal: false })}
 				/>
 				<AnnouncementModal
 					show={this.state.announcementModal}
@@ -274,6 +305,6 @@ const DownloadAttendantsButton = withApollo(({ council, client, translate }) => 
 			{translate.export_participants}
 		</MenuItem>
 	)
-})
+});
 
-export default CouncilMenu;
+export default withApollo(CouncilMenu);
