@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import withSharedProps from '../../HOCs/withSharedProps';
+import CouncilsByRange from './CouncilsByRange';
 
 const KPI = ({ translate, client }) => {
     const [dateStart, setDateStart] = React.useState('');
@@ -45,6 +46,11 @@ const KPI = ({ translate, client }) => {
                     ))}
                 </div>
             }
+            <CouncilsByRange
+                dateStart={dateStart}
+                dateEnd={dateEnd}
+                translate={translate}
+            />
         </div>
     )
 }
