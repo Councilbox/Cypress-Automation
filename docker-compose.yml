@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  alpha-client:
+    image: councilbox-client
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    env_file:
+      - docker/environment/test/env
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/app/
+
