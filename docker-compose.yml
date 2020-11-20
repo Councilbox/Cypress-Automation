@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  alpha-client:
+  councilbox-client:
     image: councilbox-client
     build: 
       context: .
@@ -9,7 +9,7 @@ services:
     env_file:
       - docker/environment/test/env
     ports:
-      - "80:80"
+      - "3000:3000"
     volumes:
       - ./:/app/
 
