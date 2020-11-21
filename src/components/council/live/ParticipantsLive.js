@@ -14,7 +14,7 @@ import gql from 'graphql-tag';
 import { compose, graphql, withApollo } from "react-apollo";
 import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
 import { Tooltip } from "material-ui";
-import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName } from "../../../utils/CBX";
+import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted } from "../../../utils/CBX";
 import VideoParticipantMenu from "./videoParticipants/VideoParticipantMenu";
 import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton";
 import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
@@ -41,7 +41,6 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 		page: 1,
 		limit: isMobile ? 15 : 20
 	});
-
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -76,7 +75,10 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 
 
 	const checkParticipantsStatus = async participants => {
-		const offline = participants.filter(participant => (participant.online !== 2 && exceedsOnlineTimeout(participant.lastDateConnection)));
+		const offline = participants.filter(participant => (
+			(participant.online !== 2 && exceedsOnlineTimeout(participant.lastDateConnection) ||
+			(participant.online === 2 && !councilStarted(council))
+		)));
 		if (offline.length > 0) {
 			await client.mutate({
 				mutation: gql`

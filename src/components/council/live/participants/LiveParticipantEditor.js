@@ -11,7 +11,6 @@ import {
 	GridItem,
 	BasicButton,
 	LoadingSection,
-	DropDownMenu,
 	ParticipantDisplay,
 	Scrollbar,
 	TextInput
@@ -21,7 +20,6 @@ import withWindowSize from '../../../../HOCs/withWindowSize';
 import ParticipantStateList from "./ParticipantStateList";
 import NotificationsTable from "../../../notifications/NotificationsTable";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
-import StateIcon from "./StateIcon";
 import ParticipantSelectActions from "./ParticipantSelectActions";
 import ResendCredentialsModal from "./modals/ResendCredentialsModal";
 import { PARTICIPANT_STATES } from "../../../../constants";

@@ -654,7 +654,7 @@ const agendasQuery = gql`
 export default compose(
     graphql(participantPing, {
         options: props => ({
-            pollInterval: 5000,
+            pollInterval: 10000,
             variables: {
                 data: JSON.stringify(props.reqData)
             }
