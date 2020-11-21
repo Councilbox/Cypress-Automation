@@ -266,6 +266,7 @@ export const agendaManager = gql`
 		agendas(councilId: $councilId) {
 			abstentionManual
 			abstentionVotings
+			qualityVoteSense
 			agendaSubject
 			items {
 				id

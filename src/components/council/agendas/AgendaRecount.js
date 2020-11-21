@@ -33,6 +33,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
 
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
     const activatePresentOneVote = false;
+    const approvedByQualityVote = CBX.haveQualityVoteConditions(agenda, council) && CBX.approvedByQualityVote(agenda, council.qualityVoteId);
 
     const getPartTotal = () => {
 
@@ -177,6 +178,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
         )
     }
 
+
     if (isMobile) {
         return (
             <React.Fragment>
@@ -206,7 +208,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                     <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                         {CBX.haveQualityVoteConditions(agenda, council) &&
                             <div style={itemStyle}>
-                                {CBX.approvedByQualityVote(agenda, council.qualityVoteId) ?
+                                {approvedByQualityVote ?
                                     `${translate.approved} ${translate.by_quality_vote}`
                                     :
                                     `${translate.not_approved} ${translate.by_quality_vote}`
@@ -217,7 +219,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                     <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                         <div style={itemStyle}>
                             {`${translate.votes_in_favor_for_approve}: ${agendaNeededMajority}`}
-                            {agendaNeededMajority > (agenda.positiveVotings + agenda.positiveManual) ? (
+                            {(agendaNeededMajority > (agenda.positiveVotings + agenda.positiveManual) && !approvedByQualityVote) ? (
                                 <FontAwesome
                                     name={"times"}
                                     style={{
@@ -383,7 +385,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                     <div style={itemStyle}>
                         {`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company, council.statute)}`}
-                        {agendaNeededMajority > (agenda.positiveVotings + agenda.positiveManual) ? (
+                        {(agendaNeededMajority > (agenda.positiveVotings + agenda.positiveManual) && !approvedByQualityVote) ? (
                             <FontAwesome
                                 name={"times"}
                                 style={{
