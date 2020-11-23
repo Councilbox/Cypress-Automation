@@ -105,7 +105,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		});
 	};
 
-	const removeAgenda = async agendaId => {
+	const removeAgenda = async () => {
 		const response = await props.removeAgenda({
 			variables: {
 				agendaId: deleteModal,
