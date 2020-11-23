@@ -1,0 +1,58 @@
+name: Publish Docker image
+
+on:
+  pull_request:
+    branches:
+      - 'feature/kubernetes-image**'
+
+jobs:
+  build:
+    env:
+      registry_url: cbxpre.azurecr.io
+      repository_name: cbx/councilbox-client
+      state_repo: councilbox/cbx-state
+      service_name: councilbox-client
+      stage: pre
+      branch: master
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Calculate tag
+        id: tag
+        run: echo "::set-output name=tag::$(echo $stage'_'$(date +'%Y%m%d%H%M%S'))"
+      - name: Image name
+        id: image_name
+        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.tag }})"
+      - name: mostrar
+        id: mostrar
+        run: echo ${{ steps.tag.outputs.tag }}
+      - name: Copy env
+        run: |
+              cp docker/environment/test/env .env
+              ls -la
+      - name: Login acr
+        uses: azure/docker-login@v1
+        with:  
+          login-server: ${{ env.registry_url }}
+          username: ${{ secrets.ACR_USER }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          load: true
+          tags: ${{ steps.image_name.outputs.image_name }}
+      - run: docker push ${{ steps.image_name.outputs.image_name }}
+      - name: "Dispatch a deploy-test event"
+        run: |
+          curl -H "Accept: application/vnd.github.everest-preview+json" \
+            -H "Authorization: token ${{ secrets.REPO_STATE_TOKEN }}" \
+            --request POST \
+            --data '{
+              "event_type": "edit-image-helm-repo",
+              "client_payload": {
+                "environment": "${{ env.stage }}",
+                "service": "${{ env.service_name }}",
+                "image": "${{ steps.image_name.outputs.image_name }}" }}'\
+            https://api.github.com/repos/${{ env.state_repo }}/dispatches
