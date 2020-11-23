@@ -151,8 +151,14 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
             {denied.length > 0 &&
                 'Dentro de los votos depositados en usted, tiene votos denegados' //TRADUCCION
             }
-            {fixed &&
-                translate.participant_vote_fixed
+            {(props.ownVote && props.ownVote.fixed) &&
+                <>
+                    {props.ownVote.numParticipations === 0?
+                        translate.cant_vote_this_point
+                    :
+                        translate.participant_vote_fixed
+                    }
+                </>
             }
             <VotingButton
                 text={
