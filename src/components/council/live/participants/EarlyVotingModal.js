@@ -319,8 +319,17 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                         return acc;
                     }, 0)
 
+                    const getRemainingOptions = () => {
+                        console.log(selections)
+                        if (((point.options.minSelections - selections) < 0)) {
+                            return point.options.minSelections;
+                        } else {
+                            return point.options.minSelections - selections
+                        }
+                    }
+
                     const disableCustom = (selections >= point.options.maxSelections) || disabled;
-                   
+
                     return (
                         <div key={`point_${point.id}`} style={{ marginTop: '1.3em' }}>
                             Punto: {point.agendaSubject}
@@ -332,6 +341,14 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                 }
                                 </div>
                             }
+                            <div>
+                                {(point.options.minSelections - selections) > 0 &&
+                                    <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
+                                }
+                                {/* {(selections.length < point.options.minSelections && point.options.minSelections > 1) &&
+                                    <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
+                                } */}
+                            </div>
                             <div>
                                 {point.items.map(item => {
                                     const proxyVote = getProxyVote(point.id, item.id, true);
