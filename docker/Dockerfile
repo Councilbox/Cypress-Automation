@@ -1,7 +1,7 @@
-FROM node:lts as builder
+FROM node:12-slim as builder
+RUN apt-get update && apt-get install git -y
 WORKDIR /client
 COPY . .
-RUN yarn add node-sass
 RUN yarn install --production
 RUN yarn build
 
