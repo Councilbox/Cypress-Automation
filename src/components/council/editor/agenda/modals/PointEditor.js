@@ -75,7 +75,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 
 	const saveChanges = async () => {
 		if (!checkRequiredFields()) {
-			const { __typename, items, options, ballots, attachments: a, ...data } = state;
+			const { __typename, items, options, ballots, attachments: a, qualityVoteSense, ...data } = state;
 			const response = await props.updateAgenda({
 				variables: {
 					agenda: {
