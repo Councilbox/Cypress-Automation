@@ -36,7 +36,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
 
     React.useEffect(() => {
         checkCanRequest();
-    }, [DetectRTC]);
+    }, [DetectRTC, council.state]);
 
     const checkCanRequest = async () => {
         await updateRTC();
