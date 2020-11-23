@@ -3,7 +3,7 @@ import VotingMenu from './VotingMenu';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const VotingSection = ({ translate, agenda, council, disabledColor, hasVideo, ...props }) => {
+const VotingSection = ({ translate, agenda, council, disabledColor, hasSession, ...props }) => {
 
     return (
         <React.Fragment>
@@ -16,7 +16,7 @@ const VotingSection = ({ translate, agenda, council, disabledColor, hasVideo, ..
                 refetch={props.refetch}
                 agenda={agenda}
                 disabledColor={disabledColor}
-                hasVideo={hasVideo}
+                hasSession={hasSession}
             />
         </React.Fragment>
     )

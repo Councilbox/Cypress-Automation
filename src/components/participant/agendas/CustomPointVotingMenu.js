@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { AGENDA_TYPES, AGENDA_STATES } from '../../../constants';
 import { VotingButton, DeniedDisplay } from './VotingMenu';
 import { VotingContext } from './AgendaNoSession';
-import { agendaPointOpened, getAgendaTypeLabel, showNumParticipations, voteAllAtOnce } from '../../../utils/CBX';
+import { agendaPointOpened, councilHasSession, getAgendaTypeLabel, showNumParticipations, voteAllAtOnce } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
@@ -34,6 +34,8 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
         if(!agenda.ballotsRecount){
             return '';
         }
+
+        if(!councilHasSession(council)) return '';
 
         const showRecount = ((getAgendaTypeLabel(agenda) !== 'private_votation'
             && council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;

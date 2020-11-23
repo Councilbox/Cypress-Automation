@@ -391,7 +391,7 @@ export default graphql(councilQuery, {
 		variables: {
 			councilId: +props.match.params.councilId
 		},
-		pollInterval: 60000
+		pollInterval: 45000
 	}),
 	props: props => {
 		return {

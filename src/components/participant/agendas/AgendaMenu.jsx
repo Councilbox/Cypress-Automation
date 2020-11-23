@@ -155,7 +155,7 @@ class AgendaMenu extends React.Component {
                                                         activateVoting={this.activateVoting}
                                                         refetch={this.props.refetch}
                                                         toggle={this.toggle}
-                                                        hasVideo={council.councilType}
+                                                        hasSession={CBX.councilHasSession(council)}
                                                     />
                                                 :
                                                 <VotingSection
@@ -169,7 +169,7 @@ class AgendaMenu extends React.Component {
                                                     activateVoting={this.activateVoting}
                                                     refetch={this.props.refetch}
                                                     toggle={this.toggle}
-                                                    hasVideo={council.councilType}
+                                                    hasSession={CBX.councilHasSession(council)}
                                                 />
                                             }
                                         </React.Fragment>
@@ -207,6 +207,7 @@ class AgendaMenu extends React.Component {
                                             council={this.props.council}
                                             voting={this.state.voting}
                                             translate={translate}
+                                            hasSession={CBX.councilHasSession(council)}
                                             activateVoting={this.activateVoting}
                                             refetch={this.props.refetch}
                                             toggle={this.toggle}
