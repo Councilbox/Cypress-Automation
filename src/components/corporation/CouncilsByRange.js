@@ -1,10 +1,16 @@
 import gql from 'graphql-tag';
+import { TableBody, TableHead, TableRow } from 'material-ui';
+import { TableCell } from 'material-ui';
+import { Table } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
+import { Grid, PaginationFooter } from '../../displayComponents';
+import { moment } from '../../containers/App';
 
 
-const CouncilsByRange = ({ client, dateStart, dateEnd }) => {
+const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
     const [data, setData] = React.useState(null);
+    const [page, setPage] = React.useState(1);
 
     const getData = React.useCallback(async () => {
         if(!dateStart || !dateEnd){
@@ -22,12 +28,17 @@ const CouncilsByRange = ({ client, dateStart, dateEnd }) => {
                 dateEnd,
                 options: {
                     limit: 20,
-                    offset: 0
+                    offset: (page - 1) * 20
                 }
             }
         });
         setData(response.data.kpiCouncils)
-    }, [dateStart, dateEnd])
+    }, [dateStart, dateEnd, page])
+
+
+    const changePage = page => {
+        setPage(page);
+    }
 
     React.useEffect(() => {
         getData();
@@ -37,18 +48,81 @@ const CouncilsByRange = ({ client, dateStart, dateEnd }) => {
         return <span/>
     }
 
+
     return (
-        <div>
-            {data.map(council => (
-                <div style={{ display: 'flex' }}>
-                    <div>
-                        {council.customer_code}
-                    </div>
-                    <div>
-                        {council.business_name}
-                    </div>
-                </div>
-            ))}
+        <div style={{ width: '100%' }}>
+            <Table>
+                <TableHead>
+                    <TableCell>
+                        Cod. Cliente
+                    </TableCell>
+                    <TableCell>
+                        Entidad
+                    </TableCell>
+                    <TableCell>
+                        Nombre
+                    </TableCell>
+                    <TableCell>
+                        Fecha de inicio
+                    </TableCell>
+                    <TableCell>
+                        Fecha de fin
+                    </TableCell>
+                    <TableCell>
+                        Duración
+                    </TableCell>
+                    <TableCell>
+                        Código
+                    </TableCell>
+                    <TableCell>
+                        Precio
+                    </TableCell>
+                </TableHead>
+                <TableBody>
+                    {data.list.map(council => (
+                        <TableRow>
+                            <TableCell>
+                                {council.customer_code || ''}
+                            </TableCell>
+                            <TableCell>
+                                {council.business_name}
+                            </TableCell>
+                            <TableCell>
+                                {council.name}
+                            </TableCell>
+                            <TableCell>
+                                {moment(council.date_real_start).format('DD/MM/YYYY HH:mm:ss')}
+                            </TableCell>
+                            <TableCell>
+                                {moment(council.date_end).format('DD/MM/YYYY HH:mm:ss')}
+                            </TableCell>
+                            <TableCell>
+                                {council.duration?
+                                    `${council.duration.hours || '00'}:${council.duration.minutes || '00'}:${council.duration.seconds || '00'}`
+                                :
+                                    '-'
+                                }
+                            </TableCell>
+                            <TableCell>
+                                {council.price_observations}
+                            </TableCell>
+                            <TableCell>
+                                {council.price}
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+            <Grid style={{width: '100%', marginTop: '1.2em'}}>
+                <PaginationFooter
+                    page={page}
+                    translate={translate}
+                    length={data.list.length}
+                    total={data.total}
+                    limit={20}
+                    changePage={changePage}
+                />
+            </Grid>
         </div>
     )
 }

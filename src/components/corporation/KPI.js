@@ -6,8 +6,8 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import CouncilsByRange from './CouncilsByRange';
 
 const KPI = ({ translate, client }) => {
-    const [dateStart, setDateStart] = React.useState('');
-    const [dateEnd, setDateEnd] = React.useState('');
+    const [dateStart, setDateStart] = React.useState('2020/11/01');
+    const [dateEnd, setDateEnd] = React.useState('2020/11/30');
     const [KPI, setKPI] = React.useState(null);
 
     const getData = React.useCallback(async () => {
@@ -37,7 +37,7 @@ const KPI = ({ translate, client }) => {
     console.log(dateStart);
 
     return (
-        <div style={{ padding: '2em' }}>
+        <div style={{ padding: '2em', overflow: 'auto', height: '100%' }}>
             <DatePicker onChange={value => setDateStart(value)} placeholder={'Fecha inicial'} />
             <DatePicker onChange={value => setDateEnd(value)} placeholder={'Fecha final'} style={{ marginLeft: '1em'}} />
             {KPI &&
