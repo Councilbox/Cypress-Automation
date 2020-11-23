@@ -134,7 +134,7 @@ const updateCustomAgenda = gql`
 
 
 const cleanObject = object => {
-    const { __typename, items, options, attachments, ballots, ...rest } = object;
+    const { __typename, items, options, attachments, ballots, qualityVoteSense, ...rest } = object;
     return rest;
 }
 
