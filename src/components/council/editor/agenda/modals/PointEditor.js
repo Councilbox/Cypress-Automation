@@ -202,7 +202,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 					<Grid>
 						<GridItem xs={12} md={9} lg={9}>
 							<TextInput
-								floatingText={translate.convene_header}
+								floatingText={translate.title}
 								type="text"
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
