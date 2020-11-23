@@ -255,7 +255,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const createStatute = async () => {
-		var regex = new RegExp("^[a-zA-Z0-9-áéíóú ]+$");
+		var regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
 		
 		if (state.newStatuteName) {
 			if ((regex.test(state.newStatuteName)) && state.newStatuteName.trim()) {
