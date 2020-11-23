@@ -342,12 +342,9 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                 </div>
                             }
                             <div>
-                                {(point.options.minSelections - selections) > 0 &&
+                                {(selections < point.options.minSelections && point.options.minSelections > 1) &&
                                     <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
                                 }
-                                {/* {(selections.length < point.options.minSelections && point.options.minSelections > 1) &&
-                                    <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
-                                } */}
                             </div>
                             <div>
                                 {point.items.map(item => {
