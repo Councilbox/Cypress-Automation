@@ -197,6 +197,8 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 						defaultOrder={["fullName", "asc"]}
 						limits={PARTICIPANTS_LIMITS}
 						page={1}
+						searchInMovil={isMobile}
+						hideTextFilter={isMobile}
 						menuButtons={
 							state.selectedIds.size > 0 &&
 								<BasicButton
