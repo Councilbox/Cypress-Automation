@@ -72,6 +72,9 @@ const ErrorState = ({ code, translate, data, windowSize, windowOrientation, refe
 
 			case 'REMOTE_CLOSED':
 				return <RemoteClosed translate={translate} />;
+			
+			case PARTICIPANT_ERRORS.REPRESENTATIVE_WITHOUT_REPRESENTED:
+				return <RepresentedChanged translate={translate} data={data} refetch={refetch} />
 
 			case PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED:
 				return <TimeLimitExceeded translate={translate} data={data} />;
@@ -251,6 +254,32 @@ const RepresentedDelegated = ({ translate, data, refetch }) => {
 		</React.Fragment>
 	)
 };
+
+const RepresentedChanged = ({ translate, data, refetch }) => {
+	return (
+			<React.Fragment>
+			<h5 style={{ color: primary, fontWeight: "bold" }}>
+				{translate.we_are_sorry}
+			</h5>
+
+			<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
+				<FontAwesome
+					name={"user"}
+					stack={"1x"}
+					style={{ color: primary }}
+				/>
+				<FontAwesome
+					name={"ban"}
+					stack={"2x"}
+					style={{ color: secondary }}
+				/>
+			</div>
+
+			{'El voto de su representado ha sido depositado en otro representante' /*TRADUCCION*/}
+		</React.Fragment>
+	)
+};
+
 
 
 const ParticipantNotInRemoteState = ({ translate, data, refetch }) => {

@@ -106,6 +106,7 @@ const newRepresentativeInitialValues = {
 	name: "",
 	surname: "",
 	position: "",
+	initialState: 0,
 	dni: "",
 	email: "",
 	phone: ""
