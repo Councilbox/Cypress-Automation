@@ -14,17 +14,13 @@ import { isLandscape, isMobile } from '../../../utils/screen';
 import VideoContainer from '../VideoContainer';
 import { API_URL, SERVER_URL } from "../../../config";
 import AdminAnnouncement from '../../council/live/adminAnnouncement/AdminAnnouncement';
-// import { isMobile } from '../../../utils/screen';
 import CouncilSidebar from './CouncilSidebar';
 import AdminPrivateMessage from "../menus/AdminPrivateMessage";
 import * as CBX from '../../../utils/CBX';
 import UsersHeader from "../UsersHeader";
 import { ConfigContext } from "../../../containers/AppControl";
-import TextInputChat from "../../../displayComponents/TextInputChat";
-import { TextField } from "material-ui";
 import { usePolling } from "../../../hooks";
 import { LoadingSection } from "../../../displayComponents";
-import { agendaVotings } from "../../../queries/agenda";
 import { ConnectionInfoContext } from "../../../containers/ParticipantContainer";
 
 
@@ -645,7 +641,7 @@ const agendasQuery = gql`
 export default compose(
     graphql(participantPing, {
         options: props => ({
-            pollInterval: 5000,
+            pollInterval: 10000,
             variables: {
                 data: JSON.stringify(props.reqData)
             }

@@ -75,7 +75,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 
 	const saveChanges = async () => {
 		if (!checkRequiredFields()) {
-			const { __typename, items, options, ballots, attachments: a, ...data } = state;
+			const { __typename, items, options, ballots, attachments: a, qualityVoteSense, ...data } = state;
 			const response = await props.updateAgenda({
 				variables: {
 					agenda: {
@@ -202,7 +202,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 					<Grid>
 						<GridItem xs={12} md={9} lg={9}>
 							<TextInput
-								floatingText={translate.convene_header}
+								floatingText={translate.title}
 								type="text"
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}

@@ -31,8 +31,7 @@ class StatuteNameEditor extends React.Component {
     }
 
     checkRequiredFields = () => {
-        var regex = new RegExp("^[a-zA-Z0-9-áéíóú ]+$");
-        
+        var regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
         if (!this.state.title) {
             this.setState({
                 titleError: this.props.translate.required_field

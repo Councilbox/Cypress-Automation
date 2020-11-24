@@ -235,16 +235,9 @@ export const canEditPresentVotings = agenda => {
 		agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
 }
 
-export const approvedByQualityVote = (agenda, qualityVoteId) => {
-	if (agenda.votings && qualityVoteId) {
-		const qualityVote = agenda.votings.find(item => {
-			return item.participantId === qualityVoteId
-		});
-		if (qualityVote) {
-			if (qualityVote.vote === VOTE_VALUES.POSITIVE) {
-				return true;
-			}
-		}
+export const approvedByQualityVote = agenda => {	
+	if(agenda && agenda.qualityVoteSense){
+		return agenda.qualityVoteSense === VOTE_VALUES.POSITIVE;
 	}
 	return false;
 }
@@ -2084,7 +2077,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 };
 
 export const cleanAgendaObject = agenda => {
-	const { attachments, ballots, items, options, __typename, votings, ...clean } = agenda;
+	const { attachments, ballots, items, options, __typename, votings, qualityVoteSense, ...clean } = agenda;
 
 	return clean;
 }

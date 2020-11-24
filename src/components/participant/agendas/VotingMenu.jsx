@@ -27,7 +27,7 @@ const styles = {
     }
 }
 
-const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, client, disabledColor, hasVideo, ...props }) => {
+const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, client, disabledColor, hasSession, ...props }) => {
     const [loading, setLoading] = React.useState(false);
     const config = React.useContext(ConfigContext);
     const [modal, setModal] = React.useState(false);
@@ -151,12 +151,18 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
             {denied.length > 0 &&
                 'Dentro de los votos depositados en usted, tiene votos denegados' //TRADUCCION
             }
-            {fixed &&
-                translate.participant_vote_fixed
+            {(props.ownVote && props.ownVote.fixed) &&
+                <>
+                    {props.ownVote.numParticipations === 0?
+                        translate.cant_vote_this_point
+                    :
+                        translate.participant_vote_fixed
+                    }
+                </>
             }
             <VotingButton
                 text={
-                    hasVideo ?
+                    !hasSession ?
                         translate.in_favor_btn
                         :
                         translate.in_favor_btn + buildRecountText(CBX.showNumParticipations(agenda.positiveVotings + agenda.positiveManual, council.company, council.statute))
@@ -176,7 +182,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
             />
             <VotingButton
                 text={
-                    hasVideo ?
+                    !hasSession ?
                         translate.against_btn
                         :
                         translate.against_btn + buildRecountText(CBX.showNumParticipations(agenda.negativeVotings + agenda.negativeManual, council.company, council.statute))
@@ -197,7 +203,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
 
             <VotingButton
                 text={
-                    hasVideo ?
+                    !hasSession ?
                         translate.abstention_btn
                         :
                         translate.abstention_btn + buildRecountText(CBX.showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, council.company, council.statute))
@@ -218,7 +224,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
             {!config.hideNoVoteButton &&
                 <VotingButton
                     text={
-                        hasVideo ?
+                        !hasSession ?
                             translate.dont_vote
                             :
                             translate.dont_vote + buildRecountText(CBX.showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, council.company, council.statute))

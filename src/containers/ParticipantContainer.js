@@ -157,7 +157,8 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 			code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
 			code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
 			code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED ||
-			code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
+			code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED ||
+			code === PARTICIPANT_ERRORS.REPRESENTATIVE_WITHOUT_REPRESENTED
 		) {
 			if (!council.councilVideo) {
 				return <LoadingMainApp />;
@@ -391,7 +392,7 @@ export default graphql(councilQuery, {
 		variables: {
 			councilId: +props.match.params.councilId
 		},
-		pollInterval: 60000
+		pollInterval: 45000
 	}),
 	props: props => {
 		return {

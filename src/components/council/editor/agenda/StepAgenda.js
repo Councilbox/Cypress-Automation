@@ -42,7 +42,6 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		loading: false,
 		saveAsDraftId: null,
 		confirmationRequestModal: false,
-		deleteModal: false,
 		agendaIdRemove: false,
 		errors: {
 			agendaSubject: "",
@@ -106,18 +105,17 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		});
 	};
 
-	const removeAgenda = async agendaId => {
+	const removeAgenda = async () => {
 		const response = await props.removeAgenda({
 			variables: {
-				agendaId: state.agendaIdRemove,
-				// agendaId: agendaId,
+				agendaId: deleteModal,
 				councilId: props.councilID
 			}
 		});
 
 		if (response) {
 			getData();
-			setState({ ...state, deleteModal: false, agendaIdRemove: false })
+			setDeleteModal(null);
 		}
 	};
 
@@ -272,7 +270,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														]
 													}
 
-													removeAgenda={() => setState({ ...state, deleteModal: true, agendaIdRemove: agenda.id })}
+													removeAgenda={() => setDeleteModal(agenda.id)}
 													selectAgenda={selectAgenda}
 													saveAsDraft={saveAsAgendaDraft}
 												/>
