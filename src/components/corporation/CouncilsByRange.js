@@ -4,13 +4,15 @@ import { TableCell } from 'material-ui';
 import { Table } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { Grid, PaginationFooter } from '../../displayComponents';
+import { AlertConfirm, Grid, PaginationFooter } from '../../displayComponents';
 import { moment } from '../../containers/App';
+import KPISends from './KPISends';
 
 
 const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
     const [data, setData] = React.useState(null);
     const [page, setPage] = React.useState(1);
+    const [sendsModal, setSendsModal] = React.useState(null);
 
     const getData = React.useCallback(async () => {
         if(!dateStart || !dateEnd){
@@ -51,6 +53,18 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
 
     return (
         <div style={{ width: '100%' }}>
+            <AlertConfirm
+                open={!!sendsModal}
+                title={translate.sends}
+                buttonCancel={translate.close}
+                requestClose={() => setSendsModal(false)}
+                bodyText={
+                    <KPISends
+                        translate={translate}
+                        councilId={sendsModal}
+                    />
+                }
+            />
             <Table>
                 <TableHead>
                     <TableCell>
@@ -76,6 +90,9 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
                     </TableCell>
                     <TableCell>
                         Precio
+                    </TableCell>
+                    <TableCell>
+                        Envíos
                     </TableCell>
                 </TableHead>
                 <TableBody>
@@ -108,6 +125,11 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
                             </TableCell>
                             <TableCell>
                                 {council.price}
+                            </TableCell>
+                            <TableCell>
+                                <div onClick={() => setSendsModal(council.id)} style={{ cursor: 'pointer' }}>
+                                    Ver    
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
