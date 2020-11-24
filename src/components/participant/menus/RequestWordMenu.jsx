@@ -229,8 +229,6 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                 )
             }
 
-            console.log(canRequest);
-
             return (
                 <Button
                     className={"NoOutline"}

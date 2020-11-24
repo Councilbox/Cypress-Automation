@@ -160,9 +160,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
     if (loading) {
         return '';
     }
-
-    console.log(agendas);
-
+    
     return (
         <div style={{ fontSize: '1em' }}>
             <div style={{
