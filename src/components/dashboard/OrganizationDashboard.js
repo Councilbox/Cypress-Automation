@@ -162,7 +162,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 
 	React.useEffect(() => {
-		if (!config.oneOnOneDashboard) {
+		if(!config.oneOnOneDashboard){
 			if (usuariosEntidades === translate.users) {
 				getUsers();
 			} else {
