@@ -578,7 +578,7 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
         refetch();
         setModal(false);
     }
-    
+     
     return (
         <div style={{ display: 'flex' }}>
 
