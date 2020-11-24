@@ -8,7 +8,7 @@ const SideBarLite = props => {
 	const config = React.useContext(ConfigContext);
 
 
-	if(showOrganizationDashboard(props.company, config, props.user) && props.company.type !== 12){
+	if(showOrganizationDashboard(props.company, config, props.user) && !config.oneOnOneDashboard){
 		return <OrganizationSideBar {...props} />
 	}
 
