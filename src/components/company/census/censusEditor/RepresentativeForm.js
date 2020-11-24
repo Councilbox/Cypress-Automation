@@ -11,6 +11,7 @@ import {
 import { MenuItem } from "material-ui";
 import { Collapse } from "material-ui";
 import { getSecondary } from "../../../../styles/colors";
+import { isMobile } from "../../../../utils/screen";
 
 const Action = ({ children, loading, onClick, disabled = false, styles }) => {
 	return (
@@ -20,13 +21,14 @@ const Action = ({ children, loading, onClick, disabled = false, styles }) => {
 				alignItems: 'center',
 				height: "37px",
 				borderRadius: '4px',
-				border: `solid 1px ${disabled? 'grey' : getSecondary()}` ,
-				padding: "0.3em 1.3em",
-				cursor: disabled? 'auto' : "pointer",
+				border: `solid 1px ${disabled ? 'grey' : getSecondary()}`,
+				padding: isMobile ? "0.3em 0.3em" : "0.3em 1.3em",
+				cursor: disabled ? 'auto' : "pointer",
 				marginRight: "0.5em",
+				marginBottom: isMobile && "0.5em",
 				...styles
 			}}
-			onClick={!disabled ? onClick : () => {}}
+			onClick={!disabled ? onClick : () => { }}
 		>
 			{loading ? (
 				<div
@@ -59,7 +61,7 @@ const RepresentativeForm = ({
 	const representative = state;
 	return (
 		<Grid>
-			<GridItem xs={12} lg={12} md={12} style={{ display: 'flex' }}>
+			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile ? "" : 'flex' }}>
 				<Action
 					disabled={disabled}
 					style={{ display: "flex", alignItems: "center", overflow: "hidden", cursor: "pointer" }}
@@ -69,13 +71,13 @@ const RepresentativeForm = ({
 						})
 					}
 				>
-					<div style={{ width: "3em", color: disabled? 'grey' : getSecondary() }}>
+					<div style={{ width: "3em", color: disabled ? 'grey' : getSecondary() }}>
 						<i className={'fa fa-plus'} style={{ position: "relative" }}></i>
 						<i className={'fa fa-user-o'} style={{ position: "relative", fontSize: "20px" }}></i>
 						<i className={'fa fa-user'} style={{ position: "relative", left: "-5px" }}></i>
 					</div>
-					<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled? 'grey' : getSecondary() }}>
-						<span style={{ fontSize: '0.9em' }}>{state.hasRepresentative? translate.remove_representative : translate.add_representative }</span>
+					<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary() }}>
+						<span style={{ fontSize: '0.9em' }}>{state.hasRepresentative ? translate.remove_representative : translate.add_representative}</span>
 					</div>
 				</Action>
 				<Action
@@ -85,22 +87,22 @@ const RepresentativeForm = ({
 					<div
 						style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
 					>
-						<div style={{ width: "3em", color: disabled? 'grey' : getSecondary() }}>
+						<div style={{ width: "3em", color: disabled ? 'grey' : getSecondary() }}>
 							<i className={'fa fa-plus'} style={{ position: "relative" }}></i>
 							<i className={'fa fa-user-o'} style={{ position: "relative", fontSize: "20px" }}></i>
 							<i className={'fa fa-user'} style={{ position: "relative", left: "-5px" }}></i>
 						</div>
-						<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled? 'grey' : getSecondary() }}>
-						<span style={{ fontSize: '0.9em' }}>{translate.select_representative}</span>
+						<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary() }}>
+							<span style={{ fontSize: '0.9em' }}>{translate.select_representative}</span>
 						</div>
 					</div>
-				</Action>	
+				</Action>
 			</GridItem>
-			{disabled && 
+			{disabled &&
 				<div style={{ width: '100%', padding: '1em' }}>
 					{translate.cant_add_representative}
 				</div>
-			}	
+			}
 			<Collapse in={state.hasRepresentative} >
 				{state.hasRepresentative && (
 					<Grid >
@@ -210,8 +212,7 @@ const RepresentativeForm = ({
 									return (
 										<MenuItem
 											value={language.columnName}
-											key={`languagerepresentative_${
-												language.columnName
+											key={`languagerepresentative_${language.columnName
 												}`}
 										>
 											{language.desc}
