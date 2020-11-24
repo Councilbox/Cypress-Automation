@@ -578,12 +578,12 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
         refetch();
         setModal(false);
     }
-
+     
     return (
         <div style={{ display: 'flex' }}>
 
             <AlertConfirm
-                title={translate.edit}
+                title={translate.edit_folder}
                 acceptAction={updateFile}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
