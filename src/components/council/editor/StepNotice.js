@@ -207,7 +207,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 				statuteId: statuteId
 			}
 		});
-
+		
 		if (response) {
 			loadDraft({
 				text: response.data.changeCouncilStatute.conveneHeader
@@ -223,7 +223,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			updateState({
 				name
 			});
-
+			
 			await data.refetch();
 			checkAssociatedCensus(statuteId);
 			updateDate();
@@ -639,7 +639,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 								requestClose={closeStatuteDetailsModal}
 								open={statuteModal}
 								buttonCancel={translate.close}
-								title={council.statute ? translate[council.statute.title] || council.statute.title : ''}
+								title={council.statute ? translate[data.council.statute.title] || data.council.statute.title : ''}
 								bodyText={
 									<StatuteDisplay
 										statute={data.council.statute}
