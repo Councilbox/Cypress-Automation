@@ -48,6 +48,7 @@ const QuorumInput = ({
 						<TextInput
 							type={"number"}
 							value={value}
+							adornment={"/"}
 							min="1"
 							errorText={quorumError}
 							onChange={event => {
