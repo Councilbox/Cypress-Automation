@@ -162,7 +162,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 
 	React.useEffect(() => {
-		if (company.type !== 12) {
+		if (!config.oneOnOneDashboard) {
 			if (usuariosEntidades === translate.users) {
 				getUsers();
 			} else {
@@ -330,6 +330,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			setDaySelected(date)
 		}
 	}
+
 	if (isMobile) {
 		return (
 			<div style={{ width: "100%", height: "100%" }}>
@@ -561,7 +562,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						</div>
 					}
 				</div>
-				{company.type !== 12 &&
+				{!config.oneOnOneDashboard &&
 					<div style={{
 						width: "100%",
 						padding: "1em",
@@ -825,7 +826,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						display: "flex",
 						justifyContent: 'space-between'
 					}}>
-					<GridItem xs={company.type === 12 ? 12 : 4} md={company.type === 12 ? 12 : 4} lg={company.type === 12 ? 12 : 4} style={{
+					<GridItem xs={config.oneOnOneDashboard ? 12 : 4} md={config.oneOnOneDashboard ? 12 : 4} lg={config.oneOnOneDashboard ? 12 : 4} style={{
 						background: "white",
 						boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
 						padding: "1em",
@@ -876,7 +877,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							</div>
 						}
 					</GridItem>
-					{company.type !== 12 &&
+					{!config.oneOnOneDashboard &&
 						<GridItem xs={7} md={7} lg={7} style={{
 							background: "white",
 							boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
