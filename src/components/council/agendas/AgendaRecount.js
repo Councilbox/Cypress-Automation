@@ -78,51 +78,51 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
     }
 
     const printPositiveRemote = () => {
-        return `${CBX.showNumParticipations(agenda.positiveVotings, company, council.statute)} ${printPercentage(agenda.positiveVotings)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.positiveVotings, company, council.statute)} ${printPercentage(agenda.agendaRecount.positiveVotings)}`;
     }
 
     const printNegativeRemote = () => {
-        return `${CBX.showNumParticipations(agenda.negativeVotings, company, council.statute)} ${printPercentage(agenda.negativeVotings)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.negativeVotings, company, council.statute)} ${printPercentage(agenda.agendaRecount.negativeVotings)}`;
     }
 
     const printAbstentionRemote = () => {
-        return `${CBX.showNumParticipations(agenda.abstentionVotings, company, council.statute)} ${printPercentage(agenda.abstentionVotings)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.abstentionVotings, company, council.statute)} ${printPercentage(agenda.agendaRecount.abstentionVotings)}`;
     }
 
     const printNoVoteRemote = () => {
-        return `${CBX.showNumParticipations(agenda.noVoteVotings, company, council.statute)} ${printPercentage(agenda.noVoteVotings)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.noVoteVotings, company, council.statute)} ${printPercentage(agenda.agendaRecount.noVoteVotings)}`;
     }
 
     const printPositivePresent = () => {
-        return `${CBX.showNumParticipations(agenda.positiveManual, company, council.statute)} ${printPercentage(agenda.positiveManual)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.positiveManual, company, council.statute)} ${printPercentage(agenda.agendaRecount.positiveManual)}`;
     }
 
     const printNegativePresent = () => {
-        return `${CBX.showNumParticipations(agenda.negativeManual, company, council.statute)} ${printPercentage(agenda.negativeManual)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.negativeManual, company, council.statute)} ${printPercentage(agenda.agendaRecount.negativeManual)}`;
     }
 
     const printAbstentionPresent = () => {
-        return `${CBX.showNumParticipations(agenda.abstentionManual, company, council.statute)} ${printPercentage(agenda.abstentionManual)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.abstentionManual, company, council.statute)} ${printPercentage(agenda.agendaRecount.abstentionManual)}`;
     }
 
     const printNoVotePresent = () => {
-        return `${CBX.showNumParticipations(agenda.noVoteManual, company, council.statute)} ${printPercentage(agenda.noVoteManual)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.agendaRecount.noVoteManual)}`;
     }
 
     const printPositiveTotal = () => {
-        return `${CBX.showNumParticipations(agenda.positiveVotings + agenda.positiveManual, company, council.statute)} ${printPercentage(agenda.positiveVotings + agenda.positiveManual)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.positiveVotings + agenda.agendaRecount.positiveManual, company, council.statute)} ${printPercentage(agenda.agendaRecount.positiveVotings + agenda.agendaRecount.positiveManual)}`;
     }
 
     const printNegativeTotal = () => {
-        return `${CBX.showNumParticipations(agenda.negativeVotings + agenda.negativeManual, company, council.statute)} ${printPercentage(agenda.negativeVotings + agenda.negativeManual)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.negativeVotings + agenda.agendaRecount.negativeManual, company, council.statute)} ${printPercentage(agenda.agendaRecount.negativeVotings + agenda.agendaRecount.negativeManual)}`;
     }
 
     const printAbstentionTotal = () => {
-        return `${CBX.showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, company, council.statute)} ${printPercentage(agenda.abstentionVotings + agenda.abstentionManual)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.abstentionVotings + agenda.agendaRecount.abstentionManual, company, council.statute)} ${printPercentage(agenda.agendaRecount.abstentionVotings + agenda.agendaRecount.abstentionManual)}`;
     }
 
     const printNoVoteTotal = () => {
-        return `${CBX.showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, company, council.statute)} ${printPercentage(agenda.noVoteVotings + agenda.noVoteManual)}`;
+        return `${CBX.showNumParticipations(agenda.agendaRecount.noVoteVotings + agenda.agendaRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.agendaRecount.noVoteVotings + agenda.agendaRecount.noVoteManual)}`;
 
     }
 

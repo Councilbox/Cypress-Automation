@@ -295,6 +295,7 @@ export const agendaManager = gql`
 				councilId
 				state
 			}
+			agendaRecount
 			comment
 			commentRightColumn
 			councilId
