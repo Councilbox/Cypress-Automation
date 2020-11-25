@@ -30,7 +30,6 @@ const itemStyle = {
 }
 
 const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refetch, editable, translate, updateAgenda, classes }) => {
-
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
     const activatePresentOneVote = false;
     const approvedByQualityVote = CBX.haveQualityVoteConditions(agenda, council) && CBX.approvedByQualityVote(agenda, council.qualityVoteId);

@@ -572,6 +572,7 @@ const agendasQuery = gql`
             noVoteManual
             noVoteVotings
             agendaSubject
+            agendaRecount
             attachments {
                 id
                 agendaId

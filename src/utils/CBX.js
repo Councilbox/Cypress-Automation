@@ -2077,7 +2077,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 };
 
 export const cleanAgendaObject = agenda => {
-	const { attachments, ballots, items, options, __typename, votings, qualityVoteSense, ...clean } = agenda;
+	const { attachments, ballots, items, options, __typename, votings, qualityVoteSense, agendaRecount, ...clean } = agenda;
 
 	return clean;
 }

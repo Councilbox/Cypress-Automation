@@ -56,15 +56,6 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
         getCouncilRecount()
     }, []);
 
-
-    const getPartTotal = (votings) => {
-        let porcentaje = 0
-        if (recount) {
-            porcentaje = ((votings / recount.data.councilRecount.partTotal) * 100).toFixed(3)
-        }
-        return porcentaje
-    }
-
     const setAgendaVoting = vote => {
         if (props.ownVote) {
             votingContext.responses.set(props.ownVote.id, vote);
@@ -165,7 +156,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     !hasSession ?
                         translate.in_favor_btn
                         :
-                        translate.in_favor_btn + buildRecountText(CBX.showNumParticipations(agenda.positiveVotings + agenda.positiveManual, council.company, council.statute))
+                        translate.in_favor_btn + buildRecountText(CBX.showNumParticipations(agenda.agendaRecount.positiveVotings + agenda.agendaRecount.positiveManual, council.company, council.statute))
                 }
                 loading={loading === 1}
                 disabledColor={disabledColor}
@@ -185,7 +176,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     !hasSession ?
                         translate.against_btn
                         :
-                        translate.against_btn + buildRecountText(CBX.showNumParticipations(agenda.negativeVotings + agenda.negativeManual, council.company, council.statute))
+                        translate.against_btn + buildRecountText(CBX.showNumParticipations(agenda.agendaRecount.negativeVotings + agenda.agendaRecount.negativeManual, council.company, council.statute))
                 }
                 loading={loading === 0}
                 disabledColor={disabledColor}
@@ -206,7 +197,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     !hasSession ?
                         translate.abstention_btn
                         :
-                        translate.abstention_btn + buildRecountText(CBX.showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, council.company, council.statute))
+                        translate.abstention_btn + buildRecountText(CBX.showNumParticipations(agenda.agendaRecount.abstentionVotings + agenda.agendaRecount.abstentionManual, council.company, council.statute))
                 }
                 loading={loading === 2}
                 disabledColor={disabledColor}
@@ -227,7 +218,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                         !hasSession ?
                             translate.dont_vote
                             :
-                            translate.dont_vote + buildRecountText(CBX.showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, council.company, council.statute))
+                            translate.dont_vote + buildRecountText(CBX.showNumParticipations(agenda.agendaRecount.noVoteVotings + agenda.agendaRecount.noVoteManual, council.company, council.statute))
                     }
                     disabled={disabled}
                     disabledColor={disabledColor}
