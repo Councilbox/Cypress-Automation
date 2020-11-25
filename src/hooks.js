@@ -53,9 +53,11 @@ export const useHoverRow = () => {
 	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
 }
 
+
 export const usePolling = (cb, interval, deps = []) => {
 	const [visible, setVisible] = React.useState(!document.hidden);
 	const [online, setOnline] = React.useState(navigator.onLine);
+	const inThrottle = React.useRef(false);
 
     function handleVisibilityChange(){
         setVisible(!document.hidden);
@@ -83,9 +85,11 @@ export const usePolling = (cb, interval, deps = []) => {
 	}, []);
 
     React.useEffect(() => {
-        if(visible && online){
-            cb();
-        }
+        if(visible && online && !inThrottle.current){
+			cb();
+			inThrottle.current = true;
+			setTimeout(() => inThrottle.current = false, interval);
+		}
 	}, [visible, online, ...deps]);
 
 	useInterval(cb, !online? interval * 1000 : visible? interval : interval * 10, deps);
