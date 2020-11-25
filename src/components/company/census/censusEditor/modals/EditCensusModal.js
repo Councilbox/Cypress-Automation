@@ -132,7 +132,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
             props.requestClose()
         }
     }
-    console.log(translate)
+    
     return (
         <div>
             <AlertConfirm
