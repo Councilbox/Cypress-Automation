@@ -23,6 +23,7 @@ import { addAgendaAttachment } from "../../../../../queries";
 import { useOldState } from "../../../../../hooks";
 import gql from 'graphql-tag';
 import DeleteAgendaButton from "./DeleteAgendaButton";
+import { AGENDA_TYPES } from "../../../../../constants";
 
 
 const PointEditor = ({ agenda, translate, company, council, requestClose, open, ...props }) => {
@@ -215,28 +216,48 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 							/>
 						</GridItem>
 						<GridItem xs={12} md={3} lg={3}>
-							<SelectInput
-								floatingText={translate.type}
-								value={agenda.subjectType}
-								errorText={errors.subjectType}
-								onChange={event =>
-									updateState({
-										subjectType: event.target.value
-									})
-								}
-								required
-							>
-								{filteredTypes.map(voting => {
-									return (
-										<MenuItem
-											value={voting.value}
-											key={`voting${voting.value}`}
-										>
-											{translate[voting.label]}
-										</MenuItem>
-									);
-								})}
-							</SelectInput>
+							{agenda.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ?
+								<SelectInput
+									floatingText={translate.type}
+									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
+									disabled={true}
+									onChange={event =>
+										updateState({
+											subjectType: +event.target.value
+										})
+									}
+									required
+								>
+									<MenuItem
+										value={AGENDA_TYPES.CONFIRMATION_REQUEST}
+									>
+										{translate.confirmation_request}
+									</MenuItem>
+								</SelectInput>
+							:
+								<SelectInput
+									floatingText={translate.type}
+									value={agenda.subjectType}
+									errorText={errors.subjectType}
+									onChange={event =>
+										updateState({
+											subjectType: event.target.value
+										})
+									}
+									required
+								>
+									{filteredTypes.map(voting => {
+										return (
+											<MenuItem
+												value={voting.value}
+												key={`voting${voting.value}`}
+											>
+												{translate[voting.label]}
+											</MenuItem>
+										);
+									})}
+								</SelectInput>
+							}
 						</GridItem>
 					</Grid>
 

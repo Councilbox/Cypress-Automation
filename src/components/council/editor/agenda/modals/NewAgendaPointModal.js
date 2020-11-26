@@ -409,7 +409,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				bodyText={_renderNewPointBody()}
-				title={translate.new_approving_point}
+				title={state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? translate.new_point : translate.new_approving_point}
 			/>
 		</React.Fragment>
 	);

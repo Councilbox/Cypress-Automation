@@ -193,7 +193,7 @@ export const councilHasParticipations = council => {
 };
 
 export const hasVotation = pointType => {
-	return pointType !== AGENDA_TYPES.INFORMATIVE;
+	return pointType !== AGENDA_TYPES.INFORMATIVE && pointType !== AGENDA_TYPES.CONFIRMATION_REQUEST;
 };
 
 export const pointIsClosed = agendaPoint => {
