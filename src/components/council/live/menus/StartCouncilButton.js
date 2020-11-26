@@ -14,7 +14,7 @@ import {
 } from "../../../../displayComponents";
 import gql from 'graphql-tag';
 import { getPrimary } from "../../../../styles/colors";
-import { DELEGATION_USERS_LOAD } from "../../../../constants";
+import { COUNCIL_TYPES, DELEGATION_USERS_LOAD } from "../../../../constants";
 import { Typography } from "material-ui";
 import { existsQualityVote, councilHasVideo } from "../../../../utils/CBX";
 import ConveneSelector from "../ConveneSelector";
@@ -520,13 +520,15 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 						}}
 					/>
 				}
-				<ConveneSelector
-					council={council}
-					translate={translate}
-					convene={state.data.firstOrSecondConvene}
-					changeConvene={changeConvene}
-					recount={props.recount}
-				/>
+				{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
+					<ConveneSelector
+						council={council}
+						translate={translate}
+						convene={state.data.firstOrSecondConvene}
+						changeConvene={changeConvene}
+						recount={props.recount}
+					/>
+				}
 			</Grid>
 		);
 	}

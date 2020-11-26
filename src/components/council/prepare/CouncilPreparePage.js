@@ -30,6 +30,7 @@ import gql from "graphql-tag";
 import ShareholdersRequestsPage from "./shareholders/ShareholdersRequestsPage";
 import EstimatedQuorum from "./EstimatedQuorum";
 import AttachmentsModal from "./AttachmentsModal";
+import { COUNCIL_TYPES } from "../../../constants";
 
 
 const CouncilPreparePage = ({ company, translate, data, ...props }) => {
@@ -141,7 +142,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									height: '100%'
 								}}
 							>
-								{CBX.councilHasAssistanceConfirmation(council) &&
+								{(CBX.councilHasAssistanceConfirmation(council) && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) &&
 									<EstimatedQuorum
 										council={council}
 										company={company}
