@@ -261,7 +261,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 						</GridItem>
 					</Grid>
 
-					{CBX.hasVotation(agenda.subjectType) && (
+					{(CBX.hasVotation(agenda.subjectType) && !CBX.isConfirmationRequest(agenda.subjectType)) (
 						<Grid>
 							<GridItem xs={6} lg={3} md={3}>
 								<SelectInput

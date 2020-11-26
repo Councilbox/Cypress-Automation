@@ -624,7 +624,11 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
                                 fontWeight: '700'
                             }}
                         >
-                            {`${translate.vote_registered} (${moment(ownVote.date).format('LLL')})`}
+                            {CBX.isConfirmationRequest(agenda.subjectType) ?
+                                `${translate.answer_registered} (${moment(ownVote.date).format('LLL')})`
+                            :
+                                `${translate.vote_registered} (${moment(ownVote.date).format('LLL')})`
+                            }
                         </Button>
                     }
                 </CardActions>

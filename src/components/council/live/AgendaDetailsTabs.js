@@ -6,7 +6,7 @@ import ActAgreements from './ActAgreements';
 import Comments from './Comments';
 import RecountSection from './RecountSection';
 import Votings from "./Votings";
-import { AGENDA_TYPES } from '../../../constants';
+import { AGENDA_TYPES, COUNCIL_TYPES } from '../../../constants';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
@@ -60,7 +60,8 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                 {[
                     <Tab label={isMobile? translate.agreements : translate.comments_and_agreements} />,
                     <Tab label={isMobile? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />,
-                    agenda.subjectType !== AGENDA_TYPES.INFORMATIVE && <Tab label={translate.voting} disabled={showEarlyVotings}/>,
+                    agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
+                        <Tab label={CBX.isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting} disabled={showEarlyVotings}/>,
                     <Tab label={isMobile? translate.attachments : translate.attachment_files} />
                 ]}
             </Tabs>
