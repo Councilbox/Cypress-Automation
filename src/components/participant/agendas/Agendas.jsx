@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import AgendaNoSession from "./AgendaNoSession";
 import { isMobile } from '../../../utils/screen';
 import { getSubjectAbrv } from '../../../displayComponents/AgendaNumber';
+import { COUNCIL_TYPES } from "../../../constants";
 
 
 class Agendas extends React.Component {
@@ -110,7 +111,7 @@ class Agendas extends React.Component {
 
     toastChanges = (message, onClose) => {
         this.props.setAgendaBadge(true);
-        if (!isMobile) {
+        if (!isMobile && this.props.council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) {
             toast(
                 <LiveToast
                     message={message}
