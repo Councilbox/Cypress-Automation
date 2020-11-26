@@ -29,6 +29,7 @@ import { getActivationText } from "../company/settings/CompanySettingsPage";
 import { isMobile } from "../../utils/screen";
 import OneOnOneItem from "./OneOnOne/OneOnOneItem";
 import { usePolling } from "../../hooks";
+import ImportOneOneOne from "./OneOnOne/ImportOneOnOne";
 
 
 const styles = {
@@ -754,6 +755,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 											borderRadius: '4px',
 											boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
 										}}
+									/>
+								</div>
+								<div style={{ marginLeft: "1em" }}>
+									<ImportOneOneOne
+										company={company}
+										translate={translate}
 									/>
 								</div>
 							</div>
