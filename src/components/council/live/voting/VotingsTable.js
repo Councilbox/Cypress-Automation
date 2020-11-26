@@ -348,7 +348,11 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 						padding: '2em 0em',
 						textAlign: 'center'
 					}}>
-					{translate.closed_votings}
+					{isConfirmationRequest(agenda.subjectType) ?
+						translate.closed
+					:
+						translate.closed_votings
+					}
 				</GridItem>
 			}
 			<GridItem xs={4} md={8} lg={8}>
