@@ -58,11 +58,13 @@ class Agendas extends React.Component {
         if (prevProps.data.agendas) {
             const { agendas: actualAgendas } = this.props.data;
             prevProps.data.agendas.forEach((agenda, index) => {
-                let agendaToCheck = agenda.id === actualAgendas[index].id ?
+                let agendaToCheck = agenda.id === (actualAgendas[index] && actualAgendas[index].id) ?
                     actualAgendas[index]
                     :
                     actualAgendas.find(item => item.id === agenda.id)
                     ;
+
+                if(!agendaToCheck) return;
                 if (!agendaPointOpened(agenda) && agendaPointOpened(agendaToCheck)) {
                     if (this.agendaStateToastId) {
                         toast.dismiss(this.agendaStateToastId);

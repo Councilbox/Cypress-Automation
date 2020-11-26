@@ -367,6 +367,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 				props.deleteButton &&
 					<DeleteAgendaButton
 						agenda={agenda}
+						requestClose={requestClose}
 						refetch={props.refetch}
 						council={council}
 						translate={translate}
