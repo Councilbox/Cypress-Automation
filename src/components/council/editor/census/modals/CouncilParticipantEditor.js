@@ -13,6 +13,7 @@ import RepresentativeForm from "../../../../company/census/censusEditor/Represen
 import withSharedProps from "../../../../../HOCs/withSharedProps";
 import { Card } from "material-ui";
 import SelectRepresentative from "./SelectRepresentative";
+import { COUNCIL_TYPES } from "../../../../../constants";
 
 class CouncilParticipantEditor extends React.Component {
 	state = {
@@ -282,6 +283,7 @@ class CouncilParticipantEditor extends React.Component {
 							checkEmail={this.emailKeyUp}
 							participations={participations}
 							translate={translate}
+							hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
 							languages={languages}
 							errors={errors}
 							updateState={this.updateState}
