@@ -49,6 +49,7 @@ const QuorumInput = ({
 							type={"number"}
 							value={value}
 							min="1"
+							adornment={"/"}
 							errorText={quorumError}
 							onChange={event => {
 								let newValue = event.target.value;
