@@ -417,6 +417,18 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									</GridItem>
 								</>
 							}
+							<GridItem xs={12} md={6} lg={4}>
+								<TextInput
+									floatingText={translate.external_id}
+									type="text"
+									value={data.externalId || ''}
+									onChange={event =>
+										updateState({
+											externalId: event.target.value
+										})
+									}
+								/>
+							</GridItem>
 						</Grid>
 					</GridItem>
 					<GridItem
