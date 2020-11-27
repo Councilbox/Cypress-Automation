@@ -158,7 +158,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
         if(step === 2){
             return {
                 buttonCancel: translate.cancel,
-                buttonAccept: translate.send,
+                buttonAccept: 'Importar',
                 acceptAction: startCreating
             }
         }
@@ -214,7 +214,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                             >
                                                 <div>
                                                     <b>
-                                                        {item.council.externalId || ''}
+                                                        {item.council.externalId && `${item.council.externalId} - `}
                                                         {item.council.name}
                                                     </b>{` - `}
                                                     <span>{moment(item.council.dateStart).format('DD/MM/YYYY HH:mm')}</span>
