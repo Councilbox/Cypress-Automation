@@ -1366,6 +1366,7 @@ const corporationCouncils = gql`
 			dateStart
 			councilStarted
 			councilType
+			externalId
 			participants {
 				id
 				name
@@ -1389,6 +1390,7 @@ const corporationCouncils = gql`
 			state
 			dateStart
 			councilType
+			externalId
 			councilStarted
 			prototype
 			participants {

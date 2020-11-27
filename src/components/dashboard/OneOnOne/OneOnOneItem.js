@@ -1,14 +1,12 @@
 import React from 'react';
-import { GridItem, Grid, AlertConfirm, BasicButton, ButtonIcon } from '../../../displayComponents';
+import { GridItem, Grid, BasicButton } from '../../../displayComponents';
 import { bHistory, moment } from '../../../containers/App';
-import { Avatar } from 'material-ui';
+import { Avatar, Tooltip } from 'material-ui';
 import OneOnOneAttachmentsModal from './OneOnOneAttachmentsModal';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import SendMessageToParticipant from './SendMessageToParticipant';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import oval from '../../../../src/assets/img/oval.png'
-import ovalBlack from '../../../../src/assets/img/oval-copy.png'
-import group from '../../../../src/assets/img/group.png'
 import { councilStarted } from '../../../utils/CBX';
 
 
@@ -53,7 +51,11 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                         <b style={{ color: primary }}>{`${participant.name} ${participant.surname || ''}`}</b>
                     </GridItem>
                     <GridItem xs={5} md={2} lg={2} style={{ color: "black" }}>
-                        {moment(council.dateStart).format('DD/MM/YYYY HH:mm')}
+                        <Tooltip title={`${council.name}${council.externalId ? ` - ${council.externalId}` : ''}`}>
+                            <div>
+                                {moment(council.dateStart).format('DD/MM/YYYY HH:mm')}
+                            </div>
+                        </Tooltip>
                     </GridItem>
                     <GridItem xs={12} md={7} lg={7} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
