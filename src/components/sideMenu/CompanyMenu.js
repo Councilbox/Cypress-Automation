@@ -17,7 +17,7 @@ const sidebarStyle = theme => ({
 class CompanyMenu extends React.Component {
 	render() {
 		const sideWidth = window.innerWidth > 420 ? 420 : window.innerWidth;
-
+console.log(window.innerWidth)
 		return (
 			<Drawer
 				style={{
@@ -37,7 +37,7 @@ class CompanyMenu extends React.Component {
 						minWidth: `calc(${sideWidth}px - 5em)`,
 						maxWidth: '100%',
 						backgroundColor: 'white',
-						paddingLeft:   !isMobile  ? "5em" : 0 ,
+						paddingLeft:   !isMobile  ? "5em" : window.innerWidth > 851 ? '5em' : 0 ,
 						// paddingLeft: isMobile && !isLandscape() ? 0 : '5em',
 						overflow: "hidden",
 						display: 'flex',
