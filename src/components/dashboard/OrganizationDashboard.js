@@ -1125,7 +1125,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 									<Cell text={item.id} />
 									<Cell text={item.name + " " + item.surname || ''} />
 									<Cell text={item.email} />
-									<Cell text={moment(item.lastConnectionDate).format("LLL")} />
+									<Cell text={item.lastConnectionDate ? moment(item.lastConnectionDate).format("LLL") : '-'} />
 								</div>
 
 							)
