@@ -202,8 +202,6 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                         const result = createdCouncils[index];
                                         const hasError = result && result.errors && !!result.errors[0];
 
-                                        console.log(new Date(item.council.dateStart))
-
                                         return (
                                             <div
                                                 key={`council_to_create_${index}`}
