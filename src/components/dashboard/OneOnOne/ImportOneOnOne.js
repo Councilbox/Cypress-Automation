@@ -98,7 +98,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
 			const result = await read(reader.result);
 			const pages = Object.keys(result);
 			if (pages.length >= 1) {
-                let processedCouncils = result[pages[0]].filter(row => !!row['Identificador de la Cita Previa']).map(row => {
+                let processedCouncils = result[pages[0]].filter(row => !!row['council.externalId']).map(row => {
                     return {
                         "council": {
                             "name": row['council.name'],
@@ -202,6 +202,8 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                         const result = createdCouncils[index];
                                         const hasError = result && result.errors && !!result.errors[0];
 
+                                        console.log(new Date(item.council.dateStart))
+
                                         return (
                                             <div
                                                 key={`council_to_create_${index}`}
@@ -217,7 +219,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                                         {item.council.externalId && `${item.council.externalId} - `}
                                                         {item.council.name}
                                                     </b>{` - `}
-                                                    <span>{moment(item.council.dateStart).format('DD/MM/YYYY HH:mm')}</span>
+                                                    <span>{moment(item.council.dateStart, 'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm')}</span>
                                                     {hasError &&
                                                         <>
                                                             <br/>
