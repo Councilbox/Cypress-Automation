@@ -17,7 +17,7 @@ const sidebarStyle = theme => ({
 class CompanyMenu extends React.Component {
 	render() {
 		const sideWidth = window.innerWidth > 420 ? 420 : window.innerWidth;
-console.log(window.innerWidth)
+
 		return (
 			<Drawer
 				style={{
