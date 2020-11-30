@@ -53,19 +53,19 @@ export const corporationDrafts = gql`
 `;
 
 export const corporationUsers = gql`
-  query corporationUsers($filters: [FilterInput], $options: OptionsInput, $corporationId: Int, $actived: Int) {
+  query corporationUsers($filters: [FilterInput], $options: OptionsInput, $corporationId: Int, $actived: Boolean) {
     corporationUsers(filters: $filters, options: $options, corporationId: $corporationId, actived: $actived) {
-			list {
-				id
-				usr
-				name
-				surname
-				actived
-				email
-				phone
-				lastConnectionDate
-			}
-			total
+		list {
+			id
+			usr
+			name
+			surname
+			actived
+			email
+			phone
+			lastConnectionDate
+		}
+		total
     }
   }
 `;

@@ -36,7 +36,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
             query: corporationUsers,
             variables: {
                 options: DEFAULT_OPTIONS,
-                actived: state.selecteOptionMenu === "Registrados" ? 1 : 0,
+                actived: state.selecteOptionMenu === "Registrados",
                 filters: [{ field: 'fullName', text: filterText }],
                 corporationId: 1
             },
