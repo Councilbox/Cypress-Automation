@@ -15,6 +15,7 @@ import { useOldState } from "../../../../hooks";
 import LiveSMS from "../councilMenu/LiveSMS";
 import FailedSMSMessage from "../councilMenu/FailedSMSMessage";
 import { isMobile } from "../../../../utils/screen";
+import { COUNCIL_TYPES } from "../../../../constants";
 
 
 const OpenRoomButton = ({ council, translate, ...props }) => {
@@ -79,7 +80,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 					}
 					id={'checkEnviarEmail'}
 				/>
-				{state.sendCredentials &&
+				{(state.sendCredentials && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) &&
 					<>
 						<Radio
 							value={"all"}
