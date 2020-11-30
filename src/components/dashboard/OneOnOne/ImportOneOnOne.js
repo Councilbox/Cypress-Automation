@@ -101,36 +101,36 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                 let processedCouncils = result[pages[0]].filter(row => !!row['Identificador de la Cita Previa']).map(row => {
                     return {
                         "council": {
-                            "name": row['Nombre del tramite'],
-                            "externalId": row['Identificador de la Cita Previa'],
-                            "companyExternalId": row['ID de la Sede'],
-                            "contactEmail": row['Buzon de soporte'],
-                            "dateStart": row['Fecha y Hora'],
-                            "conveneText": row['Observaciones']
+                            "name": row['council.name'],
+                            "externalId": row['council.externalId'],
+                            "companyExternalId": row['council.companyExternalId'],
+                            "contactEmail": row['council.contactEmail'],
+                            "dateStart": row['council.dateStart'],
+                            "conveneText": row['council.conveneText']
                         },
                         "participant": {
-                            "name": row['Nombre del Solicitante'],
-                            "dni": row['Documento del Solicitante'],
-                            "surname": row['Datos complementarios Solicitante'] || '',
-                            "email": row['Email del Solicitante'],
-                            "phone": row['Teléfono del solicitante']
+                            "name": row['participant.name'],
+                            "dni": row['participant.dni'],
+                            "surname": row['participant.surname'] || '',
+                            "email": row['participant.email'],
+                            "phone": row['participant.phone']
                         },
                         agenda: [
                             {
-                                "type": +row['Tipo Consentimiento #1'] || 9,
-                                "templateId": +row['Id. Consentimiento #1']
+                                "type": +row['agenda1.type'] || 9,
+                                "templateId": +row['agenda1.id']
                             },
                             {
-                                "type": +row['Tipo Consentimiento #2'] || 9,
-                                "templateId": +row['Id. Consentimiento #2']
+                                "type": +row['agenda2.type'] || 9,
+                                "templateId": +row['agenda2.id']
                             },
                             {
-                                "type": +row['Tipo Consentimiento #3'] || 9,
-                                "templateId": +row['Id. Consentimiento #3']
+                                "type": +row['agenda3.type'] || 9,
+                                "templateId": +row['agenda3.id']
                             },
                             {
-                                "type": +row['Tipo Consentimiento #4'] || 9,
-                                "templateId": +row['Id. Consentimiento #4']
+                                "type": +row['agenda4.type'] || 9,
+                                "templateId": +row['agenda4.id']
                             }
                         ].filter(agenda => !!agenda.templateId)
                     }
