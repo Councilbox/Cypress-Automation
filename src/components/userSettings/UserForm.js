@@ -78,7 +78,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
         {admin &&
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex", alignItems: 'center', }}>
                 <div style={{ width: "120px", color: getPrimary(), fontWeight: "bold" }}>
-                    {translate.code}
+                    {translate.license_code}
                 </div>
                 <div>
                     <TextInput

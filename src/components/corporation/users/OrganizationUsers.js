@@ -350,6 +350,15 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                                         }}>
                                                         {translate.edit}
                                                     </Link>
+                                                    <BasicButton
+                                                        onClick={() => setUserBloquear(item)}
+                                                        backgroundColor={{
+                                                            color: primary,
+                                                            background: 'white',
+                                                            color: primary,
+                                                        }}
+                                                        text="Bloquear">
+                                                    </BasicButton>
                                                 </div>
                                             } />
                                     </div>
