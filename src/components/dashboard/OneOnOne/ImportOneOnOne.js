@@ -105,7 +105,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                             "externalId": row['council.externalId'],
                             "companyExternalId": row['council.companyExternalId'],
                             "contactEmail": row['council.contactEmail'],
-                            "dateStart": row['council.dateStart'],
+                            "dateStart": moment(row['council.dateStart'], 'MM/DD/YYYY HH:mm').toISOString(),
                             "conveneText": row['council.conveneText']
                         },
                         "participant": {
@@ -217,7 +217,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                                         {item.council.externalId && `${item.council.externalId} - `}
                                                         {item.council.name}
                                                     </b>{` - `}
-                                                    <span>{moment(item.council.dateStart, 'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm')}</span>
+                                                    <span>{moment(item.council.dateStart).format('DD/MM/YYYY HH:mm')}</span>
                                                     {hasError &&
                                                         <>
                                                             <br/>

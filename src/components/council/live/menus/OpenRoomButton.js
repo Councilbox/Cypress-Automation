@@ -64,6 +64,24 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />
 		}
 
+		if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+			return (
+				<a
+					href={`https://app.councilbox.com/recommendations/${council.language}`}
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					<div
+						dangerouslySetInnerHTML={{
+							__html:
+								translate.room_permits_firs_time_msg
+						}}
+						style={{ color: primary }}
+					/>
+				</a>
+			)
+		}
+
 		return (
 			<React.Fragment>
 				<div>{translate.open_room_continue}</div>
@@ -80,7 +98,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 					}
 					id={'checkEnviarEmail'}
 				/>
-				{(state.sendCredentials && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) &&
+				{state.sendCredentials &&
 					<>
 						<Radio
 							value={"all"}
