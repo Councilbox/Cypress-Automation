@@ -69,7 +69,7 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
             helpIcon={true}
             languageSelector={false}
         >
-            <Scrollbar>
+            <Scrollbar classFix={' scrollbarFixHeight'}>
                 <div style={{
                     ...styles.mainContainer,
                     height: '100%',
@@ -81,7 +81,7 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
                     <Card style={{
                         ...styles.cardContainer,
                         maxWidth: isMobile ? '100%' : '650px',
-                        minWidth: window.innerWidth > 450 ? '550px' : '100%'
+                        minWidth: window.innerWidth > 450 ? '550px' : '100%',
                     }} elevation={6}>
                         <div style={{
                             ...styles.loginContainerMax,
