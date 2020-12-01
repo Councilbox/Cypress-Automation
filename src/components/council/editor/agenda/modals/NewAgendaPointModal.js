@@ -172,12 +172,17 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 		}		
 
 		updateState({
-			description: correctedText,
-			majority: draft.majority,
-			majorityType,
-			majorityDivider: draft.majorityDivider,
-			subjectType,
-			agendaSubject: draft.title
+			...(state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
+				description: correctedText,
+				agendaSubject: draft.title,
+			} : {
+				description: correctedText,
+				majority: draft.majority,
+				majorityType,
+				majorityDivider: draft.majorityDivider,
+				subjectType,
+				agendaSubject: draft.title,
+			})
 		});
 
 		editor.current.setValue(correctedText);
