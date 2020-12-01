@@ -189,12 +189,22 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 						loadDraft={loadDraft}
 						statute={statute}
 						defaultTags={{
-							"agenda": {
-								active: true,
-								type: TAG_TYPES.DRAFT_TYPE,
-								name: 'agenda',
-								label: translate.agenda
-							},
+							...(state.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
+								"confirmation_request": {
+									active: true,
+									childs: null,
+									label: translate.confirmation_request,
+									name: "confirmation_request",
+									type: 3
+								},
+							} : {
+								"agenda": {
+									active: true,
+									type: 2,
+									name: 'agenda',
+									label: translate.agenda
+								},
+							}),
 							...CBX.generateStatuteTag(statute, translate)
 						}}
 						statutes={companyStatutes}

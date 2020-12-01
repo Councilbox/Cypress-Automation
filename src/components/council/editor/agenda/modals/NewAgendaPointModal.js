@@ -207,12 +207,22 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 						statutes={companyStatutes}
 						draftType={1}
 						defaultTags={{
-							"agenda": {
-								active: true,
-								type: 2,
-								name: 'agenda',
-								label: translate.agenda
-							},
+							...(state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
+								"confirmation_request": {
+									active: true,
+									childs: null,
+									label: translate.confirmation_request,
+									name: "confirmation_request",
+									type: 3
+								},
+							} : {
+								"agenda": {
+									active: true,
+									type: 2,
+									name: 'agenda',
+									label: translate.agenda
+								},
+							}),
 							...CBX.generateStatuteTag(statute, translate)
 						}}
 					/>
