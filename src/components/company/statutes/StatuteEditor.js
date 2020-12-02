@@ -17,6 +17,7 @@ import { ConfigContext } from "../../../containers/AppControl";
 import StatuteDocSection from "./StatuteDocSection";
 import { useValidRTMP } from "../../../hooks";
 import withSharedProps from "../../../HOCs/withSharedProps";
+import { isMobile } from "../../../utils/screen";
 
 
 const StatuteEditor = ({ statute, translate, updateState, errors, client, company, ...props }) => {
@@ -226,6 +227,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<SelectInput
 							floatingText={translate.exist_quorum_assistance_first_call}
 							value={statute.firstCallQuorumType}
+							styleLabel={{ minWidth : "240px"}}
 							onChange={event =>
 								updateState({
 									firstCallQuorumType: event.target.value
@@ -252,6 +254,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<QuorumInput
 								type={statute.firstCallQuorumType}
 								style={{ marginLeft: "1em" }}
+								styleLabel={{ minWidth : "240px"}}
 								value={statute.firstCallQuorum}
 								divider={statute.firstCallQuorumDivider}
 								quorumError={errors.firstCallQuorum}
@@ -301,7 +304,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							{CBX.quorumNeedsInput(statute.secondCallQuorumType) && (
 								<QuorumInput
 									type={statute.secondCallQuorumType}
-									style={{ marginLeft: "1em" }}
+									style={{ marginLeft: !isMobile && "1em" }}
 									value={statute.secondCallQuorum}
 									divider={statute.secondCallQuorumDivider}
 									quorumError={errors.secondCallQuorum}

@@ -132,7 +132,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
             props.requestClose()
         }
     }
-
+    
     return (
         <div>
             <AlertConfirm
@@ -143,7 +143,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={_renderBody()}
-                title={translate.census}
+                title={translate.edit_census}
             />
             <UnsavedChangesModal
                 acceptAction={updateCensusFunction}

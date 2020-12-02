@@ -7,10 +7,35 @@ import { downloadFile, prepareTextForFilename } from '../../utils/CBX';
 import FileSaver from 'file-saver';
 import { buildDocVariable } from './utils';
 
-
 const DownloadDoc = ({ client, doc, council, options, translate, filename, styles }) => {
     const [loading, setLoading] = React.useState(false);
 
+    const getLanguageView = () => {
+        const texts = {
+            es: {
+                'view': 'Vista previa sin validez legal',
+                'preview': 'Vista previa del documento',
+            },
+            en: {
+                'view': 'Preview without legal validity',
+                'preview': 'Document preview',
+            },
+            cat: {
+                'view': 'Vista prèvia sense validesa legal',
+                'preview': 'Vista prèvia de el document',
+            },
+            gal: {
+                'view': 'Vista previa sen validez legal',
+                'preview': 'Vista previa do documento',
+            },
+            pt: {
+                'view': 'Visualização sem validade legal',
+                'preview': 'Antevisão do Documento',
+            }
+        }
+        return texts[options.language];
+    }
+    
     const downloadPDF = async () => {
         const response = await client.mutate({
             mutation: gql`
@@ -21,19 +46,19 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename, style
             variables: {
                 doc: buildDocVariable([{
                     type: 'text',
-                    text: '<h3 style="padding: 10px; border: 1px solid black;">Vista previa sin validez legal</h3>',
-                    secondaryText: '<h3 style="padding: 10px; border: 1px solid black;">Document preview</h3>',
+                    text: `<h3 style="padding: 10px; border: 1px solid black;">${getLanguageView().view}</h3>`,
+                    secondaryText: `<h3 style="padding: 10px; border: 1px solid black;">${getLanguageView().preview}</h3>`,
                 }, ...doc], options),
                 councilId: council.id
             }
         });
-        
+
         if (response) {
             if (response.data.generateDocPDF) {
                 downloadFile(
                     response.data.generateDocPDF,
                     "application/pdf",
-                    filename? filename : `${translate.act.replace(/ /g, '_')}_${prepareTextForFilename(council.name)}`
+                    filename ? filename : `${translate.act.replace(/ /g, '_')}_${prepareTextForFilename(council.name)}`
                 );
             }
         }
