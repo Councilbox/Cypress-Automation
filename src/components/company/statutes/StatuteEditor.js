@@ -227,6 +227,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<SelectInput
 							floatingText={translate.exist_quorum_assistance_first_call}
 							value={statute.firstCallQuorumType}
+							styleLabel={{ minWidth : "240px"}}
 							onChange={event =>
 								updateState({
 									firstCallQuorumType: event.target.value
@@ -252,7 +253,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						{CBX.quorumNeedsInput(statute.firstCallQuorumType) && (
 							<QuorumInput
 								type={statute.firstCallQuorumType}
-								style={{ marginLeft: !isMobile && "1em" }}
+								style={{ marginLeft: "1em" }}
+								styleLabel={{ minWidth : "240px"}}
 								value={statute.firstCallQuorum}
 								divider={statute.firstCallQuorumDivider}
 								quorumError={errors.firstCallQuorum}
