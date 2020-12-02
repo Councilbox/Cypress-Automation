@@ -111,6 +111,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                 <UserForm
                     translate={translate}
                     data={state.data}
+                    admin={true}
                     errors={state.errors}
                     updateState={updateState}
                     languages={props.data.languages}

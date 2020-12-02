@@ -12,7 +12,7 @@ import { councilIsFinished, showNumParticipations } from '../../utils/CBX';
 import Convene from "../council/convene/Convene";
 import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
-import { PARTICIPANT_STATES } from "../../constants";
+import { COUNCIL_TYPES, PARTICIPANT_STATES } from "../../constants";
 import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
 import { withApollo } from "react-apollo";
 import gql from "graphql-tag";
@@ -134,7 +134,9 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						</div>
 					)
 					)}
-					{`${translate.total_votes}: ${calculateParticipantVotes()}`}
+					{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
+						`${translate.total_votes}: ${calculateParticipantVotes()}`
+					}
 				</Card>
 			</div>
 		)

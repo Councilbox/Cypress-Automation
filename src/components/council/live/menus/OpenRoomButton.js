@@ -15,6 +15,7 @@ import { useOldState } from "../../../../hooks";
 import LiveSMS from "../councilMenu/LiveSMS";
 import FailedSMSMessage from "../councilMenu/FailedSMSMessage";
 import { isMobile } from "../../../../utils/screen";
+import { COUNCIL_TYPES } from "../../../../constants";
 
 
 const OpenRoomButton = ({ council, translate, ...props }) => {
@@ -61,6 +62,24 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 
 		if(error === 'Failed SMS'){
 			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />
+		}
+
+		if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+			return (
+				<a
+					href={`https://app.councilbox.com/recommendations/${council.language}`}
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					<div
+						dangerouslySetInnerHTML={{
+							__html:
+								translate.room_permits_firs_time_msg
+						}}
+						style={{ color: primary }}
+					/>
+				</a>
+			)
 		}
 
 		return (

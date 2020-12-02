@@ -1,6 +1,7 @@
 import { Tooltip } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
+import { AGENDA_STATES } from '../../../constants';
 import { useHoverRow, usePolling } from '../../../hooks';
 import { agendaVotingsOpened, getPercentage } from '../../../utils/CBX';
 import { agendaRecountQuery } from '../live/ActAgreements';
@@ -33,7 +34,7 @@ const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
 
     return (
         <div>
-            {agendaVotingsOpened(agenda) &&
+            {agenda.votingState !== AGENDA_STATES.INITIAL &&
                 <div style={{ display: 'flex', width: '100%', border: '1px solid grey', height: '1.6em', borderRadius: '2px'}}>
                     <PercentageSection
                         tooltip={`${translate.they_accept}: ${data.numPositive} (${positivePercentage}%)`}

@@ -65,6 +65,7 @@ const userquery = gql`
             actived
 			email
 			phone
+			code
 			preferredLanguage
 			roles
 			id

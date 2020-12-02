@@ -29,6 +29,7 @@ import { getActivationText } from "../company/settings/CompanySettingsPage";
 import { isMobile } from "../../utils/screen";
 import OneOnOneItem from "./OneOnOne/OneOnOneItem";
 import { usePolling } from "../../hooks";
+import ImportOneOneOne from "./OneOnOne/ImportOneOnOne";
 
 
 const styles = {
@@ -162,7 +163,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 
 	React.useEffect(() => {
-		if(!config.oneOnOneDashboard){
+		if(!config.oneOnOneDashboard || company.id === company.corporationId){
 			if (usuariosEntidades === translate.users) {
 				getUsers();
 			} else {
@@ -756,6 +757,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										}}
 									/>
 								</div>
+								<div style={{ marginLeft: "1em" }}>
+									<ImportOneOneOne
+										company={company}
+										translate={translate}
+									/>
+								</div>
 							</div>
 						}
 						<Grid style={{ overflow: "hidden", height: `calc(90% - ${config.oneOnOneDashboard ? '4em' : '0px'})` }}>
@@ -826,7 +833,11 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						display: "flex",
 						justifyContent: 'space-between'
 					}}>
-					<GridItem xs={config.oneOnOneDashboard ? 12 : 4} md={config.oneOnOneDashboard ? 12 : 4} lg={config.oneOnOneDashboard ? 12 : 4} style={{
+					<GridItem
+						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
+						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
+						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
+					style={{
 						background: "white",
 						boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
 						padding: "1em",
@@ -877,7 +888,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							</div>
 						}
 					</GridItem>
-					{!config.oneOnOneDashboard &&
+					{(!config.oneOnOneDashboard || company.id === company.corporationId) &&
 						<GridItem xs={7} md={7} lg={7} style={{
 							background: "white",
 							boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
@@ -1114,7 +1125,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 									<Cell text={item.id} />
 									<Cell text={item.name + " " + item.surname || ''} />
 									<Cell text={item.email} />
-									<Cell text={moment(item.lastConnectionDate).format("LLL")} />
+									<Cell text={item.lastConnectionDate ? moment(item.lastConnectionDate).format("LLL") : '-'} />
 								</div>
 
 							)
@@ -1355,6 +1366,7 @@ const corporationCouncils = gql`
 			dateStart
 			councilStarted
 			councilType
+			externalId
 			participants {
 				id
 				name
@@ -1378,6 +1390,7 @@ const corporationCouncils = gql`
 			state
 			dateStart
 			councilType
+			externalId
 			councilStarted
 			prototype
 			participants {

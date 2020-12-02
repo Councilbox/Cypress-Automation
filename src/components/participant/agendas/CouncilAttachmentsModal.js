@@ -18,7 +18,8 @@ const CouncilAttachmentsModal = ({ translate, council, participant }) => {
                 }}
                 buttonStyle={{
                     marginLeft: '1em',
-                    border: `1px solid ${primary}`
+                    border: `1px solid ${primary}`,
+                    marginBottom: '1em'
                 }}
                 text='Administrar documentación'
                 onClick={() => setModal(true)}

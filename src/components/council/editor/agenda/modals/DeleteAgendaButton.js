@@ -5,7 +5,7 @@ import { AlertConfirm, BasicButton } from '../../../../../displayComponents';
 import { getSecondary } from '../../../../../styles/colors';
 
 
-const DeleteAgendaButton = ({ agenda, council, translate, client, refetch }) => {
+const DeleteAgendaButton = ({ agenda, council, translate, client, refetch, requestClose }) => {
 	const [modal, setModal] = React.useState(false);
 
 	const removeAgendaPoint = async () => {
@@ -23,6 +23,9 @@ const DeleteAgendaButton = ({ agenda, council, translate, client, refetch }) => 
 			}
 		});
 		refetch();
+		if(requestClose){
+			requestClose();
+		}
 		setModal(false);
 	}
 

@@ -235,7 +235,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 
 	if(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE){
 		tabs.push({
-			text: translate.voting,
+			text: isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting,
 			component: () => {
 				return (
 					<div style={{minHeight: '8em', padding: '1em'}}>

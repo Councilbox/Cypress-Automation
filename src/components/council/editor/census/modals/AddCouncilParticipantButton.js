@@ -18,13 +18,17 @@ import RepresentativeForm from "../../../../company/census/censusEditor/Represen
 import withSharedProps from "../../../../../HOCs/withSharedProps";
 import SelectRepresentative from "./SelectRepresentative";
 import { Card } from "material-ui";
-import { INPUT_REGEX } from "../../../../../constants";
+import { COUNCIL_TYPES, INPUT_REGEX } from "../../../../../constants";
 
 
 class AddCouncilParticipantButton extends React.Component {
 	state = {
 		modal: false,
-		data: { ...initialParticipant },
+		data: { ...initialParticipant,
+			...(this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? {
+				initialState: 2
+			} : {})		
+		},
 		representative: { ...initialRepresentative },
 		errors: {},
 		loading: false,
@@ -294,6 +298,7 @@ class AddCouncilParticipantButton extends React.Component {
 							translate={translate}
 							languages={languages}
 							checkEmail={this.emailKeyUp}
+							hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
 							errors={errors}
 							updateState={this.updateState}
 						/>

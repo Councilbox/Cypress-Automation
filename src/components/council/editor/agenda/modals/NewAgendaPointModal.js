@@ -172,12 +172,17 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 		}		
 
 		updateState({
-			description: correctedText,
-			majority: draft.majority,
-			majorityType,
-			majorityDivider: draft.majorityDivider,
-			subjectType,
-			agendaSubject: draft.title
+			...(state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
+				description: correctedText,
+				agendaSubject: draft.title,
+			} : {
+				description: correctedText,
+				majority: draft.majority,
+				majorityType,
+				majorityDivider: draft.majorityDivider,
+				subjectType,
+				agendaSubject: draft.title,
+			})
 		});
 
 		editor.current.setValue(correctedText);
@@ -202,12 +207,22 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 						statutes={companyStatutes}
 						draftType={1}
 						defaultTags={{
-							"agenda": {
-								active: true,
-								type: 2,
-								name: 'agenda',
-								label: translate.agenda
-							},
+							...(state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
+								"confirmation_request": {
+									active: true,
+									childs: null,
+									label: translate.confirmation_request,
+									name: "confirmation_request",
+									type: 3
+								},
+							} : {
+								"agenda": {
+									active: true,
+									type: 2,
+									name: 'agenda',
+									label: translate.agenda
+								},
+							}),
 							...CBX.generateStatuteTag(statute, translate)
 						}}
 					/>
@@ -274,7 +289,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 							}
 						</GridItem>
 					</Grid>
-					{(CBX.hasVotation(agenda.subjectType) && !props.hideMajority) && (
+					{(CBX.hasVotation(agenda.subjectType) && !props.hideMajority && !CBX.isConfirmationRequest(agenda.subjectType)) && (
 						<Grid>
 							<GridItem xs={6} lg={3} md={3}>
 								<SelectInput
@@ -409,7 +424,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				bodyText={_renderNewPointBody()}
-				title={translate.new_approving_point}
+				title={state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? translate.new_point : translate.new_approving_point}
 			/>
 		</React.Fragment>
 	);

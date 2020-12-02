@@ -1,0 +1,27 @@
+name: Pull request check
+
+on:
+  pull_request:
+
+jobs:
+  run-test:
+    name: Run linters and unit test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install Node.js dependencies and linters
+        run: yarn install --check-files
+
+      - name: Run linters
+        run:  yarn run eslint ./
+
+      - name: Run unit test
+        run: yarn test

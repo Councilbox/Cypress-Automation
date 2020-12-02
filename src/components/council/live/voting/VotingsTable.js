@@ -1,5 +1,5 @@
 import React from 'react';
-import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES } from "../../../../constants";
+import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../../constants";
 import { TableRow, TableCell, withStyles, Card, CardContent } from "material-ui";
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -289,19 +289,34 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 								<FilterButton
 									onClick={() => props.changeVoteFilter(VOTE_VALUES.NO_VOTE)}
 									active={state.voteFilter === VOTE_VALUES.NO_VOTE}
-									tooltip={`${translate.filter_by} - ${translate.no_vote}`}
+									tooltip={`${translate.filter_by} - ${
+										props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+											translate.without_selection
+										:
+											translate.no_vote
+									}`}
 								>
 									<VotingValueIcon vote={VOTE_VALUES.NO_VOTE} />
 								</FilterButton>
 								<FilterButton
 									onClick={() => props.changeVoteFilter(VOTE_VALUES.POSITIVE)}
 									active={state.voteFilter === VOTE_VALUES.POSITIVE}
-									tooltip={`${translate.filter_by} - ${translate.positive_votings}`}
+									tooltip={`${translate.filter_by} - ${
+										props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+											translate.they_accept
+										:
+											translate.positive_votings
+									}`}
 								>
 									<VotingValueIcon vote={VOTE_VALUES.POSITIVE} />
 								</FilterButton>
 								<FilterButton
-									tooltip={`${translate.filter_by} - ${translate.negative_votings}`}
+									tooltip={`${translate.filter_by} - ${
+										props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+											translate.they_refuse
+										:
+											translate.negative_votings
+									}`}
 									active={state.voteFilter === VOTE_VALUES.NEGATIVE}
 									onClick={() => props.changeVoteFilter(VOTE_VALUES.NEGATIVE)}
 								>
@@ -348,7 +363,11 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 						padding: '2em 0em',
 						textAlign: 'center'
 					}}>
-					{translate.closed_votings}
+					{isConfirmationRequest(agenda.subjectType) ?
+						translate.closed
+					:
+						translate.closed_votings
+					}
 				</GridItem>
 			}
 			<GridItem xs={4} md={8} lg={8}>

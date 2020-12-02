@@ -1044,3 +1044,5 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 .marginP0 > p{ margin-bottom: 0px; }
+
+.scrollbarFixHeight > div > div { height: 100%;}
