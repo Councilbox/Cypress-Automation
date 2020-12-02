@@ -188,7 +188,7 @@ const roomMessagesSubscription = gql`
 export default graphql(wallComments, {
 	options: props => ({
 		variables: {
-			councilId: props.council.id
+			councilId: +props.council.id
 		},
 		pollInterval: 30000
 	}),
@@ -199,7 +199,7 @@ export default graphql(wallComments, {
 				return props.data.subscribeToMore({
 					document: roomMessagesSubscription,
 					variables: {
-						councilId: params.councilId
+						councilId: +params.councilId
 					},
 					updateQuery: (prev, { subscriptionData }) => {				
 						if (!subscriptionData.data.roomMessageAdded) {
