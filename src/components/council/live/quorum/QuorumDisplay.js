@@ -21,6 +21,9 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
         return (council.state === 20 || council.state === 30) && council.councilStarted == 1;
     }
 
+    if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+        return null;
+    }
 
     return (
         <>

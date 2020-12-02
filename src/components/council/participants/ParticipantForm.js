@@ -15,6 +15,7 @@ const ParticipantForm = ({
 	updateState,
 	checkEmail,
 	participations,
+	hideVotingInputs,
 	translate,
 	languages
 }) => {
@@ -231,40 +232,44 @@ const ParticipantForm = ({
 					</SelectInput>
 				</GridItem>
 			}
-			<GridItem xs={6} md={4} lg={1}>
-				<TextInput
-					floatingText={translate.votes}
-					type="num"
-					min={1}
-					errorText={errors.numParticipations}
-					value={participant.numParticipations}
-					onChange={event => {
-						if(!isNaN(event.target.value) || +event.target.value > 0){
-							updateState({
-								numParticipations: +event.target.value
-							})
-						}
-					}}
-				/>
-			</GridItem>
-			<GridItem xs={6} md={4} lg={1}>
-				{participations && (
-					<TextInput
-						floatingText={translate.social_capital}
-						type="num"
-						min={1}
-						errorText={errors.socialCapital}
-						value={participant.socialCapital}
-						onChange={event => {
-							if(!isNaN(event.target.value) || +event.target.value > 0){
-								updateState({
-									socialCapital: +event.target.value
-								})
-							}
-						}}
-					/>
-				)}
-			</GridItem>
+			{!hideVotingInputs &&
+				<>
+					<GridItem xs={6} md={4} lg={1}>
+						<TextInput
+							floatingText={translate.votes}
+							type="num"
+							min={1}
+							errorText={errors.numParticipations}
+							value={participant.numParticipations}
+							onChange={event => {
+								if(!isNaN(event.target.value) || +event.target.value > 0){
+									updateState({
+										numParticipations: +event.target.value
+									})
+								}
+							}}
+						/>
+					</GridItem>
+					<GridItem xs={6} md={4} lg={1}>
+						{participations && (
+							<TextInput
+								floatingText={translate.social_capital}
+								type="num"
+								min={1}
+								errorText={errors.socialCapital}
+								value={participant.socialCapital}
+								onChange={event => {
+									if(!isNaN(event.target.value) || +event.target.value > 0){
+										updateState({
+											socialCapital: +event.target.value
+										})
+									}
+								}}
+							/>
+						)}
+					</GridItem>
+				</>
+			}
 		</Grid>
 	);
 };

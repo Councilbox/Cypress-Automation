@@ -5,7 +5,7 @@ import { getCustomBackground, getCustomRoomBackground, useSubdomain } from '../u
 import LoadingMainApp from './LoadingMainApp';
 
 
-const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props }) => {
+const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, styleFix, ...props }) => {
     const [loadingImg, setLoadingImg] = React.useState(true);
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
@@ -23,7 +23,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     if (loadingImg) {
         return <LoadingMainApp />
     }
-    
+
     return (
         <div
             style={{
@@ -41,6 +41,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 padding: 0,
                 margin: 0,
                 width: '100%',
+                ...styleFix
             }}
         >
             <Header

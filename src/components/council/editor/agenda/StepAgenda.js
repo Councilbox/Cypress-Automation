@@ -662,7 +662,7 @@ export const AddAgendaPoint = ({
 					hideMajority={true}
 					agendas={council.agendas}
 					votingTypes={votingTypes}
-					showLoadDraft={false}
+					showLoadDraft={true}
 					open={state.confirmationRequestModal}
 					requestClose={() => setState({ ...state, confirmationRequestModal: false })}
 					majorityTypes={majorityTypes}

@@ -395,6 +395,19 @@ class NewCompanyPage extends React.PureComponent {
 												}
 											/>
 										</GridItem>
+										<GridItem xs={12} md={6} lg={4}>
+											<TextInput
+												floatingText={translate.external_id}
+												type="text"
+												value={data.externalId}
+												errorText={errors.externalId}
+												onChange={event =>
+													this.updateState({
+														externalId: event.target.value
+													})
+												}
+											/>
+										</GridItem>
 									</Grid>
 								</GridItem>
 								<GridItem

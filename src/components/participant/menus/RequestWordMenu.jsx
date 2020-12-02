@@ -12,7 +12,7 @@ import FontAwesome from "react-fontawesome";
 import { useOldState } from '../../../hooks';
 import { ConfigContext } from '../../../containers/AppControl';
 import { isMobile } from '../../../utils/screen';
-import { COUNCIL_STATES } from '../../../constants';
+import { COUNCIL_STATES, COUNCIL_TYPES } from '../../../constants';
 
 
 const RequestWordMenu = ({ translate, participant, council, ...props }) => {
@@ -171,6 +171,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                 return (
                     <Button
                         className={"NoOutline"}
+                        disabled={council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
                         style={{
                             width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px',
                             color: grantedWord ? 'grey' : secondary,

@@ -245,6 +245,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 									participant={participant}
 									participations={participations}
 									translate={translate}
+									hideVotingInputs={council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
 									languages={languages}
 									errors={errors}
 									updateState={updateState}

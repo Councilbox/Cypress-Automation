@@ -9,7 +9,7 @@ import withSharedProps from "../HOCs/withSharedProps";
 import BasicButton from "./BasicButton";
 import TextInput from "./TextInput";
 import { useParticipantContactEdit } from "../hooks";
-import { PARTICIPANT_STATES } from "../constants";
+import { COUNCIL_TYPES, PARTICIPANT_STATES } from "../constants";
 
 const ParticipantDisplay = ({ participant, translate, refetch, council, delegate, company, client, canEdit }) => {
 	const {
@@ -218,8 +218,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 				</div>
 			}
 			
-			{!CBX.participantIsGuest(participant) && !CBX.participantIsRepresentative(participant) &&
-				!delegate && (
+			{(!CBX.participantIsGuest(participant) && !CBX.participantIsRepresentative(participant) &&
+				!delegate && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) && (
 					<React.Fragment>
 						<div
 							style={{

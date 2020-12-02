@@ -22,7 +22,7 @@ const defaultValues = {
 
 export const useValidateAgenda = (translate, setErrors) => (items, options, agenda) => {
     let hasError = false;
-    var regex = new RegExp("^[a-zA-Z0-9-áéíóú]")
+    var regex = new RegExp("^[a-zA-Z0-9-äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ ]{0}\.+$")
     let newErrors = {
         items: items.map(item => ({ error: '' }))
     }

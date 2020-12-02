@@ -131,7 +131,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										refetch={data.refetch}
 									/>
 								</div>
-								{props.council.councilType !== 4 &&
+								{(props.council.councilType !== 4 && props.council.councilType !== 5) &&
 									<EarlyVotingModal
 										council={props.council}
 										participant={participant}
