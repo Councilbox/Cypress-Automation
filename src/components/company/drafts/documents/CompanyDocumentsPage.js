@@ -181,7 +181,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             xhr.send(formData);
         }
     }
-    
+
     return (
         <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em", paddingTop: isMobile && "0em" }}>
             <div>
@@ -431,6 +431,22 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         <TableCell>
                                             {!action &&
                                                 <div style={{ display: "flex" }}>
+                                                    <div onClick={event => {
+                                                        event.stopPropagation();
+                                                        setDeleteModal(doc)
+                                                    }} style={{
+                                                        cursor: 'pointer',
+                                                        color: secondary,
+                                                        background: 'white',
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        padding: "0.3em",
+                                                        width: "100px",
+                                                        marginLeft: "11px"
+                                                    }}>
+                                                        {translate.delete}
+                                                    </div>
                                                     <div
                                                         onClick={event => {
                                                             event.stopPropagation();
@@ -445,21 +461,6 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                             justifyContent: "center",
                                                         }}>
                                                         {translate.edit}
-                                                    </div>
-                                                    <div onClick={event => {
-                                                        event.stopPropagation();
-                                                        setDeleteModal(doc)
-                                                    }} style={{
-                                                        cursor: 'pointer',
-                                                        color: secondary,
-                                                        background: 'white',
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        padding: "0.3em",
-                                                        width: "100px"
-                                                    }}>
-                                                        {translate.delete}
                                                     </div>
                                                     <div
                                                         onClick={event => {
@@ -549,7 +550,7 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
     const [error, setError] = React.useState('');
 
     React.useEffect(() => {
-        if(modal && file){
+        if (modal && file) {
             setFilename(file.name);
         }
     }, [file ? file.id : null, modal])
@@ -558,7 +559,7 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
         if (!filename) {
             return setError(translate.required_field);
         }
-        
+
         await client.mutate({
             mutation: gql`
                 mutation UpdateCompanyDocument($companyDocument: CompanyDocumentInput){
