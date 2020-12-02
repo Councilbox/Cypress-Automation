@@ -189,12 +189,4 @@ class CouncilLiveMobilePage extends React.Component {
     }
 }
 
-export default graphql(councilLiveQuery, {
-    name: "data",
-    options: props => ({
-        variables: {
-            councilID: props.councilID
-        },
-        pollInterval: 10000
-    })
-})(CouncilLiveMobilePage);
+export default CouncilLiveMobilePage;

@@ -55,6 +55,10 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	const agendaDetails = React.useRef();
 
 	const getData = React.useCallback(async () => {
+		if(!company){
+			return;
+		}
+
 		const response = await client.query({
 			query: agendaManager,
 			variables: {
@@ -64,7 +68,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 		});
 
 		dispatch({ type: 'LOAD_DATA', value: response.data });
-	}, [council.id]);
+	}, [council.id, company]);
 
 	usePolling(getData, 5000);
 

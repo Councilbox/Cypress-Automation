@@ -64,6 +64,7 @@ const CouncilLiveContainer = ({ main, companies, data, translate }) => {
 			}
 			{!isMobile?
 				<CouncilLivePage
+					company={companies.list[companies.selected]}
 					companies={companies}
 					translate={translate}
 					data={data}
