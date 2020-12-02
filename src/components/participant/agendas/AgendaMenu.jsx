@@ -106,8 +106,6 @@ class AgendaMenu extends React.Component {
         if(!ownVote || (ownVote.fixed && ownVote.numParticipations === 0)) {
             ownVote = checkVotings(agenda.votings) || ownVote;
         }
-
-        console.log(ownVote);
         
         return (
             <div>

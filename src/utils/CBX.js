@@ -829,6 +829,10 @@ export const buildGuestList = ({ council, total }) => {
 }
 
 export const formatInt = num => {
+	if(!num){
+		return 0;
+	}
+
 	if(num < 1000){
 		return num;
 	}

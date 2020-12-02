@@ -36,6 +36,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
     const primary = getPrimary();
     const votingContext = React.useContext(VotingContext);
     const voteAtTheEnd = voteAllAtOnce({ council });
+    const freezed = React.useRef(false);
     let fixed
 
     if (props.ownVote) {
@@ -55,6 +56,39 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
     React.useEffect(() => {
         getCouncilRecount()
     }, []);
+
+    const handleFreezing = (vote, previousVote) => {
+        const ownParticipations = agenda.votings.reduce((acc, curr) => { return acc + curr.numParticipations }, 0);
+        const getFieldByValue = value => {
+            switch (value){
+                case 0: return 'negativeVotings';
+                case 1: return 'positiveVotings';
+                case 2: return 'abstentionVotings';
+                case -1: return 'noVoteVotings';
+            }
+        }
+
+        let freezedRecount = {
+            ...agenda.agendaRecount,
+            ...freezed.current
+        }
+
+        freezedRecount[getFieldByValue(vote)] += ownParticipations;
+        freezedRecount[getFieldByValue(previousVote)] -= ownParticipations;
+        freezed.current = freezedRecount;
+
+
+    }
+
+    React.useEffect(() => {
+        let timeout;
+        if(freezed.current){
+            timeout = setTimeout(() => {
+                freezed.current = null;
+            }, 8000);
+        }
+        return () => clearTimeout(timeout);
+    }, [freezed.current])
 
     const setAgendaVoting = vote => {
         if (props.ownVote) {
@@ -82,23 +116,29 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
     }
 
     const updateAgendaVoting = async vote => {
+        if(loading !== false){
+            return;
+        }
+
         setLoading(vote);
+        const previousVote = props.ownVote.vote;
 
         const response = await Promise.all(agenda.votings.map(voting =>
             props.updateAgendaVoting({
                 variables: {
                     agendaVoting: {
                         id: voting.id,
-                        vote: vote,
+                        vote,
                     }
                 }
             })
         ));
 
         if (response) {
+            handleFreezing(vote, previousVote);
+            await props.refetch();
             setModal(false);
             setLoading(false);
-            await props.refetch();
             props.close();
         }
     }
@@ -156,7 +196,14 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     !hasSession ?
                         translate.in_favor_btn
                         :
-                        translate.in_favor_btn + buildRecountText(CBX.showNumParticipations(agenda.agendaRecount.positiveVotings + agenda.agendaRecount.positiveManual, council.company, council.statute))
+                        translate.in_favor_btn +
+                            buildRecountText(
+                                CBX.showNumParticipations(
+                                    freezed.current ? freezed.current.positiveVotings + agenda.agendaRecount.positiveManual :
+                                    agenda.agendaRecount.positiveVotings + agenda.agendaRecount.positiveManual,
+                                    council.company,
+                                    council.statute
+                                ))
                 }
                 loading={loading === 1}
                 disabledColor={disabledColor}
@@ -176,7 +223,14 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     !hasSession ?
                         translate.against_btn
                         :
-                        translate.against_btn + buildRecountText(CBX.showNumParticipations(agenda.agendaRecount.negativeVotings + agenda.agendaRecount.negativeManual, council.company, council.statute))
+                        translate.against_btn +
+                            buildRecountText(
+                                CBX.showNumParticipations(
+                                    freezed.current ? freezed.current.negativeVotings + agenda.agendaRecount.negativeManual :
+                                    agenda.agendaRecount.negativeVotings + agenda.agendaRecount.negativeManual,
+                                    council.company,
+                                    council.statute
+                                ))
                 }
                 loading={loading === 0}
                 disabledColor={disabledColor}
@@ -197,7 +251,14 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                     !hasSession ?
                         translate.abstention_btn
                         :
-                        translate.abstention_btn + buildRecountText(CBX.showNumParticipations(agenda.agendaRecount.abstentionVotings + agenda.agendaRecount.abstentionManual, council.company, council.statute))
+                        translate.abstention_btn +
+                            buildRecountText(
+                                CBX.showNumParticipations(
+                                    freezed.current ? freezed.current.abstentionVotings + agenda.agendaRecount.abstentionManual :
+                                    agenda.agendaRecount.abstentionVotings + agenda.agendaRecount.abstentionManual,
+                                    council.company,
+                                    council.statute
+                                ))
                 }
                 loading={loading === 2}
                 disabledColor={disabledColor}
@@ -218,8 +279,16 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                         !hasSession ?
                             translate.dont_vote
                             :
-                            translate.dont_vote + buildRecountText(CBX.showNumParticipations(agenda.agendaRecount.noVoteVotings + agenda.agendaRecount.noVoteManual, council.company, council.statute))
+                            translate.dont_vote +
+                                buildRecountText(
+                                    CBX.showNumParticipations(
+                                        freezed.current ? freezed.current.noVoteVotings + agenda.agendaRecount.noVoteManual :
+                                        agenda.agendaRecount.noVoteVotings + agenda.agendaRecount.noVoteManual,
+                                        council.company,
+                                        council.statute
+                                    ))
                     }
+                    loading={loading === -1}
                     disabled={disabled}
                     disabledColor={disabledColor}
                     selected={getSelected(-1)}
