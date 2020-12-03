@@ -188,17 +188,31 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                     }})}
                 />
                 {data.videoConfig.autoHybrid &&
-                    <SelectInput
-                        value={data.videoConfig.hybridMode}
-                        floatingText={'Sistema híbrido'}
-                        onChange={event => setData({ ...data, videoConfig: {
-                            ...data.videoConfig,
-                            hybridMode: event.target.value
-                        }})}
-                    >
-                        <MenuItem value={'STREAMING'}>Streaming</MenuItem>
-                        <MenuItem value={'WEBRTC'}>WebRTC</MenuItem>
-                    </SelectInput>
+                    <>
+                        <SelectInput
+                            value={data.videoConfig.hybridMode}
+                            floatingText={'Sistema híbrido'}
+                            onChange={event => setData({ ...data, videoConfig: {
+                                ...data.videoConfig,
+                                hybridMode: event.target.value
+                            }})}
+                        >
+                            <MenuItem value={'STREAMING'}>Streaming</MenuItem>
+                            <MenuItem value={'WEBRTC'}>WebRTC</MenuItem>
+                        </SelectInput>
+                        <SelectInput
+                            value={data.videoConfig.rtmpType}
+                            floatingText={'Tipo de streaming híbrido'}
+                            onChange={event => setData({ ...data, videoConfig: {
+                                ...data.videoConfig,
+                                rtmpType: event.target.value
+                            }})}
+                        >
+                            <MenuItem value={'presenter'}>Presentador</MenuItem>
+                            <MenuItem value={'multi'}>Pantalla partida</MenuItem>
+                        </SelectInput>
+                    </>
+                    
                 }
 
                 <Checkbox
