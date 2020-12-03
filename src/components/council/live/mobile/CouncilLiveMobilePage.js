@@ -1,7 +1,7 @@
 import React from 'react';
 import { LoadingMainApp, FabButton, Icon, BasicButton } from '../../../../displayComponents';
 import { showVideo } from '../../../../utils/CBX';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { councilLiveQuery } from "../../../../queries";
 import ParticipantsManager from '../participants/ParticipantsManager';
 import LiveMobileHeader from './LiveMobileHeader';
@@ -11,182 +11,199 @@ import LiveParticipantsDrawer from './LiveParticipantsDrawer';
 import { getSecondary } from '../../../../styles/colors';
 import FloatGroup from 'react-float-button';
 
-class CouncilLiveMobilePage extends React.Component {
-
-    state = {
+const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props }) => {
+    const [state, setState] = React.useState({
         participants: true,
         wall: false,
         unreadComments: 0,
         selectedPoint: 0,
         liveParticipantsDrawer: false,
         open: false
+    });
+    const [council, setCouncil] = React.useState(false)
+    const [loading, setLoading] = React.useState(true)
+
+    const getData = React.useCallback(async () => {
+        const response = await client.query({
+            query: councilLiveQuery,
+            variables: {
+                councilID: data.council.id
+            }
+        });
+        
+        setLoading(false)
+        setCouncil(response)
+    }, [])
+
+    React.useEffect(() => {
+        getData();
+    }, [getData])
+
+    const updateState = object => {
+        setState(object);
     }
 
-    updateState = object => {
-        this.setState(object);
-    }
-
-    toggleLiveParticipantsDrawer = () => {
-        const drawer = this.state.liveParticipantsDrawer;
-        this.setState({
+    const toggleLiveParticipantsDrawer = () => {
+        const drawer = state.liveParticipantsDrawer;
+        setState({
+            ...state,
             liveParticipantsDrawer: !drawer,
             open: false
         });
     }
 
-    closeCommentWall = () => {
-        this.setState({
+    const closeCommentWall = () => {
+        setState({
+            ...state,
             wall: false
         });
     }
 
-    openCommentWall = () => {
-        this.setState({
+    const openCommentWall = () => {
+        setState({
+            ...state,
             wall: true,
             open: false
         })
     }
 
-    render() {
-        const { council } = this.props.data;
-        const { translate } = this.props;
-        const secondary = getSecondary();
+    const secondary = getSecondary();
 
-        const company = this.props.companies.list[
-            this.props.companies.selected
-        ];
+    const company = companies.list[
+        companies.selected
+    ];
 
-        if (this.props.data.loading) {
-            return <LoadingMainApp />
-        }
-
-        return (
+    if (loading) {
+        return <LoadingMainApp />
+    }
+    
+    return (
+        <div
+            style={{
+                width: '100%',
+                height: '100%',
+                position: 'relative'
+            }}
+        >
+            <LiveParticipantsDrawer
+                open={state.liveParticipantsDrawer}
+                requestClose={toggleLiveParticipantsDrawer}
+                council={council}
+                translate={translate}
+            />
             <div
                 style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'relative'
+                    position: "absolute",
+                    bottom: "5%",
+                    right: state.fullScreen ? "5%" : "2%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: 'flex-end',
+                    zIndex: 2
                 }}
             >
-                <LiveParticipantsDrawer
-                    open={this.state.liveParticipantsDrawer}
-                    requestClose={this.toggleLiveParticipantsDrawer}
-                    council={council}
-                    translate={translate}
-                />
-                <div
-                    style={{
-                        position: "absolute",
-                        bottom: "5%",
-                        right: this.state.fullScreen ? "5%" : "2%",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: 'flex-end',
-                        zIndex: 2
-                    }}
-                >
-                    <FloatGroup delay={0.02} style={{ display: 'flex', justifyContent: 'flex-end', width: this.state.open ? '13em' : '', marginBottom: '0.4em' }}>
-                        <FabButton
-                            icon={
-                                <Icon className="material-icons">
-                                    add
+                <FloatGroup delay={0.02} style={{ display: 'flex', justifyContent: 'flex-end', width: state.open ? '13em' : '', marginBottom: '0.4em' }}>
+                    <FabButton
+                        icon={
+                            <Icon className="material-icons">
+                                add
                                 </Icon>
-                            }
-                            onClick={() => this.setState({ open: !this.state.open })}
-                        />
+                        }
+                        onClick={() => setState({ ...state, open: !state.open })}
+                    />
+                    <BasicButton
+                        text={translate.wall}
+                        color={secondary}
+                        textStyle={{ color: 'white', fontWeight: '700' }}
+                        buttonStyle={{ marginBottom: '1em' }}
+                        onClick={openCommentWall}
+                    />
+                    {showVideo(council) &&
                         <BasicButton
-                            text={translate.wall}
+                            text={'Ver participantes remotos'}
                             color={secondary}
                             textStyle={{ color: 'white', fontWeight: '700' }}
                             buttonStyle={{ marginBottom: '1em' }}
-                            onClick={this.openCommentWall}
-                        />
-                        {showVideo(council) &&
-                            <BasicButton
-                                text={'Ver participantes remotos'}
-                                color={secondary}
-                                textStyle={{ color: 'white', fontWeight: '700' }}
-                                buttonStyle={{ marginBottom: '1em' }}
-                                onClick={this.toggleLiveParticipantsDrawer}
-                            />
-                        }
-                    </FloatGroup>
-                    <FabButton
-                        icon={
-                            <React.Fragment>
-                                <Icon className="material-icons">
-                                    {this.state.participants
-                                        ? "developer_board"
-                                        : "group"}
-                                </Icon>
-                                <Icon className="material-icons">
-                                    {this.state.participants
-                                        ? "keyboard_arrow_left"
-                                        : "keyboard_arrow_right"}
-                                </Icon>
-                            </React.Fragment>
-                        }
-                        onClick={() => this.setState({
-                            participants: !this.state.participants,
-                        })}
-                    />
-                </div>
-                <CommentWall
-                    translate={translate}
-                    open={this.state.wall}
-                    council={council}
-                    unreadComments={this.state.unreadComments}
-                    updateState={this.updateState}
-                    requestClose={this.closeCommentWall}
-                />
-                <LiveMobileHeader
-                    logo={!!company && company.logo}
-                    companyName={!!company && company.businessName}
-                    councilName={this.props.data.council.name}
-                    translate={this.props.translate}
-                    council={this.props.data.council}
-                    recount={this.props.data.councilRecount}
-                    participants={this.props.data.council.participants}
-                    refetch={this.props.data.refetch}
-                />
-                <div
-                    style={{
-                        width: '100%',
-                        height: 'calc(100% - 3.5em)'
-                    }}
-                >
-                    {this.state.participants ?
-                        <ParticipantsManager
-                            translate={this.props.translate}
-                            participants={
-                                this.props.data.council.participants
-                            }
-                            council={this.props.data.council}
-                        />
-                        :
-                        <AgendaManager
-                            ref={agendaManager => (this.agendaManager = agendaManager)}
-                            recount={this.props.data.councilRecount}
-                            council={council}
-                            company={company}
-                            translate={translate}
-                            fullScreen={this.state.fullScreen}
-                            refetch={this.props.data.refetch}
-                            openMenu={() =>
-                                this.setState({
-                                    videoWidth: '100%',
-                                    videoHeight: '100%',
-                                    fullScreen: false
-                                })
-                            }
+                            onClick={toggleLiveParticipantsDrawer}
                         />
                     }
-
-                </div>
-
+                </FloatGroup>
+                <FabButton
+                    icon={
+                        <React.Fragment>
+                            <Icon className="material-icons">
+                                {state.participants
+                                    ? "developer_board"
+                                    : "group"}
+                            </Icon>
+                            <Icon className="material-icons">
+                                {state.participants
+                                    ? "keyboard_arrow_left"
+                                    : "keyboard_arrow_right"}
+                            </Icon>
+                        </React.Fragment>
+                    }
+                    onClick={() => setState({
+                        ...state,
+                        participants: !state.participants,
+                    })}
+                />
             </div>
-        )
-    }
+            <CommentWall
+                translate={translate}
+                open={state.wall}
+                council={data.council}
+                unreadComments={state.unreadComments}
+                updateState={updateState}
+                requestClose={closeCommentWall}
+            />
+            <LiveMobileHeader
+                logo={!!company && company.logo}
+                companyName={!!company && company.businessName}
+                councilName={council.name}
+                translate={translate}
+                council={data.council}
+                recount={data.councilRecount}
+                participants={data.council.participants}
+                refetch={data.refetch}
+            />
+            <div
+                style={{
+                    width: '100%',
+                    height: 'calc(100% - 3.5em)'
+                }}
+            >
+                {state.participants ?
+                    <ParticipantsManager
+                        translate={translate}
+                        participants={
+                            data.council.participants
+                        }
+                        council={data.council}
+                    />
+                    :
+                    <AgendaManager
+                        ref={agendaManager => (agendaManager = agendaManager)}
+                        recount={data.councilRecount}
+                        council={council}
+                        company={company}
+                        translate={translate}
+                        fullScreen={state.fullScreen}
+                        refetch={data.refetch}
+                        openMenu={() =>
+                            setState({
+                                ...state,
+                                videoWidth: '100%',
+                                videoHeight: '100%',
+                                fullScreen: false
+                            })
+                        }
+                    />
+                }
+            </div>
+        </div>
+    )
 }
 
-export default CouncilLiveMobilePage;
+export default withApollo(CouncilLiveMobilePage);
+

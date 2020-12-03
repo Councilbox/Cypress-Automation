@@ -68,6 +68,7 @@ const SelectInput = ({
 	colorText,
 	styles,
 	disableUnderline = false,
+	styleLabel,
 	...props
 }) => {
 
@@ -81,8 +82,7 @@ const SelectInput = ({
 			}}
 		>
 			{!noLabel && (
-				<InputLabel htmlFor={id}>{`${!!floatingText ? floatingText : ""}${
-					required ? "*" : ""
+				<InputLabel style={{ ...styleLabel }} htmlFor={id}>{`${!!floatingText ? floatingText : ""}${required ? "*" : ""
 					}`}</InputLabel>
 			)}
 			<Select

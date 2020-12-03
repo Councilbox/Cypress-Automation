@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, GridItem, TextInput } from "./index";
 import * as CBX from "../utils/CBX";
+import { isMobile } from "../utils/screen";
 
 const QuorumInput = ({
 	type,
@@ -23,6 +24,7 @@ const QuorumInput = ({
 						max="100"
 						errorText={quorumError}
 						adornment={"%"}
+						styles={{width: isMobile && "90%"}}
 						onChange={event => {
 							onChange(event.nativeEvent.target.value)
 						}}
@@ -48,7 +50,9 @@ const QuorumInput = ({
 						<TextInput
 							type={"number"}
 							value={value}
+							adornment={"/"}
 							min="1"
+							adornment={"/"}
 							errorText={quorumError}
 							onChange={event => {
 								let newValue = event.target.value;
