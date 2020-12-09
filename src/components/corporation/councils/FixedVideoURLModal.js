@@ -189,7 +189,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                 />
                 {data.videoConfig.autoHybrid &&
                     <>
-                        <SelectInput
+                        {/* <SelectInput
                             value={data.videoConfig.hybridMode}
                             floatingText={'Sistema híbrido'}
                             onChange={event => setData({ ...data, videoConfig: {
@@ -199,7 +199,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                         >
                             <MenuItem value={'STREAMING'}>Streaming</MenuItem>
                             <MenuItem value={'WEBRTC'}>WebRTC</MenuItem>
-                        </SelectInput>
+                        </SelectInput> */}
                         <SelectInput
                             value={data.videoConfig.rtmpType}
                             floatingText={'Tipo de streaming híbrido'}
