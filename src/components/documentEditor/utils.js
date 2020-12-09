@@ -199,14 +199,15 @@ const buildAgendaText = (agenda, translate, data) => {
     }
 
     if(isConfirmationRequest(agenda.subjectType)){
+
         return `
             <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
                 <b>${translate.votings}: </b>
                 <br> ${
                     translate.accept.toUpperCase()}: ${
-                    getAgendaResult(agenda, 'POSITIVE', data)} | ${
+                    getAgendaResult(agenda, 'NUM_POSITIVE', data)} | ${
                     translate.refuse.toUpperCase()}: ${
-                    getAgendaResult(agenda, 'NEGATIVE', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NO_VOTE', data)}
+                    getAgendaResult(agenda, 'NUM_NEGATIVE', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NUM_NO_VOTE', data)}
                 <br>
             </div>
         `
