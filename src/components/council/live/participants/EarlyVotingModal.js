@@ -367,21 +367,6 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                     onClick={() => setVotingRightDenied(point.id)}
                                 />
                             </div>
-                            <div style={{ marginTop: "10px" }}>
-                                <BasicButton
-                                    color="white"
-                                    text="Eliminar"
-                                    backgroundColor={{
-                                        border: '1px solid' + getSecondary(),
-                                        borderRadius: '4px',
-                                        marginTotop: '0.3em',
-                                        color: getSecondary(),
-                                        backgroundColor: 'white',
-                                        outline: '0px',
-                                    }}
-                                    onClick={() => deleteProxyVote(point.id, participant.id)}
-                                />
-                            </div>
                         </div>
                     )
                 })
