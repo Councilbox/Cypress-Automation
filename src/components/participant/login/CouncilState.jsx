@@ -116,14 +116,14 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 
 
 	const getBody = () => {
-		if(councilIsInTrash(council)) return (
+		if (councilIsInTrash(council)) return (
 			// {true && (
 			<StateContainer
 				widths={state.width}
 				heights={state.height}
 				windowOrientation={windowOrientation}
 			>
-				<div style={{ width: "410px" }}>
+				<div style={{ width: isMobile ? "100%" : "410px" }}>
 					<TextRender
 						title={translate.we_are_sorry}
 						text={translate.not_held_council}
@@ -142,7 +142,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			</StateContainer>
 		)
 
-		if(isAssistance && councilIsLive(council)) return (
+		if (isAssistance && councilIsLive(council)) return (
 			<StateContainer
 				widths={state.width}
 				heights={state.height}
@@ -169,13 +169,13 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			</StateContainer>
 		)
 
-		if(!isAssistance && councilIsNotLiveYet(council)) return (
+		if (!isAssistance && councilIsNotLiveYet(council)) return (
 			<StateContainer
 				widths={state.width}
 				heights={state.height}
 				windowOrientation={windowOrientation}
 			>
-				<div style={{ width: "410px" }}>
+				<div style={{ width: isMobile ? "100%" : "410px"  }}>
 					<TextRender
 						title={translate.we_are_sorry}
 						text={translate.council_not_started_yet_retry_later}
@@ -194,13 +194,13 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			</StateContainer>
 		)
 
-		if(councilIsNotCelebrated(council)) return (
+		if (councilIsNotCelebrated(council)) return (
 			<StateContainer
 				widths={state.width}
 				heights={state.height}
 				windowOrientation={windowOrientation}
 			>
-				<div style={{ width: "410px" }}>
+				<div style={{ width: isMobile ? "100%" : "410px"  }}>
 					<TextRender
 						title={translate.we_are_sorry}
 						text={translate.not_held_council}
@@ -219,7 +219,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 		)
 
 
-		if(councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) return (
+		if (councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) return (
 			<React.Fragment>
 				{isMobile ?
 					<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
@@ -339,12 +339,12 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 							</div>
 						</div>
 
-						<div style={{ height: "100%", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+						<div style={{ height: "calc( 100% - 13em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 							<div style={{ padding: "1em 1em", height: "100%" }}>
 								<div style={{ textAlign: "left" }}>
 									{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
 								</div>
-								<div style={{ marginTop: "1em", height: "calc( 100% - 15em )" }}>
+								<div style={{ marginTop: "1em", height: "calc( 100% - 2em )" }}>
 									<ResultsTimeline
 										council={council}
 										participant={props.participant}
@@ -452,7 +452,7 @@ const TextRender = ({ title, text, isHtmlText, council, company, translate, wind
 			<h3 style={{ color: primary, marginBottom: windowOrientation === "landscape" ? "" : "1em" }}>{title}</h3>
 
 			{text && (
-				<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === "landscape" ? "" : "2em" }}>
+				<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === "landscape" ? "" : "2em"}}>
 					{isHtmlText ? (
 						<span dangerouslySetInnerHTML={{ __html: text }} />
 					) : (
@@ -530,7 +530,7 @@ const TextDialog = ({ open, handleClose, title, text }) => (
 		{title && (
 			<DialogTitle id="simple-dialog-title">
 				Set backup account
-					</DialogTitle>
+			</DialogTitle>
 		)}
 		<DialogContent>
 			<FontAwesome
