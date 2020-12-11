@@ -64,8 +64,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	}, [comment]);
 
 	const update = () => {
-		data.refetch();
-		props.updateCouncilAct();
+		props.refetch();
 	}
 
 	const loadDraft = async draft => {

@@ -24,6 +24,7 @@ const AgendaTab = ({ council, translate, data }) => {
 										agenda={agenda}
 										readOnly={true}
 										council={council}
+										refetch={data.refetch}
 										recount={data.councilRecount}
 										translate={translate}
 										majorityTypes={data.majorityTypes}
