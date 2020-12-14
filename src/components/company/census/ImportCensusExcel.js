@@ -380,7 +380,7 @@ class ImportCensusButton extends React.Component {
 			}
 		}
 		const participantError = this.checkRequiredFields(participant, true);
-		if (participantError) {
+		if (participantError || errors) {
 			return { ...errors, ...participantError };
 		}
 
@@ -446,6 +446,7 @@ class ImportCensusButton extends React.Component {
 			r_name: '',
 			hasError: false,
 			r_dni: '',
+			r_email: '',
 			r_phone: ''
 		}
 
@@ -454,6 +455,8 @@ class ImportCensusButton extends React.Component {
 				errors.email = required;
 				errors.hasError = true;
 			}
+
+
 
 			if (!participant.name) {
 				errors.name = required;
@@ -484,6 +487,12 @@ class ImportCensusButton extends React.Component {
 				errors.r_name = required;
 				errors.hasError = true;
 			}
+			if (participant.r_email) {
+				if (!checkValidEmail(participant.r_email)) {
+					errors.r_email = required;
+					errors.hasError = true;
+				}
+			}
 		}
 
 		return errors.hasError ? errors : false;
@@ -492,17 +501,7 @@ class ImportCensusButton extends React.Component {
 	buildErrorString = (errors) => {
 		const translate = this.props.translate;
 
-		let string = `${translate.entry}: ${
-			errors.line}: ${
-			errors.name ? `${translate.name}, ` : ''}${
-			errors.surname ? `${translate.new_surname}, ` : ''}${
-			errors.dni ? `${translate.dni}, ` : ''}${
-			errors.phone ? `${translate.phone}, ` : ''}${
-			errors.email ? `${translate.login_email}, ` : ''}${
-			errors.r_name ? `${translate.entity_name}, ` : ''}${
-			errors.r_dni ? `${translate.entity_cif}, ` : ''}${
-			errors.r_phone ? `${translate.entity_phone}, ` : ''}${
-			errors.r_email ? `${translate.entity_email}, ` : ''
+		let string = `${translate.entry}: ${errors.line}: ${errors.name ? `${translate.name}, ` : ''}${errors.surname ? `${translate.new_surname}, ` : ''}${errors.dni ? `${translate.dni}, ` : ''}${errors.phone ? `${translate.phone}, ` : ''}${errors.email ? `${translate.login_email}, ` : ''}${errors.r_name ? `${translate.entity_name}, ` : ''}${errors.r_dni ? `${translate.entity_cif}, ` : ''}${errors.r_phone ? `${translate.entity_phone}, ` : ''}${errors.r_email ? `${translate.entity_email}, ` : ''
 			}`;
 		if (string.charAt(string.length - 2) === ',') {
 			string = string.substr(0, string.length - 2) + '.';
