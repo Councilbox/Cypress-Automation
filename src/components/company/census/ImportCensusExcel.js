@@ -411,7 +411,6 @@ class ImportCensusButton extends React.Component {
 		if (participantError) {
 			return participantError;
 		}
-
 		const numParticipations = participant.numParticipations ?
 			participant.numParticipations.replace(/[.,]/g, '') :
 			participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
