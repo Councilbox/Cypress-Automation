@@ -354,7 +354,7 @@ class HoverableRow extends React.Component {
 		const { delegate, notifications } = participant;
 
 		const voteParticipantInfo = (
-			participant.live.state === PARTICIPANT_STATES.DELEGATED ?
+			(participant.live.state === PARTICIPANT_STATES.DELEGATED && delegate) ?
 				<React.Fragment>
 					<br />
 					{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
