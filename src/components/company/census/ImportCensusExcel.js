@@ -285,7 +285,7 @@ class ImportCensusButton extends React.Component {
 		if (invalidEmails.length > 0) {
 			this.setState({
 				step: 4,
-				invalidEmails: invalidEmails
+				invalidEmails
 			});
 			return;
 		}
@@ -661,54 +661,66 @@ class ImportCensusButton extends React.Component {
 								</div>
 							)}
 							{step === 4 && (
-								<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
-									<div
-										style={{
-											fontSize: '1.2em',
-											color: primary,
-											fontWeight: '700',
-										}}
-									>
-										{translate.attention}
-									</div>
-									{translate.import_can_not_be_done}<br />
-									{translate.please_correct_errors_and_resend}
-									<div
-										style={{ width: '100%' }}
-									>
-										{this.state.invalidEmails.map((item, index) => (
-											<React.Fragment key={`invalidEmails_${item.line}`}>
-												{this.buildErrorString(item)}<br />
-											</React.Fragment>
-										))}
+								<div>
+									<div style={{ height: '70vh', overflow: "hidden" }}>
+										<div style={{ height: 'calc( 100% - 4em )' }}>
+											<Scrollbar>
+												<div
+													style={{
+														fontSize: '1.2em',
+														color: primary,
+														fontWeight: '700',
+													}}
+												>
+													{translate.attention}
+												</div>
+												{translate.import_can_not_be_done}<br />
+												{translate.please_correct_errors_and_resend}
+												<div
+													style={{ width: '100%' }}
+												>
+													{this.state.invalidEmails.map((item, index) => (
+														<React.Fragment key={`invalidEmails_${item.line}`}>
+															{this.buildErrorString(item)}<br />
+														</React.Fragment>
+													))}
+												</div>
+											</Scrollbar>
+										</div>
 									</div>
 								</div>
 							)}
 							{step === 5 && (
-								<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
-									<div
-										style={{
-											fontSize: '1.2em',
-											color: primary,
-											fontWeight: '700',
-										}}
-									>
-										{translate.attention}
-									</div>
-								No se puede realizar la importación.<br />
-									{this.state.duplicatedType === 'DB' ?
-										translate.following_emails_already_present_in_current_census
-										:
-										translate.following_emails_are_duplicated_in_sent_file
-									}
-									<div
-										style={{ width: '100%' }}
-									>
-										{this.state.invalidEmails.map((item, index) => (
-											<React.Fragment key={`invalidEmails_${item[0]}`}>
-												{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
-											</React.Fragment>
-										))}
+								<div>
+									<div style={{ height: '70vh', overflow: "hidden" }}>
+										<div style={{ height: 'calc(100%)' }}>
+											<Scrollbar>
+												<div
+													style={{
+														fontSize: '1.2em',
+														color: primary,
+														fontWeight: '700',
+													}}
+												>
+													{translate.attention}
+												</div>
+													No se puede realizar la importación.<br />
+												{this.state.duplicatedType === 'DB' ?
+													translate.following_emails_already_present_in_current_census
+													:
+													translate.following_emails_are_duplicated_in_sent_file
+												}
+												<div
+													style={{ width: '100%' }}
+												>
+													{this.state.invalidEmails.map((item, index) => (
+														<React.Fragment key={`invalidEmails_${item[0]}`}>
+															{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
+														</React.Fragment>
+													))}
+												</div>
+											</Scrollbar>
+										</div>
 									</div>
 								</div>
 							)}
