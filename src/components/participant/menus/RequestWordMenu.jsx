@@ -136,15 +136,15 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     }
 
     const _renderSafariAlertBody = () => {
-        return (
-            <div>
-                {!council.askWordMenu ?
-                    translate.cant_ask_word
-                :
-                    translate.safari_word_ask_info
-                }
-            </div>
-        )
+        if(!council.askWordMenu){
+            return translate.cant_ask_word;
+        }
+
+        if(DetectRTC.audioInputDevices.length === 0){
+            return translate.no_audio_devices;
+        }
+
+        return translate.safari_word_ask_info;
     }
 
     const _renderWordButtonIconMobil = () => {
