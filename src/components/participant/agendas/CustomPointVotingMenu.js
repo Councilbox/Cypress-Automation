@@ -31,7 +31,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     const disabled = agenda.votingState !== AGENDA_STATES.DISCUSSION || cantVote;
 
     const buildRecountText = itemId => {
-        if(!agenda.ballotsRecount){
+        if(!agenda.votingsRecount){
             return '';
         }
 
@@ -42,8 +42,8 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
 
         return (
             showRecount? 
-                ` (${translate.recount}: ${agenda.ballotsRecount[itemId] !== undefined ?
-                    showNumParticipations(agenda.ballotsRecount[itemId], council.company, council.statute)
+                ` (${translate.recount}: ${agenda.votingsRecount[itemId] !== undefined ?
+                    showNumParticipations(agenda.votingsRecount[itemId], council.company, council.statute)
                 : 0})`
             :
                 ''
@@ -134,11 +134,28 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     }
 
     const renderCommonButtons = () => {
+        if(config.hideNoVoteButton){
+            return (
+                <div style={{ paddingTop: '5px' }}>
+                    <div style={{ display: "flex", width: "100%", height: '2.5em' }}>
+                        <VotingButton
+                            text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
+                            disabled={disabled}
+                            disabledColor={disabled}
+                            styleButton={{ width: "100%" }}
+                            onClick={setAbstentionOption}
+                            selectCheckBox={getSelectedRadio(-1)}
+                        />
+                    </div>
+                </div>
+            )
+        }
+
         return (
-            <div style={{ paddingTop: "20px" }}>
+            <div style={{ paddingTop: "0px" }}>
                 <div style={{ display: "flex", width: "52.5%", height: '2.5em' }}>
                     <VotingButton
-                        text={`${translate.abstention_btn} ${buildRecountText(-1)}`}
+                        text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
                         disabled={disabled}
                         disabledColor={disabled}
                         styleButton={{ width: "90%" }}
@@ -146,7 +163,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                         selectCheckBox={getSelectedRadio(-1)}
                     />
                     <VotingButton
-                        text={translate.dont_vote}
+                        text={`${translate.dont_vote} ${buildRecountText('noVote')}`}
                         disabled={disabled}
                         disabledColor={disabled}
                         styleButton={{ width: "90%" }}
