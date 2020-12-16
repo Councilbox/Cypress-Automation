@@ -572,7 +572,7 @@ const agendasQuery = gql`
             noVoteManual
             noVoteVotings
             agendaSubject
-            agendaRecount
+            votingsRecount
             attachments {
                 id
                 agendaId
@@ -591,7 +591,6 @@ const agendasQuery = gql`
                 id
                 value
             }
-            ballotsRecount
             councilId
             dateEndVotation
             dateStart

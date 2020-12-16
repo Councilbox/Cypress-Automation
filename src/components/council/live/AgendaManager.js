@@ -276,14 +276,6 @@ export const agendaManager = gql`
 				id
 				value
 			}
-			ballots {
-				id
-				weight
-				admin
-				value
-				participantId
-				itemId
-			}
 			options {
 				maxSelections
 				minSelections
@@ -299,7 +291,7 @@ export const agendaManager = gql`
 				councilId
 				state
 			}
-			agendaRecount
+			votingsRecount
 			comment
 			commentRightColumn
 			councilId

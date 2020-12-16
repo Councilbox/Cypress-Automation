@@ -196,7 +196,7 @@ export const councilDetails = gql`
 			abstentionVotings
 			abstentionManual
 			noVoteVotings
-			agendaRecount
+			votingsRecount
 			noVoteManual
 			positiveVotings
 			positiveManual

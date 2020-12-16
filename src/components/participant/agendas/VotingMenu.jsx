@@ -69,7 +69,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
         }
 
         let freezedRecount = {
-            ...agenda.agendaRecount,
+            ...agenda.votingsRecount,
             ...freezed.current
         }
 
@@ -199,8 +199,8 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                         translate.in_favor_btn +
                             buildRecountText(
                                 CBX.showNumParticipations(
-                                    freezed.current ? freezed.current.positiveVotings + agenda.agendaRecount.positiveManual :
-                                    agenda.agendaRecount.positiveVotings + agenda.agendaRecount.positiveManual,
+                                    freezed.current ? freezed.current.positiveVotings + agenda.votingsRecount.positiveManual :
+                                    agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual,
                                     council.company,
                                     council.statute
                                 ))
@@ -226,8 +226,8 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                         translate.against_btn +
                             buildRecountText(
                                 CBX.showNumParticipations(
-                                    freezed.current ? freezed.current.negativeVotings + agenda.agendaRecount.negativeManual :
-                                    agenda.agendaRecount.negativeVotings + agenda.agendaRecount.negativeManual,
+                                    freezed.current ? freezed.current.negativeVotings + agenda.votingsRecount.negativeManual :
+                                    agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual,
                                     council.company,
                                     council.statute
                                 ))
@@ -254,8 +254,8 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                         translate.abstention_btn +
                             buildRecountText(
                                 CBX.showNumParticipations(
-                                    freezed.current ? freezed.current.abstentionVotings + agenda.agendaRecount.abstentionManual :
-                                    agenda.agendaRecount.abstentionVotings + agenda.agendaRecount.abstentionManual,
+                                    freezed.current ? freezed.current.abstentionVotings + agenda.votingsRecount.abstentionManual :
+                                    agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual,
                                     council.company,
                                     council.statute
                                 ))
@@ -282,8 +282,8 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
                             translate.dont_vote +
                                 buildRecountText(
                                     CBX.showNumParticipations(
-                                        freezed.current ? freezed.current.noVoteVotings + agenda.agendaRecount.noVoteManual :
-                                        agenda.agendaRecount.noVoteVotings + agenda.agendaRecount.noVoteManual,
+                                        freezed.current ? freezed.current.noVoteVotings + agenda.votingsRecount.noVoteManual :
+                                        agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual,
                                         council.company,
                                         council.statute
                                     ))
