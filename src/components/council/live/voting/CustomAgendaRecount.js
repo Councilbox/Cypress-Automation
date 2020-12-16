@@ -49,20 +49,32 @@ const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
                                 </TableCell>
                                 <TableCell >
                                     {` ${showNumParticipations(
-                                        agenda.ballots.filter(ballot => ballot.itemId === item.id).reduce((a, b) => a + b.weight, 0),
+                                        agenda.votingsRecount[item.id],
                                         company,
                                         council.statute
                                     )}`}
                                 </TableCell>
                             </TableRow>
                         ))}
+                        <TableRow>
+                            <TableCell>
+                                {translate.abstention_btn}
+                            </TableCell>
+                            <TableCell>
+                                {`${showNumParticipations(
+                                    agenda.votingsRecount["abstention"],
+                                    company,
+                                    council.statute
+                                )}`}
+                            </TableCell>
+                        </TableRow>
                         <TableRow >
                             <TableCell >
-                                {translate.abstention_btn}
+                                {translate.no_vote_lowercase}
                             </TableCell>
                             <TableCell >
                                 {`${showNumParticipations(
-                                    agenda.ballots.filter(ballot => ballot.itemId === -1).reduce((a, b) => a + b.weight, 0),
+                                    agenda.votingsRecount['noVote'],
                                     company,
                                     council.statute
                                 )}`}
@@ -78,7 +90,7 @@ const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
 const formatDataFromAgenda = agenda => {
     const labels = agenda.items.map(item => item.value);
     const colors = ['#E8B745', '#D1DE3B', '#6AD132', '#2AC26D', '#246FB0', '#721E9C', '#871A1C', '#6EA85D', '#9DAA49', '#CDA645']
-    const dataSet = agenda.items.map(item => agenda.ballots.filter(ballot => ballot.itemId === item.id).reduce((a, b) => a + b.weight, 0));
+    const dataSet = agenda.items.map(item => agenda.votingsRecount[item.id]);
 
     const data = {
         labels,
