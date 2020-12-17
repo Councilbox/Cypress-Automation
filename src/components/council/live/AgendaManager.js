@@ -299,6 +299,14 @@ export const agendaManager = gql`
 			dateEndVotation
 			dateStart
 			dateStartVotation
+			ballots {
+				id
+				weight
+				admin
+				value
+				participantId
+				itemId
+			}
 			description
 			id
 			majority
