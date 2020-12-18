@@ -418,7 +418,7 @@ class PartnerForm extends React.PureComponent {
                                 }
                             />
                         </GridItem>
-                        <GridItem xs={6} md={4} lg={2}>
+                        <GridItem xs={6} md={6} lg={2}>
                             <TextInput
                                 floatingText={translate.company_new_country}
                                 type="text"
@@ -431,7 +431,7 @@ class PartnerForm extends React.PureComponent {
                                 }
                             />
                         </GridItem>
-                        <GridItem xs={6} md={4} lg={2}>
+                        <GridItem xs={6} md={6} lg={2}>
                             <TextInput
                                 id={'anadirSocioProvincia'}
                                 floatingText={translate.company_new_country_state}
@@ -637,7 +637,7 @@ class PartnerForm extends React.PureComponent {
                                             }
                                         />
                                     </GridItem>
-                                    <GridItem xs={6} md={4} lg={2}>
+                                    <GridItem xs={6} md={6} lg={2}>
                                         <TextInput
                                             floatingText={translate.company_new_country}
                                             type="text"
@@ -649,7 +649,7 @@ class PartnerForm extends React.PureComponent {
                                             }
                                         />
                                     </GridItem>
-                                    <GridItem xs={6} md={4} lg={2}>
+                                    <GridItem xs={6} md={6} lg={2}>
                                         <TextInput
                                             id={'anadirSocioRepresentanteProvincia'}
                                             floatingText={translate.company_new_country_state}

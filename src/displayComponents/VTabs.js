@@ -8,10 +8,11 @@ import { IconButton } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import "../styles/react-tabs.css";
 import Scrollbar from "./Scrollbar";
+import { isMobile } from "../utils/screen";
 
 const primary = getPrimary();
 const secondary = getSecondary();
-
+console.log(isMobile)
 const Vtabs = ({
 	children,
 	tabs,
@@ -25,10 +26,11 @@ const Vtabs = ({
 	translate,
 	index,
 	deleteAction
-}) => (
+}) => {
+	return (
 		<React.Fragment>
 			<div style={{ height: "100%" }}>
-				{windowSize !== "xs" && (
+				{windowSize !== "xs" && !isMobile && (
 					<div style={{ borderRight: "1px solid gainsboro", width: "24em", height: "100%" }}>
 						<div style={{ height: "calc(100% - 3em)" }}>
 							<div style={{
@@ -41,7 +43,7 @@ const Vtabs = ({
 							<Scrollbar>
 								{tabs.map((tab, mapIndex) => {
 									return (
-										<div key={'' + mapIndex} onClick={()=>changeTab('' + mapIndex)}
+										<div key={'' + mapIndex} onClick={() => changeTab('' + mapIndex)}
 											style={{
 												borderRight: +index === +mapIndex ? "6px solid " + primary : "",
 												marginTop: "0.5em",
@@ -67,7 +69,7 @@ const Vtabs = ({
 					</div>
 				)}
 
-				{windowSize === "xs" && (
+				{(windowSize === "xs" || isMobile) && (
 					<div className="container-fluid" style={{ height: "100%" }}>
 						<Grid>
 							<GridItem xs={6}>
@@ -178,11 +180,11 @@ const Vtabs = ({
 							{children}
 						</div>
 					</div>
-				)
-				}
+				)}
 			</div>
 		</React.Fragment >
 	);
+}
 
 export default withWindowSize(Vtabs);
 
