@@ -231,6 +231,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 translate={translate}
                 defaultLimit={state.appliedFilters.limit}
                 searchInMovil={isMobile}
+                hideTextFilter={isMobile}
                 menuButtons={
                     <div style={{ marginRight: '0.9em' }}>
                         <BasicButton
