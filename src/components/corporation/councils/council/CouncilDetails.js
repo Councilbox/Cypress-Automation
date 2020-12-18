@@ -23,6 +23,7 @@ import ParticipantsManager from '../../../council/live/participants/Participants
 import CouncilStatuteEditor from './CouncilStatuteEditor';
 import CheckPhoneModal from './CheckPhoneModal';
 import DownloadConvenedPDF from './DownloadConvenedPDF';
+import MergeCouncilsButton from './MergeCouncilsButton';
 
 
 const cancelAct = gql`
@@ -304,6 +305,11 @@ class CouncilDetails extends React.Component {
 							}}
 						>
 							<div style={{ fontSize: '1rem', marginLeft: '0.6em', justifyContent: "flex-end", display: "flex" }}>
+								<MergeCouncilsButton
+									council={council}
+									translate={translate}
+									color={secondary}
+								/>
 								<DownloadConvenedPDF
 									council={council}
 									translate={translate}
