@@ -207,7 +207,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									action={
 										<RemoveDelegationButton
 											delegatedVote={delegatedVote}
-											participant={participant.representatives[0]? participant.representatives[0] : participant}
+											participant={participant.representatives[0] ? participant.representatives[0] : participant}
 											translate={translate}
 											refetch={data.refetch}
 										/>
@@ -284,12 +284,12 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 	}
 
 	const text = texts[type]
-	
+
 	return (
 		<Grid style={{ marginBottom: "1em", display: "flex", alignItems: "center", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: 'solid 1px #61abb7', borderRadius: '4px', padding: "1em", marginTop: "1em", justifyContent: "space-between" }}>
 			<GridItem xs={12} md={4} lg={3}>
 				<div style={{ display: "flex" }}>
-					<div style={{ color: secondary, position: "relative", width: "1.5em" }}>
+					<div style={{ color: secondary, position: "relative", width: "24px", minWidth: "24px" }}>
 						<i
 							className={type === PARTICIPANT_STATES.REPRESENTATED ? "fa fa-user-o" : 'fa fa-user'}
 							style={{ position: "absolute", left: "0", top: "0", fontSize: "19px" }}
@@ -306,7 +306,9 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 					}}>
 						{`${text}:`}
 						<b>{`${participant.name} ${participant.surname || ''}`}</b>
-						{type === PARTICIPANT_STATES.REPRESENTATED &&
+					</div>
+					{type === PARTICIPANT_STATES.REPRESENTATED &&
+						<div style={{ display: "flex", alignItems: "center" }}>
 							<Tooltip title={translate.edit_participant_contact}>
 								<i
 									onClick={() => setEdit(!edit)}
@@ -314,15 +316,15 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 									aria-hidden="true"
 									style={{
 										color: secondary,
-										fontSize: "0.8em",
+										fontSize: "1em",
 										cursor: 'pointer',
-										marginLeft: "0.3em"
+										marginLeft: "0.3em",
+										paddingTop:"3px"
 									}}>
 								</i>
 							</Tooltip>
-							
-						}
-					</div>
+						</div>
+					}
 				</div>
 				{edit &&
 					<>
