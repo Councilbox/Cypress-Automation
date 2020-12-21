@@ -133,7 +133,7 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
                 text={'Añadir participantes desde otra reunión'}
                 color={color}
                 //loading={loading}
-                buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em' }}
+                buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em', marginRight: '0.6em' }}
                 textStyle={{
                     color: "white",
                     fontWeight: "700",

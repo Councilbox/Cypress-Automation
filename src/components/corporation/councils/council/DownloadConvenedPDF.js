@@ -43,7 +43,7 @@ const DownloadConvenedPDF = ({ translate, color, council, client }) => {
             text={'Descargar lista convocados'}
             color={color}
             loading={loading}
-            buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em' }}
+            buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em', marginRight: '0.6em' }}
             textStyle={{
                 color: "white",
                 fontWeight: "700",
