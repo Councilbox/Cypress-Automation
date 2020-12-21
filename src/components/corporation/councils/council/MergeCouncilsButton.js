@@ -20,6 +20,11 @@ const reducer = (state, action) => {
             ...state,
             status: 'SUCCESS',
             error: null
+        }),
+        'IDDLE': () => ({
+            ...state,
+            error: null,
+            status: 'IDDLE'
         })
     }
 
@@ -121,8 +126,12 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
         <>
             <AlertConfirm
                 open={modal}
-                requestClose={() => setModal(false)}
+                requestClose={() => {
+                    setModal(false);
+                    dispatch({ type: 'IDDLE' });
+                }}
                 acceptAction={mergeCouncils}
+                hideAccept={status === 'SUCCESS'}
                 loadingAction={loading}
                 buttonAccept={translate.send}
                 title={'Mezclar reuniones'}
