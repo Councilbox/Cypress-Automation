@@ -71,7 +71,7 @@ class AddCouncilParticipantButton extends React.Component {
 					representativeErrors: {}
 				});
 			} else {
-				if(response.errors[0].message === 'Too many granted words'){
+				if (response.errors[0].message === 'Too many granted words') {
 					this.setState({
 						loading: false,
 						...(this.state.data.initialState === 2 ? {
@@ -110,6 +110,7 @@ class AddCouncilParticipantButton extends React.Component {
 	};
 
 	async checkRequiredFields() {
+		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate, participations, company } = this.props;
@@ -141,7 +142,7 @@ class AddCouncilParticipantButton extends React.Component {
 				errorsParticipant.hasError = true;
 			}
 		}
-		
+
 
 		if (this.props.company.type !== 10) {
 			emailsToCheck.push(participant.email);
@@ -190,7 +191,14 @@ class AddCouncilParticipantButton extends React.Component {
 			if (!participant.email) {
 				errorsParticipant.hasError = true;
 				errorsParticipant.errors.email = translate.field_required;
-			} 
+			}
+
+			if (participant.phone && participant.phone !== '-') {
+				if (!testPhone.test(participant.phone)) {
+					errorsParticipant.hasError = true;
+					errorsParticipant.errors.phone = translate.invalid_field;
+				}
+			}
 
 			if (representative.hasRepresentative && !representative.email) {
 				errorsRepresentative.errors.email = translate.field_required;
