@@ -3,7 +3,6 @@ import { withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import { LoadingSection } from '../../../../displayComponents';
 import CBXDocumentLayout from '../../../documentEditor/CBXDocumentLayout';
-import { Paper } from 'material-ui';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import DownloadActPDF from './DownloadActPDF';
 import { getSecondary } from '../../../../styles/colors';
@@ -11,7 +10,7 @@ import SendToSignButton from './SendToSignButton';
 import { ConfigContext } from '../../../../containers/AppControl';
 
 
-const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => {
+const ActHTML = ({ translate, company, council, client, toolbar }) => {
 	const [data, setData] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const [loading, setLoading] = React.useState(true);
@@ -75,7 +74,7 @@ const ActHTML = ({ translate, company, council, client, toolbar, ...props }) => 
 				{data.councilAct.type === 1?
 					<React.Fragment>
 						<div style={{fontSize: '1.1em', fontWeight: '700', color: secondary}}>
-							Acta subida por el usuario. {/*TRADUCCION*/}
+							{translate.user_upload_minutes}
 						</div>
 						<DownloadActPDF
 							translate={translate}

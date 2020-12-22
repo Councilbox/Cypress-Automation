@@ -1,6 +1,7 @@
 import React from "react";
 import {
 	AlertConfirm,
+	BasicButton,
 	Grid,
 	GridItem
 } from "../../../../displayComponents";
@@ -85,15 +86,9 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 		});
 	}
 
-	const goToCBXAct = () => {
-		setState({
-			step: 2
-		});
-	}
-
 	const goToDropZone = () => {
 		setState({
-			step: 3
+			step: 2
 		});
 	}
 
@@ -105,6 +100,23 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 	}
 
 	function _modalBody() {
+
+		if(state.step === 2){
+			if(state.file){
+				return (
+					<div>
+						{state.filename}
+					</div>
+				)
+			}
+
+			return (
+				<UploadAct
+					council={council}
+					setFile={setFile}
+				/>
+			)
+		}
 
 		return (
 			<div style={{marginTop: '12px', height: '100%', border: '1px solid gainsboro'}}>
@@ -125,9 +137,23 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 			bodyStyle={{ minWidth: "50vw", height: isMobile ? '26em' : "100%" }}
 			requestClose={close}
 			open={props.show}
-			acceptAction={approveAct}
+			extraActions={state.step === 1 &&
+				<BasicButton
+					color="white"
+					buttonStyle={{
+						border: `1px solid ${secondary}`
+					}}
+					textStyle={{
+						color: secondary
+					}}
+					text={translate.upload_pdf_act}
+					onClick={goToDropZone}
+				/>
+			}
+			acceptAction={state.step === 2 ? approveActWithUserPDF : approveAct}
+			hideAccept={state.step === 2 && !state.file}
 			loadingAction={state.loading}
-			buttonAccept={translate.finish_and_aprove_act}
+			buttonAccept={state.step === 2 ? translate.send : translate.finish_and_aprove_act}
 			buttonCancel={translate.close}
 			bodyText={_modalBody()}
 			title={translate.finish_and_aprove_act}
@@ -135,32 +161,6 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 	);
 
 
-}
-
-const ButtonInModal = ({ body, img, click }) => {
-	const [showActions, handlers] = useHoverRow();
-
-	return (
-		<Card
-			elevation={5}
-			onClick={click}
-			style={{
-				height: "100%",
-				cursor: "pointer",
-				textAlign: "center",
-				padding: "25px",
-				background: showActions ? "gainsboro" : ""
-			}}
-			{...handlers}
-		>
-			<div style={{ textAlign: "center", marginBottom: '1.6em' }}>
-				{img}
-			</div>
-			<div style={{fontSize: "1.1em"}}>
-				{body}
-			</div>
-		</Card>
-	);
 }
 
 const UploadAct = ({ ...props }) => {
