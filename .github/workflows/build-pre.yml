@@ -54,5 +54,6 @@ jobs:
               "client_payload": {
                 "environment": "${{ env.stage }}",
                 "service": "${{ env.service_name }}",
+                "actor": "${{ github.actor }}",
                 "image": "${{ steps.image_name.outputs.image_name }}" }}'\
             https://api.github.com/repos/${{ env.state_repo }}/dispatches
