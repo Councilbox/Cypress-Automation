@@ -1,9 +1,9 @@
 name: Publish Docker image
 
 on:
-  pull_request:
-    branches:
-      - 'feature/kubernetes-image**'
+  release:
+    types:
+      - prereleased
 
 jobs:
   build:
