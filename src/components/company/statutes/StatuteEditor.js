@@ -303,7 +303,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							{CBX.quorumNeedsInput(statute.secondCallQuorumType) && (
 								<QuorumInput
 									type={statute.secondCallQuorumType}
-									style={{ marginLeft: !isMobile && "1em" }}
+									style={{ marginLeft: "1em" }}
 									value={statute.secondCallQuorum}
 									divider={statute.secondCallQuorumDivider}
 									quorumError={errors.secondCallQuorum}

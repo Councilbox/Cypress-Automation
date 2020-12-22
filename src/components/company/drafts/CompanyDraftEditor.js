@@ -198,6 +198,8 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				acceptAction={updateCompanyDraft}
 				cancelAction={() => bHistory.goBack()}
 				requestClose={() => setUnsavedAlert(false)}
+				successAction={success}
+				loadingAction={loading}
 				open={unsavedAlert}
 			/>
 		</CardPageLayout>
