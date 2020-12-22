@@ -182,7 +182,7 @@ class CouncilParticipantEditor extends React.Component {
 		}
 
 		if (participant.phone) {
-			if (!testPhone.test(participant.phone)) {
+			if (!testPhone.test(participant.phone) && participant.phone !== '-') {
 				errorsParticipant.hasError = true;
 				errorsParticipant.errors.phone = translate.invalid_field;
 			}

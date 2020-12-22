@@ -189,7 +189,7 @@ class AddCouncilParticipantButton extends React.Component {
 				errorsParticipant.errors.email = translate.field_required;
 			}
 
-			if (participant.phone) {
+			if (participant.phone && participant.phone !== '-') {
 				if (!testPhone.test(participant.phone)) {
 					errorsParticipant.hasError = true;
 					errorsParticipant.errors.phone = translate.invalid_field;
