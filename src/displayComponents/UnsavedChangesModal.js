@@ -4,7 +4,7 @@ import { getSecondary } from '../styles/colors';
 import { AlertConfirm } from './';
 import BasicButton from './BasicButton';
 
-const UnsavedChangesModal = ({ translate, open, requestClose, acceptAction, cancelAction }) => (
+const UnsavedChangesModal = ({ translate, open, requestClose, acceptAction, cancelAction, successAction, loadingAction }) => (
     <AlertConfirm
         title={translate.attention}
         bodyText={translate.changes_without_saving}
@@ -25,6 +25,8 @@ const UnsavedChangesModal = ({ translate, open, requestClose, acceptAction, canc
         }
         buttonCancel={translate.close}
         cancelAction={requestClose}
+        successAction={successAction}
+        loadingAction={loadingAction}
         acceptAction={acceptAction || null}
         buttonAccept={acceptAction ? translate.save : ''}
         modal={true}
