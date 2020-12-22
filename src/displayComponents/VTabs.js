@@ -12,7 +12,7 @@ import { isMobile } from "../utils/screen";
 
 const primary = getPrimary();
 const secondary = getSecondary();
-console.log(isMobile)
+
 const Vtabs = ({
 	children,
 	tabs,
