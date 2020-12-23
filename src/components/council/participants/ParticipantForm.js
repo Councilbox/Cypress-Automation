@@ -153,7 +153,7 @@ const ParticipantForm = ({
 					}}
 				/>
 			</GridItem>
-			<GridItem xs={6} md={4} lg={2}>
+			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
 					floatingText={translate.phone}
 					type="text"
@@ -166,7 +166,7 @@ const ParticipantForm = ({
 					}
 				/>
 			</GridItem>
-			<GridItem xs={6} md={4} lg={2}>
+			<GridItem xs={6} md={4} lg={3}>
 				<SelectInput
 					floatingText={translate.language}
 					value={participant.language}
@@ -197,7 +197,7 @@ const ParticipantForm = ({
 				</SelectInput>
 			</GridItem>
 			{participant.personOrEntity === 0 &&
-				<GridItem xs={6} md={4} lg={2}>
+				<GridItem xs={6} md={4} lg={3}>
 					<SelectInput
 						floatingText={translate.participation_type}
 						errorText={errors.initialState}
