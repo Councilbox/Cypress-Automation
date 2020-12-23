@@ -12,6 +12,7 @@ import { MenuItem } from "material-ui";
 import { Collapse } from "material-ui";
 import { getSecondary } from "../../../../styles/colors";
 import { isMobile } from "../../../../utils/screen";
+import withWindowSize from "../../../../HOCs/withWindowSize";
 
 const Action = ({ children, loading, onClick, disabled = false, styles }) => {
 	return (
@@ -56,12 +57,14 @@ const RepresentativeForm = ({
 	errors,
 	languages,
 	disabled,
-	setSelectRepresentative
+	setSelectRepresentative,
+	windowSize
 }) => {
 	const representative = state;
+	
 	return (
 		<Grid>
-			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile ? "" : 'flex' }}>
+			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize == 'xs' ? "" : 'flex' }}>
 				<Action
 					disabled={disabled}
 					style={{ display: "flex", alignItems: "center", overflow: "hidden", cursor: "pointer" }}
@@ -145,7 +148,7 @@ const RepresentativeForm = ({
 								}
 							/>
 						</GridItem>
-						<GridItem xs={6} lg={3} md={3}>
+						<GridItem xs={8} lg={3} md={3}>
 							<TextInput
 								floatingText={translate.position}
 								type="text"
@@ -261,4 +264,4 @@ const RepresentativeForm = ({
 	);
 };
 
-export default RepresentativeForm;
+export default withWindowSize(RepresentativeForm);
