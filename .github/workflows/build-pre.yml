@@ -1,9 +1,9 @@
 name: Publish Docker image
 
 on:
-  pull_request:
-    branches:
-      - 'feature/kubernetes-image**'
+  release:
+    types:
+      - prereleased
 
 jobs:
   build:
@@ -22,10 +22,10 @@ jobs:
         run: echo "::set-output name=tag::$(echo $stage'_'$(date +'%Y%m%d%H%M%S'))"
       - name: Image name
         id: image_name
-        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.tag }})"
+        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ github.event.release.tag_name }})"
       - name: mostrar
         id: mostrar
-        run: echo ${{ steps.tag.outputs.tag }}
+        run: echo ${{ github.event.release.tag_name }}
       - name: Copy env
         run: |
               cp docker/environment/test/env .env
@@ -54,5 +54,6 @@ jobs:
               "client_payload": {
                 "environment": "${{ env.stage }}",
                 "service": "${{ env.service_name }}",
+                "actor": "${{ github.actor }}",
                 "image": "${{ steps.image_name.outputs.image_name }}" }}'\
             https://api.github.com/repos/${{ env.state_repo }}/dispatches

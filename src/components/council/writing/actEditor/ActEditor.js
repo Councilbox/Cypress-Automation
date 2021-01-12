@@ -95,6 +95,7 @@ export const CouncilActData = gql`
 			noVoteManual
 			positiveVotings
 			positiveManual
+			recount
 			negativeVotings
 			negativeManual
 			description

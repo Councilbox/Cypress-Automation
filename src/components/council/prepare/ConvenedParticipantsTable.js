@@ -14,7 +14,7 @@ import {
 import { compose, graphql, withApollo } from "react-apollo";
 import { downloadCBXData, updateConveneSends } from "../../../queries";
 import { convenedcouncilParticipants } from "../../../queries/councilParticipant";
-import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
+import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
 import NotificationFilters from "./NotificationFilters";
 import DownloadCBXDataButton from "./DownloadCBXDataButton";
 import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";
@@ -152,19 +152,21 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			canOrder: true
 		},
 		{ text: translate.position },
-		{
+	];
+
+	if(council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
+		headers.push({
 			text: translate.votes,
 			name: "numParticipations",
 			canOrder: true
-		}
-	];
-
-	if (participations) {
-		headers.push({
-			text: translate.census_type_social_capital,
-			name: "socialCapital",
-			canOrder: true
 		});
+		if (participations) {
+			headers.push({
+				text: translate.census_type_social_capital,
+				name: "socialCapital",
+				canOrder: true
+			});
+		}
 	}
 
 	if (CBX.councilIsNotified(council)) {
@@ -352,7 +354,7 @@ class HoverableRow extends React.Component {
 		const { delegate, notifications } = participant;
 
 		const voteParticipantInfo = (
-			participant.live.state === PARTICIPANT_STATES.DELEGATED ?
+			(participant.live.state === PARTICIPANT_STATES.DELEGATED && delegate) ?
 				<React.Fragment>
 					<br />
 					{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
@@ -490,37 +492,41 @@ class HoverableRow extends React.Component {
 						</React.Fragment>
 					}
 				</TableCell>
-				<TableCell>
-					{`${
-						CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
-						} (${participant.numParticipations > 0 ? (
-							(participant.numParticipations /
-								totalVotes) *
-							100
-						).toFixed(2) : 0}%)`}
-					{!!representative &&
-						<React.Fragment>
-							<br />
-						</React.Fragment>
-					}
-				</TableCell>
-				{this.props.participations && (
-					<TableCell>
-						{`${
-							CBX.showNumParticipations(participant.socialCapital, this.props.company, council.statute)
-							} (${participant.socialCapital > 0 ?
-								((participant.socialCapital / socialCapital) * 100).toFixed(2)
-								:
-								0
-							}%)`}
-						{!!representative &&
-							<React.Fragment>
-								<br />
-							</React.Fragment>
-						}
-					</TableCell>
-				)}
+				{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
+					<>
+						<TableCell>
+							{`${
+								CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
+								} (${participant.numParticipations > 0 ? (
+									(participant.numParticipations /
+										totalVotes) *
+									100
+								).toFixed(2) : 0}%)`}
+							{!!representative &&
+								<React.Fragment>
+									<br />
+								</React.Fragment>
+							}
+						</TableCell>
+						{this.props.participations && (
+							<TableCell>
+								{`${
+									CBX.showNumParticipations(participant.socialCapital, this.props.company, council.statute)
+									} (${participant.socialCapital > 0 ?
+										((participant.socialCapital / socialCapital) * 100).toFixed(2)
+										:
+										0
+									}%)`}
+								{!!representative &&
+									<React.Fragment>
+										<br />
+									</React.Fragment>
+								}
+							</TableCell>
+						)}
+					</>
 
+				}
 				{this.props.cbxData &&
 					<TableCell>
 						<div style={{ width: '4em' }}>

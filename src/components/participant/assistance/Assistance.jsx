@@ -1,27 +1,21 @@
 import React from "react";
 import { Card, Icon } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
-import { checkForUnclosedBraces, councilIsPreparing, councilStarted } from "../../../utils/CBX";
+import { checkForUnclosedBraces, councilStarted } from "../../../utils/CBX";
 import AssistanceOption from "./AssistanceOption";
 import { compose, graphql } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
-import { PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
-import { BasicButton, ButtonIcon, NotLoggedLayout, SectionTitle, LiveToast, Scrollbar, Checkbox } from '../../../displayComponents';
+import { PARTICIPANT_STATES } from "../../../constants";
+import { BasicButton, ButtonIcon, NotLoggedLayout, LiveToast, Scrollbar, Checkbox } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import DelegateOwnVoteAttendantModal from "./DelegateOwnVoteAttendantModal";
 import RefuseDelegationConfirm from '../delegations/RefuseDelegationConfirm';
-import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning';
-import DelegationItem from "./DelegationItem";
 import DelegationProxyModal from './DelegationProxyModal';
-import { canDelegateVotes } from "../../../utils/CBX"
 import { getPrimary } from "../../../styles/colors";
 import { toast } from 'react-toastify';
 import { participantsToDelegate } from "../../../queries";
-import AddRepresentativeModal from "../../council/live/AddRepresentativeModal";
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
-import { CONSENTIO_ID } from "../../../config";
 import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
-import withWindowSize from "../../../HOCs/withWindowSize";
 import { isMobile } from "../../../utils/screen";
 import CouncilState from "../login/CouncilState";
 import { moment } from "../../../containers/App";
@@ -94,6 +88,12 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				defaultIntention = PARTICIPANT_STATES.SENT_VOTE_LETTER;
 			default:
 				defaultIntention = PARTICIPANT_STATES.PRESENT;
+		}
+
+		if(participant.personOrEntity === 1 && !participant.delegateId){
+			return {
+				assistanceIntention: null
+			}
 		}
 
 		if (participant.represented && participant.represented.length > 0) {
@@ -183,8 +183,19 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	}
 
 	const sendAttendanceIntention = async signature => {
+		if(state.assistanceIntention === null || (participant.personOrEntity === 1 && state.delegateId === null)){
+			setState({
+				...state,
+				error: true,
+				invalidIntentioError: true
+			});
+	
+			return;
+		}
+
 		setState({
 			...state,
+			invalidIntentioError: false,
 			loading: true
 		});
 
@@ -224,13 +235,15 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				...state,
 				loading: false,
 				locked: true,
-				success: true
+				success: true,
+				invalidIntentioError: false,
 			})
 			refetch();
 		} else {
 			setState({
 				...state,
-				commentError: true
+				commentError: true,
+				invalidIntentioError: false,
 			})
 			toast(
 				<LiveToast
@@ -318,6 +331,9 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	const getReunionActual = () => {
 		return (
 			<div style={{}}>
+				{state.invalidIntentioError && 
+					<span style={{ color: 'red', fontSize: '16px', fontWeight: '700' }}>{translate.must_select_valid_option}</span>
+				}
 				<div style={{ marginTop: "2em" }}>
 					{council.confirmAssistance !== 0 &&
 						<React.Fragment>

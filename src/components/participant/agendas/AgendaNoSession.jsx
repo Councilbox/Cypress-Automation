@@ -398,9 +398,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                         }
                                         {data.agendas ?
                                             <React.Fragment>
-                                                {agendas.filter(item => {
-                                                    return (council.councilType !== COUNCIL_TYPES.ONE_ON_ONE || CBX.agendaVotingsOpened(item))
-                                                }).map((agenda, index) => {
+                                                {agendas.map((agenda, index) => {
                                                     return (
                                                         <React.Fragment key={`agenda_card_${index}`} >
                                                             <div ref={el => { itemRefs[agenda.id] = el }}>
@@ -624,7 +622,11 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, client, 
                                 fontWeight: '700'
                             }}
                         >
-                            {`${translate.vote_registered} (${moment(ownVote.date).format('LLL')})`}
+                            {CBX.isConfirmationRequest(agenda.subjectType) ?
+                                `${translate.answer_registered} (${moment(ownVote.date).format('LLL')})`
+                            :
+                                `${translate.vote_registered} (${moment(ownVote.date).format('LLL')})`
+                            }
                         </Button>
                     }
                 </CardActions>

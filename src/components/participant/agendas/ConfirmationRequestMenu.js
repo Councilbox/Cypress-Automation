@@ -8,8 +8,6 @@ import { VotingContext } from './AgendaNoSession';
 import { voteAllAtOnce } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 import { isMobile } from '../../../utils/screen';
-import { CONSENTIO_ID } from '../../../config';
-import { councilRecount } from '../../../queries/council';
 import * as CBX from '../../../utils/CBX';
 import { AGENDA_STATES } from '../../../constants';
 import { agendaRecountQuery } from '../../council/live/ActAgreements';

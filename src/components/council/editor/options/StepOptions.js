@@ -394,8 +394,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					/>
 					<Checkbox
 						label={translate.full_video_record}
-						value={council.councilType === 5}
-						disabled={true}
+						value={council.fullVideoRecord !== 0}
+						onChange={(event, isInputChecked) =>
+							updateCouncilData({
+								fullVideoRecord: isInputChecked ? 1 : 0
+							})
+						}
 					/>
 				</>
 			),

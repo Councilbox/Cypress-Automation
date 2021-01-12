@@ -105,7 +105,8 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 				props.deleteButton &&
 					<DeleteAgendaButton
 						agenda={agenda}
-						refetch={props.refetch}
+                        refetch={props.refetch}
+                        requestClose={props.requestClose}
 						council={props.council}
 						translate={translate}
 					/>
@@ -134,7 +135,7 @@ const updateCustomAgenda = gql`
 
 
 const cleanObject = object => {
-    const { __typename, items, options, attachments, ballots, qualityVoteSense, ...rest } = object;
+    const { __typename, items, options, attachments, ballots, qualityVoteSense, votingsRecount, ...rest } = object;
     return rest;
 }
 

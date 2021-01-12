@@ -60,7 +60,7 @@ const initScreenSizes = size => {
 
 
 
-const CouncilLivePage = ({ translate, data, ...props }) => {
+const CouncilLivePage = ({ translate, data, company, ...props }) => {
 	const [state, setState] = useOldState({
 		tab: data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? 'ATTACHMENTS' : 'AGENDA',
 		wall: false,
@@ -70,7 +70,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 		...initScreenSizes(localStorage.getItem('screenSize') || 'MIN')
 	});
 	const agendaManager = React.useRef(null);
-	const company = props.companies.list[props.companies.selected];
+	//const company = props.companies.list[props.companies.selected];
 
 	const updateMinSizes = React.useCallback(() => {
 		minVideoWidth = calcMinWidth();

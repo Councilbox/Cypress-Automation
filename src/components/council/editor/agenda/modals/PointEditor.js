@@ -23,6 +23,7 @@ import { addAgendaAttachment } from "../../../../../queries";
 import { useOldState } from "../../../../../hooks";
 import gql from 'graphql-tag';
 import DeleteAgendaButton from "./DeleteAgendaButton";
+import { AGENDA_TYPES } from "../../../../../constants";
 
 
 const PointEditor = ({ agenda, translate, company, council, requestClose, open, ...props }) => {
@@ -61,21 +62,25 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 			}
 		}	
 
-
 		setState({
-			description: correctedText,
-			majority: draft.majority,
-			majorityType,
-			majorityDivider: draft.majorityDivider,
-			subjectType,
-			agendaSubject: draft.title
+			...(state.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
+				description: correctedText,
+				agendaSubject: draft.title,
+			} : {
+				description: correctedText,
+				majority: draft.majority,
+				majorityType,
+				majorityDivider: draft.majorityDivider,
+				subjectType,
+				agendaSubject: draft.title,
+			})
 		});
 		editor.current.setValue(correctedText);
 	};
 
 	const saveChanges = async () => {
 		if (!checkRequiredFields()) {
-			const { __typename, items, options, ballots, attachments: a, qualityVoteSense, ...data } = state;
+			const { __typename, items, options, ballots, attachments: a, qualityVoteSense, votingsRecount, ...data } = state;
 			const response = await props.updateAgenda({
 				variables: {
 					agenda: {
@@ -184,12 +189,22 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 						loadDraft={loadDraft}
 						statute={statute}
 						defaultTags={{
-							"agenda": {
-								active: true,
-								type: TAG_TYPES.DRAFT_TYPE,
-								name: 'agenda',
-								label: translate.agenda
-							},
+							...(state.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
+								"confirmation_request": {
+									active: true,
+									childs: null,
+									label: translate.confirmation_request,
+									name: "confirmation_request",
+									type: 3
+								},
+							} : {
+								"agenda": {
+									active: true,
+									type: 2,
+									name: 'agenda',
+									label: translate.agenda
+								},
+							}),
 							...CBX.generateStatuteTag(statute, translate)
 						}}
 						statutes={companyStatutes}
@@ -215,32 +230,52 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 							/>
 						</GridItem>
 						<GridItem xs={12} md={3} lg={3}>
-							<SelectInput
-								floatingText={translate.type}
-								value={agenda.subjectType}
-								errorText={errors.subjectType}
-								onChange={event =>
-									updateState({
-										subjectType: event.target.value
-									})
-								}
-								required
-							>
-								{filteredTypes.map(voting => {
-									return (
-										<MenuItem
-											value={voting.value}
-											key={`voting${voting.value}`}
-										>
-											{translate[voting.label]}
-										</MenuItem>
-									);
-								})}
-							</SelectInput>
+							{agenda.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ?
+								<SelectInput
+									floatingText={translate.type}
+									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
+									disabled={true}
+									onChange={event =>
+										updateState({
+											subjectType: +event.target.value
+										})
+									}
+									required
+								>
+									<MenuItem
+										value={AGENDA_TYPES.CONFIRMATION_REQUEST}
+									>
+										{translate.confirmation_request}
+									</MenuItem>
+								</SelectInput>
+							:
+								<SelectInput
+									floatingText={translate.type}
+									value={agenda.subjectType}
+									errorText={errors.subjectType}
+									onChange={event =>
+										updateState({
+											subjectType: event.target.value
+										})
+									}
+									required
+								>
+									{filteredTypes.map(voting => {
+										return (
+											<MenuItem
+												value={voting.value}
+												key={`voting${voting.value}`}
+											>
+												{translate[voting.label]}
+											</MenuItem>
+										);
+									})}
+								</SelectInput>
+							}
 						</GridItem>
 					</Grid>
 
-					{CBX.hasVotation(agenda.subjectType) && (
+					{(CBX.hasVotation(agenda.subjectType) && !CBX.isConfirmationRequest(agenda.subjectType)) && (
 						<Grid>
 							<GridItem xs={6} lg={3} md={3}>
 								<SelectInput
@@ -367,6 +402,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 				props.deleteButton &&
 					<DeleteAgendaButton
 						agenda={agenda}
+						requestClose={requestClose}
 						refetch={props.refetch}
 						council={council}
 						translate={translate}

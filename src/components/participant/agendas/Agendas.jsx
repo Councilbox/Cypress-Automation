@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import AgendaNoSession from "./AgendaNoSession";
 import { isMobile } from '../../../utils/screen';
 import { getSubjectAbrv } from '../../../displayComponents/AgendaNumber';
+import { COUNCIL_TYPES } from "../../../constants";
 
 
 class Agendas extends React.Component {
@@ -58,11 +59,13 @@ class Agendas extends React.Component {
         if (prevProps.data.agendas) {
             const { agendas: actualAgendas } = this.props.data;
             prevProps.data.agendas.forEach((agenda, index) => {
-                let agendaToCheck = agenda.id === actualAgendas[index].id ?
+                let agendaToCheck = agenda.id === (actualAgendas[index] && actualAgendas[index].id) ?
                     actualAgendas[index]
                     :
                     actualAgendas.find(item => item.id === agenda.id)
                     ;
+
+                if(!agendaToCheck) return;
                 if (!agendaPointOpened(agenda) && agendaPointOpened(agendaToCheck)) {
                     if (this.agendaStateToastId) {
                         toast.dismiss(this.agendaStateToastId);
@@ -108,7 +111,7 @@ class Agendas extends React.Component {
 
     toastChanges = (message, onClose) => {
         this.props.setAgendaBadge(true);
-        if (!isMobile) {
+        if (!isMobile && this.props.council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) {
             toast(
                 <LiveToast
                     message={message}

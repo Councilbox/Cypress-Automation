@@ -9,10 +9,36 @@ import { isMobile } from "../utils/screen";
 import { bHistory, store } from "./App";
 import { addSpecificTranslations } from "../actions/companyActions";
 import { checkCouncilState } from "../utils/CBX";
-import { graphql } from "react-apollo";
+import { graphql, withApollo } from "react-apollo";
 import { councilLiveQuery } from "../queries";
+import { usePolling } from "../hooks";
 
-const CouncilLiveContainer = ({ main, companies, data, translate }) => {
+const CouncilLiveContainer = ({ main, companies, translate, match, client }) => {
+	const [data, setData] = React.useState({});
+	const [loading, setLoading] = React.useState(true);
+
+	const getData = React.useCallback(async() => {
+		const response = await client.query({
+			query: councilLiveQuery,
+			variables: {
+				councilID: +match.params.id
+			},
+		});
+		setData({
+			...response.data,
+			refetch: getData
+		});
+		if(loading){
+			setLoading(false);
+		}
+	}, [match.params.id])
+
+	React.useEffect(() => {
+		getData();
+	}, [getData])
+
+	usePolling(getData, 10000)
+
 	React.useEffect(() => {
 		const company = companies.list[companies.selected];
 		if(company){
@@ -21,7 +47,7 @@ const CouncilLiveContainer = ({ main, companies, data, translate }) => {
 	}, [store, companies.selected]);
 
 	React.useEffect(() => {
-		if (!data.loading) {
+		if (!loading) {
 			const company = companies.list[companies.selected];
 
 			checkCouncilState(
@@ -35,10 +61,10 @@ const CouncilLiveContainer = ({ main, companies, data, translate }) => {
 			);
 		}
 
-	}, [data.loading, data.council]);
+	}, [loading, data.council]);
 
 	const checkLoadingComplete = () => {
-		return data.council && companies.list;
+		return !loading && data.council && companies.list;
 	};
 
 	if (!main.isLogged) {
@@ -64,6 +90,7 @@ const CouncilLiveContainer = ({ main, companies, data, translate }) => {
 			}
 			{!isMobile?
 				<CouncilLivePage
+					company={companies.list[companies.selected]}
 					companies={companies}
 					translate={translate}
 					data={data}
@@ -85,12 +112,4 @@ const mapStateToProps = state => ({
 	main: state.main
 });
 
-export default graphql(councilLiveQuery, {
-	name: "data",
-	options: props => ({
-		variables: {
-			councilID: +props.match.params.id
-		},
-		pollInterval: 10000
-	})
-})(connect(mapStateToProps)(withRouter(CouncilLiveContainer)));
+export default connect(mapStateToProps)(withRouter(withApollo(CouncilLiveContainer)));

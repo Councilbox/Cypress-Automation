@@ -5,7 +5,7 @@ import { BasicButton, ButtonIcon } from "../../../displayComponents";
 import { moment } from "../../../containers/App";
 import { getPrimary } from "../../../styles/colors";
 import { useOldState } from "../../../hooks";
-import { isAnonym } from '../../../utils/CBX';
+import { isAnonym, isConfirmationRequest } from '../../../utils/CBX';
 import gql from 'graphql-tag';
 import { isMobile } from "../../../utils/screen";
 
@@ -91,7 +91,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 		return (
 			<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {})  }}>
 				<BasicButton
-					text={translate.reopen_voting}
+					text={isConfirmationRequest(agenda.subjectType) ? translate.open_to_answer : translate.reopen_voting}
 					color={'white'}
 					loading={loading}
 					disabled={loading}
@@ -121,7 +121,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 			{agenda.votingState === 0 && (
 				<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {})  }}>
 					<BasicButton
-						text={translate.active_votings}
+						text={isConfirmationRequest(agenda.subjectType) ? translate.open_to_answer : translate.active_votings}
 						color={"white"}
 						loading={loading}
 						disabled={loading}
@@ -177,7 +177,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 						:
 						<div style={{ width: "100%", ...(!isMobile? { float: 'right' } : {}) }}>
 							<BasicButton
-								text={translate.close_point_votations}
+								text={isConfirmationRequest(agenda.subjectType) ? translate.close_answers : translate.close_point_votations}
 								color={primary}
 								loading={loading}
 								disabled={loading}

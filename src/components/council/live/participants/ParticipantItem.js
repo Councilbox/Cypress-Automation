@@ -9,7 +9,6 @@ import TypeIcon from "./TypeIcon";
 import { removeHTMLTags, isRepresented, hasHisVoteDelegated, getMainRepresentative } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
-import { DropDownMenu } from '../../../../displayComponents';
 import ParticipantStateList from "./ParticipantStateList";
 import { COUNCIL_TYPES } from "../../../../constants";
 
@@ -289,7 +288,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								</Typography>
 							</Tooltip>
 						</div>
-						{hasHisVoteDelegated(participant)?
+						{(hasHisVoteDelegated(participant) && !!participant.representative) ?
 							<div
 								style={{
 									display: "flex",

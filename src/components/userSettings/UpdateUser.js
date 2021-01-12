@@ -63,6 +63,14 @@ class UpdateUserForm extends React.Component {
 			});
 
 			if (response.errors) {
+				if(response.errors[0].message === 'Code already used'){
+					this.setState({
+						errors: {
+							code: 'Código ya en uso'
+						}
+					});
+				}
+
 				this.setState({
 					error: true,
 					loading: false,
@@ -189,6 +197,7 @@ class UpdateUserForm extends React.Component {
 								data={data}
 								updateState={this.updateState}
 								errors={errors}
+								admin={this.props.admin}
 								onKeyUp={this.onKeyUp}
 								languages={this.props.languages}
 								translate={translate}

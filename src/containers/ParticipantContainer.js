@@ -64,6 +64,8 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 			}, async error => {
 				json = await getDataFromBackend();
 				setConnectionData(json);
+			}, {
+				timeout: 2000
 			});
         } else {
 			json = await getDataFromBackend();

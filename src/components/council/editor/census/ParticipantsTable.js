@@ -6,7 +6,7 @@ import * as CBX from "../../../../utils/CBX";
 import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm } from "../../../../displayComponents";
 import { compose, graphql } from "react-apollo";
 import { deleteParticipant } from "../../../../queries/councilParticipant";
-import { PARTICIPANTS_LIMITS } from "../../../../constants";
+import { COUNCIL_TYPES, PARTICIPANTS_LIMITS } from "../../../../constants";
 import ChangeCensusMenu from "./ChangeCensusMenu";
 import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
 import { useOldState, useHoverRow } from "../../../../hooks";
@@ -134,20 +134,25 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 			name: "position",
 			canOrder: true
 		},
-		{
+
+	];
+
+	if(council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
+		headers.push({
 			text: translate.votes,
 			name: "numParticipations",
 			canOrder: true
-		}
-	];
-
-	if (participations) {
-		headers.push({
-			text: translate.census_type_social_capital,
-			name: "socialCapital",
-			canOrder: true
 		});
+
+		if (participations) {
+			headers.push({
+				text: translate.census_type_social_capital,
+				name: "socialCapital",
+				canOrder: true
+			});
+		}
 	}
+
 	headers.push({ text: '' });
 
 	return (
@@ -156,7 +161,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				translate={translate}
 				council={council}
 				participations={participations}
-				disabled={council.councilType === 5 && councilParticipants.list.length > 0}
+				disabled={council.councilType === 5 && councilParticipants && councilParticipants.list.length > 0}
 				refetch={refresh}
 				handleCensusChange={props.handleCensusChange}
 				reloadCensus={props.reloadCensus}
@@ -246,6 +251,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 											selected={state.selectedIds.has(participant.id)}
 											totalSocialCapital={totalSocialCapital}
 											totalVotes={totalVotes}
+											council={council}
 											participations={participations}
 											translate={translate}
 											representative={participant.representative}
@@ -263,7 +269,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	);
 }
 
-const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props }) => {
+const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props }) => {
 	const [showActions, rowHandlers] = useHoverRow();
 
 	if(isMobile){
@@ -397,40 +403,46 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, totalVo
 					</React.Fragment>
 				}
 			</TableCell>
-			<TableCell>
-				{!CBX.isRepresentative(
-					participant
-				) &&
-					`${
-						participant.numParticipations
-					} (${participant.numParticipations > 0?(
-						(participant.numParticipations /
-							totalVotes) *
-						100
-					).toFixed(2): 0}%)`
-				}
-				{!!representative &&
-					<br/>
-				}
-			</TableCell>
-			{participations && (
-				<TableCell>
-					{!CBX.isRepresentative(
-						participant
-					) &&
-						`${
-							participant.socialCapital
-						} (${participant.socialCapital > 0?(
-							(participant.socialCapital /
-								totalSocialCapital) *
-							100
-						).toFixed(2): 0}%)`
-					}
-					{!!representative &&
-						<br/>
-					}
-				</TableCell>
-			)}
+			{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
+				<>
+					<TableCell>
+						{!CBX.isRepresentative(
+							participant
+						) &&
+							`${
+								participant.numParticipations
+							} (${participant.numParticipations > 0?(
+								(participant.numParticipations /
+									totalVotes) *
+								100
+							).toFixed(2): 0}%)`
+						}
+						{!!representative &&
+							<br/>
+						}
+					</TableCell>
+					{participations && (
+						<TableCell>
+							{!CBX.isRepresentative(
+								participant
+							) &&
+								`${
+									participant.socialCapital
+								} (${participant.socialCapital > 0?(
+									(participant.socialCapital /
+										totalSocialCapital) *
+									100
+								).toFixed(2): 0}%)`
+							}
+							{!!representative &&
+								<br/>
+							}
+						</TableCell>
+					)}
+				</>
+
+			}
+			
 			<TableCell>
 				<div style={{width: '6em'}}>
 

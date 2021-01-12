@@ -55,6 +55,10 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	const agendaDetails = React.useRef();
 
 	const getData = React.useCallback(async () => {
+		if(!company){
+			return;
+		}
+
 		const response = await client.query({
 			query: agendaManager,
 			variables: {
@@ -64,7 +68,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 		});
 
 		dispatch({ type: 'LOAD_DATA', value: response.data });
-	}, [council.id]);
+	}, [council.id, company]);
 
 	usePolling(getData, 5000);
 
@@ -272,14 +276,6 @@ export const agendaManager = gql`
 				id
 				value
 			}
-			ballots {
-				id
-				weight
-				admin
-				value
-				participantId
-				itemId
-			}
 			options {
 				maxSelections
 				minSelections
@@ -295,6 +291,7 @@ export const agendaManager = gql`
 				councilId
 				state
 			}
+			votingsRecount
 			comment
 			commentRightColumn
 			councilId
@@ -302,6 +299,14 @@ export const agendaManager = gql`
 			dateEndVotation
 			dateStart
 			dateStartVotation
+			ballots {
+				id
+				weight
+				admin
+				value
+				participantId
+				itemId
+			}
 			description
 			id
 			majority

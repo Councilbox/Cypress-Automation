@@ -285,7 +285,7 @@ class ImportCensusButton extends React.Component {
 		if (invalidEmails.length > 0) {
 			this.setState({
 				step: 4,
-				invalidEmails: invalidEmails
+				invalidEmails
 			});
 			return;
 		}
@@ -380,7 +380,7 @@ class ImportCensusButton extends React.Component {
 			}
 		}
 		const participantError = this.checkRequiredFields(participant, true);
-		if (participantError) {
+		if (participantError || errors) {
 			return { ...errors, ...participantError };
 		}
 
@@ -411,7 +411,6 @@ class ImportCensusButton extends React.Component {
 		if (participantError) {
 			return participantError;
 		}
-
 		const numParticipations = participant.numParticipations ?
 			participant.numParticipations.replace(/[.,]/g, '') :
 			participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
@@ -446,6 +445,7 @@ class ImportCensusButton extends React.Component {
 			r_name: '',
 			hasError: false,
 			r_dni: '',
+			r_email: '',
 			r_phone: ''
 		}
 
@@ -454,6 +454,8 @@ class ImportCensusButton extends React.Component {
 				errors.email = required;
 				errors.hasError = true;
 			}
+
+
 
 			if (!participant.name) {
 				errors.name = required;
@@ -484,6 +486,12 @@ class ImportCensusButton extends React.Component {
 				errors.r_name = required;
 				errors.hasError = true;
 			}
+			if (participant.r_email) {
+				if (!checkValidEmail(participant.r_email)) {
+					errors.r_email = required;
+					errors.hasError = true;
+				}
+			}
 		}
 
 		return errors.hasError ? errors : false;
@@ -492,17 +500,7 @@ class ImportCensusButton extends React.Component {
 	buildErrorString = (errors) => {
 		const translate = this.props.translate;
 
-		let string = `${translate.entry}: ${
-			errors.line}: ${
-			errors.name ? `${translate.name}, ` : ''}${
-			errors.surname ? `${translate.new_surname}, ` : ''}${
-			errors.dni ? `${translate.dni}, ` : ''}${
-			errors.phone ? `${translate.phone}, ` : ''}${
-			errors.email ? `${translate.login_email}, ` : ''}${
-			errors.r_name ? `${translate.entity_name}, ` : ''}${
-			errors.r_dni ? `${translate.entity_cif}, ` : ''}${
-			errors.r_phone ? `${translate.entity_phone}, ` : ''}${
-			errors.r_email ? `${translate.entity_email}, ` : ''
+		let string = `${translate.entry}: ${errors.line}: ${errors.name ? `${translate.name}, ` : ''}${errors.surname ? `${translate.new_surname}, ` : ''}${errors.dni ? `${translate.dni}, ` : ''}${errors.phone ? `${translate.phone}, ` : ''}${errors.email ? `${translate.login_email}, ` : ''}${errors.r_name ? `${translate.entity_name}, ` : ''}${errors.r_dni ? `${translate.entity_cif}, ` : ''}${errors.r_phone ? `${translate.entity_phone}, ` : ''}${errors.r_email ? `${translate.entity_email}, ` : ''
 			}`;
 		if (string.charAt(string.length - 2) === ',') {
 			string = string.substr(0, string.length - 2) + '.';
@@ -661,54 +659,66 @@ class ImportCensusButton extends React.Component {
 								</div>
 							)}
 							{step === 4 && (
-								<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
-									<div
-										style={{
-											fontSize: '1.2em',
-											color: primary,
-											fontWeight: '700',
-										}}
-									>
-										{translate.attention}
-									</div>
-									{translate.import_can_not_be_done}<br />
-									{translate.please_correct_errors_and_resend}
-									<div
-										style={{ width: '100%' }}
-									>
-										{this.state.invalidEmails.map((item, index) => (
-											<React.Fragment key={`invalidEmails_${item.line}`}>
-												{this.buildErrorString(item)}<br />
-											</React.Fragment>
-										))}
+								<div>
+									<div style={{ height: '70vh', overflow: "hidden" }}>
+										<div style={{ height: 'calc( 100% - 4em )' }}>
+											<Scrollbar>
+												<div
+													style={{
+														fontSize: '1.2em',
+														color: primary,
+														fontWeight: '700',
+													}}
+												>
+													{translate.attention}
+												</div>
+												{translate.import_can_not_be_done}<br />
+												{translate.please_correct_errors_and_resend}
+												<div
+													style={{ width: '100%' }}
+												>
+													{this.state.invalidEmails.map((item, index) => (
+														<React.Fragment key={`invalidEmails_${item.line}`}>
+															{this.buildErrorString(item)}<br />
+														</React.Fragment>
+													))}
+												</div>
+											</Scrollbar>
+										</div>
 									</div>
 								</div>
 							)}
 							{step === 5 && (
-								<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
-									<div
-										style={{
-											fontSize: '1.2em',
-											color: primary,
-											fontWeight: '700',
-										}}
-									>
-										{translate.attention}
-									</div>
-								No se puede realizar la importación.<br />
-									{this.state.duplicatedType === 'DB' ?
-										translate.following_emails_already_present_in_current_census
-										:
-										translate.following_emails_are_duplicated_in_sent_file
-									}
-									<div
-										style={{ width: '100%' }}
-									>
-										{this.state.invalidEmails.map((item, index) => (
-											<React.Fragment key={`invalidEmails_${item[0]}`}>
-												{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
-											</React.Fragment>
-										))}
+								<div>
+									<div style={{ height: '70vh', overflow: "hidden" }}>
+										<div style={{ height: 'calc(100%)' }}>
+											<Scrollbar>
+												<div
+													style={{
+														fontSize: '1.2em',
+														color: primary,
+														fontWeight: '700',
+													}}
+												>
+													{translate.attention}
+												</div>
+													No se puede realizar la importación.<br />
+												{this.state.duplicatedType === 'DB' ?
+													translate.following_emails_already_present_in_current_census
+													:
+													translate.following_emails_are_duplicated_in_sent_file
+												}
+												<div
+													style={{ width: '100%' }}
+												>
+													{this.state.invalidEmails.map((item, index) => (
+														<React.Fragment key={`invalidEmails_${item[0]}`}>
+															{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
+														</React.Fragment>
+													))}
+												</div>
+											</Scrollbar>
+										</div>
 									</div>
 								</div>
 							)}
