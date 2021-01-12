@@ -373,7 +373,7 @@ export const filterAgendaVotingTypes = (votingTypes, statute = {}, council = {})
 			type.label !== 'text' &&
 			type.label !== 'custom_nominal_point' &&
 			type.label !== 'custom_anonym_point' &&
-			type.label !== 'custom_public_point');
+			type.label !== 'custom_public_point' && type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST);
 	}
 
 	if(council.councilType === 3){
