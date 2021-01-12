@@ -27,6 +27,7 @@ import { ConfigContext } from "../../../../../containers/AppControl";
 import { isMobile } from "../../../../../utils/screen";
 import AddConvenedParticipantButton from "../../../prepare/modals/AddConvenedParticipantButton";
 import { hasParticipations } from "../../../../../utils/CBX";
+import { COUNCIL_TYPES } from "../../../../../constants";
 
 
 const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {
@@ -61,6 +62,10 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 
 
 	const _renderAddGuestButton = () => {
+		if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+			return null;
+		}
+		
 		return (
 			<Tooltip title="ALT + G">
 				<div>
