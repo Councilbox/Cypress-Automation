@@ -10,28 +10,29 @@ import { LoadingSection, BasicButton, NotLoggedLayout } from '../../displayCompo
 import logo from "../../assets/img/logo-icono.png";
 
 
-class ActiveUserPage extends React.Component {
-
-    state = {
+const ActiveUserPage = ({ match, translate, activeUser }) => {
+    const [state, setState] = React.useState({
         loading: true,
         success: false,
         error: ''
-    }
+    });
 
-    async componentDidMount(){
-        const response = await this.props.activeUser({
+    const activateUser = async () => {
+        const response = await activeUser({
             variables: {
-                token: this.props.match.params.token
+                token: match.params.token
             }
         });
 
         if(!response.errors){
-            this.setState({
+            setState({
+                ...state,
                 loading: false,
                 success: true
             });
         }else{
-            this.setState({
+            setState({
+                ...state,
                 loading: false,
                 success: false,
                 error: response.errors[0].code
@@ -39,7 +40,11 @@ class ActiveUserPage extends React.Component {
         }
     }
 
-    errorWrapper = () => {
+    React.useEffect(() => {
+        activateUser();
+    }, [match.params.token]);
+
+    const errorWrapper = () => {
         return(
             <div
                 style={{
@@ -49,16 +54,16 @@ class ActiveUserPage extends React.Component {
                     marginBottom: '1.3em'
                 }}
             >
-                {this.state.error === 407?
-                    this.props.translate.account_actived_yet
+                {state.error === 407?
+                    translate.account_actived_yet
                 :
-                    this.props.translate.error_active_account
+                    translate.error_active_account
                 }
             </div>
         )
     }
 
-    successMessage = () => {
+    const successMessage = () => {
         return (
             <div
                 style={{
@@ -68,66 +73,64 @@ class ActiveUserPage extends React.Component {
                     marginBottom: '1.3em'
                 }}
             >
-                {this.props.translate.account_actived}
+                {translate.account_actived}
             </div>
         )
     }
 
-    render(){
-        return(
-            <NotLoggedLayout
-				translate={this.props.translate}
-				helpIcon={true}
-				languageSelector={true}
-			>
-                <div
-					className="row"
-					style={{
-						width: "100%",
-						margin: 0,
-						fontSize: "0.85em",
-						height: "100%",
+    return(
+        <NotLoggedLayout
+            translate={translate}
+            helpIcon={true}
+            languageSelector={true}
+        >
+            <div
+                className="row"
+                style={{
+                    width: "100%",
+                    margin: 0,
+                    fontSize: "0.85em",
+                    height: "100%",
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
+                <Paper
+                    style={{
+                        width: '600px',
+                        height: '60vh',
                         display: 'flex',
+                        fontSize: '1.2em',
                         alignItems: 'center',
-                        justifyContent: 'center'
-					}}
-				>
-                    <Paper
-                        style={{
-                            width: '600px',
-                            height: '60vh',
-                            display: 'flex',
-                            fontSize: '1.2em',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'column'
-                        }}
-                    >
-                        {this.state.loading?
-                            <LoadingSection />
-                        :
-                            <React.Fragment>
-                                <img src={logo} style={{height: '6em', marginBottom: '0.6em'}} alt="councibox-icon" />
-                                {this.state.error &&
-                                    this.errorWrapper()
-                                }
-                                {this.state.success &&
-                                    this.successMessage()
-                                }
-                                <BasicButton
-                                    text={this.props.translate.go_login}
-                                    textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
-                                    color={getPrimary()}
-                                    onClick={() => bHistory.push('/')}
-                                />
-                            </React.Fragment>
-                        }
+                        justifyContent: 'center',
+                        flexDirection: 'column'
+                    }}
+                >
+                    {state.loading?
+                        <LoadingSection />
+                    :
+                        <React.Fragment>
+                            <img src={logo} style={{height: '6em', marginBottom: '0.6em'}} alt="councibox-icon" />
+                            {state.error &&
+                                errorWrapper()
+                            }
+                            {state.success &&
+                                successMessage()
+                            }
+                            <BasicButton
+                                text={translate.go_login}
+                                textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                                color={getPrimary()}
+                                onClick={() => bHistory.push('/')}
+                            />
+                        </React.Fragment>
+                    }
 
-                    </Paper>
-                </div>
-            </NotLoggedLayout>
-        )
-    }
+                </Paper>
+            </div>
+        </NotLoggedLayout>
+    )
 }
 
 const activeUser = gql`
