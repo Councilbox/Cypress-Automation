@@ -9,7 +9,7 @@ import AnnouncementModal from './AnnouncementModal';
 import NoCelebrateModal from "./NoCelebrateModal";
 import OriginalConveneModal from "./OriginalConveneModal";
 import CouncilInfoModal from "./CouncilInfoModal";
-import { councilHasVideo, councilIsLive, councilStarted,  } from '../../../../utils/CBX';
+import { councilHasVideo, councilIsLive, councilStarted, } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from "./SMSManagerModal";
 import { isMobile } from "../../../../utils/screen";
@@ -182,6 +182,9 @@ class CouncilMenu extends React.Component {
 											name="info"
 											style={{
 												marginRight: "0.8em",
+												width: "15px",
+												display: "flex",
+												justifyContent: "center",
 												color: secondary
 											}}
 										/>
