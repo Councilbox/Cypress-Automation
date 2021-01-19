@@ -19,7 +19,8 @@ import DelegationDocuments from './DelegationDocuments';
 import NavigationHeader from './NavigationHeader';
 import VoteLetters from './VoteLetters';
 import Results from './Results';
-import { hasParticipations } from '../../../../utils/CBX';
+import { councilHasComments, hasParticipations } from '../../../../utils/CBX';
+import CommenWallList from './CommenWallList';
 
 
 const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
@@ -91,9 +92,8 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                         </div>
                 );
             }
+        });
 
-        
-        })
         if (props.confirmed) {
             tabs.push({
                 label: translate.sending_the_minutes,
@@ -132,6 +132,26 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             });
         }
     }
+
+
+    if(councilHasComments(council.statute)){
+        tabs.push({
+            label: translate.council_comments,
+            value: 'comments',
+            component: () => {
+                return (
+                    <Scrollbar>
+                        <CommenWallList
+                            council={council}
+                            translate={translate}
+                            refetch={props.refetch}
+                        />
+                    </Scrollbar>
+                );
+            }
+        });
+    }
+
     tabs = [...tabs,
     {
         label: translate.new_list_called,
