@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl.jsx";
 import { refreshWSLink } from "./App";
+import { initLogRocket } from "../utils/logRocket";
 
 const initialState = {
 	loading: true,

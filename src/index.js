@@ -5,8 +5,8 @@ import "./styles/index.css";
 import "react-toastify/dist/ReactToastify.css";
 import { unregister } from './registerServiceWorker';
 import { init } from './utils/analytics';
-init();
 
+init();
 
 if(process.env.REACT_APP_HOTJAR){
     (function(h,o,t,j,a,r){
