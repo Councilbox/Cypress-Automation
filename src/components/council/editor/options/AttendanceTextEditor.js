@@ -1,6 +1,6 @@
 import React from 'react';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
-import { AlertConfirm, BasicButton } from '../../../../displayComponents';
+import { AlertConfirm, BasicButton, UnsavedChangesModal } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getSecondary } from '../../../../styles/colors';
@@ -8,18 +8,33 @@ import { getSecondary } from '../../../../styles/colors';
 
 const AttendanceTextEditor = ({ council, translate, client }) => {
     const [text, setText] = React.useState(council.statute.attendanceText || '');
-    const [modal, setModal] = React.useState(false);
+    const [state, setState] = React.useState({
+        modal: false,
+        unsavedModal: false
+    });
 
     const renderBody = () => {
         return (
             <RichTextInput
                 translate={translate}
                 value={text}
-                onChange={value =>
-                    setText(value)
-                }
+                onChange={value => setText(value)}
             /> 
         )
+    }
+
+    const handleClose = (ev) => {
+        ev.preventDefault();
+        if (text){
+            setState({...state, modal: false, unsavedModal: true});
+        } else{
+            setState({...state, modal: false})
+        }
+    }
+    const discardText = (ev) => {
+        ev.preventDefault();
+        setState({...state, modal: false, unsavedModal: false});
+        setText(council.statute.attendanceText);        
     }
 
     const updateAttendanceText = async () => {
@@ -39,14 +54,14 @@ const AttendanceTextEditor = ({ council, translate, client }) => {
             }
         });
 
-        setModal(false);
+        setState({...state, modal: false, unsavedModal: false});
     }
 
     return (
         <>
             <BasicButton
                 text={text? translate.edit_instructions : translate.add_instructions}
-                onClick={() => setModal(true)}
+                onClick={() => setState({...state, modal: true})}
                 color="white"
                 type="flat"
                 textStyle={{
@@ -54,14 +69,21 @@ const AttendanceTextEditor = ({ council, translate, client }) => {
                 }}
             />
             <AlertConfirm
-                open={modal}
-                requestClose={() => setModal(false)}
+                open={state.modal}
+                requestClose={handleClose}
                 buttonAccept={translate.save}
                 acceptAction={updateAttendanceText}
                 buttonCancel={translate.cancel}
-                title={translate.edit_instructions}
+                title={text? translate.edit_instructions : translate.add_instructions}
                 bodyText={renderBody()}
             />
+            <UnsavedChangesModal 
+                translate={translate}  
+                open={state.unsavedModal}
+                requestClose={() => setState({...state, modal: true, unsavedModal: false})}
+                acceptAction={updateAttendanceText}
+                cancelAction={discardText}
+                />
         </>
     )
 }
