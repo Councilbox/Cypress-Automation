@@ -140,7 +140,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                         text={`${translate.can_receive_delegations}: `}
                         color={primary}
                         style={{
-                            marginTop: '1.6em'
+                            // marginTop: '1.6em'
                         }}
                     />
                     <div style={{ paddingBottom: "1em" }}>
@@ -244,7 +244,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                         text={`${translate.can_receive_delegations}: `}
                         color={primary}
                         style={{
-                            marginTop: '1.6em'
+                            // marginTop: '1.6em'
                         }}
                     />
                     <div style={{ paddingBottom: "1em" }}>
