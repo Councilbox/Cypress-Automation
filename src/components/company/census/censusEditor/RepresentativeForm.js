@@ -145,7 +145,7 @@ const RepresentativeForm = ({
 								}
 							/>
 						</GridItem>
-						<GridItem xs={6} lg={3} md={3}>
+						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
 								floatingText={translate.position}
 								type="text"
@@ -221,7 +221,7 @@ const RepresentativeForm = ({
 								})}
 							</SelectInput>
 						</GridItem>
-						<GridItem xs={6} md={4} lg={2}>
+						<GridItem xs={6} md={4} lg={3}>
 							<SelectInput
 								floatingText={translate.participation_type}
 								errorText={errors.initialState}
