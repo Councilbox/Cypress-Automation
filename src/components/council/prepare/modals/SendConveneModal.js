@@ -97,7 +97,7 @@ class SendConveneModal extends React.Component {
 				}
 				buttonCancel={translate.close}
 				bodyText={this._sendConveneBody()}
-				title={translate.reschedule_council}
+				title={translate.send_notification}
 			/>
 		);
 	}
