@@ -17,7 +17,7 @@ const RepresentativeForm = ({
 	guest
 }) => (
 	<Grid>
-		<GridItem xs={6} lg={4} md={4}>
+		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
 				floatingText={translate.name}
 				type="text"
@@ -30,7 +30,7 @@ const RepresentativeForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} lg={4} md={4}>
+		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
 				floatingText={translate.surname || ''}
 				type="text"
@@ -43,7 +43,7 @@ const RepresentativeForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} lg={4} md={4}>
+		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
 				floatingText={translate.new_dni}
 				type="text"
@@ -57,7 +57,7 @@ const RepresentativeForm = ({
 			/>
 		</GridItem>
 		{!guest && (
-			<GridItem xs={6} lg={4} md={4}>
+			<GridItem xs={6} md={4} lg={4}>
 				<TextInput
 					floatingText={translate.position}
 					type="text"
@@ -71,7 +71,7 @@ const RepresentativeForm = ({
 				/>
 			</GridItem>
 		)}
-		<GridItem xs={6} lg={4} md={4}>
+		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
 				floatingText={translate.email}
 				type="text"
@@ -85,7 +85,7 @@ const RepresentativeForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={3}>
+		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
 				floatingText={translate.administrative_email || ''}
 				min={1}
@@ -98,7 +98,7 @@ const RepresentativeForm = ({
 				}}
 			/>
 		</GridItem>
-		<GridItem xs={6} lg={4} md={4}>
+		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
 				floatingText={translate.phone}
 				type="text"
@@ -111,7 +111,7 @@ const RepresentativeForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={12} lg={4} md={4}>
+		<GridItem xs={12} md={4} lg={4}>
 			<SelectInput
 				floatingText={translate.language}
 				value={representative.language}
@@ -141,7 +141,7 @@ const RepresentativeForm = ({
 				})}
 			</SelectInput>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={3}>
+		<GridItem xs={6} md={4} lg={4}>
 			<SelectInput
 				floatingText={translate.participation_type}
 				value={''+representative.initialState}
