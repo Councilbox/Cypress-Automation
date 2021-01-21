@@ -138,20 +138,16 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<TextInput
 								floatingText={translate.input_group_days}
 								required
-								type="tel"
-								errorText={errors.advanceNoticeDays}
+								type="text"
+								errorText={errors.advanceNoticeDays || statute.advanceNoticeDays === '' ? `${translate.minimum_notice_days}: 1` : ''}
 								value={statute.advanceNoticeDays}
-								onChange={event => {
-									if (!isNaN(event.target.value) && +event.target.value >= 0) {
-										updateState({
-											advanceNoticeDays: parseInt(event.target.value, 10)
-										})
-									} else {
-										updateState({
-											advanceNoticeDays: 0
-										})
-									}
-								}}
+								onBlur={event => updateState({
+									advanceNoticeDays: parseInt(event.target.value, 10) || 1
+								})}
+								onChange={event => updateState({
+										advanceNoticeDays: isNaN(event.target.value) ?  '' : parseInt(event.target.value, 10) || ''
+									})
+								}
 							/>
 						)}
 					</GridItem>
