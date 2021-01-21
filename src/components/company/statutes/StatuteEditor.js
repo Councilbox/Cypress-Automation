@@ -122,7 +122,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						</>
 					}
 
-					<GridItem xs={12} md={8} lg={6}>
+					<GridItem xs={12} md={6} lg={6}>
 						<Checkbox
 							label={translate.exists_advance_notice_days}
 							value={statute.existsAdvanceNoticeDays === 1}
@@ -133,7 +133,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							}
 						/>
 					</GridItem>
-					<GridItem xs={12} md={4} lg={6}>
+					<GridItem xs={12} md={6} lg={6}>
 						{statute.existsAdvanceNoticeDays === 1 && (
 							<TextInput
 								floatingText={translate.input_group_days}
