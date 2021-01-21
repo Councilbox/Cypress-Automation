@@ -170,8 +170,11 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 							floatRight
 							type="flat"
 							text={translate.back}
-							color="white"
+							loading={loading}
+							success={success}
+							color={getPrimary()}
 							textStyle={{
+								color: "white",
 								fontWeight: "700",
 								marginRight: "1em"
 							}}
@@ -185,7 +188,8 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 							success={success}
 							textStyle={{
 								color: "white",
-								fontWeight: "700"
+								fontWeight: "700",
+								marginRight: "1em"
 							}}
 							floatRight
 							onClick={updateCompanyDraft}

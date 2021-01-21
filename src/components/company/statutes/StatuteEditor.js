@@ -227,7 +227,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<SelectInput
 							floatingText={translate.exist_quorum_assistance_first_call}
 							value={statute.firstCallQuorumType}
-							styleLabel={{ minWidth : "240px"}}
+							styleLabel={{ minWidth: "240px" }}
 							onChange={event =>
 								updateState({
 									firstCallQuorumType: event.target.value
@@ -254,7 +254,6 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<QuorumInput
 								type={statute.firstCallQuorumType}
 								style={{ marginLeft: "1em" }}
-								styleLabel={{ minWidth : "240px"}}
 								value={statute.firstCallQuorum}
 								divider={statute.firstCallQuorumDivider}
 								quorumError={errors.firstCallQuorum}
@@ -277,6 +276,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<SelectInput
 								floatingText={translate.exist_quorum_assistance_second_call}
 								value={statute.secondCallQuorumType}
+								styleLabel={{ minWidth: "240px" }}
 								onChange={event =>
 									updateState({
 										secondCallQuorumType: event.target.value
@@ -288,8 +288,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 										return (
 											<MenuItem
 												value={quorumType.value}
-												key={`quorum_${
-													quorumType.label
+												key={`quorum_${quorumType.label
 													}`}
 											>
 												{translate[quorumType.label]}
@@ -568,35 +567,35 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<SelectInput
-								floatingText={translate.default_vote}
-								value={statute.defaultVote}
-								onChange={event =>
-									updateState({
-										defaultVote: event.target.value
-									})
-								}
+							floatingText={translate.default_vote}
+							value={statute.defaultVote}
+							onChange={event =>
+								updateState({
+									defaultVote: event.target.value
+								})
+							}
+						>
+							<MenuItem
+								value={-1}
 							>
-								<MenuItem
-									value={-1}
-								>
-									{translate.dont_vote}
-								</MenuItem>
-								<MenuItem
-									value={0}
-								>
-									{translate.against_btn}
-								</MenuItem>
-								<MenuItem
-									value={1}
-								>
-									{translate.in_favor_btn}
-								</MenuItem>
-								<MenuItem
-									value={2}
-								>
-									{translate.abstention_btn}
-								</MenuItem>
-							</SelectInput>
+								{translate.dont_vote}
+							</MenuItem>
+							<MenuItem
+								value={0}
+							>
+								{translate.against_btn}
+							</MenuItem>
+							<MenuItem
+								value={1}
+							>
+								{translate.in_favor_btn}
+							</MenuItem>
+							<MenuItem
+								value={2}
+							>
+								{translate.abstention_btn}
+							</MenuItem>
+						</SelectInput>
 					</GridItem>
 				</Grid>
 				<VideoSection
@@ -642,11 +641,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 								company.governingBodyData &&
 								company.governingBodyData.list &&
 								company.governingBodyData.list.length > 0) &&
-									<MenuItem
-										value={parseInt(-1, 10)}
-									>
-										{translate.governing_body}
-									</MenuItem>
+								<MenuItem
+									value={parseInt(-1, 10)}
+								>
+									{translate.governing_body}
+								</MenuItem>
 							}
 						</SelectInput>
 					</GridItem>
@@ -689,8 +688,8 @@ const VideoSection = ({ updateState, statute, translate }) => {
 					<TextInput
 						floatingText={'RTMP'}
 						required
-						errorText={!validURL? translate.invalid_url : null}
-						value={statute.videoConfig? statute.videoConfig.rtmp : ''}
+						errorText={!validURL ? translate.invalid_url : null}
+						value={statute.videoConfig ? statute.videoConfig.rtmp : ''}
 						onChange={event => {
 							updateState({
 								videoConfig: {
