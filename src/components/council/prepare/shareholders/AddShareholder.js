@@ -12,6 +12,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
     cleanData.numParticipations = +cleanData.numParticipations || 1;
     cleanData.socialCapital = cleanData.numParticipations || 1;
     cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;
+    cleanData.assistanceIntention = cleanData.assistanceIntention ? +cleanData.assistanceIntention : 0;
     const secondary = getSecondary();
     const buttonColor = request.participantCreated? 'grey' : secondary;
 

@@ -1,9 +1,9 @@
 name: Publish Docker image
 
 on:
-  pull_request:
-    branches:
-      - 'feature/kubernetes-image**'
+  release:
+    types:
+      - prereleased
 
 jobs:
   build:
@@ -17,25 +17,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Calculate tag
         id: tag
         run: echo "::set-output name=tag::$(echo $stage'_'$(date +'%Y%m%d%H%M%S'))"
+
       - name: Image name
         id: image_name
-        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.tag }})"
-      - name: mostrar
-        id: mostrar
-        run: echo ${{ steps.tag.outputs.tag }}
-      - name: Copy env
-        run: |
-              cp docker/environment/test/env .env
-              ls -la
+        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ github.event.release.tag_name }})"
+      - name: print tag_name
+        run: echo ${{ github.event.release.tag_name }}
+
       - name: Login acr
         uses: azure/docker-login@v1
         with:  
           login-server: ${{ env.registry_url }}
           username: ${{ secrets.ACR_USER }}
           password: ${{ secrets.ACR_PASSWORD }}
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -43,6 +42,7 @@ jobs:
           file: ./docker/Dockerfile
           load: true
           tags: ${{ steps.image_name.outputs.image_name }}
+
       - run: docker push ${{ steps.image_name.outputs.image_name }}
       - name: "Dispatch a deploy-test event"
         run: |
@@ -54,5 +54,6 @@ jobs:
               "client_payload": {
                 "environment": "${{ env.stage }}",
                 "service": "${{ env.service_name }}",
+                "actor": "${{ github.actor }}",
                 "image": "${{ steps.image_name.outputs.image_name }}" }}'\
             https://api.github.com/repos/${{ env.state_repo }}/dispatches

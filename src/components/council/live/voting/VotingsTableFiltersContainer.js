@@ -21,7 +21,7 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 
 	const [data, setData] = React.useState({});
 
-	const getData = async () => {
+	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: agendaVotings,
 			variables: {
@@ -30,9 +30,14 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 			}
 		});
 		setData(response.data);
-	}
+	}, [state.voteFilter, state.stateFilter, state.filterText, state.page])
 
-	usePolling(getData, council.state > 30? 60000 : 6000, [state.voteFilter, state.stateFilter, state.filterText, state.page]);
+	React.useEffect(() => {
+		let timeout = setTimeout(getData, 400);
+		return () => clearTimeout(timeout);
+	}, [getData])
+
+	usePolling(getData, council.state > 30? 60000 : 6000);
 
 	const updateFilterText = value => {
 		setState({

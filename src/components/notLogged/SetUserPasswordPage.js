@@ -7,11 +7,10 @@ import { bHistory } from '../../containers/App';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';
 import { LoadingSection, BasicButton, TextInput, NotLoggedLayout } from '../../displayComponents';
+import { useSubdomain } from '../../utils/subdomain';
 
-
-class SetUserPasswordPage extends React.Component {
-
-    state = {
+const SetUserPasswordPage = ({ translate, match, ...props }) => {
+    const [state, setState] = React.useState({
         password: '',
         confirmPassword: '',
         showPassword: false,
@@ -22,29 +21,37 @@ class SetUserPasswordPage extends React.Component {
             confirmPassword: '',
             password: ''
         }
-    }
+    });
+    const primary = getPrimary();
+    const subdomain = useSubdomain();
 
-    confirmEmailAndSetPwd = async () => {
-        if(!this.checkRequiredFields()){
-            this.setState({
+    console.log(subdomain);
+
+
+    const confirmEmailAndSetPwd = async () => {
+        if(!checkRequiredFields()){
+            setState({
+                ...state,
                 loading: true
             });
-            const response = await this.props.confirmEmailAndSetPwd({
+            const response = await props.confirmEmailAndSetPwd({
                 variables: {
-                    token: this.props.match.params.token,
-                    pwd: this.state.password
+                    token: match.params.token,
+                    pwd: state.password
                 }
             });
 
             if(!response.errors){
                 if(response.data.confirmEmailAndSetPwd.success){
-                    this.setState({
+                    setState({
+                        ...state,
                         loading: false,
                         success: true
                     });
                 }
             }else{
-                this.setState({
+                setState({
+                    ...state,
                     loading: false,
                     success: false,
                     error: response.errors[0].code
@@ -53,7 +60,7 @@ class SetUserPasswordPage extends React.Component {
         }
     }
 
-    checkRequiredFields = () => {
+    const checkRequiredFields = () => {
         let errors = {
             confirmPassword: '',
             password: ''
@@ -61,192 +68,198 @@ class SetUserPasswordPage extends React.Component {
 
         let hasError;
 
-        if(this.state.password.length === 0){
+        if(state.password.length === 0){
             hasError = true;
-            errors.password = this.props.translate.required_field;
+            errors.password = translate.required_field;
         }else{
-            if(this.state.confirmPassword.length === 0){
+            if(state.confirmPassword.length === 0){
                 hasError = true;
-                errors.confirmPassword = this.props.translate.required_field;
+                errors.confirmPassword = translate.required_field;
             }else{
-                if(this.state.password !== this.state.confirmPassword){
-                    errors.confirmPassword = this.props.translate.register_unmatch_pwds;
+                if(state.password !== state.confirmPassword){
+                    errors.confirmPassword = translate.register_unmatch_pwds;
                     hasError = true;
                 }
             }
         }
 
-        this.setState({
+        setState({
+            ...state,
             errors
         });
 
         return hasError;
     }
 
-    errorWrapper = () => {
+    const errorWrapper = () => {
         return(
             <div
                 style={{
-                    color: getPrimary(),
+                    color: primary,
                     fontSize: '1.3em',
                     fontWeight: '700',
                     marginBottom: '1.3em'
                 }}
             >
-                {this.state.error === 407?
-                    this.props.translate.account_actived_yet
+                {state.error === 407?
+                    translate.account_actived_yet
                 :
-                    this.props.translate.error_active_account
+                    translate.error_active_account
                 }
             </div>
         )
     }
 
-    successMessage = () => {
+    const successMessage = () => {
         return (
             <div
                 style={{
-                    color: getPrimary(),
+                    color: primary,
                     fontSize: '1.3em',
                     fontWeight: '700',
                     marginBottom: '1.3em'
                 }}
             >
-                {this.props.translate.account_actived}
+                {translate.account_actived}
             </div>
         )
     }
 
-    render(){
-        const { translate } = this.props;
-        const primary = getPrimary()
-
-        return(
-            <NotLoggedLayout
-                translate={translate}
-                helpIcon={true}
-                languageSelector={true}
+    return(
+        <NotLoggedLayout
+            translate={translate}
+            helpIcon={true}
+            languageSelector={true}
+        >
+            <div
+                className="row"
+                style={{
+                    width: "100%",
+                    margin: 0,
+                    fontSize: "0.85em",
+                    height: "100%",
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
             >
-                <div
-					className="row"
-					style={{
-						width: "100%",
-						margin: 0,
-						fontSize: "0.85em",
-						height: "100%",
+                <Paper
+                    style={{
+                        width: '600px',
+                        height: '65vh',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
-					}}
-				>
-                    <Paper
-                        style={{
-                            width: '600px',
-                            height: '65vh',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexDirection: 'column'
-                        }}
-                    >
-                        {this.state.loading?
-                                <LoadingSection />
-                            :
-                                <React.Fragment>
-                                   { this.state.error &&
-                                        this.errorWrapper()}
-                                    {this.state.success &&
-                                        this.successMessage()}
-                                    {(!this.state.success && !this.state.error)?
-                                        <React.Fragment>
-                                            <p
-                                                style={{
-                                                    fontSize: '1.6em',
-                                                    color: primary,
-                                                    fontWeight: '700',
-                                                    width: '80%',
-                                                    textAlign: 'center',
-                                                    marginBottom: '1.2em'
-                                                }}
-                                            >
-                                                {translate.welcome_set_your_pwd} 
-                                            </p>
+                        justifyContent: 'center',
+                        flexDirection: 'column'
+                    }}
+                >
+                    {state.loading?
+                            <LoadingSection />
+                        :
+                            <React.Fragment>
+                                {state.error &&
+                                    errorWrapper()}
+                                {state.success &&
+                                    successMessage()}
+                                {(!state.success && !state.error)?
+                                    <React.Fragment>
+                                        <p
+                                            style={{
+                                                fontSize: '1.6em',
+                                                color: primary,
+                                                fontWeight: '700',
+                                                width: '80%',
+                                                textAlign: 'center',
+                                                marginBottom: '1.2em'
+                                            }}
+                                        >
+                                            {(subdomain && subdomain.title) ?
+                                                translate.welcome_set_your_pwd.replace('Councilbox', subdomain?.title)
+                                            :
+                                                translate.welcome_set_your_pwd
+                                            }
+                                        </p>
+                                        <div
+                                            style={{
+                                                width: '80%',
+                                                marginBottom: '15%',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                flexDirection: 'column'
+                                            }}
+                                        >
+                                            <TextInput
+                                                floatingText={translate.login_password}
+                                                type={
+                                                    state.showPassword
+                                                        ? "text"
+                                                        : "password"
+                                                }
+                                                passwordToggler={() =>
+                                                    setState({
+                                                        ...state,
+                                                        showPassword: !state.showPassword
+                                                    })
+                                                }
+                                                showPassword={state.showPassword}
+                                                required
+                                                value={state.password}
+                                                errorText={state.errors.password}
+                                                onChange={event => setState({
+                                                    ...state,
+                                                    password: event.target.value
+                                                })}
+                                            />
+                                            <TextInput
+                                                floatingText={translate.login_confirm_password}
+                                                type={
+                                                    state.showConfirmPassword
+                                                        ? "text"
+                                                        : "password"
+                                                }
+                                                passwordToggler={() =>
+                                                    setState({
+                                                        ...state,
+                                                        showConfirmPassword: !state.showConfirmPassword
+                                                    })
+                                                }
+                                                showPassword={state.showConfirmPassword}
+                                                value={state.confirmPassword}
+                                                errorText={state.errors.confirmPassword}
+                                                onChange={(event) => setState({
+                                                    ...state,
+                                                    confirmPassword: event.target.value
+                                                })}
+                                            />
                                             <div
-                                                style={{
-                                                    width: '80%',
-                                                    marginBottom: '15%',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    flexDirection: 'column'
-                                                }}
+                                                style={{marginTop: '1.2em'}}
                                             >
-                                                <TextInput
-                                                    floatingText={translate.login_password}
-                                                    type={
-                                                        this.state.showPassword
-                                                            ? "text"
-                                                            : "password"
-                                                    }
-                                                    passwordToggler={() =>
-                                                        this.setState({
-                                                            showPassword: !this.state.showPassword
-                                                        })
-                                                    }
-                                                    showPassword={this.state.showPassword}
-                                                    required
-                                                    value={this.state.password}
-                                                    errorText={this.state.errors.password}
-                                                    onChange={(event) => this.setState({
-                                                        password: event.target.value
-                                                    })}
+                                                <BasicButton
+                                                    text={translate.set_pwd}
+                                                    color={primary}
+                                                    textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                                                    onClick={confirmEmailAndSetPwd}
                                                 />
-                                                <TextInput
-                                                    floatingText={translate.login_confirm_password}
-                                                    type={
-                                                        this.state.showConfirmPassword
-                                                            ? "text"
-                                                            : "password"
-                                                    }
-                                                    passwordToggler={() =>
-                                                        this.setState({
-                                                            showConfirmPassword: !this.state.showConfirmPassword
-                                                        })
-                                                    }
-                                                    showPassword={this.state.showConfirmPassword}
-                                                    value={this.state.confirmPassword}
-                                                    errorText={this.state.errors.confirmPassword}
-                                                    onChange={(event) => this.setState({
-                                                        confirmPassword: event.target.value
-                                                    })}
-                                                />
-                                                <div
-                                                    style={{marginTop: '1.2em'}}
-                                                >
-                                                    <BasicButton
-                                                        text={translate.set_pwd}
-                                                        color={primary}
-                                                        textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
-                                                        onClick={this.confirmEmailAndSetPwd}
-                                                    />
-                                                </div>
                                             </div>
-                                        </React.Fragment>
-                                    :
-                                        <BasicButton
-                                            text={this.props.translate.go_login}
-                                            textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
-                                            color={getPrimary()}
-                                            onClick={() => bHistory.push('/')}
-                                        />
-                                    }
-                                </React.Fragment>
-                            }
-                    </Paper>
-                </div>
-            </NotLoggedLayout>
-        )
-    }
+                                        </div>
+                                    </React.Fragment>
+                                :
+                                    <BasicButton
+                                        text={translate.go_login}
+                                        textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                                        color={primary}
+                                        onClick={() => bHistory.push('/')}
+                                    />
+                                }
+                            </React.Fragment>
+                        }
+                </Paper>
+            </div>
+        </NotLoggedLayout>
+    )
+
 }
+
 
 const confirmEmailAndSetPwd = gql`
     mutation confirmEmailAndSetPwd($token: String!, $pwd: String!){

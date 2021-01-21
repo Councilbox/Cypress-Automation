@@ -171,8 +171,8 @@ export const upsertConvenedParticipant = gql`
 
 export const addConvenedParticipant = gql`
 	mutation upsertConvenedParticipant(
-		$participant: ParticipantInput
-		$representative: RepresentativeInput
+		$participant: LiveParticipantInput 
+		$representative: LiveRepresentativeInput
 		$sendConvene: Boolean
 	) {
 		addConvenedParticipant(
