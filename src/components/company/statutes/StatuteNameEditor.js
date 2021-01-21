@@ -56,6 +56,7 @@ class StatuteNameEditor extends React.Component {
 
     render() {
         const { translate } = this.props;
+        console.log(translate);
 
         return (
             <AlertConfirm
@@ -78,7 +79,7 @@ class StatuteNameEditor extends React.Component {
                         }
                     />
                 }
-                title={translate.edit_council_type}
+                title={translate.rename_council_type}
             />
         )
     }
