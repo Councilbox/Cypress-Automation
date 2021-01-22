@@ -13,6 +13,7 @@ const QuorumInput = ({
 	quorumError,
 	dividerError
 }) => {
+	
 	const onBlurChange = () => {
 		if (value < 1) {
 			onChange(1);
