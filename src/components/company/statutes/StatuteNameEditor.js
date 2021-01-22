@@ -78,7 +78,7 @@ class StatuteNameEditor extends React.Component {
                         }
                     />
                 }
-                title={translate.edit_council_type}
+                title={translate.rename_council_type}
             />
         )
     }
