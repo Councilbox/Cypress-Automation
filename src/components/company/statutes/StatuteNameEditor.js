@@ -56,7 +56,6 @@ class StatuteNameEditor extends React.Component {
 
     render() {
         const { translate } = this.props;
-        console.log(translate);
 
         return (
             <AlertConfirm
