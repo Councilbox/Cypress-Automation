@@ -17,29 +17,29 @@ import { TableCell } from 'material-ui';
 
 
 const CouncilsDashboard = ({ translate, client, ...props }) => {
-    const [councilsConvenedCouncils, setCouncilsConvenedCouncils] = React.useState([]);
-    const [loadingConvenedCouncils, setLoadingConvenedCouncils] = React.useState(true);
-    const [pageConvenedCouncils, setPageConvenedCouncils] = React.useState(1);
+    // const [councilsConvenedCouncils, setCouncilsConvenedCouncils] = React.useState([]);
+    // const [loadingConvenedCouncils, setLoadingConvenedCouncils] = React.useState(true);
+    // const [pageConvenedCouncils, setPageConvenedCouncils] = React.useState(1);
 
-    // const getDataConvenedCouncils = React.useCallback(async () => {
-    //     setLoadingConvenedCouncils(true)
-    //     const response = await client.query({
-    //         query: corporationConvenedCouncils,
-    //         variables: {
-    //             options: {
-    //                 limit: 10,
-    //                 offset: (pageConvenedCouncils - 1) * 10
-    //             },
-    //         },
-    //     });
+    // // const getDataConvenedCouncils = React.useCallback(async () => {
+    // //     setLoadingConvenedCouncils(true)
+    // //     const response = await client.query({
+    // //         query: corporationConvenedCouncils,
+    // //         variables: {
+    // //             options: {
+    // //                 limit: 10,
+    // //                 offset: (pageConvenedCouncils - 1) * 10
+    // //             },
+    // //         },
+    // //     });
 
-    //     setCouncilsConvenedCouncils(response.data);
-    //     setLoadingConvenedCouncils(false)
-    // }, [pageConvenedCouncils]);
+    // //     setCouncilsConvenedCouncils(response.data);
+    // //     setLoadingConvenedCouncils(false)
+    // // }, [pageConvenedCouncils]);
 
-    // React.useEffect(() => {
-    //     getDataConvenedCouncils();
-    // }, [getDataConvenedCouncils]);
+    // // React.useEffect(() => {
+    // //     getDataConvenedCouncils();
+    // // }, [getDataConvenedCouncils]);
 
     // ---------------------------
 
@@ -131,6 +131,10 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
                     />
                 </div>
                 <SearchCouncils />
+                <ConvenedCouncils 
+                translate={translate}
+                client={client}
+                />
                 <LiveCouncils
                     translate={translate}
                     client={client}
@@ -139,6 +143,83 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
         </div>
     )
 }
+
+const ConvenedCouncils = ({translate, client }) => {
+    const [councilsConvenedCouncils, setCouncilsConvenedCouncils] = React.useState([]);
+    const [loadingConvenedCouncils, setLoadingConvenedCouncils] = React.useState(true);
+    const [pageConvenedCouncils, setPageConvenedCouncils] = React.useState(1);
+
+    const getDataConvenedCouncils = React.useCallback(async () => {
+        setLoadingConvenedCouncils(true)
+        const response = await client.query({
+            query: corporationConvenedCouncils,
+            variables: {
+                options: {
+                    limit: 10,
+                    offset: (pageConvenedCouncils - 1) * 10
+                },
+            },
+        });
+
+        setCouncilsConvenedCouncils(response.data);
+        setLoadingConvenedCouncils(false)
+    }, [pageConvenedCouncils]);
+
+    React.useEffect(() => {
+        getDataConvenedCouncils();
+    }, [getDataConvenedCouncils]);
+
+    return (
+        <div>
+            {loadingConvenedCouncils ?
+                <LoadingSection />
+                :
+                <div>
+                    <Table
+                        style={{ width: "100%", maxWidth: "100%" }}
+                    >
+                        <TableHead>
+                            <TableRow>
+                                {/* <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>Fecha</TableCell>
+                            <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Nombre de entidad</TableCell>
+                            <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Tipo de reunión</TableCell>
+                            <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Nombre de la reunión</TableCell>
+                            <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Numero de convocados</TableCell> */}
+                                <TableCell style={{}}>Total</TableCell>
+                                <TableCell style={{}}>ID</TableCell>
+                                <TableCell style={{}}>Entidad</TableCell>
+                                <TableCell style={{}}>Nombre</TableCell>
+                                <TableCell style={{}}>Fecha</TableCell>
+                                <TableCell style={{}}>Estado</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {councilsConvenedCouncils.corporationConvenedCouncils.list.map(council => (
+                                <CouncilItem
+                                    key={`council_${council.id}`}
+                                    council={council}
+                                    translate={translate}
+                                />
+                            ))}
+                        </TableBody>
+                    </Table>
+
+                    <Grid style={{ marginTop: "1em" }}>
+                        <PaginationFooter
+                            page={pageConvenedCouncils}
+                            translate={translate}
+                            length={councilsConvenedCouncils.corporationConvenedCouncils.list.length}
+                            total={councilsConvenedCouncils.corporationConvenedCouncils.total}
+                            limit={10}
+                            changePage={setPageConvenedCouncils}
+                        />
+                    </Grid>
+                </div>
+            }
+        </div>
+    )
+}
+
 
 const LiveCouncils = ({ translate, client }) => {
     const [councilsLiveCouncils, setCouncilsLiveCouncils] = React.useState([]);
