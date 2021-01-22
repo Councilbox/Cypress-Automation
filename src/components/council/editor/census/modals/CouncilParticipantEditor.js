@@ -353,6 +353,7 @@ export default compose(
 const initialRepresentative = {
 	hasRepresentative: false,
 	language: "es",
+	initialState: 0,
 	type: 2,
 	name: "",
 	surname: "",
