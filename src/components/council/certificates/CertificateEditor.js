@@ -14,6 +14,7 @@ import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
 import DownloadDoc from '../../documentEditor/DownloadDoc';
 import CreateCertificateModal from './CreateCertificateModal';
+import { ConfigContext } from '../../../containers/AppControl';
 
 
 const initialState = {
@@ -54,7 +55,8 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 			company
         }, translate)
 	});
-    const primary = getPrimary();
+	const primary = getPrimary();
+	const config = React.useContext(ConfigContext);
     const secondary = getSecondary();
 
 
@@ -73,7 +75,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 		handlers.initializeDoc({
 			doc: buildDoc(response.data, translate, 'certificate'),
 			options: {
-				stamp: true,
+				stamp: config.disableDocumentStamps ? false : true,
 				doubleColumn: false,
 				language: response.data.council.language,
 				secondaryLanguage: 'en'
