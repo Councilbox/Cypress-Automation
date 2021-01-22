@@ -138,7 +138,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<TextInput
 								floatingText={translate.input_group_days}
 								required
-								type="text"
+								type="tel"
 								errorText={errors.advanceNoticeDays || statute.advanceNoticeDays === '' ? `${translate.minimum_notice_days}: 1` : ''}
 								value={statute.advanceNoticeDays}
 								onBlur={event => updateState({
