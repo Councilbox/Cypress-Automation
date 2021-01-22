@@ -13,18 +13,26 @@ const QuorumInput = ({
 	quorumError,
 	dividerError
 }) => {
+	
+	const onBlurChange = () => {
+		if (value < 1) {
+			onChange(1);
+		}
+	}
+
 	if (CBX.isQuorumPercentage(type)) {
 		return (
 			<div className="row">
 				<div style={{ width: "100%", ...style }}>
 					<TextInput
 						type={"number"}
-						value={value}
-						min="1"
+						value={value <= 0 ? "" : value}
+						min="0"
 						max="100"
-						errorText={quorumError}
+						errorText={quorumError ? quorumError : value <= 0 ? "El valor mínimo es 1" : ""}
+						onBlur={onBlurChange}
 						adornment={"%"}
-						styles={{width: isMobile && "90%"}}
+						styles={{ width: isMobile && "90%" }}
 						onChange={event => {
 							onChange(event.nativeEvent.target.value)
 						}}
@@ -34,11 +42,7 @@ const QuorumInput = ({
 		);
 	}
 
-	if(value < 1){
-		onChange(1);
-	}
-
-	if(divider < 1){
+	if (divider < 1) {
 		onChangeDivider(1);
 	}
 
@@ -51,12 +55,13 @@ const QuorumInput = ({
 							type={"number"}
 							value={value}
 							adornment={"/"}
+							onBlur={onBlurChange}
 							min="1"
 							adornment={"/"}
 							errorText={quorumError}
 							onChange={event => {
 								let newValue = event.target.value;
-								onChange(newValue > 0? newValue > divider? divider : newValue : 1)
+								onChange(newValue > 0 ? newValue > divider ? divider : newValue : 1)
 							}}
 						/>
 					</GridItem>
@@ -65,11 +70,12 @@ const QuorumInput = ({
 							type={"number"}
 							value={divider}
 							min="1"
-							onBlur={() => {if(divider < value) onChangeDivider(value)}}
+							min="0"
+							onBlur={() => { if (divider < value) onChangeDivider(value) }}
 							errorText={dividerError}
 							onChange={event => {
 								let newValue = event.target.value;
-								onChangeDivider(newValue > 0? newValue : 1)
+								onChangeDivider(newValue > 0 ? newValue : 1)
 							}}
 						/>
 					</GridItem>
@@ -84,9 +90,9 @@ const QuorumInput = ({
 				<div style={{ width: "100%", ...style }}>
 					<TextInput
 						type={"number"}
-						value={value}
-						min="1"
-						errorText={quorumError}
+						value={value <= 0 ? "" : value}
+						onBlur={onBlurChange}
+						errorText={quorumError ? quorumError : value <= 0 ? "El valor mínimo es 1" : ""}
 						onChange={event =>
 							onChange(event.nativeEvent.target.value)
 						}
