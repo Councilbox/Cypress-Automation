@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { bHistory } from '../../../containers/App';
 import { TableHead } from 'material-ui';
 import { TableCell } from 'material-ui';
+import { council } from '../../../queries';
 
 
 
@@ -30,9 +31,10 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
 
     const _convenedSection = () => {
         return (
-            <ConvenedCouncils
+            <Councils
                 translate={translate}
                 client={client}
+                query={corporationConvenedCouncils}
             />
         )
     }
@@ -50,9 +52,10 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
     const _celebrationSection = () => {
         return (
 
-            <LiveCouncils
+            <Councils
                 translate={translate}
                 client={client}
+                query={corporationLiveCouncils}
             />
         )
     }
@@ -98,30 +101,41 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
     )
 }
 
-const ConvenedCouncils = ({ translate, client }) => {
-    const [councilsConvenedCouncils, setCouncilsConvenedCouncils] = React.useState([]);
-    const [loadingConvenedCouncils, setLoadingConvenedCouncils] = React.useState(true);
-    const [pageConvenedCouncils, setPageConvenedCouncils] = React.useState(1);
 
-    const getDataConvenedCouncils = React.useCallback(async () => {
-        setLoadingConvenedCouncils(true)
+
+const Councils = ({ translate, client, query }) => {
+    const [councils, setCouncils] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+    const [pageCouncils, setpageCouncils] = React.useState(1);
+
+
+    const getDataCouncils = React.useCallback(async () => {
+        setLoading(true)
         const response = await client.query({
-            query: corporationConvenedCouncils,
+            query: query,
             variables: {
                 options: {
                     limit: 10,
-                    offset: (pageConvenedCouncils - 1) * 10
+                    offset: (pageCouncils - 1) * 10
                 },
             },
         });
-
-        setCouncilsConvenedCouncils(response.data);
-        setLoadingConvenedCouncils(false)
-    }, [pageConvenedCouncils]);
+        
+        if (response.data) {
+            Object.entries(response.data).map(([name, value]) => {
+                if ('corporationLiveCouncils' === name || 'corporationConvenedCouncils' === name ){
+                    setCouncils(value)
+                }
+            })
+            setLoading(false)
+        }
+    }, [pageCouncils]);
 
     React.useEffect(() => {
-        getDataConvenedCouncils();
-    }, [getDataConvenedCouncils]);
+        getDataCouncils();
+    }, [getDataCouncils]);
+
+    
 
     return (
         <div style={{ padding: "1em" }}>
@@ -135,9 +149,9 @@ const ConvenedCouncils = ({ translate, client }) => {
                         }}
                     />
                 }
-                onClick={getDataConvenedCouncils}
+                onClick={getDataCouncils}
             />
-            {loadingConvenedCouncils ?
+            {loading ?
                 <LoadingSection />
                 :
                 <div>
@@ -160,7 +174,7 @@ const ConvenedCouncils = ({ translate, client }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {councilsConvenedCouncils.corporationConvenedCouncils.list.map(council => (
+                            {councils.list.map(council => (
                                 <CouncilItem
                                     key={`council_${council.id}`}
                                     council={council}
@@ -172,103 +186,12 @@ const ConvenedCouncils = ({ translate, client }) => {
 
                     <Grid style={{ marginTop: "1em" }}>
                         <PaginationFooter
-                            page={pageConvenedCouncils}
+                            page={pageCouncils}
                             translate={translate}
-                            length={councilsConvenedCouncils.corporationConvenedCouncils.list.length}
-                            total={councilsConvenedCouncils.corporationConvenedCouncils.total}
+                            length={councils.list.length}
+                            total={councils.total}
                             limit={10}
-                            changePage={setPageConvenedCouncils}
-                        />
-                    </Grid>
-                </div>
-            }
-        </div>
-    )
-}
-
-
-const LiveCouncils = ({ translate, client }) => {
-    const [councilsLiveCouncils, setCouncilsLiveCouncils] = React.useState([]);
-    const [loadingLiveCouncils, setLoadingLiveCouncils] = React.useState(true);
-    const [pageLiveCouncils, setPageLiveCouncils] = React.useState(1);
-
-
-    const getDataLiveCouncils = React.useCallback(async () => {
-        setLoadingLiveCouncils(true)
-        const response = await client.query({
-            query: corporationLiveCouncils,
-            variables: {
-                options: {
-                    limit: 10,
-                    offset: (pageLiveCouncils - 1) * 10
-                },
-            },
-        });
-
-        setCouncilsLiveCouncils(response.data);
-        setLoadingLiveCouncils(false)
-    }, [pageLiveCouncils]);
-
-    React.useEffect(() => {
-        getDataLiveCouncils();
-    }, [getDataLiveCouncils]);
-
-
-    return (
-        <div style={{ padding: "1em" }}>
-            <BasicButton
-                backgroundColor={{ backgroundColor: "white", border: "1px solid " + getSecondary(), boxShadow: "none" }}
-                icon={
-                    <i
-                        className={'fa fa-refresh'}
-                        style={{
-                            color: getSecondary(),
-                        }}
-                    />
-                }
-                onClick={getDataLiveCouncils}
-            />
-            {loadingLiveCouncils ?
-                <LoadingSection />
-                :
-                <div>
-                    <Table
-                        style={{ width: "100%", maxWidth: "100%" }}
-                    >
-                        <TableHead>
-                            <TableRow>
-                                {/* <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>Fecha</TableCell>
-                            <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Nombre de entidad</TableCell>
-                            <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Tipo de reunión</TableCell>
-                            <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Nombre de la reunión</TableCell>
-                            <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Numero de convocados</TableCell> */}
-                                <TableCell style={{}}>Total</TableCell>
-                                <TableCell style={{}}>ID</TableCell>
-                                <TableCell style={{}}>Entidad</TableCell>
-                                <TableCell style={{}}>Nombre</TableCell>
-                                <TableCell style={{}}>Fecha</TableCell>
-                                <TableCell style={{}}>Estado</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {councilsLiveCouncils.corporationLiveCouncils.list.map(council => (
-                                <CouncilItem
-                                    key={`council_${council.id}`}
-                                    council={council}
-                                    translate={translate}
-                                />
-                            ))}
-                        </TableBody>
-                    </Table>
-
-                    <Grid style={{ marginTop: "1em" }}>
-                        <PaginationFooter
-                            page={pageLiveCouncils}
-                            translate={translate}
-                            length={councilsLiveCouncils.corporationLiveCouncils.list.length}
-                            total={councilsLiveCouncils.corporationLiveCouncils.total}
-                            limit={10}
-                            changePage={setPageLiveCouncils}
+                            changePage={setpageCouncils}
                         />
                     </Grid>
                 </div>
