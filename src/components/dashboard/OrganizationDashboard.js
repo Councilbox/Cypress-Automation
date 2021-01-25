@@ -178,7 +178,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 		//setReunionesLoading(true)
 		const response = await client.query({
-			query: corporationCouncils,
+			query: corporationConvenedLiveCouncils,
+			// query: corporationCouncils,
 			variables: {
 				fechaInicio: fechaInicio ? fechaFin : moment().endOf('month').toDate(),
 				fechaFin: fechaFin ? fechaInicio : moment().startOf('month').toDate(),
@@ -190,12 +191,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				}
 			}
 		});
-		// console.log(response)
+		console.log(response)
 		let data = "";
 
 		if (fechaReunionConcreta) {
-			if (response.data.corporationConvenedCouncils.list) {
-				data = [...response.data.corporationLiveCouncils.list, ...response.data.corporationConvenedCouncils.list].sort((a, b) => {
+			if (response.data.corporationConvenedLiveCouncils.list) {
+				data = [...response.data.corporationConvenedLiveCouncils.list].sort((a, b) => {
 					if(a.dateStart < b.dateStart){
 						return -1;
 					}
@@ -211,8 +212,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				setReunionesLoading(false);
 			}
 		} else {
-			if (response.data.corporationConvenedCouncils.list) {	
-				data = [...response.data.corporationLiveCouncils.list, ...response.data.corporationConvenedCouncils.list].sort((a, b) => {
+			if (response.data.corporationConvenedLiveCouncils.list) {	
+				data = [...response.data.corporationConvenedLiveCouncils.list].sort((a, b) => {
 					if(a.dateStart < b.dateStart){
 						return -1;
 					}
@@ -230,6 +231,44 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				setReunionesLoading(false);
 			}
 		}
+		
+		// if (fechaReunionConcreta) {
+		// 	if (response.data.corporationConvenedCouncils.list) {
+		// 		data = [...response.data.corporationLiveCouncils.list, ...response.data.corporationConvenedCouncils.list].sort((a, b) => {
+		// 			if(a.dateStart < b.dateStart){
+		// 				return -1;
+		// 			}
+		// 			if(a.dateStart > b.dateStart){
+		// 				return 1;
+		// 			}
+		// 			return 0;
+		// 		});
+		// 		if (filterReuniones !== translate.all) {
+		// 			data = filtrarLasReuniones(data);
+		// 		}
+		// 		setReunionesPorDia(data);
+		// 		setReunionesLoading(false);
+		// 	}
+		// } else {
+		// 	if (response.data.corporationConvenedCouncils.list) {	
+		// 		data = [...response.data.corporationLiveCouncils.list, ...response.data.corporationConvenedCouncils.list].sort((a, b) => {
+		// 			if(a.dateStart < b.dateStart){
+		// 				return -1;
+		// 			}
+		// 			if(a.dateStart > b.dateStart){
+		// 				return 1;
+		// 			}
+		// 			return 0;
+		// 		});;
+				
+		// 		if (filterReuniones !== translate.all) {
+		// 			data = filtrarLasReuniones(data);
+		// 		}
+		// 		setReuniones(data);
+		// 		calcularEstadisticas(data);
+		// 		setReunionesLoading(false);
+		// 	}
+		// }
 	}
 
 	usePolling(getReuniones, 12000);
@@ -1359,58 +1398,90 @@ const Cell = ({ text, avatar, width }) => {
 	)
 }
 
-const corporationCouncils = gql`
-    query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
-		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
+const corporationConvenedLiveCouncils = gql`
+    query corporationConvenedLiveCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
+		corporationConvenedLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
 			list{
-			id
-			name
-			state
-			dateStart
-			councilStarted
-			councilType
-			externalId
-			participants {
 				id
 				name
-				surname
+				state
+				dateStart
+				councilStarted
+				councilType
+				externalId
+				participants {
+					id
+					name
+					surname
+				}
+				prototype
+				attachments {
+					filename
+					participantId
+				}
+				company{
+					id
+					businessName
+					logo
+				}
 			}
-			prototype
-			attachments {
-				filename
-				participantId
-			}
-			company{
-				id
-				businessName
-				logo
-			}
-		}total
-		}
-
-		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
-			list{
-			id
-			name
-			state
-			dateStart
-			councilType
-			externalId
-			councilStarted
-			prototype
-			participants {
-				id
-				name
-				surname
-			}
-			company{
-				id
-				businessName
-				logo
-			}
-		}total
+			total
 		}
 	}
 `;
+
+// const corporationCouncils = gql`
+//     query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
+// 		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
+// 			list{
+// 			id
+// 			name
+// 			state
+// 			dateStart
+// 			councilStarted
+// 			councilType
+// 			externalId
+// 			participants {
+// 				id
+// 				name
+// 				surname
+// 			}
+// 			prototype
+// 			attachments {
+// 				filename
+// 				participantId
+// 			}
+// 			company{
+// 				id
+// 				businessName
+// 				logo
+// 			}
+// 		}total
+// 		}
+
+// 		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
+// 			list{
+// 			id
+// 			name
+// 			state
+// 			dateStart
+// 			councilType
+// 			externalId
+// 			councilStarted
+// 			prototype
+// 			participants {
+// 				id
+// 				name
+// 				surname
+// 			}
+// 			company{
+// 				id
+// 				businessName
+// 				logo
+// 			}
+// 		}total
+// 		}
+// 	}
+// `;
 
 export default withApollo(withStyles(styles)(OrganizationDashboard));
