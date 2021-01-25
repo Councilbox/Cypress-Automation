@@ -30,6 +30,7 @@ import { isMobile } from "../../utils/screen";
 import OneOnOneItem from "./OneOnOne/OneOnOneItem";
 import { usePolling } from "../../hooks";
 import ImportOneOneOne from "./OneOnOne/ImportOneOnOne";
+import { Pagination } from "react-bootstrap";
 
 
 const styles = {
@@ -92,6 +93,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const [usuariosEntidades, setUsuariosEntidades] = React.useState(translate.users);
 	const primary = getPrimary();
 	const config = React.useContext(ConfigContext);
+	const [pageReuniones, setPageReuniones] = React.useState(1);
+	const [pageTotal, setPagetTotal] = React.useState('');
 
 	const companyHasBook = () => {
 		return company.category === 'society';
@@ -187,7 +190,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				options: {
 					orderBy: 'dateStart',
 					limit: 10,
-					offset: (1 - 1) * 10,
+					offset: (pageReuniones - 1) * 10,
 				}
 			}
 		});
@@ -209,6 +212,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					data = filtrarLasReuniones(data);
 				}
 				setReunionesPorDia(data);
+				setPagetTotal(response.data.corporationConvenedLiveCouncils.total);
 				setReunionesLoading(false);
 			}
 		} else {
@@ -227,6 +231,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					data = filtrarLasReuniones(data);
 				}
 				setReuniones(data);
+				setPagetTotal(response.data.corporationConvenedLiveCouncils.total);
+				
 				calcularEstadisticas(data);
 				setReunionesLoading(false);
 			}
@@ -811,22 +817,36 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 								{day ?
 									reunionesPorDia.length === undefined || reunionesLoading ?
 										<LoadingSection />
-										:
-										reunionesPorDia.map((item, index) => {
-											return (
-												<TablaReunionesEnCurso
-													key={index + "_reunionesPorDia"}
-													item={item}
-													index={index}
-													translate={translate}
-												/>
-											)
-										})
+										: <div>
+											{	reunionesPorDia.map((item, index) => {
+												return (
+														<TablaReunionesEnCurso
+															key={index + "_reunionesPorDia"}
+															item={item}
+															index={index}
+															translate={translate}
+														/>
+												)
+											})
+											}
+											
+													<Grid style={{ marginTop: "1em" }}>
+													<PaginationFooter
+															page={pageReuniones}
+															translate={translate}
+															length={pageReuniones.length}
+															total={pageTotal}
+															limit={10}
+															changePage={setPageReuniones}
+													/>
+											</Grid>
+										</div>
 									:
 									reuniones.length === undefined || reunionesLoading ?
 										<LoadingSection />
 										:
-										reuniones.map((item, index) => {
+									<div>
+											{	reuniones.map((item, index) => {
 											return (
 												<TablaReunionesEnCurso
 													key={index + "_reuniones"}
@@ -835,7 +855,19 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 													translate={translate}
 												/>
 											)
-										})
+										})}
+											<Grid style={{ marginTop: "1em" }}>
+													<PaginationFooter
+															page={pageReuniones}
+															translate={translate}
+															length={reuniones.length}
+															total={pageTotal}
+															limit={10}
+															changePage={setPageReuniones}
+													/>
+											</Grid>
+
+									</div>
 								}
 							</Scrollbar>
 						</Grid>
@@ -1129,6 +1161,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 }
 
 const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage }) => {
+	
 	const primary = getPrimary();
 	return (
 		<div style={{}}>
