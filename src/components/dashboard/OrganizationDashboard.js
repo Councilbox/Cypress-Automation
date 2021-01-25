@@ -238,9 +238,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			}
 		}
 	}
-	
-	usePolling(getReuniones, 5000);
-	// usePolling(getReuniones, 12000);
+
+	usePolling(getReuniones, 12000);
 
 	const filtrarLasReuniones = (data) => {
 		let dataFiltrado = []
@@ -467,31 +466,57 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 								{day ?
 									reunionesPorDia.length === undefined || reunionesLoading ?
 										<LoadingSection />
-										:
-										reunionesPorDia.map((item, index) => {
-											return (
-												<TablaReunionesEnCurso
-													key={index + "_reunionesPorDia"}
-													item={item}
-													index={index}
+										: <div>
+											{reunionesPorDia.map((item, index) => {
+												return (
+													<TablaReunionesEnCurso
+														key={index + "_reunionesPorDia"}
+														item={item}
+														index={index}
+														translate={translate}
+													/>
+												)
+											})
+											}
+
+											<Grid style={{ marginTop: "1em" }}>
+												<PaginationFooter
+													page={pageReuniones}
 													translate={translate}
+													length={reunionesPorDia.length}
+													total={totalReunionPorDia}
+													limit={10}
+													changePage={setPageReuniones}
 												/>
-											)
-										})
+											</Grid>
+										</div>
 									:
 									reuniones.length === undefined || reunionesLoading ?
 										<LoadingSection />
 										:
-										reuniones.map((item, index) => {
-											return (
-												<TablaReunionesEnCurso
-													key={index + "_reuniones"}
-													item={item}
-													index={index}
+										<div>
+											{reuniones.map((item, index) => {
+												return (
+													<TablaReunionesEnCurso
+														key={index + "_reuniones"}
+														item={item}
+														index={index}
+														translate={translate}
+													/>
+												)
+											})}
+											<Grid style={{ marginTop: "1em" }}>
+												<PaginationFooter
+													page={pageReuniones}
 													translate={translate}
+													length={reuniones.length}
+													total={ReunionesTotal}
+													limit={10}
+													changePage={setPageReuniones}
 												/>
-											)
-										})
+											</Grid>
+
+										</div>
 								}
 							</Scrollbar>
 						</div>
@@ -1079,7 +1104,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 						{item.name}
 					</div>
 					<div style={{ marginRight: '0.2em' }}>
-						{moment(item.dateStart)}
+						{moment(item.dateStart).format('DD/MM/YYYY HH:mm')}
 					</div>
 				</div>
 			</GridItem>
