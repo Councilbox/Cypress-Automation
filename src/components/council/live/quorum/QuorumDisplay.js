@@ -2,12 +2,10 @@ import React from 'react';
 import { showNumParticipations, councilHasSession, hasParticipations, hasVotation, isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { AlertConfirm, DropDownMenu } from '../../../../displayComponents';
-import { usePolling } from '../../../../hooks';
+import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { Table, TableBody, TableHead, TableRow, TableCell, MenuItem, Divider } from 'material-ui';
-import FileSaver from 'file-saver';
-import { SERVER_URL } from '../../../../config';
+import { Table, TableBody, TableHead, TableRow, TableCell, MenuItem } from 'material-ui';
 import { moment } from '../../../../containers/App';
 import { COUNCIL_TYPES } from '../../../../constants';
 
@@ -88,6 +86,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const secondary = getSecondary();
+    const { downloadHTMLAsPDF } = useDownloadHTMLAsPDF();
 
     const SC = hasParticipations(council.statute);
 
@@ -105,22 +104,11 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
     }
 
     const downloadPDF = async () => {
-        const html = document.getElementById("quorumTable").innerHTML;
-        const response = await fetch(`${SERVER_URL}/pdf/build`, {
-            headers: {
-                'Content-type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                html,
-                companyId: council.companyId
-            })
+        await downloadHTMLAsPDF({
+            name: `Quorum_${council.name.replace(/\s/g, '_')}_${moment().format('DD/MM/YYYY_hh_mm_ss')}`,
+            companyId: council.companyId,
+            html: document.getElementById("quorumTable").innerHTML
         });
-
-        const blob = await response.blob();
-
-        FileSaver.saveAs(blob, `Quorum_${council.name.replace(/\s/g, '_')}_${moment().format('DD/MM/YYYY_hh_mm_ss')}.pdf`);
-
     }
 
     const getData = React.useCallback(async () => {

@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import gql from 'graphql-tag';
 import { checkValidEmail } from './utils';
 import { checkUniqueCouncilEmails } from './queries/councilParticipant';
-import { moment } from './containers/App';
+import FileSaver from 'file-saver';
+import { SERVER_URL } from './config';
 
 
 export const useInterval = (callback, delay, deps = []) => {
@@ -387,4 +388,31 @@ export const useQueryReducer = ({ client, query, variables }) => {
 		loading
 	}
 	
+}
+
+export const useDownloadHTMLAsPDF = () => {
+	const [downloading, setDownloading] = React.useState(false);
+
+	const downloadHTMLAsPDF = async ({ name, companyId, html }) => {
+		setDownloading(true);
+        const response = await fetch(`${SERVER_URL}/pdf/build`, {
+            headers: {
+                'Content-type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                html,
+                companyId
+            })
+        });
+
+        const blob = await response.blob();
+		FileSaver.saveAs(blob, `${name}.pdf`);
+		setDownloading(false);
+	}
+	
+	return {
+		downloading,
+		downloadHTMLAsPDF
+	}
 }

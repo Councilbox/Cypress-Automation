@@ -20,6 +20,7 @@ import { usePolling } from "../hooks";
 import { ConfigContext } from "./AppControl";
 import { SERVER_URL } from "../config";
 import { addSpecificTranslations } from "../actions/companyActions";
+import { initLogRocket } from "../utils/logRocket";
 
 
 export const ConnectionInfoContext = React.createContext(null);
@@ -30,7 +31,15 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 	const [companyId, setCompanyId] = React.useState();
 	const [loadingConfig, setLoadingConfig] = React.useState(true);
 	const [reqData, setConnectionData] = React.useState(null);
-	
+
+	const participant = data ? data.participant : {};
+
+
+	React.useEffect(() => {
+		if(participant.id){
+			initLogRocket(participant);
+		}
+	}, [participant.id])
 
 	const getReqData = React.useCallback(async () => {
         //const response = await fetch(`${SERVER_URL}/connectionInfo`);

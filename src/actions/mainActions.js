@@ -4,6 +4,7 @@ import { getMe, getTranslations } from "../queries";
 import DetectRTC from "detectrtc";
 import { moment } from '../containers/App';
 import gql from 'graphql-tag';
+import { initLogRocket } from "../utils/logRocket";
 export let language = "es";
 
 export const loginSuccess = (token, refreshToken) => {
@@ -87,6 +88,10 @@ export const initUserData = () => {
 		});
 		if (!response.errors) {
 			if (response.data.me) {
+				if(process.env.REACT_APP_LOGROCKET_ENABLED){
+					initLogRocket(response.data.me);
+				}
+
 				dispatch({
 					type: "SET_USER_DATA",
 					value: response.data.me
