@@ -122,6 +122,7 @@ const Councils = ({ translate, client, query }) => {
         });
         
         if (response.data) {
+            console.log(response.data)
             Object.entries(response.data).map(([name, value]) => {
                 if ('corporationLiveCouncils' === name || 'corporationConvenedCouncils' === name ){
                     setCouncils(value)
@@ -160,11 +161,6 @@ const Councils = ({ translate, client, query }) => {
                     >
                         <TableHead>
                             <TableRow>
-                                {/* <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>Fecha</TableCell>
-                            <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Nombre de entidad</TableCell>
-                            <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Tipo de reunión</TableCell>
-                            <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Nombre de la reunión</TableCell>
-                            <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Numero de convocados</TableCell> */}
                                 <TableCell style={{}}>Total</TableCell>
                                 <TableCell style={{}}>ID</TableCell>
                                 <TableCell style={{}}>Entidad</TableCell>
@@ -174,7 +170,8 @@ const Councils = ({ translate, client, query }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {councils.list.map(council => (
+                            {councils.list && 
+                            councils.list.map(council => (
                                 <CouncilItem
                                     key={`council_${council.id}`}
                                     council={council}
@@ -188,8 +185,8 @@ const Councils = ({ translate, client, query }) => {
                         <PaginationFooter
                             page={pageCouncils}
                             translate={translate}
-                            length={councils.list.length}
-                            total={councils.total}
+                            length={councils.list && councils.list.length}
+                            total={councils.list && councils.total}
                             limit={10}
                             changePage={setpageCouncils}
                         />
