@@ -30,7 +30,6 @@ import { isMobile } from "../../utils/screen";
 import OneOnOneItem from "./OneOnOne/OneOnOneItem";
 import { usePolling } from "../../hooks";
 import ImportOneOneOne from "./OneOnOne/ImportOneOnOne";
-import { Pagination } from "react-bootstrap";
 
 
 const styles = {
@@ -94,7 +93,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const primary = getPrimary();
 	const config = React.useContext(ConfigContext);
 	const [pageReuniones, setPageReuniones] = React.useState(1);
-	const [pageTotal, setPagetTotal] = React.useState(0);
+	const [ReunionesTotal, setReunionesTotal] = React.useState(false);
 
 	const companyHasBook = () => {
 		return company.category === 'society';
@@ -212,7 +211,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					data = filtrarLasReuniones(data);
 				}
 				setReunionesPorDia(data);
-				setPagetTotal(response.data.corporationConvenedLiveCouncils.total);
+				setReunionesTotal(response.data.corporationConvenedLiveCouncils.total);
 				setReunionesLoading(false);
 			}
 		} else {
@@ -231,7 +230,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					data = filtrarLasReuniones(data);
 				}
 				setReuniones(data);
-				setPagetTotal(response.data.corporationConvenedLiveCouncils.total);
+				setReunionesTotal(response.data.corporationConvenedLiveCouncils.total);
 
 				calcularEstadisticas(data);
 				setReunionesLoading(false);
@@ -239,7 +238,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		}
 	}
 
-	usePolling(getReuniones, 12000);
+	 usePolling(getReuniones, 5000);
 
 	const filtrarLasReuniones = (data) => {
 		let dataFiltrado = []
@@ -797,7 +796,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 													page={pageReuniones}
 													translate={translate}
 													length={reunionesPorDia.length}
-													total={pageTotal}
+													total={ReunionesTotal}
 													limit={10}
 													changePage={setPageReuniones}
 												/>
@@ -823,7 +822,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 													page={pageReuniones}
 													translate={translate}
 													length={reuniones.length}
-													total={pageTotal}
+													total={ReunionesTotal}
 													limit={10}
 													changePage={setPageReuniones}
 												/>
