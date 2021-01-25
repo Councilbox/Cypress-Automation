@@ -184,16 +184,18 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				fechaFin: fechaFin ? fechaInicio : moment().startOf('month').toDate(),
 				corporationId: company.id,
 				options: {
-					orderBy: 'dateStart'
+					orderBy: 'dateStart',
+					limit: 10,
+					offset: (1 - 1) * 10,
 				}
 			}
 		});
-
+		// console.log(response)
 		let data = "";
 
 		if (fechaReunionConcreta) {
-			if (response.data.corporationConvenedCouncils) {
-				data = [...response.data.corporationLiveCouncils, ...response.data.corporationConvenedCouncils].sort((a, b) => {
+			if (response.data.corporationConvenedCouncils.list) {
+				data = [...response.data.corporationLiveCouncils.list, ...response.data.corporationConvenedCouncils.list].sort((a, b) => {
 					if(a.dateStart < b.dateStart){
 						return -1;
 					}
@@ -209,8 +211,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				setReunionesLoading(false);
 			}
 		} else {
-			if (response.data.corporationConvenedCouncils) {	
-				data = [...response.data.corporationLiveCouncils, ...response.data.corporationConvenedCouncils].sort((a, b) => {
+			if (response.data.corporationConvenedCouncils.list) {	
+				data = [...response.data.corporationLiveCouncils.list, ...response.data.corporationConvenedCouncils.list].sort((a, b) => {
 					if(a.dateStart < b.dateStart){
 						return -1;
 					}
@@ -1360,6 +1362,7 @@ const Cell = ({ text, avatar, width }) => {
 const corporationCouncils = gql`
     query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
 		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
+			list{
 			id
 			name
 			state
@@ -1382,9 +1385,11 @@ const corporationCouncils = gql`
 				businessName
 				logo
 			}
+		}total
 		}
 
 		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
+			list{
 			id
 			name
 			state
@@ -1403,6 +1408,7 @@ const corporationCouncils = gql`
 				businessName
 				logo
 			}
+		}total
 		}
 	}
 `;

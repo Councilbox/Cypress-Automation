@@ -17,79 +17,45 @@ import { TableCell } from 'material-ui';
 
 
 const CouncilsDashboard = ({ translate, client, ...props }) => {
-    // const [councilsConvenedCouncils, setCouncilsConvenedCouncils] = React.useState([]);
-    // const [loadingConvenedCouncils, setLoadingConvenedCouncils] = React.useState(true);
-    // const [pageConvenedCouncils, setPageConvenedCouncils] = React.useState(1);
 
-    // // const getDataConvenedCouncils = React.useCallback(async () => {
-    // //     setLoadingConvenedCouncils(true)
-    // //     const response = await client.query({
-    // //         query: corporationConvenedCouncils,
-    // //         variables: {
-    // //             options: {
-    // //                 limit: 10,
-    // //                 offset: (pageConvenedCouncils - 1) * 10
-    // //             },
-    // //         },
-    // //     });
+    const _convenedTrigger = () => {
+        return (
+            <CouncilsSectionTrigger
+                text={translate.companies_calendar}
+                icon={'calendar-o'}
+                description={translate.companies_calendar_desc}
+            />
+        )
+    }
 
-    // //     setCouncilsConvenedCouncils(response.data);
-    // //     setLoadingConvenedCouncils(false)
-    // // }, [pageConvenedCouncils]);
+    const _convenedSection = () => {
+        return (
+            <ConvenedCouncils
+                translate={translate}
+                client={client}
+            />
+        )
+    }
 
-    // // React.useEffect(() => {
-    // //     getDataConvenedCouncils();
-    // // }, [getDataConvenedCouncils]);
+    const _celebrationTrigger = () => {
+        return (
+            <CouncilsSectionTrigger
+                text={translate.companies_live}
+                icon={'users'}
+                description={translate.companies_live_desc}
+            />
+        )
+    }
 
-    // ---------------------------
+    const _celebrationSection = () => {
+        return (
 
-    // const _convenedTrigger = () => {
-    //     return (
-    //         <CouncilsSectionTrigger
-    //             text={translate.companies_calendar}
-    //             icon={'calendar-o'}
-    //             description={translate.companies_calendar_desc}
-    //         />
-    //     )
-    // }
-
-    // const _convenedSection = () => {
-    //     return (
-    //         <div style={{ width: '100%' }}>
-    //             {councils.corporationConvenedCouncils.map(council =>
-    //                 <CouncilItem
-    //                     key={`council_${council.id}`}
-    //                     council={council}
-    //                     translate={translate}
-    //                 />
-    //             )}
-    //         </div>
-    //     )
-    // }
-
-    // const _celebrationTrigger = () => {
-    //     return (
-    //         <CouncilsSectionTrigger
-    //             text={translate.companies_live}
-    //             icon={'users'}
-    //             description={translate.companies_live_desc}
-    //         />
-    //     )
-    // }
-
-    // const _celebrationSection = () => {
-    //     return (
-    //         <div style={{ width: '100%' }}>
-    //             {councils.corporationLiveCouncils.map(council => (
-    //                 <CouncilItem
-    //                     key={`council_${council.id}`}
-    //                     council={council}
-    //                     translate={translate}
-    //                 />
-    //             ))}
-    //         </div>
-    //     )
-    // }
+            <LiveCouncils
+                translate={translate}
+                client={client}
+            />
+        )
+    }
 
     return (
         <div
@@ -110,41 +76,29 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
                     }}
                 >
                     <BasicButton
-                        icon={
-                            <FontAwesome
-                                name={'refresh'}
-                                style={{
-                                    color: getSecondary()
-                                }}
-                            />
-                        }
-                    // onClick={() => getData()}
-                    />
-                    <BasicButton
                         text={'KPI'}
                         color="white"
                         onClick={() => bHistory.push('/kpi')}
                         buttonStyle={{
-                            marginLeft: '1em',
                             border: `1px solid ${secondary}`
                         }}
                     />
                 </div>
                 <SearchCouncils />
-                <ConvenedCouncils 
-                translate={translate}
-                client={client}
-                />
-                <LiveCouncils
-                    translate={translate}
-                    client={client}
-                />
+                <Card style={{ margin: '1.4em' }}>
+                    <CollapsibleSection trigger={_convenedTrigger} collapse={_convenedSection} />
+                </Card>
+                <Card style={{ margin: '1.4em' }}>
+                    <CollapsibleSection trigger={_celebrationTrigger} collapse={_celebrationSection} />
+                </Card>
+
+
             </Scrollbar>
         </div>
     )
 }
 
-const ConvenedCouncils = ({translate, client }) => {
+const ConvenedCouncils = ({ translate, client }) => {
     const [councilsConvenedCouncils, setCouncilsConvenedCouncils] = React.useState([]);
     const [loadingConvenedCouncils, setLoadingConvenedCouncils] = React.useState(true);
     const [pageConvenedCouncils, setPageConvenedCouncils] = React.useState(1);
@@ -170,7 +124,19 @@ const ConvenedCouncils = ({translate, client }) => {
     }, [getDataConvenedCouncils]);
 
     return (
-        <div>
+        <div style={{ padding: "1em" }}>
+            <BasicButton
+                backgroundColor={{ backgroundColor: "white", border: "1px solid " + getSecondary(), boxShadow: "none" }}
+                icon={
+                    <i
+                        className={'fa fa-refresh'}
+                        style={{
+                            color: getSecondary(),
+                        }}
+                    />
+                }
+                onClick={getDataConvenedCouncils}
+            />
             {loadingConvenedCouncils ?
                 <LoadingSection />
                 :
@@ -249,7 +215,19 @@ const LiveCouncils = ({ translate, client }) => {
 
 
     return (
-        <div>
+        <div style={{ padding: "1em" }}>
+            <BasicButton
+                backgroundColor={{ backgroundColor: "white", border: "1px solid " + getSecondary(), boxShadow: "none" }}
+                icon={
+                    <i
+                        className={'fa fa-refresh'}
+                        style={{
+                            color: getSecondary(),
+                        }}
+                    />
+                }
+                onClick={getDataLiveCouncils}
+            />
             {loadingLiveCouncils ?
                 <LoadingSection />
                 :
