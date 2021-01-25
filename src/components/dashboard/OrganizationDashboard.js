@@ -94,7 +94,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const primary = getPrimary();
 	const config = React.useContext(ConfigContext);
 	const [pageReuniones, setPageReuniones] = React.useState(1);
-	const [pageTotal, setPagetTotal] = React.useState('');
+	const [pageTotal, setPagetTotal] = React.useState(0);
 
 	const companyHasBook = () => {
 		return company.category === 'society';
@@ -166,7 +166,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 
 	React.useEffect(() => {
-		if(!config.oneOnOneDashboard || company.id === company.corporationId){
+		if (!config.oneOnOneDashboard || company.id === company.corporationId) {
 			if (usuariosEntidades === translate.users) {
 				getUsers();
 			} else {
@@ -200,10 +200,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		if (fechaReunionConcreta) {
 			if (response.data.corporationConvenedLiveCouncils.list) {
 				data = [...response.data.corporationConvenedLiveCouncils.list].sort((a, b) => {
-					if(a.dateStart < b.dateStart){
+					if (a.dateStart < b.dateStart) {
 						return -1;
 					}
-					if(a.dateStart > b.dateStart){
+					if (a.dateStart > b.dateStart) {
 						return 1;
 					}
 					return 0;
@@ -216,65 +216,27 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				setReunionesLoading(false);
 			}
 		} else {
-			if (response.data.corporationConvenedLiveCouncils.list) {	
+			if (response.data.corporationConvenedLiveCouncils.list) {
 				data = [...response.data.corporationConvenedLiveCouncils.list].sort((a, b) => {
-					if(a.dateStart < b.dateStart){
+					if (a.dateStart < b.dateStart) {
 						return -1;
 					}
-					if(a.dateStart > b.dateStart){
+					if (a.dateStart > b.dateStart) {
 						return 1;
 					}
 					return 0;
 				});;
-				
+
 				if (filterReuniones !== translate.all) {
 					data = filtrarLasReuniones(data);
 				}
 				setReuniones(data);
 				setPagetTotal(response.data.corporationConvenedLiveCouncils.total);
-				
+
 				calcularEstadisticas(data);
 				setReunionesLoading(false);
 			}
 		}
-		
-		// if (fechaReunionConcreta) {
-		// 	if (response.data.corporationConvenedCouncils.list) {
-		// 		data = [...response.data.corporationLiveCouncils.list, ...response.data.corporationConvenedCouncils.list].sort((a, b) => {
-		// 			if(a.dateStart < b.dateStart){
-		// 				return -1;
-		// 			}
-		// 			if(a.dateStart > b.dateStart){
-		// 				return 1;
-		// 			}
-		// 			return 0;
-		// 		});
-		// 		if (filterReuniones !== translate.all) {
-		// 			data = filtrarLasReuniones(data);
-		// 		}
-		// 		setReunionesPorDia(data);
-		// 		setReunionesLoading(false);
-		// 	}
-		// } else {
-		// 	if (response.data.corporationConvenedCouncils.list) {	
-		// 		data = [...response.data.corporationLiveCouncils.list, ...response.data.corporationConvenedCouncils.list].sort((a, b) => {
-		// 			if(a.dateStart < b.dateStart){
-		// 				return -1;
-		// 			}
-		// 			if(a.dateStart > b.dateStart){
-		// 				return 1;
-		// 			}
-		// 			return 0;
-		// 		});;
-				
-		// 		if (filterReuniones !== translate.all) {
-		// 			data = filtrarLasReuniones(data);
-		// 		}
-		// 		setReuniones(data);
-		// 		calcularEstadisticas(data);
-		// 		setReunionesLoading(false);
-		// 	}
-		// }
 	}
 
 	usePolling(getReuniones, 12000);
@@ -297,8 +259,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					dataFiltrado.push(item);
 				}
 			}
-			if(filterReuniones === 'withoutAttachments'){
-				if(!item.attachments  || (item.attachments && item.attachments.length === 0)){
+			if (filterReuniones === 'withoutAttachments') {
+				if (!item.attachments || (item.attachments && item.attachments.length === 0)) {
 					dataFiltrado.push(item);
 				}
 			}
@@ -308,7 +270,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 	React.useEffect(() => {
 		getReuniones()
-	}, [company.id, state.filterFecha, filterReuniones]);
+	}, [company.id, state.filterFecha, filterReuniones, pageReuniones]);
 
 
 	const hasBook = companyHasBook();
@@ -767,9 +729,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					overflow: "hidden"
 				}}>
 					<GridItem xs={8} md={8} lg={8} style={{ overflow: "hidden" }}>
-						{config.oneOnOneDashboard ? 
+						{config.oneOnOneDashboard ?
 							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Citas en curso</div>
-						:
+							:
 							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div>
 						}
 						{config.oneOnOneDashboard &&
@@ -818,56 +780,56 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									reunionesPorDia.length === undefined || reunionesLoading ?
 										<LoadingSection />
 										: <div>
-											{	reunionesPorDia.map((item, index) => {
+											{reunionesPorDia.map((item, index) => {
 												return (
-														<TablaReunionesEnCurso
-															key={index + "_reunionesPorDia"}
-															item={item}
-															index={index}
-															translate={translate}
-														/>
+													<TablaReunionesEnCurso
+														key={index + "_reunionesPorDia"}
+														item={item}
+														index={index}
+														translate={translate}
+													/>
 												)
 											})
 											}
-											
-													<Grid style={{ marginTop: "1em" }}>
-													<PaginationFooter
-															page={pageReuniones}
-															translate={translate}
-															length={pageReuniones.length}
-															total={pageTotal}
-															limit={10}
-															changePage={setPageReuniones}
-													/>
+
+											<Grid style={{ marginTop: "1em" }}>
+												<PaginationFooter
+													page={pageReuniones}
+													translate={translate}
+													length={reunionesPorDia.length}
+													total={pageTotal}
+													limit={10}
+													changePage={setPageReuniones}
+												/>
 											</Grid>
 										</div>
 									:
 									reuniones.length === undefined || reunionesLoading ?
 										<LoadingSection />
 										:
-									<div>
-											{	reuniones.map((item, index) => {
-											return (
-												<TablaReunionesEnCurso
-													key={index + "_reuniones"}
-													item={item}
-													index={index}
-													translate={translate}
-												/>
-											)
-										})}
-											<Grid style={{ marginTop: "1em" }}>
-													<PaginationFooter
-															page={pageReuniones}
-															translate={translate}
-															length={reuniones.length}
-															total={pageTotal}
-															limit={10}
-															changePage={setPageReuniones}
+										<div>
+											{reuniones.map((item, index) => {
+												return (
+													<TablaReunionesEnCurso
+														key={index + "_reuniones"}
+														item={item}
+														index={index}
+														translate={translate}
 													/>
+												)
+											})}
+											<Grid style={{ marginTop: "1em" }}>
+												<PaginationFooter
+													page={pageReuniones}
+													translate={translate}
+													length={reuniones.length}
+													total={pageTotal}
+													limit={10}
+													changePage={setPageReuniones}
+												/>
 											</Grid>
 
-									</div>
+										</div>
 								}
 							</Scrollbar>
 						</Grid>
@@ -910,12 +872,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
 						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
 						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
-					style={{
-						background: "white",
-						boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-						padding: "1em",
-						borderRadius: "5px"
-					}}>
+						style={{
+							background: "white",
+							boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+							padding: "1em",
+							borderRadius: "5px"
+						}}>
 						{reuniones.length === undefined ?
 							<LoadingSection />
 							:
@@ -1161,7 +1123,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 }
 
 const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage }) => {
-	
+
 	const primary = getPrimary();
 	return (
 		<div style={{}}>
