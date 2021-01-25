@@ -4,16 +4,12 @@ import gql from 'graphql-tag';
 import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput, Grid, PaginationFooter } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { lightGrey, getSecondary, getPrimary, secondary } from '../../../styles/colors';
-import FontAwesome from 'react-fontawesome';
 import { Card, Table, TableBody, TableRow } from 'material-ui';
 import CouncilItem from './CouncilItem';
 import CouncilsSectionTrigger from './CouncilsSectionTrigger';
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { bHistory } from '../../../containers/App';
 import { TableHead } from 'material-ui';
 import { TableCell } from 'material-ui';
-import { council } from '../../../queries';
 
 
 
@@ -73,7 +69,6 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
                     style={{
                         display: 'flex',
                         flexDirection: 'row',
-                        paddingBottom: '2em',
                         alignItems: 'center',
                         margin: '1.4em'
                     }}
@@ -120,11 +115,10 @@ const Councils = ({ translate, client, query }) => {
                 },
             },
         });
-        
+
         if (response.data) {
-            console.log(response.data)
             Object.entries(response.data).map(([name, value]) => {
-                if ('corporationLiveCouncils' === name || 'corporationConvenedCouncils' === name ){
+                if ('corporationLiveCouncils' === name || 'corporationConvenedCouncils' === name) {
                     setCouncils(value)
                 }
             })
@@ -136,7 +130,7 @@ const Councils = ({ translate, client, query }) => {
         getDataCouncils();
     }, [getDataCouncils]);
 
-    
+
 
     return (
         <div style={{ padding: "1em" }}>
@@ -170,14 +164,15 @@ const Councils = ({ translate, client, query }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {councils.list && 
-                            councils.list.map(council => (
-                                <CouncilItem
-                                    key={`council_${council.id}`}
-                                    council={council}
-                                    translate={translate}
-                                />
-                            ))}
+                            {councils.list &&
+                                councils.list.map((council, index) => (
+                                    <CouncilItem
+                                        index={index}
+                                        key={`council_${council.id}`}
+                                        council={council}
+                                        translate={translate}
+                                    />
+                                ))}
                         </TableBody>
                     </Table>
 
@@ -197,131 +192,6 @@ const Councils = ({ translate, client, query }) => {
     )
 }
 
-
-
-// const CouncilsDashboard = ({ translate, client, ...props }) => {
-//     const [councils, setCouncils] = React.useState([]);
-//     const [loading, setLoading] = React.useState(true);
-
-//     const getData = React.useCallback(async () => {
-//         setLoading(true)
-//         const response = await client.query({
-//             query: corporationCouncils,
-//         });
-//       
-//         setCouncils(response.data);
-//         setLoading(false)
-//     }, []);
-
-//     React.useEffect(() => {
-//         getData();
-//     }, [getData]);
-
-
-//     const _convenedTrigger = () => {
-//         return (
-//             <CouncilsSectionTrigger
-//                 text={translate.companies_calendar}
-//                 icon={'calendar-o'}
-//                 description={translate.companies_calendar_desc}
-//             />
-//         )
-//     }
-
-//     const _convenedSection = () => {
-//         return (
-//             <div style={{ width: '100%' }}>
-//                 {councils.corporationConvenedCouncils.map(council =>
-//                     <CouncilItem
-//                         key={`council_${council.id}`}
-//                         council={council}
-//                         translate={translate}
-//                     />
-//                 )}
-//             </div>
-//         )
-//     }
-
-//     const _celebrationTrigger = () => {
-//         return (
-//             <CouncilsSectionTrigger
-//                 text={translate.companies_live}
-//                 icon={'users'}
-//                 description={translate.companies_live_desc}
-//             />
-//         )
-//     }
-
-//     const _celebrationSection = () => {
-//         return (
-//             <div style={{ width: '100%' }}>
-//                 {councils.corporationLiveCouncils.map(council => (
-//                     <CouncilItem
-//                         key={`council_${council.id}`}
-//                         council={council}
-//                         translate={translate}
-//                     />
-//                 ))}
-//             </div>
-//         )
-//     }
-
-//     return (
-//         <div
-//             style={{
-//                 width: '100%',
-//                 height: '100%',
-//                 backgroundColor: lightGrey
-//             }}
-//         >
-//             <Scrollbar>
-//                 <div
-//                     style={{
-//                         display: 'flex',
-//                         flexDirection: 'row',
-//                         paddingBottom: '2em',
-//                         alignItems: 'center',
-//                         margin: '1.4em'
-//                     }}
-//                 >
-//                     <BasicButton
-//                         icon={
-//                             <FontAwesome
-//                                 name={'refresh'}
-//                                 style={{
-//                                     color: getSecondary()
-//                                 }}
-//                             />
-//                         }
-//                         onClick={() => getData()}
-//                     />
-//                     <BasicButton
-//                         text={'KPI'}
-//                         color="white"
-//                         onClick={() => bHistory.push('/kpi')}
-//                         buttonStyle={{
-//                             marginLeft: '1em',
-//                             border: `1px solid ${secondary}`
-//                         }}
-//                     />
-//                 </div>
-//                 <SearchCouncils />
-//                 {loading ?
-//                     <LoadingSection />
-//                     :
-//                     <React.Fragment>
-//                         <Card style={{ margin: '1.4em' }}>
-//                             <CollapsibleSection trigger={_convenedTrigger} collapse={_convenedSection} />
-//                         </Card>
-//                         <Card style={{ margin: '1.4em' }}>
-//                             <CollapsibleSection trigger={_celebrationTrigger} collapse={_celebrationSection} />
-//                         </Card>
-//                     </React.Fragment>
-//                 }
-//             </Scrollbar>
-//         </div>
-//     )
-// }
 
 export const SearchCouncils = withApollo(({ client, reload }) => {
     const [idCouncilSearch, setIdCouncilSearch] = React.useState(0);
@@ -445,42 +315,6 @@ const corporationLiveCouncils = gql`
         }
     }
 `;
-
-// const corporationCouncils = gql`
-//     query corporationCouncils{
-//         corporationConvenedCouncils{
-//             id
-//             name
-//             state
-//             dateStart
-//             councilType
-//             prototype
-//             participants {
-//                 id
-//             }
-//             company{
-//                 id
-//                 businessName
-//             }
-//         }
-
-//         corporationLiveCouncils{
-//             id
-//             name
-//             state
-//             dateStart
-//             councilType
-//             prototype
-//             participants {
-//                 id
-//             }
-//             company{
-//                 id
-//                 businessName
-//             }
-//         }
-//     }
-// `;
 
 const CouncilDetailsRoot = gql`
     query CouncilDetailsRoot($id: Int!){
