@@ -94,6 +94,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const config = React.useContext(ConfigContext);
 	const [pageReuniones, setPageReuniones] = React.useState(1);
 	const [ReunionesTotal, setReunionesTotal] = React.useState(false);
+	const [totalReunionPorDia, setTotalReunionPorDia] = React.useState(false);
+
 
 	const companyHasBook = () => {
 		return company.category === 'society';
@@ -193,10 +195,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				}
 			}
 		});
-		console.log(response)
 		let data = "";
 
-		if (fechaReunionConcreta) {
+		if (fechaInicio && fechaFin) {
 			if (response.data.corporationConvenedLiveCouncils.list) {
 				data = [...response.data.corporationConvenedLiveCouncils.list].sort((a, b) => {
 					if (a.dateStart < b.dateStart) {
@@ -211,7 +212,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					data = filtrarLasReuniones(data);
 				}
 				setReunionesPorDia(data);
-				setReunionesTotal(response.data.corporationConvenedLiveCouncils.total);
+				setTotalReunionPorDia(response.data.corporationConvenedLiveCouncils.total);
 				setReunionesLoading(false);
 			}
 		} else {
@@ -237,8 +238,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			}
 		}
 	}
-
-	 usePolling(getReuniones, 5000);
+	
+	usePolling(getReuniones, 5000);
+	// usePolling(getReuniones, 12000);
 
 	const filtrarLasReuniones = (data) => {
 		let dataFiltrado = []
@@ -269,7 +271,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 	React.useEffect(() => {
 		getReuniones()
-	}, [company.id, state.filterFecha, filterReuniones, pageReuniones]);
+	}, [company.id, state.filterFecha, filterReuniones, pageReuniones, daySelected]);
 
 
 	const hasBook = companyHasBook();
@@ -282,6 +284,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		} else {
 			setDay(value)
 		}
+
 		getReuniones(fechaInicio, fechaFin.toDate(), true)
 	}
 
@@ -796,7 +799,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 													page={pageReuniones}
 													translate={translate}
 													length={reunionesPorDia.length}
-													total={ReunionesTotal}
+													total={totalReunionPorDia}
 													limit={10}
 													changePage={setPageReuniones}
 												/>
