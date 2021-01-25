@@ -360,7 +360,11 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						alignContent: "center",
 						marginBottom: "0.3em"
 					}}>
-						<div style={{ fontWeight: 'bold', color: "#a09b9e", display: 'flex', alignItems: 'center' }}>Reuniones en curso</div>
+						{config.oneOnOneDashboard ?
+							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Citas en curso</div>
+							:
+							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div>
+						}
 						<div style={{
 							display: "flex",
 							alignContent: "inherit",
