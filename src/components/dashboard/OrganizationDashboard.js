@@ -183,7 +183,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		//setReunionesLoading(true)
 		const response = await client.query({
 			query: corporationConvenedLiveCouncils,
-			// query: corporationCouncils,
 			variables: {
 				fechaInicio: fechaInicio ? fechaFin : moment().endOf('month').toDate(),
 				fechaFin: fechaFin ? fechaInicio : moment().startOf('month').toDate(),
@@ -196,7 +195,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			}
 		});
 		let data = "";
-		console.log(response)
+		
 		if (fechaInicio && fechaFin) {
 			if (response.data.corporationConvenedLiveCouncils.list) {
 				data = [...response.data.corporationConvenedLiveCouncils.list].sort((a, b) => {
@@ -307,36 +306,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		getReuniones(fechaInicio.toDate(), fechaFin.toDate())
 		setFechaBusqueda(fechaInicio)
 	}
-
-	// const calcularEstadisticas = (data) => {
-	// 	let convocada = 0 //5-10
-	// 	let celebracion = 0//20-30
-	// 	let redActa = 0//40
-	// 	data.map((item, index) => {
-	// 		if (item.state === 5 || item.state === 10) {
-	// 			convocada++
-	// 		}
-	// 		if (item.state === 20 || item.state === 30) {
-	// 			celebracion++
-	// 		}
-	// 		if (item.state === 40) {
-	// 			redActa++
-	// 		}
-	// 	})
-	// 	let miLista = [convocada, celebracion, redActa];
-	// 	var mayor = miLista[0];
-	// 	for (let i = 1; i < miLista.length; i++) {
-	// 		if (miLista[i] > mayor)
-	// 			mayor = miLista[i];
-	// 	}
-
-	// 	setPorcentajes({
-	// 		convocadaPorcentaje: convocada,
-	// 		celebracionPorcentaje: celebracion,
-	// 		redActaPorcentaje: redActa,
-	// 		max: mayor
-	// 	})
-	// }
 
 	const onChangeDay = (date) => {
 		if (String(date) === String(day)) {
