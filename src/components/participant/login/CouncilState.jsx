@@ -175,7 +175,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 				heights={state.height}
 				windowOrientation={windowOrientation}
 			>
-				<div style={{ width: isMobile ? "100%" : "410px"  }}>
+				<div style={{ width: isMobile ? "100%" : "410px" }}>
 					<TextRender
 						title={translate.we_are_sorry}
 						text={translate.council_not_started_yet_retry_later}
@@ -200,7 +200,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 				heights={state.height}
 				windowOrientation={windowOrientation}
 			>
-				<div style={{ width: isMobile ? "100%" : "410px"  }}>
+				<div style={{ width: isMobile ? "100%" : "410px" }}>
 					<TextRender
 						title={translate.we_are_sorry}
 						text={translate.not_held_council}
@@ -296,6 +296,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 						</Scrollbar>
 					</div>
 					:
+					// Esto es lo que hay que editar
 					<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
 						<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
 							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
@@ -452,7 +453,7 @@ const TextRender = ({ title, text, isHtmlText, council, company, translate, wind
 			<h3 style={{ color: primary, marginBottom: windowOrientation === "landscape" ? "" : "1em" }}>{title}</h3>
 
 			{text && (
-				<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === "landscape" ? "" : "2em"}}>
+				<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === "landscape" ? "" : "2em" }}>
 					{isHtmlText ? (
 						<span dangerouslySetInnerHTML={{ __html: text }} />
 					) : (
