@@ -298,47 +298,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					:
 					// Esto es lo que hay que editar
 					<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
-						<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
-							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
-								<div>
-									<h3 style={{
-										color: primary,
-										fontSize: "28px",
-										paddingTop: "0.5em",
-										marginBottom: "0px"
-									}}
-									>
-										{props.participant.hasVoted ? translate.participation_summary
-											:
-											checkHybridConditions(council) ?
-												'Votaciones remotas finalizadas' //TRADUCCION
-												:
-												translate.concil_finished}
-									</h3>
-									<div style={{
-										color: primary,
-										paddingBottom: "0.5em",
-									}}>
-										{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
-									</div>
-								</div>
-								<div>
-									<Image
-										src={emptyMeetingTable}
-										styles={{ width: '90px', minWidth: "", marginLeft: "1em" }}
-										windowOrientation={windowOrientation}
-									>
-									</Image>
-								</div>
-							</div>
-							<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
-								<div>
-									<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900", color: "#000000" }} >
-										{council.name}
-									</div>
-								</div>
-							</div>
-						</div>
+						<CouncilFinishedSummarySurvey translate={translate} windowOrientation={windowOrientation} participant={props.participant} council={council} />
 
 						<div style={{ height: "calc( 100% - 13em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 							<div style={{ padding: "1em 1em", height: "100%" }}>
@@ -409,10 +369,60 @@ const CouncilFinishedSurveyOpenA = () => {
 }
 
 // Reunion finalizada + resumen + encuesta
-const CouncilFinishedSummarySurvey = () => {
+const CouncilFinishedSummarySurvey = ({ translate, participant, council, windowOrientation }) => {
+	const primary = getPrimary();
 
 	return (
-		<div></div>
+		<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+			<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "1.5em" }}>
+				<div>
+					<h3 style={{
+						color: primary,
+						fontSize: "28px",
+						paddingTop: "0.5em",
+						marginBottom: "0px"
+					}}
+					>
+						{participant.hasVoted ? translate.participation_summary
+							:
+							checkHybridConditions(council) ?
+								'Votaciones remotas finalizadas' //TRADUCCION
+								:
+								translate.concil_finished}
+					</h3>
+					<div style={{
+						color: primary,
+						fontSize: "18px",
+						paddingBottom: "0.5em",
+					}}>
+						{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
+					</div>
+				</div>
+				<div>
+					<Image
+						src={emptyMeetingTable}
+						styles={{ width: '90px', minWidth: "", marginLeft: "1em" }}
+						windowOrientation={windowOrientation}
+					>
+					</Image>
+				</div>
+			</div>
+			<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
+				<div>
+					<div style={{ display: "flex", marginBottom: "1em", fontSize: '18px', fontWeight: "900", color: "#000000" }} >
+						{council.name}
+					</div>
+				</div>
+			</div>
+			<div style={{ display: "flex", justifyContent: "center", marginRight: '6rem', padding: "0 1em" }}>
+			<div>
+				<div style={{border: "2px solid "+ primary,  borderRadius: '2px', padding: '.5rem 1rem'}}>
+					
+						<p style={{fontSize: '11px', fontWeight: 'bold', color: primary, margin: '0' }}>{'Valore el funcionamiento de la reunión aquí'}</p>
+					</div>
+			</div>
+			</div>
+		</div>
 	)
 }
 
