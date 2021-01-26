@@ -196,7 +196,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			}
 		});
 		let data = "";
-
+		console.log(response)
 		if (fechaInicio && fechaFin) {
 			if (response.data.corporationConvenedLiveCouncils.list) {
 				data = [...response.data.corporationConvenedLiveCouncils.list].sort((a, b) => {
@@ -232,11 +232,17 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				}
 				setReuniones(data);
 				setReunionesTotal(response.data.corporationConvenedLiveCouncils.total);
-
-				calcularEstadisticas(data);
+				
+				setPorcentajes({
+					convocadaPorcentaje: response.data.corporationConvenedLiveCouncils.preparing,
+					celebracionPorcentaje: response.data.corporationConvenedLiveCouncils.roomOpened,
+					redActaPorcentaje: response.data.corporationConvenedLiveCouncils.saved,
+					max: response.data.corporationConvenedLiveCouncils.max
+				})
 				setReunionesLoading(false);
 			}
 		}
+
 	}
 
 	usePolling(getReuniones, 12000);
@@ -302,35 +308,35 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		setFechaBusqueda(fechaInicio)
 	}
 
-	const calcularEstadisticas = (data) => {
-		let convocada = 0 //5-10
-		let celebracion = 0//20-30
-		let redActa = 0//40
-		data.map((item, index) => {
-			if (item.state === 5 || item.state === 10) {
-				convocada++
-			}
-			if (item.state === 20 || item.state === 30) {
-				celebracion++
-			}
-			if (item.state === 40) {
-				redActa++
-			}
-		})
-		let miLista = [convocada, celebracion, redActa];
-		var mayor = miLista[0];
-		for (let i = 1; i < miLista.length; i++) {
-			if (miLista[i] > mayor)
-				mayor = miLista[i];
-		}
+	// const calcularEstadisticas = (data) => {
+	// 	let convocada = 0 //5-10
+	// 	let celebracion = 0//20-30
+	// 	let redActa = 0//40
+	// 	data.map((item, index) => {
+	// 		if (item.state === 5 || item.state === 10) {
+	// 			convocada++
+	// 		}
+	// 		if (item.state === 20 || item.state === 30) {
+	// 			celebracion++
+	// 		}
+	// 		if (item.state === 40) {
+	// 			redActa++
+	// 		}
+	// 	})
+	// 	let miLista = [convocada, celebracion, redActa];
+	// 	var mayor = miLista[0];
+	// 	for (let i = 1; i < miLista.length; i++) {
+	// 		if (miLista[i] > mayor)
+	// 			mayor = miLista[i];
+	// 	}
 
-		setPorcentajes({
-			convocadaPorcentaje: convocada,
-			celebracionPorcentaje: celebracion,
-			redActaPorcentaje: redActa,
-			max: mayor
-		})
-	}
+	// 	setPorcentajes({
+	// 		convocadaPorcentaje: convocada,
+	// 		celebracionPorcentaje: celebracion,
+	// 		redActaPorcentaje: redActa,
+	// 		max: mayor
+	// 	})
+	// }
 
 	const onChangeDay = (date) => {
 		if (String(date) === String(day)) {
@@ -1451,63 +1457,13 @@ const corporationConvenedLiveCouncils = gql`
 					logo
 				}
 			}
-			total
+			total,
+			preparing,
+			saved,
+			roomOpened,
+			max
 		}
 	}
 `;
-
-// const corporationCouncils = gql`
-//     query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
-// 		corporationConvenedCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
-// 			list{
-// 			id
-// 			name
-// 			state
-// 			dateStart
-// 			councilStarted
-// 			councilType
-// 			externalId
-// 			participants {
-// 				id
-// 				name
-// 				surname
-// 			}
-// 			prototype
-// 			attachments {
-// 				filename
-// 				participantId
-// 			}
-// 			company{
-// 				id
-// 				businessName
-// 				logo
-// 			}
-// 		}total
-// 		}
-
-// 		corporationLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
-// 			list{
-// 			id
-// 			name
-// 			state
-// 			dateStart
-// 			councilType
-// 			externalId
-// 			councilStarted
-// 			prototype
-// 			participants {
-// 				id
-// 				name
-// 				surname
-// 			}
-// 			company{
-// 				id
-// 				businessName
-// 				logo
-// 			}
-// 		}total
-// 		}
-// 	}
-// `;
 
 export default withApollo(withStyles(styles)(OrganizationDashboard));
