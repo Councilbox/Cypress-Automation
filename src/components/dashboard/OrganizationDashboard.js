@@ -14,9 +14,9 @@ import {
 	MenuItem,
 } from "../../displayComponents";
 import { ConfigContext } from '../../containers/AppControl';
-import { moment, bHistory } from "../../containers/App";
+import { moment } from "../../containers/App";
 import { Avatar } from "antd";
-import { primary, getPrimary } from "../../styles/colors";
+import { getPrimary } from "../../styles/colors";
 import Calendar from 'react-calendar';
 import { Icon, withStyles, Divider, } from "material-ui";
 import { Doughnut, Chart } from "react-chartjs-2";
@@ -24,7 +24,6 @@ import { corporationUsers } from "../../queries/corporation";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import GraficaEstadisiticas from "./GraficaEstadisiticas";
-import { sendGAevent } from "../../utils/analytics";
 import { getActivationText } from "../company/settings/CompanySettingsPage";
 import { isMobile } from "../../utils/screen";
 import OneOnOneItem from "./OneOnOne/OneOnOneItem";
@@ -69,10 +68,11 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const [companiesPage, setCompaniesPage] = React.useState(1);
 	const [companiesTotal, setCompaniesTotal] = React.useState(false);
 	const [reuniones, setReuniones] = React.useState(false);
-	const [reunionesPorDia, setReunionesPorDia] = React.useState([]);
-	const [day, setDay] = React.useState(false);
-	const [daySelected, setDaySelected] = React.useState(new Date());
-	const [reunionesPage, setReunionesPage] = React.useState(1);
+	const [filters, setFilters] = React.useState({
+		page: 1,
+		dateStart: moment().startOf('month').toDate(),
+		dateEnd: moment().endOf('month').toDate(),
+	})
 	const [reunionesLoading, setReunionesLoading] = React.useState(true);
 	const [inputSearch, setInputSearch] = React.useState(false);
 	const [inputSearchE, setInputSearchE] = React.useState(false);
@@ -92,14 +92,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const [usuariosEntidades, setUsuariosEntidades] = React.useState(translate.users);
 	const primary = getPrimary();
 	const config = React.useContext(ConfigContext);
-	const [pageReuniones, setPageReuniones] = React.useState(1);
 	const [ReunionesTotal, setReunionesTotal] = React.useState(false);
-	const [totalReunionPorDia, setTotalReunionPorDia] = React.useState(false);
 
-
-	const companyHasBook = () => {
-		return company.category === 'society';
-	}
 
 	const getTileClassName = ({ date }) => {
 		if (reuniones.length > 0) {
@@ -161,11 +155,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		setCompaniesPage(value)
 	}
 
-	const changePageReuniones = value => {
-		reunionesPage(value)
-	}
-
-
 	React.useEffect(() => {
 		if (!config.oneOnOneDashboard || company.id === company.corporationId) {
 			if (usuariosEntidades === translate.users) {
@@ -177,143 +166,71 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	}, [company.id, state.filterTextUsuarios, state.filterTextCompanies, usuariosEntidades, usersPage, companiesPage]);
 
 
-
-	const getReuniones = async (fechaInicio, fechaFin, fechaReunionConcreta) => {
-
-		//setReunionesLoading(true)
+	const getReuniones = React.useCallback(async () => {
 		const response = await client.query({
 			query: corporationConvenedLiveCouncils,
 			variables: {
-				fechaInicio: fechaInicio ? fechaFin : moment().endOf('month').toDate(),
-				fechaFin: fechaFin ? fechaInicio : moment().startOf('month').toDate(),
+				dateStart: filters.dateStart,
+				dateEnd: filters.dateEnd,
 				corporationId: company.id,
 				options: {
 					orderBy: 'dateStart',
 					limit: 10,
-					offset: (pageReuniones - 1) * 10,
+					offset: (filters.page - 1) * 10,
 				}
 			}
 		});
-		let data = "";
 		
-		if (fechaInicio && fechaFin) {
-			if (response.data.corporationConvenedLiveCouncils.list) {
-				data = [...response.data.corporationConvenedLiveCouncils.list].sort((a, b) => {
-					if (a.dateStart < b.dateStart) {
-						return -1;
-					}
-					if (a.dateStart > b.dateStart) {
-						return 1;
-					}
-					return 0;
-				});
-				if (filterReuniones !== translate.all) {
-					data = filtrarLasReuniones(data);
-				}
-				setReunionesPorDia(data);
-				setTotalReunionPorDia(response.data.corporationConvenedLiveCouncils.total);
-				setReunionesLoading(false);
-			}
-		} else {
-			if (response.data.corporationConvenedLiveCouncils.list) {
-				data = [...response.data.corporationConvenedLiveCouncils.list].sort((a, b) => {
-					if (a.dateStart < b.dateStart) {
-						return -1;
-					}
-					if (a.dateStart > b.dateStart) {
-						return 1;
-					}
-					return 0;
-				});;
-
-				if (filterReuniones !== translate.all) {
-					data = filtrarLasReuniones(data);
-				}
-				setReuniones(data);
-				setReunionesTotal(response.data.corporationConvenedLiveCouncils.total);
-				
-				setPorcentajes({
-					convocadaPorcentaje: response.data.corporationConvenedLiveCouncils.preparing,
-					celebracionPorcentaje: response.data.corporationConvenedLiveCouncils.roomOpened,
-					redActaPorcentaje: response.data.corporationConvenedLiveCouncils.saved,
-					max: response.data.corporationConvenedLiveCouncils.max
-				})
-				setReunionesLoading(false);
-			}
-		}
-
-	}
+		setReuniones(response.data.organizationCouncils.list);
+		setReunionesTotal(response.data.organizationCouncils.total);
+		
+		setPorcentajes({
+			convocadaPorcentaje: response.data.organizationCouncils.preparing,
+			celebracionPorcentaje: response.data.organizationCouncils.roomOpened,
+			redActaPorcentaje: response.data.organizationCouncils.saved,
+			max: response.data.organizationCouncils.max
+		})
+		setReunionesLoading(false);
+	}, [filters.dateStart, filters.dateEnd, filters.page]);
 
 	usePolling(getReuniones, 12000);
 
-	const filtrarLasReuniones = (data) => {
-		let dataFiltrado = []
-		data.map((item, index) => {
-			if (filterReuniones === translate.companies_calendar) {
-				if (item.state === 5 || item.state === 10) {
-					dataFiltrado.push(item);
-				}
-			}
-			if (filterReuniones === translate.companies_live) {
-				if (item.state === 20 || item.state === 30) {
-					dataFiltrado.push(item);
-				}
-			}
-			if (filterReuniones === translate.companies_writing) {
-				if (item.state === 40) {
-					dataFiltrado.push(item);
-				}
-			}
-			if (filterReuniones === 'withoutAttachments') {
-				if (!item.attachments || (item.attachments && item.attachments.length === 0)) {
-					dataFiltrado.push(item);
-				}
-			}
-		})
-		return dataFiltrado;
-	}
-
 	React.useEffect(() => {
 		getReuniones()
-	}, [company.id, state.filterFecha, filterReuniones, pageReuniones, daySelected]);
-
-
-	const hasBook = companyHasBook();
-
-	const clickDay = (value) => {
-		let fechaInicio = value
-		let fechaFin = moment(value).add(24, 'hours');
-		if (String(fechaInicio) === String(day)) {
-			setDay(false)
-		} else {
-			setDay(value)
-		}
-
-		getReuniones(fechaInicio, fechaFin.toDate(), true)
-	}
+	}, [getReuniones]);
 
 	const changeMonthBack = () => {
-		setDay(false)
-		let fechaInicio = moment(fechaBusqueda).subtract(1, 'months').startOf('month');
-		let fechaFin = moment(fechaBusqueda).subtract(1, 'months').endOf('month');
-		getReuniones(fechaInicio.toDate(), fechaFin.toDate())
-		setFechaBusqueda(fechaInicio)
+		setFilters({
+			...filters,
+			dateStart: moment(filters.dateStart).subtract(1, 'months').startOf('month'),
+			dateEnd: moment(filters.dateStart).subtract(1, 'months').endOf('month'),
+			selectedDay: null
+		});
 	}
 	const changeMonthFront = () => {
-		setDay(false)
-		let fechaInicio = moment(fechaBusqueda).add(1, 'months').startOf('month');
-		let fechaFin = moment(fechaBusqueda).add(1, 'months').endOf('month');
-		getReuniones(fechaInicio.toDate(), fechaFin.toDate())
-		setFechaBusqueda(fechaInicio)
+		setFilters({
+			...filters,
+			dateStart: moment(filters.dateStart).add(1, 'months').startOf('month'),
+			dateEnd: moment(filters.dateStart).add(1, 'months').endOf('month'),
+			selectedDay: null
+		});
 	}
 
-	const onChangeDay = (date) => {
-		if (String(date) === String(day)) {
-			setDaySelected(new Date('01/01/1970'))
-			setDay(false)
+	const onChangeDay = date => {
+		if (String(filters.dateStart) === String(date)) {
+			setFilters({
+				...filters,
+				dateStart: moment().startOf('month').toDate(),
+				dateEnd: moment().endOf('month').toDate(),
+				selectedDay: new Date('01/01/1970')
+			});
 		} else {
-			setDay(date)
-			setDaySelected(date)
+			setFilters({
+				...filters,
+				dateStart: date,
+				dateEnd: moment(date).add(24, 'hours'),
+				selectedDay: date
+			});
 		}
 	}
 
@@ -442,60 +359,32 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					{toggleReunionesCalendario === translate.councils_link ?
 						<div style={{ height: "20em" }}>
 							<Scrollbar>
-								{day ?
-									reunionesPorDia.length === undefined || reunionesLoading ?
-										<LoadingSection />
-										: <div>
-											{reunionesPorDia.map((item, index) => {
-												return (
-													<TablaReunionesEnCurso
-														key={index + "_reunionesPorDia"}
-														item={item}
-														index={index}
-														translate={translate}
-													/>
-												)
-											})
-											}
-
-											<Grid style={{ marginTop: "1em" }}>
-												<PaginationFooter
-													page={pageReuniones}
-													translate={translate}
-													length={reunionesPorDia.length}
-													total={totalReunionPorDia}
-													limit={10}
-													changePage={setPageReuniones}
-												/>
-											</Grid>
-										</div>
+								{reuniones.length === undefined || reunionesLoading ?
+									<LoadingSection />
 									:
-									reuniones.length === undefined || reunionesLoading ?
-										<LoadingSection />
-										:
-										<div>
-											{reuniones.map((item, index) => {
-												return (
-													<TablaReunionesEnCurso
-														key={index + "_reuniones"}
-														item={item}
-														index={index}
-														translate={translate}
-													/>
-												)
-											})}
-											<Grid style={{ marginTop: "1em" }}>
-												<PaginationFooter
-													page={pageReuniones}
+									<div>
+										{reuniones.map((item, index) => {
+											return (
+												<TablaReunionesEnCurso
+													key={index + "_reuniones"}
+													item={item}
+													index={index}
 													translate={translate}
-													length={reuniones.length}
-													total={ReunionesTotal}
-													limit={10}
-													changePage={setPageReuniones}
 												/>
-											</Grid>
+											)
+										})}
+										<Grid style={{ marginTop: "1em" }}>
+											<PaginationFooter
+												page={filters.page}
+												translate={translate}
+												length={reuniones.length}
+												total={ReunionesTotal}
+												limit={10}
+												changePage={page => setFilters({ ...filters, page })}
+											/>
+										</Grid>
 
-										</div>
+									</div>
 								}
 							</Scrollbar>
 						</div>
@@ -518,10 +407,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 									}
 									onChange={onChangeDay}
-									value={daySelected}
+									value={filters.selectedDay}
 									minDetail={'month'}
 									tileClassName={date => getTileClassName(date)}
-									onClickDay={(value) => clickDay(value)}
 								/>
 							}
 						</div>
@@ -782,35 +670,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						}
 						<Grid style={{ overflow: "hidden", height: `calc(90% - ${config.oneOnOneDashboard ? '4em' : '0px'})` }}>
 							<Scrollbar>
-								{day ?
-									reunionesPorDia.length === undefined || reunionesLoading ?
-										<LoadingSection />
-										: <div>
-											{reunionesPorDia.map((item, index) => {
-												return (
-													<TablaReunionesEnCurso
-														key={index + "_reunionesPorDia"}
-														item={item}
-														index={index}
-														translate={translate}
-													/>
-												)
-											})
-											}
-
-											<Grid style={{ marginTop: "1em" }}>
-												<PaginationFooter
-													page={pageReuniones}
-													translate={translate}
-													length={reunionesPorDia.length}
-													total={totalReunionPorDia}
-													limit={10}
-													changePage={setPageReuniones}
-												/>
-											</Grid>
-										</div>
-									:
-									reuniones.length === undefined || reunionesLoading ?
+								{reuniones.length === undefined || reunionesLoading ?
 										<LoadingSection />
 										:
 										<div>
@@ -826,12 +686,17 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 											})}
 											<Grid style={{ marginTop: "1em" }}>
 												<PaginationFooter
-													page={pageReuniones}
+													page={filters.page}
 													translate={translate}
 													length={reuniones.length}
 													total={ReunionesTotal}
 													limit={10}
-													changePage={setPageReuniones}
+													changePage={page => {
+														setFilters({
+															...filters,
+															page
+														})
+													}}
 												/>
 											</Grid>
 
@@ -859,10 +724,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 									}
 									onChange={onChangeDay}
-									value={daySelected}
+									value={filters.selectedDay}
 									minDetail={'month'}
 									tileClassName={date => getTileClassName(date)}
-									onClickDay={(value) => clickDay(value)}
 								/>
 							}
 						</div>
@@ -1400,8 +1264,8 @@ const Cell = ({ text, avatar, width }) => {
 }
 
 const corporationConvenedLiveCouncils = gql`
-    query corporationConvenedLiveCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){
-		corporationConvenedLiveCouncils(filters: $filters, options: $options, fechaInicio: $fechaInicio, fechaFin: $fechaFin, corporationId: $corporationId){
+    query corporationConvenedLiveCouncils($filters: [FilterInput], $options: OptionsInput, $dateStart: String, $dateEnd: String, $corporationId: Int){
+		organizationCouncils(filters: $filters, options: $options, dateStart: $dateStart, dateEnd: $dateEnd, corporationId: $corporationId){
 			list{
 				id
 				name
