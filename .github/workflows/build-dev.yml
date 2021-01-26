@@ -20,11 +20,11 @@ jobs:
 
       - name: Calculate tag
         id: tag
-        run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+        run: echo "::set-output name=sha8::$(git rev-parse --short HEAD)"
 
       - name: Image name
         id: image_name
-        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.sha8 }}"
+        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.sha8 }})"
       - name: print tag_name
         run: echo ${{ steps.tag.outputs.sha8 }}
 
