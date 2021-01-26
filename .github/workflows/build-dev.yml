@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    if: ${{ contains(github.event.pull_request.labels.*.names, 'autodeploy') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'autodeploy') }}
     env:
       registry_url: cbxpre.azurecr.io
       repository_name: cbx/councilbox-client
