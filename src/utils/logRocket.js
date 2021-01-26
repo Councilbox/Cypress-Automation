@@ -20,6 +20,7 @@ export const initLogRocket = user => {
                 LogRocket.identify(user.id, {
                     name: `${user.name} ${user.surname}`,
                     email: user.email,
+                    id: user.id,
                     subscriptionType: user.roles || 'participant'
                 });
             }
