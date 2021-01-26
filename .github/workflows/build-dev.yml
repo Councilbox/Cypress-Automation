@@ -25,9 +25,9 @@ jobs:
 
       - name: Image name
         id: image_name
-        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ github.event.pull_request.head.sha }})"
+        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.sh8 }}"
       - name: print tag_name
-        run: echo ${{ github.event.pull_request.head.sha }}
+        run: echo ${{ steps.tag.outputs.sh8 }}
 
       - name: Login acr
         uses: azure/docker-login@v1
