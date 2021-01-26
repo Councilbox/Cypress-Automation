@@ -61,7 +61,7 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
                                 assistanceIntention
                             }
                         }
-                        representing {
+                        represented {
                             id
                             name
                             surname

@@ -41,10 +41,7 @@ export const councilParticipants = gql`
 					name
 					surname
 				}
-				representing {
-					id
-					name
-				}
+				representing
 				representative {
 					id
 					name
@@ -259,32 +256,7 @@ export const convenedcouncilParticipants = gql`
 						assistanceIntention
 					}
 				}
-				representing {
-					id
-					name
-					surname
-					numParticipations
-					socialCapital
-					dni
-					email
-					type
-					phone
-					position
-					language
-					notifications {
-						reqCode
-						refreshDate
-						sendDate
-					}
-					live {
-						name
-						id
-						surname
-						assistanceComment
-						assistanceLastDateConfirmed
-						assistanceIntention
-					}
-				}
+				representing
 				live {
 					name
 					id

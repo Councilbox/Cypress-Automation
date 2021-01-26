@@ -169,7 +169,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                 {earlyVotes.map(vote => (
                     <TableRow key={`vote_${vote.id}`}>
                         <TableCell style={{ fontSize: '0.95em' }}>
-                            {vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0 ?
+                            {vote.author.numParticipations === 0 && vote.represented && vote.represented[0].author.numParticipations === 0 ?
                                 '-'
                                 :
                                 <div
