@@ -218,7 +218,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			</StateContainer>
 		)
 
-
+		console.log(translate)
 		if (councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) return (
 			<React.Fragment>
 				{isMobile ?
@@ -370,7 +370,8 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 	return (
 		<div
 			style={{
-				backgroundColor: 'white',
+				backgroundColor: 'transparent',
+				// backgroundColor: 'white',
 				...(windowSize === "xs" && windowOrientation === "portrait"
 					? styles.container
 					: styles.splittedContainer)
@@ -399,6 +400,53 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 	);
 }
 
+// Reunion finalizada encuesta abierta opcion a
+const CouncilFinishedSurveyOpenA = () => {
+
+	return (
+		<div></div>
+	)
+}
+
+// Reunion finalizada + resumen + encuesta
+const CouncilFinishedSummarySurvey = () => {
+
+	return (
+		<div></div>
+	)
+}
+
+// Reunion finalizada + resumen + encuesta abierta opcion b
+const CouncilFinishedSummarySurveyOpenB = () => {
+
+	return (
+		<div></div>
+	)
+}
+
+//Reunion finalizada Feedback
+const CouncilFinishedFeedback = () => {
+
+	return (
+		<div></div>
+	)
+}
+
+//Reunion finalizada Feedback 2
+const CouncilFinishedFeedback2 = () => {
+
+	return (
+		<div></div>
+	)
+}
+
+//Reunion finalizada Feedback 3 (texto)
+const CouncilFinishedFeedback3 = () => {
+
+	return (
+		<div></div>
+	)
+}
 
 const TextRenderFinished = ({ title, windowOrientation }) => {
 	const primary = getPrimary();
