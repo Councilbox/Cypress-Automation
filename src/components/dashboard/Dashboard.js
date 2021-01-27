@@ -13,7 +13,7 @@ import Loadable from 'react-loadable';
 import { ConfigContext } from "../../containers/AppControl";
 
 const OrganizationDashboard = Loadable({
-	loader: () => import('./OrganizationDashboard'),
+	loader: () => import('./organizationDashboard/OrganizationDashboard'),
 	loading: LoadingMainApp
 });
 
