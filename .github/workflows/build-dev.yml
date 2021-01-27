@@ -1,12 +1,12 @@
-name: Publish Docker image
+name: build-deploy-dev
 
 on:
   pull_request:
-    types: [labeled, synchronized]
+    types: [ labeled, synchronize ]
 
 jobs:
   build:
-    if: ${{ github.event.label.name == 'autodeploy' }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'autodeploy') }}
     env:
       registry_url: cbxpre.azurecr.io
       repository_name: cbx/councilbox-client
@@ -17,14 +17,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Calculate tag
         id: tag
-        run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+        run: echo "::set-output name=sha8::$(git rev-parse --short HEAD)"
 
       - name: Image name
         id: image_name
-        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.sha8 }}"
+        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.sha8 }})"
+  
       - name: print tag_name
         run: echo ${{ steps.tag.outputs.sha8 }}
 
@@ -44,7 +47,8 @@ jobs:
           tags: ${{ steps.image_name.outputs.image_name }}
 
       - run: docker push ${{ steps.image_name.outputs.image_name }}
-      - name: "Dispatch a deploy-test event"
+ 
+      - name: "Dispatch a edit-image-helm-repo event"
         run: |
           curl -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Authorization: token ${{ secrets.REPO_STATE_TOKEN }}" \
