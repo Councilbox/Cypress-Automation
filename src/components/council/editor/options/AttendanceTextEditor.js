@@ -12,50 +12,45 @@ const AttendanceTextEditor = ({ council, translate, text, setText, updateAttenda
         modal: false,
         unsavedModal: false
     });
+    const [previewText, setPreviewText] = React.useState( text || '');
 
-    const renderBody = () => {
+        const renderBody = () => {
         return (
             <RichTextInput
                 translate={translate}
                 value={text}
-                onChange={value => setText(value)}
+                onChange={value => setPreviewText(value)}
             /> 
         )
     }
 
     const handleClose = (ev) => {
         ev.preventDefault();
-        if (text){
+        if (text !== previewText){
             setState({...state, modal: false, unsavedModal: true});
         } else{
-            setState({...state, modal: false})
+            setState({...state, modal: false, unsavedModal: false});
+            setText(previewText);
         }
     }
     const discardText = (ev) => {
         ev.preventDefault();
-        setState({...state, modal: false, unsavedModal: false});
-        setText(council.statute.attendanceText);        
+        if (text !== previewText){
+            setState({...state, modal: false, unsavedModal: false});
+            setPreviewText(text);
+        } 
     }
 
-    // const updateAttendanceText = async () => {
-    //     const response = await client.mutate({
-    //         mutation: gql`
-    //             mutation UpdateCouncilStatute($councilId: Int!, $statute: CouncilOptions!){
-    //                 updateCouncilStatute(councilId: $councilId, statute: $statute){
-    //                     attendanceText
-    //                 }
-    //             }
-    //         `,
-    //         variables: {
-    //             councilId: council.id,
-    //             statute: {
-    //                 attendanceText: text
-    //             }
-    //         }
-    //     });
+    const saveText = (ev) => {
+        ev.preventDefault();
+        setText(previewText);
+        setState({...state, modal: false, unsavedModal: false});
+    }
 
-    //     setState({...state, modal: false, unsavedModal: false});
-    // }
+    React.useEffect(() => {
+            updateAttendanceText()
+    }, [text])
+
 
     return (
         <>
@@ -72,7 +67,7 @@ const AttendanceTextEditor = ({ council, translate, text, setText, updateAttenda
                 open={state.modal}
                 requestClose={handleClose}
                 buttonAccept={translate.save}
-                acceptAction={updateAttendanceText}
+                acceptAction={saveText}
                 buttonCancel={translate.cancel}
                 title={text? translate.edit_instructions : translate.add_instructions}
                 bodyText={renderBody()}
@@ -80,8 +75,11 @@ const AttendanceTextEditor = ({ council, translate, text, setText, updateAttenda
             <UnsavedChangesModal 
                 translate={translate}  
                 open={state.unsavedModal}
-                requestClose={() => setState({...state, modal: true, unsavedModal: false})}
-                acceptAction={updateAttendanceText}
+                requestClose={() => {
+                    setState({...state, modal: true, unsavedModal: false})
+                    setText(previewText);
+                }}
+                acceptAction={saveText}
                 cancelAction={discardText}
                 />
         </>

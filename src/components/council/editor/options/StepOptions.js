@@ -35,7 +35,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const config = React.useContext(ConfigContext);
-	const [text, setText] = React.useState(data.council ? data.council.statute.attendanceText : '');
+	const [text, setText] = React.useState('');
 	const [state, setState] = React.useState({
 		data: {},
 		loading: false,
@@ -67,10 +67,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						}
 					}
 				});
+				setText(data.council.statute.attendanceText || '');
 			}
 		}
 	});
 	let council = state.data.council;
+
 
 	const updateCouncil = async step => {
 		setState({
@@ -130,9 +132,6 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				}
 			}
 		});
-
-		console.log(response)
-		// setState({...state, modal: false, unsavedModal: false});
 	}
 
 	const resetButtonStates = () => {
