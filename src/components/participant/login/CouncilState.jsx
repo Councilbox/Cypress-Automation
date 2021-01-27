@@ -343,7 +343,11 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 								{/* <CouncilFinishedSummarySurvey translate={translate}/> */}
 							</div>
 						</div>
+
+						<CouncilFinishedFeedback2/>
+
 						<CouncilFinishedFeedback3 translate={translate} />
+
 
 						<div style={{ height: "calc( 100% - 13em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 							<div style={{ padding: "1em 1em", height: "100%" }}>
@@ -474,10 +478,32 @@ const CouncilFinishedFeedback = ({ translate }) => {
 
 //Reunion finalizada Feedback 2
 const CouncilFinishedFeedback2 = ({ translate }) => {
+  const primary = getPrimary();
+const value = [...Array(10)].map((el, index) => index+1);
 
 	return (
-		<div></div>
-	)
+		<div style={{ width: "100%", background: "white", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', marginTop: '1em', background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)' }}>
+			<div style={{ display: "flex", justifyContent: "center", alignItems: 'center', padding: "0 1em" }}>
+				<div>
+					<div style={{ fontWeight: "800", color: "white", fontSize: '.9rem', padding: '1rem' }} >
+						<p style={{ margin: '0' }}>
+							{'Valore el funcionamiento general de {{Councilbox}}.'}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div style={{padding: '1rem'}}>
+						{
+							value.map(el => {
+								return (
+									<div style={{display: 'inline-block', marginRight: '.4rem'}}>
+										<button  className="btn-councilFF2">{el}</button>
+									</div>
+									)
+							})
+						}
+				</div>
+		</div>)
 }
 
 //Reunion finalizada Feedback 3 (texto)
