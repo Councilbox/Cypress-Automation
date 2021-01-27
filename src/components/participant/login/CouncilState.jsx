@@ -297,7 +297,6 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 						</Scrollbar>
 					</div>
 					:
-					// Esto es lo que hay que editar
 					<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
 						<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
 							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
