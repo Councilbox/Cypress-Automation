@@ -50,6 +50,7 @@ export const CouncilActData = gql`
 			president
 			street
 			city
+			wallActive
 			name
 			language
 			remoteCelebration
