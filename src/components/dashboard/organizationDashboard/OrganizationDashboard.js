@@ -92,6 +92,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				dateStart: filters.dateStart,
 				dateEnd: filters.dateEnd,
 				corporationId: company.id,
+				...(filterReuniones !== translate.all ? {
+					status: filterReuniones
+				} : {}),
 				options: {
 					orderBy: 'dateStart',
 					limit: 10,
@@ -110,7 +113,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			max: response.data.organizationCouncils.max
 		})
 		setReunionesLoading(false);
-	}, [filters.dateStart, filters.dateEnd, filters.page, company.id]);
+	}, [filters.dateStart, filters.dateEnd, filters.page, company.id, filterReuniones]);
 
 	usePolling(getReuniones, 12000);
 
@@ -985,8 +988,22 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 }
 
 const corporationConvenedLiveCouncils = gql`
-    query corporationConvenedLiveCouncils($filters: [FilterInput], $options: OptionsInput, $dateStart: String, $dateEnd: String, $corporationId: Int){
-		organizationCouncils(filters: $filters, options: $options, dateStart: $dateStart, dateEnd: $dateEnd, corporationId: $corporationId){
+    query corporationConvenedLiveCouncils(
+		$filters: [FilterInput],
+		$options: OptionsInput,
+		$dateStart: String,
+		$dateEnd: String,
+		$status: String,
+		$corporationId: Int
+	){
+		organizationCouncils(
+			filters: $filters,
+			options: $options,
+			dateStart: $dateStart,
+			dateEnd: $dateEnd,
+			status: $status,
+			corporationId: $corporationId
+		){
 			list{
 				id
 				name
