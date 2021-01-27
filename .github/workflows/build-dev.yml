@@ -27,6 +27,7 @@ jobs:
       - name: Image name
         id: image_name
         run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.sha8 }})"
+  
       - name: print tag_name
         run: echo ${{ steps.tag.outputs.sha8 }}
 
@@ -46,7 +47,8 @@ jobs:
           tags: ${{ steps.image_name.outputs.image_name }}
 
       - run: docker push ${{ steps.image_name.outputs.image_name }}
-      - name: "Dispatch a deploy-test event"
+ 
+      - name: "Dispatch a edit-image-helm-repo event"
         run: |
           curl -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Authorization: token ${{ secrets.REPO_STATE_TOKEN }}" \
