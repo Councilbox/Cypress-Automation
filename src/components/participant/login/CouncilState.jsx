@@ -219,7 +219,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			</StateContainer>
 		)
 
-		console.log(translate)
+
 		if (councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) return (
 			<React.Fragment>
 				{isMobile ?
@@ -303,6 +303,53 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 
 						<CouncilFinishedFeedback3 />
 
+						<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
+								<div>
+									<h3 style={{
+										color: primary,
+										fontSize: "28px",
+										paddingTop: "0.5em",
+										marginBottom: "0px"
+									}}
+									>
+										{props.participant.hasVoted ? translate.participation_summary
+											:
+											checkHybridConditions(council) ?
+												'Votaciones remotas finalizadas' //TRADUCCION
+												:
+												translate.concil_finished}
+									</h3>
+									<div style={{
+										color: primary,
+										paddingBottom: "0.5em",
+									}}>
+										{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
+									</div>
+								</div>
+								<div>
+									<Image
+										src={emptyMeetingTable}
+										styles={{ width: '90px', minWidth: "", marginLeft: "1em" }}
+										windowOrientation={windowOrientation}
+									>
+									</Image>
+								</div>
+							</div>
+							<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
+								<div>
+									<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900", color: "#000000" }} >
+										{council.name}
+									</div>
+								</div>
+							</div>
+							<div>
+								<CouncilFinishedSummarySurveyOpenB
+
+								/>
+							</div>
+						</div>
+>>>>>>> CouncilFinishedSummarySurveyOpenB
 
 						<div style={{ height: "calc( 100% - 13em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 							<div style={{ padding: "1em 1em", height: "100%" }}>
@@ -434,7 +481,30 @@ const CouncilFinishedSummarySurvey = ({ translate, participant, council, windowO
 const CouncilFinishedSummarySurveyOpenB = () => {
 
 	return (
-		<div></div>
+		<div style={{ border: "1px solid" + getPrimary(), borderRadius: "1px", textAlign: 'left', padding: '2em', color: "black", fontSize: '14px' }}>
+			<div>
+				<div>Valore el grado de satisfacción con el uso de</div>
+				<div>
+					<Stars />
+				</div>
+			</div>
+			<div>
+				<div>Valore el funcionamiento general de .</div>
+				<div><Stars /></div>
+			</div>
+			<div>
+				<div>En qué grado recomendaría y volvería a utilizar  en el futuro</div>
+				<div><Stars /></div>
+			</div>
+			<div>
+				<div>¿Cómo valoraría la atención recibida?</div>
+				<div><Stars /></div>
+			</div>
+			<div>
+				<div>¿Qué aspectos  mejoraría en su experiencia con ?</div>
+				<div><Stars /></div>
+			</div>
+		</div >
 	)
 }
 
@@ -477,6 +547,25 @@ const CouncilFinishedFeedback3 = () => {
 					<BasicButton type={'text'} buttonStyle={{color: primary, background: 'transparent', fontSize: '2em'}} icon={<i class="fa fa-paper-plane-o"></i>}/>
 				</div>
 			</div>
+		</div>
+	)
+}
+
+
+const Stars = () => {
+
+	return (
+		<div class="rating">
+			<input type="radio" name="rating" id="rating-5" />
+			<label for="rating-5"></label>
+			<input type="radio" name="rating" id="rating-4" />
+			<label for="rating-4"></label>
+			<input type="radio" name="rating" id="rating-3" />
+			<label for="rating-3"></label>
+			<input type="radio" name="rating" id="rating-2" />
+			<label for="rating-2"></label>
+			<input type="radio" name="rating" id="rating-1" />
+			<label for="rating-1"></label>
 		</div>
 	)
 }
