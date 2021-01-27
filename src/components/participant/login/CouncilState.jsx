@@ -339,12 +339,11 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 								</div>
 							</div>
 							<div>
-								{/* <CouncilFinishedSummarySurveyOpenB
-								/> */}
-								<CouncilFinishedSummarySurvey />
+								{/* <CouncilFinishedSummarySurveyOpenB translate={translate}/> */}
+								{/* <CouncilFinishedSummarySurvey translate={translate}/> */}
 							</div>
 						</div>
-						<CouncilFinishedFeedback3 />
+						<CouncilFinishedFeedback3 translate={translate} />
 
 						<div style={{ height: "calc( 100% - 13em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 							<div style={{ padding: "1em 1em", height: "100%" }}>
@@ -407,7 +406,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 }
 
 // Reunion finalizada encuesta abierta opcion a
-const CouncilFinishedSurveyOpenA = () => {
+const CouncilFinishedSurveyOpenA = ({ translate }) => {
 
 	return (
 		<div></div>
@@ -415,7 +414,7 @@ const CouncilFinishedSurveyOpenA = () => {
 }
 
 // Reunion finalizada + resumen + encuesta
-const CouncilFinishedSummarySurvey = ({ translate, participant, council, windowOrientation }) => {
+const CouncilFinishedSummarySurvey = ({ translate }) => {
 	const primary = getPrimary();
 
 	return (
@@ -435,7 +434,7 @@ const CouncilFinishedSummarySurvey = ({ translate, participant, council, windowO
 }
 
 // Reunion finalizada + resumen + encuesta abierta opcion b
-const CouncilFinishedSummarySurveyOpenB = () => {
+const CouncilFinishedSummarySurveyOpenB = ({ translate }) => {
 
 	return (
 		<div style={{ border: "1px solid" + getPrimary(), borderRadius: "1px", textAlign: 'left', padding: '2em', color: "black", fontSize: '14px' }}>
@@ -466,7 +465,7 @@ const CouncilFinishedSummarySurveyOpenB = () => {
 }
 
 //Reunion finalizada Feedback
-const CouncilFinishedFeedback = () => {
+const CouncilFinishedFeedback = ({ translate }) => {
 
 	return (
 		<div></div>
@@ -474,7 +473,7 @@ const CouncilFinishedFeedback = () => {
 }
 
 //Reunion finalizada Feedback 2
-const CouncilFinishedFeedback2 = () => {
+const CouncilFinishedFeedback2 = ({ translate }) => {
 
 	return (
 		<div></div>
@@ -482,7 +481,7 @@ const CouncilFinishedFeedback2 = () => {
 }
 
 //Reunion finalizada Feedback 3 (texto)
-const CouncilFinishedFeedback3 = () => {
+const CouncilFinishedFeedback3 = ({ translate }) => {
 	const primary = getPrimary();
 
 	return (
@@ -527,7 +526,7 @@ const Stars = () => {
 	)
 }
 
-const TextRenderFinished = ({ title, windowOrientation }) => {
+const TextRenderFinished = ({ translate, title, windowOrientation }) => {
 	const primary = getPrimary();
 
 	return (
