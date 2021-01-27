@@ -1,6 +1,6 @@
 FROM node:12-slim as builder
 
-ARG REACT_APP_API_URL=$1
+ARG REACT_APP_API_URL=api.prek8s.councilbox.com
 ARG GENERATE_SOURCEMAP=false
 
 RUN apt-get update && apt-get install git -y
