@@ -1046,3 +1046,27 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .marginP0 > p{ margin-bottom: 0px; }
 
 .scrollbarFixHeight > div > div { height: 100%;}
+
+/* CouncilFinishedFeedback2 */ 
+.btn-councilFF2 {
+    border-radius: 100%;
+    width: 40px; 
+    height: 40px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    
+}
+.btn-councilFF2:hover {
+    background-color: #b6d1dc;
+    color: #7976b0;
+}
+.btn-councilFF2:focus{
+    outline: none;
+}
+.btn-councilFF2:focus-visible{
+    outline: 2px solid white;
+}
+/* CouncilFinishedFeedback2 */ 
+
+
