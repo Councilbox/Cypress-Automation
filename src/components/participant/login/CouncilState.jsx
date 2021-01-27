@@ -8,7 +8,7 @@ import {
 	Collapse
 } from "material-ui";
 import FontAwesome from "react-fontawesome";
-import { Grid, GridItem, Scrollbar, BasicButton, Link } from '../../../displayComponents';
+import { Grid, GridItem, Scrollbar, BasicButton, Link, TextInput } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -35,6 +35,7 @@ import { isMobile } from '../../../utils/screen';
 import ContactModal from "./ContactModal";
 import ContactForm from "./ContactForm";
 import ResultsTimeline from "../ResultsTimeline";
+import TextArea from "antd/lib/input/TextArea";
 
 const styles = {
 	container: {
@@ -218,7 +219,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			</StateContainer>
 		)
 
-		console.log(translate)
+
 		if (councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) return (
 			<React.Fragment>
 				{isMobile ?
@@ -296,7 +297,6 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 						</Scrollbar>
 					</div>
 					:
-					// Esto es lo que hay que editar
 					<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
 						<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
 							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
@@ -338,8 +338,15 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 									</div>
 								</div>
 							</div>
+							<div>
+								{/* <CouncilFinishedSummarySurveyOpenB translate={translate}/> */}
+								{/* <CouncilFinishedSummarySurvey translate={translate}/> */}
+							</div>
 						</div>
+
 						<CouncilFinishedFeedback2/>
+
+						<CouncilFinishedFeedback3 translate={translate} />
 
 
 						<div style={{ height: "calc( 100% - 13em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
@@ -403,7 +410,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 }
 
 // Reunion finalizada encuesta abierta opcion a
-const CouncilFinishedSurveyOpenA = () => {
+const CouncilFinishedSurveyOpenA = ({ translate }) => {
 
 	return (
 		<div></div>
@@ -411,23 +418,58 @@ const CouncilFinishedSurveyOpenA = () => {
 }
 
 // Reunion finalizada + resumen + encuesta
-const CouncilFinishedSummarySurvey = () => {
+const CouncilFinishedSummarySurvey = ({ translate }) => {
+	const primary = getPrimary();
 
 	return (
-		<div></div>
+		<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
+			<div>
+				<div style={{ border: "1px solid " + primary, borderRadius: '2px', padding: '.5rem 1rem', display: "flex", alignItems: "center" }}>
+					<div style={{ marginRight: "1.5em" }}>
+						<p style={{ fontSize: '11px', fontWeight: 'bold', color: primary, margin: '0' }}>{'Valore el funcionamiento de la reunión aquí'}</p> {/* TRADUCCION */}
+					</div>
+					<div>
+						<Stars />
+					</div>
+				</div>
+			</div>
+		</div>
 	)
 }
 
 // Reunion finalizada + resumen + encuesta abierta opcion b
-const CouncilFinishedSummarySurveyOpenB = () => {
+const CouncilFinishedSummarySurveyOpenB = ({ translate }) => {
 
 	return (
-		<div></div>
+		<div style={{ border: "1px solid" + getPrimary(), borderRadius: "1px", textAlign: 'left', padding: '2em', color: "black", fontSize: '14px' }}>
+			<div>
+				<div>Valore el grado de satisfacción con el uso de</div> {/* TRADUCCION */}
+				<div>
+					<Stars />
+				</div>
+			</div>
+			<div>
+				<div>Valore el funcionamiento general de .</div> {/* TRADUCCION */}
+				<div><Stars /></div>
+			</div>
+			<div>
+				<div>En qué grado recomendaría y volvería a utilizar  en el futuro</div>{/* TRADUCCION */}
+				<div><Stars /></div>
+			</div>
+			<div>
+				<div>¿Cómo valoraría la atención recibida?</div>{/* TRADUCCION */}
+				<div><Stars /></div>
+			</div>
+			<div>
+				<div>¿Qué aspectos  mejoraría en su experiencia con ?</div>{/* TRADUCCION */}
+				<div><Stars /></div>
+			</div>
+		</div >
 	)
 }
 
 //Reunion finalizada Feedback
-const CouncilFinishedFeedback = () => {
+const CouncilFinishedFeedback = ({ translate }) => {
 
 	return (
 		<div></div>
@@ -435,8 +477,8 @@ const CouncilFinishedFeedback = () => {
 }
 
 //Reunion finalizada Feedback 2
-const CouncilFinishedFeedback2 = () => {
-const primary = getPrimary();
+const CouncilFinishedFeedback2 = ({ translate }) => {
+  const primary = getPrimary();
 const value = [...Array(10)].map((el, index) => index+1);
 
 	return (
@@ -465,14 +507,52 @@ const value = [...Array(10)].map((el, index) => index+1);
 }
 
 //Reunion finalizada Feedback 3 (texto)
-const CouncilFinishedFeedback3 = () => {
+const CouncilFinishedFeedback3 = ({ translate }) => {
+	const primary = getPrimary();
 
 	return (
-		<div></div>
+		<div style={{ width: "100%", background: "white", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', marginTop: '1em', height: "130px" }}>
+			<div style={{ height: "50%", display: "flex", justifyContent: "center", alignItems: 'center', padding: "0 1em", background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)', }}>
+				<div>
+					<div style={{ fontWeight: "900", color: "white", fontSize: '.8rem' }} >
+						<p style={{ margin: '0' }}>
+							¿Qué aspectos  mejoraría en su experiencia con ? {/* TRADUCCION */}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div style={{ height: "50%", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<div style={{ width: '100%', padding: '.4rem' }}>
+					<TextArea style={{ width: '100%', resize: 'none', border: 'none', padding: '.2rem' }} placeholder={'Escriba aquí…'} /> {/* TRADUCCION */}
+				</div>
+				<div style={{ padding: '.4rem' }}>
+					<BasicButton type={'text'} buttonStyle={{ color: primary, background: 'transparent', fontSize: '2em' }} icon={<i class="fa fa-paper-plane-o"></i>} />
+				</div>
+			</div>
+		</div>
 	)
 }
 
-const TextRenderFinished = ({ title, windowOrientation }) => {
+
+const Stars = () => {
+
+	return (
+		<div class="rating">
+			<input type="radio" name="rating" id="rating-5" />
+			<label for="rating-5"></label>
+			<input type="radio" name="rating" id="rating-4" />
+			<label for="rating-4"></label>
+			<input type="radio" name="rating" id="rating-3" />
+			<label for="rating-3"></label>
+			<input type="radio" name="rating" id="rating-2" />
+			<label for="rating-2"></label>
+			<input type="radio" name="rating" id="rating-1" />
+			<label for="rating-1"></label>
+		</div>
+	)
+}
+
+const TextRenderFinished = ({ translate, title, windowOrientation }) => {
 	const primary = getPrimary();
 
 	return (
@@ -492,7 +572,7 @@ const TextRenderFinished = ({ title, windowOrientation }) => {
 					color: primary
 				}}
 				>
-					05 Septiembre 2019 - 17.40h
+					05 Septiembre 2019 - 17.40h {/* TRADUCCION */}
 				</div>
 			</div>
 
