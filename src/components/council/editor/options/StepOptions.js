@@ -35,7 +35,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const config = React.useContext(ConfigContext);
-
+	const [text, setText] = React.useState(data.council ? data.council.statute.attendanceText : '');
 	const [state, setState] = React.useState({
 		data: {},
 		loading: false,
@@ -114,6 +114,27 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		});
 	};
 
+	const updateAttendanceText = async () => {
+		const response = await client.mutate({
+			mutation: gql`
+                mutation UpdateCouncilStatute($councilId: Int!, $statute: CouncilOptions!){
+                    updateCouncilStatute(councilId: $councilId, statute: $statute){
+                        attendanceText
+                    }
+                }
+            `,
+			variables: {
+				councilId: council.id,
+				statute: {
+					attendanceText: text
+				}
+			}
+		});
+
+		console.log(response)
+		// setState({...state, modal: false, unsavedModal: false});
+	}
+
 	const resetButtonStates = () => {
 		setState({
 			...state,
@@ -184,8 +205,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		await updateCouncil(5);
 		props.previousStep();
 	};
-	
-	function renderCouncilTypeSpecificOptions(type){
+
+	function renderCouncilTypeSpecificOptions(type) {
 		const councilOptions = {
 			1: (
 				<React.Fragment>
@@ -512,6 +533,9 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 											<AttendanceTextEditor
 												council={council}
 												translate={translate}
+												updateAttendanceText={updateAttendanceText}
+												text={text}
+												setText={setText}
 											/>
 										</>
 									}
@@ -597,8 +621,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 																	return (
 																		<MenuItem
 																			value={majority.value}
-																			key={`majority${
-																				majority.value
+																			key={`majority${majority.value
 																				}`}
 																		>
 																			{

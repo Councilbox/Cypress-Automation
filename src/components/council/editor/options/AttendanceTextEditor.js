@@ -6,8 +6,8 @@ import gql from 'graphql-tag';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const AttendanceTextEditor = ({ council, translate, client }) => {
-    const [text, setText] = React.useState(council.statute.attendanceText || '');
+const AttendanceTextEditor = ({ council, translate, text, setText, updateAttendanceText, client }) => {
+    
     const [state, setState] = React.useState({
         modal: false,
         unsavedModal: false
@@ -37,25 +37,25 @@ const AttendanceTextEditor = ({ council, translate, client }) => {
         setText(council.statute.attendanceText);        
     }
 
-    const updateAttendanceText = async () => {
-        const response = await client.mutate({
-            mutation: gql`
-                mutation UpdateCouncilStatute($councilId: Int!, $statute: CouncilOptions!){
-                    updateCouncilStatute(councilId: $councilId, statute: $statute){
-                        attendanceText
-                    }
-                }
-            `,
-            variables: {
-                councilId: council.id,
-                statute: {
-                    attendanceText: text
-                }
-            }
-        });
+    // const updateAttendanceText = async () => {
+    //     const response = await client.mutate({
+    //         mutation: gql`
+    //             mutation UpdateCouncilStatute($councilId: Int!, $statute: CouncilOptions!){
+    //                 updateCouncilStatute(councilId: $councilId, statute: $statute){
+    //                     attendanceText
+    //                 }
+    //             }
+    //         `,
+    //         variables: {
+    //             councilId: council.id,
+    //             statute: {
+    //                 attendanceText: text
+    //             }
+    //         }
+    //     });
 
-        setState({...state, modal: false, unsavedModal: false});
-    }
+    //     setState({...state, modal: false, unsavedModal: false});
+    // }
 
     return (
         <>
