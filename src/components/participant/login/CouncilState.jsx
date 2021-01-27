@@ -299,10 +299,6 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					:
 					// Esto es lo que hay que editar
 					<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
-						<CouncilFinishedSummarySurvey translate={translate} windowOrientation={windowOrientation} participant={props.participant} council={council} />
-
-						<CouncilFinishedFeedback3 />
-
 						<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
 							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
 								<div>
@@ -344,12 +340,12 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 								</div>
 							</div>
 							<div>
-								<CouncilFinishedSummarySurveyOpenB
-
-								/>
+								{/* <CouncilFinishedSummarySurveyOpenB
+								/> */}
+								<CouncilFinishedSummarySurvey />
 							</div>
 						</div>
->>>>>>> CouncilFinishedSummarySurveyOpenB
+						<CouncilFinishedFeedback3 />
 
 						<div style={{ height: "calc( 100% - 13em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 							<div style={{ padding: "1em 1em", height: "100%" }}>
@@ -424,54 +420,16 @@ const CouncilFinishedSummarySurvey = ({ translate, participant, council, windowO
 	const primary = getPrimary();
 
 	return (
-		<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
-			<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "1.5em" }}>
-				<div>
-					<h3 style={{
-						color: primary,
-						fontSize: "28px",
-						paddingTop: "0.5em",
-						marginBottom: "0px"
-					}}
-					>
-						{participant.hasVoted ? translate.participation_summary
-							:
-							checkHybridConditions(council) ?
-								'Votaciones remotas finalizadas' //TRADUCCION
-								:
-								translate.concil_finished}
-					</h3>
-					<div style={{
-						color: primary,
-						fontSize: "18px",
-						paddingBottom: "0.5em",
-					}}>
-						{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
-					</div>
-				</div>
-				<div>
-					<Image
-						src={emptyMeetingTable}
-						styles={{ width: '90px', minWidth: "", marginLeft: "1em" }}
-						windowOrientation={windowOrientation}
-					>
-					</Image>
-				</div>
-			</div>
-			<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
-				<div>
-					<div style={{ display: "flex", marginBottom: "1em", fontSize: '18px', fontWeight: "900", color: "#000000" }} >
-						{council.name}
-					</div>
-				</div>
-			</div>
-			<div style={{ display: "flex", justifyContent: "center", marginRight: '6rem', padding: "0 1em" }}>
+		<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
 			<div>
-				<div style={{border: "2px solid "+ primary,  borderRadius: '2px', padding: '.5rem 1rem'}}>
-					
-						<p style={{fontSize: '11px', fontWeight: 'bold', color: primary, margin: '0' }}>{'Valore el funcionamiento de la reunión aquí'}</p>
+				<div style={{ border: "1px solid " + primary, borderRadius: '2px', padding: '.5rem 1rem', display: "flex", alignItems: "center" }}>
+					<div style={{ marginRight: "1.5em" }}>
+						<p style={{ fontSize: '11px', fontWeight: 'bold', color: primary, margin: '0' }}>{'Valore el funcionamiento de la reunión aquí'}</p> {/* TRADUCCION */}
 					</div>
-			</div>
+					<div>
+						<Stars />
+					</div>
+				</div>
 			</div>
 		</div>
 	)
@@ -483,25 +441,25 @@ const CouncilFinishedSummarySurveyOpenB = () => {
 	return (
 		<div style={{ border: "1px solid" + getPrimary(), borderRadius: "1px", textAlign: 'left', padding: '2em', color: "black", fontSize: '14px' }}>
 			<div>
-				<div>Valore el grado de satisfacción con el uso de</div>
+				<div>Valore el grado de satisfacción con el uso de</div> {/* TRADUCCION */}
 				<div>
 					<Stars />
 				</div>
 			</div>
 			<div>
-				<div>Valore el funcionamiento general de .</div>
+				<div>Valore el funcionamiento general de .</div> {/* TRADUCCION */}
 				<div><Stars /></div>
 			</div>
 			<div>
-				<div>En qué grado recomendaría y volvería a utilizar  en el futuro</div>
+				<div>En qué grado recomendaría y volvería a utilizar  en el futuro</div>{/* TRADUCCION */}
 				<div><Stars /></div>
 			</div>
 			<div>
-				<div>¿Cómo valoraría la atención recibida?</div>
+				<div>¿Cómo valoraría la atención recibida?</div>{/* TRADUCCION */}
 				<div><Stars /></div>
 			</div>
 			<div>
-				<div>¿Qué aspectos  mejoraría en su experiencia con ?</div>
+				<div>¿Qué aspectos  mejoraría en su experiencia con ?</div>{/* TRADUCCION */}
 				<div><Stars /></div>
 			</div>
 		</div >
@@ -529,22 +487,22 @@ const CouncilFinishedFeedback3 = () => {
 	const primary = getPrimary();
 
 	return (
-		<div style={{ width: "100%", background: "white", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', marginTop: '1em' }}>
-			<div style={{ display: "flex", justifyContent: "center", alignItems: 'center', padding: "0 1em", background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)', height: '48px' }}>
+		<div style={{ width: "100%", background: "white", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', marginTop: '1em', height: "130px" }}>
+			<div style={{ height: "50%", display: "flex", justifyContent: "center", alignItems: 'center', padding: "0 1em", background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)', }}>
 				<div>
 					<div style={{ fontWeight: "900", color: "white", fontSize: '.8rem' }} >
 						<p style={{ margin: '0' }}>
-							{'¿Qué aspectos  mejoraría en su experiencia con {{Councilbox}}?'}
+							¿Qué aspectos  mejoraría en su experiencia con ? {/* TRADUCCION */}
 						</p>
 					</div>
 				</div>
 			</div>
-			<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-				<div style={{width: '100%', padding: '.4rem'}}>
-					<TextArea style={{width: '100%', resize: 'none', border: 'none', padding: '.2rem'}} placeholder={'escribe algo'}/>
+			<div style={{ height: "50%", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<div style={{ width: '100%', padding: '.4rem' }}>
+					<TextArea style={{ width: '100%', resize: 'none', border: 'none', padding: '.2rem' }} placeholder={'Escriba aquí…'} /> {/* TRADUCCION */}
 				</div>
-				<div style={{padding:'.4rem'}}>
-					<BasicButton type={'text'} buttonStyle={{color: primary, background: 'transparent', fontSize: '2em'}} icon={<i class="fa fa-paper-plane-o"></i>}/>
+				<div style={{ padding: '.4rem' }}>
+					<BasicButton type={'text'} buttonStyle={{ color: primary, background: 'transparent', fontSize: '2em' }} icon={<i class="fa fa-paper-plane-o"></i>} />
 				</div>
 			</div>
 		</div>
@@ -590,7 +548,7 @@ const TextRenderFinished = ({ title, windowOrientation }) => {
 					color: primary
 				}}
 				>
-					05 Septiembre 2019 - 17.40h
+					05 Septiembre 2019 - 17.40h {/* TRADUCCION */}
 				</div>
 			</div>
 
