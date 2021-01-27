@@ -8,7 +8,7 @@ import {
 	Collapse
 } from "material-ui";
 import FontAwesome from "react-fontawesome";
-import { Grid, GridItem, Scrollbar, BasicButton, Link } from '../../../displayComponents';
+import { Grid, GridItem, Scrollbar, BasicButton, Link, TextInput } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -35,6 +35,7 @@ import { isMobile } from '../../../utils/screen';
 import ContactModal from "./ContactModal";
 import ContactForm from "./ContactForm";
 import ResultsTimeline from "../ResultsTimeline";
+import TextArea from "antd/lib/input/TextArea";
 
 const styles = {
 	container: {
@@ -340,6 +341,9 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 							</div>
 						</div>
 
+						<CouncilFinishedFeedback3 />
+
+
 						<div style={{ height: "calc( 100% - 13em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 							<div style={{ padding: "1em 1em", height: "100%" }}>
 								<div style={{ textAlign: "left" }}>
@@ -442,9 +446,28 @@ const CouncilFinishedFeedback2 = () => {
 
 //Reunion finalizada Feedback 3 (texto)
 const CouncilFinishedFeedback3 = () => {
+	const primary = getPrimary();
 
 	return (
-		<div></div>
+		<div style={{ width: "100%", background: "white", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', marginTop: '1em' }}>
+			<div style={{ display: "flex", justifyContent: "center", alignItems: 'center', padding: "0 1em", background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)', height: '48px' }}>
+				<div>
+					<div style={{ fontWeight: "900", color: "white", fontSize: '.8rem' }} >
+						<p style={{ margin: '0' }}>
+							{'¿Qué aspectos  mejoraría en su experiencia con {{Councilbox}}?'}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+				<div style={{width: '100%', padding: '.4rem'}}>
+					<TextArea style={{width: '100%', resize: 'none', border: 'none', padding: '.2rem'}} placeholder={'escribe algo'}/>
+				</div>
+				<div style={{padding:'.4rem'}}>
+					<BasicButton type={'text'} buttonStyle={{color: primary, background: 'transparent', fontSize: '2em'}} icon={<i class="fa fa-paper-plane-o"></i>}/>
+				</div>
+			</div>
+		</div>
 	)
 }
 
