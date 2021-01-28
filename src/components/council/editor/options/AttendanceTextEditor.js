@@ -2,13 +2,19 @@ import React from 'react';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
 import { AlertConfirm, BasicButton, UnsavedChangesModal } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const AttendanceTextEditor = ({ council,translate, text, setText, updateAttendanceText,textPreview, setTextPreview, isModal, setIsmodal, client }) => {
-    
-        const renderBody = () => {
+const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, isModal, setIsmodal }) => {
+    const initialValue = React.useRef(text);
+
+    React.useEffect(() => {
+        if(isModal.modal){
+            initialValue.current = text;
+        }
+    }, [isModal.modal])
+
+    const renderBody = () => {
         return (
             <RichTextInput
                 translate={translate}
@@ -18,23 +24,21 @@ const AttendanceTextEditor = ({ council,translate, text, setText, updateAttendan
         )
     }
 
-    const handleClose = (ev) => {
+    const handleClose = ev => {
         ev.preventDefault();
-        if (text !== textPreview){
-            setIsmodal({...isModal, modal: false, unsavedModal: true});
-        } else{
+        if (text !== initialValue.current){
+            setIsmodal({...isModal, modal: true, unsavedModal: true});
+        } else {
             setIsmodal({...isModal, modal: false, unsavedModal: false});
-            setTextPreview(text)
         }
     }
-    const discardText = (ev) => {
+    const discardText = ev => {
         ev.preventDefault();
-        if (text !== textPreview){
+        if (text !== initialValue.current){
             setIsmodal({...isModal, modal: false, unsavedModal: false})
-            setText(textPreview);
+            setText(initialValue.current);
         }
     }
-
 
     return (
         <>
@@ -64,7 +68,7 @@ const AttendanceTextEditor = ({ council,translate, text, setText, updateAttendan
                 }}
                 acceptAction={updateAttendanceText}
                 cancelAction={discardText}
-                />
+            />
         </>
     )
 }
