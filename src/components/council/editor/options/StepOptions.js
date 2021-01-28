@@ -36,6 +36,11 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 	const secondary = getSecondary();
 	const config = React.useContext(ConfigContext);
 	const [text, setText] = React.useState('');
+	const [textPreview, setTextPreview] = React.useState('');
+	const [isModal, setIsmodal] = React.useState({
+		modal: false,
+		unsavedModal: false
+	})
 	const [state, setState] = React.useState({
 		data: {},
 		loading: false,
@@ -68,6 +73,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					}
 				});
 				setText(data.council.statute.attendanceText || '');
+				setTextPreview(data.council.statute.attendanceText || '');
+
 			}
 		}
 	});
@@ -132,6 +139,10 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				}
 			}
 		});
+		if(response){
+			setTextPreview(text);
+			setIsmodal({...isModal, modal: false, unsavedModal: false})
+		}
 	}
 
 	const resetButtonStates = () => {
@@ -533,8 +544,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 												council={council}
 												translate={translate}
 												updateAttendanceText={updateAttendanceText}
+												isModal={isModal}
+												setIsmodal={setIsmodal}
 												text={text}
 												setText={setText}
+												textPreview={textPreview}
+												setTextPreview={setTextPreview}
 											/>
 										</>
 									}

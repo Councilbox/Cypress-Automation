@@ -6,57 +6,41 @@ import gql from 'graphql-tag';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const AttendanceTextEditor = ({ council, translate, text, setText, updateAttendanceText, client }) => {
+const AttendanceTextEditor = ({ council,translate, text, setText, updateAttendanceText,textPreview, setTextPreview, isModal, setIsmodal, client }) => {
     
-    const [state, setState] = React.useState({
-        modal: false,
-        unsavedModal: false
-    });
-    const [previewText, setPreviewText] = React.useState( text || '');
-
         const renderBody = () => {
         return (
             <RichTextInput
                 translate={translate}
                 value={text}
-                onChange={value => setPreviewText(value)}
+                onChange={value => setText(value)}
             /> 
         )
     }
 
     const handleClose = (ev) => {
         ev.preventDefault();
-        if (text !== previewText){
-            setState({...state, modal: false, unsavedModal: true});
+        if (text !== textPreview){
+            setIsmodal({...isModal, modal: false, unsavedModal: true});
         } else{
-            setState({...state, modal: false, unsavedModal: false});
-            setText(previewText);
+            setIsmodal({...isModal, modal: false, unsavedModal: false});
+            setTextPreview(text)
         }
     }
     const discardText = (ev) => {
         ev.preventDefault();
-        if (text !== previewText){
-            setState({...state, modal: false, unsavedModal: false});
-            setPreviewText(text);
-        } 
+        if (text !== textPreview){
+            setIsmodal({...isModal, modal: false, unsavedModal: false})
+            setText(textPreview);
+        }
     }
-
-    const saveText = (ev) => {
-        ev.preventDefault();
-        setText(previewText);
-        setState({...state, modal: false, unsavedModal: false});
-    }
-
-    React.useEffect(() => {
-            updateAttendanceText()
-    }, [text])
 
 
     return (
         <>
             <BasicButton
                 text={text? translate.edit_instructions : translate.add_instructions}
-                onClick={() => setState({...state, modal: true})}
+                onClick={() => setIsmodal({...isModal, modal: true})}
                 color="white"
                 type="flat"
                 textStyle={{
@@ -64,22 +48,21 @@ const AttendanceTextEditor = ({ council, translate, text, setText, updateAttenda
                 }}
             />
             <AlertConfirm
-                open={state.modal}
+                open={isModal.modal}
                 requestClose={handleClose}
                 buttonAccept={translate.save}
-                acceptAction={saveText}
+                acceptAction={updateAttendanceText}
                 buttonCancel={translate.cancel}
                 title={text? translate.edit_instructions : translate.add_instructions}
                 bodyText={renderBody()}
             />
             <UnsavedChangesModal 
                 translate={translate}  
-                open={state.unsavedModal}
+                open={isModal.unsavedModal}
                 requestClose={() => {
-                    setState({...state, modal: true, unsavedModal: false})
-                    setText(previewText);
+                    setIsmodal({...isModal, modal: true, unsavedModal: false})
                 }}
-                acceptAction={saveText}
+                acceptAction={updateAttendanceText}
                 cancelAction={discardText}
                 />
         </>
