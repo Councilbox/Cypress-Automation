@@ -39,6 +39,7 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                 }
                 <SendMessageToParticipant
                     translate={translate}
+                    council={council}
                     participantId={council.participants[0].id}
                     open={messageModal}
                     requestClose={() => setMessageModal(false)}

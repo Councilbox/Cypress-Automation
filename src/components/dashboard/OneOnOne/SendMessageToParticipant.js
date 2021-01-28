@@ -7,6 +7,7 @@ import RichTextInput from '../../../displayComponents/RichTextInput';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { useOldState } from '../../../hooks';
 import { getPrimary } from '../../../styles/colors';
+import { checkRequiredFields } from '../../../utils/CBX';
 import AttachmentItem from '../../attachments/AttachmentItem';
 
 
@@ -16,31 +17,73 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
         subject: '',
         body: ''
     });
+    const [errors, setErrors] = React.useState({
+        subject: '',
+        body: ''
+    });
     const [attachments, setAttachments] = React.useState([]);
     const primary = getPrimary();
 
-    const send = async () => {
-        setStatus('LOADING');
-        await client.mutate({
-            mutation: gql`
-                mutation SendEmailtoParticipant($participantId: Int!, $message: AdminMessageInput, $attachments: [SendAttachmentInput]){
-                    sendEmailtoParticipant(participantId: $participantId, message: $message, attachments: $attachments){
-                        success
-                    }
-                }
-            `,
-            variables: {
-                participantId,
-                message: {
-                    subject: state.subject,
-                    body: state.body,
-                    replyTo: user.email
-                },
-                attachments
-            }
-        });
+    React.useEffect(() => {
+        if(open){
+            setState({
+                ...state,
+                subject: council.name
+            });
+        }
+    }, [open])
 
-        setStatus('SUCCESS');
+    const checkRequiredFields = () => {
+        let newErrors = {};
+
+        if(!state.subject){
+            newErrors.subject = translate.required_field;
+        }
+
+        if(!state.body){
+            newErrors.body = translate.required_field;
+        }
+
+        const hasError = Object.keys(newErrors).length > 0;
+
+        if(hasError){
+            setErrors(newErrors);
+        } else {
+            setErrors({
+                subject: '',
+                body: ''
+            });
+        }
+
+        return hasError;
+
+    }
+
+    const send = async () => {
+        if(!checkRequiredFields()){
+            setStatus('LOADING');
+            await client.mutate({
+                mutation: gql`
+                    mutation SendEmailtoParticipant($participantId: Int!, $message: AdminMessageInput, $attachments: [SendAttachmentInput]){
+                        sendEmailtoParticipant(participantId: $participantId, message: $message, attachments: $attachments){
+                            success
+                        }
+                    }
+                `,
+                variables: {
+                    participantId,
+                    message: {
+                        subject: state.subject,
+                        body: state.body,
+                        replyTo: user.email
+                    },
+                    attachments
+                }
+            });
+    
+            setStatus('SUCCESS');
+        }
+
     }
 
     const removeAttachment = index => {
@@ -74,6 +117,11 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
             title={translate.send_message}
             requestClose={() => {
                 setStatus('IDDLE');
+                setState({
+                    subject: '',
+                    body: ''
+                });
+                setAttachments([]);
                 requestClose();
             }}
             bodyText={
@@ -88,13 +136,14 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                 <div style={{ fontWeight: "bold" }}>{translate.title}</div>
                                 <Input
                                     placeholder={translate.title}
+                                    
                                     disableUnderline={true}
                                     id={"titleDraft"}
                                     style={{
                                         color: "rgba(0, 0, 0, 0.65)",
                                         fontSize: '15px',
                                         boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                                        //border: !!errors.subject ? "1px solid red" : "1px solid #d7d7d7",
+                                        border: !!errors.subject ? "1px solid red" : "1px solid #d7d7d7",
                                         width: "100%",
                                         padding: '.5em 1.6em',
                                         marginTop: "1em"
@@ -102,7 +151,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                     value={state.subject}
                                     onChange={event => setState({ subject: event.target.value })}
                                     //classes={{ input: props.classes.input }}
-                                    //error={!!errors.subject}
+                                    error={!!errors.subject}
                                 >
                                 </Input>
                             </div>
@@ -162,7 +211,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                 <RichTextInput
                                     value={state.body}
                                     onChange={value => setState({ body: value })}
-                                    //errorText={errors.body}
+                                    errorText={errors.body}
                                 />
                             </div>
                             <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '0.6em' }}>
