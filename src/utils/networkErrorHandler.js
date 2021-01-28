@@ -13,19 +13,15 @@ export const networkErrorHandler = async (networkError, toast, store, apolloClie
         }
 
         if(networkError.statusCode === 400){
-            let companies = store.getState().companies;
-            let user = store.getState().user;
+            const companies = store.getState().companies;
+            const user = store.getState().user;
             await apolloClient.mutate({
                 mutation: sendGraphQLError,
                 variables: {
                     error: {
                         error: networkError.result.errors[0].stack,
                         operation: JSON.stringify(operation),
-                        additionalInfo: `Client version: ${
-                            CLIENT_VERSION
-                        }, userId: ${
-                           !!user.id? user.id : undefined
-                        }, companyId: ${
+                        additionalInfo: `Client version: ${CLIENT_VERSION}, userId: ${user.id}, companyId: ${
                             companies.list.length > 0 ? companies.list[companies.selected].id : undefined
                         }`
                     }
@@ -33,4 +29,4 @@ export const networkErrorHandler = async (networkError, toast, store, apolloClie
             });
         }
     }
-};
+}

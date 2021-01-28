@@ -1,10 +1,5 @@
 import ReactGa from 'react-ga';
 import { store } from '../containers/App';
-export const init = () => {
-    if(checkShouldTrack()){
-        ReactGa.initialize(process.env.REACT_APP_GTAG_ID);
-    }
-}
 
 const filteredEmails = /councilbox|cocodin/;
 
@@ -18,6 +13,12 @@ const checkShouldTrack = () => {
     }
 
     return true;
+}
+
+export const init = () => {
+    if(checkShouldTrack()){
+        ReactGa.initialize(process.env.REACT_APP_GTAG_ID);
+    }
 }
 
 export const sendGAevent = args => {

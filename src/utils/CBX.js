@@ -1,5 +1,6 @@
+import React from 'react';
+import fileSize from "filesize";
 import {
-	MAX_COUNCIL_ATTACHMENTS,
 	MAX_COUNCIL_FILE_SIZE,
 	PARTICIPANT_STATES,
 	SEND_TYPES,
@@ -18,7 +19,6 @@ import {
 	ACTIVE_STATES
 } from "../constants";
 import dropped from "../assets/img/dropped.png";
-import React from 'react';
 import delivered from "../assets/img/delivered.png";
 import invalidEmailAddress from "../assets/img/invalid_email_address.png";
 import notSent from "../assets/img/not_sent.png";
@@ -30,11 +30,32 @@ import { LiveToast } from '../displayComponents';
 import { moment, client, store } from '../containers/App';
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
 import { TAG_TYPES } from "../components/company/drafts/draftTags/utils";
-import fileSize from "filesize";
 
 export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
 };
+
+export const formatInt = num => {
+	if(!num){
+		return 0;
+	}
+
+	if(num < 1000){
+		return num;
+	}
+	num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1 ');
+	num = num.split('').reverse().join('').replace(/^[\.]/, '');
+	return num;
+}
+
+export const getPercentage = (num, total, decimals = 3) => {
+    const percentage = ((num * 100) / (total)).toFixed(decimals);
+    const zero = 0;
+    if (Number.isNaN(percentage)) {
+        return zero.toFixed(decimals)
+	}
+    return percentage;
+}
 
 export const getActiveVote = agendaVoting => {
 	if(!agendaVoting.fixed) {
@@ -48,7 +69,7 @@ export const getActiveVote = agendaVoting => {
 
 export const showNumParticipations = (numParticipations, company, statute) => {
 	if(statute && statute.decimalDigits && statute.decimalDigits){
-		return formatInt(numParticipations / Math.pow(10, statute.decimalDigits));
+		return formatInt(numParticipations / (10 ** statute.decimalDigits));
 	}
 
 	if(!company || !company.type){
@@ -73,12 +94,10 @@ export const splitExtensionFilename = filename => {
 	}
 }
 
-export const showAddCouncilAttachment = attachments => {
-	return true;
-};
+export const showAddCouncilAttachment = () => true;
 
 export const hasAccessKey = council => {
-	if(!council || !council.hasOwnProperty('securityType')){
+	if(!council || !Object.prototype.hasOwnProperty.call(council, 'securityType')){
 		throw new Error('Council securityType missing!');
 	}
 
@@ -93,10 +112,9 @@ export const canAddCouncilAttachment = (council, filesize) => {
 	);
 };
 
-export const trialDaysLeft = (company, moment, trialDays) => {
-	const left = trialDays - moment(new Date()).diff(moment(company.creationDate), 'days');
-
-	return left <= 0 || isNaN(left) ? 0 : left;
+export const trialDaysLeft = (company, date, trialDays) => {
+	const left = trialDays - date(new Date()).diff(date(company.creationDate), 'days');
+	return left <= 0 || Number.isNaN(left) ? 0 : left;
 }
 
 export const councilStarted = council => {
@@ -132,27 +150,17 @@ export const showAgendaVotingsTable = agenda => {
 export const getAgendaResult = (agenda, type, data = {}) => {
 	const totalVotes = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
 	const types = {
-		POSITIVE: `${showNumParticipations(agenda.positiveVotings + agenda.positiveManual, data.company, data.council? data.council.statute : {})} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (totalVotes))}%)`,
+		POSITIVE: `${showNumParticipations(agenda.positiveVotings + agenda.positiveManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (totalVotes))}%)`,
 		NUM_POSITIVE: `${agenda.recount.numPositive} (${getPercentage((agenda.recount.numPositive), (agenda.recount.numTotal))}%)`,
-		NEGATIVE: `${showNumParticipations(agenda.negativeVotings + agenda.negativeManual, data.company, data.council? data.council.statute : {})} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (totalVotes))}%)`,
+		NEGATIVE: `${showNumParticipations(agenda.negativeVotings + agenda.negativeManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.negativeVotings + agenda.negativeManual), (totalVotes))}%)`,
 		NUM_NEGATIVE: `${agenda.recount.numNegative} (${getPercentage((agenda.recount.numNegative), (agenda.recount.numTotal))}%)`,
-		ABSTENTION: `${showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, data.company, data.council? data.council.statute : {})} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (totalVotes))}%)`,
-		NO_VOTE: `${showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, data.company, data.council? data.council.statute : {})} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`,
+		ABSTENTION: `${showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (totalVotes))}%)`,
+		NO_VOTE: `${showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`,
 		NUM_NO_VOTE: `${agenda.recount.numNoVote} (${getPercentage((agenda.recount.numNoVote), (agenda.recount.numTotal))}%)`,
 	}
 
 	return types[type];
 };
-
-export const getPercentage = (num, total, decimals = 3) => {
-    let percentage = ((num * 100) / (total)).toFixed(decimals);
-    let zero = 0;
-    if (isNaN(percentage)) {
-        return zero.toFixed(decimals)
-    } else {
-        return percentage;
-    }
-}
 
 export const userCanCreateCompany = (user, companies) => {
 	if (user.actived === USER_ACTIVATIONS.FREE_TRIAL) {
@@ -169,6 +177,7 @@ export const userCanCreateCompany = (user, companies) => {
 export const agendaVotingsOpened = agenda => {
 	return agenda.votingState === AGENDA_STATES.DISCUSSION || agenda.votingState === 4;
 };
+
 export const agendaClosed = agenda => {
 	return agenda.pointState === AGENDA_STATES.CLOSED;
 };
@@ -207,7 +216,7 @@ export const pointIsClosed = agendaPoint => {
 };
 
 export const copyStringToClipboard = str => {
-	var el = document.createElement('textarea');
+	const el = document.createElement('textarea');
 	el.value = str;
 	el.setAttribute('readonly', '');
 	el.style = { position: 'absolute', left: '-9999px' };
@@ -238,7 +247,7 @@ export const canEditPresentVotings = agenda => {
 		agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
 }
 
-export const approvedByQualityVote = agenda => {	
+export const approvedByQualityVote = agenda => {
 	if(agenda && agenda.qualityVoteSense){
 		return agenda.qualityVoteSense === VOTE_VALUES.POSITIVE;
 	}
@@ -349,6 +358,10 @@ export const isConfirmationRequest = subjectType => {
 	return subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST;
 }
 
+export const hasParticipations = (statute = {}) => {
+	return statute.quorumPrototype === 1;
+};
+
 export const canBePresentWithRemoteVote = statute => {
 	return statute.existsPresentWithRemoteVote === 1;
 };
@@ -360,20 +373,21 @@ export const getSMSStatusByCode = reqCode => {
     const status = {
         22: 'Entregado',
         20: 'Enviado',
-        '-2': <span style={{color: 'red'}}>Número no válido</span>,
-        default: <span style={{color: 'red'}}>Fallido</span>
+        '-2': <span style={{ color: 'red' }}>Número no válido</span>,
+        default: <span style={{ color: 'red' }}>Fallido</span>
     }
 
-    return status[reqCode]? status[reqCode] : status.default;
+    return status[reqCode] ? status[reqCode] : status.default;
 }
 
-export const filterAgendaVotingTypes = (votingTypes, statute = {}, council = {}) => {
+export const filterAgendaVotingTypes = (votingTypes, _, council = {}) => {
 	if(council.councilType === 2){
-		return votingTypes.filter(type =>
+		return votingTypes.filter(type => (
 			type.label !== 'text' &&
 			type.label !== 'custom_nominal_point' &&
 			type.label !== 'custom_anonym_point' &&
-			type.label !== 'custom_public_point' && type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST);
+			type.label !== 'custom_public_point' && type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST
+		));
 	}
 
 	if(council.councilType === 3){
@@ -382,8 +396,7 @@ export const filterAgendaVotingTypes = (votingTypes, statute = {}, council = {})
 	return votingTypes.filter(type => type.value !== AGENDA_TYPES.CUSTOM_NOMINAL &&
 		type.value !== AGENDA_TYPES.CUSTOM_PRIVATE &&
 		type.value !== AGENDA_TYPES.CUSTOM_PUBLIC &&
-		type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST
-	);
+		type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST);
 };
 
 export const hasSecondCall = statute => {
@@ -525,7 +538,7 @@ export const generateGBDecidesText = (translate, type) => {
 		5: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.COUNCIL.label]} ${decides.acuerda(translate.selectedLanguage)}`
 	}
 
-	return labels[type]? labels[type] : labels[0];
+	return labels[type] ? labels[type] : labels[0];
 }
 
 export const generateGBAgreements = (translate, type) => {
@@ -538,7 +551,7 @@ export const generateGBAgreements = (translate, type) => {
 		5: ''
 	}
 
-	return labels[type]? labels[type] : labels[0];
+	return labels[type] ? labels[type] : labels[0];
 }
 
 
@@ -554,7 +567,7 @@ export const getGoverningText = (translate, type) => {
 		5: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.COUNCIL.label]}`
 	}
 
-	return labels[type]? labels[type] : labels[0];
+	return labels[type] ? labels[type] : labels[0];
 }
 
 
@@ -576,7 +589,7 @@ export const generateGBSoleDecidesText = (translate, type) => {
 		9: `${translate.the_sole_shareholder} ${translate.agrees}`
 	}
 
-	return labels[type]? labels[type] : labels[0];
+	return labels[type] ? labels[type] : labels[0];
 }
 
 export const generateGBSoleProposeText = (translate, type) => {
@@ -589,7 +602,7 @@ export const generateGBSoleProposeText = (translate, type) => {
 		9: translate.the_sole_shareholder
 	}
 
-	return labels[type]? labels[type] : labels[0];
+	return labels[type] ? labels[type] : labels[0];
 }
 
 export const getGoverningBodySignatories = (translate, type, data) => {
@@ -603,18 +616,18 @@ export const getGoverningBodySignatories = (translate, type, data) => {
 			return `${sir[translate.selectedLanguage]} ${data.name} ${data.surname || ''}`;
 		},
 		3: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length -1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, '');
 		},
 		4: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, '');
 		},
 		5: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1)? blankSpaces : ''}`, '');
+			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, '');
 		},
 	}
 
 
-	return labels[type]? labels[type]() : labels[0]();
+	return labels[type] ? labels[type]() : labels[0]();
 }
 
 export const generateAgendaText = (translate, agenda) => {
@@ -638,10 +651,10 @@ export const buildDelegationsString = (delegated, council, translate) => {
 		return acc + `<p style="border: 1px solid black; padding: 5px;">-${
 			vote.name} ${
 			vote.surname || ''} ${texts[council.language]} ${vote.numParticipations} ${
-				council.quorumPrototype === 1? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
+				council.quorumPrototype === 1 ? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
 			translate.delegates.toLowerCase()} ${
-			vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname || ''} </p><br/>`
-	},  '');
+			vote.representative && vote.representative.name} ${(vote.representative && vote.representative.surname) || ''} </p><br/>`
+	}, '');
 }
 
 export const buildAttendantString = ({ attendant, council, total, type }) => {
@@ -651,15 +664,15 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 
 	const texts = {
 		es: `${sir[council.language]} NAME SURNAME titular de SHARES ${
-			type === 'partners'? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
+			type === 'partners' ? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
 		en: `${sir[council.language]} NAME SURNAME owner of SHARES ${
-			type === 'partners'? 'participations' : 'shares'}, representing the PERCENTAGE% of the total shares `,
+			type === 'partners' ? 'participations' : 'shares'}, representing the PERCENTAGE% of the total shares `,
 		gal: `${sir[council.language]} NAME SURNAME dono de SHARES ${
-			type === 'partners'? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
+			type === 'partners' ? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
 		cat: `${sir[council.language]}  NAME SURNAME con SHARES ${
-			type === 'partners'? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
+			type === 'partners' ? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
 		pt: `${sir[council.language]} NAME SURNAME proprietário de SHARES ${
-			type === 'partners'? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
+			type === 'partners' ? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
 	}
 
 	const representativeOf = {
@@ -672,21 +685,21 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 
 	const representativeText = {
 		es: `RNAME RSURNAME con SHARES ${
-			type === 'partners'? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
+			type === 'partners' ? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
 		en: `RNAME RSURNAME with SHARES ${
-			type === 'partners'? 'participations' : 'shares'}, representing PERCENTAGE% of the total shares `,
+			type === 'partners' ? 'participations' : 'shares'}, representing PERCENTAGE% of the total shares `,
 		gal: `RNAME RSURNAME con SHARES ${
-			type === 'partners'? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
+			type === 'partners' ? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
 		cat: `RNAME RSURNAME con SHARES ${
-			type === 'partners'? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
+			type === 'partners' ? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
 		pt: `RNAME RSURNAME con SHARES ${
-			type === 'partners'? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
+			type === 'partners' ? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
 	}
 
 	if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
 		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''} ${representativeOf[council.language]} ${
 			attendant.delegationsAndRepresentations.reduce((acc, representated, index) => {
-				return (acc + (index > 0? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname? representated.surname + " " : ''}`)
+				return (acc + (index > 0 ? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname ? representated.surname + " " : ''}`)
 					.replace('SHARES', representated.socialCapital)
 					.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2)))
 		}, '')}`;
@@ -696,18 +709,16 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 		.replace('NAME SURNAME', `${attendant.name} ${attendant.surname || ''}`)
 		.replace('SHARES', attendant.socialCapital)
 		.replace('PERCENTAGE', ((attendant.socialCapital / total) * 100).toFixed(2));
-
 }
 
 export const isActiveState = state => {
 	return ACTIVE_STATES.findIndex(item => state === item) !== -1;
 }
 
-export const buildAttendantsString = ({ council, total, type }) => (acc, curr, index) => {
+export const buildAttendantsString = ({ council, total, type }) => (acc, curr) => {
 	if(!hasParticipations(council)){
 		return acc + `${curr.name} ${curr.surname || ''} <br/>`;
 	}
-
 	return acc + buildAttendantString({ attendant: curr, council, total, type });
 };
 
@@ -719,8 +730,7 @@ export const showOrganizationDashboard = (company, config, user = {}) => {
 	return (company.type === 12 && (config.oneOnOneDashboard || config.newDashboard)) || (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
 }
 
-
-export const generateCompanyAdminsText = ({ council, company, list, type }) => {
+export const generateCompanyAdminsText = ({ council, company, list }) => {
 	const data = company.governingBodyData;
 	const governingType = company.governingBodyType;
 
@@ -732,10 +742,9 @@ export const generateCompanyAdminsText = ({ council, company, list, type }) => {
 		pt: 'Administradores'
 	}
 
-
 	const buildMultipleAdmins = adminList => {
 		return adminList.reduce((acc, curr, index, array) => acc + `${sir[council.language]} ${
-			curr.name} ${curr.surname || ''}${(index < array.length -1)? list? '<br>' : ', ' : ''}`, list? `${admins[council.language]}: <br>` : '');
+			curr.name} ${curr.surname || ''}${(index < array.length - 1) ? list ? '<br>' : ', ' : ''}`, list ? `${admins[council.language]}: <br>` : '');
 	}
 
 	const labels = {
@@ -751,8 +760,7 @@ export const generateCompanyAdminsText = ({ council, company, list, type }) => {
 		5: () => buildMultipleAdmins(data.list),
 	}
 
-
-	return labels[governingType]? labels[governingType]() : labels[0]();
+	return labels[governingType] ? labels[governingType]() : labels[0]();
 }
 
 export const checkIfHasVote = attendant => {
@@ -770,7 +778,7 @@ export const buildGuestString = ({ guest, council }) => {
 		pt: 'na sua capacidade como'
 	}
 
-	return `${sir[council.language]} ${guest.name} ${guest.surname || ''} ${guest.position? `${inQualityOf[council.language]} ${guest.position}` : ''}`;
+	return `${sir[council.language]} ${guest.name} ${guest.surname || ''} ${guest.position ? `${inQualityOf[council.language]} ${guest.position}` : ''}`;
 }
 
 export const buildShareholdersList = ({ council, total, type }) => {
@@ -804,10 +812,10 @@ export const buildShareholdersList = ({ council, total, type }) => {
 
 	return council.attendants.filter(checkIfHasVote)
 		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({ attendant: curr, total, council, type })}`, `${
-			type === 'partners'?
+			type === 'partners' ?
 				partnersText[council.language]
 			:
-				type === 'counselors'?
+				type === 'counselors' ?
 					counselorsList[council.language]
 				:
 					shareholdersText[council.language]}:`);
@@ -818,7 +826,7 @@ export const buildGuestList = ({ council, total }) => {
 	if(!council.attendants || council.attendants.length === 0){
 		return '';
 	}
-	
+
 	const otherAttendants = {
 		es: 'Otros asistentes',
 		en: 'Other attendants',
@@ -831,20 +839,6 @@ export const buildGuestList = ({ council, total }) => {
 		.reduce((acc, curr) => `${acc}<br>${buildGuestString({ guest: curr, total, council })}`, `${otherAttendants[council.language]}:`);
 }
 
-export const formatInt = num => {
-	if(!num){
-		return 0;
-	}
-
-	if(num < 1000){
-		return num;
-	}
-	num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1 ');
-	num = num.split('').reverse().join('').replace(/^[\.]/, '');
-	return num;
-}
-
-
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
@@ -856,7 +850,6 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	if (!text) {
 		return "";
 	}
-
 
 	if(company){
 		const response = await client.query({
@@ -890,8 +883,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 			);
 		} else {
 			text = text.replace(
-				/{{dateFirstCall}}/g
-				,
+				/{{dateFirstCall}}/g,
 				`<span id="{{dateFirstCall}}">${
 				moment(
 					new Date(data.council.dateStart).toISOString(),
@@ -917,8 +909,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 			);
 		} else {
 			text = text.replace(
-				/{{dateSecondCall}}/g
-				,
+				/{{dateSecondCall}}/g,
 				`<span id="{{dateSecondCall}}">${
 				moment(
 					new Date(data.council.dateStart2NdCall).toISOString(),
@@ -929,11 +920,9 @@ export const changeVariablesToValues = async (text, data, translate) => {
 		}
 	}
 
-	text = text.replace(/{{now}}/g, new moment().format('LL'));
+	text = text.replace(/{{now}}/g, moment().format('LL'));
 	text = text.replace(/{{signatories}}/g, getGoverningBodySignatories(translate, data.company.governingBodyType, data.company.governingBodyData));
-
 	text = text.replace(/{{convene}}/g, data.council.emailText);
-
 	text = text.replace(/{{numPresentOrRemote}}/g, data.council.numPresentAttendance + data.council.numRemoteAttendance);
 	text = text.replace(/{{numRepresented}}/g, data.council.numDelegatedAttendance);
 	text = text.replace(/{{numParticipants}}/g, data.council.numTotalAttendance);
@@ -943,15 +932,14 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{numParticipationsPresent}}/g, data.council.numParticipationsPresent);
 	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
 	text = text.replace(/{{delegations}}/, buildDelegationsString(data.council.delegatedVotes, data.council, translate));
-
-
 	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
 	text = text.replace(/{{dateSecondCall}}/g, !!data.council.dateStart2NdCall ? moment(new Date(data.council.dateStart2NdCall).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
 	text = text.replace(/{{dateEnd}}/g, !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
-	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
+	text = text.replace(
+		/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
 		translate.first_call
 		:
 		data.council.firstOrSecondCall === 2 ?
@@ -967,7 +955,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`)
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
-	text = text.replace(/{{attendants|Attendants}}/g, data.council.attendants? data.council.attendants.reduce(buildAttendantsString(data.council, base), '') : '');
+	text = text.replace(/{{attendants|Attendants}}/g, data.council.attendants ? data.council.attendants.reduce(buildAttendantsString(data.council, base), '') : '');
 
 	if (data.council.street) {
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
@@ -980,8 +968,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 			);
 		} else {
 			text = text.replace(
-				/{{street}}/g
-				,
+				/{{street}}/g,
 				`<span id="{{street}}">${data.council.remoteCelebration === 1 ? translate.remote_celebration : data.council.street
 				}</span>`
 			);
@@ -1001,11 +988,10 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{counselorsList}}/, buildShareholdersList({ council: data.council, total: base, type: 'counselors' }));
 
 
-	text = text.replace(/{{Agenda}}|{{agenda}}/g, data.council.agenda? generateAgendaText(translate, data.council.agenda) : '');
-
+	text = text.replace(/{{Agenda}}|{{agenda}}/g, data.council.agenda ? generateAgendaText(translate, data.council.agenda) : '');
 	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
 	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);
-	text = text.replace(/{{percentageOfShares}}/g, (data.council.currentQuorum / parseInt(base, 10) * 100).toFixed(3));
+	text = text.replace(/{{percentageOfShares}}/g, (data.council.currentQuorum / (parseInt(base, 10) * 100)).toFixed(3));
 	text = text.replace(/{{country_state}}/g, data.council.countryState);
 	if (data.votings) {
 		text = text.replace(/{{positiveVotings}}/g, data.votings.positive);
@@ -1377,12 +1363,8 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		]
 	}
 
-	return types[draftType]? types[draftType] : Object.keys(tags).map(key => tags[key]);
+	return types[draftType] ? types[draftType] : Object.keys(tags).map(key => tags[key]);
 }
-
-export const hasParticipations = (statute = {}) => {
-	return statute.quorumPrototype === 1;
-};
 
 export const isRepresentative = participant => {
 	return participant.type === 2;
@@ -1397,7 +1379,7 @@ export const getSendType = value => {
 };
 
 export const removeHTMLTags = string => {
-	return string.replace(/<(?:.|\n)*?>/gm, "").replace(/&#(\d+);/g, function(match, dec) {
+	return string.replace(/<(?:.|\n)*?>/gm, "").replace(/&#(\d+);/g, function (match, dec) {
 		return String.fromCharCode(dec);
 	}).replace(/&nbsp;/g, ' ');
 };
@@ -1431,15 +1413,12 @@ export const generateInitialDates = (statute) => {
 		}
 
 		return dates;
-	} else {
-		return {
-			dateStart: new Date(),
-			...(hasSecondCall(statute) ? { dateStart2NdCall: new Date() } : {})
-		}
+	}
+	return {
+		dateStart: new Date(),
+		...(hasSecondCall(statute) ? { dateStart2NdCall: new Date() } : {})
 	}
 }
-
-
 
 export const checkMinimumAdvance = (date, statute) => {
 	if (statute.existsAdvanceNoticeDays === 1) {
@@ -1479,7 +1458,7 @@ export const councilIsNotLiveYet = council => {
 
 export const checkRepeatedItemValue = items => {
     const differentValues = new Map();
-    let found = new Set();
+    const found = new Set();
     items.forEach((item, index) => {
         if(item.value){
             if(differentValues.has(item.value)){
@@ -1534,8 +1513,8 @@ export const addDecimals = (num, fixed) => {
 };
 
 function s2ab(s) {
-	var buf = new ArrayBuffer(s.length);
-	var view = new Uint8Array(buf);
+	const buf = new ArrayBuffer(s.length);
+	const view = new Uint8Array(buf);
 	for (let i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
 	return buf;
 }
@@ -1547,52 +1526,46 @@ export const unaccent = string => {
 	return string.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
 };
 
-export const downloadFile = (base64, filetype, filename) => {
-	let bufferArray = dataURItoBlob(base64);
-
-	if (window.navigator.msSaveOrOpenBlob) {
-		let fileData = [bufferArray];
-		let blobObject = new Blob(fileData, {
-			type: "data:application/stream;base64"
-		});
-		return window.navigator.msSaveOrOpenBlob(blobObject, filename);
-	} else {
-		let blob;
-		if (filetype === 'excel') {
-			blob = new Blob([s2ab(atob(bufferArray))], {
-				type: ''
-			});
-		} else {
-			blob = new Blob([bufferArray], {
-				type: filetype
-			});
-		}
-
-		let objectUrl = URL.createObjectURL(blob);
-
-		let a = document.createElement("a");
-		a.style.cssText = "display: none";
-		document.body.appendChild(a);
-		a.href = objectUrl;
-		a.download = filename//.replace(/\./, '');
-		a.click();
-	}
-};
-
 function dataURItoBlob(dataURI) {
-	// convert base64 to raw binary data held in a string
-	// doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-	let byteString = atob(dataURI);
-
-	// write the bytes of the string to an ArrayBuffer
-	let arrayBuffer = new ArrayBuffer(byteString.length);
-	let ia = new Uint8Array(arrayBuffer);
+	const byteString = atob(dataURI);
+	const arrayBuffer = new ArrayBuffer(byteString.length);
+	const ia = new Uint8Array(arrayBuffer);
 	for (let i = 0; i < byteString.length; i++) {
 		ia[i] = byteString.charCodeAt(i);
 	}
-
 	return arrayBuffer;
 }
+
+export const downloadFile = (base64, filetype, filename) => {
+	const bufferArray = dataURItoBlob(base64);
+
+	if (window.navigator.msSaveOrOpenBlob) {
+		const fileData = [bufferArray];
+		const blobObject = new Blob(fileData, {
+			type: "data:application/stream;base64"
+		});
+		return window.navigator.msSaveOrOpenBlob(blobObject, filename);
+	}
+
+	let blob;
+	if (filetype === 'excel') {
+		blob = new Blob([s2ab(atob(bufferArray))], {
+			type: ''
+		});
+	} else {
+		blob = new Blob([bufferArray], {
+			type: filetype
+		});
+	}
+
+	const objectUrl = URL.createObjectURL(blob);
+	const a = document.createElement("a");
+	a.style.cssText = "display: none";
+	document.body.appendChild(a);
+	a.href = objectUrl;
+	a.download = filename//.replace(/\./, '');
+	a.click();
+};
 
 export const getSignerStatusTranslateField = status => {
 	switch (status) {
@@ -1665,7 +1638,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 			}
 			break;
 		default:
-			return;
+			break;
 	}
 };
 
@@ -1689,12 +1662,12 @@ export const getAttendanceIntentionTooltip = intention => {
 
 		case PARTICIPANT_STATES.DELEGATED:
 			return 'delegated_in';
-			
+
 		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
 			return 'vote_letter_sent';
 
 		case PARTICIPANT_STATES.EARLY_VOTE:
-			return 'participant_vote_fixed'
+			return 'participant_vote_fixed';
 		default:
 			break;
 	}
@@ -1712,9 +1685,9 @@ export const getAttendanceIntentionIcon = (intention, style) => {
 			return <i className={'fa fa-times'} style={style}></i>;
 		case PARTICIPANT_STATES.EARLY_VOTE:
 		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
-			return <i class="material-icons" style={{...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
+			return <i class="material-icons" style={{ ...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
 		default:
-			return 'fa fa-question'
+			return 'fa fa-question';
 	}
 }
 
@@ -1812,7 +1785,7 @@ export const getTranslationReqCode = reqCode => {
 		case 40:
 			return "tooltip_dropped";
 		default:
-			return;
+			break;
 	}
 };
 
@@ -1828,7 +1801,7 @@ export const printSessionExpiredError = () => {
 	if (selectedLanguage) {
 		return messages[selectedLanguage];
 	}
-	return messages["es"];
+	return messages.es;
 };
 
 export const printCifAlreadyUsed = () => {
@@ -1844,7 +1817,7 @@ export const printCifAlreadyUsed = () => {
 	if (selectedLanguage) {
 		return messages[selectedLanguage];
 	}
-	return messages["es"];
+	return messages.es;
 };
 
 export const printTrialEnded = () => {
@@ -1860,7 +1833,7 @@ export const printTrialEnded = () => {
 	if (selectedLanguage) {
 		return messages[selectedLanguage];
 	}
-	return messages["es"];
+	return messages.es;
 };
 
 export const showVideo = council => {
@@ -1868,7 +1841,7 @@ export const showVideo = council => {
 };
 
 export const getMainRepresentative = participant => {
-	return (participant.representatives && participant.representatives.length > 0)? participant.representatives[0] : null;
+	return (participant.representatives && participant.representatives.length > 0) ? participant.representatives[0] : null;
 }
 
 export const canAddPoints = council => {
@@ -1990,11 +1963,11 @@ export const formatCountryName = (country, language) => {
 		}
 	};
 
-	return texts[language][country]? texts[language][country] : country;
+	return texts[language][country] ? texts[language][country] : country;
 }
 
 export const checkRequiredFields = (translate, draft, updateErrors, corporation, toast) => {
-	let errors = {
+	const errors = {
 		title: "",
 		text: "",
 		statuteId: "",
@@ -2012,80 +1985,40 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		errors.title = translate.required_field;
 	}
 
-	if (!draft.text) {
-		//hasError = true;
-		//errors.text = translate.required_field;
-	} else {
-		if (checkForUnclosedBraces(draft.text)) {
-			errors.text = true;
-			hasError = true;
-			toast(
-				<LiveToast
-					message={translate.revise_text}
-				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "errorToast"
-				}
-			);
-		}
+	if (draft.text && checkForUnclosedBraces(draft.text)) {
+		errors.text = true;
+		hasError = true;
+		toast(
+			<LiveToast
+				message={translate.revise_text}
+			/>, {
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: "errorToast"
+			}
+		);
 	}
 
-	if (!draft.secondaryText) {
-		//hasError = true;
-		//errors.text = translate.required_field;
-	} else {
-		if (checkForUnclosedBraces(draft.secondaryText)) {
-			errors.secondaryText = true;
-			hasError = true;
-			toast(
-				<LiveToast
-					message={translate.revise_text}
-				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "errorToast"
-				}
-			);
-		}
+	if (draft.secondaryText && checkForUnclosedBraces(draft.secondaryText)) {
+		errors.secondaryText = true;
+		hasError = true;
+		toast(
+			<LiveToast
+				message={translate.revise_text}
+			/>, {
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: "errorToast"
+			}
+		);
 	}
 
-	// if (draft.type === -1) {
-	// 	hasError = true;
-	// 	errors.type = translate.required_field;
-	// }
-
-	// if (draft.statuteId === -1 && !corporation) {
-	// 	hasError = true;
-	// 	errors.statuteId = translate.required_field;
-	// }
-
-	// if (draft.type === 1 && draft.votationType === -1) {
-	// 	hasError = true;
-	// 	errors.votationType = translate.required_field;
-	// }
-
-	// if (hasVotation(draft.votationType) && draft.type === 1 && draft.majorityType === -1) {
-	// 	hasError = true;
-	// 	errors.majorityType = translate.required_field;
-	// 	if (majorityNeedsInput(draft.majorityType)) {
-	// 		hasError = true;
-	// 		errors.majority = translate.required_field;
-	// 	}
-
-	// 	if (isMajorityFraction(draft.majorityType) && !draft.majorityDivider) {
-	// 		hasError = true;
-	// 		errors.majorityDivider = translate.required_field;
-	// 	}
-	// }
-	// console.log(errors)
 	updateErrors(errors);
 	return hasError;
 };
 
 export const cleanAgendaObject = agenda => {
 	const { attachments, ballots, items, options, __typename, votings, qualityVoteSense, votingsRecount, ...clean } = agenda;
-
 	return clean;
 }
 
@@ -2101,21 +2034,22 @@ export const checkHybridConditions = council => {
 
 export const prepareTextForFilename = text => {
 	if(!text) return '';
-
 	return text.replace(/ /g, '_').replace(/\./g, '_');
 }
 
 export const formatSize = size => {
-	let mb = Math.pow(1024, 2);
-	let kb = 1024;
+	const mb = 1024 ** 2;
+	const kb = 1024;
 
 	if ((size >= 1024) ^ 2) {
 		return Math.ceil((size / mb) * 100) / 100 + " MB";
-	} else if (size >= 1024) {
-		return Math.ceil((size / kb) * 100) / 100 + " KB";
-	} else {
-		return size + " Bytes";
 	}
+
+	if (size >= 1024) {
+		return Math.ceil((size / kb) * 100) / 100 + " KB";
+	}
+
+	return size + " Bytes";
 };
 
 export const calculateMajorityAgenda = (agenda, company, council, recount) => {

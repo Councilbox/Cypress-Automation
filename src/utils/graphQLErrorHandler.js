@@ -1,8 +1,8 @@
+import React from 'react';
 import { printCifAlreadyUsed, printSessionExpiredError, printTrialEnded } from "./CBX";
 import { logout } from "../actions/mainActions";
 import { refreshTokenQuery } from '../queries';
 import { LiveToast } from '../displayComponents';
-import React from 'react';
 
 export const refreshToken = async (apolloClient, toast, store) => {
 	const rToken = sessionStorage.getItem('refreshToken');
@@ -32,9 +32,7 @@ export const refreshToken = async (apolloClient, toast, store) => {
 		);
 		store.dispatch(logout());
 	}
-
 }
-
 
 export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClient, operation, bHistory) => {
 	if (graphQLError.message === "Validation error") {

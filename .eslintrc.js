@@ -1,20 +1,29 @@
 module.exports = {
   env: {
-    node: true,
-    phantomjs: true
+    browser: true,
+    es6: true,
+    commonjs: true,
   },
   extends: [
     'airbnb-base',
+    "plugin:cypress/recommended"
   ],
   parserOptions: {
     ecmaVersion: 11,
+    ecmaFeatures: {
+      "jsx": true
+    },
     sourceType: 'module',
   },
   rules: {
     "import/no-named-as-default": "off",
     "indent": ["off", 4],
+    "semi": ["error", "always", { "omitLastInOneLineBlock": true}],
     "no-multiple-empty-lines": "off",
+    "newline-per-chained-call": "warn",
     "arrow-parens": "off",
+    "operator-linebreak": "off",
+    "no-extra-boolean-cast": "warn",
     "linebreak-style": "off",
     "comma-dangle": "off",
     "max-len": "off",
@@ -39,9 +48,12 @@ module.exports = {
     "no-useless-escape": "off",
     "import/no-mutable-exports": "off",
     "no-bitwise": "off",
+    "one-var": "warn",
     "keyword-spacing": 'off',
+    "arrow-body-style": 'warn',
     "space-before-blocks": 'off',
     "import/no-cycle": "off",
+    "no-mixed-spaces-and-tabs": 'warn',
     "quote-props": "off",
     "object-curly-newline": "off",
     "no-return-await": "off",

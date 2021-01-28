@@ -14,12 +14,12 @@ class LiveUtil {
 	}
 
 	static parsePercentaje(number, divisor) {
-		let zero = 0;
+		const zero = 0;
 		if (!divisor) {
 			return zero.toFixed(3);
-		} else {
-			return ((number * 100) / divisor).toFixed(3);
 		}
+
+		return ((number * 100) / divisor).toFixed(3);
 	}
 
 	static calculateMayorityAgenda(agenda, council, recount) {
@@ -41,14 +41,14 @@ class LiveUtil {
 		);
 	}
 
-	static calculateQuorum = (base, quorum_type, quorum, quorum_divider) => {
+	static calculateQuorum(base, quorum_type, quorum, quorum_divider) {
         switch (quorum_type) {
             case 0:
-                return Math.ceil(base * quorum / 100);
+                return Math.ceil((base * quorum) / 100);
             case 1:
-                return Math.ceil(base * 50 / 100) + 1;
+                return Math.ceil((base * 50) / 100) + 1;
             case 2:
-                return Math.ceil(base * quorum / quorum_divider);
+                return Math.ceil((base * quorum) / quorum_divider);
             case 3:
                 return quorum;
             default:
@@ -75,16 +75,16 @@ class LiveUtil {
 				against_votes,
 				quorum_prototype
 			);
-		} else {
-			return this.calculateMajorityOther(
-				total_votes,
-				votes,
-				majority_type,
-				majority,
-				majority_divider,
-				against_votes
-			);
 		}
+
+		return this.calculateMajorityOther(
+			total_votes,
+			votes,
+			majority_type,
+			majority,
+			majority_divider,
+			against_votes
+		);
 	}
 
 	static calculateMajorityOther(
@@ -105,9 +105,8 @@ class LiveUtil {
 			case 3:
 				if ((votes / total_votes) * 100 >= 50) {
 					return Math.ceil((votes * 50) / 100) + 1;
-				} else {
-					return Math.ceil((votes * 2) / 3);
 				}
+				return Math.ceil((votes * 2) / 3);
 			case 4:
 				return Math.ceil((votes * 2) / 3);
 			case 5:
@@ -130,18 +129,17 @@ class LiveUtil {
 		switch (majority_type) {
 			case 0:
 				return Math.ceil((total_votes * majority) / 100);
-			case 1:
-				let positiveNeeded = against_votes + 1;
+			case 1: {
+				const positiveNeeded = against_votes + 1;
 				if (quorum_prototype === 1) {
-					//ACCIONES
-					let minimumNeeded = Math.ceil(total_votes / 3);
-					return against_votes > (minimumNeeded / 2)?
+					const minimumNeeded = Math.ceil(total_votes / 3);
+					return against_votes > (minimumNeeded / 2) ?
 						positiveNeeded
 					:
-						minimumNeeded - against_votes
-				} else {
-					return positiveNeeded;
+						minimumNeeded - against_votes;
 				}
+				return positiveNeeded;
+			}
 			case 2:
 				return Math.ceil((total_votes * 50) / 100) + 1;
 			case 4:
