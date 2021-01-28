@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { Input } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm, BasicButton, ButtonIcon, DropDownMenu, SuccessMessage } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, ButtonIcon, CloseIcon, DropDownMenu, FileUploadButton, SuccessMessage } from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { useOldState } from '../../../hooks';
@@ -40,10 +40,14 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
             }
         });
 
-        setStatus('SUCCESS')
+        setStatus('SUCCESS');
     }
 
-    console.log(attachments);
+    const removeAttachment = index => {
+        let newAttachments = [...attachments];
+        newAttachments.splice(index, 1);
+        setAttachments(newAttachments);
+    }
 
     const handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
@@ -118,67 +122,35 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                     opacity: 0
                                 }}
                             />
-                            <DropDownMenu
-                                color="transparent"
-                                styleComponent={{ width: "" }}
-                                Component={() =>
-                                    <BasicButton
-                                        color={primary}
-                                        icon={<i className={"fa fa-plus"}
-                                        style={{
-                                            cursor: 'pointer',
-                                            color: 'white',
-                                            fontWeight: '700',
-                                            paddingLeft: "5px"
-                                        }}></i>}
-                                        text={translate.add}
-                                        textStyle={{
-                                            color: 'white'
-                                        }}
-                                        buttonStyle={{
-                                            width: '100%',
-                                            marginBottom: '1em'
-                                        }}
-                                    />
-                                }
-                                textStyle={{ color: primary }}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
+                            <FileUploadButton
+                                text={translate.add_new_attachment}
+                                image
+                                fullWidth
+                                color={primary}
+                                textStyle={{
+                                    color: "white",
+                                    fontWeight: "700",
+                                    fontSize: "0.9em",
+                                    marginTop: '1em',
+                                    textTransform: "none"
                                 }}
-                                type="flat"
-                                items={
-                                    <div style={{ padding: "1em" }}>
-                                        <label htmlFor="raised-button-file">
-                                            <div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
-                                                <div style={{ paddingLeft: "10px" }}>
-                                                    {translate.upload_file}
-                                                </div>
-                                            </div>
-                                        </label>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            color: "black",
-                                            padding: ".5em 0em",
-                                            borderTop: "1px solid" + primary,
-                                            cursor: "pointer"
-                                        }}
-                                        //onClick={() => setCompanyDocumentsModal(true)}
-                                    >
-                                        <div style={{ paddingLeft: "10px" }} >
-                                            {translate.my_documentation}
-                                        </div>
-                                    </div>
-                                </div>
-                                }
+                                onChange={handleFile}
                             />
                             {attachments.length > 0 && (
                                 attachments.map((attachment, index) => (
                                     <AttachmentItem
                                         edit={false}
-                                        icon={<i className="fa fa-check" style={{color: 'green'}}/>}
-                                        //loading={index === uploading}
+                                        loading={false}
+                                        icon={
+                                            <CloseIcon
+                                                style={{
+                                                    float: "right",
+                                                    color: primary
+                                                }}
+                                                onClick={() => removeAttachment(index)}
+							                />
+                                        }
+                                        loadingId={null}
                                         key={`attachment${index}`}
                                         attachment={attachment}
                                         translate={translate}
