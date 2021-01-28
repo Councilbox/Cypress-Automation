@@ -291,7 +291,6 @@ class ImportCensusButton extends React.Component {
 		}
 
 		const duplicatedEmails = await this.checkUniqueEmails(preparedParticipants);
-
 		if (!duplicatedEmails) {
 			if (preparedParticipants.length > 0) {
 				if (preparedParticipants[0].participant.email === "example@councilbox.com") {
@@ -328,8 +327,7 @@ class ImportCensusButton extends React.Component {
 		if (!participant.language_TEXT) {
 			participant.language = language;
 		} else if (languages[participant.language_TEXT.toLowerCase()]) {
-			participant.language =
-				languages[participant.language_TEXT.toLowerCase()];
+			participant.language = languages[participant.language_TEXT.toLowerCase()];
 		} else {
 			participant.language = language;
 		}
@@ -362,7 +360,7 @@ class ImportCensusButton extends React.Component {
 
 
 	checkEntityParticipant = participant => {
-		let errors = {};
+		let errors = null;
 		const mappedParticipant = {};
 		if (participant.name) {
 			const participantError = this.checkRequiredFields(participant, false);

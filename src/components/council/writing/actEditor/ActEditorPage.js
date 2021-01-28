@@ -134,7 +134,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     }
 
 
-    if(councilHasComments(council.statute)){
+    if(council.wallActive === 1){
         tabs.push({
             label: translate.council_comments,
             value: 'comments',
