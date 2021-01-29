@@ -8,7 +8,7 @@ import {
 	Collapse
 } from "material-ui";
 import FontAwesome from "react-fontawesome";
-import { Grid, GridItem, Scrollbar, BasicButton, Link, TextInput } from '../../../displayComponents';
+import { Grid, GridItem, Scrollbar, BasicButton, Link, TextInput, AlertConfirm } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -36,6 +36,7 @@ import ContactModal from "./ContactModal";
 import ContactForm from "./ContactForm";
 import ResultsTimeline from "../ResultsTimeline";
 import TextArea from "antd/lib/input/TextArea";
+
 
 const styles = {
 	container: {
@@ -259,12 +260,18 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 										</Image>
 									</div>
 								</div>
+								<CouncilFinishedSurveyOpenA translate={translate} />
+								{/* <CouncilFinishedSummarySurveyOpenB translate={translate} /> */}
+								<CouncilFinishedSummarySurvey translate={translate} />
 							</div>
 							<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 								<div>
 									{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
 								</div>
 							</div>
+							<CouncilFinishedFeedback2 />
+
+							<CouncilFinishedFeedback3 translate={translate} />
 							<div style={{ marginTop: "1em", height: '100%', background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 								<div style={{ padding: "1em 1em", height: '100%' }}>
 									<div style={{ textAlign: "center" }}>
@@ -297,6 +304,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 						</Scrollbar>
 					</div>
 					:
+					// <div style={{ width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px" }}>
 					<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
 						<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
 							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
@@ -339,22 +347,23 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 								</div>
 							</div>
 							<div>
-								{/* <CouncilFinishedSummarySurveyOpenB translate={translate}/> */}
-								{/* <CouncilFinishedSummarySurvey translate={translate}/> */}
+								{/* <CouncilFinishedSurveyOpenA translate={translate} /> */}
+								<CouncilFinishedSummarySurveyOpenB translate={translate} />
+								{/* <CouncilFinishedSummarySurvey translate={translate} /> */}
 							</div>
 						</div>
 
-						<CouncilFinishedFeedback2/>
+						<CouncilFinishedFeedback2 />
 
 						<CouncilFinishedFeedback3 translate={translate} />
 
 
-						<div style={{ height: "calc( 100% - 13em )", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
-							<div style={{ padding: "1em 1em", height: "100%" }}>
+						<div style={{ height: "calc( 100% - 13em )", marginBottom: "4em", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+							<div style={{ padding: "1em 1em", minHeight: "400px" }}>
 								<div style={{ textAlign: "left" }}>
 									{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
 								</div>
-								<div style={{ marginTop: "1em", height: "calc( 100% - 2em )" }}>
+								<div style={{ marginTop: "1em", height: "600px" }}>
 									<ResultsTimeline
 										council={council}
 										participant={props.participant}
@@ -383,7 +392,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 				// backgroundColor: 'white',
 				...(windowSize === "xs" && windowOrientation === "portrait"
 					? styles.container
-					: styles.splittedContainer)
+					: styles.splittedContainer),
 			}}
 		>
 			<div
@@ -411,9 +420,22 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 
 // Reunion finalizada encuesta abierta opcion a
 const CouncilFinishedSurveyOpenA = ({ translate }) => {
+	const [open, setOpen] = React.useState(false)
 
 	return (
-		<div></div>
+		<div>
+			<div onClick={() => setOpen(true)}>AbrirModal</div>
+			<AlertConfirm
+				bodyStyle={{ minWidth: "60vw", }}
+				bodyText={
+					<div style={{ marginTop: "2em" }}>
+						<CouncilFinishedSummarySurveyOpenB translate={translate} noLine={true} inModal={true} />
+					</div>
+				}
+				open={open}
+				requestClose={() => setOpen(true)}
+			/>
+		</div>
 	)
 }
 
@@ -424,12 +446,12 @@ const CouncilFinishedSummarySurvey = ({ translate }) => {
 	return (
 		<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
 			<div>
-				<div style={{ border: "1px solid " + primary, borderRadius: '2px', padding: '.5rem 1rem', display: "flex", alignItems: "center" }}>
+				<div style={{ border: "1px solid " + primary, borderRadius: '2px', padding: '.5rem 1rem', display: isMobile ? "" : "flex", alignItems: "center" }}>
 					<div style={{ marginRight: "1.5em" }}>
 						<p style={{ fontSize: '11px', fontWeight: 'bold', color: primary, margin: '0' }}>{'Valore el funcionamiento de la reunión aquí'}</p> {/* TRADUCCION */}
 					</div>
 					<div>
-						<Stars />
+						<Stars num={0} lowStars={true} />
 					</div>
 				</div>
 			</div>
@@ -438,31 +460,63 @@ const CouncilFinishedSummarySurvey = ({ translate }) => {
 }
 
 // Reunion finalizada + resumen + encuesta abierta opcion b
-const CouncilFinishedSummarySurveyOpenB = ({ translate }) => {
+const CouncilFinishedSummarySurveyOpenB = ({ translate, noLine, inModal }) => {
 
 	return (
-		<div style={{ border: "1px solid" + getPrimary(), borderRadius: "1px", textAlign: 'left', padding: '2em', color: "black", fontSize: '14px' }}>
+		<div style={{ border: noLine ? "none" : "1px solid" + getPrimary(), borderRadius: "1px", textAlign: 'left', padding: inModal ? "" : '2em', color: "black", fontSize: '14px' }}>
 			<div>
-				<div>Valore el grado de satisfacción con el uso de</div> {/* TRADUCCION */}
 				<div>
-					<Stars />
+					<div>Valore el grado de satisfacción con el uso de</div> {/* TRADUCCION */}
+					<div>
+						<Stars num={0} />
+					</div>
+				</div>
+				<div>
+					<div>Valore el funcionamiento general de .</div> {/* TRADUCCION */}
+					<div><Stars num={1} /></div>
+				</div>
+				<div>
+					<div>En qué grado recomendaría y volvería a utilizar  en el futuro</div>{/* TRADUCCION */}
+					<div><Stars num={2} /></div>
+				</div>
+				<div>
+					<div>¿Cómo valoraría la atención recibida?</div>{/* TRADUCCION */}
+					<div><Stars num={3} /></div>
+				</div>
+				<div>
+					<div>¿Qué aspectos  mejoraría en su experiencia con ?</div>{/* TRADUCCION */}
+					<div style={{ marginTop: "0.5em" }}>
+						<TextArea style={{ width: '100%', resize: 'none', border: 'none', padding: '.2rem', background: "#d0d0d080" }} />
+					</div>
 				</div>
 			</div>
 			<div>
-				<div>Valore el funcionamiento general de .</div> {/* TRADUCCION */}
-				<div><Stars /></div>
-			</div>
-			<div>
-				<div>En qué grado recomendaría y volvería a utilizar  en el futuro</div>{/* TRADUCCION */}
-				<div><Stars /></div>
-			</div>
-			<div>
-				<div>¿Cómo valoraría la atención recibida?</div>{/* TRADUCCION */}
-				<div><Stars /></div>
-			</div>
-			<div>
-				<div>¿Qué aspectos  mejoraría en su experiencia con ?</div>{/* TRADUCCION */}
-				<div><Stars /></div>
+				<div style={{ marginTop: "1.5em" }}>
+					<BasicButton
+						// onClick={() => setModal(true)}
+						text={translate.send}
+						backgroundColor={{
+							background: getPrimary(),
+							color: "white",
+							borderRadius: "1px",
+							padding: "1em 3em 1em 3em",
+							marginRight: "1em"
+						}}
+					>
+					</BasicButton>
+					<BasicButton
+						// onClick={() => setModal(true)}
+						text={translate.close}
+						backgroundColor={{
+							background: 'white',
+							color: getPrimary(),
+							borderRadius: "1px",
+							padding: "1em 3em 1em 3em",
+							boxShadow: "none"
+						}}
+					>
+					</BasicButton>
+				</div>
 			</div>
 		</div >
 	)
@@ -478,8 +532,8 @@ const CouncilFinishedFeedback = ({ translate }) => {
 
 //Reunion finalizada Feedback 2
 const CouncilFinishedFeedback2 = ({ translate }) => {
-  const primary = getPrimary();
-const value = [...Array(10)].map((el, index) => index+1);
+	const primary = getPrimary();
+	const value = [...Array(10)].map((el, index) => index + 1);
 
 	return (
 		<div style={{ width: "100%", background: "white", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', marginTop: '1em', background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)' }}>
@@ -492,17 +546,17 @@ const value = [...Array(10)].map((el, index) => index+1);
 					</div>
 				</div>
 			</div>
-			<div style={{padding: '1rem'}}>
-						{
-							value.map(el => {
-								return (
-									<div style={{display: 'inline-block', marginRight: '.4rem'}}>
-										<button  className="btn-councilFF2">{el}</button>
-									</div>
-									)
-							})
-						}
-				</div>
+			<div style={{ padding: '1rem' }}>
+				{
+					value.map(el => {
+						return (
+							<div style={{ display: 'inline-block', marginRight: '.4rem', marginBottom: '.4rem' }}>
+								<button className="btn-councilFF2">{el}</button>
+							</div>
+						)
+					})
+				}
+			</div>
 		</div>)
 }
 
@@ -526,7 +580,7 @@ const CouncilFinishedFeedback3 = ({ translate }) => {
 					<TextArea style={{ width: '100%', resize: 'none', border: 'none', padding: '.2rem' }} placeholder={'Escriba aquí…'} /> {/* TRADUCCION */}
 				</div>
 				<div style={{ padding: '.4rem' }}>
-					<BasicButton type={'text'} buttonStyle={{ color: primary, background: 'transparent', fontSize: '2em' }} icon={<i class="fa fa-paper-plane-o"></i>} />
+					<BasicButton type={'text'} buttonStyle={{ color: primary, background: 'transparent', fontSize: '2em' }} icon={<i className="fa fa-paper-plane-o"></i>} />
 				</div>
 			</div>
 		</div>
@@ -534,56 +588,22 @@ const CouncilFinishedFeedback3 = ({ translate }) => {
 }
 
 
-const Stars = () => {
+const Stars = ({ num, lowStars }) => {
+	const [state, setState] = React.useState({})
 
 	return (
-		<div class="rating">
-			<input type="radio" name="rating" id="rating-5" />
-			<label for="rating-5"></label>
-			<input type="radio" name="rating" id="rating-4" />
-			<label for="rating-4"></label>
-			<input type="radio" name="rating" id="rating-3" />
-			<label for="rating-3"></label>
-			<input type="radio" name="rating" id="rating-2" />
-			<label for="rating-2"></label>
-			<input type="radio" name="rating" id="rating-1" />
-			<label for="rating-1"></label>
+		<div style={{ display: "inline-block" }}>
+			<form id={"ratingForm" + num}>
+				<fieldset className={"rating"}>
+					<input type="radio" id={"star5" + num} name={"rating2" + num} value="5" /><label for={"star5" + num} className={lowStars ? 'lowStars' : ""}>5 stars</label>
+					<input type="radio" id={"star4" + num} name={"rating2" + num} value="4" /><label for={"star4" + num} className={lowStars ? 'lowStars' : ""}>4 stars</label>
+					<input type="radio" id={"star3" + num} name={"rating2" + num} value="3" /><label for={"star3" + num} className={lowStars ? 'lowStars' : ""}>3 stars</label>
+					<input type="radio" id={"star2" + num} name={"rating2" + num} value="2" /><label for={"star2" + num} className={lowStars ? 'lowStars' : ""}>2 stars</label>
+					<input type="radio" id={"star1" + num} name={"rating2" + num} value="1" /><label for={"star1" + num} className={lowStars ? 'lowStars' : ""}>1 star</label>
+				</fieldset>
+			</form>
 		</div>
 	)
-}
-
-const TextRenderFinished = ({ translate, title, windowOrientation }) => {
-	const primary = getPrimary();
-
-	return (
-		<div style={{ display: "flex", justifyContent: "center" }}>
-
-			<div>
-				<h3
-					style={{
-						color: primary,
-						fontSize: "28px",
-						paddingTop: "0.5em"
-					}}
-				>
-					{title}
-				</h3>
-				<div style={{
-					color: primary
-				}}
-				>
-					05 Septiembre 2019 - 17.40h {/* TRADUCCION */}
-				</div>
-			</div>
-
-			<Image
-				src={emptyMeetingTable}
-				styles={{ width: '77px', minWidth: "", marginLeft: "2em", display: "flex", alignItems: "center" }}
-				windowOrientation={windowOrientation}
-			>
-			</Image>
-		</div>
-	);
 }
 
 
