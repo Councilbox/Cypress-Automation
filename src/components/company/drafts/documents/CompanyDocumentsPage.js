@@ -30,6 +30,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const [search, setSearch] = React.useState("");
     const [deleteModal, setDeleteModal] = React.useState(false);
     const [editModal, setEditModal] = React.useState(false);
+    const [isUploaded, setIsUploaded] = React.useState(false);
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -129,6 +130,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
         if (!file) {
             return;
         }
+        setIsUploaded(true);
 
         let reader = new FileReader();
         reader.readAsBinaryString(file);
@@ -178,6 +180,11 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 
             xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
             xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem("token"));
+            xhr.onreadystatechange = function () {
+                if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    setIsUploaded(false);
+                }
+            };
             xhr.send(formData);
         }
     }
@@ -494,7 +501,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                     />
                             ))}
                             {queue.map((item, index) => (
-                                <DelayedRow delay={1000}>
+                                <DelayedRow isUploaded={isUploaded}>
                                     <TableRow>
                                         <TableCell>
                                             {item.name}
@@ -523,24 +530,19 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 }
 
 
-const DelayedRow = ({ children, delay }) => {
-    const [ready, setReady] = React.useState(false);
-
-    React.useEffect(() => {
-        let timeout = null;
-        if (!ready) {
-            timeout = setTimeout(() => {
-                setReady(true);
-            }, delay);
-        }
-        return () => clearTimeout(timeout)
-    }, [delay])
-
-    if (ready) {
-        return children;
+const DelayedRow = ({ children, isUploaded }) => {
+     
+    if(isUploaded){
+        return (
+            <LoadingSection/>
+        )
     }
-
-    return <></>;
+    
+    return (
+        <>
+            {children}
+        </>
+        );
 
 }
 
@@ -579,7 +581,7 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
         refetch();
         setModal(false);
     }
-     
+
     return (
         <div style={{ display: 'flex' }}>
 
