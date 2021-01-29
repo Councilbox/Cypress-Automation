@@ -170,7 +170,6 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             xhr.upload.onprogress = function (e) {
                 if (e.loaded === e.total) {
                     removeFromQueue(id);
-                    getData();
                 } else {
                     updateQueueItem(((e.loaded / e.total) * 100).toFixed(2), id);
                 }
@@ -178,6 +177,14 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 
             xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
             xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem("token"));
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        getData();
+                    }
+                }
+            };
             xhr.send(formData);
         }
     }
@@ -494,7 +501,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                     />
                             ))}
                             {queue.map((item, index) => (
-                                <DelayedRow delay={1000}>
+                                <DelayedRow key={'delayedRow_' + item.id} delay={1000}>
                                     <TableRow>
                                         <TableCell>
                                             {item.name}
@@ -579,7 +586,7 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
         refetch();
         setModal(false);
     }
-     
+
     return (
         <div style={{ display: 'flex' }}>
 
