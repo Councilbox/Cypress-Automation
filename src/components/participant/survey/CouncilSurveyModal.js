@@ -5,12 +5,43 @@ import { getPrimary } from '../../../styles/colors';
 import Stars from './Stars';
 import { useSubdomain } from '../../../utils/subdomain';
 
+//Reunion finalizada Feedback 3 (texto)
+// const CouncilFinishedFeedback3 = ({ translate }) => {
+// 	const primary = getPrimary();
+
+// 	return (
+// 		<div style={{ width: "100%", background: "white", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', marginTop: '1em', height: "130px" }}>
+// 			<div style={{ height: "50%", display: "flex", justifyContent: "center", alignItems: 'center', padding: "0 1em", background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)', }}>
+// 				<div>
+// 					<div style={{ fontWeight: "900", color: "white", fontSize: '.8rem' }} >
+// 						<p style={{ margin: '0' }}>
+// 							¿Qué aspectos  mejoraría en su experiencia con ? {/* TRADUCCION */}
+// 						</p>
+// 					</div>
+// 				</div>
+// 			</div>
+// 			<div style={{ height: "50%", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+// 				<div style={{ width: '100%', padding: '.4rem' }}>
+// 					<TextArea style={{ width: '100%', resize: 'none', border: 'none', padding: '.2rem' }} placeholder={'Escriba aquí…'} /> {/* TRADUCCION */}
+// 				</div>
+// 			</div>
+// 		</div>
+// 	)
+// }
+
 
 const CouncilSurveyModal = ({ open, requestClose, translate }) => {
+    const [state, setState] = React.useState({
+        satisfaction: 0,
+        performance: 0,
+        recommend: 0,
+        care: 0,
+        suggestions:''
+    });
     const subdomain = useSubdomain();
 
-    console.log(subdomain);
-
+    console.log(state);
+ 
     return (
         <AlertConfirm
             bodyStyle={{ minWidth: "60vw", }}
@@ -38,25 +69,82 @@ const CouncilSurveyModal = ({ open, requestClose, translate }) => {
                             <div>
                                 <div>Valore el grado de satisfacción con el uso de</div> {/* TRADUCCION */}
                                 <div>
-                                    <Stars num={0} />
+                                    <Stars
+                                        name={"satisfaction"}
+                                        value={state.satisfaction}
+                                        onClick={value => {
+                                            setState({
+                                                ...state,
+                                                satisfaction: +value
+                                            })
+                                        }}
+                                    />
                                 </div>
                             </div>
                             <div>
-                                <div>Valore el funcionamiento general de .</div> {/* TRADUCCION */}
-                                <div><Stars num={1} /></div>
+                                <div>Valore el funcionamiento general de {subdomain.name || 'Counclibox'}.</div> {/* TRADUCCION */}
+                                <div>
+                                    <Stars
+                                        name={"performance"}
+                                        value={state.performance}
+                                        onClick={value => {
+                                            setState({
+                                                ...state,
+                                                performance: +value
+                                            })
+                                        }}
+                                    />
+                                </div>
                             </div>
                             <div>
                                 <div>En qué grado recomendaría y volvería a utilizar  en el futuro</div>{/* TRADUCCION */}
-                                <div><Stars num={2} /></div>
+                                <div>
+                                    <Stars
+                                        name={"recommend"}
+                                        value={state.recommend}
+                                        onClick={value => {
+                                            setState({
+                                                ...state,
+                                                recommend: +value
+                                            })
+                                        }}
+                                    />
+                                </div>
                             </div>
                             <div>
                                 <div>¿Cómo valoraría la atención recibida?</div>{/* TRADUCCION */}
-                                <div><Stars num={3} /></div>
+                                <div>
+                                    <Stars
+                                        name={"care"}
+                                        value={state.care}
+                                        onClick={value => {
+                                            setState({
+                                                ...state,
+                                                care: +value
+                                            })
+                                        }}
+                                    />
+                                </div>
                             </div>
                             <div>
                                 <div>¿Qué aspectos  mejoraría en su experiencia con ?</div>{/* TRADUCCION */}
                                 <div style={{ marginTop: "0.5em" }}>
-                                    <TextArea style={{ width: '100%', resize: 'none', border: 'none', padding: '.2rem', background: "#d0d0d080" }} />
+                                    <TextArea
+                                        style={{
+                                            width: '100%',
+                                            resize: 'none',
+                                            border: 'none',
+                                            padding: '.2rem',
+                                            background: "#d0d0d080"
+                                        }}
+                                        value={state.suggestions}
+                                        onChange={event => {
+                                            setState({
+                                                ...state,
+                                                suggestions: event.target.value
+                                            })
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>
