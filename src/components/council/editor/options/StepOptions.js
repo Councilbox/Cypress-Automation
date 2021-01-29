@@ -35,7 +35,11 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const config = React.useContext(ConfigContext);
-
+	const [text, setText] = React.useState('');
+	const [isModal, setIsmodal] = React.useState({
+		modal: false,
+		unsavedModal: false
+	})
 	const [state, setState] = React.useState({
 		data: {},
 		loading: false,
@@ -67,10 +71,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						}
 					}
 				});
+				setText(data.council.statute.attendanceText || '');
 			}
 		}
 	});
 	let council = state.data.council;
+
 
 	const updateCouncil = async step => {
 		setState({
@@ -113,6 +119,27 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			success: true
 		});
 	};
+
+	const updateAttendanceText = async () => {
+		const response = await client.mutate({
+			mutation: gql`
+                mutation UpdateCouncilStatute($councilId: Int!, $statute: CouncilOptions!){
+                    updateCouncilStatute(councilId: $councilId, statute: $statute){
+                        attendanceText
+                    }
+                }
+            `,
+			variables: {
+				councilId: council.id,
+				statute: {
+					attendanceText: text
+				}
+			}
+		});
+		if(response){
+			setIsmodal({...isModal, modal: false, unsavedModal: false})
+		}
+	}
 
 	const resetButtonStates = () => {
 		setState({
@@ -512,6 +539,11 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 											<AttendanceTextEditor
 												council={council}
 												translate={translate}
+												updateAttendanceText={updateAttendanceText}
+												isModal={isModal}
+												setIsmodal={setIsmodal}
+												text={text}
+												setText={setText}
 											/>
 										</>
 									}
