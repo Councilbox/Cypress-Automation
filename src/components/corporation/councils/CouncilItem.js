@@ -1,12 +1,10 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
-import { Card, CardHeader, CardContent } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
 import { bHistory, moment } from '../../../containers/App';
-import FontAwesome from 'react-fontawesome';
 import { Link } from '../../../displayComponents';
 import FixedVideoURLModal from './FixedVideoURLModal';
-import { Card, CardHeader, CardContent, TableRow, TableCell } from 'material-ui';
+import { TableRow, TableCell } from 'material-ui';
 import { councilTypesInfo } from '../../../constants';
 
 
