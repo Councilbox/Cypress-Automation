@@ -4,6 +4,7 @@ import TextArea from "antd/lib/input/TextArea";
 import { getPrimary } from '../../../styles/colors';
 import Stars from './Stars';
 import { useSubdomain } from '../../../utils/subdomain';
+import { checkCouncilState } from '../../../utils/CBX';
 
 //Reunion finalizada Feedback 3 (texto)
 // const CouncilFinishedFeedback3 = ({ translate }) => {
@@ -38,9 +39,39 @@ const CouncilSurveyModal = ({ open, requestClose, translate }) => {
         care: 0,
         suggestions:''
     });
+    const [errors, setErrors] = React.useState({})
     const subdomain = useSubdomain();
 
-    console.log(state);
+    const checkCouncilState = () => {
+        const newErrors = {};
+
+        if(state.satisfaction === 0){
+            newErrors.satisfaction = translate.required_field;
+        }
+
+        if(state.performance === 0){
+            newErrors.performance = translate.required_field;
+        }
+
+        if(state.recommend === 0){
+            newErrors.recommend = translate.required_field;
+        }
+
+        if(state.care === 0){
+            newErrors.care = translate.required_field;
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length > 0;
+    }
+
+    const sendSurvey = async () => {
+        if(!checkCouncilState()){
+            alert('se envía');
+        }
+    }
+
  
     return (
         <AlertConfirm
@@ -72,6 +103,7 @@ const CouncilSurveyModal = ({ open, requestClose, translate }) => {
                                     <Stars
                                         name={"satisfaction"}
                                         value={state.satisfaction}
+                                        error={errors.satisfaction}
                                         onClick={value => {
                                             setState({
                                                 ...state,
@@ -87,6 +119,7 @@ const CouncilSurveyModal = ({ open, requestClose, translate }) => {
                                     <Stars
                                         name={"performance"}
                                         value={state.performance}
+                                        error={errors.performance}
                                         onClick={value => {
                                             setState({
                                                 ...state,
@@ -102,6 +135,7 @@ const CouncilSurveyModal = ({ open, requestClose, translate }) => {
                                     <Stars
                                         name={"recommend"}
                                         value={state.recommend}
+                                        error={errors.recommend}
                                         onClick={value => {
                                             setState({
                                                 ...state,
@@ -117,6 +151,7 @@ const CouncilSurveyModal = ({ open, requestClose, translate }) => {
                                     <Stars
                                         name={"care"}
                                         value={state.care}
+                                        error={errors.care}
                                         onClick={value => {
                                             setState({
                                                 ...state,
@@ -151,7 +186,7 @@ const CouncilSurveyModal = ({ open, requestClose, translate }) => {
                         <div>
                             <div style={{ marginTop: "1.5em" }}>
                                 <BasicButton
-                                    // onClick={() => setModal(true)}
+                                    onClick={sendSurvey}
                                     text={translate.send}
                                     backgroundColor={{
                                         background: getPrimary(),

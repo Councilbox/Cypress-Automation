@@ -1,8 +1,9 @@
 import React from 'react';
 
-const Stars = ({ name, lowStars, onClick, value }) => {
+const Stars = ({ name, lowStars, onClick, value, error }) => {
 	return (
 		<div style={{ display: "inline-block" }}>
+			{error && <span style={{ color: 'red', fontWeight: '700', marginBottom: '1em' }}>{error}</span>}
 			<form id={"ratingForm" + name}>
 				<fieldset className={"rating"}>
 					{[...new Array(5)].map((item, index) => (
