@@ -256,6 +256,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 	const [finishModal, setFinishModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
+	const config = React.useContext(ConfigContext);
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const {
@@ -297,7 +298,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 		} : {
 				doc: buildDoc(response.data, translate, 'act'),
 				options: {
-					stamp: true,
+					stamp: config.disableDocumentStamps ? false : true,
 					doubleColumn: response.data.council.statute.doubleColumnDocs === 1? true : false,
 					language: response.data.council.language,
 					secondaryLanguage: 'en'

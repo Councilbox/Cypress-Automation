@@ -64,6 +64,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 				filters: filters.filters
 			}
 		});
+
 		setData(response.data);
 		setLoading(false);
 	}, [council.id, filters])
@@ -410,22 +411,17 @@ class HoverableRow extends React.Component {
 							{translate.votes}
 						</GridItem>
 						<GridItem xs={7} md={7}>
-							{!CBX.isRepresentative(participant) ?
-								`${
+							{`${
 								CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
 								} (${participant.numParticipations > 0 ? (
 									(participant.numParticipations /
 										totalVotes) *
 									100
-								).toFixed(2) : 0}%)`
-								:
-								`${
-									CBX.showNumParticipations(participant.representing.numParticipations, this.props.company, council.statute)
-								} (${participant.representing.numParticipations > 0 ? (
-									(participant.representing.numParticipations /
-										totalVotes) *
-									100
-								).toFixed(2) : 0}%)`
+								).toFixed(2) : 0}%)`}
+							{!!representative &&
+								<React.Fragment>
+									<br />
+								</React.Fragment>
 							}
 						</GridItem>
 						{this.props.participations && (
