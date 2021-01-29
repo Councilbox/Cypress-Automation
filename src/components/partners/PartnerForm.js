@@ -1,20 +1,19 @@
 import React from 'react';
-import { SelectInput, TextInput, Grid, GridItem, Radio, DateTimePicker, SectionTitle } from '../../displayComponents';
-import RichTextInput from '../../displayComponents/RichTextInput';
 import { MenuItem, Paper } from 'material-ui';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import RichTextInput from '../../displayComponents/RichTextInput';
+import { SelectInput, TextInput, Grid, GridItem, Radio, DateTimePicker, SectionTitle } from '../../displayComponents';
 import { getPrimary } from '../../styles/colors';
 
 class PartnerForm extends React.PureComponent {
-
     state = {
         provinces: []
     }
 
     onParse(event) {
-        var text = event
-        var tempDiv = document.createElement("DIV");
+        const text = event
+        const tempDiv = document.createElement("DIV");
         tempDiv.innerHTML = text;
         return tempDiv.innerHTML;
     }
@@ -31,8 +30,7 @@ class PartnerForm extends React.PureComponent {
                         <Radio
                             checked={participant.personOrEntity === 0}
                             label={translate.person}
-                            onChange={event =>
-                                updateState({
+                            onChange={event => updateState({
                                     personOrEntity: parseInt(
                                         event.nativeEvent.target.value,
                                         10
@@ -46,8 +44,7 @@ class PartnerForm extends React.PureComponent {
                             id={'addSocioPersonaJuridica'}
                             checked={participant.personOrEntity === 1}
                             label={translate.entity}
-                            onChange={event =>
-                                updateState({
+                            onChange={event => updateState({
                                     personOrEntity: parseInt(
                                         event.nativeEvent.target.value,
                                         10
@@ -72,9 +69,8 @@ class PartnerForm extends React.PureComponent {
                                     type="text"
                                     errorText={errors.name}
                                     value={participant.name || ''}
-                                    onChange={event =>
-                                        updateState({
-                                            name: this.onParse(event.nativeEvent.target.value) 
+                                    onChange={event => updateState({
+                                            name: this.onParse(event.nativeEvent.target.value)
                                         })
                                     }
                                 />
@@ -88,9 +84,8 @@ class PartnerForm extends React.PureComponent {
                                             type="text"
                                             errorText={errors.name}
                                             value={participant.name || ''}
-                                            onChange={event =>
-                                                updateState({
-                                                    name: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateState({
+                                                    name: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -102,9 +97,8 @@ class PartnerForm extends React.PureComponent {
                                             type="text"
                                             errorText={errors.surname || ''}
                                             value={participant.surname || ''}
-                                            onChange={event =>
-                                                updateState({
-                                                    surname: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateState({
+                                                    surname: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -118,9 +112,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.dni}
                                 value={participant.dni || ''}
-                                onChange={event =>
-                                    updateState({
-                                        dni: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        dni: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -132,9 +125,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.nationality}
                                 value={participant.nationality || ''}
-                                onChange={event =>
-                                    updateState({
-                                        nationality: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        nationality: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -147,9 +139,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.email}
                                 value={participant.email || ''}
-                                onChange={event =>
-                                    updateState({
-                                        email: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        email: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -161,9 +152,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.phone}
                                 value={participant.phone || ''}
-                                onChange={event =>
-                                    updateState({
-                                        phone: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        phone: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -175,9 +165,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.landlinePhone}
                                 value={participant.landlinePhone || ''}
-                                onChange={event =>
-                                    updateState({
-                                        landlinePhone: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        landlinePhone: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -189,9 +178,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.position}
                                 value={participant.position || ''}
-                                onChange={event =>
-                                    updateState({
-                                        position: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        position: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -201,8 +189,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.state}
                                 value={'' + participant.state}
                                 errorText={errors.state}
-                                onChange={event =>
-                                    updateState({
+                                onChange={event => updateState({
                                         state: +event.target.value
                                     })
                                 }
@@ -230,8 +217,7 @@ class PartnerForm extends React.PureComponent {
                                 type="number"
                                 errorText={errors.numParticipations}
                                 value={participant.numParticipations || ''}
-                                onChange={event =>
-                                    updateState({
+                                onChange={event => updateState({
                                         numParticipations: +event.target.value
                                     })
                                 }
@@ -243,8 +229,7 @@ class PartnerForm extends React.PureComponent {
                                 type="number"
                                 errorText={errors.socialCapital}
                                 value={participant.socialCapital || ''}
-                                onChange={event =>
-                                    updateState({
+                                onChange={event => updateState({
                                         socialCapital: +event.target.value
                                     })
                                 }
@@ -263,9 +248,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.subscribeActNumber}
                                 value={participant.subscribeActNumber}
-                                onChange={event =>
-                                    updateState({
-                                        subscribeActNumber: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        subscribeActNumber: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -277,9 +261,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.unsubscribeActNumber}
                                 value={participant.unsubscribeActNumber}
-                                onChange={event =>
-                                    updateState({
-                                        unsubscribeActNumber: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        unsubscribeActNumber: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -397,9 +380,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.address}
                                 value={participant.address || ''}
-                                onChange={event =>
-                                    updateState({
-                                        address: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        address: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -411,9 +393,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.city}
                                 value={participant.city || ''}
-                                onChange={event =>
-                                    updateState({
-                                        city: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        city: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -424,9 +405,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 value={participant.country || ''}
                                 errorText={errors.country !== "España" && errors.country }
-                                onChange={event =>
-                                    updateState({
-                                        country: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        country: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -438,9 +418,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.countryState}
                                 value={participant.countryState || ''}
-                                onChange={event =>
-                                    updateState({
-                                        countryState: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        countryState: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -452,9 +431,8 @@ class PartnerForm extends React.PureComponent {
                                 type="text"
                                 errorText={errors.zipcode}
                                 value={participant.zipcode}
-                                onChange={event =>
-                                    updateState({
-                                        zipcode: this.onParse(event.nativeEvent.target.value) 
+                                onChange={event => updateState({
+                                        zipcode: this.onParse(event.nativeEvent.target.value)
                                     })
                                 }
                             />
@@ -463,18 +441,15 @@ class PartnerForm extends React.PureComponent {
                             <SelectInput
                                 floatingText={translate.language}
                                 value={participant.language ? participant.language : '-1'}
-                                onChange={event =>
-                                    updateState({
+                                onChange={event => updateState({
                                         language: event.target.value
                                     })
                                 }
                             >
                                 {!this.props.data.loading && (
-                                    this.props.data.languages.map(language =>
-                                        <MenuItem value={language.columnName} key={`language_${language.deno}`}>
+                                    this.props.data.languages.map(language => <MenuItem value={language.columnName} key={`language_${language.deno}`}>
                                             {language.desc}
-                                        </MenuItem>
-                                    )
+                                        </MenuItem>)
                                 )}
                             </SelectInput>
                         </GridItem>
@@ -483,8 +458,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.observations}
                                 translate={translate}
                                 value={participant.observations || ''}
-                                onChange={value =>
-                                    updateState({
+                                onChange={value => updateState({
                                         observations: value
                                     })
                                 }
@@ -507,9 +481,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.name}
                                             type="text"
                                             value={representative.name || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    name: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    name: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -520,9 +493,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.surname || ''}
                                             type="text"
                                             value={representative.surname || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    surname: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    surname: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -533,9 +505,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.dni}
                                             type="text"
                                             value={representative.dni || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    dni: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    dni: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -546,9 +517,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.nationality}
                                             type="text"
                                             value={representative.nationality || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    nationality: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    nationality: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -560,9 +530,8 @@ class PartnerForm extends React.PureComponent {
                                             {...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'representative') } : {})}
                                             type="text"
                                             value={representative.email || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    email: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    email: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -573,9 +542,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.phone}
                                             type="text"
                                             value={representative.phone || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    phone: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    phone: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -586,9 +554,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.landline_phone}
                                             type="text"
                                             value={representative.landlinePhone || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    landlinePhone: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    landlinePhone: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -599,9 +566,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.position}
                                             type="text"
                                             value={representative.position || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    position: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    position: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -617,9 +583,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.address}
                                             type="text"
                                             value={representative.address || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    address: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    address: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -630,9 +595,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.company_new_locality}
                                             type="text"
                                             value={representative.city || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    city: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    city: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -642,9 +606,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.company_new_country}
                                             type="text"
                                             value={representative.country || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    country: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    country: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -655,9 +618,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.company_new_country_state}
                                             type="text"
                                             value={representative.countryState || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    countryState: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    countryState: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -668,9 +630,8 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.company_new_zipcode}
                                             type="text"
                                             value={representative.zipcode || ''}
-                                            onChange={event =>
-                                                updateRepresentative({
-                                                    zipcode: this.onParse(event.nativeEvent.target.value) 
+                                            onChange={event => updateRepresentative({
+                                                    zipcode: this.onParse(event.nativeEvent.target.value)
                                                 })
                                             }
                                         />
@@ -679,18 +640,15 @@ class PartnerForm extends React.PureComponent {
                                         <SelectInput
                                             floatingText={translate.language}
                                             value={representative.language ? representative.language : '-1'}
-                                            onChange={event =>
-                                                updateRepresentative({
+                                            onChange={event => updateRepresentative({
                                                     language: event.target.value
                                                 })
                                             }
                                         >
                                             {!this.props.data.loading && (
-                                                this.props.data.languages.map(language =>
-                                                    <MenuItem value={language.columnName} key={`language_${language.deno}`}>
+                                                this.props.data.languages.map(language => <MenuItem value={language.columnName} key={`language_${language.deno}`}>
                                                         {language.desc}
-                                                    </MenuItem>
-                                                )
+                                                    </MenuItem>)
                                             )}
                                         </SelectInput>
                                     </GridItem>
@@ -699,8 +657,7 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.observations}
                                             translate={translate}
                                             value={representative.observations || ''}
-                                            onChange={value =>
-                                                updateRepresentative({
+                                            onChange={value => updateRepresentative({
                                                     observations: value
                                                 })
                                             }

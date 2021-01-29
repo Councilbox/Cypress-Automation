@@ -10,7 +10,6 @@ import { isMobile } from '../../../../utils/screen';
 
 
 const EvidencesPage = ({ data, translate }) => {
-
     if(data.loading){
         return <LoadingSection />
     }

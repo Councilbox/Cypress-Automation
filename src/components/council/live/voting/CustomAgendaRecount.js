@@ -1,7 +1,7 @@
 import React from 'react';
 import { HorizontalBar } from 'react-chartjs-2';
-import { Grid, GridItem } from '../../../../displayComponents';
 import { Table, TableCell, TableRow, TableHead, TableBody } from 'material-ui';
+import { Grid, GridItem } from '../../../../displayComponents';
 import { showNumParticipations } from '../../../../utils/CBX';
 
 
@@ -29,7 +29,7 @@ const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
                     />
                 </div>
             </GridItem>
-            <GridItem lg={8} md={6} xs={12} style={{paddingLeft: '1em'}}>
+            <GridItem lg={8} md={6} xs={12} style={{ paddingLeft: '1em' }}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -44,7 +44,7 @@ const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
                     <TableBody>
                         {agenda.items.map(item => (
                             <TableRow key={`custom_item_${item.id}`}>
-                                <TableCell style={{ whiteSpace: 'pre-wrap'}}>
+                                <TableCell style={{ whiteSpace: 'pre-wrap' }}>
                                     {item.value}
                                 </TableCell>
                                 <TableCell >
@@ -62,7 +62,7 @@ const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
                             </TableCell>
                             <TableCell>
                                 {`${showNumParticipations(
-                                    agenda.votingsRecount["abstention"],
+                                    agenda.votingsRecount.abstention,
                                     company,
                                     council.statute
                                 )}`}
@@ -74,7 +74,7 @@ const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
                             </TableCell>
                             <TableCell >
                                 {`${showNumParticipations(
-                                    agenda.votingsRecount['noVote'],
+                                    agenda.votingsRecount.noVote,
                                     company,
                                     council.statute
                                 )}`}

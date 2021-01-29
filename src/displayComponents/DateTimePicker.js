@@ -8,7 +8,6 @@ const DateTimePickerWrapper = ({
 	required,
 	onChange,
 	onlyDate,
-	floatingText,
 	clearable = true,
 	clearText = 'Borrar',
 	value,
@@ -20,21 +19,20 @@ const DateTimePickerWrapper = ({
 	errorText,
 	idIcon,
 	translate
-}) => {
-	return (
+}) => (
 		onlyDate ?
 			<React.Fragment>
 				<div style={{ width: '100%' }}>
 					<DatePicker
-						label={!!label ? `${label}${required && "*"}` : ''}
-						format={format ? format : 'LL'}
+						label={label ? `${label}${required && "*"}` : ''}
+						format={format || 'LL'}
 						minDateMessage={minDateMessage}
 						okLabel={'Ok'}
 						style={{ width: '100%' }}
 						clearable={clearable}
 						clearLabel={clearText && translate.new_delete }
 						cancelLabel={cancelText}
-						{...(minDate ? { minDate: minDate } : {})}
+						{...(minDate ? { minDate } : {})}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position="end">
@@ -65,14 +63,14 @@ const DateTimePickerWrapper = ({
 			<React.Fragment>
 				<div style={{ width: '100%' }}>
 					<DateTimePicker
-						label={!!label ? `${label}${required && "*"}` : ''}
+						label={label ? `${label}${required && "*"}` : ''}
 						ampm={false}
-						format={format ? format : 'LLL'}
+						format={format || 'LLL'}
 						minDateMessage={minDateMessage}
 						okLabel={acceptText}
 						style={{ width: '100%' }}
 						cancelLabel={cancelText}
-						{...(minDate ? { minDate: minDate } : {})}
+						{...(minDate ? { minDate } : {})}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position="end">
@@ -98,7 +96,6 @@ const DateTimePickerWrapper = ({
 					</Typography>
 				)}
 			</React.Fragment>
-	);
-}
+	)
 
 export default (withTranslations()(DateTimePickerWrapper));

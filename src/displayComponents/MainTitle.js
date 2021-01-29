@@ -1,8 +1,8 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
+import { Typography } from "material-ui";
 import { getPrimary } from "../styles/colors";
 import { isLandscape, isMobile } from '../utils/screen';
-import { Typography } from "material-ui";
 
 
 const MainTitle = ({ icon, title, subtitle, size }) => (
@@ -41,7 +41,7 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 				display: "flex",
 				flexDirection: "row",
 				height: '8em',
-				paddingLeft: isMobile?'':'2em',
+				paddingLeft: isMobile ? '' : '2em',
 				borderBottom: '1px solid gainsboro',
 				alignItems: "center",
 			}}
@@ -50,7 +50,7 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 				name={icon}
 				color={getPrimary()}
 				style={{
-					margin:  !isMobile?"0.2em 0.4em":'0.2em 0.2em',
+					margin: !isMobile ? "0.2em 0.4em" : '0.2em 0.2em',
 					color: getPrimary(),
 					fontSize: "4em"
 				}}
@@ -62,7 +62,7 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 					overflow: 'hidden'
 				}}
 			>
-				<h3 style={{ fontWeight: "600", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis', width: '100%' }}>{title}</h3>
+				<h3 style={{ fontWeight: "600", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{title}</h3>
 				{!isMobile &&
 					<Typography style={{ fontSize: '13px' }}>{subtitle}</Typography>
 				}

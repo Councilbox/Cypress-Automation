@@ -19,7 +19,7 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
 
 
     return(
-        <div style={{height: '100%', backgroundColor: 'white'}}>
+        <div style={{ height: '100%', backgroundColor: 'white' }}>
             <Tabs
                 value={selectedTab}
                 indicatorColor="secondary"
@@ -32,23 +32,22 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
                     <Tab label={translate.act_comments}/>
                 }
             </Tabs>
-            <div style={{width: '100%', height: 'calc(100% - 48px)', borderTop: '1px solid gainsboro'}}>
+            <div style={{ width: '100%', height: 'calc(100% - 48px)', borderTop: '1px solid gainsboro' }}>
                 <Scrollbar>
                     {selectedTab === 0 &&
-                        <div style={{padding: '1.5em', paddingRight: '4.5em'}}>
+                        <div style={{ padding: '1.5em', paddingRight: '4.5em' }}>
                             <ActHTMLTab
                                 council={council}
                                 translate={translate}
                                 company={company}
-                                toolbar={() =>
-                                    <>
+                                toolbar={() => <>
                                     </>
                                 }
                             />
                         </div>
                     }
                     {selectedTab === 1 &&
-                        <div style={{padding: '1.5em', paddingRight: '4.5em', paddingBottom: '2em'}}>
+                        <div style={{ padding: '1.5em', paddingRight: '4.5em', paddingBottom: '2em' }}>
                             <RecountSection
                                 agenda={agenda}
                                 key={`agendaRecount_${agenda.id}`}

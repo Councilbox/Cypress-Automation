@@ -1,9 +1,9 @@
 import React from "react";
+import { Tooltip } from "material-ui";
 import { AgendaNumber, Icon } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import ReorderPointsModal from "../agendas/ReorderPointsModal";
 import * as CBX from "../../../utils/CBX";
-import { Tooltip } from "material-ui";
 import { AGENDA_TYPES, AGENDA_STATES, COUNCIL_STATES } from "../../../constants";
 import { AddAgendaPoint } from "../editor/agenda/StepAgenda";
 
@@ -37,8 +37,7 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 					alignItems: "center",
 				}}
 			>
-				{agendas.map((agenda, index) => {
-					return (
+				{agendas.map((agenda, index) => (
 						<React.Fragment key={`agendaSelector${agenda.id}`}>
 							{index > 0 && (
 								<div
@@ -62,12 +61,11 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 								onClick={() => onClick(index)}
 							/>
 						</React.Fragment>
-					);
-				})}
+					))}
 			</div>
 			{(council.councilType < 2 || council.state < COUNCIL_STATES.ROOM_OPENED) &&
 				<React.Fragment>
-					{canAddPoints(council) &&  (
+					{canAddPoints(council) && (
 						<div style={{ marginBottom: "0.8em" }}>
 							<AddAgendaPoint
 								translate={translate}

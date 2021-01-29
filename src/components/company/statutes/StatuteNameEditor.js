@@ -1,10 +1,9 @@
 import React from 'react';
-import { TextInput, AlertConfirm } from '../../../displayComponents';
 import { graphql } from 'react-apollo';
+import { TextInput, AlertConfirm } from '../../../displayComponents';
 import { updateStatute } from "../../../queries";
 
 class StatuteNameEditor extends React.Component {
-
     state = {
         title: this.props.translate[this.props.statute.title] || this.props.statute.title,
         titleError: ''
@@ -31,7 +30,7 @@ class StatuteNameEditor extends React.Component {
     }
 
     checkRequiredFields = () => {
-        var regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
+        const regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
         if (!this.state.title) {
             this.setState({
                 titleError: this.props.translate.required_field
@@ -41,12 +40,11 @@ class StatuteNameEditor extends React.Component {
         if (this.state.title) {
             if ((regex.test(this.state.title)) && this.state.title.trim()) {
                 return false;
-            } else {
+            }
                 this.setState({
                     titleError: this.props.translate.enter_valid_name
                 });
                 return true;
-            }
         }
 
 
@@ -71,8 +69,7 @@ class StatuteNameEditor extends React.Component {
                         type="text"
                         errorText={this.state.titleError}
                         value={this.state.title}
-                        onChange={event =>
-                            this.setState({
+                        onChange={event => this.setState({
                                 title: event.target.value
                             })
                         }

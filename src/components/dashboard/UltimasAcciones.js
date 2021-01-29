@@ -10,7 +10,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 
 class UltimasAcciones extends React.Component {
-
 	state = {
 		modalAcciones: false,
 		showActions: false
@@ -41,13 +40,12 @@ class UltimasAcciones extends React.Component {
 			reunionesFiltradasPorEstado = councils;
 		}
 
-		let reunionesFiltradas = reunionesFiltradasPorEstado.splice(0, 3);
+		const reunionesFiltradas = reunionesFiltradasPorEstado.splice(0, 3);
 		if (councils.length) {
 			return (
 				<React.Fragment >
 					<div style={{ height: "335px", textAlign: "left", overflow: "hidden" }}>
-						{reunionesFiltradas.map(council => {
-							return (
+						{reunionesFiltradas.map(council => (
 								<div key={`council_${council.id}`} style={{ border: "1px solid #ddd", boxShadow: "rgba(0, 0, 0, 0.2) 0px 2px 4px", marginBottom: "1em", padding: '1em' }}>
 									<div style={{ display: "flex", justifyContent: "space-between" }}>
 										<div style={{ marginBottom: "5px", width: "60%", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: "flex" }}>
@@ -74,8 +72,7 @@ class UltimasAcciones extends React.Component {
 										</div>
 									</div>
 								</div>
-							);
-						})}
+							))}
 					</div>
 					<hr></hr>
 					<div style={{ justifyContent: "flex-end", display: "inline" }}>
@@ -88,8 +85,7 @@ class UltimasAcciones extends React.Component {
 						requestClose={this.hideModalAcciones}
 						open={this.state.modalAcciones}
 						bodyText={
-							Object.keys(councils).map(key => {
-								return (
+							Object.keys(councils).map(key => (
 									<CollapsibleSection
 										trigger={() => (
 											<div style={{ border: "1px solid #ddd", boxShadow: "rgba(0, 0, 0, 0.2) 0px 2px 4px", marginTop: "1em", padding: '1em', cursor: "pointer" }} >
@@ -128,8 +124,7 @@ class UltimasAcciones extends React.Component {
 										)}
 										key={key}
 									/>
-								)
-							})
+								))
 						}
 						title={"Últimas acciones"} //TRADUCCION
 						widthModal={{ width: "50%" }}
@@ -137,13 +132,12 @@ class UltimasAcciones extends React.Component {
 				</React.Fragment>
 
 			);
-		} else {
+		}
 			return (
 				<div style={{ display: 'inline-flex', alignItems: 'center', justifontent: 'center', height: '370px', }}>
 					<div>Aun no hay councils</div>{/*TRADUCCION*/}
 				</div>
 			)
-		}
 	}
 }
 

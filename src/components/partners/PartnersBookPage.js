@@ -1,16 +1,14 @@
 import React from 'react'
-import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton, Grid, GridItem, AlertConfirm } from '../../displayComponents';
 import { TableRow, TableCell, Card } from 'material-ui';
-import { bHistory } from '../../containers/App';
-import { getPrimary } from '../../styles/colors';
-import withTranslations from '../../HOCs/withTranslations';
 import gql from 'graphql-tag';
-import { graphql, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
-import { moment } from '../../containers/App';
-import { unaccent } from '../../utils/CBX';
+import withTranslations from '../../HOCs/withTranslations';
+import { getPrimary } from '../../styles/colors';
+import { bHistory, moment } from '../../containers/App';
+import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton, Grid, GridItem, AlertConfirm } from '../../displayComponents';
 import { isMobile } from '../../utils/screen';
+
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 
@@ -41,7 +39,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
             query: bookParticipants,
             variables: {
                 companyId: +props.match.params.company,
-                filters: !sinFiltros ? [{ field: state.appliedFilters.field, text: state.appliedFilters.text }] :  [{ field: 'fullName', text: "" }] ,
+                filters: !sinFiltros ? [{ field: state.appliedFilters.field, text: state.appliedFilters.text }] : [{ field: 'fullName', text: "" }],
                 options: {
                     limit: !sinFiltros ? state.appliedFilters.limit : 0,
                     offset: !sinFiltros ? (state.appliedFilters.page - 1) * state.appliedFilters.limit : 0,
@@ -96,7 +94,6 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
             deleteModal: false,
             selectedId: null
         })
-        
     }
 
     const selectedIdToDelete = id => {
@@ -123,13 +120,13 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 
 
     const createXLSX = async () => {
-        let lista =  await getData(true);
-        let arrayFinal = [];
+        const lista = await getData(true);
+        const arrayFinal = [];
         for (let index = 0; index < lista.length; index++) {
             let arrayRepresentative
-            let { representative, __typename, name, dni, state, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
-            let listaFinal = {
-                id: id,
+            const { representative, __typename, name, dni, state, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
+            const listaFinal = {
+                id,
                 [translate.state]: state === 1 ? "Alta" : "Baja",
                 [translate.name]: name,
                 [translate.surname]: surname,
@@ -141,7 +138,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 [translate.unsubscribe_act_number]: unsubscribeActNumber,
             }
             if (representative !== null) {
-                let { id, dni, name, position, state, surname } = representative;
+                const { id, dni, name, position, state, surname } = representative;
                 arrayRepresentative = {
                     rId: id,
                     ["r" + translate.state]: state === 1 ? "Alta" : "Baja",
@@ -151,12 +148,12 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                     ["r" + translate.position]: position,
                 }
             }
-            let a = Object.assign(listaFinal, arrayRepresentative)
+            const a = Object.assign(listaFinal, arrayRepresentative)
             arrayFinal.push(a);
         }
 
-        var ws = XLSX.utils.json_to_sheet(arrayFinal);
-        var wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(arrayFinal);
+        const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Libro de socios");
         XLSX.writeFile(wb, "LibroDeSocios-" + props.match.params.company + ".xlsx");
     }
@@ -165,7 +162,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
         return <LoadingSection />;
     }
 
-    let headers = [
+    const headers = [
         {
             text: translate.state,
             name: 'state',
@@ -307,8 +304,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 headers={headers}
             >
                 {bookParticipantsData.map(
-                    (participant, index) => {
-                        return (
+                    (participant, index) => (
                             <HoverableRow
                                 key={`participant${participant.id}`}
                                 deleteBookParticipant={selectedIdToDelete}
@@ -317,8 +313,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                                 translate={translate}
                                 companyId={props.match.params.company}
                             />
-                        );
-                    }
+                        )
                 )}
             </EnhancedTable>
         </CardPageLayout>
@@ -326,7 +321,6 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 }
 
 class HoverableRow extends React.PureComponent {
-
     state = {
         showActions: false
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
+import { Card, MenuItem, Typography, withStyles, IconButton, CardHeader, Collapse } from 'material-ui';
 import {
 	AlertConfirm,
 	Icon,
@@ -12,7 +13,6 @@ import {
 	Grid
 } from "../../../displayComponents";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
-import { Card, MenuItem, Typography, withStyles, IconButton, CardHeader, Collapse } from 'material-ui';
 import { councilParticipantsFilterIds } from "../../../queries/councilParticipant";
 import { getPrimary } from '../../../styles/colors';
 import { isMobile } from '../../../utils/screen';
@@ -66,7 +66,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 			filters: [
 				{
 					field: "fullName",
-					text: text
+					text
 				}
 			]
 		});
@@ -109,7 +109,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 						/>
 					</GridItem>
 				</Grid>
-				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%",  }}>
+				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%", }}>
 					{loading ? (
 						<LoadingSection />
 					) : (
@@ -119,19 +119,16 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 										<Grid style={{ display: "flex" }}>
 											{participants.length > 0 ? (
 												<React.Fragment>
-													{participants.map((participant, index) => {
-														return (
+													{participants.map((participant, index) => (
 															<CardPlantillas
 																translate={translate}
 																key={`delegateVote_${participant.id}`}
 																item={participant}
-																onClick={() =>
-																	props.addCouncilDelegate(participant.id)
+																onClick={() => props.addCouncilDelegate(participant.id)
 																}
 																index={index}
 															/>
-														);
-													})}
+														))}
 													{participants.length < total - 1 && (
 														<Card
 															style={{
@@ -193,7 +190,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 					<div>{translate.select}</div>
 					<div style={{ display: 'flex', alignItems: !isMobile && "center", color: ' rgba(0, 0, 0, 0.37)', fontSize: isMobile && '12px' }}>
 						<div>
-							<ButtonIcon className="material-icons" style={{ color: getPrimary(), fontSize: "15px", marginTop: "5px", marginRight: "5px", marginLeft: isMobile ? "0px" : "2em"}} type={'help'} />
+							<ButtonIcon className="material-icons" style={{ color: getPrimary(), fontSize: "15px", marginTop: "5px", marginRight: "5px", marginLeft: isMobile ? "0px" : "2em" }} type={'help'} />
 						</div>
 						{translate.select_who_can_receive_delegations}
 					</div>

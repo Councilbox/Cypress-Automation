@@ -9,7 +9,7 @@ const AgendaTab = ({ council, translate, data }) => {
 
 	const getTypeText = (subjectType) => {
 		const votingType = data.votingTypes.find(item => item.value === subjectType)
-		return !!votingType? translate[votingType.label] : '';
+		return votingType ? translate[votingType.label] : '';
 	}
 
 	return(
@@ -17,9 +17,8 @@ const AgendaTab = ({ council, translate, data }) => {
 			<Scrollbar>
 				{!!data.agendas && (
 					<React.Fragment>
-						{data.agendas.map((agenda, index) => {
-							return (
-								<div style={{marginTop: '2.5em', padding: '1em' }} key={`agenda${agenda.id}`}>
+						{data.agendas.map((agenda, index) => (
+								<div style={{ marginTop: '2.5em', padding: '1em' }} key={`agenda${agenda.id}`}>
 									<AgendaEditor
 										agenda={agenda}
 										readOnly={true}
@@ -30,12 +29,11 @@ const AgendaTab = ({ council, translate, data }) => {
 										majorityTypes={data.majorityTypes}
 										typeText={getTypeText(agenda.subjectType)}
 									/>
-									{index < data.agendas.length -1 &&
-										<hr style={{marginTop: '2.5em'}} />
+									{index < data.agendas.length - 1 &&
+										<hr style={{ marginTop: '2.5em' }} />
 									}
 								</div>
-							);
-						})}
+							))}
 					</React.Fragment>
 				)}
 			</Scrollbar>

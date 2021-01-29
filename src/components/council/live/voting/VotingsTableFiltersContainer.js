@@ -1,11 +1,12 @@
 import React from 'react';
-import VotingsTable from './VotingsTable';
 import { withApollo } from 'react-apollo';
+import VotingsTable from './VotingsTable';
 import { agendaVotings } from "../../../../queries/agenda";
 import { useOldState, usePolling } from '../../../../hooks';
 import { canEditPresentVotings, agendaVotingsOpened, isCustomPoint } from '../../../../utils/CBX';
 import ManualVotingsMenu from './ManualVotingsMenu';
 import CustomAgendaManualVotings from './CustomAgendaManualVotings';
+
 const pageLimit = 10;
 
 const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => {
@@ -33,11 +34,11 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 	}, [state.voteFilter, state.stateFilter, state.filterText, state.page])
 
 	React.useEffect(() => {
-		let timeout = setTimeout(getData, 400);
+		const timeout = setTimeout(getData, 400);
 		return () => clearTimeout(timeout);
 	}, [getData])
 
-	usePolling(getData, council.state > 30? 60000 : 6000);
+	usePolling(getData, council.state > 30 ? 60000 : 6000);
 
 	const updateFilterText = value => {
 		setState({
@@ -115,7 +116,7 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 
 	return (
 		<React.Fragment>
-			{!isCustomPoint(agenda.subjectType)?
+			{!isCustomPoint(agenda.subjectType) ?
 				<React.Fragment>
 					{((canEditPresentVotings(agenda) && agendaVotingsOpened(agenda) && council.councilType !== 3)
 					|| (council.councilType === 3 && agenda.votingState === 4)) &&
@@ -159,7 +160,6 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 			/>
 		</React.Fragment>
 	)
-
 }
 
 

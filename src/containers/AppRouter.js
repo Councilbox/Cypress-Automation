@@ -1,13 +1,13 @@
 import React from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { LoadingMainApp } from "../displayComponents";
-import withWindowSize from '../HOCs/withWindowSize';
-import appStyle from "../styles/appStyle.jsx";
-import { isLandscape, isMobile } from '../utils/screen';
-import image from "../assets/img/sidebar-2.jpg";
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
+import { LoadingMainApp } from "../displayComponents";
+import withWindowSize from '../HOCs/withWindowSize';
+import appStyle from "../styles/appStyle";
+import { isLandscape, isMobile } from '../utils/screen';
+import image from "../assets/img/sidebar-2.jpg";
 import GicarLoginContainer from "./GicarLoginContainer";
 import RoomAdminContainer from "./RoomAdminContainer";
 import { HEADER_HEIGHT } from "../styles/constants";
@@ -126,18 +126,14 @@ class AppRouter extends React.Component {
 		this.setState({ mobileOpen: !this.state.mobileOpen });
 	};
 
-	showVerticalLayout = () => {
-		return this.props.windowSize === 'xs' && !isLandscape();
-	}
+	showVerticalLayout = () => this.props.windowSize === 'xs' && !isLandscape()
 
 	state = {
 		sideWidth: 5,
 		mobileOpen: false
 	};
 
-	redirectToRoot = () => {
-		return <Redirect to="/" />
-	}
+	redirectToRoot = () => <Redirect to="/" />
 
 	render() {
 		const { translate } = this.props;
@@ -161,7 +157,7 @@ class AppRouter extends React.Component {
 					location={this.props.location}
 				/>
 			)
-		};
+		}
 
 		if (this.props.main.isLogged && !(this.props.companies.list.length > 0) && !this.props.companies.selected) {
 			return <LoadingMainApp />

@@ -1,11 +1,11 @@
 import React from "react";
+import { Typography } from "material-ui";
+import { graphql } from "react-apollo";
 import {
 	AlertConfirm,
 	Icon,
 	Radio
 } from "../../../../displayComponents/index";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
 import { sendReminder } from "../../../../queries/council";
 
 
@@ -67,8 +67,7 @@ class ReminderModal extends React.Component {
 				<Radio
 					value={'all'}
 					checked={this.state.group === 'all'}
-					onChange={event =>
-						this.setState({
+					onChange={event => this.setState({
 							group: 'all'
 						})
 					}
@@ -78,8 +77,7 @@ class ReminderModal extends React.Component {
 				<Radio
 					value={'unopened'}
 					checked={this.state.group === 'unopened'}
-					onChange={event =>
-						this.setState({
+					onChange={event => this.setState({
 							group: 'unopened'
 						})
 					}

@@ -1,6 +1,8 @@
 import React from "react";
-import { councilOfficials } from "../../../../queries";
 import { compose, graphql, withApollo } from "react-apollo";
+import gql from 'graphql-tag';
+import { Typography } from "material-ui";
+import { councilOfficials } from "../../../../queries";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -12,10 +14,8 @@ import {
 	TextInput,
 	Scrollbar
 } from "../../../../displayComponents";
-import gql from 'graphql-tag';
 import { getPrimary } from "../../../../styles/colors";
 import { COUNCIL_TYPES, DELEGATION_USERS_LOAD } from "../../../../constants";
-import { Typography } from "material-ui";
 import { existsQualityVote, councilHasVideo } from "../../../../utils/CBX";
 import ConveneSelector from "../ConveneSelector";
 import { startCouncil } from "../../../../queries/council";
@@ -51,7 +51,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		video: {
 			startRecording: council.fullVideoRecord === 1,
 			//hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
-			startStreaming: (council.room.videoConfig && council.room.videoConfig.rtmp) ? true : false
+			startStreaming: !!((council.room.videoConfig && council.room.videoConfig.rtmp))
 		},
 		errors: {
 			president: "",
@@ -62,16 +62,14 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 	const primary = getPrimary();
 
 
-	const wait = async () => {
-		return new Promise(resolve => {
+	const wait = async () => new Promise(resolve => {
 			setTimeout(resolve, 3000);
 		})
-	}
 
 	const startCouncil = async () => {
 		if (!checkRequiredFields()) {
 			if (state.video.startRecording) {
-				let step = {
+				const step = {
 					text: translate.start_recording,
 					status: 'loading'
 				};
@@ -105,7 +103,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 			}
 
 			if (state.video.startStreaming) {
-				let step = {
+				const step = {
 					text: translate.starting_broadcast,
 					status: 'loading'
 				};
@@ -138,7 +136,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				}));
 			}
 
-			let step = {
+			const step = {
 				text: translate.starting_council,
 				status: 'loading'
 			};
@@ -172,13 +170,12 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				steps: [...loadingSteps.steps],
 				status: 'done'
 			}));
-
 		}
 	}
 
 	const checkRequiredFields = () => {
 		let hasError = false;
-		let errors = {
+		const errors = {
 			president: "",
 			secretary: "",
 			qualityVote: ""
@@ -298,18 +295,16 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		data.refetch({
 			filters: [{
 				field: 'fullName',
-				text: text
+				text
 			}]
 		});
 	}
 
-	const forceStartWarning = () => {
-		return (
+	const forceStartWarning = () => (
 			<div>
 				{translate.council_will_start}
 			</div>
 		)
-	}
 
 	const _startCouncilForm = () => {
 		const { loading } = data;
@@ -369,8 +364,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 													key={`participant_${
 														participant.id
 														}`}
-													onClick={() =>
-														actionSwitch()(
+													onClick={() => actionSwitch()(
 															participant.id,
 															`${participant.name} ${participant.surname || ''}`
 														)
@@ -424,7 +418,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 							</button>
 						</GridItem>
 						<GridItem xs={5} md={5} lg={5}>
-							{!!state.data.president ? (
+							{state.data.president ? (
 								state.data.president
 							) : (
 									<span
@@ -456,7 +450,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 							</button>
 						</GridItem>
 						<GridItem xs={5} md={5} lg={5}>
-							{!!state.data.secretary ? (
+							{state.data.secretary ? (
 								state.data.secretary
 							) : (
 									<span
@@ -487,7 +481,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 							</button>
 						</GridItem>
 						<GridItem xs={5} md={5} lg={5}>
-							{!!state.data.qualityVoteName ? (
+							{state.data.qualityVoteName ? (
 								state.data.qualityVoteName
 							) : (
 									<span
@@ -544,8 +538,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					text={translate.start_council}
 					color={primary}
 					textPosition="before"
-					onClick={() =>
-						setState({
+					onClick={() => setState({
 							alert: true
 						})
 					}
@@ -589,8 +582,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				color={primary}
 				id={'iniciarReunionDentroDeReunion'}
 				textPosition="before"
-				onClick={() =>
-					setState({
+				onClick={() => setState({
 						alert: true
 					})
 				}

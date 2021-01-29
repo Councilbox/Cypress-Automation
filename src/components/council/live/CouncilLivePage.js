@@ -1,4 +1,5 @@
 import React from "react";
+import { Tooltip, Badge, Tabs, Tab } from "material-ui";
 import { DisabledSection, FabButton, Icon } from "../../../displayComponents";
 import LiveHeader from "./LiveHeader";
 import { darkGrey, lightGrey } from "../../../styles/colors";
@@ -7,7 +8,6 @@ import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
 import { showVideo } from "../../../utils/CBX";
-import { Tooltip, Badge, Tabs, Tab } from "material-ui";
 import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
 import { useOldState } from "../../../hooks";
@@ -16,7 +16,8 @@ import QuorumDisplay from "./quorum/QuorumDisplay";
 import { COUNCIL_STATES, COUNCIL_TYPES } from "../../../constants";
 import ResumeCouncilButton from "./menus/ResumeCouncilButton";
 import OneOnOneAttachmentsList from "./oneOnOne/OneOnOneAttachmentsList";
-const calcMinWidth = () => window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450);
+
+const calcMinWidth = () => (window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450));
 const calcMinHeight = () => "42vh";
 
 let minVideoWidth = calcMinWidth();
@@ -55,7 +56,7 @@ const initScreenSizes = size => {
 		}
 	}
 
-	return sizes[size] ? sizes[size]() : sizes['MIN']();
+	return sizes[size] ? sizes[size]() : sizes.MIN();
 }
 
 
@@ -107,9 +108,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 			if (agendaManager.current.wrappedInstance) {
 				if (agendaManager.current.wrappedInstance.state.editedVotings) {
 					return agendaManager.current.wrappedInstance.showVotingsAlert(cb);
-				} else {
-					return cb();
 				}
+					return cb();
 			}
 		}
 		cb();
@@ -139,8 +139,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 		}
 	};
 
-	const renderVideoParticipants = () => {
-		return (
+	const renderVideoParticipants = () => (
 			<ParticipantsLive
 				councilId={council.id}
 				council={council}
@@ -151,13 +150,10 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 				toggleFullScreen={toggleFullScreen}
 			/>
 		)
-	}
 
 	const { council } = data;
 
-	const councilStartedState = () => {
-		return council.state >= 20 && council.state <= 30;
-	}
+	const councilStartedState = () => council.state >= 20 && council.state <= 30
 
 	const showParticipants = state.tab === 'PARTICIPANTS';
 
@@ -387,8 +383,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									translate={translate}
 									fullScreen={state.fullScreen}
 									refetch={data.refetch}
-									openMenu={() =>
-										setState({
+									openMenu={() => setState({
 											videoWidth: minVideoWidth,
 											videoHeight: minVideoHeight,
 											fullScreen: false
@@ -450,7 +445,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									<div style={{ height: "calc( 100% - 2em )", position: 'relative' }}>
 										{council.state === COUNCIL_STATES.PAUSED &&
 											<DisabledSection>
-												<div style={{marginBottom: '1em'}}>
+												<div style={{ marginBottom: '1em' }}>
 													{translate.council_paused}
 												</div>
 												<ResumeCouncilButton
@@ -469,8 +464,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 												translate={translate}
 												fullScreen={state.fullScreen}
 												refetch={data.refetch}
-												openMenu={() =>
-													setState({
+												openMenu={() => setState({
 														videoWidth: minVideoWidth,
 														videoHeight: minVideoHeight,
 														fullScreen: false

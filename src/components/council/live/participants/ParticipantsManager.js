@@ -1,11 +1,11 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
+import { MenuItem, Paper } from 'material-ui';
+import gql from 'graphql-tag';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection } from '../../../../displayComponents';
-import { MenuItem, Paper } from 'material-ui';
 import ParticipantsPage from "./sections/ParticipantsPage";
 import { useOldState } from '../../../../hooks';
-import gql from 'graphql-tag';
 import { isMobile } from '../../../../utils/screen';
 
 const initialState = {
@@ -35,7 +35,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
     const primary = getPrimary();
 
     React.useEffect(() => {
-        let timeout = setTimeout(() => updateParticipants(), 300);
+        const timeout = setTimeout(() => updateParticipants(), 300);
         const interval = setInterval(() => updateParticipants(), 7000);
 
         return () => {
@@ -46,7 +46,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 
 
     const buildVariables = () => {
-		let variables = {
+		const variables = {
 			filters: []
 		};
 
@@ -71,14 +71,14 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 		if(filters.onlyNotSigned){
 			variables.filters = [
 				...variables.filters,
-				{ field: 'signed', text: 0}
+				{ field: 'signed', text: 0 }
 			];
 		}
 
 		if(filters.charFilter){
 			variables.filters = [
 				...variables.filters,
-				{ field: 'surname', text: filters.charFilter}
+				{ field: 'surname', text: filters.charFilter }
 			]
 		}
 
@@ -86,7 +86,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 	};
 
     const updateParticipants = async () => {
-        setState(state => ({ ...state, loading: true}));
+        setState(state => ({ ...state, loading: true }));
         const response = await client.query({
             query: getQuery(state.view),
             variables: {
@@ -99,12 +99,12 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
             ...response.data,
             refetch: updateParticipants
         });
-        setState(state => ({ ...state, loading: false}));
+        setState(state => ({ ...state, loading: false }));
     }
 
     const toggleSettings = () => {
 		const newValue = !state.open;
-		setState({...state, open: newValue});
+		setState({ ...state, open: newValue });
     }
 
     const updateState = object => {
@@ -129,7 +129,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 	};
 
     const _renderSection = () => {
-        let { layout, addGuest } = state;
+        const { layout, addGuest } = state;
         if(participants === null){
             return (
                 <LoadingSection />
@@ -157,9 +157,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 	}
 
 
-    const _renderTableOptions = () => {
-
-		return (
+    const _renderTableOptions = () => (
 			<div
 				style={{
 					display: 'flex',
@@ -172,7 +170,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 					overflow: 'hidden'
 				}}
 			>
-				<div style={{overflow: 'hidden', marginRight: '0.6em', display: 'flex'}}>
+				<div style={{ overflow: 'hidden', marginRight: '0.6em', display: 'flex' }}>
 					<FilterButton
 						tooltip={translate.grid}
 						onClick={() => setState({ ...state, layout: 'squares', open: false })}
@@ -197,12 +195,12 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 					</FilterButton>
 				</div>
 
-				<div style={{minWidth: '14em'}}>
+				<div style={{ minWidth: '14em' }}>
 					<SelectInput
 						fullWidth
 						floatingText={translate.visualization_type}
 						value={state.view}
-						onChange={(event => changeView({ view: event.target.value, limit: 24, open: false}))}
+						onChange={(event => changeView({ view: event.target.value, limit: 24, open: false }))}
 					>
 						<MenuItem value={'STATES'}>
 							{translate.by_participant_state}
@@ -220,7 +218,6 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 				</div>
 			</div>
 		)
-	}
 
     return (
         <Paper
@@ -240,7 +237,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
                     position: 'absolute',
                     zIndex: 600,
                     cursor: 'pointer',
-                    top: isMobile? '1.8em' : '81px',
+                    top: isMobile ? '1.8em' : '81px',
                     // top: isMobile? '2.5em' : '1.8em',
                     right: '1em',
                     color: secondary,
@@ -284,7 +281,6 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 
 
 const getQuery = type => {
-
     const sections = {
         'STATES': 'liveParticipantsState',
         'ATTENDANCE': 'liveParticipantsAttendance',
@@ -408,7 +404,7 @@ const getQuery = type => {
                     requestWord
                     numParticipations
                     surname
-                    ${type === 'CREDENTIALS'?
+                    ${type === 'CREDENTIALS' ?
                         `sendCredentials {
                             reqCode
                         }`

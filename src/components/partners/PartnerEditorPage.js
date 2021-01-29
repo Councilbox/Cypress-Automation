@@ -1,17 +1,16 @@
 import React from 'react';
+import gql from 'graphql-tag';
+import { graphql, compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import { CardPageLayout, LoadingSection, Scrollbar, BasicButton } from '../../displayComponents';
 import withTranslations from '../../HOCs/withTranslations';
 import { bHistory } from '../../containers/App';
 import { getPrimary } from '../../styles/colors';
-import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
 import PartnerForm from './PartnerForm';
 import { checkValidEmail } from "../../utils";
 import { INPUT_REGEX } from '../../constants';
 
 class Page extends React.PureComponent {
-
     state = {
         data: {},
         loading: false,
@@ -26,13 +25,13 @@ class Page extends React.PureComponent {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.data.loading) {
             if (!prevState.data.id) {
-                let { __typename, representative, ...bookParticipant } = nextProps.data.bookParticipant;
+                const { __typename, representative, ...bookParticipant } = nextProps.data.bookParticipant;
                 return {
                     data: {
                         ...bookParticipant
                     },
                     ...(representative ? {
-                        representative: representative
+                        representative
                     } : {})
                 }
             }
@@ -50,7 +49,7 @@ class Page extends React.PureComponent {
             this.setState({
                 loading: true
             });
-            let variables = {
+            const variables = {
                 participant: this.state.data
             }
 
@@ -63,8 +62,8 @@ class Page extends React.PureComponent {
             }
 
             const { participant, representative } = variables;
-            let trimmedData = {};
-            let trimmedRepresentative = {};
+            const trimmedData = {};
+            const trimmedRepresentative = {};
 
             if (participant) {
                 Object.keys(participant).forEach(key => {
@@ -117,7 +116,7 @@ class Page extends React.PureComponent {
     }
 
     checkRequiredFields = async () => {
-        let errors = {
+        const errors = {
             name: '',
             surname: '',
             dni: '',
@@ -148,7 +147,7 @@ class Page extends React.PureComponent {
         if (data.personOrEntity === 0 && !data.surname) {
             hasError = true;
             errors.surname = translate.required_field;
-        }  
+        }
 
         if (data.name) {
             if (!(INPUT_REGEX.test(data.name)) || !data.name.trim()) {
@@ -156,13 +155,13 @@ class Page extends React.PureComponent {
                 errors.name = translate.invalid_field;
             }
         }
- 
+
         if (data.personOrEntity === 0 && data.surname) {
             if (!(INPUT_REGEX.test(data.surname)) || !data.surname.trim()) {
                 hasError = true;
                 errors.surname = translate.invalid_field;
             }
-        } 
+        }
 
         if (data.dni) {
             if (!(INPUT_REGEX.test(data.dni)) || !data.dni.trim()) {
@@ -244,20 +243,18 @@ class Page extends React.PureComponent {
         if (!data.email) {
             hasError = true;
             errors.email = translate.required_field;
-        } else {
-            if (!checkValidEmail(data.email)) {
+        } else if (!checkValidEmail(data.email)) {
                 hasError = true;
                 errors.email = translate.valid_email_required;
             }
-        }
-       
+
         this.setState({
             errors
         });
 
         return hasError;
     }
- 
+
     updateState = object => {
         this.setState({
             data: {
@@ -277,7 +274,6 @@ class Page extends React.PureComponent {
     }
 
     render() {
-
         if (this.props.data.loading) {
             return <LoadingSection />;
         }

@@ -1,11 +1,11 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Table, TableHead, TableRow, TableCell, TableBody, IconButton, Icon, Divider } from 'material-ui';
 import { CloseIcon, SectionTitle, Scrollbar, Grid, GridItem, TextInput, AlertConfirm } from '../../../../displayComponents';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { useHoverRow } from '../../../../hooks';
 import { getPrimary } from '../../../../styles/colors';
-import { Table, TableHead, TableRow, TableCell, TableBody, IconButton, Icon, Divider } from 'material-ui';
 import AddCompanyTag from './AddCompanyTag';
 import EditTagModal from './EditTagModal';
 import { sendGAevent } from '../../../../utils/analytics';
@@ -168,8 +168,7 @@ const CompanyTags = ({ client, translate, company }) => {
                                                             </TableRow>
                                                         </TableHead>
                                                         <TableBody id={'bodyTagsTable'} >
-                                                            {data.map(tag => {
-                                                                return (
+                                                            {data.map(tag => (
                                                                     <HoverableRow
                                                                         key={`tag_${tag.id}`}
                                                                         tag={tag}
@@ -177,8 +176,7 @@ const CompanyTags = ({ client, translate, company }) => {
                                                                         translate={translate}
                                                                         deleteTag={deleteTag}
                                                                     />
-                                                                )
-                                                            })}
+                                                                ))}
                                                         </TableBody>
                                                     </Table>
                                                     :
@@ -194,7 +192,7 @@ const CompanyTags = ({ client, translate, company }) => {
                 }
             </div>
         )
-    } else {
+    }
         return (
             <div style={{ height: "calc( 100% - 5em )" }}>
                 <AddCompanyTag
@@ -269,8 +267,7 @@ const CompanyTags = ({ client, translate, company }) => {
                                                                 </TableRow>
                                                             </TableHead>
                                                             <TableBody id={'bodyTagsTable'} >
-                                                                {data.map(tag => {
-                                                                    return (
+                                                                {data.map(tag => (
                                                                         <HoverableRow
                                                                             key={`tag_${tag.id}`}
                                                                             tag={tag}
@@ -278,8 +275,7 @@ const CompanyTags = ({ client, translate, company }) => {
                                                                             translate={translate}
                                                                             deleteTag={deleteTag}
                                                                         />
-                                                                    )
-                                                                })}
+                                                                    ))}
                                                             </TableBody>
                                                         </Table>
                                                         :
@@ -296,7 +292,6 @@ const CompanyTags = ({ client, translate, company }) => {
                 }
             </div>
         )
-    }
 }
 
 const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
@@ -361,7 +356,7 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                 </TableCell>
             </TableRow>
         )
-    } else {
+    }
         return (
             <TableRow
                 {...handlers}
@@ -427,7 +422,6 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                 </TableCell>
             </TableRow>
         )
-    }
 }
 
 export default withSharedProps()(withApollo(CompanyTags));

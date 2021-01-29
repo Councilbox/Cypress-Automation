@@ -1,21 +1,40 @@
 import React from "react";
-import { CardPageLayout, LoadingSection } from "../../displayComponents";
-import ChangePasswordForm from "./ChangePasswordForm";
-import UpdateUser from "./UpdateUser";
 import { graphql, withApollo } from "react-apollo";
-import { languages } from "../../queries/masters";
-import withSharedProps from '../../HOCs/withSharedProps';
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
+import { CardPageLayout, LoadingSection } from "../../displayComponents";
+import UpdateUser from "./UpdateUser";
+import { languages } from "../../queries/masters";
+import withSharedProps from '../../HOCs/withSharedProps';
 import influencer from '../../assets/img/influencer.svg';
 
+const userQuery = gql`
+    query user($id: Int!){
+        user(id: $id){
+            actived
+			email
+			phone
+			code
+			preferredLanguage
+			roles
+			id
+			companies {
+				id
+				logo
+				businessName
+			}
+            name
+			surname
+        }
+    }
+`;
 
-const UserSettingsPage = ({ data, user, translate, company, match, client, ...props }) => {
+const UserSettingsPage = ({ data, user, translate, company, match, client }) => {
 	const [dataUser, setDataUser] = React.useState(user.id !== match.params.id ? null : user);
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
-			query: userquery,
+			query: userQuery,
 			variables: {
 				id: +match.params.id
 			}
@@ -31,12 +50,12 @@ const UserSettingsPage = ({ data, user, translate, company, match, client, ...pr
 		return <LoadingSection />;
 	}
 
-	let admin = (match.params.company && match.params.id) ? true : false;
+	const admin = !!((match.params.company && match.params.id));
 
 	return (
 		<CardPageLayout title={
 			<div style={{ display: "flex", alignItems: "center" }}>
-				<div style={{ width:"1.2em", display: "flex" }}>
+				<div style={{ width: "1.2em", display: "flex" }}>
 					<img src={influencer} style={{ marginRight: '0.6em', width: "100%", height: "100%" }} />
 				</div>
 				<div>
@@ -58,26 +77,5 @@ const UserSettingsPage = ({ data, user, translate, company, match, client, ...pr
 		</CardPageLayout>
 	);
 }
-
-const userquery = gql`
-    query user($id: Int!){
-        user(id: $id){
-            actived
-			email
-			phone
-			code
-			preferredLanguage
-			roles
-			id
-			companies {
-				id
-				logo
-				businessName
-			}
-            name
-			surname
-        }
-    }
-`;
 
 export default graphql(languages)(withSharedProps()(withRouter(withApollo(UserSettingsPage))));

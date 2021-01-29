@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import * as councilActions from "../actions/councilActions";
 import { bindActionCreators } from "redux";
+import * as councilActions from "../actions/councilActions";
 import { LoadingMainApp } from "../displayComponents";
 
 class CreateMeeting extends Component {

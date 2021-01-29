@@ -100,7 +100,10 @@ class NotificationFilters extends React.Component {
 				tooltip={translate[CBX.getAttendanceIntentionTooltip(value)]}
 			>
 				{CBX.getAttendanceIntentionIcon(value, {
-					width: "24px", height: "auto", color: primary, display: 'flex',
+					width: "24px",
+height: "auto",
+color: primary,
+display: 'flex',
 					alignContent: 'center',
 					justifyContent: 'center'
 				})}
@@ -143,9 +146,7 @@ class NotificationFilters extends React.Component {
 							flexDirection: "row"
 						}}
 					>
-						{Object.keys(EMAIL_STATES_FILTERS).map(code =>
-							this._renderFilterIcon(EMAIL_STATES_FILTERS[code])
-						)}
+						{Object.keys(EMAIL_STATES_FILTERS).map(code => this._renderFilterIcon(EMAIL_STATES_FILTERS[code]))}
 					</GridItem>
 					<GridItem xs={4} md={9} lg={3} style={{ paddingTop: "0.6em" }}>
 					</GridItem>
@@ -181,9 +182,7 @@ class NotificationFilters extends React.Component {
 						flexDirection: "row"
 					}}
 				>
-					{Object.keys(EMAIL_STATES_FILTERS).map(code =>
-						this._renderFilterIcon(EMAIL_STATES_FILTERS[code])
-					)}
+					{Object.keys(EMAIL_STATES_FILTERS).map(code => this._renderFilterIcon(EMAIL_STATES_FILTERS[code]))}
 					{CBX.councilHasAssistanceConfirmation(council) &&
 						intentionStates.map(intention => (
 							this._renderIntentionIcon(intention)
@@ -213,7 +212,10 @@ class NotificationFilters extends React.Component {
 						tooltip={translate.show_comments}
 					>
 						<i className={"fa fa-comment"} style={{
-							width: "24px", height: "auto", color: primary, display: 'flex',
+							width: "24px",
+height: "auto",
+color: primary,
+display: 'flex',
 							alignContent: 'center',
 							justifyContent: 'center'
 						 }}></i>

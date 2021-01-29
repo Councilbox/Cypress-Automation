@@ -1,7 +1,7 @@
 import React from "react";
-import { getPrimary, getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { Tooltip } from 'material-ui';
+import { getPrimary, getSecondary } from "../styles/colors";
 
 
 export const getSubjectAbrv = text => {
@@ -17,12 +17,12 @@ export const getSubjectAbrv = text => {
 		return '';
 	}
 
-	if(!isNaN(text)){
-		text = ''+text;
+	if(!Number.isNaN(text)){
+		text = '' + text;
 	}
 
 	while (!isChar){
-		if(!isNaN(text[index]) || (text[index] === '.' && !isNaN(+text[index + 1]) && text[index + 1] !== ' ')){
+		if(!Number.isNaN(text[index]) || (text[index] === '.' && !Number.isNaN(+text[index + 1]) && text[index + 1] !== ' ')){
 			start += text[index];
 		} else {
 			isChar = true;
@@ -34,7 +34,7 @@ export const getSubjectAbrv = text => {
 		start = text.split(' ').reduce((acc, curr) => `${acc}${curr.toUpperCase().substr(0, 1)}`, '')
 	}
 
-	return start.substr(0, 3);;
+	return start.substr(0, 3);
 }
 
 
@@ -47,7 +47,6 @@ const AgendaNumber = ({
 	translate,
 	voting,
 	open,
-	style,
 	small,
 	moreStyles,
 	onlyShowCalendar

@@ -1,4 +1,5 @@
 import React from "react";
+import Loadable from 'react-loadable';
 import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
@@ -9,7 +10,6 @@ import { trialDaysLeft, showOrganizationDashboard } from '../../utils/CBX';
 import { addSpecificTranslations } from "../../actions/companyActions";
 import NewCompanyPage from "../company/new/NewCompanyPage";
 import NewUser from "../corporation/users/NewUser";
-import Loadable from 'react-loadable';
 import { ConfigContext } from "../../containers/AppControl";
 
 const OrganizationDashboard = Loadable({
@@ -113,7 +113,7 @@ const Dashboard = ({ translate, company, user }) => {
 						</React.Fragment>
 
 					}
-					<CBXFooter style={company.id === company.corporationId? {} : { marginTop : '3em' }} />
+					<CBXFooter style={company.id === company.corporationId ? {} : { marginTop: '3em' }} />
 				</div>
 			</Scrollbar>
 		</div>

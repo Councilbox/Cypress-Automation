@@ -1,7 +1,7 @@
 import React from 'react';
-import { AlertConfirm, UnsavedChangesModal } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { AlertConfirm, UnsavedChangesModal } from '../../../../displayComponents';
 import CompanyTagForm from './CompanyTagForm';
 import { checkUsedKey } from './AddCompanyTag';
 
@@ -15,11 +15,11 @@ const mutation = gql`
 `;
 
 const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, client, requestClose, ...props }) => {
-    const [tag, setTag] = React.useState(initialValue ? initialValue : { key: '', value: '', description: "" });
+    const [tag, setTag] = React.useState(initialValue || { key: '', value: '', description: "" });
     const [errors, setErrors] = React.useState({});
     const [initInfo, setInitInfo] = React.useState(tag)
     const [unsavedAlert, setUnsavedAlert] = React.useState(false)
-    
+
     const updateTagData = object => {
         setTag({
             ...tag,
@@ -40,11 +40,10 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
             refetch();
             requestClose();
         }
-
     }
 
     const checkRequiredFields = async () => {
-        let errors = {}
+        const errors = {}
 
         if (!tag.key) {
             errors.key = translate.required_field;
@@ -71,8 +70,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
         return Object.keys(errors).length > 0;
     }
 
-    const renderBody = () => {
-        return (
+    const renderBody = () => (
             <CompanyTagForm
                 errors={errors}
                 tag={tag}
@@ -80,16 +78,15 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
                 translate={translate}
             />
         )
-    }
 
     const comprobateChanges = () => {
-        let unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(tag)
+        const unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(tag)
         setUnsavedAlert(unsavedAlert)
         return unsavedAlert
     };
 
     const closeModal = () => {
-        let equals = comprobateChanges();
+        const equals = comprobateChanges();
         if (!equals) {
             requestClose()
         }

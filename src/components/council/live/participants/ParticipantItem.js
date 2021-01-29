@@ -1,7 +1,7 @@
 import React from "react";
 import { MenuItem, Typography, Tooltip, Card } from "material-ui";
-import { GridItem, Grid, BasicButton } from "../../../../displayComponents";
 import FontAwesome from "react-fontawesome";
+import { GridItem, Grid, BasicButton } from "../../../../displayComponents";
 import { getSecondary, getPrimary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
@@ -28,7 +28,7 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 				style={{
 					width: '98%',
 					marginRight: '5%',
-					marginBottom:"10px",
+					marginBottom: "10px",
 					height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em',
 					...(layout !== 'squares' ? {
 						height: '3.2em',
@@ -110,7 +110,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 				md={mode === 'ATTENDANCE' ? 1 : 2}
 			>
 				<div >
-					{ mode === 'STATES' && participant.personOrEntity === 0?
+					{ mode === 'STATES' && participant.personOrEntity === 0 ?
 						<ParticipantStateList
 							participant={participant}
 							council={council}
@@ -192,9 +192,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 	)
 }
 
-const participantRepresentativeSigned = participant => {
-	return participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
-}
+const participantRepresentativeSigned = participant => participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed
 
 const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => {
 	const representative = getMainRepresentative(participant);
@@ -215,7 +213,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 			>
 				<div style={{ width: '60%', display: 'flex', height: "84px" }}>
 					<div>
-						{ mode === 'STATES' && council.councilType < 2?
+						{ mode === 'STATES' && council.councilType < 2 ?
 							<ParticipantStateList
 								participant={participant}
 								representative={representative}
@@ -249,7 +247,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 							textOverflow: "ellipsis",
 							overflow: "hidden",
 							// paddingTop: '15px'
-							justifyContent:"center"
+							justifyContent: "center"
 						}}
 					>
 						<div
@@ -475,7 +473,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 							justifyContent: 'center'
 						}}
 					>
-						{!isRepresented(participant)?
+						{!isRepresented(participant) ?
 							<React.Fragment>
 								{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 									<BasicButton
@@ -494,7 +492,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 							</React.Fragment>
 						:
 							<BasicButton
-								text={participantRepresentativeSigned(participant)? translate.user_signed : translate.to_sign}
+								text={participantRepresentativeSigned(participant) ? translate.user_signed : translate.to_sign}
 								fullWidth
 								buttonStyle={{ border: `1px solid ${participantRepresentativeSigned(participant) ? primary : secondary}` }}
 								type="flat"
@@ -503,7 +501,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									event.stopPropagation();
 									showSignatureModal();
 								}}
-								textStyle={{ color: participantRepresentativeSigned(participant)? primary : secondary, fontWeight: '700' }}
+								textStyle={{ color: participantRepresentativeSigned(participant) ? primary : secondary, fontWeight: '700' }}
 							/>
 						}
 					</div>

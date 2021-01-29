@@ -1,11 +1,11 @@
 import React from 'react';
+import { CircularProgress, MenuItem } from 'material-ui';
+import { withApollo } from 'react-apollo';
 import { VotingButton } from '../agendas/VotingMenu';
 import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_TYPE } from '../../../constants';
 import { getSecondary, getPrimary } from '../../../styles/colors';
-import { CircularProgress, MenuItem } from 'material-ui';
 import VotingValueIcon from '../../council/live/voting/VotingValueIcon';
 import { isConfirmationRequest, isCustomPoint } from '../../../utils/CBX';
-import { withApollo } from 'react-apollo';
 import { LoadingSection } from '../../../displayComponents';
 import { useCouncilAgendas } from '../../../hooks';
 
@@ -48,14 +48,12 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
         return point.value === value;
     }
 
-    const earlyVoteMenu = participant => {
-        return (
+    const earlyVoteMenu = participant => (
             data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
-
                 if(isConfirmationRequest(point.subjectType)){
                     return (
                         <div key={`point_${point.id}`}>
-                            <div style={{fontWeight: '700', marginTop: '1em'}}>{point.agendaSubject}</div>
+                            <div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
                             <div>
                                 {[{
                                     value: VOTE_VALUES.POSITIVE,
@@ -96,7 +94,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                                     )
                                 })}
                             </div>
-                            
+
                         </div>
                     )
                 }
@@ -104,7 +102,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                 if(!isCustomPoint(point.subjectType)){
                     return (
                         <div key={`point_${point.id}`}>
-                            <div style={{fontWeight: '700', marginTop: '1em'}}>{point.agendaSubject}</div>
+                            <div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
                             <div>
                                 {[{
                                     value: VOTE_VALUES.POSITIVE,
@@ -149,7 +147,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                                     )
                                 })}
                             </div>
-                            
+
                         </div>
                     )
                 }
@@ -165,7 +163,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
 
                 const disabled = selections >= point.options.maxSelections;
                 return (
-                    <div key={`point_${point.id}`} style={{marginTop: '1.3em'}}>
+                    <div key={`point_${point.id}`} style={{ marginTop: '1.3em' }}>
                         Punto: {point.agendaSubject}
                         <div>
                             {point.items.map(item => {
@@ -196,10 +194,8 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                         </div>
                     </div>
                 )
-                
             })
         )
-    }
 
     if(loading){
         return <LoadingSection />
@@ -207,17 +203,15 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
 
 
     return (
-        participant.type === PARTICIPANT_TYPE.REPRESENTATIVE?
-            participant.represented.map(item => {
-                return (
+        participant.type === PARTICIPANT_TYPE.REPRESENTATIVE ?
+            participant.represented.map(item => (
                     <>
                         <div>
                             {`${item.name} ${item.surname}`}
                         </div>
                         {earlyVoteMenu(item)}
                     </>
-                )
-            })
+                ))
         :
             earlyVoteMenu(participant)
     )

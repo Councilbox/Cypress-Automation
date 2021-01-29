@@ -1,4 +1,9 @@
 import React from "react";
+import { Divider, MenuItem, Paper } from "material-ui";
+import { graphql, withApollo } from "react-apollo";
+import { withRouter } from 'react-router-dom';
+import FontAwesome from "react-fontawesome";
+import gql from "graphql-tag";
 import {
 	BasicButton,
 	CardPageLayout,
@@ -9,13 +14,9 @@ import {
 	LoadingSection
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { Divider, MenuItem, Paper } from "material-ui";
-import { graphql, withApollo } from "react-apollo";
 import { bHistory } from "../../../containers/App";
-import { withRouter } from 'react-router-dom';
 import * as CBX from "../../../utils/CBX";
 import ReminderModal from "./modals/ReminderModal";
-import FontAwesome from "react-fontawesome";
 import RescheduleModal from "./modals/RescheduleModal";
 import SendConveneModal from "./modals/SendConveneModal";
 import CancelModal from "./modals/CancelModal";
@@ -26,7 +27,6 @@ import { useOldState } from "../../../hooks";
 import { ConfigContext } from "../../../containers/AppControl";
 import DelegationRestriction from "../editor/DelegationRestriction";
 import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
-import gql from "graphql-tag";
 import ShareholdersRequestsPage from "./shareholders/ShareholdersRequestsPage";
 import EstimatedQuorum from "./EstimatedQuorum";
 import AttachmentsModal from "./AttachmentsModal";
@@ -80,7 +80,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 	}
 
 	const getTabs = () => {
-		let tabs = [
+		const tabs = [
 			{
 				text: translate.convene,
 			},
@@ -101,7 +101,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 			});
 		}
 
-		let tabsListNames = [];
+		const tabsListNames = [];
 		tabs.map(item => {
 			tabsListNames.push(item.text)
 		})
@@ -220,13 +220,12 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				refetch={refetch}
 				company={company}
 				translate={translate}
-				requestClose={() => { setState({ ...state, attachmentsModal: false })}}
+				requestClose={() => { setState({ ...state, attachmentsModal: false }) }}
 			/>
 			<RescheduleModal
 				show={state.rescheduleCouncil}
 				council={council}
-				requestClose={() =>
-					setState({ rescheduleCouncil: false })
+				requestClose={() => setState({ rescheduleCouncil: false })
 				}
 				translate={translate}
 			/>
@@ -244,7 +243,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div>
 						<BasicButton
-							text={council.councilType === 4? translate.manage :translate.prepare_room}
+							text={council.councilType === 4 ? translate.manage : translate.prepare_room}
 							id={'prepararSalaNew'}
 							color={primary}
 							buttonStyle={{
@@ -274,8 +273,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 					</div>
 					<DropDownMenu
 						color="transparent"
-						Component={() =>
-							<Paper
+						Component={() => <Paper
 								elevation={1}
 								style={{
 									boxSizing: "border-box",
@@ -323,8 +321,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 							<React.Fragment>
 								{CBX.councilIsNotified(council) ? (
 									<MenuItem
-										onClick={() =>
-											setState({
+										onClick={() => setState({
 												sendReminder: true
 											})
 										}
@@ -342,8 +339,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									</MenuItem>
 								) : (
 										<MenuItem
-											onClick={() =>
-												setState({
+											onClick={() => setState({
 													sendConvene: true
 												})
 											}
@@ -361,9 +357,8 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 										</MenuItem>
 									)}
 								<MenuItem
-									onClick={() =>
-										setState({
-											attachmentsModal:true
+									onClick={() => setState({
+											attachmentsModal: true
 										})
 									}
 								>
@@ -379,8 +374,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									{translate.add_documentation}
 								</MenuItem>
 								<MenuItem
-									onClick={() =>
-										setState({
+									onClick={() => setState({
 											rescheduleCouncil: true
 										})
 									}
@@ -398,8 +392,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 								</MenuItem>
 								<Divider light />
 								<MenuItem
-									onClick={() =>
-										setState({ cancel: true })
+									onClick={() => setState({ cancel: true })
 									}
 								>
 									<Icon

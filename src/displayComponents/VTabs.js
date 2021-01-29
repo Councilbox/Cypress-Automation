@@ -1,11 +1,9 @@
 import React from "react";
-import withWindowSize from "../HOCs/withWindowSize";
-import { getPrimary, getSecondary } from "../styles/colors";
-import { CloseIcon, Grid, GridItem, SelectInput, Icon } from "./index";
-import { Tooltip, Paper, MenuItem } from 'material-ui';
-import Tabs from 'antd/lib/tabs';
-import { IconButton } from 'material-ui';
+import { Tooltip, Paper, MenuItem, IconButton } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
+import { CloseIcon, Grid, GridItem, SelectInput, Icon } from "./index";
+import { getPrimary, getSecondary } from "../styles/colors";
+import withWindowSize from "../HOCs/withWindowSize";
 import "../styles/react-tabs.css";
 import Scrollbar from "./Scrollbar";
 import { isMobile } from "../utils/screen";
@@ -26,8 +24,7 @@ const Vtabs = ({
 	translate,
 	index,
 	deleteAction
-}) => {
-	return (
+}) => (
 		<React.Fragment>
 			<div style={{ height: "100%" }}>
 				{windowSize !== "xs" && !isMobile && (
@@ -41,8 +38,7 @@ const Vtabs = ({
 								{additionalTab}
 							</div>
 							<Scrollbar>
-								{tabs.map((tab, mapIndex) => {
-									return (
+								{tabs.map((tab, mapIndex) => (
 										<div key={'' + mapIndex} onClick={() => changeTab('' + mapIndex)}
 											style={{
 												borderRight: +index === +mapIndex ? "6px solid " + primary : "",
@@ -62,8 +58,7 @@ const Vtabs = ({
 												translate={translate}
 											/>
 										</div>
-									);
-								})}
+									))}
 							</Scrollbar>
 						</div>
 					</div>
@@ -79,16 +74,14 @@ const Vtabs = ({
 									style={{ margin: "-16px" }}
 									onChange={event => changeTab(event.target.value)}
 								>
-									{tabs.map((tab, itemIndex) => {
-										return (
+									{tabs.map((tab, itemIndex) => (
 											<MenuItem
 												value={itemIndex}
 												key={`statute_${itemIndex}`}
 											>
 												{tab.title}
 											</MenuItem>
-										);
-									})}
+										))}
 								</SelectInput>
 							</GridItem>
 							<GridItem xs={6} style={{ display: 'flex' }}>
@@ -183,8 +176,7 @@ const Vtabs = ({
 				)}
 			</div>
 		</React.Fragment >
-	);
-}
+	)
 
 export default withWindowSize(Vtabs);
 

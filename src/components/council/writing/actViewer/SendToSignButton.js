@@ -61,7 +61,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
                     document: {
                         filename: `${translate.act} ${council.name}.pdf`,
                         filetype: 'application/pdf',
-                        filesize: (actQuery.data.downloadAct.length * (3/4)).toString(),
+                        filesize: (actQuery.data.downloadAct.length * (3 / 4)).toString(),
                         base64: actQuery.data.downloadAct,
                         signatureId: response.data.createSignature.id
                     }
@@ -71,7 +71,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
             setLoading(3);
         }
     }
-    
+
     return (
         <>
             <AlertConfirm

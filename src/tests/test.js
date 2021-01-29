@@ -2,6 +2,25 @@ import assert from "assert";
 import * as CBX from "../utils/CBX";
 import * as Pagination from "../utils/pagination";
 
+const votingTypes = [
+	{
+		value: 0,
+		label: "text"
+	},
+	{
+		value: 1,
+		label: "public_votation"
+	},
+	{
+		value: 3,
+		label: "fake_public_votation"
+	},
+	{
+		value: 5,
+		label: "private_votation"
+	}
+];
+
 describe("canReorderPoints", () => {
 	const council = {
 		statute: {
@@ -380,25 +399,6 @@ describe("Return Formatted filesize to byte, kb, mb or gb", () => {
 		assert.equal(CBX.printPrettyFilesize(1073741824), "1 GBs");
 	});
 });
-
-const votingTypes = [
-	{
-		value: 0,
-		label: "text"
-	},
-	{
-		value: 1,
-		label: "public_votation"
-	},
-	{
-		value: 3,
-		label: "fake_public_votation"
-	},
-	{
-		value: 5,
-		label: "private_votation"
-	}
-];
 
 describe("Check if the security type needs to show extra info to the user", () => {
 	it("should return true when the securityType is either 1 or 2", () => {

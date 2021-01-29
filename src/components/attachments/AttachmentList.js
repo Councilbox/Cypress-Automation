@@ -1,6 +1,6 @@
 import React from "react";
-import { AlertConfirm, TextInput } from "../../displayComponents";
 import { compose, graphql } from "react-apollo";
+import { AlertConfirm, TextInput } from "../../displayComponents";
 import { updateCouncilAttachment, updateAgendaAttachment } from "../../queries";
 import AttachmentItem from "./AttachmentItem";
 import { splitExtensionFilename } from '../../utils/CBX';
@@ -27,23 +27,20 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 		});
 	};
 
-	const _renderModalBody = () => {
-		return (
+	const _renderModalBody = () => (
 			<div style={{ width: window.innerWidth > 650 ? "650px" : '100%' }}>
 				<TextInput
 					floatingText={translate.name}
 					type="text"
 					errorText={state.errors.name}
 					value={state.data.filename}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							filename: event.target.value
 						})
 					}
 				/>
 			</div>
 		);
-	};
 
 	const editIndex = index => {
 		setState({
@@ -74,7 +71,7 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 				}
 			});
 		}
-		
+
 		if (response) {
 			setState({
 				...state,
@@ -98,8 +95,7 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 				width: "100%"
 			}}
 		>
-			{attachments.map((attachment, index) => {
-				return (
+			{attachments.map((attachment, index) => (
 					<AttachmentItem
 						edit={true}
 						key={`attachment${index}`}
@@ -111,8 +107,7 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 							editIndex(index);
 						}}
 					/>
-				);
-			})}
+				))}
 			<AlertConfirm
 				requestClose={() => setState({ ...state, showModal: false })}
 				open={state.showModal}
@@ -132,4 +127,5 @@ export default compose(
 	}),
 	graphql(updateAgendaAttachment, {
 		name: "updateAgendaAttachment"
-	}))(AttachmentList);
+	})
+)(AttachmentList);

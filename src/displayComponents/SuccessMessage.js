@@ -4,7 +4,6 @@ import FontAwesome from 'react-fontawesome';
 
 
 class SuccessMessage extends React.Component {
-
 	state = {
 		mounted: false
 	};
@@ -34,7 +33,7 @@ class SuccessMessage extends React.Component {
 			>
 				{this.state.mounted ? (
 					<React.Fragment>
-						<div className="scale-up-center" style={{marginBottom: '15px'}}>
+						<div className="scale-up-center" style={{ marginBottom: '15px' }}>
 							< FontAwesome
 								name={"envelope-o"}
 								style={{
@@ -65,6 +64,6 @@ class SuccessMessage extends React.Component {
 			</div>
 		);
 	}
-};
+}
 
 export default SuccessMessage;

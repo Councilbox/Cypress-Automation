@@ -31,9 +31,7 @@ import { moment, client, store } from '../containers/App';
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
 import { TAG_TYPES } from "../components/company/drafts/draftTags/utils";
 
-export const canReorderPoints = council => {
-	return council.statute.canReorderPoints === 1;
-};
+export const canReorderPoints = council => council.statute.canReorderPoints === 1;
 
 export const formatInt = num => {
 	if(!num){
@@ -43,7 +41,8 @@ export const formatInt = num => {
 	if(num < 1000){
 		return num;
 	}
-	num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1 ');
+	num = num.toString().split('').reverse().join('')
+.replace(/(?=\d*\.?)(\d{3})/g, '$1 ');
 	num = num.split('').reverse().join('').replace(/^[\.]/, '');
 	return num;
 }
@@ -104,48 +103,36 @@ export const hasAccessKey = council => {
 	return (council.securityType === 1 || council.securityType === 2);
 }
 
-export const canAddCouncilAttachment = (council, filesize) => {
-	return (
+export const canAddCouncilAttachment = (council, filesize) => (
 		council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0) +
 		filesize <
 		MAX_COUNCIL_FILE_SIZE
 	);
-};
 
 export const trialDaysLeft = (company, date, trialDays) => {
 	const left = trialDays - date(new Date()).diff(date(company.creationDate), 'days');
 	return left <= 0 || Number.isNaN(left) ? 0 : left;
 }
 
-export const councilStarted = council => {
-	return council.councilStarted === 1;
-};
+export const councilStarted = council => council.councilStarted === 1;
 
-export const existsQualityVote = statute => {
-	return statute.existsQualityVote === 1;
-};
+export const existsQualityVote = statute => statute.existsQualityVote === 1;
 
-export const showAgendaVotingsToggle = (council, agenda) => {
-	return (
+export const showAgendaVotingsToggle = (council, agenda) => (
 		council.councilStarted === 1 &&
 		agenda.subjectType !== 0 &&
 		agenda.votingState !== 2
 	);
-};
 
-export const showSendCredentials = participantState => {
-	return participantState !== PARTICIPANT_STATES.PRESENT &&
+export const showSendCredentials = participantState => participantState !== PARTICIPANT_STATES.PRESENT &&
 		participantState !== PARTICIPANT_STATES.PHYSICALLY_PRESENT &&
 		participantState !== PARTICIPANT_STATES.DELEGATED &&
-		participantState !== PARTICIPANT_STATES.REPRESENTATED;
-}
+		participantState !== PARTICIPANT_STATES.REPRESENTATED
 
-export const showAgendaVotingsTable = agenda => {
-	return (
+export const showAgendaVotingsTable = agenda => (
 		agenda.votingState > 0 &&
 		agenda.subjectType !== 0
 	)
-}
 
 export const getAgendaResult = (agenda, type, data = {}) => {
 	const totalVotes = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
@@ -174,21 +161,13 @@ export const userCanCreateCompany = (user, companies) => {
 	return user.actived === USER_ACTIVATIONS.PREMIUM;
 }
 
-export const agendaVotingsOpened = agenda => {
-	return agenda.votingState === AGENDA_STATES.DISCUSSION || agenda.votingState === 4;
-};
+export const agendaVotingsOpened = agenda => agenda.votingState === AGENDA_STATES.DISCUSSION || agenda.votingState === 4;
 
-export const agendaClosed = agenda => {
-	return agenda.pointState === AGENDA_STATES.CLOSED;
-};
+export const agendaClosed = agenda => agenda.pointState === AGENDA_STATES.CLOSED;
 
-export const councilHasVideo = council => {
-	return council.councilType === 0 || council.councilType === 5;
-};
+export const councilHasVideo = council => council.councilType === 0 || council.councilType === 5;
 
-export const censusHasParticipations = census => {
-	return census.quorumPrototype === 1;
-};
+export const censusHasParticipations = census => census.quorumPrototype === 1;
 
 export const checkForUnclosedBraces = text => {
 	if (text) {
@@ -200,13 +179,9 @@ export const checkForUnclosedBraces = text => {
 	return false;
 }
 
-export const councilHasParticipations = council => {
-	return council.statute.quorumPrototype === 1;
-};
+export const councilHasParticipations = council => council.statute.quorumPrototype === 1;
 
-export const hasVotation = pointType => {
-	return pointType !== AGENDA_TYPES.INFORMATIVE;
-};
+export const hasVotation = pointType => pointType !== AGENDA_TYPES.INFORMATIVE;
 
 export const pointIsClosed = agendaPoint => {
 	if (hasVotation(agendaPoint.subjectType)) {
@@ -226,26 +201,20 @@ export const copyStringToClipboard = str => {
 	document.body.removeChild(el);
 }
 
-export const majorityNeedsInput = majorityType => {
-	return majorityType === MAJORITY_TYPES.PERCENTAGE
+export const majorityNeedsInput = majorityType => majorityType === MAJORITY_TYPES.PERCENTAGE
 		|| majorityType === MAJORITY_TYPES.NUMBER
 		|| majorityType === MAJORITY_TYPES.FRACTION;
-};
 
-export const haveQualityVoteConditions = (agenda, council) => {
-	return ((agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING) &&
+export const haveQualityVoteConditions = (agenda, council) => ((agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING) &&
 		(agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings +
 			agenda.negativeManual) && council.statute.existsQualityVote === 1);
-};
 
-export const canEditPresentVotings = agenda => {
-	return (agenda.votingState === AGENDA_STATES.DISCUSSION ||
+export const canEditPresentVotings = agenda => (agenda.votingState === AGENDA_STATES.DISCUSSION ||
 		agenda.votingState === 4) && (
 		agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING ||
 		agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ||
 		agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE ||
-		agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
-}
+		agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC)
 
 export const approvedByQualityVote = agenda => {
 	if(agenda && agenda.qualityVoteSense){
@@ -269,37 +238,21 @@ export const voteValuesText = vote => {
 	}
 }
 
-export const isMajorityPercentage = majorityType => {
-	return majorityType === 0;
-};
+export const isMajorityPercentage = majorityType => majorityType === 0;
 
-export const isMajorityFraction = majorityType => {
-	return majorityType === 5;
-};
+export const isMajorityFraction = majorityType => majorityType === 5;
 
-export const isMajorityNumber = majorityType => {
-	return majorityType === 6;
-};
+export const isMajorityNumber = majorityType => majorityType === 6;
 
-export const quorumNeedsInput = quorumType => {
-	return quorumType === 0 || quorumType === 2 || quorumType === 3;
-};
+export const quorumNeedsInput = quorumType => quorumType === 0 || quorumType === 2 || quorumType === 3;
 
-export const isQuorumPercentage = quorumType => {
-	return quorumType === 0;
-};
+export const isQuorumPercentage = quorumType => quorumType === 0;
 
-export const isQuorumFraction = quorumType => {
-	return quorumType === 2;
-};
+export const isQuorumFraction = quorumType => quorumType === 2;
 
-export const isQuorumNumber = quorumType => {
-	return quorumType === 3;
-};
+export const isQuorumNumber = quorumType => quorumType === 3;
 
-export const voteAllAtOnce = data => {
-	return data.council.councilType === 3;
-}
+export const voteAllAtOnce = data => data.council.councilType === 3
 
 export const findOwnVote = (votings, participant) => {
 	if(participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE){
@@ -315,60 +268,40 @@ export const findOwnVote = (votings, participant) => {
 	) && !voting.author.voteDenied));
 }
 
-export const hasAct = statute => {
-	return statute.existsAct === 1;
-};
+export const hasAct = statute => statute.existsAct === 1;
 
-export const councilHasComments = statute => {
-	return statute.existsComments === 1;
-};
+export const councilHasComments = statute => statute.existsComments === 1;
 
-export const canDelegateVotes = (statute, participant) => {
-	return (statute.existsDelegatedVote === 1 &&
+export const canDelegateVotes = (statute, participant) => (statute.existsDelegatedVote === 1 &&
 		!(participant.delegatedVotes.filter(p => p.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0) &&
 		participant.type !== PARTICIPANT_TYPE.GUEST
 	);
-};
-export const canAddDelegateVotes = (statute, participant) => {
-	return (
+export const canAddDelegateVotes = (statute, participant) => (
 		statute.existsDelegatedVote === 1 &&
 		(participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE) &&
 		(participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED) &&
 		participant.personOrEntity !== 1
 	);
-};
 
-export const canHaveRepresentative = participant => {
-	return participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATED;
-};
+export const canHaveRepresentative = participant => participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATED;
 
-export const delegatedVotesLimitReached = (statute, length) => {
-	return (
+export const delegatedVotesLimitReached = (statute, length) => (
 		statute.existMaxNumDelegatedVotes === 1 &&
 		length >= statute.maxNumDelegatedVotes
 	);
-};
 
 export const isCustomPoint = subjectType => {
 	const customPoint = CUSTOM_AGENDA_VOTING_TYPES.find(type => subjectType === type.value);
 	return !!customPoint;
 }
 
-export const isConfirmationRequest = subjectType => {
-	return subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST;
-}
+export const isConfirmationRequest = subjectType => subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST
 
-export const hasParticipations = (statute = {}) => {
-	return statute.quorumPrototype === 1;
-};
+export const hasParticipations = (statute = {}) => statute.quorumPrototype === 1;
 
-export const canBePresentWithRemoteVote = statute => {
-	return statute.existsPresentWithRemoteVote === 1;
-};
+export const canBePresentWithRemoteVote = statute => statute.existsPresentWithRemoteVote === 1;
 
-export const isAnonym = subjectType => {
-	return subjectType === AGENDA_TYPES.PRIVATE_VOTING || subjectType === AGENDA_TYPES.CUSTOM_PRIVATE;
-}
+export const isAnonym = subjectType => subjectType === AGENDA_TYPES.PRIVATE_VOTING || subjectType === AGENDA_TYPES.CUSTOM_PRIVATE
 export const getSMSStatusByCode = reqCode => {
     const status = {
         22: 'Entregado',
@@ -609,30 +542,18 @@ export const getGoverningBodySignatories = (translate, type, data) => {
 	const blankSpaces = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
 	const labels = {
 		0: () => '',
-		1: () => {
-			return `${sir[translate.selectedLanguage]} ${data.name} ${data.surname || ''}`;
-		},
-		2: () => {
-			return `${sir[translate.selectedLanguage]} ${data.name} ${data.surname || ''}`;
-		},
-		3: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, '');
-		},
-		4: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, '');
-		},
-		5: () => {
-			return data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, '');
-		},
+		1: () => `${sir[translate.selectedLanguage]} ${data.name} ${data.surname || ''}`,
+		2: () => `${sir[translate.selectedLanguage]} ${data.name} ${data.surname || ''}`,
+		3: () => data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, ''),
+		4: () => data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, ''),
+		5: () => data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, ''),
 	}
 
 
 	return labels[type] ? labels[type]() : labels[0]();
 }
 
-export const generateAgendaText = (translate, agenda) => {
-	return agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '');
-}
+export const generateAgendaText = (translate, agenda) => agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '')
 
 export const buildDelegationsString = (delegated, council, translate) => {
 	if(!delegated || delegated.length === 0){
@@ -647,14 +568,12 @@ export const buildDelegationsString = (delegated, council, translate) => {
 		pt: 'proprietário de'
 	}
 
-	return delegated.reduce((acc, vote) => {
-		return acc + `<p style="border: 1px solid black; padding: 5px;">-${
+	return delegated.reduce((acc, vote) => acc + `<p style="border: 1px solid black; padding: 5px;">-${
 			vote.name} ${
 			vote.surname || ''} ${texts[council.language]} ${vote.numParticipations} ${
 				council.quorumPrototype === 1 ? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
 			translate.delegates.toLowerCase()} ${
-			vote.representative && vote.representative.name} ${(vote.representative && vote.representative.surname) || ''} </p><br/>`
-	}, '');
+			vote.representative && vote.representative.name} ${(vote.representative && vote.representative.surname) || ''} </p><br/>`, '');
 }
 
 export const buildAttendantString = ({ attendant, council, total, type }) => {
@@ -698,11 +617,9 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 
 	if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
 		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''} ${representativeOf[council.language]} ${
-			attendant.delegationsAndRepresentations.reduce((acc, representated, index) => {
-				return (acc + (index > 0 ? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname ? representated.surname + " " : ''}`)
+			attendant.delegationsAndRepresentations.reduce((acc, representated, index) => (acc + (index > 0 ? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname ? representated.surname + " " : ''}`)
 					.replace('SHARES', representated.socialCapital)
-					.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2)))
-		}, '')}`;
+					.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2))), '')}`;
 	}
 
 	return texts[council.language]
@@ -711,9 +628,7 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 		.replace('PERCENTAGE', ((attendant.socialCapital / total) * 100).toFixed(2));
 }
 
-export const isActiveState = state => {
-	return ACTIVE_STATES.findIndex(item => state === item) !== -1;
-}
+export const isActiveState = state => ACTIVE_STATES.findIndex(item => state === item) !== -1
 
 export const buildAttendantsString = ({ council, total, type }) => (acc, curr) => {
 	if(!hasParticipations(council)){
@@ -722,13 +637,9 @@ export const buildAttendantsString = ({ council, total, type }) => (acc, curr) =
 	return acc + buildAttendantString({ attendant: curr, council, total, type });
 };
 
-export const isAdmin = user => {
-	return user.roles === 'admin' || user.roles === 'devAdmin';
-}
+export const isAdmin = user => user.roles === 'admin' || user.roles === 'devAdmin'
 
-export const showOrganizationDashboard = (company, config, user = {}) => {
-	return (company.type === 12 && (config.oneOnOneDashboard || config.newDashboard)) || (company.id === company.corporationId && config.organizationDashboard && isAdmin(user));
-}
+export const showOrganizationDashboard = (company, config, user = {}) => (company.type === 12 && (config.oneOnOneDashboard || config.newDashboard)) || (company.id === company.corporationId && config.organizationDashboard && isAdmin(user))
 
 export const generateCompanyAdminsText = ({ council, company, list }) => {
 	const data = company.governingBodyData;
@@ -742,19 +653,13 @@ export const generateCompanyAdminsText = ({ council, company, list }) => {
 		pt: 'Administradores'
 	}
 
-	const buildMultipleAdmins = adminList => {
-		return adminList.reduce((acc, curr, index, array) => acc + `${sir[council.language]} ${
-			curr.name} ${curr.surname || ''}${(index < array.length - 1) ? list ? '<br>' : ', ' : ''}`, list ? `${admins[council.language]}: <br>` : '');
-	}
+	const buildMultipleAdmins = adminList => adminList.reduce((acc, curr, index, array) => acc + `${sir[council.language]} ${
+			curr.name} ${curr.surname || ''}${(index < array.length - 1) ? list ? '<br>' : ', ' : ''}`, list ? `${admins[council.language]}: <br>` : '')
 
 	const labels = {
 		0: () => '',
-		1: () => {
-			return `${data.name} ${data.surname || ''}`;
-		},
-		2: () => {
-			return `${data.name} ${data.surname || ''}`;
-		},
+		1: () => `${data.name} ${data.surname || ''}`,
+		2: () => `${data.name} ${data.surname || ''}`,
 		3: () => buildMultipleAdmins(data.list),
 		4: () => buildMultipleAdmins(data.list),
 		5: () => buildMultipleAdmins(data.list),
@@ -763,11 +668,9 @@ export const generateCompanyAdminsText = ({ council, company, list }) => {
 	return labels[governingType] ? labels[governingType]() : labels[0]();
 }
 
-export const checkIfHasVote = attendant => {
-	return (attendant.numParticipations > 0 || attendant.socialCapital > 0) ||
+export const checkIfHasVote = attendant => (attendant.numParticipations > 0 || attendant.socialCapital > 0) ||
 		attendant.delegationsAndRepresentations
-			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (item.numParticipations > 0 || item.socialCapital > 0)).length > 0;
-}
+			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (item.numParticipations > 0 || item.socialCapital > 0)).length > 0
 
 export const buildGuestString = ({ guest, council }) => {
 	const inQualityOf = {
@@ -932,11 +835,11 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{numParticipationsPresent}}/g, data.council.numParticipationsPresent);
 	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
 	text = text.replace(/{{delegations}}/, buildDelegationsString(data.council.delegatedVotes, data.council, translate));
-	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
+	text = text.replace(/{{dateRealStart}}/g, data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
-	text = text.replace(/{{dateSecondCall}}/g, !!data.council.dateStart2NdCall ? moment(new Date(data.council.dateStart2NdCall).toISOString(),
+	text = text.replace(/{{dateSecondCall}}/g, data.council.dateStart2NdCall ? moment(new Date(data.council.dateStart2NdCall).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
-	text = text.replace(/{{dateEnd}}/g, !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
+	text = text.replace(/{{dateEnd}}/g, data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
 	text = text.replace(
 		/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
@@ -1366,41 +1269,27 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 	return types[draftType] ? types[draftType] : Object.keys(tags).map(key => tags[key]);
 }
 
-export const isRepresentative = participant => {
-	return participant.type === 2;
-};
+export const isRepresentative = participant => participant.type === 2;
 
-export const isRepresented = participant => {
-	return participant.state === PARTICIPANT_STATES.REPRESENTATED;
-};
+export const isRepresented = participant => participant.state === PARTICIPANT_STATES.REPRESENTATED;
 
-export const getSendType = value => {
-	return SEND_TYPES[value];
-};
+export const getSendType = value => SEND_TYPES[value];
 
-export const removeHTMLTags = string => {
-	return string.replace(/<(?:.|\n)*?>/gm, "").replace(/&#(\d+);/g, function (match, dec) {
+export const removeHTMLTags = string => string.replace(/<(?:.|\n)*?>/gm, "").replace(/&#(\d+);/g, function (match, dec) {
 		return String.fromCharCode(dec);
 	}).replace(/&nbsp;/g, ' ');
-};
 
-export const councilHasActPoint = council => {
-	return council.approveActDraft === 1;
-};
+export const councilHasActPoint = council => council.approveActDraft === 1;
 
-export const getActPointSubjectType = () => {
-	return 2;
-};
+export const getActPointSubjectType = () => 2;
 
-export const generateStatuteTag = (statute, translate) => {
-	return {
+export const generateStatuteTag = (statute, translate) => ({
 		[`statute_${statute.statuteId}`]: {
 			label: translate[statute.title] || statute.title,
 			name: `statute_${statute.statuteId}`,
 			type: TAG_TYPES.STATUTE
 		}
-	}
-}
+	})
 
 export const generateInitialDates = (statute) => {
 	if (statute.existsAdvanceNoticeDays === 1) {
@@ -1437,24 +1326,16 @@ export const checkMinimumAdvance = (date, statute) => {
 	return true;
 }
 
-export const showUserUniqueKeyMessage = council => {
-	return council.securityType === 1 || council.securityType === 2;
-};
+export const showUserUniqueKeyMessage = council => council.securityType === 1 || council.securityType === 2;
 
-export const councilIsNotified = council => {
-	return council.state === 10;
-};
+export const councilIsNotified = council => council.state === 10;
 
-export const councilIsInTrash = council => {
-	return council.state === COUNCIL_STATES.CANCELED;
-};
+export const councilIsInTrash = council => council.state === COUNCIL_STATES.CANCELED;
 
-export const councilIsNotLiveYet = council => {
-	return (
+export const councilIsNotLiveYet = council => (
 		council.state < COUNCIL_STATES.ROOM_OPENED &&
 		council.state > COUNCIL_STATES.CANCELED
 	);
-};
 
 export const checkRepeatedItemValue = items => {
     const differentValues = new Map();
@@ -1471,41 +1352,27 @@ export const checkRepeatedItemValue = items => {
     return Array.from(found.values());
 }
 
-export const councilIsPreparing = council => {
-	return (
+export const councilIsPreparing = council => (
 		council.state === COUNCIL_STATES.PREPARING || council.state === COUNCIL_STATES.SAVED
 	);
-};
 
-export const councilIsLive = council => {
-	return (
+export const councilIsLive = council => (
 		council.state >= COUNCIL_STATES.ROOM_OPENED &&
 		council.state < COUNCIL_STATES.FINISHED
 	);
-};
 
-export const councilIsFinished = council => {
-	return (
+export const councilIsFinished = council => (
 		council.state >= COUNCIL_STATES.FINISHED &&
 		council.state !== COUNCIL_STATES.NOT_CELEBRATED
 	);
-};
 
-export const councilIsNotCelebrated = council => {
-	return council.state === COUNCIL_STATES.NOT_CELEBRATED || council.active === 0;
-};
+export const councilIsNotCelebrated = council => council.state === COUNCIL_STATES.NOT_CELEBRATED || council.active === 0;
 
-export const councilHasAssistanceConfirmation = council => {
-	return council.confirmAssistance === 1;
-};
+export const councilHasAssistanceConfirmation = council => council.confirmAssistance === 1;
 
-export const printPrettyFilesize = filesize => {
-	return fileSize(filesize);
-};
+export const printPrettyFilesize = filesize => fileSize(filesize);
 
-export const isPresentVote = vote => {
-	return vote.presentVote === 5 || vote.presentVote === 7;
-};
+export const isPresentVote = vote => vote.presentVote === 5 || vote.presentVote === 7;
 
 export const addDecimals = (num, fixed) => {
 	num = num.toString();
@@ -1642,12 +1509,8 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 	}
 };
 
-export const participantIsGuest = participant => {
-	return participant.type === PARTICIPANT_TYPE.GUEST;
-};
-export const participantIsRepresentative = participant => {
-	return participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
-};
+export const participantIsGuest = participant => participant.type === PARTICIPANT_TYPE.GUEST;
+export const participantIsRepresentative = participant => participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
 
 export const getAttendanceIntentionTooltip = intention => {
 	switch(intention){
@@ -1685,7 +1548,7 @@ export const getAttendanceIntentionIcon = (intention, style) => {
 			return <i className={'fa fa-times'} style={style}></i>;
 		case PARTICIPANT_STATES.EARLY_VOTE:
 		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
-			return <i class="material-icons" style={{ ...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
+			return <i className="material-icons" style={{ ...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
 		default:
 			return 'fa fa-question';
 	}
@@ -1725,13 +1588,9 @@ export const getEmailIconByReqCode = reqCode => {
 	}
 };
 
-export const agendaPointOpened = agenda => {
-	return agenda.pointState === AGENDA_STATES.DISCUSSION;
-};
+export const agendaPointOpened = agenda => agenda.pointState === AGENDA_STATES.DISCUSSION;
 
-export const agendaPointNotOpened = agenda => {
-	return agenda.pointState === AGENDA_STATES.INITIAL;
-};
+export const agendaPointNotOpened = agenda => agenda.pointState === AGENDA_STATES.INITIAL;
 
 export const getAgendaTypeLabel = agenda => {
 	switch (agenda.subjectType) {
@@ -1836,21 +1695,13 @@ export const printTrialEnded = () => {
 	return messages.es;
 };
 
-export const showVideo = council => {
-	return (council.state >= 20 && council.state <= 30) && councilHasVideo(council);
-};
+export const showVideo = council => (council.state >= 20 && council.state <= 30) && councilHasVideo(council);
 
-export const getMainRepresentative = participant => {
-	return (participant.representatives && participant.representatives.length > 0) ? participant.representatives[0] : null;
-}
+export const getMainRepresentative = participant => ((participant.representatives && participant.representatives.length > 0) ? participant.representatives[0] : null)
 
-export const canAddPoints = council => {
-	return council.statute.canAddPoints === 1;
-};
+export const canAddPoints = council => council.statute.canAddPoints === 1;
 
-export const hasHisVoteDelegated = participant => {
-	return participant.state === 4;
-};
+export const hasHisVoteDelegated = participant => participant.state === 4;
 
 export const getParticipantStateString = state => {
 	switch (state) {
@@ -1880,13 +1731,11 @@ export const getParticipantStateString = state => {
 	}
 };
 
-export const multipleGoverningBody = type => {
-	return !![
+export const multipleGoverningBody = type => !![
 		GOVERNING_BODY_TYPES.COUNCIL,
 		GOVERNING_BODY_TYPES.JOINT_ADMIN,
 		GOVERNING_BODY_TYPES.SOLIDARY_ADMIN
-	].find(item => type === item.value);
-}
+	].find(item => type === item.value)
 
 export const getParticipantStateField = participant => {
 	switch (participant.state) {
@@ -1914,25 +1763,15 @@ export const getParticipantStateField = participant => {
 	}
 };
 
-export const isAskingForWord = participant => {
-	return participant.requestWord === 1;
-};
+export const isAskingForWord = participant => participant.requestWord === 1;
 
-export const participantIsBlocked = participant => {
-	return participant.blocked === 1;
-};
+export const participantIsBlocked = participant => participant.blocked === 1;
 
-export const participantNeverConnected = participant => {
-	return participant.online === 0;
-}
+export const participantNeverConnected = participant => participant.online === 0
 
-export const canUnblockParticipant = council => {
-	return council.statute.canUnblock === 1;
-};
+export const canUnblockParticipant = council => council.statute.canUnblock === 1;
 
-export const haveGrantedWord = participant => {
-	return participant.requestWord === 2;
-};
+export const haveGrantedWord = participant => participant.requestWord === 2;
 
 export const exceedsOnlineTimeout = date => {
 	const timeout = -moment(new Date(date)).diff(moment(), "seconds");
@@ -2063,9 +1902,9 @@ export const calculateMajorityAgenda = (agenda, company, council, recount) => {
 export const calculateQuorum = (council, recount) => {
 	let base;
 	if (council.statute.quorumPrototype === 1) {
-		base = !!recount ? recount.socialCapitalTotal : 0;
+		base = recount ? recount.socialCapitalTotal : 0;
 	} else {
-		base = !!recount ? recount.numTotal : 0;
+		base = recount ? recount.numTotal : 0;
 	}
 
 	if (council.firstOrSecondConvene === 1) {
@@ -2076,10 +1915,8 @@ export const calculateQuorum = (council, recount) => {
 }
 
 
-export const councilHasSession = council => {
-	return !((council.councilType > 1 &&
+export const councilHasSession = council => !((council.councilType > 1 &&
 		council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION &&
 		council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
 	) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
-}
 

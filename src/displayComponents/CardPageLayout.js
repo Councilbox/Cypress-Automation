@@ -1,23 +1,21 @@
 import React from "react";
+import { Paper, Avatar } from "material-ui";
+import { isMobile } from "react-device-detect";
 import { lightGrey, getPrimary } from "../styles/colors";
 //import Scrollbar from "react-perfect-scrollbar";
 import Scrollbar from './Scrollbar';
 import withWindowSize from "../HOCs/withWindowSize";
-import { Paper, Avatar } from "material-ui";
 import CBXFooter from './CBXFooter';
 import { bHistory } from "../containers/App";
-import { isMobile } from "react-device-detect";
 
 
 const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact }) => {
-
 	const goBack = () => {
 		if (inMenuExact) {
 			bHistory.push(`/company/569/drafts/plantillas`);
 		} else {
 			bHistory.goBack();
 		}
-
 	};
 
 	return (

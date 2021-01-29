@@ -16,8 +16,8 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
     };
     let icon = <i className='fa fa-question' style={iconStyle}></i>;
 
-    const confirmationDate = participant.state === PARTICIPANT_STATES.REPRESENTATED? representative.assistanceLastDateConfirmed : participant.assistanceLastDateConfirmed;
-    const intention = participant.state === PARTICIPANT_STATES.REPRESENTATED? representative.assistanceIntention : participant.assistanceIntention;
+    const confirmationDate = participant.state === PARTICIPANT_STATES.REPRESENTATED ? representative.assistanceLastDateConfirmed : participant.assistanceLastDateConfirmed;
+    const intention = participant.state === PARTICIPANT_STATES.REPRESENTATED ? representative.assistanceIntention : participant.assistanceIntention;
 
     if(confirmationDate){
         switch(intention){
@@ -38,11 +38,11 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
 
             case PARTICIPANT_STATES.EARLY_VOTE:
                 tooltip = translate.participant_vote_fixed;
-                icon = <span class="material-icons" style={iconStyle}>
+                icon = <span className="material-icons" style={iconStyle}>
                         how_to_vote
                     </span>
                 break;
-    
+
 
             case PARTICIPANT_STATES.DELEGATED:
                 if((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)){
@@ -68,7 +68,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
     }
 
     return (
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative'}}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
             <Tooltip title={tooltip}>
                 {icon}
             </Tooltip>

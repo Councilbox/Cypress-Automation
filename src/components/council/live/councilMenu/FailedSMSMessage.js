@@ -6,8 +6,8 @@ const FailedSMSMessage = ({ translate, onClick }) => {
     const primary = getPrimary();
 
     return (
-        <div style={{maxWidth: window.innerWidth > 680? '680px' : '100%'}}>
-            <div style={{marginBottom: '1em'}}>
+        <div style={{ maxWidth: window.innerWidth > 680 ? '680px' : '100%' }}>
+            <div style={{ marginBottom: '1em' }}>
                 La sala ha sido abierta correctamente, pero <b>ha fallado el envió de algunos SMS de acceso.</b><br/>
                 Posiblemente el problema haya sido que el <b>teléfono no es válido</b> o le falta el <b>prefijo internacional.</b>
                 <br/>Puede modificarlos y reenviarlos pulsando aquí.

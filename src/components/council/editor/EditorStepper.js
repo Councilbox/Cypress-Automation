@@ -2,12 +2,12 @@ import React from 'react';
 import Steps from 'antd/lib/steps';
 import 'antd/lib/steps/style/index.css';
 import Icon from 'antd/lib/icon';
+import { Tooltip } from 'material-ui';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
-import { Tooltip } from 'material-ui';
 import { isMobile } from '../../../utils/screen';
 
-const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
+const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
     const secondary = getSecondary();
     const primary = getPrimary();
 
@@ -49,18 +49,18 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
             type={icon}
             style={{
                 fontSize: '18px',
-                color: active === page - 1? primary : secondary,
-                cursor: active > page - 1? 'pointer' : 'inherit',
+                color: active === page - 1 ? primary : secondary,
+                cursor: active > page - 1 ? 'pointer' : 'inherit',
                 userSelect: 'none',
-                ...(active === page - 1? {
+                ...(active === page - 1 ? {
                     fontSize: '22px',
                     fontWeight: '700'
                 } : {})
             }}
 
-            {...(active > page - 1? {
+            {...(active > page - 1 ? {
                 onClick: () => goToPage(page),
-            }: {})}
+            } : {})}
 
         />
     );
@@ -70,7 +70,7 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
             <div
                 style={{
                     width: '100%',
-                    height: isMobile?'1em':'2em',
+                    height: isMobile ? '1em' : '2em',
                     display: 'flex',
                     flexDirection: 'row',
                     paddingLeft: '15%',
@@ -113,8 +113,8 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
                         <span
                             style={{
                                 userSelect: 'none',
-                                cursor: active > step.index? 'pointer' : 'inherit',
-                                ...(active === step.index? {
+                                cursor: active > step.index ? 'pointer' : 'inherit',
+                                ...(active === step.index ? {
                                     fontSize: '18px',
                                     textDecoration: 'underline'
                                 } : {})
@@ -132,7 +132,7 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
                         <Icon
                             type={step.icon}
                             style={{
-                                color: active === step.index? primary : secondary,
+                                color: active === step.index ? primary : secondary,
                                 cursor: active > step.index ? 'pointer' : 'inherit'
                             }}
                             {...(active > step.index

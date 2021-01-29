@@ -1,7 +1,7 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
-import { PARTICIPANT_TYPE } from "../../../../constants";
 import { Tooltip } from "material-ui";
+import { PARTICIPANT_TYPE } from "../../../../constants";
 
 class TypeIcon extends React.PureComponent {
 	render() {
@@ -10,27 +10,23 @@ class TypeIcon extends React.PureComponent {
 	}
 }
 
-const styleMainIcon = (color, ratio) => {
-	return {
+const styleMainIcon = (color, ratio) => ({
 		fontSize: `${1.5 * ratio}em`,
 		color
-	};
-};
+	});
 
-const styleSubIcon = (color, ratio) => {
-	return {
+const styleSubIcon = (color, ratio) => ({
 		marginLeft: `${-0.3 * ratio}em`,
 		fontSize: `${1 * ratio}em`,
 		color
-	};
-};
+	});
 
 const _renderIcon = (color, type, number, translate, ratio) => {
 	switch (type) {
 		case 'ALL':
 			return (
 				<Tooltip title={translate.all_plural}>
-					<div  style={{ padding: "0.5em" }}>
+					<div style={{ padding: "0.5em" }}>
 						<FontAwesome
 							name={"users"}
 							style={styleMainIcon(color, ratio)}
@@ -43,7 +39,7 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 		case PARTICIPANT_TYPE.REPRESENTATED:
 			return (
 				<Tooltip title={translate.participant}>
-					<div  style={{ padding: "0.5em" }}>
+					<div style={{ padding: "0.5em" }}>
 						<FontAwesome
 							name={"user"}
 							style={styleMainIcon(color, ratio)}
@@ -55,7 +51,7 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 		case PARTICIPANT_TYPE.REPRESENTATIVE:
 			return (
 				<Tooltip title={translate.representative}>
-					<div  style={{ padding: "0.5em" }}>
+					<div style={{ padding: "0.5em" }}>
 						<FontAwesome
 							name={"user-o"}
 							style={styleMainIcon(color, ratio)}

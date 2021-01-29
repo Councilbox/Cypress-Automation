@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { graphql } from "react-apollo";
+import { Tooltip } from "material-ui";
+import FontAwesome from "react-fontawesome";
 import { downloadFile } from "../../../utils/CBX";
 import { LoadingSection } from "../../../displayComponents/index";
 import { downloadCBXData } from "../../../queries";
-import { Tooltip } from "material-ui";
-import FontAwesome from "react-fontawesome";
 import { getSecondary } from "../../../styles/colors";
 import { moment } from "../../../containers/App";
 
@@ -14,7 +14,7 @@ const DownloadCBXDataButton = props => {
 	const downloadCBXData = async id => {
 		setLoading(true);
 		if(props.updateState){
-			props.updateState({loading: true});
+			props.updateState({ loading: true });
 		}
 		const response = await props.downloadCBXData({
 			variables: {
@@ -31,7 +31,7 @@ const DownloadCBXDataButton = props => {
 				);
 				setLoading(false);
 				if(props.updateState){
-					props.updateState({loading: false});
+					props.updateState({ loading: false });
 				}
 			}
 		}

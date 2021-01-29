@@ -1,4 +1,7 @@
 import React from "react";
+import { Typography, TableRowColumn, TableRow, Table, TableCell } from "material-ui";
+import { compose, graphql } from "react-apollo";
+import FontAwesome from 'react-fontawesome';
 import {
 	AlertConfirm,
 	Icon,
@@ -12,12 +15,9 @@ import {
 	SuccessMessage,
 	Checkbox
 } from "../../../../displayComponents";
-import { Typography, TableRowColumn, TableRow, Table, TableCell } from "material-ui";
-import { compose, graphql } from "react-apollo";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
 import { getPrimary, secondary, getSecondary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
-import FontAwesome from 'react-fontawesome';
 import { sendActDraft, councilParticipantsActSends } from '../../../../queries';
 import { isMobile } from "../../../../utils/screen";
 
@@ -49,7 +49,6 @@ class SendActDraftModal extends React.Component {
 			step: 1,
 			checked: []
 		});
-
 	};
 
 	loadMore = () => {
@@ -89,7 +88,7 @@ class SendActDraftModal extends React.Component {
 			checked.splice(index, 1);
 		}
 		this.setState({
-			checked: checked
+			checked
 		});
 	};
 
@@ -103,7 +102,7 @@ class SendActDraftModal extends React.Component {
 			filters: [
 				{
 					field: "fullName",
-					text: text
+					text
 				}
 			]
 		});
@@ -140,14 +139,13 @@ class SendActDraftModal extends React.Component {
 		checked.splice(index, 1);
 		this.setState({
 			emailList: list,
-			checked: checked
+			checked
 			// emailList: [...list],
 			// checked: [...checked]
 		});
 	}
 
-	_section = () => {
-		return (
+	_section = () => (
 			<div style={{ width: '100%', display: 'flex', flexDirection: 'column', paddingBottom: "1.5em", border: "1px solid " + getSecondary(), borderRadius: "4px", padding: "1em", marginTop: "1em" }}>
 				<div style={{ width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row' }}>
 					<div style={{ width: '75%', marginRight: '0.8em' }}>
@@ -174,10 +172,8 @@ class SendActDraftModal extends React.Component {
 			</div>
 
 		)
-	}
 
-	_renderEmails = () => {
-		return (
+	_renderEmails = () => (
 			<div style={{ width: '100%' }}>
 				{this.state.emailList.length > 0 ?
 					this.state.emailList.map((email, index) => (
@@ -197,7 +193,6 @@ class SendActDraftModal extends React.Component {
 			</div>
 
 		)
-	}
 
 	_button = () => {
 		const primary = getPrimary();
@@ -234,12 +229,11 @@ class SendActDraftModal extends React.Component {
 			}
 		});
 
-		if (!!response) {
+		if (response) {
 			if (!response.data.errors) {
 				this.setState({
 					success: true
 				});
-
 			}
 			this.props.data.refetch();
 		}
@@ -250,7 +244,7 @@ class SendActDraftModal extends React.Component {
 			const index = this.state.emailList.findIndex(email => email === item);
 			return !!index;
 		});
-		let emails = []
+		const emails = []
 		emails.push(...this.state.emailList)
 		for (let i = 0; i < filteredEmails.length; i++) {
 			if (emails.findIndex(email => email === filteredEmails[i]) === -1) {
@@ -284,7 +278,7 @@ class SendActDraftModal extends React.Component {
 			? 0
 			: this.props.data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
-		
+
 		if (this.state.step === 1) {
 			return (
 				<div style={{}}>
@@ -333,14 +327,12 @@ class SendActDraftModal extends React.Component {
 									<Scrollbar option={{ suppressScrollX: true }}>
 										<Table style={{ marginBottom: "1em", width: "600px", margin: "0 auto" }}>
 											{participants.length > 0 ? (
-												participants.filter(p => !!p.email).map(participant => {
-													return (
+												participants.filter(p => !!p.email).map(participant => (
 														<TableRow key={'participant_' + participant.id}>
 															<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
 																<Checkbox
 																	value={this.isChecked(participant.email)}
-																	onChange={(event, isInputChecked) =>
-																		this.checkRow(participant.email, isInputChecked)
+																	onChange={(event, isInputChecked) => this.checkRow(participant.email, isInputChecked)
 																	}
 																/>
 															</TableCell>
@@ -365,8 +357,7 @@ class SendActDraftModal extends React.Component {
 															</div>
 														</TableCell>
 														</TableRow>
-													);
-												})) : (
+													))) : (
 													<Typography>{translate.no_results}</Typography>
 												)
 											}
@@ -453,7 +444,7 @@ class SendActDraftModal extends React.Component {
 
 	render() {
 		const { translate } = this.props;
-		let sylesSend = this.state.success ? {
+		const sylesSend = this.state.success ? {
 			height: '100%',
 			paddingTop: '24px',
 			display: 'flex',
@@ -479,7 +470,6 @@ class SendActDraftModal extends React.Component {
 }
 
 class RowTabla extends React.Component {
-
 	state = {
 		showActions: false
 	}

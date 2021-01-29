@@ -9,7 +9,7 @@ const AttendComment = ({ translate, requestClose, open, comment }) => (
         buttonAccept={translate.close}
         title={comment.author}
         bodyText={
-            <div dangerouslySetInnerHTML={{__html: comment.text}} />
+            <div dangerouslySetInnerHTML={{ __html: comment.text }} />
         }
     />
 )

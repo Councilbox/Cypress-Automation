@@ -1,13 +1,12 @@
 import React from 'react';
+import { graphql, compose, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { AlertConfirm } from '../../../../displayComponents';
 import SignatureParticipantForm from './SignatureParticipantForm';
-import { graphql, compose, withApollo } from 'react-apollo';
 import { languages } from '../../../../queries/masters';
-import gql from 'graphql-tag';
 import { checkValidEmail } from '../../../../utils/validation';
 
 class NewParticipantModal extends React.Component {
-
     state = {
         data: {
             name: '',
@@ -101,17 +100,13 @@ class NewParticipantModal extends React.Component {
         if(!data.email){
             hasError = true;
             errors.email = translate.field_required;
-        }else{
-            if(!checkValidEmail(data.email)){
+        }else if(!checkValidEmail(data.email)){
                 hasError = true;
                 errors.email = translate.valid_email_required;
-            }else{
-                if(!await this.checkEmailAvailability()){
+            }else if(!await this.checkEmailAvailability()){
                     hasError = true;
                     errors.email = this.props.translate.register_exists_email
                 }
-            }
-        }
 
         this.setState({
             errors,
@@ -121,14 +116,14 @@ class NewParticipantModal extends React.Component {
     }
 
     _renderBody = () => {
-        const { languages = {}} = this.props.data;
+        const { languages = {} } = this.props.data;
         return (
             <div
                 style={{
                     minWidth: '650px',
                     maxWidth: '90%'
                 }}
-                {...(this.state.errorState? { onKeyUp: () => this.checkRequiredFields()} : {})}
+                {...(this.state.errorState ? { onKeyUp: () => this.checkRequiredFields() } : {})}
             >
                 <SignatureParticipantForm
                     translate={this.props.translate}
@@ -155,7 +150,7 @@ class NewParticipantModal extends React.Component {
             />
         );
     }
-};
+}
 
 const addSignatureParticipant = gql`
     mutation AddSignatureParticipant($participant: SignatureParticipantInput!){

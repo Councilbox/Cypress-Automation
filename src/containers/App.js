@@ -1,50 +1,64 @@
 import React from "react";
-import AppRouter from "./AppRouter";
 import { Route, Router, Switch } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import createHistory from "history/createBrowserHistory";
-import LoadingMainApp from '../displayComponents/LoadingMainApp';
 import Loadable from 'react-loadable';
-import configureStore from "../store/store";
-import ThemeProvider from "../displayComponents/ThemeProvider";
-import ErrorHandler from '../components/ErrorHandler';
 import { Provider } from "react-redux";
-import { initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored } from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
 import { RetryLink } from 'apollo-link-retry';
-import AppControl from './AppControl';
 import { HttpLink } from "apollo-link-http";
-import { ApolloLink, Observable } from 'apollo-link';
+import { ApolloLink, Observable, split } from 'apollo-link';
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
 import { WebSocketLink } from 'apollo-link-ws';
 import { setContext } from "apollo-link-context";
-import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import { onError } from "apollo-link-error";
-import { API_URL, CLIENT_VERSION, WS_URL } from "../config";
-import { toast, ToastContainer } from "react-toastify";
-import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
-import '../styles/antd.css';
-import AdomWrapper from './AdomWrapper';
 import moment from "moment/min/moment-with-locales.min";
+import '../styles/antd.css';
+import { API_URL, CLIENT_VERSION, WS_URL } from "../config";
+import AppRouter from "./AppRouter";
+import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
+import AppControl from './AppControl';
+import { initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored } from "../actions/mainActions";
+import ErrorHandler from '../components/ErrorHandler';
+import ThemeProvider from "../displayComponents/ThemeProvider";
+import configureStore from "../store/store";
+import LoadingMainApp from '../displayComponents/LoadingMainApp';
 import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
 import ConveneDisplay from "../components/council/convene/ConveneDisplay";
 import { pageView } from "../utils/analytics";
 import { shouldLoadSubdomain } from "../utils/subdomain";
-export { moment as moment };
+
+export { moment };
 
 const httpLink = new HttpLink({
 	uri: API_URL
 });
 
+export const bHistory = createHistory();
+export const store = configureStore();
 
 const getToken = () => {
 	const token = sessionStorage.getItem("token");
 	const apiToken = sessionStorage.getItem('apiToken');
 	const participantToken = sessionStorage.getItem("participantToken");
-	return token ? token : apiToken? apiToken : participantToken
+	return token || (apiToken || participantToken)
 }
 
+function getDefaultLanguage() {
+	const languages = {
+		'es': 'es',
+		'ca': 'cat',
+		'en': 'en',
+		'gl': 'gal',
+		'pt': 'pt'
+	}
+
+	const languageCode = navigator.language || navigator.userLanguage;
+	const language = languageCode.split('-')[0];
+	return languages[language] ? languages[language] : 'en';
+}
 
 const wsLink = new WebSocketLink({
 	uri: WS_URL,
@@ -61,11 +75,9 @@ export const refreshWSLink = () => {
 	wsLink.subscriptionClient.close(false, false);
 	wsLink.subscriptionClient.connect();
 }
-  
 
-const authLink = setContext((_, { headers }) => {
-	
-	return {
+
+const authLink = setContext((_, { headers }) => ({
 		headers: {
 			...headers,
 			/* authorization: token
@@ -75,11 +87,10 @@ const authLink = setContext((_, { headers }) => {
 			"x-jwt-token": getToken(),
 			"cbx-client-v": CLIENT_VERSION
 		}
-	};
-});
+	}));
 
 const link = split(
-	({ query, ...rest }) => {
+	({ query }) => {
 		const { kind, operation } = getMainDefinition(query);
 		return kind === 'OperationDefinition' && operation === 'subscription';
 	},
@@ -112,7 +123,7 @@ const PlaygroundPage = Loadable({
 	loading: LoadingMainApp
 })
 
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
@@ -130,15 +141,13 @@ const retryLink = new RetryLink({
 	}
 });
 
-const addStatusLink = new ApolloLink((operation, forward) => {
-	return forward(operation).map((response) => {
+const addStatusLink = new ApolloLink((operation, forward) => forward(operation).map((response) => {
 		networkErrorHandler(null, toast, store);
 		return response;
-	});
-});
+	}));
 
 
-const logoutLink = onError(({ graphQLErrors, networkError, operation, response, forward}) => {
+const logoutLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
 	console.info(graphQLErrors);
 	// console.error(graphQLErrors);
 	console.info(networkError);
@@ -163,7 +172,7 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, response, 
 					sub = forward(operation).subscribe(observable);
 				});
 
-				return () => (sub? sub.unsubscribe() : null);
+				return () => (sub ? sub.unsubscribe() : null);
 			});
 		}
 		graphQLErrors.map(error => graphQLErrorHandler(error, toast, store, client, operation, bHistory));
@@ -195,9 +204,6 @@ export const client = new ApolloClient({
 		}
 	}
 });
-export const bHistory = createHistory();
-export const store = configureStore();
-
 
 if (sessionStorage.getItem("token")) {
 	store.dispatch({ type: "LOGIN_SUCCESS" });
@@ -217,8 +223,7 @@ if(sessionStorage.getItem("participantLoginSuccess")){
 
 export const MainContext = React.createContext();
 
-const App = () => {
-	return (
+const App = () => (
 		<ApolloProvider client={client}>
 			<Provider store={store}>
 				<ThemeProvider>
@@ -228,21 +233,18 @@ const App = () => {
 								client,
 								bHistory
 							}}>
-								<AdomWrapper>
-									<Router history={bHistory}>
-										<RouterWrapper />
-									</Router>
-								</AdomWrapper>
+								<Router history={bHistory}>
+									<RouterWrapper />
+								</Router>
 							</MainContext.Provider>
 						</AppControl>
 					</ErrorHandler>
 				</ThemeProvider>
 			</Provider>
 		</ApolloProvider>
-	);
-}
+	)
 
-const RouterWrapper = props => {
+const RouterWrapper = () => {
 	React.useEffect(() => {
 		pageView();
 	}, [window.location.href]);
@@ -310,18 +312,3 @@ const RouterWrapper = props => {
 };
 
 export default App;
-
-
-function getDefaultLanguage() {
-	const languages = {
-		'es': 'es',
-		'ca': 'cat',
-		'en': 'en',
-		'gl': 'gal',
-		'pt': 'pt'
-	}
-
-	const languageCode = navigator.language || navigator.userLanguage;
-	const language = languageCode.split('-')[0];
-	return languages[language]? languages[language] : 'en';
-}

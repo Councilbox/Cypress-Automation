@@ -51,9 +51,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
         const base64 = file.base64.split(';base64,').pop();
         downloadFile(base64, file.filetype, file.filename)
     }
-    const modalBody = () => {
-        
-        return (
+    const modalBody = () => (
             <>
                 <div>
                     <h5>{translate.data}:</h5>
@@ -160,13 +158,11 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                 }
             </>
         )
-    }
 
 
     const closeModal = () => {
         if (!representative && request.data.requestType === 'represent' && request.participantCreated) {
             setModalAlert(true)
-
         } else {
             setModal(false)
         }
@@ -258,7 +254,6 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
             />
         </>
     )
-
 }
 
 export default withApollo(CheckShareholderRequest);

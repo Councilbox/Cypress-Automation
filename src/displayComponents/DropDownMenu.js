@@ -49,7 +49,7 @@ const DropDownMenu = ({
 
 	return (
 		<Fragment>
-			{!!Component ? (
+			{Component ? (
 				<div onClick={handleClick} id={id} style={{ width: '100%', ...styleComponent }}>
 					<Component />
 				</div>
@@ -99,7 +99,6 @@ const DropDownMenu = ({
 			</Popover>
 		</Fragment>
 	);
-
 }
 
 

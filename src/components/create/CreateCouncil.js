@@ -1,18 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-import { LoadingMainApp, LiveToast, AlertConfirm, Scrollbar } from "../../displayComponents";
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
+import { toast } from 'react-toastify';
+import { Paper } from "material-ui";
+import { LoadingMainApp, LiveToast, AlertConfirm, Scrollbar } from "../../displayComponents";
 import { bHistory } from "../../containers/App";
 import { ConfigContext } from '../../containers/AppControl';
-import { toast } from 'react-toastify';
 import { getSecondary, getPrimary } from "../../styles/colors";
 import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
 import CreateNoBoard from "./CreateNoBoard";
 import { checkSecondDateAfterFirst } from "../../utils/CBX";
-import { Paper } from "material-ui";
 import { useHoverRow } from "../../hooks";
 import { sendGAevent } from '../../utils/analytics';
 import withSharedProps from "../../HOCs/withSharedProps";
@@ -93,7 +93,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 
 	const checkRequiredFields = type => {
 		let hasError = false;
-		let errors = {}
+		const errors = {}
 
 		if ([0, 4, 5].findIndex(item => item === type) === -1) {
 			if (!options.dateStart) {
@@ -138,7 +138,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 		setStep(steps.BOARD_NO_SESSION);
 		//sendCreateCouncil(4);
 	}
-	
+
 	return (
 		<AlertConfirm
 			fullWidth={isMobile && true}
@@ -199,7 +199,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											<div>{translate.without_session_description}</div>
 											}
 										/>
-										{config['boardWithoutSession'] &&
+										{config.boardWithoutSession &&
 											<ButtonCreateCouncil
 												onClick={boardWithoutSessionStep}
 												title={translate.board_without_session}
@@ -222,7 +222,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												}
 											/>
 										}
-										{config['onOnOneCouncil'] &&
+										{config.onOnOneCouncil &&
 											<ButtonCreateCouncil
 												onClick={createOneOneOne}
 												title={'Cita 1 a 1'}
@@ -243,7 +243,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											{translate.back}
 										</div>
 									</div>
-									
+
 									<ButtonInfoCouncil
 										title={translate.with_session}
 										styleButton={{ marginRight: "3%" }}
@@ -274,7 +274,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											</div>
 										}
 									/>
-									{config['boardWithoutSession'] &&
+									{config.boardWithoutSession &&
 										<ButtonInfoCouncil
 											title={translate.board_without_session}
 											styleButton={{ marginRight: "3%" }}
@@ -338,8 +338,8 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 			hideAccept={step === steps.COUNCIL || step === 1 || step === 10}
 			buttonAccept={translate.accept}
 			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ?
-				3 : 
-			step === steps.BOARD_NO_SESSION? 4 : 2)}
+				3 :
+			step === steps.BOARD_NO_SESSION ? 4 : 2)}
 			requestClose={step != 10 && history.goBack}
 			cancelAction={history.goBack}
 			buttonCancel={translate.cancel}
@@ -377,7 +377,7 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 				</div>
 			</Paper>
 		);
-	} else {
+	}
 		return (
 			<Paper
 				elevation={6}
@@ -403,7 +403,6 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 				</div>
 			</Paper>
 		);
-	}
 }
 
 const ButtonInfoCouncil = ({ isMobile, title, icon, list, styleButton, infoExtra }) => {
@@ -434,7 +433,6 @@ const ButtonInfoCouncil = ({ isMobile, title, icon, list, styleButton, infoExtra
 			</div>
 		</Paper >
 	);
-
 }
 
 

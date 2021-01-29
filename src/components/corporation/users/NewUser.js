@@ -1,11 +1,11 @@
 import React from 'react';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 import { CardPageLayout, ButtonIcon, BasicButton, LoadingSection } from '../../../displayComponents';
 import { languages } from '../../../queries/masters';
-import { graphql, compose } from 'react-apollo';
 import UserForm from '../../userSettings/UserForm';
 import { getPrimary } from '../../../styles/colors';
 import CompanyLinksManager from './CompanyLinksManager';
-import gql from 'graphql-tag';
 import { bHistory } from '../../../containers/App';
 import { checkValidEmail } from '../../../utils/validation';
 import { useOldState } from '../../../hooks';
@@ -50,20 +50,18 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                 } else {
                     setSuccess(true);
                 }
-            } else {
-                if (response.errors[0].message === "Email already registered") {
+            } else if (response.errors[0].message === "Email already registered") {
                     setState({
                         errors: {
                             email: translate.register_exists_email
                         }
                     })
                 }
-            }
         }
     }
 
     function checkRequiredFields() {
-        let errors = {
+        const errors = {
             email: '',
             name: '',
             surname: '',
@@ -76,12 +74,10 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
         if (data.email.trim().length === 0) {
             hasError = true;
             errors.email = translate.required_field;
-        } else {
-            if (!checkValidEmail(data.email)) {
+        } else if (!checkValidEmail(data.email)) {
                 hasError = true;
                 errors.email = translate.tooltip_invalid_email_address;
             }
-        }
 
         if (data.name.trim().length === 0) {
             hasError = true;
@@ -98,7 +94,6 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
         });
 
         return hasError;
-
     }
 
     if (props.data.loading) {

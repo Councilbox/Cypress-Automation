@@ -1,12 +1,23 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true,
-    commonjs: true,
+    es6: true
   },
+  settings: {
+    react: {
+      version: "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js",".jsx"]
+      }
+    }
+  },
+  "parser": "babel-eslint",
   extends: [
     'airbnb-base',
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:react/recommended"
   ],
   parserOptions: {
     ecmaVersion: 11,
@@ -15,14 +26,32 @@ module.exports = {
     },
     sourceType: 'module',
   },
+  ignorePatterns: ['.github', '/cypress/*', 'public/*', '/src/displayComponents/ReactSignature/*'],
   rules: {
     "import/no-named-as-default": "off",
     "indent": ["off", 4],
-    "semi": ["error", "always", { "omitLastInOneLineBlock": true}],
+    "no-new": 'warn',
+    "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "never",
+          "jsx": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
+    ],
     "no-multiple-empty-lines": "off",
+    "function-paren-newline": "warn",
     "newline-per-chained-call": "warn",
     "arrow-parens": "off",
+    "no-extend-native": "off",
     "operator-linebreak": "off",
+    "import/no-extraneous-dependencies": "warn",
+    "react/display-name": "warn",
+    "react/prop-types": "off",
+    "no-underscore-dangle": "warn",
+    "react/no-find-dom-node": "warn",
     "no-extra-boolean-cast": "warn",
     "linebreak-style": "off",
     "comma-dangle": "off",

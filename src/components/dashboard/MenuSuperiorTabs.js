@@ -1,6 +1,6 @@
 import React from "react";
-import { getPrimary } from "../../styles/colors";
 import { MenuItem } from "material-ui";
+import { getPrimary } from "../../styles/colors";
 import { SelectInput } from "../../displayComponents";
 import { isMobile } from "../../utils/screen";
 
@@ -11,7 +11,7 @@ const MenuSuperiorTabs = ({ items, setSelect, translate, selected, goToPadre }) 
 			goToPadre(item)
 		}
 	}
-	
+
 	if (isMobile) {
 		return (
 			<SelectInput
@@ -24,7 +24,7 @@ const MenuSuperiorTabs = ({ items, setSelect, translate, selected, goToPadre }) 
 				))}
 			</SelectInput>
 		)
-	} else {
+	}
 		return (
 			<div style={{
 				height: "100%",
@@ -50,7 +50,6 @@ const MenuSuperiorTabs = ({ items, setSelect, translate, selected, goToPadre }) 
 				))}
 			</div>
 		)
-	}
 }
 
 

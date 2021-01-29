@@ -1,4 +1,9 @@
 import React from "react";
+import { Icon, Card, CardActions, Button, CardContent } from "material-ui";
+import gql from 'graphql-tag';
+import { withRouter } from 'react-router-dom';
+import { withApollo } from "react-apollo";
+import { getPrimary } from "../../../styles/colors";
 import {
 	Grid,
 	GridItem,
@@ -10,11 +15,6 @@ import {
 	PaginationFooter,
 	CardPageLayout,
 } from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
-import { Icon, Card, CardActions, Button, CardContent } from "material-ui";
-import gql from 'graphql-tag';
-import { withRouter } from 'react-router-dom';
-import { withApollo } from "react-apollo";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import NewCompanyPage from "../../company/new/NewCompanyPage";
 import RemoveCompany from './RemoveCompany';
@@ -113,8 +113,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 						<div style={{ height: "calc( 100% - 5em )" }}>
 							<Scrollbar>
 								<Grid style={{ padding: '2em 2em 1em 2em', height: "100%" }}>
-									{companies.filter(item => item.id !== company.id).map(item => {
-										return (
+									{companies.filter(item => item.id !== company.id).map(item => (
 											<Card
 												style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative', width: "100%" }}
 											>
@@ -206,8 +205,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 												</CardActions>
 											</Card>
 
-										)
-									})}
+										))}
 									<Grid style={{ marginTop: "1em" }}>
 										<PaginationFooter
 											page={companiesPage}
@@ -224,15 +222,15 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 					</div>
 				</CardPageLayout>
 		)
-	} else {
+	}
 		return (
 			companies.length === undefined ?
 				<LoadingSection />
 				:
 				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
-					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%", paddingTop: "0px"}}>
+					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%", paddingTop: "0px" }}>
 						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-							<div style={{ padding: "0.5em", display: "flex", alignItems: "center",  paddingTop: "0px" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", paddingTop: "0px" }}>
 								<BasicButton
 									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 									backgroundColor={{ backgroundColor: "white" }}
@@ -280,8 +278,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 						</div>
 						<div style={{ height: "calc( 100% - 13em )" }}>
 							<Scrollbar>
-								{companies.filter(item => item.id !== company.id).map(item => {
-									return (
+								{companies.filter(item => item.id !== company.id).map(item => (
 										<div
 											key={item.id}
 											style={{
@@ -378,8 +375,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 											</Cell>
 										</div>
 
-									)
-								})}
+									))}
 							</Scrollbar>
 						</div>
 						<Grid style={{ marginTop: "1em" }}>
@@ -395,12 +391,10 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 					</div>
 				</CardPageLayout>
 		)
-	}
 }
 
 
-const CellAvatar = ({ avatar, width }) => {
-	return (
+const CellAvatar = ({ avatar, width }) => (
 		<div style={{ overflow: "hidden", width: `calc(${width}%)`, textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
 			{avatar ?
 				<div style={{ height: '1.7em', width: '1.7em', borderRadius: '0.9em' }}>
@@ -411,10 +405,8 @@ const CellAvatar = ({ avatar, width }) => {
 			}
 		</div>
 	)
-}
 
-const Cell = ({ text, avatar, width, children, style }) => {
-	return (
+const Cell = ({ text, avatar, width, children, style }) => (
 		<div style={{
 			overflow: "hidden",
 			width: width ? `calc(${width}%)` : 'calc( 100% / 5 )',
@@ -428,7 +420,6 @@ const Cell = ({ text, avatar, width, children, style }) => {
 			{children}
 		</div>
 	)
-}
 
 
 const corporationCompanies = gql`

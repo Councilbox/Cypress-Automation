@@ -1,16 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
 
-const withDetectRTC = () => WrappedComponent => {
-	const withDetectRTC = ({ detectRTC, ...restProps }) => (
-		<WrappedComponent detectRTC={detectRTC} {...restProps} />
-	);
-
-	return connect(mapStateToProps)(withDetectRTC);
-};
-
 const mapStateToProps = state => ({
 	detectRTC: state.detectRTC
 });
+
+const withDetectRTC = () => WrappedComponent => {
+	const wrapped = ({ detectRTC, ...restProps }) => (
+		<WrappedComponent detectRTC={detectRTC} {...restProps} />
+	);
+
+	return connect(mapStateToProps)(wrapped);
+};
 
 export default withDetectRTC;

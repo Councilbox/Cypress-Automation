@@ -70,7 +70,7 @@ const AdminManager = ({ company, translate, client }) => {
                     />
                 </div>
                 <div>
-                    {admins.length > 0?
+                    {admins.length > 0 ?
                         admins.map(admin => <div>{`${admin.name} ${admin.surname || ''} - ${admin.email}`}</div>)
                     :
                         translate.no_results
@@ -99,7 +99,8 @@ const AdminManager = ({ company, translate, client }) => {
                 bodyText={renderModalBody()}
                 title={translate.admins}
                 requestClose={() => {
-                    page === 1? setModal(false) : setPage(1)}
+                    page === 1 ? setModal(false) : setPage(1)
+}
                 }
             />
         </React.Fragment>

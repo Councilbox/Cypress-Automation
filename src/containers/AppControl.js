@@ -3,13 +3,35 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from "react-redux";
 import * as mainActions from '../actions/mainActions';
-import { store } from '../containers/App';
+import { store } from "./App";
 
 const ConfigContext = React.createContext({
     video: true,
     commandBar: false,
     recording: true
 });
+
+const appControlChange = gql`
+    subscription AppControlChange($userId: Int!) {
+        appControlChange(userId: $userId) {
+            command
+            userId
+            config {
+                name
+                active
+            }
+        }
+    }
+`;
+
+const appConfig = gql`
+    query AppConfig($userId: String!, $companyId: Int){
+        appConfig(userId: $userId, companyId: $companyId){
+            name
+            active
+        }
+    }
+`;
 
 export { ConfigContext };
 
@@ -22,14 +44,14 @@ const AppControl = ({ companies, user = {}, children, client }) => {
             query: appConfig,
             variables: {
                 userId: 'u152',
-                ...(companyId? {
+                ...(companyId ? {
                     companyId
                 } : {})
             }
         });
         if(response.data){
-            let newConfig = {};
-            for(let field of response.data.appConfig){
+            const newConfig = {};
+            for(const field of response.data.appConfig){
                 newConfig[field.name] = field.active;
             }
             if(companies.selected || companies.selected === 0){
@@ -70,7 +92,7 @@ const AppControl = ({ companies, user = {}, children, client }) => {
 
                     if(!subscriptionData.data.appControlChange.config) return;
                     const newConfig = {};
-                    for(let field of subscriptionData.data.appControlChange.config){
+                    for(const field of subscriptionData.data.appControlChange.config){
                         newConfig[field.name] = field.active;
                     }
                     setConfig({
@@ -80,7 +102,6 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                 });
             }
             subscribe();
-
         }
     }, [user.id]);
 
@@ -96,7 +117,7 @@ const AppControl = ({ companies, user = {}, children, client }) => {
             ...config,
             updateConfig: getData
         }}>
-            {loading?
+            {loading ?
                 <></>
             :
                 children
@@ -104,29 +125,6 @@ const AppControl = ({ companies, user = {}, children, client }) => {
         </ConfigContext.Provider>
     )
 }
-
-
-const appControlChange = gql`
-    subscription AppControlChange($userId: Int!) {
-        appControlChange(userId: $userId) {
-            command
-            userId
-            config {
-                name
-                active
-            }
-        }
-    }
-`;
-
-const appConfig = gql`
-    query AppConfig($userId: String!, $companyId: Int){
-        appConfig(userId: $userId, companyId: $companyId){
-            name
-            active
-        }
-    }
-`;
 
 const mapStateToProps = state => ({
 	main: state.main,
@@ -137,58 +135,3 @@ const mapStateToProps = state => ({
 
 
 export default (connect(mapStateToProps)(withApollo(AppControl)));
-
-/*
-graphql(appConfig, {
-    options: props => {
-        return {
-            variables: {
-            userId: 'u152',
-            },
-            fetchPolicy: 'network-only',
-            forceFetch: true,
-            notifyOnNetworkStatusChange: true
-    }},
-    props: props => {
-		return {
-		    ...props,
-		    subscribeToAppControl: params => {
-			    return props.data.subscribeToMore({
-                    document: appControlChange,
-                    variables: {
-                        userId: params.userId
-                    },
-			        updateQuery: (prev, { subscriptionData }) => {
-
-                        if(subscriptionData.data.appControlChange.command === 'logout'){
-                            store.dispatch(mainActions.logout());
-                        }
-
-                        if(subscriptionData.data.appControlChange.command === 'refresh'){
-                            window.location.reload(true);
-                        }
-
-                        if(!subscriptionData.data.appControlChange.config) return prev;
-                        const config = subscriptionData.data.appControlChange.config;
-                        let oldConfig = prev.appConfig;
-
-                        oldConfig = {
-                            ...oldConfig,
-                            ...config
-                        };
-
-                        return({
-                            ...prev,
-                            appConfig: [
-                                ...prev.appConfig,
-                                ...config
-                            ]
-                        });
-			        }
-			    });
-		    }
-		};
-	}
-})
-
-*/

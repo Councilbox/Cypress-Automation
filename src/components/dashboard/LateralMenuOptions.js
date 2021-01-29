@@ -1,11 +1,11 @@
 import React from "react";
+import { Icon } from 'material-ui';
 import withSharedProps from '../../HOCs/withSharedProps';
 import LateralOption from "./LateralOption";
 import { darkGrey } from "../../styles/styles";
 import logo from '../../assets/img/logo-icono.png';
 import { isMobile } from "../../utils/screen";
 import { ConfigContext } from "../../containers/AppControl";
-import { Icon } from 'material-ui';
 
 
 const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType }) => {
@@ -107,7 +107,6 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 		}
 
 		return menuOptions[type] ? menuOptions[type] : menuOptions.dashboard;
-
 	}
 
 	return (

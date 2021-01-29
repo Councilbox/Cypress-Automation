@@ -1,11 +1,9 @@
 import React from 'react';
-import { TextInput, Grid, GridItem } from '../../../displayComponents';
 import { Tooltip } from 'material-ui';
+import { TextInput, Grid, GridItem } from '../../../displayComponents';
 import * as CBX from '../../../utils/CBX';
 
-const TranslationForm = ({ data, errors, translate, updateState, values, flagEdit }) => {
-
-    return (
+const TranslationForm = ({ data, errors, translate, updateState, values, flagEdit }) => (
         <Grid>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <Row
@@ -59,7 +57,6 @@ const TranslationForm = ({ data, errors, translate, updateState, values, flagEdi
             </GridItem>
         </Grid>
     )
-}
 
 class Row extends React.Component {
     state = {

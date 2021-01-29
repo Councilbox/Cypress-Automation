@@ -31,7 +31,7 @@ const DownloadUnsignedProxy = ({ action, translate, client, participant, delegat
                     downloadFile(
                         response.data.unsignedProxyPDF,
                         "application/pdf",
-                        `Proxy_${participant.name}${participant.surname? `_${participant.surname || ''}` : ''}.pdf`.replace(' ', '_')
+                        `Proxy_${participant.name}${participant.surname ? `_${participant.surname || ''}` : ''}.pdf`.replace(' ', '_')
                     );
                     await action();
                     setLoading(false);

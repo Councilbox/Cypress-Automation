@@ -5,7 +5,6 @@ import FontAwesome from 'react-fontawesome';
 import { BasicButton, AlertConfirm, TextInput, Checkbox, LoadingSection } from '../../../../displayComponents';
 
 const reducer = (state, action) => {
-
     const actions = {
         'LOADING': () => ({
             ...state,
@@ -29,7 +28,6 @@ const reducer = (state, action) => {
     }
 
     return actions[action.type] ? actions[action.type]() : state;
-
 }
 
 
@@ -63,10 +61,11 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
 
         if(response.errors){
             if(response.errors[0].message = 'Repeated emails between councils'){
-                dispatch({ type: 'ERROR', payload: {
+                dispatch({ type: 'ERROR',
+payload: {
                     type: 'Duplicated emails',
                     repeatedEmails: response.errors[0].originalError.errors.repeatedEmails
-                }});
+                } });
             }
         } else {
             dispatch({ type: 'SUCCESS' });
@@ -75,7 +74,6 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
 
 
     const renderBody = () => {
-
         if(status === 'SUCCESS'){
             return (
                 'Reuniones mezcladas con éxito'
@@ -85,7 +83,7 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
         if(hasError){
             return (
                 <>
-                    {error.type === 'Duplicated emails' && 
+                    {error.type === 'Duplicated emails' &&
                         <>
                             Hay emails repetidos entre las reuniones
                             {error.repeatedEmails.map(email => (
@@ -102,7 +100,7 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
                     }
 
                 </>
-        
+
             )
         }
 
@@ -110,7 +108,7 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
             return <LoadingSection />
         }
 
-        return (    
+        return (
             <TextInput
                 value={from}
                 type="number"

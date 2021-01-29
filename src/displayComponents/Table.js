@@ -9,7 +9,7 @@ import Table, {
 import TableStyles from "../styles/table";
 import { isMobile } from "../utils/screen";
 
-const TableWrapper = ({ headers = [], children, style, forceMobileTable, stylesHeader, stylesHeaderRow }) => (
+const TableWrapper = ({ headers = [], children, forceMobileTable, stylesHeader, stylesHeaderRow }) => (
 	<React.Fragment>
 		{isMobile && !forceMobileTable ?
 			children
@@ -17,8 +17,7 @@ const TableWrapper = ({ headers = [], children, style, forceMobileTable, stylesH
 			<Table className={'tableReuniones'} style={{ maxWidth: "100%", width: '100%' }}>
 				<TableHead style={{ ...stylesHeader }} className={'hearderReunionesTabla'}>
 					<TableRow style={{ ...stylesHeaderRow }}>
-						{headers.map((header, index) => {
-							return (
+						{headers.map((header, index) => (
 								header.selectAll ?
 									<TableCell key={`header_${index}`}>
 										{header.selectAll}
@@ -41,8 +40,7 @@ const TableWrapper = ({ headers = [], children, style, forceMobileTable, stylesH
 												header.name
 											)}
 									</TableCell>
-							);
-						})}
+							))}
 					</TableRow>
 				</TableHead>
 				<TableBody>{children}</TableBody>

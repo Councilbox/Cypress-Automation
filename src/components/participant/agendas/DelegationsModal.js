@@ -23,7 +23,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
         return (
             <div>
                 {participant.voteDenied &&
-                    <div style={{marginBottom: '1em'}}>
+                    <div style={{ marginBottom: '1em' }}>
                         Su derecho a voto <strong>ha sido denegado</strong>
                         {participant.voteDeniedReason &&
                             <div>{`El motivo indicado es: ${participant.voteDeniedReason}`}</div>
@@ -35,43 +35,39 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
                     translate.you_have_following_delegated_votes
                 }
                 {delegations.map(vote => (
-                        <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div>
                                 <span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute, council.statute)}`}</span>
                                 {vote.voteDenied &&
-                                    <span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
+                                    <span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
                                 }
                             </div>
                             <BasicButton
                                 text={translate.refuse}
                                 color="white"
                                 onClick={!councilStarted(council) ? () => setDelegation(vote) : () => setRefusedDisabledModal(true)}
-                                buttonStyle={{ border: `1px solid ${getSecondary()}`}}
+                                buttonStyle={{ border: `1px solid ${getSecondary()}` }}
                                 textStyle={{ color: getSecondary() }}
                             />
                         </div>
-                    )
-                )}
+                    ))}
                 {representations.length > 0 &&
                     `${translate.representative_of}:`
                 }
                 {representations.map(vote => (
-                        <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', alignItems: 'center'}}>
+                        <div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', alignItems: 'center' }}>
                             <span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute)}`}</span>
                             {vote.voteDenied &&
-								<span style={{color: 'red', marginLeft: '0.6em'}}>(Voto denegado)</span>
+								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
                         </div>
-                    )
-                )}
+                    ))}
                 <br/>{translate.total_votes}: {calculateParticipantVotes()}
             </div>
         )
     }
 
-    const calculateParticipantVotes = () => {
-        return showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute);
-    }
+    const calculateParticipantVotes = () => showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute)
 
     return (
         <React.Fragment>

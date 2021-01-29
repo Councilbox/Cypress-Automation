@@ -1,10 +1,10 @@
 import React from "react";
-import { store } from "../../containers/App";
-import { changeCompany } from "../../actions/companyActions";
-import { Scrollbar } from "../../displayComponents";
 import { MenuItem, Divider } from "material-ui";
 import FontAwesome from 'react-fontawesome';
 import Tooltip from 'material-ui/Tooltip';
+import { store } from "../../containers/App";
+import { changeCompany } from "../../actions/companyActions";
+import { Scrollbar } from "../../displayComponents";
 
 class CompanySelector extends React.Component {
 	tate = {
@@ -19,7 +19,7 @@ class CompanySelector extends React.Component {
 		return (
 			<Scrollbar>
 				{this.props.companies.map((company, index) => (
-					<div style={{width: '100%'}} key={`company_selector_${company.id}`}>
+					<div style={{ width: '100%' }} key={`company_selector_${company.id}`}>
 						<MenuItem
 							selected={company.id === this.props.company.id}
 							onClick={() => this.changeCompany(index)}
@@ -41,7 +41,7 @@ class CompanySelector extends React.Component {
 									justifyContent: 'center'
 								}}
 							>
-								{!!company.logo?
+								{company.logo ?
 									<img
 										src={company.logo}
 										alt="company-logo"

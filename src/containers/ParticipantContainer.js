@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { withApollo, graphql } from "react-apollo";
 import gql from "graphql-tag";
+import { bindActionCreators } from 'redux';
 import { store } from './App';
 import { setDetectRTC } from '../actions/mainActions';
 import withDetectRTC from '../HOCs/withDetectRTC';
@@ -12,7 +13,6 @@ import ParticipantLogin from "../components/participant/login/Login";
 import ErrorState from "../components/participant/login/ErrorState";
 import Council from '../components/participant/council/Council';
 import Meet from '../components/participant/meet/Meet';
-import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import { shouldLoadSubdomain } from "../utils/subdomain";
 import withTranslations from "../HOCs/withTranslations";
@@ -22,6 +22,38 @@ import { SERVER_URL } from "../config";
 import { addSpecificTranslations } from "../actions/companyActions";
 import { initLogRocket } from "../utils/logRocket";
 
+const participantQuery = gql`
+	query info {
+		participant {
+			name
+			surname
+			id
+			legalTermsAccepted
+			type
+			voteDenied
+			voteDeniedReason
+			hasVoted
+			phone
+			numParticipations
+			delegatedVotes {
+				id
+				name
+				surname
+				numParticipations
+				voteDenied
+				voteDeniedReason
+				state
+				type
+			}
+			email
+			state
+			requestWord
+			language
+			online
+			roomType
+		}
+	}
+`;
 
 export const ConnectionInfoContext = React.createContext(null);
 
@@ -70,7 +102,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 				}
 
 				setConnectionData(json);
-			}, async error => {
+			}, async () => {
 				json = await getDataFromBackend();
 				setConnectionData(json);
 			}, {
@@ -110,8 +142,8 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		}
 	}, [council])
 
-	const updateConfig = async companyId => {
-		await config.updateConfig(companyId);
+	const updateConfig = async id => {
+		await config.updateConfig(id);
 		setLoadingConfig(false);
 	}
 
@@ -131,11 +163,9 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 				if(subdomain !== actualSubdomain){
 					window.location.replace(window.location.origin.replace(actualSubdomain, subdomain) + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
 				}
-			} else {
-				if(shouldLoadSubdomain()){
+			} else if(shouldLoadSubdomain()){
 					window.location.replace(window.location.origin.replace(actualSubdomain, 'app') + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
 				}
-			}
 		}
 	}, [council]);
 
@@ -181,9 +211,8 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 					data={{ council: council.councilVideo, participant: data.errors[0].data }}
 				/>
 			);
-		} else {
-			return <InvalidUrl error={data.errors[0]} />;
 		}
+			return <InvalidUrl error={data.errors[0]} />;
 	}
 
 	if (!data.participant || !council.councilVideo || Object.keys(detectRTC).length === 0) {
@@ -245,7 +274,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 				</React.Fragment>
 			</div>
 		</ConnectionInfoContext.Provider>
-		
+
 	);
 }
 
@@ -353,49 +382,14 @@ const councilQuery = gql`
 	}
 `;
 
-const participantQuery = gql`
-	query info {
-		participant {
-			name
-			surname
-			id
-			legalTermsAccepted
-			type
-			voteDenied
-			voteDeniedReason
-			hasVoted
-			phone
-			numParticipations
-			delegatedVotes {
-				id
-				name
-				surname
-				numParticipations
-				voteDenied
-				voteDeniedReason
-				state
-				type
-			}
-			email
-			state
-			requestWord
-			language
-			online
-			roomType
-		}
-	}
-`;
-
 const mapStateToProps = state => ({
 	main: state.main,
 	translate: state.translate
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
+const mapDispatchToProps = (dispatch) => ({
         actions: bindActionCreators(mainActions, dispatch)
-    };
-}
+    })
 
 export default graphql(councilQuery, {
 	name: 'council',
@@ -405,11 +399,9 @@ export default graphql(councilQuery, {
 		},
 		pollInterval: 45000
 	}),
-	props: props => {
-		return {
+	props: props => ({
 		  ...props,
-		  subscribeToCouncilStateUpdated: params => {
-			return props.council.subscribeToMore({
+		  subscribeToCouncilStateUpdated: params => props.council.subscribeToMore({
 				document: gql`
 					subscription councilStateUpdated($councilId: Int!){
 						councilStateUpdated(councilId: $councilId){
@@ -428,14 +420,12 @@ export default graphql(councilQuery, {
 						...prev,
 						councilVideo: {
 							...prev.councilVideo,
-							state: newData.state? newData.state : prev.councilVideo.state,
-							subdomain: (newData.subdomain !== null)? newData.subdomain : prev.councilVideo.subdomain,
-							councilStarted: (newData.councilStarted !== null)? newData.councilStarted : prev.councilVideo.councilStarted
+							state: newData.state ? newData.state : prev.councilVideo.state,
+							subdomain: (newData.subdomain !== null) ? newData.subdomain : prev.councilVideo.subdomain,
+							councilStarted: (newData.councilStarted !== null) ? newData.councilStarted : prev.councilVideo.councilStarted
 						}
 					});
 				}
-			});
-		  }
-		};
-	  }
+			})
+		})
 })(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));

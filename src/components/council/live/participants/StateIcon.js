@@ -1,8 +1,8 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
+import { Tooltip } from "material-ui";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { Icon } from "../../../../displayComponents";
-import { Tooltip } from "material-ui";
 
 const StateIcon = ({
 	color = "grey",
@@ -11,25 +11,18 @@ const StateIcon = ({
 	translate,
 	ratio = 1,
 	hideTooltip = false
-}) => {
-	return _renderIcon(color, state, number, translate, ratio, hideTooltip);
+}) => _renderIcon(color, state, number, translate, ratio, hideTooltip)
 
-}
-
-const styleMainIcon = (color, ratio) => {
-	return {
+const styleMainIcon = (color, ratio) => ({
 		fontSize: `${1.5 * ratio}em`,
 		color
-	};
-};
-const styleSubIcon = (color, ratio) => {
-	return {
+	});
+const styleSubIcon = (color, ratio) => ({
 		marginLeft: `${-0.3 * ratio}em`,
-		marginTop:  `${0.4 * ratio}em`,
+		marginTop: `${0.4 * ratio}em`,
 		fontSize: `${1 * ratio}em`,
 		color
-	};
-};
+	});
 
 const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 	switch (state) {
@@ -41,14 +34,14 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 							name={"users"}
 							style={styleMainIcon(color, ratio)}
 						/>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
 		case PARTICIPANT_STATES.NO_PARTICIPATE:
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.no_participate}>
-					<div style={{ padding: "0.5em", display: 'flex' }}>	
+					<div style={{ padding: "0.5em", display: 'flex' }}>
 							<FontAwesome
 								name={"user-o"}
 								style={styleMainIcon(color, ratio)}
@@ -58,8 +51,8 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 								name={"times"}
 								style={styleSubIcon(color, ratio)}
 							/>
-						
-						{(!!number || number === 0) && <span style={{paddingLeft:"1em"}}>{number}</span>}
+
+						{(!!number || number === 0) && <span style={{ paddingLeft: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -71,7 +64,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 							name={"globe"}
 							style={styleMainIcon(color, ratio)}
 						/>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -87,11 +80,11 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 					>
 						<Icon
 							className="material-icons"
-							style={{...styleMainIcon(color, ratio), paddingTop: '0.1em'}}
+							style={{ ...styleMainIcon(color, ratio), paddingTop: '0.1em' }}
 						>
 							face
 						</Icon>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -107,7 +100,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 					>
 						<Icon
 							className="material-icons"
-							style={{...styleMainIcon(color, ratio), paddingTop: '0.1em'}}
+							style={{ ...styleMainIcon(color, ratio), paddingTop: '0.1em' }}
 						>
 							face
 						</Icon>
@@ -115,7 +108,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 							name={"mobile"}
 							style={styleSubIcon(color, ratio)}
 						/>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -131,7 +124,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 							name={"user"}
 							style={styleSubIcon(color, ratio)}
 						/>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -147,7 +140,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 							name={"user"}
 							style={styleSubIcon(color, ratio)}
 						/>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -156,7 +149,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 				<Tooltip disableHoverListener={hideTooltip} title={translate.left_the_council}>
 					<div style={{ padding: "0.5em" }}>
 						<i className="fa fa-sign-out" aria-hidden="true" style={styleMainIcon(color, ratio)}></i>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -164,12 +157,12 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 				return (
 					<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
 						<div style={{ padding: "0.5em" }}>
-							<span class="material-icons"
+							<span className="material-icons"
 								style={styleMainIcon(color, ratio)}
 							>
 								how_to_vote
 							</span>
-							{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+							{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 						</div>
 					</Tooltip>
 				);
@@ -177,12 +170,12 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
 					<div style={{ padding: "0.5em" }}>
-						<span class="material-icons"
+						<span className="material-icons"
 							style={styleMainIcon(color, ratio)}
 						>
 							how_to_vote
 						</span>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -194,7 +187,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 							name={"question"}
 							style={styleMainIcon(color, ratio)}
 						/>
-						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);

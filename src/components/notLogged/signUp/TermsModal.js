@@ -2,9 +2,9 @@ import React, { Component, Fragment } from "react";
 import { AlertConfirm } from "../../../displayComponents";
 
 class TermsModal extends Component {
-	_renderNewPointBody = () => {
+	_renderNewPointBody = () =>
 		//style="font-size:14px; padding: 2vw; text-align: justify;text-justify: inter-word;"
-		return (
+		 (
 			// TRADUCCION
 			<div>
 				<p>
@@ -546,8 +546,8 @@ class TermsModal extends Component {
 					y condiciones.
 				</p>
 			</div>
-		);
-	};
+		)
+	;
 
 	render() {
 		const { translate } = this.props;

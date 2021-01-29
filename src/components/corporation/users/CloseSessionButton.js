@@ -1,11 +1,10 @@
 import React from 'react';
-import { BasicButton } from '../../../displayComponents';
-import { getSecondary } from '../../../styles/colors';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { BasicButton } from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
 
 class CloseSessionButton extends React.PureComponent {
-
     closeUserSessions = async () => {
         await this.props.closeUserSessions({
             variables: {
@@ -18,7 +17,7 @@ class CloseSessionButton extends React.PureComponent {
         return(
             <BasicButton
                 text={this.props.translate.close_sessions}
-                textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                textStyle={{ textTransform: 'none', fontWeight: '700', color: 'white' }}
                 color={getSecondary()}
                 onClick={this.closeUserSessions}
             />

@@ -1,8 +1,8 @@
 import React from 'react';
-import { AlertConfirm, LoadingSection } from '../../../displayComponents';
 import { withApollo } from 'react-apollo';
-import { useQueryReducer } from '../../../hooks';
 import gql from 'graphql-tag';
+import { AlertConfirm, LoadingSection } from '../../../displayComponents';
+import { useQueryReducer } from '../../../hooks';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
 
 const OneOnOneAttachmentsModal = ({ client, translate, council, open, requestClose }) => {
@@ -42,9 +42,9 @@ const OneOnOneAttachmentsModal = ({ client, translate, council, open, requestClo
                         ))
                         :
                             translate.no_results
-                    
+
                     :
-                    
+
                     <LoadingSection /> }
                 </div>
             }

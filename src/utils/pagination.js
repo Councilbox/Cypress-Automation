@@ -1,3 +1,1 @@
-export const hasMorePages = (page, total, limit) => {
-	return page * limit < total;
-};
+export const hasMorePages = (page, total, limit) => page * limit < total;

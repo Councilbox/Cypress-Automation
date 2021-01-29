@@ -25,14 +25,14 @@ const DocumentPreview = ({ translate, generatePreview, options, collapse, compan
     React.useEffect(() => {
         let interval;
         if(loading){
-            interval= setInterval(() => {
+            interval = setInterval(() => {
                 if(preview.current){
                     setLoading(false);
                 }
             }, spinnerDelay);
         }
         return () => clearInterval(interval);
-    },  [loading])
+    }, [loading])
 
 
     return (

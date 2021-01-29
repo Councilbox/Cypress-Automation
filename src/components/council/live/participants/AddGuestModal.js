@@ -1,6 +1,6 @@
 import React from "react";
-import { AlertConfirm } from "../../../../displayComponents";
 import { compose, graphql, withApollo } from "react-apollo";
+import { AlertConfirm } from "../../../../displayComponents";
 import { addGuest } from "../../../../queries";
 import RepresentativeForm from "../../participants/RepresentativeForm";
 import { languages } from "../../../../queries/masters";
@@ -8,7 +8,6 @@ import { checkValidEmail } from '../../../../utils/validation';
 import { checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
 
 class AddGuestModal extends React.Component {
-
 	state = {
 		success: "",
 		errors: {},
@@ -39,21 +38,19 @@ class AddGuestModal extends React.Component {
 				if (response.data.addGuest.success) {
 					this.props.refetch();
 					this.close();
-				} else {
-					if (response.data.addGuest.message === "601") {
+				} else if (response.data.addGuest.message === "601") {
 						this.setState({
 							errors: {
 								email: this.props.translate.repeated_email
 							}
 						});
 					}
-				}
 			}
 		}
 	};
 
 	checkRequiredFields = async (emailOnly) => {
-		let errors = {
+		const errors = {
 			name: '',
 			surname: '',
 			dni: '',
@@ -68,8 +65,7 @@ class AddGuestModal extends React.Component {
 		if(!guest.email){
 			errors.email = translate.required_field;
 			hasError = true;
-		}else{
-			if(!checkValidEmail(guest.email)){
+		}else if(!checkValidEmail(guest.email)){
 				errors.email = translate.valid_email_required;
 				hasError = true;
 			}else{
@@ -85,7 +81,6 @@ class AddGuestModal extends React.Component {
 					hasError = true;
 				}
 			}
-		}
 
 		if(!emailOnly){
 			if(!guest.name){
@@ -109,7 +104,7 @@ class AddGuestModal extends React.Component {
 			}
 		}
 
-		this.setState({errors});
+		this.setState({ errors });
 
 		return hasError;
 	}

@@ -1,9 +1,9 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { BasicButton, AlertConfirm, LoadingSection } from '../../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
-import gql from 'graphql-tag';
 import { AGENDA_STATES, AGENDA_TYPES, VOTE_VALUES } from '../../../../constants';
 import { VotingButton } from '../../../participant/agendas/VotingMenu';
 import { agendaVotingsOpened, isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
@@ -40,7 +40,6 @@ const EarlyVotingModal = props => {
             />
         </>
     )
-
 }
 
 const EarlyVotingBody = withApollo(({ council, participant, translate, client, ...props }) => {
@@ -88,9 +87,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
         const vote = data.proxyVotes.find(proxy => {
             if (!custom) {
                 return proxy.agendaId === agendaId;
-            } else {
-                return proxy.agendaId === agendaId && value === proxy.value;
             }
+                return proxy.agendaId === agendaId && value === proxy.value;
         });
 
         if (!vote) {
@@ -110,8 +108,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                 }
             `,
             variables: {
-                agendaId: agendaId,
-                participantId: participantId
+                agendaId,
+                participantId
             }
         });
 
@@ -162,8 +160,7 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
         getData();
     }, [council.id])
 
-    const renderPointTitle = point => {
-        return (
+    const renderPointTitle = point => (
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
                 {!!getProxyVote(point.id) &&
@@ -185,8 +182,6 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                 }
             </div>
         )
-
-    }
 
 
     return (
@@ -319,9 +314,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                         console.log(selections)
                         if (((point.options.minSelections - selections) < 0)) {
                             return point.options.minSelections;
-                        } else {
-                            return point.options.minSelections - selections
                         }
+                            return point.options.minSelections - selections
                     }
 
                     const disableCustom = (selections >= point.options.maxSelections) || disabled;

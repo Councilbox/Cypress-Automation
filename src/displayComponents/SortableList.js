@@ -3,11 +3,10 @@ import { SortableContainer } from "react-sortable-hoc";
 import DraggableBlock from "./DraggableBlock";
 import { getActPointSubjectType } from '../utils/CBX';
 
-const SortableList = SortableContainer(({ items, offset = 0 }) => {
-	return (
+const SortableList = SortableContainer(({ items, offset = 0 }) => (
 		<div>
 			{items.map((item, index) => (
-				item.pointState > 1 || item.subjectType === getActPointSubjectType()?
+				item.pointState > 1 || item.subjectType === getActPointSubjectType() ?
 					<li
 						style={{
 							opacity: 1,
@@ -34,7 +33,6 @@ const SortableList = SortableContainer(({ items, offset = 0 }) => {
 					/>
 			))}
 		</div>
-	);
-});
+	));
 
 export default SortableList;

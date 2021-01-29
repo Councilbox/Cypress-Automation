@@ -1,6 +1,7 @@
 import React from "react";
-import { AlertConfirm } from "../../../../../displayComponents/index";
 import { compose, graphql } from "react-apollo";
+import { Card } from "material-ui";
+import { AlertConfirm } from "../../../../../displayComponents/index";
 import { updateCensusParticipant } from "../../../../../queries/census";
 import { languages } from "../../../../../queries/masters";
 import { censusHasParticipations } from "../../../../../utils/CBX";
@@ -10,7 +11,6 @@ import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
 } from "../../../../../utils/validation";
-import { Card } from "material-ui";
 import SelectCensusParticipantRepresentative from "./SelectCensusParticipantRepresentative";
 
 class CensusParticipantEditor extends React.Component {
@@ -34,7 +34,7 @@ class CensusParticipantEditor extends React.Component {
 			: initialRepresentative;
 		this.setState({
 			data: participant,
-			representative: representative
+			representative
 		});
 	}
 
@@ -50,7 +50,7 @@ class CensusParticipantEditor extends React.Component {
 			: initialRepresentative;
 		this.setState({
 			data: participant,
-			representative: representative
+			representative
 		});
 	}
 
@@ -78,8 +78,7 @@ class CensusParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else {
-				if(response.errors[0].message === 'Too many granted words'){
+			} else if(response.errors[0].message === 'Too many granted words'){
 					this.setState({
 						...(this.state.data.initialState === 2 ? {
 							errors: {
@@ -94,7 +93,6 @@ class CensusParticipantEditor extends React.Component {
 
 					});
 				}
-			}
 		}
 	};
 
@@ -120,8 +118,8 @@ class CensusParticipantEditor extends React.Component {
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate, company } = this.props;
-		let hasSocialCapital = censusHasParticipations(this.props.census);
-		let errorsParticipant = checkRequiredFieldsParticipant(
+		const hasSocialCapital = censusHasParticipations(this.props.census);
+		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
 			translate,
 			hasSocialCapital,
@@ -170,7 +168,7 @@ class CensusParticipantEditor extends React.Component {
 							selectRepresentative: false
 						})}
 					/>
-					<div style={{marginRight: "1em"}}>
+					<div style={{ marginRight: "1em" }}>
 						<Card style={{
 							padding: '1em',
 							marginBottom: "1em",
@@ -254,6 +252,6 @@ const initialRepresentative = {
 };
 
 function extractTypeName(object) {
-	let { __typename, ...rest } = object;
+	const { __typename, ...rest } = object;
 	return rest;
 }

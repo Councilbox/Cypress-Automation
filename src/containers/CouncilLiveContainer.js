@@ -1,15 +1,15 @@
 import React from "react";
-import CouncilLivePage from "../components/council/live/CouncilLivePage";
 import { connect } from "react-redux";
-import { LoadingMainApp } from "../displayComponents";
 import { Redirect, withRouter } from "react-router-dom";
+import { withApollo } from "react-apollo";
+import CouncilLivePage from "../components/council/live/CouncilLivePage";
+import { LoadingMainApp } from "../displayComponents";
 import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 import NoConnectionModal from '../components/NoConnectionModal';
 import { isMobile } from "../utils/screen";
 import { bHistory, store } from "./App";
 import { addSpecificTranslations } from "../actions/companyActions";
 import { checkCouncilState } from "../utils/CBX";
-import { graphql, withApollo } from "react-apollo";
 import { councilLiveQuery } from "../queries";
 import { usePolling } from "../hooks";
 
@@ -17,7 +17,7 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 
-	const getData = React.useCallback(async() => {
+	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: councilLiveQuery,
 			variables: {
@@ -60,12 +60,9 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 				"live"
 			);
 		}
-
 	}, [loading, data.council]);
 
-	const checkLoadingComplete = () => {
-		return !loading && data.council && companies.list;
-	};
+	const checkLoadingComplete = () => !loading && data.council && companies.list;
 
 	if (!main.isLogged) {
 		return <Redirect to="/" />;
@@ -82,13 +79,13 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 				width: '100%',
 				height: '100%',
 				overflow: 'hidden',
-				position:"fixed"
+				position: "fixed"
 			}}
 		>
 			{!main.serverStatus &&
 				<NoConnectionModal open={!main.serverStatus} />
 			}
-			{!isMobile?
+			{!isMobile ?
 				<CouncilLivePage
 					company={companies.list[companies.selected]}
 					companies={companies}

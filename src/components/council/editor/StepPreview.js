@@ -1,4 +1,9 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
+import { compose, graphql, withApollo } from "react-apollo";
+import { Icon, MenuItem, Paper, Typography } from "material-ui";
+import FontAwesome from "react-fontawesome";
+import { toast } from "react-toastify";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -11,8 +16,6 @@ import {
 	SuccessMessage
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { withRouter } from "react-router-dom";
-import { compose, graphql, withApollo } from "react-apollo";
 import {
 	councilStepSix
 } from "../../../queries";
@@ -22,14 +25,11 @@ import {
 	sendConveneTest,
 	sendPreConvene
 } from "../../../queries/council";
-import { Icon, MenuItem, Paper, Typography } from "material-ui";
-import FontAwesome from "react-fontawesome";
-import { bHistory } from "../../../containers/App";
+import { bHistory, moment } from "../../../containers/App";
 import * as CBX from "../../../utils/CBX";
 import { checkValidEmail } from "../../../utils/validation";
-import { toast } from "react-toastify";
 import EditorStepLayout from './EditorStepLayout';
-import { moment } from '../../../containers/App';
+
 import { useOldState } from "../../../hooks";
 
 
@@ -106,7 +106,6 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 				}
 			}
 		}
-
 	}
 
 	const sendConveneTest = async () => {
@@ -185,7 +184,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 
 	const checkInvalidDates = () => {
 		let hasError = false;
-		let errors = {}
+		const errors = {}
 		const { council } = data;
 
 		if (council.councilType === 2 || council.councilType === 3) {
@@ -208,14 +207,14 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 				if (CBX.checkSecondDateAfterFirst(council.dateStart, new Date())) {
 					hasError = true;
 					errors.dateStart = {
-						message: 'La fecha de comienzo es posterior a la actual, por favor actualice el valor',//TRADUCCION
+						message: 'La fecha de comienzo es posterior a la actual, por favor actualice el valor', //TRADUCCION
 						action: () => props.goToPage(1)
 					};
 				}
 				if (!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)) {
 					hasError = true;
 					errors.closeDate = {
-						message: 'La fecha de fin no puede ser anterior a la de comienzo, por favor corrija ese valor',//TRADUCCION
+						message: 'La fecha de fin no puede ser anterior a la de comienzo, por favor corrija ese valor', //TRADUCCION
 						action: () => props.goToPage(5)
 					};
 				}
@@ -269,9 +268,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 		);
 	};
 
-	const _renderSendConveneWithoutNoticeBody = () => {
-		return <div>{translate.new_save_convene}</div>;
-	};
+	const _renderSendConveneWithoutNoticeBody = () => <div>{translate.new_save_convene}</div>;
 
 	const _renderErrorModalBody = () => {
 		if (Object.keys(errors).length === 0) {
@@ -317,8 +314,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						type="text"
 						errorText={errors.conveneTestEmail}
 						value={data.conveneTestEmail}
-						onChange={event =>
-							updateState({
+						onChange={event => updateState({
 								conveneTestEmail: event.nativeEvent.target.value
 							})
 						}
@@ -397,8 +393,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						title={translate.warning}
 					/>
 					<AlertConfirm
-						requestClose={() =>
-							setState({
+						requestClose={() => setState({
 								sendConveneWithoutNoticeModal: false,
 								sendWithoutNoticeSuccess: false
 							})
@@ -448,8 +443,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 								<DropDownMenu
 									id={'desplegablePrevisualizacionNew'}
 									color="transparent"
-									Component={() =>
-										<Paper
+									Component={() => <Paper
 											elevation={1}
 											style={{
 												boxSizing: "border-box",
@@ -499,8 +493,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 											{data.council.councilType !== 4 &&
 												<>
 													<MenuItem
-														onClick={() =>
-															setState({
+														onClick={() => setState({
 																conveneTestModal: true
 															})
 														}
@@ -518,8 +511,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 														{translate.send_test_convene}
 													</MenuItem>
 													<MenuItem
-														onClick={() =>
-															setState({
+														onClick={() => setState({
 																preConveneModal: true
 															})
 														}
@@ -540,8 +532,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 											}
 											<MenuItem
 												id={'convocarSinNotificarNew'}
-												onClick={() =>
-													setState({
+												onClick={() => setState({
 														sendConveneWithoutNoticeModal: true
 													})
 												}
@@ -595,7 +586,6 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 			}
 		/>
 	);
-
 }
 
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { moment } from '../../../containers/App';
 import { MenuItem } from 'material-ui';
+import { moment } from '../../../containers/App';
 import { TextInput, SelectInput, BasicButton, Grid, GridItem, LoadingSection, Scrollbar } from '../../../displayComponents';
 import CouncilItem from '../councils/CouncilItem';
 import withTranslations from '../../../HOCs/withTranslations';
@@ -76,7 +76,7 @@ const FinishedPage = ({ client, translate, ...props }) => {
                         <TextInput
                             floatingText='Id de la compañía'
                             value={options.companyId || ''}
-                            onChange={event => setOptions({ ...options, companyId: event.target.value ? + event.target.value : null })}
+                            onChange={event => setOptions({ ...options, companyId: event.target.value ? +event.target.value : null })}
                         />
                     </GridItem>
                     <GridItem xs={12} md={3} lg={3} style={{ textAlign: "right" }}>
@@ -105,7 +105,6 @@ const FinishedPage = ({ client, translate, ...props }) => {
             </div>
         </div>
     )
-
 }
 
 const finishedCouncils = gql`

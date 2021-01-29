@@ -1,9 +1,9 @@
 import React from 'react';
-import { getPrimary } from '../../../styles/colors';
 import { MenuItem } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
+import { getPrimary } from '../../../styles/colors';
 
-const CouncilsSectionTrigger = ({ text, description, icon}) => (
+const CouncilsSectionTrigger = ({ text, description, icon }) => (
     <MenuItem
         style={{
             height: '3.5em',
@@ -22,7 +22,7 @@ const CouncilsSectionTrigger = ({ text, description, icon}) => (
                 alignItems: 'center'
             }}
         >
-            <div style={{width: '4em'}}>
+            <div style={{ width: '4em' }}>
                 <FontAwesome
                     name={icon}
                     style={{
@@ -46,7 +46,7 @@ const CouncilsSectionTrigger = ({ text, description, icon}) => (
                 </div>
             </div>
         </div>
-        <div style={{widht: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{ widht: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <FontAwesome
                 name={'chevron-down'}
                 style={{

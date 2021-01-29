@@ -1,10 +1,11 @@
 import React from "react";
+import { compose, graphql, withApollo } from "react-apollo";
+import { Card } from "material-ui";
 import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon
 } from "../../../../../displayComponents/index";
-import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary } from "../../../../../styles/colors";
 import { addCensusParticipant, checkUniqueCensusEmails } from "../../../../../queries/census";
 import { languages } from "../../../../../queries/masters";
@@ -16,7 +17,6 @@ import {
 	checkRequiredFieldsRepresentative
 } from "../../../../../utils/validation";
 import { isMobile } from "../../../../../utils/screen";
-import { Card } from "material-ui";
 import SelectCensusParticipantRepresentative from "./SelectCensusParticipantRepresentative";
 
 
@@ -59,8 +59,7 @@ class AddCensusParticipantButton extends React.Component {
 					errors: {},
 					representativeErrors: {}
 				});
-			} else {
-				if(response.errors[0].message === 'Too many granted words'){
+			} else if(response.errors[0].message === 'Too many granted words'){
 					this.setState({
 						loading: false,
 						...(this.state.data.initialState === 2 ? {
@@ -76,7 +75,6 @@ class AddCensusParticipantButton extends React.Component {
 
 					});
 				}
-			}
 		}
 	};
 
@@ -102,8 +100,8 @@ class AddCensusParticipantButton extends React.Component {
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate, company } = this.props;
-		let hasSocialCapital = censusHasParticipations(this.props.census);
-		let errorsParticipant = checkRequiredFieldsParticipant(
+		const hasSocialCapital = censusHasParticipations(this.props.census);
+		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
 			translate,
 			hasSocialCapital,
@@ -179,7 +177,7 @@ class AddCensusParticipantButton extends React.Component {
 		const { translate } = this.props;
 		const { languages } = this.props.data;
 		return (
-			<div style={{maxWidth: '950px'}}>
+			<div style={{ maxWidth: '950px' }}>
 				<SelectCensusParticipantRepresentative
 					open={this.state.selectRepresentative}
 					census={this.props.census}
@@ -195,7 +193,7 @@ class AddCensusParticipantButton extends React.Component {
 					})}
 				/>
 
-				<div style={{marginRight: "1em"}}>
+				<div style={{ marginRight: "1em" }}>
 					<Card style={{
 						padding: '1em',
 						marginBottom: "1em",
@@ -229,7 +227,7 @@ class AddCensusParticipantButton extends React.Component {
 					</Card>
 				</div>
 
-				
+
 			</div>
 		);
 	}
@@ -250,7 +248,7 @@ class AddCensusParticipantButton extends React.Component {
 						textTransform: "none"
 					}}
 					textPosition="after"
-					icon={!isMobile? <ButtonIcon type="add" color={primary} /> : null}
+					icon={!isMobile ? <ButtonIcon type="add" color={primary} /> : null}
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
 						marginRight: "1em",

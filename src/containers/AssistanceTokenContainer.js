@@ -4,10 +4,20 @@ import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
-import InvalidUrl from "../components/participant/InvalidUrl.jsx";
+import InvalidUrl from "../components/participant/InvalidUrl";
 import SMSAuthForm from "../components/participant/2FA/SMSAuthForm";
 
-const AssistanceTokenContainer = ({ participantToken, client, translate, match, ...props }) => {
+const getMe = gql`
+	query participantMe {
+		participantMe {
+			id
+			councilId
+			language
+		}
+	}
+`;
+
+const AssistanceTokenContainer = ({ participantToken, client, translate, match }) => {
 	const [loading, setLoading] = React.useState(true);
 	const [error, setError] = React.useState(false);
 	const [participant, setParticipant] = React.useState(null);
@@ -20,9 +30,9 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 			variables: {},
 			fetchPolicy: "network-only"
 		});
-		const participant = responseQueryMe.data.participantMe;
+		const newParticipant = responseQueryMe.data.participantMe;
 
-		setParticipant(participant);
+		setParticipant(newParticipant);
 		setLoading(false);
 	}
 
@@ -41,8 +51,8 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match, 
 			} else {
 				throw response.errors[0];
 			}
-		} catch (error) {
-			setError(error);
+		} catch (e) {
+			setError(e);
 			setLoading(false);
 		}
 	}, [match.params.token, key]);
@@ -98,16 +108,6 @@ const mapStateToProps = state => ({
 const participantToken = gql`
 	mutation participantToken($token: String!, $smsKey: String) {
 		assistanceToken(token: $token, smsKey: $smsKey)
-	}
-`;
-
-const getMe = gql`
-	query participantMe {
-		participantMe {
-			id
-			councilId
-			language
-		}
 	}
 `;
 

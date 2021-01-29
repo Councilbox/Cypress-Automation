@@ -1,17 +1,16 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
+import ContentEditable from 'react-contenteditable';
 import { CardPageLayout, TextInput, BasicButton, Scrollbar, DateTimePicker, SelectInput } from '../../../displayComponents';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
 import { getPrimary } from '../../../styles/colors';
-import ContentEditable from 'react-contenteditable';
 
 
 
-const FileAuditoresPode = props => {
-    return (
+const FileAuditoresPode = props => (
         <div style={{ height: "100%" }} >
             <div style={{ padding: "0.5em", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
             </div>
@@ -43,22 +42,21 @@ const FileAuditoresPode = props => {
             </div>
         </div>
     )
-}
 
-const AuditorsForm = ({ data, updateFileData, translate, ...props}) => {
-    const auditors = (data.file && data.file.auditors)? data.file.auditors : [];
+const AuditorsForm = ({ data, updateFileData, translate, ...props }) => {
+    const auditors = (data.file && data.file.auditors) ? data.file.auditors : [];
     const primary = getPrimary();
 
 
     const addRow = () => {
-        const newAuditors = [...auditors, { aqui: 'otro'}];
+        const newAuditors = [...auditors, { aqui: 'otro' }];
         updateFileData({
             auditors: newAuditors
         })
     }
 
     const deleteRow = index => {
-        let newAuditors = [...auditors];
+        const newAuditors = [...auditors];
         newAuditors.splice(index, 1);
         updateFileData({
             auditors: newAuditors
@@ -103,17 +101,17 @@ const AuditorsForm = ({ data, updateFileData, translate, ...props}) => {
                     <div style={{ width: "100%", display: "flex", }}>
                         <div style={{ height: "100%", width: "100%" }}>
                             <div style={{ display: "flex", width: "100%", padding: '1em', borderBottom: "1px solid" + primary, }}>
-                                <div style={{ textTransform: 'uppercase', color: primary, width: "20%",  }}>{translate.name}</div>
-                                <div style={{ textTransform: 'uppercase', color: primary, width: "25%",  }}>Inscripción en el registro mercantil</div>
-                                <div style={{ textTransform: 'uppercase', color: primary, width: "20%",  }}>Fecha Nomb.</div>
-                                <div style={{ textTransform: 'uppercase', color: primary, width: "20%",  }}>Fecha Caducidad</div>
+                                <div style={{ textTransform: 'uppercase', color: primary, width: "20%", }}>{translate.name}</div>
+                                <div style={{ textTransform: 'uppercase', color: primary, width: "25%", }}>Inscripción en el registro mercantil</div>
+                                <div style={{ textTransform: 'uppercase', color: primary, width: "20%", }}>Fecha Nomb.</div>
+                                <div style={{ textTransform: 'uppercase', color: primary, width: "20%", }}>Fecha Caducidad</div>
                             </div>
-                            {auditors.length > 0?
+                            {auditors.length > 0 ?
                                 auditors.map((auditor, index) => (
                                     <div style={{ color: "black", display: "flex", width: "100%", padding: '1em' }}>
-                                        <div style={{ width: "20%", paddingTop: '8px'}}>
+                                        <div style={{ width: "20%", paddingTop: '8px' }}>
                                             <ContentEditable
-                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black'}}
+                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
                                                 html={auditor.name || ''}
                                                 onChange={event => {
                                                     updateAuditor({
@@ -124,7 +122,7 @@ const AuditorsForm = ({ data, updateFileData, translate, ...props}) => {
                                         </div>
                                         <div style={{ width: "25%", paddingTop: '8px' }}>
                                             <ContentEditable
-                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black'}}
+                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
                                                 html={auditor.commercialRegistry || ''}
                                                 onChange={event => {
                                                     updateAuditor({
@@ -134,11 +132,11 @@ const AuditorsForm = ({ data, updateFileData, translate, ...props}) => {
                                             />
                                         </div>
                                         <div style={{ width: "20%" }}>
-                                            <div style={{width: '14em'}}>
+                                            <div style={{ width: '14em' }}>
                                                 <DateTimePicker
                                                     format="L"
                                                     onlyDate
-                                                    style={{width: '10em'}}
+                                                    style={{ width: '10em' }}
                                                     onChange={date => {
                                                         let dateString = null;
                                                         if(date){
@@ -149,17 +147,17 @@ const AuditorsForm = ({ data, updateFileData, translate, ...props}) => {
                                                             nameDate: dateString
                                                         }, index)
                                                     }}
-                                                    
-                                                    value={auditor.nameDate? auditor.nameDate : null}
+
+                                                    value={auditor.nameDate ? auditor.nameDate : null}
                                                 />
                                             </div>
                                         </div>
                                         <div style={{ width: "20%" }}>
-                                            <div style={{width: '14em'}}>
+                                            <div style={{ width: '14em' }}>
 
                                                 <DateTimePicker
                                                     format="L"
-                                                    style={{width: '10em'}}
+                                                    style={{ width: '10em' }}
                                                     onlyDate
                                                     onChange={date => {
                                                         let dateString = null;
@@ -171,7 +169,7 @@ const AuditorsForm = ({ data, updateFileData, translate, ...props}) => {
                                                             expireDate: dateString
                                                         }, index)
                                                     }}
-                                                    value={auditor.expireDate? auditor.expireDate : null}
+                                                    value={auditor.expireDate ? auditor.expireDate : null}
                                                 />
                                             </div>
                                         </div>
@@ -181,11 +179,11 @@ const AuditorsForm = ({ data, updateFileData, translate, ...props}) => {
                                     </div>
                                 ))
                             :
-                                <div style={{marginTop:'1em'}}>
+                                <div style={{ marginTop: '1em' }}>
                                     {translate.no_results}
                                 </div>
                             }
-                            
+
                         </div>
                     </div>
                 </div>
@@ -194,19 +192,19 @@ const AuditorsForm = ({ data, updateFileData, translate, ...props}) => {
     )
 }
 
-const PowersForm = ({ data, updateFileData, translate, ...props}) => {
-    const powers = (data.file && data.file.powers)? data.file.powers : [];
+const PowersForm = ({ data, updateFileData, translate, ...props }) => {
+    const powers = (data.file && data.file.powers) ? data.file.powers : [];
     const primary = getPrimary();
 
     const addRow = () => {
-        const newPowers = [...powers, { aqui: 'otro'}];
+        const newPowers = [...powers, { aqui: 'otro' }];
         updateFileData({
             powers: newPowers
         })
     }
 
     const deleteRow = index => {
-        let newPowers = [...powers];
+        const newPowers = [...powers];
         newPowers.splice(index, 1);
         updateFileData({
             powers: newPowers
@@ -258,12 +256,12 @@ const PowersForm = ({ data, updateFileData, translate, ...props}) => {
                                 <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>Tipo poder</div>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: "20%" }}>Datos registrales</div>
                             </div>
-                            {powers.length > 0?
+                            {powers.length > 0 ?
                                 powers.map((power, index) => (
                                     <div style={{ color: "black", display: "flex", width: "100%", padding: '1em' }}>
-                                        <div style={{ width: "20%", paddingTop: '8px'}}>
+                                        <div style={{ width: "20%", paddingTop: '8px' }}>
                                             <ContentEditable
-                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black'}}
+                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
                                                 html={power.name || ''}
                                                 onChange={event => {
                                                     updatePower({
@@ -273,11 +271,11 @@ const PowersForm = ({ data, updateFileData, translate, ...props}) => {
                                             />
                                         </div>
                                         <div style={{ width: "15%" }}>
-                                            <div style={{width: '10em'}}>
+                                            <div style={{ width: '10em' }}>
                                                 <DateTimePicker
                                                     format="L"
                                                     onlyDate
-                                                    style={{width: '10em'}}
+                                                    style={{ width: '10em' }}
                                                     onChange={date => {
                                                         let dateString = null;
                                                         if(date){
@@ -288,14 +286,14 @@ const PowersForm = ({ data, updateFileData, translate, ...props}) => {
                                                             grantDate: dateString
                                                         }, index)
                                                     }}
-                                                    
-                                                    value={power.grantDate? power.grantDate : null}
+
+                                                    value={power.grantDate ? power.grantDate : null}
                                                 />
                                             </div>
                                         </div>
-                                        <div style={{ width: "20%", paddingTop: '8px'}}>
+                                        <div style={{ width: "20%", paddingTop: '8px' }}>
                                             <ContentEditable
-                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black'}}
+                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
                                                 html={power.way || ''}
                                                 onChange={event => {
                                                     updatePower({
@@ -304,9 +302,9 @@ const PowersForm = ({ data, updateFileData, translate, ...props}) => {
                                                 }}
                                             />
                                         </div>
-                                        <div style={{ width: "20%", paddingTop: '8px'}}>
+                                        <div style={{ width: "20%", paddingTop: '8px' }}>
                                             <ContentEditable
-                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black'}}
+                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
                                                 html={power.type || ''}
                                                 onChange={event => {
                                                     updatePower({
@@ -315,9 +313,9 @@ const PowersForm = ({ data, updateFileData, translate, ...props}) => {
                                                 }}
                                             />
                                         </div>
-                                        <div style={{ width: "20%", paddingTop: '8px'}}>
+                                        <div style={{ width: "20%", paddingTop: '8px' }}>
                                             <ContentEditable
-                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black'}}
+                                                style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
                                                 html={power.data || ''}
                                                 onChange={event => {
                                                     updatePower({
@@ -332,10 +330,10 @@ const PowersForm = ({ data, updateFileData, translate, ...props}) => {
                                     </div>
                                 ))
                             :
-                                <div style={{marginTop:'1em'}}>
+                                <div style={{ marginTop: '1em' }}>
                                     {translate.no_results}
                                 </div>
-                            }                            
+                            }
                         </div>
                     </div>
                 </div>

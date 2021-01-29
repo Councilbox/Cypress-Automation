@@ -8,13 +8,13 @@ import { getSecondary } from '../../../../styles/colors';
 
 const ApproveRequestButton = ({ request, client, refetch, translate, council }) => {
     const [modal, setModal] = React.useState(null);
-    let { requestType, legalTermsAccepted, attachments, earlyVotes, representative, ...cleanData } = request.data;
+    const { requestType, legalTermsAccepted, attachments, earlyVotes, representative, ...cleanData } = request.data;
     cleanData.numParticipations = +cleanData.numParticipations || 1;
     cleanData.socialCapital = cleanData.numParticipations || 1;
     cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;
     cleanData.assistanceIntention = cleanData.assistanceIntention ? +cleanData.assistanceIntention : 0;
     const secondary = getSecondary();
-    const buttonColor = request.participantCreated? 'grey' : secondary;
+    const buttonColor = request.participantCreated ? 'grey' : secondary;
 
     const setParticipantCreated = async participant => {
         const response = await client.mutate({
@@ -55,9 +55,9 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
         <>
             <BasicButton
                 disabled={request.participantCreated}
-                text={request.participantCreated? 'Ya creado' : "Añadir al censo"}
+                text={request.participantCreated ? 'Ya creado' : "Añadir al censo"}
                 onClick={() => {
-                    request.participantCreated?
+                    request.participantCreated ?
                     sendPrueba()
                     :
                     setModal(request)

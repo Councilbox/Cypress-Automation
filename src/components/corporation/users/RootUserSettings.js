@@ -1,13 +1,12 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Card } from 'material-ui';
 import { TextInput, BasicButton } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import UserSettingsPage from '../../userSettings/UserSettingsPage';
-import { Card } from 'material-ui';
 
 class RootUserSettings extends React.Component {
-
     state = {
         locked: true,
         settingsPassword: ''
@@ -36,7 +35,6 @@ class RootUserSettings extends React.Component {
                 passError: 'Campo requerido'
             })
         }
-
     }
 
     handleKeyUp = event => {
@@ -47,10 +45,10 @@ class RootUserSettings extends React.Component {
 
     render(){
         return (
-            <div style={{height: 'calc(100% - 3em)'}}>
-                {this.state.locked?
-                    <div style={{width: '100%', height: '100%', padding: '1em', display: 'flex', justifyContent: 'center'}}>
-                        <Card style={{width: '100%', padding: '1em'}}>
+            <div style={{ height: 'calc(100% - 3em)' }}>
+                {this.state.locked ?
+                    <div style={{ width: '100%', height: '100%', padding: '1em', display: 'flex', justifyContent: 'center' }}>
+                        <Card style={{ width: '100%', padding: '1em' }}>
                             <TextInput
                                 floatingText="Settings password"
                                 type="password"
@@ -65,7 +63,7 @@ class RootUserSettings extends React.Component {
                                 color={getPrimary()}
                                 text="Enviar"
                                 onClick={this.sendPass}
-                                textStyle={{fontWeight: '700', color: 'white'}}
+                                textStyle={{ fontWeight: '700', color: 'white' }}
                             />
                         </Card>
                     </div>

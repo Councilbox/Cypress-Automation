@@ -11,8 +11,7 @@ const selectedStyle = {
 }
 
 
-const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected }) => {
-	return (
+const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected }) => (
 		<React.Fragment>
 				<Grid
 					spacing={0}
@@ -37,7 +36,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 						}}
 						style={{
 							cursor: "pointer",
-							...(selected === null?
+							...(selected === null ?
 								selectedStyle
 							:
 								{}
@@ -45,7 +44,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 						}}
 					>
 						<TypeIcon
-							color={selected === null? getSecondary() : 'grey'}
+							color={selected === null ? getSecondary() : 'grey'}
 							translate={translate}
 							type={"ALL"}
 							number={participantTypeRecount.all}
@@ -57,7 +56,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 						}}
 						style={{
 							cursor: "pointer",
-							...(selected === PARTICIPANT_TYPE.PARTICIPANT?
+							...(selected === PARTICIPANT_TYPE.PARTICIPANT ?
 								selectedStyle
 							:
 								{}
@@ -65,7 +64,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 						}}
 					>
 						<TypeIcon
-							color={selected === PARTICIPANT_TYPE.PARTICIPANT? getSecondary() : 'grey'}
+							color={selected === PARTICIPANT_TYPE.PARTICIPANT ? getSecondary() : 'grey'}
 							translate={translate}
 							type={PARTICIPANT_TYPE.PARTICIPANT}
 							number={participantTypeRecount.participant}
@@ -77,7 +76,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 						}}
 						style={{
 							cursor: "pointer",
-							...(selected === PARTICIPANT_TYPE.GUEST?
+							...(selected === PARTICIPANT_TYPE.GUEST ?
 								selectedStyle
 							:
 								{}
@@ -85,7 +84,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 						}}
 					>
 						<TypeIcon
-							color={selected === PARTICIPANT_TYPE.GUEST? getSecondary() : 'grey'}
+							color={selected === PARTICIPANT_TYPE.GUEST ? getSecondary() : 'grey'}
 							translate={translate}
 							type={PARTICIPANT_TYPE.GUEST}
 							number={participantTypeRecount.guest}
@@ -97,7 +96,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 						}}
 						style={{
 							cursor: "pointer",
-							...(selected === PARTICIPANT_TYPE.REPRESENTATIVE?
+							...(selected === PARTICIPANT_TYPE.REPRESENTATIVE ?
 								selectedStyle
 							:
 								{}
@@ -105,7 +104,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 						}}
 					>
 						<TypeIcon
-							color={selected === PARTICIPANT_TYPE.REPRESENTATIVE? getSecondary() : 'grey'}
+							color={selected === PARTICIPANT_TYPE.REPRESENTATIVE ? getSecondary() : 'grey'}
 							translate={translate}
 							type={PARTICIPANT_TYPE.REPRESENTATIVE}
 							number={participantTypeRecount.representative}
@@ -113,7 +112,6 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 					</div>
 				</Grid>
 			</React.Fragment>
-	);
-}
+	)
 
 export default TypesHeader;

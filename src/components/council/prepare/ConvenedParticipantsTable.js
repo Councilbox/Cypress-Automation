@@ -1,6 +1,7 @@
 import React from "react";
 import { TableCell, TableRow } from "material-ui/Table";
 import { Tooltip, Card } from "material-ui";
+import { compose, graphql, withApollo } from "react-apollo";
 import { getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import {
@@ -11,7 +12,6 @@ import {
 	Grid,
 	GridItem
 } from "../../../displayComponents";
-import { compose, graphql, withApollo } from "react-apollo";
 import { downloadCBXData, updateConveneSends } from "../../../queries";
 import { convenedcouncilParticipants } from "../../../queries/councilParticipant";
 import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
@@ -141,7 +141,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 	const councilParticipants = data.councilParticipantsWithNotifications;
 	const { participant, editingParticipant } = state;
 
-	let headers = [
+	const headers = [
 		{
 			text: translate.name,
 			name: "name",
@@ -198,7 +198,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 						}
 					</GridItem>
 				</Grid>
-				{!!councilParticipants ?
+				{councilParticipants ?
 					<EnhancedTable
 						ref={table}
 						translate={translate}
@@ -264,7 +264,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 					>
 						{councilParticipants.list.map(
 							item => {
-								let participant = formatParticipant(item);
+								const participant = formatParticipant(item);
 								return (
 									<React.Fragment
 										key={`participant${participant.id}_${filters.notificationStatus}`}
@@ -328,11 +328,9 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			{props.children}
 		</div>
 	);
-
 }
 
 class HoverableRow extends React.Component {
-
 	state = {
 		showActions: false
 	}
@@ -351,7 +349,7 @@ class HoverableRow extends React.Component {
 
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
-		let representative = this.props.representative;
+		const representative = this.props.representative;
 		const { delegate, notifications } = participant;
 
 		const voteParticipantInfo = (
@@ -380,14 +378,14 @@ class HoverableRow extends React.Component {
 						</GridItem>
 						<GridItem xs={7} md={7}>
 							<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''} ${
-								!!representative ? ` - ${translate.represented_by}: ${representative.name} ${representative.surname || ''}` : ''}`}</span>
+								representative ? ` - ${translate.represented_by}: ${representative.name} ${representative.surname || ''}` : ''}`}</span>
 							{voteParticipantInfo}
 						</GridItem>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
 							{translate.dni}
 						</GridItem>
 						<GridItem xs={7} md={7}>
-							{!!representative ?
+							{representative ?
 								<React.Fragment>
 									{representative.dni}
 								</React.Fragment>
@@ -399,7 +397,7 @@ class HoverableRow extends React.Component {
 							{translate.position}
 						</GridItem>
 						<GridItem xs={7} md={7}>
-							{!!representative ?
+							{representative ?
 								<React.Fragment>
 									{representative.position}
 								</React.Fragment>
@@ -450,7 +448,7 @@ class HoverableRow extends React.Component {
 				</Card>
 			)
 		}
-		
+
 		return (
 			<TableRow
 				hover

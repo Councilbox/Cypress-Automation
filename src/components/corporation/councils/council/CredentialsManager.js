@@ -1,11 +1,11 @@
 import React from 'react';
-import { LoadingSection, BasicButton, TextInput, Scrollbar } from '../../../../displayComponents';
 import { InputAdornment, Card, IconButton, CardHeader, Typography, Collapse, CardContent } from 'material-ui';
 import FontAwesome from "react-fontawesome";
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import { LoadingSection, BasicButton, TextInput, Scrollbar } from '../../../../displayComponents';
 import NotificationsTable from '../../../notifications/NotificationsTable';
-import {  updateParticipantSends } from "../../../../queries";
+import { updateParticipantSends } from "../../../../queries";
 import ParticipantContactEditor from './ParticipantContactEditor';
 import StateIcon from '../../../council/live/participants/StateIcon';
 import { useOldState } from '../../../../hooks';
@@ -21,7 +21,7 @@ const CredentialsManager = ({ translate, ...props }) => {
     const [filter, setFilter] = React.useState(null);
 
     const toggleFilter = () => {
-        setFilter(!filter? 'failed' : null);
+        setFilter(!filter ? 'failed' : null);
     }
 
     const updatePage = page => {
@@ -108,7 +108,7 @@ const Content = ({ participant, translate, refetch, council }) => {
     }
 
     return (
-        <Card style={{ marginLeft: '1px', marginRight: '15px', marginTop: "15px" }}  >
+        <Card style={{ marginLeft: '1px', marginRight: '15px', marginTop: "15px" }} >
             <CardHeader
                 onClick={toggleExpanded}
                 style={{ cursor: "pointer" }}
@@ -142,7 +142,7 @@ const Content = ({ participant, translate, refetch, council }) => {
             />
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <div style={{  }}>
+                    <div style={{ }}>
                         <ParticipantContactEditor
                             participant={participant}
                             translate={translate}
@@ -153,7 +153,7 @@ const Content = ({ participant, translate, refetch, council }) => {
                     </div>
                     <div style={{ padding: "1em 0px" }}>
                         <NotificationsTable
-                            maxEmail={{maxWidth: '100px'}}
+                            maxEmail={{ maxWidth: '100px' }}
                             translate={translate}
                             notifications={participant.notifications}
                         />
@@ -170,9 +170,7 @@ const filterParticipants = (participants, text) => {
         return participants;
     }
     const lText = text.toLowerCase();
-    return participants.filter(participant => {
-        return `${participant.name} ${participant.surname || ''}`.toLowerCase().includes(lText) || participant.email.toLowerCase().includes(lText) || participant.phone.includes(lText)
-    });
+    return participants.filter(participant => `${participant.name} ${participant.surname || ''}`.toLowerCase().includes(lText) || participant.email.toLowerCase().includes(lText) || participant.phone.includes(lText));
 }
 
 const participants = gql`

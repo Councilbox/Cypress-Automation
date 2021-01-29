@@ -1,12 +1,12 @@
 import React from "react";
-import { DropDownMenu, Icon } from "../../../../displayComponents";
 import { MenuItem, Card } from "material-ui";
+import { graphql } from "react-apollo";
+import { DropDownMenu, Icon } from "../../../../displayComponents";
 import { getSecondary } from "../../../../styles/colors";
 import {
 	participantIsBlocked,
 	canUnblockParticipant
 } from "../../../../utils/CBX";
-import { graphql } from "react-apollo";
 import { unbanParticipant, changeRequestWord } from "../../../../queries";
 
 const VideoParticipantMenu = ({ translate, participant, ...props }) => {
@@ -142,7 +142,6 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 			}
 		/>
 	);
-
 }
 
 

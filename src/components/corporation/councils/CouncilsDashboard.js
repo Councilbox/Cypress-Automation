@@ -1,15 +1,15 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import FontAwesome from 'react-fontawesome';
+import { Card } from 'material-ui';
+import { Redirect, Link } from "react-router-dom";
 import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { lightGrey, getSecondary, getPrimary, secondary } from '../../../styles/colors';
-import FontAwesome from 'react-fontawesome';
-import { Card } from 'material-ui';
 import CouncilItem from './CouncilItem';
 import CouncilsSectionTrigger from './CouncilsSectionTrigger';
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
+
 import { bHistory } from '../../../containers/App';
 
 
@@ -32,42 +32,33 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
     }, [getData]);
 
 
-    const _convenedTrigger = () => {
-        return (
+    const _convenedTrigger = () => (
             <CouncilsSectionTrigger
                 text={translate.companies_calendar}
                 icon={'calendar-o'}
                 description={translate.companies_calendar_desc}
             />
         )
-    }
 
-    const _convenedSection = () => {
-        return (
+    const _convenedSection = () => (
             <div style={{ width: '100%' }}>
-                {councils.corporationConvenedCouncils.map(council =>
-                    <CouncilItem
+                {councils.corporationConvenedCouncils.map(council => <CouncilItem
                         key={`council_${council.id}`}
                         council={council}
                         translate={translate}
-                    />
-                )}
+                    />)}
             </div>
         )
-    }
 
-    const _celebrationTrigger = () => {
-        return (
+    const _celebrationTrigger = () => (
             <CouncilsSectionTrigger
                 text={translate.companies_live}
                 icon={'users'}
                 description={translate.companies_live_desc}
             />
         )
-    }
 
-    const _celebrationSection = () => {
-        return (
+    const _celebrationSection = () => (
             <div style={{ width: '100%' }}>
                 {councils.corporationLiveCouncils.map(council => (
                     <CouncilItem
@@ -78,7 +69,6 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
                 ))}
             </div>
         )
-    }
 
     return (
         <div
@@ -166,7 +156,6 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
             setError("Escribe un numero")
             setLoading(false)
         }
-
     };
     return (
         <div
@@ -199,7 +188,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", marginTop: "6px" }}>
                         <BasicButton
-                            text={<i className={loading ?'fa fa-circle-o-notch fa-spin' : "fa fa-search"} style={{ color: "black" }} />}
+                            text={<i className={loading ? 'fa fa-circle-o-notch fa-spin' : "fa fa-search"} style={{ color: "black" }} />}
                             onClick={goToId}
                             backgroundColor={{ backgroundColor: "white", minWidth: "0", marginLeft: '1em', minHeight: '0px', boxShadow: "none", borderRadius: "4px", border: " 1px solid black" }}
                         />

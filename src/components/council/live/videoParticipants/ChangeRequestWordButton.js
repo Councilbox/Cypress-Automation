@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, MenuItem, Tooltip } from "material-ui";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { graphql } from "react-apollo";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { changeRequestWord } from "../../../../queries";
 import { Icon } from "../../../../displayComponents";
 import { haveGrantedWord, isAskingForWord } from "../../../../utils/CBX";
@@ -24,14 +24,13 @@ class ChangeRequestWordButton extends React.Component {
 		const { participant } = this.props;
 
 		return (
-			<div style={{marginRight: '0.3em'}}>
+			<div style={{ marginRight: '0.3em' }}>
 				{participant.requestWord === 3 && (
 					<Tooltip
 						title={this.props.translate.grant_room_access}
 					>
 						<Card
-							onClick={() =>
-								this.changeWordState(participant.id, 2)
+							onClick={() => this.changeWordState(participant.id, 2)
 							}
 							className={'fadeToggle'}
 							style={{
@@ -75,8 +74,7 @@ class ChangeRequestWordButton extends React.Component {
 						}
 					>
 						<Card
-							onClick={() =>
-								this.changeWordState(participant.id, 0)
+							onClick={() => this.changeWordState(participant.id, 0)
 							}
 							style={{
 								width: "1.6em",

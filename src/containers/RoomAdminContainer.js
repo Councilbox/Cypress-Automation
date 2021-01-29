@@ -1,12 +1,12 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import withTranslations from '../HOCs/withTranslations';
-import * as mainActions from "../actions/mainActions";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import withTranslations from '../HOCs/withTranslations';
+import * as mainActions from "../actions/mainActions";
 
-const RoomAdminContainer = ({ match, translate, client, actions }) => {
+const RoomAdminContainer = ({ match, client, actions }) => {
     const getAdminToken = async () => {
         const response = await client.mutate({
             mutation: gql`

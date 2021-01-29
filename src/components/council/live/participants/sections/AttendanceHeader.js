@@ -10,8 +10,7 @@ const selectedStyle = {
 	fontWeight: '700'
 }
 
-const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate }) => {
-	return (
+const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate }) => (
 		<React.Fragment>
 			<Grid
 				spacing={0}
@@ -36,7 +35,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === null?
+						...(selected === null ?
 							selectedStyle
 						:
 							{}
@@ -44,7 +43,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 				>
 					<StateIcon
-						color={selected === null? getSecondary() : 'grey'}
+						color={selected === null ? getSecondary() : 'grey'}
 						translate={translate}
 						state={"ALL"}
 						number={attendanceRecount.all}
@@ -56,7 +55,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === -1?
+						...(selected === -1 ?
 							selectedStyle
 						:
 							{}
@@ -64,7 +63,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 				>
 					<StateIcon
-						color={selected === -1? getSecondary() : 'grey'}
+						color={selected === -1 ? getSecondary() : 'grey'}
 						translate={translate}
 						state={null}
 						number={attendanceRecount.notConfirmed}
@@ -78,7 +77,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.NO_PARTICIPATE?
+						...(selected === PARTICIPANT_STATES.NO_PARTICIPATE ?
 							selectedStyle
 						:
 							{}
@@ -87,7 +86,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 				>
 					<StateIcon
 						translate={translate}
-						color={selected === PARTICIPANT_STATES.NO_PARTICIPATE? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.NO_PARTICIPATE ? getSecondary() : 'grey'}
 						state={PARTICIPANT_STATES.NO_PARTICIPATE}
 						number={attendanceRecount.noParticipate}
 					/>
@@ -98,7 +97,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.REMOTE?
+						...(selected === PARTICIPANT_STATES.REMOTE ?
 							selectedStyle
 						:
 							{}
@@ -106,7 +105,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 				>
 					<StateIcon
-						color={selected === PARTICIPANT_STATES.REMOTE? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.REMOTE ? getSecondary() : 'grey'}
 						translate={translate}
 						state={PARTICIPANT_STATES.REMOTE}
 						number={attendanceRecount.remote}
@@ -120,7 +119,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT?
+						...(selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT ?
 							selectedStyle
 						:
 							{}
@@ -128,7 +127,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 				>
 					<StateIcon
-						color={selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT ? getSecondary() : 'grey'}
 						translate={translate}
 						state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
 						number={attendanceRecount.present}
@@ -145,7 +144,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.DELEGATED?
+						...(selected === PARTICIPANT_STATES.DELEGATED ?
 							selectedStyle
 						:
 							{}
@@ -153,7 +152,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 				>
 					<StateIcon
-						color={selected === PARTICIPANT_STATES.DELEGATED? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.DELEGATED ? getSecondary() : 'grey'}
 						translate={translate}
 						state={PARTICIPANT_STATES.DELEGATED}
 						number={attendanceRecount.delegated}
@@ -167,7 +166,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.REPRESENTATED?
+						...(selected === PARTICIPANT_STATES.REPRESENTATED ?
 							selectedStyle
 						:
 							{}
@@ -176,7 +175,7 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 				>
 					<StateIcon
 						translate={translate}
-						color={selected === PARTICIPANT_STATES.REPRESENTATED? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.REPRESENTATED ? getSecondary() : 'grey'}
 						state={PARTICIPANT_STATES.REPRESENTATED}
 						number={attendanceRecount.representated}
 					/>
@@ -184,6 +183,5 @@ const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate 
 			</Grid>
 		</React.Fragment>
 	);
-};
 
 export default AttendanceHeader;

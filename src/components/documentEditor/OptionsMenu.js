@@ -1,8 +1,7 @@
 import React from 'react';
 import CheckBox from '../../displayComponents/CheckBox';
 
-const OptionsMenu = ({ setOptions, translate, options }) => {
-    return (
+const OptionsMenu = ({ setOptions, translate, options }) => (
         <div style={{ display: "flex", width: '100%', }} >
             <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px", marginRight: "1.5em" }}>
                 <div style={{ width: "100%", display: "flex", marginLeft: 'calc( 0.5em + 4px )', paddingTop: '0.3em', paddingBottom: '0.3em' }}>
@@ -11,8 +10,7 @@ const OptionsMenu = ({ setOptions, translate, options }) => {
                         styleInLabel={{ fontWeight: 'bold', color: '#a09aa0' }}
                         colorCheckbox={"primary"}
                         value={options.stamp}
-                        onChange={(event, isInputChecked) =>
-                            setOptions({
+                        onChange={(event, isInputChecked) => setOptions({
                                 ...options,
                                 stamp: isInputChecked
                             })
@@ -27,8 +25,7 @@ const OptionsMenu = ({ setOptions, translate, options }) => {
                         styleInLabel={{ fontWeight: 'bold', color: '#a09aa0' }}
                         colorCheckbox={"primary"}
                         value={options.doubleColumn}
-                        onChange={(event, isInputChecked) =>
-                            setOptions({
+                        onChange={(event, isInputChecked) => setOptions({
                                 ...options,
                                 doubleColumn: isInputChecked
                             })
@@ -38,6 +35,5 @@ const OptionsMenu = ({ setOptions, translate, options }) => {
             </div>
         </div>
     )
-}
 
 export default OptionsMenu;

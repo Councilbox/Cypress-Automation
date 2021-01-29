@@ -1,11 +1,12 @@
 import React from 'react';
-import DocsLayout from './DocsLayout';
 import { withApollo } from 'react-apollo';
-import { DocsContext } from './DocsLayout';
 import { Card } from 'material-ui';
+import gql from 'graphql-tag';
+import DocsLayout, { DocsContext } from './DocsLayout';
+
 import PlaygroundSideMenu from './PlaygroundSideMenu';
 import Playground from './Playground';
-import gql from 'graphql-tag';
+
 export const PlaygroundContext = React.createContext();
 
 
@@ -73,9 +74,9 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
         <DocsLayout login>
             <DocsContext.Consumer>
                 {docsContext => (
-                    docsContext.login?
+                    docsContext.login ?
                         <PlaygroundContext.Provider value={value}>
-                            <div style={{width: '100%', height: '100%', display: 'flex'}}>
+                            <div style={{ width: '100%', height: '100%', display: 'flex' }}>
                                 <PlaygroundSideMenu />
                                 <Playground />
                             </div>
@@ -86,7 +87,7 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
                             /> */}
                         </PlaygroundContext.Provider>
                     :
-                        <div style={{width: '100%', height: '100%', padding: '1em', paddingTop: '3em'}}>
+                        <div style={{ width: '100%', height: '100%', padding: '1em', paddingTop: '3em' }}>
                             <Card style={{
                                 backgroundColor: '#212121',
                                 padding: '2em'

@@ -4,9 +4,9 @@ import Dialog, {
 	DialogContent,
 	DialogTitle
 } from "material-ui/Dialog";
+import FontAwesome from "react-fontawesome";
 import BasicButton from "./BasicButton";
 import { getPrimary, getSecondary } from "../styles/colors";
-import FontAwesome from "react-fontawesome";
 import { isMobile } from "../utils/screen";
 
 const AlertConfirm = ({
@@ -45,7 +45,7 @@ const AlertConfirm = ({
 					primary={true}
 					color='transparent'
 					type="flat"
-					onClick={!!cancelAction ? cancelAction : requestClose}
+					onClick={cancelAction || requestClose}
 				/>
 			)}
 
@@ -107,14 +107,14 @@ const AlertConfirm = ({
 						padding: "1.1em 2em 1.1em 1em",
 						fontSize: "1.2em",
 						borderBottom: "1px solid gainsboro",
-						overflow:"hidden"
+						overflow: "hidden"
 					}}
 				>
-					{!!titleRigth ?
+					{titleRigth ?
 						(
-							<div style={{ display: "flex",width:"95%", justifyContent: "space-between" }}>
+							<div style={{ display: "flex", width: "95%", justifyContent: "space-between" }}>
 								<div>{title}</div>
-								<div  style={{color:' rgba(0, 0, 0, 0.37)', fontSize:"17px"}}>{titleRigth}</div>
+								<div style={{ color: ' rgba(0, 0, 0, 0.37)', fontSize: "17px" }}>{titleRigth}</div>
 							</div>
 						)
 						:

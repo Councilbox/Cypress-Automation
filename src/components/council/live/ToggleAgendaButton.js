@@ -1,12 +1,12 @@
 import React from "react";
 import { compose, graphql } from "react-apollo";
+import FontAwesome from "react-fontawesome";
+import { Tooltip } from "material-ui";
+import { toast } from 'react-toastify';
 import { closeAgenda, openAgenda, openActPoint } from "../../../queries";
 import { BasicButton, Icon, LiveToast } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import FontAwesome from "react-fontawesome";
-import { Tooltip } from "material-ui";
 import { councilHasSession, getActPointSubjectType } from '../../../utils/CBX';
-import { toast } from 'react-toastify';
 import { AGENDA_STATES, COUNCIL_TYPES } from '../../../constants';
 
 const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) => {

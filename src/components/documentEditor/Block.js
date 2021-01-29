@@ -1,11 +1,11 @@
 import React from 'react';
+import { Button, Collapse, Dialog, DialogTitle, DialogContent } from 'material-ui';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import RichTextInput from '../../displayComponents/RichTextInput';
-import { Button, Collapse } from 'material-ui';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
 import { BasicButton } from '../../displayComponents';
-import { Dialog, DialogTitle, DialogContent } from 'material-ui';
+
 import LoadDraft from '../company/drafts/LoadDraft';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { getDefaultTagsByBlockType } from './utils';
@@ -14,7 +14,7 @@ import { getDefaultTagsByBlockType } from './utils';
 
 const Block = ({ expand, setExpand, company, translate, ...props }) => {
     const [editMode, setEditMode] = React.useState(false);
-    const [text, setText] = React.useState(props.column === 2? props.value.secondaryText : props.value.text);
+    const [text, setText] = React.useState(props.column === 2 ? props.value.secondaryText : props.value.text);
     const [draftModal, setDraftModal] = React.useState(false);
     const editor = React.useRef();
 
@@ -51,7 +51,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
             <div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%', }}>
                 <BorderBox
                     itemInfo={props.value}
-                    icon={props.value.icon? props.value.icon : ''}
+                    icon={props.value.icon ? props.value.icon : ''}
                     id={props.id}
                     column={props.column}
                     colorBorder={props.value.colorBorder}
@@ -61,19 +61,18 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     noIcon={true}
                 >
                     <div >
-                        <div style={{ fontSize: '16px', fontWeight: 'bold',  }}>{props.value.label}</div>
+                        <div style={{ fontSize: '16px', fontWeight: 'bold', }}>{props.value.label}</div>
                     </div>
                 </BorderBox>
             </div>
         )
     }
 
-    const renderEditor = () => {
-        return (
+    const renderEditor = () => (
             <RichTextInput
                 borderless={true}
                 ref={editor}
-                value={props.column === 2? props.value.secondaryText || '' : props.value.text || ''}
+                value={props.column === 2 ? props.value.secondaryText || '' : props.value.text || ''}
                 translate={translate}
                 //tags={generateActTags(null, translate)}
                 //errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
@@ -97,7 +96,6 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 }
             />
         )
-    }
 
     return (
         <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%" }}>
@@ -120,7 +118,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
                 </div>
                 <div style={{ fontWeight: "700" }}>
-                    {props.value.label? translate[props.value.label] || props.value.label : ''}
+                    {props.value.label ? translate[props.value.label] || props.value.label : ''}
                 </div>
             </div>
             {props.expand ?
@@ -128,7 +126,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 <Collapse in={expand} timeout="auto" unmountOnExit>
                     <React.Fragment>
                         <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
-                            __html: props.column === 2? props.value.secondaryText : props.value.text
+                            __html: props.column === 2 ? props.value.secondaryText : props.value.text
                         }}>
                         </div>
                         <div>
@@ -145,7 +143,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     <div
                         style={{ marginTop: "1em" }}
                         dangerouslySetInnerHTML={{
-                            __html: props.column === 2? props.value.secondaryText : props.value.text
+                            __html: props.column === 2 ? props.value.secondaryText : props.value.text
                         }}
                     />
             }
@@ -183,11 +181,10 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 }
 
 
-export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, toggle, removeBlock, id, noIcon }) => {
-    return (
+export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, toggle, removeBlock, id, noIcon }) => (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px", ...stylesBody }}>
             <div style={{ width: "100%", display: "flex", }}>
-                <div style={{ paddingRight: "4px", background: colorBorder ? colorBorder : getPrimary(), borderRadius: "15px", }}></div>
+                <div style={{ paddingRight: "4px", background: colorBorder || getPrimary(), borderRadius: "15px", }}></div>
                 <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
                     <div style={{ display: "flex", width: "100%" }}>
                         <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
@@ -214,11 +211,11 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                             </div>
                             <div style={{ marginLeft: "0.3em", marginRight: "0.8em", height: '100%', display: 'flex', alignItems: 'center' }}>
                                 {toggle ?
-                                    <span style={{ cursor: "pointer",color: colorBorder }} onClick={() => removeBlock(id)}>
-                                        {!itemInfo.hide?
-                                            <i className="fa fa-check-square-o" aria-hidden="true" style={{color: 'green', fontSize: '20px', }}></i>
+                                    <span style={{ cursor: "pointer", color: colorBorder }} onClick={() => removeBlock(id)}>
+                                        {!itemInfo.hide ?
+                                            <i className="fa fa-check-square-o" aria-hidden="true" style={{ color: 'green', fontSize: '20px', }}></i>
                                          :
-                                            <i className="fa fa-square-o" aria-hidden="true" style={{color: 'grey', fontSize: '20px' }}></i>
+                                            <i className="fa fa-square-o" aria-hidden="true" style={{ color: 'grey', fontSize: '20px' }}></i>
                                          }
                                     </span>
                                 :
@@ -233,7 +230,6 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                 </div>
             </div>
         </div>
-    );
-}
+    )
 
 export default withSharedProps()(Block);

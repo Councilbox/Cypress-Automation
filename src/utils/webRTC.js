@@ -19,17 +19,11 @@ export const checkIsUnsupportedWindowsVersion = detectRTC => {
 	return isUnsupportedWindowsVersion;
 }
 
-export const checkIsWebRTCCompatibleBrowser = detectRTC => {
-	return detectRTC.isWebRTCSupported && (detectRTC.browser.isChrome || detectRTC.browser.isFirefox);
-}
+export const checkIsWebRTCCompatibleBrowser = detectRTC => detectRTC.isWebRTCSupported && (detectRTC.browser.isChrome || detectRTC.browser.isFirefox)
 
-export const checkIsiOSDevice = detectRTC => {
-	return detectRTC.isMobileDevice && detectRTC.osName === "iOS";
-}
+export const checkIsiOSDevice = detectRTC => detectRTC.isMobileDevice && detectRTC.osName === "iOS"
 
-export const checkIsMobileDevice = detectRTC => {
-	return detectRTC.isMobileDevice;
-}
+export const checkIsMobileDevice = detectRTC => detectRTC.isMobileDevice
 
 export const checkIsCompatible = (detectRTC, council, participant) => {
  	if(council.councilType === COUNCIL_TYPES.NO_VIDEO){

@@ -1,7 +1,7 @@
 import React from 'react';
-import { AlertConfirm } from "../../../../../displayComponents";
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { AlertConfirm } from "../../../../../displayComponents";
 import CustomPointForm from './CustomPointForm';
 import { useValidateAgenda } from './NewCustomPointModal';
 import DeleteAgendaButton from './DeleteAgendaButton';
@@ -47,13 +47,13 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
     }
 
     const updateItem = (index, value) => {
-        let newItems = [...items];
+        const newItems = [...items];
         newItems[index].value = value;
         setItems(newItems);
     }
 
     const removeItem = (index) => {
-        let newItems = [...items];
+        const newItems = [...items];
         newItems.splice(index, 1);
         setItems(newItems);
     }
@@ -72,9 +72,8 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
         });
     }
 
-    const renderBody = () => {
-        return (
-            <div style={{marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720? '720px' : '100%'}}>
+    const renderBody = () => (
+            <div style={{ marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%' }}>
                 <CustomPointForm
                     {...{
                         ...props,
@@ -92,8 +91,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
                 />
             </div>
         )
-    }
-    
+
     return (
         <AlertConfirm
             requestClose={props.requestClose}

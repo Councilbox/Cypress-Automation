@@ -2,10 +2,6 @@ import React from "react";
 import { Select } from "material-ui";
 import Input, { InputLabel } from "material-ui/Input";
 import { FormControl } from "material-ui/Form";
-import { withStyles } from "material-ui";
-import PropTypes from "prop-types";
-
-
 
 // const styles = {
 // 	'#b47fb6': {
@@ -65,14 +61,10 @@ const SelectInput = ({
 	noLabel,
 	labelStyle = {},
 	autoWidth,
-	colorText,
 	styles,
 	disableUnderline = false,
-	styleLabel,
-	...props
-}) => {
-
-	return (
+	styleLabel
+}) => (
 		<FormControl
 			error={!!errorText}
 			style={{
@@ -82,14 +74,14 @@ const SelectInput = ({
 			}}
 		>
 			{!noLabel && (
-				<InputLabel style={{ ...styleLabel }} htmlFor={id}>{`${!!floatingText ? floatingText : ""}${required ? "*" : ""
+				<InputLabel style={{ ...styleLabel }} htmlFor={id}>{`${floatingText || ""}${required ? "*" : ""
 					}`}</InputLabel>
 			)}
 			<Select
 				disableUnderline={disableUnderline}
 				inputProps={{
 					name: floatingText,
-					id: id,
+					id,
 					style: {
 						fontSize: '12px !important',
 						...labelStyle
@@ -115,8 +107,7 @@ const SelectInput = ({
 			</Select>
 			{errorText && <span style={{ color: 'red', fontSize: '12px' }}>{errorText}</span>}
 		</FormControl>
-	);
-}
+	)
 
 
 // SelectInput.propTypes = {

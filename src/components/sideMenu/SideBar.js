@@ -11,19 +11,18 @@ import {
 	MenuItem,
 	withStyles
 } from "material-ui";
-import sidebarStyle from "../../styles/sidebarStyle";
 import BorderColor from 'material-ui-icons/BorderColor';
 import ContentPaste from 'material-ui-icons/ContentPaste';
 import Dashboard from 'material-ui-icons/Dashboard';
 import ImportContacts from 'material-ui-icons/ImportContacts';
+import FontAwesome from "react-fontawesome";
+import sidebarStyle from "../../styles/sidebarStyle";
 import { getPrimary } from "../../styles/colors";
 import { bHistory, store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
 import { DropDownMenu, Icon } from "../../displayComponents";
-import FontAwesome from "react-fontawesome";
 
 class Sidebar extends React.Component {
-
 	state = {
 		selectedRoute: 0
 	};
@@ -166,7 +165,7 @@ class Sidebar extends React.Component {
 						}}
 					>
 						<div className={this.props.classes.logoImage}>
-							{!!this.props.company.logo ? (
+							{this.props.company.logo ? (
 								<img
 									src={this.props.company.logo}
 									alt="logo"
@@ -210,7 +209,7 @@ class Sidebar extends React.Component {
 									key={`company_${company.id}`}
 									onClick={() => this.changeCompany(index)}
 								>
-									{!!company.logo ? (
+									{company.logo ? (
 										<img
 											src={company.logo}
 											alt="logo"

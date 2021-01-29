@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
-import { getCustomBackground, getCustomRoomBackground, useSubdomain } from '../utils/subdomain';
+import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
 
 
@@ -10,12 +10,12 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
     const imgUrl = window.location.pathname.includes('participant') ?
-        customRoomBackground ? customRoomBackground : customBackground ? customBackground : bg
+        customRoomBackground || (customBackground || bg)
         :
-        customBackground ? customBackground : bg
+        customBackground || bg
 
     React.useEffect(() => {
-        let img = new Image();
+        const img = new Image();
         img.src = imgUrl;
         img.onload = () => setLoadingImg(false);
     }, [customBackground, customRoomBackground]);

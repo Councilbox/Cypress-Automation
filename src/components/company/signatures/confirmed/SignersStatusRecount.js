@@ -1,8 +1,8 @@
 import React from 'react';
-import { Grid, GridItem, LoadingSection } from '../../../../displayComponents';
-import { SIGNATURE_STATES } from '../../../../constants';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Grid, GridItem, LoadingSection } from '../../../../displayComponents';
+import { SIGNATURE_STATES } from '../../../../constants';
 
 const SignersStatusRecount = ({ data, translate, signature, client }) => {
     const [count, setRecount] = React.useState(null);
@@ -20,7 +20,7 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
             variables: {
                 signatureId: signature.id
             }
-        
+
         });
 
         setRecount(response.data.signatureParticipantsStatusRecount);
@@ -68,10 +68,10 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
                     <GridItem xs={4} md={4} lg={4}>
                         {`${translate.required_signatures}: ${count.signed + count.unsigned}`}
                     </GridItem>
-                    <GridItem xs={4} md={4} lg={4} style={{display: 'flex', justifyContent: 'center'}}>
+                    <GridItem xs={4} md={4} lg={4} style={{ display: 'flex', justifyContent: 'center' }}>
                         {`${translate.signatures_done}: ${count.signed}`}
                     </GridItem>
-                    <GridItem xs={4} md={4} lg={4} style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <GridItem xs={4} md={4} lg={4} style={{ display: 'flex', justifyContent: 'flex-end' }}>
                         {`${translate.unrealized_signatures}: ${count.unsigned}`}
                     </GridItem>
 

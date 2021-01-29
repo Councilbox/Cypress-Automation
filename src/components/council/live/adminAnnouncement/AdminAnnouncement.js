@@ -2,28 +2,28 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { Paper } from 'material-ui';
+import ScrollBar from 'react-perfect-scrollbar';
 import { BasicButton, Checkbox } from '../../../../displayComponents';
 import { ConfigContext } from '../../../../containers/AppControl';
 import aviso from '../../../../assets/img/aviso.svg';
 import { getPrimary } from '../../../../styles/colors';
 import AdminAnnouncementBody from './AdminAnnouncementBody';
-import ScrollBar from 'react-perfect-scrollbar';
 
 
 const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, updateAdminAnnouncement, openHelp, isAdmin, ...props }) => {
     const context = React.useContext(ConfigContext);
     const [announcement, setAnnouncement] = React.useState(null);
-    const [mostrarInfo, setMostrarInfo] = React.useState(openHelp ? openHelp : false);
+    const [mostrarInfo, setMostrarInfo] = React.useState(openHelp || false);
     const [blockUser, setBlockUser] = React.useState(false);
     const [showInParticipant, setShowInParticipant] = React.useState(true);
 
     const container = document.getElementById('announcement-container');
 
-    const containerWidth = container? container.offsetWidth : 0;
-    const containerHeight = container? container.offsetHeight : 0;
+    const containerWidth = container ? container.offsetWidth : 0;
+    const containerHeight = container ? container.offsetHeight : 0;
 
-    const maxWidth = containerWidth > 640? '600px' : `${containerWidth - 50}px`;
-      
+    const maxWidth = containerWidth > 640 ? '600px' : `${containerWidth - 50}px`;
+
 
     React.useEffect(() => {
         props.subscribeToAdminAnnoucement({ councilId: council.id });
@@ -95,7 +95,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                         position: 'relative'
                     }}
                 >
-                    <div style={{paddingBottom: '2.5em', width: maxWidth }}>
+                    <div style={{ paddingBottom: '2.5em', width: maxWidth }}>
                         <AdminAnnouncementBody
                             announcement={data.adminAnnouncement}
                             admin={isAdmin}
@@ -182,11 +182,9 @@ export default compose(
             },
             pollInterval: 15000,
         }),
-        props: props => {
-            return {
+        props: props => ({
                 ...props,
-                subscribeToAdminAnnoucement: params => {
-                    return props.data.subscribeToMore({
+                subscribeToAdminAnnoucement: params => props.data.subscribeToMore({
                         document: gql`
                         subscription adminAnnouncementUpdate($councilId: Int!){
                             adminAnnouncementUpdate(councilId: $councilId){
@@ -212,12 +210,9 @@ export default compose(
                             return ({
                                 adminAnnouncement: null
                             });
-
                         }
-                    });
-                }
-            };
-        }
+                    })
+            })
     }),
     graphql(closeRoomAnnouncement, { name: 'closeRoomAnnouncement' }),
     graphql(updateAdminAnnouncement, { name: 'updateAdminAnnouncement' })

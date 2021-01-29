@@ -5,7 +5,6 @@ import { secondary } from '../../../../styles/colors';
 import { isAskingForWord, exceedsOnlineTimeout } from '../../../../utils/CBX';
 
 class LiveParticipantStats extends React.Component {
-
     render(){
         let online = 0;
 		let offline = 0;
@@ -65,7 +64,7 @@ const participantsQuery = gql`
 
 `;
 
-export default graphql(participantsQuery,{
+export default graphql(participantsQuery, {
     options: props => ({
         variables: {
             id: props.council.id

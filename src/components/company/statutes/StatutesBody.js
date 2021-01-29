@@ -1,6 +1,9 @@
 import React from "react";
-import withSharedProps from "../../../HOCs/withSharedProps";
 import { compose, graphql, withApollo } from "react-apollo";
+import { withRouter } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { Paper, IconButton, Tooltip } from "material-ui";
+import withSharedProps from "../../../HOCs/withSharedProps";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -21,18 +24,15 @@ import {
 	updateStatute
 } from "../../../queries";
 import { censuses } from "../../../queries/census";
-import { withRouter } from "react-router-dom";
 import { store } from '../../../containers/App';
 import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from "./StatuteEditor";
 import StatuteNameEditor from './StatuteNameEditor';
 import { getPrimary, getSecondary, primary, secondary } from "../../../styles/colors";
 import { checkForUnclosedBraces } from '../../../utils/CBX';
-import { toast } from 'react-toastify';
 import { useOldState } from "../../../hooks";
 import { isMobile } from '../../../utils/screen';
-import { Paper, IconButton } from "material-ui";
-import { Tooltip } from "material-ui";
+
 
 
 const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props }) => {
@@ -93,7 +93,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	}, [censuses]);
 
 	function checkRequiredFields() {
-		let errors = {
+		const errors = {
 			advanceNoticeDays: '',
 			minimumSeparationBetweenCall: '',
 			maxNumDelegatedVotes: '',
@@ -209,7 +209,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 			const response = await props.updateStatute({
 				variables: {
-					statute: statute
+					statute
 				}
 			});
 			if (response.errors) {
@@ -255,8 +255,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const createStatute = async () => {
-		var regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
-		
+		const regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
+
 		if (state.newStatuteName) {
 			if ((regex.test(state.newStatuteName)) && state.newStatuteName.trim()) {
 				setState({
@@ -319,7 +319,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				...state.statute,
 				...object
 			},
-			unsavedChanges: JSON.stringify({...state.statute, ...object}) !== JSON.stringify(data.companyStatutes[state.selectedStatute])
+			unsavedChanges: JSON.stringify({ ...state.statute, ...object }) !== JSON.stringify(data.companyStatutes[state.selectedStatute])
 		}));
 	};
 
@@ -347,7 +347,9 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const showNewStatute = () => setState({
-		...state, newStatute: true, errors: {
+		...state,
+newStatute: true,
+errors: {
 			...state.errors,
 			newStatuteName: ""
 		}
@@ -372,7 +374,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	if (!companyStatutes) {
 		return <LoadingSection />;
 	}
-	
+
 
 	const body = () => (
 		<>
@@ -542,8 +544,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				requestClose={() => setState({ ...state, rollbackAlert: false })}
 			/>
 			<AlertConfirm
-				requestClose={() =>
-					setState({ ...state, newStatute: false })
+				requestClose={() => setState({ ...state, newStatute: false })
 				}
 				open={state.newStatute}
 				acceptAction={createStatute}
@@ -557,8 +558,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 						type="text"
 						errorText={errors.newStatuteName}
 						value={statute ? statute.newStatuteName : state.newStatuteName}
-						onChange={event =>
-							setState({
+						onChange={event => setState({
 								...state,
 								newStatuteName:
 									event.target.value
@@ -570,8 +570,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			/>
 			{state.editModal !== false &&
 				<StatuteNameEditor
-					requestClose={() =>
-						setState({ ...state, editModal: false })
+					requestClose={() => setState({ ...state, editModal: false })
 					}
 					key={companyStatutes[state.editModal].id}
 					statute={companyStatutes[state.editModal]}

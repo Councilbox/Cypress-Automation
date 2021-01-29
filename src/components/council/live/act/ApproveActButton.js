@@ -1,8 +1,8 @@
 import React from 'react';
+import { withApollo } from 'react-apollo';
 import { BasicButton, Icon } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
-import { withApollo } from 'react-apollo';
 import { approveAct } from '../../../../queries';
 
 const ApproveActButton = ({ translate, council, client, refetch }) => {

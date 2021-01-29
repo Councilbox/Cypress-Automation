@@ -1,9 +1,10 @@
 import React from "react";
 import { graphql, withApollo, compose } from "react-apollo";
 import FontAwesome from "react-fontawesome";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { updateCouncil } from "../../../queries";
 import gql from "graphql-tag";
+import { Typography, Paper, Tooltip, Switch, FormControlLabel } from "material-ui";
+import { getPrimary, getSecondary } from "../../../styles/colors";
+import { updateCouncil, downloadConvenePDF } from "../../../queries";
 import {
 	BasicButton,
 	AlertConfirm,
@@ -12,12 +13,11 @@ import {
 	GridItem,
 	LoadingSection
 } from "../../../displayComponents";
-import { Typography, Paper, Tooltip } from "material-ui";
 import AttachmentDownload from "../../attachments/AttachmentDownload";
-import { downloadConvenePDF } from "../../../queries";
+
 import * as CBX from '../../../utils/CBX';
 import withWindowSize from '../../../HOCs/withWindowSize';
-import { Switch, FormControlLabel } from 'material-ui';
+
 
 export const conveneDetails = gql`
 	query CouncilDetails($councilID: Int!) {
@@ -145,8 +145,7 @@ class Convene extends React.Component {
 							</Typography>
 							<div style={{ marginTop: "1em" }}>
 								<Grid>
-									{council.attachments.map(attachment => {
-										return (
+									{council.attachments.map(attachment => (
 											<GridItem
 												key={`attachment${attachment.id}`}
 											>
@@ -156,8 +155,7 @@ class Convene extends React.Component {
 													spacing={0.5}
 												/>
 											</GridItem>
-										);
-									})}
+										))}
 								</Grid>
 							</div>
 						</div>
@@ -263,7 +261,7 @@ class Convene extends React.Component {
 					/>
 				</React.Fragment>
 			);
-		} else {
+		}
 			return (
 				<React.Fragment>
 					{council.attachments.length > 0 && !this.props.hideAttachments && (
@@ -281,8 +279,7 @@ class Convene extends React.Component {
 							</Typography>
 							<div style={{ marginTop: "1em" }}>
 								<Grid>
-									{council.attachments.map(attachment => {
-										return (
+									{council.attachments.map(attachment => (
 											<GridItem
 												key={`attachment${attachment.id}`}
 											>
@@ -292,8 +289,7 @@ class Convene extends React.Component {
 													spacing={0.5}
 												/>
 											</GridItem>
-										);
-									})}
+										))}
 								</Grid>
 							</div>
 						</div>
@@ -400,7 +396,6 @@ class Convene extends React.Component {
 					/>
 				</React.Fragment>
 			);
-		}
 	}
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { TextInput, Grid, GridItem, BasicButton, LoadingSection } from '../../../../displayComponents';
 import { graphql } from 'react-apollo';
+import { TextInput, Grid, GridItem, BasicButton, LoadingSection } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 import { updateAgenda } from "../../../../queries/agenda";
 import { useOldState } from '../../../../hooks';
@@ -63,10 +63,10 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
         return <span />
     }
 
-    const votesLeft = ((agenda.votingState === 4? props.votingsRecount.availableVotes : agenda.presentCensus) - state.noVoteManual - state.abstentionManual - state.negativeManual - state.positiveManual);
+    const votesLeft = ((agenda.votingState === 4 ? props.votingsRecount.availableVotes : agenda.presentCensus) - state.noVoteManual - state.abstentionManual - state.negativeManual - state.positiveManual);
     const maxVoteManual = votesLeft <= 0 ? 0 : votesLeft;
 
-    const width = window.innerWidth ;
+    const width = window.innerWidth;
 
     if(agenda.presentCensus <= 0){
         return <span/>
@@ -90,7 +90,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
                         {translate.manual_votes} <br />
                         {`(${translate.avaliable} ${maxVoteManual})`}
                     </GridItem>
-                    <GridItem xs={12} md={10} lg={10}  style={{ display: isMobile || width < 960 ? "": 'flex', justifyContent: "space-between" }}>
+                    <GridItem xs={12} md={10} lg={10} style={{ display: isMobile || width < 960 ? "" : 'flex', justifyContent: "space-between" }}>
                         <GridItem xs={12} md={2} lg={2}>
                             <TextInput
                                 value={state.positiveManual || 0}
@@ -151,7 +151,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
                                 loading={state.loading}
                                 success={state.success}
                                 reset={resetButtonStates}
-                                text={state.loading || state.success  ? "Guardado" : translate.save}
+                                text={state.loading || state.success ? "Guardado" : translate.save}
                                 // text={translate.save}
                                 textStyle={{ color: 'white', fontWeight: '700' }}
                                 color={getSecondary()}
@@ -163,7 +163,6 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
             </div>
         </div>
     )
-
 }
 
 const calculateValidNumber = (max, actual, newValue) => {
@@ -172,9 +171,8 @@ const calculateValidNumber = (max, actual, newValue) => {
     }
     if ((max + actual) >= newValue) {
         return newValue;
-    } else {
-        return max + actual;
     }
+        return max + actual;
 }
 
 export default graphql(updateAgenda, {

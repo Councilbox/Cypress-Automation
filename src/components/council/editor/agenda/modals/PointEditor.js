@@ -1,5 +1,8 @@
 import React from "react";
 import { graphql, withApollo } from "react-apollo";
+import { MenuItem } from "material-ui";
+import { toast } from 'react-toastify';
+import gql from 'graphql-tag';
 import {
 	AlertConfirm,
 	BasicButton,
@@ -10,18 +13,15 @@ import {
 	TextInput
 } from "../../../../../displayComponents/index";
 import RichTextInput from "../../../../../displayComponents/RichTextInput";
-import { MenuItem } from "material-ui";
 import { updateAgenda } from "../../../../../queries/agenda";
 import * as CBX from "../../../../../utils/CBX";
 import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
-import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../../../company/drafts/draftTags/utils";
 import PointAttachments from "./PointAttachments";
 import { addAgendaAttachment } from "../../../../../queries";
 import { useOldState } from "../../../../../hooks";
-import gql from 'graphql-tag';
 import DeleteAgendaButton from "./DeleteAgendaButton";
 import { AGENDA_TYPES } from "../../../../../constants";
 
@@ -46,21 +46,22 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 
 	const loadDraft = async draft => {
 		const correctedText = await CBX.changeVariablesToValues(draft.text, {
-			company: company,
-			council: council
+			company,
+			council
 		}, translate);
-		let majorityType = 0, subjectType = 0;
+		let majorityType = 0; let
+subjectType = 0;
 
 		if(draft.tags.agenda){
 			const { segments } = draft.tags.agenda;
 			if(segments[1]){
 				subjectType = props.votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
 			}
-	
+
 			if(segments[2]){
 				majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
 			}
-		}	
+		}
 
 		setState({
 			...(state.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
@@ -91,7 +92,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 			if(attachments.length > 0){
 				await Promise.all(attachments.filter(attachment => !attachment.__typename).map(attachment => {
 					if(attachment.filename){
-						let fileInfo = {
+						const fileInfo = {
 							...attachment,
 							state: 0,
 							agendaId: agenda.id,
@@ -104,8 +105,8 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 								attachment: fileInfo
 							}
 						});
-					} else {
-						let fileInfo = {
+					}
+						const fileInfo = {
 							filename: attachment.name,
 							filesize: attachment.filesize.toString(),
 							documentId: attachment.id,
@@ -127,13 +128,11 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 								attachment: fileInfo
 							}
 						})
-					}
 				}));
 			}
 
 			if(attachmentsToRemove.length > 0){
-				await Promise.all(attachmentsToRemove.map(item =>{
-					return props.client.mutate({
+				await Promise.all(attachmentsToRemove.map(item => props.client.mutate({
 						mutation: gql`
 							mutation deleteAgendaAttachment($attachmentId: Int!){
 								deleteAgendaAttachment(attachmentId: $attachmentId){
@@ -144,8 +143,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 						variables: {
 							attachmentId: item.id
 						}
-					});
-				}));
+					})));
 			}
 
 
@@ -221,8 +219,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 								type="text"
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										agendaSubject: event.target.value
 									})
 								}
@@ -235,8 +232,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 									floatingText={translate.type}
 									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
 									disabled={true}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											subjectType: +event.target.value
 										})
 									}
@@ -253,23 +249,20 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 									floatingText={translate.type}
 									value={agenda.subjectType}
 									errorText={errors.subjectType}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											subjectType: event.target.value
 										})
 									}
 									required
 								>
-									{filteredTypes.map(voting => {
-										return (
+									{filteredTypes.map(voting => (
 											<MenuItem
 												value={voting.value}
 												key={`voting${voting.value}`}
 											>
 												{translate[voting.label]}
 											</MenuItem>
-										);
-									})}
+										))}
 								</SelectInput>
 							}
 						</GridItem>
@@ -282,15 +275,13 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 									floatingText={translate.majority_label}
 									value={"" + agenda.majorityType}
 									errorText={errors.majorityType}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											majorityType: +event.target.value
 										})
 									}
 									required
 								>
-									{props.majorityTypes.map(majority => {
-										return (
+									{props.majorityTypes.map(majority => (
 											<MenuItem
 												value={"" + majority.value}
 												key={`majorityType_${
@@ -299,8 +290,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 											>
 												{translate[majority.label]}
 											</MenuItem>
-										);
-									})}
+										))}
 								</SelectInput>
 							</GridItem>
 							<GridItem xs={6} lg={3} md={3}>
@@ -313,13 +303,11 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 										divider={agenda.majorityDivider}
 										majorityError={errors.majority}
 										dividerError={errors.majorityDivider}
-										onChange={value =>
-											updateState({
+										onChange={value => updateState({
 												majority: +value
 											})
 										}
-										onChangeDivider={value =>
-											updateState({
+										onChangeDivider={value => updateState({
 												majorityDivider: +value
 											})
 										}
@@ -328,7 +316,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 							</GridItem>
 						</Grid>
 					)}
-					<div style={{marginBottom: '1.6em'}}>
+					<div style={{ marginBottom: '1.6em' }}>
 						<PointAttachments
 							translate={translate}
 							setAttachments={setAttachments}
@@ -376,8 +364,7 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 						]}
 						errorText={errors.description}
 						value={agenda.description}
-						onChange={value =>
-							updateState({
+						onChange={value => updateState({
 								description: value
 							})
 						}
@@ -388,14 +375,14 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 	};
 
 	function checkRequiredFields() {
-		let errors = checkRequiredFieldsAgenda(state, translate, toast);
+		const errors = checkRequiredFieldsAgenda(state, translate, toast);
 		setErrors(errors);
 		return errors.hasError;
 	}
 
 	return (
 		<AlertConfirm
-			requestClose={loadDraftModal? () => setLoadDraftModal(false) : requestClose}
+			requestClose={loadDraftModal ? () => setLoadDraftModal(false) : requestClose}
 			open={open}
 			acceptAction={saveChanges}
 			extraActions={

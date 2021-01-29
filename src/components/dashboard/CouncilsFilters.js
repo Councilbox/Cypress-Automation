@@ -4,7 +4,6 @@ import { isMobile } from '../../utils/screen';
 
 
 class CouncilsFilters extends React.Component {
-
     state = {
         filterText: '',
         inputSearchE: ""
@@ -12,7 +11,7 @@ class CouncilsFilters extends React.Component {
 
     updateFilterText = text => {
         this.props.refetch({
-            filters: [{ field: 'name', text: text }]
+            filters: [{ field: 'name', text }]
         });
 
         this.setState({

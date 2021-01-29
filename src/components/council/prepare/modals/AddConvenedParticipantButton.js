@@ -1,4 +1,5 @@
 import React from "react";
+import { compose, graphql, withApollo } from "react-apollo";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -6,7 +7,6 @@ import {
 	AlertConfirm,
 	Scrollbar
 } from "../../../../displayComponents";
-import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary, secondary } from "../../../../styles/colors";
 import { languages } from "../../../../queries/masters";
 import ParticipantForm from "../../participants/ParticipantForm";
@@ -65,8 +65,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 					errors: {},
 					representativeErrors: {}
 				});
-			} else {
-				if(response.errors[0].message === 'Too many granted words'){
+			} else if(response.errors[0].message === 'Too many granted words'){
 					setState({
 						...(state.data.initialState === 2 ? {
 							errors: {
@@ -81,7 +80,6 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 
 					});
 				}
-			}
 		}
 	};
 
@@ -113,7 +111,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 		};
 
 		if (!onlyEmail) {
-			let hasSocialCapital = participations;
+			const hasSocialCapital = participations;
 			errorsParticipant = checkRequiredFieldsParticipant(
 				participant,
 				translate,
@@ -139,7 +137,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 
 
 		if (participant.email && company.type !== 10) {
-			let emailsToCheck = [participant.email];
+			const emailsToCheck = [participant.email];
 
 			if (representative.email && !representative.id) {
 				emailsToCheck.push(representative.email);
@@ -291,7 +289,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 							})}
 						/>
 						<BasicButton
-							text={council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION?  translate.save_and_notify : translate.save_changes_and_send}
+							text={council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.save_and_notify : translate.save_changes_and_send}
 							textStyle={{
 								color: "white",
 								textTransform: "none",

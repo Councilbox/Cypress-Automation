@@ -1,7 +1,7 @@
 import React from "react";
-import { AlertConfirm, Icon, Radio } from "../../../../displayComponents";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
+import { AlertConfirm, Icon, Radio } from "../../../../displayComponents";
 import { sendVideoEmails } from "../../../../queries";
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
@@ -83,12 +83,11 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 
 		if(state.error === 'Failed SMS'){
 			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />
-
 		}
 
 		if (state.success) {
 			return (
-				<div style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+				<div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 					<SuccessMessage message={translate.sent} />
 				</div>
 			);
@@ -120,7 +119,7 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 			requestClose={close}
 			open={props.show}
 			loadingAction={state.sending}
-			acceptAction={state.success? () => close() : sendVideoEmails}
+			acceptAction={state.success ? () => close() : sendVideoEmails}
 			buttonAccept={state.success ? translate.accept : translate.send}
 			hideAccept={state.error || state.showSMS}
 			buttonCancel={translate.close}

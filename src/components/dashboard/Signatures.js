@@ -1,6 +1,8 @@
 import React from "react";
-import { deleteSignature, signatures } from "../../queries/signature";
 import { compose, graphql } from "react-apollo";
+import { TableCell, TableRow } from "material-ui/Table";
+import Scrollbar from "react-perfect-scrollbar";
+import { deleteSignature, signatures } from "../../queries/signature";
 import {
 	AlertConfirm,
 	CloseIcon,
@@ -11,8 +13,6 @@ import {
 	BasicButton
 } from "../../displayComponents/index";
 import { getPrimary } from "../../styles/colors";
-import { TableCell, TableRow } from "material-ui/Table";
-import Scrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { bHistory } from "../../containers/App";
 import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
@@ -36,7 +36,7 @@ const Signatures = ({ translate, data, ...props }) => {
 	const openDeleteModal = id => {
 		setDeleteModalId(id);
 	}
-	
+
 	const deleteSignature = async () => {
 		data.loading = true;
 		const response = await props.mutate({
@@ -107,7 +107,7 @@ const Signatures = ({ translate, data, ...props }) => {
 										border: "1px solid " + getPrimary(),
 										marginTop: '1em'
 									}}
-								
+
 									onClick={() => bHistory.push(`/company/${props.company.id}/signature/new`)}
 								/>
 							</div>
@@ -115,15 +115,13 @@ const Signatures = ({ translate, data, ...props }) => {
 								<div style={{ padding: "1em", paddingTop: '2em' }}>
 									{false ? (
 										<div>
-											{error.graphQLErrors.map((error, index) => {
-												return (
+											{error.graphQLErrors.map((error, index) => (
 													<ErrorWrapper
 														key={`error_${index}`}
 														error={error}
 														translate={translate}
 													/>
-												);
-											})}
+												))}
 										</div>
 									) : signatures.length > 0 ? (
 										<Table
@@ -134,8 +132,7 @@ const Signatures = ({ translate, data, ...props }) => {
 											action={_renderDeleteIcon}
 											companyID={props.company.id}
 										>
-											{signatures.map(signature => {
-												return (
+											{signatures.map(signature => (
 													<HoverableRow
 														signature={signature}
 														disabled={props.disabled}
@@ -145,8 +142,7 @@ const Signatures = ({ translate, data, ...props }) => {
 														showModal={openCantAccessModal}
 														openDeleteModal={openDeleteModal}
 													/>
-												);
-											})}
+												))}
 										</Table>
 									) : (
 												<span>{translate.no_results}</span>
@@ -173,7 +169,6 @@ const Signatures = ({ translate, data, ...props }) => {
 			/>
 		</div>
 	);
-
 }
 
 
@@ -191,7 +186,6 @@ export default compose(
 )(Signatures);
 
 class HoverableRow extends React.PureComponent {
-
 	state = {
 		showActions: false
 	}
@@ -239,8 +233,7 @@ class HoverableRow extends React.PureComponent {
 					disabled ?
 						this.props.showModal()
 						:
-						bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`
-						);
+						bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`);
 				}}
 				key={`signature${
 					signature.id

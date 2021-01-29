@@ -1,14 +1,14 @@
 import React from "react";
+import { Paper, Collapse, Tooltip } from "material-ui";
+import { withApollo } from "react-apollo";
+import gql from "graphql-tag";
 import { AlertConfirm, Grid, GridItem, Scrollbar } from "../../../../displayComponents";
 import { hasSecondCall, agendaPointNotOpened, agendaClosed, agendaPointOpened, agendaVotingsOpened } from "../../../../utils/CBX";
 import { moment } from '../../../../containers/App';
 import { StatuteDisplay } from "../../display/StatuteDisplay";
-import { Paper } from "material-ui";
-import { withApollo } from "react-apollo";
-import { Collapse } from "material-ui";
-import gql from "graphql-tag";
+
 import { isMobile } from "../../../../utils/screen";
-import { Tooltip } from "material-ui";
+
 import { councilTypesInfo } from "../../../../constants";
 
 
@@ -17,7 +17,7 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 	const [openPoints, setOpenPoints] = React.useState(false);
 	const [data, setData] = React.useState(false);
 	const [loading, setLoading] = React.useState(true);
-	
+
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: agendaManager,
@@ -58,14 +58,14 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
                 <i
                     className={icon}
                     aria-label={icon === "fa fa-lock colorGrey" ? "punto cerrado" : "punto abierto"}
-                    style={{ marginRight: '0.6em', cursor: 'auto', fontSize: "18px", color: color }}
+                    style={{ marginRight: '0.6em', cursor: 'auto', fontSize: "18px", color }}
                 ></i>
             </Tooltip>
         );
 	}
-	
+
 	const agendaVotingIcon = agenda => {
-        let mostrar = agenda.subjectType !== 0;
+        const mostrar = agenda.subjectType !== 0;
         if (mostrar) {
             let title = translate.closed_votings;
             let color = 'default';
@@ -90,7 +90,7 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 
 	const getTypeText = subjectType => {
 		const votingType = data.votingTypes.find(item => item.value === subjectType)
-		return !!votingType ? translate[votingType.label] : '';
+		return votingType ? translate[votingType.label] : '';
 	}
 
 	return (
@@ -222,13 +222,16 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...p
 									<Collapse in={openPoints} timeout="auto" unmountOnExit >
 										{!loading &&
 											<div>{data.agendas.map(agenda => (
-												<Paper style={{ marginTop: '0.8em', padding: '0.8em', margin: '0.3em', boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+												<Paper style={{ marginTop: '0.8em',
+padding: '0.8em',
+margin: '0.3em',
+boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 												border: `${agendaPointOpened(agenda) ? '2' : '1'}px solid rgb(125, 33, 128, 0.58)`,
 												borderRadius: '4px', }} key={`agenda_${agenda.id}`}>
 													<Grid>
 														<GridItem xs={12} md={12} lg={12}>
 															<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-																<div style={{display: 'flex', alignItems: 'center', width: '80%'}}>
+																<div style={{ display: 'flex', alignItems: 'center', width: '80%' }}>
 																	{agendaStateIcon(agenda)}
 																	{agendaVotingIcon(agenda)}
 																	{agenda.agendaSubject}

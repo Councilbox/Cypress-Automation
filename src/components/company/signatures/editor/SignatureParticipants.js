@@ -1,16 +1,15 @@
 import React from 'react';
-import { EnhancedTable, CloseIcon, BasicButton, ButtonIcon, SelectInput, AlertConfirm } from '../../../../displayComponents';
-import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import { TableRow, TableCell, MenuItem } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import { PARTICIPANTS_LIMITS } from '../../../../constants';
+import { EnhancedTable, CloseIcon, BasicButton, ButtonIcon, SelectInput, AlertConfirm } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 import NewParticipantModal from './NewParticipantModal';
 import ParticipantEditorModal from './ParticipantEditorModal';
 import { multipleGoverningBody } from '../../../../utils/CBX';
 
 class SignatureParticipants extends React.Component {
-
     state = {
         newParticipantModal: false,
         participantId: null,
@@ -29,7 +28,7 @@ class SignatureParticipants extends React.Component {
     deleteParticipant = async participantId => {
         const response = await this.props.removeSignatureParticipant({
             variables: {
-                participantId: participantId
+                participantId
             }
         });
 
@@ -70,17 +69,15 @@ class SignatureParticipants extends React.Component {
         })
     }
 
-    _renderBody = () => {
-        return (
-            <div style={{maxWidth: '600px'}}>
+    _renderBody = () => (
+            <div style={{ maxWidth: '600px' }}>
                 {this.props.translate.census_change_warning.replace("<br/>", "")}
             </div>
         )
-    }
 
     render(){
         const { translate, company } = this.props;
-        const { signatureParticipants = { list: [], total: 0}, loading, censuses = { list: [], total: 0}} = this.props.data;
+        const { signatureParticipants = { list: [], total: 0 }, loading, censuses = { list: [], total: 0 } } = this.props.data;
         const primary = getPrimary();
 
         return(
@@ -111,22 +108,20 @@ class SignatureParticipants extends React.Component {
                     limits={PARTICIPANTS_LIMITS}
                     menuButtons={
                         <React.Fragment>
-                            <div style={{minWidth: '8em', marginRight: '1em'}}>
+                            <div style={{ minWidth: '8em', marginRight: '1em' }}>
                                 <SelectInput
                                     floatingText={translate.current_census}
                                     value={this.props.signature.censusId}
                                     onChange={this.openCensusChangeModal}
                                 >
-                                    {censuses.list.map(census => {
-                                        return (
+                                    {censuses.list.map(census => (
                                             <MenuItem
                                                 value={parseInt(census.id, 10)}
                                                 key={`census${census.id}`}
                                             >
                                                 {census.censusName}
                                             </MenuItem>
-                                        );
-                                    })}
+                                        ))}
                                     {(multipleGoverningBody(company.governingBodyType) &&
                                         company.governingBodyData &&
                                         company.governingBodyData.list &&
@@ -139,12 +134,12 @@ class SignatureParticipants extends React.Component {
                                     }
                                 </SelectInput>
                             </div>
-                            <div style={{width: '15em', display: 'flex', justifyContent: 'flex-end'}}>
+                            <div style={{ width: '15em', display: 'flex', justifyContent: 'flex-end' }}>
                                 <BasicButton
                                     text={translate.add_participant}
                                     color={'white'}
-                                    textStyle={{color: primary, textTransform: 'none', fontWeight: '700'}}
-                                    buttonStyle={{border: `2px solid ${primary}`, marginRight: '1.2em'}}
+                                    textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
+                                    buttonStyle={{ border: `2px solid ${primary}`, marginRight: '1.2em' }}
                                     icon={<ButtonIcon type="add" color={primary} />}
                                     onClick={() => this.setState({ newParticipantModal: true })}
                                 />
@@ -224,7 +219,6 @@ class SignatureParticipants extends React.Component {
 }
 
 class HoverableRow extends React.Component {
-
     state = {
         showActions: false
     }
@@ -264,7 +258,7 @@ class HoverableRow extends React.Component {
                     {participant.email}
                 </TableCell>
                 <TableCell>
-                    {this.state.showActions?
+                    {this.state.showActions ?
                         <CloseIcon
                             style={{
                                 color: getPrimary()
@@ -275,7 +269,7 @@ class HoverableRow extends React.Component {
                             }}
                         />
                     :
-                        <div style={{width: '4em'}} />
+                        <div style={{ width: '4em' }} />
                     }
                 </TableCell>
             </TableRow>

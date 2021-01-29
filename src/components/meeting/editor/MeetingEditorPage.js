@@ -1,6 +1,6 @@
 import React from "react";
-import { CardPageLayout, MobileStepper } from "../../../displayComponents";
 import Stepper, { Step, StepLabel } from "material-ui/Stepper";
+import { CardPageLayout, MobileStepper } from "../../../displayComponents";
 import { bHistory } from "../../../containers/App";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import MeetingEditorConfig from "./MeetingEditorConfig";
@@ -8,7 +8,6 @@ import MeetingEditorCensus from "./MeetingEditorCensus";
 import { checkCouncilState } from "../../../utils/CBX";
 
 class MeetingEditorPage extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -59,7 +58,7 @@ class MeetingEditorPage extends React.Component {
 			this.setState({ success: true });
 		}
 	};
-	
+
 	setDate = dateTime => {
 		this.setState({
 			...this.state,

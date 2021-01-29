@@ -35,7 +35,7 @@ class ButtonsDirectAccess extends React.Component {
 
 	render() {
 		const { company, translate, isMobile } = this.props;
-		let itemsPc = (
+		const itemsPc = (
 			<React.Fragment>
 				<CantCreateCouncilsModal
 					open={this.state.open}
@@ -182,7 +182,7 @@ class ButtonsDirectAccess extends React.Component {
 					{itemsPc}
 				</React.Fragment>
 			)
-		} else {
+		}
 			return (
 				<Grid
 					style={{
@@ -193,7 +193,6 @@ class ButtonsDirectAccess extends React.Component {
 					{itemsPc}
 				</Grid>
 			);
-		}
 	}
 }
 

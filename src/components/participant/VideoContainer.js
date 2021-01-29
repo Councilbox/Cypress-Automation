@@ -60,7 +60,7 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
 
     if(!loading){
         if(!videoURL){
-            setVideoURL(url? url : 'Error reaching CMP');
+            setVideoURL(url || 'Error reaching CMP');
         }
         return(
             <iframe

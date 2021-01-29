@@ -6,7 +6,6 @@ import ParticipantsLive from '../ParticipantsLive';
 
 
 const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
-
     const toggleFullScreen = () => false;
 
     return (

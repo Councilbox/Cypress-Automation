@@ -21,11 +21,11 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
 		// 	});
 		// 	return;
 		// }
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
 		reader.onload = async event => {
-			let fileInfo = {
+			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
 				filesize: event.loaded.toString(),
@@ -83,8 +83,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
             <DropDownMenu
                 color="transparent"
                 styleComponent={{ width: "" }}
-                Component={() =>
-                    <BasicButton
+                Component={() => <BasicButton
                         color={primary}
                         icon={<i className={"fa fa-paperclip"}
                         style={{
@@ -139,7 +138,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
                             float: 'left',
                             marginTop: '1em',
                             padding: '5px',
-                            marginLeft: index > 0? '5px' : '0',
+                            marginLeft: index > 0 ? '5px' : '0',
                             borderRadius: '5px',
                             color: 'primary'
                         }}

@@ -62,7 +62,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
 
 
     return (
-        <div style={{width: '600px'}}>
+        <div style={{ width: '600px' }}>
             <AlertConfirm
                 open={modal}
                 buttonAccept={'Confirmar'}
@@ -76,15 +76,15 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
                 requestClose={() => setModal(false)}
             />
             {users.list.map(user => (
-                <div style={{display: 'flex'}}>
+                <div style={{ display: 'flex' }}>
                     {`${user.name} ${user.surname || ''} - ${user.email}`}
-                    <div style={{cursor: 'pointer'}} onClick={() => {
+                    <div style={{ cursor: 'pointer' }} onClick={() => {
                         setModal(user)
                         //alert()
                     }}>Añadir</div>
                 </div>
             ))}
-            <div style={{width: '100%', marginTop: '1.2em'}}>
+            <div style={{ width: '100%', marginTop: '1.2em' }}>
                 <PaginationFooter
                     page={users.page}
                     translate={translate}

@@ -1,11 +1,10 @@
 import React from 'react';
-import { AlertConfirm, TextInput } from '../../../../displayComponents';
-import { splitExtensionFilename } from '../../../../utils/CBX';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { AlertConfirm, TextInput } from '../../../../displayComponents';
+import { splitExtensionFilename } from '../../../../utils/CBX';
 
 class DocumentNameEditor extends React.Component {
-
 	state = {
 		data: {
 			...splitExtensionFilename(this.props.attachment.filename)
@@ -35,8 +34,7 @@ class DocumentNameEditor extends React.Component {
 					type="text"
 					errorText={errors.filename}
 					value={this.state.data.filename}
-					onChange={event =>
-						this.updateState({
+					onChange={event => this.updateState({
 							filename: event.target.value
 						})
 					}

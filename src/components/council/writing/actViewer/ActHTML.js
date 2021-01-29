@@ -1,8 +1,8 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import { LoadingSection } from '../../../../displayComponents';
-import { withApollo } from 'react-apollo';
+
 
 
 const ActHTML = ({ council, client }) => {
@@ -31,8 +31,8 @@ const ActHTML = ({ council, client }) => {
     }
 
     return(
-        <div style={{width: '100%', position: 'relative'}}>
-            <div dangerouslySetInnerHTML={{__html: act.emailAct}} />
+        <div style={{ width: '100%', position: 'relative' }}>
+            <div dangerouslySetInnerHTML={{ __html: act.emailAct }} />
         </div>
     )
 }

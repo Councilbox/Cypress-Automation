@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { TabsScreen } from "../displayComponents";
 import Meetings from "../components/dashboard/Meetings";
 
-const MeetingsContainer = ({ main, company, user, match, translate }) => {
+const MeetingsContainer = ({ company, match, translate }) => {
 	const tabsIndex = {
 		drafts: 0,
 		live: 1,
@@ -15,8 +15,7 @@ const MeetingsContainer = ({ main, company, user, match, translate }) => {
 		{
 			text: translate.companies_draft,
 			link: `/company/${company.id}/meetings/drafts`,
-			component: () => {
-				return (
+			component: () => (
 					<Meetings
 						company={company}
 						translate={translate}
@@ -26,14 +25,12 @@ const MeetingsContainer = ({ main, company, user, match, translate }) => {
 						desc={translate.companies_draft_desc}
 						icon={"pencil-square-o"}
 					/>
-				);
-			}
+				)
 		},
 		{
 			text: translate.companies_live,
 			link: `/company/${company.id}/meetings/live`,
-			component: () => {
-				return (
+			component: () => (
 					<Meetings
 						company={company}
 						translate={translate}
@@ -43,8 +40,7 @@ const MeetingsContainer = ({ main, company, user, match, translate }) => {
 						desc={translate.companies_live_desc}
 						icon={"users"}
 					/>
-				);
-			}
+				)
 		},
 		{
 			text: `${translate.dashboard_new_meeting}`,

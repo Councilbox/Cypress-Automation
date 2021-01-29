@@ -2,7 +2,6 @@ import React from 'react';
 import { Scrollbars } from 'react-custom-scrollbars-cbx';
 
 class Scrollbar extends React.Component {
-
     scrollbar = null;
 
     scrollToBottom() {
@@ -22,11 +21,13 @@ class Scrollbar extends React.Component {
     }
 
     render(){
-        const { style, autoHide, children, showX, onScrollStop, classFix="" } = this.props;
+        const { style, autoHide, children, showX, onScrollStop, classFix = "" } = this.props;
 
         return(
             <Scrollbars
-                ref={ref => this.scrollbar = ref}
+                ref={ref => {
+                    this.scrollbar = ref
+                }}
                 autoHide={autoHide}
                 className={'Scrollbar' + classFix}
                 onScrollStop={onScrollStop}
@@ -35,9 +36,9 @@ class Scrollbar extends React.Component {
                     height: '100%',
                     ...style
                 }}
-                {...(!showX? {
-                    renderTrackHorizontal: () => <span style={{display: 'hidden'}} />,
-                    renderThumbHorizontal: () => <span style={{display: 'hidden'}} />
+                {...(!showX ? {
+                    renderTrackHorizontal: () => <span style={{ display: 'hidden' }} />,
+                    renderThumbHorizontal: () => <span style={{ display: 'hidden' }} />
                 } : {})}
             >
                 {children}

@@ -1,10 +1,10 @@
 import React from 'react';
+import { MenuItem, Card } from 'material-ui';
 import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../../../constants';
 import { Radio, SectionTitle, TextInput, Grid, GridItem, SelectInput, BasicButton } from "../../../../../displayComponents";
 import RichTextInput from "../../../../../displayComponents/RichTextInput";
-import { MenuItem } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../../../styles/colors';
-import { Card } from 'material-ui';
+
 
 const CustomPointForm = ({
     errors,
@@ -25,7 +25,7 @@ const CustomPointForm = ({
     const editor = React.useRef();
     const validateNumber = number => {
         if(number < 0 || isNaN(number)){
-            let value = Math.abs(parseInt(number, 10));
+            const value = Math.abs(parseInt(number, 10));
             if(isNaN(value)){
                 return '';
             }
@@ -47,7 +47,7 @@ const CustomPointForm = ({
                             type="text"
                             errorText={errors.agendaSubject}
                             value={agenda.agendaSubject}
-                            onChange={event => updateAgenda({agendaSubject: event.target.value})}
+                            onChange={event => updateAgenda({ agendaSubject: event.target.value })}
                             required
                         />
                     </GridItem>
@@ -55,14 +55,13 @@ const CustomPointForm = ({
                         <SelectInput
                             floatingText={translate.votation_type}
                             value={"" + agenda.subjectType}
-                            onChange={event =>
-                                updateAgenda({
+                            onChange={event => updateAgenda({
                                     subjectType: +event.target.value
                                 })
                             }
                             required
                         >
-                            {council.councilType === 3?
+                            {council.councilType === 3 ?
                                     <MenuItem
                                         value={"" + CUSTOM_AGENDA_VOTING_TYPES[1].value}
                                         key={`voting${CUSTOM_AGENDA_VOTING_TYPES[1].value}`}
@@ -70,16 +69,14 @@ const CustomPointForm = ({
                                         {translate[CUSTOM_AGENDA_VOTING_TYPES[1].label]}
                                     </MenuItem>
                             :
-                                Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => {
-                                    return (
+                                Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => (
                                         <MenuItem
                                             value={"" + CUSTOM_AGENDA_VOTING_TYPES[key].value}
                                             key={`voting${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
                                         >
                                             {translate[CUSTOM_AGENDA_VOTING_TYPES[key].label]}
                                         </MenuItem>
-                                    );
-                                })
+                                    ))
                             }
                         </SelectInput>
                     </GridItem>
@@ -104,8 +101,7 @@ const CustomPointForm = ({
                         ]}
                         errorText={errors.description}
                         value={agenda.description}
-                        onChange={value =>
-                           updateAgenda({
+                        onChange={value => updateAgenda({
                                 description: value
                             })
                         }
@@ -143,10 +139,10 @@ const CustomPointForm = ({
                         <TextInput
                             floatingText={translate.max_selections}
                             value={options.maxSelections}
-                            onChange={event => updateOptions({ maxSelections: validateNumber(+event.target.value)})}
+                            onChange={event => updateOptions({ maxSelections: validateNumber(+event.target.value) })}
                         />
                         {errors.maxSelections &&
-                            <div style={{color: 'red'}}>
+                            <div style={{ color: 'red' }}>
                                 {errors.maxSelections}
                             </div>
                         }
@@ -156,7 +152,7 @@ const CustomPointForm = ({
                             onChange={event => updateOptions({ minSelections: validateNumber(+event.target.value) })}
                         />
                         {errors.minSelections &&
-                            <div style={{color: 'red'}}>
+                            <div style={{ color: 'red' }}>
                                 {errors.minSelections}
                             </div>
                         }
@@ -165,7 +161,7 @@ const CustomPointForm = ({
                 <SectionTitle
                     text={translate.choices}
                     color={primary}
-                    style={{marginTop: '1.3em'}}
+                    style={{ marginTop: '1.3em' }}
                 />
                 <BasicButton
                     onClick={addOption}
@@ -202,13 +198,13 @@ const CustomPointForm = ({
                         <i
                             className="fa fa-times"
                             aria-hidden="true"
-                            style={{color: 'red', cursor: 'pointer'}}
+                            style={{ color: 'red', cursor: 'pointer' }}
                             onClick={() => removeItem(index)}
                         ></i>
                     </Card>
                 ))}
                 {errors.itemsLength &&
-                    <div style={{color: 'red'}}>
+                    <div style={{ color: 'red' }}>
                         {errors.itemsLength}
                     </div>
                 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
 import { CardPageLayout } from "../../../displayComponents";
 import CouncilEditorNotice from "./StepNotice";
 import CouncilEditorCensus from "./census/StepCensus";
@@ -9,7 +10,6 @@ import CouncilEditorPreview from "./StepPreview";
 import { bHistory } from "../../../containers/App";
 import { checkCouncilState } from "../../../utils/CBX";
 import EditorStepper from './EditorStepper';
-import { withRouter } from 'react-router-dom';
 
 
 const CouncilEditorPage = ({ council, translate, company, ...props }) => {

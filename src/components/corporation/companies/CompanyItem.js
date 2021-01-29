@@ -14,7 +14,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                     {/* <TableHead> */}
                     <TableRow>
                         <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>
-                            {!!company.logo ?
+                            {company.logo ?
                                 <img src={company.logo} alt={"logo"} style={{ height: '2em', width: 'auto', maxWidth: '3em' }} />
                                 :
                                 <FontAwesome
@@ -33,7 +33,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                     </TableRow>
                 </Table>
             )
-        } else {
+        }
             return (
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {checkable &&
@@ -72,7 +72,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                                     paddingRight: '60px'
                                 }}
                             >
-                                {!!company.logo ?
+                                {company.logo ?
                                     <img src={company.logo} alt={"logo"} style={{ height: '2em', width: 'auto', maxWidth: '3em' }} />
                                     :
                                     <FontAwesome
@@ -108,8 +108,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                     </MenuItem>
                 </div>
             )
-        }
-    } else {
+    }
         return (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 {checkable &&
@@ -140,7 +139,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                             justifyContent: 'center'
                         }}
                     >
-                        {!!company.logo ?
+                        {company.logo ?
                             <img src={company.logo} alt={"logo"} style={{ height: '2em', width: 'auto', maxWidth: '3em' }} />
                             :
                             <FontAwesome
@@ -164,8 +163,6 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                 </MenuItem>
             </div>
         )
-    }
-
 }
 
 export default CompanyItem;

@@ -1,23 +1,20 @@
 import React from 'react';
+import { TableRow, TableCell, Card, Tooltip } from 'material-ui';
 import { Table, DateWrapper, BasicButton, Grid, GridItem } from '../../displayComponents';
-import { bHistory } from '../../containers/App';
-import { TableRow, TableCell, Card } from 'material-ui';
+import { bHistory, moment } from '../../containers/App';
 import TableStyles from "../../styles/table";
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { COUNCIL_STATES } from '../../constants';
 import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
-import { moment } from "../../containers/App";
-import { isMobile } from '../../utils/screen';
-import { Tooltip } from 'material-ui';
 
-const generateLink = (council, company) => {
-    return `/company/${company.id}/council/${council.id}/finished`;
-}
+import { isMobile } from '../../utils/screen';
+
+
+const generateLink = (council, company) => `/company/${company.id}/council/${council.id}/finished`
 
 class CouncilsHistory extends React.Component {
-
     state = {
         open: false
     }
@@ -48,8 +45,7 @@ class CouncilsHistory extends React.Component {
                 ]}
                 companyID={company.id}
             >
-                {councils.map(council => {
-                    return (
+                {councils.map(council => (
                         <HoverableRow
                             key={`council_${council.id}`}
                             translate={translate}
@@ -59,8 +55,7 @@ class CouncilsHistory extends React.Component {
                             company={company}
                             showModal={this.openCantAccessModal}
                         />
-                    );
-                })}
+                    ))}
                 <CantCreateCouncilsModal
                     translate={translate}
                     open={this.state.open}
@@ -72,7 +67,6 @@ class CouncilsHistory extends React.Component {
 }
 
 class HoverableRow extends React.Component {
-
     state = {
         showActions: false
     }
@@ -242,8 +236,8 @@ class HoverableRow extends React.Component {
                                 <DateWrapper
                                     format="HH:mm"
                                     date={council.dateRealStart}
-                                /> 
-                        
+                                />
+
                                 {` - `}
                                 <DateWrapper
                                     format="HH:mm"

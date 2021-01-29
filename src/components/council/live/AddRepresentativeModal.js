@@ -1,6 +1,6 @@
 import React from "react";
-import { AlertConfirm } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
+import { AlertConfirm } from "../../../displayComponents";
 import { addRepresentative } from "../../../queries";
 import RepresentativeForm from "../participants/RepresentativeForm";
 import { languages } from "../../../queries/masters";
@@ -85,7 +85,7 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 			buttonAccept={translate.send}
 			buttonCancel={translate.close}
 			bodyText={_renderReminderBody()}
-			title={participant.representative? translate.change_representative : translate.add_representative}
+			title={participant.representative ? translate.change_representative : translate.add_representative}
 		/>
 	);
 }

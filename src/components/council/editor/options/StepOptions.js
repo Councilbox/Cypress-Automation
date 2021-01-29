@@ -1,5 +1,7 @@
 import React from "react";
 import { MenuItem, Typography } from "material-ui";
+import { compose, graphql, withApollo } from "react-apollo";
+import gql from 'graphql-tag';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -16,7 +18,6 @@ import {
 } from "../../../../displayComponents";
 import { councilStepFive, updateCouncil } from "../../../../queries";
 import { checkValidMajority } from '../../../../utils/validation';
-import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import * as CBX from "../../../../utils/CBX";
 import withWindowSize from '../../../../HOCs/withWindowSize';
@@ -25,7 +26,6 @@ import { moment } from '../../../../containers/App';
 import DelegationRestriction from "../DelegationRestriction";
 import { ConfigContext } from "../../../../containers/AppControl";
 import { useValidRTMP } from "../../../../hooks";
-import gql from 'graphql-tag';
 import VoteLetterWithSenseOption from "./VoteLetterWithSenseOption";
 import AttendanceTextEditor from "./AttendanceTextEditor";
 
@@ -70,7 +70,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			}
 		}
 	});
-	let council = state.data.council;
+	const council = state.data.council;
 
 	const updateCouncil = async step => {
 		setState({
@@ -99,8 +99,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				council: {
 					...council,
 					sendPointsMode: !CBX.councilHasVideo({ councilType: council.councilType }) ? 0 : 1,
-					closeDate: !!council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm'),
-					step: step
+					closeDate: council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm'),
+					step
 				}
 			}
 		});
@@ -200,8 +200,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						label={translate.room_video_broadcast}
 						disabled={!config.video}
 						value={council.councilType === 0}
-						onChange={(event, isInputChecked) =>
-							updateCouncilData({
+						onChange={(event, isInputChecked) => updateCouncilData({
 								councilType: isInputChecked ? 0 : 1,
 								autoClose: 0,
 								fullVideoRecord: 0
@@ -212,8 +211,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						disabled={council.councilType !== 0}
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
-						onChange={(event, isInputChecked) =>
-							updateCouncilData({
+						onChange={(event, isInputChecked) => updateCouncilData({
 								fullVideoRecord: isInputChecked ? 1 : 0
 							})
 						}
@@ -221,8 +219,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					<Checkbox
 						label={translate.wall}
 						value={council.wallActive !== 0}
-						onChange={(event, isInputChecked) =>
-							updateCouncilData({
+						onChange={(event, isInputChecked) => updateCouncilData({
 								wallActive: isInputChecked ? 1 : 0
 							})
 						}
@@ -231,8 +228,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						disabled={council.councilType !== 0}
 						label={translate.can_ask_word}
 						value={council.askWordMenu}
-						onChange={(event, isInputChecked) =>
-							updateCouncilData({
+						onChange={(event, isInputChecked) => updateCouncilData({
 								askWordMenu: isInputChecked
 							})
 						}
@@ -242,8 +238,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 							disabled={council.councilType === 0}
 							label={translate.auto_close}
 							value={council.autoClose !== 0}
-							onChange={(event, isInputChecked) =>
-								updateCouncilData({
+							onChange={(event, isInputChecked) => updateCouncilData({
 									autoClose: isInputChecked ? 1 : 0
 								})
 							}
@@ -263,7 +258,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 									minDateMessage={""}
 									acceptText={translate.accept}
 									cancelText={translate.cancel}
-									value={!!council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+									value={council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
 								/>
 							</div>
 						}
@@ -306,7 +301,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 									minDateMessage={""}
 									acceptText={translate.accept}
 									cancelText={translate.cancel}
-									value={!!council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+									value={council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
 								/>
 							</div>
 						}
@@ -339,7 +334,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 									minDateMessage={""}
 									acceptText={translate.accept}
 									cancelText={translate.cancel}
-									value={!!council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+									value={council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
 								/>
 							</div>
 						}
@@ -356,8 +351,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 							<Checkbox
 								label={translate.in_person_vote_prevails}
 								value={council.presentVoteOverwrite === 1}
-								onChange={(event, isInputChecked) =>
-									updateCouncilData({
+								onChange={(event, isInputChecked) => updateCouncilData({
 										presentVoteOverwrite: isInputChecked ? 1 : 0
 									})
 								}
@@ -395,8 +389,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					<Checkbox
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
-						onChange={(event, isInputChecked) =>
-							updateCouncilData({
+						onChange={(event, isInputChecked) => updateCouncilData({
 								fullVideoRecord: isInputChecked ? 1 : 0
 							})
 						}
@@ -423,8 +416,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				<Radio
 					value={"0"}
 					checked={council.securityType === 0}
-					onChange={event =>
-						updateCouncilData({
+					onChange={event => updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
 						})
 					}
@@ -434,8 +426,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				<Radio
 					value={"1"}
 					checked={council.securityType === 1}
-					onChange={event =>
-						updateCouncilData({
+					onChange={event => updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
 						})
 					}
@@ -445,8 +436,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				<Radio
 					value={"2"}
 					checked={council.securityType === 2}
-					onChange={event =>
-						updateCouncilData({
+					onChange={event => updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
 						})
 					}
@@ -456,8 +446,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				<Radio
 					value={"3"}
 					checked={council.securityType === 3}
-					onChange={event =>
-						updateCouncilData({
+					onChange={event => updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
 						})
 					}
@@ -501,8 +490,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 									<Checkbox
 										label={translate.confirm_assistance_desc}
 										value={council.confirmAssistance === 1}
-										onChange={(event, isInputChecked) =>
-											updateCouncilData({
+										onChange={(event, isInputChecked) => updateCouncilData({
 												confirmAssistance: isInputChecked ? 1 : 0
 											})
 										}
@@ -545,8 +533,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 							<Checkbox
 								label={translate.test_meeting}
 								value={council.promoCode === 'COUNCILBOX'}
-								onChange={(event, isInputChecked) =>
-									updateCouncilData({
+								onChange={(event, isInputChecked) => updateCouncilData({
 										promoCode: isInputChecked ? 'COUNCILBOX' : null
 									})
 								}
@@ -569,8 +556,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 											<Checkbox
 												label={translate.approve_act_draft_at_end_desc}
 												value={council.approveActDraft !== 0}
-												onChange={(event, isInputChecked) =>
-													updateCouncilData({
+												onChange={(event, isInputChecked) => updateCouncilData({
 														approveActDraft: isInputChecked ? 1 : 0
 													})
 												}
@@ -593,8 +579,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 															}}
 														>
 															{data.majorityTypes.map(
-																majority => {
-																	return (
+																majority => (
 																		<MenuItem
 																			value={majority.value}
 																			key={`majority${majority.value
@@ -606,8 +591,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 																				]
 																			}
 																		</MenuItem>
-																	);
-																}
+																	)
 															)}
 														</SelectInput>
 													</div>
@@ -623,13 +607,11 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 																		council.actPointMajorityDivider
 																	}
 																	mayori
-																	onChange={value =>
-																		updateCouncilData({
+																	onChange={value => updateCouncilData({
 																			actPointMajority: +value
 																		})
 																	}
-																	onChangeDivider={value =>
-																		updateCouncilData({
+																	onChangeDivider={value => updateCouncilData({
 																			actPointMajorityDivider: +value
 																		})
 																	}
@@ -739,8 +721,7 @@ const RTMPField = ({ data, updateData, translate }) => {
 			errorText={!validURL ? translate.invalid_url : ''}
 			floatingText={'RTMP'}
 			value={(data.room && data.room.videoConfig) ? data.room.videoConfig.rtmp : ''}
-			onChange={(event, isInputChecked) =>
-				updateData({
+			onChange={(event, isInputChecked) => updateData({
 					room: {
 						videoConfig: {
 							...data.room.videoConfig,
@@ -751,6 +732,4 @@ const RTMPField = ({ data, updateData, translate }) => {
 			}
 		/>
 	)
-
-
 }

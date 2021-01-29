@@ -6,13 +6,10 @@ import SelectedTag from '../../company/drafts/draftTags/SelectedTag';
 import { getTagColor } from '../../company/drafts/draftTags/utils';
 import { isMobile } from '../../../utils/screen';
 
-const DraftDetailsModal = ({ draft, requestClose, translate, companyTypes, companyStatutes, draftTypes, votingTypes, majorityTypes }) => {    
-    const getMajorityType = majorityType => {
-        return majorityTypes.find(majority => majority.value === draft.majorityType);
-    }
+const DraftDetailsModal = ({ draft, requestClose, translate, companyTypes, companyStatutes, draftTypes, votingTypes, majorityTypes }) => {
+    const getMajorityType = majorityType => majorityTypes.find(majority => majority.value === draft.majorityType)
 
-    const TagColumn = props => {
-        return (
+    const TagColumn = props => (
             <div style={{
                 display: "flex",
                 color: "#ffffff",
@@ -23,18 +20,17 @@ const DraftDetailsModal = ({ draft, requestClose, translate, companyTypes, compa
                 {props.children}
             </div>
         )
-    }
 
     const _renderDraftDetails = () => {
         const columns = buildTagColumns(draft, formatLabelFromName(companyStatutes, translate));
-        const width = window.innerWidth < 950? '100%' : '750px';
+        const width = window.innerWidth < 950 ? '100%' : '750px';
         return(
-            <Grid style={{width: width}}>
+            <Grid style={{ width }}>
                 <GridItem xs={12} md={12} lg={12}>
-                    <span style={{fontWeight: '700'}}>{translate.title}</span>{`: ${draft.title}`}
+                    <span style={{ fontWeight: '700' }}>{translate.title}</span>{`: ${draft.title}`}
                 </GridItem>
                 <GridItem xs={12} lg={12} md={12}>
-                    <span style={{fontWeight: '700'}}>{translate.description}</span>{`: ${draft.description}`}
+                    <span style={{ fontWeight: '700' }}>{translate.description}</span>{`: ${draft.description}`}
                 </GridItem>
                 <GridItem xs={12} lg={12} md={12}>
                     <div style={{ display: isMobile ? "" : 'flex' }}>
@@ -69,7 +65,7 @@ const DraftDetailsModal = ({ draft, requestClose, translate, companyTypes, compa
             fullWidth={false}
             modal={false}
             buttonCancel={translate.cancel}
-            bodyText={draft? _renderDraftDetails() : <span/>}
+            bodyText={draft ? _renderDraftDetails() : <span/>}
             title={translate.draft_details}
         />
     )

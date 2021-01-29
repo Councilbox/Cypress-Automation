@@ -1,7 +1,7 @@
 import React from 'react';
+import { Card } from 'material-ui';
 import { hasSecondCall } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
-import { Card } from 'material-ui';
 
 
 const CouncilInfo = ({ council, translate }) => (

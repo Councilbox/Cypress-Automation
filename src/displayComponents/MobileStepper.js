@@ -1,7 +1,7 @@
 import React from "react";
 import MobileStepper from "material-ui/MobileStepper";
 
-const MStepper = ({ active, total, handleNext, handlePrevious }) => (
+const MStepper = ({ active, total }) => (
 	<MobileStepper
 		variant="dots"
 		position="static"

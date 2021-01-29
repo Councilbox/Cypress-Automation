@@ -1,7 +1,7 @@
 import React from 'react';
-import { BasicButton, AlertConfirm, ButtonIcon } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { BasicButton, AlertConfirm, ButtonIcon } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 import CompanyTagForm from './CompanyTagForm';
 import { sendGAevent } from '../../../../utils/analytics';
@@ -70,11 +70,10 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
                 })
             }
         }
-
     }
 
     const checkRequiredFields = async () => {
-        let errors = {}
+        const errors = {}
 
         if (!tag.key || !tag.key.trim()) {
             errors.key = translate.required_field;
@@ -116,8 +115,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
         setModal(false);
     })
 
-    const renderModalBody = () => {
-        return (
+    const renderModalBody = () => (
             <CompanyTagForm
                 translate={translate}
                 tag={tag}
@@ -125,8 +123,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
                 setTag={updateTag}
             />
         )
-    }
-    
+
     return (
         <React.Fragment>
             <BasicButton

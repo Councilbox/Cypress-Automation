@@ -1,6 +1,7 @@
 import React from "react";
 import { Drawer } from "material-ui";
 import { graphql } from "react-apollo";
+import gql from 'graphql-tag';
 import {
 	darkGrey,
 	getPrimary,
@@ -8,7 +9,6 @@ import {
 	lightGrey
 } from "../../../styles/colors";
 import { wallComments } from "../../../queries";
-import gql from 'graphql-tag';
 import { Icon, LoadingSection, Scrollbar } from "../../../displayComponents";
 import { moment } from '../../../containers/App';
 
@@ -112,7 +112,7 @@ const CommentWall = ({ open, data, council, translate, subscribeToWallComments, 
 											style={{
 												fontSize: "0.85rem",
 												padding: "1em 0.8em",
-												fontWeight: (index + 1) > commentsRead? '700' : '400',
+												fontWeight: (index + 1) > commentsRead ? '700' : '400',
 												backgroundColor:
 													comment.participantId === -1
 														? lightGrey
@@ -134,7 +134,7 @@ const CommentWall = ({ open, data, council, translate, subscribeToWallComments, 
 																color: getPrimary()
 															}}
 														>{`${comment.author.name} ${comment.author.surname || ''} ${
-															comment.author.position? `- ${comment.author.position}` : ''}
+															comment.author.position ? `- ${comment.author.position}` : ''}
 														`}</span>
 													) : (
 														<span
@@ -192,16 +192,14 @@ export default graphql(wallComments, {
 		},
 		pollInterval: 30000
 	}),
-	props: props => {
-		return {
+	props: props => ({
 			...props,
-			subscribeToWallComments: params => {
-				return props.data.subscribeToMore({
+			subscribeToWallComments: params => props.data.subscribeToMore({
 					document: roomMessagesSubscription,
 					variables: {
 						councilId: +params.councilId
 					},
-					updateQuery: (prev, { subscriptionData }) => {				
+					updateQuery: (prev, { subscriptionData }) => {
 						if (!subscriptionData.data.roomMessageAdded) {
 							return prev;
 						}
@@ -221,8 +219,6 @@ export default graphql(wallComments, {
 							councilRoomMessages: Array.from(messagesMap.values())
 						});
 					}
-				});
-		  	}
-		};
-	}
+				})
+		})
 })(CommentWall);

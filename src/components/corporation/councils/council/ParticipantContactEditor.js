@@ -1,8 +1,8 @@
 import React from 'react';
-import { TextInput, BasicButton } from '../../../../displayComponents';
-import { getSecondary } from '../../../../styles/colors';
 import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { TextInput, BasicButton } from '../../../../displayComponents';
+import { getSecondary } from '../../../../styles/colors';
 import { resendRoomEmails } from "../../../../queries/liveParticipant";
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
@@ -172,7 +172,7 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
                     onChange={updatePhone}
                 />
             </div>
-            <div style={{display: 'flex', justifyContent: "space-between",  paddingBottom: "10px"}}>
+            <div style={{ display: 'flex', justifyContent: "space-between", paddingBottom: "10px" }}>
                 <BasicButton
                     color={secondary}
                     text="Reenviar credenciales a este participante"
@@ -211,7 +211,7 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
             />
             {roomLink &&
                 <>
-                    <div style={{wordWrap: 'break-word', width: '100%'}}>
+                    <div style={{ wordWrap: 'break-word', width: '100%' }}>
                         {roomLink}
                     </div>
                 </>

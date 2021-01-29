@@ -187,7 +187,7 @@ const VideoParticipantsStats = ({
 					display: "flex",
 					alignItems: "center"
 				}}
-				{...(stats.askingForWord > 0? {className: 'fadeToggle'} : {})}
+				{...(stats.askingForWord > 0 ? { className: 'fadeToggle' } : {})}
 			>
 				<Icon
 					className="material-icons"

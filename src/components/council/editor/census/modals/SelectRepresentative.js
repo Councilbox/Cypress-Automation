@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
+import { Card, MenuItem, Typography, withStyles, IconButton, CardHeader, Collapse } from 'material-ui';
 import {
 	AlertConfirm,
 	Icon,
@@ -12,7 +13,6 @@ import {
 	Grid
 } from "../../../../../displayComponents";
 import { DELEGATION_USERS_LOAD } from "../../../../../constants";
-import { Card, MenuItem, Typography, withStyles, IconButton, CardHeader, Collapse } from 'material-ui';
 import { councilParticipantsFilterIds } from "../../../../../queries/councilParticipant";
 import { getPrimary } from '../../../../../styles/colors';
 import { isMobile } from '../../../../../utils/screen';
@@ -66,7 +66,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 			filters: [
 				{
 					field: "fullName",
-					text: text
+					text
 				}
 			]
 		});
@@ -109,7 +109,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 						/>
 					</GridItem>
 				</Grid>
-				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%",  }}>
+				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%", }}>
 					{loading ? (
 						<LoadingSection />
 					) : (
@@ -119,8 +119,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 										<Grid style={{ display: "flex" }}>
 											{participants.length > 0 ? (
 												<React.Fragment>
-													{participants.map((participant, index) => {
-														return (
+													{participants.map((participant, index) => (
 															<CardPlantillas
 																translate={translate}
 																key={`delegateVote_${participant.id}`}
@@ -132,8 +131,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 																}}
 																index={index}
 															/>
-														);
-													})}
+														))}
 													{participants.length < total - 1 && (
 														<Card
 															style={{

@@ -1,13 +1,13 @@
 import React from "react";
 import Scrollbar from "react-perfect-scrollbar";
+import { Typography } from "material-ui";
+import FontAwesome from "react-fontawesome";
 import {
 	TextInput,
 	Icon,
 	FilterButton,
 	RefreshButton
 } from "../../../../displayComponents";
-import { Typography } from "material-ui";
-import FontAwesome from "react-fontawesome";
 import { getSecondary, getPrimary } from "../../../../styles/colors";
 
 const FilterMenu = ({

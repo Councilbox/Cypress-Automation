@@ -1,10 +1,10 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { toast } from 'react-toastify';
-import { LiveToast, AlertConfirm } from '../../../displayComponents';
 import { Button } from 'material-ui';
-import * as CBX from '../../../utils/CBX';
 import gql from 'graphql-tag';
+import { LiveToast, AlertConfirm } from '../../../displayComponents';
+import * as CBX from '../../../utils/CBX';
 import { AGENDA_STATES } from '../../../constants';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 
@@ -85,8 +85,8 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
     return (
         <React.Fragment>
             {state.vote &&
-                <Button size="small" color="primary" onClick={toggle} disabled={CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute) ? false : true}>
-                    {(!!originalComment && originalComment.comment)? translate.edit_comment : translate.send_comment}
+                <Button size="small" color="primary" onClick={toggle} disabled={!(CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute))}>
+                    {(!!originalComment && originalComment.comment) ? translate.edit_comment : translate.send_comment}
                 </Button>
             }
 
@@ -97,8 +97,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
                     <RichTextInput
                         value={state.vote !== undefined ? state.vote.comment : ""}
                         translate={translate}
-                        onChange={value =>
-                            setState({
+                        onChange={value => setState({
                                 ...state,
                                 vote: {
                                     ...state.vote,

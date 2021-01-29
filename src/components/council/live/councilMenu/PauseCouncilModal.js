@@ -30,7 +30,7 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
         setStatus('SUCCESS');
 		refetch();
     }
-    
+
     React.useEffect(() => {
         if(!open && status !== 'IDDLE'){
             setMessage('');

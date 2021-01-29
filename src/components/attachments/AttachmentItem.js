@@ -1,7 +1,7 @@
 import React from "react";
+import { IconButton, Paper, Tooltip } from "material-ui";
 import { AlertConfirm, CloseIcon, Grid, GridItem } from "../../displayComponents/index";
 import { getPrimary, getSecondary } from "../../styles/colors";
-import { IconButton, Paper, Tooltip } from "material-ui";
 import { formatSize } from "../../utils/CBX";
 
 

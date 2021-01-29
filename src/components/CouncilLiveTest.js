@@ -1,12 +1,13 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+import gql from 'graphql-tag';
 import withSharedProps from '../HOCs/withSharedProps';
 import { bHistory } from '../containers/App';
 import { checkCouncilState } from '../utils/CBX';
-import gql from 'graphql-tag';
 import LiveHeader from "./council/live/LiveHeader";
 import { lightGrey } from "../styles/colors";
+
 let logo;
 import("../assets/img/logo-white.png").then(data => logo = data);
 
@@ -17,7 +18,7 @@ class CouncilLiveTest extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        if(!!nextProps.data.roomVideoURL){
+        if(nextProps.data.roomVideoURL){
             if(nextProps.data.roomVideoURL !== prevState.url){
                 return { url: nextProps.data.roomVideoURL };
             }
@@ -55,7 +56,7 @@ class CouncilLiveTest extends React.Component {
 				}}
 			>
 				<LiveHeader
-					logo={!!company? company.logo : logo}
+					logo={company ? company.logo : logo}
 					companyName={!!company && company.businessName}
 					councilName={'COUNCIL TEST ENV'}
 					translate={translate}

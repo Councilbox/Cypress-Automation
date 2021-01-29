@@ -1,8 +1,8 @@
 import React from "react";
 import { withApollo } from "react-apollo";
 import { CircularProgress } from "material-ui";
-import { getSecondary } from "../../styles/colors";
 import FontAwesome from "react-fontawesome";
+import { getSecondary } from "../../styles/colors";
 import { printPrettyFilesize } from "../../utils/CBX";
 
 const API_URL =
@@ -22,14 +22,14 @@ const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
 		const endpoint = agenda ? 'agendaAttachment' : 'councilAttachment'
 		const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
 			headers: new Headers({
-				"x-jwt-token": token ? token : apiToken? apiToken : participantToken,
+				"x-jwt-token": token || (apiToken || participantToken),
 			})
 		});
 
 		if(response.status === 200){
 			const blob = await response.blob();
 			const url = window.URL.createObjectURL(blob);
-            let a = document.createElement('a');
+            const a = document.createElement('a');
             a.href = url;
             a.download = attachment.filename;
             document.body.appendChild(a);

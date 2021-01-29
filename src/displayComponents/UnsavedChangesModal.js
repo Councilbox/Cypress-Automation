@@ -1,7 +1,7 @@
 import React from 'react';
 import withTranslations from '../HOCs/withTranslations';
 import { getSecondary } from '../styles/colors';
-import { AlertConfirm } from './';
+import { AlertConfirm } from ".";
 import BasicButton from './BasicButton';
 
 const UnsavedChangesModal = ({ translate, open, requestClose, acceptAction, cancelAction, successAction, loadingAction }) => (
@@ -19,7 +19,7 @@ const UnsavedChangesModal = ({ translate, open, requestClose, acceptAction, canc
                         color: 'white',
                         fontWeight: '700'
                     }}
-                /> 
+                />
             :
                 null
         }

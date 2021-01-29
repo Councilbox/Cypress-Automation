@@ -1,4 +1,7 @@
 import React from "react";
+import { Paper } from 'material-ui';
+import { graphql, compose, withApollo } from "react-apollo";
+import FontAwesome from 'react-fontawesome';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -9,13 +12,10 @@ import {
 	FileUploadButton,
 	AlertConfirm
 } from "../../../displayComponents";
-import { Paper } from 'material-ui';
-import { graphql, compose, withApollo } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from "../../../queries/census";
 import { checkValidEmail } from "../../../utils";
 import { downloadFile } from "../../../utils/CBX";
-import FontAwesome from 'react-fontawesome';
 import { isMobile } from "../../../utils/screen";
 
 let XLSX;
@@ -83,9 +83,9 @@ const languages = {
 };
 
 function to_json(workbook) {
-	let result = {};
+	const result = {};
 	workbook.SheetNames.forEach(sheetName => {
-		let roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+		const roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
 		if (roa.length > 0) {
 			result[sheetName] = roa;
 		}
@@ -140,11 +140,11 @@ class ImportCensusButton extends React.Component {
 	}
 
 	checkUniqueEmails = async (participants) => {
-		let uniqueEmails = new Map();
-		let duplicatedEmails = new Map();
+		const uniqueEmails = new Map();
+		const duplicatedEmails = new Map();
 		participants.forEach((censusP, index) => {
 			if (censusP.participant.email) {
-				let item = uniqueEmails.get(censusP.participant.email)
+				const item = uniqueEmails.get(censusP.participant.email)
 				if (item) {
 					if (item.name !== censusP.participant.name || item.surname !== censusP.participant.surname || item.dni !== censusP.participant.dni) {
 						duplicatedEmails.set(censusP.participant.email, [index + 2]);
@@ -157,7 +157,7 @@ class ImportCensusButton extends React.Component {
 
 			if (censusP.representative) {
 				if (censusP.representative.email) {
-					let item = uniqueEmails.get(censusP.representative.email)
+					const item = uniqueEmails.get(censusP.representative.email)
 					if (item) {
 						if (item.name !== censusP.representative.name || item.surname !== censusP.representative.surname || item.dni !== censusP.representative.dni) {
 							duplicatedEmails.set(censusP.representative.email, [index + 2]);
@@ -232,7 +232,7 @@ class ImportCensusButton extends React.Component {
 			processed: 0
 		});
 
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
 		reader.onload = async () => {
@@ -259,7 +259,6 @@ class ImportCensusButton extends React.Component {
 						})
 					}
 				}
-
 			} else {
 				console.error(result);
 			}
@@ -267,12 +266,12 @@ class ImportCensusButton extends React.Component {
 	};
 
 	prepareParticipants = async participants => {
-		let preparedParticipants = [];
-		let invalidEmails = [];
+		const preparedParticipants = [];
+		const invalidEmails = [];
 
 		if (participants) {
-			for (var i = 0; i < participants.length; i++) {
-				let participant = this.prepareParticipant(participants[i]);
+			for (let i = 0; i < participants.length; i++) {
+				const participant = this.prepareParticipant(participants[i]);
 				if (participant.hasError) {
 					participant.line = i + 2;
 					invalidEmails.push(participant);
@@ -298,27 +297,26 @@ class ImportCensusButton extends React.Component {
 				}
 			}
 			return preparedParticipants;
-		} else {
+		}
 			this.setState({
 				step: 5,
 				invalidEmails: duplicatedEmails.emails,
 				duplicatedType: duplicatedEmails.type
 			});
-		}
 	};
 
 	prepareParticipant = _participant => {
-		let { selectedLanguage: language } = this.props.translate;
+		const { selectedLanguage: language } = this.props.translate;
 
-		var keys = Object.keys(_participant);
+		const keys = Object.keys(_participant);
 
-		let participant = {
+		const participant = {
 			companyId: this.props.companyId,
 			censusId: this.props.censusId
 		};
 
-		for (var j = 0; j < keys.length; j++) {
-			var key = keys[j];
+		for (let j = 0; j < keys.length; j++) {
+			const key = keys[j];
 			if (excelToDBColumns[key.toLowerCase()]) {
 				participant[excelToDBColumns[key.toLocaleLowerCase()]] = '' + _participant[key].trim();
 			}
@@ -335,9 +333,8 @@ class ImportCensusButton extends React.Component {
 
 		if (participant.r_name && participant.r_name !== '-') {
 			return this.checkEntityParticipant(participant);
-		} else {
-			return this.checkPersonParticipant(participant);
 		}
+			return this.checkPersonParticipant(participant);
 	};
 
 	updateState = object => {
@@ -434,7 +431,7 @@ class ImportCensusButton extends React.Component {
 	checkRequiredFields = (participant, isEntity) => {
 		const required = 'required'
 
-		let errors = {
+		const errors = {
 			name: '',
 			surname: '',
 			dni: '',

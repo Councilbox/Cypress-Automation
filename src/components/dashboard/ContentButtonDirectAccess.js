@@ -4,7 +4,6 @@ import {
 } from "../../displayComponents";
 
 class ContentButtonDirectAccess extends React.Component {
-
 	render() {
 		const { children, disabled, disabledOnClick, link } = this.props;
 

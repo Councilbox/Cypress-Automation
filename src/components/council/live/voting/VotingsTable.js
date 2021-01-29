@@ -1,8 +1,10 @@
 import React from 'react';
-import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../../constants";
-import { TableRow, TableCell, withStyles, Card, CardContent } from "material-ui";
+import { TableRow, TableCell, withStyles, Card, CardContent, Tooltip, MenuItem } from "material-ui";
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import FontAwesome from "react-fontawesome";
+import PropTypes from "prop-types";
+import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../../constants";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
 	LoadingSection,
@@ -17,18 +19,16 @@ import {
 	GridItem,
 	AlertConfirm
 } from "../../../../displayComponents";
-import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
-import { Tooltip, MenuItem } from "material-ui";
+
 import { isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage, getActiveVote, isConfirmationRequest } from "../../../../utils/CBX";
-import PropTypes from "prop-types";
 import NominalCustomVoting, { DisplayVoting } from './NominalCustomVoting';
 import { isMobile } from '../../../../utils/screen';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 
 
-let timeout = null;
+const timeout = null;
 
 const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => {
 	const primary = getPrimary();
@@ -120,7 +120,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					<>
 						{!isCustomPoint(agenda.subjectType) &&
 							<Tooltip
-								title={vote? vote.vote : null}
+								title={vote ? vote.vote : null}
 							>
 								<VotingValueIcon
 									vote={vote.vote}
@@ -172,11 +172,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 		)
 	}
 
-	const renderParticipantInfo = vote => {
-		return (
+	const renderParticipantInfo = vote => (
 			<div style={{ minWidth: '7em' }}>
 				<span style={{ fontWeight: '700' }}>
-					{!!vote.authorRepresentative ?
+					{vote.authorRepresentative ?
 						<React.Fragment>
 							{`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname || ''} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
 						</React.Fragment>
@@ -185,7 +184,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 							{`${vote.author.name} ${vote.author.surname || ''} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
 							{vote.author.voteDenied &&
 								<Tooltip title={vote.author.voteDeniedReason}>
-									<span style={{color: 'red', fontWeight: '700'}}>
+									<span style={{ color: 'red', fontWeight: '700' }}>
 										(Voto denegado)
 									</span>
 								</Tooltip>
@@ -211,11 +210,11 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 								}
 								{`${translate.representative_of} ${delegatedVote.author.name} ${
 									delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${
-										delegatedVote.author.position}` : ''} ${isMobile? ` - ${
+										delegatedVote.author.position}` : ''} ${isMobile ? ` - ${
 											showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}` : ''}`}
 								{delegatedVote.author.voteDenied &&
 									<Tooltip title={delegatedVote.author.voteDeniedReason}>
-										<span style={{color: 'red', fontWeight: '700'}}>
+										<span style={{ color: 'red', fontWeight: '700' }}>
 											(Voto denegado)
 										</span>
 									</Tooltip>
@@ -239,10 +238,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 										/>
 									</Tooltip>
 								}
-								{`${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)} ` : ''}`}
+								{`${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile ? ` - ${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)} ` : ''}`}
 								{delegatedVote.author.voteDenied &&
 									<Tooltip title={delegatedVote.author.voteDeniedReason}>
-										<span style={{color: 'red', fontWeight: '700'}}>
+										<span style={{ color: 'red', fontWeight: '700' }}>
 											(Voto denegado)
 										</span>
 									</Tooltip>
@@ -253,8 +252,6 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 				</React.Fragment>
 			</div>
 		)
-
-	}
 
 	return (
 		<Grid
@@ -282,7 +279,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 				{(agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING && !isCustomPoint(agenda.subjectType)) &&
 					<React.Fragment>
 						<div style={{ display: isMobile ? "block" : "flex", flexDirection: "row", alignItems: 'center', width: "100%", padding: "0px", }}>
-							<div   >
+							<div >
 								<span>{translate.filter_by}</span>
 							</div>
 							<div style={{ display: "flex" }}>
@@ -478,10 +475,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 										</TableCell>
 										{!isConfirmationRequest(agenda.subjectType) &&
 											<TableCell style={{ fontSize: '0.95em' }}>
-												{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED)?
+												{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED) ?
 													(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : 0)
 												:
-													vote.authorRepresentative.numParticipations > 0? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
+													vote.authorRepresentative.numParticipations > 0 ? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
 												}
 
 												<React.Fragment>
@@ -541,14 +538,11 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 }
 
 const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }) => {
-
-	const body = () => {
-		return (
+	const body = () => (
 			<div>
 				{translate.void_remote_vote_warning}
 			</div>
 		)
-	}
 
 	return (
 		<AlertConfirm
@@ -616,7 +610,7 @@ const PrivateVotingDisplay = compose(
 			});
 		}
 		await refetch();
-		let timeout = setTimeout(() => {
+		const timeout = setTimeout(() => {
 			setLoading(false);
 			clearTimeout(timeout);
 			if (modal) {
@@ -734,8 +728,7 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 	return (
 		<DropDownMenu
 			color="transparent"
-			Component={() =>
-				<div style={{ cursor: 'pointer' }}>
+			Component={() => <div style={{ cursor: 'pointer' }}>
 					{translate.set_presents_as}: {loading && <LoadingSection size={10} />}
 				</div>
 			}

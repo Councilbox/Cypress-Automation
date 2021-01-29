@@ -1,5 +1,6 @@
 import React from "react";
 import { graphql, withApollo } from "react-apollo";
+import gql from "graphql-tag";
 import { openCouncilRoom } from "../../../../queries/live";
 import {
 	AlertConfirm,
@@ -10,7 +11,6 @@ import {
 	HelpPopover
 } from "../../../../displayComponents";
 import { getPrimary } from "../../../../styles/colors";
-import gql from "graphql-tag";
 
 
 const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
@@ -66,7 +66,6 @@ const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
             />
 		</>
 	);
-
 }
 
 export default withApollo(ResumeCouncilButton);

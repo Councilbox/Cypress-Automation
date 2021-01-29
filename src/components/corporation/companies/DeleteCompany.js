@@ -4,7 +4,7 @@ import { withApollo } from 'react-apollo';
 import { AlertConfirm } from "../../../displayComponents";
 
 
-const DeletCompany = ({ company, render, refetch, translate, styles, client  }) => {
+const DeletCompany = ({ company, render, refetch, translate, styles, client }) => {
     const [modal, setModal] = React.useState(false);
 
     const openModal = () => {
@@ -32,18 +32,16 @@ const DeletCompany = ({ company, render, refetch, translate, styles, client  }) 
         refetch();
     }
 
-    const renderModalBody = () => {
-        return (
+    const renderModalBody = () => (
             <>
                 {`¿Esta acción eliminará la compañía ${company.businessName} por completo y todas su reuniones. ¿Continuar?`}
                 <span onClick={action}>Aceptar</span>
-            </> 
-        )       
-    }
+            </>
+        )
 
     return (
         <React.Fragment>
-            <div onClick={openModal} style={{cursor: 'pointer', ...styles}}>
+            <div onClick={openModal} style={{ cursor: 'pointer', ...styles }}>
                 {render}
             </div>
             <AlertConfirm

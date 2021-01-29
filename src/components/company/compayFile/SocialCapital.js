@@ -1,26 +1,26 @@
 import React from 'react';
+import { Icon, MenuItem, Card, CardHeader, IconButton, Collapse } from 'material-ui';
+import ContentEditable from 'react-contenteditable';
 import { CardPageLayout, TextInput, Scrollbar, DateTimePicker, SelectInput, BasicButton } from '../../../displayComponents';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
 import { getPrimary } from '../../../styles/colors';
-import { Collapse } from 'material-ui';
-import ContentEditable from 'react-contenteditable';
+
 
 
 const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props }) => {
     const primary = getPrimary();
-    const shareowners = (data.file && data.file.shareowners)? data.file.shareowners : []; 
+    const shareowners = (data.file && data.file.shareowners) ? data.file.shareowners : [];
 
     const addRow = () => {
-        const newOwners = [...shareowners, { aqui: 'otro'}];
+        const newOwners = [...shareowners, { aqui: 'otro' }];
         updateFileData({
             shareowners: newOwners
         })
     }
 
     const deleteRow = index => {
-        let newOwners = [...shareowners];
+        const newOwners = [...shareowners];
         newOwners.splice(index, 1);
         updateFileData({
             shareowners: newOwners
@@ -57,7 +57,7 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                     </div>
                     <Scrollbar>
                         <div style={{ width: "100%", height: "calc( 100% - 3em )", padding: "0 1em" }}>
-                            {shareowners.length > 0?
+                            {shareowners.length > 0 ?
                                 shareowners.map((owner, index) => (
                                     <div key={`book_${index}`}>
                                         <Card style={{ marginTop: "1em" }}>
@@ -65,7 +65,7 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                                                 <div style={{ color: 'black', display: "flex", justifyContent: "space-between", color: "black", fontSize: "15px", paddingLeft: '24px', paddingRight: '24px', paddingTop: "3em", paddingBottom: "3em" }}>
                                                     <div style={{ width: '33%' }}>
                                                         <ContentEditable
-                                                            style={{ color: 'black', minWidth: '10em'}}
+                                                            style={{ color: 'black', minWidth: '10em' }}
                                                             html={owner.name || ''}
                                                             onChange={event => {
                                                                 updateShareowner({
@@ -77,7 +77,7 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                                                     </div>
                                                     <div style={{ width: '33%', display: 'flex' }}>
                                                         <ContentEditable
-                                                            style={{ color: 'black', minWidth: '90%'}}
+                                                            style={{ color: 'black', minWidth: '90%' }}
                                                             html={owner.totalShares || ''}
                                                             onChange={event => {
                                                                 updateShareowner({
@@ -88,7 +88,7 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                                                     </div>
                                                     <div style={{ width: '33%', display: 'flex' }}>
                                                         <ContentEditable
-                                                            style={{ color: 'black', minWidth: '90%'}}
+                                                            style={{ color: 'black', minWidth: '90%' }}
                                                             html={owner.percentage || ''}
                                                             onChange={event => {
                                                                 updateShareowner({
@@ -116,10 +116,10 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                                     </div>
                                 ))
                             :
-                                <div style={{marginTop: '1em'}}>
+                                <div style={{ marginTop: '1em' }}>
                                     {translate.no_results}
                                 </div>
-                                
+
                             }
                             <BasicButton
                                 text={translate.save}

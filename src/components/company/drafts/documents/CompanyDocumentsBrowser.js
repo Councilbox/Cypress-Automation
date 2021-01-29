@@ -4,10 +4,8 @@ import CompanyDocumentsPage from './CompanyDocumentsPage';
 import { isMobile } from '../../../../utils/screen';
 
 
-const CompanyDocumentsBrowser = ({ company, translate, action, open, requestClose, trigger}) => {
-
-    const renderBody = () => {
-        return (
+const CompanyDocumentsBrowser = ({ company, translate, action, open, requestClose, trigger }) => {
+    const renderBody = () => (
             <CompanyDocumentsPage
                 translate={translate}
                 company={company}
@@ -16,14 +14,13 @@ const CompanyDocumentsBrowser = ({ company, translate, action, open, requestClos
                 action={action}
             />
         )
-    }
 
     return (
         <AlertConfirm
             open={open}
             PaperProps={{
                 style: {
-                    width: isMobile? '100%' : '80vw',
+                    width: isMobile ? '100%' : '80vw',
                     height: '70vh'
                 }
             }}
@@ -32,6 +29,6 @@ const CompanyDocumentsBrowser = ({ company, translate, action, open, requestClos
             bodyText={renderBody()}
         />
     )
-} 
+}
 
 export default CompanyDocumentsBrowser;

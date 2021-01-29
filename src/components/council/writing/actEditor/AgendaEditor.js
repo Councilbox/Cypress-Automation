@@ -1,14 +1,14 @@
 import React from "react";
+import { toast } from 'react-toastify';
+import { graphql, compose } from 'react-apollo';
+import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import { Grid, GridItem, TabsScreen, BasicButton, LiveToast } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import AgendaRecount from '../../agendas/AgendaRecount';
 import { AGENDA_TYPES, DRAFT_TYPES } from '../../../../constants';
-import { toast } from 'react-toastify';
-import { graphql, compose } from 'react-apollo';
-import VotingsTableFiltersContainer from '../../../council/live/voting/VotingsTableFiltersContainer';
+import VotingsTableFiltersContainer from "../../live/voting/VotingsTableFiltersContainer";
 import CommentsTable from "../../live/comments/CommentsTable";
-import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag, isConfirmationRequest } from '../../../../utils/CBX';
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
@@ -36,7 +36,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 				variables: {
 					agenda: {
 						...cleanAgendaObject(agenda),
-						comment: comment,
+						comment,
 						councilId: council.id
 					}
 				}
@@ -68,10 +68,10 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	}
 
 	const loadDraft = async draft => {
-		let { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
-		let { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
+		const { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
+		const { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
 		const participations = hasParticipations(council);
-		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
+		const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
 
 		const correctedText = await changeVariablesToValues(draft.text, {
 			company,
@@ -81,12 +81,12 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 				negative: agenda.negativeVotings + agenda.negativeManual,
 				abstention: agenda.abstentionVotings + agenda.abstentionManual,
 				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
-				SCFavorTotal: participations? ((positiveSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
-				SCAgainstTotal: participations? ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAbstentionTotal: participations? ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAgainstPresent: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAbstentionPresent: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCFavorTotal: participations ? ((positiveSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL', //TRADUCCION
+				SCAgainstTotal: participations ? ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAbstentionTotal: participations ? ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCFavorPresent: participations ? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAgainstPresent: participations ? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAbstentionPresent: participations ? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 				numPositive,
 				numNegative,
 				numAbstention,
@@ -104,13 +104,13 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	if(agendaData.loading){
 		return <span />;
 	}
-	let tabs = [];
-	let { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
-	let { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
+	const tabs = [];
+	const { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
+	const { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
 	const participations = hasParticipations(council);
-	const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalRemote;
+	const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 
-	let tags = [
+	const tags = [
 		{
 			value: numPositive,
 			label: translate.num_positive
@@ -173,9 +173,8 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	if(!readOnly){
 		tabs.push({
 			text: translate.comments_and_agreements,
-			component: () => {
-				return (
-					<div style={{padding: '1em'}}>
+			component: () => (
+					<div style={{ padding: '1em' }}>
 						<RichTextInput
 							ref={editor}
 							translate={translate}
@@ -195,8 +194,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 										lineHeight: "1em"
 									}}
 									textPosition="after"
-									onClick={() =>
-										setState({
+									onClick={() => setState({
 											loadDraft: true,
 											draftType: DRAFT_TYPES.COMMENTS_AND_AGREEMENTS
 										})
@@ -205,39 +203,35 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 							}
 							tags={tags}
 							value={agenda.comment || ''}
-							onChange={value =>{
+							onChange={value => {
 								if(value !== agenda.comment){
 									setComment(value)
 								}
 							}}
 						/>
 					</div>
-				);
-			}
+				)
 		})
 	}
 
 	tabs.push({
 		text: translate.act_comments,
-		component: () => {
-			return (
-				<div style={{minHeight: '8em', padding: '1em', paddingBottom: '1.4em'}}>
+		component: () => (
+				<div style={{ minHeight: '8em', padding: '1em', paddingBottom: '1.4em' }}>
 					<CommentsTable
 						translate={translate}
 						agenda={agenda}
 						council={council}
 					/>
 				</div>
-			);
-		}
+			)
 	});
 
 	if(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE){
 		tabs.push({
 			text: isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting,
-			component: () => {
-				return (
-					<div style={{minHeight: '8em', padding: '1em'}}>
+			component: () => (
+					<div style={{ minHeight: '8em', padding: '1em' }}>
 						{isCustomPoint(agenda.subjectType) &&
 							<CustomAgendaRecount
 								agenda={agenda}
@@ -271,8 +265,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 							agenda={agenda}
 						/>
 					</div>
-				);
-			}
+				)
 		});
 	}
 
@@ -283,7 +276,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 				margin: "0.6em 0",
 			}}
 		>
-			<Grid spacing={16} style={{marginBottom: '1em'}}>
+			<Grid spacing={16} style={{ marginBottom: '1em' }}>
 				<GridItem xs={1}
 					style={{
 						color: primary,
@@ -343,10 +336,10 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 				<DialogContent style={{ width: "800px" }}>
 					<LoadDraft
 						translate={translate}
-						companyId={company? company.id : ''}
+						companyId={company ? company.id : ''}
 						loadDraft={loadDraft}
 						statute={council.statute}
-						statutes={data? data.companyStatutes : ''}
+						statutes={data ? data.companyStatutes : ''}
 						defaultTags={
 							{
 								"comments_and_agreements": {

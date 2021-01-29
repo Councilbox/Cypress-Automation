@@ -1,14 +1,13 @@
 import React from 'react';
-import { AlertConfirm, BasicButton, Grid, GridItem } from '../../displayComponents';
-import { primary } from '../../styles/colors';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { AlertConfirm, BasicButton, Grid, GridItem } from '../../displayComponents';
+import { primary } from '../../styles/colors';
 import { store } from '../../containers/App';
 import { setUserData } from '../../actions/mainActions';
 import { TRIAL_DAYS } from '../../config';
 
 class PremiumModal extends React.Component {
-
     state = {
         step: 1,
         success: false
@@ -41,7 +40,7 @@ class PremiumModal extends React.Component {
 
     render(){
         const { translate } = this.props;
-        const modalWidth = window.innerWidth > 650? 650 : window.innerWidth;
+        const modalWidth = window.innerWidth > 650 ? 650 : window.innerWidth;
 
         return (
             <AlertConfirm
@@ -51,17 +50,17 @@ class PremiumModal extends React.Component {
                 requestClose={this.props.requestClose}
                 title={translate.premium_service}
                 bodyText={
-                    <div style={{width: `${modalWidth}px`}}>
+                    <div style={{ width: `${modalWidth}px` }}>
                         {this.state.step === 1 &&
                             <React.Fragment>
-                                <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                                    <div style={{marginBottom: '0.6em'}}>
+                                <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                                    <div style={{ marginBottom: '0.6em' }}>
                                         {`${translate.you_need}`} <strong>{`${translate.subscribe_to_councilbox}`}</strong>
                                     </div>
                                     <BasicButton
                                         text={translate.free_trial}
                                         color={primary}
-                                        textStyle={{fontWeight: '700', color: 'white', fontSize: '18px',}}
+                                        textStyle={{ fontWeight: '700', color: 'white', fontSize: '18px', }}
                                         onClick={this.activateTrial}
                                     />
                                 </div>
@@ -95,14 +94,14 @@ class PremiumModal extends React.Component {
                                         {translate.when_the_trial_ends.replace('{{TRIAL_DAYS}}', TRIAL_DAYS)}
                                     </GridItem>
                                 </Grid> */}
-                                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
                                     <div>
                                         <BasicButton
                                             text={translate.start_trial}
                                             loading={this.state.loading}
                                             success={this.state.success}
                                             color={primary}
-                                            textStyle={{fontWeight: '700', color: 'white', fontSize: '18px',}}
+                                            textStyle={{ fontWeight: '700', color: 'white', fontSize: '18px', }}
                                             onClick={this.activateTrial}
                                         />
                                     </div>

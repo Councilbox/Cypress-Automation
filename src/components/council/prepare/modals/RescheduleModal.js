@@ -1,4 +1,6 @@
 import React from "react";
+import { Typography } from "material-ui";
+import { graphql } from "react-apollo";
 import {
 	AlertConfirm,
 	DateTimePicker,
@@ -6,8 +8,6 @@ import {
 	GridItem,
 	Icon
 } from "../../../../displayComponents/index";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
 import { rescheduleCouncil } from "../../../../queries/council";
 import * as CBX from "../../../../utils/CBX";
 import { moment } from '../../../../containers/App';
@@ -90,8 +90,7 @@ class RescheduleModal extends React.Component {
 					this.props.council.statute
 				)
 			});
-		} else {
-			if (
+		} else if (
 				!CBX.checkMinimumDistanceBetweenCalls(
 					firstDate,
 					secondDate,
@@ -105,7 +104,6 @@ class RescheduleModal extends React.Component {
 					)
 				});
 			}
-		}
 	};
 
 	_renderReminderBody() {
@@ -152,7 +150,7 @@ class RescheduleModal extends React.Component {
 						<DateTimePicker
 							required
 							minDate={
-								!!this.state.dateStart
+								this.state.dateStart
 									? new Date(this.state.dateStart)
 									: new Date()
 							}

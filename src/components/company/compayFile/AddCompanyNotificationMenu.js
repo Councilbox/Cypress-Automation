@@ -35,7 +35,7 @@ const AddCompanyNotificationMenu = ({ requestClose, refetch, company, translate,
     }
 
     return (
-        <div style={{width: '100%'}}>
+        <div style={{ width: '100%' }}>
             <div style={{ color: "black" }}>
                 <DateTimePicker
                     format="L"
@@ -51,7 +51,7 @@ const AddCompanyNotificationMenu = ({ requestClose, refetch, company, translate,
                             limitDate: dateString
                         })
                     }}
-                    
+
                     value={notification.limitDate}
                 />
             </div>
@@ -85,6 +85,6 @@ const AddCompanyNotificationMenu = ({ requestClose, refetch, company, translate,
             />
         </div>
     )
-} 
+}
 
 export default withApollo(AddCompanyNotificationMenu)

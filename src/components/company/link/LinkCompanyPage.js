@@ -1,5 +1,6 @@
 import React from "react";
 import { graphql, withApollo } from "react-apollo";
+import { toast } from "react-toastify";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import {
 	BasicButton,
@@ -13,7 +14,6 @@ import {
 import { getPrimary } from "../../../styles/colors";
 import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
-import { toast } from "react-toastify";
 import { linkCompany } from "../../../queries/company";
 import { useOldState } from "../../../hooks";
 import { sendGAevent } from "../../../utils/analytics";
@@ -42,7 +42,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 	};
 
 	const checkRequiredFields = () => {
-		let errors = {};
+		const errors = {};
 
 		if (!state.data.cif) {
 			errors.cif = translate.required_field;
@@ -143,8 +143,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 							required
 							value={data.cif}
 							errorText={errors.cif}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									cif: event.target.value
 								})
 							}
@@ -165,8 +164,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 									? "text"
 									: "password"
 							}
-							passwordToggler={() =>
-								setState({
+							passwordToggler={() => setState({
 									showPassword: !state.showPassword
 								})
 							}
@@ -177,8 +175,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 							helpDescription={translate.link_key_tooltip}
 							value={data.linkKey}
 							errorText={errors.linkKey}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									linkKey: event.target.value
 								})
 							}
@@ -187,7 +184,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 
 					</div>
 				</GridItem>
-				<GridItem xs={12} md={12} lg={12} style={{ maxWidth: '400px', margin: '0 auto'}}>
+				<GridItem xs={12} md={12} lg={12} style={{ maxWidth: '400px', margin: '0 auto' }}>
 					<div
 						style={{
 							display: "flex",

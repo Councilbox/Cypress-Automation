@@ -6,7 +6,7 @@ import EmailIcon from '../council/live/participants/EmailIcon';
 import { Grid } from '../../displayComponents';
 
 
-const tableCellStyle = { padding: '0.2em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',  };
+const tableCellStyle = { padding: '0.2em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', };
 const tableCellStyleTh = { width: '20%', };
 
 const NotificationsTable = ({ notifications, translate, maxEmail, liveMobil }) => {
@@ -90,7 +90,7 @@ const NotificationsTable = ({ notifications, translate, maxEmail, liveMobil }) =
 							<TableCell style={tableCellStyle}>
 								{translate[CBX.getSendType(notification.sendType)]}
 							</TableCell>
-							<TableCell style={{...tableCellStyle, ...maxEmail}}>
+							<TableCell style={{ ...tableCellStyle, ...maxEmail }}>
 									{notification.email}
 							</TableCell>
 							<TableCell style={tableCellStyle}>

@@ -75,7 +75,7 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
             title={translate.resend}
             bodyText={
                 <div>
-                    {data && 
+                    {data &&
                         <>
                             <div>
                                 Último envío realizado: {moment(data.sendDate).format('LLL')}

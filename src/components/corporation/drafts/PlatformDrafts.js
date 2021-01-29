@@ -1,4 +1,8 @@
 import React from "react";
+import { Icon, IconButton, withStyles } from 'material-ui';
+import { compose, graphql, withApollo } from "react-apollo";
+import { withRouter } from "react-router-dom";
+import gql from "graphql-tag";
 import {
 	AllSelector,
 	BasicButton,
@@ -10,20 +14,16 @@ import {
 	TextInput,
 	CloseIcon
 } from "../../../displayComponents";
-import { Icon, IconButton } from 'material-ui';
-import { compose, graphql, withApollo } from "react-apollo";
 import { cloneDrafts, platformDrafts as query } from "../../../queries";
 import { getPrimary } from "../../../styles/colors";
 import withSharedProps from "../../../HOCs/withSharedProps";
-import { withRouter } from "react-router-dom";
 import PlatformDraftDetails from "./PlatformDraftDetails";
 import DraftDetailsModal from './DraftDetailsModal';
 import { DRAFTS_LIMITS } from "../../../constants";
 import { useOldState } from "../../../hooks";
 import { useTags, DraftRow } from "../../company/drafts/CompanyDraftList";
 import { DropdownEtiquetas } from "../../company/drafts/LoadDraft";
-import gql from "graphql-tag";
-import { withStyles } from "material-ui";
+
 import { isMobile } from "../../../utils/screen";
 import { bHistory } from "../../../containers/App";
 
@@ -187,7 +187,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 	};
 
 	const isChecked = id => {
-		let item = state.selectedValues.find(
+		const item = state.selectedValues.find(
 			selectedValue => selectedValue === id
 		);
 		return !!item;
@@ -216,7 +216,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 	const selectAll = () => {
 		const { list } = data.platformDrafts;
 		const { selectedValues } = state;
-		let values = state.selectedValues;
+		const values = state.selectedValues;
 
 		for (let i = 0; i < list.length; i++) {
 			const id = list[i].id;
@@ -264,7 +264,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 	const { loading, error, platformDrafts, draftTypes } = data;
 	const { selectedIndex, selectedValues } = state;
 	const primary = getPrimary();
-	
+
 	return (
 		<CardPageLayout title={translate.general_drafts}>
 			{selectedIndex >= 0 ? (
@@ -277,15 +277,13 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 					<React.Fragment>
 						{error ? (
 							<div>
-								{error.graphQLErrors.map((error, index) => {
-									return (
+								{error.graphQLErrors.map((error, index) => (
 										<ErrorWrapper
 											key={`error_${index}`}
 											error={error}
 											translate={translate}
 										/>
-									);
-								})}
+									))}
 							</div>
 						) : (
 								!!platformDrafts && (
@@ -428,8 +426,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 											defaultLimit={25}
 										>
 											{platformDrafts.list.map(
-												(draft, index) => {
-													return (
+												(draft, index) => (
 														<DraftRow
 															classes={classes}
 															key={`draft${draft.id}${draft.title}`}
@@ -446,8 +443,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 															stylesBackground={{ background: index % 2 ? "#edf4fb" : "" }}
 															info={props}
 														/>
-													);
-												}
+													)
 											)}
 										</EnhancedTable>
 									</React.Fragment>

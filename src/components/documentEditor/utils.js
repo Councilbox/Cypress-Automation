@@ -10,32 +10,26 @@ import { translations } from './translations';
 
 const filterHiddenItems = item => !item.hide;
 
-const flatItems = (acc, curr) => {
-    return curr.items ? [
+const flatItems = (acc, curr) => (curr.items ? [
         ...acc,
         ...curr.items.filter(filterHiddenItems)
-    ] : [...acc, curr];
-}
+    ] : [...acc, curr])
 
-const prepareColumn = (column, secondary) => {
-    return column.reduce(flatItems, []).map(item => ({
+const prepareColumn = (column, secondary) => column.reduce(flatItems, []).map(item => ({
         type: item.type,
-        text: secondary? item.secondaryText : item.text,
+        text: secondary ? item.secondaryText : item.text,
         data: item.data
-    }));
-}
+    }))
 
-export const buildDocVariable = (doc, options) => {
-    return ({
+export const buildDocVariable = (doc, options) => ({
         fragments: prepareColumn(doc),
-        secondaryColumn: options.doubleColumn? prepareColumn(doc, true) : undefined,
+        secondaryColumn: options.doubleColumn ? prepareColumn(doc, true) : undefined,
         options: {
             language: 'es',
             secondaryLanguage: 'en',
             ...options,
         }
-    });
-}
+    })
 
 export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = 'en') => {
     const texts = translations[language];
@@ -88,9 +82,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
                 text: puntos,
                 secondaryText: `
                     <b>${secondaryTexts.agenda}</b> </br>
-                    ${data.agendas.reduce((acc, curr) => {
-                        return `${acc}- ${curr.agendaSubject}</br>`
-                    }, '')}
+                    ${data.agendas.reduce((acc, curr) => `${acc}- ${curr.agendaSubject}</br>`, '')}
                 `
             }
         },
@@ -99,8 +91,8 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
             id: Math.random().toString(36).substr(2, 9),
             label: texts.attendantList,
             text: '',
-            language: language,
-            secondaryLanguage:  secondaryLanguage,
+            language,
+            secondaryLanguage,
             icon: iconAsistentes
         }),
         delegations: () => ({
@@ -110,8 +102,8 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
             text: "",
             editButton: false,
             type: 'delegations',
-            language: language,
-            secondaryLanguage: secondaryLanguage,
+            language,
+            secondaryLanguage,
             logic: true,
             icon: iconDelegaciones,
             colorBorder: '#7f94b6'
@@ -165,7 +157,7 @@ export function generateCertAgendaBlocks(data, language = 'es', secondaryLanguag
         toggleable: true,
         hide: false,
         secondaryLanguage: 'en',
-        colorBorder:"#b39a5b",
+        colorBorder: "#b39a5b",
         noBorrar: false,
         data: {
             agendaId: point.id
@@ -173,9 +165,7 @@ export function generateCertAgendaBlocks(data, language = 'es', secondaryLanguag
     }));
 }
 
-const getCustomRecount = (ballots, itemId) => {
-    return ballots.filter(ballot => ballot.itemId == itemId).reduce((a, b) => a + b.weight, 0)
-}
+const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.itemId == itemId).reduce((a, b) => a + b.weight, 0)
 
 
 const buildAgendaText = (agenda, translate, data) => {
@@ -183,14 +173,11 @@ const buildAgendaText = (agenda, translate, data) => {
         return `
             <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
                 <b>${translate.votings}:</b>
-                ${agenda.items.reduce((acc, item) => {
-                    return `${acc}
+                ${agenda.items.reduce((acc, item) => `${acc}
                         <li>
                             ${item.value}: ${showNumParticipations(getCustomRecount(agenda.ballots, item.id), data.company, data.council.statute)}
                         </li>
-                    `
-
-                }, '')}
+                    `, '')}
                 <li>
                     ${translate.abstentions}: ${showNumParticipations(getCustomRecount(agenda.ballots, -1), data.company, data.council.statute)}
                 </li>
@@ -199,7 +186,6 @@ const buildAgendaText = (agenda, translate, data) => {
     }
 
     if(isConfirmationRequest(agenda.subjectType)){
-
         return `
             <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
                 <b>${translate.votings}: </b>
@@ -228,7 +214,7 @@ const buildAgendaText = (agenda, translate, data) => {
 }
 
 
-export function generateAgendaBlocks (data, language = 'es', secondaryLanguage = 'en'){
+export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 'en'){
     const agenda = data.agendas;
     const texts = translations[language];
     const secondaryTexts = translations[secondaryLanguage];
@@ -326,7 +312,7 @@ export function generateAgendaBlocks (data, language = 'es', secondaryLanguage =
                         toggleable: false,
                         language: 'es',
                         secondaryLanguage: 'en',
-                        colorBorder:"#b39a5b",
+                        colorBorder: "#b39a5b",
                         icon: iconAgendaComments,
                         noBorrar: false,
                         data: {
@@ -386,7 +372,7 @@ export const getDefaultTagsByBlockType = (type, translate) => {
         }
     }
 
-    return defaultTags[type]? defaultTags[type] : null;
+    return defaultTags[type] ? defaultTags[type] : null;
 }
 
 
@@ -415,7 +401,6 @@ export const buildDoc = (data, translate, type) => {
     }
 
     return CBX_DOCS[type].map(item => buildDocBlock(item, data, data.council.language));
-
 }
 
 export const shouldCancelStart = event => {
@@ -512,28 +497,26 @@ export const useDoc = (params = {}) => {
             }
             i++;
         } while (!localization || i > doc.length);
-        
+
         if(localization){
             if(localization.hasOwnProperty('subBlock')){
                 const items = [...newItems[localization.block].items];
-                const item = {...newItems[localization.block].items[localization.subBlock], ...object }
+                const item = { ...newItems[localization.block].items[localization.subBlock], ...object }
                 items[localization.subBlock] = item;
                 newItems[localization.block] = {
                     ...newItems[localization.block],
                     items
                 };
                 return setDoc(newItems);
-            } else {
+            }
                 newItems[localization.block] = {
                     ...newItems[localization.block],
                     ...object
                 };
                 return setDoc(newItems);
-            }
         }
 
         throw new Error('Block ID not found');
-
     }
 
     const prepareText = async text => {
@@ -546,7 +529,7 @@ export const useDoc = (params = {}) => {
 
     const editBlock = async (id, text) => {
         const prepared = await prepareText(text)
-        updateBlock(id, {[column === 2? 'secondaryText' : 'text']: prepared});
+        updateBlock(id, { [column === 2 ? 'secondaryText' : 'text']: prepared });
 
         return prepared;
     }
@@ -566,5 +549,4 @@ export const useDoc = (params = {}) => {
         column,
         setColumn
     }
-
 }

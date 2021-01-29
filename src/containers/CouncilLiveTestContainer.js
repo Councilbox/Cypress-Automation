@@ -1,22 +1,10 @@
 import React from 'react';
-import CouncilLiveTest from "../components/CouncilLiveTest";
 import { connect } from "react-redux";
-import { LoadingMainApp } from "../displayComponents";
 import { withRouter } from "react-router-dom";
+import CouncilLiveTest from "../components/CouncilLiveTest";
+import { LoadingMainApp } from "../displayComponents";
 
-const CouncilLiveContainer = ({ main, companies, user, match, translate }) => {
-/* 	if (!main.isLogged) {
-		return <Redirect to="/" />;
-	}
-
-	if (!companies.list) {
-		return <LoadingMainApp />;
-	} */
-
-/* 	if (typeof window.orientation !== 'undefined')){
-		return <div>LO SENTIMOS, NO SE PUEDE CELEBRAR UNA REUNIÓN DESDE UN DISPOSITIVO MOVIL</div>
-    } */
-
+const CouncilLiveContainer = ({ user, match }) => {
     if(!user.id){
         return <LoadingMainApp />
     }

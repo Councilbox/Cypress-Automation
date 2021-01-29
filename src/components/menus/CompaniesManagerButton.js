@@ -20,9 +20,9 @@ const CompaniesManagerButton = props => {
     }
 
     return(
-        <div style={{width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+        <div style={{ width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-                {userCanCreateCompany(props.user, props.companies.list)?
+                {userCanCreateCompany(props.user, props.companies.list) ?
                     <Link to={`/company/${props.company.id}/create`}>
                         <BasicButton
                             text={props.translate.companies_add}
@@ -34,7 +34,7 @@ const CompaniesManagerButton = props => {
                                 label: props.company.businessName
                             })}
                             icon={<ButtonIcon type="add" color="white" />}
-                            textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em',  color: 'white'}}
+                            textStyle={{ textTransform: 'none', fontWeight: '700', fontSize: '0.9em', color: 'white' }}
                         />
                     </Link>
                 :
@@ -44,7 +44,7 @@ const CompaniesManagerButton = props => {
                         id={'entidadesAddSociedad'}
                         onClick={showCantCreateModal}
                         icon={<ButtonIcon type="add" color="white" />}
-                        textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em',  color: 'white'}}
+                        textStyle={{ textTransform: 'none', fontWeight: '700', fontSize: '0.9em', color: 'white' }}
                     />
                 }
             </div>
@@ -60,7 +60,7 @@ const CompaniesManagerButton = props => {
                             label: props.company.businessName
                         })}
                         icon={<ButtonIcon type="link" color="white" />}
-                        textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em', color: 'white'}}
+                        textStyle={{ textTransform: 'none', fontWeight: '700', fontSize: '0.9em', color: 'white' }}
                     />
                 </div>
             </Link>
@@ -72,8 +72,8 @@ const CompaniesManagerButton = props => {
                 buttonCancel={props.translate.close}
                 requestClose={hideCantCreateModal}
                 bodyText={
-                    <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-                        <div style={{marginBottom: '0.8em'}}>
+                    <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                        <div style={{ marginBottom: '0.8em' }}>
                             {props.translate.to_create_more_need_premium_account}
                         </div>
                         <CBXContactButton
@@ -84,7 +84,6 @@ const CompaniesManagerButton = props => {
             />
         </div>
     )
-
 }
 
 

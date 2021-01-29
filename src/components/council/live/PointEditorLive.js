@@ -1,9 +1,9 @@
 import React from 'react';
+import { MenuItem } from 'material-ui';
+import { graphql } from 'react-apollo';
 import { AlertConfirm, SelectInput, Grid, GridItem, MajorityInput } from '../../../displayComponents';
 import { filterAgendaVotingTypes, hasVotation, majorityNeedsInput, isCustomPoint } from '../../../utils/CBX';
 import { checkValidMajority } from '../../../utils/validation';
-import { MenuItem } from 'material-ui';
-import { graphql } from 'react-apollo';
 import { updateAgenda } from "../../../queries/agenda";
 import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../constants';
 import { useOldState } from '../../../hooks';
@@ -53,18 +53,16 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                 <SelectInput
                     floatingText={translate.type}
                     value={"" + state.subjectType}
-                    onChange={event => updateState({subjectType: +event.target.value})}
+                    onChange={event => updateState({ subjectType: +event.target.value })}
                 >
-                    {Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => {
-                        return (
+                    {Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => (
                             <MenuItem
                                 value={"" + CUSTOM_AGENDA_VOTING_TYPES[key].value}
                                 key={`voting${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
                             >
                                 {translate[CUSTOM_AGENDA_VOTING_TYPES[key].label]}
                             </MenuItem>
-                        );
-                    })}
+                        ))}
                 </SelectInput>
             )
         }
@@ -74,35 +72,31 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                 <SelectInput
                     floatingText={translate.type}
                     value={"" + state.subjectType}
-                    onChange={event => updateState({subjectType: +event.target.value})}
+                    onChange={event => updateState({ subjectType: +event.target.value })}
                 >
-                    {filteredTypes.map(voting => {
-                        return (
+                    {filteredTypes.map(voting => (
                             <MenuItem
                                 value={"" + voting.value}
                                 key={`voting${voting.value}`}
                             >
                                 {translate[voting.label]}
                             </MenuItem>
-                        );
-                    })}
+                        ))}
                 </SelectInput>
                 {hasVotation(state.subjectType) && (
                     <Grid>
                         <GridItem xs={6} lg={3} md={3}>
                             <SelectInput
                                 floatingText={translate.majority_label}
-                                value={''+state.majorityType}
+                                value={'' + state.majorityType}
                                 //errorText={errors.majorityType}
-                                onChange={event =>
-                                    updateState({
+                                onChange={event => updateState({
                                         majorityType: +event.target.value
                                     })
                                 }
                                 required
                             >
-                                {props.majorityTypes.map(majority => {
-                                    return (
+                                {props.majorityTypes.map(majority => (
                                         <MenuItem
                                             value={"" + majority.value}
                                             key={`majorityType_${
@@ -111,8 +105,7 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                                         >
                                             {translate[majority.label]}
                                         </MenuItem>
-                                    );
-                                })}
+                                    ))}
                             </SelectInput>
                         </GridItem>
                         <GridItem xs={6} lg={3} md={3}>
@@ -121,13 +114,11 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                                     type={state.majorityType}
                                     value={state.majority}
                                     divider={state.majorityDivider}
-                                    onChange={value =>
-                                        updateState({
+                                    onChange={value => updateState({
                                             majority: +value
                                         })
                                     }
-                                    onChangeDivider={value =>
-                                        updateState({
+                                    onChangeDivider={value => updateState({
                                             majorityDivider: +value
                                         })
                                     }
@@ -136,7 +127,7 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                         </GridItem>
                         {state.majorityError &&
                             <div>
-                                <span style={{color: 'red'}}>{state.majorityError}</span>
+                                <span style={{ color: 'red' }}>{state.majorityError}</span>
                             </div>
                         }
                     </Grid>
@@ -158,7 +149,6 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
             cancelAction={props.requestClose}
         />
     )
-
 }
 
 

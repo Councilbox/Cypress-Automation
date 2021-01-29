@@ -1,29 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
 
+const mapStateToProps = state => ({
+	companies: state.companies,
+	translate: state.translate,
+	user: state.user
+});
+
 const withSharedProps = () => WrappedComponent => {
-	const WithSharedProps = ({ companies, translate, user, ...restProps }) => {
-		return(
+	const WithSharedProps = ({ companies, translate, user, ...restProps }) => (
 			<WrappedComponent
-				company={companies.list.length > 0? companies.list[companies.selected] : null}
+				company={companies.list.length > 0 ? companies.list[companies.selected] : null}
 				companies={companies}
 				user={user}
 				translate={translate}
 				{...restProps}
 			/>
-		);
-	}
+		)
 
 
 	return connect(mapStateToProps)(WithSharedProps);
-};
-
-const mapStateToProps = state => {
-	return({
-		companies: state.companies,
-		translate: state.translate,
-		user: state.user
-	})
 };
 
 export default withSharedProps;

@@ -2,9 +2,8 @@ import React from "react";
 import VotingsTableFiltersContainer from "./voting/VotingsTableFiltersContainer";
 
 const Votings = ({ translate, agenda, council, ...props }) => {
-	const _section = () => {
-		return(
-			<div style={{backgroundColor: 'white', paddingTop: '1em'}}>
+	const _section = () => (
+			<div style={{ backgroundColor: 'white', paddingTop: '1em' }}>
 				<VotingsTableFiltersContainer
 					recount={props.recount}
 					translate={translate}
@@ -16,7 +15,6 @@ const Votings = ({ translate, agenda, council, ...props }) => {
 				/>
 			</div>
 		)
-	}
 
 	return (
 		<div

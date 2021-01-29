@@ -3,14 +3,11 @@ import { AlertConfirm } from '../../../displayComponents';
 
 
 const FinishModal = ({ open, action, requestClose, translate, ...props }) => {
-
-    const renderBody = () => {
-        return (
+    const renderBody = () => (
             <div>
                 Una vez enviado no se podrá modificar el sentido del voto ¿Aceptar?
             </div>
         )
-    }
 
     return (
         <AlertConfirm

@@ -33,17 +33,15 @@ const DeactivateAccount = ({ render, translate, client, user, refetch }) => {
         refetch();
     }
 
-    const renderBody = () => {
-        return (
+    const renderBody = () => (
             <div>
                 ¿Está seguro que desea desactivar la cuenta de {user.name} {user.surname || ''}?
             </div>
         )
-    }
 
 
     return (
-        <div onClick={showModal} style={{cursor: 'pointer'}}>
+        <div onClick={showModal} style={{ cursor: 'pointer' }}>
             <AlertConfirm
                 open={modal}
                 buttonCancel={translate.close}

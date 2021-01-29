@@ -1,10 +1,10 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Card } from 'material-ui';
 import DelegationsRestrictionModal from './DelegationsRestrictionModal';
 import { AlertConfirm, BasicButton, SectionTitle, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
-import { Card } from 'material-ui';
 import { isMobile } from '../../../utils/screen';
 
 
@@ -84,17 +84,15 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         }
     }
 
-    const renderWarningText = () => {
-        return (
+    const renderWarningText = () => (
             <div>
-                {warningModal.id?
-                    <text dangerouslySetInnerHTML={{__html: translate.remove_delegation_restriction_warning.replace('{{name}}', warningModal.name).replace('{{surname}}', warningModal.surname || '')}}></text>
+                {warningModal.id ?
+                    <text dangerouslySetInnerHTML={{ __html: translate.remove_delegation_restriction_warning.replace('{{name}}', warningModal.name).replace('{{surname}}', warningModal.surname || '') }}></text>
                 :
                     translate.this_options_delete_delegation_restriction
                 }
             </div>
         )
-    }
 
     const removeCouncilDelegate = async participantId => {
         let arrayIds = []
@@ -237,7 +235,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                     />
                 </div>
             )
-        } else {
+        }
             return (
                 <div style={{ width: "100%", height: "100%" }}>
                     <SectionTitle
@@ -311,7 +309,6 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                     />
                 </div>
             )
-        }
     }
 
     return (
@@ -324,11 +321,9 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                 {_renderBody()}
             </div>
     );
-
 }
 
 const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, council, empty, translate }) => {
-
     if (empty) {
         return (
             <div
@@ -356,7 +351,7 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                 </div>
             </div>
         );
-    } else {
+    }
         return (
             <div
                 color={"white"}
@@ -403,7 +398,6 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                 </div>
             </div>
         );
-    }
 }
 
 

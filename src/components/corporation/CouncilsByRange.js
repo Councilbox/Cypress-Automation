@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
-import { TableBody, TableHead, TableRow } from 'material-ui';
-import { TableCell } from 'material-ui';
-import { Table } from 'material-ui';
+import { TableBody, TableHead, TableRow, TableCell, Table } from 'material-ui';
+
+
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { AlertConfirm, Grid, PaginationFooter } from '../../displayComponents';
@@ -114,7 +114,7 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
                                 {moment(council.date_end).format('DD/MM/YYYY HH:mm:ss')}
                             </TableCell>
                             <TableCell>
-                                {council.duration?
+                                {council.duration ?
                                     `${council.duration.hours || '00'}:${council.duration.minutes || '00'}:${council.duration.seconds || '00'}`
                                 :
                                     '-'
@@ -128,14 +128,14 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
                             </TableCell>
                             <TableCell>
                                 <div onClick={() => setSendsModal(council.id)} style={{ cursor: 'pointer' }}>
-                                    Ver    
+                                    Ver
                                 </div>
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
-            <Grid style={{width: '100%', marginTop: '1.2em'}}>
+            <Grid style={{ width: '100%', marginTop: '1.2em' }}>
                 <PaginationFooter
                     page={page}
                     translate={translate}

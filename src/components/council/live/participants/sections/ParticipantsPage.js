@@ -1,4 +1,5 @@
 import React from "react";
+import { Tooltip } from 'material-ui';
 import {
 	LoadingSection,
 	Grid,
@@ -11,7 +12,6 @@ import {
 	MenuItem,
 	TextInput
 } from "../../../../../displayComponents";
-import { Tooltip } from 'material-ui';
 import { getSecondary } from "../../../../../styles/colors";
 import withWindowSize from "../../../../../HOCs/withWindowSize";
 import ParticipantsList from "../ParticipantsList";
@@ -37,8 +37,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 	const secondary = getSecondary();
 	const config = React.useContext(ConfigContext);
 	const divWidth = React.useRef();
-	const _getFilters = () => {
-		return [
+	const _getFilters = () => [
 			{
 				value: "fullName",
 				translation: translate.participant_data
@@ -51,13 +50,12 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				value: "position",
 				translation: translate.position
 			}
-		];
-	}
+		]
 
 	React.useLayoutEffect(() => {
 		if(divWidth && divWidth.current && divWidth.current.offsetWidth < 648){
 			setwidthOffset(true)
-		} 
+		}
 	});
 
 
@@ -65,7 +63,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 		if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
 			return null;
 		}
-		
+
 		return (
 			<Tooltip title="ALT + G">
 				<div>
@@ -126,7 +124,6 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 	}
 
 	const _renderHeader = () => {
-
 		if (!data[getSection(props.view)]) {
 			return <div />
 		}
@@ -170,7 +167,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 		return headers[props.view];
 	};
 	const fields = _getFilters();
-	
+
 	return (
 		<React.Fragment>
 			<div
@@ -258,8 +255,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 						<SelectInput
 							// floatingText={translate.filter_by}
 							value={filters.filterField}
-							onChange={event =>
-								updateFilterField(event.target.value)
+							onChange={event => updateFilterField(event.target.value)
 							}
 						>
 							{fields.map(field => (
@@ -295,7 +291,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 			<div
 				ref={divWidth}
 				style={{
-					height: `calc(100% - 4em - ${isMobile && orientation === 'portrait' ? '8em' : `${props.menuOpen ? '6.5' : widthOffset ?  '9.5' : '3.5' }em`}  )`,
+					height: `calc(100% - 4em - ${isMobile && orientation === 'portrait' ? '8em' : `${props.menuOpen ? '6.5' : widthOffset ? '9.5' : '3.5'}em`}  )`,
 					overflow: "hidden",
 					display: 'flex',
 				}}

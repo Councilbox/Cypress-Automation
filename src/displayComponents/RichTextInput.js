@@ -1,31 +1,31 @@
 import React from "react";
-import { Grid, GridItem } from "./index";
-import { Typography, TableRow, TableHead, Table, TableBody, TableCell, IconButton } from "material-ui";
-import { getPrimary } from "../styles/colors";
+import { Typography, TableRow, TableHead, Table, TableBody, TableCell, Divider } from "material-ui";
 import FontAwesome from 'react-fontawesome';
-import { removeHTMLTags } from '../utils/CBX';
 import { isChrome } from 'react-device-detect';
 import { withApollo } from 'react-apollo';
+import ReactQuill, { Quill } from 'react-quill';
+import { Grid, GridItem } from "./index";
+import { getPrimary } from "../styles/colors";
+import { removeHTMLTags } from '../utils/CBX';
 import DropDownMenu from './DropDownMenu';
 import Icon from './Icon';
-import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import withSharedProps from "../HOCs/withSharedProps";
 import { query } from "../components/company/drafts/companyTags/CompanyTags";
 import TextInput from "./TextInput";
-import { Divider } from "material-ui";
+
 import Scrollbar from "./Scrollbar";
 import { useHoverRow } from "../hooks";
 
 
 if (isChrome) {
-	let style = document.createElement("style");
+	const style = document.createElement("style");
 	style.innerHTML = '.ql-editor{white-space: normal !important;}';
 	document.head.appendChild(style);
 }
 
 
-var AlignStyle = Quill.import('attributors/style/align');
+const AlignStyle = Quill.import('attributors/style/align');
 Quill.register(AlignStyle, true);
 
 class RichTextInput extends React.Component {
@@ -73,7 +73,7 @@ class RichTextInput extends React.Component {
 
 	setValue = value => {
 		this.setState({
-			value: value
+			value
 		});
 	};
 
@@ -108,7 +108,7 @@ class RichTextInput extends React.Component {
 					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify' }], [ (this.state.companyTags && this.state.companyTags.length > 0  || tags && tags.length > 0) ? 'custom' : '']
+					[{ 'align': 'justify' }], [((this.state.companyTags && this.state.companyTags.length > 0) || (tags && tags.length > 0)) ? 'custom' : '']
 				],
 				handlers: {
 					// 'custom': (...args) => {
@@ -124,7 +124,7 @@ class RichTextInput extends React.Component {
 		};
 
 		if (styles) {
-			let style = document.createElement("style");
+			const style = document.createElement("style");
 			style.innerHTML = `.ql-editor{ ${styles} }`;
 			document.head.appendChild(style);
 		}
@@ -133,7 +133,7 @@ class RichTextInput extends React.Component {
 			<React.Fragment>
 				<Typography
 					variant="body1"
-					style={{ color: !!errorText ? "red" : "inherit" }}
+					style={{ color: errorText ? "red" : "inherit" }}
 				>
 					{this.props.floatingText}
 					{!!required && "*"}
@@ -203,14 +203,16 @@ class RichTextInput extends React.Component {
 								onChange={this.onChange}
 								modules={modules}
 								onKeyDown={this.checkCharacterCount}
-								placeholder={placeholder ? placeholder : ""}
-								ref={editor => this.rtEditor = editor}
+								placeholder={placeholder || ""}
+								ref={editor => {
+									this.rtEditor = editor
+								}}
 								id={this.props.id}
 								style={{ ...stylesQuill }}
-								className={`text-editor ${this.props.quillEditorButtonsEmpty} ${!!errorText ? 'text-editor-error' : ''} ${!!borderless ? 'borderless-text-editor' : ''}`}
+								className={`text-editor ${this.props.quillEditorButtonsEmpty} ${errorText ? 'text-editor-error' : ''} ${borderless ? 'borderless-text-editor' : ''}`}
 							/>
 							{this.props.maxChars &&
-								<span style={{ color: removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars? 'red' : 'inherit'}}>
+								<span style={{ color: removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars ? 'red' : 'inherit' }}>
 									{`${removeHTMLTags(this.state.value.toString()).length} / ${this.props.maxChars}`}
 								</span>
 							}
@@ -226,10 +228,9 @@ class RichTextInput extends React.Component {
 const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client, setData }) => {
 	const primary = getPrimary();
 	const [companyTags, setCompanyTags] = React.useState(null);
-	const [loading, setLoading] = React.useState(true);
 	const [ocultar, setOcultar] = React.useState(false);
 	const [searchModal, setSearchModal] = React.useState("");
-	const [filteredTags, setFilteredTags] = React.useState(tags? tags : []);
+	const [filteredTags, setFilteredTags] = React.useState(tags || []);
 
 
 	React.useEffect(() => {
@@ -260,15 +261,13 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 					} : {}),
 				}
 			});
-			setLoading(false);
 			setData(response.data.companyTags)
 			setCompanyTags(response.data.companyTags);
 		} else {
-			setLoading(false);
 			setData([])
 			setCompanyTags([]);
 		}
-	}, [company? company.id : null, searchModal]);
+	}, [company ? company.id : null, searchModal]);
 
 	React.useEffect(() => {
 		loadCompanyTags();
@@ -376,8 +375,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 												</TableRow>
 											</TableHead>
 											<TableBody>
-												{filteredTags.map((tag, index) => {
-													return (
+												{filteredTags.map((tag, index) => (
 														<HoverableRow
 															key={`tag_${index}`}
 															tag={tag}
@@ -388,8 +386,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 																requestClose();
 															}}
 														/>
-													);
-												})}
+													))}
 												{/* {(!loading && companyTags) && companyTags.map(tag => {
 													return (
 														<HoverableRow

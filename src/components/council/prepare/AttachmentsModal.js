@@ -32,11 +32,11 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
 		// 	});
 		// 	return;
 		// }
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
 		reader.onload = async event => {
-			let fileInfo = {
+			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
 				filesize: event.loaded,
@@ -57,8 +57,8 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
     const sendAttachments = async () => {
         if(!await validateForm()){
             setStep(1);
-            let addedAttachments = [];
-    
+            const addedAttachments = [];
+
             for(let i = 0; i < attachments.length; i++){
                 const attachment = attachments[i];
                 setUploading(i);
@@ -87,20 +87,20 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                     addedAttachments.push(response.data.addCouncilAttachment.id);
                 }
             }
-    
+
             setUploading(null);
             setStep(2);
             notifyAttachmentsAdded(addedAttachments);
         }
     }
-    
+
     const validateForm = async () => {
-        let errors = {};
+        const errors = {};
 
         if(attachments.length === 0){
             errors.attachments = translate.no_file_indicated;
         } else {
-            let alreadyUsed = [];
+            const alreadyUsed = [];
 
             attachments.forEach((a, index) => {
                 const found = council.attachments.find(attachment => a.filename === attachment.filename);
@@ -112,7 +112,6 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
             if(alreadyUsed.length > 0){
                 errors.repeatedAttachments = alreadyUsed;
             }
-            
         }
 
         if(Object.keys(errors).length > 0){
@@ -149,11 +148,9 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
         setStep(3);
     }
 
-    const documentIsAlreadyUsed = filename => {
-        return errors.repeatedAttachments? ((errors.repeatedAttachments.findIndex(item => item === filename) !== -1)?
+    const documentIsAlreadyUsed = filename => (errors.repeatedAttachments ? ((errors.repeatedAttachments.findIndex(item => item === filename) !== -1) ?
             translate.used_attachment_error
-        : null) : null
-    }
+        : null) : null)
 
     const modalBody = () => {
         if(step === 1){
@@ -166,7 +163,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                         attachments.map((attachment, index) => (
                             <AttachmentItem
                                 edit={false}
-                                icon={(uploading > index) && <i className="fa fa-check" style={{color: 'green'}}/>}
+                                icon={(uploading > index) && <i className="fa fa-check" style={{ color: 'green' }}/>}
                                 loading={index === uploading}
                                 key={`attachment${index}`}
                                 attachment={attachment}
@@ -209,8 +206,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                 <DropDownMenu
                     color="transparent"
                     styleComponent={{ width: "" }}
-                    Component={() =>
-                        <BasicButton
+                    Component={() => <BasicButton
                             color={primary}
                             icon={<i className={"fa fa-plus"}
                             style={{
@@ -282,7 +278,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                                         color: primary
                                     }}
                                     onClick={() => {
-                                        attachments.splice(index, 1);                             
+                                        attachments.splice(index, 1);
                                         setAttachments([...attachments]);
                                     }}
                                 />
@@ -290,7 +286,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                         />
                     ))
                 )}
-                <div style={{marginTop: '1em'}}>
+                <div style={{ marginTop: '1em' }}>
                     <RichTextInput
                         value={message}
                         onChange={value => setMessage(value)}
@@ -310,7 +306,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                 bodyText={modalBody()}
                 loadingAction={step > 0 && step < 3}
                 buttonAccept={translate.accept}
-                acceptAction={step === 0? sendAttachments : resetAndClose}
+                acceptAction={step === 0 ? sendAttachments : resetAndClose}
             />
             <CompanyDocumentsBrowser
                 company={company}

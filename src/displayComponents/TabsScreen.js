@@ -1,8 +1,8 @@
 import React from "react";
-import "../styles/react-tabs.css";
-import Link from './LinkWithoutStyling';
 import 'antd/lib/tabs/style/index.css';
 import Tabs from 'antd/lib/tabs';
+import "../styles/react-tabs.css";
+import Link from './LinkWithoutStyling';
 import { bHistory } from "../containers/App";
 
 const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowSize, styles }) => {
@@ -31,7 +31,7 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 				width: "100%",
 				height: "100%",
 				display: "flex",
-				...(windowSize === 'xs'? { paddingBottom: '3.5em' } : {}),
+				...(windowSize === 'xs' ? { paddingBottom: '3.5em' } : {}),
 				alignItems: "center",
 				flexDirection: "column",
 				borderBottom: '1px solid gainsboro',
@@ -41,21 +41,20 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 			className="card-container"
 		>
 			<Tabs
-				activeKey={''+selectedTab}
+				activeKey={'' + selectedTab}
 				type="card"
-				style={{ width: '100%', height: '100%', paddingBottom: '1em',  }}
+				style={{ width: '100%', height: '100%', paddingBottom: '1em', }}
 				onChange={handleChange}
 			>
-				{tabsInfo.map((tab, index) => {
-					return (
+				{tabsInfo.map((tab, index) => (
 						<Tabs.TabPane
 							tab={
-								linked?
+								linked ?
 								 <Link to={tab.link}>{tab.text}</Link>
 								:
 									tab.text
 							}
-							key={''+index}
+							key={'' + index}
 							style={{
 								height: "calc(100% - 40px) !important",
 								overflow: "hidden",
@@ -66,12 +65,11 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 								borderRadius: "0px 5px 5px 5px"
 							}}
 						>
-							<div style={{width: '100%', height: '100%'}}>
+							<div style={{ width: '100%', height: '100%' }}>
 								{!!tab.component && tab.component()}
 							</div>
 						</Tabs.TabPane>
-					);
-				})}
+					))}
 			</Tabs>
 		</div>
 	);

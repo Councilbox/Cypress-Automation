@@ -8,22 +8,21 @@ import {
 	withStyles,
 	Tooltip
 } from "material-ui";
+import FontAwesome from "react-fontawesome";
 import sidebarStyleLite from "../../styles/sidebarStyleLite";
 import { Link } from '../../displayComponents';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { getSecondary, darkGrey } from "../../styles/colors";
 import { isLandscape, isMobile } from "../../utils/screen";
-import CompanyMenu from "../sideMenu/CompanyMenu";
-import FontAwesome from "react-fontawesome";
+import CompanyMenu from "./CompanyMenu";
 import LateralMenuOptions from "../dashboard/LateralMenuOptions";
-import plantillasIcon from "../../../src/assets/img/plantillasIcon.svg";
-import entidadesIcon from "../../../src/assets/img/shape.svg";
+import plantillasIcon from "../../assets/img/plantillasIcon.svg";
+import entidadesIcon from "../../assets/img/shape.svg";
 
 // contact-support.svg
 
 
 class Sidebar extends React.Component {
-
 	state = {
 		selectedRoute: 0,
 		companyMenu: false,
@@ -43,8 +42,7 @@ class Sidebar extends React.Component {
 		})
 	}
 
-	buildRoutes = () => {
-		return [
+	buildRoutes = () => [
 			{
 				path: `/company/${this.props.company.id}`,
 				sidebarName: 'Dashboard',
@@ -73,7 +71,7 @@ class Sidebar extends React.Component {
 				icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
 			},
 			{
-				path:  `/company/${this.props.company.id}/censuses`,
+				path: `/company/${this.props.company.id}/censuses`,
 				name: 'censuses',
 				sidebarName: this.props.translate.censuses,
 				icon: 'person'
@@ -84,8 +82,7 @@ class Sidebar extends React.Component {
 				sidebarName: 'Usuarios',
 				icon: 'supervised_user_circle'
 			}
-		];
-	}
+		]
 
 	routes = this.buildRoutes();
 
@@ -109,11 +106,9 @@ class Sidebar extends React.Component {
 		}
 	}
 
-	findActiveRoute = (pathname, routes) => {
+	findActiveRoute = (pathname) => {
 		let routeIndex = 0;
-		const found = this.routes.findIndex((route, index) => {
-			return pathname.includes(route.name);
-		});
+		const found = this.routes.findIndex(route => pathname.includes(route.name));
 
 		if (found !== -1) {
 			routeIndex = found;
@@ -122,9 +117,7 @@ class Sidebar extends React.Component {
 		return routeIndex;
 	};
 
-	showVerticalLayout = () => {
-		return this.props.windowSize === 'xs' && !isLandscape();
-	}
+	showVerticalLayout = () => this.props.windowSize === 'xs' && !isLandscape()
 
 	links = () => (
 		<div className={this.props.classes.list}
@@ -419,7 +412,7 @@ class Sidebar extends React.Component {
 				}}>
 					<div style={{ padding: "0.5em", minHeight: "3.5em", display: "flex", alignItems: "center" }}>
 						<Link to={`/company/${this.props.company.id}/settings`}>
-							{!!this.props.company.logo ? (
+							{this.props.company.logo ? (
 								<img
 									src={this.props.company.logo}
 									alt="logo"

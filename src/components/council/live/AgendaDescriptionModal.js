@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { AlertConfirm, BasicButton } from '../../../displayComponents';
 import { Tooltip } from 'material-ui';
+import { AlertConfirm, BasicButton } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import { getSecondary } from '../../../styles/colors';
 import { changeVariablesToValues } from '../../../utils/CBX';
@@ -10,7 +10,6 @@ import LoadDraft from "../../company/drafts/LoadDraft";
 import { updateAgenda } from "../../../queries/agenda";
 
 class AgendaDescriptionModal extends React.Component {
-
     state = {
         description: '',
         modal: false,
@@ -85,7 +84,7 @@ class AgendaDescriptionModal extends React.Component {
                         draftType={1}
                     />
                 }
-                <div style={{/*width: width,*/ display: this.state.loadDraft && 'none'}}>
+                <div style={{ /*width: width,*/ display: this.state.loadDraft && 'none' }}>
                     <RichTextInput
                         ref={editor => (this.editor = editor)}
                         floatingText={translate.description}
@@ -105,8 +104,7 @@ class AgendaDescriptionModal extends React.Component {
                                     lineHeight: "1em"
                                 }}
                                 textPosition="after"
-                                onClick={() =>
-                                    this.setState({ loadDraft: true })
+                                onClick={() => this.setState({ loadDraft: true })
                                 }
                             />
                         }
@@ -148,7 +146,7 @@ class AgendaDescriptionModal extends React.Component {
                     ></i>
                 </Tooltip>
                 <AlertConfirm
-					bodyStyle={{width: "75vw",minWidth: "50vw",}}
+					bodyStyle={{ width: "75vw", minWidth: "50vw", }}
                     requestClose={this.closeModal}
                     open={this.state.modal}
                     acceptAction={this.updateAgenda}

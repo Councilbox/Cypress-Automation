@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { graphql } from "react-apollo";
+import { MenuItem } from "material-ui";
 import {
 	AlertConfirm,
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
-import { MenuItem } from "material-ui";
 import { cloneCensus } from "../../../queries/census";
 import { removeHTMLTags } from '../../../utils/CBX';
 

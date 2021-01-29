@@ -1,11 +1,11 @@
 import React from "react";
+import { graphql } from "react-apollo";
+import { MenuItem, Tooltip } from "material-ui";
+import { CircularProgress } from "material-ui/Progress";
 import { VOTE_VALUES } from "../../../../constants";
 import { agendaVotingsOpened, getActiveVote } from '../../../../utils/CBX';
 import VotingValueIcon from "./VotingValueIcon";
-import { graphql } from "react-apollo";
 import { updateAgendaVoting } from "../../../../queries/agenda";
-import { MenuItem, Tooltip } from "material-ui";
-import { CircularProgress } from "material-ui/Progress";
 import withTranslations from "../../../../HOCs/withTranslations";
 
 const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
@@ -14,13 +14,11 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 
 	const vote = getActiveVote(agendaVoting);
 
-	const checkFixed = () => {
-		return agendaVoting.fixed && agendaVoting.delegatedVotes.filter(vote => !vote.fixed).length === 0;
-	}
-	
+	const checkFixed = () => agendaVoting.fixed && agendaVoting.delegatedVotes.filter(vote => !vote.fixed).length === 0
+
 	const fixed = checkFixed();
 
-	const active = vote? vote.vote : null;
+	const active = vote ? vote.vote : null;
 
 	const updateAgendaVoting = async value => {
 		setLoading(value);
@@ -58,9 +56,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 					alignItems: "center",
 					justifyContent: "center"
 				}}
-				onClick={() => {
-					return fixed? setFixedAlert(!fixedAlert) : updateAgendaVoting(value)
-				}}
+				onClick={() => (fixed ? setFixedAlert(!fixedAlert) : updateAgendaVoting(value))}
 			>
 				<MenuItem
 					selected={active}
@@ -76,8 +72,8 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 						margin: 0
 					}}
 				>
-					{loading === value?
-						<CircularProgress size={12} thickness={7} color={'primary'} style={{marginBottom: '0.35em'}} />
+					{loading === value ?
+						<CircularProgress size={12} thickness={7} color={'primary'} style={{ marginBottom: '0.35em' }} />
 					:
 						<VotingValueIcon
 							vote={value}
@@ -90,7 +86,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 	};
 
 	return (
-		<Tooltip title={agendaVoting.numParticipations === 0? props.translate.cant_vote_this_point : props.translate.participant_vote_fixed} open={fixedAlert}>
+		<Tooltip title={agendaVoting.numParticipations === 0 ? props.translate.cant_vote_this_point : props.translate.participant_vote_fixed} open={fixedAlert}>
 			<div
 				style={{
 					display: "flex",
@@ -98,7 +94,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 					marginRight: "0.7em"
 				}}
 			>
-				{agendaVoting.author.voteDenied? //TRADUCCION
+				{agendaVoting.author.voteDenied ? //TRADUCCION
 					<React.Fragment>
 						<Tooltip title={agendaVoting.author.voteDeniedReason}>
 							<div>Derecho a voto denegado</div>
@@ -115,7 +111,6 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 			</div>
 		</Tooltip>
 	);
-
 }
 
 

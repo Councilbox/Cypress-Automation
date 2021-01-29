@@ -1,12 +1,12 @@
 import React from "react";
 import { withApollo } from "react-apollo";
-import { downloadFile } from "../../../utils/CBX";
-import { LoadingSection } from "../../../displayComponents/index";
 import { Tooltip } from "material-ui";
 import FontAwesome from "react-fontawesome";
+import gql from "graphql-tag";
+import { downloadFile } from "../../../utils/CBX";
+import { LoadingSection } from "../../../displayComponents/index";
 import { getSecondary } from "../../../styles/colors";
 import { moment } from "../../../containers/App";
-import gql from "graphql-tag";
 
 const DownloadCBXDataButton = props => {
 	const [loading, setLoading] = React.useState(false);
@@ -14,7 +14,7 @@ const DownloadCBXDataButton = props => {
 	const downloadCBXData = async id => {
 		setLoading(true);
 		if(props.updateState){
-			props.updateState({loading: true});
+			props.updateState({ loading: true });
 		}
 		const response = await props.client.query({
             query: gql`
@@ -33,11 +33,11 @@ const DownloadCBXDataButton = props => {
 				downloadFile(
 					response.data.voteLetterPDF,
 					"application/pdf",
-					`${props.translate.vote_letter}_${props.participant.name}${props.participant.surname? `_${props.participant.surname || ''}` : ''}.pdf`.replace(' ', '_') //TRADUCCION
+					`${props.translate.vote_letter}_${props.participant.name}${props.participant.surname ? `_${props.participant.surname || ''}` : ''}.pdf`.replace(' ', '_') //TRADUCCION
 				);
 				setLoading(false);
 				if(props.updateState){
-					props.updateState({loading: false});
+					props.updateState({ loading: false });
 				}
 			}
 		}

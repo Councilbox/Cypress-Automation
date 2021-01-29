@@ -1,4 +1,6 @@
 import React, { Fragment } from "react";
+import { MenuItem, Collapse } from "material-ui";
+
 import {
 	Checkbox,
 	Grid,
@@ -8,14 +10,11 @@ import {
 	BasicButton,
 	LoadingSection
 } from "../../../../displayComponents";
-import { MenuItem } from "material-ui";
-import { Collapse } from "material-ui";
 import { getSecondary } from "../../../../styles/colors";
 import { isMobile } from "../../../../utils/screen";
 import withWindowSize from "../../../../HOCs/withWindowSize";
 
-const Action = ({ children, loading, onClick, disabled = false, styles }) => {
-	return (
+const Action = ({ children, loading, onClick, disabled = false, styles }) => (
 		<div
 			style={{
 				display: 'flex',
@@ -46,7 +45,6 @@ const Action = ({ children, loading, onClick, disabled = false, styles }) => {
 				)}
 		</div>
 	)
-}
 
 
 const RepresentativeForm = ({
@@ -61,15 +59,14 @@ const RepresentativeForm = ({
 	windowSize
 }) => {
 	const representative = state;
-	
+
 	return (
 		<Grid>
 			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize == 'xs' ? "" : 'flex' }}>
 				<Action
 					disabled={disabled}
 					style={{ display: "flex", alignItems: "center", overflow: "hidden", cursor: "pointer" }}
-					onClick={() =>
-						updateState({
+					onClick={() => updateState({
 							hasRepresentative: !state.hasRepresentative
 						})
 					}
@@ -115,8 +112,7 @@ const RepresentativeForm = ({
 								type="text"
 								errorText={errors.name}
 								value={representative.name || ''}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										name: event.nativeEvent.target.value
 									})
 								}
@@ -128,8 +124,7 @@ const RepresentativeForm = ({
 								type="text"
 								errorText={errors.surname || ''}
 								value={representative.surname || ''}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										surname: event.nativeEvent.target.value
 									})
 								}
@@ -141,8 +136,7 @@ const RepresentativeForm = ({
 								type="text"
 								errorText={errors.dni}
 								value={representative.dni || ''}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										dni: event.nativeEvent.target.value
 									})
 								}
@@ -154,8 +148,7 @@ const RepresentativeForm = ({
 								type="text"
 								errorText={errors.position}
 								value={representative.position || ''}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										position: event.nativeEvent.target.value
 									})
 								}
@@ -168,8 +161,7 @@ const RepresentativeForm = ({
 								type="text"
 								errorText={errors.email}
 								value={representative.email || ''}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										email: event.nativeEvent.target.value
 									})
 								}
@@ -194,8 +186,7 @@ const RepresentativeForm = ({
 								type="text"
 								errorText={errors.phone}
 								value={representative.phone || ''}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										phone: event.nativeEvent.target.value
 									})
 								}
@@ -205,14 +196,12 @@ const RepresentativeForm = ({
 							<SelectInput
 								floatingText={translate.language}
 								value={representative.language}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										language: event.target.value
 									})
 								}
 							>
-								{languages.map(language => {
-									return (
+								{languages.map(language => (
 										<MenuItem
 											value={language.columnName}
 											key={`languagerepresentative_${language.columnName
@@ -220,8 +209,7 @@ const RepresentativeForm = ({
 										>
 											{language.desc}
 										</MenuItem>
-									);
-								})}
+									))}
 							</SelectInput>
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
@@ -229,8 +217,7 @@ const RepresentativeForm = ({
 								floatingText={translate.participation_type}
 								errorText={errors.initialState}
 								value={'' + representative.initialState}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										initialState: +event.target.value
 									})
 								}

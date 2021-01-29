@@ -8,9 +8,9 @@ import { isLandscape, isMobile } from '../../utils/screen';
 import icon from '../../assets/img/imago-councilbox-inverse-xl.png';
 
 
-const sidebarStyle = theme => ({
+const sidebarStyle = () => ({
 	paperAnchorLeft: {
-		marginLeft:"5em"
+		marginLeft: "5em"
 	}
 })
 
@@ -29,7 +29,7 @@ class CompanyMenu extends React.Component {
 				anchor="left"
 				open={this.props.open}
 				className={"prueba"}
-				classes={{ paperAnchorLeft: isMobile && isLandscape() && this.props.classes.paperAnchorLeft}}
+				classes={{ paperAnchorLeft: isMobile && isLandscape() && this.props.classes.paperAnchorLeft }}
 			>
 				<div
 					style={{
@@ -37,7 +37,7 @@ class CompanyMenu extends React.Component {
 						minWidth: `calc(${sideWidth}px - 5em)`,
 						maxWidth: '100%',
 						backgroundColor: 'white',
-						paddingLeft:   !isMobile  ? "5em" : window.innerWidth > 851 ? '5em' : 0 ,
+						paddingLeft: !isMobile ? "5em" : window.innerWidth > 851 ? '5em' : 0,
 						// paddingLeft: isMobile && !isLandscape() ? 0 : '5em',
 						overflow: "hidden",
 						display: 'flex',

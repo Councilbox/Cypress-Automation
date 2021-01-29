@@ -1,16 +1,13 @@
 import React from "react";
-import CouncilEditorPage from "../components/council/editor/CouncilEditorPage";
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { LoadingMainApp } from "../displayComponents";
 import { graphql } from "react-apollo";
+import { LoadingMainApp } from "../displayComponents";
+import CouncilEditorPage from "../components/council/editor/CouncilEditorPage";
 import { council } from "../queries";
 
 const CouncilEditorContainer = ({
-	main,
 	company,
-	user,
 	match,
 	translate,
 	data

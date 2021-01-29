@@ -1,29 +1,28 @@
 import React from 'react';
+import { graphql, compose, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { Switch, FormControlLabel, MenuItem } from 'material-ui';
 import { Grid, GridItem, LoadingSection, BasicButton, TextInput, SelectInput, FileUploadButton } from '../../displayComponents';
 import ToggleRecordings from './featureControl/ToggleRecordings';
 import ToggleVideo from './featureControl/ToggleVideo';
 import LogoutUser from './featureControl/LogoutUser';
 import RefreshUser from './featureControl/RefreshUser';
-import { graphql, compose, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import { Switch, FormControlLabel, MenuItem } from 'material-ui';
 
 
 const DevAdminPage = ({ data, toggleFeature }) => {
-
     const toggle = async name => {
         await toggleFeature({
             variables: {
-                name: name
+                name
             }
         });
         data.refetch();
     }
 
-    let config = {};
+    const config = {};
 
         if(!data.loading){
-            for(let field of data.adminFeatures.features){
+            for(const field of data.adminFeatures.features){
                 config[field.name] = field.active;
             }
         }
@@ -33,7 +32,7 @@ const DevAdminPage = ({ data, toggleFeature }) => {
         }
 
         return (
-            <div style={{width: '100%', height: '100%', padding: '1em'}}>
+            <div style={{ width: '100%', height: '100%', padding: '1em' }}>
                 <Grid>
                     <GridItem xs={12} md={12} lg={12}>
                         <ToggleRecordings />
@@ -144,8 +143,8 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     councilType: 0,
                     language: 'es',
                     confirmAttendance: 1,
-                    dateStart: new Date(2019,11,17, 14, 30, 0).toISOString(),
-                    dateStart2NdCall: new Date(2019,11,17, 14, 50, 0).toISOString(),
+                    dateStart: new Date(2019, 11, 17, 14, 30, 0).toISOString(),
+                    dateStart2NdCall: new Date(2019, 11, 17, 14, 50, 0).toISOString(),
                     companyId: 375,
                     selectedCensusId: 754
                 },
@@ -266,7 +265,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
     return (
         <div>
             Exceptions
-            <div style={{maxWidth: '300px'}}>
+            <div style={{ maxWidth: '300px' }}>
                 <TextInput
                     value={data.companyId}
                     floatingText={'Company ID'}
@@ -276,7 +275,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     })}
                 />
             </div>
-            <div style={{maxWidth: '300px'}}>
+            <div style={{ maxWidth: '300px' }}>
                 <SelectInput
                     value={data.featureName}
                     floatingText={'Feature'}
@@ -290,13 +289,13 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     ))}
                 </SelectInput>
             </div>
-            <div style={{maxWidth: '300px'}}>
+            <div style={{ maxWidth: '300px' }}>
                 <SelectInput
-                    value={data.active? 1 : 0}
+                    value={data.active ? 1 : 0}
                     floatingText={'Active'}
                     onChange={event => setData({
                         ...data,
-                        active: event.target.value === 1? true : false
+                        active: event.target.value === 1
                     })}
                 >
                     <MenuItem value={1}>Activar</MenuItem>
@@ -348,7 +347,7 @@ const SubdomainImage = ({ client }) => {
 			return;
 		}
 
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
 		reader.onload = async () => {
@@ -394,7 +393,7 @@ const SubdomainImage = ({ client }) => {
             />
         </div>
     )
-} 
+}
 
 
 const Features = ({ value, toggleFeature }) => {
@@ -402,7 +401,7 @@ const Features = ({ value, toggleFeature }) => {
 
     return (
         <React.Fragment>
-            {array.filter(feature => feature.name !== 'exceptions').map(feature  => (
+            {array.filter(feature => feature.name !== 'exceptions').map(feature => (
                 <FormControlLabel
                     key={`feature_${feature.name}`}
                     control={

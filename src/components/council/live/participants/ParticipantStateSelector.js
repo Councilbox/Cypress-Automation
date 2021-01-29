@@ -1,5 +1,6 @@
 import React from "react";
 import { graphql, withApollo } from "react-apollo";
+import FontAwesome from "react-fontawesome";
 import * as CBX from "../../../../utils/CBX";
 import { isLandscape } from "../../../../utils/screen";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
@@ -9,7 +10,6 @@ import { FilterButton, Grid, GridItem } from "../../../../displayComponents";
 import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
-import FontAwesome from "react-fontawesome";
 import StateIcon from "./StateIcon";
 import { removeLiveParticipantSignature } from "./modals/SignatureModal";
 
@@ -57,8 +57,8 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 				alignItems: "center"
 			}}
 		>
-			<GridItem xs={landscape? 6 : 12} md={inDropDown ? 12 : 6} lg={inDropDown ? 12 : 6} >
-				<div style={{display: 'flex', alignItems: 'center'}}>
+			<GridItem xs={landscape ? 6 : 12} md={inDropDown ? 12 : 6} lg={inDropDown ? 12 : 6} >
+				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<FilterButton
 						tooltip={translate.change_to_no_participate}
 						loading={loading === 0}
@@ -75,9 +75,9 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 							hideTooltip={true}
 						/>
 					</FilterButton>
-					<span style={{fontSize: '0.9em'}}>{translate.wont_participate}</span>
+					<span style={{ fontSize: '0.9em' }}>{translate.wont_participate}</span>
 				</div>
-				<div style={{display: 'flex', alignItems: 'center'}}>
+				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<FilterButton
 						tooltip={translate.change_to_remote}
 						loading={loading === 1}
@@ -92,9 +92,9 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 							hideTooltip={true}
 						/>
 					</FilterButton>
-					<span style={{fontSize: '0.9em'}}>{translate.remote_participant}</span>
+					<span style={{ fontSize: '0.9em' }}>{translate.remote_participant}</span>
 				</div>
-				<div style={{display: 'flex', alignItems: 'center'}}>
+				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<FilterButton
 						tooltip={translate.physically_present_assistance}
 						loading={loading === 2}
@@ -112,10 +112,10 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 							hideTooltip={true}
 						/>
 					</FilterButton>
-					<span style={{fontSize: '0.9em'}}>{translate.customer_present}</span>
+					<span style={{ fontSize: '0.9em' }}>{translate.customer_present}</span>
 				</div>
 				{CBX.canBePresentWithRemoteVote(council.statute) && (
-					<div style={{display: 'flex', alignItems: 'center'}}>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
 						<FilterButton
 							tooltip={translate.change_to_present_with_remote_vote}
 							loading={loading === 3}
@@ -133,13 +133,13 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 								hideTooltip={true}
 							/>
 						</FilterButton>
-						<span style={{fontSize: '0.9em'}}>{translate.physically_present_with_remote_vote}</span>
+						<span style={{ fontSize: '0.9em' }}>{translate.physically_present_with_remote_vote}</span>
 					</div>
 				)}
 			</GridItem>
-			<GridItem xs={landscape? 6 : 12} md={6} lg={6} style={{display: inDropDown?"none":"block" }}>
+			<GridItem xs={landscape ? 6 : 12} md={6} lg={6} style={{ display: inDropDown ? "none" : "block" }}>
 				{CBX.canHaveRepresentative(participant) &&
-					<div style={{display: 'flex', alignItems: 'center'}}>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
 
 						{!(participant.delegatedVotes.length > 0) && (
 							<FilterButton
@@ -156,11 +156,11 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 								/>
 							</FilterButton>
 						)}
-						<span style={{fontSize: '0.9em'}}>{translate.add_representative}</span>
+						<span style={{ fontSize: '0.9em' }}>{translate.add_representative}</span>
 					</div>
 				}
 				{CBX.canDelegateVotes(council.statute, participant) && (
-					<div style={{display: 'flex', alignItems: 'center'}}>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
 						<FilterButton
 							tooltip={translate.to_delegate_vote}
 							loading={loading === 5}
@@ -178,11 +178,11 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 								hideTooltip={true}
 							/>
 						</FilterButton>
-						<span style={{fontSize: '0.9em'}}>{translate.to_delegate_vote}</span>
+						<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
 					</div>
 				)}
 				{CBX.canAddDelegateVotes(council.statute, participant) && (
-					<div style={{display: 'flex', alignItems: 'center'}}>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
 						<FilterButton
 							tooltip={translate.add_delegated}
 							loading={loading === 6}
@@ -211,7 +211,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 								}}
 							/>
 						</FilterButton>
-						<span style={{fontSize: '0.9em'}}>{translate.add_delegated}</span>
+						<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
 					</div>
 				)}
 

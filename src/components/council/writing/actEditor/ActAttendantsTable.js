@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { LoadingSection, EnhancedTable, Scrollbar } from '../../../../displayComponents';
 import { TableRow, TableCell } from 'material-ui';
+import { LoadingSection, EnhancedTable, Scrollbar } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../../constants';
 import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 import { getSecondary } from '../../../../styles/colors';
@@ -49,7 +49,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
     }, [loading, setTotal]);
 
     const secondary = getSecondary();
-    
+
     return (
         <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
             {loading ?
@@ -131,8 +131,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                         <LoadingSection />
                                         :
                                         councilAttendantsData.list.map(
-                                            (participant, index) => {
-                                                return (
+                                            (participant, index) => (
                                                     <React.Fragment
                                                         key={`participant${participant.id}`}
                                                     >
@@ -142,8 +141,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                                             delegatedVotes={participant.delegationsAndRepresentations}
                                                         />
                                                     </React.Fragment>
-                                                );
-                                            }
+                                                )
                                         )}
                                     </EnhancedTable>
                                 </React.Fragment>
@@ -181,7 +179,7 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
                     <StateIcon translate={translate} state={participant.state} />
                 </TableCell>
                 <TableCell>
-                    {!!representing ?
+                    {representing ?
                         <span style={{ fontWeight: '700' }}>{`${representing.name} ${representing.surname || ''} - ${translate.represented_by} ${participant.name} ${participant.surname || ''}`}</span>
                         :
                         <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
@@ -198,7 +196,7 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
                     }
                 </TableCell>
                 <TableCell>
-                    <div style={{width: '4em'}}>
+                    <div style={{ width: '4em' }}>
                         {showActions &&
                             <>
                                 <i
@@ -223,7 +221,7 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
 const formatParticipant = participant => {
     let { representing, ...newParticipant } = participant;
     if (representing && representing.type === 3) {
-        let { representative, ...rest } = newParticipant;
+        const { representative, ...rest } = newParticipant;
         newParticipant = {
             ...representing,
             notifications: rest.notifications,
@@ -234,8 +232,7 @@ const formatParticipant = participant => {
 }
 
 
-const applyFilters = (participants, filters) => {
-    return applyOrder(participants.filter(item => {
+const applyFilters = (participants, filters) => applyOrder(participants.filter(item => {
         const participant = formatParticipant(item);
         if (filters.text) {
             const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
@@ -258,11 +255,9 @@ const applyFilters = (participants, filters) => {
                         !CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
                         return false;
                     }
-                } else {
-                    if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
+                } else if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
                         return false;
                     }
-                }
             }
 
             if (filters.field === 'dni') {
@@ -271,11 +266,9 @@ const applyFilters = (participants, filters) => {
                         !CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
                         return false;
                     }
-                } else {
-                    if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
+                } else if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
                         return false;
                     }
-                }
             }
         }
 
@@ -284,23 +277,18 @@ const applyFilters = (participants, filters) => {
                 if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
                     return false;
                 }
-            } else {
-                if (participant.notifications[0].reqCode !== filters.notificationStatus) {
+            } else if (participant.notifications[0].reqCode !== filters.notificationStatus) {
                     return false;
                 }
-            }
         }
 
         return true;
-    }), filters.orderBy, filters.orderDirection);
-}
+    }), filters.orderBy, filters.orderDirection)
 
-const applyOrder = (participants, orderBy, orderDirection) => {
-    return participants.sort((a, b) => {
-        let participantA = formatParticipant(a);
-        let participantB = formatParticipant(b);
+const applyOrder = (participants, orderBy, orderDirection) => participants.sort((a, b) => {
+        const participantA = formatParticipant(a);
+        const participantB = formatParticipant(b);
         return participantA[orderBy] > participantB[orderBy]
-    });
-}
+    })
 
 export default withApollo(ActAttendantsTable);

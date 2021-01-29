@@ -45,7 +45,7 @@ const CommentsTable = props => {
 		};
 
 		if (this.state.filterText) {
-			let filterText = state.filterText;
+			const filterText = state.filterText;
 			variables = {
 				...variables,
 				authorFilters: {
@@ -91,8 +91,7 @@ const CommentsTable = props => {
 				<LoadingSection />
 			) : props.data.agendaComments && props.data.agendaComments.list.length > 0 ? (
 				<React.Fragment>
-					{props.data.agendaComments.list.map(voting => {
-						return (
+					{props.data.agendaComments.list.map(voting => (
 							<GridItem
 								xs={6}
 								lg={6}
@@ -120,10 +119,10 @@ const CommentsTable = props => {
 									></div>
 									<span
 										style={{ fontSize: "0.73rem", fontWeight: '700' }}
-									>{`${voting.author.name} ${voting.author.surname || ''} ${voting.author.representative? `- ${props.translate.represented_by}: ${
+									>{`${voting.author.name} ${voting.author.surname || ''} ${voting.author.representative ? `- ${props.translate.represented_by}: ${
 											voting.author.representative.name} ${
 											voting.author.representative.surname || ''
-											}`: ''}`}
+											}` : ''}`}
 									</span>
 									{voting.author.position &&
 										<span style={{ fontSize: "0.73rem" }}>{` - ${
@@ -132,8 +131,7 @@ const CommentsTable = props => {
 									}
 								</div>
 							</GridItem>
-						);
-					})}
+						))}
 					<GridItem
 						xs={11}
 						lg={11}
@@ -164,7 +162,6 @@ const CommentsTable = props => {
 			)}
 		</Grid>
 	);
-
 }
 
 export default graphql(agendaComments, {
@@ -176,7 +173,7 @@ export default graphql(agendaComments, {
 				offset: 0
 			}
 		},
-		pollInterval: props.council.state > 30? 60000 : 6000,
+		pollInterval: props.council.state > 30 ? 60000 : 6000,
 		fetchPolicy: 'network-only'
 	})
 })(CommentsTable);

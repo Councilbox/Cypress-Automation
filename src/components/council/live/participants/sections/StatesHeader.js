@@ -11,8 +11,7 @@ const selectedStyle = {
 }
 
 
-const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
-	return (
+const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 		<React.Fragment>
 			<Grid
 				style={{
@@ -34,7 +33,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === null?
+						...(selected === null ?
 							selectedStyle
 						:
 							{}
@@ -42,7 +41,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 				>
 					<StateIcon
-						color={selected === null? getSecondary() : 'grey'}
+						color={selected === null ? getSecondary() : 'grey'}
 						translate={translate}
 						state={"ALL"}
 						number={stateRecount.all}
@@ -56,7 +55,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.NO_PARTICIPATE?
+						...(selected === PARTICIPANT_STATES.NO_PARTICIPATE ?
 							selectedStyle
 						:
 							{}
@@ -64,7 +63,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 				>
 					<StateIcon
-						color={selected === PARTICIPANT_STATES.NO_PARTICIPATE? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.NO_PARTICIPATE ? getSecondary() : 'grey'}
 						translate={translate}
 						state={PARTICIPANT_STATES.NO_PARTICIPATE}
 						number={stateRecount.noParticipate}
@@ -76,7 +75,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.REMOTE?
+						...(selected === PARTICIPANT_STATES.REMOTE ?
 							selectedStyle
 						:
 							{}
@@ -84,7 +83,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 				>
 					<StateIcon
-						color={selected === PARTICIPANT_STATES.REMOTE? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.REMOTE ? getSecondary() : 'grey'}
 						translate={translate}
 						state={PARTICIPANT_STATES.REMOTE}
 						number={stateRecount.remote}
@@ -98,7 +97,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT?
+						...(selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT ?
 							selectedStyle
 						:
 							{}
@@ -106,7 +105,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 				>
 					<StateIcon
-						color={selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT ? getSecondary() : 'grey'}
 						translate={translate}
 						state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
 						number={stateRecount.present}
@@ -120,7 +119,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE?
+						...(selected === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ?
 							selectedStyle
 						:
 							{}
@@ -129,7 +128,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 				>
 					<StateIcon
 						translate={translate}
-						color={selected === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? getSecondary() : 'grey'}
 						state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
 						number={stateRecount.presentWithElectronicVote}
 					/>
@@ -140,7 +139,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.DELEGATED?
+						...(selected === PARTICIPANT_STATES.DELEGATED ?
 							selectedStyle
 						:
 							{}
@@ -149,7 +148,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 				>
 					<StateIcon
 						translate={translate}
-						color={selected === PARTICIPANT_STATES.DELEGATED? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.DELEGATED ? getSecondary() : 'grey'}
 						state={PARTICIPANT_STATES.DELEGATED}
 						number={stateRecount.delegated}
 					/>
@@ -162,7 +161,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === PARTICIPANT_STATES.REPRESENTATED?
+						...(selected === PARTICIPANT_STATES.REPRESENTATED ?
 							selectedStyle
 						:
 							{}
@@ -171,14 +170,13 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => {
 				>
 					<StateIcon
 						translate={translate}
-						color={selected === PARTICIPANT_STATES.REPRESENTATED? getSecondary() : 'grey'}
+						color={selected === PARTICIPANT_STATES.REPRESENTATED ? getSecondary() : 'grey'}
 						state={PARTICIPANT_STATES.REPRESENTATED}
 						number={stateRecount.representated}
 					/>
 				</div>
 			</Grid>
 		</React.Fragment>
-	);
-}
+	)
 
 export default StatesHeader

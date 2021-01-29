@@ -6,7 +6,6 @@ import { getPrimary } from '../../../styles/colors';
 
 
 class ConfirmCompanyButton extends React.Component {
-
     state = {
         loading: false,
         success: false
@@ -54,7 +53,7 @@ class ConfirmCompanyButton extends React.Component {
 
     render(){
         return (
-            this.props.company.demo === 0?
+            this.props.company.demo === 0 ?
                 <BasicButton
                     text={'Cancelar subscripción'}
                     color={getPrimary()}

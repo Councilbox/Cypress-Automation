@@ -1,9 +1,9 @@
 import React from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { BasicButton } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import SignatureParticipants from './SignatureParticipants';
 
 class SignatureStepTwo extends React.Component {
@@ -58,22 +58,22 @@ class SignatureStepTwo extends React.Component {
                         <BasicButton
                             text={translate.previous}
                             color={secondary}
-                            textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
-                            buttonStyle={{marginRight: '0.8em'}}
+                            textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
+                            buttonStyle={{ marginRight: '0.8em' }}
                             onClick={this.props.prevStep}
                         />
                         <BasicButton
                             text={translate.save}
                             color={secondary}
-                            textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                            textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
                             onClick={this.saveSignature}
                         />
                         <BasicButton
                             text={translate.new_send_to_sign}
                             color={primary}
                             loading={this.state.loading}
-                            textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
-                            buttonStyle={{marginLeft: '0.8em'}}
+                            textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
+                            buttonStyle={{ marginLeft: '0.8em' }}
                             onClick={this.sendSignature}
                         />
                     </div>

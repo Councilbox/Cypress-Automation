@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
+import { bindActionCreators } from 'redux';
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl";
-import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import Assistance from "../components/participant/assistance/Assistance";
 import { ConfigContext } from "./AppControl";
@@ -28,16 +28,14 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		}
 	}, [data.councilVideo])
 
-	const updateConfig = async companyId => {
-		await config.updateConfig(companyId);
+	const updateConfig = async id => {
+		await config.updateConfig(id);
 		setLoadingConfig(false);
 	}
-
 
 	React.useEffect(() => {
 		if(companyId){
 			updateConfig(companyId);
-			//store.dispatch(addSpecificTranslations(data.councilVideo.company.type));
 		}
 	}, [companyId]);
 
@@ -73,7 +71,6 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 			refetch={data.refetch}
 		/>
 	);
-
 }
 
 const mapStateToProps = state => ({
@@ -81,11 +78,9 @@ const mapStateToProps = state => ({
 	translate: state.translate
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
+const mapDispatchToProps = (dispatch) => ({
         actions: bindActionCreators(mainActions, dispatch)
-    };
-}
+    })
 
 const participantQuery = gql`
 	query info($councilId: Int!) {

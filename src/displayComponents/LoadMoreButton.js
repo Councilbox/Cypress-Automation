@@ -1,10 +1,9 @@
 import React from "react";
 import { Card, MenuItem } from "material-ui";
-import { LoadingSection } from "./";
+import { LoadingSection } from ".";
 import withTranslations from "../HOCs/withTranslations";
 
-const LoadMoreButton = ({ loading, onClick, translate }) => {
-    return(
+const LoadMoreButton = ({ loading, onClick }) => (
         <Card
             style={{
                 width: '90%',
@@ -20,7 +19,7 @@ const LoadMoreButton = ({ loading, onClick, translate }) => {
             elevation={1}
             onClick={onClick}
         >
-            <MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+            <MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
                 Cargar más
                 {loading &&
                     <div>
@@ -30,6 +29,5 @@ const LoadMoreButton = ({ loading, onClick, translate }) => {
             </MenuItem>
         </Card>
     )
-}
 
 export default withTranslations()(LoadMoreButton);

@@ -1,6 +1,7 @@
 import React from "react";
-import { AlertConfirm } from "../../../../../displayComponents/index";
 import { compose, graphql, withApollo } from "react-apollo";
+import { Card } from "material-ui";
+import { AlertConfirm } from "../../../../../displayComponents/index";
 import { updateCouncilParticipant, checkUniqueCouncilEmails } from "../../../../../queries/councilParticipant";
 import { languages } from "../../../../../queries/masters";
 import ParticipantForm from "../../../participants/ParticipantForm";
@@ -11,7 +12,6 @@ import {
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 import withSharedProps from "../../../../../HOCs/withSharedProps";
-import { Card } from "material-ui";
 import SelectRepresentative from "./SelectRepresentative";
 import { COUNCIL_TYPES } from "../../../../../constants";
 
@@ -37,7 +37,7 @@ class CouncilParticipantEditor extends React.Component {
 			: initialRepresentative;
 		this.setState({
 			data: participant,
-			representative: representative
+			representative
 		});
 	}
 
@@ -72,8 +72,7 @@ class CouncilParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else {
-				if (response.errors[0].message === 'Too many granted words') {
+			} else if (response.errors[0].message === 'Too many granted words') {
 					this.setState({
 						...(this.state.data.initialState === 2 ? {
 							errors: {
@@ -88,7 +87,6 @@ class CouncilParticipantEditor extends React.Component {
 
 					});
 				}
-			}
 		}
 	};
 
@@ -123,8 +121,8 @@ class CouncilParticipantEditor extends React.Component {
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate, participations, company } = this.props;
-		let hasSocialCapital = participations;
-		let errorsParticipant = checkRequiredFieldsParticipant(
+		const hasSocialCapital = participations;
+		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
 			translate,
 			hasSocialCapital,
@@ -364,6 +362,6 @@ const initialRepresentative = {
 };
 
 function extractTypeName(object) {
-	let { __typename, ...rest } = object;
+	const { __typename, ...rest } = object;
 	return rest;
 }

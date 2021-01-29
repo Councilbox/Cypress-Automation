@@ -1,9 +1,9 @@
 import React from "react";
-import AgendaDetailsSection from "./AgendaDetailsSection";
-import AgendaSelector from "./AgendaSelector";
 import { Card } from "material-ui";
 import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
+import AgendaSelector from "./AgendaSelector";
+import AgendaDetailsSection from "./AgendaDetailsSection";
 import { LoadingSection, Scrollbar, AlertConfirm } from "../../../displayComponents";
 import { AGENDA_STATES } from '../../../constants';
 import { useOldState, usePolling } from "../../../hooks";
@@ -11,7 +11,7 @@ import { isMobile } from "../../../utils/screen";
 
 const getInitialSelectedPoint = agendas => {
 	const index = agendas.findIndex(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
-	return index !== -1? index : 0;
+	return index !== -1 ? index : 0;
 }
 
 const reducer = (state, action) => {
@@ -35,7 +35,7 @@ const reducer = (state, action) => {
 		})
 	}
 
-	return actions[action.type]? actions[action.type]() : state;
+	return actions[action.type] ? actions[action.type]() : state;
 }
 
 
@@ -188,7 +188,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 		>
 			<Card
 				style={{
-					width: isMobile? '3em' : "5em",
+					width: isMobile ? '3em' : "5em",
 					height: "100%",
 					borderLeft: '1px solid gainsboro',
 					overflow: "auto",
@@ -213,7 +213,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 			</Card>
 			<div
 				style={{
-					width: `calc(100% - ${isMobile? '3em' : '5em'})`,
+					width: `calc(100% - ${isMobile ? '3em' : '5em'})`,
 					height: "100%",
 					padding: "0",
 					display: "flex",
@@ -247,7 +247,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						refetch={getData}
 					/>
 				:
-					<div style={{margin: '2em'}}>
+					<div style={{ margin: '2em' }}>
 						{translate.empty_agendas}
 					</div>
 					}

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
-const withWindowOrientation = WrappedComponent => {
-	return class withWindowOrientation extends Component {
+const withWindowOrientation = WrappedComponent => class WithWindowOrientation extends Component {
 		state = {
 			orientation: "landscape"
 		};
@@ -35,6 +34,5 @@ const withWindowOrientation = WrappedComponent => {
 			);
 		}
 	};
-};
 
 export default withWindowOrientation;

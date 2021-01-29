@@ -1,16 +1,16 @@
 import React from 'react';
-import { AlertConfirm, BasicButton, LoadingSection } from '../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getSecondary } from '../../../styles/colors';
 import { Paper } from 'material-ui';
+import { getSecondary } from '../../../styles/colors';
+import { AlertConfirm, BasicButton, LoadingSection } from '../../../displayComponents';
 import { councils } from '../../../queries';
 import { COUNCIL_STATES } from '../../../constants';
 import { ConfigContext } from '../../../containers/AppControl';
 import CouncilDetails from '../display/CouncilDetails'
 import { useOldState } from '../../../hooks';
 
-const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
+const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
     const [state, setState] = useOldState({
         modal: false,
         council: null
@@ -46,7 +46,6 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
 
         props.refetch();
         closeModal();
-
     }
 
     const showModal = () => {
@@ -56,7 +55,6 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
     }
 
     const _renderBody = () => {
-
         if(!data.loading && data.councils.length === 0){
             return <span>{translate.no_celebrated_councils}</span>
         }
@@ -84,13 +82,13 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
                         }}
                         onClick={loadFromCouncil(council)}
                     >
-                        <div className="truncate" style={{width: '70%'}}>
+                        <div className="truncate" style={{ width: '70%' }}>
                             {council.name}
                         </div>
                         <BasicButton
                             text={translate.read_details}
                             type="flat"
-                            textStyle={{color: getSecondary(), fontWeight: '700'}}
+                            textStyle={{ color: getSecondary(), fontWeight: '700' }}
                             onClick={event => {
                                 event.stopPropagation();
                                 showCouncilDetails(council)
@@ -120,15 +118,15 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
                     textPosition="after"
                     onClick={showModal}
                     icon={
-                        <i className="fa fa-clone" aria-hidden="true" style={{marginLeft: '0.3em'}}></i>
+                        <i className="fa fa-clone" aria-hidden="true" style={{ marginLeft: '0.3em' }}></i>
                     }
                 />
                 <AlertConfirm
-                    requestClose={!!state.council? closeCouncilDetails : closeModal}
+                    requestClose={state.council ? closeCouncilDetails : closeModal}
                     open={state.modal}
                     hideAccept={!!state.council || data.loading || (!data.loading && data.councils.length === 0)}
                     buttonAccept={translate.accept}
-                    buttonCancel={!!state.council? translate.back : translate.cancel}
+                    buttonCancel={state.council ? translate.back : translate.cancel}
                     bodyText={_renderBody()}
                     title={'Cargar una reunión pasada'/*TRADUCCION*/}
                 />
@@ -136,7 +134,6 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
         :
             <span />
     )
-
 }
 
 const loadFromPreviousCouncil = gql`

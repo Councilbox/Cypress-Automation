@@ -1,16 +1,16 @@
 import React from 'react';
+import { Tooltip } from 'material-ui';
+import { isMobile } from 'react-device-detect';
 import { SectionTitle, GridItem, Checkbox, Grid } from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { TAG_TYPES } from "../drafts/draftTags/utils";
-import LoadDraftModal from '../../company/drafts/LoadDraftModal';
-import { Tooltip } from 'material-ui';
+import LoadDraftModal from "../drafts/LoadDraftModal";
 import { DRAFT_TYPES } from "../../../constants";
 import * as CBX from "../../../utils/CBX";
-import SaveDraftModal from '../../company/drafts/SaveDraftModal';
+import SaveDraftModal from "../drafts/SaveDraftModal";
 import { ConfigContext } from '../../../containers/AppControl';
 import ProxiesTemplates from './docTemplates/ProxiesTemplates';
-import { isMobile } from 'react-device-detect';
 
 let timeout;
 
@@ -128,8 +128,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 					<Checkbox
 						label={translate.exists_act}
 						value={statute.existsAct === 1}
-						onChange={(event, isInputChecked) =>
-							updateState({
+						onChange={(event, isInputChecked) => updateState({
 								existsAct: isInputChecked ? 1 : 0
 							})
 						}
@@ -139,8 +138,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 					<Checkbox
 						label={translate.included_in_act_book}
 						value={statute.includedInActBook === 1}
-						onChange={(event, isInputChecked) =>
-							updateState({
+						onChange={(event, isInputChecked) => updateState({
 								includedInActBook: isInputChecked ? 1 : 0
 							})
 						}
@@ -150,8 +148,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 					<Checkbox
 						label={translate.include_participants_list_in_act}
 						value={statute.includeParticipantsList === 1}
-						onChange={(event, isInputChecked) =>
-							updateState({
+						onChange={(event, isInputChecked) => updateState({
 								includeParticipantsList: isInputChecked
 									? 1
 									: 0
@@ -178,12 +175,11 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 							translate={translate}
 							floatingText={translate.convene_header}
 							value={
-								!!internalState.conveneHeader
+								internalState.conveneHeader
 									? internalState.conveneHeader
 									: ""
 							}
-							onChange={value =>
-								handleUpdate({
+							onChange={value => handleUpdate({
 									conveneHeader: value
 								})
 							}
@@ -254,8 +250,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						}
 						floatingText={translate.convene_footer}
 						value={internalState.conveneFooter || ""}
-						onChange={value =>
-							handleUpdate({
+						onChange={value => handleUpdate({
 								conveneFooter: value
 							})
 						}
@@ -294,8 +289,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								translate={translate}
 								errorText={errors.intro}
 								value={internalState.intro || ""}
-								onChange={value =>
-									handleUpdate({
+								onChange={value => handleUpdate({
 										intro: value
 									})
 								}
@@ -317,7 +311,6 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 											})
 											intro.current.setValue(draft.text);
 											introSecondary.current.setValue(draft.secondaryText);
-
 										}}
 										defaultTags={{
 											"intro": {
@@ -337,18 +330,17 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								}
 							/>
 						</GridItem>
-						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
 							<RichTextInput
 								ref={introSecondary}
 								translate={translate}
 								floatingText={translate.right_column_introduction}
 								value={
-									!!internalState.introSecondary
+									internalState.introSecondary
 										? internalState.introSecondary
 										: ""
 								}
-								onChange={value =>
-									handleUpdate({
+								onChange={value => handleUpdate({
 										introSecondary: value
 									})
 								}
@@ -356,15 +348,14 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 							/>
 						</GridItem>
 
-						<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>
+						<GridItem xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
 							<RichTextInput
 								errorText={errors.constitution}
 								ref={constitution}
 								floatingText={translate.constitution}
 								translate={translate}
 								value={internalState.constitution || ""}
-								onChange={value =>
-									handleUpdate({
+								onChange={value => handleUpdate({
 										constitution: value
 									})
 								}
@@ -405,18 +396,17 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								}
 							/>
 						</GridItem>
-						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
 							<RichTextInput
 								ref={constitutionSecondary}
 								translate={translate}
 								floatingText={translate.constitution_right_column}
 								value={
-									!!internalState.constitutionSecondary
+									internalState.constitutionSecondary
 										? internalState.constitutionSecondary
 										: ""
 								}
-								onChange={value =>
-									handleUpdate({
+								onChange={value => handleUpdate({
 										constitutionSecondary: value
 									})
 								}
@@ -424,15 +414,14 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 							/>
 						</GridItem>
 
-						<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>
+						<GridItem xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
 							<RichTextInput
 								errorText={errors.conclusion}
 								ref={conclusion}
 								floatingText={translate.conclusion}
 								translate={translate}
 								value={internalState.conclusion || ""}
-								onChange={value =>
-									handleUpdate({
+								onChange={value => handleUpdate({
 										conclusion: value
 									})
 								}
@@ -462,7 +451,6 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 											})
 											conclusion.current.setValue(draft.text);
 											conclusionSecondary.current.setValue(draft.secondaryText);
-
 										}}
 										statute={{
 											...statute,
@@ -474,18 +462,17 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								}
 							/>
 						</GridItem>
-						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
 							<RichTextInput
 								ref={conclusionSecondary}
 								translate={translate}
 								floatingText={translate.right_column_conclusion}
 								value={
-									!!internalState.conclusionSecondary
+									internalState.conclusionSecondary
 										? internalState.conclusionSecondary
 										: ""
 								}
-								onChange={value =>
-									handleUpdate({
+								onChange={value => handleUpdate({
 										conclusionSecondary: value
 									})
 								}
@@ -538,7 +525,6 @@ export default StatuteDocSection;
 
 const getTagsByActSection = (section, translate) => {
 	switch (section) {
-
 		case 'conveneHeader':
 			return [
 				{
@@ -575,12 +561,10 @@ const getTagsByActSection = (section, translate) => {
 }
 
 
-const SaveDraftIcon = ({ onClick, translate }) => {
-	return (
+const SaveDraftIcon = ({ onClick, translate }) => (
 		<Tooltip title={translate.new_save}>
 			<div onClick={onClick} style={{ marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
 				<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
 			</div>
 		</Tooltip>
 	)
-}

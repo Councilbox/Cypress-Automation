@@ -1,11 +1,11 @@
 import React from "react";
+import { IconButton, Paper } from "material-ui";
+import { isMobile } from "react-device-detect";
 import { CloseIcon, Grid, GridItem } from "../../../../displayComponents";
 import { isCustomPoint } from "../../../../utils/CBX";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { IconButton, Paper } from "material-ui";
 import withTranslations from "../../../../HOCs/withTranslations";
 import { getSubjectAbrv } from "../../../../displayComponents/AgendaNumber";
-import { isMobile } from "react-device-detect";
 
 const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft }) => {
 	const primary = getPrimary();
@@ -33,7 +33,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 									width: "30px",
 									margin: "-0.25em 0",
 									fontWeight: "700",
-									fontSize: isMobile ? "1.1em" :  "1.5em"
+									fontSize: isMobile ? "1.1em" : "1.5em"
 								}}
 							>
 								{getSubjectAbrv(agenda.agendaSubject)}

@@ -1,11 +1,11 @@
 import React from "react";
-import { NotLoggedLayout, ButtonIcon } from "../../displayComponents";
 import { Paper, Card } from "material-ui";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { NotLoggedLayout, ButtonIcon } from "../../displayComponents";
 import { getPrimary, getLightGrey } from "../../styles/colors";
 import * as mainActions from "../../actions/mainActions";
-import { bindActionCreators } from "redux";
 import withTranslations from "../../HOCs/withTranslations";
-import { connect } from "react-redux";
 import { bHistory } from "../../containers/App";
 
 
@@ -23,11 +23,10 @@ class Recommendations extends React.Component {
     getBrowserPlatform() {
         if (isMobile.Android()) {
             return "ANDROID";
-        } else if (isMobile.iOS()) {
+        } if (isMobile.iOS()) {
             return "IOS";
-        } else {
-            return "DESKTOP";
         }
+            return "DESKTOP";
     }
 
     setActivePlatform = platformActive => {
@@ -35,8 +34,8 @@ class Recommendations extends React.Component {
     };
 
     _renderPlatformButtons = () => {
-        let primary = getPrimary();
-        let lightgrey = getLightGrey();
+        const primary = getPrimary();
+        const lightgrey = getLightGrey();
         return (
             <div style={{ float: 'right', display: 'inline-flex', marginTop: '-0.5em' }}>
                 <Card
@@ -89,9 +88,9 @@ class Recommendations extends React.Component {
     }
 
     render() {
-        let { translate } = this.props;
-        let { platformActive } = this.state;
-        let primary = getPrimary();
+        const { translate } = this.props;
+        const { platformActive } = this.state;
+        const primary = getPrimary();
 
         return (
             <NotLoggedLayout
@@ -160,7 +159,7 @@ class Recommendations extends React.Component {
                                             type="videocam"
                                             color={primary}
                                             style={{ marginLeft: "15px", fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
-                                            onClick={() => {console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`)}}
+                                            onClick={() => { console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`) }}
                                         />
                                     </li>
                                     <li style={instructionListItemStyle}>
@@ -294,7 +293,7 @@ class Recommendations extends React.Component {
                                             type="videocam"
                                             color={primary}
                                             style={{ marginLeft: "15px", fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
-                                            onClick={() => {console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`)}}
+                                            onClick={() => { console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`) }}
                                         />
                                     </li>
                                     <li style={instructionListItemStyle}>
@@ -342,21 +341,11 @@ const counter = {
 };
 
 const isMobile = {
-    Windows: () => {
-        return /IEMobile/i.test(navigator.userAgent);
-    },
-    Android: () => {
-        return /Android/i.test(navigator.userAgent);
-    },
-    BlackBerry: () => {
-        return /BlackBerry/i.test(navigator.userAgent);
-    },
-    iOS: () => {
-        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    },
-    Desktop: () => {
-        return !isMobile.Android() && !isMobile.iOS();
-    }
+    Windows: () => /IEMobile/i.test(navigator.userAgent),
+    Android: () => /Android/i.test(navigator.userAgent),
+    BlackBerry: () => /BlackBerry/i.test(navigator.userAgent),
+    iOS: () => /iPhone|iPad|iPod/i.test(navigator.userAgent),
+    Desktop: () => !isMobile.Android() && !isMobile.iOS()
 };
 
 const mapDispatchToProps = dispatch => ({

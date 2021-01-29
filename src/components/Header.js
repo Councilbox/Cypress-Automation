@@ -1,7 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import Tooltip from "material-ui/Tooltip";
+import Paper from 'material-ui/Paper';
+import { MenuItem } from "material-ui";
 import logo from "../assets/img/logo.png";
 import icono from "../assets/img/logo-icono.png";
-import { Link } from "react-router-dom";
 import LanguageSelector from "./menus/LanguageSelector";
 import UserMenu from "./menus/UserMenu";
 import CommandLine from './dashboard/CommandLine';
@@ -9,12 +12,9 @@ import { Icon, DropDownMenu, BasicButton } from "../displayComponents";
 import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getSecondary, getPrimary, primary } from "../styles/colors";
-import Tooltip from "material-ui/Tooltip";
-import Paper from 'material-ui/Paper';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION, variant } from "../config";
 import { getCustomLogo, getCustomIcon, useSubdomain } from "../utils/subdomain";
-import { MenuItem } from "material-ui";
 import ContactModal from "./participant/login/ContactModal";
 import { HEADER_HEIGHT } from "../styles/constants";
 
@@ -26,9 +26,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 	const customLogo = getCustomLogo();
 	const subdomain = useSubdomain();
 
-	const showVerticalLayout = () => {
-		return windowSize === 'xs' && !isLandscape();
-	}
+	const showVerticalLayout = () => windowSize === 'xs' && !isLandscape()
 
 	return (
 		<Paper
@@ -56,7 +54,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 				<Link to="/">
 					<div style={{ position: "relative" }}>
 						<img
-							src={!showVerticalLayout() ? customLogo ? customLogo : logo : customIcon ? customIcon : icono}
+							src={!showVerticalLayout() ? customLogo || logo : customIcon || icono}
 							className="App-logo"
 							style={{
 								height: "1.5em",
@@ -91,8 +89,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 							horizontal: 'left',
 						}}
 						color="transparent"
-						Component={() =>
-							<div style={{ color: getPrimary(), marginRight: "1em", marginTop: "0.5em", cursor: "pointer" }}>
+						Component={() => <div style={{ color: getPrimary(), marginRight: "1em", marginTop: "0.5em", cursor: "pointer" }}>
 								<div>
 									<i className="material-icons" >
 										dehaze
@@ -111,7 +108,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 								}
 								{selectHeadFinished !== 'contactAdmin' &&
 									<MenuItem onClick={() => setSelectHeadFinished("contactAdmin")} >
-										{translate.mail_contact_admin}									
+										{translate.mail_contact_admin}
 									</MenuItem>
 								}
 								<MenuItem onClick={() => bHistory.push('/')}>

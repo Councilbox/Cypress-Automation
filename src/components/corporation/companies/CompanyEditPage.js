@@ -1,14 +1,13 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { graphql } from 'react-apollo';
 import { LoadingSection } from '../../../displayComponents';
 import CompanySettingsPage from '../../company/settings/CompanySettingsPage';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import { withRouter } from 'react-router-dom';
-import { graphql } from 'react-apollo';
 import { company } from '../../../queries';
 import { bHistory } from '../../../containers/App';
 
 const CompanyEditPage = ({ data, user, match, company, translate }) => {
-
     if(data.loading){
         return <LoadingSection />
     }
@@ -18,7 +17,7 @@ const CompanyEditPage = ({ data, user, match, company, translate }) => {
     }
 
     return(
-        <div style={{height: '100%', width: '100%'}}>
+        <div style={{ height: '100%', width: '100%' }}>
             <CompanySettingsPage
                 key={`company_${company.id}`}
                 company={data.company}

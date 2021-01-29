@@ -11,7 +11,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 
 class SinSesion extends React.Component {
-
 	state = {
 		modalAcciones: false,
 		showActions: false
@@ -47,21 +46,20 @@ class SinSesion extends React.Component {
 			reunionesFiltradasPorEstado = reuniones;
 		}
 		//sacamos solo 3 reuniones
-		let reunionesFiltradas = Object.keys(reunionesFiltradasPorEstado).filter(key => reunionesFiltradasPorEstado.length > 3).reduce((obj, key) => {
+		const reunionesFiltradas = Object.keys(reunionesFiltradasPorEstado).filter(key => reunionesFiltradasPorEstado.length > 3).reduce((obj, key) => {
 			if (key < 3) {
 				obj[key] = reunionesFiltradasPorEstado[key];
 			}
 			return obj;
 		}, {});
 
-		let textStates = { 5: "Guardada", 10: "Preparada", 20: "Celebrándose", 30: "Celebrándose", 40: "Finalizada" }//TRADUCCIONES
-	
+		const textStates = { 5: "Guardada", 10: "Preparada", 20: "Celebrándose", 30: "Celebrándose", 40: "Finalizada" }//TRADUCCIONES
+
 		if (reuniones.length) {
 			return (
 				<React.Fragment >
 					<div style={{ height: "335px", textAlign: "left", overflow: "hidden" }}>
-						{Object.keys(reunionesFiltradas).map(key => {
-							return (
+						{Object.keys(reunionesFiltradas).map(key => (
 								<div key={key} style={{ border: "1px solid #ddd", boxShadow: "rgba(0, 0, 0, 0.2) 0px 2px 4px", marginBottom: "1em", padding: '1em' }}>
 									<div style={{ display: "flex", justifyContent: "space-between" }}>
 										<div style={{ marginBottom: "5px", width: "60%", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: "flex" }}>
@@ -91,8 +89,7 @@ class SinSesion extends React.Component {
 										</div>
 									</div>
 								</div>
-							);
-						})}
+							))}
 					</div>
 					<hr></hr>
 					<div style={{ justifyContent: "flex-end", display: "inline" }}>
@@ -105,8 +102,7 @@ class SinSesion extends React.Component {
 						requestClose={this.hideModalAcciones}
 						open={this.state.modalAcciones}
 						bodyText={
-							Object.keys(reuniones).map(key => {
-								return (
+							Object.keys(reuniones).map(key => (
 									<CollapsibleSection
 										trigger={() => (
 											<div style={{ border: "1px solid #ddd", boxShadow: "rgba(0, 0, 0, 0.2) 0px 2px 4px", marginTop: "1em", padding: '1em', cursor: "pointer" }} >
@@ -155,8 +151,7 @@ class SinSesion extends React.Component {
 										)}
 										key={key}
 									/>
-								)
-							})
+								))
 						}
 						title={"Últimas acciones"} //TRADUCCION
 						widthModal={{ width: "50%" }}
@@ -164,13 +159,12 @@ class SinSesion extends React.Component {
 				</React.Fragment>
 
 			);
-		} else {
+		}
 			return (
 				<div style={{ display: 'inline-flex', alignItems: 'center', justifontent: 'center', height: '370px', }}>
 					<div>Aun no hay reuniones</div>
 				</div>
 			)
-		}
 	}
 }
 

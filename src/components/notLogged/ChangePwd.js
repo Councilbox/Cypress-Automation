@@ -21,7 +21,6 @@ const DEFAULT_ERRORS = {
 };
 
 class ChangePwd extends React.PureComponent {
-
 	state = {
 		pwd: "",
 		repeatPwd: "",
@@ -73,7 +72,6 @@ class ChangePwd extends React.PureComponent {
 					break;
 
 				default:
-					return;
 			}
 		}
 	};
@@ -91,7 +89,7 @@ class ChangePwd extends React.PureComponent {
 	checkRequiredFields() {
 		const { translate } = this.props;
 
-		let errors = DEFAULT_ERRORS;
+		const errors = DEFAULT_ERRORS;
 
 		let hasError = false;
 
@@ -106,7 +104,7 @@ class ChangePwd extends React.PureComponent {
 
 		this.setState({
 			...this.state,
-			errors: errors
+			errors
 		});
 
 		return hasError;
@@ -168,8 +166,7 @@ class ChangePwd extends React.PureComponent {
 											errorText={this.state.errors.pwd}
 											type="password"
 											value={this.state.pwd}
-											onChange={event =>
-												this.setState({
+											onChange={event => this.setState({
 													pwd:
 														event.nativeEvent.target
 															.value
@@ -186,8 +183,7 @@ class ChangePwd extends React.PureComponent {
 											errorText={this.state.errors.repeatPwd}
 											type="password"
 											value={this.state.repeatPwd}
-											onChange={event =>
-												this.setState({
+											onChange={event => this.setState({
 													repeatPwd:
 														event.nativeEvent.target
 															.value

@@ -34,7 +34,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
     }, [open])
 
     const checkRequiredFields = () => {
-        let newErrors = {};
+        const newErrors = {};
 
         if(!state.subject){
             newErrors.subject = translate.required_field;
@@ -56,7 +56,6 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
         }
 
         return hasError;
-
     }
 
     const send = async () => {
@@ -80,14 +79,13 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                     attachments
                 }
             });
-    
+
             setStatus('SUCCESS');
         }
-
     }
 
     const removeAttachment = index => {
-        let newAttachments = [...attachments];
+        const newAttachments = [...attachments];
         newAttachments.splice(index, 1);
         setAttachments(newAttachments);
     }
@@ -97,14 +95,14 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
 		if (!file) {
 			return;
 		}
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
 		reader.onload = async event => {
-			let fileInfo = {
+			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: ''+event.loaded,
+				filesize: '' + event.loaded,
 				base64: btoa(event.target.result)
             };
             setAttachments([...attachments, fileInfo]);
@@ -136,14 +134,14 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                 <div style={{ fontWeight: "bold" }}>{translate.title}</div>
                                 <Input
                                     placeholder={translate.title}
-                                    
+
                                     disableUnderline={true}
                                     id={"titleDraft"}
                                     style={{
                                         color: "rgba(0, 0, 0, 0.65)",
                                         fontSize: '15px',
                                         boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                                        border: !!errors.subject ? "1px solid red" : "1px solid #d7d7d7",
+                                        border: errors.subject ? "1px solid red" : "1px solid #d7d7d7",
                                         width: "100%",
                                         padding: '.5em 1.6em',
                                         marginTop: "1em"

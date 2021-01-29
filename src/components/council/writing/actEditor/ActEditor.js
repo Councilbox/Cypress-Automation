@@ -1,7 +1,8 @@
 import React from "react";
 import { graphql, compose, withApollo } from "react-apollo";
-import { getSecondary, getPrimary } from "../../../../styles/colors";
 import gql from "graphql-tag";
+import { toast } from 'react-toastify';
+import { getSecondary, getPrimary } from "../../../../styles/colors";
 import {
 	BasicButton,
 	Scrollbar,
@@ -25,7 +26,6 @@ import {
 	generateStatuteTag,
 	buildDelegationsString
 } from '../../../../utils/CBX';
-import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
 import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../../documentEditor/utils";
@@ -213,11 +213,9 @@ export const generateCouncilSmartTagsValues = data => {
 
 	const numParticipationsPresent = (data.councilAttendants.list.reduce((acc, curr) => {
 		let counter = acc;
-		counter = counter + curr.numParticipations;
+		counter += curr.numParticipations;
 		if (curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0) {
-			counter = counter + curr.delegationsAndRepresentations.reduce((acc, curr) => {
-				return acc + curr.numParticipations;
-			}, 0);
+			counter += curr.delegationsAndRepresentations.reduce((acc, curr) => acc + curr.numParticipations, 0);
 		}
 		return counter;
 	}, 0));
@@ -299,8 +297,8 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 		} : {
 				doc: buildDoc(response.data, translate, 'act'),
 				options: {
-					stamp: config.disableDocumentStamps ? false : true,
-					doubleColumn: response.data.council.statute.doubleColumnDocs === 1? true : false,
+					stamp: !config.disableDocumentStamps,
+					doubleColumn: response.data.council.statute.doubleColumnDocs === 1,
 					language: response.data.council.language,
 					secondaryLanguage: 'en'
 				}
@@ -390,7 +388,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				}
 			}
 		});
-		if (!!response) {
+		if (response) {
 			setSaving(false);
 		}
 	}
@@ -403,13 +401,12 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 		return <LoadingSection />;
 	}
 
-	let council = { ...data.council };
+	const council = { ...data.council };
 	council.attendants = data.councilAttendants.list;
 	council.delegatedVotes = data.participantsWithDelegatedVote;
 
 
-	const finishedToolbar = () => {
-		return (
+	const finishedToolbar = () => (
 			<>
 				<DownloadDoc
 					translate={translate}
@@ -507,7 +504,6 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 
 			</>
 		)
-	}
 
 	const liveToolbar = () => {
 		const actPoint = data.agendas[data.agendas.length - 1];
@@ -605,7 +601,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				options={options}
 				generatePreview={generatePreview}
 				download={true}
-				documentMenu={liveMode? liveToolbar() : finishedToolbar()}
+				documentMenu={liveMode ? liveToolbar() : finishedToolbar()}
 				translate={translate}
 			/>
 		</React.Fragment>
@@ -627,7 +623,7 @@ export const generateActTags = (type, data, translate) => {
 	let attendantsString = cache.get(`${council.id}_attendants`);
 	let delegatedVotesString = cache.get(`${council.id}_delegated`);
 
-	
+
 	if(!attendantsString){
 		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');
 		cache.set(`${council.id}_attendants`, attendantsString);

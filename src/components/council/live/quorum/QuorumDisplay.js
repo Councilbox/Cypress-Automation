@@ -1,11 +1,11 @@
 import React from 'react';
+import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
+import { Table, TableBody, TableHead, TableRow, TableCell, MenuItem } from 'material-ui';
 import { showNumParticipations, councilHasSession, hasParticipations, hasVotation, isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
 import { AlertConfirm, DropDownMenu, Scrollbar } from '../../../../displayComponents';
-import gql from 'graphql-tag';
-import { withApollo } from 'react-apollo';
-import { Table, TableBody, TableHead, TableRow, TableCell, MenuItem } from 'material-ui';
 import { moment } from '../../../../containers/App';
 import { COUNCIL_TYPES } from '../../../../constants';
 
@@ -15,9 +15,7 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
     const secondary = getSecondary();
     const [modal, setModal] = React.useState(false);
 
-    const councilStarted = () => {
-        return (council.state === 20 || council.state === 30) && council.councilStarted == 1;
-    }
+    const councilStarted = () => (council.state === 20 || council.state === 30) && council.councilStarted == 1
 
     if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
         return null;
@@ -45,7 +43,7 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
                 onClick={() => setModal(true)}
             >
                 <i
-                    class="fa fa-info"
+                    className="fa fa-info"
                     aria-hidden="true"
                 ></i>
             </div>
@@ -96,9 +94,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
         return ((value / base) * 100).toFixed(3);
     }
 
-    const getVotingPercentage = value => {
-        return ((value / totalVotes) * 100).toFixed(3);
-    }
+    const getVotingPercentage = value => ((value / totalVotes) * 100).toFixed(3)
 
     const downloadPDF = async () => {
         await downloadHTMLAsPDF({

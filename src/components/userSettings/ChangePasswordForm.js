@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import { graphql } from "react-apollo";
+import { LinearProgress } from "material-ui/Progress";
 import {
 	BasicButton,
-	ButtonIcon,
 	Grid,
 	GridItem,
 	SectionTitle,
@@ -10,12 +10,10 @@ import {
 } from "../../displayComponents";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { updatePassword } from "../../queries";
-import { LinearProgress } from "material-ui/Progress";
 import { isMobile } from "../../utils/screen";
 
 
 class ChangePasswordForm extends React.Component {
-
 	state = {
 		success: false,
 		loading: false,
@@ -60,6 +58,7 @@ class ChangePasswordForm extends React.Component {
 			}
 		}
 	};
+
 	handleKeyUp = event => {
 		if (event.nativeEvent.keyCode === 13) {
 			this.updatePassword();
@@ -69,6 +68,7 @@ class ChangePasswordForm extends React.Component {
 			error: false
 		});
 	};
+
 	resetButtonStates = () => {
 		this.setState({
 			error: false,
@@ -86,7 +86,7 @@ class ChangePasswordForm extends React.Component {
 			newPassword: "",
 			newPasswordConfirm: ""
 		};
-		
+
 		if (data.newPassword !== data.newPasswordConfirm) {
 			errors.newPasswordConfirm = translate.register_unmatch_pwds;
 			hasError = true;
@@ -102,7 +102,7 @@ class ChangePasswordForm extends React.Component {
 		}
 
 		this.setState({
-			errors: errors
+			errors
 		});
 		return hasError;
 	}
@@ -114,30 +114,30 @@ class ChangePasswordForm extends React.Component {
 		if (validate) {
 			if (!(/[a-z]/.test(newValues.newPassword))) {
 				errorsBar = translate.insecure_password;
-				porcentaje = porcentaje - 20;
+				porcentaje -= 20;
 			}
 			if (!(/(?=.*[A-Z])/.test(newValues.newPassword))) {
 				errorsBar = translate.insecure_password;
-				porcentaje = porcentaje - 20;
+				porcentaje -= 20;
 			}
 			if (!(/(?=.*[0-9])/.test(newValues.newPassword))) {
 				errorsBar = translate.insecure_password;
-				porcentaje = porcentaje - 20;
+				porcentaje -= 20;
 			}
 			if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newValues.newPassword))) {
 				errorsBar = translate.insecure_password;
-				porcentaje = porcentaje - 20;
+				porcentaje -= 20;
 			}
 			if (!(/.{8,}/.test(newValues.newPassword))) {
 				errorsBar = translate.insecure_password;
-				porcentaje = porcentaje - 20;
+				porcentaje -= 20;
 			}
 			let color = "Green"
 			color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? "Orange" : "Green";
 			this.setState({
-				errorsBar: errorsBar,
+				errorsBar,
 				porcentaje,
-				color: color,
+				color,
 				data: {
 					...this.state.data,
 					...newValues
@@ -191,8 +191,7 @@ class ChangePasswordForm extends React.Component {
 								onKeyUp={this.handleKeyUp}
 								value={data.currentPassword}
 								errorText={errors.currentPassword}
-								onChange={event =>
-									this.updateState({
+								onChange={event => this.updateState({
 										currentPassword:
 											event.nativeEvent.target.value
 									}, false)
@@ -203,15 +202,14 @@ class ChangePasswordForm extends React.Component {
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12} >
 						<div style={{ color: "black" }}>{translate.new_password}</div>
-						<div style={{ display: isMobile? "" : "flex" }}>
+						<div style={{ display: isMobile ? "" : "flex" }}>
 							<div style={{ marginRight: "1em" }}>
 								<TextInput
 									type="password"
-									styles={{ width: isMobile ? "100%" :"300px" }}
+									styles={{ width: isMobile ? "100%" : "300px" }}
 									onKeyUp={this.handleKeyUp}
 									value={data.newPassword}
-									onChange={event =>
-										this.updateState({
+									onChange={event => this.updateState({
 											newPassword: event.nativeEvent.target.value
 										}, true)
 
@@ -248,11 +246,10 @@ class ChangePasswordForm extends React.Component {
 						<div>
 							<TextInput
 								type="password"
-								styles={{ width: isMobile ? "100%" :"300px" }}
+								styles={{ width: isMobile ? "100%" : "300px" }}
 								onKeyUp={this.handleKeyUp}
 								value={data.newPasswordConfirm}
-								onChange={event =>
-									this.updateState({
+								onChange={event => this.updateState({
 										newPasswordConfirm:
 											event.nativeEvent.target.value
 									}, false)
@@ -265,16 +262,14 @@ class ChangePasswordForm extends React.Component {
 				<br />
 				<div style={{ display: "flex" }}>
 					<BasicButton
-						text={translate.login_confirm_password}
 						backgroundColor={{
-							color: "white",
 							fontWeight: "700",
 							boxShadow: "none",
 							background: getSecondary(),
 							color: "white",
 							borderRadius: "8px",
 							width: "200px",
-							height:"3em"
+							height: "3em"
 						}}
 						text={translate.save}
 						color={success ? "green" : primary}
@@ -288,7 +283,6 @@ class ChangePasswordForm extends React.Component {
 					<BasicButton
 						text={translate.cancel}
 						backgroundColor={{
-							color: "white",
 							fontWeight: "700",
 							boxShadow: "none",
 							background: "white",
@@ -296,7 +290,7 @@ class ChangePasswordForm extends React.Component {
 							color: getSecondary(),
 							borderRadius: "8px",
 							width: "200px",
-							height:"3em"
+							height: "3em"
 						}}
 						onClick={() => this.props.setShowPass({ showPass: false })}
 					/>

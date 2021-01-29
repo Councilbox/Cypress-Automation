@@ -22,9 +22,7 @@ class CouncilboxApi {
 				method: "GET"
 			}
 		);
-		return fetch(request).then(response => {
-			return response.json();
-		});
+		return fetch(request).then(response => response.json());
 	}
 
 	static async getCompanyTypes() {
@@ -181,9 +179,7 @@ class CouncilboxApi {
 		);
 
 		return fetch(request)
-			.then(response => {
-				return response.json();
-			})
+			.then(response => response.json())
 			.catch(error => {
 				throw error;
 			});

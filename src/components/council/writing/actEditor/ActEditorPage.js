@@ -1,9 +1,9 @@
 import React from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { CardPageLayout, TabsScreen, Scrollbar } from "../../../../displayComponents";
 import ActConvenedParticipants from './ActConvenedParticipants';
 import ActAttendantsTable from "./ActAttendantsTable";
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import ActEditor from "./ActEditor";
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import Convene from '../../convene/Convene';
@@ -29,7 +29,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         sendReminder: false,
         sendConvene: false,
         cancel: false,
-        tab: withoutAct? 'agenda' : 'editor',
+        tab: withoutAct ? 'agenda' : 'editor',
         rescheduleCouncil: false,
         infoMenu: false
     });
@@ -52,15 +52,13 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             {
                 label: translate.wizard_agenda,
                 value: 'agenda',
-                component: () => {
-                    return (
+                component: () => (
                         <AgendaTab
                             council={council}
                             translate={translate}
                             data={{ ...props }}
                         />
-                    );
-                }
+                    )
             }
         ];
     } else {
@@ -68,8 +66,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             label: translate.act,
             value: 'editor',
             persistent: true,
-            component: () => {
-                return (
+            component: () => (
                     props.confirmed ?
                         <div style={{ height: '100%' }}>
                             <div style={{ height: "calc(100%)", overflow: 'hidden', position: 'relative', }}>
@@ -90,16 +87,14 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                 refetch={props.refetch}
                             />
                         </div>
-                );
-            }
+                )
         });
 
         if (props.confirmed) {
             tabs.push({
                 label: translate.sending_the_minutes,
                 value: 'sendAct',
-                component: () => {
-                    return (
+                component: () => (
                         <Scrollbar>
                             <SendActPage
                                 council={council}
@@ -107,8 +102,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                 refetch={props.refetch}
                             />
                         </Scrollbar>
-                    );
-                }
+                    )
             });
         }
 
@@ -117,8 +111,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                 label: translate.results,
                 value: 'results',
                 persistent: true,
-                component: () => {
-                    return (
+                component: () => (
                         <Scrollbar>
                             <Results
                                 council={council}
@@ -127,8 +120,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                 translate={translate}
                             />
                         </Scrollbar>
-                    );
-                }
+                    )
             });
         }
     }
@@ -138,8 +130,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         tabs.push({
             label: translate.council_comments,
             value: 'comments',
-            component: () => {
-                return (
+            component: () => (
                     <Scrollbar>
                         <CommenWallList
                             council={council}
@@ -147,8 +138,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                             refetch={props.refetch}
                         />
                     </Scrollbar>
-                );
-            }
+                )
         });
     }
 
@@ -156,48 +146,41 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     {
         label: translate.new_list_called,
         value: 'convened',
-        component: () => {
-            return (
+        component: () => (
                 <ActConvenedParticipants
                     council={council}
                     totalVotes={props.totalVotes}
                     socialCapital={props.socialCapital}
                     translate={translate}
                 />
-            );
-        }
+            )
     },
     {
         label: translate.show_assistants_list,
         value: 'attendants',
-        component: () => {
-            return (
+        component: () => (
                 <ActAttendantsTable
                     council={council}
                     translate={translate}
                 />
-            );
-        }
+            )
     },
     {
         label: translate.attachment_files,
         value: 'attachments',
-        component: () => {
-            return (
+        component: () => (
                 <Scrollbar>
                     <ActAttachments
                         council={council}
                         translate={translate}
                     />
                 </Scrollbar>
-            );
-        }
+            )
     },
     {
         label: translate.convene,
         value: 'convene',
-        component: () => {
-            return (
+        component: () => (
                 <Scrollbar>
                     <div style={{ paddingBottom: '2em' }}>
                         <Convene
@@ -207,8 +190,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                         />
                     </div>
                 </Scrollbar>
-            );
-        }
+            )
     }
     ];
 
@@ -216,8 +198,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         tabs.push({
             label: translate.vote_letters,
             value: 'vote_letters',
-            component: () => {
-                return (
+            component: () => (
                     <TabContainer>
                         <Scrollbar>
                             <VoteLetters
@@ -227,18 +208,16 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                             />
                         </Scrollbar>
                     </TabContainer>
-                );
-            }
+                )
         });
     }
-    
+
 
     if(config.proxies && council.statute.requireProxy === 1){
         tabs.push({
             label: translate.delegation_proxies,
             value: 'proxies',
-            component: () => {
-                return (
+            component: () => (
                     <TabContainer>
                         <Scrollbar>
                             <DelegationDocuments
@@ -248,8 +227,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                             />
                         </Scrollbar>
                     </TabContainer>
-                );
-            }
+                )
         });
     }
 
@@ -257,8 +235,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
         tabs.push({
             label: translate.evidences,
             value: 'evidences',
-            component: () => {
-                return (
+            component: () => (
                     <Scrollbar>
                         <EvidencesPage
                             council={council}
@@ -267,23 +244,20 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                             translate={translate}
                         />
                     </Scrollbar>
-                );
-            }
+                )
         })
     }
 
     tabs.push({
         label: translate.recordings_tab,
         value: 'recordings',
-        component: () => {
-            return (
+        component: () => (
                 <RecordingsSection
                     data={props.data}
                     council={council}
                     translate={translate}
                 />
-            );
-        }
+            )
     });
 
     return (

@@ -162,11 +162,11 @@ const sidebarStyle = theme => ({
 	},
 
 	blue: {
-		backgroundColor: variant === 'CUSTOM'? getSecondary() : "#00acc1",
+		backgroundColor: variant === 'CUSTOM' ? getSecondary() : "#00acc1",
 		boxShadow:
 			"0 12px 20px -10px rgba(0,188,212,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(0,188,212,.2)",
 		"&:hover": {
-			backgroundColor: variant === 'CUSTOM'? getSecondary() : "#00acc1",
+			backgroundColor: variant === 'CUSTOM' ? getSecondary() : "#00acc1",
 			boxShadow:
 				"0 12px 20px -10px rgba(0,188,212,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(0,188,212,.2)"
 		}
@@ -203,7 +203,7 @@ const sidebarStyle = theme => ({
 	},
 	sidebarWrapper: {
 		position: "relative",
-		...(isLandscape()? {
+		...(isLandscape() ? {
 			[theme.breakpoints.down("sm")]: {
 				height: '3.5em',
 				display: 'flex',

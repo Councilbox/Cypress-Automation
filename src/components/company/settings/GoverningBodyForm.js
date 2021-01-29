@@ -1,11 +1,11 @@
 import React from 'react';
+import { MenuItem, TableBody, Table, TableHead, TableRow, TableCell } from 'material-ui';
+import ContentEditable from 'react-contenteditable';
 import { SectionTitle, SelectInput, TextInput, BasicButton, GridItem, ButtonIcon, DropDownMenu } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { MenuItem, TableBody } from 'material-ui';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
-import { Table, TableHead, TableRow, TableCell } from 'material-ui';
+
 import CheckBox from '../../../displayComponents/CheckBox';
-import ContentEditable from 'react-contenteditable';
 
 
 const GoverningBodyForm = ({ translate, state, updateState }) => {
@@ -30,21 +30,20 @@ const GoverningBodyForm = ({ translate, state, updateState }) => {
             5: <ListAdminForm setData={updateGoverningData} translate={translate} data={state.governingBodyData || {}} />,
         }
 
-        return menus[state.governingBodyType]? menus[state.governingBodyType] : menus[0];
+        return menus[state.governingBodyType] ? menus[state.governingBodyType] : menus[0];
     }
 
 
     const type = GOVERNING_BODY_TYPES[Object.keys(GOVERNING_BODY_TYPES).find(key => GOVERNING_BODY_TYPES[key].value === state.governingBodyType)]
 
     return (
-        <div style={{width: '100%'}}>
+        <div style={{ width: '100%' }}>
             <GridItem xs={12} md={7} lg={4}>
                 <div style={{ display: "flex", marginBottom: "1em" }}>
                         <DropDownMenu
                             color="transparent"
                             styleComponent={{ width: "" }}
-                            Component={() =>
-                                <div
+                            Component={() => <div
                                     style={{
                                         borderRadius: '1px',
                                         border: "1px solid" + primary,
@@ -55,7 +54,7 @@ const GoverningBodyForm = ({ translate, state, updateState }) => {
                                     <span style={{ color: primary, fontWeight: "bold" }}>{
                                         translate[type.label]
                                     }</span>
-                                    <i class="fa fa-angle-down" style={{ color: primary, paddingLeft: "5px", fontSize: "20px" }}></i>
+                                    <i className="fa fa-angle-down" style={{ color: primary, paddingLeft: "5px", fontSize: "20px" }}></i>
                                 </div>
                             }
                             textStyle={{ color: primary }}
@@ -102,7 +101,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.name || ''}
-                            style={{borderBottom: '1px solid grey'}}
+                            style={{ borderBottom: '1px solid grey' }}
                             onChange={event => {
                                 setData({
                                     name: event.target.value
@@ -113,7 +112,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.dni || ''}
-                            style={{borderBottom: '1px solid grey'}}
+                            style={{ borderBottom: '1px solid grey' }}
                             onChange={event => {
                                 setData({
                                     dni: event.target.value
@@ -124,7 +123,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.email || ''}
-                            style={{borderBottom: '1px solid grey'}}
+                            style={{ borderBottom: '1px solid grey' }}
                             onChange={event => {
                                 setData({
                                     email: event.target.value
@@ -135,7 +134,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.phone || ''}
-                            style={{borderBottom: '1px solid grey'}}
+                            style={{ borderBottom: '1px solid grey' }}
                             onChange={event => {
                                 setData({
                                     phone: event.target.value
@@ -150,16 +149,15 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
 }
 
 const EntityAdminForm = ({ translate, setData, data = {} }) => {
-
 const primary = getPrimary();
     return (
         <div style={{ width: "100%", display: "flex", }}>
             <div style={{ height: "100%", width: "100%" }}>
-                <div style={{marginTop: '1em', color: 'black', fontWeight: '700'}}>{translate.entity}</div>
+                <div style={{ marginTop: '1em', color: 'black', fontWeight: '700' }}>{translate.entity}</div>
                 <div>
                     <ContentEditable
                         html={data.entityName || ''}
-                        style={{borderBottom: '1px solid grey', width: '20em'}}
+                        style={{ borderBottom: '1px solid grey', width: '20em' }}
                         onChange={event => {
                             setData({
                                 entityName: event.target.value
@@ -167,7 +165,7 @@ const primary = getPrimary();
                         }}
                     />
                 </div>
-                <div style={{marginTop: '1em', color: 'black', fontWeight: '700'}}>{translate.representative}</div>
+                <div style={{ marginTop: '1em', color: 'black', fontWeight: '700' }}>{translate.representative}</div>
                 <div style={{ display: "flex", justifyContent: "space-between", width: "100%", padding: '1em' }}>
                     <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.name}</div>
                     <div style={{ textTransform: 'uppercase', color: primary, width: "25%" }}>{translate.dni}</div>
@@ -178,7 +176,7 @@ const primary = getPrimary();
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.name || ''}
-                            style={{borderBottom: '1px solid grey'}}
+                            style={{ borderBottom: '1px solid grey' }}
                             onChange={event => {
                                 setData({
                                     name: event.target.value
@@ -189,7 +187,7 @@ const primary = getPrimary();
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.dni || ''}
-                            style={{borderBottom: '1px solid grey'}}
+                            style={{ borderBottom: '1px solid grey' }}
                             onChange={event => {
                                 setData({
                                     dni: event.target.value
@@ -200,7 +198,7 @@ const primary = getPrimary();
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.email || ''}
-                            style={{borderBottom: '1px solid grey'}}
+                            style={{ borderBottom: '1px solid grey' }}
                             onChange={event => {
                                 setData({
                                     email: event.target.value
@@ -211,7 +209,7 @@ const primary = getPrimary();
                     <div style={{ width: "25%", paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.phone || ''}
-                            style={{borderBottom: '1px solid grey'}}
+                            style={{ borderBottom: '1px solid grey' }}
                             onChange={event => {
                                 setData({
                                     phone: event.target.value
@@ -249,7 +247,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
     }
 
     const deleteRow = index => {
-        let newList = [...data.list];
+        const newList = [...data.list];
         newList.splice(index, 1);
         setData({
             list: newList
@@ -322,7 +320,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                 <TableCell>
                                     {translate.table_councils_duration}
                                 </TableCell>
-                                <TableCell style={{minWidth: '5em'}}>
+                                <TableCell style={{ minWidth: '5em' }}>
                                     {translate.votes}
                                 </TableCell>
                                 <TableCell>
@@ -338,7 +336,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     <TableCell>
                                         <ContentEditable
                                             html={item.name || ''}
-                                            style={{borderBottom: '1px solid grey'}}
+                                            style={{ borderBottom: '1px solid grey' }}
                                             onChange={event => {
                                                 setAdminData({
                                                     name: event.target.value
@@ -349,7 +347,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     <TableCell>
                                         <ContentEditable
                                             html={item.surname || ''}
-                                            style={{borderBottom: '1px solid grey'}}
+                                            style={{ borderBottom: '1px solid grey' }}
                                             onChange={event => {
                                                 setAdminData({
                                                     surname: event.target.value
@@ -360,7 +358,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     <TableCell>
                                         <ContentEditable
                                             html={item.dni || ''}
-                                            style={{borderBottom: '1px solid grey'}}
+                                            style={{ borderBottom: '1px solid grey' }}
                                             onChange={event => {
                                                 setAdminData({
                                                     dni: event.target.value
@@ -371,7 +369,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     <TableCell>
                                         <ContentEditable
                                             html={item.email || ''}
-                                            style={{borderBottom: '1px solid grey'}}
+                                            style={{ borderBottom: '1px solid grey' }}
                                             onChange={event => {
                                                 setAdminData({
                                                     email: event.target.value
@@ -382,7 +380,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     <TableCell>
                                         <ContentEditable
                                             html={item.position || ''}
-                                            style={{borderBottom: '1px solid grey'}}
+                                            style={{ borderBottom: '1px solid grey' }}
                                             onChange={event => {
                                                 setAdminData({
                                                     position: event.target.value
@@ -393,7 +391,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     <TableCell>
                                         <ContentEditable
                                             html={item.apointmentDate || ''}
-                                            style={{borderBottom: '1px solid grey'}}
+                                            style={{ borderBottom: '1px solid grey' }}
                                             onChange={event => {
                                                 setAdminData({
                                                     apointmentDate: event.target.value
@@ -404,7 +402,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     <TableCell>
                                         <ContentEditable
                                             html={item.apointmentLength || ''}
-                                            style={{borderBottom: '1px solid grey', width: 'calc(100% - 2em)'}}
+                                            style={{ borderBottom: '1px solid grey', width: 'calc(100% - 2em)' }}
                                             onChange={event => {
                                                 setAdminData({
                                                     apointmentLength: event.target.value
@@ -414,8 +412,8 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     </TableCell>
                                     <TableCell>
                                         <ContentEditable
-                                            html={(item.numParticipations && item.numParticipations !== 0)? item.numParticipations+'' : 0}
-                                            style={{borderBottom: item.numParticipations && item.numParticipations !== 0? '1px solid grey' : ''}}
+                                            html={(item.numParticipations && item.numParticipations !== 0) ? item.numParticipations + '' : 0}
+                                            style={{ borderBottom: item.numParticipations && item.numParticipations !== 0 ? '1px solid grey' : '' }}
                                             onChange={event => {
                                                 setAdminData({
                                                     numParticipations: +event.target.value
@@ -425,8 +423,8 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     </TableCell>
                                     <TableCell>
                                         <ContentEditable
-                                            html={(item.socialCapital && item.socialCapital !== 0)? item.socialCapital+'' : 0}
-                                            style={{borderBottom: (item.socialCapital && item.socialCapital !== 0)? '1px solid grey' : ''}}
+                                            html={(item.socialCapital && item.socialCapital !== 0) ? item.socialCapital + '' : 0}
+                                            style={{ borderBottom: (item.socialCapital && item.socialCapital !== 0) ? '1px solid grey' : '' }}
                                             onChange={event => {
                                                 setAdminData({
                                                     socialCapital: +event.target.value
@@ -482,7 +480,6 @@ export const getCouncilAdminPosition = (index, translate) => {
 }
 
 const CouncilAdminForm = ({ translate, setData, data }) => {
-
     React.useEffect(() => {
         if(!data.list || data.list.length !== 4){
             setData({
@@ -508,8 +505,8 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
 
 
     return (
-        <div style={{width: '100%', overflowX: 'auto'}}>
-            <Table style={{maxWidth: "100%", tableLayout: 'auto'}}>
+        <div style={{ width: '100%', overflowX: 'auto' }}>
+            <Table style={{ maxWidth: "100%", tableLayout: 'auto' }}>
                 <TableHead>
                     <TableCell>
                         {translate.new_signature}
@@ -535,10 +532,10 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
                 </TableHead>
                 <TableBody>
                     {data.list && data.list.map((item, index) => (
-                        <TableRow key={`item_${item.id}`} style={{ marginTop: '1em', ...(index > 0? { borderTop: '1px solid gainsboro'} : {})}}>
+                        <TableRow key={`item_${item.id}`} style={{ marginTop: '1em', ...(index > 0 ? { borderTop: '1px solid gainsboro' } : {}) }}>
                             <TableCell>
                                 <CheckBox
-                                    value={item? item.sign : false}
+                                    value={item ? item.sign : false}
                                     onChange={(event, checked) => setAdminData({ sign: checked }, index)}
                                 />
                             </TableCell>
@@ -547,32 +544,32 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
                             </TableCell>
                             <TableCell>
                                 <TextInput
-                                    value={item? item.name : ''}
+                                    value={item ? item.name : ''}
                                     onChange={event => setAdminData({ name: event.target.value }, index)}
                                 />
                             </TableCell>
                             <TableCell>
                                 <TextInput
-                                    value={item? item.surname : ''}
+                                    value={item ? item.surname : ''}
                                     onChange={event => setAdminData({ surname: event.target.value }, index)}
                                 />
                             </TableCell>
                             <TableCell>
                                 <TextInput
-                                    value={item? item.dni : ''}
+                                    value={item ? item.dni : ''}
                                     onChange={event => setAdminData({ dni: event.target.value }, index)}
                                 />
                             </TableCell>
                             <TableCell>
                                 <TextInput
-                                    value={item? item.email : ''}
+                                    value={item ? item.email : ''}
                                     onChange={event => setAdminData({ email: event.target.value }, index)}
                                 />
                             </TableCell>
                             <TableCell>
                                 <TextInput
-                                    value={item? item.phone : ''}
-                                    style={{maxWidth: '10em'}}
+                                    value={item ? item.phone : ''}
+                                    style={{ maxWidth: '10em' }}
                                     onChange={event => setAdminData({ phone: event.target.value }, index)}
                                 />
                             </TableCell>

@@ -1,10 +1,10 @@
 import React from 'react';
-import { DateWrapper } from '../../../displayComponents';
-import * as CBX from '../../../utils/CBX';
-import QuorumWrapper from '../quorum/QuorumWrapper';
 import { Card } from 'material-ui';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { DateWrapper } from '../../../displayComponents';
+import * as CBX from '../../../utils/CBX';
+import QuorumWrapper from '../quorum/QuorumWrapper';
 import { usePolling } from '../../../hooks';
 
 const ActualQuorum = withApollo(({ council, translate, client, socialCapital, totalVotes }) => {
@@ -55,7 +55,7 @@ const ActualQuorum = withApollo(({ council, translate, client, socialCapital, to
     }
 
     return (
-        <div style={{fontSize: '1em'}}>
+        <div style={{ fontSize: '1em' }}>
             <b>{translate.quorum}:</b> {data.total} ({getPercentage(data.total)}%)<br/>
             <b>{translate.face_to_face}:</b> {data.present} ({getPercentage(data.present)}%) | <b>{translate.remotes}:</b> {data.remote} ({getPercentage(data.remote)}%)
             | <b>{translate.delegated_plural}:</b> {data.delegated} ({getPercentage(data.delegated)}%) {
@@ -66,14 +66,11 @@ const ActualQuorum = withApollo(({ council, translate, client, socialCapital, to
             }
         </div>
     )
-
 })
 
 
 const ConveneSelector = ({ translate, council, recount, convene, changeConvene }) => {
-    const renderParticipationsText = () => {
-        return `${recount.socialCapitalRightVoting} (${((recount.socialCapitalRightVoting / recount.socialCapitalTotal) * 100).toFixed(3)}%) ${translate.social_capital.toLowerCase()}`
-    }
+    const renderParticipationsText = () => `${recount.socialCapitalRightVoting} (${((recount.socialCapitalRightVoting / recount.socialCapitalTotal) * 100).toFixed(3)}%) ${translate.social_capital.toLowerCase()}`
 
     return (
         <React.Fragment>

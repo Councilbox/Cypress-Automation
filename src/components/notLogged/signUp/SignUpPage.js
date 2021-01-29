@@ -1,42 +1,36 @@
 import React from "react";
+import { Card, CardContent } from "material-ui";
+import { graphql } from "react-apollo";
 import SignUpEnterprise from "./SignUpEnterprise";
 import SignUpUser from "./SignUpUser";
 import SignUpPay from "./SignUpPay";
 import { getPrimary } from "../../../styles/colors";
-import { Card, CardContent } from "material-ui";
 import SignUpStepper from "./SignUpStepper";
 import { BasicButton, NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { bHistory } from '../../../containers/App';
 import withWindowSize from "../../../HOCs/withWindowSize";
 import { userAndCompanySignUp } from "../../../queries/userAndCompanySignUp";
-import { graphql } from "react-apollo";
 import withTranslations from '../../../HOCs/withTranslations';
 
 const stateReducer = (state, action) => {
 	const actions = {
-		'UPDATE_ERRORS': () => {
-			return {
+		'UPDATE_ERRORS': () => ({
 				...state,
 				errors: action.payload
-			}
-		},
-		'SUCCESS': () => {
-			return {
+			}),
+		'SUCCESS': () => ({
 				...state,
 				loading: false,
 				success: true
-			}
-		},
-		'LOADING': () => {
-			return {
+			}),
+		'LOADING': () => ({
 				...state,
 				loading: true,
 				success: false
-			}
-		}
+			})
 	}
 
-	return actions[action.type]? actions[action.type]() : state;
+	return actions[action.type] ? actions[action.type]() : state;
 }
 
 
@@ -198,10 +192,10 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 							}}
 						>
 							{translate.register_successfully}
-							<div style={{marginTop: '0.9em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+							<div style={{ marginTop: '0.9em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 								<BasicButton
 									text={translate.back}
-									textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
+									textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}
 									onClick={() => bHistory.push('/')}
 									color={primary}
 								/>

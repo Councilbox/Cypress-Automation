@@ -1,10 +1,9 @@
 import React from 'react';
-import { CardPageLayout } from '../../../../displayComponents';
 import { Card } from 'material-ui';
+import { CardPageLayout } from '../../../../displayComponents';
 import CouncilHeader from '../CouncilHeader';
 
-const CanceledCouncil = ({ council, translate }) => {
-    return(
+const CanceledCouncil = ({ council, translate }) => (
         <CardPageLayout title={translate.not_held_council}>
             <CouncilHeader
                 council={council}
@@ -19,11 +18,10 @@ const CanceledCouncil = ({ council, translate }) => {
                     }}
                 >
                     <h5>{translate.message}</h5>
-                    <div dangerouslySetInnerHTML={{__html: council.noCelebrateComment}} />
+                    <div dangerouslySetInnerHTML={{ __html: council.noCelebrateComment }} />
                 </Card>
             }
         </CardPageLayout>
     )
-}
 
 export default CanceledCouncil;

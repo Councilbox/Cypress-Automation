@@ -4,11 +4,11 @@ import { isMobile } from "../utils/screen";
 if(isMobile){
 	const updateHeights = () => {
 		const html = document.getElementsByTagName('html');
-		for(let el of html){
-			el.style.height = window.innerHeight+ 'px';
+		for(const el of html){
+			el.style.height = window.innerHeight + 'px';
 		}
 		const body = document.getElementsByTagName('body');
-		for(let el of body){
+		for(const el of body){
 			el.style.height = window.innerHeight + 'px';
 		}
 
@@ -19,18 +19,15 @@ if(isMobile){
 	updateHeights();
 }
 
-const withWindowSize = WrappedComponent => {
-	return class WithWindowSize extends Component {
+const withWindowSize = WrappedComponent => class WithWindowSize extends Component {
 		state = {
 			size: "lg",
 			innerHeight: window.innerHeight,
 			innerWidth: window.innerWidth
-		};
-
-
+		}
 
 		updateSize = () => {
-			let state = {...this.state};
+			const state = { ...this.state };
 			state.innerWidth = window.innerWidth;
 			if (window.innerWidth < 960) {
 				state.size = "xs";
@@ -39,7 +36,7 @@ const withWindowSize = WrappedComponent => {
 			} else if (window.innerWidth < 1600) {
 				state.size = "lg";
 			} else {
-				state.size =  "xl";
+				state.size = "xl";
 			}
 
 			if (window.innerWidth < window.innerHeight) {
@@ -52,20 +49,20 @@ const withWindowSize = WrappedComponent => {
 				if(state.innerHeight !== window.innerHeight){
 					if((state.innerHeight - window.innerHeight) > (state.innerHeight * 0.3)){
 						return;
-					} else {
-						state.innerHeight = window.innerHeight;
 					}
+						state.innerHeight = window.innerHeight;
+
 					const element = document.getElementById('root');
 					const html = document.getElementsByTagName('html');
 					if(element){
 						//element.style.height = window.innerHeight + 'px';
-						for(let el of html){
+						for(const el of html){
 							el.style.height = window.innerHeight + 'px';
 						}
 					}
 					const body = document.getElementsByTagName('body');
 					if(body){
-						for(let el of body){
+						for(const el of body){
 							el.style.height = window.innerHeight + 'px';
 						}
 					}
@@ -77,13 +74,11 @@ const withWindowSize = WrappedComponent => {
 						...state,
 					});
 				}
-			} else {
-				if(state.size !== this.state.size){
+			} else if(state.size !== this.state.size){
 					this.setState({
 						...state,
 					});
 				}
-			}
 		};
 
 		componentDidMount() {
@@ -108,6 +103,5 @@ const withWindowSize = WrappedComponent => {
 			);
 		}
 	};
-};
 
 export default withWindowSize;

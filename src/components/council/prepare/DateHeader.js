@@ -1,6 +1,6 @@
 import React from "react";
-import { hasSecondCall } from "../../../utils/CBX";
 import { Paper } from "material-ui";
+import { hasSecondCall } from "../../../utils/CBX";
 import { moment } from '../containers/App';
 
 

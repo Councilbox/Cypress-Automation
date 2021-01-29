@@ -1,9 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { Table, TableBody, TableCell, TableRow } from 'material-ui';
 import { BasicButton, TextInput, LoadingSection } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
-import { Table, TableBody, TableCell, TableRow } from 'material-ui';
 import { isMobile } from '../../../../utils/screen';
 
 
@@ -31,7 +31,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
 
     const updateBallotValue = (itemId, value) => {
         let correctedValue = value;
-        let ballot = {
+        const ballot = {
             ...ballots.get(itemId)
         };
 
@@ -146,7 +146,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                 </TableRow>
                                 {agenda.items.map(item => (
                                     <TableRow key={item.id}>
-                                        <TableCell style={{padding: '5px 10px'}}>
+                                        <TableCell style={{ padding: '5px 10px' }}>
                                             <div
                                                 style={{
                                                     whiteSpace: 'nowrap',
@@ -158,7 +158,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                                 {item.value}
                                             </div>
                                         </TableCell>
-                                        <TableCell style={{padding: '5px 10px'}}>
+                                        <TableCell style={{ padding: '5px 10px' }}>
                                             <TextInput
                                                 styles={{ width: isMobile ? "50px" : "100px" }}
                                                 // styleInInput={{ textAlign: 'center' }}
@@ -169,7 +169,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                     </TableRow>
                                 ))}
                                 <TableRow>
-                                    <TableCell style={{padding: '5px 10px'}}>
+                                    <TableCell style={{ padding: '5px 10px' }}>
                                         <div
                                             style={{
                                                 whiteSpace: 'nowrap',
@@ -181,7 +181,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                             {translate.abstention_btn}
                                         </div>
                                     </TableCell>
-                                    <TableCell style={{padding: '5px 10px'}}>
+                                    <TableCell style={{ padding: '5px 10px' }}>
                                         <TextInput
                                             styles={{ width: isMobile ? "50px" : "100px" }}
                                             // styleInInput={{ textAlign: 'center' }}

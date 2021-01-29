@@ -1,13 +1,12 @@
 import React from "react";
+import { Tooltip } from "material-ui";
 import { AlertConfirm } from "../../displayComponents";
 import withTranslations from "../../HOCs/withTranslations";
-import CouncilDetails from '../../components/council/display/CouncilDetails'
-import { Tooltip } from "material-ui";
+import CouncilDetails from "../council/display/CouncilDetails"
 
 
 
 class AgendaEvent extends React.Component {
-
 	state = {
 		open: false,
 		modal: false,

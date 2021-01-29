@@ -27,10 +27,10 @@ class AgendaAttachmentsManager extends React.Component {
 			});
 			return;
 		}
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 		reader.onload = async event => {
-			let fileInfo = {
+			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
 				filesize: event.loaded.toString(),
@@ -85,7 +85,7 @@ class AgendaAttachmentsManager extends React.Component {
 				style={{
 					height: LIVE_COLLAPSIBLE_HEIGHT,
 					display: "flex",
-					...(attachments.length === 0? {cursor: 'auto'} : {}),
+					...(attachments.length === 0 ? { cursor: 'auto' } : {}),
 					justifyContent: "space-between",
 					alignItems: "center"
 				}}
@@ -153,14 +153,14 @@ class AgendaAttachmentsManager extends React.Component {
 					position: "relative"
 				}}
 			>
-				{this.props.attachments.length > 0?
+				{this.props.attachments.length > 0 ?
 					this._section()
 				:
-					<div style={{display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', paddingTop: '4em'}}>
+					<div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', paddingTop: '4em' }}>
 						{this.props.translate.no_results}
 					</div>
 				}
-				<div style={{width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1em'}}>
+				<div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
 					<FileUploadButton
 						color={"white"}
 						text={this.props.translate.add_attachment}

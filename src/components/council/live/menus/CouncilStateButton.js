@@ -1,11 +1,11 @@
 import React from 'react';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 import OpenRoomButton from "./OpenRoomButton";
 import StartCouncilButton from "./StartCouncilButton";
 import EndCouncilButton from "./EndCouncilButton";
 import { councilStarted, pointIsClosed } from "../../../../utils/CBX";
 import { moment } from '../../../../containers/App';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 import { LoadingSection } from '../../../../displayComponents';
 import ResumeCouncilButton from './ResumeCouncilButton';
 
@@ -150,11 +150,9 @@ export default graphql(gql`
         },
         fetchPolicy: 'network-only'
 	}),
-	props: props => {
-		return {
+	props: props => ({
             ...props,
-            subscribeToPointStates: params => {
-                return props.data.subscribeToMore({
+            subscribeToPointStates: params => props.data.subscribeToMore({
                     document: gql`
                         subscription pointStateChanged($councilId: Int!) {
                             pointStateChanged(councilId: $councilId) {
@@ -185,8 +183,6 @@ export default graphql(gql`
                             agendas
                         });
                     }
-                    });
-                }
-		    };
-	  }
+                    })
+		    })
 })(CouncilStateButton);

@@ -86,13 +86,12 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 			<React.Fragment>
 				<div>{translate.open_room_continue}</div>
 				{council.videoEmailsDate &&
-					<div style={{marginTop: '1.4em', fontSize: '0.9em'}}>{`${translate.creds_send_date} ${moment(council.videoEmailsDate).format('LLL')}`}</div>
+					<div style={{ marginTop: '1.4em', fontSize: '0.9em' }}>{`${translate.creds_send_date} ${moment(council.videoEmailsDate).format('LLL')}`}</div>
 				}
 				<Checkbox
-					label={council.videoEmailsDate? translate.resend : translate.send_video_credentials}
+					label={council.videoEmailsDate ? translate.resend : translate.send_video_credentials}
 					value={state.sendCredentials}
-					onChange={(event, isInputChecked) =>
-						setState({
+					onChange={(event, isInputChecked) => setState({
 							sendCredentials: isInputChecked
 						})
 					}
@@ -103,8 +102,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 						<Radio
 							value={"all"}
 							checked={state.sendOptions === 'all'}
-							onChange={event =>
-								setState({
+							onChange={event => setState({
 									sendOptions: event.target.value
 								})
 							}
@@ -114,8 +112,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 						<Radio
 							value={"remotes"}
 							checked={state.sendOptions === 'remotes'}
-							onChange={event =>
-								setState({
+							onChange={event => setState({
 									sendOptions: event.target.value
 								})
 							}
@@ -184,18 +181,17 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				open={state.confirmModal}
 				buttonAccept={translate.accept}
 				loadingAction={loading}
-				buttonCancel={(state.showSMS || !!error)? translate.close : translate.cancel}
+				buttonCancel={(state.showSMS || !!error) ? translate.close : translate.cancel}
 				hideAccept={state.showSMS || !!error}
 				modal={true}
 				acceptAction={openCouncilRoom}
 				requestClose={() => setState({ confirmModal: false })}
-				classNameDialog={isMobile ? "noMarginM": 'noMargin'}
-				bodyStyle={{...((!!error || state.showSMS)?
-					{overflowY: "hidden",height: "50vh", width: "100%",  maxWidth: isMobile && "100vw" } : {})}}
+				classNameDialog={isMobile ? "noMarginM" : 'noMargin'}
+				bodyStyle={{ ...((!!error || state.showSMS) ?
+					{ overflowY: "hidden", height: "50vh", width: "100%", maxWidth: isMobile && "100vw" } : {}) }}
 			/>
 		</React.Fragment>
 	);
-
 }
 
 export default graphql(openCouncilRoom, {

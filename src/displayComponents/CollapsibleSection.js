@@ -5,7 +5,7 @@ const CollapsibleSection = ({ trigger, collapse, open, onTriggerClick, style, co
 	<Collapsible
 		trigger={<div style={{ cursor: "pointer", ...style }}>{trigger()}</div>}
 		triggerDisabled={controlled}
-		{...(onTriggerClick? {handleTriggerClick:onTriggerClick} : {})}
+		{...(onTriggerClick ? { handleTriggerClick: onTriggerClick } : {})}
 		open={open}
 		onClose={onClose}
 	>

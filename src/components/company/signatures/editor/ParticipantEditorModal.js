@@ -1,13 +1,12 @@
 import React from 'react';
+import { graphql, compose, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { AlertConfirm } from '../../../../displayComponents';
 import SignatureParticipantForm from './SignatureParticipantForm';
-import { graphql, compose, withApollo } from 'react-apollo';
 import { languages } from '../../../../queries/masters';
-import gql from 'graphql-tag';
 import { checkValidEmail } from '../../../../utils/validation';
 
 class ParticipantEditorModal extends React.Component {
-
     state = {
         data: {
             name: '',
@@ -114,19 +113,15 @@ class ParticipantEditorModal extends React.Component {
         if(!data.email){
             hasError = true;
             errors.email = translate.field_required;
-        }else{
-            if(!checkValidEmail(data.email)){
+        }else if(!checkValidEmail(data.email)){
                 hasError = true;
                 errors.email = translate.valid_email_required;
-            }else{
-                if(data.email !== this.props.data.signatureParticipant.email){
+            }else if(data.email !== this.props.data.signatureParticipant.email){
                     if(!await this.checkEmailAvailability()){
                         hasError = true;
                         errors.email = this.props.translate.register_exists_email
                     }
                 }
-            }
-        }
 
         this.setState({
             errors,
@@ -135,8 +130,7 @@ class ParticipantEditorModal extends React.Component {
         return hasError;
     }
 
-    _renderBody = () => {
-        return (
+    _renderBody = () => (
             <div
                 style={{
                     minWidth: '650px',
@@ -153,7 +147,6 @@ class ParticipantEditorModal extends React.Component {
                 />
             </div>
         )
-    }
 
     render(){
         const { translate } = this.props;
@@ -169,7 +162,7 @@ class ParticipantEditorModal extends React.Component {
             />
         );
     }
-};
+}
 
 const signatureParticipant = gql`
     query SignatureParticipant($id: Int!){

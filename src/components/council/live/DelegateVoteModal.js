@@ -1,4 +1,7 @@
 import React from "react";
+import { Typography, Card, MenuItem } from "material-ui";
+import { withApollo, graphql } from "react-apollo";
+import { toast } from "react-toastify";
 import {
 	AlertConfirm,
 	Icon,
@@ -8,13 +11,10 @@ import {
 	Scrollbar,
 	LiveToast
 } from "../../../displayComponents";
-import { Typography, Card, MenuItem } from "material-ui";
-import { withApollo, graphql } from "react-apollo";
 import { participantsWhoCanDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { delegatedVotesLimitReached } from '../../../utils/CBX';
 import { addDelegation } from "../../../queries/liveParticipant";
-import { toast } from "react-toastify";
 
 const DelegateVoteModal = ({ translate, participant, client, council, ...props }) => {
 	const [data, setData] = React.useState({});
@@ -94,7 +94,7 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 	}
 
 	const addDelegation = async id => {
-		let response = await props.addDelegation(
+		const response = await props.addDelegation(
 			{
 				variables: {
 					participantId: id,
@@ -192,8 +192,7 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 													<ParticipantRow
 														key={`delegateParticipant_${liveParticipant.id}`}
 														participant={liveParticipant}
-														onClick={() =>
-															addDelegation(liveParticipant.id)
+														onClick={() => addDelegation(liveParticipant.id)
 														}
 													/>
 												);
@@ -250,7 +249,6 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 			title={translate.to_delegate_vote}
 		/>
 	);
-
 }
 
 export default graphql(addDelegation, {

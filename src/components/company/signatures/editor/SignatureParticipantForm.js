@@ -1,9 +1,8 @@
 import React from 'react';
-import { SelectInput, TextInput, Grid, GridItem } from '../../../../displayComponents';
 import { MenuItem } from 'material-ui';
+import { SelectInput, TextInput, Grid, GridItem } from '../../../../displayComponents';
 
-const SignatureParticipantForm = ({ participant, translate, updateState, errors, languages }) => {
-    return (
+const SignatureParticipantForm = ({ participant, translate, updateState, errors, languages }) => (
         <Grid>
             <GridItem xs={12} md={6} lg={6}>
                 <TextInput
@@ -12,8 +11,7 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
                     required
                     errorText={errors.name}
                     value={participant.name}
-                    onChange={event =>
-                        updateState({
+                    onChange={event => updateState({
                             name: event.nativeEvent.target.value
                         })
                     }
@@ -26,8 +24,7 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
                     required
                     errorText={errors.surname || ''}
                     value={participant.surname || ''}
-                    onChange={event =>
-                        updateState({
+                    onChange={event => updateState({
                             surname: event.nativeEvent.target.value
                         })
                     }
@@ -40,8 +37,7 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
                     required
 					errorText={errors.dni}
 					value={participant.dni}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							dni: event.nativeEvent.target.value
 						})
 					}
@@ -53,8 +49,7 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
 					type="text"
 					errorText={errors.position}
 					value={participant.position}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							position: event.nativeEvent.target.value
 						})
 					}
@@ -67,8 +62,7 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
                     required
 					errorText={errors.email}
 					value={participant.email}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							email: event.nativeEvent.target.value
 						})
 					}
@@ -80,8 +74,7 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
 					type="text"
 					errorText={errors.phone}
 					value={participant.phone}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							phone: event.nativeEvent.target.value
 						})
 					}
@@ -91,14 +84,12 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
                 <SelectInput
 					floatingText={translate.language}
 					value={participant.language}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							language: event.target.value
 						})
 					}
 				>
-					{languages.map(language => {
-						return (
+					{languages.map(language => (
 							<MenuItem
 								value={
 									language.columnName
@@ -113,12 +104,10 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
 							>
 								{language.desc}
 							</MenuItem>
-						);
-					})}
+						))}
 				</SelectInput>
             </GridItem>
         </Grid>
     )
-}
 
 export default SignatureParticipantForm;

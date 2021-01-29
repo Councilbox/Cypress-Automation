@@ -1,10 +1,10 @@
 import React from 'react';
-import { BasicButton, DropDownMenu } from '../../../../displayComponents';
-import { downloadFile } from '../../../../utils/CBX';
-import { downloadAct } from '../../../../queries';
 import { withApollo } from 'react-apollo';
 import { MenuItem, Divider } from 'material-ui';
 import FontAwesome from "react-fontawesome";
+import { BasicButton, DropDownMenu } from '../../../../displayComponents';
+import { downloadFile } from '../../../../utils/CBX';
+import { downloadAct } from '../../../../queries';
 import { getSecondary } from '../../../../styles/colors';
 
 

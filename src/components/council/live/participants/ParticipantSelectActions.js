@@ -1,5 +1,7 @@
 import React from "react";
 import { graphql } from "react-apollo";
+import FontAwesome from "react-fontawesome";
+import { Tooltip } from "material-ui";
 import * as CBX from "../../../../utils/CBX";
 import { isLandscape } from "../../../../utils/screen";
 import { getPrimary, getSecondary, getLightGrey } from "../../../../styles/colors";
@@ -9,9 +11,7 @@ import { FilterButton, Grid, GridItem, LoadingSection } from "../../../../displa
 import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
-import FontAwesome from "react-fontawesome";
 import StateIcon from "./StateIcon";
-import { Tooltip } from "material-ui";
 
 
 class ParticipantSelectActions extends React.Component {
@@ -32,7 +32,7 @@ class ParticipantSelectActions extends React.Component {
 		const response = await this.props.changeParticipantState({
 			variables: {
 				participantId: participant.id,
-				state: state
+				state
 			}
 		});
 
@@ -76,8 +76,7 @@ class ParticipantSelectActions extends React.Component {
 						council={council}
 						participant={participant}
 						refetch={this.props.refetch}
-						requestClose={() =>
-							this.setState({ delegateVote: false })
+						requestClose={() => this.setState({ delegateVote: false })
 						}
 						translate={translate}
 					/>
@@ -85,7 +84,7 @@ class ParticipantSelectActions extends React.Component {
 				// </GridItem>
 				// )
 			);
-		} else {
+		}
 			return (
 				<Grid
 					style={{
@@ -101,8 +100,7 @@ class ParticipantSelectActions extends React.Component {
 							<GridItem xs={12} md={6} lg={4}>
 								<ButtonActions
 									loading={loading === 4}
-									onClick={() =>
-										this.setState({
+									onClick={() => this.setState({
 											addRepresentative: true
 										})
 									}
@@ -133,8 +131,7 @@ class ParticipantSelectActions extends React.Component {
 							<ButtonActions
 								loading={loading === 5}
 								active={participant.state === PARTICIPANT_STATES.DELEGATED}
-								onClick={() =>
-									this.setState({
+								onClick={() => this.setState({
 										delegateOwnVote: true
 									})
 								}
@@ -176,8 +173,7 @@ class ParticipantSelectActions extends React.Component {
 						council={council}
 						participant={participant}
 						refetch={this.props.refetch}
-						requestClose={() =>
-							this.setState({ addRepresentative: false })
+						requestClose={() => this.setState({ addRepresentative: false })
 						}
 						translate={translate}
 					/>
@@ -187,8 +183,7 @@ class ParticipantSelectActions extends React.Component {
 							council={council}
 							participant={participant}
 							refetch={this.props.refetch}
-							requestClose={() =>
-								this.setState({ delegateOwnVote: false })
+							requestClose={() => this.setState({ delegateOwnVote: false })
 							}
 							translate={translate}
 						/>
@@ -205,8 +200,7 @@ class ParticipantSelectActions extends React.Component {
 								council={council}
 								participant={participant}
 								refetch={this.props.refetch}
-								requestClose={() =>
-									this.setState({ delegateVote: false })
+								requestClose={() => this.setState({ delegateVote: false })
 								}
 								translate={translate}
 							/>
@@ -214,14 +208,13 @@ class ParticipantSelectActions extends React.Component {
 
 				</Grid>
 			);
-		}
 	}
 }
 
 
-const ButtonActions = ({ children, loading, onClick, active }) => {
+const ButtonActions = ({ children, loading, onClick, active }) =>
 	// active poner background
-	return (
+	 (
 		<div
 			style={{
 				display: 'flex',
@@ -252,7 +245,7 @@ const ButtonActions = ({ children, loading, onClick, active }) => {
 				)}
 		</div>
 	)
-}
+
 
 export default graphql(changeParticipantState, {
 	name: "changeParticipantState"

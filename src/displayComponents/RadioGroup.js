@@ -1,7 +1,7 @@
 import React from "react";
 import { FormControl, RadioGroup } from "material-ui";
 
-export default ({ children, value, onChange, name, style }) => (
+const RadioGroupComponent = ({ children, value, onChange, name, style }) => (
 	<FormControl component="fieldset">
 		<RadioGroup
 			name={name}
@@ -13,3 +13,5 @@ export default ({ children, value, onChange, name, style }) => (
 		</RadioGroup>
 	</FormControl>
 );
+
+export default RadioGroupComponent;

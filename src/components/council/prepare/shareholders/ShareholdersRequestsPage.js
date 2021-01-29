@@ -1,11 +1,11 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, PaginationFooter, DropDownMenu, Scrollbar, TextInput, Icon, Grid } from '../../../../displayComponents';
+import { Table, TableBody, TableRow, MenuItem, TableHead, TableCell } from 'material-ui';
+
+
 import { usePolling } from '../../../../hooks';
-import { Table, TableBody, TableRow, MenuItem } from 'material-ui';
-import { TableHead } from 'material-ui';
-import { TableCell } from 'material-ui';
+import { LoadingSection, PaginationFooter, DropDownMenu, Scrollbar, TextInput, Icon, Grid } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import CheckShareholderRequest, { getTypeText } from './CheckShareholderRequest';
 import { isMobile } from '../../../../utils/screen';
@@ -80,10 +80,9 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                 horizontal: 'left',
                             }}
                             color="transparent"
-                            Component={() =>
-                                <div style={{ marginTop: "0.5em", cursor: "pointer" }}>
+                            Component={() => <div style={{ marginTop: "0.5em", cursor: "pointer" }}>
                                     <div>
-                                        <i class="fa fa-filter" aria-hidden="true" style={{ color: '#c196c3', fontSize: "24px" }}></i>
+                                        <i className="fa fa-filter" aria-hidden="true" style={{ color: '#c196c3', fontSize: "24px" }}></i>
                                     </div>
                                 </div>
                             }
@@ -101,7 +100,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                 </div>
                             }
                         />
-                        
+
                     </div>
                     <TextInput
                         className={isMobile && !searchText ? "openInput" : ""}
@@ -160,7 +159,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                                     {getTypeText(request.data.requestType, translate)}
                                 </TableCell>
                                 {/* <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    
+
                                 </TableCell> */}
                                 <TableCell style={{ color: "black", borderBottom: 'none' }}>
                                     {moment(request.date).format('LLL')}

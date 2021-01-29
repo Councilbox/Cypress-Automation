@@ -1,5 +1,8 @@
 import React from "react";
 import { compose, graphql, withApollo } from "react-apollo";
+import { MenuItem, Typography } from "material-ui";
+import gql from "graphql-tag";
+import { toast } from "react-toastify";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import {
 	BasicButton,
@@ -16,13 +19,10 @@ import {
 } from "../../../displayComponents";
 import { checkCifExists } from "../../../queries/userAndCompanySignUp";
 import { USER_ACTIVATIONS } from '../../../constants';
-import { MenuItem, Typography } from "material-ui";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { provinces as provincesQuery } from "../../../queries/masters";
-import gql from "graphql-tag";
 import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
-import { toast } from "react-toastify";
 import { sendGAevent } from "../../../utils/analytics";
 import GoverningBodyForm from "../settings/GoverningBodyForm";
 
@@ -105,7 +105,7 @@ class NewCompanyPage extends React.PureComponent {
 				...this.state.data,
 				...object
 			}
-		}, () => !!cb ? cb() : {});
+		}, () => (cb ? cb() : {}));
 	};
 
 	cbxFile = event => {
@@ -114,11 +114,11 @@ class NewCompanyPage extends React.PureComponent {
 			return;
 		}
 
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
 		reader.onload = async () => {
-			let fileInfo = {
+			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
 				filesize: Math.round(file.size / 1000).toString(),
@@ -168,7 +168,7 @@ class NewCompanyPage extends React.PureComponent {
 
 			if (!response.errors) {
 				if (response.data.createCompany.id) {
-					this.setState({request: false});
+					this.setState({ request: false });
 					await store.dispatch(getCompanies(this.props.user.id));
 					bHistory.push(`/`);
 					toast(
@@ -189,7 +189,7 @@ class NewCompanyPage extends React.PureComponent {
 		const { translate } = this.props;
 
 		const { data } = this.state;
-		let errors = {
+		const errors = {
 			businessName: "",
 			type: "",
 			alias: '',
@@ -212,7 +212,7 @@ class NewCompanyPage extends React.PureComponent {
 			errors.type = translate.field_required;
 		}
 
-		let existsCif = await this.checkCifExists();
+		const existsCif = await this.checkCifExists();
 
 		if (!data.tin || existsCif) {
 			hasError = true;
@@ -247,8 +247,8 @@ class NewCompanyPage extends React.PureComponent {
 		}
 
 		this.setState({
-			errors: errors,
-			hasError: hasError
+			errors,
+			hasError
 		});
 
 		return hasError;
@@ -306,8 +306,7 @@ class NewCompanyPage extends React.PureComponent {
 												type="text"
 												value={data.businessName}
 												errorText={errors.businessName}
-												onChange={event =>
-													this.updateState({
+												onChange={event => this.updateState({
 														businessName:
 															event.target.value
 													})
@@ -319,16 +318,14 @@ class NewCompanyPage extends React.PureComponent {
 											<SelectInput
 												floatingText={translate.company_type}
 												value={data.type}
-												onChange={event =>
-													this.updateState({
+												onChange={event => this.updateState({
 														type: event.target.value
 													})
 												}
 												errorText={errors.type}
 											>
 												{this.props.info.companyTypes.map(
-													companyType => {
-														return (
+													companyType => (
 															<MenuItem
 																key={
 																	companyType.label
@@ -344,8 +341,7 @@ class NewCompanyPage extends React.PureComponent {
 																	]
 																}
 															</MenuItem>
-														);
-													}
+														)
 												)}
 											</SelectInput>
 										</GridItem>
@@ -357,8 +353,7 @@ class NewCompanyPage extends React.PureComponent {
 												type="text"
 												value={data.tin}
 												errorText={errors.tin}
-												onChange={event =>
-													this.updateState({
+												onChange={event => this.updateState({
 														tin: event.target.value
 													})
 												}
@@ -373,8 +368,7 @@ class NewCompanyPage extends React.PureComponent {
 												type="text"
 												value={data.domain}
 												errorText={errors.domain}
-												onChange={event =>
-													this.updateState({
+												onChange={event => this.updateState({
 														domain: event.target.value
 													})
 												}
@@ -388,8 +382,7 @@ class NewCompanyPage extends React.PureComponent {
 												type="text"
 												value={data.linkKey}
 												errorText={errors.linkKey}
-												onChange={event =>
-													this.updateState({
+												onChange={event => this.updateState({
 														linkKey: event.target.value
 													})
 												}
@@ -401,8 +394,7 @@ class NewCompanyPage extends React.PureComponent {
 												type="text"
 												value={data.externalId}
 												errorText={errors.externalId}
-												onChange={event =>
-													this.updateState({
+												onChange={event => this.updateState({
 														externalId: event.target.value
 													})
 												}
@@ -472,8 +464,7 @@ class NewCompanyPage extends React.PureComponent {
 										type="text"
 										value={data.address}
 										errorText={errors.address}
-										onChange={event =>
-											this.updateState({
+										onChange={event => this.updateState({
 												address: event.target.value
 											})
 										}
@@ -487,8 +478,7 @@ class NewCompanyPage extends React.PureComponent {
 										type="text"
 										value={data.city}
 										errorText={errors.city}
-										onChange={event =>
-											this.updateState({
+										onChange={event => this.updateState({
 												city: event.target.value
 											})
 										}
@@ -497,20 +487,18 @@ class NewCompanyPage extends React.PureComponent {
 								<GridItem xs={12} md={6} lg={3}>
 									<SelectInput
 										floatingText={translate.company_new_country}
-										value={this.state.countryInput? 'other' : data.country}
+										value={this.state.countryInput ? 'other' : data.country}
 										onChange={this.cbxCountryChange}
 										errorText={errors.country}
 									>
-										{this.props.info.countries.map(country => {
-											return (
+										{this.props.info.countries.map(country => (
 												<MenuItem
 													key={country.deno}
 													value={country.deno}
 												>
 													{country.deno}
 												</MenuItem>
-											);
-										})}
+											))}
 										<MenuItem
 											key={'other'}
 											value={'other'}
@@ -528,8 +516,7 @@ class NewCompanyPage extends React.PureComponent {
 											type="text"
 											value={data.country}
 											errorText={errors.country}
-											onChange={event =>
-												this.updateState({
+											onChange={event => this.updateState({
 													country: event.target.value
 												})
 											}
@@ -537,7 +524,7 @@ class NewCompanyPage extends React.PureComponent {
 									</GridItem>
 								}
 								<GridItem xs={12} md={6} lg={3}>
-									{this.state.countryInput?
+									{this.state.countryInput ?
 										<TextInput
 											floatingText={
 												translate.company_new_country_state
@@ -545,8 +532,7 @@ class NewCompanyPage extends React.PureComponent {
 											type="text"
 											value={data.countryState}
 											errorText={errors.countryState}
-											onChange={event =>
-												this.updateState({
+											onChange={event => this.updateState({
 													countryState: event.target.value
 												})
 											}
@@ -564,16 +550,14 @@ class NewCompanyPage extends React.PureComponent {
 												}, () => this.handleKeyUp(event))
 											}}
 										>
-											{this.state.provinces.map(province => {
-												return (
+											{this.state.provinces.map(province => (
 													<MenuItem
 														key={province.deno}
 														value={province.deno}
 													>
 														{province.deno}
 													</MenuItem>
-												);
-											})}
+												))}
 										</SelectInput>
 									}
 								</GridItem>
@@ -583,8 +567,7 @@ class NewCompanyPage extends React.PureComponent {
 										type="text"
 										value={data.zipcode}
 										errorText={errors.zipcode}
-										onChange={event =>
-											this.updateState({
+										onChange={event => this.updateState({
 												zipcode: event.target.value
 											})
 										}
@@ -594,8 +577,7 @@ class NewCompanyPage extends React.PureComponent {
 									<SelectInput
 										floatingText={translate.language}
 										value={data.language}
-										onChange={event =>
-											this.updateState({
+										onChange={event => this.updateState({
 												language: event.target.value
 											})
 										}
@@ -621,8 +603,7 @@ class NewCompanyPage extends React.PureComponent {
 										floatingText={translate.affiliation_code}
 										type="text"
 										value={data.creationCode}
-										onChange={event =>
-											this.updateState({
+										onChange={event => this.updateState({
 												creationCode: event.target.value
 											})
 										}

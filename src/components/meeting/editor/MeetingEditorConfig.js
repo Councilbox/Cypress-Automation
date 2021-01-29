@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from "react";
+import { Typography } from "material-ui";
+import { compose, graphql } from "react-apollo";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -10,9 +12,7 @@ import {
 	TextInput
 } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
-import { Typography } from "material-ui";
 import { getPrimary } from "../../../styles/colors";
-import { compose, graphql } from "react-apollo";
 import { meetingStepOne, updateCouncil } from "../../../queries";
 
 class MeetingEditorConfig extends Component {
@@ -43,6 +43,7 @@ class MeetingEditorConfig extends Component {
 			});
 		}
 	}
+
 	nextPage = () => {
 		if (!this.checkRequiredFields()) {
 			this.updateCouncil();
@@ -96,8 +97,7 @@ class MeetingEditorConfig extends Component {
 				<Radio
 					value={"0"}
 					checked={council.securityType === 0}
-					onChange={event =>
-						this.updateCouncilData({
+					onChange={event => this.updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
 						})
 					}
@@ -107,8 +107,7 @@ class MeetingEditorConfig extends Component {
 				<Radio
 					value={"1"}
 					checked={council.securityType === 1}
-					onChange={event =>
-						this.updateCouncilData({
+					onChange={event => this.updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
 						})
 					}
@@ -118,8 +117,7 @@ class MeetingEditorConfig extends Component {
 				<Radio
 					value={"2"}
 					checked={council.securityType === 2}
-					onChange={event =>
-						this.updateCouncilData({
+					onChange={event => this.updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
 						})
 					}
@@ -172,8 +170,7 @@ class MeetingEditorConfig extends Component {
 							type="text"
 							errorText={this.state.errors.name}
 							value={council.name || ""}
-							onChange={event =>
-								this.setState({
+							onChange={event => this.setState({
 									...this.state,
 									data: {
 										...this.state.data,
@@ -192,8 +189,7 @@ class MeetingEditorConfig extends Component {
 							translate={translate}
 							floatingText={translate.convene_info}
 							value={council.conveneText || ""}
-							onChange={value =>
-								this.setState({
+							onChange={value => this.setState({
 									...this.state,
 									data: {
 										...this.state.data,
@@ -214,8 +210,7 @@ class MeetingEditorConfig extends Component {
 					<Checkbox
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
-						onChange={(event, isInputChecked) =>
-							this.updateCouncilData({
+						onChange={(event, isInputChecked) => this.updateCouncilData({
 								fullVideoRecord: isInputChecked ? 1 : 0
 							})
 						}

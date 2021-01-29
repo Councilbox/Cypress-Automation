@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import { BasicButton, TextInput } from '../../../displayComponents';
 
 class LogoutUser extends React.Component {
-
     state = {
         userId: ''
     }
@@ -21,7 +20,7 @@ class LogoutUser extends React.Component {
 
     render(){
         return(
-            <div style={{display: 'flex'}}>
+            <div style={{ display: 'flex' }}>
                 <BasicButton
                     text="Logout user"
                     onClick={this.toggle}

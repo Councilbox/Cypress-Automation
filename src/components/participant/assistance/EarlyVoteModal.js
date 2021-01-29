@@ -29,7 +29,7 @@ const EarlyVoteModal = ({ state, setState, acceptState, participant, council, tr
                         participant={participant}
                         council={council}
                         translate={translate}
-                    /> 
+                    />
                 </>
             }
             requestClose={requestClose}

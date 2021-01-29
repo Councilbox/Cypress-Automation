@@ -1,9 +1,9 @@
 import React from "react";
-import { LoadingMainApp } from "../../../displayComponents";
 import { withRouter } from "react-router-dom";
 import { graphql } from 'react-apollo';
-import { bHistory } from "../../../containers/App";
 import gql from 'graphql-tag';
+import { bHistory } from "../../../containers/App";
+import { LoadingMainApp } from "../../../displayComponents";
 
 class CreateSignature extends React.Component {
 	state = {
@@ -24,7 +24,7 @@ class CreateSignature extends React.Component {
 			this.setState({
 				creating: true
 			});
-			let newSignatureId = await this.createSignature(
+			const newSignatureId = await this.createSignature(
 				this.props.match.params.company
 			);
 			bHistory.replace(`/company/${this.props.match.params.company}/signature/${newSignatureId}`);
@@ -34,7 +34,7 @@ class CreateSignature extends React.Component {
 			this.setState({
 				creating: true
 			});
-			let newSignatureId = await this.createSignature(
+			const newSignatureId = await this.createSignature(
 				this.props.match.params.company
 			);
 			bHistory.replace(`/company/${this.props.match.params.company}/signatureIvCert/${newSignatureId}`);

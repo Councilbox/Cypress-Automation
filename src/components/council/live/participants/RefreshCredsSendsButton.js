@@ -26,7 +26,7 @@ const RefreshCredsSendsButton = ({ translate, council, refreshCouncilCredsSends 
                 loading={loading}
                 loadingColor={secondary}
                 type="flat"
-                textStyle={{color: secondary, fontWeight: '700', border: `1px solid ${secondary}`}}
+                textStyle={{ color: secondary, fontWeight: '700', border: `1px solid ${secondary}` }}
                 onClick={refreshCredSends}
             />
         </div>

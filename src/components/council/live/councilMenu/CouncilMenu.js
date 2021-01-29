@@ -1,8 +1,10 @@
 import React from "react";
-import { AlertConfirm, DropDownMenu, Icon } from "../../../../displayComponents";
 import FontAwesome from "react-fontawesome";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { MenuItem, Paper } from "material-ui";
+import { withApollo } from "react-apollo";
+import gql from "graphql-tag";
+import { AlertConfirm, DropDownMenu, Icon } from "../../../../displayComponents";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import SendCredentialsModal from "./SendCredentialsModal";
 import { moment } from '../../../../containers/App';
 import AnnouncementModal from './AnnouncementModal';
@@ -13,9 +15,7 @@ import { councilHasVideo, councilIsLive, councilStarted, } from '../../../../uti
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from "./SMSManagerModal";
 import { isMobile } from "../../../../utils/screen";
-import { withApollo } from "react-apollo";
 import { useDownloadCouncilAttendants } from "../../writing/actEditor/DownloadAttendantsPDF";
-import gql from "graphql-tag";
 import PauseCouncilModal from "./PauseCouncilModal";
 
 
@@ -55,8 +55,7 @@ class CouncilMenu extends React.Component {
 					{config => (
 						<DropDownMenu
 							color="transparent"
-							Component={() =>
-								<Paper
+							Component={() => <Paper
 									elevation={1}
 									style={{
 										boxSizing: "border-box",
@@ -112,8 +111,7 @@ class CouncilMenu extends React.Component {
 							items={
 								<React.Fragment>
 									<MenuItem
-										onClick={() =>
-											this.setState({ sendCredentials: true })
+										onClick={() => this.setState({ sendCredentials: true })
 										}
 									>
 										<FontAwesome
@@ -127,8 +125,7 @@ class CouncilMenu extends React.Component {
 									</MenuItem>
 									{council.securityType === 2 &&
 										<MenuItem
-											onClick={() =>
-												this.setState({ SMSManager: true })
+											onClick={() => this.setState({ SMSManager: true })
 											}
 										>
 											<i
@@ -145,8 +142,7 @@ class CouncilMenu extends React.Component {
 									}
 									{!(council.state === 20 || council.state === 30) &&
 										<MenuItem
-											onClick={() =>
-												this.setState({ noCelebrate: true })
+											onClick={() => this.setState({ noCelebrate: true })
 											}
 										>
 											<FontAwesome
@@ -160,8 +156,7 @@ class CouncilMenu extends React.Component {
 										</MenuItem>
 									}
 									<MenuItem
-										onClick={() =>
-											this.setState({ originalConvene: true })
+										onClick={() => this.setState({ originalConvene: true })
 										}
 									>
 										<FontAwesome
@@ -174,8 +169,7 @@ class CouncilMenu extends React.Component {
 										{translate.view_original_convene}
 									</MenuItem>
 									<MenuItem
-										onClick={() =>
-											this.setState({ councilInfo: true })
+										onClick={() => this.setState({ councilInfo: true })
 										}
 									>
 										<FontAwesome
@@ -235,8 +229,7 @@ class CouncilMenu extends React.Component {
 				<SendCredentialsModal
 					show={this.state.sendCredentials}
 					council={this.props.council}
-					requestClose={() =>
-						this.setState({ sendCredentials: false })
+					requestClose={() => this.setState({ sendCredentials: false })
 					}
 					translate={translate}
 				/>
@@ -270,8 +263,7 @@ class CouncilMenu extends React.Component {
 				<OriginalConveneModal
 					show={this.state.originalConvene}
 					council={this.props.council}
-					requestClose={() =>
-						this.setState({ originalConvene: false })
+					requestClose={() => this.setState({ originalConvene: false })
 					}
 					translate={translate}
 				/>

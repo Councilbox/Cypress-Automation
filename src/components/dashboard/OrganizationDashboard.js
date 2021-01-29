@@ -2,6 +2,16 @@
 
 
 import React from "react";
+import { Avatar } from "antd";
+import Calendar from 'react-calendar';
+import { Icon, withStyles, Divider, } from "material-ui";
+import { Doughnut, Chart } from "react-chartjs-2";
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { corporationUsers } from "../../queries/corporation";
+import { primary, getPrimary } from "../../styles/colors";
+import { moment, bHistory } from "../../containers/App";
+import { ConfigContext } from '../../containers/AppControl';
 import {
 	Grid,
 	GridItem,
@@ -13,16 +23,6 @@ import {
 	DropDownMenu,
 	MenuItem,
 } from "../../displayComponents";
-import { ConfigContext } from '../../containers/AppControl';
-import { moment, bHistory } from "../../containers/App";
-import { Avatar } from "antd";
-import { primary, getPrimary } from "../../styles/colors";
-import Calendar from 'react-calendar';
-import { Icon, withStyles, Divider, } from "material-ui";
-import { Doughnut, Chart } from "react-chartjs-2";
-import { corporationUsers } from "../../queries/corporation";
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import GraficaEstadisiticas from "./GraficaEstadisiticas";
 import { sendGAevent } from "../../utils/analytics";
 import { getActivationText } from "../company/settings/CompanySettingsPage";
@@ -93,15 +93,11 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const primary = getPrimary();
 	const config = React.useContext(ConfigContext);
 
-	const companyHasBook = () => {
-		return company.category === 'society';
-	}
+	const companyHasBook = () => company.category === 'society'
 
 	const getTileClassName = ({ date }) => {
 		if (reuniones.length > 0) {
-			let array = reuniones.find(reunion => {
-				return moment(reunion.dateStart).format("MMM Do YY") === moment(date).format("MMM Do YY");
-			})
+			const array = reuniones.find(reunion => moment(reunion.dateStart).format("MMM Do YY") === moment(date).format("MMM Do YY"))
 			if (array) {
 				return 'selectedDate';
 			}
@@ -175,7 +171,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 
 	const getReuniones = async (fechaInicio, fechaFin, fechaReunionConcreta) => {
-
 		//setReunionesLoading(true)
 		const response = await client.query({
 			query: corporationCouncils,
@@ -208,8 +203,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				setReunionesPorDia(data);
 				setReunionesLoading(false);
 			}
-		} else {
-			if (response.data.corporationConvenedCouncils) {	
+		} else if (response.data.corporationConvenedCouncils) {
 				data = [...response.data.corporationLiveCouncils, ...response.data.corporationConvenedCouncils].sort((a, b) => {
 					if(a.dateStart < b.dateStart){
 						return -1;
@@ -218,8 +212,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						return 1;
 					}
 					return 0;
-				});;
-				
+				});
+
 				if (filterReuniones !== translate.all) {
 					data = filtrarLasReuniones(data);
 				}
@@ -227,13 +221,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				calcularEstadisticas(data);
 				setReunionesLoading(false);
 			}
-		}
 	}
 
 	usePolling(getReuniones, 12000);
 
 	const filtrarLasReuniones = (data) => {
-		let dataFiltrado = []
+		const dataFiltrado = []
 		data.map((item, index) => {
 			if (filterReuniones === translate.companies_calendar) {
 				if (item.state === 5 || item.state === 10) {
@@ -251,7 +244,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				}
 			}
 			if(filterReuniones === 'withoutAttachments'){
-				if(!item.attachments  || (item.attachments && item.attachments.length === 0)){
+				if(!item.attachments || (item.attachments && item.attachments.length === 0)){
 					dataFiltrado.push(item);
 				}
 			}
@@ -267,8 +260,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	const hasBook = companyHasBook();
 
 	const clickDay = (value) => {
-		let fechaInicio = value
-		let fechaFin = moment(value).add(24, 'hours');
+		const fechaInicio = value
+		const fechaFin = moment(value).add(24, 'hours');
 		if (String(fechaInicio) === String(day)) {
 			setDay(false)
 		} else {
@@ -279,15 +272,15 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 	const changeMonthBack = () => {
 		setDay(false)
-		let fechaInicio = moment(fechaBusqueda).subtract(1, 'months').startOf('month');
-		let fechaFin = moment(fechaBusqueda).subtract(1, 'months').endOf('month');
+		const fechaInicio = moment(fechaBusqueda).subtract(1, 'months').startOf('month');
+		const fechaFin = moment(fechaBusqueda).subtract(1, 'months').endOf('month');
 		getReuniones(fechaInicio.toDate(), fechaFin.toDate())
 		setFechaBusqueda(fechaInicio)
 	}
 	const changeMonthFront = () => {
 		setDay(false)
-		let fechaInicio = moment(fechaBusqueda).add(1, 'months').startOf('month');
-		let fechaFin = moment(fechaBusqueda).add(1, 'months').endOf('month');
+		const fechaInicio = moment(fechaBusqueda).add(1, 'months').startOf('month');
+		const fechaFin = moment(fechaBusqueda).add(1, 'months').endOf('month');
 		getReuniones(fechaInicio.toDate(), fechaFin.toDate())
 		setFechaBusqueda(fechaInicio)
 	}
@@ -307,11 +300,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				redActa++
 			}
 		})
-		let miLista = [convocada, celebracion, redActa];
-		var mayor = miLista[0];
+		const miLista = [convocada, celebracion, redActa];
+		let mayor = miLista[0];
 		for (let i = 1; i < miLista.length; i++) {
-			if (miLista[i] > mayor)
-				mayor = miLista[i];
+			if (miLista[i] > mayor) mayor = miLista[i];
 		}
 
 		setPorcentajes({
@@ -457,30 +449,26 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									reunionesPorDia.length === undefined || reunionesLoading ?
 										<LoadingSection />
 										:
-										reunionesPorDia.map((item, index) => {
-											return (
+										reunionesPorDia.map((item, index) => (
 												<TablaReunionesEnCurso
 													key={index + "_reunionesPorDia"}
 													item={item}
 													index={index}
 													translate={translate}
 												/>
-											)
-										})
+											))
 									:
 									reuniones.length === undefined || reunionesLoading ?
 										<LoadingSection />
 										:
-										reuniones.map((item, index) => {
-											return (
+										reuniones.map((item, index) => (
 												<TablaReunionesEnCurso
 													key={index + "_reuniones"}
 													item={item}
 													index={index}
 													translate={translate}
 												/>
-											)
-										})
+											))
 								}
 							</Scrollbar>
 						</div>
@@ -720,7 +708,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					overflow: "hidden"
 				}}>
 					<GridItem xs={8} md={8} lg={8} style={{ overflow: "hidden" }}>
-						{config.oneOnOneDashboard ? 
+						{config.oneOnOneDashboard ?
 							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Citas en curso</div>
 						:
 							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div>
@@ -771,30 +759,26 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									reunionesPorDia.length === undefined || reunionesLoading ?
 										<LoadingSection />
 										:
-										reunionesPorDia.map((item, index) => {
-											return (
+										reunionesPorDia.map((item, index) => (
 												<TablaReunionesEnCurso
 													key={index + "_reunionesPorDia"}
 													item={item}
 													index={index}
 													translate={translate}
 												/>
-											)
-										})
+											))
 									:
 									reuniones.length === undefined || reunionesLoading ?
 										<LoadingSection />
 										:
-										reuniones.map((item, index) => {
-											return (
+										reuniones.map((item, index) => (
 												<TablaReunionesEnCurso
 													key={index + "_reuniones"}
 													item={item}
 													index={index}
 													translate={translate}
 												/>
-											)
-										})
+											))
 								}
 							</Scrollbar>
 						</Grid>
@@ -1111,8 +1095,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 				</div>
 				<div style={{ height: "300px" }}>
 					<Scrollbar>
-						{users.map((item, index) => {
-							return (
+						{users.map((item, index) => (
 								<div
 									key={item.id}
 									style={{
@@ -1128,8 +1111,7 @@ const TablaUsuarios = ({ users, translate, total, changePageUsuarios, usersPage 
 									<Cell text={item.lastConnectionDate ? moment(item.lastConnectionDate).format("LLL") : '-'} />
 								</div>
 
-							)
-						})}
+							))}
 					</Scrollbar>
 				</div>
 				<Grid style={{ marginTop: "1em" }}>
@@ -1167,8 +1149,7 @@ const TablaCompanies = ({ companies, translate, total, changePageCompanies, comp
 			</div>
 			<div style={{ height: "300px" }}>
 				<Scrollbar>
-					{companies.map((item, index) => {
-						return (
+					{companies.map((item, index) => (
 							<div
 								key={item.id}
 								style={{
@@ -1181,8 +1162,7 @@ const TablaCompanies = ({ companies, translate, total, changePageCompanies, comp
 								<Cell width={3} text={item.id} />
 								<Cell width={3} text={item.businessName} />
 							</div>
-						)
-					})}
+						))}
 				</Scrollbar>
 			</div>
 			<Grid style={{ marginTop: "1em" }}>
@@ -1202,9 +1182,9 @@ const TablaCompanies = ({ companies, translate, total, changePageCompanies, comp
 
 const GraficaDoughnut = ({ porcentaje, color, max }) => {
 	Chart.pluginService.register({
-		afterUpdate: function (chart) {
+		afterUpdate(chart) {
 			if (chart.config.options.elements.arc.roundedCornersFor !== undefined) {
-				var arc = chart.getDatasetMeta(0).data[chart.config.options.elements.arc.roundedCornersFor];
+				const arc = chart.getDatasetMeta(0).data[chart.config.options.elements.arc.roundedCornersFor];
 				arc.round = {
 					x: (chart.chartArea.left + chart.chartArea.right) / 2,
 					y: (chart.chartArea.top + chart.chartArea.bottom) / 2,
@@ -1215,12 +1195,12 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 			}
 		},
 
-		afterDraw: function (chart) {
+		afterDraw(chart) {
 			if (chart.config.options.elements.arc.roundedCornersFor !== undefined) {
-				var ctx = chart.chart.ctx;
-				var arc = chart.getDatasetMeta(0).data[chart.config.options.elements.arc.roundedCornersFor];
-				var startAngle = Math.PI / 2 - arc._view.startAngle;
-				var endAngle = Math.PI / 2 - arc._view.endAngle;
+				const ctx = chart.chart.ctx;
+				const arc = chart.getDatasetMeta(0).data[chart.config.options.elements.arc.roundedCornersFor];
+				const startAngle = Math.PI / 2 - arc._view.startAngle;
+				const endAngle = Math.PI / 2 - arc._view.endAngle;
 
 				ctx.save();
 				ctx.translate(arc.round.x, arc.round.y);
@@ -1236,26 +1216,24 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 	});
 
 	Chart.pluginService.register({
-		afterUpdate: function (chart) {
+		afterUpdate(chart) {
 			if (chart.config.options.elements.center) {
-				var helpers = Chart.helpers;
-				var centerConfig = chart.config.options.elements.center;
-				var globalConfig = Chart.defaults.global;
-				var ctx = chart.chart.ctx;
-				var fontStyle = helpers.getValueOrDefault(centerConfig.fontStyle, globalConfig.defaultFontStyle);
-				var fontFamily = helpers.getValueOrDefault(centerConfig.fontFamily, globalConfig.defaultFontFamily);
-				if (centerConfig.fontSize)
-					var fontSize = centerConfig.fontSize;
+				const helpers = Chart.helpers;
+				const centerConfig = chart.config.options.elements.center;
+				const globalConfig = Chart.defaults.global;
+				const ctx = chart.chart.ctx;
+				const fontStyle = helpers.getValueOrDefault(centerConfig.fontStyle, globalConfig.defaultFontStyle);
+				const fontFamily = helpers.getValueOrDefault(centerConfig.fontFamily, globalConfig.defaultFontFamily);
+				if (centerConfig.fontSize) var fontSize = centerConfig.fontSize;
 				else {
 					ctx.save();
 					var fontSize = helpers.getValueOrDefault(centerConfig.minFontSize, 1);
-					var maxFontSize = helpers.getValueOrDefault(centerConfig.maxFontSize, 256);
-					var maxText = helpers.getValueOrDefault(centerConfig.maxText, centerConfig.text);
+					const maxFontSize = helpers.getValueOrDefault(centerConfig.maxFontSize, 256);
+					const maxText = helpers.getValueOrDefault(centerConfig.maxText, centerConfig.text);
 					do {
 						ctx.font = helpers.fontString(fontSize, fontStyle, fontFamily);
-						var textWidth = ctx.measureText(maxText).width;
-						if (textWidth < chart.innerRadius * 2 && fontSize < maxFontSize)
-							fontSize += 1;
+						const textWidth = ctx.measureText(maxText).width;
+						if (textWidth < chart.innerRadius * 2 && fontSize < maxFontSize) fontSize += 1;
 						else {
 							fontSize -= 1;
 							break;
@@ -1269,17 +1247,17 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 				};
 			}
 		},
-		afterDraw: function (chart) {
+		afterDraw(chart) {
 			if (chart.center) {
-				var centerConfig = chart.config.options.elements.center;
-				var ctx = chart.chart.ctx;
+				const centerConfig = chart.config.options.elements.center;
+				const ctx = chart.chart.ctx;
 				ctx.save();
 				ctx.font = chart.center.font;
 				ctx.fillStyle = chart.center.fillStyle;
 				ctx.textAlign = 'center';
 				ctx.textBaseline = 'middle';
-				var centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
-				var centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+				const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+				const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
 				ctx.fillText(centerConfig.text, centerX, centerY);
 				ctx.restore();
 			}
@@ -1338,8 +1316,7 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 
 
 
-const CellAvatar = ({ avatar }) => {
-	return (
+const CellAvatar = ({ avatar }) => (
 		<div style={{ overflow: "hidden", width: 'calc( 100% / 3 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
 			{avatar ?
 				<Avatar src={avatar} alt="Foto" />
@@ -1348,14 +1325,11 @@ const CellAvatar = ({ avatar }) => {
 			}
 		</div>
 	)
-}
-const Cell = ({ text, avatar, width }) => {
-	return (
+const Cell = ({ text, avatar, width }) => (
 		<div style={{ overflow: "hidden", width: width ? `calc( 100% / ${width})` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
 			{text}
 		</div>
 	)
-}
 
 const corporationCouncils = gql`
     query corporationCouncils($filters: [FilterInput], $options: OptionsInput, $fechaInicio: String, $fechaFin: String, $corporationId: Int){

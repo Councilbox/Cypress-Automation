@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
+const mapStateToProps = state => ({
+	translate: state.translate
+});
+
 const withTranslations = () => WrappedComponent => {
 	const WithTranslations = ({ translate, ...restProps }) => (
 		<WrappedComponent translate={translate} {...restProps} />
@@ -8,9 +12,5 @@ const withTranslations = () => WrappedComponent => {
 
 	return connect(mapStateToProps)(WithTranslations);
 };
-
-const mapStateToProps = state => ({
-	translate: state.translate
-});
 
 export default withTranslations;

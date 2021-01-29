@@ -19,7 +19,7 @@ const RequestDataInfo = ({ translate, status, message }) => {
             default: <img src={network} />
         }
 
-        return icons[status]? icons[status] : icons.default;
+        return icons[status] ? icons[status] : icons.default;
     }
 
     return (
@@ -27,19 +27,19 @@ const RequestDataInfo = ({ translate, status, message }) => {
             padding: '1.8em',
             display: 'flex'
         }}>
-            <div style={{fontWeight: '700', paddingRight: '1.8em'}}>
+            <div style={{ fontWeight: '700', paddingRight: '1.8em' }}>
                 {getIcon()}
             </div>
-            <div style={{fontSize: '1.1em', color: status === 'ERROR'? 'red' : secondary}}>
+            <div style={{ fontSize: '1.1em', color: status === 'ERROR' ? 'red' : secondary }}>
                 {data &&
                     <>
-                        <div style={{fontWeight: '700', marginBottom: '0.3em'}}>{message? message : translate.secure_connection}</div>
+                        <div style={{ fontWeight: '700', marginBottom: '0.3em' }}>{message || translate.secure_connection}</div>
                         <div>
-                            <span style={{fontWeight: '700', marginRight: '0.5em'}}>IP:</span>
+                            <span style={{ fontWeight: '700', marginRight: '0.5em' }}>IP:</span>
                             {data.requestInfo && data.requestInfo.ip}
                             {data.geoLocation &&
                                 <>
-                                    <span style={{fontWeight: '700', marginLeft: '2em'}}>{
+                                    <span style={{ fontWeight: '700', marginLeft: '2em' }}>{
                                         `${formatCountryName(data.geoLocation.country, translate.selectedLanguage)
                                     }`}</span>
                                 </>

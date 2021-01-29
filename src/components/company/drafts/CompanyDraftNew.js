@@ -1,4 +1,8 @@
 import React from "react";
+import { compose, graphql } from "react-apollo";
+import { toast } from 'react-toastify';
+import { withRouter } from "react-router";
+import { isMobile } from "react-device-detect";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -6,22 +10,18 @@ import {
 	CardPageLayout,
 	UnsavedChangesModal
 } from "../../../displayComponents";
-import { compose, graphql } from "react-apollo";
 import { createCompanyDraft, draftData } from "../../../queries/companyDrafts";
 import { getPrimary } from "../../../styles/colors";
 import { checkRequiredFields } from "../../../utils/CBX";
 import CompanyDraftForm from "./CompanyDraftForm";
-import { toast } from 'react-toastify';
 import { bHistory } from "../../../containers/App";
-import { withRouter } from "react-router";
 import withTranslations from "../../../HOCs/withTranslations";
-import { isMobile } from "react-device-detect";
 import { INPUT_REGEX } from "../../../constants";
 
 let timeout;
 
 const CompanyDraftNew = ({ translate, ...props }) => {
-	const [dataInit, setDataInit] = React.useState({draft: {
+	const [dataInit, setDataInit] = React.useState({ draft: {
 		title: "",
 		statuteId: -1,
 		type: -1,
@@ -32,7 +32,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 		majority: null,
 		majorityDivider: null,
 		companyId: +props.match.params.company
-	},})
+	}, })
 	const [unsavedAlert, setUnsavedAlert] = React.useState(false)
 	const [state, setState] = React.useState({
 		draft: {
@@ -49,7 +49,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 		},
 	})
 	const [errors, setErrors] = React.useState({});
-	
+
 
 	const updateState = object => {
 		setState({
@@ -70,7 +70,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 
 	const createCompanyDraft = async () => {
 		const { draft } = state;
-		let errors = {
+		const errors = {
 			title: "",
 		}
 		let hasError = false;
@@ -122,9 +122,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 		bHistory.goBack();
 	};
 
-	const comprobateChanges = () => {
-		return JSON.stringify(state) !== JSON.stringify(dataInit);
-	};
+	const comprobateChanges = () => JSON.stringify(state) !== JSON.stringify(dataInit);
 
 	const goBack = () => {
 		if(!comprobateChanges()){
@@ -139,7 +137,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 	if (loading) {
 		return <LoadingSection />;
 	}
-	
+
 	return (
 		<CardPageLayout title={translate.new_draft} disableScroll={true}>
 			<div style={{ height: 'calc( 100% - 5em )' }}>

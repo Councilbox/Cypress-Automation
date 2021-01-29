@@ -1,14 +1,14 @@
-import { getCompanies } from "./companyActions";
-import { client, bHistory, refreshWSLink } from "../containers/App";
-import { getMe, getTranslations } from "../queries";
 import DetectRTC from "detectrtc";
-import { moment } from '../containers/App';
 import gql from 'graphql-tag';
-import { initLogRocket } from "../utils/logRocket";
-export let language = "es";
+import { getCompanies } from "./companyActions";
+import { client, bHistory, refreshWSLink, moment } from "../containers/App";
+import { getMe, getTranslations } from "../queries";
 
-export const loginSuccess = (token, refreshToken) => {
-	return dispatch => {
+import { initLogRocket } from "../utils/logRocket";
+
+export const language = "es";
+
+export const loginSuccess = (token, refreshToken) => dispatch => {
 		sessionStorage.setItem("token", token);
 		sessionStorage.setItem("refreshToken", refreshToken);
 		refreshWSLink();
@@ -16,10 +16,9 @@ export const loginSuccess = (token, refreshToken) => {
 		dispatch(getCompanies());
 		dispatch({ type: "LOGIN_SUCCESS" });
 	};
-};
 
 export const setUnsavedChanges = value => (
-	{ type: 'UNSAVED_CHANGES', value: value }
+	{ type: 'UNSAVED_CHANGES', value }
 )
 
 export const loadSubdomainConfig = () => {
@@ -64,24 +63,22 @@ export const loadSubdomainConfig = () => {
 			document.title = config.title;
 		}
 
-		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: {
+		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG',
+value: {
 			...response.data.subdomainConfig,
 			name: subdomain
-		}});
+		} });
 	}
 }
 
-export const participantLoginSuccess = () => {
-	return dispatch => {
+export const participantLoginSuccess = () => dispatch => {
 		sessionStorage.setItem("participantLoginSuccess", true);
 		dispatch({ type: "PARTICIPANT_LOGIN_SUCCESS" });
 	};
-};
 
 export const loadingFinished = () => ({ type: "LOADING_FINISHED" });
 
-export const initUserData = () => {
-	return async dispatch => {
+export const initUserData = () => async dispatch => {
 		const response = await client.query({
 			query: getMe,
 			errorPolicy: "all"
@@ -104,25 +101,18 @@ export const initUserData = () => {
 				sessionStorage.removeItem("token");
 		}
 	};
-};
 
-export const setUserData = user => {
-	return dispatch => {
+export const setUserData = user => dispatch => {
 		dispatch({
 			type: "SET_USER_DATA",
 			value: user
 		});
 		dispatch(setLanguage(user.preferredLanguage));
 	};
-};
 
-export const noServerResponse = () => {
-	return { type: 'NO_SERVER_RESPONSE' };
-}
+export const noServerResponse = () => ({ type: 'NO_SERVER_RESPONSE' })
 
-export const serverRestored = () => {
-	return { type: 'SERVER_RESTORED' };
-}
+export const serverRestored = () => ({ type: 'SERVER_RESTORED' })
 
 export const logout = () => {
 	sessionStorage.clear();
@@ -136,7 +126,7 @@ export const logoutParticipant = (participant, council) => {
 };
 
 export const buildTranslateObject = translations => {
-	let translationObject = {};
+	const translationObject = {};
 	translations.forEach(translation => {
 		translationObject[translation.label] = translation.text;
 	});
@@ -144,8 +134,7 @@ export const buildTranslateObject = translations => {
 	return translationObject;
 }
 
-export const setLanguage = language => {
-	return async dispatch => {
+export const setLanguage = language => async dispatch => {
 		const response = await client.query({
 			query: getTranslations,
 			variables: {
@@ -171,11 +160,9 @@ export const setLanguage = language => {
 				selected: language
 			});
 		}
-	}
-};
+	};
 
-export const setDetectRTC = () => {
-	return  dispatch => {
+export const setDetectRTC = () => dispatch => {
 		DetectRTC.load(() => {
 			dispatch({
 				type: "LOADED_DETECTRTC",
@@ -183,4 +170,3 @@ export const setDetectRTC = () => {
 			});
 		});
 	};
-};

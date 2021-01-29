@@ -1,5 +1,9 @@
 import React from "react";
 import { graphql, withApollo } from "react-apollo";
+import gql from 'graphql-tag';
+import { MenuItem } from "material-ui";
+import { toast } from 'react-toastify';
+import { withRouter } from "react-router-dom";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -9,17 +13,13 @@ import {
 	SelectInput,
 	TextInput
 } from "../../../../../displayComponents/index";
-import gql from 'graphql-tag';
 import RichTextInput from "../../../../../displayComponents/RichTextInput";
-import { MenuItem } from "material-ui";
 import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { addAgenda } from "../../../../../queries/agenda";
 import * as CBX from "../../../../../utils/CBX";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda, checkValidMajority } from "../../../../../utils/validation";
-import { toast } from 'react-toastify';
 import { useOldState } from "../../../../../hooks";
-import { withRouter } from "react-router-dom";
 import PointAttachments from "./PointAttachments";
 import { addAgendaAttachment } from "../../../../../queries";
 import { AGENDA_TYPES } from "../../../../../constants";
@@ -74,7 +74,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 			if(attachments.length > 0){
 				await Promise.all(attachments.map(attachment => {
 					if(attachment.filename){
-						let fileInfo = {
+						const fileInfo = {
 							...attachment,
 							state: 0,
 							agendaId: response.data.addAgenda.id,
@@ -87,8 +87,8 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 								attachment: fileInfo
 							}
 						});
-					} else {
-						let fileInfo = {
+					}
+						const fileInfo = {
 							filename: attachment.name,
 							filesize: attachment.filesize.toString(),
 							documentId: attachment.id,
@@ -110,7 +110,6 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 								attachment: fileInfo
 							}
 						})
-					}
 				}))
 			}
 
@@ -154,7 +153,8 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 			company,
 			council
 		}, translate);
-		let majorityType = 0, subjectType = 0;
+		let majorityType = 0; let
+subjectType = 0;
 
 
 		if(draft.tags.agenda){
@@ -163,13 +163,12 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 				if(segments[1]){
 					subjectType = votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
 				}
-		
+
 				if(segments[2]){
 					majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
 				}
 			}
-
-		}		
+		}
 
 		updateState({
 			...(state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
@@ -237,8 +236,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
 								id={'tituloPuntoDelDiaModal'}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										agendaSubject: event.target.value
 									})
 								}
@@ -251,8 +249,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 									floatingText={translate.type}
 									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
 									disabled={true}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											subjectType: +event.target.value
 										})
 									}
@@ -268,23 +265,20 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 								<SelectInput
 									floatingText={translate.type}
 									value={"" + agenda.subjectType}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											subjectType: +event.target.value
 										})
 									}
 									required
 								>
-									{filteredTypes.map(voting => {
-										return (
+									{filteredTypes.map(voting => (
 											<MenuItem
 												value={"" + voting.value}
 												key={`voting${voting.value}`}
 											>
 												{translate[voting.label]}
 											</MenuItem>
-										);
-									})}
+										))}
 								</SelectInput>
 							}
 						</GridItem>
@@ -296,15 +290,13 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 									floatingText={translate.majority_label}
 									value={"" + agenda.majorityType}
 									errorText={errors.majorityType}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											majorityType: +event.target.value
 										})
 									}
 									required
 								>
-									{props.majorityTypes.map(majority => {
-										return (
+									{props.majorityTypes.map(majority => (
 											<MenuItem
 												value={"" + majority.value}
 												key={`majorityType_${
@@ -313,8 +305,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 											>
 												{translate[majority.label]}
 											</MenuItem>
-										);
-									})}
+										))}
 								</SelectInput>
 							</GridItem>
 							<GridItem xs={6} lg={3} md={3}>
@@ -327,13 +318,11 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 											majorityError={!!state.majorityError || errors.majority}
 											dividerError={!!state.majorityError}
 											divider={agenda.majorityDivider}
-											onChange={value =>
-												updateState({
+											onChange={value => updateState({
 													majority: +value
 												})
 											}
-											onChangeDivider={value =>
-												updateState({
+											onChangeDivider={value => updateState({
 													majorityDivider: +value
 												})
 											}
@@ -346,7 +335,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 					<div>
 						<span style={{ color: 'red' }}>{state.majorityError}</span>
 					</div>
-					<div style={{marginBottom: '1.6em'}}>
+					<div style={{ marginBottom: '1.6em' }}>
 						<PointAttachments
 							translate={translate}
 							setAttachments={setAttachments}
@@ -393,8 +382,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 						]}
 						errorText={errors.description}
 						value={agenda.description}
-						onChange={value =>
-							updateState({
+						onChange={value => updateState({
 								description: value
 							})
 						}
@@ -406,7 +394,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 
 	function checkRequiredFields() {
 		const agenda = state.newPoint;
-		let errors = checkRequiredFieldsAgenda(agenda, translate, toast);
+		const errors = checkRequiredFieldsAgenda(agenda, translate, toast);
 		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
 		setState({
 			errors: errors.errors,
@@ -414,7 +402,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 		});
 		return errors.hasError || majorityCheckResult.error;
 	}
-	
+
 	return (
 		<React.Fragment>
 			<AlertConfirm
@@ -428,7 +416,6 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 			/>
 		</React.Fragment>
 	);
-
 }
 
 

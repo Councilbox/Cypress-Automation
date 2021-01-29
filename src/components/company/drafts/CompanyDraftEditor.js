@@ -1,4 +1,8 @@
 import React from "react";
+import { graphql, withApollo } from "react-apollo";
+import { compose } from "react-apollo/index";
+import { withRouter } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -6,20 +10,16 @@ import {
 	CardPageLayout,
 } from "../../../displayComponents";
 import CompanyDraftForm from "./CompanyDraftForm";
-import { graphql, withApollo } from "react-apollo";
 import {
 	getCompanyDraftData,
 	updateCompanyDraft
 } from "../../../queries/companyDrafts";
-import { compose } from "react-apollo/index";
 import { checkRequiredFields } from "../../../utils/CBX";
-import { withRouter } from "react-router-dom";
 import { getPrimary } from "../../../styles/colors";
 import { sendGAevent } from "../../../utils/analytics";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { bHistory } from "../../../containers/App";
 import { isMobile } from "../../../utils/screen";
-import { toast } from "react-toastify";
 import { INPUT_REGEX } from "../../../constants";
 
 
@@ -85,17 +85,16 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	}
 
 	const updateCompanyDraft = async () => {
-		let errors = {
+		const errors = {
 			title: "",
 		}
 		let hasError = false;
 		const regex = INPUT_REGEX;
 		if (!checkRequiredFields(translate, data, updateErrors, null, toast)) {
-
 			if (data.title) {
 				if (!(regex.test(data.title)) || !data.title.trim()) {
 					hasError = true;
-					errors.title =  translate.invalid_field;
+					errors.title = translate.invalid_field;
 					updateErrors(errors);
 				}
 			}
@@ -128,9 +127,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 		}
 	}
 
-	const comprobateChanges = () => {
-		return JSON.stringify(data) !== JSON.stringify(dataInit);
-	};
+	const comprobateChanges = () => JSON.stringify(data) !== JSON.stringify(dataInit);
 
 	const goBack = () => {
 		if(!comprobateChanges()){

@@ -1,15 +1,15 @@
 import React from 'react';
+import { graphql } from 'react-apollo';
 import CompanyDraftForm from '../../company/drafts/CompanyDraftForm';
 import { CardPageLayout, BasicButton, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
-import { graphql } from 'react-apollo';
 import { checkRequiredFields } from "../../../utils/CBX";
 import { createCorporationDraft } from "../../../queries";
 
 
-export const company_types = [ {
-    company_type: 0,//'s_a'
-    statutes: [ {
+export const company_types = [{
+    company_type: 0, //'s_a'
+    statutes: [{
         prototype: 1,
         title: 'ordinary_general_assembly',
     }, {
@@ -18,10 +18,10 @@ export const company_types = [ {
     }, {
         prototype: 3,
         title: 'board_of_directors',
-    } ]
+    }]
 }, {
-    company_type: 1,//'s_l'
-    statutes: [ {
+    company_type: 1, //'s_l'
+    statutes: [{
         prototype: 4,
         title: 'ordinary_general_assembly',
     }, {
@@ -30,10 +30,10 @@ export const company_types = [ {
     }, {
         prototype: 6,
         title: 'board_of_directors',
-    } ]
+    }]
 }, {
-    company_type: 2,//'s_coop'
-    statutes: [ {
+    company_type: 2, //'s_coop'
+    statutes: [{
         prototype: 7,
         title: 'ordinary_general_assembly',
     }, {
@@ -42,10 +42,10 @@ export const company_types = [ {
     }, {
         prototype: 9,
         title: 'board_of_directors',
-    } ]
+    }]
 }, {
     company_type: 3, //'professional_association'
-    statutes: [ {
+    statutes: [{
         prototype: 10,
         title: 'ordinary_general_assembly_association',
     }, {
@@ -57,10 +57,10 @@ export const company_types = [ {
     }, {
         prototype: 13,
         title: 'executive_committee',
-    } ]
+    }]
 }, {
-    company_type: 4,//'association'
-    statutes: [ {
+    company_type: 4, //'association'
+    statutes: [{
         prototype: 14,
         title: 'ordinary_general_assembly_association',
     }, {
@@ -72,14 +72,14 @@ export const company_types = [ {
     }, {
         prototype: 17,
         title: 'executive_committee',
-    } ]
+    }]
 }, {
-    company_type: 5,//'other'
-    statutes: [ {
+    company_type: 5, //'other'
+    statutes: [{
         prototype: 18,
         title: 'default_census_name',
-    } ]
-} ];
+    }]
+}];
 
 export const getRootStatutes = companyType => {
     let rootStatutes = company_types[0].statutes;
@@ -94,7 +94,6 @@ export const getRootStatutes = companyType => {
 
 
 class NewCorporationDraft extends React.PureComponent {
-
     state = {
         data: {
             title: "",
@@ -115,7 +114,7 @@ class NewCorporationDraft extends React.PureComponent {
         success: false,
     }
 
-    updateState = (object) =>  {
+    updateState = (object) => {
         this.setState({
             data: {
                 ...this.state.data,
@@ -160,7 +159,7 @@ class NewCorporationDraft extends React.PureComponent {
 			this.setState({ loading: true });
 			const response = await this.props.createCorporationDraft({
 				variables: {
-					draft: draft
+					draft
 				}
 			});
 
@@ -173,7 +172,7 @@ class NewCorporationDraft extends React.PureComponent {
 
 
     render(){
-        let rootStatutes = getRootStatutes(this.state.data.companyId);
+        const rootStatutes = getRootStatutes(this.state.data.companyId);
 
         return(
             <CardPageLayout title={this.props.translate.drafts_new}>
@@ -185,7 +184,7 @@ class NewCorporationDraft extends React.PureComponent {
                     updateState={this.updateState}
                     {...this.props.data}
                 />
-                <div style={{marginTop: '0.8em'}}>
+                <div style={{ marginTop: '0.8em' }}>
                     <BasicButton
                         floatRight
                         text={this.props.translate.save}

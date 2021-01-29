@@ -1,4 +1,6 @@
 import React from "react";
+import { MenuItem } from "material-ui/Menu";
+import { graphql, withApollo, compose } from "react-apollo";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -8,16 +10,13 @@ import {
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
-import { MenuItem } from "material-ui/Menu";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { companyTypes } from "../../../queries/masters";
+import { companyTypes, countries, provinces } from "../../../queries/masters";
 import { checkCifExists } from "../../../queries/userAndCompanySignUp";
-import { countries, provinces } from "../../../queries/masters";
-import { graphql, withApollo, compose } from "react-apollo";
+
 
 
 class SignUpEnterprise extends React.Component {
-
 	state = {
 		provinces: []
 	}
@@ -54,7 +53,7 @@ class SignUpEnterprise extends React.Component {
 	};
 
 	nextPage = async () => {
-		let isSuccess = await this.checkRequiredFields();
+		const isSuccess = await this.checkRequiredFields();
 		if (!isSuccess) {
 			this.props.nextPage();
 		}
@@ -85,7 +84,7 @@ class SignUpEnterprise extends React.Component {
 		const { translate } = this.props;
 
 		const data = this.props.formData;
-		let errors = {
+		const errors = {
 			businessName: "",
 			type: "",
 			cif: "",
@@ -107,7 +106,7 @@ class SignUpEnterprise extends React.Component {
 			errors.type = translate.field_required;
 		}
 
-		let existsCif = await this.checkCifExists();
+		const existsCif = await this.checkCifExists();
 
 		if (!data.tin || existsCif) {
 			hasError = true;
@@ -143,7 +142,7 @@ class SignUpEnterprise extends React.Component {
 
 		this.props.updateErrors({
 			...errors,
-			hasError: hasError
+			hasError
 		});
 
 		return hasError;
@@ -201,8 +200,7 @@ class SignUpEnterprise extends React.Component {
 							type="text"
 							value={data.address}
 							errorText={this.props.errors.address}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									address: event.target.value
 								})
 							}
@@ -214,8 +212,7 @@ class SignUpEnterprise extends React.Component {
 							floatingText={translate.company_new_locality}
 							type="text"
 							value={data.city}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									city: event.target.value
 								})
 							}
@@ -231,16 +228,14 @@ class SignUpEnterprise extends React.Component {
 							errorText={errors.country}
 							required
 						>
-							{this.props.countries.countries.map(country => {
-								return (
+							{this.props.countries.countries.map(country => (
 									<MenuItem
 										key={country.deno}
 										value={country.deno}
 									>
 										{country.deno}
 									</MenuItem>
-								);
-							})}
+								))}
 						</SelectInput>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
@@ -248,23 +243,20 @@ class SignUpEnterprise extends React.Component {
 							floatingText={translate.company_new_country_state}
 							value={data.countryState}
 							errorText={errors.countryState}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									countryState: event.target.value
 								})
 							}
 							required
 						>
-							{this.state.provinces.map(province => {
-								return (
+							{this.state.provinces.map(province => (
 									<MenuItem
 										key={province.deno}
 										value={province.id}
 									>
 										{province.deno}
 									</MenuItem>
-								);
-							})}
+								))}
 						</SelectInput>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
@@ -272,8 +264,7 @@ class SignUpEnterprise extends React.Component {
 							floatingText={translate.company_new_zipcode}
 							type="text"
 							value={data.zipcode}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									zipcode: event.target.value
 								})
 							}
@@ -286,8 +277,7 @@ class SignUpEnterprise extends React.Component {
 							floatingText={translate.entity_name}
 							type="text"
 							value={this.props.formData.businessName}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									businessName: event.nativeEvent.target.value
 								})
 							}
@@ -303,16 +293,14 @@ class SignUpEnterprise extends React.Component {
 							errorText={this.props.errors.type}
 							required
 						>
-							{this.props.data.companyTypes.map(type => {
-								return (
+							{this.props.data.companyTypes.map(type => (
 									<MenuItem
 										key={type.label}
 										value={type.value}
 									>
 										{translate[type.label]}
 									</MenuItem>
-								);
-							})}
+								))}
 						</SelectInput>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
@@ -320,8 +308,7 @@ class SignUpEnterprise extends React.Component {
 							floatingText={translate.cif}
 							type="text"
 							value={this.props.formData.tin}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									tin: event.target.value
 								})
 							}

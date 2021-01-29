@@ -1,8 +1,8 @@
 import React from "react";
+import { graphql } from "react-apollo";
 import { AlertConfirm } from "../../../displayComponents";
 import CompanyDraftForm from "./CompanyDraftForm";
 import withTranslations from "../../../HOCs/withTranslations";
-import { graphql } from "react-apollo";
 import { createCompanyDraft } from "../../../queries/companyDrafts";
 import { checkRequiredFields } from "../../../utils/CBX";
 
@@ -47,8 +47,7 @@ const SaveDraftModal = ({ translate, ...props }) => {
 		}
 	};
 
-	const _renderNewPointBody = () => {
-		return (
+	const _renderNewPointBody = () => (
 			<div style={{ width: "800px", height: '60vh' }}>
 				<CompanyDraftForm
 					translate={translate}
@@ -61,8 +60,7 @@ const SaveDraftModal = ({ translate, ...props }) => {
 					majorityTypes={props.majorityTypes}
 				/>
 			</div>
-		);
-	}
+		)
 
 	return (
 		<AlertConfirm
@@ -76,7 +74,6 @@ const SaveDraftModal = ({ translate, ...props }) => {
 			title={translate.new_draft}
 		/>
 	)
-
 }
 
 

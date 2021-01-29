@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../../assets/img/logo-white.png';
 import ApikeyLogin from './ApikeyLogin';
+
 export const DocsContext = React.createContext();
 
 
@@ -56,14 +57,14 @@ const DocsLayout = props => {
                             alignItems: 'center',
                         }}
                     >
-                        <img src={logo} style={{height: '1.75em', width: 'auto', margin: '0 1em'}} alt="councilbox-logo"/>
-                        <span style={{fontSize: '1.75em'}}>Developer</span>
+                        <img src={logo} style={{ height: '1.75em', width: 'auto', margin: '0 1em' }} alt="councilbox-logo"/>
+                        <span style={{ fontSize: '1.75em' }}>Developer</span>
                     </div>
                     {props.login &&
                         <ApikeyLogin />
                     }
                 </header>
-                <div style={{height: 'calc(100% - 3.5em)', width: '100%', overflow: 'auto'}}>
+                <div style={{ height: 'calc(100% - 3.5em)', width: '100%', overflow: 'auto' }}>
                     {props.children}
                 </div>
             </div>

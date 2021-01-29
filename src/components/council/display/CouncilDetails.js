@@ -1,9 +1,9 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Paper } from 'material-ui';
 import { LoadingSection, Grid, GridItem, CollapsibleSection, AgendaNumber, TabsScreen } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
-import { Paper } from 'material-ui';
 import { OptionsDisplay, OptionsDisplayIconIzq } from './OptionsDisplay';
 import { StatuteDisplay, StatuteDisplayIconsIzq } from './StatuteDisplay';
 import { getPrimary, getSecondary } from '../../../styles/colors';
@@ -12,7 +12,6 @@ import { getSubjectAbrv } from '../../../displayComponents/AgendaNumber';
 
 
 class CouncilDetails extends React.Component {
-
     state = {
         agenda: false,
         options: false,
@@ -42,12 +41,12 @@ class CouncilDetails extends React.Component {
 
     getTypeText = subjectType => {
         const votingType = this.props.data.votingTypes.find(item => item.value === subjectType)
-        return !!votingType ? this.props.translate[votingType.label] : '';
+        return votingType ? this.props.translate[votingType.label] : '';
     }
 
     getCensusName = () => {
         const census = this.props.data.censuses.list.find(census => census.id === this.props.data.council.selectedCensusId);
-        return !!census ? census.censusName : '';
+        return census ? census.censusName : '';
     }
 
     render() {
@@ -82,8 +81,7 @@ class CouncilDetails extends React.Component {
                     <div>
                         <div style={{ padding: '1em', paddingTop: '0', border: '1px solid gainsboro', marginTop: '1em' }}>
                             <CollapsibleSection
-                                trigger={() =>
-                                    <div
+                                trigger={() => <div
                                         style={{
                                             marginTop: '1em',
                                             fontWeight: '700',
@@ -100,8 +98,7 @@ class CouncilDetails extends React.Component {
                                         }
                                     </div>
                                 }
-                                collapse={() =>
-                                    this.props.data.agendas.map(agenda => (
+                                collapse={() => this.props.data.agendas.map(agenda => (
                                         <Paper style={{ marginTop: '0.8em', padding: '0.8em', margin: '0.3em' }} key={`agenda_${agenda.id}`}>
                                             <Grid>
                                                 <GridItem xs={1} md={1} lg={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -125,8 +122,7 @@ class CouncilDetails extends React.Component {
                         </div>
                         <div style={{ padding: '1em', paddingTop: '0', border: '1px solid gainsboro', marginTop: '1em' }}>
                             <CollapsibleSection
-                                trigger={() =>
-                                    <div
+                                trigger={() => <div
                                         style={{
                                             marginTop: '1em',
                                             fontWeight: '700',
@@ -150,8 +146,7 @@ class CouncilDetails extends React.Component {
                         </div>
                         <div style={{ padding: '1em', paddingTop: '0', border: '1px solid gainsboro', marginTop: '1em' }}>
                             <CollapsibleSection
-                                trigger={() =>
-                                    <div
+                                trigger={() => <div
                                         style={{
                                             marginTop: '1em',
                                             fontWeight: '700',
@@ -182,14 +177,13 @@ class CouncilDetails extends React.Component {
                         <div style={{ paddingTop: "1em" }}>
                             <TabsScreen
                                 uncontrolled={true}
-                                stylesTabPane={{padding: '1em', minHeight: '425px'}}
+                                stylesTabPane={{ padding: '1em', minHeight: '425px' }}
                                 stylesInTabPane={{ width: '90%', margin: '0 auto' }}
                                 stylesTab={{ paddingBottom: "0" }}
                                 tabsInfo={[
                                     {
                                         text: translate.agenda,
-                                        component: () => {
-                                            return (
+                                        component: () => (
                                                 <div style={{ marginTop: "0.8em" }}>
                                                     <div style={{ display: "flex", marginLeft: '58px', justifyContent: 'space-between', fontWeight: ' 700', marginBottom: "10px" }}>
                                                         <div>{translate.certificate_title}</div>
@@ -238,13 +232,11 @@ class CouncilDetails extends React.Component {
                                                         </React.Fragment>
                                                     ))}
                                                 </div>
-                                            );
-                                        }
+                                            )
                                     },
                                     {
                                         text: translate.options,
-                                        component: () => {
-                                            return (
+                                        component: () => (
                                                 <React.Fragment>
                                                     <div style={{
                                                         fontWeight: '700',
@@ -259,13 +251,11 @@ class CouncilDetails extends React.Component {
 
                                                     </div>
                                                 </React.Fragment>
-                                            );
-                                        }
+                                            )
                                     },
                                     {
                                         text: translate.council_type,
-                                        component: () => {
-                                            return (
+                                        component: () => (
                                                 <React.Fragment>
                                                     <div style={{
                                                         fontWeight: '700',
@@ -283,8 +273,7 @@ class CouncilDetails extends React.Component {
                                                         />
                                                     </div>
                                                 </React.Fragment>
-                                            );
-                                        }
+                                            )
                                     },
                                 ]
                                 }

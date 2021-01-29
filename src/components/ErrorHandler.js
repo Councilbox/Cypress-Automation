@@ -13,7 +13,6 @@ import withTranslations from '../HOCs/withTranslations';
 
 
 class ErrorHandler extends React.Component {
-
     state = {
         error: false
     }
@@ -67,14 +66,14 @@ class ErrorHandler extends React.Component {
                             overflow: 'hidden',
                             display: 'flex',
                             alignItems: 'center',
-                            ...(this.props.windowSize === 'xs'? {
+                            ...(this.props.windowSize === 'xs' ? {
                                 justifyContent: 'center'
                             } : {
                                 paddingLeft: '3em',
                             })
                         }}
                     >
-                        <img src={logo} style={{height: '1.5em', cursor: 'pointer'}} alt="councibox-icon" onClick={this.redirect} />
+                        <img src={logo} style={{ height: '1.5em', cursor: 'pointer' }} alt="councibox-icon" onClick={this.redirect} />
                     </div>
                     <Scrollbar>
                         <div
@@ -90,7 +89,7 @@ class ErrorHandler extends React.Component {
                                 flexDirection: 'column'
                             }}
                         >
-                            <img src={icono} style={{width: '8em', height: '8em'}} alt="councibox-icon" />
+                            <img src={icono} style={{ width: '8em', height: '8em' }} alt="councibox-icon" />
                             <p
                                 style={{
                                     fontSize: '1.2em',
