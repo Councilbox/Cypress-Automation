@@ -2,16 +2,11 @@ import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput, Grid, PaginationFooter } from '../../../displayComponents';
-import FontAwesome from 'react-fontawesome';
-import { Card } from 'material-ui';
-import { Redirect, Link } from "react-router-dom";
-import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { lightGrey, getSecondary, getPrimary, secondary } from '../../../styles/colors';
 import { Card, Table, TableBody, TableRow } from 'material-ui';
 import CouncilItem from './CouncilItem';
 import CouncilsSectionTrigger from './CouncilsSectionTrigger';
-
 import { bHistory } from '../../../containers/App';
 import { TableHead } from 'material-ui';
 import { TableCell } from 'material-ui';
@@ -20,58 +15,46 @@ import { TableCell } from 'material-ui';
 
 const CouncilsDashboard = ({ translate, client, ...props }) => {
 
-    const getData = React.useCallback(async () => {
-        setLoading(true)
-        const response = await client.query({
-            query: corporationCouncils,
-        });
-
-        setCouncils(response.data);
-        setLoading(false)
-    }, []);
-
-    React.useEffect(() => {
-        getData();
-    }, [getData]);
-
-
-    const _convenedTrigger = () => (
+    const _convenedTrigger = () => {
+        return (
             <CouncilsSectionTrigger
                 text={translate.companies_calendar}
                 icon={'calendar-o'}
                 description={translate.companies_calendar_desc}
             />
         )
+    }
 
-    const _convenedSection = () => (
-            <div style={{ width: '100%' }}>
-                {councils.corporationConvenedCouncils.map(council => <CouncilItem
-                        key={`council_${council.id}`}
-                        council={council}
-                        translate={translate}
-                    />)}
-            </div>
+    const _convenedSection = () => {
+        return (
+            <Councils
+                translate={translate}
+                client={client}
+                query={corporationConvenedCouncils}
+            />
         )
+    }
 
-    const _celebrationTrigger = () => (
+    const _celebrationTrigger = () => {
+        return (
             <CouncilsSectionTrigger
                 text={translate.companies_live}
                 icon={'users'}
                 description={translate.companies_live_desc}
             />
         )
+    }
 
-    const _celebrationSection = () => (
-            <div style={{ width: '100%' }}>
-                {councils.corporationLiveCouncils.map(council => (
-                    <CouncilItem
-                        key={`council_${council.id}`}
-                        council={council}
-                        translate={translate}
-                    />
-                ))}
-            </div>
+    const _celebrationSection = () => {
+        return (
+
+            <Councils
+                translate={translate}
+                client={client}
+                query={corporationLiveCouncils}
+            />
         )
+    }
 
     return (
         <div
@@ -239,6 +222,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
             setError("Escribe un numero")
             setLoading(false)
         }
+
     };
     return (
         <div

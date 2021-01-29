@@ -22,6 +22,7 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
                 onChange={value => setText(value)}
             /> 
         )
+    }
 
     const handleClose = ev => {
         ev.preventDefault();
