@@ -1,21 +1,24 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput, Grid, PaginationFooter } from '../../../displayComponents';
 import FontAwesome from 'react-fontawesome';
 import { Card } from 'material-ui';
 import { Redirect, Link } from "react-router-dom";
 import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { lightGrey, getSecondary, getPrimary, secondary } from '../../../styles/colors';
+import { Card, Table, TableBody, TableRow } from 'material-ui';
 import CouncilItem from './CouncilItem';
 import CouncilsSectionTrigger from './CouncilsSectionTrigger';
 
 import { bHistory } from '../../../containers/App';
+import { TableHead } from 'material-ui';
+import { TableCell } from 'material-ui';
+
 
 
 const CouncilsDashboard = ({ translate, client, ...props }) => {
-    const [councils, setCouncils] = React.useState([]);
-    const [loading, setLoading] = React.useState(true);
 
     const getData = React.useCallback(async () => {
         setLoading(true)
@@ -83,49 +86,129 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
                     style={{
                         display: 'flex',
                         flexDirection: 'row',
-                        paddingBottom: '2em',
                         alignItems: 'center',
                         margin: '1.4em'
                     }}
                 >
                     <BasicButton
-                        icon={
-                            <FontAwesome
-                                name={'refresh'}
-                                style={{
-                                    color: getSecondary()
-                                }}
-                            />
-                        }
-                        onClick={() => getData()}
-                    />
-                    <BasicButton
                         text={'KPI'}
                         color="white"
                         onClick={() => bHistory.push('/kpi')}
                         buttonStyle={{
-                            marginLeft: '1em',
                             border: `1px solid ${secondary}`
                         }}
                     />
                 </div>
                 <SearchCouncils />
-                {loading ?
-                    <LoadingSection />
-                    :
-                    <React.Fragment>
-                        <Card style={{ margin: '1.4em' }}>
-                            <CollapsibleSection trigger={_convenedTrigger} collapse={_convenedSection} />
-                        </Card>
-                        <Card style={{ margin: '1.4em' }}>
-                            <CollapsibleSection trigger={_celebrationTrigger} collapse={_celebrationSection} />
-                        </Card>
-                    </React.Fragment>
-                }
+                <Card style={{ margin: '1.4em' }}>
+                    <CollapsibleSection trigger={_convenedTrigger} collapse={_convenedSection} />
+                </Card>
+                <Card style={{ margin: '1.4em' }}>
+                    <CollapsibleSection trigger={_celebrationTrigger} collapse={_celebrationSection} />
+                </Card>
+
+
             </Scrollbar>
         </div>
     )
 }
+
+
+
+const Councils = ({ translate, client, query }) => {
+    const [councils, setCouncils] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+    const [pageCouncils, setpageCouncils] = React.useState(1);
+
+
+    const getDataCouncils = React.useCallback(async () => {
+        setLoading(true)
+        const response = await client.query({
+            query: query,
+            variables: {
+                options: {
+                    limit: 10,
+                    offset: (pageCouncils - 1) * 10
+                },
+            },
+        });
+
+        if (response.data) {
+            Object.entries(response.data).map(([name, value]) => {
+                if ('corporationLiveCouncils' === name || 'corporationConvenedCouncils' === name) {
+                    setCouncils(value)
+                }
+            })
+            setLoading(false)
+        }
+    }, [pageCouncils]);
+
+    React.useEffect(() => {
+        getDataCouncils();
+    }, [getDataCouncils]);
+
+
+
+    return (
+        <div style={{ padding: "1em" }}>
+            <BasicButton
+                backgroundColor={{ backgroundColor: "white", border: "1px solid " + getSecondary(), boxShadow: "none" }}
+                icon={
+                    <i
+                        className={'fa fa-refresh'}
+                        style={{
+                            color: getSecondary(),
+                        }}
+                    />
+                }
+                onClick={getDataCouncils}
+            />
+            {loading ?
+                <LoadingSection />
+                :
+                <div>
+                    <Table
+                        style={{ width: "100%", maxWidth: "100%" }}
+                    >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{}}>Total</TableCell>
+                                <TableCell style={{}}>ID</TableCell>
+                                <TableCell style={{}}>Entidad</TableCell>
+                                <TableCell style={{}}>Nombre</TableCell>
+                                <TableCell style={{}}>Fecha</TableCell>
+                                <TableCell style={{}}>Estado</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {councils.list &&
+                                councils.list.map((council, index) => (
+                                    <CouncilItem
+                                        index={index}
+                                        key={`council_${council.id}`}
+                                        council={council}
+                                        translate={translate}
+                                    />
+                                ))}
+                        </TableBody>
+                    </Table>
+
+                    <Grid style={{ marginTop: "1em" }}>
+                        <PaginationFooter
+                            page={pageCouncils}
+                            translate={translate}
+                            length={councils.list && councils.list.length}
+                            total={councils.list && councils.total}
+                            limit={10}
+                            changePage={setpageCouncils}
+                        />
+                    </Grid>
+                </div>
+            }
+        </div>
+    )
+}
+
 
 export const SearchCouncils = withApollo(({ client, reload }) => {
     const [idCouncilSearch, setIdCouncilSearch] = React.useState(0);
@@ -179,7 +262,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
                             styles={{ fontWeight: "bold", width: '300px', }}
                             styleInInput={{ backgroundColor: "#ececec", paddingLeft: "5px", border: !!error && "2px solid red" }}
                             onKeyUp={event => {
-                                if(event.keyCode === 13){
+                                if (event.keyCode === 13) {
                                     goToId(event);
                                 }
                             }}
@@ -204,38 +287,47 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
     )
 })
 
-const corporationCouncils = gql`
-    query corporationCouncils{
-        corporationConvenedCouncils{
-            id
-            name
-            state
-            dateStart
-            councilType
-            prototype
-            participants {
+const corporationConvenedCouncils = gql`
+    query corporationConvenedCouncils($options: OptionsInput){
+        corporationConvenedCouncils(options: $options){
+            list{
                 id
+                name
+                state
+                dateStart
+                councilType
+                prototype
+                participants {
+                    id
+                }
+                company{
+                    id
+                    businessName
+                }
             }
-            company{
-                id
-                businessName
-            }
+            total
         }
-
-        corporationLiveCouncils{
-            id
-            name
-            state
-            dateStart
-            councilType
-            prototype
-            participants {
+    }
+`;
+const corporationLiveCouncils = gql`
+    query corporationLiveCouncils($options: OptionsInput){
+        corporationLiveCouncils(options: $options){
+            list{
                 id
+                name
+                state
+                dateStart
+                councilType
+                prototype
+                participants {
+                    id
+                }
+                company{
+                    id
+                    businessName
+                }
             }
-            company{
-                id
-                businessName
-            }
+            total
         }
     }
 `;

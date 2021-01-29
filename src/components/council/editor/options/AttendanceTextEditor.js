@@ -1,49 +1,49 @@
 import React from 'react';
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
-import { AlertConfirm, BasicButton } from '../../../../displayComponents';
+import { AlertConfirm, BasicButton, UnsavedChangesModal } from '../../../../displayComponents';
+import { withApollo } from 'react-apollo';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const AttendanceTextEditor = ({ council, translate, client }) => {
-    const [text, setText] = React.useState(council.statute.attendanceText || '');
-    const [modal, setModal] = React.useState(false);
+const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, isModal, setIsmodal }) => {
+    const initialValue = React.useRef(text);
 
-    const renderBody = () => (
+    React.useEffect(() => {
+        if(isModal.modal){
+            initialValue.current = text;
+        }
+    }, [isModal.modal])
+
+    const renderBody = () => {
+        return (
             <RichTextInput
                 translate={translate}
                 value={text}
-                onChange={value => setText(value)
-                }
-            />
+                onChange={value => setText(value)}
+            /> 
         )
 
-    const updateAttendanceText = async () => {
-        const response = await client.mutate({
-            mutation: gql`
-                mutation UpdateCouncilStatute($councilId: Int!, $statute: CouncilOptions!){
-                    updateCouncilStatute(councilId: $councilId, statute: $statute){
-                        attendanceText
-                    }
-                }
-            `,
-            variables: {
-                councilId: council.id,
-                statute: {
-                    attendanceText: text
-                }
-            }
-        });
-
-        setModal(false);
+    const handleClose = ev => {
+        ev.preventDefault();
+        if (text !== initialValue.current){
+            setIsmodal({...isModal, modal: true, unsavedModal: true});
+        } else {
+            setIsmodal({...isModal, modal: false, unsavedModal: false});
+        }
+    }
+    const discardText = ev => {
+        ev.preventDefault();
+        if (text !== initialValue.current){
+            setIsmodal({...isModal, modal: false, unsavedModal: false})
+            setText(initialValue.current);
+        }
     }
 
     return (
         <>
             <BasicButton
-                text={text ? translate.edit_instructions : translate.add_instructions}
-                onClick={() => setModal(true)}
+                text={text? translate.edit_instructions : translate.add_instructions}
+                onClick={() => setIsmodal({...isModal, modal: true})}
                 color="white"
                 type="flat"
                 textStyle={{
@@ -51,13 +51,22 @@ const AttendanceTextEditor = ({ council, translate, client }) => {
                 }}
             />
             <AlertConfirm
-                open={modal}
-                requestClose={() => setModal(false)}
+                open={isModal.modal}
+                requestClose={handleClose}
                 buttonAccept={translate.save}
                 acceptAction={updateAttendanceText}
                 buttonCancel={translate.cancel}
-                title={translate.edit_instructions}
+                title={text? translate.edit_instructions : translate.add_instructions}
                 bodyText={renderBody()}
+            />
+            <UnsavedChangesModal 
+                translate={translate}  
+                open={isModal.unsavedModal}
+                requestClose={() => {
+                    setIsmodal({...isModal, modal: true, unsavedModal: false})
+                }}
+                acceptAction={updateAttendanceText}
+                cancelAction={discardText}
             />
         </>
     )

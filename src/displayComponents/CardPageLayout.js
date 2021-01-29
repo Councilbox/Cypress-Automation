@@ -58,7 +58,7 @@ const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, a
 					display: "flex",
 					fontStyle: "italic",
 					fontFamily: "Lato",
-					fontSize: isMobile ? "22px" : "28px",
+					fontSize: windowSize === 'xs' ? "20px" : '28px',
 					top: isMobile ? "30px" : "45px"
 					// justifyContent: "center",
 					// alignItems: "center"

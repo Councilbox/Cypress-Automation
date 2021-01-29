@@ -6,6 +6,9 @@ import { showNumParticipations, councilHasSession, hasParticipations, hasVotatio
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
 import { AlertConfirm, DropDownMenu, Scrollbar } from '../../../../displayComponents';
+import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
+import { Table, TableBody, TableHead, TableRow, TableCell, MenuItem } from 'material-ui';
 import { moment } from '../../../../containers/App';
 import { COUNCIL_TYPES } from '../../../../constants';
 

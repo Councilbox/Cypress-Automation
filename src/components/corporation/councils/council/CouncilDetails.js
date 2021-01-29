@@ -288,7 +288,7 @@ class CouncilDetails extends React.Component {
 			<div style={{ width: '100%', height: '100%', }}>
 				<Scrollbar>
 					<div style={{ padding: "1em" }}>
-						<CouncilItem council={council} hideFixedUrl={council.state > 30} enRoot={true} translate={translate} />
+						<CouncilItem council={council} hideFixedUrl={council.state > 30} enCouncilRoot={true} translate={translate} />
 						<div
 							style={{
 								width: '100%',
