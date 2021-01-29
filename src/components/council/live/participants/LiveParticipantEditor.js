@@ -67,7 +67,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		return <LoadingSection />;
 	}
 
-
 	participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 	participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
 

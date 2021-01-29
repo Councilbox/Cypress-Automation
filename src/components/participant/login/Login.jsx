@@ -97,7 +97,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 			</NotLoggedLayout>
 		);
 	} else {
-
+		
 		const renderLogin = ((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council));
 		return (
 			<NotLoggedLayout
@@ -164,23 +164,25 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 						}
 					</>
 					:
-					<div style={{
-						...styles.mainContainer,
-						height: 'calc( 100% - 3em )',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center'
-					}}>
-						<Card style={{
-							...styles.cardContainer,
-							background: finishedVoted && 'transparent',
-							boxShadow: finishedVoted && "none",
-							minWidth: width,
-							height: '90%'
-						}} elevation={6}>
-							<CouncilState council={council} company={company} participant={participant} />
-						</Card>
-					</div>
+					<Scrollbar>
+						<div style={{
+							...styles.mainContainer,
+							height: councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council) ? "" :'calc( 100% - 3em )',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center'
+						}}>
+							<Card style={{
+								...styles.cardContainer,
+								background: finishedVoted && 'transparent',
+								boxShadow: finishedVoted && "none",
+								minWidth: width,
+								height: '90%'
+							}} elevation={6}>
+								<CouncilState council={council} company={company} participant={participant} />
+							</Card>
+						</div>
+					</Scrollbar>
 				}
 			</NotLoggedLayout >
 		);
