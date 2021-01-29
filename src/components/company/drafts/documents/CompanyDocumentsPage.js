@@ -30,7 +30,6 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const [search, setSearch] = React.useState("");
     const [deleteModal, setDeleteModal] = React.useState(false);
     const [editModal, setEditModal] = React.useState(false);
-    const [isUploaded, setIsUploaded] = React.useState(false);
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -130,7 +129,6 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
         if (!file) {
             return;
         }
-        setIsUploaded(true);
 
         let reader = new FileReader();
         reader.readAsBinaryString(file);
@@ -172,7 +170,6 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             xhr.upload.onprogress = function (e) {
                 if (e.loaded === e.total) {
                     removeFromQueue(id);
-                    getData();
                 } else {
                     updateQueueItem(((e.loaded / e.total) * 100).toFixed(2), id);
                 }
@@ -181,8 +178,11 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
             xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem("token"));
             xhr.onreadystatechange = function () {
-                if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    setIsUploaded(false);
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        getData();
+                    }
                 }
             };
             xhr.send(formData);
@@ -501,7 +501,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                     />
                             ))}
                             {queue.map((item, index) => (
-                                <DelayedRow isUploaded={isUploaded}>
+                                <DelayedRow key={'delayedRow_' + item.id} delay={1000}>
                                     <TableRow>
                                         <TableCell>
                                             {item.name}
@@ -530,19 +530,24 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 }
 
 
-const DelayedRow = ({ children, isUploaded }) => {
-     
-    if(isUploaded){
-        return (
-            <LoadingSection/>
-        )
+const DelayedRow = ({ children, delay }) => {
+    const [ready, setReady] = React.useState(false);
+
+    React.useEffect(() => {
+        let timeout = null;
+        if (!ready) {
+            timeout = setTimeout(() => {
+                setReady(true);
+            }, delay);
+        }
+        return () => clearTimeout(timeout)
+    }, [delay])
+
+    if (ready) {
+        return children;
     }
-    
-    return (
-        <>
-            {children}
-        </>
-        );
+
+    return <></>;
 
 }
 
