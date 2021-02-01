@@ -7,7 +7,7 @@ const Stars = ({ name, lowStars, onClick, value, error }) => {
 			<form id={"ratingForm" + name}>
 				<fieldset className={"rating"}>
 					{[...new Array(5)].map((item, index) => (
-						<>
+						<React.Fragment key={`${index}_${name}`}>
 							<input
 								type="radio"
 								id={"star" + (5 - index) + '' + name}
@@ -18,8 +18,8 @@ const Stars = ({ name, lowStars, onClick, value, error }) => {
 									onClick(event.target.value);
 								}}
 							/>
-							<label for={"star"+ (5 - index) + '' + name} className={lowStars ? 'lowStars' : ""}>5 stars</label>
-						</>
+							<label htmlFor={"star" + (5 - index) + '' + name} className={lowStars ? 'lowStars' : ""}>5 stars</label>
+						</React.Fragment>
 					))}
 				</fieldset>
 			</form>

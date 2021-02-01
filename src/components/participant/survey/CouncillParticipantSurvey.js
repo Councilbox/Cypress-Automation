@@ -5,7 +5,7 @@ import { BasicButton } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import CouncilSurveyModal from './CouncilSurveyModal';
 
-const CouncilSurvey = ({ translate }) => {
+const CouncilSurvey = ({ translate, participant }) => {
     const [open, setOpen] = React.useState(false);
     const config = React.useContext(ConfigContext);
     const primary = getPrimary();
@@ -28,6 +28,8 @@ const CouncilSurvey = ({ translate }) => {
 			<CouncilSurveyModal
                 open={open}
                 translate={translate}
+                participant={participant}
+                autoOpen={() => setOpen(true)}
                 requestClose={() => setOpen(false)}
             />
 		</div>
