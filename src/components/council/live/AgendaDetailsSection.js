@@ -14,6 +14,7 @@ import { updateAgenda } from "../../../queries/agenda";
 import ToolTip from "../../../displayComponents/Tooltip";
 import PointEditor from "../editor/agenda/modals/PointEditor";
 import CustomPointEditor from "../editor/agenda/modals/CustomPointEditor";
+import { Drawer } from "material-ui";
 
 const calculateOpenIndex = agendas => {
 	const openAgenda = agendas.find(
@@ -51,7 +52,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const agenda = agendas[props.selectedPoint];
 	const smallLayout = window.innerWidth < 500;
 	const normalLayout = window.innerWidth > 750;
-	
+
 	return (
 		<div
 			style={{
@@ -97,7 +98,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											paddingRight: "0.5em"
 										}}
 											onClick={() => {
-												if((agenda.pointState === AGENDA_STATES.INITIAL || props.root)) {
+												if ((agenda.pointState === AGENDA_STATES.INITIAL || props.root)) {
 													setPointNameEditor(true)
 												}
 											}}
@@ -142,7 +143,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 													refetch={refetch}
 													requestClose={closePointEditor}
 												/>
-											:
+												:
 												<PointEditor
 													translate={translate}
 													draftTypes={props.draftTypes}
@@ -161,7 +162,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											}
 
 										</>
-										
+
 									}
 
 								</React.Fragment>
@@ -233,13 +234,12 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 			</Grid>
 			<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout ? '100vh' : '100%'} - ${smallLayout ? '14em' : '6.5em'})`, overflow: 'hidden' }}>
 				{agenda.description &&
-					<Collapse isOpened={expanded}>
+					<Collapse isOpened={expanded} style={{ position: 'absolute', zIndex: '1', borderBottom: "1px solid gainsboro", width: '100%' }}>
 						<div
 							style={{
 								fontSize: "0.9em",
 								padding: '1em',
-								marginTop: '0.8em',
-								paddingBottom: '1.5em',
+								paddingBottom: '1em',
 								lineHeight: '1.2em',
 								width: '100%',
 								backgroundColor: 'white',
@@ -296,7 +296,7 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 
 
 	const saveTitle = async () => {
-		if(!pointNameEditorText || !pointNameEditorText.trim()){
+		if (!pointNameEditorText || !pointNameEditorText.trim()) {
 			setError(translate.required_field);
 		} else {
 			await updateAgenda({
@@ -350,10 +350,10 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 					minHeight: '30px',
 				}}
 				onClick={() => setPointNameEditor(false)}
-			/>	
+			/>
 			{error &&
 				<span style={{ color: 'red', marginLeft: '0.6em' }}>{error}</span>
-			}	
+			}
 		</div>
 	)
 }
