@@ -9,20 +9,20 @@ export const getSubjectAbrv = text => {
 	let start = '';
 	let index = 0;
 
-	if(typeof text == 'object'){
+	if (typeof text == 'object') {
 		return text;
 	}
 
-	if(!text){
+	if (!text) {
 		return '';
 	}
 
-	if(!isNaN(text)){
-		text = ''+text;
+	if (!Number.isNaN(text)) {
+		text = '' + text;
 	}
 
-	while (!isChar){
-		if(!isNaN(text[index]) || (text[index] === '.' && !isNaN(+text[index + 1]) && text[index + 1] !== ' ')){
+	while (!isChar) {
+		if (!Number.isNaN(text[index]) || (text[index] === '.' && !Number.isNaN(+text[index + 1]) && text[index + 1] !== ' ')) {
 			start += text[index];
 		} else {
 			isChar = true;
@@ -30,7 +30,7 @@ export const getSubjectAbrv = text => {
 		index++;
 	}
 
-	if(!start){
+	if (!start) {
 		start = text.split(' ').reduce((acc, curr) => `${acc}${curr.toUpperCase().substr(0, 1)}`, '')
 	}
 
