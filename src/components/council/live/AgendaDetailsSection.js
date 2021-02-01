@@ -14,7 +14,6 @@ import { updateAgenda } from "../../../queries/agenda";
 import ToolTip from "../../../displayComponents/Tooltip";
 import PointEditor from "../editor/agenda/modals/PointEditor";
 import CustomPointEditor from "../editor/agenda/modals/CustomPointEditor";
-import { Drawer } from "material-ui";
 
 const calculateOpenIndex = agendas => {
 	const openAgenda = agendas.find(
