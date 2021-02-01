@@ -1101,7 +1101,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 
 .rating > input:checked ~ label {
-    color: #7d2180;
+    color: var(--primary);
 }
 
 .rating:not(:checked) > label:hover,
@@ -1121,4 +1121,37 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     position:relative;
     top:2px;
     left:2px;
+}
+
+.rating-disabled {
+    float:left;
+}
+
+.rating-disabled:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+    clip:rect(0,0,0,0);
+}
+
+.rating-disabled:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    font-size:320%;
+    margin-bottom: 0;
+    line-height:1.2;
+    color:#ddd;
+}
+.rating-disabled:not(:checked) > label.lowStars {
+    font-size:200%;
+}
+
+.rating-disabled:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rating-disabled > input:checked ~ label {
+    color: var(--primary);
 }
