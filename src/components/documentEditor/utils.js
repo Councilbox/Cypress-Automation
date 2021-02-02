@@ -3,10 +3,11 @@ import { blocks } from './actBlocks';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
 import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
-import { getAgendaResult, getPercentage, hasVotation, isConfirmationRequest, isCustomPoint, showNumParticipations } from '../../utils/CBX';
+import { getAgendaResult, hasVotation, isConfirmationRequest, isCustomPoint, showNumParticipations } from '../../utils/CBX';
 import iconDelegaciones from '../../assets/img/networking.svg';
 import { TAG_TYPES } from '../company/drafts/draftTags/utils';
 import { translations } from './translations';
+import { COUNCIL_TYPES } from '../../constants';
 
 const filterHiddenItems = item => !item.hide;
 
@@ -22,14 +23,207 @@ const prepareColumn = (column, secondary) => column.reduce(flatItems, []).map(it
     }))
 
 export const buildDocVariable = (doc, options) => ({
-        fragments: prepareColumn(doc),
-        secondaryColumn: options.doubleColumn ? prepareColumn(doc, true) : undefined,
-        options: {
-            language: 'es',
-            secondaryLanguage: 'en',
-            ...options,
+    fragments: prepareColumn(doc),
+    secondaryColumn: options.doubleColumn ? prepareColumn(doc, true) : undefined,
+    options: {
+        language: 'es',
+        secondaryLanguage: 'en',
+        ...options,
+    }
+})
+
+export function generateCertAgendaBlocks(data, language = 'es'){
+    const agenda = data.agendas;
+    const texts = translations[language];
+
+    return agenda.map((point) => ({
+        id: Math.random().toString(36).substr(2, 9),
+        label: `${texts.includePoint} ${point.orderIndex}`,
+        text: "",
+        editButton: false,
+        type: 'certAgenda',
+        logic: true,
+        language: 'es',
+        toggleable: true,
+        hide: false,
+        secondaryLanguage: 'en',
+        colorBorder: "#b39a5b",
+        noBorrar: false,
+        data: {
+            agendaId: point.id
         }
-    })
+    }));
+}
+
+
+const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.itemId == itemId).reduce((a, b) => a + b.weight, 0)
+
+
+const buildAgendaText = (agenda, translate, data) => {
+    if(isCustomPoint(agenda.subjectType)){
+        return `
+            <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+                <b>${translate.votings}:</b>
+                ${agenda.items.reduce((acc, item) => `${acc}
+                        <li>
+                            ${item.value}: ${showNumParticipations(getCustomRecount(agenda.ballots, item.id), data.company, data.council.statute)}
+                        </li>
+                    `, '')}
+                <li>
+                    ${translate.abstentions}: ${showNumParticipations(getCustomRecount(agenda.ballots, -1), data.company, data.council.statute)}
+                </li>
+            </div>
+        `;
+    }
+
+    if(isConfirmationRequest(agenda.subjectType)){
+        if(data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+            if((agenda.positiveVotings + agenda.positiveManual) > (agenda.negativeVotings + agenda.negativeManual)){
+                return '';
+            }
+        }
+
+        return `
+            <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+                <b>${translate.votings}: </b>
+                <br> ${
+                    translate.accept.toUpperCase()}: ${
+                    getAgendaResult(agenda, 'NUM_POSITIVE', data)} | ${
+                    translate.refuse.toUpperCase()}: ${
+                    getAgendaResult(agenda, 'NUM_NEGATIVE', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NUM_NO_VOTE', data)}
+                <br>
+            </div>
+        `
+    }
+
+    return `
+        <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+            <b>${translate.votings}: </b>
+            <br> ${
+                translate.inFavor.toUpperCase()}: ${
+                getAgendaResult(agenda, 'POSITIVE', data)} | ${
+                translate.against.toUpperCase()}: ${
+                getAgendaResult(agenda, 'NEGATIVE', data)} | ${translate.abstentions.toUpperCase()}:
+            ${getAgendaResult(agenda, 'ABSTENTION', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NO_VOTE', data)}
+            <br>
+        </div>
+    `;
+}
+
+export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 'en'){
+    const agenda = data.agendas;
+    const texts = translations[language];
+    const secondaryTexts = translations[secondaryLanguage];
+
+    let newArray = [];
+
+    if(data.council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
+        newArray.push({
+            id: Math.random().toString(36).substr(2, 9),
+            label: texts.agenda,
+            type: 'introAgenda',
+            editButton: true,
+            text: texts.agendaIntro,
+            secondaryText: secondaryTexts.agendaIntro,
+        });
+    }
+
+    agenda.forEach((element, index) => {
+        newArray = newArray.concat([
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: `${texts.agendaPoint} ${(index + 1)} - ${texts.title}`,
+                text: `<div style="margin-top: 1em; font-weight: 700; font-size: 1.2em;">${element.agendaSubject}</div>`,
+                secondaryText: `<div style="margin-top: 1em; font-weight: 700; font-size: 1.2em;">${element.agendaSubject}</div>`,
+                editButton: true,
+                type: 'agendaSubject',
+                noBorrar: false,
+            },
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: `${texts.agendaPoint} ${(index + 1)} - ${texts.description}`,
+                text: element.description,
+                secondaryText: element.description,
+                editButton: true,
+                type: 'description',
+                noBorrar: false,
+            },
+            {
+                id: Math.random().toString(36).substr(2, 9),
+                label: `${texts.agendaPoint} ${(index + 1)} - ${texts.commentsAndAgreements}`,
+                text: element.comment || '',
+                secondaryText: element.commentRightColumn || '',
+                editButton: true,
+                type: 'comment',
+                noBorrar: true
+            }
+        ]);
+
+
+        if(hasVotation(element.subjectType)){
+            newArray = newArray.concat([
+                {
+                    id: Math.random().toString(36).substr(2, 9),
+                    label: `${texts.agendaPoint} ${index + 1} - ${
+                        data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? texts.results : texts.votes
+                    }`,
+                    editButton: false,
+                    type: "votes",
+                    noBorrar: true,
+                    data: {
+                        agendaId: element.id
+                    },
+                    text: buildAgendaText(element, texts, data),
+                    secondaryText: buildAgendaText(element, secondaryTexts, data)
+                },
+                {
+                    id: Math.random().toString(36).substr(2, 9),
+                    label: `${texts.agendaPoint} ${index + 1} - ${
+                        data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? texts.participantList : texts.votersList
+                    }`,
+                    text: "",
+                    editButton: false,
+                    type: 'voting',
+                    toggleable: true,
+                    hide: false,
+                    noBorrar: false,
+                    data: {
+                        agendaId: element.id
+                    },
+                    logic: true,
+                    language: 'es',
+                    secondaryLanguage: 'en',
+                    icon: iconVotaciones,
+                    colorBorder: '#866666'
+                }
+            ]);
+
+            if(data.council.statute.existsComments === 1){
+                newArray = newArray.concat([
+                    {
+                        id: Math.random().toString(36).substr(2, 9),
+                        label: `${texts.agendaPoint} ${index + 1} - ${texts.comments}`,
+                        text: '',
+                        editButton: false,
+                        type: 'agendaComments',
+                        logic: true,
+                        toggleable: false,
+                        language: 'es',
+                        secondaryLanguage: 'en',
+                        colorBorder: "#b39a5b",
+                        icon: iconAgendaComments,
+                        noBorrar: false,
+                        data: {
+                            agendaId: element.id
+                        }
+                    }
+                ]);
+            }
+        }
+    });
+
+    return newArray;
+}
 
 export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = 'en') => {
     const texts = translations[language];
@@ -72,7 +266,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
         }),
         agendaList: () => {
             let puntos = `<b>${texts.agenda}</b> </br>`
-            data.agendas.forEach((element, index) => {
+            data.agendas.forEach(element => {
                 puntos += "- " + element.agendaSubject + "</br>";
             });
             return {
@@ -141,193 +335,6 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
     return blockTypes[item.type]();
 }
 
-export function generateCertAgendaBlocks(data, language = 'es', secondaryLanguage = 'en'){
-    const agenda = data.agendas;
-    const texts = translations[language];
-    const secondaryTexts = translations[secondaryLanguage];
-
-    return agenda.map((point, index) => ({
-        id: Math.random().toString(36).substr(2, 9),
-        label: `${texts.includePoint} ${point.orderIndex}`,
-        text: "",
-        editButton: false,
-        type: 'certAgenda',
-        logic: true,
-        language: 'es',
-        toggleable: true,
-        hide: false,
-        secondaryLanguage: 'en',
-        colorBorder: "#b39a5b",
-        noBorrar: false,
-        data: {
-            agendaId: point.id
-        }
-    }));
-}
-
-const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.itemId == itemId).reduce((a, b) => a + b.weight, 0)
-
-
-const buildAgendaText = (agenda, translate, data) => {
-    if(isCustomPoint(agenda.subjectType)){
-        return `
-            <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-                <b>${translate.votings}:</b>
-                ${agenda.items.reduce((acc, item) => `${acc}
-                        <li>
-                            ${item.value}: ${showNumParticipations(getCustomRecount(agenda.ballots, item.id), data.company, data.council.statute)}
-                        </li>
-                    `, '')}
-                <li>
-                    ${translate.abstentions}: ${showNumParticipations(getCustomRecount(agenda.ballots, -1), data.company, data.council.statute)}
-                </li>
-            </div>
-        `;
-    }
-
-    if(isConfirmationRequest(agenda.subjectType)){
-        return `
-            <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-                <b>${translate.votings}: </b>
-                <br> ${
-                    translate.accept.toUpperCase()}: ${
-                    getAgendaResult(agenda, 'NUM_POSITIVE', data)} | ${
-                    translate.refuse.toUpperCase()}: ${
-                    getAgendaResult(agenda, 'NUM_NEGATIVE', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NUM_NO_VOTE', data)}
-                <br>
-            </div>
-        `
-    }
-
-    return `
-        <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-            <b>${translate.votings}: </b>
-            <br> ${
-                translate.inFavor.toUpperCase()}: ${
-                getAgendaResult(agenda, 'POSITIVE', data)} | ${
-                translate.against.toUpperCase()}: ${
-                getAgendaResult(agenda, 'NEGATIVE', data)} | ${translate.abstentions.toUpperCase()}:
-            ${getAgendaResult(agenda, 'ABSTENTION', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NO_VOTE', data)}
-            <br>
-        </div>
-    `;
-}
-
-
-export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 'en'){
-    const agenda = data.agendas;
-    const texts = translations[language];
-    const secondaryTexts = translations[secondaryLanguage];
-
-    let newArray = [
-        {
-            id: Math.random().toString(36).substr(2, 9),
-            label: texts.agenda,
-            type: 'introAgenda',
-            editButton: true,
-            text: texts.agendaIntro,
-            secondaryText: secondaryTexts.agendaIntro,
-        }
-    ];
-
-    agenda.forEach((element, index) => {
-        newArray = newArray.concat([
-            {
-                id: Math.random().toString(36).substr(2, 9),
-                label: `${texts.agendaPoint} ${(index + 1)} - ${texts.title}`,
-                text: `<div style="margin-top: 1em; font-weight: 700; font-size: 1.2em;">${element.agendaSubject}</div>`,
-                secondaryText: `<div style="margin-top: 1em; font-weight: 700; font-size: 1.2em;">${element.agendaSubject}</div>`,
-                editButton: true,
-                type: 'agendaSubject',
-                noBorrar: false,
-                editButton: true
-            },
-            {
-                id: Math.random().toString(36).substr(2, 9),
-                label: `${texts.agendaPoint} ${(index + 1)} - ${texts.description}`,
-                text: element.description,
-                secondaryText: element.description,
-                editButton: true,
-                type: 'description',
-                noBorrar: false,
-                editButton: true
-            },
-            {
-                id: Math.random().toString(36).substr(2, 9),
-                label: `${texts.agendaPoint} ${(index + 1)} - ${texts.commentsAndAgreements}`,
-                text: element.comment || '',
-                secondaryText: element.commentRightColumn || '',
-                editButton: true,
-                type: 'comment',
-                noBorrar: true
-            }
-        ]);
-
-
-        if(hasVotation(element.subjectType)){
-            newArray = newArray.concat([
-                {
-                    id: Math.random().toString(36).substr(2, 9),
-                    label: `${texts.agendaPoint} ${index + 1} - ${texts.votes}`,
-                    editButton: false,
-                    type: "votes",
-                    noBorrar: true,
-                    editButton: false,
-                    data: {
-                        agendaId: element.id
-                    },
-                    text: buildAgendaText(element, texts, data),
-                    secondaryText: buildAgendaText(element, secondaryTexts, data)
-                },
-                {
-                    id: Math.random().toString(36).substr(2, 9),
-                    label: `${texts.agendaPoint} ${index + 1} - ${texts.votersList}`,
-                    text: "",
-                    editButton: false,
-                    type: 'voting',
-                    toggleable: true,
-                    hide: false,
-                    noBorrar: false,
-                    editButton: false,
-                    data: {
-                        agendaId: element.id
-                    },
-                    logic: true,
-                    language: 'es',
-                    secondaryLanguage: 'en',
-                    icon: iconVotaciones,
-                    colorBorder: '#866666'
-                }
-            ]);
-
-            if(data.council.statute.existsComments === 1){
-                newArray = newArray.concat([
-                    {
-                        id: Math.random().toString(36).substr(2, 9),
-                        label: `${texts.agendaPoint} ${index + 1} - ${texts.comments}`,
-                        text: '',
-                        editButton: false,
-                        type: 'agendaComments',
-                        logic: true,
-                        toggleable: false,
-                        language: 'es',
-                        secondaryLanguage: 'en',
-                        colorBorder: "#b39a5b",
-                        icon: iconAgendaComments,
-                        noBorrar: false,
-                        data: {
-                            agendaId: element.id
-                        },
-                        editButton: false
-                    }
-                ]);
-            }
-        }
-    });
-
-    return newArray;
-}
-
 export const getDefaultTagsByBlockType = (type, translate) => {
     const baseTag = {
         type: TAG_TYPES.DRAFT_TYPE,
@@ -378,17 +385,24 @@ export const getDefaultTagsByBlockType = (type, translate) => {
 
 export const buildDoc = (data, translate, type) => {
     const CBX_DOCS = {
-        act: [
-            blocks.ACT_TITLE,
-            blocks.ACT_INTRO,
-            blocks.ACT_CONSTITUTION,
-            blocks.AGENDA_LIST,
-            blocks.AGENDA,
-            blocks.ACT_CONCLUSION,
-            blocks.ATTENDANTS_LIST,
-            blocks.DELEGATION_LIST
-        ],
-        certificate: [
+        act: () => {
+            const sections = [
+                blocks.ACT_TITLE,
+                blocks.ACT_INTRO,
+                blocks.ACT_CONSTITUTION,
+                blocks.AGENDA_LIST,
+                blocks.AGENDA,
+                blocks.ACT_CONCLUSION,
+                blocks.ATTENDANTS_LIST
+            ];
+
+            if(data.council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
+                sections.push(blocks.DELEGATION_LIST);
+            }
+
+            return sections;
+        },
+        certificate: () => [
             blocks.CERT_TITLE,
             blocks.CERT_HEADER,
             blocks.CERT_AGENDA,
@@ -400,7 +414,7 @@ export const buildDoc = (data, translate, type) => {
         throw new Error('Invalid doc type');
     }
 
-    return CBX_DOCS[type].map(item => buildDocBlock(item, data, data.council.language));
+    return CBX_DOCS[type]().map(item => buildDocBlock(item, data, data.council.language));
 }
 
 export const shouldCancelStart = event => {
@@ -499,7 +513,7 @@ export const useDoc = (params = {}) => {
         } while (!localization || i > doc.length);
 
         if(localization){
-            if(localization.hasOwnProperty('subBlock')){
+            if(Object.prototype.hasOwnProperty.call(localization, 'subBlock')){
                 const items = [...newItems[localization.block].items];
                 const item = { ...newItems[localization.block].items[localization.subBlock], ...object }
                 items[localization.subBlock] = item;
