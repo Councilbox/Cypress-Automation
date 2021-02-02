@@ -113,27 +113,27 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
         }
     }
 
-    const updateSurvey = async () => {
-        if(!checkRequiredFields()){
-            setStatus(STATUS.LOADING);
-            await client.mutate({
-                mutation: gql`
-                    mutation UpdateParticipantSurvey($participantSurvey: ParticipantSurveyInput){
-                        updateParticipantSurvey(participantSurvey: $participantSurvey){
-                            success
-                        }
-                    }
-                `,
-                variables: {
-                    participantSurvey: {
-                        id: state.id,
-                        data: state.data
-                    }
-                }
-            });
-            resetAndClose();
-        }
-    }
+    // const updateSurvey = async () => {
+    //     if(!checkRequiredFields()){
+    //         setStatus(STATUS.LOADING);
+    //         await client.mutate({
+    //             mutation: gql`
+    //                 mutation UpdateParticipantSurvey($participantSurvey: ParticipantSurveyInput){
+    //                     updateParticipantSurvey(participantSurvey: $participantSurvey){
+    //                         success
+    //                     }
+    //                 }
+    //             `,
+    //             variables: {
+    //                 participantSurvey: {
+    //                     id: state.id,
+    //                     data: state.data
+    //                 }
+    //             }
+    //         });
+    //         resetAndClose();
+    //     }
+    // }
 
     React.useEffect(() => {
         getData();
@@ -157,7 +157,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                             <div>
                                 <div style={{ fontWeight: "800", color: "white", fontSize: '.9rem', padding: '1rem' }} >
                                     <p style={{ margin: '0' }}>
-                                        {`Valore el funcionamiento general de ${subdomain.name || 'Councilbox'}.`}
+                                        {translate.rate_app.replace(/{{appName}}/, subdomain.name || 'Councilbox')}
                                     </p>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                     <div style={{ border: "none", borderRadius: "1px", textAlign: 'left', color: "black", fontSize: '14px' }}>
                         <div>
                             <div>
-                                <div>Valore el grado de satisfacción con el uso de</div> {/* TRADUCCION */}
+                                <div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
                                 <div>
                                     <Stars
                                         name={"satisfaction"}
@@ -186,7 +186,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                 </div>
                             </div>
                             <div>
-                                <div>Valore el funcionamiento general de {subdomain.name || 'Counclibox'}.</div> {/* TRADUCCION */}
+                                <div>{translate.rate_performance.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
                                 <div>
                                     <Stars
                                         name={"performance"}
@@ -206,7 +206,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                 </div>
                             </div>
                             <div>
-                                <div>En qué grado recomendaría y volvería a utilizar  en el futuro</div>{/* TRADUCCION */}
+                                <div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
                                 <div>
                                     <Stars
                                         name={"recommend"}
@@ -226,7 +226,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                 </div>
                             </div>
                             <div>
-                                <div>¿Cómo valoraría la atención recibida?</div>{/* TRADUCCION */}
+                                <div>{translate.rate_care_received}</div>
                                 <div>
                                     <Stars
                                         name={"care"}
@@ -246,7 +246,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                 </div>
                             </div>
                             <div>
-                                <div>¿Qué aspectos  mejoraría en su experiencia con ?</div>{/* TRADUCCION */}
+                                <div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
                                 <div style={{ marginTop: "0.5em" }}>
                                     <TextArea
                                         style={{
@@ -273,7 +273,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                         </div>
                         {state.creationDate &&
                             <div style={{ marginBottom: '1em', marginTop: '1em' }}>
-                                Enviada: {moment(state.creationDate).format('LLL')}
+                                {translate.sent_fem}: {moment(state.creationDate).format('LLL')}
                             </div>
                         }
 

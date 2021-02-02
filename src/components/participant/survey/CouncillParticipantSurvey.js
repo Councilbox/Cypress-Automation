@@ -18,7 +18,7 @@ const CouncilSurvey = ({ translate, participant }) => {
 		<div>
             <BasicButton
                 color="white"
-                text={'Valore el funcionamiento de la reunión aquí'}
+                text={translate.rate_app_button}
                 onClick={() => setOpen(true)}
                 buttonStyle={{
                     border: `1px solid ${primary}`,
