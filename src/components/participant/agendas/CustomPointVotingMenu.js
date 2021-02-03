@@ -146,7 +146,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
 
         return (
             <div style={{ paddingTop: "0px" }}>
-                <div style={{ display: "flex", width: "52.5%", height: '2.5em' }}>
+                <div style={{ display: "flex", width: "52.5%",  }}>
                     <VotingButton
                         text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
                         disabled={disabled}
