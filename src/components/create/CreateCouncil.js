@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
 import { toast } from 'react-toastify';
 import { Paper } from "material-ui";
-import { LoadingMainApp, LiveToast, AlertConfirm, Scrollbar } from "../../displayComponents";
+import { LiveToast, AlertConfirm, Scrollbar } from "../../displayComponents";
 import { bHistory } from "../../containers/App";
 import { ConfigContext } from '../../containers/AppControl';
 import { getSecondary, getPrimary } from "../../styles/colors";
@@ -49,12 +49,39 @@ const steps = {
 	ONE_ON_ONE: 'ONE_ON_ONE'
 }
 
-const CreateCouncilModal = ({ history, company, createCouncil, translate, config, client }) => {
+const CreateCouncilModal = ({ history, company, createCouncil, translate, config }) => {
 	const [options, setOptions] = React.useState(null);
 	const [step, setStep] = React.useState(1);
 	const [errors, setErrors] = React.useState({});
 	const [creating, setCreating] = React.useState(false);
-	const [title, setTitle] = React.useState(translate.select_meeting_type);//TRADUCCION
+	const primary = getPrimary();
+
+
+	const checkRequiredFields = type => {
+		let hasError = false;
+		const newErrors = {}
+
+		if ([0, 4, 5].findIndex(item => item === type) === -1) {
+			if (!options.dateStart) {
+				hasError = true;
+				newErrors.dateStart = translate.required_field;
+			}
+			if (!options.closeDate) {
+				hasError = true;
+				newErrors.closeDate = translate.required_field;
+			}
+
+			if (options.dateStart && options.closeDate) {
+				if (!checkSecondDateAfterFirst(options.dateStart, options.closeDate)) {
+					hasError = true;
+					newErrors.errorMessage = translate.end_date_earlier_the_start;
+				}
+			}
+		}
+
+		setErrors(newErrors);
+		return hasError;
+	}
 
 
 	const sendCreateCouncil = async type => {
@@ -67,8 +94,8 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 					councilOptions: options
 				}
 			});
-			const newCouncilId = response.data.createCouncil.id;
-			if (newCouncilId) {
+			if (response.data.createCouncil) {
+				const newCouncilId = response.data.createCouncil.id;
 				sendGAevent({
 					category: "Reuniones",
 					action: "Creación reunión con sesión",
@@ -91,33 +118,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 		}
 	}
 
-	const checkRequiredFields = type => {
-		let hasError = false;
-		const errors = {}
-
-		if ([0, 4, 5].findIndex(item => item === type) === -1) {
-			if (!options.dateStart) {
-				hasError = true;
-				errors.dateStart = translate.required_field;
-			}
-			if (!options.closeDate) {
-				hasError = true;
-				errors.closeDate = translate.required_field;
-			}
-
-			if (options.dateStart && options.closeDate) {
-				if (!checkSecondDateAfterFirst(options.dateStart, options.closeDate)) {
-					hasError = true;
-					errors.errorMessage = translate.end_date_earlier_the_start;
-				}
-			}
-		}
-
-		setErrors(errors);
-
-		return hasError;
-	}
-
 	const councilStep = () => {
 		sendCreateCouncil(0);
 	}
@@ -136,7 +136,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 
 	const boardWithoutSessionStep = () => {
 		setStep(steps.BOARD_NO_SESSION);
-		//sendCreateCouncil(4);
 	}
 
 	return (
@@ -160,7 +159,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 								<div style={{ height: "100%", padding: isMobile ? "0em 1em 0em" : "0em 2em 2em 2em" }}>
 									<div style={{ display: !isMobile && "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5em" }}>
 										<div style={{ display: "flex" }}>
-											<div style={{ color: getPrimary(), fontSize: isMobile ? "17px" : "24px", fontStyle: "italic" }}>
+											<div style={{ color: primary, fontSize: isMobile ? "17px" : "24px", fontStyle: "italic" }}>
 												{translate.create_council_title}
 											</div>
 											{!isMobile &&
@@ -171,9 +170,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 										</div>
 										<div style={{ color: "black", cursor: "pointer", paddingTop: "8px", paddingBottom: "8px" }} onClick={() => setStep(10)}>
 											<div style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: '13px' }}>
-												<i className="material-icons" style={{ color: getPrimary(), fontSize: '13px', paddingRight: "0.3em", marginTop: "4px" }} >
+												<i className="material-icons" style={{ color: primary, fontSize: '13px', paddingRight: "0.3em", marginTop: "4px" }} >
 													help
-                    							</i>
+												</i>
 												{translate.create_council_help}
 											</div>
 										</div>
@@ -306,7 +305,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 									hybrid={false}
 									setOptions={setOptions}
 									translate={translate}
-									setTitle={setTitle}
 									errors={errors}
 								/>
 							}
@@ -314,7 +312,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 								<CreateNoBoard
 									setOptions={setOptions}
 									translate={translate}
-									setTitle={setTitle}
 									options={options}
 									errors={errors}
 								/>
@@ -327,7 +324,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 									hybrid={true}
 									setOptions={setOptions}
 									translate={translate}
-									setTitle={setTitle}
 									errors={errors}
 								/>
 							}
@@ -349,7 +345,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 
 
 
-const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick }) => {
+const ButtonCreateCouncil = ({ title, icon, list, styleButton, onClick }) => {
 	const [hover, hoverHandlers] = useHoverRow();
 
 	if (isMobile) {
@@ -405,36 +401,31 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 		);
 }
 
-const ButtonInfoCouncil = ({ isMobile, title, icon, list, styleButton, infoExtra }) => {
-	const [open, setOpen] = React.useState(false);
-
-	return (
-		<Paper
-			elevation={6}
-			style={{
-				width: "100%",
-				// height: "450px",
-				overflow: 'hidden',
-				borderRadius: "8px",
-				marginBottom: "1em",
-				boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-				...styleButton
-			}}
-		>
-			<div style={{ padding: '1.5em', }}>
-				<div style={{ display: "flex" }}>
-					<div style={{ width: "80px" }}>{icon}</div>
-					<div style={{ fontSize: "22px", color: "black", marginLeft: "1em" }}>{title}</div>
-				</div>
-				<div style={{ marginTop: "1em" }}>
-					<div style={{ fontSize: "14px", color: "black" }}>{list}</div>
-					<div style={{ color: getSecondary() }}>{infoExtra}</div>
-				</div>
+const ButtonInfoCouncil = ({ title, icon, list, styleButton, infoExtra }) => (
+	<Paper
+		elevation={6}
+		style={{
+			width: "100%",
+			// height: "450px",
+			overflow: 'hidden',
+			borderRadius: "8px",
+			marginBottom: "1em",
+			boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+			...styleButton
+		}}
+	>
+		<div style={{ padding: '1.5em', }}>
+			<div style={{ display: "flex" }}>
+				<div style={{ width: "80px" }}>{icon}</div>
+				<div style={{ fontSize: "22px", color: "black", marginLeft: "1em" }}>{title}</div>
 			</div>
-		</Paper >
-	);
-}
-
+			<div style={{ marginTop: "1em" }}>
+				<div style={{ fontSize: "14px", color: "black" }}>{list}</div>
+				<div style={{ color: getSecondary() }}>{infoExtra}</div>
+			</div>
+		</div>
+	</Paper>
+)
 
 
 const mapStateToProps = state => ({
