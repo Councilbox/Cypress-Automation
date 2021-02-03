@@ -8,7 +8,7 @@ jobs:
   build:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'autodeploy') }}
     env:
-      registry_url: cbxpre.azurecr.io
+      registry_url: cbxacr.azurecr.io
       repository_name: cbx/councilbox-client
       state_repo: councilbox/cbx-state
       service_name: councilbox-client
