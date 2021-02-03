@@ -2,35 +2,31 @@ import React from "react";
 import { compose, graphql, withApollo } from "react-apollo";
 import { withRouter } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { Paper, IconButton, Tooltip } from "material-ui";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
-	CardPageLayout,
 	LiveToast,
 	Scrollbar,
 	UnsavedChangesModal,
 	LoadingSection,
 	TextInput,
-	VTabs,
-	CloseIcon
+	VTabs
 } from "../../../displayComponents";
 import {
-	createStatute,
-	deleteStatute,
+	createStatute as createStatuteMutation,
+	deleteStatute as deleteStatuteMutation,
 	statutes,
-	updateStatute
+	updateStatute as updateStatuteMutation
 } from "../../../queries";
 import { censuses } from "../../../queries/census";
 import { store } from '../../../containers/App';
 import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from "./StatuteEditor";
 import StatuteNameEditor from './StatuteNameEditor';
-import { getPrimary, getSecondary, primary, secondary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../styles/colors";
 import { checkForUnclosedBraces } from '../../../utils/CBX';
-import { useOldState } from "../../../hooks";
 import { isMobile } from '../../../utils/screen';
 
 
@@ -53,26 +49,29 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		deleteModal: false,
 	});
 	const [censusList, setCensusList] = React.useState(null);
+	const [editorHeight, setEditorHeight] = React.useState('100%');
 	const [tabs, setTabs] = React.useState([]);
+	const statuteEditorRef = React.useRef();
 
 	React.useEffect(() => {
 		if (!data.loading) {
-			setState(state => ({
-				...state,
-				statute: data.companyStatutes[state.selectedStatute]
+			setState(oldState => ({
+				...oldState,
+				statute: data.companyStatutes[oldState.selectedStatute]
 			}));
 			setTabs(data.companyStatutes.map(statute => ({
 				title: translate[statute.title] || statute.title,
-				data: statute
+				data: statute,
+				disabled: statute.companyId !== +props.company.id
 			})));
 		}
 	}, [state.selectedStatute, data.loading]);
 
 	React.useEffect(() => {
 		if (state.statute === null) {
-			setState(state => ({
-				...state,
-				statute: data.companyStatutes[state.selectedStatute]
+			setState(oldState => ({
+				...oldState,
+				statute: data.companyStatutes[oldState.selectedStatute]
 			}));
 		}
 	}, [state.statute]);
@@ -108,22 +107,22 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 		const { statute } = state;
 
-		if (statute.existsAdvanceNoticeDays && isNaN(statute.advanceNoticeDays)) {
+		if (statute.existsAdvanceNoticeDays && Number.isNaN(statute.advanceNoticeDays)) {
 			errors.advanceNoticeDays = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsSecondCall && isNaN(statute.minimumSeparationBetweenCall)) {
+		if (statute.existsSecondCall && Number.isNaN(statute.minimumSeparationBetweenCall)) {
 			errors.minimumSeparationBetweenCall = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsMaxNumDelegatedVotes && isNaN(statute.maxNumDelegatedVotes)) {
+		if (statute.existsMaxNumDelegatedVotes && Number.isNaN(statute.maxNumDelegatedVotes)) {
 			hasError = true;
 			errors.maxNumDelegatedVotes = translate.required_field;
 		}
 
-		if (statute.existsLimitedAccessRoom && isNaN(statute.limitedAccessRoomMinutes)) {
+		if (statute.existsLimitedAccessRoom && Number.isNaN(statute.limitedAccessRoomMinutes)) {
 			hasError = true;
 			errors.limitedAccessRoomMinutes = translate.required_field;
 		}
@@ -166,8 +165,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			);
 		}
 
-		setState(state => ({
-			...state,
+		setState(oldState => ({
+			...oldState,
 			errors,
 			error: hasError
 		}));
@@ -254,6 +253,29 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		}
 	};
 
+	const handleStatuteChange = index => {
+		if (index !== 'new') {
+			if (!state.unsavedChanges) {
+				setState({
+					...state,
+					selectedStatute: index,
+					statute: null,
+					error: false,
+					loading: false,
+					success: false
+				})
+			} else {
+				setState({
+					...state,
+					unsavedAlert: true,
+					error: false,
+					loading: false,
+					success: false
+				});
+			}
+		}
+	};
+
 	const createStatute = async () => {
 		const regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
 
@@ -308,48 +330,29 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const updateState = object => {
+		if(state.statute.companyId !== props.company.id){
+			return;
+		}
+
 		if (!state.unsavedChanges) {
 			store.dispatch(setUnsavedChanges(true));
 		}
 
 
-		setState(state => ({
-			...state,
+		setState(oldState => ({
+			...oldState,
 			statute: {
-				...state.statute,
+				...oldState.statute,
 				...object
 			},
-			unsavedChanges: JSON.stringify({ ...state.statute, ...object }) !== JSON.stringify(data.companyStatutes[state.selectedStatute])
+			unsavedChanges: JSON.stringify({ ...oldState.statute, ...object }) !== JSON.stringify(data.companyStatutes[oldState.selectedStatute])
 		}));
-	};
-
-	const handleStatuteChange = index => {
-		if (index !== 'new') {
-			if (!state.unsavedChanges) {
-				setState({
-					...state,
-					selectedStatute: index,
-					statute: null,
-					error: false,
-					loading: false,
-					success: false
-				})
-			} else {
-				setState({
-					...state,
-					unsavedAlert: true,
-					error: false,
-					loading: false,
-					success: false
-				});
-			}
-		}
 	};
 
 	const showNewStatute = () => setState({
 		...state,
-newStatute: true,
-errors: {
+		newStatute: true,
+		errors: {
 			...state.errors,
 			newStatuteName: ""
 		}
@@ -367,6 +370,10 @@ errors: {
 		store.dispatch(setUnsavedChanges(false));
 	}
 
+	React.useLayoutEffect(() => {
+		setEditorHeight(statuteEditorRef.current?.offsetHeight || '100%');
+	}, [statuteEditorRef.current]);
+
 	const { companyStatutes } = data;
 	const { statute, errors, success } = state;
 	const secondary = getSecondary();
@@ -375,6 +382,7 @@ errors: {
 		return <LoadingSection />;
 	}
 
+	const disabled = statute && (statute.companyId !== props.company.id);
 
 	const body = () => (
 		<>
@@ -409,12 +417,43 @@ errors: {
 							<React.Fragment>
 								<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
 									<Scrollbar>
-										<div style={{ paddingLeft: '1em', paddingRight: '1.5em', overflow: 'hidden' }}>
+										{disabled &&
+											<>
+												<div
+													style={{
+														position: 'absolute',
+														top: '0',
+														left: '0',
+														width: '100%',
+														height: editorHeight,
+														//backgroundColor: 'red',
+														zIndex: 1000000
+													}}
+													onClick={() => {}}
+												/>
+												<div
+													style={{
+														width: '100%',
+														textAlign: 'center',
+														border: '1px solid black',
+														borderRadius: '4px',
+														fontWeight: '700',
+														padding: '0.6em 0',
+														margin: '1em 0'
+													}}
+												>
+													{translate.organization_statute} <br/>
+													{translate.read_only}
+												</div>
+											</>
+										}
+										<div style={{ paddingLeft: '1em', paddingRight: '1.5em', overflow: 'hidden' }} ref={statuteEditorRef}>
 											<StatuteEditor
 												companyStatutes={companyStatutes}
 												statute={statute}
 												censusList={censusList}
 												company={props.company}
+												disabled={disabled}
 												translate={translate}
 												organization={props.organization}
 												updateState={updateState}
@@ -427,7 +466,6 @@ errors: {
 								<div
 									style={{
 										width: '100%',
-										paddingRight: '24px',
 										height: '3.5em',
 										paddingTop: '0.5em',
 										borderTop: '1px solid gainsboro',
@@ -462,27 +500,29 @@ errors: {
 												}
 											/>
 										}
-										<BasicButton
-											text={translate.save}
-											disabled={state.error}
-											color={success ? "green" : getPrimary()}
-											textStyle={{
-												color: "white",
-												fontWeight: "700",
-												textTransform: 'none'
-											}}
-											onClick={updateStatute}
-											loading={state.loading}
-											error={state.error}
-											reset={resetButtonStates}
-											success={success}
-											icon={
-												<ButtonIcon
-													type={"save"}
-													color="white"
-												/>
-											}
-										/>
+										{!disabled &&
+											<BasicButton
+												text={translate.save}
+												disabled={state.error}
+												color={success ? "green" : getPrimary()}
+												textStyle={{
+													color: "white",
+													fontWeight: "700",
+													textTransform: 'none'
+												}}
+												onClick={updateStatute}
+												loading={state.loading}
+												error={state.error}
+												reset={resetButtonStates}
+												success={success}
+												icon={
+													<ButtonIcon
+														type={"save"}
+														color="white"
+													/>
+												}
+											/>
+										}
 									</div>
 								</div>
 							</React.Fragment>
@@ -587,13 +627,13 @@ errors: {
 
 export default withSharedProps()(
 	compose(
-		graphql(updateStatute, {
+		graphql(updateStatuteMutation, {
 			name: "updateStatute"
 		}),
-		graphql(deleteStatute, {
+		graphql(deleteStatuteMutation, {
 			name: "deleteStatute"
 		}),
-		graphql(createStatute, {
+		graphql(createStatuteMutation, {
 			name: "createStatute"
 		}),
 		graphql(statutes, {
