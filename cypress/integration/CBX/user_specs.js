@@ -40,6 +40,49 @@ describe("Council box change user settings", function() {
         });
     });
 
+    describe("Change langauge settings", function() {
+    
+        it("Change language to Spanish", function() {
+            cy.contains('English').click()
+            cy.contains('Español').click()
+            cy.contains('Save').click({force: true})
+            cy.wait(2000);
+            cy.get('body').invoke('text').should('contain', 'Idioma')
+        });
+
+        it("Change language to Portugese", function() {
+            cy.contains('Español').click()
+            cy.contains('Português').click()
+            cy.contains('Guardar').click({force: true})
+            cy.wait(2000);
+            cy.get('body').invoke('text').should('contain', 'Alterar palavra-passe')
+        });
+
+        it("Change language to Catala", function() {
+            cy.contains('Português').click()
+            cy.contains('Català').click()
+            cy.contains('Guardar').click({force: true})
+            cy.wait(2000);
+            cy.get('body').invoke('text').should('contain', 'Canviar contrasenya')
+        });
+
+        it("Change language to Galego", function() {
+            cy.contains('Català').click()
+            cy.contains('Galego').click()
+            cy.contains('Guardar').click({force: true})
+            cy.wait(2000);
+            cy.get('body').invoke('text').should('contain', 'Mudar contrasinal')
+        });
+
+        it("Change language to English", function() {
+            cy.contains('Galego').click()
+            cy.contains('English').click()
+            cy.contains('Gardar').click({force: true})
+            cy.wait(2000);
+            cy.get('body').invoke('text').should('contain', 'Change password')
+        });
+    });
+
     describe("Change user settings", function() {
     
         it("Change name", function() {
