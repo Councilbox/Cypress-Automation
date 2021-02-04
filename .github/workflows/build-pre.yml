@@ -35,7 +35,7 @@ jobs:
       - name: Login acr
         run: |
               ACCESS_TOKEN=$(az acr login --name ${{ env.registry_url }} --expose-token --output tsv --query accessToken)
-              echo $ACCESS_TOKEN | docker login ${{ env.registry_url }}
+              docker login ${{ env.login_server }} -u 00000000-0000-0000-0000-000000000000 -p $ACCESS_TOKEN
 
       - name: Build and push
         uses: docker/build-push-action@v2
