@@ -3,13 +3,12 @@ import { withApollo } from 'react-apollo';
 import { TableRow, TableCell } from 'material-ui';
 import { LoadingSection, EnhancedTable, Scrollbar } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../../constants';
-import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 import { getSecondary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
 import { councilAttendants } from '../../../../queries/council';
 import DownloadAttendantsPDF from './DownloadAttendantsPDF';
 import StateIcon from '../../live/participants/StateIcon';
-import { useOldState, useHoverRow } from '../../../../hooks';
+import { useHoverRow } from '../../../../hooks';
 import { moment } from '../../../../containers/App';
 import CbxDataModal from './CbxDataModal';
 
@@ -131,7 +130,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                         <LoadingSection />
                                         :
                                         councilAttendantsData.list.map(
-                                            (participant, index) => (
+                                            (participant) => (
                                                     <React.Fragment
                                                         key={`participant${participant.id}`}
                                                     >
@@ -154,10 +153,9 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
     )
 }
 
-const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
+const HoverableRow = ({ translate, participant, delegatedVotes }) => {
     const [showActions, rowHandlers] = useHoverRow();
     const [cbxDataModal, setCbxDataModal] = React.useState(false);
-    const [state, updateState] = useOldState({ loading: false });
     const representing = delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 
 
@@ -219,16 +217,17 @@ const HoverableRow = ({ translate, participant, delegatedVotes, ...props }) => {
 }
 
 const formatParticipant = participant => {
-    let { representing, ...newParticipant } = participant;
+    const { representing, ...newParticipant } = participant;
+    let currentParticipant = newParticipant;
     if (representing && representing.type === 3) {
         const { representative, ...rest } = newParticipant;
-        newParticipant = {
+        currentParticipant = {
             ...representing,
             notifications: rest.notifications,
             representative: rest
         }
     }
-    return newParticipant;
+    return currentParticipant;
 }
 
 
@@ -285,7 +284,7 @@ const applyFilters = (participants, filters) => applyOrder(participants.filter(i
         return true;
     }), filters.orderBy, filters.orderDirection)
 
-const applyOrder = (participants, orderBy, orderDirection) => participants.sort((a, b) => {
+const applyOrder = (participants, orderBy) => participants.sort((a, b) => {
         const participantA = formatParticipant(a);
         const participantB = formatParticipant(b);
         return participantA[orderBy] > participantB[orderBy]

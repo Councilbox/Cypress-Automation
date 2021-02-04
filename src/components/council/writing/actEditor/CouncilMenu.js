@@ -5,7 +5,6 @@ import { DropDownMenu, Icon } from "../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import OriginalConveneModal from "../../live/councilMenu/OriginalConveneModal";
 import CouncilInfoModal from "../../live/councilMenu/CouncilInfoModal";
-import { councilHasVideo } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
 
 class CouncilMenu extends React.Component {
@@ -31,14 +30,14 @@ class CouncilMenu extends React.Component {
 	}
 
 	render() {
-		const { translate, council } = this.props;
+		const { translate } = this.props;
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
 		return (
 			<React.Fragment>
 				<ConfigContext.Consumer>
-					{config => (
+					{() => (
 						<DropDownMenu
 							color="transparent"
 							Component={() => <Paper
