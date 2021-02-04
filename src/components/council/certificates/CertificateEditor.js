@@ -103,50 +103,6 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 		return response.data.generateDocumentHTML;
 	}
 
-    function checkRequiredFields() {
-        const errors = {};
-        let notify = false;
-
-        if(!data.title){
-            errors.title = translate.field_required;
-        }
-
-        if(!data.header){
-            errors.header = translate.field_required;
-        } else if(checkForUnclosedBraces(data.header)){
-                errors.header = true;
-                notify = true;
-            }
-
-        if(!data.footer){
-            errors.footer = translate.field_required;
-        } else if(checkForUnclosedBraces(data.footer)){
-                errors.footer = true;
-                notify = true;
-            }
-
-        if(notify){
-            toast(
-                <LiveToast
-                    message={translate.revise_text}
-                />, {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: true,
-                    className: "errorToast"
-                }
-            );
-        }
-
-        //setErrors(errors);
-
-        return Object.keys(errors).length > 0;
-    }
-
-    const toggleInfoMenu = () => {
-        setInfoMenu(!infoMenu);
-    }
-
-
     if(loading){
         return <LoadingSection />
     }
