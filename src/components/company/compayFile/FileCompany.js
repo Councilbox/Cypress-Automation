@@ -1,10 +1,8 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import { CardPageLayout, LoadingSection, BasicButton } from '../../../displayComponents';
+import { CardPageLayout, LoadingSection } from '../../../displayComponents';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import withTranslations from '../../../HOCs/withTranslations';
-import { getPrimary } from '../../../styles/colors';
 import FileInfo from './FileInformacion';
 import FileOrgAdm from './FileOrgAdm';
 import FileLibrosOfi from './FileLibrosOfi';
@@ -49,7 +47,7 @@ const reducer = (state, action) => {
 }
 
 
-const FileCompany = ({ translate, match, client, ...props }) => {
+const FileCompany = ({ translate, match, client }) => {
     const [{ loading, data }, dispatch] = React.useReducer(reducer, {
         loading: true,
         data: null
@@ -100,7 +98,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
 		if (!checkRequiredFields()) {
 			const { __typename, creatorId, creationDate, corporationId, ...newData } = data;
             setUpdateState('LOADING');
-			const response = await client.mutate({
+			await client.mutate({
                 mutation: updateCompany,
 				variables: {
 					company: newData
@@ -224,9 +222,5 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         </CardPageLayout>
     )
 }
-
-const DividerContenido = ({ titulo, contenido }) => (
-        <div style={{ borderBottom: "1px solid" + getPrimary(), }}></div>
-    )
 
 export default withTranslations()(withApollo(FileCompany));

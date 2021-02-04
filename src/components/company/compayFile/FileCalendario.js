@@ -1,17 +1,16 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { TableRow, TableCell, TableHead, TableBody, MenuItem } from 'material-ui';
-import Calendar from 'react-calendar';
-import { CardPageLayout, TextInput, Scrollbar, SelectInput, DropDownMenu, Table, AlertConfirm } from '../../../displayComponents';
+import { TableRow, TableCell, MenuItem } from 'material-ui';
+import { SelectInput, Table, AlertConfirm } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { getPrimary, primary } from '../../../styles/colors';
+import { getPrimary } from '../../../styles/colors';
 import AddCompanyNotificationMenu from './AddCompanyNotificationMenu';
 import { moment } from '../../../containers/App';
 
 
 
-const FileCalendario = ({ translate, company, client, ...props }) => {
+const FileCalendario = ({ translate, company, client }) => {
     const [data, setData] = React.useState([]);
     const [modal, setModal] = React.useState(false);
     const [showCreateMenu, setShowCreateMenu] = React.useState(false);
@@ -42,7 +41,6 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
         getData();
     }, [getData]);
 
-    const getTileClassName = ({ date }) => ''
 
     const deleteCompanyNotification = async () => {
         const response = await client.mutate({
@@ -78,19 +76,6 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
             __typename: undefined
         };
 
-        const response = await client.mutate({
-            mutation: gql`
-                mutation UpdateCompanyNotification($notification: CompanyNotificationInput){
-                    updateCompanyNotification(notification: $notification){
-                        id
-                        state
-                    }
-                }
-            `,
-            variables: {
-                notification: newValues
-            }
-        });
         getData();
     }
 
@@ -138,7 +123,7 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
                             </TableRow>
                             {data.length > 0 &&
                                 data.map((notification, index) => (
-                                    <TableRow>
+                                    <TableRow key={notification.id}>
                                         <TableCell style={{ color: "black" }}>{moment(notification.limitDate).format('L')}</TableCell>
                                         <TableCell style={{ color: "black" }}>{notification.action}</TableCell>
                                         <TableCell style={{ color: "black" }}>

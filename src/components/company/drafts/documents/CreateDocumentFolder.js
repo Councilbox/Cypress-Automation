@@ -9,7 +9,7 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
     const [name, setName] = React.useState('');
 
     const createDocumentFolder = async () => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation CreateDocumentFolder($companyDocument: CompanyDocumentInput){
                     createDocumentFolder(companyDocument: $companyDocument){
