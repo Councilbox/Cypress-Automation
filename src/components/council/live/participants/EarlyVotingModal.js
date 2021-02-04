@@ -6,7 +6,7 @@ import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { AGENDA_STATES, AGENDA_TYPES, VOTE_VALUES } from '../../../../constants';
 import { VotingButton } from '../../../participant/agendas/VotingMenu';
-import { agendaVotingsOpened, isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
+import { isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
 
 
 const EarlyVotingModal = props => {
@@ -88,7 +88,7 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
             if (!custom) {
                 return proxy.agendaId === agendaId;
             }
-                return proxy.agendaId === agendaId && value === proxy.value;
+            return proxy.agendaId === agendaId && value === proxy.value;
         });
 
         if (!vote) {
@@ -118,7 +118,7 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
 
     const setVotingRightDenied = async agendaId => {
         setLoadingVote(agendaId);
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation SetVotingRightDenied($participantId: Int!, $agendaId: Int!){
                     setVotingRightDenied(participantId: $participantId, agendaId: $agendaId){
@@ -137,7 +137,7 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
 
     const setEarlyVote = async (agendaId, value) => {
         setLoadingVote(agendaId);
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation SetEarlyVote($participantId: Int!, $agendaId: Int!, $value: Int!){
                     setProxyVote(participantId: $participantId, agendaId: $agendaId, value: $value){
@@ -161,27 +161,27 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
     }, [council.id])
 
     const renderPointTitle = point => (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
-                {!!getProxyVote(point.id) &&
-                    <div style={{ marginLeft: '10px', marginTop: '10px' }}>
-                        <BasicButton
-                            color="white"
-                            text={translate.delete}
-                            backgroundColor={{
-                                border: '1px solid ' + getSecondary(),
-                                borderRadius: '4px',
-                                marginTotop: '0.3em',
-                                color: getSecondary(),
-                                backgroundColor: 'white',
-                                outline: '0px',
-                            }}
-                            onClick={() => deleteProxyVote(point.id, participant.id)}
-                        />
-                    </div>
-                }
-            </div>
-        )
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
+            {!!getProxyVote(point.id) &&
+                <div style={{ marginLeft: '10px', marginTop: '10px' }}>
+                    <BasicButton
+                        color="white"
+                        text={translate.delete}
+                        backgroundColor={{
+                            border: '1px solid ' + getSecondary(),
+                            borderRadius: '4px',
+                            marginTotop: '0.3em',
+                            color: getSecondary(),
+                            backgroundColor: 'white',
+                            outline: '0px',
+                        }}
+                        onClick={() => deleteProxyVote(point.id, participant.id)}
+                    />
+                </div>
+            }
+        </div>
+    )
 
 
     return (
@@ -315,7 +315,7 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                         if (((point.options.minSelections - selections) < 0)) {
                             return point.options.minSelections;
                         }
-                            return point.options.minSelections - selections
+                        return point.options.minSelections - selections
                     }
 
                     const disableCustom = (selections >= point.options.maxSelections) || disabled;
@@ -342,6 +342,7 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                     const active = proxyVote.value === item.id;
                                     return (
                                         <VotingButton
+                                            key={`voting_${item.id}`}
                                             disabled={disableCustom && !active}
                                             disabledColor={disableCustom && !active}
                                             styleButton={{ padding: '0', width: '100%' }}
