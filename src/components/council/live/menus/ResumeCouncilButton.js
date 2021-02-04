@@ -1,15 +1,8 @@
 import React from "react";
-import { graphql, withApollo } from "react-apollo";
-import gql from "graphql-tag";
-import { openCouncilRoom } from "../../../../queries/live";
+import { withApollo } from "react-apollo";
 import {
-	AlertConfirm,
 	BasicButton,
-	Checkbox,
-	Icon,
-	Radio,
-	HelpPopover
-} from "../../../../displayComponents";
+	Icon } from "../../../../displayComponents";
 import { getPrimary } from "../../../../styles/colors";
 
 
@@ -19,18 +12,6 @@ const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
 
 	const resumeCouncil = async () => {
         setLoading(true);
-		const response = await client.mutate({
-            mutation: gql`
-                mutation ResumeCouncil($councilId: Int!){
-                    resumeCouncil(councilId: $councilId){
-                        success
-                    }
-                }
-            `,
-            variables: {
-                councilId: council.id
-            }
-        });
         refetch();
         setLoading(false);
 	}

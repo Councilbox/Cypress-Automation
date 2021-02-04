@@ -29,7 +29,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 	const [error, setError] = React.useState(null);
 	const primary = getPrimary();
 
-	const openCouncilRoom = async () => {
+	const handleOpenCouncilRoom = async () => {
 		setLoading(true);
 		const response = await props.openCouncilRoom({
 			variables: {
@@ -184,7 +184,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				buttonCancel={(state.showSMS || !!error) ? translate.close : translate.cancel}
 				hideAccept={state.showSMS || !!error}
 				modal={true}
-				acceptAction={openCouncilRoom}
+				acceptAction={handleOpenCouncilRoom}
 				requestClose={() => setState({ confirmModal: false })}
 				classNameDialog={isMobile ? "noMarginM" : 'noMargin'}
 				bodyStyle={{ ...((!!error || state.showSMS) ?

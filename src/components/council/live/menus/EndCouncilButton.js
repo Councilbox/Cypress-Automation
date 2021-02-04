@@ -5,7 +5,6 @@ import { AlertConfirm, BasicButton, Icon } from "../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { bHistory } from "../../../../containers/App";
 import { isMobile } from "../../../../utils/screen";
-import { AGENDA_STATES } from "../../../../constants";
 
 class EndCouncilButton extends React.Component {
 	state = {
@@ -40,7 +39,6 @@ class EndCouncilButton extends React.Component {
 					<BasicButton
 						text={translate.finish_council}
 						id={'finalizarReunionEnReunion'}
-						color={primary}
 						color={unclosed.length === 0 ? primary : secondary}
 						onClick={() => this.setState({ confirmModal: true })}
 						textPosition="before"
