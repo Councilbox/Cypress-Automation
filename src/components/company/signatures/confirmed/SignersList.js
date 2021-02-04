@@ -1,13 +1,27 @@
 import React from 'react';
 import { TableRow, TableCell, Card, CardContent } from 'material-ui';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { EnhancedTable, RefreshButton, LoadingSection } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS, SIGNATURE_PARTICIPANTS_STATES } from '../../../../constants';
 import { getSignerStatusTranslateField } from '../../../../utils/CBX';
 import { isMobile } from '../../../../utils/screen';
 
-
+const signatureParticipants = gql`
+    query SignatureParticipants($signatureId: Int!, $filters: [FilterInput], $options: OptionsInput){
+        signatureParticipants(signatureId: $signatureId, filters: $filters, options: $options){
+            list{
+                id
+                name
+                status
+                surname
+                dni
+                email
+            }
+            total
+        }
+    }
+`;
 
 const SignersList = ({ translate, client, ...props }) => {
     const [loading, setLoading] = React.useState(true);
@@ -182,22 +196,6 @@ const SignersList = ({ translate, client, ...props }) => {
         </React.Fragment>
     )
 }
-
-const signatureParticipants = gql`
-    query SignatureParticipants($signatureId: Int!, $filters: [FilterInput], $options: OptionsInput){
-        signatureParticipants(signatureId: $signatureId, filters: $filters, options: $options){
-            list{
-                id
-                name
-                status
-                surname
-                dni
-                email
-            }
-            total
-        }
-    }
-`;
 
 const removeSignatureParticipant = gql`
     mutation RemoveSignatureParticipant($participantId: Int!){
