@@ -5,7 +5,7 @@ import { Grid, Button } from "material-ui";
 import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ResultsTimeline from '../ResultsTimeline';
-import { darkGrey, secondary, primary, getSecondary, getPrimary } from '../../../styles/colors';
+import { darkGrey, secondary, getSecondary, getPrimary } from '../../../styles/colors';
 import { AlertConfirm, Badge } from '../../../displayComponents';
 import iconVoteInsert from "../../../assets/img/dropping-vote-in-box2.svg";
 import { usePolling } from '../../../hooks';
@@ -26,8 +26,6 @@ const styles = {
 
 
 const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) => {
-    const scrollbar = React.useRef();
-    const [modal, setModal] = React.useState(false);
     const prevAgendas = React.useRef(null);
     const [votingsWarning, setVotingsWarning] = React.useState(null);
 
@@ -259,9 +257,7 @@ margin: "0",
             />
         )
     }
-    const scrollToBottom = () => {
-        scrollbar.current.scrollToBottom();
-    }
+
     if (props.isMobile) {
         return (
             <div style={{

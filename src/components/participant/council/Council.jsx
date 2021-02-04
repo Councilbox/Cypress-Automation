@@ -134,7 +134,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
         if (navigator.sendBeacon) {
             navigator.sendBeacon(`${SERVER_URL}/participantDisconnected/${sessionStorage.getItem("participantToken")}`);
         } else {
-            let request = new XMLHttpRequest();
+            const request = new XMLHttpRequest();
             request.open('POST', API_URL, false);
             request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             request.setRequestHeader("Accept", "application/json");
@@ -179,8 +179,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
         });
         if (navigator.userAgent.indexOf("Firefox") !== -1) {
             window.onbeforeunload = leaveRoom;
-        }
-        else {
+        } else {
             window.onunload = leaveRoom;
         }
     }, [participant.id, leaveRoom, props.changeParticipantOnlineState]);
@@ -217,7 +216,6 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
         if (event) {
             event.preventDefault()
             event.stopPropagation()
-
         }
         setState({
             ...state,
@@ -237,7 +235,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     }
 
     const _renderAgendaSection = () => {
-        let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
+        const noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
         return (
             <Grid item xs={isLandscape() && state.hasVideo ? 6 : 12} md={state.hasVideo ? 4 : 6} style={{}}> {/*minHeight: '45%', */}
                 <Agendas
@@ -335,7 +333,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     }
 
     const _renderAgendaSectionMobile = () => {
-        let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
+        const noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
         return (
             <Agendas
                 noSession={noSession}
@@ -364,7 +362,7 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
     }
 
     const { agendasAnchor } = state;
-    let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
+    const noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
     let titleHeader = null
     if (agendas) {
         titleHeader = agendas.agendas.filter(item => { return CBX.agendaPointOpened(item) })
@@ -392,156 +390,154 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
                     }
                 </div>
             );
-        } else {
-            return (
-                <div style={styles.viewContainerM}>
-                    {!landscape &&
-                        <React.Fragment>
-                            <CouncilSidebar
-                                agendas={agendas}
-                                noSession={noSession}
+        }
+        return (
+            <div style={styles.viewContainerM}>
+                {!landscape &&
+                    <React.Fragment>
+                        <CouncilSidebar
+                            agendas={agendas}
+                            noSession={noSession}
+                            isMobile={isMobile}
+                            council={council}
+                            translate={translate}
+                            setAgendaBadge={setAgendaBadge}
+                            agendaBadge={agendaBadge}
+                            setContent={setContent}
+                            adminMessage={state.adminMessage}
+                            setAdminMessage={setAdminMessage}
+                            modalContent={state.modalContent}
+                            agenda={_renderAgendaSectionMobile()}
+                            full={() => setState({ ...state, full: true, middle: false })}
+                            middle={() => setState({ ...state, full: false, middle: true })}
+                            click={state.activeInput}
+                            participant={participant}
+                            comentario={renderAdminMessageMenu()}
+                            askWordMenu={renderRequestWordMenu()}
+                        />
+                        <Header
+                            logoutButton={true}
+                            participant={participant}
+                            council={council}
+                            primaryColor={'white'}
+                            titleHeader={titleHeader}
+                        />
+                        {config.participantsHeader &&
+                            <UsersHeader
                                 isMobile={isMobile}
                                 council={council}
                                 translate={translate}
-                                setAgendaBadge={setAgendaBadge}
-                                agendaBadge={agendaBadge}
-                                setContent={setContent}
-                                adminMessage={state.adminMessage}
-                                setAdminMessage={setAdminMessage}
-                                modalContent={state.modalContent}
-                                agenda={_renderAgendaSectionMobile()}
-                                full={() => setState({ ...state, full: true, middle: false })}
-                                middle={() => setState({ ...state, full: false, middle: true })}
-                                click={state.activeInput}
-                                participant={participant}
-                                comentario={renderAdminMessageMenu()}
-                                askWordMenu={renderRequestWordMenu()}
+                                drawerTop={drawerTop}
+                                setDrawerTop={drawerTopToggle}
                             />
-                            <Header
-                                logoutButton={true}
-                                participant={participant}
-                                council={council}
-                                primaryColor={'white'}
-                                titleHeader={titleHeader}
-                            />
-                            {config.participantsHeader &&
-                                <UsersHeader
-                                    isMobile={isMobile}
-                                    council={council}
-                                    translate={translate}
-                                    drawerTop={drawerTop}
-                                    setDrawerTop={drawerTopToggle}
-                                />
-                            }
-                        </React.Fragment>
-                    }
+                        }
+                    </React.Fragment>
+                }
 
-                    <div style={!landscape ? {
-                        ...styles.mainContainerM,
-                        height: config.participantsHeader ? styles.mainContainerM.height : "calc(100% - 6.21rem)"
-                    } : { height: '100%', width: '100%' }}>
-                        <Grid container spacing={!landscape ? 8 : '0'} style={{
-                            height: '100%',
-                            ...(!state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? {
-                                display: 'flex',
-                                justifyContent: 'center'
-                            } : {}),
-                            ...(landscape ? {
-                                height: "100vh", overflow: "hidden", position: " fixed", width: "100vw"
-                            } : {})
-                        }}>
-                            {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                                <Grid item xs={12} md={12} style={{ height: "100%" }}>
-                                    <div style={
-                                        state.full ? stylesVideo.portrait[0].fullPadre :
-                                            landscape ? 'height: 100%' :
-                                                isLandscape() ? stylesVideo.landscape[0].middlePadre :
-                                                    stylesVideo.portrait[0].middlePadre}>
-                                        <div style={{ height: '100%' }}>
-                                            {renderAdminAnnouncement()}
-                                            <div style={state.full ? stylesVideo.portrait[0].fullHijo : isLandscape() ? stylesVideo.landscape[0].middleHijo : stylesVideo.portrait[0].middleHijo}>
-                                                {renderVideoContainer()}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Grid>
-                            }
-                        </Grid>
-                    </div>
-                </div>
-            )
-        }
-    } else {
-        return (
-            <div style={styles.viewContainer}>
-                <Header
-                    translate={translate}
-                    logoutButton={true}
-                    participant={participant}
-                    council={council}
-                    primaryColor={'white'}
-                    titleHeader={titleHeader}
-                />
-                <div style={styles.mainContainer}>
-                    <Grid container spacing={8} style={{
+                <div style={!landscape ? {
+                    ...styles.mainContainerM,
+                    height: config.participantsHeader ? styles.mainContainerM.height : "calc(100% - 6.21rem)"
+                } : { height: '100%', width: '100%' }}>
+                    <Grid container spacing={!landscape ? 8 : '0'} style={{
                         height: '100%',
                         ...(!state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? {
                             display: 'flex',
                             justifyContent: 'center'
+                        } : {}),
+                        ...(landscape ? {
+                            height: "100vh", overflow: "hidden", position: " fixed", width: "100vw"
                         } : {})
                     }}>
                         {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                            <Grid item xs={6} md={8} style={{ height: `calc( 100% - 3.5em + 1px)` }}>
-                                <div style={{ marginBottom: "5px" }}>
-                                    {config.participantsHeader &&
-                                        <UsersHeader
-                                            isMobile={isMobile}
-                                            council={council}
-                                            translate={translate}
-                                            drawerTop={drawerTop}
-                                            setDrawerTop={drawerTopToggle}
-                                        />
-                                    }
-                                </div>
-                                <div style={{ transition: "all .3s ease-in-out", width: '100%', height: state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: state.avisoVideo ? "55px" : "0px" }}>
-                                    {renderAdminAnnouncement()}
-                                    <div style={{ height: `calc( 100% - ${config.participantsHeader ? state.adminMessage ? '6.3em' : '3em' : '0px'} - 5px )`, width: '100%', }}>
-                                        {renderVideoContainer()}
+                            <Grid item xs={12} md={12} style={{ height: "100%" }}>
+                                <div style={
+                                    state.full ? stylesVideo.portrait[0].fullPadre :
+                                        landscape ? 'height: 100%' :
+                                            isLandscape() ? stylesVideo.landscape[0].middlePadre :
+                                                stylesVideo.portrait[0].middlePadre}>
+                                    <div style={{ height: '100%' }}>
+                                        {renderAdminAnnouncement()}
+                                        <div style={state.full ? stylesVideo.portrait[0].fullHijo : isLandscape() ? stylesVideo.landscape[0].middleHijo : stylesVideo.portrait[0].middleHijo}>
+                                            {renderVideoContainer()}
+                                        </div>
                                     </div>
                                 </div>
                             </Grid>
                         }
-                        {agendasAnchor === 'right' &&
-                            _renderAgendaSection()
-                        }
-                        {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                            <div style={{ width: '100%', height: "calc( 3.5rem + 1px )" }}>
-                                <CouncilSidebar
-                                    isMobile={isMobile}
-                                    council={council}
-                                    agendas={agendas}
-                                    translate={translate}
-                                    setAgendaBadge={setAgendaBadge}
-                                    agendaBadge={agendaBadge}
-                                    full={() => setState({ ...state, full: true, middle: false })}
-                                    middle={() => setState({ ...state, full: false, middle: true })}
-                                    click={state.activeInput}
-                                    agenda={_renderAgendaSection()}
-                                    setContent={setContent}
-                                    adminMessage={state.adminMessage}
-                                    setAdminMessage={setAdminMessage}
-                                    modalContent={state.modalContent}
-                                    participant={participant}
-                                    comentario={renderAdminMessageMenu()}
-                                    askWordMenu={renderRequestWordMenu()}
-                                />
-                            </div>
-                        }
                     </Grid>
                 </div>
             </div>
-        );
+        )
     }
+    return (
+        <div style={styles.viewContainer}>
+            <Header
+                translate={translate}
+                logoutButton={true}
+                participant={participant}
+                council={council}
+                primaryColor={'white'}
+                titleHeader={titleHeader}
+            />
+            <div style={styles.mainContainer}>
+                <Grid container spacing={8} style={{
+                    height: '100%',
+                    ...(!state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? {
+                        display: 'flex',
+                        justifyContent: 'center'
+                    } : {})
+                }}>
+                    {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
+                        <Grid item xs={6} md={8} style={{ height: `calc( 100% - 3.5em + 1px)` }}>
+                            <div style={{ marginBottom: "5px" }}>
+                                {config.participantsHeader &&
+                                    <UsersHeader
+                                        isMobile={isMobile}
+                                        council={council}
+                                        translate={translate}
+                                        drawerTop={drawerTop}
+                                        setDrawerTop={drawerTopToggle}
+                                    />
+                                }
+                            </div>
+                            <div style={{ transition: "all .3s ease-in-out", width: '100%', height: state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: state.avisoVideo ? "55px" : "0px" }}>
+                                {renderAdminAnnouncement()}
+                                <div style={{ height: `calc( 100% - ${config.participantsHeader ? state.adminMessage ? '6.3em' : '3em' : '0px'} - 5px )`, width: '100%', }}>
+                                    {renderVideoContainer()}
+                                </div>
+                            </div>
+                        </Grid>
+                    }
+                    {agendasAnchor === 'right' &&
+                        _renderAgendaSection()
+                    }
+                    {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
+                        <div style={{ width: '100%', height: "calc( 3.5rem + 1px )" }}>
+                            <CouncilSidebar
+                                isMobile={isMobile}
+                                council={council}
+                                agendas={agendas}
+                                translate={translate}
+                                setAgendaBadge={setAgendaBadge}
+                                agendaBadge={agendaBadge}
+                                full={() => setState({ ...state, full: true, middle: false })}
+                                middle={() => setState({ ...state, full: false, middle: true })}
+                                click={state.activeInput}
+                                agenda={_renderAgendaSection()}
+                                setContent={setContent}
+                                adminMessage={state.adminMessage}
+                                setAdminMessage={setAdminMessage}
+                                modalContent={state.modalContent}
+                                participant={participant}
+                                comentario={renderAdminMessageMenu()}
+                                askWordMenu={renderRequestWordMenu()}
+                            />
+                        </div>
+                    }
+                </Grid>
+            </div>
+        </div>
+    );
 }
 
 
