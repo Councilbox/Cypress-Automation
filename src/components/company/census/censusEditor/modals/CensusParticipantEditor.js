@@ -28,9 +28,9 @@ class CensusParticipantEditor extends React.Component {
 		);
 		representative = representative
 			? {
-					hasRepresentative: true,
-					...extractTypeName(representative)
-			  }
+				hasRepresentative: true,
+				...extractTypeName(representative)
+			}
 			: initialRepresentative;
 		this.setState({
 			data: participant,
@@ -38,15 +38,15 @@ class CensusParticipantEditor extends React.Component {
 		});
 	}
 
-	componentWillUnmount(){
+	componentWillUnmount() {
 		let { representative, ...participant } = extractTypeName(
 			this.props.participant
 		);
 		representative = representative
 			? {
-					hasRepresentative: true,
-					...extractTypeName(representative)
-			  }
+				hasRepresentative: true,
+				...extractTypeName(representative)
+			}
 			: initialRepresentative;
 		this.setState({
 			data: participant,
@@ -58,10 +58,10 @@ class CensusParticipantEditor extends React.Component {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative
 			? {
-					...data,
-					companyId: this.props.census.companyId,
-					censusId: this.props.census.id
-			  }
+				...data,
+				companyId: this.props.census.companyId,
+				censusId: this.props.census.id
+			}
 			: null;
 
 		if (!await this.checkRequiredFields()) {
@@ -78,21 +78,21 @@ class CensusParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else if(response.errors[0].message === 'Too many granted words'){
-					this.setState({
-						...(this.state.data.initialState === 2 ? {
-							errors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {}),
-						...(representative && representative.initialState === 2 ? {
-							representativeErrors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {})
+			} else if (response.errors[0].message === 'Too many granted words') {
+				this.setState({
+					...(this.state.data.initialState === 2 ? {
+						errors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {}),
+					...(representative && representative.initialState === 2 ? {
+						representativeErrors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {})
 
-					});
-				}
+				});
+			}
 		}
 	};
 

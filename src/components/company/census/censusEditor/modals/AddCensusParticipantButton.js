@@ -19,6 +19,39 @@ import {
 import { isMobile } from "../../../../../utils/screen";
 import SelectCensusParticipantRepresentative from "./SelectCensusParticipantRepresentative";
 
+const initialParticipant = {
+	name: "",
+	surname: "",
+	position: "",
+	email: "",
+	phone: "",
+	dni: "",
+	initialState: 0,
+	type: 0,
+	delegateId: null,
+	numParticipations: 1,
+	socialCapital: 1,
+	uuid: null,
+	delegateUuid: null,
+	language: "es",
+	city: "",
+	personOrEntity: 0
+};
+
+const initialRepresentative = {
+	hasRepresentative: false,
+	language: "es",
+	type: 2,
+	name: "",
+	surname: "",
+	initialState: 0,
+	position: "",
+	email: "",
+	phone: "",
+	dni: ""
+};
+
+
 
 class AddCensusParticipantButton extends React.Component {
 	state = {
@@ -280,34 +313,3 @@ export default compose(
 	graphql(languages)
 )(withApollo(AddCensusParticipantButton));
 
-const initialParticipant = {
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: "",
-	initialState: 0,
-	type: 0,
-	delegateId: null,
-	numParticipations: 1,
-	socialCapital: 1,
-	uuid: null,
-	delegateUuid: null,
-	language: "es",
-	city: "",
-	personOrEntity: 0
-};
-
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: "es",
-	type: 2,
-	name: "",
-	surname: "",
-	initialState: 0,
-	position: "",
-	email: "",
-	phone: "",
-	dni: ""
-};
