@@ -228,7 +228,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                                     styleButton={{ padding: '0', width: '100%' }}
                                     disabledColor={disabled}
                                     selectCheckBox={getSelectedRadio(item.id)}
-                                    disabled={(agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id) || disabled)}
+                                    disabled={((agenda.options.maxSelections === selections.length) && (!getSelectedRadio(item.id) || disabled))}
                                     onClick={() => {
                                         if (!getSelectedRadio(item.id)) {
                                             addSelection(item)
