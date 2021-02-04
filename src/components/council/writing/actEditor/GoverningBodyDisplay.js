@@ -34,7 +34,7 @@ const GoverningBodyDisplay = ({ translate, company, open }) => {
                     </div>
                     {company.governingBodyType > 2 ?
                         company.governingBodyData.list.map((admin, index) => (
-                                <div>
+                                <div key={`admin_key_${index}`}>
                                     <Row
                                         field={company.governingBodyType === 5 ? getCouncilAdminPosition(index, translate) : null}
                                         value={`${admin.name} ${admin.surname || ''}`}

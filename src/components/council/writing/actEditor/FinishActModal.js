@@ -2,20 +2,26 @@ import React from "react";
 import { compose, graphql } from "react-apollo";
 import Dropzone from 'react-dropzone';
 import gql from 'graphql-tag';
-import { Card } from 'material-ui';
 import {
 	AlertConfirm,
 	BasicButton,
-	Grid,
-	GridItem
 } from "../../../../displayComponents";
 import { approveAct } from '../../../../queries';
-import ActHTML from "../actViewer/ActHTML";
 import { getSecondary } from "../../../../styles/colors";
-import { useHoverRow, useOldState } from "../../../../hooks";
-import logo from '../../../../assets/img/logo-icono.png';
+import { useOldState } from "../../../../hooks";
 import { isMobile } from "../../../../utils/screen";
 import DocumentPreview from "../../../documentEditor/DocumentPreview";
+
+const dropzoneStyles = {
+	active: {
+		border: '2px dashed turquoise'
+	},
+
+	invalid: {
+		border: '2px dashed red',
+		color: 'red'
+	}
+}
 
 
 const FinishActModal = ({ requestClose, updateAct, translate, preview, council, finishInModal, ...props }) => {
@@ -26,8 +32,6 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 		filename: '',
 	});
 	const secondary = getSecondary();
-	const actViewer = React.useRef();
-
 
 	const close = () => {
 		setState({
@@ -100,8 +104,8 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 	}
 
 	function _modalBody() {
-		if(state.step === 2){
-			if(state.file){
+		if (state.step === 2) {
+			if (state.file) {
 				return (
 					<div>
 						{state.filename}
@@ -163,14 +167,6 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 const UploadAct = ({ ...props }) => {
 	const [error, setError] = React.useState('');
 
-	const onDrop = (accepted, rejected) => {
-		if (accepted.length === 0) {
-			setError('Tipo de archivo no válido, solo son admiten archivos PDF'/*TRADUCCION*/);
-			return;
-		}
-		handleFile(accepted[0]);
-	}
-
 	const handleFile = file => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
@@ -182,6 +178,16 @@ const UploadAct = ({ ...props }) => {
 		};
 	}
 
+	const onDrop = (accepted) => {
+		if (accepted.length === 0) {
+			setError('Tipo de archivo no válido, solo son admiten archivos PDF'/*TRADUCCION*/);
+			return;
+		}
+		handleFile(accepted[0]);
+	}
+
+
+
 	return (
 		<Dropzone
 			onDrop={onDrop}
@@ -189,41 +195,32 @@ const UploadAct = ({ ...props }) => {
 			accept="application/pdf"
 		>
 			{({ getRootProps, getInputProps, isDragActive }) => (
-					<div
-						{...getRootProps()}
-						className={`dropzone`}
-						style={{
-							height: '8em',
-							border: '2px dashed gainsboro',
-							borderRadius: '3px',
-							padding: '0.6em',
-							...(error ? dropzoneStyles.invalid : {}),
-							...(isDragActive ? dropzoneStyles.active : {})
-						}}
-					>
-						<input {...getInputProps()} />
-						{error || (isDragActive ?
-								<p>Arrastre los archivos aquí</p>//TRADUCCION
-								:
-								<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
-						}
-					</div>
-				)}
+				<div
+					{...getRootProps()}
+					className={`dropzone`}
+					style={{
+						height: '8em',
+						border: '2px dashed gainsboro',
+						borderRadius: '3px',
+						padding: '0.6em',
+						...(error ? dropzoneStyles.invalid : {}),
+						...(isDragActive ? dropzoneStyles.active : {})
+					}}
+				>
+					<input {...getInputProps()} />
+					{error || (isDragActive ?
+						<p>Arrastre los archivos aquí</p>//TRADUCCION
+						:
+						<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
+					}
+				</div>
+			)}
 		</Dropzone>
 	)
 }
 
 
-const dropzoneStyles = {
-	active: {
-		border: '2px dashed turquoise'
-	},
 
-	invalid: {
-		border: '2px dashed red',
-		color: 'red'
-	}
-}
 
 export const approveActUserPDF = gql`
 	mutation ApproveActUserPDF($base64: String!, $councilId: Int!, $closeCouncil: Boolean) {

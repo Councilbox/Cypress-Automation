@@ -55,7 +55,7 @@ const DelegationDocuments = ({ council, translate, client }) => {
                 <LoadingSection />
             :
                 data.map(item => (
-                    <Card style={{ marginTop: '1em', width: '70%', padding: '0.6em' }}>
+                    <Card key={item.participant.id} style={{ marginTop: '1em', width: '70%', padding: '0.6em' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1 }}>
                             <div>
                                 <span style={{ fontWeight: '700' }}>{translate.participant}:</span>
