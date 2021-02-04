@@ -33,6 +33,13 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 		props.requestClose();
 	};
 
+	const setSignature = () => {
+		if (data.liveParticipantSignature && data.liveParticipantSignature.data) {
+			signature.current.fromDataURL(data.liveParticipantSignature.data);
+			setState({ clean: false });
+		}
+	};
+
 	React.useLayoutEffect(() => {
 		if (signature.current && !data.loading) {
 			setSignature();
@@ -41,7 +48,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 
 
 	const save = async () => {
-		if(saving){
+		if (saving) {
 			return;
 		}
 
@@ -83,12 +90,6 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 		signature.current.clear();
 	};
 
-	const setSignature = () => {
-		if (data.liveParticipantSignature && data.liveParticipantSignature.data) {
-			signature.current.fromDataURL(data.liveParticipantSignature.data);
-			setState({ clean: false });
-		}
-	};
 
 	const { participantState } = state;
 
@@ -186,10 +187,10 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 										PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 									}
 									onChange={(event, isInputChecked) => setState({
-											participantState: isInputChecked
-												? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-												: PARTICIPANT_STATES.PHYSICALLY_PRESENT
-										})
+										participantState: isInputChecked
+											? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+											: PARTICIPANT_STATES.PHYSICALLY_PRESENT
+									})
 									}
 								/>
 							</div>

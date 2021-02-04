@@ -13,7 +13,7 @@ import {
 import { getPrimary } from "../../../../styles/colors";
 
 
-const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
+const ResumeCouncilButton = ({ translate, refetch }) => {
     const [loading, setLoading] = React.useState(false);
 	const primary = getPrimary();
 

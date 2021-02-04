@@ -25,7 +25,6 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 			error: null,
 			showSMS: false,
 			sending: false,
-			error: false,
 			sendAgenda: false
 		});
 	};
