@@ -55,7 +55,7 @@ const FilterMenu = ({
 			>
 				<FilterButton
 					tooltip={translate.current_state}
-					onClick={event => {
+					onClick={() => {
 						updateState({ tableType: "participantState" });
 					}}
 					active={state.tableType === "participantState"}
@@ -90,7 +90,7 @@ const FilterMenu = ({
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.sends}
-					onClick={event => {
+					onClick={() => {
 						updateState({ tableType: "participantSend" });
 					}}
 					active={state.tableType === "participantSend"}
@@ -106,7 +106,7 @@ const FilterMenu = ({
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.assistance}
-					onClick={event => {
+					onClick={() => {
 						updateState({ tableType: "attendIntention" });
 					}}
 					active={state.tableType === "attendIntention"}
@@ -184,7 +184,7 @@ const FilterMenu = ({
 			>
 				<FilterButton
 					tooltip={translate.participant}
-					onClick={event => {
+					onClick={() => {
 						updateParticipantType("0");
 					}}
 					active={state.participantType === "0"}
@@ -200,7 +200,7 @@ const FilterMenu = ({
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.guest}
-					onClick={event => {
+					onClick={() => {
 						updateParticipantType(1);
 					}}
 					active={state.participantType === 1}
@@ -216,7 +216,7 @@ const FilterMenu = ({
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.representative}
-					onClick={event => {
+					onClick={() => {
 						updateParticipantType(2);
 					}}
 					active={state.participantType === 2}
@@ -265,7 +265,7 @@ const FilterMenu = ({
 			<div style={{ display: "flex", flexDirection: "row" }}>
 				<FilterButton
 					tooltip={translate.customer_initial}
-					onClick={event => {
+					onClick={() => {
 						updateParticipantState("0");
 					}}
 					active={state.participantState === "0"}
@@ -281,7 +281,7 @@ const FilterMenu = ({
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.customer_present}
-					onClick={event => {
+					onClick={() => {
 						updateParticipantState(5);
 					}}
 					active={state.participantState === 5}

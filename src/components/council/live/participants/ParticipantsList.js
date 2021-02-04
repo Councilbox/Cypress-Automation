@@ -16,6 +16,13 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 		editParticipant: null
 	});
 
+	const getSignatureParticipant = participant => {
+		if (participant.state === PARTICIPANT_STATES.REPRESENTATED) {
+			return getMainRepresentative(participant);
+		}
+		return participant;
+	}
+
 	const showSignatureModal = participant => () => {
 		setState({
 			showSignatureModal: true,
@@ -23,12 +30,6 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 		});
 	}
 
-	const getSignatureParticipant = participant => {
-		if(participant.state === PARTICIPANT_STATES.REPRESENTATED){
-			return getMainRepresentative(participant);
-		}
-		return participant;
-	}
 
 	return (
 		<React.Fragment>
@@ -51,20 +52,20 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 						<Grid spacing={0} style={{ paddingBottom: '6em', padding: '1em' }}>
 							{participants.list.map(
 								participant => <React.Fragment key={`participant_${participant.id}`}>
-										<ParticipantItem
-											layout={layout}
-											key={`participant_${participant.id}`}
-											participant={participant}
-											translate={translate}
-											mode={mode}
-											refetch={refetch}
-											showSignatureModal={showSignatureModal(participant)}
-											editParticipant={() => setState({
-												editParticipant: participant.id
-											})}
-											council={council}
-										/>
-									</React.Fragment>
+									<ParticipantItem
+										layout={layout}
+										key={`participant_${participant.id}`}
+										participant={participant}
+										translate={translate}
+										mode={mode}
+										refetch={refetch}
+										showSignatureModal={showSignatureModal(participant)}
+										editParticipant={() => setState({
+											editParticipant: participant.id
+										})}
+										council={council}
+									/>
+								</React.Fragment>
 							)}
 							{participants.list.length <
 								participants.total && (
@@ -82,7 +83,7 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 								refetch={refetch}
 								requestClose={() => {
 									setState({ showSignatureModal: false, participantToSign: null })
-}
+								}
 								}
 								translate={translate}
 							/>

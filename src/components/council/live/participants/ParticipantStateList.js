@@ -1,11 +1,10 @@
 import React from "react";
 import { graphql, withApollo } from "react-apollo";
 import * as CBX from "../../../../utils/CBX";
-import { isLandscape } from "../../../../utils/screen";
 import { getSecondary } from "../../../../styles/colors";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
-import { FilterButton, Grid, GridItem, AlertConfirm, DropDownMenu } from "../../../../displayComponents";
+import { FilterButton, Grid, AlertConfirm, DropDownMenu } from "../../../../displayComponents";
 import StateIcon from "./StateIcon";
 import { useOldState } from "../../../../hooks";
 import { removeLiveParticipantSignature } from "./modals/SignatureModal";
@@ -28,11 +27,19 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 	});
 	const [leaveAlert, setLeaveAlert] = React.useState(false);
 	const secondary = getSecondary();
-	const landscape = isLandscape() || window.innerWidth > 700;
 
 	const participant = getActualParticipant(p, representative)
 
-	const changeParticipantState = async (state, index) => {
+	const removeParticipantSignature = async () => {
+		await client.mutate({
+			mutation: removeLiveParticipantSignature,
+			variables: {
+				participantId: participant.id
+			}
+		});
+	}
+
+	const updateParticipantState = async (status, index) => {
 		setState({
 			loading: index
 		});
@@ -40,11 +47,11 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 		const response = await props.changeParticipantState({
 			variables: {
 				participantId: participant.id,
-				state
+				state: status
 			}
 		});
 
-		if (state === PARTICIPANT_STATES.NO_PARTICIPATE && participant.signed) {
+		if (status === PARTICIPANT_STATES.NO_PARTICIPATE && participant.signed) {
 			removeParticipantSignature();
 		}
 
@@ -56,14 +63,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 		}
 	};
 
-	const removeParticipantSignature = async () => {
-		await client.mutate({
-			mutation: removeLiveParticipantSignature,
-			variables: {
-				participantId: participant.id
-			}
-		});
-	}
+
 
 	const { loading } = state;
 
@@ -80,7 +80,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 				}}
 				acceptAction={event => {
 					event.stopPropagation();
-					changeParticipantState(PARTICIPANT_STATES.LEFT, 5, null);
+					updateParticipantState(PARTICIPANT_STATES.LEFT, 5, null);
 					setLeaveAlert(false);
 				}}
 				bodyText={
@@ -118,7 +118,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 									tooltip={translate.change_to_no_participate}
 									loading={loading === 0}
 									size="2.8em"
-									onClick={() => changeParticipantState(6, 0, null)}
+									onClick={() => updateParticipantState(6, 0, null)}
 									active={
 										participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
 									}
@@ -143,7 +143,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 										tooltip={translate.change_to_remote}
 										loading={loading === 1}
 										size="2.8em"
-										onClick={() => changeParticipantState(0, 1, null)}
+										onClick={() => updateParticipantState(0, 1, null)}
 										active={participant.state === PARTICIPANT_STATES.REMOTE}
 									>
 										<div style={{ width: '30%', marginRight: "20px" }}>
@@ -166,7 +166,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 									tooltip={translate.physically_present_assistance}
 									loading={loading === 2}
 									size="2.8em"
-									onClick={() => changeParticipantState(5, 2, null)}
+									onClick={() => updateParticipantState(5, 2, null)}
 									active={
 										participant.state ===
 										PARTICIPANT_STATES.PHYSICALLY_PRESENT
@@ -221,7 +221,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 										styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
 										loading={loading === 3}
 										size="2.8em"
-										onClick={() => changeParticipantState(7, 3, null)}
+										onClick={() => updateParticipantState(7, 3, null)}
 										active={
 											participant.state ===
 											PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE

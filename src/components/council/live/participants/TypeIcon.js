@@ -3,13 +3,6 @@ import FontAwesome from "react-fontawesome";
 import { Tooltip } from "material-ui";
 import { PARTICIPANT_TYPE } from "../../../../constants";
 
-class TypeIcon extends React.PureComponent {
-	render() {
-		const { color = 'grey', type, number, translate, ratio = 1 } = this.props;
-		return _renderIcon(color, type, number, translate, ratio)
-	}
-}
-
 const styleMainIcon = (color, ratio) => ({
 		fontSize: `${1.5 * ratio}em`,
 		color
@@ -80,5 +73,13 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 			return 'NO_ICON_FOR_THIS_TYPE';
 	}
 }
+
+class TypeIcon extends React.PureComponent {
+	render() {
+		const { color = 'grey', type, number, translate, ratio = 1 } = this.props;
+		return _renderIcon(color, type, number, translate, ratio)
+	}
+}
+
 
 export default TypeIcon;

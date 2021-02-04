@@ -1,5 +1,4 @@
 import React from 'react';
-import QrReader from 'react-qr-reader';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import jsQR from "jsqr";
@@ -30,7 +29,8 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
 
     const initMedia = async () => {
         if(streamRef.current){
-            return videoRef.current.srcObject = streamRef.current;
+            videoRef.current.srcObject = streamRef.current;
+            return;
         }
 
         try {
@@ -49,8 +49,8 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                 setErrorMedia("Intentando acceder a la camara")
                 setLoadingCamera(false)
             }
-        } catch (error) {
-            if (error.message === "Requested device not found") {
+        } catch (e) {
+            if (e.message === "Requested device not found") {
                 setErrorMedia("No hay camara")
                 setLoadingCamera(false)
             }
@@ -64,7 +64,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         }
 
         if(!open && streamRef.current){
-            streamRef.current.getTracks().forEach(function (track) {
+            streamRef.current.getTracks().forEach((track) => {
                 track.stop();
             });
             streamRef.current = null;

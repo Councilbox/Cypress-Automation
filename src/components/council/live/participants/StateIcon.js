@@ -4,15 +4,6 @@ import { Tooltip } from "material-ui";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { Icon } from "../../../../displayComponents";
 
-const StateIcon = ({
-	color = "grey",
-	state,
-	number,
-	translate,
-	ratio = 1,
-	hideTooltip = false
-}) => _renderIcon(color, state, number, translate, ratio, hideTooltip)
-
 const styleMainIcon = (color, ratio) => ({
 		fontSize: `${1.5 * ratio}em`,
 		color
@@ -193,5 +184,14 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 			);
 	}
 };
+
+const StateIcon = ({
+	color = "grey",
+	state,
+	number,
+	translate,
+	ratio = 1,
+	hideTooltip = false
+}) => _renderIcon(color, state, number, translate, ratio, hideTooltip)
 
 export default StateIcon;

@@ -511,7 +511,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 	)
 }
 
-const _getIcon = ({ mode, participant, translate, showCommentModal, council, representative }) => {
+const _getIcon = ({ mode, participant, translate, council, representative }) => {
 	switch (mode) {
 		case 'STATES':
 			return <StateIcon translate={translate} state={participant.state} />

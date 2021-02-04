@@ -7,6 +7,18 @@ import { languages } from "../../../../queries/masters";
 import { checkValidEmail } from '../../../../utils/validation';
 import { checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
 
+const newGuestInitialValues = {
+	language: "es",
+	personOrEntity: 0,
+	name: "",
+	surname: "",
+	position: "",
+	dni: "",
+	email: "",
+	phone: "",
+	initialState: 0
+};
+
 class AddGuestModal extends React.Component {
 	state = {
 		success: "",
@@ -122,7 +134,7 @@ class AddGuestModal extends React.Component {
 		});
 	};
 
-	emailKeyUp = (event, type) => {
+	emailKeyUp = () => {
 		clearTimeout(this.timeout);
 		this.timeout = setTimeout(() => {
 			this.checkRequiredFields(true);
@@ -179,14 +191,3 @@ export default compose(
 	graphql(languages)
 )(withApollo(AddGuestModal));
 
-const newGuestInitialValues = {
-	language: "es",
-	personOrEntity: 0,
-	name: "",
-	surname: "",
-	position: "",
-	dni: "",
-	email: "",
-	phone: "",
-	initialState: 0
-};
