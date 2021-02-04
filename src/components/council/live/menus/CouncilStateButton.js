@@ -5,7 +5,6 @@ import OpenRoomButton from "./OpenRoomButton";
 import StartCouncilButton from "./StartCouncilButton";
 import EndCouncilButton from "./EndCouncilButton";
 import { councilStarted, pointIsClosed } from "../../../../utils/CBX";
-import { moment } from '../../../../containers/App';
 import { LoadingSection } from '../../../../displayComponents';
 import ResumeCouncilButton from './ResumeCouncilButton';
 
@@ -13,10 +12,10 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
     const [unclosedAgendas, setUnclosedAgendas] = React.useState([]);
 
     React.useEffect(() => {
-        if(!data.loading){
+        if (!data.loading) {
             const newUnclosed = data.agendas.filter(agenda => !pointIsClosed(agenda));
 
-            if(newUnclosed.length !== unclosedAgendas.length){
+            if (newUnclosed.length !== unclosedAgendas.length) {
                 setUnclosedAgendas(newUnclosed);
             }
         }
@@ -28,11 +27,11 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
         })
     }, [council.id])
 
-    if(data.loading){
+    if (data.loading) {
         return <LoadingSection size={20} />
     }
 
-    if(council.councilType === 4){
+    if (council.councilType === 4) {
         return (
             <div>
                 <EndCouncilButton
@@ -110,14 +109,14 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
                         />
                     </div>
                 ) : (
-                    <div>
-                        <EndCouncilButton
-                            unclosedAgendas={unclosedAgendas}
-                            council={council}
-                            translate={translate}
-                        />
-                    </div>
-                )
+                        <div>
+                            <EndCouncilButton
+                                unclosedAgendas={unclosedAgendas}
+                                council={council}
+                                translate={translate}
+                            />
+                        </div>
+                    )
             )}
             {council.state === 25 &&
                 <ResumeCouncilButton
@@ -144,16 +143,16 @@ export default graphql(gql`
     }
 
 `, {
-	options: props => ({
-		variables: {
-			councilId: props.council.id
+    options: props => ({
+        variables: {
+            councilId: props.council.id
         },
         fetchPolicy: 'network-only'
-	}),
-	props: props => ({
-            ...props,
-            subscribeToPointStates: params => props.data.subscribeToMore({
-                    document: gql`
+    }),
+    props: props => ({
+        ...props,
+        subscribeToPointStates: params => props.data.subscribeToMore({
+            document: gql`
                         subscription pointStateChanged($councilId: Int!) {
                             pointStateChanged(councilId: $councilId) {
                                 id
@@ -163,26 +162,26 @@ export default graphql(gql`
                             }
                         }
                     `,
-                    variables: {
-                        councilId: params.councilId
-                    },
-                    updateQuery: (prev, { subscriptionData }) => {
-                        if (!subscriptionData.data.pointStateChanged) {
-                            return prev;
-                        }
-                        const agendas = [...prev.agendas];
-                        const index = prev.agendas.findIndex(agenda => agenda.id === subscriptionData.data.pointStateChanged.id);
+            variables: {
+                councilId: params.councilId
+            },
+            updateQuery: (prev, { subscriptionData }) => {
+                if (!subscriptionData.data.pointStateChanged) {
+                    return prev;
+                }
+                const agendas = [...prev.agendas];
+                const index = prev.agendas.findIndex(agenda => agenda.id === subscriptionData.data.pointStateChanged.id);
 
-                        agendas[index] = {
-                            ...agendas[index],
-                            ...subscriptionData.data.pointStateChanged
-                        }
+                agendas[index] = {
+                    ...agendas[index],
+                    ...subscriptionData.data.pointStateChanged
+                }
 
-                        return ({
-                            ...prev,
-                            agendas
-                        });
-                    }
-                    })
-		    })
+                return ({
+                    ...prev,
+                    agendas
+                });
+            }
+        })
+    })
 })(CouncilStateButton);

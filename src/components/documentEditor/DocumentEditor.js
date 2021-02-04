@@ -1,28 +1,15 @@
 import React from 'react';
-import { arrayMove, SortableContainer, SortableElement } from "react-sortable-hoc";
-
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { Card } from 'material-ui';
 import { withApollo } from "react-apollo";
-import gql from 'graphql-tag';
-import { toast } from 'react-toastify';
-import { Grid, Scrollbar, LoadingSection, BasicButton, AlertConfirm } from '../../displayComponents';
-import { getPrimary, getSecondary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
-import { changeVariablesToValues, checkForUnclosedBraces } from '../../utils/CBX';
-import Lupa from '../../displayComponents/Lupa';
-import textool from '../../assets/img/text-tool.svg'
 import { getBlocks, generateAgendaBlocks } from './actBlocks';
 import AgreementsBlock from './AgreementsBlock';
 import Block, { BorderBox } from './Block';
 import AgreementsPreview from './AgreementsPreview';
-import DownloadDoc from './DownloadDoc';
-import OptionsMenu from './OptionsMenu';
-import { buildDocVariable } from './utils';
 import { getTranslations } from '../../queries';
 import { buildTranslateObject } from '../../actions/mainActions';
-import FinishActModal from '../council/writing/actEditor/FinishActModal';
-import Timbrado from './Timbrado';
-import DocumentPreview from './DocumentPreview';
 
 
 // https://codesandbox.io/embed/react-sortable-hoc-2-lists-5bmlq para mezclar entre 2 ejemplo --collection--
@@ -40,74 +27,15 @@ const defaultTemplates = {
 
 export const ActContext = React.createContext();
 const DocumentEditor = ({ translate, company, data, updateDocument, client, ...props }) => {
-    const [template, setTemplate] = React.useState(0);
-    const [collapse, setCollapse] = React.useState(false);
     const [options, setOptions] = React.useState(data.council.act.document ? { ...data.council.act.document.options } : {
         stamp: true,
         doubleColumn: false
     });
     const [secondaryTranslate, setSecondaryTranslate] = React.useState(null);
-    const [column, setColumn] = React.useState(1);
-    const [edit, setEdit] = React.useState(true);
-    const [ocultar, setOcultar] = React.useState(true);
-    const [preview, setPreview] = React.useState('');
     const [doc, setDoc] = React.useState({ items: [], });
     const [arrastrables, setArrastrables] = React.useState({ items: [] });
-    const [state, setState] = React.useState({
-        loadDraft: false,
-        load: 'intro',
-        draftType: null,
-        updating: false,
-        disableButtons: false,
-        text: "",
-        errors: {},
-        sendActDraft: false,
-        finishActModal: false
-    });
 
-    const primary = getPrimary();
-    const secondary = getSecondary();
-
-    const handleChange = event => {
-        setEdit(event.target.checked);
-    };
-
-    React.useEffect(() => {
-        const { draggables, doc } = generateDraggable(data, translate);
-        setDoc(doc);
-        setArrastrables(draggables);
-    }, [data.council.id])
-
-    React.useEffect(() => {
-        if(options.doubleColumn){
-            getSecondaryLanguage('en');
-        }
-    }, [options.doubleColumn])
-
-    const getSecondaryLanguage = async language => {
-        const response = await client.query({
-            query: getTranslations,
-            variables: {
-                language
-            }
-        });
-
-        const secondaryTranslate = buildTranslateObject(response.data.translations);
-        setSecondaryTranslate(secondaryTranslate);
-        rebuildBlockSecondaryTranslation(translate, secondaryTranslate);
-    }
-
-
-    const rebuildBlockSecondaryTranslation = (translate, secondaryTranslate) => {
-        const newItems = doc.items.map(item => ({
-                ...item,
-                secondaryText: item.buildDefaultValue ? item.buildDefaultValue(data, secondaryTranslate) : item.secondaryText
-            }));
-        setDoc({ items: newItems });
-    }
-
-
-    const generateDraggable = (data, translate) => {
+    const generateDraggable = () => {
         const blocks = getBlocks(translate);
         const { agendas, council } = data;
         const { act } = council;
@@ -124,43 +52,32 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
             blocks.DELEGATION_LIST
         ];
 
-        let template = defaultTemplates[0];
-
-        if(doc.items.length > 0){
-            template = doc.items.map(item => item.type);
-        } else if(act.document) {
-                template = act.document.items.map(item => item.type);
+        const buildDocModules = (orden, array, agendas, act) => {
+            if (doc.items.length > 0) {
+                return {
+                    draggables: {
+                        items: [...array.filter(value => (
+                            value.type === 'text' ||
+                            (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
+                    },
+                    doc: {
+                        items: [...doc.items]
+                    }
+                };
             }
 
-        return buildDocModules(template, items, agendas, act, translate);
-    }
-
-    const buildDocModules = (orden, array, agendas, act, translate) => {
-        if(doc.items.length > 0){
-            return {
-                draggables: {
-                    items: [...array.filter(value => (
-                        value.type === 'text' ||
-                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
-                },
-                doc: {
-                    items: [...doc.items]
-                }
-            };
-        }
-
-        if(act.document) {
-            return {
-                draggables: {
-                    items: [...array.filter(value => (
-                        value.type === 'text' ||
-                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
-                },
-                doc: {
-                    items: [...act.document.items]
-                }
-            };
-        }
+            if (act.document) {
+                return {
+                    draggables: {
+                        items: [...array.filter(value => (
+                            value.type === 'text' ||
+                            (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
+                    },
+                    doc: {
+                        items: [...act.document.items]
+                    }
+                };
+            }
             let auxTemplate = [];
             const auxTemplate2 = { items: array }
 
@@ -177,36 +94,63 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                 });
 
                 return {
-                    draggables: { items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type)),] },
+                    draggables: { items: [...auxTemplate2.items.filter(value => !agendaBlocks.includes(value.type) && !orden.includes(value.type))] },
                     doc: {
                         items: auxTemplate
                     }
                 };
             }
-                return {
-                    draggables: { items: [...doc.items, ...arrastrables.items] },
-                    doc: {
-                        items: auxTemplate
-                    }
-                };
+            return {
+                draggables: { items: [...doc.items, ...arrastrables.items] },
+                doc: {
+                    items: auxTemplate
+                }
+            };
+        }
+
+        let template = defaultTemplates[0];
+
+        if (doc.items.length > 0) {
+            template = doc.items.map(item => item.type);
+        } else if (act.document) {
+            template = act.document.items.map(item => item.type);
+        }
+
+        return buildDocModules(template, items, agendas, act, translate);
     }
 
-
-    const updateBlock = (id, block) => {
-        const newItems = [...doc.items];
-        const indexItemToEdit = newItems.findIndex(item => item.id === id);
-        newItems[indexItemToEdit] = block;
-        setDoc({ ...doc, items: newItems });
+    const rebuildBlockSecondaryTranslation = () => {
+        const newItems = doc.items.map(item => ({
+            ...item,
+            secondaryText: item.buildDefaultValue ? item.buildDefaultValue(data, secondaryTranslate) : item.secondaryText
+        }));
+        setDoc({ items: newItems });
     }
 
+    React.useEffect(() => {
+        const { draggables, doc: draggleDoc } = generateDraggable(data, translate);
+        setDoc(draggleDoc);
+        setArrastrables(draggables);
+    }, [data.council.id]);
 
-    const changeTemplate = (event, agendas) => {
-        // if (template !== event.target.value) {
-        //     setTemplate(event.target.value)
-        //     renderTemplate(event.target.value, agendas)
-        // }
-    };
+    const getSecondaryLanguage = async language => {
+        const response = await client.query({
+            query: getTranslations,
+            variables: {
+                language
+            }
+        });
 
+        const secondaryTranslateData = buildTranslateObject(response.data.translations);
+        setSecondaryTranslate(secondaryTranslateData);
+        rebuildBlockSecondaryTranslation(translate, secondaryTranslate);
+    }
+
+    React.useEffect(() => {
+        if (options.doubleColumn) {
+            getSecondaryLanguage('en');
+        }
+    }, [options.doubleColumn])
 
     return (
         <ActContext.Provider value={data}>
@@ -247,29 +191,29 @@ const SortableList = SortableContainer(({ items, column, updateCouncilActa, upda
             </div>
         );
     }
-        return (
-            <div>
-                {items &&
-                    items.map((item, index) => (
-                        <NoDraggableBlock
-                            key={`item-${item.id}`}
-                            updateCouncilActa={updateCouncilActa}
-                            edit={edit}
-                            translate={translate}
-                            index={offset + index}
-                            value={item}
-                            column={column}
-                            id={item.id}
-                            indexItem={index}
-                            moveUp={moveUp}
-                            moveDown={moveDown}
-                            remove={remove}
-                            logic={item.logic}
-                        />
-                    ))
-                }
-            </div>
-        );
+    return (
+        <div>
+            {items &&
+                items.map((item, index) => (
+                    <NoDraggableBlock
+                        key={`item-${item.id}`}
+                        updateCouncilActa={updateCouncilActa}
+                        edit={edit}
+                        translate={translate}
+                        index={offset + index}
+                        value={item}
+                        column={column}
+                        id={item.id}
+                        indexItem={index}
+                        moveUp={moveUp}
+                        moveDown={moveDown}
+                        remove={remove}
+                        logic={item.logic}
+                    />
+                ))
+            }
+        </div>
+    );
 });
 
 
@@ -285,14 +229,14 @@ const DraggableBlock = SortableElement(props => {
     }
     const blockFijoTomadeAcuerdos = {
         value: {
-        id: Math.random().toString(36).substr(2, 9),
-        label: "Toma de acuerdos",
-        editButton: true,
-        type: 'Toma de acuerdos',
-        noBorrar: true,
-        editButton: false,
-        text: '',
-        expand: true }
+            id: Math.random().toString(36).substr(2, 9),
+            label: "Toma de acuerdos",
+            editButton: true,
+            type: 'Toma de acuerdos',
+            noBorrar: true,
+            text: '',
+            expand: true
+        }
     }
 
     return (
@@ -317,7 +261,7 @@ const DraggableBlock = SortableElement(props => {
         >
             <div style={{ paddingRight: "4px", background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: "15px", }}></div>
             <div style={{ marginLeft: "4px", width: '95%', minHeight: "90px" }}>
-                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0", right: "35px" }}>
+                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "35px" }}>
                     {props.expand &&
                         <IconsDragActions
                             turn={"expand"}
@@ -404,51 +348,51 @@ const NoDraggableBlock = props => {
             </BorderBox>
         );
     }
-        return (
-            props.value !== undefined && props.value.text !== undefined &&
-            <React.Fragment>
-                {props.value.type === 'agreements' ?
-                    <Card
-                        key={props.id}
-                        style={{
-                            boxShadow: "none",
-                            margin: "3px",
-                            paddingLeft: "15px",
-                            paddingTop: "5px",
-                        }}
-                    >
-                        <AgreementsPreview
-                            column={props.column}
-                            item={props.value}
-                            translate={props.translate}
-                        />
-                    </Card>
-                    :
-                    <Card
-                        key={props.id}
-                        style={{
-                            boxShadow: "none",
-                            margin: "3px",
-                            paddingLeft: "15px",
-                            paddingTop: "5px",
-                        }}
-                    >
-                        <div style={{}}>
-                            <div style={{}}
-                                dangerouslySetInnerHTML={{
-                                    __html: props.column === 2 ? props.value.secondaryText : props.value.text
-                                }}>
-                            </div>
-
+    return (
+        props.value !== undefined && props.value.text !== undefined &&
+        <React.Fragment>
+            {props.value.type === 'agreements' ?
+                <Card
+                    key={props.id}
+                    style={{
+                        boxShadow: "none",
+                        margin: "3px",
+                        paddingLeft: "15px",
+                        paddingTop: "5px",
+                    }}
+                >
+                    <AgreementsPreview
+                        column={props.column}
+                        item={props.value}
+                        translate={props.translate}
+                    />
+                </Card>
+                :
+                <Card
+                    key={props.id}
+                    style={{
+                        boxShadow: "none",
+                        margin: "3px",
+                        paddingLeft: "15px",
+                        paddingTop: "5px",
+                    }}
+                >
+                    <div style={{}}>
+                        <div style={{}}
+                            dangerouslySetInnerHTML={{
+                                __html: props.column === 2 ? props.value.secondaryText : props.value.text
+                            }}>
                         </div>
-                    </Card>
-                }
-            </React.Fragment>
 
-        );
+                    </div>
+                </Card>
+            }
+        </React.Fragment>
+
+    );
 }
 
-const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, translate }) => {
+const BloquesAutomaticos = ({ automaticos, addItem, translate }) => {
     const [open, setOpen] = React.useState(true)
     return (
         <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
@@ -470,14 +414,14 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, trans
                     </div>
                     <div style={{ width: "100%", marginTop: "0.5em" }}>
                         {automaticos.items.filter(item => item.logic === true).map((item, index) => (
-                                <CajaBloquesAutomaticos
-                                    key={item.id + index + "automaticos"}
-                                    item={item}
-                                    addItem={addItem}
-                                    translate={translate}
-                                    itemInfo={item.id}
-                                />
-                            ))}
+                            <CajaBloquesAutomaticos
+                                key={item.id + index + "automaticos"}
+                                item={item}
+                                addItem={addItem}
+                                translate={translate}
+                                itemInfo={item.id}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
@@ -485,29 +429,29 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, trans
     );
 }
 
-const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo, translate }) => (
-        <div style={{ display: "flex", width: "100%", marginBottom: "0.8em" }}>
-            <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
-                <div>
-                    <img src={item.icon} />
-                </div>
-            </div>
-            <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
-                <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', fontSize: ' 16px', overflow: 'hidden', textOverflow: 'ellipsis', color: "#000000" }}>
-                    {translate[item.label] || item.label}
-                </div>
-                <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
-                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
-                        arrow_right_alt
-        </i>
-                </div>
+const CajaBloquesAutomaticos = ({ item, addItem, itemInfo, translate }) => (
+    <div style={{ display: "flex", width: "100%", marginBottom: "0.8em" }}>
+        <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
+            <div>
+                <img src={item.icon} />
             </div>
         </div>
-    )
+        <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
+            <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', fontSize: ' 16px', overflow: 'hidden', textOverflow: 'ellipsis', color: "#000000" }}>
+                {translate[item.label] || item.label}
+            </div>
+            <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
+                <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
+                    arrow_right_alt
+        </i>
+            </div>
+        </div>
+    </div>
+)
 
 
 
-export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) => {
+export const IconsDragActions = ({ click, id, indexItem, turn, expand }) => {
     const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
@@ -559,18 +503,18 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
         )
     }
 
-        return (
-            <i
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}
-                className={"material-icons"}
-                style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0", transform: 'rotate(90deg)' }}
-                aria-hidden="true"
-                onClick={() => click(id, indexItem)}
-            >
-                arrow_right_alt
-            </i>
-        )
+    return (
+        <i
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            className={"material-icons"}
+            style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0", transform: 'rotate(90deg)' }}
+            aria-hidden="true"
+            onClick={() => click(id, indexItem)}
+        >
+            arrow_right_alt
+        </i>
+    )
 }
 
 export default withApollo(withSharedProps()(DocumentEditor));
