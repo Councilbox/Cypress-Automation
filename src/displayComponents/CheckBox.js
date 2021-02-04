@@ -4,7 +4,7 @@ import { FormControlLabel } from "material-ui/Form";
 import HelpPopover from './HelpPopover';
 import LoadingSection from './LoadingSection';
 
-const CheckBox = ({ value, label, onChange, style, loading, disabled, helpPopover, helpTitle, helpDescription, styleLabel, id, styleInLabel, colorCheckbox }) => (
+const CheckBox = ({ value, label, onChange, loading, disabled, helpPopover, helpTitle, helpDescription, styleLabel, id, styleInLabel, colorCheckbox }) => (
 	<div
 		style={{
 			display: 'flex',
@@ -13,7 +13,7 @@ const CheckBox = ({ value, label, onChange, style, loading, disabled, helpPopove
 	>
 		<FormControlLabel
 			control={
-				loading?
+				loading ?
 					<LoadingSection />
 				:
 				<Checkbox checked={value} onChange={onChange} disabled={disabled} id={id} color={colorCheckbox} />

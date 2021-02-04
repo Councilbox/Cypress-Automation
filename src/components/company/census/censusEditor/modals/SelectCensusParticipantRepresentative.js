@@ -1,5 +1,7 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { Card, MenuItem, Typography, withStyles, CardHeader } from 'material-ui';
 import {
 	AlertConfirm,
 	Icon,
@@ -9,9 +11,7 @@ import {
 	GridItem,
 	Grid
 } from "../../../../../displayComponents";
-import gql from 'graphql-tag';
 import { DELEGATION_USERS_LOAD } from "../../../../../constants";
-import { Card, MenuItem, Typography, withStyles, CardHeader } from 'material-ui';
 import { isMobile } from '../../../../../utils/screen';
 
 const styles = {
@@ -61,7 +61,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 			filters: [
 				{
 					field: "fullName",
-					text: text
+					text
 				}
 			]
 		});
@@ -104,7 +104,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 						/>
 					</GridItem>
 				</Grid>
-				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%",  }}>
+				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%", }}>
 					{loading ? (
 						<LoadingSection />
 					) : (
@@ -114,8 +114,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 										<Grid style={{ display: "flex" }}>
 											{participants.length > 0 ? (
 												<React.Fragment>
-													{participants.map((participant, index) => {
-														return (
+													{participants.map((participant, index) => (
 															<CardPlantillas
 																translate={translate}
 																key={`delegateVote_${participant.id}`}
@@ -127,8 +126,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 																}}
 																index={index}
 															/>
-														);
-													})}
+														))}
 													{participants.length < total - 1 && (
 														<Card
 															style={{

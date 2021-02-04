@@ -1,4 +1,6 @@
 import React from "react";
+import { compose, graphql, withApollo } from "react-apollo";
+import { Typography, MenuItem, Divider } from "material-ui";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -8,11 +10,9 @@ import {
 	LoadingSection,
 	AlertConfirm
 } from "../../../../displayComponents/index";
-import { compose, graphql, withApollo } from "react-apollo";
-import { Typography } from "material-ui";
 import { councilStepThree, updateCouncil } from "../../../../queries";
 import { removeAgenda } from "../../../../queries/agenda";
-import { MenuItem, Divider } from "material-ui";
+
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import NewAgendaPointModal from "./modals/NewAgendaPointModal";
 import PointEditor from "./modals/PointEditor";
@@ -86,7 +86,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 			variables: {
 				council: {
 					...council,
-					step: step
+					step
 				}
 			}
 		});
@@ -148,7 +148,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 
 		if (agendas.length !== 0) {
 			return true;
-		} else {
+		}
 			setState({
 				errors: {
 					...errors,
@@ -156,7 +156,6 @@ const StepAgenda = ({ client, translate, ...props }) => {
 				}
 			});
 			return false;
-		}
 	};
 
 	const previousPage = async () => {
@@ -177,7 +176,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	let newDraft;
 
 	if (council) {
-		agendas = !!council.agendas ? council.agendas : [];
+		agendas = council.agendas ? council.agendas : [];
 		newDraft = agendas.find(item => item.id === saveAsDraftId);
 	}
 
@@ -251,20 +250,17 @@ const StepAgenda = ({ client, translate, ...props }) => {
 											width: "100%"
 										}}
 									>
-										{agendas.map((agenda, index) => {
-											return (
+										{agendas.map((agenda, index) => (
 												<AgendaItem
 													agenda={agenda}
 													key={`agenda${index}`}
 													typeText={
 														translate[
 														votingTypes.find(
-															item =>
-																item.value ===
+															item => item.value ===
 																agenda.subjectType
 														) ? votingTypes.find(
-															item =>
-																item.value ===
+															item => item.value ===
 																agenda.subjectType
 														).label : ''
 														]
@@ -274,8 +270,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 													selectAgenda={selectAgenda}
 													saveAsDraft={saveAsAgendaDraft}
 												/>
-											);
-										})}
+											))}
 									</div>
 								</React.Fragment>
 							) : (
@@ -335,8 +330,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 										votingTypes={votingTypes}
 										majorityTypes={majorityTypes}
 										refetch={getData}
-										requestClose={() =>
-											setState({ editAgenda: null })
+										requestClose={() => setState({ editAgenda: null })
 										}
 									/>
 								}
@@ -353,8 +347,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 										votingTypes={votingTypes}
 										majorityTypes={majorityTypes}
 										refetch={getData}
-										requestClose={() =>
-											setState({ editCustomAgenda: null })
+										requestClose={() => setState({ editCustomAgenda: null })
 										}
 									/>
 								)}
@@ -370,8 +363,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 												title: newDraft.agendaSubject,
 												votationType: newDraft.subjectType,
 												type: draftTypes.filter(
-													draft =>
-														draft.label === "agenda"
+													draft => draft.label === "agenda"
 												)[0].value,
 												tags: {
 													[`statute_${council.statute.statuteId}`]: {
@@ -382,7 +374,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 													},
 													'agenda': {
 														type: TAG_TYPES.DRAFT_TYPE,
-														label: translate['agenda'],
+														label: translate.agenda,
 														name: 'agenda',
 														active: true
 													}
@@ -390,8 +382,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 												statuteId: council.statute.statuteId
 											}}
 											company={props.company}
-											requestClose={() =>
-												setState({ saveAsDraftId: null })
+											requestClose={() => setState({ saveAsDraftId: null })
 											}
 											companyStatutes={data.companyStatutes}
 											votingTypes={votingTypes}
@@ -507,7 +498,7 @@ export const AddAgendaPoint = ({
 			yesNoModal: false
 		});
 	};
-	
+
 	return (
 		<React.Fragment>
 			{config.customPoints ? (
@@ -515,7 +506,7 @@ export const AddAgendaPoint = ({
 					color={primary}
 					id={"newPuntoDelDiaOrdenDelDiaNew"}
 					loading={false}
-					{...(!!Component ? (Component = { Component }) : {})}
+					{...(Component ? (Component = { Component }) : {})}
 					text={
 						<div style={{ display: "flex", alignItems: "center" }}>
 							<div>{translate.add_agenda_point}</div>
@@ -627,7 +618,7 @@ export const AddAgendaPoint = ({
 						</React.Fragment>
 					}
 				/>
-			) : !!Component ? (
+			) : Component ? (
 				<Component onClick={showYesNoModal} />
 			) : (
 						<BasicButton

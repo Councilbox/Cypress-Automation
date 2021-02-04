@@ -1,6 +1,6 @@
 import React from 'react';
-import { COMMANDS } from '../../commands'; 
 import Autosuggest from 'react-autosuggest';
+import { COMMANDS } from '../../commands';
 import { bHistory } from '../../containers/App';
 import withSharedProps from '../../HOCs/withSharedProps';
 import '../../styles/autoSuggest.css';
@@ -12,12 +12,9 @@ const renderSuggestion = suggestion => (
     </div>
 );
 
-const getSuggestionValue = suggestion => {
-    return suggestion.link;
-}
+const getSuggestionValue = suggestion => suggestion.link
 
 class CommandLine extends React.Component {
-
     state = {
         command: '',
         suggestions: COMMANDS
@@ -62,7 +59,7 @@ class CommandLine extends React.Component {
         };
 
         return(
-            <div style={{maxWidth: '180px'}}>
+            <div style={{ maxWidth: '180px' }}>
                 <Autosuggest
                     suggestions={this.state.suggestions}
                     onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}

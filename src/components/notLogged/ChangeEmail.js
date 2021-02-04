@@ -1,10 +1,10 @@
 import React from 'react';
-import withTranslations from '../../HOCs/withTranslations';
 import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { Paper } from 'material-ui';
-import { bHistory } from '../../containers/App';
 import gql from 'graphql-tag';
+import { bHistory } from '../../containers/App';
+import withTranslations from '../../HOCs/withTranslations';
 import { getPrimary } from '../../styles/colors';
 import { LoadingSection, BasicButton, NotLoggedLayout } from '../../displayComponents';
 import logo from "../../assets/img/logo-icono.png";
@@ -12,7 +12,6 @@ import logo from "../../assets/img/logo-icono.png";
 
 
 const ChangeEmail = ({ match, translate, ...props }) => {
-
     const [state, setState] = React.useState({
         loading: true,
         success: false,
@@ -45,8 +44,7 @@ const ChangeEmail = ({ match, translate, ...props }) => {
 
 
 
-    const errorWrapper = () => {
-        return (
+    const errorWrapper = () => (
             <div
                 style={{
                     color: getPrimary(),
@@ -58,7 +56,6 @@ const ChangeEmail = ({ match, translate, ...props }) => {
                 FAIL
             </div>
         )
-    }
 
 
 
@@ -105,7 +102,7 @@ const ChangeEmail = ({ match, translate, ...props }) => {
                                 Gracias por confirmar el nuevo email
                                 </div>
                             }
-                           
+
                             <BasicButton
                                 text={translate.go_login}
                                 textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
@@ -119,7 +116,6 @@ const ChangeEmail = ({ match, translate, ...props }) => {
             </div>
         </NotLoggedLayout>
     )
-
 }
 
 const updateEmail = gql`

@@ -1,21 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { TabsScreen, FabButton, Icon, AlertConfirm } from "../displayComponents";
 import { Tooltip } from 'material-ui';
+import { TabsScreen, FabButton, Icon, AlertConfirm } from "../displayComponents";
 import Signatures from "../components/dashboard/Signatures";
 import { lightGrey } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
 import CBXContactButton from '../components/noCompany/CBXContactButton';
-import { bHistory } from '../containers/App';
+import { bHistory, moment } from "./App";
 import { TRIAL_DAYS } from "../config";
 import { trialDaysLeft } from "../utils/CBX";
-import { moment } from "./App";
+
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
 import { sendGAevent } from "../utils/analytics";
 import { ConfigContext } from "./AppControl";
 
-const SignatureContainer = ({ match, company, translate, windowSize, ...props }) => {
+const SignatureContainer = ({ match, company, translate, windowSize }) => {
 	const [cantCreate, setCantCreate] = React.useState(false);
 	const [noPremiumModal, setNoPremiumModal] = React.useState(false);
 	const config = React.useContext(ConfigContext);
@@ -36,9 +36,7 @@ const SignatureContainer = ({ match, company, translate, windowSize, ...props })
 		setCantCreate(true)
 	}
 
-	const canCreateSignature = () => {
-		return config.signature;
-	}
+	const canCreateSignature = () => config.signature
 
 	const closeCantAccessPremiumModal = () => {
 		setNoPremiumModal(false)
@@ -55,8 +53,7 @@ const SignatureContainer = ({ match, company, translate, windowSize, ...props })
 		{
 			text: translate.document_signature_drafts,
 			link: `/company/${company.id}/signatures/drafts`,
-			component: () => {
-				return (
+			component: () => (
 					<Signatures
 						company={company}
 						disabled={cantAccessPremium}
@@ -66,14 +63,12 @@ const SignatureContainer = ({ match, company, translate, windowSize, ...props })
 						icon={"pencil-square-o"}
 						state={[0]}
 					/>
-				);
-			}
+				)
 		},
 		{
 			text: translate.signature_of_documents_sent,
 			link: `/company/${company.id}/signatures/live`,
-			component: () => {
-				return (
+			component: () => (
 					<Signatures
 						company={company}
 						disabled={cantAccessPremium}
@@ -83,14 +78,12 @@ const SignatureContainer = ({ match, company, translate, windowSize, ...props })
 						icon={"paper-plane-o"}
 						state={[10]}
 					/>
-				);
-			}
+				)
 		},
 		{
 			text: translate.signature_of_documents_completed,
 			link: `/company/${company.id}/signatures/finished`,
-			component: () => {
-				return (
+			component: () => (
 					<Signatures
 						company={company}
 						translate={translate}
@@ -100,8 +93,7 @@ const SignatureContainer = ({ match, company, translate, windowSize, ...props })
 						icon={"check-square-o"}
 						state={[20]}
 					/>
-				);
-			}
+				)
 		}
 	];
 
@@ -112,7 +104,7 @@ const SignatureContainer = ({ match, company, translate, windowSize, ...props })
 				height: '100%',
 				padding: '2em',
 				position: 'relative',
-				...(windowSize === 'xs'? { padding: 0, paddingTop: '1em', height: 'calc(100% - 1.6rem)',width: '98%',margin: '0px auto'} : {}),
+				...(windowSize === 'xs' ? { padding: 0, paddingTop: '1em', height: 'calc(100% - 1.6rem)', width: '98%', margin: '0px auto' } : {}),
 				backgroundColor: lightGrey
 			}}
 		>
@@ -133,20 +125,19 @@ const SignatureContainer = ({ match, company, translate, windowSize, ...props })
 				<Tooltip title={`${translate.dashboard_new_signature}`}>
 					<div style={{ marginBottom: "0.3em" }}>
 						<FabButton
-							{...(cantAccessPremium || !canCreateSignature()? { color: 'grey'} : {})}
+							{...(cantAccessPremium || !canCreateSignature() ? { color: 'grey' } : {})}
 							icon={
 								<Icon className="material-icons">
 									add
 								</Icon>
 							}
-							onClick={() =>
-								cantAccessPremium?
+							onClick={() => (cantAccessPremium ?
 									showCantAccessPremiumModal()
 								:
-									!canCreateSignature()?
+									!canCreateSignature() ?
 										showCantAccessSignatures()
 									:
-										bHistory.push(`/company/${company.id}/signature/new`)
+										bHistory.push(`/company/${company.id}/signature/new`))
 							}
 						/>
 					</div>
@@ -159,8 +150,8 @@ const SignatureContainer = ({ match, company, translate, windowSize, ...props })
 				buttonCancel={translate.close}
 				requestClose={() => setCantCreate(false)}
 				bodyText={
-					<div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-						<div style={{marginBottom: '0.8em'}}>
+					<div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+						<div style={{ marginBottom: '0.8em' }}>
 							{translate.you_dont_have_this_feature}
 						</div>
 						<CBXContactButton

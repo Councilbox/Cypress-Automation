@@ -1,8 +1,8 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
+import { MenuItem, Table, TableRow, TableHead, TableCell, TableBody, InputAdornment } from 'material-ui';
 import { corporationDrafts, deleteCorporationDraft } from "../../../queries";
 import { LoadingSection, SelectInput, TextInput, AlertConfirm, CloseIcon, BasicButton, ButtonIcon, Scrollbar } from '../../../displayComponents';
-import { MenuItem, Table, TableRow, TableHead, TableCell, TableBody, InputAdornment } from 'material-ui';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withTranslations from '../../../HOCs/withTranslations';
 import NewCorporationDraft from './NewCorporationDraft';
@@ -16,7 +16,6 @@ const DEFAULT_OPTIONS = {
 }
 
 class DraftsDashboard extends React.PureComponent {
-
     state = {
         filterText: '',
         language: 'es',
@@ -70,7 +69,7 @@ class DraftsDashboard extends React.PureComponent {
     }
 
     refresh = async () => {
-        let variables = {
+        const variables = {
             options: {
                 ...DEFAULT_OPTIONS
             }

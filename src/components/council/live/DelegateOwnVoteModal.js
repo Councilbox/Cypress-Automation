@@ -1,4 +1,7 @@
 import React from "react";
+import { Typography, Card, MenuItem } from "material-ui";
+import { graphql, withApollo } from "react-apollo";
+import { toast } from "react-toastify";
 import {
 	AlertConfirm,
 	Icon,
@@ -8,12 +11,9 @@ import {
 	Scrollbar,
 	LiveToast
 } from "../../../displayComponents";
-import { Typography, Card, MenuItem } from "material-ui";
-import { graphql, withApollo } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { addDelegation } from "../../../queries/liveParticipant";
-import { toast } from "react-toastify";
 
 const DelegateOwnVoteModal = ({ translate, participant, show, client, council, inModal, setInModal, ...props }) => {
 	const [data, setData] = React.useState({});
@@ -96,7 +96,7 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 		if (props.addRepresentative) {
 			props.addRepresentative(id);
 		} else {
-			let response = await props.delegateVote(
+			const response = await props.delegateVote(
 				{
 					variables: {
 						participantId: participant.id,
@@ -237,7 +237,7 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 	}
 	if (inModal) {
 		return(<div>{_renderBody()}</div>)
-	} else {
+	}
 		return (
 			<AlertConfirm
 				requestClose={close}
@@ -247,7 +247,6 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 				title={translate.to_delegate_vote}
 			/>
 		);
-	}
 }
 
 

@@ -1,12 +1,12 @@
 const urlParser = obj => {
-	let query = "",
-		name,
-		value,
-		fullSubName,
-		subName,
-		subValue,
-		innerObj,
-		i;
+	let query = "";
+		let name;
+		let value;
+		let fullSubName;
+		let subName;
+		let subValue;
+		let innerObj;
+		let i;
 
 	for (name in obj) {
 		if (name) {

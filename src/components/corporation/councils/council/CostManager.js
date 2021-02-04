@@ -45,7 +45,7 @@ const CostManager = ({ council, updateCouncil }) => {
                 floatingText="Coste"
                 value={formData.price || ''}
                 onChange={updatePrice}
-                styles={{marginBottom: "0.8em"}}
+                styles={{ marginBottom: "0.8em" }}
             />
             <TextInput
                 floatingText="Observaciones sobre el coste"

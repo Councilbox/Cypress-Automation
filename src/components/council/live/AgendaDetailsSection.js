@@ -1,12 +1,12 @@
 import React from "react";
+import { graphql } from 'react-apollo';
+import { Collapse } from 'react-collapse';
 import ToggleAgendaButton from "./ToggleAgendaButton";
 import ToggleVotingsButton from "./ToggleVotingsButton";
 import * as CBX from "../../../utils/CBX";
-import { graphql } from 'react-apollo';
 import { AGENDA_TYPES, AGENDA_STATES } from "../../../constants";
 import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
-import { Collapse } from 'react-collapse';
 import { BasicButton, Grid, GridItem, TextInput } from '../../../displayComponents';
 import { getSecondary, secondary, getPrimary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
@@ -51,7 +51,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 	const agenda = agendas[props.selectedPoint];
 	const smallLayout = window.innerWidth < 500;
 	const normalLayout = window.innerWidth > 750;
-	
+
 	return (
 		<div
 			style={{
@@ -161,7 +161,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											}
 
 										</>
-										
+
 									}
 
 								</React.Fragment>
@@ -346,14 +346,15 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 					backgroundColor: "white",
 					border: "1px solid" + getSecondary(),
 					padding: "0px",
-					borderRadius: '4px', color: getSecondary(),
+					borderRadius: '4px',
+color: getSecondary(),
 					minHeight: '30px',
 				}}
 				onClick={() => setPointNameEditor(false)}
-			/>	
+			/>
 			{error &&
 				<span style={{ color: 'red', marginLeft: '0.6em' }}>{error}</span>
-			}	
+			}
 		</div>
 	)
 }

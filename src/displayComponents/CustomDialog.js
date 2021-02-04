@@ -4,24 +4,21 @@ import Dialog, {
 	DialogContent,
 	DialogTitle
 } from "material-ui/Dialog";
-import { getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
+import { getSecondary } from "../styles/colors";
 
 const CustomDialog = ({
 	title,
 	fullWidth = false,
 	fullScreen = false,
 	requestClose,
-	scrollable = false,
 	disableBackdropClick = false,
 	open,
 	actions,
 	children,
 	onEntered,
-	dialogActionsStyles,
-	...restProps
-}) => {
-	return (
+	dialogActionsStyles
+}) => (
 		<Dialog
 			disableBackdropClick={disableBackdropClick}
 			fullWidth={fullWidth}
@@ -72,6 +69,5 @@ const CustomDialog = ({
 			</DialogActions>
 		</Dialog>
 	);
-};
 
 export default CustomDialog;

@@ -1,12 +1,12 @@
 import React from 'react';
-import { EnhancedTable, RefreshButton, LoadingSection } from '../../../../displayComponents';
-import { PARTICIPANTS_LIMITS, SIGNATURE_PARTICIPANTS_STATES } from '../../../../constants';
-import { TableRow, TableCell, Card } from 'material-ui';
+import { TableRow, TableCell, Card, CardContent } from 'material-ui';
 import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { EnhancedTable, RefreshButton, LoadingSection } from '../../../../displayComponents';
+import { PARTICIPANTS_LIMITS, SIGNATURE_PARTICIPANTS_STATES } from '../../../../constants';
 import { getSignerStatusTranslateField } from '../../../../utils/CBX';
 import { isMobile } from '../../../../utils/screen';
-import { CardContent } from 'material-ui';
+
 
 
 const SignersList = ({ translate, client, ...props }) => {

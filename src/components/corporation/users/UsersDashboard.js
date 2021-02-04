@@ -1,13 +1,13 @@
 import React from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
+import { MenuItem, Table, TableRow, TableCell, InputAdornment, TableHead } from 'material-ui';
 import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Link, Scrollbar } from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
-import { MenuItem, Table, TableRow, TableCell, InputAdornment } from 'material-ui';
 import { corporationUsers } from '../../../queries/corporation';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
-import { TableHead } from 'material-ui';
+
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 
 const DEFAULT_OPTIONS = {
@@ -28,7 +28,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
     });
 
 
-    let timeout = null;
+    const timeout = null;
 
     const getData = async () => {
         setState({ ...state, loading: true })
@@ -45,7 +45,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
     };
 
     React.useEffect(() => {
-        let timeout = setTimeout(getData, 300);
+        const timeout = setTimeout(getData, 300);
         return () => clearTimeout(timeout);
     }, [state.selecteOptionMenu, filterText]);
 
@@ -80,7 +80,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
     if (state.addUser) {
         return <NewUser translate={translate} requestClose={() => setState({ addUser: false })} />
     }
-    
+
     return (
         <div
             style={{
@@ -181,9 +181,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
 }
 
 
-const TablaRegistrados = ({ translate, corporationUsers }) => {
-
-    return (
+const TablaRegistrados = ({ translate, corporationUsers }) => (
         <div style={{
             height: 'calc(100% - 4em)',
         }}>
@@ -216,8 +214,6 @@ const TablaRegistrados = ({ translate, corporationUsers }) => {
             </div>
         </div>
     )
-
-}
 
 
 export default (withTranslations()(withApollo(UsersDashboard)));

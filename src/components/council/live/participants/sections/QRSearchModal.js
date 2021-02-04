@@ -1,13 +1,13 @@
 import React from 'react';
 import QrReader from 'react-qr-reader';
-import { AlertConfirm, BasicButton, ReactSignature, ParticipantDisplay, Checkbox, LoadingSection } from '../../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import jsQR from "jsqr";
+import { AlertConfirm, BasicButton, ReactSignature, ParticipantDisplay, Checkbox, LoadingSection } from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import { canBePresentWithRemoteVote } from '../../../../../utils/CBX';
 import { changeParticipantState, setLiveParticipantSignature } from '../../../../../queries/liveParticipant';
 import { getPrimary } from '../../../../../styles/colors';
-import jsQR from "jsqr";
 import { isMobile } from '../../../../../utils/screen';
 
 
@@ -36,7 +36,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         try {
             if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: !isMobile? true : {
+                    video: !isMobile ? true : {
                         facingMode: {
                             exact: 'environment'
                         }
@@ -64,7 +64,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         }
 
         if(!open && streamRef.current){
-            streamRef.current.getTracks().forEach(function(track) {
+            streamRef.current.getTracks().forEach(function (track) {
                 track.stop();
             });
             streamRef.current = null;
@@ -85,7 +85,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         canvasCTX.strokeStyle = color;
         canvasCTX.stroke();
     }
-    
+
     React.useLayoutEffect(() => {
         if (code) {
             drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
@@ -149,7 +149,6 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                 setParticipant(response.data.liveParticipantQRSearch);
             }
             setLoading(false);
-
         }
     }, [search]);
 
@@ -170,9 +169,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         searchParticipant();
     }, [searchParticipant])
 
-    const isPresent = state => {
-        return state === PARTICIPANT_STATES.PHYSICALLY_PRESENT || state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
-    }
+    const isPresent = state => state === PARTICIPANT_STATES.PHYSICALLY_PRESENT || state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 
     const setParticipantAsPresent = async () => {
         let response;
@@ -185,7 +182,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                 }
             })
         } else {
-            let signatureData = signature.current.toDataURL();
+            const signatureData = signature.current.toDataURL();
             response = await client.mutate({
                 mutation: setLiveParticipantSignature,
                 variables: {
@@ -244,10 +241,8 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                             <Checkbox
                                 label={translate.has_remote_vote}
                                 value={participantState === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
-                                onChange={(event, isInputChecked) =>
-                                    setParticipantState(isInputChecked ? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-                                        : PARTICIPANT_STATES.PHYSICALLY_PRESENT
-                                    )
+                                onChange={(event, isInputChecked) => setParticipantState(isInputChecked ? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+                                        : PARTICIPANT_STATES.PHYSICALLY_PRESENT)
                                 }
                             />
                         </div>
@@ -359,7 +354,11 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                     <canvas id="canvas2" ref={canvasRef2}
                         style={{
                             zIndex: 99999,
-                            width: '100%', height: '100%', position: 'absolute', top: 0, left: 0,
+                            width: '100%',
+height: '100%',
+position: 'absolute',
+top: 0,
+left: 0,
                         }}
                     ></canvas>
                     <video autoPlay style={{ width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0, }} ref={videoRef} id='video' />

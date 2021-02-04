@@ -1,17 +1,17 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
+import { Icon, Table, TableRow, TableCell, TableBody, Input } from 'material-ui';
+import filesize from 'filesize';
 import folder from '../../../../assets/img/folder.png';
 import folderIcon from '../../../../assets/img/folder.svg';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
-import { Icon, Table, TableRow, TableCell, TableBody } from 'material-ui';
 import { TextInput, ProgressBar, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm, Scrollbar } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
-import filesize from 'filesize';
-import { Input } from 'material-ui';
+
 import { SERVER_URL } from '../../../../config';
 import DownloadCompanyDocument from './DownloadCompanyDocument';
 
@@ -130,7 +130,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             return;
         }
 
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.readAsBinaryString(file);
 
         reader.onload = async () => {
@@ -162,7 +162,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 id
             });
 
-            var xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             xhr.onload = function (e) {
                 console.log(e);
             };
@@ -170,7 +170,6 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
             xhr.upload.onprogress = function (e) {
                 if (e.loaded === e.total) {
                     removeFromQueue(id);
-                    getData();
                 } else {
                     updateQueueItem(((e.loaded / e.total) * 100).toFixed(2), id);
                 }
@@ -178,6 +177,14 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 
             xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
             xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem("token"));
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        getData();
+                    }
+                }
+            };
             xhr.send(formData);
         }
     }
@@ -253,8 +260,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                     <DropDownMenu
                                         color="transparent"
                                         styleComponent={{ width: "" }}
-                                        Component={() =>
-                                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.5em", paddingRight: "1em", position: "relative" }}>
+                                        Component={() => <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.5em", paddingRight: "1em", position: "relative" }}>
                                                 <div
                                                     style={{
                                                         cursor: "pointer"
@@ -494,7 +500,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                     />
                             ))}
                             {queue.map((item, index) => (
-                                <DelayedRow delay={1000}>
+                                <DelayedRow key={'delayedRow_' + item.id} delay={1000}>
                                     <TableRow>
                                         <TableCell>
                                             {item.name}
@@ -541,7 +547,6 @@ const DelayedRow = ({ children, delay }) => {
     }
 
     return <></>;
-
 }
 
 
@@ -579,7 +584,7 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
         refetch();
         setModal(false);
     }
-     
+
     return (
         <div style={{ display: 'flex' }}>
 
@@ -605,8 +610,7 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
                             marginTop: "1em"
                         }}
                         value={filename}
-                        onChange={event =>
-                            setFilename(event.target.value)
+                        onChange={event => setFilename(event.target.value)
                         }
                     />
                 }
@@ -673,8 +677,7 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
                             marginTop: "1em"
                         }}
                         value={filename}
-                        onChange={event =>
-                            setFilename(event.target.value)
+                        onChange={event => setFilename(event.target.value)
                         }
                     />
                 }

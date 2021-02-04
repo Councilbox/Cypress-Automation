@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import { BasicButton, TextInput } from '../../../displayComponents';
 
 class RefreshUser extends React.Component {
-
     state = {
         userId: ''
     }
@@ -21,7 +20,7 @@ class RefreshUser extends React.Component {
 
     render(){
         return(
-            <div style={{display: 'flex'}}>
+            <div style={{ display: 'flex' }}>
                 <BasicButton
                     text="Refresh user"
                     onClick={this.toggle}

@@ -51,5 +51,5 @@ export const shouldLoadSubdomain = () => {
         '192': true
     }
     const subdomain = window.location.hostname.split('.')[0];
-    return validSubdomains[subdomain]? false : true;
+    return !validSubdomains[subdomain];
 }

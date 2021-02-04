@@ -11,7 +11,6 @@ import { bHistory } from '../../../containers/App';
 import { getRootStatutes } from './NewCorporationDraft';
 
 class DraftEditPage extends React.PureComponent {
-
     state = {
         data: {},
         errors: {}
@@ -72,14 +71,13 @@ class DraftEditPage extends React.PureComponent {
     }
 
     render(){
-
         if(this.props.data.loading){
             return <LoadingSection />;
         }
 
         const rootStatutes = getRootStatutes(this.state.data.companyType);
         return (
-            <div style={{height: 'calc(100vh - 3em)'}}>
+            <div style={{ height: 'calc(100vh - 3em)' }}>
                 <CardPageLayout title={this.props.translate.drafts_new}>
                     <CompanyDraftForm
                         rootStatutes={rootStatutes}
@@ -89,7 +87,7 @@ class DraftEditPage extends React.PureComponent {
                         updateState={this.updateState}
                         {...this.props.data}
                     />
-                    <div style={{width: '100%', marginTop: '0.9em', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <div style={{ width: '100%', marginTop: '0.9em', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
                         <div>
                             <BasicButton
                                 text={this.props.translate.back}
@@ -101,7 +99,7 @@ class DraftEditPage extends React.PureComponent {
                                 onClick={() => bHistory.push('/drafts')}
                             />
                         </div>
-                        <div style={{marginLeft: '1.2em'}}>
+                        <div style={{ marginLeft: '1.2em' }}>
                             <BasicButton
                                 text={this.props.translate.save}
                                 color={getPrimary()}

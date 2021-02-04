@@ -1,21 +1,21 @@
 import React from 'react';
+import { Icon, Table, TableRow, TableCell } from 'material-ui';
+import { withApollo } from 'react-apollo';
+import { withRouter } from 'react-router';
 import { CardPageLayout, TextInput, LoadingSection, BasicButton, DropDownMenu } from "../../../displayComponents";
 import CompanyDraftList, { useTags } from './CompanyDraftList';
 import CompanyTags from './companyTags/CompanyTags';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import { isMobile } from '../../../utils/screen';
-import { Icon, Table, TableRow, TableCell } from 'material-ui';
 import { DropdownEtiquetas } from './LoadDraft';
 import { DRAFTS_LIMITS } from '../../../constants';
 import { companyDrafts as query, deleteDraft, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts.js";
-import { withApollo } from 'react-apollo';
 import CompanyDocumentsPage from './documents/CompanyDocumentsPage';
 import { showOrganizationDashboard } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 import StatutesBody from '../statutes/StatutesBody';
 import { bHistory } from '../../../containers/App';
-import { withRouter } from 'react-router';
 
 
 const CompanyDraftsPage = ({ translate, client, ...props }) => {
@@ -83,16 +83,16 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
     }, [props.company.id]);
 
     React.useEffect(() => {
-        let pathname = window.location.pathname.split('/')[4];
-        let index = tabs.indexOf(selecteDraftPadre)
-        let index2 = tabsUrl.indexOf(pathname)
+        const pathname = window.location.pathname.split('/')[4];
+        const index = tabs.indexOf(selecteDraftPadre)
+        const index2 = tabsUrl.indexOf(pathname)
         if (pathname !== tabsUrl[index]) {
             setSelecteDraftPadre(tabs[index2])
         }
     }, [window.location.pathname]);
 
     const goToPadre = (item) => {
-        let indexPadre = tabs.indexOf(item)
+        const indexPadre = tabs.indexOf(item)
         bHistory.push(`/company/${props.company.id}/drafts/${tabsUrl[indexPadre]}`)
     }
 

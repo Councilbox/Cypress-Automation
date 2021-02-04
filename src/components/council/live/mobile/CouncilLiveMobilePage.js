@@ -1,7 +1,8 @@
 import React from 'react';
+import { graphql, withApollo } from 'react-apollo';
+import FloatGroup from 'react-float-button';
 import { LoadingMainApp, FabButton, Icon, BasicButton } from '../../../../displayComponents';
 import { showVideo } from '../../../../utils/CBX';
-import { graphql, withApollo } from 'react-apollo';
 import { councilLiveQuery } from "../../../../queries";
 import ParticipantsManager from '../participants/ParticipantsManager';
 import LiveMobileHeader from './LiveMobileHeader';
@@ -9,7 +10,6 @@ import AgendaManager from '../AgendaManager';
 import CommentWall from '../CommentWall';
 import LiveParticipantsDrawer from './LiveParticipantsDrawer';
 import { getSecondary } from '../../../../styles/colors';
-import FloatGroup from 'react-float-button';
 
 const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props }) => {
     const [state, setState] = React.useState({
@@ -30,7 +30,7 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
                 councilID: data.council.id
             }
         });
-        
+
         setLoading(false)
         setCouncil(response)
     }, [])
@@ -76,7 +76,7 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
     if (loading) {
         return <LoadingMainApp />
     }
-    
+
     return (
         <div
             style={{
@@ -190,8 +190,7 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
                         translate={translate}
                         fullScreen={state.fullScreen}
                         refetch={data.refetch}
-                        openMenu={() =>
-                            setState({
+                        openMenu={() => setState({
                                 ...state,
                                 videoWidth: '100%',
                                 videoHeight: '100%',

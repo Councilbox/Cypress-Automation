@@ -14,12 +14,10 @@ class ParticipantSelector extends Component {
 				]}
 				action={this._renderDeleteIcon}
 			>
-				{this.props.participants.map(participant => {
-					return (
+				{this.props.participants.map(participant => (
 						<TableRow
 							key={`participant${participant.id}`}
-							onClick={() =>
-								this.props.action(
+							onClick={() => this.props.action(
 									participant.id,
 									participant.name
 								)
@@ -29,8 +27,7 @@ class ParticipantSelector extends Component {
 							<TableCell>{participant.dni}</TableCell>
 							<TableCell>{participant.position}</TableCell>
 						</TableRow>
-					);
-				})}
+					))}
 			</Table>
 		);
 	}

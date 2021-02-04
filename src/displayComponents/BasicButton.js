@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "material-ui";
-import { ButtonIcon } from "./index";
 import { CircularProgress } from "material-ui/Progress";
+import { ButtonIcon } from "./index";
 
 const BasicButton = ({
 	color,
@@ -16,7 +16,6 @@ const BasicButton = ({
 	icon,
 	type = 'raised',
 	disabled,
-	textPosition,
 	onClick,
 	fullWidth,
 	loading,
@@ -24,11 +23,9 @@ const BasicButton = ({
 	floatRight,
 	claseHover,
 	backgroundColor,
-	resetSuccess,
 	successSoloColor,
 	iconInit
 }) => {
-
 	React.useEffect(() => {
 		let timeout;
 		if ((error || success) && !!reset) {
@@ -39,7 +36,7 @@ const BasicButton = ({
 		};
 	}, [error, success, reset, resetDelay]);
 
-	
+
 	return (
 		<Button
 			id={id}
@@ -51,12 +48,12 @@ const BasicButton = ({
 				backgroundColor: success ? "green" : error ? "red" : color,
 				float: floatRight && "right",
 				outline: "0",
-				cursor: loading? 'wait' : 'pointer',
+				cursor: loading ? 'wait' : 'pointer',
 				...backgroundColor,
 			}}
 			disabled={disabled || loading}
 			variant={type}
-			{...(!success && !loading ? { onClick: onClick } : {})}
+			{...(!success && !loading ? { onClick } : {})}
 			fullWidth={fullWidth}
 			className={claseHover}
 		>

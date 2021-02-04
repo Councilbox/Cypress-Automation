@@ -1,16 +1,15 @@
 import React from 'react';
-import { NotLoggedLayout, LoadingSection } from '../../../displayComponents';
-import withTranslations from '../../../HOCs/withTranslations';
 import { Card, Button, CardHeader, Avatar, CardContent } from 'material-ui';
-import { EXPLORER_URL } from '../../../config';
-import { moment } from '../../../containers/App';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
+import { NotLoggedLayout, LoadingSection } from '../../../displayComponents';
+import withTranslations from '../../../HOCs/withTranslations';
+import { EXPLORER_URL } from '../../../config';
+import { moment } from '../../../containers/App';
 import ToolTip from '../../../displayComponents/Tooltip';
 import { isMobile } from '../../../utils/screen';
 
 class ValidatorPage extends React.Component {
-
     state = {
         code: this.props.match.params.uuid,
         error: '',
@@ -29,7 +28,6 @@ class ValidatorPage extends React.Component {
                 this.searchCode(this.props.match.params.uuid);
             }
         }
-
     }
 
     updateCode = event => {
@@ -59,7 +57,7 @@ class ValidatorPage extends React.Component {
         const response = await this.props.client.query({
             query: getData,
             variables: {
-                code: code
+                code
             }
         });
 
@@ -125,8 +123,7 @@ class ValidatorPage extends React.Component {
 }
 
 
-export const ExplorerLink = ({ txHash, translate }) => {
-    return (
+export const ExplorerLink = ({ txHash, translate }) => (
         <React.Fragment>
             {txHash ?
                 <Button style={{ marginLeft: "1.2em" }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">
@@ -137,15 +134,12 @@ export const ExplorerLink = ({ txHash, translate }) => {
             }
         </React.Fragment>
     )
-}
 
-export const ValidatorLink = ({ prvHash, translate }) => {
-    return (
+export const ValidatorLink = ({ prvHash, translate }) => (
         <Button size="small" color="primary" href={`${window.location.origin}/evidence/${prvHash}`} target="_blank" rel="noreferrer noopener">
             {translate.read_details.toUpperCase()}
         </Button>
     )
-}
 
 const EvidenceContentDisplay = ({ content, cbxEvidence }) => {
     const parsedContent = JSON.parse(content);
@@ -156,22 +150,19 @@ const EvidenceContentDisplay = ({ content, cbxEvidence }) => {
     )
 }
 
-const UserEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => {
-    return (
+const UserEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => (
         <div>
             <EvidenceDisplay evidence={evidence} translate={translate} cbxEvidence={cbxEvidence} />
             <UserSection evidence={evidence} translate={translate} />
         </div>
-    )
-});
+    ));
 
 const blur = {
     textShadow: '0 0 6px black',
     color: 'transparent'
 }
 
-export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => {
-    return (
+export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => (
         <React.Fragment>
             <CardHeader
                 avatar={
@@ -216,11 +207,9 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvi
                 }
             </CardContent>
         </React.Fragment>
-    )
-});
+    ));
 
-const UserSection = ({ evidence, translate }) => {
-    return (
+const UserSection = ({ evidence, translate }) => (
         <div style={{ /*paddingLeft: '1.5em' */ marginBottom: '1em' }}>
             {/* <h5>{translate.user_data}</h5> */}
             <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
@@ -255,10 +244,8 @@ const UserSection = ({ evidence, translate }) => {
             </div>
         </div>
     )
-}
 
-const ParticipantSection = ({ evidence, translate }) => {
-    return (
+const ParticipantSection = ({ evidence, translate }) => (
         <div style={{ marginBottom: '1em' }}>
             <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
                 {translate.participant}
@@ -300,10 +287,8 @@ const ParticipantSection = ({ evidence, translate }) => {
             </div>
         </div>
     )
-}
 
-const AgendaPointSection = ({ evidence, translate }) => {
-    return (
+const AgendaPointSection = ({ evidence, translate }) => (
         <div style={{ marginBottom: '1em' }}>
             <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
                 {translate.agenda_point}
@@ -329,10 +314,8 @@ const AgendaPointSection = ({ evidence, translate }) => {
 
         </div>
     )
-}
 
-const CouncilSection = ({ evidence, translate }) => {
-    return (
+const CouncilSection = ({ evidence, translate }) => (
         <div style={{ /*paddingLeft: '1.5em'*/ marginBottom: '1em' }}>
             <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
                 {translate.council_info}
@@ -402,7 +385,6 @@ const CouncilSection = ({ evidence, translate }) => {
             </div>
         </div>
     )
-}
 
 const EvidenceDisplay = ({ evidence, translate, cbxEvidence }) => {
     const type = getTranslateFieldFromType(evidence.data.type);
@@ -464,7 +446,7 @@ export const getTranslateFieldFromType = type => {
         default: () => type
     }
 
-    return types[type]? types[type] : types.default();
+    return types[type] ? types[type] : types.default();
 }
 
 const getTypeTranslation = type => {
@@ -476,7 +458,7 @@ const getTypeTranslation = type => {
         DEFAULT: 'custom_point'
     }
 
-    return translations[type] || translations['default'];
+    return translations[type] || translations.default;
 }
 
 

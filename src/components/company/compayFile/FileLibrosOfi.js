@@ -1,28 +1,28 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Icon, MenuItem, Card, CardHeader, IconButton, Collapse } from 'material-ui';
+import ContentEditable from 'react-contenteditable';
 import { CardPageLayout, TextInput, Scrollbar, DateTimePicker, SelectInput, BasicButton } from '../../../displayComponents';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
 import { getPrimary } from '../../../styles/colors';
-import { Collapse } from 'material-ui';
-import ContentEditable from 'react-contenteditable';
+
 
 
 const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...props }) => {
     const primary = getPrimary();
-    const books = (data.file && data.file.books)? data.file.books : []; 
+    const books = (data.file && data.file.books) ? data.file.books : [];
 
     const addRow = () => {
-        const newBooks = [...books, { aqui: 'otro'}];
+        const newBooks = [...books, { aqui: 'otro' }];
         updateFileData({
             books: newBooks
         })
     }
 
     const deleteRow = index => {
-        let newBooks = [...books];
+        const newBooks = [...books];
         newBooks.splice(index, 1);
         updateFileData({
             books: newBooks
@@ -62,7 +62,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                     </div>
                     <Scrollbar>
                         <div style={{ width: "100%", height: "calc( 100% - 3em )", padding: "0 1em" }}>
-                            {books.length > 0?
+                            {books.length > 0 ?
                                 books.map((book, index) => (
                                     <div key={`book_${index}`}>
                                         <Card style={{ marginTop: "1em" }}>
@@ -70,7 +70,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                 <div style={{ color: 'black', display: "flex", justifyContent: "space-between", color: "black", fontSize: "15px", paddingLeft: '24px', paddingRight: '24px', paddingTop: "3em", paddingBottom: "3em" }}>
                                                     <div style={{ width: '15%' }}>
                                                         <ContentEditable
-                                                            style={{ color: 'black', minWidth: '10em'}}
+                                                            style={{ color: 'black', minWidth: '10em' }}
                                                             html={book.name || ''}
                                                             onChange={event => {
                                                                 updateBook({
@@ -94,8 +94,8 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                                     openDate: dateString
                                                                 }, index)
                                                             }}
-                                                            
-                                                            value={book.openDate? book.openDate : null}
+
+                                                            value={book.openDate ? book.openDate : null}
                                                         />
                                                     </div>
                                                     <div style={{ width: '12%' }}>
@@ -112,8 +112,8 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                                     closeDate: dateString
                                                                 }, index)
                                                             }}
-                                                            
-                                                            value={book.closeDate? book.closeDate : null}
+
+                                                            value={book.closeDate ? book.closeDate : null}
                                                         />
                                                     </div>
                                                     <div style={{ width: '12%' }}>
@@ -130,8 +130,8 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                                     legalDate: dateString
                                                                 }, index)
                                                             }}
-                                                            
-                                                            value={book.legalDate? book.legalDate : null}
+
+                                                            value={book.legalDate ? book.legalDate : null}
                                                         />
                                                     </div>
                                                     <div style={{ width: '12%' }}>
@@ -148,13 +148,13 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                                     devolutionDate: dateString
                                                                 }, index)
                                                             }}
-                                                            
-                                                            value={book.devolutionDate? book.devolutionDate : null}
+
+                                                            value={book.devolutionDate ? book.devolutionDate : null}
                                                         />
                                                     </div>
                                                     <div style={{ width: '12%', display: 'flex' }}>
                                                         <ContentEditable
-                                                            style={{ color: 'black', minWidth: '90%'}}
+                                                            style={{ color: 'black', minWidth: '90%' }}
                                                             html={book.comments || ''}
                                                             onChange={event => {
                                                                 updateBook({
@@ -182,10 +182,10 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                     </div>
                                 ))
                             :
-                                <div style={{marginTop: '1em'}}>
+                                <div style={{ marginTop: '1em' }}>
                                     {translate.no_books_added}
                                 </div>
-                                
+
                             }
                             <BasicButton
                                 text={translate.save}

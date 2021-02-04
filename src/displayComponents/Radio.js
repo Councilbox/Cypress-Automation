@@ -2,7 +2,7 @@ import React from "react";
 import { Radio } from "material-ui";
 import { FormControlLabel } from "material-ui/Form";
 
-export default ({ value, checked, label, disabled, style, name, onChange, styleLabel, id }) => (
+const RadioButton = ({ value, checked, label, disabled, name, onChange, styleLabel, id }) => (
 	<FormControlLabel
 		control={
 			<Radio
@@ -10,7 +10,7 @@ export default ({ value, checked, label, disabled, style, name, onChange, styleL
 				disabled={disabled}
 				checked={checked}
 				onChange={onChange}
-				value={''+value}
+				value={'' + value}
 				name={name}
 			/>
 		}
@@ -18,3 +18,5 @@ export default ({ value, checked, label, disabled, style, name, onChange, styleL
 		label={label}
 	/>
 );
+
+export default RadioButton;

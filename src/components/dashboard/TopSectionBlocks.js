@@ -34,9 +34,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 		setFeatureModal(false)
 	}
 
-	const companyHasBook = () => {
-		return (config.partnerBook && company.type !== 10);
-	}
+	const companyHasBook = () => (config.partnerBook && company.type !== 10)
 
 	const hasBook = companyHasBook();
 
@@ -128,14 +126,14 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 			<GridItem xs={12} md={size} lg={size}>
 				<Block
 					link={`/company/${company.id}/council/new`}
-					customIcon={<img src={logo} style={{height: '7em', width: 'auto'}} alt="councilbox-logo" />}
+					customIcon={<img src={logo} style={{ height: '7em', width: 'auto' }} alt="councilbox-logo" />}
 					id={'create-council-block'}
 					disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
 					disabledOnClick={showCouncilsModal}
 					text={translate.dashboard_new}
 				/>
 			</GridItem>
-			
+
 			<GridItem xs={12} md={size} lg={size}>
 				<Block
 					link={`/company/${company.id}/meeting/new`}
@@ -150,7 +148,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 				<GridItem xs={12} md={size} lg={size}>
 					<Block
 						link={`/admin`}
-						customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{fontSize: '7em'}}></i>}
+						customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{ fontSize: '7em' }}></i>}
 						id={'admin-panel'}
 						text={'Panel devAdmin'}
 					/>

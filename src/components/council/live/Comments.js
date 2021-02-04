@@ -62,9 +62,8 @@ class CommentsSection extends Component {
 		);
 	};
 
-	_section = () => {
-		return(
-			this.props.council.statute.existsComments === 1?
+	_section = () => (
+			this.props.council.statute.existsComments === 1 ?
 				<CommentsTable
 					translate={this.props.translate}
 					agenda={this.props.agenda}
@@ -72,9 +71,8 @@ class CommentsSection extends Component {
 					key={this.props.agenda.id}
 				/>
 			:
-				<div style={{padding: '1em'}}>Los comentarios están desactivados en esta reunión</div>
-		)
-	};
+				<div style={{ padding: '1em' }}>Los comentarios están desactivados en esta reunión</div>
+		);
 
 	render() {
 		return (

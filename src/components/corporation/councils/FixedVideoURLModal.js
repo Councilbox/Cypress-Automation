@@ -1,9 +1,9 @@
 import React from 'react';
-import { AlertConfirm, BasicButton, TextInput, LoadingSection, Checkbox, SelectInput } from '../../../displayComponents';
-import { primary } from '../../../styles/colors';
 import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
+import { primary } from '../../../styles/colors';
+import { AlertConfirm, BasicButton, TextInput, LoadingSection, Checkbox, SelectInput } from '../../../displayComponents';
 
 let interval = null;
 
@@ -43,7 +43,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                 videoConfig: {
                     rtmp: '',
                     viewerURL: '',
-                    ...(councilRoom.videoConfig? councilRoom.videoConfig: {})
+                    ...(councilRoom.videoConfig ? councilRoom.videoConfig : {})
                 }
             });
         } else {
@@ -64,10 +64,8 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
     React.useEffect(() => {
         getData();
     }, [getData]);
-    
-    React.useEffect(() => {
-        return () => clearInterval(interval);
-    }, [state.modal]);
+
+    React.useEffect(() => () => clearInterval(interval), [state.modal]);
 
     if(!data){
         return <LoadingSection />
@@ -129,12 +127,11 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 		}
 	};
 
-    const _renderBody = () => {
-        return (
+    const _renderBody = () => (
             <>
                 {videoConfig &&
                     <>
-                        <div style={{marginBottom: '1em'}}>
+                        <div style={{ marginBottom: '1em' }}>
                             <h5>Video config:</h5>
                             <div>
                                 Número de instancias disponibles: {videoConfig.instances}
@@ -165,27 +162,30 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                     value={data.videoConfig.rtmp}
                     onKeyUp={handleEnter}
                     floatingText="URL RTMP"
-                    onChange={event => setData({ ...data, videoConfig: {
+                    onChange={event => setData({ ...data,
+videoConfig: {
                         ...data.videoConfig,
                         rtmp: event.target.value
-                    }})}
+                    } })}
                 />
                 <TextInput
                     value={data.videoConfig.viewerURL}
                     onKeyUp={handleEnter}
                     floatingText="URL para participantes sin palabra"
-                    onChange={event => setData({ ...data, videoConfig: {
+                    onChange={event => setData({ ...data,
+videoConfig: {
                         ...data.videoConfig,
                         viewerURL: event.target.value
-                    }})}
+                    } })}
                 />
                 <Checkbox
                     label={'Activar sistema híbrido'}
                     value={data.videoConfig.autoHybrid}
-                    onChange={(event, isInputChecked) => setData({ ...data, videoConfig: {
+                    onChange={(event, isInputChecked) => setData({ ...data,
+videoConfig: {
                         ...data.videoConfig,
                         autoHybrid: isInputChecked
-                    }})}
+                    } })}
                 />
                 {data.videoConfig.autoHybrid &&
                     <>
@@ -203,29 +203,30 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                         <SelectInput
                             value={data.videoConfig.rtmpType}
                             floatingText={'Tipo de streaming híbrido'}
-                            onChange={event => setData({ ...data, videoConfig: {
+                            onChange={event => setData({ ...data,
+videoConfig: {
                                 ...data.videoConfig,
                                 rtmpType: event.target.value
-                            }})}
+                            } })}
                         >
                             <MenuItem value={'presenter'}>Presentador</MenuItem>
                             <MenuItem value={'multi'}>Pantalla partida</MenuItem>
                         </SelectInput>
                     </>
-                    
+
                 }
 
                 <Checkbox
                     label={'Desactivar detección automática del sistema híbrido'}
                     value={data.videoConfig.disableHybrid}
-                    onChange={(event, isInputChecked) => setData({ ...data, videoConfig: {
+                    onChange={(event, isInputChecked) => setData({ ...data,
+videoConfig: {
                         ...data.videoConfig,
                         disableHybrid: isInputChecked
-                    }})}
+                    } })}
                 />
             </>
         )
-    }
 
     const setValue = event => {
         setData({
@@ -240,9 +241,9 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                 text="Video config"
                 type="flat"
                 color="white"
-                textStyle={{color: primary, fontWeight: '700'}}
+                textStyle={{ color: primary, fontWeight: '700' }}
                 onClick={openURLModal}
-                buttonStyle={{border: "1px solid "}}
+                buttonStyle={{ border: "1px solid " }}
             />
             <AlertConfirm
                 requestClose={closeURLModal}
@@ -257,7 +258,6 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
             />
         </>
     );
-
 }
 
 const updateCouncilRoomLink = gql`

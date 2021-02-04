@@ -1,20 +1,18 @@
 import React, { Fragment } from "react";
-import { getSecondary } from "../../styles/colors";
 import { graphql } from "react-apollo";
+import { MenuItem } from "material-ui";
+import { getSecondary } from "../../styles/colors";
 import { languages } from "../../queries/masters";
 import { setLanguage } from "../../actions/mainActions";
-import { MenuItem } from "material-ui";
 import { DropDownMenu, Icon } from "../../displayComponents";
 import { store } from "../../containers/App";
 
 const secondary = getSecondary();
 
-const LanguageSelector = ({ selectedLanguage, data }) => {
-
-	return (
+const LanguageSelector = ({ selectedLanguage, data }) => (
 		<DropDownMenu
 			color="transparent"
-			text={!!selectedLanguage? selectedLanguage.toUpperCase() : 'ES'}
+			text={selectedLanguage ? selectedLanguage.toUpperCase() : 'ES'}
 			textStyle={{ color: secondary }}
 			type="flat"
 			icon={
@@ -38,7 +36,6 @@ const LanguageSelector = ({ selectedLanguage, data }) => {
 			}
 		/>
 	);
-};
 
 const changeLanguage = language => {
 	store.dispatch(setLanguage(language));

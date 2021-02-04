@@ -55,8 +55,7 @@ const LiveMobileHeader = React.memo(({ councilName, windowSize, translate, counc
 								cursor: "pointer",
 								transform: 'rotate(-90deg)'
 							}}
-							onClick={() =>
-								setShowConfirm(true)
+							onClick={() => setShowConfirm(true)
 							}
 						>
 							save_alt
@@ -79,8 +78,7 @@ const LiveMobileHeader = React.memo(({ councilName, windowSize, translate, counc
 								position: "absolute",
 								left: "11px"
 							}}
-							onClick={() =>
-								setShowConfirm(true)
+							onClick={() => setShowConfirm(true)
 							}
 						>
 							keyboard_backspace
@@ -92,14 +90,13 @@ const LiveMobileHeader = React.memo(({ councilName, windowSize, translate, counc
 							buttonCancel={translate.cancel}
 							buttonAccept={translate.accept}
 							open={showConfirm}
-							requestClose={() =>
-								setShowConfirm(false)
+							requestClose={() => setShowConfirm(false)
 							}
 						/>
 					</div>
 					<div style={{ display: "flex", alignItems: "center" }}>
 						<img
-							src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
+							src={windowSize !== "xs" ? customLogo || logo : customIcon || icon}
 							className="App-logo"
 							style={{
 								height: "1.5em",
@@ -152,7 +149,6 @@ const LiveMobileHeader = React.memo(({ councilName, windowSize, translate, counc
 			/>
 		</React.Fragment>
 	);
-
 })
 
 export default withWindowSize(LiveMobileHeader);

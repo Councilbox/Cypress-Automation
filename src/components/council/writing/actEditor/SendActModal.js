@@ -1,4 +1,7 @@
 import React from "react";
+import { Typography, Card, TableRowColumn, TableRow, Table, TableCell } from "material-ui";
+import { compose, graphql } from "react-apollo";
+import FontAwesome from 'react-fontawesome';
 import {
 	AlertConfirm,
 	Icon,
@@ -10,13 +13,10 @@ import {
 	Checkbox,
 	SuccessMessage
 } from "../../../../displayComponents";
-import { Typography, Card, TableRowColumn, TableRow, Table, TableCell } from "material-ui";
-import { compose, graphql } from "react-apollo";
-import { councilParticipantsActSends } from "../../../../queries";
+import { councilParticipantsActSends, sendAct } from "../../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
 import { checkValidEmail } from '../../../../utils/validation';
-import FontAwesome from 'react-fontawesome';
-import { sendAct } from '../../../../queries';
+
 import { useOldState } from "../../../../hooks";
 import { getSecondary } from "../../../../styles/colors";
 
@@ -100,7 +100,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 			filters: [
 				{
 					field: "fullName",
-					text: text
+					text
 				}
 			]
 		});
@@ -115,10 +115,9 @@ const SendActModal = ({ translate, data, ...props }) => {
 		});
 	}
 
-	const _renderEmails = () => {
-		return(
-			<div style={{width: '100%'}}>
-				{state.participants.length > 0?
+	const _renderEmails = () => (
+			<div style={{ width: '100%' }}>
+				{state.participants.length > 0 ?
 					state.participants.map((participant, index) => (
 						<Card
 							style={{
@@ -153,25 +152,21 @@ const SendActModal = ({ translate, data, ...props }) => {
 				}
 			</div>
 		)
-	}
 
 	const sendAct = async () => {
 		setLoading(true);
-		let participantsIds = state.participants.map(participant=>{
-			return participant.id;
-		});
+		const participantsIds = state.participants.map(participant => participant.id);
 		const response = await props.sendAct({
 			variables: {
 				councilId: props.council.id,
 				participantsIds
 			}
 		});
-		if(!!response){
+		if(response){
 			if(!response.data.errors){
 				setState({
 					success: true
 				});
-
 			}
 			setLoading(false);
 			props.refetch();
@@ -231,14 +226,12 @@ const SendActModal = ({ translate, data, ...props }) => {
 								<Scrollbar option={{ suppressScrollX: true }}>
 									<Table style={{ marginBottom: "1em", width: "600px", margin: "0 auto" }}>
 										{participants.length > 0 ? (
-											participants.filter(p => !!p.email).map(participant => {
-												return (
+											participants.filter(p => !!p.email).map(participant => (
 													<TableRow>
 														<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
 															<Checkbox
 																value={isChecked(participant.id)}
-																onChange={(event, isInputChecked) =>
-																	checkRow(participant, isInputChecked)
+																onChange={(event, isInputChecked) => checkRow(participant, isInputChecked)
 																}
 															/>
 														</TableCell>
@@ -263,8 +256,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 														</div>
 													</TableCell>
 													</TableRow>
-												);
-											})) : (
+												))) : (
 												<Typography>{translate.no_results}</Typography>
 											)
 										}
@@ -326,21 +318,21 @@ const SendActModal = ({ translate, data, ...props }) => {
 			requestClose={close}
 			open={props.show}
 			loading={loading}
-			acceptAction={state.step === 1? secondStep : sendAct}
+			acceptAction={state.step === 1 ? secondStep : sendAct}
 			hideAccept={state.success || (state.step === 2 && state.participants.length < 1)}
-			buttonAccept={state.step === 1? translate.continue : translate.send}
-			cancelAction={state.success?
+			buttonAccept={state.step === 1 ? translate.continue : translate.send}
+			cancelAction={state.success ?
 				close
 			:
-				state.step !== 1?
-						() => setState({step: 1, success: false})
+				state.step !== 1 ?
+						() => setState({ step: 1, success: false })
 					:
 						null
 			}
-			buttonCancel={state.success?
+			buttonCancel={state.success ?
 				translate.close
 			:
-				state.step === 1? translate.close : translate.back}
+				state.step === 1 ? translate.close : translate.back}
 			bodyText={_modalBody()}
 			title={translate.sending_the_minutes}
 		/>

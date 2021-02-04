@@ -35,7 +35,7 @@ const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
     return (
         <div>
             {agenda.votingState !== AGENDA_STATES.INITIAL &&
-                <div style={{ display: 'flex', width: '100%', border: '1px solid grey', height: '1.6em', borderRadius: '2px'}}>
+                <div style={{ display: 'flex', width: '100%', border: '1px solid grey', height: '1.6em', borderRadius: '2px' }}>
                     <PercentageSection
                         tooltip={`${translate.they_accept}: ${data.numPositive} (${positivePercentage}%)`}
                         value={positivePercentage}
@@ -113,6 +113,6 @@ const PercentageSection = ({ value, color, tooltip, text = '', textColor = 'whit
     }
 
     return renderSection();
-} 
+}
 
 export default withApollo(ConfirmationRequestRecount);

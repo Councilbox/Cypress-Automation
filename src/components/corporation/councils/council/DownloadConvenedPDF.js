@@ -16,7 +16,7 @@ const DownloadConvenedPDF = ({ translate, color, council, client }) => {
 		const response = await fetch(`${SERVER_URL}/councilCensus`, {
             method: 'POST',
 			headers: new Headers({
-                "x-jwt-token": token ? token : apiToken? apiToken : participantToken,
+                "x-jwt-token": token || (apiToken || participantToken),
                 'Content-type': 'application/json'
             }),
             body: JSON.stringify({
@@ -27,7 +27,7 @@ const DownloadConvenedPDF = ({ translate, color, council, client }) => {
 		if(response.status === 200){
 			const blob = await response.blob();
 			const url = window.URL.createObjectURL(blob);
-            let a = document.createElement('a');
+            const a = document.createElement('a');
             a.href = url;
             a.download = `Censo ${council.id}`;
             document.body.appendChild(a);

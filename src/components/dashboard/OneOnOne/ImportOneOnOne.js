@@ -4,13 +4,14 @@ import gql from 'graphql-tag';
 import { getPrimary } from '../../../styles/colors';
 import { moment } from '../../../containers/App';
 import { AlertConfirm, BasicButton, FileUploadButton, ButtonIcon, LoadingSection } from '../../../displayComponents';
+
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 
 function to_json(workbook) {
-	let result = {};
+	const result = {};
 	workbook.SheetNames.forEach(sheetName => {
-		let roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+		const roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
 		if (roa.length > 0) {
 			result[sheetName] = roa;
 		}
@@ -18,7 +19,7 @@ function to_json(workbook) {
 	return result;
 }
 
-let itemRefs = [];
+const itemRefs = [];
 
 const ImportOneOneOne = ({ translate, company, client }) => {
     const [modal, setModal] = React.useState(false);
@@ -34,8 +35,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
 		return to_json(wb);
     };
 
-    const createOneOnOneCouncil = async council => {
-        return client.mutate({
+    const createOneOnOneCouncil = async council => client.mutate({
             mutation: gql`
                 mutation createOneOnOneCouncil(
                     $council: CouncilInput,
@@ -53,8 +53,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                 }
             `,
             variables: council
-        });
-    }
+        })
 
     const cleanAndClose = () => {
         setStep(1);
@@ -64,7 +63,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
         setCreatingIndex(-1);
         setStatus('IDDLE');
     }
-    
+
     const startCreating = async () => {
         setStatus('CREATING');
         for(let i = 0; i < councilsToCreate.length; i++){
@@ -91,15 +90,14 @@ const ImportOneOneOne = ({ translate, company, client }) => {
 			return;
 		}
 
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
 		reader.onload = async () => {
 			const result = await read(reader.result);
 			const pages = Object.keys(result);
 			if (pages.length >= 1) {
-                let processedCouncils = result[pages[0]].filter(row => !!row['council.externalId']).map(row => {
-                    return {
+                const processedCouncils = result[pages[0]].filter(row => !!row['council.externalId']).map(row => ({
                         "council": {
                             "name": row['council.name'],
                             "externalId": row['council.externalId'],
@@ -133,8 +131,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                 "templateId": +row['agenda4.id']
                             }
                         ].filter(agenda => !!agenda.templateId)
-                    }
-                });
+                    }));
 
                 setCouncilsToCreate(processedCouncils);
                 setStep(2);
@@ -143,11 +140,11 @@ const ImportOneOneOne = ({ translate, company, client }) => {
 			}
 		};
     };
-    
+
     const getButtonOptions = () => {
         if(step === 1 || councilsToCreate.length === 0 || status === 'CREATING'){
             return {}
-        } 
+        }
 
         if(status === 'CREATED'){
             return {
@@ -227,12 +224,12 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                                             {result.errors[0].message === 'External ID already used' &&
                                                                 'El código de cita ya está registrado'
                                                             }
-                                                        </>     
+                                                        </>
                                                     }
                                                 </div>
                                                 {status !== 'IDDLE' &&
                                                     <div>
-                                                        {result ? 
+                                                        {result ?
                                                             <>
                                                                 {(result.data.createOneOnOneCouncil && result.data.createOneOnOneCouncil.id) &&
 							                                        <i className="fa fa-check" style={{ color: 'green' }}></i>
@@ -241,7 +238,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
 							                                        <i className="fa fa-times" style={{ color: 'red' }}></i>
                                                                 }
                                                             </>
-                                                            : 
+                                                            :
                                                             creatingIndex === index ?
                                                                 <LoadingSection size={12} />
                                                             :
@@ -255,7 +252,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                     :
                                     'Sin citas válidas'
                                 }
-                                
+
                             </>
                         }
                     </div>

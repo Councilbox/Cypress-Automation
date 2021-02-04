@@ -1,15 +1,13 @@
 import React from "react";
-import MeetingEditorPage from "../components/meeting/editor/MeetingEditorPage";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { graphql } from "react-apollo";
+import MeetingEditorPage from "../components/meeting/editor/MeetingEditorPage";
 import { LoadingMainApp } from "../displayComponents";
 import { council } from "../queries";
 
 const MeetingEditorContainer = ({
-	main,
 	company,
-	user,
 	match,
 	translate,
 	data

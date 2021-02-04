@@ -20,8 +20,7 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 		close
 	}));
 
-	const _renderModalBody = () => {
-		return (
+	const _renderModalBody = () => (
 			<div>
 				<LoadDraft
 					defaultTags={defaultTags}
@@ -41,7 +40,6 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 				/>
 			</div>
 		)
-	}
 
 
 	const secondary = getSecondary();
@@ -73,7 +71,6 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 			/>
 		</React.Fragment>
 	);
-
 }
 
 export default React.forwardRef(LoadDraftModal);

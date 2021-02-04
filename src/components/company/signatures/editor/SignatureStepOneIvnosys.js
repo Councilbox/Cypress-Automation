@@ -1,15 +1,15 @@
 import React from 'react';
+import { Typography, MenuItem } from 'material-ui';
+import { graphql, compose, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
 import { TextInput, DateTimePicker, BasicButton, FileUploadButton, ButtonIcon, LiveToast, SelectInput } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
-import { Typography, MenuItem } from 'material-ui';
-import { graphql, compose, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import AttachmentItem from '../../../attachments/AttachmentItem';
 import DocumentNameEditor from './DocumentNameEditor';
 import { checkForUnclosedBraces } from '../../../../utils/CBX';
-import { toast } from 'react-toastify';
 import { INPUT_REGEX } from '../../../../constants';
 
 const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, client, ...props }) => {
@@ -54,11 +54,11 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
             });
             return;
         }
-        
-        let reader = new FileReader();
+
+        const reader = new FileReader();
         reader.readAsBinaryString(file);
         reader.onload = async event => {
-            let fileInfo = {
+            const fileInfo = {
                 filename: file.name,
                 filetype: file.type,
                 filesize: event.loaded.toString(),
@@ -78,7 +78,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                         document: fileInfo
                     }
                 });
-                
+
                 if (response.data) {
                     if (response.data.saveSignatureDocument.id) {
                         setState({
@@ -127,7 +127,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
             }
         }
     }
-    
+
     let toastId = null;
 
     const checkRequiredFields = () => {
@@ -155,15 +155,14 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         if (data.title) {
             if (!(INPUT_REGEX.test(data.title)) || !data.title.trim()) {
                 hasError = true;
-                errors.title =  translate.invalid_field;
+                errors.title = translate.invalid_field;
             }
         }
 
         if (!data.description) {
             //errors.description = translate.required_field;
             //hasError = true;
-        } else {
-            if (checkForUnclosedBraces(data.description)) {
+        } else if (checkForUnclosedBraces(data.description)) {
                 errors.description = true;
                 hasError = true;
                 if (toastId) {
@@ -180,7 +179,6 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                 }
                 );
             }
-        }
 
         if (!data.attachment) {
             errors.file = translate.must_add_attachment_file_to_sign;
@@ -309,8 +307,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                                 <DocumentNameEditor
                                     key={state.data.attachment.id}
                                     attachment={state.data.attachment}
-                                    updateAttachment={(event) =>
-                                        setState({
+                                    updateAttachment={(event) => setState({
                                             ...state,
                                             data: {
                                                 ...state.data,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { BasicButton, AlertConfirm } from '../../../../displayComponents';
 import gql from 'graphql-tag';
+import { BasicButton, AlertConfirm } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 
 const RemoveDelegationButton = ({ participant, delegatedVote, translate, client, refetch }) => {
@@ -30,13 +30,11 @@ const RemoveDelegationButton = ({ participant, delegatedVote, translate, client,
 			refetch();
 		}
     }
-    
-    const renderModalBody = () => {
-        return translate.remove_delegation_warning.replace('delegatedName', delegatedVote.name)
+
+    const renderModalBody = () => translate.remove_delegation_warning.replace('delegatedName', delegatedVote.name)
             .replace('delegatedSurname', delegatedVote.surname || '')
             .replace('name', participant.name)
-            .replace('surname', participant.surname || '');
-    }
+            .replace('surname', participant.surname || '')
 
     return (
         <React.Fragment>

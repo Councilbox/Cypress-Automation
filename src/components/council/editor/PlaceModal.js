@@ -43,7 +43,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 				props.saveAndClose(data);
 			} else {
 				props.saveAndClose({
-					street: translate["remote_celebration"],
+					street: translate.remote_celebration,
 					remoteCelebration: 1,
 					country: "",
 					countryState: "",
@@ -54,8 +54,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 		}
 	}
 
-	const _renderActionButtons = () => {
-		return (
+	const _renderActionButtons = () => (
 			<React.Fragment>
 				<BasicButton
 					text={translate.close}
@@ -84,15 +83,14 @@ const PlaceModal = ({ council, translate, ...props }) => {
 					onClick={saveAndClose}
 				/>
 			</React.Fragment>
-		);
-	}
+		)
 
 	function checkRequiredFields() {
 		if (state.remoteCelebration) {
 			return false;
 		}
 
-		let errors = {
+		const errors = {
 			country: "",
 			countryState: "",
 			street: "",
@@ -129,7 +127,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 
 		setState({
 			...state,
-			errors: errors
+			errors
 		});
 
 		return hasError;
@@ -147,9 +145,8 @@ const PlaceModal = ({ council, translate, ...props }) => {
 				<Checkbox
 					label={translate.remote_celebration}
 					value={state.remoteCelebration === 1}
-					onChange={(event, isInputChecked) =>
-						setState({
-							remoteCelebration: isInputChecked? 1 : 0
+					onChange={(event, isInputChecked) => setState({
+							remoteCelebration: isInputChecked ? 1 : 0
 						})
 					}
 				/>
@@ -167,8 +164,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							type="text"
 							errorText={state.errors.country}
 							value={data.country}
-							onChange={event =>
-								setData({
+							onChange={event => setData({
 									...data,
 									country: event.nativeEvent.target.value
 								})
@@ -179,8 +175,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							type="text"
 							errorText={state.errors.countryState}
 							value={data.countryState}
-							onChange={event =>
-								setData({
+							onChange={event => setData({
 									...data,
 									countryState: event.nativeEvent.target.value
 								})
@@ -191,8 +186,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							type="text"
 							errorText={state.errors.zipcode}
 							value={data.zipcode}
-							onChange={event =>
-								setData({
+							onChange={event => setData({
 									...data,
 									zipcode: event.nativeEvent.target.value
 								})
@@ -203,8 +197,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							type="text"
 							errorText={state.errors.city}
 							value={data.city}
-							onChange={event =>
-								setData({
+							onChange={event => setData({
 									...data,
 									city: event.nativeEvent.target.value
 								})
@@ -215,8 +208,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							type="text"
 							errorText={state.errors.street}
 							value={data.street}
-							onChange={event =>
-								setData({
+							onChange={event => setData({
 									...data,
 									street: event.nativeEvent.target.value
 								})

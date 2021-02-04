@@ -21,9 +21,9 @@ export const formatLabelFromName = (companyStatutes, translate) => tag => {
         let statute = null;
 
         if(companyStatutes){
-            statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
+            statute = companyStatutes.find(item => item.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
         }
-        const title = statute? translate[statute.title]? translate[statute.title] : statute.title : tag.label;
+        const title = statute ? translate[statute.title] ? translate[statute.title] : statute.title : tag.label;
         return translate[title] || title;
     }
 

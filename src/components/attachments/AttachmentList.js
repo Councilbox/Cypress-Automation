@@ -1,12 +1,13 @@
 import React from "react";
-import { AlertConfirm, TextInput } from "../../displayComponents";
 import { compose, graphql } from "react-apollo";
+import { AlertConfirm, TextInput } from "../../displayComponents";
 import { updateCouncilAttachment, updateAgendaAttachment } from "../../queries";
 import AttachmentItem from "./AttachmentItem";
 import { splitExtensionFilename } from '../../utils/CBX';
 
-class AttachmentList extends React.Component {
-	state = {
+
+const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }) => {
+	const [state, setState] = React.useState({
 		showModal: false,
 		data: {
 			name: ""
@@ -14,119 +15,110 @@ class AttachmentList extends React.Component {
 		errors: {
 			name: ""
 		}
-	};
+	});
 
-	updateState = object => {
-		this.setState({
+	const updateState = object => {
+		setState({
+			...state,
 			data: {
-				...this.state.data,
+				...state.data,
 				...object
 			}
 		});
 	};
 
-	_renderModalBody = () => {
-		const { translate } = this.props;
-		const { errors } = this.state;
-
-		return (
-			<div style={{ width: window.innerWidth > 650? "650px" : '100%' }}>
+	const _renderModalBody = () => (
+			<div style={{ width: window.innerWidth > 650 ? "650px" : '100%' }}>
 				<TextInput
 					floatingText={translate.name}
 					type="text"
-					errorText={errors.name}
-					value={this.state.data.filename}
-					onChange={event =>
-						this.updateState({
+					errorText={state.errors.name}
+					value={state.data.filename}
+					onChange={event => updateState({
 							filename: event.target.value
 						})
 					}
 				/>
 			</div>
 		);
-	};
 
-	editIndex = index => {
-		this.setState({
+	const editIndex = index => {
+		setState({
+			...state,
 			showModal: true,
-			editId: this.props.attachments[index].id,
+			editId: attachments[index].id,
 			data: {
-				...this.state.data,
-				...splitExtensionFilename(this.props.attachments[index].filename)
+				...state.data,
+				...splitExtensionFilename(attachments[index].filename)
 			}
 		});
 	};
 
-	updateAttachment = async () => {
-		let isAgendaAttachment = this.props.isAgendaAttachment;
+	const updateAttachment = async () => {
 		let response;
 		if (isAgendaAttachment) {
-			response = await this.props.updateAgendaAttachment({
+			response = await props.updateAgendaAttachment({
 				variables: {
-					id: this.state.editId,
-					filename: `${this.state.data.filename}.${this.state.data.extension}`
+					id: state.editId,
+					filename: `${state.data.filename}.${state.data.extension}`
 				}
 			});
 		} else {
-			response = await this.props.updateCouncilAttachment({
+			response = await props.updateCouncilAttachment({
 				variables: {
-					id: this.state.editId,
-					filename: `${this.state.data.filename}.${this.state.data.extension}`
+					id: state.editId,
+					filename: `${state.data.filename}.${state.data.extension}`
 				}
 			});
 		}
 
 		if (response) {
-			this.setState({
+			setState({
+				...state,
 				showModal: false
 			});
-			this.props.refetch();
+			props.refetch();
 		}
 	};
 
-	deleteAttachment = id => {
-		this.setState({
+	const deleteAttachment = id => {
+		setState({
+			...state,
 			deletingId: id
 		});
-		this.props.deleteAction(id);
+		props.deleteAction(id);
 	};
 
-	render() {
-		const { attachments, translate } = this.props;
-
-		return (
-			<div
-				style={{
-					width: "100%"
-				}}
-			>
-				{attachments.map((attachment, index) => {
-					return (
-						<AttachmentItem
-							edit={true}
-							key={`attachment${index}`}
-							attachment={attachment}
-							translate={translate}
-							loadingId={this.props.loadingId}
-							removeAttachment={this.deleteAttachment}
-							editName={() => {
-								this.editIndex(index);
-							}}
-						/>
-					);
-				})}
-				<AlertConfirm
-					requestClose={() => this.setState({ showModal: false })}
-					open={this.state.showModal}
-					acceptAction={this.updateAttachment}
-					buttonAccept={translate.accept}
-					buttonCancel={translate.cancel}
-					bodyText={this._renderModalBody()}
-					title={translate.edit}
-				/>
-			</div>
-		);
-	}
+	return (
+		<div
+			style={{
+				width: "100%"
+			}}
+		>
+			{attachments.map((attachment, index) => (
+					<AttachmentItem
+						edit={true}
+						key={`attachment${index}`}
+						attachment={attachment}
+						translate={translate}
+						loadingId={props.loadingId}
+						removeAttachment={deleteAttachment}
+						editName={() => {
+							editIndex(index);
+						}}
+					/>
+				))}
+			<AlertConfirm
+				requestClose={() => setState({ ...state, showModal: false })}
+				open={state.showModal}
+				acceptAction={updateAttachment}
+				buttonAccept={translate.accept}
+				buttonCancel={translate.cancel}
+				bodyText={_renderModalBody()}
+				title={translate.edit}
+			/>
+		</div>
+	);
 }
 
 export default compose(
@@ -135,4 +127,5 @@ export default compose(
 	}),
 	graphql(updateAgendaAttachment, {
 		name: "updateAgendaAttachment"
-	}))(AttachmentList);
+	})
+)(AttachmentList);

@@ -1,8 +1,8 @@
 import React from "react";
+import { Paper, Tooltip } from 'material-ui';
 import { getPrimary } from "../../../styles/colors";
 import { bHistory } from "../../../containers/App";
 import { AlertConfirm, Icon } from "../../../displayComponents";
-import { Paper, Tooltip } from 'material-ui';
 import logo from "../../../assets/img/logo.png";
 import icon from "../../../assets/img/logo-icono.png";
 import withWindowSize from '../../../HOCs/withWindowSize';
@@ -34,7 +34,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, co
 					width: "100%",
 					userSelect: "none",
 					position: "absolute",
-					zIndex: 1000, 
+					zIndex: 1000,
 					height: HEADER_HEIGHT,
 					alignItems: "center",
 					justifyContent: "space-between"
@@ -60,8 +60,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, co
 									cursor: "pointer",
 									transform: 'rotate(-90deg)'
 								}}
-								onClick={() =>
-									setShowConfirm(true)
+								onClick={() => setShowConfirm(true)
 								}
 							>
 								save_alt
@@ -84,8 +83,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, co
 									position: "absolute",
 									left: "25px"
 								}}
-								onClick={() =>
-									setShowConfirm(true)
+								onClick={() => setShowConfirm(true)
 								}
 							>
 								keyboard_backspace
@@ -97,8 +95,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, co
 								buttonCancel={translate.cancel}
 								buttonAccept={translate.accept}
 								open={showConfirm}
-								requestClose={() =>
-									setShowConfirm(false)
+								requestClose={() => setShowConfirm(false)
 								}
 							/>
 						</div>
@@ -107,7 +104,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, co
 					}
 					<div style={{ display: "flex", alignItems: "center" }} >
 						<img
-							src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
+							src={windowSize !== "xs" ? customLogo || logo : customIcon || icon}
 							className="App-logo"
 							style={{
 								height: "1.5em",

@@ -1,10 +1,10 @@
 import React from 'react';
-import { TextInput, BasicButton, CardPageLayout, Scrollbar, LoadingSection, SectionTitle, LiveToast } from '../../../displayComponents';
 import { graphql, withApollo } from 'react-apollo';
-import { getSecondary, getPrimary } from '../../../styles/colors';
 import { toast } from 'react-toastify';
-import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag, prepareTextForFilename } from '../../../utils/CBX';
 import gql from 'graphql-tag';
+import { TextInput, BasicButton, CardPageLayout, Scrollbar, LoadingSection, SectionTitle, LiveToast } from '../../../displayComponents';
+import { getSecondary, getPrimary } from '../../../styles/colors';
+import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag, prepareTextForFilename } from '../../../utils/CBX';
 import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../documentEditor/utils";
 import { certBlocks } from "../../documentEditor/actBlocks";
 import DocumentEditor2 from "../../documentEditor/DocumentEditor2";
@@ -14,6 +14,7 @@ import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
 import DownloadDoc from '../../documentEditor/DownloadDoc';
 import CreateCertificateModal from './CreateCertificateModal';
+import { ConfigContext } from '../../../containers/AppControl';
 
 
 const initialState = {
@@ -32,8 +33,7 @@ const dataReducer = (state, action) => {
         default: state
     }
 
-    return actions[action.type]? actions[action.type] : actions.default;
-
+    return actions[action.type] ? actions[action.type] : actions.default;
 }
 
 
@@ -54,7 +54,8 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 			company
         }, translate)
 	});
-    const primary = getPrimary();
+	const primary = getPrimary();
+	const config = React.useContext(ConfigContext);
     const secondary = getSecondary();
 
 
@@ -73,7 +74,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 		handlers.initializeDoc({
 			doc: buildDoc(response.data, translate, 'certificate'),
 			options: {
-				stamp: true,
+				stamp: !config.disableDocumentStamps,
 				doubleColumn: false,
 				language: response.data.council.language,
 				secondaryLanguage: 'en'
@@ -103,8 +104,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 	}
 
     function checkRequiredFields() {
-
-        let errors = {};
+        const errors = {};
         let notify = false;
 
         if(!data.title){
@@ -113,21 +113,17 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 
         if(!data.header){
             errors.header = translate.field_required;
-        } else {
-            if(checkForUnclosedBraces(data.header)){
+        } else if(checkForUnclosedBraces(data.header)){
                 errors.header = true;
                 notify = true;
             }
-        }
 
         if(!data.footer){
             errors.footer = translate.field_required;
-        } else {
-            if(checkForUnclosedBraces(data.footer)){
+        } else if(checkForUnclosedBraces(data.footer)){
                 errors.footer = true;
                 notify = true;
             }
-        }
 
         if(notify){
             toast(
@@ -166,7 +162,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 				generatePreview={generatePreview}
 				download={true}
 				documentMenu={
-					<div style={{display: 'flex', flexDirection: 'column'}}>
+					<div style={{ display: 'flex', flexDirection: 'column' }}>
 						<div>
 							<DownloadDoc
 								translate={translate}
@@ -194,7 +190,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 							/>
 						</div>
 						{error &&
-							<div style={{color: 'red', fontWeight: '700', marginTop: '1em'}}>
+							<div style={{ color: 'red', fontWeight: '700', marginTop: '1em' }}>
 								{error}
 							</div>
 						}

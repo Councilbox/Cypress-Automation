@@ -1,12 +1,12 @@
 import React from "react";
+import { TableRow, TableCell } from "material-ui";
+import { graphql } from "react-apollo";
+import gql from "graphql-tag";
 import {
 	AlertConfirm,
 	LoadingSection,
 	Table
 } from "../../../../displayComponents";
-import { TableRow, TableCell } from "material-ui";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
 import { moment } from '../../../../containers/App';
 
 const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
@@ -21,7 +21,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 					<React.Fragment>
 						{`${participant.name} ${participant.surname || ''} - ${
 							participant.email
-						} - ${participant.position? participant.position : ''}`}
+						} - ${participant.position ? participant.position : ''}`}
 
 						{data.loading ? (
 							<LoadingSection />
@@ -35,8 +35,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 									{ name: translate.ip }
 								]}
 							>
-								{data.participantHistory.map(history => {
-									return (
+								{data.participantHistory.map(history => (
 										<TableRow key={`history_${history.id}`}>
 											<TableCell>
 												{moment(
@@ -62,8 +61,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 												{history.trackInfo.ip}
 											</TableCell>
 										</TableRow>
-									);
-								})}
+									))}
 							</Table>
 						)}
 					</React.Fragment>
@@ -78,7 +76,7 @@ const getLogText = (type, translate) => {
 	switch(type){
 		case 'CONNECT':
 			return 'Conectado';
-			
+
 		case 'DISCONNECT':
 			return 'Desconectado';
 

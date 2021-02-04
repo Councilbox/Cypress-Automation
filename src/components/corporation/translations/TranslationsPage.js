@@ -1,14 +1,6 @@
 import React from "react";
-import {
-	Scrollbar,
-	LoadingSection,
-	TextInput,
-	BasicButton
-} from "../../../displayComponents";
-import withTranslations from "../../../HOCs/withTranslations";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import NewTranslationModal from "./NewTranslationModal";
 import {
 	InputAdornment,
 	Card,
@@ -16,6 +8,14 @@ import {
 	CardContent,
 	CardHeader
 } from "material-ui";
+import {
+	Scrollbar,
+	LoadingSection,
+	TextInput,
+	BasicButton
+} from "../../../displayComponents";
+import withTranslations from "../../../HOCs/withTranslations";
+import NewTranslationModal from "./NewTranslationModal";
 import { secondary } from "../../../styles/colors";
 import EditTranslationsModal from "./EditTranslationsModal";
 
@@ -35,7 +35,7 @@ class TranslationsPage extends React.Component {
 	};
 
 	updateFilterSearch = text => {
-		this.setState({filterText: text}, this.refresh);
+		this.setState({ filterText: text }, this.refresh);
 	};
 
 	showNewModal = () => {
@@ -110,8 +110,7 @@ class TranslationsPage extends React.Component {
 					<div>
 						<TextInput
 							value={this.state.filterText}
-							onChange={event =>
-								this.updateFilterSearch(event.target.value)
+							onChange={event => this.updateFilterSearch(event.target.value)
 							}
 							startAdornment={
 								<InputAdornment

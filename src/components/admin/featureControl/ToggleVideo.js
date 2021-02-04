@@ -3,14 +3,12 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BasicButton } from '../../../displayComponents';
 
-const ToggleVideo = ({ toggleVideo }) => {
-    return(
+const ToggleVideo = ({ toggleVideo }) => (
         <BasicButton
             text="Toggle video"
 
         />
     )
-}
 
 const toggleVideo = gql`
     mutation ToggleFeature($id: Int!) {

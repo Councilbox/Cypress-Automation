@@ -8,7 +8,7 @@ import { AlertConfirm, TextInput } from '../../../../displayComponents';
 
 const DenyVote = ({ translate, client, refetch, participant }) => {
     const [modal, setModal] = React.useState(false);
-    const [text, setText] = React.useState(participant.voteDeniedReason? participant.voteDeniedReason : '');
+    const [text, setText] = React.useState(participant.voteDeniedReason ? participant.voteDeniedReason : '');
     const secondary = getSecondary();
     const config = React.useContext(ConfigContext);
 
@@ -75,7 +75,7 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
                 requestClose={() => setModal(false)}
                 title={translate.warning}
                 open={modal}
-                acceptAction={participant.voteDenied? () => toggleDeniedVote(false) : () => toggleDeniedVote(true)}
+                acceptAction={participant.voteDenied ? () => toggleDeniedVote(false) : () => toggleDeniedVote(true)}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={renderBody()}
@@ -93,15 +93,15 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
                         marginRight: "0.3em"
                 }}></i>
             </div>
-            {participant.voteDenied?
+            {participant.voteDenied ?
                 <Tooltip title={participant.voteDeniedReason}>
                     <Typography variant="body1" className="truncate">
-            <span style={{color: 'red', fontWeight: '700'}}>{translate.denied_vote}</span>
-                        <span onClick={() => setModal(true)} style={{fontSize: '0.9em', color: secondary, cursor: 'pointer'}}>({translate.restore_vote_right})</span>
+            <span style={{ color: 'red', fontWeight: '700' }}>{translate.denied_vote}</span>
+                        <span onClick={() => setModal(true)} style={{ fontSize: '0.9em', color: secondary, cursor: 'pointer' }}>({translate.restore_vote_right})</span>
                     </Typography>
                 </Tooltip>
             :
-                <Typography variant="body1" className="truncate" style={{cursor: 'pointer'}} onClick={() => setModal(true)}>
+                <Typography variant="body1" className="truncate" style={{ cursor: 'pointer' }} onClick={() => setModal(true)}>
                     {translate.deny_right_to_vote}
                 </Typography>
             }

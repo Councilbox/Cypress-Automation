@@ -1,4 +1,7 @@
 import React from "react";
+import { Input, Icon, Collapse, withStyles, FormControlLabel } from "material-ui";
+import PropTypes from "prop-types";
+import { withApollo } from 'react-apollo';
 import {
 	Grid,
 	GridItem,
@@ -6,20 +9,17 @@ import {
 	Scrollbar
 } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
-import { Input, Icon, Collapse } from "material-ui";
 import * as CBX from "../../../utils/CBX";
 import { GOVERNING_BODY_TYPES, DRAFT_TYPES } from "../../../constants";
-import { withStyles } from "material-ui";
-import PropTypes from "prop-types";
+
 import withWindowSize from "../../../HOCs/withWindowSize";
-import { withApollo } from 'react-apollo';
 import { isMobile } from '../../../utils/screen';
 import { companyTypes } from "../../../queries";
 import SelectedTag from './draftTags/SelectedTag';
 import { createTag, TAG_TYPES, getTagColor } from './draftTags/utils';
 import Tag from './draftTags/Tag';
 import withSharedProps from "../../../HOCs/withSharedProps";
-import { FormControlLabel } from "material-ui";
+
 
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
@@ -51,15 +51,13 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		updateState({ tags: testTags })
 	}
 
-	const formatTagLabel = tag => {
-		return tag.segments ?
+	const formatTagLabel = tag => (tag.segments ?
 			`${tag.segments.reduce((acc, curr) => {
 				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
 				return acc;
 			}, '')}`
 			:
-			tag.label
-	}
+			tag.label)
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
@@ -80,9 +78,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 			translate[tag.name] ? translate[tag.name] : tag.name
 	}
 
-	const reduceTagName = tag => {
-		return tag.name
-	}
+	const reduceTagName = tag => tag.name
 
 	const addTag = tag => {
 		setTestTags({
@@ -93,7 +89,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 				active: true
 			}
 		});
-		let data = {
+		const data = {
 			...testTags,
 			[reduceTagName(tag)]: {
 				...tag,
@@ -117,7 +113,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	}, []);
 
 	React.useEffect(() => {
-		let formattedTags = {};
+		const formattedTags = {};
 		if (draft.tags) {
 			Object.keys(draft.tags).forEach(key => {
 				formattedTags[reduceTagName(draft.tags[key])] = {
@@ -130,8 +126,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		}
 	}, []);
 
-	const renderTitle = () => {
-		return (
+	const renderTitle = () => (
 			<React.Fragment>
 				<div style={{ fontSize: "18px" }}>{translate.title}</div>
 				<div>
@@ -144,14 +139,13 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 							color: "rgba(0, 0, 0, 0.65)",
 							fontSize: '15px',
 							boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-							border: !!errors.title ? '2px solid red' : '1px solid #d7d7d7',
+							border: errors.title ? '2px solid red' : '1px solid #d7d7d7',
 							width: "100%",
 							padding: '.5em 1.6em',
 							marginTop: "1em"
 						}}
 						value={draft.title}
-						onChange={event =>
-							updateState({
+						onChange={event => updateState({
 								title: event.nativeEvent.target.value
 							})
 						}
@@ -163,13 +157,11 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					}
 				</div>
 			</React.Fragment>
-		);
-	}
+		)
 
 
 	const renderEtiquetasSeleccionadas = () => {
-		const TagColumn = props => {
-			return (
+		const TagColumn = props => (
 				<div style={{
 					display: "flex",
 					color: "#ffffff",
@@ -180,7 +172,6 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					{props.children}
 				</div>
 			)
-		}
 
 		const buildTagColumns = tags => {
 			const columns = {};
@@ -241,8 +232,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						value={draft.text || ""}
 						errorText={errors.text}
 						translate={translate}
-						onChange={value =>
-							updateState({
+						onChange={value => updateState({
 								text: value
 							})
 						}
@@ -256,8 +246,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						value={draft.secondaryText || ""}
 						errorText={errors.secondaryText}
 						translate={translate}
-						onChange={value =>
-							updateState({
+						onChange={value => updateState({
 								secondaryText: value
 							})
 						}
@@ -268,12 +257,10 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		);
 	}
 
-	let tagsSearch = [];
+	const tagsSearch = [];
 
 	if (company.id === company.corporationId) {
-		companyT.filter(companyType => {
-			return !testTags[companyType.label]
-		}).forEach(companyType => tagsSearch.push(createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate)))
+		companyT.filter(companyType => !testTags[companyType.label]).forEach(companyType => tagsSearch.push(createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate)))
 	}
 
 	companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).forEach(statute => (
@@ -292,14 +279,11 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 	let matchSearch = [];
 	if (search) {
-		matchSearch = tagsSearch.filter(tag => {
-			return tag.label.toLowerCase().includes(search.toLowerCase())
-		})
+		matchSearch = tagsSearch.filter(tag => tag.label.toLowerCase().includes(search.toLowerCase()))
 	}
 
 
-	const renderSelectorEtiquetas = () => {
-		return (
+	const renderSelectorEtiquetas = () => (
 			<React.Fragment>
 				<div style={{ fontSize: "18px", display: "flex" }}>
 					<div style={{ marginRight: "0.6em" }}>{translate.tags}</div>
@@ -351,9 +335,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 												border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
 												color: getTagColor(TAG_TYPES.COMPANY_TYPE),
 											}}
-											tags={companyT.filter(companyType => {
-												return !testTags[companyType.label]
-											}).map(companyType => createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate))}
+											tags={companyT.filter(companyType => !testTags[companyType.label]).map(companyType => createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate))}
 										/>
 									}
 
@@ -367,9 +349,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 												border: `1px solid ${getTagColor(TAG_TYPES.STATUTE)}`,
 												color: getTagColor(TAG_TYPES.STATUTE),
 											}}
-											tags={companyStatutes.filter(statute => {
-												return !testTags[`statute_${statute.id}`]
-											}).map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
+											tags={companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
 										/>
 									}
 									<ContenedorEtiquetas
@@ -411,8 +391,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					</div>
 				</div>
 			</React.Fragment>
-		);
-	}
+		)
 
 	if (props.innerWidth > 960) {
 		return (
@@ -446,7 +425,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 				</Grid>
 			</Scrollbar>
 		);
-	} else {
+	}
 		return (
 			<Scrollbar>
 				<Grid spacing={16} style={{ height: "100%", width: "100%", marginBottom: "1em" }}>
@@ -471,8 +450,6 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 				</Grid>
 			</Scrollbar>
 		);
-	}
-
 }
 
 
@@ -500,13 +477,12 @@ const Fade = ({ show, children }) => {
 };
 
 
-export const EtiquetasModal = ({ color, title, tags, addTag, translate }) => {
-	return (
+export const EtiquetasModal = ({ color, title, tags, addTag, translate }) => (
 		<div>
 			<div style={{ fontWeight: "700" }} >
 				<div>{title}</div>
 			</div>
-			<div style={{ color: color }}>
+			<div style={{ color }}>
 				<div style={{
 					display: 'flex',
 					flexFlow: 'wrap column',
@@ -532,8 +508,7 @@ export const EtiquetasModal = ({ color, title, tags, addTag, translate }) => {
 				</div>
 			</div>
 		</div>
-	);
-}
+	)
 
 
 
@@ -548,7 +523,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 		return (
 			<div style={{
 				fontSize: "12px",
-				color: color,
+				color,
 				minHeight: "3.5em",
 			}}
 			>
@@ -571,7 +546,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 
 			</div>
 		);
-	} else {
+	}
 		return (
 			<div style={{
 				boxShadow: ' 0 2px 1px 0 rgba(0, 0, 0, 0.25)',
@@ -616,7 +591,6 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 
 			</div>
 		);
-	}
 }
 
 

@@ -50,8 +50,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 <Checkbox
                     label={translate.exists_delegated_vote}
                     value={statute.existsDelegatedVote === 1}
-                    onChange={(event, isInputChecked) =>
-                        updateState({
+                    onChange={(event, isInputChecked) => updateState({
                             existsDelegatedVote: isInputChecked ? 1 : 0
                         })
                     }
@@ -61,8 +60,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 <Checkbox
                     label={translate.agenda_can_be_modified}
                     value={statute.canAddPoints === 1}
-                    onChange={(event, isInputChecked) =>
-                        updateState({
+                    onChange={(event, isInputChecked) => updateState({
                             canAddPoints: isInputChecked ? 1 : 0
                         })
                     }
@@ -72,8 +70,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 <Checkbox
                     label={translate.can_reorder_points}
                     value={statute.canReorderPoints === 1}
-                    onChange={(event, isInputChecked) =>
-                        updateState({
+                    onChange={(event, isInputChecked) => updateState({
                             canReorderPoints: isInputChecked ? 1 : 0
                         })
                     }
@@ -83,8 +80,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 <Checkbox
                     label={translate.hide_votings_recount}
                     value={statute.hideVotingsRecountFinished === 1}
-                    onChange={(event, isInputChecked) =>
-                        updateState({
+                    onChange={(event, isInputChecked) => updateState({
                             hideVotingsRecountFinished: isInputChecked ? 1 : 0
                         })
                     }
@@ -94,8 +90,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 <Checkbox
                     label={'Activar solicitudes'}
                     value={statute.shareholdersPortal === 1}
-                    onChange={(event, isInputChecked) =>
-                        updateState({
+                    onChange={(event, isInputChecked) => updateState({
                             shareholdersPortal: isInputChecked ? 1 : 0
                         })
                     }
@@ -105,8 +100,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 <Checkbox
                     label={translate.exists_comments}
                     value={statute.existsComments === 1}
-                    onChange={(event, isInputChecked) =>
-                        updateState({
+                    onChange={(event, isInputChecked) => updateState({
                             existsComments: isInputChecked ? 1 : 0
                         })
                     }
@@ -116,8 +110,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 <Checkbox
                     label={translate.wall}
                     value={council.wallActive === 1}
-                    onChange={(event, isInputChecked) =>
-                        updateCouncil({
+                    onChange={(event, isInputChecked) => updateCouncil({
                             wallActive: isInputChecked ? 1 : 0
                         })
                     }
@@ -127,8 +120,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 <Checkbox
                     label={translate.can_ask_word}
                     value={council.askWordMenu}
-                    onChange={(event, isInputChecked) =>
-                        updateCouncil({
+                    onChange={(event, isInputChecked) => updateCouncil({
                             askWordMenu: isInputChecked
                         })
                     }
@@ -137,9 +129,8 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
             <GridItem xs={12} md={7} lg={7}>
                 <SelectInput
                         floatingText={translate.security}
-                        value={''+council.securityType}
-                        onChange={event =>
-                            updateCouncil({
+                        value={'' + council.securityType}
+                        onChange={event => updateCouncil({
                                 securityType: +event.target.value
                             })
                         }
@@ -170,8 +161,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                 <SelectInput
                         floatingText={translate.default_vote}
                         value={statute.defaultVote}
-                        onChange={event =>
-                            updateState({
+                        onChange={event => updateState({
                                 defaultVote: event.target.value
                             })
                         }

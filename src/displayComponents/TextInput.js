@@ -8,7 +8,7 @@ import {
 import Visibility from "material-ui-icons/Visibility";
 import VisibilityOff from "material-ui-icons/VisibilityOff";
 import FontAwesome from "react-fontawesome";
-import { HelpPopover } from ".";
+import HelpPopover from "./HelpPopover";
 
 
 const TextInput = ({
@@ -20,7 +20,6 @@ const TextInput = ({
 	value,
 	onChange,
 	errorText,
-	classes,
 	onKeyUp,
 	placeholder,
 	required,
@@ -94,9 +93,9 @@ const TextInput = ({
 					disableUnderline,
 					startAdornment: "",
 					inputProps: {
-						min: min,
-						id: id,
-						max: max,
+						min,
+						id,
+						max,
 						style: {
 							fontSize: '15px',
 							...styleInInput

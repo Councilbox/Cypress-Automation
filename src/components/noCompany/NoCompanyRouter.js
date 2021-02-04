@@ -1,8 +1,8 @@
 import React from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import Header from '../Header';
 import { lightGrey } from '../../styles/colors';
 import NoCompanyDashboard from './NoCompanyDashboard';
-import { Route, Redirect, Switch } from 'react-router-dom';
 import UserSettingsPage from '../userSettings/UserSettingsPage';
 import NewCompanyPage from '../company/new/NewCompanyPage';
 import LinkCompanyPage from '../company/link/LinkCompanyPage';
@@ -10,7 +10,6 @@ import { HEADER_HEIGHT } from '../../styles/constants';
 
 
 class NoCompanyRouter extends React.Component {
-
     render(){
         return(
             <div
@@ -39,7 +38,7 @@ class NoCompanyRouter extends React.Component {
                         <Route exact path="/" component={NoCompanyDashboard} />
                         <Route exact path="/company/create" component={NewCompanyPage} />
                         <Route exact path="/company/link" component={() => (
-                            <div style={{maxWidth: '650px', minWidth: '550px', height: '400px'}}>
+                            <div style={{ maxWidth: '650px', minWidth: '550px', height: '400px' }}>
                                 <LinkCompanyPage />
                             </div>
                         )} />

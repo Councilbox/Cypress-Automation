@@ -5,8 +5,7 @@ import { LoadingSection } from '../../../../displayComponents';
 import { useQueryReducer } from '../../../../hooks';
 import AttachmentDownload from '../../../attachments/AttachmentDownload';
 
-const OneOnOneAttachmentsList = ({ council, translate, client }) => {
-    return (
+const OneOnOneAttachmentsList = ({ council, translate, client }) => (
         <div style={{ padding: '1em' }}>
             <h4>{translate.dasboard_documentation}</h4>
             {council ?
@@ -19,12 +18,11 @@ const OneOnOneAttachmentsList = ({ council, translate, client }) => {
                 ))
                 :
                     translate.no_results
-            
+
             :
-            
+
             <LoadingSection /> }
         </div>
     )
-}
 
 export default withApollo(OneOnOneAttachmentsList);

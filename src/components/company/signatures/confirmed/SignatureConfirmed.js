@@ -1,15 +1,14 @@
 import React from 'react';
-import { LoadingSection, CardPageLayout, BasicButton, ButtonIcon, Grid, GridItem } from '../../../../displayComponents';
-import SignersList from './SignersList';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import { LoadingSection, CardPageLayout, BasicButton, ButtonIcon, Grid, GridItem } from '../../../../displayComponents';
+import SignersList from './SignersList';
 import SignersStatusRecount from './SignersStatusRecount';
 import { SIGNATURE_STATES } from '../../../../constants';
 import { getPrimary } from '../../../../styles/colors';
 import { SERVER_URL } from '../../../../config';
 
 class SignatureConfirmed extends React.Component {
-
     state = {
         downloading: false
     }
@@ -29,7 +28,7 @@ class SignatureConfirmed extends React.Component {
         if(response.status === 200){
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
-            let a = document.createElement('a');
+            const a = document.createElement('a');
             a.href = url;
             a.download = this.props.data.signature.title + ".pdf";
             document.body.appendChild(a);
@@ -53,7 +52,7 @@ class SignatureConfirmed extends React.Component {
 
         return(
             <CardPageLayout title={title}>
-                <Grid style={{width: '100%'}}>
+                <Grid style={{ width: '100%' }}>
                     <GridItem xs={12} md={3} lg={3}>
 
                     </GridItem>
@@ -64,7 +63,7 @@ class SignatureConfirmed extends React.Component {
                             translate={this.props.translate}
                         />
                     </GridItem>
-                    <GridItem xs={12} md={3} lg={3} style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <GridItem xs={12} md={3} lg={3} style={{ display: 'flex', justifyContent: 'flex-end' }}>
                         {signature.state === SIGNATURE_STATES.COMPLETED &&
                             <div>
                                 <BasicButton
@@ -72,9 +71,9 @@ class SignatureConfirmed extends React.Component {
                                     color={'white'}
                                     loading={this.state.downloading}
                                     loadingColor={primary}
-                                    textStyle={{color: primary, fontWeight: '700', textTransform: 'none'}}
+                                    textStyle={{ color: primary, fontWeight: '700', textTransform: 'none' }}
                                     onClick={() => this.downloadSignedDocument()}
-                                    buttonStyle={{border: `2px solid ${primary}`}}
+                                    buttonStyle={{ border: `2px solid ${primary}` }}
                                     icon={<ButtonIcon type={'save_alt'} color={primary} />}
                                 />
                             </div>
@@ -86,7 +85,7 @@ class SignatureConfirmed extends React.Component {
                         height: 'calc(100% - 3em)'
                     }}
                 >
-                    {!signature?
+                    {!signature ?
                         <div
                             style={{
                                 height: '400px',
@@ -98,7 +97,7 @@ class SignatureConfirmed extends React.Component {
                             <LoadingSection />
                         </div>
                     :
-                        <div style={{width: '100%', height: '100%'}}>
+                        <div style={{ width: '100%', height: '100%' }}>
                             <SignersList
                                 ref={ref => this.signers = ref}
                                 refetch={this.props.data.refetch}

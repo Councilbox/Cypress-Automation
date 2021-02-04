@@ -1,11 +1,12 @@
 import React from "react";
 import { compose, graphql, withApollo } from "react-apollo";
+import {
+	Typography,
+ Tooltip } from "material-ui";
+import gql from "graphql-tag";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
 import { isLandscape, isMobile } from "../../../../utils/screen";
 import { getSecondary } from "../../../../styles/colors";
-import {
-	Typography,
-} from "material-ui";
 import {
 	Grid,
 	GridItem,
@@ -25,10 +26,9 @@ import ResendCredentialsModal from "./modals/ResendCredentialsModal";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import SignatureButton from "./SignatureButton";
 import { client } from "../../../../containers/App";
-import gql from "graphql-tag";
 import RemoveDelegationButton from "./RemoveDelegationButton";
 import { useParticipantContactEdit } from "../../../../hooks";
-import { Tooltip } from "material-ui";
+
 import EarlyVotingModal from "./EarlyVotingModal";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
@@ -58,15 +58,12 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	}, [participant.id]);
 
 
-	const showStateMenu = () => {
-		return !(participant.representatives && participant.representatives.length > 0);
-	}
+	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0)
 
 
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
 	}
-
 
 	participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 	participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
@@ -319,7 +316,7 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 										fontSize: "1em",
 										cursor: 'pointer',
 										marginLeft: "0.3em",
-										paddingTop:"3px"
+										paddingTop: "3px"
 									}}>
 								</i>
 							</Tooltip>
@@ -334,8 +331,7 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 							required
 							value={email}
 							errorText={errors.email}
-							onChange={event =>
-								setEmail(event.target.value)
+							onChange={event => setEmail(event.target.value)
 							}
 						/>
 						{props.council.securityType === 2 &&
@@ -345,8 +341,7 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 								required
 								value={phone}
 								errorText={errors.phone}
-								onChange={event =>
-									setPhone(event.target.value)
+								onChange={event => setPhone(event.target.value)
 								}
 							/>
 						}

@@ -5,7 +5,7 @@ import withTranslations from "../../HOCs/withTranslations";
 
 const GraficaEstadisiticas = ({ porcentaje, color, translate }) => {
 	const data = {
-		labels:[translate.companies_calendar, translate.companies_live, translate.companies_writing, translate.act_book],
+		labels: [translate.companies_calendar, translate.companies_live, translate.companies_writing, translate.act_book],
 		datasets: [{
 			data: [65, 59, 80, 81],
 			backgroundColor: [

@@ -1,10 +1,10 @@
 import React from 'react';
-import withTranslations from '../../HOCs/withTranslations';
 import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { Paper } from 'material-ui';
-import { bHistory } from '../../containers/App';
 import gql from 'graphql-tag';
+import { bHistory } from '../../containers/App';
+import withTranslations from '../../HOCs/withTranslations';
 import { getPrimary } from '../../styles/colors';
 import { LoadingSection, BasicButton, NotLoggedLayout } from '../../displayComponents';
 import logo from "../../assets/img/logo-icono.png";
@@ -44,8 +44,7 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
         activateUser();
     }, [match.params.token]);
 
-    const errorWrapper = () => {
-        return(
+    const errorWrapper = () => (
             <div
                 style={{
                     color: getPrimary(),
@@ -54,17 +53,15 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
                     marginBottom: '1.3em'
                 }}
             >
-                {state.error === 407?
+                {state.error === 407 ?
                     translate.account_actived_yet
                 :
                     translate.error_active_account
                 }
             </div>
         )
-    }
 
-    const successMessage = () => {
-        return (
+    const successMessage = () => (
             <div
                 style={{
                     color: getPrimary(),
@@ -76,7 +73,6 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
                 {translate.account_actived}
             </div>
         )
-    }
 
     return(
         <NotLoggedLayout
@@ -107,11 +103,11 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
                         flexDirection: 'column'
                     }}
                 >
-                    {state.loading?
+                    {state.loading ?
                         <LoadingSection />
                     :
                         <React.Fragment>
-                            <img src={logo} style={{height: '6em', marginBottom: '0.6em'}} alt="councibox-icon" />
+                            <img src={logo} style={{ height: '6em', marginBottom: '0.6em' }} alt="councibox-icon" />
                             {state.error &&
                                 errorWrapper()
                             }
@@ -120,7 +116,7 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
                             }
                             <BasicButton
                                 text={translate.go_login}
-                                textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                                textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
                                 color={getPrimary()}
                                 onClick={() => bHistory.push('/')}
                             />

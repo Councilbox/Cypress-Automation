@@ -20,22 +20,21 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
             }
         })
 
-        return response.data.participantVideoURL;
+        updateUrl(response.data.participantVideoURL);
     }, [props.participant.id])
 
-    const updateUrl = async () => {
-        const newUrl = await getData();
-        if(newUrl !== url){
-            setUrl(newUrl);
-        }
-        if(loading){
-            setLoading(false);
+    const updateUrl = async newUrl => {
+        if(newUrl){
+            if(newUrl !== url){
+                setUrl(newUrl);
+            }
+            if(loading){
+                setLoading(false);
+            }
+        } else {
+            setTimeout(getData, 5000);
         }
     }
-
-    React.useEffect(() => {
-        updateUrl();
-    }, [getData]);
 
     useRoomUpdated({
         refetch: updateUrl,
@@ -46,8 +45,8 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
     const requestWord = props.participant.requestWord;
 
     React.useEffect(() => {
-        updateUrl();
-    }, [requestWord]);
+        getData();
+    }, [requestWord, getData]);
 
     if(props.council.state === COUNCIL_STATES.PAUSED){
         return (
@@ -61,7 +60,7 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
 
     if(!loading){
         if(!videoURL){
-            setVideoURL(url? url : 'Error reaching CMP');
+            setVideoURL(url || 'Error reaching CMP');
         }
         return(
             <iframe

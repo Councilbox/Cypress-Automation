@@ -8,7 +8,6 @@ import { isMobile } from "../../../../utils/screen";
 import { AGENDA_STATES } from "../../../../constants";
 
 class EndCouncilButton extends React.Component {
-
 	state = {
 		confirmModal: false
 	};
@@ -42,7 +41,7 @@ class EndCouncilButton extends React.Component {
 						text={translate.finish_council}
 						id={'finalizarReunionEnReunion'}
 						color={primary}
-						color={unclosed.length === 0? primary : secondary}
+						color={unclosed.length === 0 ? primary : secondary}
 						onClick={() => this.setState({ confirmModal: true })}
 						textPosition="before"
 						icon={
@@ -73,15 +72,13 @@ class EndCouncilButton extends React.Component {
 								<React.Fragment>
 									<div>{translate.unclosed_points_desc}</div>
 									<ul>
-										{unclosed.map(agenda => {
-											return (
+										{unclosed.map(agenda => (
 												<li
 													key={`unclosed${agenda.id}`}
 												>
 													{agenda.agendaSubject}
 												</li>
-											);
-										})}
+											))}
 									</ul>
 								</React.Fragment>
 							) : (

@@ -15,14 +15,14 @@ const DownloadCompanyDocument = ({ file, companyId, translate, trigger, color = 
 		const participantToken = sessionStorage.getItem("participantToken");
 		const response = await fetch(`${SERVER_URL}/companyDocument/${file.id}`, {
 			headers: new Headers({
-				"x-jwt-token": token ? token : apiToken? apiToken : participantToken,
+				"x-jwt-token": token || (apiToken || participantToken),
 			})
 		});
 
 		if(response.status === 200){
 			const blob = await response.blob();
 			const url = window.URL.createObjectURL(blob);
-            let a = document.createElement('a');
+            const a = document.createElement('a');
             a.href = url;
             a.download = file.name;
             document.body.appendChild(a);
@@ -34,13 +34,13 @@ const DownloadCompanyDocument = ({ file, companyId, translate, trigger, color = 
 
     return (
         <>
-            {trigger?
+            {trigger ?
                 <>
                     {trigger}
                 </>
             :
                 <>
-                    {downloading?
+                    {downloading ?
                         <div>
                             <LoadingSection color={'secondary'} size={12} />
                         </div>

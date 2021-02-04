@@ -1,19 +1,19 @@
 import React from 'react';
-import { Table, CloseIcon, DateWrapper, Checkbox, Grid, GridItem } from '../../displayComponents';
-import { bHistory } from '../../containers/App';
-import { TableRow, TableCell } from 'material-ui';
+import { TableRow, TableCell, Card, Tooltip } from 'material-ui';
 import { withRouter } from 'react-router-dom';
+import { Table, CloseIcon, DateWrapper, Checkbox, Grid, GridItem } from '../../displayComponents';
+import { bHistory, moment } from '../../containers/App';
 import TableStyles from "../../styles/table";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
-import { moment } from "../../containers/App";
-import { Card } from 'material-ui';
+
+
 import { sendGAevent } from '../../utils/analytics';
 import { useHoverRow } from '../../hooks';
 import { isMobile } from '../../utils/screen';
-import { Tooltip } from 'material-ui';
+
 
 const CouncilsList = ({ councils, translate, openDeleteModal, company, link, selectedIds, ...props }) => {
     const [open, setOpen] = React.useState(false);
@@ -26,7 +26,7 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
         setOpen(false);
     }
 
-    let headers = link === '/finished' ? [
+    const headers = link === '/finished' ? [
         { selectAll: <Checkbox onChange={props.selectAll} value={selectedIds.size === councils.length} /> },
         { name: translate.date_real_start },
         { name: translate.table_councils_duration },
@@ -46,8 +46,7 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
             stylesHeader={{}}
             stylesHeaderRow={{ border: 'none' }}
         >
-            {councils.map(council => {
-                return (
+            {councils.map(council => (
                     <CouncilListItem
                         council={council}
                         company={company}
@@ -60,8 +59,7 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
                         openDeleteModal={openDeleteModal}
                         link={link}
                     />
-                );
-            })}
+                ))}
             <CantCreateCouncilsModal
                 translate={translate}
                 open={open}
@@ -76,8 +74,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
     const [show, handlers] = useHoverRow();
     const primary = getPrimary();
 
-    const deleteIcon = councilID => {
-        return (
+    const deleteIcon = councilID => (
             <CloseIcon
                 style={{ color: primary }}
                 onClick={event => {
@@ -85,8 +82,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                     event.stopPropagation();
                 }}
             />
-        );
-    }
+        )
 
     const getSectionTranslation = type => {
         const texts = {
@@ -191,8 +187,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                     {(show || selected) &&
                         <Checkbox
                             value={selected}
-                            onChange={() =>
-                                props.select(council.id)
+                            onChange={() => props.select(council.id)
                             }
                         />
                     }

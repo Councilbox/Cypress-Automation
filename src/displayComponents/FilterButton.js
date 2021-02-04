@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Tooltip, MenuItem, Card } from "material-ui";
-import { LoadingSection } from "./";
+import { LoadingSection } from ".";
 import { getLightGrey } from "../styles/colors";
 
 
@@ -44,8 +44,8 @@ const FilterButton = ({
 					...buttonStyle,
 					...styles
 				}}
-				elevation={elevation? elevation : active ? 0 : 1}
-				ref={ref => (element = ref)}
+				elevation={elevation || (active ? 0 : 1)}
+				ref={ref => { element = ref }}
 				onKeyUp={onKeyUp}
 				onClick={onClick}
 			>

@@ -3,16 +3,13 @@ import { AlertConfirm } from '../../../displayComponents';
 import ContactForm from './ContactForm';
 
 const ContactModal = ({ open, requestClose, participant, council, translate }) => {
-    
-    const renderBody = () => {
-        return (
+    const renderBody = () => (
             <ContactForm
                 participant={participant}
                 translate={translate}
                 council={council}
             />
         )
-    }
 
     return (
         <AlertConfirm

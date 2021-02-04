@@ -5,7 +5,6 @@ import { AlertConfirm, BasicButton, SuccessMessage } from '../../../../displayCo
 import { getSecondary } from '../../../../styles/colors';
 
 const reducer = (state, action) => {
-
     const actions = {
         'SEND': {
             ...state,
@@ -25,7 +24,6 @@ const reducer = (state, action) => {
     }
 
     return actions[action.type] || state;
-
 }
 
 
@@ -62,11 +60,11 @@ const SendRequestConfirmationButton = ({ client, request, translate, council }) 
                 requestClose={() => dispatch({ type: 'CLOSE_MODAL' })}
                 title={translate.sending}
                 bodyText={
-                    state.status === 'SUCCESS' ? 
+                    state.status === 'SUCCESS' ?
                         <SuccessMessage
                             message={translate.tooltip_sent}
                         />
-                    : 
+                    :
                         translate.sending
                 }
             />

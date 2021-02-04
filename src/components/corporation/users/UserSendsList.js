@@ -1,10 +1,10 @@
 import React from 'react';
-import { Typography} from 'material-ui';
+import { Typography } from 'material-ui';
+import gql from 'graphql-tag';
+import { graphql, withApollo } from 'react-apollo';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { RefreshButton, BasicButton } from '../../../displayComponents';
 import NotificationsTable from '../../notifications/NotificationsTable';
-import gql from 'graphql-tag';
-import { graphql, withApollo } from 'react-apollo';
 import { usePolling } from '../../../hooks';
 
 
@@ -73,11 +73,11 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
     if(!sends){
         return null;
     }
-    
+
     return(
-        <div style={{marginBottom: "3em"}}>
-            <div style={{width: '100%', display: 'flex', flexDirection: 'row', marginTop: '0.8em', alignItems: 'center'}}>
-                <Typography variant="subheading" style={{color: getPrimary(), marginRight: '0.6em'}}>
+        <div style={{ marginBottom: "3em" }}>
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'row', marginTop: '0.8em', alignItems: 'center' }}>
+                <Typography variant="subheading" style={{ color: getPrimary(), marginRight: '0.6em' }}>
                     {translate.sends}
                 </Typography>
                 {props.user.actived === 0 &&
@@ -96,12 +96,11 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
                     onClick={refreshUserSends}
                 />
             </div>
-            <div style={{width: '100%', display: 'flex'}}>
+            <div style={{ width: '100%', display: 'flex' }}>
                 <NotificationsTable notifications={sends} translate={translate} visib={true} />
             </div>
         </div>
     )
-
 }
 
 

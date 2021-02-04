@@ -34,7 +34,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
         setSaving(false);
     }
 
-    const getData = React.useCallback(async() => {
+    const getData = React.useCallback(async () => {
         const response = await client.query({
             query: gql`
                 query CompanyPlatform($companyId: Int!){
@@ -51,9 +51,9 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
         const data = response.data.companyPlatform;
         setData({
             videoConfig: {
-                rtmp: (data.videoConfig && data.videoConfig.rtmp)? data.videoConfig.rtmp : '',
-                fixedSlot: (data.videoConfig && data.videoConfig.fixedSlot)? data.videoConfig.fixedSlot : '',
-                viewerURL: (data.videoConfig && data.videoConfig.viewerURL)? data.videoConfig.viewerURL : ''
+                rtmp: (data.videoConfig && data.videoConfig.rtmp) ? data.videoConfig.rtmp : '',
+                fixedSlot: (data.videoConfig && data.videoConfig.fixedSlot) ? data.videoConfig.fixedSlot : '',
+                viewerURL: (data.videoConfig && data.videoConfig.viewerURL) ? data.videoConfig.viewerURL : ''
             }
         });
     }, [company.id]);

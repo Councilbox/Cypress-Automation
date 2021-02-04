@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
-import { getSecondary } from "../../styles/colors";
-import * as mainActions from "../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { MenuItem, Divider } from "material-ui";
-import { DropDownMenu, Icon, Link } from "../../displayComponents";
+import { MenuItem, Divider, Tooltip } from "material-ui";
 import FontAwesome from "react-fontawesome";
-import { Tooltip } from "material-ui";
+import { DropDownMenu, Icon, Link } from "../../displayComponents";
+
+import * as mainActions from "../../actions/mainActions";
+import { getSecondary } from "../../styles/colors";
 import { isMobile } from "../../utils/screen";
 import { isAdmin } from "../../utils/CBX";
 
@@ -33,7 +33,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 								marginRight: "10px"
 							}}
 						>
-							{company.logo?
+							{company.logo ?
 								<img
 									src={!company.logo ? "" : company.logo}
 									className={
@@ -186,7 +186,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 											}}
 										>
 											<b>{company.businessName}</b>
-											<div style={{ whiteSpace:'nowrap',textOverflow: 'ellipsis', overflow: 'hidden'}}>{company.tin}</div>
+											<div style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{company.tin}</div>
 										</div>
 										<div style={{ width: "10%" }}>
 											<Icon
@@ -380,8 +380,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 		);
 };
 
-const ImageCircular = ({ src, styles, children }) => {
-	return (
+const ImageCircular = ({ src, styles, children }) => (
 		<div
 			className={!src ? "imageAfter" : ""}
 			style={{
@@ -397,7 +396,6 @@ const ImageCircular = ({ src, styles, children }) => {
 			{children}
 		</div>
 	);
-};
 
 function mapDispatchToProps(dispatch) {
 	return {

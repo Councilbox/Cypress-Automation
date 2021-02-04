@@ -1,9 +1,9 @@
 import React from "react";
-import * as mainActions from "../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Card } from "material-ui";
 import { graphql } from "react-apollo";
+import * as mainActions from "../../actions/mainActions";
 import { login } from "../../queries";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
@@ -42,7 +42,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 			const response = await props.mutate({
 				variables: {
 					email: user,
-					password: password
+					password
 				}
 			});
 			if (response.errors) {
@@ -111,7 +111,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 	};
 
 	function checkRequiredFields() {
-		let errors = {
+		const errors = {
 			user: "",
 			password: ""
 		};
@@ -130,7 +130,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 
 		setState({
 			...state,
-			errors: errors
+			errors
 		});
 
 		return hasError;
@@ -151,7 +151,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 						paddingLeft: "3%",
 						flexDirection: "column",
 						alignItems: "center",
-						...((subdomain.hideSignUp && isMobile)? { display: 'none' } : {}),
+						...((subdomain.hideSignUp && isMobile) ? { display: 'none' } : {}),
 						paddingTop: windowSize === "xs" ? "8%" : "12em"
 					}}
 				>
@@ -265,7 +265,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 								fontWeight: "700",
 								fontSize: "1.5em",
 								color: primary,
-								...(isMobile? {
+								...(isMobile ? {
 									display: 'flex',
 									alignItems: 'center',
 									flexDirection: 'column'
@@ -289,7 +289,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 									<br />
 								</React.Fragment>
 							}
-							{`${translate.login_signin_header} ${subdomain.title? subdomain.title : 'Councilbox'}`}
+							{`${translate.login_signin_header} ${subdomain.title ? subdomain.title : 'Councilbox'}`}
 						</div>
 						<form>
 							<div
@@ -305,8 +305,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 									errorText={state.errors.user}
 									type="text"
 									value={state.user}
-									onChange={event =>
-										setState({
+									onChange={event => setState({
 											user: event.nativeEvent.target.value
 										})
 									}
@@ -326,8 +325,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 											? "text"
 											: "password"
 									}
-									passwordToggler={() =>
-										setState({
+									passwordToggler={() => setState({
 											showPassword: !state.showPassword
 										})
 									}
@@ -335,8 +333,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 									onKeyUp={handleKeyUp}
 									value={state.password}
 									errorText={state.errors.password}
-									onChange={event =>
-										setState({
+									onChange={event => setState({
 											password: event.nativeEvent.target.value
 										})
 									}
@@ -386,7 +383,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 								<img src="/img/logo-1.png" style={{ marginTop: "2.5em", height: '3.5em', width: 'auto' }} alt="logo-seneca" />
 							</div>
 						}
-						<CBXFooter style={{marginTop: '5em'}} />
+						<CBXFooter style={{ marginTop: '5em' }} />
 					</Card>
 				</GridItem>
 			</Grid>

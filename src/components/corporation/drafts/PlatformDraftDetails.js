@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography } from "material-ui";
+import { graphql } from "react-apollo";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -8,12 +9,10 @@ import {
 	LoadingSection
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
-import { graphql } from "react-apollo";
 import { draftDetails } from "../../../queries";
 import { hasVotation } from "../../../utils/CBX";
 
 const PlatformDraftDetails = ({ translate, draft, close, data }) => {
-
 	if (data.loading) {
 		return <LoadingSection />;
 	}
@@ -69,9 +68,9 @@ const PlatformDraftDetails = ({ translate, draft, close, data }) => {
 						{translate.council_type}
 					</Typography>
 					<Typography variant="caption">
-						{draft["prototype"]
+						{draft.prototype
 							? translate[
-									councilTypes[draft["prototype"] - 1].title
+									councilTypes[draft.prototype - 1].title
 							  ]
 							: "-"}
 					</Typography>

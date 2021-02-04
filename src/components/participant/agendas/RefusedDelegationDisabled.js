@@ -2,9 +2,7 @@ import React from 'react';
 import { AlertConfirm } from '../../../displayComponents';
 
 
-const RefusedDelegationDisabled = ({ translate, open, requestClose }) => {
-
-    return (
+const RefusedDelegationDisabled = ({ translate, open, requestClose }) => (
         <AlertConfirm
             title={translate.warning}
             open={open}
@@ -17,6 +15,5 @@ const RefusedDelegationDisabled = ({ translate, open, requestClose }) => {
             }
         />
     )
-}
 
 export default RefusedDelegationDisabled;

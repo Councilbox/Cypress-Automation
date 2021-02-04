@@ -1,8 +1,8 @@
 import React from 'react';
-import { BasicButton, Grid, GridItem } from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { BasicButton, Grid, GridItem } from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
 import VoteConfirmationModal from './VoteConfirmationModal';
 import { VotingContext } from './AgendaNoSession';
 import { voteAllAtOnce } from '../../../utils/CBX';
@@ -73,7 +73,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
             && council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;
 
         return (
-            showRecount? 
+            showRecount ?
                 ` (${translate.recount}: ${recount}%)`
             :
                 ''
@@ -83,16 +83,14 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
     const updateAgendaVoting = async vote => {
         setLoading(vote);
 
-        const response = await Promise.all(agenda.votings.map(voting =>
-            props.updateAgendaVoting({
+        const response = await Promise.all(agenda.votings.map(voting => props.updateAgendaVoting({
                 variables: {
                     agendaVoting: {
                         id: voting.id,
-                        vote: vote,
+                        vote,
                     }
                 }
-            })
-        ));
+            })));
 
         if (response) {
             setModal(false);
@@ -197,12 +195,11 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
             }
         </Grid>
     )
-
 }
 
-export const DeniedDisplay = ({ translate, denied }) => {
+export const DeniedDisplay = ({ translate, denied }) =>
     //TRADUCCION
-    return (
+     (
         <div>
             No puede ejercer su derecho a voto
             <br />
@@ -215,16 +212,15 @@ export const DeniedDisplay = ({ translate, denied }) => {
 
         </div>
     )
-}
+
 
 export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color, disabledColor }) => {
-
     const primary = getPrimary();
     return (
         <GridItem xs={12} md={12} lg={12} style={isMobile ? styles.divisionM : styles.division}>
             <BasicButton
                 text={text}
-                color={color ? color : disabledColor ? 'gainsboro' : "white"}
+                color={color || (disabledColor ? 'gainsboro' : "white")}
                 disabled={disabled || selected || disabledColor}
                 loading={loading}
                 loadingColor={primary}

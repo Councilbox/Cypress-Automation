@@ -49,14 +49,13 @@ const getCustomDocsTags = (type, translate) => {
     const types = {
         'PROXY': Object.keys(TAGS).map(key => TAGS[key]),
         'VOTE_LETTER': Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]),
-        'VOTE_LETTER_WITH_SENSE':  [...Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]), votes],
+        'VOTE_LETTER_WITH_SENSE': [...Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]), votes],
     }
 
-    return types[type]? types[type] : [];
+    return types[type] ? types[type] : [];
 }
 
 const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...props }) => {
-
     const primary = getPrimary();
     const internalState = React.useRef({
         proxy: statute.proxy,
@@ -84,7 +83,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
             updateState(internalState.current)
         }, 350);
     }
-    
+
     React.useEffect(() => {
         proxyTemplate.current.setValue(statute.proxy || '');
         proxySecondary.current.setValue(statute.proxySecondary || '');
@@ -108,8 +107,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                 <Checkbox
                     label={translate.double_column}
                     value={statute.doubleColumnDocs === 1}
-                    onChange={(event, isInputChecked) =>
-                        updateState({
+                    onChange={(event, isInputChecked) => updateState({
                             doubleColumnDocs: isInputChecked ? 1 : 0
                         })
                     }
@@ -119,8 +117,7 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                 <Checkbox
                     label={translate.require_proxies}
                     value={statute.requireProxy === 1}
-                    onChange={(event, isInputChecked) =>
-                        updateState({
+                    onChange={(event, isInputChecked) => updateState({
                             requireProxy: isInputChecked ? 1 : 0
                         })
                     }
@@ -133,30 +130,28 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                     translate={translate}
                     floatingText={translate.custom_proxy}
                     value={
-                        !!internalState.proxy
+                        internalState.proxy
                             ? internalState.proxy
                             : ""
                     }
-                    onChange={value =>
-                        handleUpdate({
+                    onChange={value => handleUpdate({
                             proxy: value
                         })
                     }
                     tags={getCustomDocsTags('PROXY', translate)}
                 />
             </GridItem>
-            <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+            <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
                 <RichTextInput
                     ref={proxySecondary}
                     translate={translate}
                     floatingText={translate.proxy_right_column}
                     value={
-                        !!internalState.proxySecondary
+                        internalState.proxySecondary
                             ? internalState.proxySecondary
                             : ""
                     }
-                    onChange={value =>
-                        handleUpdate({
+                    onChange={value => handleUpdate({
                             proxySecondary: value
                         })
                     }
@@ -169,30 +164,28 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                     translate={translate}
                     floatingText={translate.vote_letter}
                     value={
-                        !!internalState.voteLetter
+                        internalState.voteLetter
                             ? internalState.voteLetter
                             : ""
                     }
-                    onChange={value =>
-                        handleUpdate({
+                    onChange={value => handleUpdate({
                             voteLetter: value
                         })
                     }
                     tags={getCustomDocsTags('VOTE_LETTER', translate)}
                 />
             </GridItem>
-            <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+            <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
                 <RichTextInput
                     ref={voteLetterSecondary}
                     translate={translate}
                     floatingText={translate.vote_letter_right_column}
                     value={
-                        !!internalState.voteLetterSecondary
+                        internalState.voteLetterSecondary
                             ? internalState.voteLetterSecondary
                             : ""
                     }
-                    onChange={value =>
-                        handleUpdate({
+                    onChange={value => handleUpdate({
                             voteLetterSecondary: value
                         })
                     }
@@ -205,30 +198,28 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                     translate={translate}
                     floatingText={translate.vote_letter_with_voting_sense}
                     value={
-                        !!internalState.voteLetterWithSense
+                        internalState.voteLetterWithSense
                             ? internalState.voteLetterWithSense
                             : ""
                     }
-                    onChange={value =>
-                        handleUpdate({
+                    onChange={value => handleUpdate({
                             voteLetterWithSense: value
                         })
                     }
                     tags={getCustomDocsTags('VOTE_LETTER_WITH_SENSE', translate)}
                 />
             </GridItem>
-            <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0? {display:  'none' } : {})}}>
+            <GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
                 <RichTextInput
                     ref={voteLetterWithSenseSecondary}
                     translate={translate}
                     floatingText={translate.right_column_vote_letter_with_voting_sense}
                     value={
-                        !!internalState.voteLetterWithSenseSecondary
+                        internalState.voteLetterWithSenseSecondary
                             ? internalState.voteLetterWithSenseSecondary
                             : ""
                     }
-                    onChange={value =>
-                        handleUpdate({
+                    onChange={value => handleUpdate({
                             voteLetterWithSenseSecondary: value
                         })
                     }

@@ -1,7 +1,7 @@
 import React from 'react';
-import { AlertConfirm } from '../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import { AlertConfirm } from '../../../displayComponents';
 import TranslationForm from './TranslationForm';
 import { useOldState } from '../../../hooks';
 
@@ -32,7 +32,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
 
     const saveNewTranslation = async () => {
         if (!checkRequiredFields()) {
-            const response = await  props.createTranslation({
+            const response = await props.createTranslation({
                 variables: {
                     translation: state.data
                 }
@@ -65,7 +65,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
     }
 
     const checkRequiredFields = () => {
-        let errors = {
+        const errors = {
             label: '',
             es: '',
             cat: '',
@@ -114,16 +114,14 @@ const NewTranslationModal = ({ translate, ...props }) => {
         return hasError;
     }
 
-    const _renderModalBody = () => {
-        return (
+    const _renderModalBody = () => (
             <TranslationForm
                 errors={state.errors}
                 updateState={updateState}
                 data={state.data}
-                flagEdit={props.values ? true: false}
+                flagEdit={!!props.values}
             />
         )
-    }
 
     return (
         <AlertConfirm
@@ -133,10 +131,9 @@ const NewTranslationModal = ({ translate, ...props }) => {
             buttonAccept={translate.accept}
             buttonCancel={translate.cancel}
             bodyText={_renderModalBody()}
-            title={props.values ?  translate.edit : "Nueva traducción"}
+            title={props.values ? translate.edit : "Nueva traducción"}
         />
     )
-
 }
 
 const saveTranslation = gql`
@@ -163,4 +160,5 @@ export default compose(
     }),
     graphql(saveTranslation, {
         name: 'createTranslation'
-    }))(NewTranslationModal);
+    })
+)(NewTranslationModal);

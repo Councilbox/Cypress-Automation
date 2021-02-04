@@ -1,8 +1,8 @@
 import React from 'react';
-import { BasicButton } from '../../../displayComponents';
 import { withApollo } from 'react-apollo';
-import { getSecondary } from '../../../styles/colors';
 import gql from 'graphql-tag';
+import { BasicButton } from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
 import { changeParticipantState } from '../../../queries/liveParticipant';
 
 const setMainRepresentative = gql`
@@ -62,7 +62,7 @@ const RemoveDelegationAndEnter = ({ participant, represented, client, refetch })
             type="flat"
             loading={loading}
             loadingColor={secondary}
-            onClick={(represented && represented.length > 0)? setRepresentativeAsVoteOwner : removeDelegation}
+            onClick={(represented && represented.length > 0) ? setRepresentativeAsVoteOwner : removeDelegation}
         />
     )
 }

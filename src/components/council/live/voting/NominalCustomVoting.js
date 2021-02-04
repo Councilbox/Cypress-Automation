@@ -16,9 +16,8 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
         setModal(false);
     }
 
-    const renderVotingMenu = () => {
-        return (
-            <div style={{width: '600px'}}>
+    const renderVotingMenu = () => (
+            <div style={{ width: '600px' }}>
                 <CustomPointVotingMenu
                     agenda={agenda}
                     translate={translate}
@@ -28,7 +27,6 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
                 />
             </div>
         )
-    }
 
     return (
         <div>
@@ -45,10 +43,10 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
                 text={translate.voting_menu}
                 onClick={openModal}
                 color="white"
-                buttonStyle={{ border: `1px solid ${secondary}`, marginRight: '0.6em'}}
+                buttonStyle={{ border: `1px solid ${secondary}`, marginRight: '0.6em' }}
                 textStyle={{ color: secondary, fontWeight: '700' }}
             />
-            {agendaVoting.ballots.length === 0?
+            {agendaVoting.ballots.length === 0 ?
                 '-'
             :
                 <div>
@@ -63,30 +61,28 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
 }
 
 export const DisplayVoting = ({ ballots, translate, items = [] }) => {
-    let map = new Map();
+    const map = new Map();
 
     items.forEach(item => {
         map.set(item.id, item);
     });
 
-    const getValueFromItems = ballot => {
-        return map.get(ballot.itemId).value;
-    }
+    const getValueFromItems = ballot => map.get(ballot.itemId).value
 
     const getVoteValueText = ballot => {
         const texts = {
             'Abstention': translate.abstention_btn,
-            'default': ballot.value? ballot.value : getValueFromItems(ballot)
+            'default': ballot.value ? ballot.value : getValueFromItems(ballot)
         }
 
-        return texts[ballot.value]? texts[ballot.value] : texts.default;
+        return texts[ballot.value] ? texts[ballot.value] : texts.default;
     }
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', marginTop: isMobile? '0.6em' : 'inherit'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', marginTop: isMobile ? '0.6em' : 'inherit' }}>
             {isMobile && 'Selección:'}
             {ballots.map(ballot => (
-                <div className="truncate" style={{marginTop: '0.3em', maxWidth: '20em', fontWeight: isMobile? '700' : '400', whiteSpace: 'pre-wrap'}}>
+                <div className="truncate" style={{ marginTop: '0.3em', maxWidth: '20em', fontWeight: isMobile ? '700' : '400', whiteSpace: 'pre-wrap' }}>
                     {getVoteValueText(ballot)}
                 </div>
             ))}

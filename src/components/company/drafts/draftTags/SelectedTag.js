@@ -31,12 +31,12 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 						padding: "8px",
 						maxWidth: "150px",
 						...stylesEtiqueta,
-						color: color,
+						color,
 						position: sinTitulos && "relative",
 					}}
 					onClick={(event) => desplegarEtiquetas && desplegarEtiquetas(event)}
-					onMouseEnter={mouseEnterHandler ? mouseEnterHandler : function () { return false }}
-					onMouseLeave={mouseLeaveHandler ? mouseLeaveHandler : function () { return false }}
+					onMouseEnter={mouseEnterHandler || function () { return false }}
+					onMouseLeave={mouseLeaveHandler || function () { return false }}
 				>
 					{sinTitulos ?
 						count &&
@@ -54,7 +54,7 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 							}
 							{count &&
 								<div>
-									<div style={{ background: "white", color: color, borderRadius: '50%', width: "20px", paddingLeft: "2px", fontWeight: '900' }}>
+									<div style={{ background: "white", color, borderRadius: '50%', width: "20px", paddingLeft: "2px", fontWeight: '900' }}>
 										+{count}
 									</div>
 								</div>
@@ -64,7 +64,7 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 				</div>
 			</React.Fragment>
 		)
-	} else {
+	}
 		return (
 			<React.Fragment>
 				<div style={{ visibility: 'hidden', position: 'absolute' }} ref={anchoRef}>{text}</div>
@@ -102,7 +102,6 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 				</div>
 			</React.Fragment>
 		)
-	}
 }
 
 export default SelectedTag;

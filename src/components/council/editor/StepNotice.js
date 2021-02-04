@@ -1,5 +1,8 @@
 import React from "react";
 import { MenuItem } from "material-ui";
+import gql from 'graphql-tag';
+import { compose, graphql } from "react-apollo";
+import { toast } from 'react-toastify';
 import {
 	AlertConfirm,
 	BasicButton,
@@ -13,19 +16,16 @@ import {
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
-import gql from 'graphql-tag';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import { StatuteDisplay } from '../display/StatuteDisplay';
 import LoadFromPreviousCouncil from './LoadFromPreviousCouncil';
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import PlaceModal from "./PlaceModal";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
-import { compose, graphql } from "react-apollo";
 import { changeStatute, councilStepOne, updateCouncil } from "../../../queries";
 import * as CBX from "../../../utils/CBX";
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
-import { toast } from 'react-toastify';
 import { TAG_TYPES } from "../../company/drafts/draftTags/utils";
 import { DRAFT_TYPES } from "../../../constants";
 
@@ -126,7 +126,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 					dateStart2NdCall: CBX.addMinimumDistance(firstDate, statute).toISOString()
 				});
 			}
-			updateConveneDates(oldFirstDate ? oldFirstDate : firstDate, firstDate, oldSecondDate ? oldSecondDate : secondDate, CBX.addMinimumDistance(firstDate, statute));
+			updateConveneDates(oldFirstDate || firstDate, firstDate, oldSecondDate || secondDate, CBX.addMinimumDistance(firstDate, statute));
 		} else {
 			if (oldFirstDate !== firstDate || oldSecondDate !== secondDate) {
 				updateConveneDates(oldFirstDate, firstDate, oldSecondDate, secondDate);
@@ -159,7 +159,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			variables: {
 				council: {
 					...rest,
-					step: step
+					step
 				}
 			}
 		});
@@ -204,10 +204,10 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		const response = await props.changeStatute({
 			variables: {
 				councilId: props.councilID,
-				statuteId: statuteId
+				statuteId
 			}
 		});
-		
+
 		if (response) {
 			loadDraft({
 				text: response.data.changeCouncilStatute.conveneHeader
@@ -223,7 +223,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			updateState({
 				name
 			});
-			
+
 			await data.refetch();
 			checkAssociatedCensus(statuteId);
 			updateDate();
@@ -243,7 +243,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 
 	const loadFooterDraft = async draft => {
 		const correctedText = await CBX.changeVariablesToValues(draft.text, {
-			company: company,
+			company,
 			council
 		}, translate);
 		updateState({
@@ -253,7 +253,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	}
 
 	function checkRequiredFields() {
-		let errors = {}
+		const errors = {}
 
 		if (!council.name) {
 			errors.name = translate.new_enter_title;
@@ -268,8 +268,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			council.conveneText.replace(/<\/?[^>]+(>|$)/g, "").length <= 0
 		) {
 			errors.conveneText = translate.field_required;
-		} else {
-			if (CBX.checkForUnclosedBraces(council.conveneText)) {
+		} else if (CBX.checkForUnclosedBraces(council.conveneText)) {
 				errors.conveneText = translate.revise_text;
 				toast(
 					<LiveToast
@@ -281,7 +280,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 				}
 				);
 			}
-		}
 
 		const hasError = Object.keys(errors).length > 0;
 
@@ -312,7 +310,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 
 	const checkAssociatedCensus = statuteId => {
 		const statute = data.companyStatutes.find(statute => statute.id === statuteId);
-		if (!!statute.censusId) {
+		if (statute.censusId) {
 			setCensusModal(true);
 		}
 	}
@@ -320,7 +318,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	const { companyStatutes, draftTypes } = data;
 
 	let statute = {};
-	if (!!council.id) {
+	if (council.id) {
 		statute = data.council.statute;
 	}
 
@@ -403,7 +401,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			dateStart2NdCall: secondDate,
 		});
 	};
-	
+
 	return (
 		<React.Fragment>
 			<EditorStepLayout
@@ -437,12 +435,10 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										required
 										floatingText={translate.council_type}
 										value={data.council.statute.statuteId || ""}
-										onChange={event =>
-											changeStatute(+event.target.value)
+										onChange={event => changeStatute(+event.target.value)
 										}
 									>
-										{companyStatutes.map((statute, index) => {
-											return (
+										{companyStatutes.map((statute, index) => (
 												<MenuItem
 													value={statute.id}
 													key={`statutes_${statute.id}`}
@@ -450,8 +446,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 													{translate[statute.title] ||
 														statute.title}
 												</MenuItem>
-											);
-										})}
+											))}
 									</SelectInput>
 									<div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary }}>
 										{translate.read_details}
@@ -511,7 +506,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										<DateTimePicker
 											required
 											minDate={
-												!!council.dateStart
+												council.dateStart
 													? new Date(council.dateStart)
 													: new Date()
 											}
@@ -538,8 +533,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										placeholder={translate.title_appears_in_the_minutes}
 										errorText={errors.name}
 										value={council.name || ""}
-										onChange={event =>
-											updateState({
+										onChange={event => updateState({
 												name: event.nativeEvent.target.value
 											})
 										}
@@ -573,8 +567,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										tags={tags}
 										floatingText={translate.convene_info}
 										value={council.conveneText || ""}
-										onChange={value =>
-											updateState({
+										onChange={value => updateState({
 												conveneText: value
 											})
 										}
@@ -610,8 +603,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										}
 										floatingText={translate.convene_footer}
 										value={council.conveneFooter || ""}
-										onChange={value =>
-											updateState({
+										onChange={value => updateState({
 												conveneFooter: value
 											})
 										}
@@ -705,7 +697,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			/>
 		</React.Fragment>
 	);
-
 }
 
 const changeCensus = gql`

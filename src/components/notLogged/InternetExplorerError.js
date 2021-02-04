@@ -1,11 +1,9 @@
 import React from 'react';
 
-const InternetExplorerError = () => {
-    return(
+const InternetExplorerError = () => (
         <div>
             Error
         </div>
     )
-}
 
 export default InternetExplorerError;

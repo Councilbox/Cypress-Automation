@@ -1,15 +1,15 @@
 import React from 'react';
-import { Grid, GridItem, Table } from '../../../displayComponents';
-import { TableRow, TableCell, Tooltip, Card, CardHeader, CardContent, withStyles } from 'material-ui';
-import { getSecondary } from '../../../styles/colors';
+import { TableRow, TableCell, Tooltip, Card, CardHeader, CardContent, withStyles, Input } from 'material-ui';
 import { graphql } from 'react-apollo';
+import FontAwesome from 'react-fontawesome';
+import PropTypes from "prop-types";
+import { Grid, GridItem, Table } from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
 import { updateAgenda } from "../../../queries/agenda";
 import * as CBX from '../../../utils/CBX';
-import { Input } from 'material-ui';
-import FontAwesome from 'react-fontawesome';
+
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { CONSENTIO_ID } from '../../../config';
-import PropTypes from "prop-types";
 import { isMobile } from '../../../utils/screen';
 
 const columnStyle = {
@@ -35,7 +35,6 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
     const approvedByQualityVote = CBX.haveQualityVoteConditions(agenda, council) && CBX.approvedByQualityVote(agenda, council.qualityVoteId);
 
     const getPartTotal = () => {
-
         if (council.companyId === CONSENTIO_ID) {
             if (agenda.orderIndex >= 2 && agenda.orderIndex <= 9) {
                 return `${translate.votes}: ${CBX.showNumParticipations(recount.weighedPartTotal, company, council.statute) || 0}`
@@ -60,8 +59,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
         return `(${((num / total) * 100).toFixed(3)}%)`
     }
 
-    const renderTotal = () => {
-        return (
+    const renderTotal = () => (
             <>
                 <div style={itemStyle}>
                     {translate.convene_census}
@@ -74,60 +72,33 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                 </div>
             </>
         )
-    }
 
-    const printPositiveRemote = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.positiveVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveVotings)}`;
-    }
+    const printPositiveRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.positiveVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveVotings)}`
 
-    const printNegativeRemote = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.negativeVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeVotings)}`;
-    }
+    const printNegativeRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.negativeVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeVotings)}`
 
-    const printAbstentionRemote = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.abstentionVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionVotings)}`;
-    }
+    const printAbstentionRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.abstentionVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionVotings)}`
 
-    const printNoVoteRemote = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.noVoteVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteVotings)}`;
-    }
+    const printNoVoteRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.noVoteVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteVotings)}`
 
-    const printPositivePresent = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.positiveManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveManual)}`;
-    }
+    const printPositivePresent = () => `${CBX.showNumParticipations(agenda.votingsRecount.positiveManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveManual)}`
 
-    const printNegativePresent = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.negativeManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeManual)}`;
-    }
+    const printNegativePresent = () => `${CBX.showNumParticipations(agenda.votingsRecount.negativeManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeManual)}`
 
-    const printAbstentionPresent = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.abstentionManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionManual)}`;
-    }
+    const printAbstentionPresent = () => `${CBX.showNumParticipations(agenda.votingsRecount.abstentionManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionManual)}`
 
-    const printNoVotePresent = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteManual)}`;
-    }
+    const printNoVotePresent = () => `${CBX.showNumParticipations(agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteManual)}`
 
-    const printPositiveTotal = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual)}`;
-    }
+    const printPositiveTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual)}`
 
-    const printNegativeTotal = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual)}`;
-    }
+    const printNegativeTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual)}`
 
-    const printAbstentionTotal = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual)}`;
-    }
+    const printAbstentionTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual)}`
 
-    const printNoVoteTotal = () => {
-        return `${CBX.showNumParticipations(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual)}`;
-
-    }
+    const printNoVoteTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual)}`
 
 
-    const renderPresentTotal = () => {
-        return (
+    const renderPresentTotal = () => (
             <>
                 <div style={itemStyle}>
                     {translate.present_census}
@@ -142,10 +113,8 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                 </div>
             </>
         )
-    }
 
-    const renderRemoteTotal = () => {
-        return (
+    const renderRemoteTotal = () => (
             <>
                 <div style={itemStyle}>
                     {translate.current_remote_census}
@@ -158,7 +127,6 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                 </div>
             </>
         )
-    }
 
     const renderCurrentTotal = () => {
         const totalCensus = agenda.presentCensus + agenda.currentRemoteCensus;
@@ -346,7 +314,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
     return (
         <React.Fragment>
             {council.autoClose !== 1 &&
-                <Grid style={{border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em'}}>
+                <Grid style={{ border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em' }}>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
                         {renderTotal()}
                     </GridItem>
@@ -356,12 +324,12 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
                         {renderRemoteTotal()}
                     </GridItem>
-                    <GridItem xs={3} lg={3} md={3} style={{...columnStyle, backgroundColor: 'lightcyan'}}>
+                    <GridItem xs={3} lg={3} md={3} style={{ ...columnStyle, backgroundColor: 'lightcyan' }}>
                         {renderCurrentTotal()}
                     </GridItem>
                 </Grid>
             }
-            <Grid style={{border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em'}}>
+            <Grid style={{ border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em' }}>
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                     <div style={itemStyle}>
                         {`${translate.majority_label}: ${translate[majorityTypes.find(item => agenda.majorityType === item.value).label]}`}
@@ -505,7 +473,6 @@ export default withSharedProps()(graphql(updateAgenda, {
 })(withStyles(regularCardStyle)(AgendaRecount)));
 
 class EditableCell extends React.Component {
-
     state = {
         showEdit: false,
         edit: false,
@@ -551,6 +518,7 @@ class EditableCell extends React.Component {
         }
         this.toggleEdit();
     }
+
     render() {
         const { inCard } = this.props;
         if (inCard) {

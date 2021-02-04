@@ -1,8 +1,8 @@
 import React from "react";
-import { DropDownMenu, Icon } from "../../../../displayComponents";
 import FontAwesome from "react-fontawesome";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { MenuItem, Paper } from "material-ui";
+import { DropDownMenu, Icon } from "../../../../displayComponents";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import OriginalConveneModal from "../../live/councilMenu/OriginalConveneModal";
 import CouncilInfoModal from "../../live/councilMenu/CouncilInfoModal";
 import { councilHasVideo } from '../../../../utils/CBX';
@@ -41,8 +41,7 @@ class CouncilMenu extends React.Component {
 					{config => (
 						<DropDownMenu
 							color="transparent"
-							Component={() =>
-								<Paper
+							Component={() => <Paper
 									elevation={1}
 									style={{
 										boxSizing: "border-box",
@@ -98,8 +97,7 @@ class CouncilMenu extends React.Component {
 							items={
 								<React.Fragment>
 									<MenuItem
-										onClick={() =>
-											this.setState({ originalConvene: true })
+										onClick={() => this.setState({ originalConvene: true })
 										}
 									>
 										<FontAwesome
@@ -112,8 +110,7 @@ class CouncilMenu extends React.Component {
 										{translate.view_original_convene}
 									</MenuItem>
 									<MenuItem
-										onClick={() =>
-											this.setState({ councilInfo: true })
+										onClick={() => this.setState({ councilInfo: true })
 										}
 									>
 										<FontAwesome
@@ -133,8 +130,7 @@ class CouncilMenu extends React.Component {
 				<OriginalConveneModal
 					show={this.state.originalConvene}
 					council={this.props.council}
-					requestClose={() =>
-						this.setState({ originalConvene: false })
+					requestClose={() => this.setState({ originalConvene: false })
 					}
 					translate={translate}
 				/>

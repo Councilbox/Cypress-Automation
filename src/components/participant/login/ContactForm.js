@@ -1,13 +1,13 @@
 import React from 'react';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { Input, withStyles } from 'material-ui';
+import { withRouter } from 'react-router';
 import { TextInput, BasicButton, ButtonIcon, SuccessMessage } from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import { useOldState } from '../../../hooks';
 import { getPrimary } from '../../../styles/colors';
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import { Input, withStyles } from 'material-ui';
 import { checkValidEmail } from '../../../utils';
-import { withRouter } from 'react-router';
 
 
 
@@ -61,12 +61,11 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
                 setEmailEnviado(true)
             }
         }
-
     }
 
     const validate = (items) => {
         let hasError = false;
-        let newErrors = {}
+        const newErrors = {}
 
         if (!state.body) {
             newErrors.body = translate.required_field;
@@ -75,12 +74,10 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
         if (!state.replyTo) {
             newErrors.replyTo = translate.required_field;
             hasError = true;
-        } else {
-            if (!checkValidEmail(state.replyTo)) {
+        } else if (!checkValidEmail(state.replyTo)) {
                 newErrors.replyTo = "El email esta mal";
                 hasError = true;
             }
-        }
         if (!state.subject) {
             newErrors.subject = translate.required_field;
             hasError = true;
@@ -94,7 +91,7 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
         return (
             <SuccessMessage message={translate.sent} />
         )
-    } else {
+    }
         return (
             <React.Fragment>
                 <div>
@@ -107,7 +104,7 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
                             color: "rgba(0, 0, 0, 0.65)",
                             fontSize: '15px',
                             boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                            border: !!errors.replyTo ? "1px solid red" : "1px solid #d7d7d7",
+                            border: errors.replyTo ? "1px solid red" : "1px solid #d7d7d7",
                             width: "100%",
                             padding: '.5em 1.6em',
                             marginTop: "1em"
@@ -129,7 +126,7 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
                             color: "rgba(0, 0, 0, 0.65)",
                             fontSize: '15px',
                             boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                            border: !!errors.subject ? "1px solid red" : "1px solid #d7d7d7",
+                            border: errors.subject ? "1px solid red" : "1px solid #d7d7d7",
                             width: "100%",
                             padding: '.5em 1.6em',
                             marginTop: "1em"
@@ -162,7 +159,6 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
             </React.Fragment>
 
         )
-    }
 }
 
 export default withStyles(styles)(withApollo(withRouter(ContactForm)));

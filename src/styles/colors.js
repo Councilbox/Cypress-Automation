@@ -1,6 +1,3 @@
-import { store } from "../containers/App";
-import { variant } from "../config";
-
 export const lightGrey = "#F5F5F5";
 export const mediumGrey = "#505050";
 export const darkGrey = "#3B3B3B";
@@ -15,14 +12,12 @@ export const primary = "#7D2180";
 export const secondary = turquoise;
 
 export const getPrimary = () => {
-	let actual = document.documentElement.style.getPropertyValue('--primary') || primary;
+	const actual = document.documentElement.style.getPropertyValue('--primary') || primary;
 	return actual;
 };
 
 export const getSecondary = () => {
-	let actual = document.documentElement.style.getPropertyValue('--secondary') || secondary;
+	const actual = document.documentElement.style.getPropertyValue('--secondary') || secondary;
 	return actual;
 };
-export const getLightGrey = () => {
-	return lightGrey;
-};
+export const getLightGrey = () => lightGrey;

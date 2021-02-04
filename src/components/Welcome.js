@@ -1,10 +1,10 @@
 import React from "react";
-import * as mainActions from "../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import Header from "./Header";
 import { Button, Card, CardActions, CardContent } from "material-ui";
 import { Link } from "react-router-dom";
+import Header from "./Header";
+import * as mainActions from "../actions/mainActions";
 import { Icon } from "../displayComponents";
 import { getPrimary } from "../styles/colors";
 

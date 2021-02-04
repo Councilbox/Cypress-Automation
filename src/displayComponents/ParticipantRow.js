@@ -1,7 +1,7 @@
 import React from "react";
-import { Checkbox } from './';
-import { delegatedVotesLimitReached } from '../utils/CBX';
 import { Paper } from 'material-ui';
+import { Checkbox } from ".";
+import { delegatedVotesLimitReached } from '../utils/CBX';
 import withTranslations from "../HOCs/withTranslations";
 
 const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases }) => {

@@ -1,9 +1,9 @@
 import React from 'react';
+import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { BasicButton } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
-import { graphql, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import SignatureParticipants from './SignatureParticipants';
 
 const SignatureStepTwoIvnosys = ({ client, ...props }) => {
@@ -61,7 +61,7 @@ const SignatureStepTwoIvnosys = ({ client, ...props }) => {
     const { translate } = props;
     const primary = getPrimary();
     const secondary = getSecondary();
-    
+
     return (
         <EditorStepLayout
             body={

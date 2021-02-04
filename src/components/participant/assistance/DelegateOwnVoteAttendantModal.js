@@ -1,4 +1,6 @@
 import React from "react";
+import { graphql } from "react-apollo";
+import { Card, MenuItem, Typography } from 'material-ui';
 import {
 	AlertConfirm,
 	Icon,
@@ -9,10 +11,8 @@ import {
 	Grid,
 	GridItem
 } from "../../../displayComponents";
-import { graphql } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
-import { Card, MenuItem, Typography } from 'material-ui';
 import { getPrimary } from "../../../styles/colors";
 
 const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
@@ -51,7 +51,7 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 			filters: [
 				{
 					field: "fullName",
-					text: text
+					text
 				}
 			]
 		});
@@ -105,8 +105,7 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 																		toDelegate={true}
 																		cantDelegate={false}
 																		participant={participant}
-																		onClick={() =>
-																			props.addRepresentative(participant.id)
+																		onClick={() => props.addRepresentative(participant.id)
 																		}
 																		stylesPaper={{ borderRadius: "5px", width: "100%" }}
 																	/>
@@ -184,7 +183,6 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 			}
 		/>
 	);
-
 }
 
 export default graphql(participantsToDelegate, {

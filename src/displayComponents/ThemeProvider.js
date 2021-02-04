@@ -1,9 +1,9 @@
 import React from "react";
 import { createMuiTheme, MuiThemeProvider } from "material-ui/styles";
-import { getPrimary, getSecondary } from "../styles/colors";
 import { connect } from 'react-redux';
 import MomentUtils from "material-ui-pickers/utils/moment-utils";
 import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
+import { getPrimary, getSecondary } from "../styles/colors";
 import { moment } from '../containers/App';
 
 const ThemeProvider = ({ children }) => {
@@ -73,7 +73,7 @@ const ThemeProvider = ({ children }) => {
 					fontSize: '14px !important'
 				}
 			},
-			MuiSelect : {
+			MuiSelect: {
 				select: {
 					fontSize: '15px !important'
 				}
@@ -90,7 +90,7 @@ const ThemeProvider = ({ children }) => {
 			MuiTab: {
 				root: {
 					outline: 'none !important',
-					userSelect: 'none !important' ,
+					userSelect: 'none !important',
 					textTransform: 'none',
 					fontWeight: '700',
 				},

@@ -1,23 +1,23 @@
 import React from "react";
+import { compose, graphql, withApollo } from "react-apollo";
+import { Card } from "material-ui";
 import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon
 } from "../../../../../displayComponents/index";
-import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary } from "../../../../../styles/colors";
 import { addParticipant, checkUniqueCouncilEmails } from "../../../../../queries/councilParticipant";
 import { languages } from "../../../../../queries/masters";
-import { checkValidEmail } from "../../../../../utils/validation";
-import ParticipantForm from "../../../participants/ParticipantForm";
-import {
+import { checkValidEmail,
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative,
 } from "../../../../../utils/validation";
+import ParticipantForm from "../../../participants/ParticipantForm";
+
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 import withSharedProps from "../../../../../HOCs/withSharedProps";
 import SelectRepresentative from "./SelectRepresentative";
-import { Card } from "material-ui";
 import { COUNCIL_TYPES, INPUT_REGEX } from "../../../../../constants";
 
 
@@ -27,7 +27,7 @@ class AddCouncilParticipantButton extends React.Component {
 		data: { ...initialParticipant,
 			...(this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? {
 				initialState: 2
-			} : {})		
+			} : {})
 		},
 		representative: { ...initialRepresentative },
 		errors: {},
@@ -70,8 +70,7 @@ class AddCouncilParticipantButton extends React.Component {
 					loading: false,
 					representativeErrors: {}
 				});
-			} else {
-				if(response.errors[0].message === 'Too many granted words'){
+			} else if (response.errors[0].message === 'Too many granted words') {
 					this.setState({
 						loading: false,
 						...(this.state.data.initialState === 2 ? {
@@ -87,7 +86,6 @@ class AddCouncilParticipantButton extends React.Component {
 
 					});
 				}
-			}
 		}
 	};
 
@@ -110,11 +108,12 @@ class AddCouncilParticipantButton extends React.Component {
 	};
 
 	async checkRequiredFields() {
+		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate, participations, company } = this.props;
-		let hasSocialCapital = participations;
-		let errorsParticipant = checkRequiredFieldsParticipant(
+		const hasSocialCapital = participations;
+		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
 			translate,
 			hasSocialCapital,
@@ -141,7 +140,7 @@ class AddCouncilParticipantButton extends React.Component {
 				errorsParticipant.hasError = true;
 			}
 		}
-		
+
 
 		if (this.props.company.type !== 10) {
 			emailsToCheck.push(participant.email);
@@ -190,7 +189,14 @@ class AddCouncilParticipantButton extends React.Component {
 			if (!participant.email) {
 				errorsParticipant.hasError = true;
 				errorsParticipant.errors.email = translate.field_required;
-			} 
+			}
+
+			if (participant.phone && participant.phone !== '-') {
+				if (!testPhone.test(participant.phone)) {
+					errorsParticipant.hasError = true;
+					errorsParticipant.errors.phone = translate.invalid_field;
+				}
+			}
 
 			if (representative.hasRepresentative && !representative.email) {
 				errorsRepresentative.errors.email = translate.field_required;

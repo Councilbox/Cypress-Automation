@@ -1,22 +1,22 @@
 import React from 'react';
+import { Card, CardHeader, CardContent } from 'material-ui';
 import { BasicButton, Link } from '../../displayComponents';
 import DocsLayout from './DocsLayout';
-import { Card, CardHeader, CardContent } from 'material-ui';
 
 
-const DocsPage = () => {
+const DocsPage = () =>
 
 //HEADER #212121
-    return (
+     (
         <DocsLayout>
-            <div style={{width: '100%', height: '100%', padding: '2em'}}>
+            <div style={{ width: '100%', height: '100%', padding: '2em' }}>
                 <Card
                     style={{
                         backgroundColor: '#212121',
                     }}
                 >
                     <CardHeader
-                        title={<span style={{color: 'white'}}>Bienvenido a la API GraphQL de Councilbox</span>}
+                        title={<span style={{ color: 'white' }}>Bienvenido a la API GraphQL de Councilbox</span>}
                     ></CardHeader>
                     <CardContent>
                         Carácteristicas:<br/>
@@ -29,13 +29,13 @@ const DocsPage = () => {
 
                         Ejemplo de petición en JavaScript (la misma petición puede ser realizada por POST o GET):
                             <ul>GET:</ul>
-                            <div style={{backgroundColor:"#424242", color: 'white', padding: '1em'}}>
+                            <div style={{ backgroundColor: "#424242", color: 'white', padding: '1em' }}>
                                 fetch('http://api-pre.councilbox.com/graphql?query=query%20%7B%0A%20%20languages%7B%0A%20%20%20%20columnName%0A%20%20%7D%0A%7D');
                             </div>
 
-                            <ul style={{marginTop: '1em'}}>POST:</ul>
-                            <div style={{backgroundColor:"#424242", color: 'white', padding: '1em'}}>
-                                <pre style={{color: 'white'}}>
+                            <ul style={{ marginTop: '1em' }}>POST:</ul>
+                            <div style={{ backgroundColor: "#424242", color: 'white', padding: '1em' }}>
+                                <pre style={{ color: 'white' }}>
                                     {postRequest}
                                 </pre>
                             </div>
@@ -47,8 +47,8 @@ const DocsPage = () => {
                         Este token tiene que ser subministrado con cabecera "x-jwt-token".
 
                         <br/>Ejemplo:<br/>
-                        <div style={{backgroundColor:"#424242", color: 'white', padding: '1em', marginBottom: '2em'}}>
-                            <pre style={{color: 'white'}}>
+                        <div style={{ backgroundColor: "#424242", color: 'white', padding: '1em', marginBottom: '2em' }}>
+                            <pre style={{ color: 'white' }}>
                                 {postRequest2}
                             </pre>
                         </div>
@@ -57,8 +57,8 @@ const DocsPage = () => {
                             <BasicButton
                                 text="Ir a documentación interactiva"
                                 color="transparent"
-                                buttonStyle={{border: '1px solid white'}}
-                                textStyle={{color: 'white'}}
+                                buttonStyle={{ border: '1px solid white' }}
+                                textStyle={{ color: 'white' }}
                             />
                         </Link>
 
@@ -67,7 +67,7 @@ const DocsPage = () => {
             </div>
         </DocsLayout>
     )
-}
+
 
 
 const postRequest = `fetch('http://api-pre.councilbox.com/graphql', {

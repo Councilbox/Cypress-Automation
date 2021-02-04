@@ -1,24 +1,23 @@
 import React from "react";
+import Dialog, {
+	DialogActions,
+	DialogContent,
+	DialogTitle
+} from "material-ui/Dialog";
+import { withRouter } from "react-router-dom";
+import { compose, graphql } from "react-apollo";
+import gql from "graphql-tag";
 import {
 	BasicButton,
 	ButtonIcon,
 	ErrorWrapper,
 	LoadingSection,
 } from "../../../displayComponents";
-import Dialog, {
-	DialogActions,
-	DialogContent,
-	DialogTitle
-} from "material-ui/Dialog";
 import { getPrimary } from "../../../styles/colors";
-import { withRouter } from "react-router-dom";
 import ParticipantsTable from "../../council/editor/census/ParticipantsTable";
 import { councilStepTwo, updateCouncil } from "../../../queries";
-import { compose, graphql } from "react-apollo";
-import gql from "graphql-tag";
 
 class MeetingEditorCensus extends React.Component {
-
 	closeAddParticipantModal = () => {
 		this.setState({
 			addParticipantModal: false

@@ -1,7 +1,7 @@
 import React from 'react';
-import { AlertConfirm } from "../../../../../displayComponents";
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { AlertConfirm } from "../../../../../displayComponents";
 import CustomPointForm from './CustomPointForm';
 import { checkRepeatedItemValue } from '../../../../../utils/CBX';
 import { INPUT_REGEX } from '../../../../../constants';
@@ -22,12 +22,12 @@ const defaultValues = {
 
 export const useValidateAgenda = (translate, setErrors) => (items, options, agenda) => {
     let hasError = false;
-    var regex = new RegExp("^[a-zA-Z0-9-äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ ]{0}\.+$")
-    
-    let newErrors = {
+    const regex = new RegExp("^[a-zA-Z0-9-äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ ]{0}\.+$")
+
+    const newErrors = {
         items: items.map(item => ({ error: '' }))
     }
-    
+
     if (items.length === 0) {
         newErrors.itemsLength = translate.necessary_add_least_one_option;
         hasError = true;
@@ -39,7 +39,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
 			newErrors.agendaSubject = translate.invalid_field;
 		}
     }
-    
+
     if (!agenda.agendaSubject) {
         newErrors.agendaSubject = translate.required_field;
         hasError = true;
@@ -140,13 +140,13 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
     }
 
     const updateItem = (index, value) => {
-        let newItems = [...items];
+        const newItems = [...items];
         newItems[index].value = value;
         setItems(newItems);
     }
 
     const removeItem = (index) => {
-        let newItems = [...items];
+        const newItems = [...items];
         newItems.splice(index, 1);
         setItems(newItems);
     }
@@ -165,8 +165,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
         });
     }
 
-    const renderBody = () => {
-        return (
+    const renderBody = () => (
             <div style={{ marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%' }}>
                 <CustomPointForm
                     {...{
@@ -188,7 +187,6 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
                 />
             </div>
         )
-    }
 
     return (
         <AlertConfirm

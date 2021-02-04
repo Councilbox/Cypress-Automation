@@ -1,4 +1,8 @@
 import React from "react";
+import FontAwesome from "react-fontawesome";
+import { graphql, compose } from "react-apollo";
+import { MenuItem } from 'material-ui';
+import gql from 'graphql-tag';
 import { resendRoomEmails } from "../../../../../queries/liveParticipant";
 import {
 	CustomDialog,
@@ -6,11 +10,7 @@ import {
 	DropDownMenu
 } from "../../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../../styles/colors";
-import FontAwesome from "react-fontawesome";
-import { graphql, compose } from "react-apollo";
 import { moment } from "../../../../../containers/App";
-import { MenuItem } from 'material-ui';
-import gql from 'graphql-tag';
 import { isMobile } from "../../../../../utils/screen";
 
 const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council, ...props }) => {
@@ -66,11 +66,10 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 
 	return (
 		<React.Fragment>
-			{props.security?
+			{props.security ?
 				<DropDownMenu
 					color="transparent"
-					Component={() =>
-						<ResendButton
+					Component={() => <ResendButton
 							translate={translate}
 							active={participant.signed === 1}
 						/>
@@ -136,18 +135,16 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 			</CustomDialog>
 		</React.Fragment>
 	)
-
 }
 
 
 
-const ResendButton = ({ active, action, translate }) => {
-	return (
+const ResendButton = ({ active, action, translate }) => (
 		// <Tooltip title={translate.send_video_credentials}>
 			<BasicButton
 				buttonStyle={{
 					border: `1px solid ${getSecondary()}`,
-					marginRight :'0.5em'
+					marginRight: '0.5em'
 				}}
 				color={'white'}
 				elevation={active ? 0 : 1}
@@ -165,14 +162,13 @@ const ResendButton = ({ active, action, translate }) => {
 								color: getSecondary()
 							}}
 						/>
-						<span style={{color: getSecondary()}}>{isMobile? translate.resend : translate.send_video_credentials}</span>
+						<span style={{ color: getSecondary() }}>{isMobile ? translate.resend : translate.send_video_credentials}</span>
 					</React.Fragment>
 				}
 			>
 			</BasicButton>
 		// </Tooltip>
-	);
-}
+	)
 
 const sendParticipantRoomKey = gql`
     mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!, $type: String){

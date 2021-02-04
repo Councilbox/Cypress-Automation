@@ -1,6 +1,6 @@
 import React from "react";
-import { councils, deleteCouncil } from "../../queries.js";
 import { compose, graphql, withApollo } from "react-apollo";
+import { councils, deleteCouncil } from "../../queries.js";
 import {
 	AlertConfirm,
 	ErrorWrapper,
@@ -166,15 +166,13 @@ const Councils = ({ translate, client, ...props }) => {
 		}
 	};
 
-	const mobileLandscape = () => {
-		return props.windowSize === 'xs' && isLandscape();
-	}
+	const mobileLandscape = () => props.windowSize === 'xs' && isLandscape()
 
 
 	const changePage = page => {
 		setState({
 			...state,
-			page: page,
+			page,
 		});
 	};
 
@@ -265,15 +263,13 @@ const Councils = ({ translate, client, ...props }) => {
 								<div style={{ padding: "1em", paddingTop: '2em' }}>
 									{false ? (
 										<div>
-											{error.graphQLErrors.map((error, index) => {
-												return (
+											{error.graphQLErrors.map((error, index) => (
 													<ErrorWrapper
 														key={`error_${index}`}
 														error={error}
 														translate={translate}
 													/>
-												);
-											})}
+												))}
 										</div>
 									) : councilsData.list.length > 0 ? (
 										(selectedTab === translate.companies_writing ||
@@ -333,8 +329,7 @@ const Councils = ({ translate, client, ...props }) => {
 										buttonCancel={translate.cancel}
 										modal={true}
 										acceptAction={deleteCouncil}
-										requestClose={() =>
-											setState({ ...state, deleteModal: false })
+										requestClose={() => setState({ ...state, deleteModal: false })
 										}
 									/>
 								</div>

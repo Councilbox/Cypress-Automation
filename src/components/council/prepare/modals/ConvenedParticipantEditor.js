@@ -1,6 +1,6 @@
 import React from "react";
-import { BasicButton, CustomDialog, AlertConfirm, Scrollbar } from "../../../../displayComponents/index";
 import { compose, graphql, withApollo } from "react-apollo";
+import { BasicButton, CustomDialog, AlertConfirm, Scrollbar } from "../../../../displayComponents/index";
 import { getPrimary, secondary } from "../../../../styles/colors";
 import { languages } from "../../../../queries/masters";
 import ParticipantForm from "../../participants/ParticipantForm";
@@ -15,7 +15,6 @@ import withSharedProps from "../../../../HOCs/withSharedProps";
 import SelectRepresentative from "../../editor/census/modals/SelectRepresentative";
 
 class ConvenedParticipantEditor extends React.Component {
-
 	state = {
 		modal: false,
 		data: {},
@@ -82,8 +81,7 @@ class ConvenedParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else {
-				if(response.errors[0].message === 'Too many granted words'){
+			} else if(response.errors[0].message === 'Too many granted words'){
 					this.setState({
 						loading: false,
 						...(participant.initialState === 2 ? {
@@ -99,7 +97,6 @@ class ConvenedParticipantEditor extends React.Component {
 
 					});
 				}
-			}
 		}
 	};
 
@@ -132,7 +129,7 @@ class ConvenedParticipantEditor extends React.Component {
 		};
 
 		if (!onlyEmail) {
-			let hasSocialCapital = participations;
+			const hasSocialCapital = participations;
 			errorsParticipant = checkRequiredFieldsParticipant(
 				participant,
 				translate,
@@ -158,7 +155,7 @@ class ConvenedParticipantEditor extends React.Component {
 
 
 		if (participant.email && participant.email !== this.props.participant.email && company.type !== 10) {
-			let emailsToCheck = [participant.email];
+			const emailsToCheck = [participant.email];
 
 			if (representative.email && ((this.props.participant.representative && representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)) {
 				emailsToCheck.push(representative.email);
@@ -228,7 +225,7 @@ class ConvenedParticipantEditor extends React.Component {
 								selectRepresentative: false
 							})}
 						/>
-						<div style={{marginRight: "1em"}}>
+						<div style={{ marginRight: "1em" }}>
 							<div style={{
 								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 								border: '1px solid rgb(97, 171, 183)',
@@ -288,7 +285,7 @@ class ConvenedParticipantEditor extends React.Component {
 							onClick={this.props.close}
 						/>
 						<BasicButton
-							text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION? translate.save_and_notify : translate.save_changes_and_send}
+							text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.save_and_notify : translate.save_changes_and_send}
 							textStyle={{
 								boxShadow: "none",
 								borderRadius: '4px',
@@ -350,6 +347,6 @@ const initialRepresentative = {
 };
 
 function extractTypeName(object) {
-	let { __typename, ...rest } = object;
+	const { __typename, ...rest } = object;
 	return rest;
 }

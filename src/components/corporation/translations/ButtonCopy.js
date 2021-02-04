@@ -26,7 +26,7 @@ const ButtonCopy = ({ val }) => {
     }
 
     const startCloseTimeout = () => {
-        let timeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
             setState({
                 showCopyTooltip: false
             });

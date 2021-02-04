@@ -3,12 +3,11 @@ import { Redirect } from "react-router-dom";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { bindActionCreators } from 'redux';
-import * as mainActions from '../actions/mainActions';
 import { connect } from "react-redux";
+import * as mainActions from '../actions/mainActions';
 import { LoadingMainApp } from "../displayComponents";
-import InvalidUrl from "../components/participant/InvalidUrl.jsx";
+import InvalidUrl from "../components/participant/InvalidUrl";
 import { refreshWSLink } from "./App";
-import { initLogRocket } from "../utils/logRocket";
 
 const initialState = {
 	loading: true,
@@ -16,6 +15,16 @@ const initialState = {
 	participant: null,
 	token: null
 }
+
+const getMe = gql`
+	query participantMe {
+		participantMe {
+			id
+			councilId
+			language
+		}
+	}
+`;
 
 const reducer = (state, action) => {
 	const actions = {
@@ -35,7 +44,7 @@ const reducer = (state, action) => {
 		})
 	}
 
-	return actions[action.type]? actions[action.type]() : state;
+	return actions[action.type] ? actions[action.type]() : state;
 }
 
 const ParticipantTokenContainer = ({ participantToken, match, client, translate }) => {
@@ -65,10 +74,12 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 				const participant = responseQueryMe.data.participantMe;
 				refreshWSLink();
 
-				dispatch({ type: 'SET_DATA', value: {
-					token,
-					participant
-				}});
+				dispatch({ type: 'SET_DATA',
+					value: {
+						token,
+						participant
+					}
+				});
 			} catch (error) {
 				dispatch({ type: 'SET_ERROR', value: true });
 			}
@@ -103,11 +114,9 @@ const mapStateToProps = state => ({
 	translate: state.translate
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
+const mapDispatchToProps = dispatch => ({
         actions: bindActionCreators(mainActions, dispatch)
-    };
-}
+    })
 
 const participantToken = gql`
 	mutation participantToken($token: String!) {
@@ -115,15 +124,6 @@ const participantToken = gql`
 	}
 `;
 
-const getMe = gql`
-	query participantMe {
-		participantMe {
-			id
-			councilId
-			language
-		}
-	}
-`;
 
 export default graphql(participantToken, {
 	name: "participantToken",

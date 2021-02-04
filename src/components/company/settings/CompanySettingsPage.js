@@ -1,4 +1,8 @@
 import React from "react";
+import { MenuItem, Icon, Card, CardActions } from "material-ui";
+import { compose, graphql, withApollo } from "react-apollo";
+import gql from "graphql-tag";
+import { toast } from "react-toastify";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -18,16 +22,12 @@ import {
 	Checkbox,
 	HelpPopover
 } from "../../../displayComponents";
-import { MenuItem, Icon, Card, CardActions } from "material-ui";
 import withSharedProps from '../../../HOCs/withSharedProps';
-import { compose, graphql, withApollo } from "react-apollo";
 import { provinces as provincesQuery } from "../../../queries/masters";
 import { unlinkCompany, updateCompany } from "../../../queries/company";
 import { getPrimary, getSecondary, primary } from "../../../styles/colors";
 import { bHistory, store, moment } from "../../../containers/App";
 import { getCompanies, setCompany } from "../../../actions/companyActions";
-import gql from "graphql-tag";
-import { toast } from "react-toastify";
 import ConfirmCompanyButton from "../../corporation/companies/ConfirmCompanyButton";
 import DeleteCompanyButton from "./DeleteCompanyButton";
 import { sendGAevent } from "../../../utils/analytics";
@@ -105,7 +105,6 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 			},
 			success: false
 		});
-
 	}
 
 	const handleCountryChange = event => {
@@ -150,11 +149,11 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 			return;
 		}
 
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
 		reader.onload = async () => {
-			let fileInfo = {
+			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
 				filesize: Math.round(file.size / 1000),
@@ -253,7 +252,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 
 
 	function checkRequiredFields() {
-		let errors = {
+		const errors = {
 			businessName: "",
 			tin: ""
 		};
@@ -273,7 +272,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 
 		setState({
 			...state,
-			errors: errors
+			errors
 		});
 		return hasError;
 	}
@@ -305,8 +304,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									id={"business-name"}
 									value={data.businessName}
 									errorText={errors.businessName}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											businessName: event.target.value
 										})
 									}
@@ -318,16 +316,14 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									floatingText={translate.company_type}
 									value={data.type}
 									disabled
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											type: event.target.value
 										})
 									}
 									errorText={errors.type}
 								>
 									{props.info.companyTypes.map(
-										companyType => {
-											return (
+										companyType => (
 												<MenuItem
 													key={companyType.label}
 													value={companyType.value}
@@ -338,8 +334,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 														]
 													}
 												</MenuItem>
-											);
-										}
+											)
 									)}
 								</SelectInput>
 							</GridItem>
@@ -350,8 +345,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									type="text"
 									value={data.tin}
 									errorText={errors.tin}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											tin: event.target.value
 										})
 									}
@@ -365,8 +359,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									id={'addSociedadDominio'}
 									value={data.domain}
 									errorText={errors.domain}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											domain: event.target.value
 										})
 									}
@@ -382,8 +375,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									helpTitle={translate.company_new_key}
 									helpDescription={translate.company_link_key_desc}
 									errorText={errors.linkKey}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											linkKey: event.target.value
 										})
 									}
@@ -396,8 +388,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 											floatingText={'Saldo'}
 											type="text"
 											value={data.balance || ''}
-											onChange={event =>
-												updateState({
+											onChange={event => updateState({
 													balance: event.target.value
 												})
 											}
@@ -408,8 +399,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 											floatingText={'Código cliente'}
 											type="text"
 											value={data.customerCode || ''}
-											onChange={event =>
-												updateState({
+											onChange={event => updateState({
 													customerCode: event.target.value
 												})
 											}
@@ -422,8 +412,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									floatingText={translate.external_id}
 									type="text"
 									value={data.externalId || ''}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											externalId: event.target.value
 										})
 									}
@@ -491,8 +480,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							value={data.address}
 							id={'addSociedadDireccion'}
 							errorText={errors.address}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									address: event.target.value
 								})
 							}
@@ -505,8 +493,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							id={'addSociedadLocalidad'}
 							value={data.city}
 							errorText={errors.city}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									city: event.target.value
 								})
 							}
@@ -517,20 +504,18 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							{data.country &&
 								<SelectInput
 									floatingText={translate.company_new_country}
-									value={countryInput? 'otro' : data.country}
+									value={countryInput ? 'otro' : data.country}
 									onChange={handleCountryChange}
 									errorText={errors.country}
 								>
-									{props.info.countries.map(country => {
-										return (
+									{props.info.countries.map(country => (
 											<MenuItem
 												key={country.deno}
 												value={country.deno}
 											>
 												{country.deno}
 											</MenuItem>
-										);
-									})}
+										))}
 									<MenuItem
 										key={'otro'}
 										value={'otro'}
@@ -546,8 +531,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									floatingText={translate.company_new_country}
 									value={data.country}
 									errorText={errors.country}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											country: event.target.value
 										})
 									}
@@ -555,13 +539,12 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							</GridItem>
 						}
 						<GridItem xs={12} md={6} lg={3}>
-							{provinces.length === 0?
+							{provinces.length === 0 ?
 								<TextInput
 									floatingText={translate.company_new_country_state}
 									value={data.countryState}
 									errorText={errors.countryState}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											countryState: event.target.value
 										})
 									}
@@ -572,15 +555,14 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									floatingText={translate.company_new_country_state}
 									value={data.countryState}
 									errorText={errors.countryState}
-									onChange={event =>
-										updateState({
+									onChange={event => updateState({
 											countryState: event.target.value
 										})
 									}
 								>
-									{provinces.map(province => {
+									{provinces.map(province =>
 									// {state.provinces.map(province => {
-										return (
+										 (
 											<MenuItem
 												className={"addSociedadProvinciaOptions"}
 												key={province.deno}
@@ -588,11 +570,10 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 											>
 												{province.deno}
 											</MenuItem>
-										);
-									})}
+										))}
 								</SelectInput>
 							}
-							
+
 						</GridItem>
 					</React.Fragment>
 					<GridItem xs={12} md={6} lg={3}>
@@ -602,8 +583,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							type="text"
 							value={data.zipcode}
 							errorText={errors.zipcode}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									zipcode: event.target.value
 								})
 							}
@@ -613,8 +593,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 						<SelectInput
 							floatingText={translate.language}
 							value={data.language}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									language: event.target.value
 								})
 							}
@@ -636,8 +615,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							<SelectInput
 								floatingText={'Categoría'}
 								value={data.category}
-								onChange={event =>
-									updateState({
+								onChange={event => updateState({
 										category: event.target.value
 									})
 								}
@@ -693,8 +671,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 								fontWeight: "700"
 							}}
 							buttonStyle={{ marginRight: "1.2em" }}
-							onClick={() =>
-								setState({
+							onClick={() => setState({
 									...state,
 									addAdminModal: true
 								})
@@ -711,8 +688,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 								fontWeight: "700"
 							}}
 							buttonStyle={{ marginRight: "1.2em" }}
-							onClick={() =>
-								setState({
+							onClick={() => setState({
 									...state,
 									unlinkModal: true
 								})
@@ -771,8 +747,6 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 			</div>
 		</CardPageLayout>
 	);
-
-
 }
 
 const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkCompany, companyTin }) => {
@@ -792,7 +766,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 		const response = await client.query({
 			query: companyUsers,
 			variables: {
-				companyId: companyId,
+				companyId,
 				options: {
 					limit: 20,
 					offset: (usersPage - 1) * 20,
@@ -822,7 +796,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 			mutation: unlinkCompanyUser,
 			variables: {
 				userId: unlinkIdRemove,
-				companyTin: companyTin
+				companyTin
 			}
 		});
 		getUsers()
@@ -885,8 +859,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 					<Scrollbar>
 						<Grid style={{ padding: '1em', height: "100%" }}>
 							{users &&
-								users.map(item => {
-									return (
+								users.map(item => (
 										<Card style={{ marginBottom: "0.5em", padding: "1em" }} key={item.id}>
 											<Grid>
 												<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
@@ -920,7 +893,8 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 													{item.email}
 												</GridItem>
 												<GridItem xs={4} md={4} lg={4} style={{
-													fontWeight: '700', whiteSpace: 'nowrap',
+													fontWeight: '700',
+whiteSpace: 'nowrap',
 													overflow: 'hidden',
 													textOverflow: 'ellipsis'
 												}}>
@@ -948,8 +922,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 												/>
 											</CardActions>
 										</Card>
-									)
-								})}
+									))}
 							<AlertConfirm
 								requestClose={() => setUnlink(false)}
 								open={unlink}
@@ -978,7 +951,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 				</div>
 			</div>
 		)
-	} else {
+	}
 		return (
 			<div>
 				<div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -1050,8 +1023,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 						<div style={{ height: "300px" }}>
 							<Scrollbar>
 								{users &&
-									users.map(item => {
-										return (
+									users.map(item => (
 											<div
 												key={item.id}
 												style={{
@@ -1086,8 +1058,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 														/>
 													} />
 											</div>
-										)
-									})}
+										))}
 							</Scrollbar>
 						</div>
 						<AlertConfirm
@@ -1117,7 +1088,6 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 				</div>
 			</div>
 		)
-	}
 }
 
 const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, usersCompany, getUsersCompany, closeModal }) => {
@@ -1139,24 +1109,22 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 					offset: (usersPage - 1) * 10,
 					orderDirection: 'DESC'
 				},
-				corporationId: corporationId
+				corporationId
 			}
 		});
 
-		let filtrado = response.data.corporationUsers.list.filter(comparer(usersCompany));
+		const filtrado = response.data.corporationUsers.list.filter(comparer(usersCompany));
 		if (response.data.corporationUsers.list) {
 			setUsers(filtrado)
 			setUsersTotal(response.data.corporationUsers.total)
 		}
 	}
 
-	const comparer = (otherArray) => {
-		return function (current) {
+	const comparer = (otherArray) => function (current) {
 			return otherArray.filter(function (other) {
 				return (other.id == current.id)
 			}).length == 0;
 		}
-	}
 
 	React.useEffect(() => {
 		getUsersModal()
@@ -1184,7 +1152,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 		}
 		setState({
 			...state,
-			checked: checked
+			checked
 		});
 	}
 
@@ -1222,8 +1190,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 					<Scrollbar>
 						<Grid style={{ padding: '1em', height: "100%" }}>
 							{users &&
-								users.map(item => {
-									return (
+								users.map(item => (
 										<Card style={{ marginBottom: "0.5em", padding: "1em" }} key={item.id}>
 											<Grid style={{ position: "relative" }}>
 												<div style={{ display: 'flex', justifyContent: "flex-end", position: "absolute", right: "-18px", top: "-14px" }}>
@@ -1265,7 +1232,8 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 													{item.email}
 												</GridItem>
 												<GridItem xs={4} md={4} lg={4} style={{
-													fontWeight: '700', whiteSpace: 'nowrap',
+													fontWeight: '700',
+whiteSpace: 'nowrap',
 													overflow: 'hidden',
 													textOverflow: 'ellipsis'
 												}}>
@@ -1280,8 +1248,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 												</GridItem>
 											</Grid>
 										</Card>
-									)
-								})}
+									))}
 							<Grid style={{ marginTop: "1em" }}>
 								<PaginationFooter
 									page={usersPage}
@@ -1330,7 +1297,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 				</div>
 			</div>
 		)
-	} else {
+	}
 		return (
 			<div>
 				<div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -1375,8 +1342,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 						<div style={{ height: "300px" }}>
 							<Scrollbar>
 								{users &&
-									users.map(item => {
-										return (
+									users.map(item => (
 											<div
 												key={item.id}
 												style={{
@@ -1402,8 +1368,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 												<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format("LLL")} />
 											</div>
 
-										)
-									})}
+										))}
 							</Scrollbar>
 						</div>
 						<Grid style={{ marginTop: "1em" }}>
@@ -1453,29 +1418,24 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 				</div>
 			</div>
 		)
-	}
 }
 
-const Cell = ({ text, width, styles }) => {
-	return (
+const Cell = ({ text, width, styles }) => (
 		<div style={{ overflow: "hidden", width: width ? `calc( 100% / ${width})` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px", ...styles }}>
 			{text}
 		</div>
 	)
-}
 
 
 
 const AddAdmin = ({ translate, company, open, requestClose }) => {
-	const renderBody = () => {
-		return (
+	const renderBody = () => (
 			<NewUser
 				fixedCompany={company}
 				translate={translate}
 				requestClose={requestClose}
 			/>
 		)
-	}
 
 	return (
 		<AlertConfirm

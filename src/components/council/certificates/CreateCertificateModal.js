@@ -57,9 +57,8 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
         return false;
     }
 
-    const renderBody = () => {
-        return (
-            <div style={{marginTop: '12px', height: '100%', border: '1px solid gainsboro'}}>
+    const renderBody = () => (
+            <div style={{ marginTop: '12px', height: '100%', border: '1px solid gainsboro' }}>
 				<DocumentPreview
 					translate={translate}
 					options={options}
@@ -69,7 +68,6 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
 				/>
 			</div>
         )
-    }
 
     return (
         <AlertConfirm

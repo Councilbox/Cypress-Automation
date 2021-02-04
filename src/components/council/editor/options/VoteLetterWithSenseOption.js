@@ -1,8 +1,8 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { Checkbox, SectionTitle } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
-import gql from 'graphql-tag';
 
 
 const VoteLetterWithSenseOption = ({ council, client, translate }) => {
@@ -42,7 +42,7 @@ const VoteLetterWithSenseOption = ({ council, client, translate }) => {
                 label={translate.allows_indicate_direction_voting_letter}
                 value={canEarlyVote}
                 onChange={(event, isInputChecked) => {
-                    send(isInputChecked? 1 : 0)
+                    send(isInputChecked ? 1 : 0)
                 }}
             />
         </>

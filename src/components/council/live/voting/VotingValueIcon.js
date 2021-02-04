@@ -1,7 +1,7 @@
 import React from "react";
+import FontAwesome from "react-fontawesome";
 import { VOTE_VALUES } from "../../../../constants";
 import { getSecondary } from "../../../../styles/colors";
-import FontAwesome from "react-fontawesome";
 
 const VotingValueIcon = ({ vote, color, fixed }) => {
 	switch (vote) {
@@ -11,7 +11,7 @@ const VotingValueIcon = ({ vote, color, fixed }) => {
 					name={"circle"}
 					style={{
 						margin: "0.5em",
-						color: !!color ? color : "grey",
+						color: color || "grey",
 						fontSize: "1em"
 					}}
 				/>
@@ -23,7 +23,7 @@ const VotingValueIcon = ({ vote, color, fixed }) => {
 					name={"times"}
 					style={{
 						margin: "0.5em",
-						color: !!color ? color : "red",
+						color: color || "red",
 						fontSize: "1em"
 					}}
 				/>
@@ -35,7 +35,7 @@ const VotingValueIcon = ({ vote, color, fixed }) => {
 					name={"check"}
 					style={{
 						margin: "0.5em",
-						color: !!color ? color : "green",
+						color: color || "green",
 						fontSize: "1em"
 					}}
 				/>
@@ -47,7 +47,7 @@ const VotingValueIcon = ({ vote, color, fixed }) => {
 					name={"circle-o"}
 					style={{
 						margin: "0.5em",
-						color: !!color ? color : getSecondary(),
+						color: color || getSecondary(),
 						fontSize: "1em"
 					}}
 				/>

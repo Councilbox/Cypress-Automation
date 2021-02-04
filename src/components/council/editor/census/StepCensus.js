@@ -1,15 +1,17 @@
 import React from "react";
+import Dialog, {
+	DialogActions,
+	DialogContent,
+	DialogTitle
+} from "material-ui/Dialog";
+import { compose, graphql } from "react-apollo";
+import gql from "graphql-tag";
 import {
 	BasicButton,
 	ButtonIcon,
 	ErrorWrapper,
 	LoadingSection
 } from "../../../../displayComponents/index";
-import Dialog, {
-	DialogActions,
-	DialogContent,
-	DialogTitle
-} from "material-ui/Dialog";
 import {
 	councilParticipants
 } from "../../../../queries/councilParticipant";
@@ -18,8 +20,6 @@ import { getPrimary, getSecondary } from "../../../../styles/colors";
 import ParticipantsTable from "./ParticipantsTable";
 import * as CBX from "../../../../utils/CBX";
 import { councilStepTwo, updateCouncil } from "../../../../queries";
-import { compose, graphql } from "react-apollo";
-import gql from "graphql-tag";
 import EditorStepLayout from '../EditorStepLayout';
 import { useOldState } from "../../../../hooks";
 
@@ -65,7 +65,6 @@ const StepCensus = ({ translate, data, ...props }) => {
 				}
 			}
 		}
-
 	}, [data.loading, props.participants.councilParticipants]);
 
 
@@ -85,7 +84,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 			variables: {
 				council: {
 					...council,
-					step: step
+					step
 				}
 			}
 		});
@@ -187,7 +186,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 					/>
 				</React.Fragment>
 			);
-		} else {
+		}
 			return (
 				<React.Fragment>
 					<BasicButton
@@ -205,13 +204,9 @@ const StepCensus = ({ translate, data, ...props }) => {
 					/>
 				</React.Fragment>
 			);
-		}
-
 	}
 
-	const checkParticipants = () => {
-		return !data.loading && state.participantsLength <= 0;
-	}
+	const checkParticipants = () => !data.loading && state.participantsLength <= 0
 
 	const { council, error } = data;
 
@@ -232,7 +227,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 	if (state.loading) {
 		return <LoadingSection />
 	}
-	
+
 	return (
 		<EditorStepLayout
 			body={
@@ -294,8 +289,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 					<Dialog
 						disableBackdropClick={false}
 						open={state.censusChangeAlert}
-						onClose={() =>
-							setState({ censusChangeAlert: false })
+						onClose={() => setState({ censusChangeAlert: false })
 						}
 					>
 						<DialogTitle>{translate.census_change}</DialogTitle>
@@ -397,7 +391,6 @@ const StepCensus = ({ translate, data, ...props }) => {
 			}
 		/>
 	);
-
 }
 
 

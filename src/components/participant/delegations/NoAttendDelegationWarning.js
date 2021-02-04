@@ -2,8 +2,7 @@ import React from 'react';
 import { AlertConfirm } from '../../../displayComponents';
 
 
-const NoAttendDelegationWarning = ({ translate, requestClose }) => {
-    return(
+const NoAttendDelegationWarning = ({ translate, requestClose }) => (
         <AlertConfirm
             open={true}
             title={translate.warning}
@@ -17,7 +16,6 @@ const NoAttendDelegationWarning = ({ translate, requestClose }) => {
             }
         />
     )
-}
 
 
 export default NoAttendDelegationWarning;

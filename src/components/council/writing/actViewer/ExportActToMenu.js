@@ -1,12 +1,12 @@
 import React from 'react';
-import { DropDownMenu } from '../../../../displayComponents';
 import { MenuItem, Divider } from 'material-ui';
-import { getSecondary } from '../../../../styles/colors';
-import { downloadFile } from '../../../../utils/CBX';
 import { withApollo } from 'react-apollo';
-import { councilActEmail } from '../../../../queries';
 import gql from 'graphql-tag';
 import FileSaver from 'file-saver';
+import { DropDownMenu } from '../../../../displayComponents';
+import { getSecondary } from '../../../../styles/colors';
+import { downloadFile } from '../../../../utils/CBX';
+import { councilActEmail } from '../../../../queries';
 
 
 const exportActPDF = gql`
@@ -49,8 +49,9 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
         });
         const preHtml = "<!DOCTYPE html type=\"text/html\"><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><title>Export HTML To Doc</title></head><body style='font-family: Arial;'>";
         const postHtml = "</body></html>";
-        const body = response.data.councilAct.emailAct.replace(/#BFBFBF/g, 'rgb(191, 191, 191)').replace(/<!--[\s\S]*?-->/g, '').replace(/style="page-break-before: always"/g, '').replace(/solid 1px rgb(217, 237, 247)/g, 'solid 2px rgb(217, 237, 247)').replace(/font-size: 11px/g, 'font-size: 12.5px');
-        const html = preHtml+body+postHtml;
+        const body = response.data.councilAct.emailAct.replace(/#BFBFBF/g, 'rgb(191, 191, 191)').replace(/<!--[\s\S]*?-->/g, '').replace(/style="page-break-before: always"/g, '').replace(/solid 1px rgb(217, 237, 247)/g, 'solid 2px rgb(217, 237, 247)')
+.replace(/font-size: 11px/g, 'font-size: 12.5px');
+        const html = preHtml + body + postHtml;
         const css = (`\
             <style>\
             body {font-family: Arial; font-size: 12pt;}\
@@ -62,8 +63,8 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
             </style>\
         `);
 
-        let filename = `${translate.act} - ${council.name}.doc`;
-        const blob = new Blob(['\ufeff', css+html], {
+        const filename = `${translate.act} - ${council.name}.doc`;
+        const blob = new Blob(['\ufeff', css + html], {
             type: 'application/msword'
         });
         FileSaver.saveAs(blob, filename);
@@ -78,7 +79,7 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
             text={translate.export_act_to}
             textStyle={{ color: secondary }}
             type="flat"
-            buttonStyle={{border: `1px solid ${secondary}`}}
+            buttonStyle={{ border: `1px solid ${secondary}` }}
             icon={
                 <i className="fa fa-download" style={{
                         fontSize: "1em",
@@ -104,7 +105,7 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
                                     marginLeft: "0.3em"
                                 }}
                             />
-                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                            <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
                                 PDF
                             </span>
                         </div>
@@ -125,7 +126,7 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
                                     marginLeft: "0.3em"
                                 }}
                             />
-                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                            <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
                                 Word
                             </span>
                         </div>

@@ -44,15 +44,12 @@ class ForgetPwd extends React.PureComponent {
 						});
 						break;
 					default:
-						return;
 				}
-			} else {
-				if (response.data.restorePwd.success) {
+			} else if (response.data.restorePwd.success) {
 					this.setState({
 						sent: true
 					});
 				}
-			}
 		}
 	};
 
@@ -67,7 +64,7 @@ class ForgetPwd extends React.PureComponent {
 	};
 
 	checkRequiredFields() {
-		let errors = {
+		const errors = {
 			user: ""
 		};
 		let hasError = false;
@@ -84,7 +81,7 @@ class ForgetPwd extends React.PureComponent {
 
 		this.setState({
 			...this.state,
-			errors: errors
+			errors
 		});
 
 		return hasError;
@@ -155,8 +152,7 @@ class ForgetPwd extends React.PureComponent {
 										errorText={this.state.errors.user}
 										type="text"
 										value={this.state.user}
-										onChange={event =>
-											this.setState({
+										onChange={event => this.setState({
 												user: event.nativeEvent.target.value
 											})
 										}

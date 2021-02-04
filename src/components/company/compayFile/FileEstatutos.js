@@ -1,9 +1,9 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
+import ContentEditable from 'react-contenteditable';
 import { Scrollbar, BasicButton } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
-import ContentEditable from 'react-contenteditable';
 
 
 const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...props }) => {
@@ -25,13 +25,13 @@ const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...prop
             value: ''
         }
     ]
-    
+
     const primary = getPrimary();
 
-    const statutes = data.file.statutes? data.file.statutes : defaultStatutes;
+    const statutes = data.file.statutes ? data.file.statutes : defaultStatutes;
 
     const addRow = () => {
-        const newStatutes = [...statutes, { 
+        const newStatutes = [...statutes, {
             label: '',
             value: ''
         }];
@@ -41,7 +41,7 @@ const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...prop
     }
 
     const deleteRow = index => {
-        let newStatutes = [...statutes];
+        const newStatutes = [...statutes];
         newStatutes.splice(index, 1);
         updateFileData({
             statutes: newStatutes

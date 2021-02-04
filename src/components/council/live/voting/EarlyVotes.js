@@ -77,7 +77,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
 
 		return `(${getPercentage(value, props.recount.partTotal)}%)`
     }
-    
+
     const renderVotingMenu = vote => (
 		<React.Fragment>
 			{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE || props.council.councilType === 3 ?
@@ -91,15 +91,14 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
 	)
 
 
-    const renderParticipantInfo = vote => {
-		return (
+    const renderParticipantInfo = vote => (
 			<div style={{ minWidth: '7em' }}>
 				<span style={{ fontWeight: '700' }}>
                     <React.Fragment>
                         {`${vote.author.name} ${vote.author.surname || ''} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
                         {vote.author.voteDenied &&
                             <Tooltip title={vote.author.voteDeniedReason}>
-                                <span style={{color: 'red', fontWeight: '700'}}>
+                                <span style={{ color: 'red', fontWeight: '700' }}>
                                     (Voto denegado)
                                 </span>
                             </Tooltip>
@@ -118,15 +117,13 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
 						vote.author.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
                                 <br/>
-								{`${delegatedVote.name} ${delegatedVote.surname || ''} ${delegatedVote.position ? ` - ${delegatedVote.position}` : ''} (Ha delegado su voto) ${isMobile? ` - ${showNumParticipations(delegatedVote.numParticipations, props.company)} ` : ''}`}
+								{`${delegatedVote.name} ${delegatedVote.surname || ''} ${delegatedVote.position ? ` - ${delegatedVote.position}` : ''} (Ha delegado su voto) ${isMobile ? ` - ${showNumParticipations(delegatedVote.numParticipations, props.company)} ` : ''}`}
 							</React.Fragment>
 						))
 					}
 				</React.Fragment>
 			</div>
 		)
-
-	}
 
 
     if(loading){
@@ -169,7 +166,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                 {earlyVotes.map(vote => (
                     <TableRow key={`vote_${vote.id}`}>
                         <TableCell style={{ fontSize: '0.95em' }}>
-                            {vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0 ?
+                            {vote.author.numParticipations === 0 && vote.represented && vote.represented[0].author.numParticipations === 0 ?
                                 '-'
                                 :
                                 <div
@@ -194,7 +191,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                             {renderParticipantInfo(vote)}
                         </TableCell>
                         <TableCell style={{ fontSize: '0.95em' }}>
-                            {vote.numParticipations === 0 ? 
+                            {vote.numParticipations === 0 ?
                                 translate.cant_vote_this_point
                             :
                                 <>
@@ -202,7 +199,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                                     {(vote.author.state == PARTICIPANT_STATES.REPRESENTATED) &&
                                         <>
                                             <br/>
-                                            {vote.author.representative.numParticipations > 0? `${showNumParticipations(vote.author.representative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.representative.numParticipations)}` : '-'}
+                                            {vote.author.representative.numParticipations > 0 ? `${showNumParticipations(vote.author.representative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.representative.numParticipations)}` : '-'}
                                         </>
                                     }
                                     {!!vote.author.delegatedVotes &&

@@ -7,16 +7,12 @@ import { VotingContext } from './AgendaNoSession';
 import { agendaPointOpened, councilHasSession, getAgendaTypeLabel, showNumParticipations, voteAllAtOnce } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 
-const createSelectionsFromBallots = (ballots = [], participantId) => {
-    return ballots
+const createSelectionsFromBallots = (ballots = [], participantId) => ballots
         .filter(ballot => ballot.participantId === participantId)
-        .map(ballot => {
-            return {
+        .map(ballot => ({
                 id: ballot.itemId,
                 value: ballot.value
-            }
-        });
-}
+            }))
 
 const asbtentionOption = {
     id: -1,
@@ -24,7 +20,7 @@ const asbtentionOption = {
 }
 
 const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCustomPointVoting, cantVote, ...props }) => {
-    const [selections, setSelections] = React.useState(ownVote? createSelectionsFromBallots(ownVote.ballots, ownVote.participantId) : []); //(props.ownVote.ballots, props.ownVote.participantId));
+    const [selections, setSelections] = React.useState(ownVote ? createSelectionsFromBallots(ownVote.ballots, ownVote.participantId) : []); //(props.ownVote.ballots, props.ownVote.participantId));
     const votingContext = React.useContext(VotingContext);
     const config = React.useContext(ConfigContext);
 
@@ -41,7 +37,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
             && council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;
 
         return (
-            showRecount? 
+            showRecount ?
                 ` (${translate.recount}: ${agenda.votingsRecount[itemId] !== undefined ?
                     showNumParticipations(agenda.votingsRecount[itemId], council.company, council.statute)
                 : 0})`
@@ -51,7 +47,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     }
 
     const addSelection = item => {
-        let newSelections = [...selections, cleanObject(item)];;
+        let newSelections = [...selections, cleanObject(item)];
         if (selections.length === 1) {
             if (selections[0].id === -1) {
                 newSelections = [cleanObject(item)];
@@ -63,9 +59,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
         }
     }
 
-    const getSelectedRadio = id => {
-        return !!selections.find(selection => selection.id === id)
-    }
+    const getSelectedRadio = id => !!selections.find(selection => selection.id === id)
 
     const removeSelection = item => {
         const newSelections = selections.filter(selection => selection.id !== item.id);
@@ -92,7 +86,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     }
 
     const sendCustomAgendaVote = async selected => {
-        if(voteAllAtOnce({council})){
+        if(voteAllAtOnce({ council })){
             votingContext.responses.set(ownVote.id, selected);
             votingContext.setResponses(new Map(votingContext.responses));
         } else {
@@ -104,7 +98,6 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
             });
             await props.refetch();
         }
-
     }
 
     const getRemainingOptions = () => {
@@ -153,7 +146,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
 
         return (
             <div style={{ paddingTop: "0px" }}>
-                <div style={{ display: "flex", width: "52.5%", height: '2.5em' }}>
+                <div style={{ display: "flex", width: "52.5%",  }}>
                     <VotingButton
                         text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
                         disabled={disabled}
@@ -179,7 +172,6 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
         return (
             <DeniedDisplay translate={translate} denied={denied} />
         )
-
     }
 
     return (
@@ -189,7 +181,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
             }
             {(ownVote && ownVote.fixed) &&
                 <>
-                    {ownVote.numParticipations === 0?
+                    {ownVote.numParticipations === 0 ?
                         translate.cant_vote_this_point
                     :
                         translate.participant_vote_fixed
@@ -217,7 +209,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                 :
                 <React.Fragment>
                     {agendaPointOpened(agenda) &&
-                        <div style={{ fontSize: '0.85em',textAlign: 'left' }}>
+                        <div style={{ fontSize: '0.85em', textAlign: 'left' }}>
                             {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) &&
                                 <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
                             }

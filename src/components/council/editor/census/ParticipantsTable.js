@@ -1,10 +1,10 @@
 import React from "react";
 import { TableCell, TableRow } from "material-ui/Table";
 import { Card } from 'material-ui';
+import { compose, graphql } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import * as CBX from "../../../../utils/CBX";
 import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm } from "../../../../displayComponents";
-import { compose, graphql } from "react-apollo";
 import { deleteParticipant } from "../../../../queries/councilParticipant";
 import { COUNCIL_TYPES, PARTICIPANTS_LIMITS } from "../../../../constants";
 import ChangeCensusMenu from "./ChangeCensusMenu";
@@ -110,13 +110,13 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	const { editingParticipant, participant } = state;
 	const { councilParticipants } = data;
 
-	let headers = [
+	const headers = [
 		{
 			selectAll:
 				<Checkbox
 					onChange={selectAll}
 					value={state.selectedIds.size > 0 &&
-						state.selectedIds.size === (councilParticipants.list? councilParticipants.list.length : -1)}
+						state.selectedIds.size === (councilParticipants.list ? councilParticipants.list.length : -1)}
 				/>
 		},
 		{
@@ -169,7 +169,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				censuses={props.censuses}
 				totalVotes={totalVotes}
 				totalSocialCapital={totalSocialCapital}
-			/>		
+			/>
 			<AlertConfirm
 				title={translate.warning}
 				bodyText={translate.delete_items}
@@ -207,10 +207,10 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 						menuButtons={
 							state.selectedIds.size > 0 &&
 								<BasicButton
-									text={state.selectedIds.size === 1? translate.remove_one_participant : translate.remove_one_participant.replace('1', state.selectedIds.size) + 's'}
+									text={state.selectedIds.size === 1 ? translate.remove_one_participant : translate.remove_one_participant.replace('1', state.selectedIds.size) + 's'}
 									color={secondary}
-									buttonStyle={{marginRight: '0.6em'}}
-									textStyle={{color: 'white', fontWeight: '700'}}
+									buttonStyle={{ marginRight: '0.6em' }}
+									textStyle={{ color: 'white', fontWeight: '700' }}
 									onClick={openDeleteModal}
 								/>
 						}
@@ -236,8 +236,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 						headers={headers}
 					>
 						{councilParticipants.list.map(
-							participant => {
-								return (
+							participant => (
 									<React.Fragment
 										key={`participant${participant.id}`}
 									>
@@ -245,7 +244,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 											participant={participant}
 											editParticipant={() => setState({
 												editingParticipant: true,
-												participant: participant
+												participant
 											})}
 											select={select}
 											selected={state.selectedIds.has(participant.id)}
@@ -258,8 +257,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 											_renderDeleteIcon={() => _renderDeleteIcon(participant.id)}
 										/>
 									</React.Fragment>
-								);
-							}
+								)
 						)}
 					</EnhancedTable>
 				</React.Fragment>
@@ -275,15 +273,15 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 	if(isMobile){
 		return(
 			<Card
-				style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 				onClick={editParticipant}
 			>
 				<Grid>
-					<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
 						{translate.participant_data}
 					</GridItem>
 					<GridItem xs={7} md={7}>
-						<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
+						<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
 						{!!representative &&
 							<React.Fragment>
 								<br />
@@ -291,11 +289,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 							</React.Fragment>
 						}
 					</GridItem>
-					<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
 						{translate.dni}
 					</GridItem>
 					<GridItem xs={7} md={7}>
-						{!!representative?
+						{representative ?
 							<React.Fragment>
 								{representative.dni}
 							</React.Fragment>
@@ -303,11 +301,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 							participant.dni
 						}
 					</GridItem>
-					<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
 						{translate.position}
 					</GridItem>
 					<GridItem xs={7} md={7}>
-						{!!representative?
+						{representative ?
 							<React.Fragment>
 								{representative.position}
 							</React.Fragment>
@@ -315,38 +313,38 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 							participant.position
 						}
 					</GridItem>
-					<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
 						{translate.votes}
 					</GridItem>
 					<GridItem xs={7} md={7}>
 						{!CBX.isRepresentative(participant) &&
 							`${
 								participant.numParticipations
-							} (${participant.numParticipations > 0?(
+							} (${participant.numParticipations > 0 ? (
 								(participant.numParticipations /
 									totalVotes) *
 								100
-							).toFixed(2): 0}%)`
+							).toFixed(2) : 0}%)`
 						}
 					</GridItem>
 					{participations && (
 						<React.Fragment>
-							<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+							<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
 								{translate.census_type_social_capital}
 							</GridItem>
 							<GridItem xs={7} md={7}>
 								{!CBX.isRepresentative(participant) &&
-									`${participant.socialCapital} (${participant.socialCapital > 0?(
+									`${participant.socialCapital} (${participant.socialCapital > 0 ? (
 									(participant.socialCapital /
 										totalSocialCapital) *
-									100).toFixed(2): 0}%)`
+									100).toFixed(2) : 0}%)`
 								}
 
 							</GridItem>
 						</React.Fragment>
 					)}
 				</Grid>
-				<div style={{position: 'absolute', top: '5px', right: '5px'}}>
+				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
 					{!CBX.isRepresentative(participant) &&
 						_renderDeleteIcon(participant.id)}
 				</div>
@@ -364,20 +362,19 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 				fontSize: "0.5em"
 			}}
 		>
-			<TableCell onClick={event => event.stopPropagation()} style={{cursor: 'auto'}}>
-				<div style={{width: '2em'}}>
+			<TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
+				<div style={{ width: '2em' }}>
 					{(showActions || selected) &&
 						<Checkbox
 							value={selected}
-							onChange={() =>
-								props.select(participant.id)
+							onChange={() => props.select(participant.id)
 							}
 						/>
 					}
 				</div>
 			</TableCell>
 			<TableCell>
-				<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
+				<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
 				{!!representative &&
 					<React.Fragment>
 						<br/>
@@ -411,11 +408,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 						) &&
 							`${
 								participant.numParticipations
-							} (${participant.numParticipations > 0?(
+							} (${participant.numParticipations > 0 ? (
 								(participant.numParticipations /
 									totalVotes) *
 								100
-							).toFixed(2): 0}%)`
+							).toFixed(2) : 0}%)`
 						}
 						{!!representative &&
 							<br/>
@@ -428,11 +425,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 							) &&
 								`${
 									participant.socialCapital
-								} (${participant.socialCapital > 0?(
+								} (${participant.socialCapital > 0 ? (
 									(participant.socialCapital /
 										totalSocialCapital) *
 									100
-								).toFixed(2): 0}%)`
+								).toFixed(2) : 0}%)`
 							}
 							{!!representative &&
 								<br/>
@@ -442,9 +439,9 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 				</>
 
 			}
-			
+
 			<TableCell>
-				<div style={{width: '6em'}}>
+				<div style={{ width: '6em' }}>
 
 					{showActions &&
 						!CBX.isRepresentative(

@@ -4,11 +4,11 @@ import { secondary } from '../../styles/colors';
 import { CONTACT_URL } from '../../config';
 
 const CBXContactButton = props => (
-    <a href={CONTACT_URL} target="_blank" rel="noopener noreferrer" style={{color: 'white'}}>
+    <a href={CONTACT_URL} target="_blank" rel="noopener noreferrer" style={{ color: 'white' }}>
         <BasicButton
             text={props.translate.contacting_councilbox}
             color={secondary}
-            textStyle={{fontWeight: '700', color: 'white', fontSize: '18px'}}
+            textStyle={{ fontWeight: '700', color: 'white', fontSize: '18px' }}
         />
     </a>
 )

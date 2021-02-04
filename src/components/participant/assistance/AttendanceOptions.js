@@ -16,8 +16,8 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
     const primary = getPrimary();
     const config = React.useContext(ConfigContext);
 
-    let canDelegate = canDelegateVotes(council.statute, participant);
-    
+    const canDelegate = canDelegateVotes(council.statute, participant);
+
     const showAddRepresentative = () => {
 		setState({
 			...state,
@@ -32,10 +32,8 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 		});
     }
 
-    const checkDelegationConditions = () => {
-        return  config.attendanceDelegationOption && council.statute.existsDelegatedVote === 1 && ((participant.numParticipations > 0)
-            || participant.represented.filter(p => (p.numParticipations > 0)).length > 0);
-    }
+    const checkDelegationConditions = () => config.attendanceDelegationOption && council.statute.existsDelegatedVote === 1 && ((participant.numParticipations > 0)
+            || participant.represented.filter(p => (p.numParticipations > 0)).length > 0)
 
     if(council.councilType === 4){
         return (
@@ -78,8 +76,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                             color: '#dc7373',
                                             cursor: 'pointer'
                                         }}
-                                        onClick={() =>
-                                            setState({
+                                        onClick={() => setState({
                                                 ...state,
                                                 assistanceIntention: PARTICIPANT_STATES.REMOTE,
                                                 locked: false,
@@ -101,9 +98,9 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
         <>
             <div style={{ width: '100%', marginBottom: "1em" }}>
                 <div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-                    {AECOC_ID?
+                    {AECOC_ID ?
                         translate.vote_delegation
-                    : 
+                    :
                         translate.indicate_status
                     }
                 </div>
@@ -152,11 +149,9 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                     ...state,
                                     assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
                                     locked: false,
-                                    noAttendWarning: (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE &&
+                                    noAttendWarning: !!((participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE &&
                                         participant.delegatedVotes.length > 0) ||
-                                        participant.delegatedVotes.length > 1
-                                        ?
-                                        true : false,
+                                        participant.delegatedVotes.length > 1),
                                     delegateId: null
                                 })
                             }}
@@ -184,8 +179,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                                 color: '#dc7373',
                                                 cursor: 'pointer'
                                             }}
-                                            onClick={() =>
-                                                setState({
+                                            onClick={() => setState({
                                                     ...state,
                                                     assistanceIntention: PARTICIPANT_STATES.REMOTE,
                                                     locked: false,
@@ -233,7 +227,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
             {checkDelegationConditions() &&
                 <AssistanceOption
                     translate={translate}
-                    title={council.companyId === 286?
+                    title={council.companyId === 286 ?
                         'Quiero delegar en el Presidente de AECOC o, en su ausencia, en el Vicepresidente'
                     :
                         translate.want_to_delegate_in
@@ -253,8 +247,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                         color: '#dc7373',
                                         cursor: 'pointer'
                                     }}
-                                    onClick={() =>
-                                        setState({
+                                    onClick={() => setState({
                                             ...state,
                                             assistanceIntention: PARTICIPANT_STATES.REMOTE,
                                             locked: false,

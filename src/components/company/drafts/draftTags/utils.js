@@ -30,7 +30,7 @@ export const createTag = (data, type, translate) => {
 		}),
 		1: () => ({
 			label: translate[data.title] || data.title,
-			name: data.id? `statute_${data.id}` : data.title,
+			name: data.id ? `statute_${data.id}` : data.title,
 			type
 		}),
 		2: () => ({
@@ -45,12 +45,10 @@ export const createTag = (data, type, translate) => {
 				label: translate[draft.label],
 				type,
 				childs: (draft.label === 'agenda' && votingTypes) ?
-					CBX.filterAgendaVotingTypes(votingTypes).map(votingType => {
-						return (
+					CBX.filterAgendaVotingTypes(votingTypes).map(votingType => (
 							<Tag
 								childs={CBX.hasVotation(votingType.value) ?
-									majorityTypes.map(majority => {
-											return (
+									majorityTypes.map(majority => (
 												<Tag
 													key={`tag_${majority.value}`}
 													text={translate[majority.label]}
@@ -62,8 +60,7 @@ export const createTag = (data, type, translate) => {
 														type,
 													})}
 												/>
-											)
-										}) : null}
+											)) : null}
 								text={translate[votingType.label]}
 								color={getTagColor(type)}
 								action={() => addTag({
@@ -74,8 +71,7 @@ export const createTag = (data, type, translate) => {
 								})}
 								key={"tag_" + votingType.value}
 							/>
-						)
-					})
+						))
 				: null
 			})
 		}

@@ -71,7 +71,6 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
             </div>
         </>
     )
-
 }
 
 export default AdminAnnouncementBody;

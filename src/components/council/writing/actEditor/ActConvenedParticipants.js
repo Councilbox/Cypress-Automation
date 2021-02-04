@@ -3,11 +3,10 @@ import ConvenedParticipantsTable from '../../prepare/ConvenedParticipantsTable';
 import { hasParticipations } from '../../../../utils/CBX';
 import { Scrollbar } from '../../../../displayComponents';
 
-const ActConvenedParticipants = ({ council, translate, totalVotes, socialCapital }) => {
-    return(
+const ActConvenedParticipants = ({ council, translate, totalVotes, socialCapital }) => (
         <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
             <Scrollbar>
-                <div style={{padding: '1.5em', overflow: 'hidden'}}>
+                <div style={{ padding: '1.5em', overflow: 'hidden' }}>
                     <ConvenedParticipantsTable
                         council={council}
                         participations={hasParticipations(council)}
@@ -24,6 +23,5 @@ const ActConvenedParticipants = ({ council, translate, totalVotes, socialCapital
         </div>
 
     )
-}
 
 export default ActConvenedParticipants;

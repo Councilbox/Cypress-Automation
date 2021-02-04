@@ -62,8 +62,7 @@ const styles = {
     }
 };
 
-const OneOnOneDocumentation = ({ translate, participant, council }) => {    
-    return (
+const OneOnOneDocumentation = ({ translate, participant, council }) => (
         <NotLoggedLayout
             translate={translate}
             helpIcon={true}
@@ -104,8 +103,7 @@ const OneOnOneDocumentation = ({ translate, participant, council }) => {
                 </div>
             </Scrollbar>
         </NotLoggedLayout>
-                    
+
     )
-}
 
 export default OneOnOneDocumentation;

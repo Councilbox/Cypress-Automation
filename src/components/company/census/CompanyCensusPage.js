@@ -1,4 +1,10 @@
 import React from "react";
+import { compose, graphql } from "react-apollo";
+import { Tooltip, Card } from 'material-ui';
+import { TableCell, TableRow } from "material-ui/Table";
+import { withRouter } from 'react-router-dom';
+import FontAwesome from "react-fontawesome";
+import { censuses, deleteCensus, setDefaultCensus } from "../../../queries/census";
 import {
 	AlertConfirm,
 	CardPageLayout,
@@ -9,12 +15,6 @@ import {
 	EnhancedTable,
 	LoadingSection
 } from "../../../displayComponents";
-import { compose, graphql } from "react-apollo";
-import { censuses, deleteCensus, setDefaultCensus } from "../../../queries/census";
-import { Tooltip, Card } from 'material-ui';
-import { TableCell, TableRow } from "material-ui/Table";
-import { withRouter } from 'react-router-dom';
-import FontAwesome from "react-fontawesome";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import withSharedProps from '../../../HOCs/withSharedProps';
 import CloneCensusModal from "./CloneCensusModal";
@@ -55,7 +55,7 @@ class CompanyCensusPage extends React.Component {
 		});
 		const response = await this.props.setDefaultCensus({
 			variables: {
-				censusId: censusId
+				censusId
 			}
 		});
 		if (response) {
@@ -93,7 +93,7 @@ class CompanyCensusPage extends React.Component {
 					limits={CENSUS_LIMITS}
 					page={1}
 					menuButtons={
-						<div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: isMobile? 'flex-start' : 'center'}}>
+						<div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'flex-start' : 'center' }}>
 							<div>
 								<AddCensusButton
 									translate={translate}
@@ -132,8 +132,7 @@ class CompanyCensusPage extends React.Component {
 						{ name: "" }
 					]}
 				>
-					{censuses.list.map((census, index) => {
-						return (
+					{censuses.list.map((census, index) => (
 							<HoverableRow
 								census={census}
 								key={`census_${census.id}`}
@@ -144,8 +143,7 @@ class CompanyCensusPage extends React.Component {
 								index={index}
 								translate={translate}
 							/>
-						);
-					})}
+						))}
 				</EnhancedTable>
 				<AlertConfirm
 					title={translate.send_to_trash}
@@ -161,7 +159,7 @@ class CompanyCensusPage extends React.Component {
 					translate={translate}
 					user={this.props.user}
 					refetch={this.props.data.refetch}
-					requestClose={() => this.setState({ cloneModal: false, index: null})}
+					requestClose={() => this.setState({ cloneModal: false, index: null })}
 					open={this.state.cloneModal}
 					census={censuses.list[this.state.index]}
 				/>
@@ -183,7 +181,6 @@ class CompanyCensusPage extends React.Component {
 }
 
 class HoverableRow extends React.PureComponent {
-
     state = {
         showActions: false
     }
@@ -326,11 +323,11 @@ class HoverableRow extends React.PureComponent {
 		if(isMobile){
             return(
                 <Card
-                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+                    style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 					onClick={() => this.props.openCensusEdit(census.id)}
                 >
                     <Grid>
-                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                        <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.name}
                         </GridItem>
                         <GridItem xs={7} md={7}>
@@ -350,7 +347,7 @@ class HoverableRow extends React.PureComponent {
 							{census.censusName}
                         </GridItem>
 
-                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                        <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.creation_date}
                         </GridItem>
                         <GridItem xs={7} md={7}>
@@ -360,7 +357,7 @@ class HoverableRow extends React.PureComponent {
 							/>
                         </GridItem>
 
-						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.last_edit}
                         </GridItem>
                         <GridItem xs={7} md={7}>
@@ -370,11 +367,11 @@ class HoverableRow extends React.PureComponent {
 							/>
                         </GridItem>
 
-						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.creator}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							{`${!!census.creator? census.creator.name : ''} ${!!census.creator? census.creator.surname : ''}`}
+							{`${census.creator ? census.creator.name : ''} ${census.creator ? census.creator.surname : ''}`}
                         </GridItem>
 
                         <GridItem xs={12} md={12} >
@@ -423,7 +420,7 @@ class HoverableRow extends React.PureComponent {
 					/>
 				</TableCell>
 				<TableCell>
-					{`${!!census.creator? census.creator.name : ''} ${!!census.creator? census.creator.surname : ''}`}
+					{`${census.creator ? census.creator.name : ''} ${census.creator ? census.creator.surname : ''}`}
 				</TableCell>
 				<TableCell>
 					<div style={{ width: '12.5em', float: "right" }}>

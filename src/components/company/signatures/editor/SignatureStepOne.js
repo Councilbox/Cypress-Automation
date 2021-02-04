@@ -1,15 +1,15 @@
 import React from 'react';
+import { Typography } from 'material-ui';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
 import { TextInput, DateTimePicker, BasicButton, FileUploadButton, ButtonIcon, LiveToast } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
-import { Typography } from 'material-ui';
-import { graphql, compose } from 'react-apollo';
-import gql from 'graphql-tag';
 import AttachmentItem from '../../../attachments/AttachmentItem';
 import DocumentNameEditor from './DocumentNameEditor';
 import { checkForUnclosedBraces } from '../../../../utils/CBX';
-import { toast } from 'react-toastify';
 
 class SignatureStepOne extends React.Component {
     state = {
@@ -79,11 +79,11 @@ class SignatureStepOne extends React.Component {
 			});
 			return;
 		}
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
 		reader.onload = async event => {
-			let fileInfo = {
+			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
 				filesize: event.loaded.toString(),
@@ -123,7 +123,6 @@ class SignatureStepOne extends React.Component {
                     }
                 })
             }
-
 		};
     };
 
@@ -174,8 +173,7 @@ class SignatureStepOne extends React.Component {
         if(!data.description){
             errors.description = translate.required_field;
             hasError = true;
-        }else{
-            if(checkForUnclosedBraces(data.description)){
+        }else if(checkForUnclosedBraces(data.description)){
                 errors.description = true;
                 hasError = true;
                 if(this.toastId){
@@ -187,12 +185,11 @@ class SignatureStepOne extends React.Component {
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
                         autoClose: true,
-                        onClose: () => this.toastId = null,				
+                        onClose: () => this.toastId = null,
 						className: "errorToast"
 					}
 				);
             }
-        }
 
         if(!data.attachment){
             errors.file = translate.must_add_attachment_file_to_sign;
@@ -211,13 +208,13 @@ class SignatureStepOne extends React.Component {
         const { translate } = this.props;
         const primary = getPrimary();
         const secondary = getSecondary();
-        const {data, errors } = this.state;
+        const { data, errors } = this.state;
 
         return(
             <EditorStepLayout
                 body={
                     <div>
-                        <Typography variant="title" style={{color: primary}}>
+                        <Typography variant="title" style={{ color: primary }}>
                             {translate.signature_header}
                         </Typography>
                         <div
@@ -233,7 +230,7 @@ class SignatureStepOne extends React.Component {
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
-                                    this.updateState({expirationDateToSign: dateString})
+                                    this.updateState({ expirationDateToSign: dateString })
                                 }}
                                 minDateMessage={""}
                                 acceptText={translate.accept}
@@ -251,7 +248,7 @@ class SignatureStepOne extends React.Component {
                             <TextInput
                                 floatingText={translate.signature_title}
                                 errorText={errors.title}
-                                onChange={(event) => this.updateState({title: event.target.value})}
+                                onChange={(event) => this.updateState({ title: event.target.value })}
                                 value={data.title}
                             />
                         </div>
@@ -266,7 +263,7 @@ class SignatureStepOne extends React.Component {
                                 translate={translate}
                                 errorText={errors.description}
                                 floatingText={translate.description}
-                                onChange={value => this.updateState({description: value})}
+                                onChange={value => this.updateState({ description: value })}
                             />
                         </div>
                         <div
@@ -275,17 +272,17 @@ class SignatureStepOne extends React.Component {
                                 marginTop: '0.8em'
                             }}
                         >
-                            <Typography variant="title" style={{color: primary}}>
+                            <Typography variant="title" style={{ color: primary }}>
                                 {translate.new_file_to_sign_title}
                             </Typography>
 
-                            {data.attachment?
+                            {data.attachment ?
                                 <div>
                                     <AttachmentItem
                                         attachment={data.attachment}
                                         translate={translate}
                                         edit
-                                        editName={() => this.setState({ editDocument: true})}
+                                        editName={() => this.setState({ editDocument: true })}
                                         removeAttachment={this.removeDocument}
                                     />
                                     <DocumentNameEditor
@@ -299,7 +296,7 @@ class SignatureStepOne extends React.Component {
                                 </div>
                             :
                                 <div>
-                                    <div style={{maxWidth: '10em'}}>
+                                    <div style={{ maxWidth: '10em' }}>
                                         <FileUploadButton
                                             text={translate.new_add}
                                             accept='application/pdf'
@@ -323,7 +320,7 @@ class SignatureStepOne extends React.Component {
                                         />
                                     </div>
                                     {!!this.state.errors.file &&
-                                        <p style={{color: 'red', fontWeight: '700'}}>
+                                        <p style={{ color: 'red', fontWeight: '700' }}>
                                             {this.state.errors.file}
                                         </p>
                                     }
@@ -337,14 +334,14 @@ class SignatureStepOne extends React.Component {
                         <BasicButton
                             text={translate.save}
                             color={secondary}
-                            textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                            textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
                             onClick={this.saveSignature}
                         />
                         <BasicButton
                             text={translate.next}
                             color={primary}
-                            textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
-                            buttonStyle={{marginLeft: '0.8em'}}
+                            textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
+                            buttonStyle={{ marginLeft: '0.8em' }}
                             onClick={this.nextStep}
                         />
                     </div>

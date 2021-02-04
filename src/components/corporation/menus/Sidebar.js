@@ -6,14 +6,14 @@ import {
 	ListItemIcon,
 	withStyles
 } from "material-ui";
-import sidebarStyle from "../../../styles/sidebarStyle";
-import icono from "../../../assets/img/logo-icono.png";
 import BorderColor from 'material-ui-icons/BorderColor';
 import ContentPaste from 'material-ui-icons/ContentPaste';
 import Dashboard from 'material-ui-icons/Dashboard';
 import History from 'material-ui-icons/History';
 import Language from 'material-ui-icons/Language';
 import ImportContacts from 'material-ui-icons/ImportContacts';
+import icono from "../../../assets/img/logo-icono.png";
+import sidebarStyle from "../../../styles/sidebarStyle";
 import { bHistory, store } from "../../../containers/App";
 import { changeCompany } from "../../../actions/companyActions";
 import { darkGrey } from "../../../styles/colors";

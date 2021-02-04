@@ -1,4 +1,5 @@
 import React from "react";
+import { MenuItem, Typography, Tooltip } from "material-ui";
 import {
 	Grid,
 	GridItem,
@@ -6,7 +7,6 @@ import {
 	ButtonIcon,
 	BasicButton
 } from "../../../../displayComponents/index";
-import { MenuItem, Typography, Tooltip } from "material-ui";
 import * as CBX from "../../../../utils/CBX";
 import AddCouncilParticipantButton from "./modals/AddCouncilParticipantButton";
 import { getSecondary } from "../../../../styles/colors";
@@ -14,8 +14,7 @@ import withSharedProps from "../../../../HOCs/withSharedProps";
 import { GOVERNING_BODY_TYPES } from "../../../../constants";
 
 
-const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCensus, council, company, translate, censuses, totalVotes, totalSocialCapital, participations, refetch }) => {
-	return (
+const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCensus, council, company, translate, censuses, totalVotes, totalSocialCapital, participations, refetch }) => (
 		<Grid>
 			{council.councilType === 5 ?
 				<GridItem xs={12} md={9} lg={9}></GridItem>
@@ -36,16 +35,14 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 								value={council.selectedCensusId || '-3'}
 								onChange={handleCensusChange}
 							>
-								{censuses.list.map(census => {
-									return (
+								{censuses.list.map(census => (
 										<MenuItem
 											value={parseInt(census.id, 10)}
 											key={`census${census.id}`}
 										>
 											{census.censusName}
 										</MenuItem>
-									);
-								})}
+									))}
 								{(CBX.multipleGoverningBody(company.governingBodyType) &&
 									company.governingBodyData &&
 									company.governingBodyData.list &&
@@ -86,8 +83,7 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 										/>
 									}
 									textPosition="after"
-									onClick={() =>
-										reloadCensus()
+									onClick={() => reloadCensus()
 									}
 								/>
 							</div>
@@ -111,7 +107,7 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 								fontSize: "1em"
 							}}
 						>
-							{`${translate.total_votes}: ${totalVotes ? totalVotes : 0}`}
+							{`${translate.total_votes}: ${totalVotes || 0}`}
 						</Typography>
 						{CBX.hasParticipations(council) &&
 							<Typography
@@ -122,7 +118,7 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 									fontSize: "1em"
 								}}
 							>
-								{`${translate.total_social_capital}: ${totalSocialCapital ? totalSocialCapital : 0}`}
+								{`${translate.total_social_capital}: ${totalSocialCapital || 0}`}
 							</Typography>
 						}
 					</GridItem>
@@ -150,6 +146,5 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 			</GridItem>
 		</Grid>
 	)
-}
 
 export default withSharedProps()(ChangeCensusMenu);

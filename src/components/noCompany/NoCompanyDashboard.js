@@ -1,16 +1,15 @@
 import React from "react";
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { darkGrey, lightGrey } from "../../styles/colors";
 import { Block, Grid, GridItem } from '../../displayComponents';
 import { userCanCreateCompany } from '../../utils/CBX';
 import DevAdminPanel from '../admin/DevAdminPanel';
 import PremiumModal from './PremiumModal';
 import withSharedProps from '../../HOCs/withSharedProps';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 
 
 class NoCompanyDashboard extends React.Component {
-
 	state = {
 		premiumModal: false
 	}
@@ -45,7 +44,7 @@ class NoCompanyDashboard extends React.Component {
 				}}
 				id={"mainContainer"}
 			>
-				{user.roles === 'devAdmin'?
+				{user.roles === 'devAdmin' ?
 					<DevAdminPanel />
 				:
 					<div className="row" style={{ width: "100%" }}>
@@ -87,8 +86,8 @@ class NoCompanyDashboard extends React.Component {
 								spacing={8}
 							>
 								<GridItem xs={12} md={6} lg={4}>
-									{!userCanCreateCompany(user)?
-										<div onClick={() => this.setState({premiumModal: true})}>
+									{!userCanCreateCompany(user) ?
+										<div onClick={() => this.setState({ premiumModal: true })}>
 											<Block
 												link={`/`}
 												icon="add"

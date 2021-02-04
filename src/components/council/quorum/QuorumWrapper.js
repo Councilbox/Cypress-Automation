@@ -1,13 +1,12 @@
 import React from 'react';
+import { graphql } from 'react-apollo';
+import FontAwesome from 'react-fontawesome';
 import * as CBX from '../../../utils/CBX';
 import { QUORUM_TYPES } from "../../../constants";
-import { graphql } from 'react-apollo';
 import { liveRecount } from '../../../queries/live';
-import FontAwesome from 'react-fontawesome';
 
 const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
-
-    const statute = secondCall? 
+    const statute = secondCall ?
         {
             type: council.statute.secondCallQuorumType,
             value: council.statute.secondCallQuorum,
@@ -25,34 +24,34 @@ const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
 
     return(
         <React.Fragment>
-            {statute.type !== -1?
+            {statute.type !== -1 ?
                 <React.Fragment>
                     <span>
                         {`${translate.quorum_type}: ${translate[quorumType.label]} ${
-                            CBX.isQuorumPercentage(quorumType.value)?
+                            CBX.isQuorumPercentage(quorumType.value) ?
                                 `(${statute.value} %)`
                             :
-                                CBX.isQuorumFraction(quorumType.value)?
+                                CBX.isQuorumFraction(quorumType.value) ?
                                     `(${statute.value} / ${statute.divider})`
                                 :
-                                    CBX.isQuorumNumber(quorumType.value)?
+                                    CBX.isQuorumNumber(quorumType.value) ?
                                         `(${statute.value})`
                                     :
                                         ''
 
                         }`}
                     </span>
-                    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <span>
                             {`${translate.required_quorum}: ${neededQuorum}`}
                         </span>
-                        {council.statute.quorumPrototype === 0?
-                            neededQuorum <= recount.partRightVoting?
+                        {council.statute.quorumPrototype === 0 ?
+                            neededQuorum <= recount.partRightVoting ?
                                 <ReachedIcon />
                             :
                                 <NotReachedIcon />
                         :
-                            neededQuorum <= recount.socialCapitalRightVoting?
+                            neededQuorum <= recount.socialCapitalRightVoting ?
                                 <ReachedIcon />
                             :
                                 <NotReachedIcon />

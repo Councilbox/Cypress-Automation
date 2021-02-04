@@ -3,7 +3,6 @@ import Bezier from "./Bezier";
 import Point from "./Point"
 
 export default class SignaturePad extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -36,8 +35,8 @@ export default class SignaturePad extends React.Component {
     if (e) {
       e.preventDefault();
     }
-    var ctx = this._ctx,
-      canvas = this._canvas;
+    const ctx = this._ctx;
+      const canvas = this._canvas;
 
     ctx.fillStyle = this.backgroundColor;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -46,16 +45,16 @@ export default class SignaturePad extends React.Component {
   }
 
   toDataURL(imageType, quality) {
-    var canvas = this._canvas;
+    const canvas = this._canvas;
     return canvas.toDataURL.apply(canvas, arguments);
   }
 
   fromDataURL(dataUrl) {
-    var self = this,
-      image = new Image(),
+    const self = this;
+      const image = new Image();
       //ratio = window.devicePixelRatio || 1,
-      width = this._canvas.width,
-      height = this._canvas.height;
+      const width = this._canvas.width;
+      const height = this._canvas.height;
 
     this._reset();
     image.src = dataUrl;
@@ -75,7 +74,7 @@ export default class SignaturePad extends React.Component {
     this._lastWidth = (this.minWidth + this.maxWidth) / 2;
     this._isEmpty = true;
     this._ctx.fillStyle = this.penColor;
-  };
+  }
 
   _handleMouseEvents() {
     this._mouseButtonDown = false;
@@ -83,7 +82,7 @@ export default class SignaturePad extends React.Component {
     this._canvas.addEventListener("mousedown", this._handleMouseDown.bind(this));
     this._canvas.addEventListener("mousemove", this._handleMouseMove.bind(this));
     document.addEventListener("mouseup", this._handleMouseUp.bind(this));
-  };
+  }
 
   _handleTouchEvents() {
     // Pass touch events to canvas element on mobile IE.
@@ -92,7 +91,7 @@ export default class SignaturePad extends React.Component {
     this._canvas.addEventListener("touchstart", this._handleTouchStart.bind(this));
     this._canvas.addEventListener("touchmove", this._handleTouchMove.bind(this));
     document.addEventListener("touchend", this._handleTouchEnd.bind(this));
-  };
+  }
 
   off() {
     this._canvas.removeEventListener("mousedown", this._handleMouseDown);
@@ -102,7 +101,6 @@ export default class SignaturePad extends React.Component {
     this._canvas.removeEventListener("touchstart", this._handleTouchStart);
     this._canvas.removeEventListener("touchmove", this._handleTouchMove);
     document.removeEventListener("touchend", this._handleTouchEnd);
-
   }
 
   _handleMouseDown(event) {
@@ -110,7 +108,7 @@ export default class SignaturePad extends React.Component {
       this._mouseButtonDown = true;
       this._strokeBegin(event);
     }
-  };
+  }
 
   _handleMouseMove(event) {
     if (this._mouseButtonDown) {
@@ -119,45 +117,44 @@ export default class SignaturePad extends React.Component {
         this.props.onMove(event);
       }
     }
-  };
+  }
 
   _handleMouseUp(event) {
     if (event.which === 1 && this._mouseButtonDown) {
       this._mouseButtonDown = false;
       this._strokeEnd(event);
     }
-  };
+  }
 
   _handleTouchStart(event) {
-    var touch = event.changedTouches[0];
+    const touch = event.changedTouches[0];
     this._strokeBegin(touch);
-  };
+  }
 
   _handleTouchMove(event) {
     // Prevent scrolling.
     event.preventDefault();
 
-    var touch = event.changedTouches[0];
+    const touch = event.changedTouches[0];
     this._strokeUpdate(touch);
     if(this.props.onMove){
       this.props.onMove(event);
     }
-  };
+  }
 
   _handleTouchEnd(event) {
-    var wasCanvasTouched = event.target === this._canvas;
+    const wasCanvasTouched = event.target === this._canvas;
     if (wasCanvasTouched) {
       this._strokeEnd(event);
     }
-  };
+  }
 
   _strokeUpdate(event) {
     if(!this.props.disabled){
-      var point = this._createPoint(event);
+      const point = this._createPoint(event);
       this._addPoint(point);
     }
-
-  };
+  }
 
   _strokeBegin(event) {
     this._reset();
@@ -165,21 +162,21 @@ export default class SignaturePad extends React.Component {
     if (typeof this.onBegin === 'function') {
       this.onBegin(event);
     }
-  };
+  }
 
   _strokeDraw(point) {
-    var ctx = this._ctx,
-      dotSize = typeof (this.dotSize) === 'function' ? this.dotSize() : this.dotSize;
+    const ctx = this._ctx;
+      const dotSize = typeof (this.dotSize) === 'function' ? this.dotSize() : this.dotSize;
 
     ctx.beginPath();
     this._drawPoint(point.x, point.y, dotSize);
     ctx.closePath();
     ctx.fill();
-  };
+  }
 
   _strokeEnd(event) {
-    var canDrawCurve = this.points.length > 2,
-      point = this.points[0];
+    const canDrawCurve = this.points.length > 2;
+      const point = this.points[0];
 
     if (!canDrawCurve && point) {
       this._strokeDraw(point);
@@ -187,20 +184,21 @@ export default class SignaturePad extends React.Component {
     if (typeof this.onEnd === 'function') {
       this.onEnd(event);
     }
-  };
+  }
 
   _createPoint(event) {
-    var rect = this._canvas.getBoundingClientRect();
+    const rect = this._canvas.getBoundingClientRect();
     return new Point(
       event.clientX - rect.left,
       event.clientY - rect.top
     );
-  };
+  }
 
   _addPoint(point) {
-    var points = this.points,
-      c2, c3,
-      curve, tmp;
+    const points = this.points;
+      let c2; let c3;
+      let curve; let
+tmp;
 
     points.push(point);
 
@@ -223,34 +221,35 @@ export default class SignaturePad extends React.Component {
   }
 
   _calculateCurveControlPoints(s1, s2, s3) {
-    var dx1 = s1.x - s2.x, dy1 = s1.y - s2.y,
-      dx2 = s2.x - s3.x, dy2 = s2.y - s3.y,
+    const dx1 = s1.x - s2.x; const dy1 = s1.y - s2.y;
+      const dx2 = s2.x - s3.x; const dy2 = s2.y - s3.y;
 
-      m1 = { x: (s1.x + s2.x) / 2.0, y: (s1.y + s2.y) / 2.0 },
-      m2 = { x: (s2.x + s3.x) / 2.0, y: (s2.y + s3.y) / 2.0 },
+      const m1 = { x: (s1.x + s2.x) / 2.0, y: (s1.y + s2.y) / 2.0 };
+      const m2 = { x: (s2.x + s3.x) / 2.0, y: (s2.y + s3.y) / 2.0 };
 
-      l1 = Math.sqrt(dx1 * dx1 + dy1 * dy1),
-      l2 = Math.sqrt(dx2 * dx2 + dy2 * dy2),
+      const l1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+      const l2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
 
-      dxm = (m1.x - m2.x),
-      dym = (m1.y - m2.y),
+      const dxm = (m1.x - m2.x);
+      const dym = (m1.y - m2.y);
 
-      k = l2 / (l1 + l2),
-      cm = { x: m2.x + dxm * k, y: m2.y + dym * k },
+      const k = l2 / (l1 + l2);
+      const cm = { x: m2.x + dxm * k, y: m2.y + dym * k };
 
-      tx = s2.x - cm.x,
-      ty = s2.y - cm.y;
+      const tx = s2.x - cm.x;
+      const ty = s2.y - cm.y;
 
     return {
       c1: new Point(m1.x + tx, m1.y + ty),
       c2: new Point(m2.x + tx, m2.y + ty)
     };
-  };
+  }
 
   _addCurve(curve) {
-    var startPoint = curve.startPoint,
-      endPoint = curve.endPoint,
-      velocity, newWidth;
+    const startPoint = curve.startPoint;
+      const endPoint = curve.endPoint;
+      let velocity; let
+newWidth;
 
     velocity = endPoint.velocityFrom(startPoint);
     velocity = this.velocityFilterWeight * velocity
@@ -261,20 +260,21 @@ export default class SignaturePad extends React.Component {
 
     this._lastVelocity = velocity;
     this._lastWidth = newWidth;
-  };
+  }
 
   _drawPoint(x, y, size) {
-    var ctx = this._ctx;
+    const ctx = this._ctx;
 
     ctx.moveTo(x, y);
     ctx.arc(x, y, size, 0, 2 * Math.PI, false);
     this._isEmpty = false;
-  };
+  }
 
   _drawCurve(curve, startWidth, endWidth) {
-    var ctx = this._ctx,
-      widthDelta = endWidth - startWidth,
-      drawSteps, width, i, t, tt, ttt, u, uu, uuu, x, y;
+    const ctx = this._ctx;
+      const widthDelta = endWidth - startWidth;
+      let drawSteps; let width; let i; let t; let tt; let ttt; let u; let uu; let uuu; let x; let
+y;
 
     drawSteps = Math.floor(curve.length());
     ctx.beginPath();
@@ -302,18 +302,17 @@ export default class SignaturePad extends React.Component {
     }
     ctx.closePath();
     ctx.fill();
-  };
+  }
 
   _strokeWidth(velocity) {
     return Math.max(this.maxWidth / (velocity + 1), this.minWidth);
-  };
+  }
 
   render() {
     return (
-      <div style={{...this.props.style, height: this.props.height || 300, width: this.props.width || 600}}>
-        <canvas ref={ref => (this._canvas = ref)}  width={this.props.width} height={this.props.height}></canvas>
+      <div style={{ ...this.props.style, height: this.props.height || 300, width: this.props.width || 600 }}>
+        <canvas ref={ref => (this._canvas = ref)} width={this.props.width} height={this.props.height}></canvas>
       </div>
     );
   }
-
 }

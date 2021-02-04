@@ -6,7 +6,6 @@ import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 import Comments from "./Comments";
 
 class AgendaDetailsCollapse extends React.Component {
-
     render(){
         return (
             <React.Fragment>

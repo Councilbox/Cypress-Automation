@@ -1,8 +1,8 @@
 import React from "react";
-import { getSecondary } from "../styles/colors";
 import { Typography, Tooltip } from "material-ui";
-import * as CBX from "../utils/CBX";
 import { withApollo } from 'react-apollo';
+import { getSecondary } from "../styles/colors";
+import * as CBX from "../utils/CBX";
 import DenyVote from "../components/council/live/participants/DenyVote";
 import { moment } from "../containers/App";
 import withSharedProps from "../HOCs/withSharedProps";
@@ -29,7 +29,7 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 
 
 	return (
-		<div style={{padding: '0.5em'}}>
+		<div style={{ padding: '0.5em' }}>
 			<div
 				style={{
 					display: "flex",
@@ -71,7 +71,7 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 										}}>
 									</i>
 								</Tooltip>
-								
+
 							</>
 					}
 				</Typography>
@@ -154,15 +154,14 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 						}}>
 					</i>
 				</div>
-				{edit?
+				{edit ?
  					<TextInput
 					 	floatingText={translate.email}
 						type="text"
 						required
 						value={email}
 						errorText={errors.email}
-						onChange={event =>
-							setEmail(event.target.value)
+						onChange={event => setEmail(event.target.value)
 						}
 					/>
 				:
@@ -198,15 +197,14 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 							}}>
 						</i>
 					</div>
-					{edit?
+					{edit ?
 						<TextInput
 							type="text"
 							floatingText={translate.phone}
 							required
 							value={phone}
 							errorText={errors.phone}
-							onChange={event =>
-								setPhone(event.target.value)
+							onChange={event => setPhone(event.target.value)
 							}
 						/>
 					:
@@ -217,7 +215,7 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 
 				</div>
 			}
-			
+
 			{(!CBX.participantIsGuest(participant) && !CBX.participantIsRepresentative(participant) &&
 				!delegate && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) && (
 					<React.Fragment>

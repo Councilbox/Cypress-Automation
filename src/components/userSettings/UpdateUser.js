@@ -42,7 +42,6 @@ class UpdateUserForm extends React.Component {
 	}
 
 	saveUser = async () => {
-
 		if (!await this.checkRequiredFields()) {
 			this.setState({
 				loading: true
@@ -107,7 +106,7 @@ class UpdateUserForm extends React.Component {
 	async checkRequiredFields() {
 		const { translate } = this.props;
 
-		let errors = {
+		const errors = {
 			name: "",
 			surname: "",
 			phone: "",
@@ -127,13 +126,11 @@ class UpdateUserForm extends React.Component {
 		if (!checkValidEmail(data.email.toLowerCase())) {
 			hasError = true;
 			errors.email = translate.email_not_valid;
-		} else {
-			if (data.email.toLowerCase() !== this.props.user.email.toLowerCase()) {
+		} else if (data.email.toLowerCase() !== this.props.user.email.toLowerCase()) {
 				if (await this.checkEmailExists()) {
 					errors.email = translate.register_exists_email
 				}
 			}
-		}
 
 		if (!data.surname) {
 			hasError = true;
@@ -151,7 +148,7 @@ class UpdateUserForm extends React.Component {
 		}
 
 		this.setState({
-			errors: errors,
+			errors,
 			error: hasError
 		});
 		return hasError;
@@ -175,21 +172,20 @@ class UpdateUserForm extends React.Component {
 
 		return response.data.checkEmailExists.success;
 	}
-	_renderBodyModal = () => {
-		return (
+
+	_renderBodyModal = () => (
 			<React.Fragment>
 				Se va a enviar un Email para confirmar el cambio de Email.
 			</React.Fragment>
 		)
-	}
 
 	render() {
-		const { translate, edit, company } = this.props;
-		const { data, errors, error, success, loading, council } = this.state;
+		const { translate, company } = this.props;
+		const { data, errors, error, success, loading } = this.state;
 		const primary = getPrimary();
 
 		return (
-			<div style={{ height: 'calc(100% - 3.5em)' }}  {...(error ? { onKeyUp: this.onKeyUp } : {})}>
+			<div style={{ height: 'calc(100% - 3.5em)' }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
 				<div style={{ paddingTop: 0, height: "100%" }}>
 					<Scrollbar>
 						<div style={{ padding: '1.5em' }}>
@@ -208,7 +204,6 @@ class UpdateUserForm extends React.Component {
 								<BasicButton
 									text={translate.change_password}
 									backgroundColor={{
-										color: "white",
 										fontWeight: "700",
 										boxShadow: "none",
 										background: "white",
@@ -356,5 +351,6 @@ export default compose(
 	graphql(
 		updateUser, {
 		name: "updateUser"
-	}),
+	}
+),
 )(withApollo(UpdateUserForm));

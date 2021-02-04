@@ -1,14 +1,14 @@
 import React from 'react';
-import { arrayMove } from "react-sortable-hoc";
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { arrayMove, SortableContainer, SortableElement } from "react-sortable-hoc";
+
 import { Card } from 'material-ui';
+import { withApollo } from "react-apollo";
+import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
 import { Grid, Scrollbar, LoadingSection, BasicButton, AlertConfirm } from '../../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
-import { withApollo } from "react-apollo";
-import gql from 'graphql-tag';
 import { changeVariablesToValues, checkForUnclosedBraces } from '../../utils/CBX';
-import { toast } from 'react-toastify';
 import Lupa from '../../displayComponents/Lupa';
 import textool from '../../assets/img/text-tool.svg'
 import { getBlocks, generateAgendaBlocks } from './actBlocks';
@@ -42,7 +42,7 @@ export const ActContext = React.createContext();
 const DocumentEditor = ({ translate, company, data, updateDocument, client, ...props }) => {
     const [template, setTemplate] = React.useState(0);
     const [collapse, setCollapse] = React.useState(false);
-    const [options, setOptions] = React.useState(data.council.act.document? { ...data.council.act.document.options } : {
+    const [options, setOptions] = React.useState(data.council.act.document ? { ...data.council.act.document.options } : {
         stamp: true,
         doubleColumn: false
     });
@@ -82,7 +82,6 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
         if(options.doubleColumn){
             getSecondaryLanguage('en');
         }
-
     }, [options.doubleColumn])
 
     const getSecondaryLanguage = async language => {
@@ -100,12 +99,10 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
 
 
     const rebuildBlockSecondaryTranslation = (translate, secondaryTranslate) => {
-        const newItems = doc.items.map(item => {
-            return {
+        const newItems = doc.items.map(item => ({
                 ...item,
-                secondaryText: item.buildDefaultValue? item.buildDefaultValue(data, secondaryTranslate) : item.secondaryText
-            }
-        });
+                secondaryText: item.buildDefaultValue ? item.buildDefaultValue(data, secondaryTranslate) : item.secondaryText
+            }));
         setDoc({ items: newItems });
     }
 
@@ -115,7 +112,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
         const { agendas, council } = data;
         const { act } = council;
         ///let objetoArrayAct = Object.entries(act);
-        let items = [
+        const items = [
             blocks.TEXT,
             blocks.ACT_TITLE(data.council),
             blocks.ACT_INTRO(act.intro),
@@ -131,11 +128,9 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
 
         if(doc.items.length > 0){
             template = doc.items.map(item => item.type);
-        } else {
-            if(act.document) {
+        } else if(act.document) {
                 template = act.document.items.map(item => item.type);
             }
-        }
 
         return buildDocModules(template, items, agendas, act, translate);
     }
@@ -146,8 +141,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                 draggables: {
                     items: [...array.filter(value => (
                         value.type === 'text' ||
-                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
-                    )]
+                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
                 },
                 doc: {
                     items: [...doc.items]
@@ -160,16 +154,15 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                 draggables: {
                     items: [...array.filter(value => (
                         value.type === 'text' ||
-                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type)))
-                    )]
+                        (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
                 },
                 doc: {
                     items: [...act.document.items]
                 }
             };
-        } else {
+        }
             let auxTemplate = [];
-            let auxTemplate2 = { items: array }
+            const auxTemplate2 = { items: array }
 
             if (orden !== undefined) {
                 orden.forEach(element => {
@@ -189,21 +182,19 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                         items: auxTemplate
                     }
                 };
-            } else {
+            }
                 return {
                     draggables: { items: [...doc.items, ...arrastrables.items] },
                     doc: {
                         items: auxTemplate
                     }
                 };
-            }
-        }
     }
 
-    
+
     const updateBlock = (id, block) => {
         const newItems = [...doc.items];
-        let indexItemToEdit = newItems.findIndex(item => item.id === id);
+        const indexItemToEdit = newItems.findIndex(item => item.id === id);
         newItems[indexItemToEdit] = block;
         setDoc({ ...doc, items: newItems });
     }
@@ -219,7 +210,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
 
     return (
         <ActContext.Provider value={data}>
-            
+
         </ActContext.Provider>
     )
 }
@@ -255,7 +246,7 @@ const SortableList = SortableContainer(({ items, column, updateCouncilActa, upda
                 }
             </div>
         );
-    } else {
+    }
         return (
             <div>
                 {items &&
@@ -279,7 +270,6 @@ const SortableList = SortableContainer(({ items, column, updateCouncilActa, upda
                 }
             </div>
         );
-    }
 });
 
 
@@ -294,7 +284,7 @@ const DraggableBlock = SortableElement(props => {
         setHover(false)
     }
     const blockFijoTomadeAcuerdos = {
-        value:{
+        value: {
         id: Math.random().toString(36).substr(2, 9),
         label: "Toma de acuerdos",
         editButton: true,
@@ -302,7 +292,7 @@ const DraggableBlock = SortableElement(props => {
         noBorrar: true,
         editButton: false,
         text: '',
-        expand: true}
+        expand: true }
     }
 
     return (
@@ -413,7 +403,7 @@ const NoDraggableBlock = props => {
                 </div>
             </BorderBox>
         );
-    } else {
+    }
         return (
             props.value !== undefined && props.value.text !== undefined &&
             <React.Fragment>
@@ -446,7 +436,7 @@ const NoDraggableBlock = props => {
                         <div style={{}}>
                             <div style={{}}
                                 dangerouslySetInnerHTML={{
-                                    __html: props.column === 2? props.value.secondaryText : props.value.text
+                                    __html: props.column === 2 ? props.value.secondaryText : props.value.text
                                 }}>
                             </div>
 
@@ -456,8 +446,6 @@ const NoDraggableBlock = props => {
             </React.Fragment>
 
         );
-    }
-
 }
 
 const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, translate }) => {
@@ -481,8 +469,7 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, trans
                         </div>
                     </div>
                     <div style={{ width: "100%", marginTop: "0.5em" }}>
-                        {automaticos.items.filter(item => item.logic === true).map((item, index) => {
-                            return (
+                        {automaticos.items.filter(item => item.logic === true).map((item, index) => (
                                 <CajaBloquesAutomaticos
                                     key={item.id + index + "automaticos"}
                                     item={item}
@@ -490,8 +477,7 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, trans
                                     translate={translate}
                                     itemInfo={item.id}
                                 />
-                            )
-                        })}
+                            ))}
                     </div>
                 </div>
             </div>
@@ -499,8 +485,7 @@ const BloquesAutomaticos = ({ colorBorder, children, automaticos, addItem, trans
     );
 }
 
-const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo, translate }) => {
-    return (
+const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo, translate }) => (
         <div style={{ display: "flex", width: "100%", marginBottom: "0.8em" }}>
             <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
                 <div>
@@ -519,7 +504,6 @@ const CajaBloquesAutomaticos = ({ colorBorder, children, item, addItem, itemInfo
             </div>
         </div>
     )
-}
 
 
 
@@ -547,20 +531,20 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
             </i>
         )
     }
-    else if (turn === 'expand') {
+    if (turn === 'expand') {
         return (
             <i
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={"fa fa-compress"}
-                style={{ background: hover && "gainsboro", borderRadius: "20px", color: expand ? "black": "#a09aa0", padding: "5px", fontSize: "16px",  }}
+                style={{ background: hover && "gainsboro", borderRadius: "20px", color: expand ? "black" : "#a09aa0", padding: "5px", fontSize: "16px", }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
             </i>
         )
     }
-    else if (turn === 'cross') {
+    if (turn === 'cross') {
         return (
             <i
                 onMouseEnter={onMouseEnter}
@@ -574,7 +558,7 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
             </i>
         )
     }
-    else {
+
         return (
             <i
                 onMouseEnter={onMouseEnter}
@@ -587,7 +571,6 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
                 arrow_right_alt
             </i>
         )
-    }
 }
 
-export default withApollo(withSharedProps()(DocumentEditor)); 
+export default withApollo(withSharedProps()(DocumentEditor));

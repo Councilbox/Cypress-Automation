@@ -1,16 +1,15 @@
 
 import React from "react";
+import { graphql, compose, withApollo } from "react-apollo";
 import {
     AlertConfirm, UnsavedChangesModal
 } from "../../../../../displayComponents";
-import { graphql, compose, withApollo } from "react-apollo";
 import { census, updateCensus } from "../../../../../queries/census";
 import CensusInfoForm from '../../CensusInfoForm';
 import { isMobile } from "../../../../../utils/screen";
 import { INPUT_REGEX } from "../../../../../constants";
 
 const EditCensusButton = ({ translate, client, ...props }) => {
-
     const [initInfo, setInitInfo] = React.useState({})
     const [state, setState] = React.useState({
         data: {},
@@ -59,8 +58,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
         });
     };
 
-    const _renderBody = () => {
-        return (
+    const _renderBody = () => (
             <div style={{ minWidth: "800px" }}>
                 <CensusInfoForm
                     translate={translate}
@@ -70,7 +68,6 @@ const EditCensusButton = ({ translate, client, ...props }) => {
                 />
             </div>
         );
-    };
 
     const checkRequiredFields = () => {
         let hasError = false;
@@ -112,27 +109,26 @@ const EditCensusButton = ({ translate, client, ...props }) => {
         }
         if (hasError) {
             return true;
-        } else {
-            return false;
         }
+            return false;
     }
 
     const comprobateChanges = () => {
-        let unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(state.data)
+        const unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(state.data)
         setState({
             ...state,
-            unsavedAlert: unsavedAlert
+            unsavedAlert
         })
         return unsavedAlert
     };
 
     const closeModal = () => {
-        let equals = comprobateChanges();
+        const equals = comprobateChanges();
         if (!equals) {
             props.requestClose()
         }
     }
-    
+
     return (
         <div>
             <AlertConfirm

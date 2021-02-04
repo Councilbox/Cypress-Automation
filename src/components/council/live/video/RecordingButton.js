@@ -3,8 +3,8 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import { Tooltip } from 'material-ui';
 import { CircularProgress } from "material-ui/Progress";
 import gql from 'graphql-tag';
-import { checkIsWebRTCCompatibleBrowser } from '../../../../utils/webRTC';
 import DetectRTC from 'detectrtc';
+import { checkIsWebRTCCompatibleBrowser } from '../../../../utils/webRTC';
 import Tower from '../../../../assets/img/broadcast-tower.svg';
 import BroadcastingTower from '../../../../assets/img/broadcasting-tower.svg';
 import { usePolling } from '../../../../hooks';
@@ -27,7 +27,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
         }
     }, [council.councilStarted]);
 
-    usePolling(data.refetch, council.councilStarted === 1? 60000 : 20000);
+    usePolling(data.refetch, council.councilStarted === 1 ? 60000 : 20000);
 
     const stopStreamingAlert = async () => {
         if (council.room.videoConfig && council.room.videoConfig.autoHybrid) {

@@ -1,12 +1,12 @@
 import React from "react";
 import { graphql } from "react-apollo";
+import { withRouter } from "react-router-dom";
 import { census } from "../../../../queries/census";
 import {
 	CardPageLayout,
 	LoadingSection,
 } from "../../../../displayComponents";
 import withSharedProps from "../../../../HOCs/withSharedProps";
-import { withRouter } from "react-router-dom";
 import CensusParticipants from "./CensusParticipants";
 import { isMobile } from "../../../../utils/screen";
 
@@ -41,7 +41,7 @@ class CensusEditorPage extends React.Component {
 
 		return (
 			<CardPageLayout title={census.censusName || translate.census}>
-				<div style={{padding: isMobile? '0.6em' : '2em', paddingTop: '0'}}>
+				<div style={{ padding: isMobile ? '0.6em' : '2em', paddingTop: '0' }}>
 					{loading ? (
 						<LoadingSection />
 					) : (

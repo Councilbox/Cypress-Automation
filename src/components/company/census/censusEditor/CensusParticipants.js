@@ -1,11 +1,11 @@
 import React from "react";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { TableCell, TableRow, Card } from "material-ui";
+import { compose, graphql } from "react-apollo";
+import gql from "graphql-tag";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm } from "../../../../displayComponents";
 import * as CBX from '../../../../utils/CBX';
-import { compose, graphql } from "react-apollo";
 import { censusParticipants } from "../../../../queries/census";
-import gql from "graphql-tag";
 import AddCensusParticipantButton from "./modals/AddCensusParticipantButton";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import CensusParticipantEditor from "./modals/CensusParticipantEditor";
@@ -124,7 +124,7 @@ class CensusParticipants extends React.Component {
 
 		const headers = [
 			{
-				selectAll: <Checkbox onChange={this.selectAll} value={this.state.selectedIds.size > 0 && this.state.selectedIds.size === (censusParticipants.list? censusParticipants.list.length : -1)}/>
+				selectAll: <Checkbox onChange={this.selectAll} value={this.state.selectedIds.size > 0 && this.state.selectedIds.size === (censusParticipants.list ? censusParticipants.list.length : -1)}/>
 			},
 			{
 				name: "name",
@@ -163,7 +163,7 @@ class CensusParticipants extends React.Component {
 			<React.Fragment>
 				<Grid>
 					<GridItem xs={12} md={12} lg={12}>
-						<div style={{display: 'flex', justifyContent: isMobile? 'space-between' : 'flex-start', marginBottom: '0.6em'}}>
+						<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '0.6em' }}>
 							<div>
 								<AddCensusParticipantButton
 									translate={translate}
@@ -181,11 +181,11 @@ class CensusParticipants extends React.Component {
 								/>
 							</div>
 						</div>
-						<span style={{fontWeight: '700', fontSize: '0.9em'}}>
+						<span style={{ fontWeight: '700', fontSize: '0.9em' }}>
 							{`${translate.total_votes}: ${this.props.recount.numParticipations || 0}`}
 						</span>
 						{CBX.hasParticipations({ quorumPrototype: this.props.census.quorumPrototype }) &&
-							<span style={{marginLeft: '1em', fontWeight: '700', fontSize: '0.9em'}}>
+							<span style={{ marginLeft: '1em', fontWeight: '700', fontSize: '0.9em' }}>
 								{`${translate.total_social_capital}: ${this.props.recount.socialCapital || 0}`}
 							</span>
 						}
@@ -202,10 +202,10 @@ class CensusParticipants extends React.Component {
 						menuButtons={
 							this.state.selectedIds.size > 0 &&
 								<BasicButton
-									text={this.state.selectedIds.size === 1? translate.delete_one_item : `${translate.new_delete} ${this.state.selectedIds.size} ${translate.items}`}
+									text={this.state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${this.state.selectedIds.size} ${translate.items}`}
 									color={getSecondary()}
-									buttonStyle={{marginRight: '0.6em'}}
-									textStyle={{color: 'white', fontWeight: '700'}}
+									buttonStyle={{ marginRight: '0.6em' }}
+									textStyle={{ color: 'white', fontWeight: '700' }}
 									onClick={this.openDeleteModal}
 								/>
 						}
@@ -229,8 +229,7 @@ class CensusParticipants extends React.Component {
 						refetch={this.props.data.refetch}
 						action={this._renderDeleteIcon}
 					>
-						{censusParticipants.list.map(participant => {
-							return (
+						{censusParticipants.list.map(participant => (
 								<React.Fragment key={`participant_${participant.id}`}>
 									<HoverableRow
 										participant={participant}
@@ -244,8 +243,7 @@ class CensusParticipants extends React.Component {
 										editParticipant={this.editParticipant}
 									/>
 								</React.Fragment>
-							);
-						})}
+							))}
 					</EnhancedTable>
 				)}
 				{this.state.editingParticipant &&
@@ -279,7 +277,6 @@ class CensusParticipants extends React.Component {
 }
 
 class HoverableRow extends React.PureComponent {
-
 	state = {
 		showActions: false
 	}
@@ -303,17 +300,16 @@ class HoverableRow extends React.PureComponent {
 		if(isMobile){
             return(
                 <Card
-                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
-					onClick={() =>
-						this.props.editParticipant(participant)
+                    style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
+					onClick={() => this.props.editParticipant(participant)
 					}
                 >
                     <Grid>
-                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                        <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.participant_data}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
+							<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
 							{!!representative &&
 								<React.Fragment>
 									<br/>
@@ -321,11 +317,11 @@ class HoverableRow extends React.PureComponent {
 								</React.Fragment>
 							}
                         </GridItem>
-						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.dni}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							{!!representative?
+							{representative ?
 								<React.Fragment>
 									{representative.dni}
 								</React.Fragment>
@@ -333,11 +329,11 @@ class HoverableRow extends React.PureComponent {
 								participant.dni
 							}
                         </GridItem>
-						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.position}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							{!!representative?
+							{representative ?
 								<React.Fragment>
 									{representative.position}
 								</React.Fragment>
@@ -345,7 +341,7 @@ class HoverableRow extends React.PureComponent {
 								participant.position
 							}
                         </GridItem>
-						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.votes}
                         </GridItem>
                         <GridItem xs={7} md={7}>
@@ -375,7 +371,7 @@ class HoverableRow extends React.PureComponent {
 							</React.Fragment>
 						)}
                     </Grid>
-                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
+                    <div style={{ position: 'absolute', top: '5px', right: '5px' }}>
 						{!CBX.isRepresentative(participant) &&
 							_renderDeleteIcon(participant.id)}
                     </div>
@@ -388,28 +384,26 @@ class HoverableRow extends React.PureComponent {
 				hover={true}
 				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
-				onClick={() =>
-					this.props.editParticipant(participant)
+				onClick={() => this.props.editParticipant(participant)
 				}
 				style={{
 					cursor: "pointer",
 					fontSize: "0.5em"
 				}}
 			>
-				<TableCell onClick={event => event.stopPropagation()} style={{cursor: 'auto'}}>
-					<div style={{width: '2em'}}>
+				<TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
+					<div style={{ width: '2em' }}>
 						{(this.state.showActions || selected) &&
 							<Checkbox
 								value={selected}
-								onChange={() =>
-									this.props.select(participant.id)
+								onChange={() => this.props.select(participant.id)
 								}
 							/>
 						}
 					</div>
 				</TableCell>
 				<TableCell>
-					<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname || ''}`}</span>
+					<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
 					{!!representative &&
 						<React.Fragment>
 							<br/>
@@ -462,7 +456,7 @@ class HoverableRow extends React.PureComponent {
 					</TableCell>
 				)}
 				<TableCell>
-					<div style={{width: '6em'}}>
+					<div style={{ width: '6em' }}>
 
 						{this.state.showActions &&
 							!CBX.isRepresentative(participant) && _renderDeleteIcon(participant.id)

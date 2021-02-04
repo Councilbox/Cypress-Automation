@@ -1,15 +1,14 @@
 import React from 'react';
+import { Typography, MenuItem } from 'material-ui';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import SendActModal from './SendActModal';
 import ParticipantsWithActTable from './ParticipantsWithActTable';
 import { getPrimary } from '../../../../styles/colors';
 import { BasicButton, DropDownMenu, AlertConfirm, SuccessMessage } from '../../../../displayComponents';
-import { Typography, MenuItem } from 'material-ui';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { moment } from '../../../../containers/App';
 
 class SendActPage extends React.Component {
-
     state = {
         sendAct: false,
         updating: false,
@@ -55,7 +54,7 @@ class SendActPage extends React.Component {
         const response = await this.props.sendAct({
             variables: {
                 councilId: this.props.council.id,
-                group: group
+                group
             }
         })
 
@@ -84,10 +83,10 @@ class SendActPage extends React.Component {
         const { translate, council } = this.props;
 
         return(
-            <div style={{width: '100%', padding: '1.2em', display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
-                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                    <Typography style={{marginRight: '0.6em'}}>
-                        {!!council.sendActDate?
+            <div style={{ width: '100%', padding: '1.2em', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    <Typography style={{ marginRight: '0.6em' }}>
+                        {council.sendActDate ?
                             `${translate.last_time_sent_act}: ${moment(new Date(council.sendActDate)).format('LLL')}`
                         :
                             this.props.translate.act_has_not_been_sent
@@ -96,9 +95,8 @@ class SendActPage extends React.Component {
                     <div>
                         <DropDownMenu
                             color="transparent"
-                            Component={() =>
-                                <BasicButton
-                                    text={!!council.sendActDate? translate.resend_act : translate.send_act}
+                            Component={() => <BasicButton
+                                    text={council.sendActDate ? translate.resend_act : translate.send_act}
                                     loading={this.state.updating}
                                     loadingColor={primary}
                                     disabled={this.state.updating}
@@ -120,8 +118,7 @@ class SendActPage extends React.Component {
                             items={
                                 <React.Fragment>
                                     <MenuItem
-                                        onClick={() =>
-                                            this.setState({
+                                        onClick={() => this.setState({
                                                 sendAct: true
                                             })
                                         }
@@ -129,8 +126,7 @@ class SendActPage extends React.Component {
                                         {translate.send_to_selected_participants}
                                     </MenuItem>
                                     <MenuItem
-                                        onClick={() =>
-                                            this.setState({
+                                        onClick={() => this.setState({
                                                 allConvened: true
                                             })
                                         }
@@ -138,8 +134,7 @@ class SendActPage extends React.Component {
                                         {translate.send_to_all_convened}
                                     </MenuItem>
                                     <MenuItem
-                                        onClick={() =>
-                                            this.setState({
+                                        onClick={() => this.setState({
                                                 attendants: true
                                             })
                                         }
@@ -168,9 +163,9 @@ class SendActPage extends React.Component {
                     buttonAccept={translate.send}
                     cancelAction={this.closeAllConvened}
                     buttonCancel={translate.close}
-                    bodyText={this.state.success?
+                    bodyText={this.state.success ?
                         <SuccessMessage /> :
-                        this.state.error?
+                        this.state.error ?
                             translate.no_participants_to_send_act
                         :
                             translate.will_send_email_with_act
@@ -186,9 +181,9 @@ class SendActPage extends React.Component {
                     buttonAccept={translate.send}
                     cancelAction={this.closeAttendants}
                     buttonCancel={translate.close}
-                    bodyText={this.state.success?
+                    bodyText={this.state.success ?
                         <SuccessMessage /> :
-                        this.state.error?
+                        this.state.error ?
                             translate.no_attendees
                         :
                             translate.will_send_email_to_attendees

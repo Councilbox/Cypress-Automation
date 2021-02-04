@@ -1,7 +1,7 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { CardPageLayout, LoadingSection } from '../../../../displayComponents';
 import withSharedProps from '../../../../HOCs/withSharedProps';
-import { withRouter } from 'react-router-dom';
 import SignatureStepper from './SignatureStepper';
 import SignatureStepOne from './SignatureStepOne';
 import SignatureStepTwo from './SignatureStepTwo';
@@ -20,8 +20,8 @@ class SignatureEditorPage extends React.Component {
             if (this.props.data.signature.title) {
                 title = this.props.data.signature.title;
             }
-        }   
-        
+        }
+
         return (
             <CardPageLayout title={title} disableScroll>
                 <div style={{ marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em' }}>

@@ -1,6 +1,7 @@
 import React from "react";
-import { AlertConfirm } from "../../../../../displayComponents/index";
 import { compose, graphql, withApollo } from "react-apollo";
+import { Card } from "material-ui";
+import { AlertConfirm } from "../../../../../displayComponents/index";
 import { updateCouncilParticipant, checkUniqueCouncilEmails } from "../../../../../queries/councilParticipant";
 import { languages } from "../../../../../queries/masters";
 import ParticipantForm from "../../../participants/ParticipantForm";
@@ -11,7 +12,6 @@ import {
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 import withSharedProps from "../../../../../HOCs/withSharedProps";
-import { Card } from "material-ui";
 import SelectRepresentative from "./SelectRepresentative";
 import { COUNCIL_TYPES } from "../../../../../constants";
 
@@ -25,19 +25,19 @@ class CouncilParticipantEditor extends React.Component {
 		selectRepresentative: false
 	};
 
-	updateParticipantData(){
+	updateParticipantData() {
 		let { representative, representatives, representing, ...participant } = extractTypeName(
 			this.props.participant
 		);
 		representative = representative
 			? {
-					hasRepresentative: true,
-					...extractTypeName(representative)
-			  }
+				hasRepresentative: true,
+				...extractTypeName(representative)
+			}
 			: initialRepresentative;
 		this.setState({
 			data: participant,
-			representative: representative
+			representative
 		});
 	}
 
@@ -45,7 +45,7 @@ class CouncilParticipantEditor extends React.Component {
 		this.updateParticipantData();
 	}
 
-	componentWillUnmount(){
+	componentWillUnmount() {
 		this.updateParticipantData();
 	}
 
@@ -54,9 +54,9 @@ class CouncilParticipantEditor extends React.Component {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative
 			? {
-					...data,
-					councilId: this.props.council.id
-			  }
+				...data,
+				councilId: this.props.council.id
+			}
 			: null;
 
 		if (!await this.checkRequiredFields()) {
@@ -72,8 +72,7 @@ class CouncilParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else {
-				if(response.errors[0].message === 'Too many granted words'){
+			} else if (response.errors[0].message === 'Too many granted words') {
 					this.setState({
 						...(this.state.data.initialState === 2 ? {
 							errors: {
@@ -88,7 +87,6 @@ class CouncilParticipantEditor extends React.Component {
 
 					});
 				}
-			}
 		}
 	};
 
@@ -119,11 +117,12 @@ class CouncilParticipantEditor extends React.Component {
 	}
 
 	async checkRequiredFields() {
+		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate, participations, company } = this.props;
-		let hasSocialCapital = participations;
-		let errorsParticipant = checkRequiredFieldsParticipant(
+		const hasSocialCapital = participations;
+		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
 			translate,
 			hasSocialCapital,
@@ -137,8 +136,8 @@ class CouncilParticipantEditor extends React.Component {
 
 		const emailsToCheck = [];
 
-		if(company.type !== 10){
-			if(participant.email !== this.props.participant.email){
+		if (company.type !== 10) {
+			if (participant.email !== this.props.participant.email) {
 				emailsToCheck.push(participant.email);
 			}
 		}
@@ -149,15 +148,15 @@ class CouncilParticipantEditor extends React.Component {
 				translate
 			);
 
-			if(this.props.representative){
-				if(representative.email !== this.props.representative.email){
+			if (this.props.representative) {
+				if (representative.email !== this.props.representative.email) {
 					emailsToCheck.push(representative.email);
 				}
 			}
 		}
 
 
-		if(emailsToCheck.length > 0){
+		if (emailsToCheck.length > 0) {
 			const response = await this.props.client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
@@ -166,14 +165,14 @@ class CouncilParticipantEditor extends React.Component {
 				}
 			});
 
-			if(!response.data.checkUniqueCouncilEmails.success){
+			if (!response.data.checkUniqueCouncilEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if(participant.email === email){
+					if (participant.email === email) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if(representative.email === email){
+					if (representative.email === email) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
@@ -181,6 +180,12 @@ class CouncilParticipantEditor extends React.Component {
 			}
 		}
 
+		if (participant.phone) {
+			if (!testPhone.test(participant.phone) && participant.phone !== '-') {
+				errorsParticipant.hasError = true;
+				errorsParticipant.errors.phone = translate.invalid_field;
+			}
+		}
 
 		this.setState({
 			...this.state,
@@ -197,9 +202,9 @@ class CouncilParticipantEditor extends React.Component {
 		let error;
 		const { translate } = this.props;
 
-		if(email.length > 0){
-			if(!this.props[type] || email !== this.props[type].email){
-				if(checkValidEmail(email)){
+		if (email.length > 0) {
+			if (!this.props[type] || email !== this.props[type].email) {
+				if (checkValidEmail(email)) {
 					const response = await this.props.client.query({
 						query: checkUniqueCouncilEmails,
 						variables: {
@@ -208,28 +213,28 @@ class CouncilParticipantEditor extends React.Component {
 						}
 					});
 
-					if(!response.data.checkUniqueCouncilEmails.success){
+					if (!response.data.checkUniqueCouncilEmails.success) {
 						const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 						data.duplicatedEmails.forEach(email => {
-							if(this.state.data.email === email){
+							if (this.state.data.email === email) {
 								error = translate.register_exists_email;
 							}
-							if(this.state.representative.email === email){
+							if (this.state.representative.email === email) {
 								error = translate.register_exists_email;
 							}
 						})
 					}
-				}else{
+				} else {
 					error = translate.valid_email_required;
 				}
-				if(type === 'participant'){
+				if (type === 'participant') {
 					this.setState({
 						errors: {
 							...this.state.errors,
 							email: error
 						}
 					})
-				}else{
+				} else {
 					this.setState({
 						representativeErrors: {
 							...this.state.errors,
@@ -271,7 +276,7 @@ class CouncilParticipantEditor extends React.Component {
 						selectRepresentative: false
 					})}
 				/>
-				<div style={{marginRight: "1em"}}>
+				<div style={{ marginRight: "1em" }}>
 					<Card style={{
 						padding: '1em',
 						marginBottom: "1em",
@@ -346,6 +351,7 @@ export default compose(
 const initialRepresentative = {
 	hasRepresentative: false,
 	language: "es",
+	initialState: 0,
 	type: 2,
 	name: "",
 	surname: "",
@@ -356,6 +362,6 @@ const initialRepresentative = {
 };
 
 function extractTypeName(object) {
-	let { __typename, ...rest } = object;
+	const { __typename, ...rest } = object;
 	return rest;
 }

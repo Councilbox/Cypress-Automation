@@ -1,6 +1,6 @@
 import React from 'react';
-import { PlaygroundContext } from './PlaygroundPage';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from 'material-ui';
+import { PlaygroundContext } from './PlaygroundPage';
 
 
 const PlaygroundSideMenu = () => {
@@ -23,7 +23,7 @@ const PlaygroundSideMenu = () => {
                     Cuenta
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <li style={{cursor: 'pointer'}} onClick={() => playgroundContext.setOperation(operations.account)}>
+                    <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.account)}>
                         Ver cuenta
                     </li>
                 </ExpansionPanelDetails>
@@ -39,7 +39,7 @@ const PlaygroundSideMenu = () => {
                     Usuarios
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <li style={{cursor: 'pointer'}} onClick={() => playgroundContext.setOperation(operations.create)}>
+                    <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.create)}>
                         Crear usuario
                     </li>
                 </ExpansionPanelDetails>
@@ -56,13 +56,13 @@ const PlaygroundSideMenu = () => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <ul>
-                        <li style={{cursor: 'pointer'}} onClick={() => playgroundContext.setOperation(operations.createCompany)}>
+                        <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.createCompany)}>
                             Crear compañía
                         </li>
-                        <li style={{cursor: 'pointer'}} onClick={() => playgroundContext.setOperation(operations.linkCompanyUser)}>
+                        <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.linkCompanyUser)}>
                             Vincular compañía / usuario
                         </li>
-                        <li style={{cursor: 'pointer'}} onClick={() => playgroundContext.setOperation(operations.unlinkCompanyUser)}>
+                        <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.unlinkCompanyUser)}>
                             Desvincular compañía / usuario
                         </li>
                     </ul>

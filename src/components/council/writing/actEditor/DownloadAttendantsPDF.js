@@ -1,8 +1,8 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
+import FontAwesome from 'react-fontawesome';
 import { downloadAttendPDF } from "../../../../queries";
 import { BasicButton } from "../../../../displayComponents";
-import FontAwesome from 'react-fontawesome';
 import { moment } from '../../../../containers/App';
 import { downloadFile } from '../../../../utils/CBX';
 

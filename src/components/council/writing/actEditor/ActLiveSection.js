@@ -1,10 +1,10 @@
 import React from "react";
+import { graphql } from 'react-apollo';
 import { LoadingSection, Icon } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { darkGrey } from "../../../../styles/colors";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../../styles/constants";
 import { changeVariablesToValues, checkForUnclosedBraces, generateStatuteTag } from "../../../../utils/CBX";
-import { graphql } from 'react-apollo';
 import LoadDraftModal from '../../../company/drafts/LoadDraftModal';
 import { updateCouncilAct } from '../../../../queries';
 import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
@@ -42,7 +42,7 @@ class ActLiveSection extends React.Component {
 					}
 				}
 			});
-			if(!!response){
+			if(response){
 				this.setState({
 					updating: false
 				});

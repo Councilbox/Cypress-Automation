@@ -61,7 +61,7 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
                                 assistanceIntention
                             }
                         }
-                        representing {
+                        represented {
                             id
                             name
                             surname
@@ -234,14 +234,14 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
                 />
             </>
         )
-    } else {
+    }
         return (
             <>
                 <BasicButton
-                    text={text ? text : (participant.live.state === PARTICIPANT_STATES.DELEGATED || participant.live.state === PARTICIPANT_STATES.REPRESENTATED) ?
-                        `${participant.live.state === PARTICIPANT_STATES.DELEGATED ? translate.delegated_in : translate.represented_by} ${participant.live.representative ? participant.live.representative.name : '-'} ${participant.live.representative? participant.live.representative.surname : ''}`
+                    text={text || ((participant.live.state === PARTICIPANT_STATES.DELEGATED || participant.live.state === PARTICIPANT_STATES.REPRESENTATED) ?
+                        `${participant.live.state === PARTICIPANT_STATES.DELEGATED ? translate.delegated_in : translate.represented_by} ${participant.live.representative ? participant.live.representative.name : '-'} ${participant.live.representative ? participant.live.representative.surname : ''}`
                         :
-                        translate.to_delegate_vote}
+                        translate.to_delegate_vote)}
                     onClick={closeModals}
                     buttonStyle={{
                         border: `1px solid ${buttonColor}`,
@@ -261,7 +261,6 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
                 />
             </>
         )
-    }
 }
 
 export default withApollo(DelegateVoteButton);

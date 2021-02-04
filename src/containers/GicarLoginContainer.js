@@ -14,11 +14,11 @@ const GicarLoginContainer = ({ match }) => {
     }, []);
 
     return (
-        <div style={{width: '100%', height: '100%', display: 'flex', alignContent: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+        <div style={{ width: '100%', height: '100%', display: 'flex', alignContent: 'center', justifyContent: 'center', flexDirection: 'column' }}>
             <div>
                 <LoadingSection />
             </div>
-            <div style={{width: '100%', textAlign: 'center'}}>
+            <div style={{ width: '100%', textAlign: 'center' }}>
                 Validant credencials...
             </div>
         </div>

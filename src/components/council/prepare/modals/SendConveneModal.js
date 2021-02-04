@@ -1,12 +1,12 @@
 import React from "react";
+import { Typography } from "material-ui";
+import { graphql } from "react-apollo";
 import {
 	AlertConfirm,
 	Grid,
 	GridItem,
 	Icon
 } from "../../../../displayComponents/index";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
 import { sendConvene } from "../../../../queries";
 
 class SendConveneModal extends React.Component {
@@ -97,7 +97,7 @@ class SendConveneModal extends React.Component {
 				}
 				buttonCancel={translate.close}
 				bodyText={this._sendConveneBody()}
-				title={translate.reschedule_council}
+				title={translate.send_notification}
 			/>
 		);
 	}

@@ -1,10 +1,10 @@
 import React from 'react';
-import { BasicButton, AlertConfirm, ButtonIcon, LoadingSection, TextInput, Icon, Grid, PaginationFooter, SelectInput, MenuItem } from '../../../displayComponents';
-import { getSecondary, getPrimary } from '../../../styles/colors';
 import { Typography, Table, TableHead, TableRow, TableCell } from 'material-ui';
-import CompanyItem from '../companies/CompanyItem';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
+import { BasicButton, AlertConfirm, ButtonIcon, LoadingSection, TextInput, Icon, Grid, PaginationFooter, SelectInput, MenuItem } from '../../../displayComponents';
+import { getSecondary, getPrimary } from '../../../styles/colors';
+import CompanyItem from '../companies/CompanyItem';
 
 const DEFAULT_OPTIONS = {
     limit: 10,
@@ -50,7 +50,7 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
         timeout = setTimeout(() => {
             getData();
         }, 350);
- 
+
         return () => clearTimeout(timeout);
     }, [getData])
 
@@ -246,7 +246,6 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
             </div>
         )
     }
-
 }
 
 

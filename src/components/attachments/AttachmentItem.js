@@ -1,7 +1,7 @@
 import React from "react";
+import { IconButton, Paper, Tooltip } from "material-ui";
 import { AlertConfirm, CloseIcon, Grid, GridItem } from "../../displayComponents/index";
 import { getPrimary, getSecondary } from "../../styles/colors";
-import { IconButton, Paper, Tooltip } from "material-ui";
 import { formatSize } from "../../utils/CBX";
 
 
@@ -10,7 +10,7 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	const removeItem = (attachment) => {
+	const removeItem = attachment => {
 		removeAttachment(attachment.id);
 	}
 
@@ -39,6 +39,11 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 						}}
 					>
 						{attachment.filename}
+					</div>
+				</GridItem>
+				<GridItem xs={4} style={{ fontSize: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>{attachment.state === 2 ? translate.deleted : formatSize(attachment.filesize)}</GridItem>
+				{attachment.state !== 2 &&
+					<GridItem xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
 						{edit && attachment.state !== 2 &&
 							<Tooltip title={translate.edit}>
 								<div>
@@ -61,11 +66,6 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 								</div>
 							</Tooltip>
 						}
-					</div>
-				</GridItem>
-				<GridItem xs={4} style={{ fontSize: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>{attachment.state === 2 ? translate.deleted : formatSize(attachment.filesize)}</GridItem>
-				{attachment.state !== 2 &&
-					<GridItem xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
 						{(edit || loading) &&
 							<CloseIcon
 								style={{
@@ -92,7 +92,7 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 				open={deleteModal}
 				buttonAccept={translate.delete}
 				buttonCancel={translate.cancel}
-				acceptAction={()=>removeItem(attachment)}
+				acceptAction={() => removeItem(attachment)}
 				requestClose={() => setDeleteModal(false)}
 			/>
 		</Paper>

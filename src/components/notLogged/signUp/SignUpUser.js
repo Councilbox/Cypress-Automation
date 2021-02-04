@@ -1,4 +1,7 @@
 import React from "react";
+import { withApollo } from "react-apollo/index";
+import { LinearProgress } from "material-ui/Progress";
+import PropTypes from 'prop-types';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -12,9 +15,6 @@ import {
 import { checkValidEmail } from "../../../utils/index";
 import { getPrimary } from "../../../styles/colors";
 import { checkEmailExists } from "../../../queries/userAndCompanySignUp";
-import { withApollo } from "react-apollo/index";
-import { LinearProgress } from "material-ui/Progress";
-import PropTypes from 'prop-types';
 import TermsModal from "./TermsModal";
 
 
@@ -59,7 +59,7 @@ class SignUpUser extends React.Component {
 	};
 
 	checkRequiredFields = async () => {
-		let errors = {
+		const errors = {
 			name: "",
 			surname: "",
 			phone: "",
@@ -99,7 +99,7 @@ class SignUpUser extends React.Component {
 			hasError = true;
 			errors.email = translate.field_required;
 		} else {
-			let existsCif = await this.checkEmailExists();
+			const existsCif = await this.checkEmailExists();
 			if (data.email !== this.state.repeatEmail && data.email) {
 				hasError = true;
 				errors.repeatEmail = translate.register_unmatch_emails;
@@ -142,7 +142,7 @@ class SignUpUser extends React.Component {
 			hasError = true;
 			errors.surname = translate.enter_valid_last_names
 		}
-		
+
 		// if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.pwd))) {
 		// 	hasError = true;
 		// 	errors.pwd = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
@@ -150,7 +150,7 @@ class SignUpUser extends React.Component {
 
 		this.props.updateErrors({
 			...errors,
-			hasError: hasError
+			hasError
 		});
 		return hasError;
 	}
@@ -171,30 +171,30 @@ class SignUpUser extends React.Component {
 		const { translate } = this.props;
 		if (!(/[a-z]/.test(data.pwd))) {
 			errorsBar = translate.insecure_password;
-			porcentaje = porcentaje - 20;
+			porcentaje -= 20;
 		}
 		if (!(/(?=.*[A-Z])/.test(data.pwd))) {
 			errorsBar = translate.insecure_password;
-			porcentaje = porcentaje - 20;
+			porcentaje -= 20;
 		}
 		if (!(/(?=.*[0-9])/.test(data.pwd))) {
 			errorsBar = translate.insecure_password;
-			porcentaje = porcentaje - 20;
+			porcentaje -= 20;
 		}
 		if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(data.pwd))) {
 			errorsBar = translate.insecure_password;
-			porcentaje = porcentaje - 20;
+			porcentaje -= 20;
 		}
 		if (!(/.{8,}/.test(data.pwd))) {
 			errorsBar = translate.insecure_password;
-			porcentaje = porcentaje - 20;
+			porcentaje -= 20;
 		}
 		let color = "Green"
 		color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? "Orange" : "Green";
 		this.setState({
-			errorsBar: errorsBar,
+			errorsBar,
 			porcentaje,
-			color: color,
+			color,
 		})
 		if (event.nativeEvent.keyCode === 13) {
 			this.nextPage();
@@ -208,7 +208,7 @@ class SignUpUser extends React.Component {
 		const primary = getPrimary();
 		const { translate, classes } = this.props;
 		const data = this.props.formData;
-	
+
 		return (
 			<div
 				style={{
@@ -233,8 +233,7 @@ class SignUpUser extends React.Component {
 							type="text"
 							value={data.name}
 							errorText={this.props.errors.name}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									name: event.target.value
 								})
 							}
@@ -246,8 +245,7 @@ class SignUpUser extends React.Component {
 							floatingText={translate.surname || ''}
 							type="text"
 							value={data.surname || ''}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									surname: event.target.value
 								})
 							}
@@ -260,8 +258,7 @@ class SignUpUser extends React.Component {
 							floatingText={translate.phone}
 							type="text"
 							value={data.phone}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									phone: event.target.value
 								})
 							}
@@ -274,23 +271,20 @@ class SignUpUser extends React.Component {
 							floatingText={translate.language}
 							value={data.preferredLanguage}
 							errorText={this.props.errors.language}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									preferredLanguage: event.target.value
 								})
 							}
 							required
 						>
-							{this.state.languages.map(language => {
-								return (
+							{this.state.languages.map(language => (
 									<MenuItem
 										key={language.id}
 										value={language.columnName}
 									>
 										{language.desc}
 									</MenuItem>
-								);
-							})}
+								))}
 						</SelectInput>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
@@ -298,8 +292,7 @@ class SignUpUser extends React.Component {
 							floatingText={translate.login_email}
 							type="text"
 							value={data.email}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									email: event.target.value.toLowerCase()
 								})
 							}
@@ -312,8 +305,7 @@ class SignUpUser extends React.Component {
 							floatingText={translate.repeat_email}
 							type="text"
 							value={this.state.repeatEmail}
-							onChange={event =>
-								this.setState({
+							onChange={event => this.setState({
 									repeatEmail: event.target.value
 								})
 							}
@@ -326,8 +318,7 @@ class SignUpUser extends React.Component {
 							floatingText={translate.login_password}
 							type="password"
 							value={data.pwd}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									pwd: event.target.value
 								})
 							}
@@ -340,8 +331,7 @@ class SignUpUser extends React.Component {
 							floatingText={translate.login_confirm_password}
 							type="password"
 							value={this.state.confirmPWD}
-							onChange={event =>
-								this.setState({
+							onChange={event => this.setState({
 									confirmPWD: event.target.value
 								})
 							}
@@ -364,7 +354,7 @@ class SignUpUser extends React.Component {
 							/>
 						</div>
 						<div style={{ width: "100%" }}>
-							{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password} 
+							{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password}
 						</div>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
@@ -375,8 +365,7 @@ class SignUpUser extends React.Component {
 							<Checkbox
 								label={translate.login_read_terms + ' '}
 								value={this.state.termsCheck}
-								onChange={(event, isInputChecked) =>
-									this.setState({
+								onChange={(event, isInputChecked) => this.setState({
 										termsAccepted: isInputChecked
 									})
 								}

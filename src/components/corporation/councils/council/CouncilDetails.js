@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
+import { Table, TableHead, TableRow, TableCell, TableBody, } from 'material-ui';
 import { LoadingSection, BasicButton, AlertConfirm, Scrollbar } from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
@@ -14,7 +15,6 @@ import OptionsDisplay from '../../../council/display/OptionsDisplay';
 import CostManager from './CostManager';
 import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
-import { Table, TableHead, TableRow, TableCell, TableBody, } from 'material-ui';
 import FailedSMSList from './FailedSMSList';
 import CouncilDetailsParticipants from './CouncilDetailsParticipants';
 import * as CBX from '../../../../utils/CBX';
@@ -37,7 +37,6 @@ const cancelAct = gql`
 
 
 class CouncilDetails extends React.Component {
-
 	state = {
 		sendCredentials: false,
 		showAgenda: false,
@@ -289,7 +288,7 @@ class CouncilDetails extends React.Component {
 			<div style={{ width: '100%', height: '100%', }}>
 				<Scrollbar>
 					<div style={{ padding: "1em" }}>
-						<CouncilItem council={council} hideFixedUrl={council.state > 30} enRoot={true} translate={translate} />
+						<CouncilItem council={council} hideFixedUrl={council.state > 30} enCouncilRoot={true} translate={translate} />
 						<div
 							style={{
 								width: '100%',
@@ -522,9 +521,7 @@ class CouncilDetails extends React.Component {
 	}
 }
 
-const FailPageSearchId = ({ id }) => {
-
-	return (
+const FailPageSearchId = ({ id }) => (
 		<div>
 			<SearchCouncils reload={true} />
 			<div style={{ fontSize: "25px", color: "black", display: "flex", alignItems: "center", width: "100%", justifyContent: "center", marginTop: "4em" }}>
@@ -538,7 +535,6 @@ const FailPageSearchId = ({ id }) => {
 			</div>
 		</div>
 	)
-}
 
 const showGroupAttendees = attendees => {
 	const list = {
@@ -582,7 +578,6 @@ const showGroupAttendees = attendees => {
 
 
 const showSendsRecount = (sends) => {
-
 	const list = {
 		'-1': 'Preconvocatoria',
 		'0': 'Convocatoria',
@@ -622,7 +617,7 @@ const showSendsRecount = (sends) => {
 		if (recount[list[send.sendType]] !== undefined) {
 			recount[list[send.sendType]]++;
 		} else {
-			recount['Otros']++;
+			recount.Otros++;
 		}
 	});
 

@@ -1046,3 +1046,112 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .marginP0 > p{ margin-bottom: 0px; }
 
 .scrollbarFixHeight > div > div { height: 100%;}
+
+/* CouncilFinishedFeedback2 */ 
+.btn-councilFF2 {
+    border-radius: 100%;
+    width: 40px; 
+    height: 40px;
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    
+}
+.btn-councilFF2:hover {
+    background-color: #b6d1dc;
+    color: #7976b0;
+}
+.btn-councilFF2:focus{
+    outline: none;
+}
+.btn-councilFF2:focus-visible{
+    outline: 2px solid white;
+}
+/* CouncilFinishedFeedback2 */ 
+
+/*STARS*/
+.rating {
+    float:left;
+}
+
+.rating:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+    clip:rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:320%;
+    margin-bottom: 0;
+    line-height:1.2;
+    color:#ddd;
+}
+.rating:not(:checked) > label.lowStars {
+    font-size:200%;
+}
+
+.rating:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rating > input:checked ~ label {
+    color: var(--primary);
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: #561063;
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label {
+    color: #561063;
+}
+
+.rating > label:active {
+    position:relative;
+    top:2px;
+    left:2px;
+}
+
+.rating-disabled {
+    float:left;
+}
+
+.rating-disabled:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+    clip:rect(0,0,0,0);
+}
+
+.rating-disabled:not(:checked) > label {
+    float:right;
+    width:1em;
+    padding:0 .1em;
+    overflow:hidden;
+    white-space:nowrap;
+    font-size:320%;
+    margin-bottom: 0;
+    line-height:1.2;
+    color:#ddd;
+}
+.rating-disabled:not(:checked) > label.lowStars {
+    font-size:200%;
+}
+
+.rating-disabled:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rating-disabled > input:checked ~ label {
+    color: var(--primary);
+}

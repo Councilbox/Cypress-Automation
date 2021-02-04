@@ -1,10 +1,9 @@
 import React from "react";
-import { Icon } from '../../displayComponents';
 import { ListItem } from "material-ui";
+import { Icon } from '../../displayComponents';
 import { bHistory } from '../../containers/App';
 
 const LateralOption = ({ icon, text, link, customIcon, style }) => {
-
 	const followLink = link => {
 		bHistory.push(link);
 	}
@@ -81,7 +80,6 @@ const LateralOption = ({ icon, text, link, customIcon, style }) => {
 			</ListItem>
 		</div>
 	);
-
 }
 
 

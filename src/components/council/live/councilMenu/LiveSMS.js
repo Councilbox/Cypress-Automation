@@ -1,11 +1,11 @@
 import React from 'react';
 import { withApollo, graphql } from 'react-apollo';
-import { LoadingSection, BasicButton, TextInput, Scrollbar, PaginationFooter } from '../../../../displayComponents';
-import { getSMS } from '../../../corporation/councils/council/FailedSMSList';
-import { moment } from '../../../../containers/App';
 import { Table, TableCell, TableRow, TableBody, TableHead, CardContent, CardHeader, Card, CardActions } from 'material-ui';
+import { LoadingSection, BasicButton, TextInput, Scrollbar, PaginationFooter } from '../../../../displayComponents';
+import { getSMS, sendParticipantRoomKey } from '../../../corporation/councils/council/FailedSMSList';
+import { moment } from '../../../../containers/App';
 import { getSMSStatusByCode } from '../../../../utils/CBX';
-import { sendParticipantRoomKey } from "../../../corporation/councils/council/FailedSMSList";
+
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { isMobile } from '../../../../utils/screen';
 
@@ -118,7 +118,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                 }
             </div>
         )
-    } else {
+    }
         return (
             <div style={{ height: "100%" }}>
                 {loading ?
@@ -198,7 +198,6 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                 }
             </div>
         )
-    }
 }
 
 const Row = ({ send, children }) => {
@@ -233,7 +232,7 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
                 value={value}
                 onChange={updateValue}
                 className={'inputTableSMS'}
-                styleInInput={{ border: "1px solid #0000006b", padding:"5px" }}
+                styleInInput={{ border: "1px solid #0000006b", padding: "5px" }}
                 disableUnderline={true}
                 // styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
             />

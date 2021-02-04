@@ -3,11 +3,11 @@ import FontAwesome from "react-fontawesome";
 import FloatGroup from 'react-float-button';
 import { Grid, Button } from "material-ui";
 import { withApollo, graphql } from 'react-apollo';
-import ResultsTimeline from '../ResultsTimeline';
 import gql from 'graphql-tag';
+import ResultsTimeline from '../ResultsTimeline';
 import { darkGrey, secondary, primary, getSecondary, getPrimary } from '../../../styles/colors';
 import { AlertConfirm, Badge } from '../../../displayComponents';
-import iconVoteInsert from '../../../../src/assets/img/dropping-vote-in-box2.svg';
+import iconVoteInsert from "../../../assets/img/dropping-vote-in-box2.svg";
 import { usePolling } from '../../../hooks';
 import { COUNCIL_STATES } from '../../../constants';
 
@@ -35,8 +35,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
         props.setContent(null);
     }
 
-    const renderVideoButton = () => {
-        return (
+    const renderVideoButton = () => (
             <Button
                 className={"NoOutline prueba"}
                 style={styles.button}
@@ -48,7 +47,9 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                             className="fa fa-video-camera"
                             style={{
                                 color: !props.modalContent ? secondary : "",
-                                fontSize: '24px', padding: '0', margin: "0",
+                                fontSize: '24px',
+padding: '0',
+margin: "0",
                                 marginTop: "4px",
                                 width: '1em',
                                 height: '1em',
@@ -67,7 +68,6 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                 </div>
             </Button>
         )
-    }
 
     function checkAgendas() {
         const opened = agendas.agendas.reduce((acc, agenda) => {
@@ -89,9 +89,8 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
             ...votingsWarning,
             opened,
             show: opened.filter(item => !votingsWarning.read.has(item.id)).length > 0,
-            read: (opened.length > votingsWarning.opened.length)? new Set(opened) : votingsWarning.read
+            read: (opened.length > votingsWarning.opened.length) ? new Set(opened) : votingsWarning.read
         }
-
     }
 
     React.useEffect(() => {
@@ -103,7 +102,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
     }, [agendas]);
 
     const renderVotingsWarning = () => {
-        let hideEnterModal = props.modalContent === "agenda" ? true : false;
+        const hideEnterModal = props.modalContent === "agenda";
         return (
             ((votingsWarning && votingsWarning.show) && !hideEnterModal) && (
                 <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
@@ -144,9 +143,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
         )
     }
 
-    const buildReadArray = (read, opened) => {
-        return new Set([...Array.from(read), ...opened.map(agenda => agenda.id)])
-    }
+    const buildReadArray = (read, opened) => new Set([...Array.from(read), ...opened.map(agenda => agenda.id)])
 
 
     const updateReadVotings = () => {
@@ -166,7 +163,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
         let activeIcon = false;
         if (agendas) {
             agendas.agendas.map(item => {
-                activeIcon = item.votingState === 1 || activeIcon ? true : false
+                activeIcon = !!(item.votingState === 1 || activeIcon)
             })
         }
 
@@ -180,7 +177,9 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                     <div>
                         <i className="material-icons" style={{
                             color: props.modalContent === "agenda" ? secondary : "",
-                            fontSize: '24px', padding: '0', margin: "0",
+                            fontSize: '24px',
+padding: '0',
+margin: "0",
                             width: '1em',
                             height: '1em',
                             overflow: 'hidden',
@@ -198,7 +197,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                         fontSize: '0.55rem',
                         textTransform: "none"
                     }}>
-                        {council.councilType === 5? translate.council : translate.agenda}
+                        {council.councilType === 5 ? translate.council : translate.agenda}
                     </div>
                 </div>
             </Button>
@@ -218,7 +217,9 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                 <div style={{ display: "unset" }}>
                     <div>
                         <i className="material-icons" style={{
-                            fontSize: '24px', padding: '0', margin: "0",
+                            fontSize: '24px',
+padding: '0',
+margin: "0",
                             width: '1em',
                             height: '1em',
                             overflow: 'hidden',
@@ -237,7 +238,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                     </div>
                 </div>
             </Button>
-        )      
+        )
     }
 
 
@@ -317,7 +318,8 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                                                 className="fa fa-compress"
                                                 style={{
                                                     color: 'grey',
-                                                    padding: '0', margin: "0",
+                                                    padding: '0',
+margin: "0",
                                                     fontSize: '24px',
                                                     overflow: 'hidden',
                                                     userSelect: 'none'
@@ -331,8 +333,8 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                                         background: "white",
                                         width: "45px",
                                         borderRadius: "45px",
-                                        height: "45px"
-                                        , padding: '0',
+                                        height: "45px",
+                                         padding: '0',
                                         margin: "0",
                                         minWidth: "0",
                                         boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
@@ -343,7 +345,8 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                                                 className={"fa fa-expand"}
                                                 style={{
                                                     color: 'grey',
-                                                    padding: '0', margin: "0",
+                                                    padding: '0',
+margin: "0",
                                                     fontSize: '24px',
                                                     width: '1em',
                                                     height: '1em',
@@ -380,10 +383,10 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                 <AlertConfirm
                     // open={!!props.modalContent}
                     open={true}
-                    classNameDialog={!!props.modalContent ? 'modal100block' : 'modal100none'}
+                    classNameDialog={props.modalContent ? 'modal100block' : 'modal100none'}
                     PaperProps={{
                         // style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
-                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px", display: !!props.modalContent ? "block" : "none" }
+                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px", display: props.modalContent ? "block" : "none" }
                     }}
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', height: '100%  ' }}
                     bodyText={
@@ -437,7 +440,7 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                 />
             </div>
         );
-    } else {
+    }
         return (
             <div style={{
                 float: 'left',
@@ -552,7 +555,6 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
                 }
             </div>
         );
-    }
 }
 
 

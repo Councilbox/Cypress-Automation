@@ -1,7 +1,7 @@
 import React from "react";
-import { AlertConfirm, Icon, TextInput } from "../../../../displayComponents";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
+import { AlertConfirm, Icon, TextInput } from "../../../../displayComponents";
 import { sendVideoEmailTest } from "../../../../queries";
 import { checkValidEmail } from "../../../../utils/validation";
 import { moment } from '../../../../containers/App';
@@ -82,8 +82,7 @@ class SendCredentialsTestModal extends React.Component {
 					type="text"
 					errorText={this.state.emailError}
 					value={this.state.email}
-					onChange={event =>
-						this.setState({
+					onChange={event => this.setState({
 							email: event.nativeEvent.target.value
 						})
 					}

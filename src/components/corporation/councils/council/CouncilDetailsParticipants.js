@@ -1,6 +1,7 @@
 import React from 'react';
 import { TableCell, TableRow } from "material-ui/Table";
 import { Tooltip } from "material-ui";
+import { compose, graphql, withApollo } from "react-apollo";
 import { getSecondary, getPrimary } from "../../../../styles/colors";
 import * as CBX from "../../../../utils/CBX";
 import {
@@ -13,7 +14,6 @@ import {
 	AlertConfirm,
 	Scrollbar
 } from "../../../../displayComponents";
-import { compose, graphql, withApollo } from "react-apollo";
 import { downloadCBXData, updateConveneSends } from "../../../../queries";
 import { convenedcouncilParticipants } from "../../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
@@ -62,7 +62,6 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	const secondary = getSecondary();
 
 	const getData = React.useCallback(async () => {
-
 		//liveParticipantsCredentials
 
 		const response = await client.query({
@@ -145,7 +144,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	const councilParticipants = data.councilParticipantsWithNotifications;
 	const { participant, editingParticipant } = state;
 
-	let headers = [
+	const headers = [
 		{
 			text: translate.state,
 			name: "name",
@@ -196,8 +195,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 		headers.push({ text: '' });
 	}
 
-	const menuButtons = () => {
-		return (
+	const menuButtons = () => (
 			<>
 				<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
 					{!hideNotifications &&
@@ -276,7 +274,6 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 				</div>
 			</>
 		)
-	}
 
 	return (
 		<div style={{ width: "100%", height: 'calc( 100%  - 10em )', marginTop: "3.5em" }}>
@@ -294,7 +291,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 				</Grid>
 				<Scrollbar>
 					<div style={{ padding: "1em", }}>
-						{!!councilParticipants ?
+						{councilParticipants ?
 							<EnhancedTable
 								ref={table}
 								translate={translate}
@@ -312,7 +309,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 							>
 								{councilParticipants.list.map(
 									item => {
-										let participant = formatParticipant(item);
+										const participant = formatParticipant(item);
 										return (
 											<React.Fragment
 												key={`participant${participant.id}_${filters.notificationStatus}`}
@@ -411,7 +408,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 			</React.Fragment>
 	);
 
-	
+
 	return (
 		<React.Fragment>
 			<AlertConfirm
@@ -421,7 +418,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				bodyText={
 					credentials == "participant" ?
 						<div>
-							<div style={{color:"black", marginBottom:".5em"}}>Credenciales de: {`${participant.name} ${participant.surname
+							<div style={{ color: "black", marginBottom: ".5em" }}>Credenciales de: {`${participant.name} ${participant.surname
 								}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
 									participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${
 									participant.representatives[0].name} ${
@@ -446,7 +443,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 						:
 						representative && representative.live &&
 						<div>
-							<div style={{color:"black", marginBottom:".5em"}}>Credenciales de: {representative.live.name} {representative.live.surname}</div>
+							<div style={{ color: "black", marginBottom: ".5em" }}>Credenciales de: {representative.live.name} {representative.live.surname}</div>
 							<div style={{}}>
 								<ParticipantContactEditor
 									participant={representative.live}
@@ -624,7 +621,6 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 			</TableRow>
 		</React.Fragment>
 	)
-
 }
 
 const formatParticipant = participant => {
@@ -646,8 +642,7 @@ const formatParticipant = participant => {
 	return newParticipant;
 }
 
-const applyFilters = (participants, filters) => {
-	return applyOrder(participants.filter(item => {
+const applyFilters = (participants, filters) => applyOrder(participants.filter(item => {
 		const participant = formatParticipant(item);
 		if (filters.text) {
 			const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
@@ -670,11 +665,9 @@ const applyFilters = (participants, filters) => {
 						!CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
 						return false;
 					}
-				} else {
-					if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
+				} else if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
 						return false;
 					}
-				}
 			}
 
 			if (filters.field === 'dni') {
@@ -683,11 +676,9 @@ const applyFilters = (participants, filters) => {
 						!CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
 						return false;
 					}
-				} else {
-					if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
+				} else if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
 						return false;
 					}
-				}
 			}
 		}
 
@@ -696,25 +687,20 @@ const applyFilters = (participants, filters) => {
 				if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
 					return false;
 				}
-			} else {
-				if (participant.notifications[0].reqCode !== filters.notificationStatus) {
+			} else if (participant.notifications[0].reqCode !== filters.notificationStatus) {
 					return false;
 				}
-			}
 		}
 
 		return true;
-	}), filters.orderBy, filters.orderDirection);
-}
+	}), filters.orderBy, filters.orderDirection)
 
 
-const applyOrder = (participants, orderBy, orderDirection) => {
-	return participants.sort((a, b) => {
-		let participantA = formatParticipant(a);
-		let participantB = formatParticipant(b);
+const applyOrder = (participants, orderBy, orderDirection) => participants.sort((a, b) => {
+		const participantA = formatParticipant(a);
+		const participantB = formatParticipant(b);
 		return participantA[orderBy] > participantB[orderBy]
-	});
-}
+	})
 
 export default compose(
 	graphql(updateConveneSends, {

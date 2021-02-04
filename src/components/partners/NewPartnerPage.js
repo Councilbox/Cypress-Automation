@@ -1,16 +1,15 @@
 import React from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { CardPageLayout, Scrollbar, BasicButton } from '../../displayComponents';
 import PartnerForm from './PartnerForm';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { getPrimary } from '../../styles/colors';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { bHistory } from '../../containers/App';
 import { checkValidEmail } from "../../utils";
 import { INPUT_REGEX } from '../../constants';
 
 class NewPartnerPage extends React.Component {
-
     state = {
         data: {
             name: '',
@@ -71,8 +70,8 @@ class NewPartnerPage extends React.Component {
     createPartner = async () => {
         if (!await this.checkRequiredFields()) {
             const { data, representative } = this.state;
-            let trimmedData = {};
-            let trimmedRepresentative = {};
+            const trimmedData = {};
+            const trimmedRepresentative = {};
 
             Object.keys(data).forEach(key => {
                 trimmedData[key] = (data[key] && data[key].trim) ? data[key].trim() : data[key];
@@ -107,7 +106,7 @@ class NewPartnerPage extends React.Component {
     }
 
     checkRequiredFields = async () => {
-        let errors = {
+        const errors = {
             name: '',
             surname: '',
             dni: '',
@@ -128,7 +127,7 @@ class NewPartnerPage extends React.Component {
 
         const { data } = this.state;
         const { translate } = this.props;
-        
+
         if (!data.name) {
             hasError = true;
             errors.name = translate.required_field;
@@ -137,7 +136,7 @@ class NewPartnerPage extends React.Component {
         if (data.personOrEntity === 0 && !data.surname) {
             hasError = true;
             errors.surname = translate.required_field;
-        }  
+        }
 
         if (data.name) {
             if (!(INPUT_REGEX.test(data.name)) || !data.name.trim()) {
@@ -145,13 +144,13 @@ class NewPartnerPage extends React.Component {
                 errors.name = translate.invalid_field;
             }
         }
- 
+
         if (data.personOrEntity === 0 && data.surname) {
             if (!(INPUT_REGEX.test(data.surname)) || !data.surname.trim()) {
                 hasError = true;
                 errors.surname = translate.invalid_field;
             }
-        } 
+        }
 
         if (data.dni) {
             if (!(INPUT_REGEX.test(data.dni)) || !data.dni.trim()) {
@@ -230,16 +229,14 @@ class NewPartnerPage extends React.Component {
                 errors.countryState = translate.invalid_field;
             }
         }
-       
+
         if (!data.email) {
             hasError = true;
             errors.email = translate.required_field;
-        } else {
-            if (!checkValidEmail(data.email)) {
+        } else if (!checkValidEmail(data.email)) {
                 hasError = true;
                 errors.email = translate.valid_email_required;
             }
-        }
 
         this.setState({
             errors

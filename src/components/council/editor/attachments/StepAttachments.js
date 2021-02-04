@@ -1,4 +1,7 @@
 import React from "react";
+import { compose, graphql, withApollo } from "react-apollo";
+import { Typography } from "material-ui";
+import gql from 'graphql-tag';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -12,14 +15,11 @@ import {
 } from "../../../../displayComponents/index";
 import upload from '../../../../assets/img/upload.png';
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { compose, graphql, withApollo } from "react-apollo";
 import { MAX_FILE_SIZE } from "../../../../constants";
-import { Typography } from "material-ui";
 import AttachmentList from "../../../attachments/AttachmentList";
 import { formatSize, showAddCouncilAttachment } from "../../../../utils/CBX";
 import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil } from "../../../../queries";
 import EditorStepLayout from '../EditorStepLayout';
-import gql from 'graphql-tag';
 import CompanyDocumentsBrowser from "../../../company/drafts/documents/CompanyDocumentsBrowser";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 
@@ -62,7 +62,6 @@ const StepAttachments = ({ client, translate, ...props }) => {
 		}
 		setTotalSize(totalSize);
 		setLoading(false);
-
 	}, [props.councilID]);
 
 	React.useEffect(() => {
@@ -101,11 +100,11 @@ const StepAttachments = ({ client, translate, ...props }) => {
 			});
 			return;
 		}
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
 		reader.onload = async event => {
-			let fileInfo = {
+			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
 				filesize: event.loaded,
@@ -146,7 +145,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 			variables: {
 				council: {
 					...council,
-					step: step
+					step
 				}
 			}
 		});
@@ -196,7 +195,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 								</div>
 							}
 						/>
-						<GridItem xs={12} md={10} style={{marginTop: '0.5em'}}>
+						<GridItem xs={12} md={10} style={{ marginTop: '0.5em' }}>
 							<ProgressBar
 								value={
 									totalSize > 0
@@ -234,8 +233,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 									<DropDownMenu
 										color="transparent"
 										styleComponent={{ width: "" }}
-										Component={() =>
-											<BasicButton
+										Component={() => <BasicButton
 												color={primary}
 												icon={<i className={"fa fa-plus"}
 												style={{
@@ -290,7 +288,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 						</GridItem>
 					</Grid>
 
-					{loading?
+					{loading ?
 							<LoadingSection />
 						:
 						attachments.length > 0 && (

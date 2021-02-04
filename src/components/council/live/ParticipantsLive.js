@@ -1,4 +1,7 @@
 import React from "react";
+import gql from 'graphql-tag';
+import { compose, graphql, withApollo } from "react-apollo";
+import { Tooltip } from "material-ui";
 import { darkGrey, getSecondary, lightGrey, turquoise } from "../../../styles/colors";
 import {
 	CollapsibleSection,
@@ -10,10 +13,7 @@ import {
 	AlertConfirm,
 	CBXFooter
 } from "../../../displayComponents";
-import gql from 'graphql-tag';
-import { compose, graphql, withApollo } from "react-apollo";
 import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
-import { Tooltip } from "material-ui";
 import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted } from "../../../utils/CBX";
 import VideoParticipantMenu from "./videoParticipants/VideoParticipantMenu";
 import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton";
@@ -93,7 +93,6 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 				}
 			});
 		}
-
 	}
 
 	const banParticipant = async () => {
@@ -158,8 +157,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 		);
 	}
 
-	const _participantEntry = participant => {
-		return (
+	const _participantEntry = participant => (
 			<Grid
 				key={`participant${participant.id}`}
 				className={(isAskingForWord(participant) && participant.online === 1) ? "colorToggle" : ''}
@@ -200,7 +198,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 						</div>
 					</Tooltip>
 				</GridItem>
-				{council.state !== COUNCIL_STATES.PAUSED && 
+				{council.state !== COUNCIL_STATES.PAUSED &&
 					<>
 						{!isMobile &&
 							<GridItem xs={3} lg={3} md={3}>
@@ -217,9 +215,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 							</GridItem>
 						}
 						<GridItem
-							xs={isMobile? 2 : 1}
-							lg={isMobile? 2 : 1}
-							md={isMobile? 2 : 1}
+							xs={isMobile ? 2 : 1}
+							lg={isMobile ? 2 : 1}
+							md={isMobile ? 2 : 1}
 							style={{
 								display: "flex",
 								flexDirection: "row",
@@ -233,9 +231,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 							/>
 						</GridItem>
 						<GridItem
-							xs={isMobile? 2 : 1}
-							lg={isMobile? 2 : 1}
-							md={isMobile? 2 : 1}
+							xs={isMobile ? 2 : 1}
+							lg={isMobile ? 2 : 1}
+							md={isMobile ? 2 : 1}
 							style={{
 								display: "flex",
 								flexDirection: "row",
@@ -249,9 +247,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 							/>
 						</GridItem>
 						<GridItem
-							xs={isMobile? 2 : 1}
-							lg={isMobile? 2 : 1}
-							md={isMobile? 2 : 1}
+							xs={isMobile ? 2 : 1}
+							lg={isMobile ? 2 : 1}
+							md={isMobile ? 2 : 1}
 							style={{
 								display: "flex",
 								flexDirection: "row",
@@ -265,9 +263,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 							/>
 						</GridItem>
 						<GridItem
-							xs={isMobile? 2 : 1}
-							lg={isMobile? 2 : 1}
-							md={isMobile? 2 : 1}
+							xs={isMobile ? 2 : 1}
+							lg={isMobile ? 2 : 1}
+							md={isMobile ? 2 : 1}
 							style={{
 								display: "flex",
 								flexDirection: "row",
@@ -278,11 +276,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 								council={council}
 								participant={participant}
 								refetch={getData}
-								setBanParticipant={() =>
-									setOptions({ ...options, banParticipant: participant })
+								setBanParticipant={() => setOptions({ ...options, banParticipant: participant })
 								}
-								setParticipantHistory={() =>
-									setOptions({ ...options, participantHistory: participant })
+								setParticipantHistory={() => setOptions({ ...options, participantHistory: participant })
 								}
 								translate={translate}
 							/>
@@ -290,8 +286,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 					</>
 				}
 			</Grid>
-		);
-	}
+		)
 
 	const participantLiveColor = participant => {
 		if (participant.online !== 1) {
@@ -308,35 +303,30 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 			if ((videoConfig.rtmp && videoConfig.viewerURL) || videoConfig.autoHybrid || videoConfig.fixedURL || council.room.videoLink) {
 				if (participant.requestWord !== 2) {
 					return turquoise;
-				} else {
+				}
 					if (videoParticipant.online === 1) {
 						return turquoise;
 					}
 					return "darkorange";
-				}
 			}
 
 			if (videoParticipant.online === 1) {
 				return turquoise;
-			} else {
-				return "darkorange";
 			}
+				return "darkorange";
 		}
 
 		return turquoise;
-
 	}
 
-	const _button = () => {
-		return (
+	const _button = () => (
 			<VideoParticipantsStats
 				videoFullScreen={screenSize === 'MAX'}
 				translate={translate}
 				stats={stats}
 				toggleFullScreen={props.toggleFullScreen}
 			/>
-		);
-	}
+		)
 
 	const _section = () => {
 		const { videoParticipants } = data;
@@ -349,9 +339,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 			<div style={{ backgroundColor: darkGrey, width: "100%", height: isMobile ? "430px" : `calc(100vh - ${props.videoHeight} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
 				<div style={{ height: `calc(100% - ${videoParticipants.total > options.limit ? '4em' : '2em'})` }}>
 					<Scrollbar>
-						{videoParticipants.list.map(participant => {
-							return _participantEntry(participant);
-						})}
+						{videoParticipants.list.map(participant => _participantEntry(participant))}
 					</Scrollbar>
 				</div>
 				{videoParticipants.total > options.limit &&
@@ -371,8 +359,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 		);
 	}
 
-	const _paginationFooter = participants => {
-		return (
+	const _paginationFooter = participants => (
 			<div style={{ display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em' }}>
 				{options.page > 1 &&
 					<div onClick={() => setOptions({ ...options, page: options.page - 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'<'}</div>
@@ -383,7 +370,6 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 				}
 			</div>
 		)
-	}
 
 	const CMPVideo = true;//this.props.videoURL && this.props.videoURL.includes('councilbox');
 
@@ -402,8 +388,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 						style={{ cursor: 'auto', }}
 					/>
 					<AlertConfirm
-						requestClose={() =>
-							setOptions({ ...options, banParticipant: false })
+						requestClose={() => setOptions({ ...options, banParticipant: false })
 						}
 						open={options.banParticipant}
 						acceptAction={banParticipant}
@@ -422,8 +407,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 					/>
 					{!!options.participantHistory && (
 						<ParticipantHistoryModal
-							requestClose={() =>
-								setOptions({ ...options, participantHistory: false })
+							requestClose={() => setOptions({ ...options, participantHistory: false })
 							}
 							participant={options.participantHistory}
 							translate={translate}
@@ -433,7 +417,6 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 			}
 		</div>
 	);
-
 }
 
 const changeParticipantOnlineState = gql`

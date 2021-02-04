@@ -1,11 +1,11 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { TableRow, TableCell, TableHead, TableBody, MenuItem } from 'material-ui';
+import Calendar from 'react-calendar';
 import { CardPageLayout, TextInput, Scrollbar, SelectInput, DropDownMenu, Table, AlertConfirm } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { TableRow, TableCell, TableHead, TableBody, MenuItem } from 'material-ui';
 import { getPrimary, primary } from '../../../styles/colors';
-import Calendar from 'react-calendar';
 import AddCompanyNotificationMenu from './AddCompanyNotificationMenu';
 import { moment } from '../../../containers/App';
 
@@ -42,9 +42,7 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
         getData();
     }, [getData]);
 
-    const getTileClassName = ({ date }) => {
-        return '';
-    }
+    const getTileClassName = ({ date }) => ''
 
     const deleteCompanyNotification = async () => {
         const response = await client.mutate({
@@ -121,7 +119,7 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
                             />
                         </div>
                         {showCreateMenu &&
-                            <div style={{maxWidth: '300px'}}>
+                            <div style={{ maxWidth: '300px' }}>
                                 <AddCompanyNotificationMenu
                                     company={company}
                                     translate={translate}
@@ -183,7 +181,6 @@ const FileCalendario = ({ translate, company, client, ...props }) => {
             </div>
         </div>
     )
-
 }
 
 export default withTranslations()(withApollo(FileCalendario));

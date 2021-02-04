@@ -1,20 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { FabButton, Icon, CardPageLayout } from "../displayComponents";
 import { Tooltip } from 'material-ui';
+import { FabButton, Icon, CardPageLayout } from "../displayComponents";
 import Councils from "../components/dashboard/Councils";
 import withWindowSize from '../HOCs/withWindowSize';
-import { bHistory } from '../containers/App';
+import { bHistory, moment } from "./App";
 import { TRIAL_DAYS } from "../config";
 import { trialDaysLeft } from "../utils/CBX";
-import { moment } from "./App";
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
 import { sendGAevent } from "../utils/analytics";
 import { isMobile } from "../utils/screen";
 
 
-const CouncilContainer = ({ match, company, translate, windowSize }) => {
+const CouncilContainer = ({ match, company, translate }) => {
 	const [noPremiumModal, setNoPremiumModal] = React.useState(false);
 
 	const showCantAccessPremiumModal = () => {
@@ -54,7 +53,6 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 					height: '100%',
 					fontSize: "13px",
 					padding: '1.5em 1.5em 1.5em',
-					height: '100%',
 					paddingTop: "0px"
 				}}
 			>
@@ -84,11 +82,10 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 												add
 											</Icon>
 										}
-										onClick={() =>
-											cantAccessPremium ?
+										onClick={() => (cantAccessPremium ?
 												showCantAccessPremiumModal()
 												:
-												bHistory.push(`/company/${company.id}/council/new`)
+												bHistory.push(`/company/${company.id}/council/new`))
 										}
 									/>
 								</div>
@@ -112,11 +109,10 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 											</Icon>
 										}
 										style={{ width: '38px', height: "38px" }}
-										onClick={() =>
-											cantAccessPremium ?
+										onClick={() => (cantAccessPremium ?
 												showCantAccessPremiumModal()
 												:
-												bHistory.push(`/company/${company.id}/council/new`)
+												bHistory.push(`/company/${company.id}/council/new`))
 										}
 									/>
 								</div>

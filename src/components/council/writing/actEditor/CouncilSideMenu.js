@@ -1,14 +1,13 @@
 import React from 'react';
+import { Tooltip } from 'material-ui';
+import FontAwesome from "react-fontawesome";
 import { Scrollbar } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import * as CBX from '../../../../utils/CBX';
-import { Tooltip } from 'material-ui';
 import { PARTICIPANT_STATES } from '../../../../constants';
-import FontAwesome from "react-fontawesome";
 
 
 class CouncilSideMenu extends React.Component {
-
     state = {
         loaded: false
     }
@@ -138,7 +137,7 @@ const createAttendantsString = (attendants, translate) => {
 const AttendantRow = ({ attendant, translate }) => {
     const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
 
-    const dataString = !!represent ?
+    const dataString = represent ?
         `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname || ''}`
         :
         `${attendant.name} ${attendant.surname || ''}`
@@ -150,12 +149,9 @@ const AttendantRow = ({ attendant, translate }) => {
     )
 }
 
-const getPercentage = (value, total) => {
-    return `${value} (${(value / total * 100).toFixed(3)}%)`
-}
+const getPercentage = (value, total) => `${value} (${(value / total * 100).toFixed(3)}%)`
 
 class Row extends React.Component {
-
     state = {
         showCopyTooltip: false,
         showActions: false

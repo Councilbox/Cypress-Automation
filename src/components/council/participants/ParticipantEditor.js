@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { graphql } from "react-apollo";
+import { Paper, Typography } from "material-ui";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -8,7 +9,6 @@ import {
 	GridItem
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
-import { Paper, Typography } from "material-ui";
 import RepresentativeForm from "./RepresentativeForm";
 import ParticipantForm from "./ParticipantForm";
 import { checkValidEmail, errorHandler } from "../../../utils";
@@ -23,24 +23,25 @@ class ParticipantEditor extends Component {
 			}
 		});
 	};
+
 	updateParticipant = async () => {
 		if (!this.checkRequiredFields()) {
 			const { __typename, ...participant } = this.state.data;
 			const { translate } = this.props;
 
-			let variables = {
+			const variables = {
 				participant: {
 					...participant
 				}
 			};
 
 			if (this.state.addRepresentative) {
-				let { __typename, ...representative } = this.state.data;
+				const { __typename, ...representative } = this.state.data;
 				variables.representative = representative;
 			}
 
 			const response = await this.props.updateParticipant({
-				variables: variables
+				variables
 			});
 			if (response) {
 				if (response.errors) {
@@ -57,6 +58,7 @@ class ParticipantEditor extends Component {
 			}
 		}
 	};
+
 	updateRepresentative = object => {
 		this.setState({
 			data: {
@@ -68,8 +70,9 @@ class ParticipantEditor extends Component {
 			}
 		});
 	};
+
 	activateRepresentative = value => {
-		let newState = {
+		const newState = {
 			...this.state,
 			addRepresentative: value
 		};
@@ -107,7 +110,7 @@ class ParticipantEditor extends Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		if (!!nextProps.participant) {
+		if (nextProps.participant) {
 			if (nextProps.participant.id !== prevState.data.id) {
 				return {
 					...prevState,
@@ -154,7 +157,7 @@ class ParticipantEditor extends Component {
 		const participant = this.state.data;
 		const { translate } = this.props;
 
-		let errors = {
+		const errors = {
 			name: "",
 			surname: "",
 			dni: "",
@@ -209,7 +212,7 @@ class ParticipantEditor extends Component {
 
 		this.setState({
 			...this.state,
-			errors: errors
+			errors
 		});
 
 		return hasError;
@@ -222,8 +225,7 @@ class ParticipantEditor extends Component {
 					<Checkbox
 						label={this.props.translate.add_representative}
 						value={this.state.addRepresentative}
-						onChange={(event, isInputChecked) =>
-							this.activateRepresentative(isInputChecked)
+						onChange={(event, isInputChecked) => this.activateRepresentative(isInputChecked)
 						}
 					/>
 				</GridItem>

@@ -23,7 +23,7 @@ const DeleteConvenedParticipantButton = ({ translate, participant, client, refet
             }
         });
         refetch();
-        setModal(false);        
+        setModal(false);
     }
 
     return (

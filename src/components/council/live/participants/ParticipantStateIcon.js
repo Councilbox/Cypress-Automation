@@ -1,12 +1,12 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
+import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../../styles/colors";
 import {
 	getParticipantStateString,
 	isRepresentative,
 	participantIsGuest
 } from "../../../../utils/CBX";
-import { Tooltip } from "material-ui";
 
 const mainIconSize = 1.75;
 const subIconSize = 1;
@@ -17,8 +17,7 @@ const DoubleIcon = ({
 	subSize = subIconSize,
 	subColor = getSecondary(),
 	mainColor = getSecondary()
-}) => {
-	return (
+}) => (
 		<div
 			style={{
 				position: "relative",
@@ -50,7 +49,6 @@ const DoubleIcon = ({
 			/>
 		</div>
 	);
-};
 
 const IconSwitch = ({
 	participant,

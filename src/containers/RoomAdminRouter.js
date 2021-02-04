@@ -45,7 +45,6 @@ const RoomAdminRouter = ({ user, company, translate }) => {
             />
         </Switch>
     )
-
 }
 
 export default withSharedProps()(RoomAdminRouter);

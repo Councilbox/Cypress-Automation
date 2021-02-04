@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { iframeParticipant } from "../../queries";
 import { graphql } from "react-apollo";
+import { withRouter } from "react-router-dom";
+import { iframeParticipant } from "../../queries";
 import LiveHeader from "../council/live/LiveHeader";
 import withTranslations from "../../HOCs/withTranslations";
 import { LoadingMainApp } from "../../displayComponents";
-import { withRouter } from "react-router-dom";
 import logo from "../../assets/img/logo-white.png";
 
 class ParticipantPage extends Component {

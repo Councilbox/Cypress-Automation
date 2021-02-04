@@ -1,9 +1,9 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
+import ContentEditable from 'react-contenteditable';
 import { Scrollbar, BasicButton, Grid, GridItem } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
-import ContentEditable from 'react-contenteditable';
 
 
 const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile, updateCompany, updateFileData, ...props }) => {
@@ -56,7 +56,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         {translate.registered_office}
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', borderBottom: !data.address? '1px solid black': 'none'}}
+                                        style={{ color: 'black', borderBottom: !data.address ? '1px solid black' : 'none' }}
                                         html={data.address}
                                         onChange={event => {
                                             updateCompanyData({
@@ -75,7 +75,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                     </div>
                                     <ContentEditable
                                         html={data.tin}
-                                        style={{ borderBottom: !data.tin? '1px solid black': 'none'}}
+                                        style={{ borderBottom: !data.tin ? '1px solid black' : 'none' }}
                                         disabled={true}
                                     />
                                 </GridItem>
@@ -91,7 +91,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         {translate.social_capital_desc}
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.socialCapital? '1px solid black': 'none'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.socialCapital ? '1px solid black' : 'none' }}
                                         html={data.file.socialCapital || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -109,7 +109,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         CNAE
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.CNAE? '1px solid black': 'none'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.CNAE ? '1px solid black' : 'none' }}
                                         html={data.file.CNAE || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -135,7 +135,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         {translate.constitution}
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.constitution? '1px solid black': 'none'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.constitution ? '1px solid black' : 'none' }}
                                         html={data.file.constitution || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -156,7 +156,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         {translate.adaptation}
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.adaptation? '1px solid black': 'none'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.adaptation ? '1px solid black' : 'none' }}
                                         html={data.file.adaptation || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -177,7 +177,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         {translate.transformation}
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.transformation? '1px solid black': 'none'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.transformation ? '1px solid black' : 'none' }}
                                         html={data.file.transformation || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -198,7 +198,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         {translate.transfer_registered_office}
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.placeOfBusiness? '1px solid black': 'none'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.placeOfBusiness ? '1px solid black' : 'none' }}
                                         html={data.file.placeOfBusiness || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -224,7 +224,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         {translate.fiscal_year}
                                     </div>
                                     <ContentEditable
-                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.financialYear? '1px solid black': 'none'}}
+                                        style={{ color: 'black', minWidth: '10em', borderBottom: !data.file.financialYear ? '1px solid black' : 'none' }}
                                         html={data.file.financialYear || ''}
                                         onChange={event => {
                                             updateFileData({
@@ -252,13 +252,10 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
             </div>
         </div>
     )
-
 }
 
-const DividerContenido = ({ titulo, contenido }) => {
-    return (
+const DividerContenido = ({ titulo, contenido }) => (
         <div style={{ borderBottom: `1px solid ${getPrimary()}` }}></div>
     )
-}
 
 export default withTranslations()(withApollo(FileInformacion));

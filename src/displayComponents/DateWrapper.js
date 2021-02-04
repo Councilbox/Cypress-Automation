@@ -1,6 +1,6 @@
 import { moment } from '../containers/App';
 
-const DateWrapper = ({ date, format, style }) => {
+const DateWrapper = ({ date, format }) => {
 	if (!date) {
 		return '-'
 	}

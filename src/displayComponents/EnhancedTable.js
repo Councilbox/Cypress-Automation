@@ -1,10 +1,4 @@
 import React from "react";
-import {
-	Grid,
-	LoadingSection,
-	SelectInput,
-	TextInput
-} from "./index";
 import PropTypes from "prop-types";
 import { Icon, MenuItem } from "material-ui";
 import Table, {
@@ -14,6 +8,12 @@ import Table, {
 	TableRow,
 	TableSortLabel
 } from "material-ui/Table";
+import {
+	Grid,
+	LoadingSection,
+	SelectInput,
+	TextInput
+} from "./index";
 import TableStyles from "../styles/table";
 import PaginationFooter from "./PaginationFooter";
 import { isMobile } from "../utils/screen";
@@ -35,7 +35,7 @@ class EnhancedTable extends React.Component {
 
 	setPage = page => {
 		this.setState({
-			page: page
+			page
 		});
 	}
 
@@ -55,7 +55,7 @@ class EnhancedTable extends React.Component {
 				field: this.state.filterField,
 				text: this.state.filterText
 			});
-		};
+		}
 
 		if (this.props.addedFilters) {
 			variables.filters = [
@@ -109,14 +109,14 @@ class EnhancedTable extends React.Component {
 
 	updateLimit = limit => {
 		this.setState({
-			limit: limit,
+			limit,
 			page: 1
 		}, () => this.refresh());
 	};
 
 	changePage = page => {
 		this.setState({
-			page: page
+			page
 		}, () => this.refresh());
 	};
 
@@ -133,14 +133,13 @@ class EnhancedTable extends React.Component {
 		}, () => this.refresh());
 	};
 
-	updateCategory = (index, event, field) => {
-		let { selectedCategories } = this.state;
+	updateCategory = (index, event) => {
+		const { selectedCategories } = this.state;
 		selectedCategories[index].value = event.value;
 		this.setState({
 			selectedCategories: [...selectedCategories],
 			page: 1
 		}, () => this.refresh());
-
 	};
 
 	render() {
@@ -174,8 +173,7 @@ class EnhancedTable extends React.Component {
 								<SelectInput
 									floatingText={translate.filter_by}
 									value={filterField}
-									onChange={event =>
-										this.updateFilterField(event.target.value)
+									onChange={event => this.updateFilterField(event.target.value)
 									}
 								>
 									{fields.map(field => (
@@ -205,8 +203,7 @@ class EnhancedTable extends React.Component {
 						<div style={{ width: '5em' }}>
 							<SelectInput
 								value={limit}
-								onChange={event =>
-									this.updateLimit(event.target.value)
+								onChange={event => this.updateLimit(event.target.value)
 								}
 							>
 								{limits.map(item => (
@@ -226,19 +223,17 @@ class EnhancedTable extends React.Component {
 								<div key={`category_${index}`} style={{ minWidth: '12em', marginRight: '0.8em' }}>
 									<SelectInput
 										value={this.state.selectedCategories[index].value}
-										onChange={event =>
-											this.updateCategory(index,
+										onChange={event => this.updateCategory(index,
 												event.target,
-												categories[0].field
-											)
+												categories[0].field)
 										}
 									>
-										{category.map(fields => (
+										{category.map(item => (
 											<MenuItem
-												key={`category_${index}${fields.value}`}
-												value={fields.value}
+												key={`category_${index}${item.value}`}
+												value={item.value}
 											>
-												{fields.label}
+												{item.label}
 											</MenuItem>
 										))}
 									</SelectInput>
@@ -254,8 +249,7 @@ class EnhancedTable extends React.Component {
 									<SelectInput
 										floatingText={translate.filter_by}
 										value={filterField}
-										onChange={event =>
-											this.updateFilterField(event.target.value)
+										onChange={event => this.updateFilterField(event.target.value)
 										}
 									>
 										{fields.map(field => (
@@ -288,8 +282,7 @@ class EnhancedTable extends React.Component {
 					<Table style={{ maxWidth: "100%", tableLayout: 'auto' }}>
 						<TableHead>
 							<TableRow>
-								{headers.map((header, index) => {
-									return (
+								{headers.map((header, index) => (
 										header.selectAll ?
 											<TableCell key={`header_${index}`}>
 												{header.selectAll}
@@ -311,8 +304,7 @@ class EnhancedTable extends React.Component {
 														direction={
 															this.state.orderDirection
 														}
-														onClick={() =>
-															this.orderBy(header.name)
+														onClick={() => this.orderBy(header.name)
 														}
 													>
 														{header.text}
@@ -321,8 +313,7 @@ class EnhancedTable extends React.Component {
 														header.text
 													)}
 											</TableCell>
-									);
-								})}
+									))}
 							</TableRow>
 						</TableHead>
 						<TableBody>{!loading && children}</TableBody>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { DropDownMenu } from '../../displayComponents';
 import { MenuItem, Divider } from 'material-ui';
-import { downloadFile, prepareTextForFilename } from '../../utils/CBX';
 import FileSaver from 'file-saver';
+import { DropDownMenu } from '../../displayComponents';
+import { downloadFile, prepareTextForFilename } from '../../utils/CBX';
 import { buildDocVariable } from './utils';
 
 const DownloadDoc = ({ client, doc, council, options, translate, filename, styles }) => {
@@ -35,7 +35,7 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename, style
         }
         return texts[options.language];
     }
-    
+
     const downloadPDF = async () => {
         const response = await client.mutate({
             mutation: gql`
@@ -58,7 +58,7 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename, style
                 downloadFile(
                     response.data.generateDocPDF,
                     "application/pdf",
-                    filename ? filename : `${translate.act.replace(/ /g, '_')}_${prepareTextForFilename(council.name)}`
+                    filename || `${translate.act.replace(/ /g, '_')}_${prepareTextForFilename(council.name)}`
                 );
             }
         }
@@ -97,7 +97,7 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename, style
             </style>\
         `);
 
-        let filename = `${translate.act} - ${council.name}.doc`;
+        const filename = `${translate.act} - ${council.name}.doc`;
         const blob = new Blob(['\ufeff', css + html], {
             type: 'application/msword'
         });

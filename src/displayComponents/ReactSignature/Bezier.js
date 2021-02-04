@@ -7,16 +7,16 @@ export default class Bezier {
   }
 
   length() {
-    var steps = 10,
-      length = 0,
-      i,
-      t,
-      cx,
-      cy,
-      px,
-      py,
-      xdiff,
-      ydiff;
+    const steps = 10;
+      let length = 0;
+      let i;
+      let t;
+      let cx;
+      let cy;
+      let px;
+      let py;
+      let xdiff;
+      let ydiff;
 
     for (i = 0; i <= steps; i++) {
       t = i / steps;

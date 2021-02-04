@@ -41,7 +41,7 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 
 	return (
 		<React.Fragment>
-			{toolbar?
+			{toolbar ?
 				toolbar()
 			:
 				data.councilAct.type === 0 &&
@@ -55,7 +55,7 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 								council={council}
 								company={company}
 								translate={translate}
-								styles={{marginLeft: '1em'}}
+								styles={{ marginLeft: '1em' }}
 							/>
 						}
 					</>
@@ -71,9 +71,9 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 					marginTop: '0.8em'
 				}}
 			>
-				{data.councilAct.type === 1?
+				{data.councilAct.type === 1 ?
 					<React.Fragment>
-						<div style={{fontSize: '1.1em', fontWeight: '700', color: secondary}}>
+						<div style={{ fontSize: '1.1em', fontWeight: '700', color: secondary }}>
 							{translate.user_upload_minutes}
 						</div>
 						<DownloadActPDF
@@ -85,17 +85,17 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 								council={council}
 								company={company}
 								translate={translate}
-								styles={{marginLeft: '1em'}}
+								styles={{ marginLeft: '1em' }}
 							/>
 						}
 					</React.Fragment>
 				:
-					<div style={{border: '1px solid gainsboro'}}>
+					<div style={{ border: '1px solid gainsboro' }}>
 						<CBXDocumentLayout
 							preview={data.councilAct.emailAct}
 							loading={false}
 							company={company}
-							options={data.councilAct.document? data.councilAct.document.options : { stamp: true }}
+							options={data.councilAct.document ? data.councilAct.document.options : { stamp: true }}
 						/>
 					</div>
 				}

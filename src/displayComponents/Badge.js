@@ -12,7 +12,7 @@ const CBXBadge = ({ children, hide, dot, styleDot, ...props }) => {
 
     if(dot){
         return (
-            <div style={{position: 'relative'}}>
+            <div style={{ position: 'relative' }}>
                 {children}
 
                 <div
@@ -37,7 +37,7 @@ const CBXBadge = ({ children, hide, dot, styleDot, ...props }) => {
             </div>
         )
     }
-    
+
     return (
         <Badge {...props}>
             {children}

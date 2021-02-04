@@ -1,8 +1,9 @@
 import React from 'react';
-import { shouldCancelStart } from './utils';
-import { arrayMove } from "react-sortable-hoc";
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { arrayMove, SortableContainer, SortableElement } from "react-sortable-hoc";
 import { Card, Tooltip } from 'material-ui';
+import { withRouter } from 'react-router-dom';
+import { shouldCancelStart } from './utils';
+
 import { Grid, Scrollbar, BasicButton } from '../../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
@@ -14,7 +15,6 @@ import AgreementsPreview from './AgreementsPreview';
 import OptionsMenu from './OptionsMenu';
 import Timbrado from './Timbrado';
 import DocumentPreview from './DocumentPreview';
-import { withRouter } from 'react-router-dom';
 
 
 const DocumentEditor = ({ translate, company, data, documentId, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, withDrawer, ...props }) => {
@@ -36,7 +36,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     });
     const scroll = React.useRef(null);
     const [newId, setNewId] = React.useState(null);
-    const [mostrarBloques, setMostrarBloques] = React.useState(!withDrawer ? true : false);
+    const [mostrarBloques, setMostrarBloques] = React.useState(!withDrawer);
 
     const { hide, collapse, preview } = state;
     const primary = getPrimary();
@@ -87,12 +87,12 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     }
 
     const remove = (id, index) => {
-        let arrayDoc = doc.filter(item => item.id !== id);
+        const arrayDoc = doc.filter(item => item.id !== id);
         setDoc(arrayDoc);
     };
 
     const addItem = id => {
-        let resultado = filteredBlocks.find(arrastrable => arrastrable.id === id);
+        const resultado = filteredBlocks.find(arrastrable => arrastrable.id === id);
 
         const newId = Math.random().toString(36).substr(2, 9);
 
@@ -105,8 +105,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
         setNewId(newId);
     }
 
-    const opcionesMenu = () => {
-        return (
+    const opcionesMenu = () => (
             <React.Fragment>
                 <div style={{ width: "98%", display: "flex", padding: "1em 1em " }}>
                     <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setState({
@@ -134,8 +133,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                     options={options}
                                     setOptions={setOptions}
                                 />
-                                {filteredBlocks.filter(item => !item.logic).map((item, index) => {
-                                    return (
+                                {filteredBlocks.filter(item => !item.logic).map((item, index) => (
                                         <BorderBox
                                             key={item.id}
                                             addItem={addItem}
@@ -145,8 +143,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                                 <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
                                             </div>
                                         </BorderBox>
-                                    )
-                                })}
+                                    ))}
                                 <LogicBlocks
                                     addItem={addItem}
                                     automaticos={filteredBlocks}
@@ -159,7 +156,6 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                 </div>
             </React.Fragment>
         )
-    }
 
     return (
         <React.Fragment>
@@ -345,7 +341,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             }
                                         </div>
                                         <div style={{ width: "100%" }}>
-                                            <div style={{ width: "100%"}}>
+                                            <div style={{ width: "100%" }}>
                                                 <div style={{ marginTop: "1em", marginRight: "4em", maxWidth: "125px", float: 'right' }}>
                                                     <img style={{ width: "auto", maxHeight: '3em', float: 'right' }} src={company.logo}></img>
                                                 </div>
@@ -411,7 +407,7 @@ const SortableList = SortableContainer(({ items, column, editBlock, state, edit,
                 }
             </div>
         );
-    } else {
+    }
         return (
             <div>
                 {items &&
@@ -436,7 +432,6 @@ const SortableList = SortableContainer(({ items, column, editBlock, state, edit,
                 }
             </div>
         );
-    }
 });
 
 
@@ -543,8 +538,7 @@ const DraggableBlock = SortableElement(props => {
     );
 });
 
-const DrawerOptions = ({ mostrarBloques, children, setMostrarBloques }) => {
-    return (
+const DrawerOptions = ({ mostrarBloques, children, setMostrarBloques }) => (
         <div style={{
             height: '100%',
             width: mostrarBloques ? "520px" : '0',
@@ -578,7 +572,6 @@ const DrawerOptions = ({ mostrarBloques, children, setMostrarBloques }) => {
             </div>
         </div>
     )
-}
 
 const NoDraggableBlock = props => {
     if (props.logic) {
@@ -597,7 +590,7 @@ const NoDraggableBlock = props => {
                 </div>
             </BorderBox>
         );
-    } else {
+    }
         return (
             props.value !== undefined && props.value.text !== undefined &&
             <React.Fragment>
@@ -641,8 +634,6 @@ const NoDraggableBlock = props => {
             </React.Fragment>
 
         );
-    }
-
 }
 
 const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate }) => {
@@ -667,8 +658,7 @@ const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate })
                         </div>
                     </div>
                     <div style={{ width: "100%", marginTop: "0.5em" }}>
-                        {automaticos.filter(item => item.logic === true).map((item, index) => {
-                            return (
+                        {automaticos.filter(item => item.logic === true).map((item, index) => (
                                 <CajaLogicBlocks
                                     key={item.id + index + "automaticos"}
                                     item={item}
@@ -676,8 +666,7 @@ const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate })
                                     translate={translate}
                                     itemInfo={item.id}
                                 />
-                            )
-                        })}
+                            ))}
                     </div>
                 </div>
             </div>
@@ -685,8 +674,7 @@ const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate })
     );
 }
 
-const CajaLogicBlocks = ({ colorBorder, children, item, addItem, itemInfo, translate }) => {
-    return (
+const CajaLogicBlocks = ({ colorBorder, children, item, addItem, itemInfo, translate }) => (
         <div style={{ display: "flex", width: "100%", marginBottom: "0.8em" }}>
             <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
                 <div>
@@ -705,7 +693,6 @@ const CajaLogicBlocks = ({ colorBorder, children, item, addItem, itemInfo, trans
             </div>
         </div>
     )
-}
 
 
 
@@ -733,7 +720,7 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
             </i>
         )
     }
-    else if (turn === 'expand') {
+    if (turn === 'expand') {
         return (
             <i
                 onMouseEnter={onMouseEnter}
@@ -746,7 +733,7 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
             </i>
         )
     }
-    else if (turn === 'cross') {
+    if (turn === 'cross') {
         return (
             <i
                 onMouseEnter={onMouseEnter}
@@ -760,7 +747,7 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
             </i>
         )
     }
-    else {
+
         return (
             <i
                 onMouseEnter={onMouseEnter}
@@ -773,7 +760,6 @@ export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) 
                 arrow_right_alt
             </i>
         )
-    }
 }
 
 

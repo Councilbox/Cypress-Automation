@@ -1,39 +1,31 @@
 import React from "react";
 import { graphql, compose, withApollo } from "react-apollo";
-import { getSecondary, getPrimary } from "../../../../styles/colors";
 import gql from "graphql-tag";
+import { getSecondary, getPrimary } from "../../../../styles/colors";
 import {
 	BasicButton,
-	Scrollbar,
 	LoadingSection,
-	LiveToast
 } from "../../../../displayComponents";
 import { PARTICIPANT_STATES, AGENDA_STATES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { moment } from '../../../../containers/App';
 import FinishActModal from "./FinishActModal";
-import { updateCouncilAct } from '../../../../queries';
+import { updateCouncilAct as updateMutation } from '../../../../queries';
 import { ConfigContext } from '../../../../containers/AppControl';
 import {
-	getActPointSubjectType,
-	checkForUnclosedBraces,
 	changeVariablesToValues,
 	hasSecondCall,
 	buildAttendantsString,
 	generateAgendaText,
 	getGoverningBodySignatories,
-	generateStatuteTag,
 	buildDelegationsString
 } from '../../../../utils/CBX';
-import { toast } from 'react-toastify';
-import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
 import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
 import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../../documentEditor/utils";
 import DownloadDoc from "../../../documentEditor/DownloadDoc";
 import { actBlocks } from "../../../documentEditor/actBlocks";
 import SendActToVote from "../../live/act/SendActToVote";
 import SendActDraftModal from "./SendActDraftModal";
-import { isMobile } from "../../../../utils/screen";
 
 
 export const CouncilActData = gql`
@@ -47,6 +39,7 @@ export const CouncilActData = gql`
 			emailText
 			quorumPrototype
 			secretary
+			councilType
 			president
 			street
 			city
@@ -213,11 +206,9 @@ export const generateCouncilSmartTagsValues = data => {
 
 	const numParticipationsPresent = (data.councilAttendants.list.reduce((acc, curr) => {
 		let counter = acc;
-		counter = counter + curr.numParticipations;
+		counter += curr.numParticipations;
 		if (curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0) {
-			counter = counter + curr.delegationsAndRepresentations.reduce((acc, curr) => {
-				return acc + curr.numParticipations;
-			}, 0);
+			counter += curr.delegationsAndRepresentations.reduce((sum, par) => sum + par.numParticipations, 0);
 		}
 		return counter;
 	}, 0));
@@ -257,6 +248,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 	const [finishModal, setFinishModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
+	const config = React.useContext(ConfigContext);
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const {
@@ -292,14 +284,14 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 			company
 		});
 
-		handlers.initializeDoc(actDocument ? {
+		handlers.initializeDoc(false ? {
 			doc: actDocument.fragments,
 			options: actDocument.options
 		} : {
 				doc: buildDoc(response.data, translate, 'act'),
 				options: {
-					stamp: true,
-					doubleColumn: response.data.council.statute.doubleColumnDocs === 1? true : false,
+					stamp: !config.disableDocumentStamps,
+					doubleColumn: response.data.council.statute.doubleColumnDocs === 1,
 					language: response.data.council.language,
 					secondaryLanguage: 'en'
 				}
@@ -310,56 +302,6 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
-
-	const checkBraces = () => {
-		// const act = this.state.data.council.act;
-		// let errors = {
-		// 	intro: false,
-		// 	conclusion: false,
-		// 	constitution: false
-		// };
-		// let hasError = false;
-
-		// if(act.intro){
-		// 	if(checkForUnclosedBraces(act.intro)){
-		// 		errors.intro = true;
-		// 		hasError = true;
-		// 	}
-		// }
-
-		// if(act.constitution){
-		// 	if(checkForUnclosedBraces(act.constitution)){
-		// 		errors.constitution = true;
-		// 		hasError = true;
-		// 	}
-		// }
-
-		// if(act.conclusion){
-		// 	if(checkForUnclosedBraces(act.conclusion)){
-		// 		errors.conclusion = true;
-		// 		hasError = true;
-		// 	}
-		// }
-
-		// if(hasError){
-		// 	toast(
-		// 		<LiveToast
-		// 			message={this.props.translate.revise_text}
-		// 		/>, {
-		// 			position: toast.POSITION.TOP_RIGHT,
-		// 			autoClose: true,
-		// 			className: "errorToast"
-		// 		}
-		// 	);
-		// }
-
-		// this.setState({
-		// 	disableButtons: hasError,
-		// 	errors
-		// });
-
-		// return hasError;
-	}
 
 	const generatePreview = async () => {
 		const response = await client.mutate({
@@ -389,7 +331,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				}
 			}
 		});
-		if (!!response) {
+		if (response) {
 			setSaving(false);
 		}
 	}
@@ -402,13 +344,12 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 		return <LoadingSection />;
 	}
 
-	let council = { ...data.council };
+	const council = { ...data.council };
 	council.attendants = data.councilAttendants.list;
 	council.delegatedVotes = data.participantsWithDelegatedVote;
 
 
-	const finishedToolbar = () => {
-		return (
+	const finishedToolbar = () => (
 			<>
 				<DownloadDoc
 					translate={translate}
@@ -506,7 +447,6 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 
 			</>
 		)
-	}
 
 	const liveToolbar = () => {
 		const actPoint = data.agendas[data.agendas.length - 1];
@@ -604,7 +544,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				options={options}
 				generatePreview={generatePreview}
 				download={true}
-				documentMenu={liveMode? liveToolbar() : finishedToolbar()}
+				documentMenu={liveMode ? liveToolbar() : finishedToolbar()}
 				translate={translate}
 			/>
 		</React.Fragment>
@@ -612,7 +552,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 }
 
 export default compose(
-	graphql(updateCouncilAct, {
+	graphql(updateMutation, {
 		name: 'updateCouncilAct'
 	}),
 	withApollo
@@ -626,7 +566,7 @@ export const generateActTags = (type, data, translate) => {
 	let attendantsString = cache.get(`${council.id}_attendants`);
 	let delegatedVotesString = cache.get(`${council.id}_delegated`);
 
-	
+
 	if(!attendantsString){
 		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');
 		cache.set(`${council.id}_attendants`, attendantsString);
@@ -706,7 +646,7 @@ export const generateActTags = (type, data, translate) => {
 			label: translate.number_of_participations
 		},
 		percentageShares: {
-			value: (council.currentQuorum / parseInt(base, 10) * 100).toFixed(3),
+			value: (council.currentQuorum / (parseInt(base, 10) * 100)).toFixed(3),
 			label: translate.social_capital_percentage
 		},
 		dateEnd: {

@@ -7,7 +7,7 @@ import ShareholderEditor from './ShareholderEditor';
 
 const RefuseRequestButton = ({ request, client, refetch, translate }) => {
     const [modal, setModal] = React.useState(null);
-    const buttonColor = request.participantCreated? 'grey' : 'red';
+    const buttonColor = request.participantCreated ? 'grey' : 'red';
 
     const refuseRequest = async () => {
         const response = await client.mutate({

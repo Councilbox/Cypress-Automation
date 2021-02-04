@@ -9,7 +9,6 @@ const FileUploadButton = ({
 	accept,
 	color,
 	textStyle,
-	textPosition,
 	icon,
 	disabled,
 	buttonStyle,
@@ -22,12 +21,12 @@ const FileUploadButton = ({
 	<React.Fragment>
 		<input
 			type="file"
-			{...(image? { accept: "image/*"} : {})}
-			{...(accept? { accept: accept} : {})}
+			{...(image ? { accept: "image/*" } : {})}
+			{...(accept ? { accept } : {})}
 			id={"raised-button-file"}
 			onChange={onChange}
 			disabled={disabled}
-			{...(loading? { disabled: true } : {})}
+			{...(loading ? { disabled: true } : {})}
 			style={{
 				cursor: "pointer",
 				position: "absolute",
@@ -39,7 +38,7 @@ const FileUploadButton = ({
 				opacity: 0
 			}}
 		/>
-		{trigger?
+		{trigger ?
 			<label htmlFor="raised-button-file" style={style}>
 				{trigger()}
 			</label>

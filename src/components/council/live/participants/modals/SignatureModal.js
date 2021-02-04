@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { compose, graphql } from "react-apollo";
+import gql from "graphql-tag";
 import { liveParticipantSignature, setLiveParticipantSignature } from "../../../../../queries/liveParticipant";
 import {
 	CustomDialog,
@@ -11,7 +12,6 @@ import {
 import { getPrimary } from "../../../../../styles/colors";
 import { canBePresentWithRemoteVote } from "../../../../../utils/CBX";
 import { PARTICIPANT_STATES } from "../../../../../constants";
-import gql from "graphql-tag";
 import { useOldState } from "../../../../../hooks";
 import { isMobile } from "../../../../../utils/screen";
 
@@ -46,7 +46,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 		}
 
 		setSaving(true);
-		let signatureData = signature.current.toDataURL();
+		const signatureData = signature.current.toDataURL();
 		let response;
 
 		if (state.clean) {
@@ -185,8 +185,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 										participantState ===
 										PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 									}
-									onChange={(event, isInputChecked) =>
-										setState({
+									onChange={(event, isInputChecked) => setState({
 											participantState: isInputChecked
 												? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 												: PARTICIPANT_STATES.PHYSICALLY_PRESENT
@@ -216,7 +215,6 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 			</CustomDialog>
 		</Fragment>
 	);
-
 }
 
 export const removeLiveParticipantSignature = gql`

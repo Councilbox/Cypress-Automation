@@ -1,7 +1,7 @@
 import React from 'react';
-import { BasicButton, DropDownMenu, TextInput } from '../../displayComponents';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { BasicButton, DropDownMenu, TextInput } from '../../displayComponents';
 import { primary } from '../../styles/colors';
 import { DocsContext } from './DocsLayout';
 
@@ -73,22 +73,21 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
 
     return (
         <div>
-            {!docsContext.login?
+            {!docsContext.login ?
                 <DropDownMenu
                     color="transparent"
-                    Component={() =>
-                        <BasicButton
+                    Component={() => <BasicButton
                             type="flat"
                             color="transparent"
                             text="Login"
-                            textStyle={{color: 'white', fontWeight: '700'}}
-                            buttonStyle={{border: '1px solid white'}}
+                            textStyle={{ color: 'white', fontWeight: '700' }}
+                            buttonStyle={{ border: '1px solid white' }}
                         />
                     }
                     type="flat"
                     persistent
                     items={
-                        <div style={{padding: '1em'}}>
+                        <div style={{ padding: '1em' }}>
                             <TextInput
                                 floatingText="Apikey"
                                 value={state.apikey}
@@ -104,21 +103,21 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
                                 color={primary}
                                 text="Enviar"
                                 onClick={login}
-                                textStyle={{color: 'white', fontWeight: '700'}}
+                                textStyle={{ color: 'white', fontWeight: '700' }}
                             />
                         </div>
                     }
                 />
             :
                 <div>
-                    <span style={{fontWeight: '700', color: 'white', marginRight: '1em'}}>{docsContext.login.name}</span>
+                    <span style={{ fontWeight: '700', color: 'white', marginRight: '1em' }}>{docsContext.login.name}</span>
                     <BasicButton
                         type="flat"
                         color="transparent"
                         text="Logout"
                         onClick={docsContext.logout}
-                        textStyle={{color: 'white', fontWeight: '700'}}
-                        buttonStyle={{border: '1px solid white'}}
+                        textStyle={{ color: 'white', fontWeight: '700' }}
+                        buttonStyle={{ border: '1px solid white' }}
                     />
                 </div>
             }

@@ -1,10 +1,10 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
+import { Icon, Avatar, Card, CardActions } from 'material-ui';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { corporationUsers } from '../../../queries/corporation';
 import { getPrimary } from '../../../styles/colors';
-import { Icon, Avatar, Card, CardActions } from 'material-ui';
 import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link, GridItem, AlertConfirm } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import { USER_ACTIVATIONS } from '../../../constants';
@@ -26,7 +26,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
     const [usersTotal, setUsersTotal] = React.useState(false);
     const [addUser, setAddUser] = React.useState(false);
     const primary = getPrimary();
-    
+
     const getUsers = async () => {
         const response = await client.query({
             query: corporationUsers,
@@ -40,7 +40,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
                 corporationId: company.id
             }
         });
-        
+
         if (response.data.corporationUsers.list) {
             setUsers(response.data.corporationUsers.list)
             setUsersTotal(response.data.corporationUsers.total)
@@ -163,8 +163,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
         setModalBloquear(false);
     }
 
-    const renderModalBlockUser = () => {
-        return (
+    const renderModalBlockUser = () => (
             <AlertConfirm
                 requestClose={() => setModalBloquear(false)}
                 open={modalBloquear}
@@ -178,16 +177,14 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                 title={'Bloquear'}
             />
         )
-    }
-    
+
     if (isMobile) {
         return (
             <div style={{ height: "calc( 100% - 5em )" }}>
                 <div style={{ height: "100%" }}>
                     <Scrollbar>
                         <Grid style={{ padding: '2em 2em 1em 2em', height: "100%" }}>
-                            {users.map(item => {
-                                return (
+                            {users.map(item => (
                                     <Card style={{ marginBottom: "0.5em", padding: "1em" }} key={item.id}>
                                         <Grid>
                                             <GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
@@ -269,8 +266,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                             </CardActions>
                                         </Grid>
                                     </Card>
-                                )
-                            })}
+                                ))}
                             {renderModalBlockUser()}
                             <Grid style={{ marginTop: "1em" }}>
                                 <PaginationFooter
@@ -289,7 +285,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                 </div>
             </div>
         )
-    } else {
+    }
         return (
             <div style={{ height: '100%' }}>
                 <div style={{ fontSize: "13px", height: '100%' }}>
@@ -314,8 +310,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                     </div>
                     <div style={{ height: "calc( 100% - 13em )" }}>
                         <Scrollbar>
-                            {users.map(item => {
-                                return (
+                            {users.map(item => (
                                     <div
                                         key={item.id}
                                         style={{
@@ -362,8 +357,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                                 </div>
                                             } />
                                     </div>
-                                )
-                            })}
+                                ))}
                         </Scrollbar>
                     </div>
                     {renderModalBlockUser()}
@@ -382,7 +376,6 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                 </div>
             </div>
         )
-    }
 })
 
 const getActivationText = (value, translate) => {
@@ -397,12 +390,10 @@ const getActivationText = (value, translate) => {
     return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
 }
 
-const Cell = ({ text, width, styles }) => {
-    return (
+const Cell = ({ text, width, styles }) => (
         <div style={{ overflow: "hidden", width: `${width}%`, textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px", ...styles }}>
             {text}
         </div>
     )
-}
 
 export default withApollo(withSharedProps()(OrganizationUsers));

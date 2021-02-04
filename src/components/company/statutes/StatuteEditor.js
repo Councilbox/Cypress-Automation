@@ -1,4 +1,6 @@
 import React, { Fragment } from "react";
+import { MenuItem } from "material-ui";
+import { withApollo } from "react-apollo";
 import {
 	Checkbox,
 	Grid,
@@ -8,19 +10,16 @@ import {
 	TextInput,
 } from "../../../displayComponents";
 import * as CBX from "../../../utils/CBX";
-import { MenuItem } from "material-ui";
 import { draftDetails } from "../../../queries";
-import { withApollo } from "react-apollo";
 import { getPrimary } from "../../../styles/colors";
 import QuorumInput from "../../../displayComponents/QuorumInput";
 import { ConfigContext } from "../../../containers/AppControl";
 import StatuteDocSection from "./StatuteDocSection";
 import { useValidRTMP } from "../../../hooks";
 import withSharedProps from "../../../HOCs/withSharedProps";
-import { isMobile } from "../../../utils/screen";
 
 
-const StatuteEditor = ({ statute, translate, updateState, errors, client, company, ...props }) => {
+const StatuteEditor = ({ statute, translate, updateState, errors, client, company, disabled, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 	const config = React.useContext(ConfigContext);
@@ -54,10 +53,10 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<GridItem xs={12} md={12} lg={12}>
 								<div style={{ maxWidth: '20em' }}>
 									<SelectInput
+										disabled={disabled}
 										floatingText={translate.company_type}
 										value={'' + statute.companyType || '-1'}
-										onChange={event =>
-											updateState({
+										onChange={event => updateState({
 												companyType: +event.target.value
 											})
 										}
@@ -69,8 +68,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 											{translate.all_plural}
 										</MenuItem>
 										{data.companyTypes && data.companyTypes.map(
-											companyType => {
-												return (
+											companyType => (
 													<MenuItem
 														key={companyType.label}
 														value={'' + companyType.value}
@@ -81,8 +79,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 															]
 														}
 													</MenuItem>
-												);
-											}
+												)
 										)}
 									</SelectInput>
 								</div>
@@ -90,10 +87,10 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<GridItem xs={12} md={12} lg={12}>
 								<div style={{ maxWidth: '20em' }}>
 									<SelectInput
+										disabled={disabled}
 										floatingText={translate.language}
 										value={statute.language || 'all'}
-										onChange={event =>
-											updateState({
+										onChange={event => updateState({
 												language: event.target.value
 											})
 										}
@@ -105,16 +102,14 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 											{translate.all_plural}
 										</MenuItem>
 										{data.languages && data.languages.map(
-											language => {
-												return (
+											language => (
 													<MenuItem
 														key={language.columnName}
 														value={language.columnName}
 													>
 														{language.desc}
 													</MenuItem>
-												);
-											}
+												)
 										)}
 									</SelectInput>
 								</div>
@@ -122,36 +117,31 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						</>
 					}
 
-					<GridItem xs={12} md={8} lg={6}>
+					<GridItem xs={12} md={6} lg={6}>
 						<Checkbox
 							label={translate.exists_advance_notice_days}
 							value={statute.existsAdvanceNoticeDays === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									existsAdvanceNoticeDays: isInputChecked ? 1 : 0
 								})
 							}
 						/>
 					</GridItem>
-					<GridItem xs={12} md={4} lg={6}>
+					<GridItem xs={12} md={6} lg={6}>
 						{statute.existsAdvanceNoticeDays === 1 && (
 							<TextInput
 								floatingText={translate.input_group_days}
 								required
 								type="tel"
-								errorText={errors.advanceNoticeDays}
+								errorText={errors.advanceNoticeDays || statute.advanceNoticeDays === '' ? `${translate.minimum_notice_days}: 1` : ''}
 								value={statute.advanceNoticeDays}
-								onChange={event => {
-									if (!isNaN(event.target.value) && +event.target.value >= 0) {
-										updateState({
-											advanceNoticeDays: parseInt(event.target.value, 10)
-										})
-									} else {
-										updateState({
-											advanceNoticeDays: 0
-										})
-									}
-								}}
+								onBlur={event => updateState({
+									advanceNoticeDays: parseInt(event.target.value, 10) || 1
+								})}
+								onChange={event => updateState({
+										advanceNoticeDays: Number.isNaN(event.target.value) ? '' : parseInt(event.target.value, 10) || ''
+									})
+								}
 							/>
 						)}
 					</GridItem>
@@ -160,8 +150,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.exists_second_call}
 							value={statute.existsSecondCall === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									existsSecondCall: isInputChecked ? 1 : 0
 								})
 							}
@@ -179,7 +168,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 								errorText={errors.minimumSeparationBetweenCall}
 								value={statute.minimumSeparationBetweenCall}
 								onChange={event => {
-									if (!isNaN(event.target.value) && +event.target.value > 0) {
+									if (!Number.isNaN(event.target.value) && +event.target.value > 0) {
 										updateState({
 											minimumSeparationBetweenCall: parseInt(event.target.value, 10)
 										})
@@ -206,8 +195,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<SelectInput
 							floatingText={translate.quorum_type}
 							value={statute.quorumPrototype}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									quorumPrototype: event.target.value
 								})
 							}
@@ -227,25 +215,22 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<SelectInput
 							floatingText={translate.exist_quorum_assistance_first_call}
 							value={statute.firstCallQuorumType}
-							styleLabel={{ minWidth : "240px"}}
-							onChange={event =>
-								updateState({
+							styleLabel={{ minWidth: "240px" }}
+							onChange={event => updateState({
 									firstCallQuorumType: event.target.value
 								})
 							}
 						>
 							{quorumTypes !== undefined &&
 								!loading &&
-								quorumTypes.map(quorumType => {
-									return (
+								quorumTypes.map(quorumType => (
 										<MenuItem
 											value={quorumType.value}
 											key={`quorum_${quorumType.label}`}
 										>
 											{translate[quorumType.label]}
 										</MenuItem>
-									);
-								})
+									))
 							}
 						</SelectInput>
 					</GridItem>
@@ -254,18 +239,15 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<QuorumInput
 								type={statute.firstCallQuorumType}
 								style={{ marginLeft: "1em" }}
-								styleLabel={{ minWidth : "240px"}}
 								value={statute.firstCallQuorum}
 								divider={statute.firstCallQuorumDivider}
 								quorumError={errors.firstCallQuorum}
 								dividerError={errors.firstCallQuorumDivider}
-								onChange={value =>
-									updateState({
+								onChange={value => updateState({
 										firstCallQuorum: +value
 									})
 								}
-								onChangeDivider={value =>
-									updateState({
+								onChangeDivider={value => updateState({
 										firstCallQuorumDivider: +value
 									})
 								}
@@ -277,25 +259,22 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<SelectInput
 								floatingText={translate.exist_quorum_assistance_second_call}
 								value={statute.secondCallQuorumType}
-								onChange={event =>
-									updateState({
+								styleLabel={{ minWidth: "240px" }}
+								onChange={event => updateState({
 										secondCallQuorumType: event.target.value
 									})
 								}
 							>
 								{!loading &&
-									quorumTypes.map(quorumType => {
-										return (
+									quorumTypes.map(quorumType => (
 											<MenuItem
 												value={quorumType.value}
-												key={`quorum_${
-													quorumType.label
+												key={`quorum_${quorumType.label
 													}`}
 											>
 												{translate[quorumType.label]}
 											</MenuItem>
-										);
-									})}
+										))}
 							</SelectInput>
 						</GridItem>
 					)}
@@ -311,13 +290,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 									dividerError={
 										errors.secondCallQuorumDivider
 									}
-									onChange={value =>
-										updateState({
+									onChange={value => updateState({
 											secondCallQuorum: +value
 										})
 									}
-									onChangeDivider={value =>
-										updateState({
+									onChangeDivider={value => updateState({
 											secondCallQuorumDivider: +value
 										})
 									}
@@ -329,8 +306,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.exists_delegated_vote}
 							value={statute.existsDelegatedVote === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									existsDelegatedVote: isInputChecked ? 1 : 0
 								})
 							}
@@ -343,8 +319,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 									disabled={statute.existsDelegatedVote !== 1}
 									label={translate.can_sense_vote_delegation}
 									value={statute.canSenseVoteDelegate === 1}
-									onChange={(event, isInputChecked) =>
-										updateState({
+									onChange={(event, isInputChecked) => updateState({
 											canSenseVoteDelegate: isInputChecked ? 1 : 0
 										})
 									}
@@ -354,8 +329,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 								<Checkbox
 									label={translate.exists_early_voting}
 									value={statute.canEarlyVote === 1}
-									onChange={(event, isInputChecked) =>
-										updateState({
+									onChange={(event, isInputChecked) => updateState({
 											canEarlyVote: isInputChecked ? 1 : 0
 										})
 									}
@@ -370,8 +344,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							helpDescription={translate.max_delegated_votes_des}
 							label={translate.exist_max_num_delegated_votes}
 							value={statute.existMaxNumDelegatedVotes === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									existMaxNumDelegatedVotes: isInputChecked
 										? 1
 										: 0
@@ -389,7 +362,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 								errorText={errors.maxNumDelegatedVotes}
 								value={statute.maxNumDelegatedVotes}
 								onChange={event => {
-									if (!isNaN(event.target.value) && +event.target.value > 0) {
+									if (!Number.isNaN(event.target.value) && +event.target.value > 0) {
 										updateState({
 											maxNumDelegatedVotes: parseInt(event.target.value, 10)
 										})
@@ -409,8 +382,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							helpTitle={translate.exists_limited_access_room}
 							helpDescription={translate.cant_access_after_start_desc}
 							value={statute.existsLimitedAccessRoom === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									existsLimitedAccessRoom: isInputChecked
 										? 1
 										: 0
@@ -427,7 +399,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 								errorText={errors.limitedAccessRoomMinutes}
 								value={statute.limitedAccessRoomMinutes}
 								onChange={event => {
-									if (!isNaN(event.target.value) && +event.target.value > 0) {
+									if (!Number.isNaN(event.target.value) && +event.target.value > 0) {
 										updateState({
 											limitedAccessRoomMinutes: parseInt(event.target.value, 10)
 										})
@@ -455,8 +427,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.exists_comments}
 							value={statute.existsComments === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									existsComments: isInputChecked ? 1 : 0
 								})
 							}
@@ -466,8 +437,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.exists_notify_points}
 							value={statute.notifyPoints === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									notifyPoints: isInputChecked ? 1 : 0
 								})
 							}
@@ -477,8 +447,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.exists_quality_vote}
 							value={statute.existsQualityVote === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									existsQualityVote: isInputChecked ? 1 : 0
 								})
 							}
@@ -488,8 +457,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.president}
 							value={statute.hasPresident === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									hasPresident: isInputChecked ? 1 : 0
 								})
 							}
@@ -499,8 +467,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.secretary}
 							value={statute.hasSecretary === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									hasSecretary: isInputChecked ? 1 : 0
 								})
 							}
@@ -510,8 +477,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.hide_votings_recount}
 							value={statute.hideVotingsRecountFinished === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									hideVotingsRecountFinished: isInputChecked ? 1 : 0
 								})
 							}
@@ -524,8 +490,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							helpDescription={translate.exists_present_with_remote_vote_desc}
 							label={translate.exist_present_with_remote_vote}
 							value={statute.existsPresentWithRemoteVote === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									existsPresentWithRemoteVote: isInputChecked
 										? 1
 										: 0
@@ -537,8 +502,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.agenda_can_be_modified}
 							value={statute.canAddPoints === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									canAddPoints: isInputChecked ? 1 : 0
 								})
 							}
@@ -548,8 +512,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.can_reorder_points}
 							value={statute.canReorderPoints === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									canReorderPoints: isInputChecked ? 1 : 0
 								})
 							}
@@ -559,8 +522,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<Checkbox
 							label={translate.can_unblock}
 							value={statute.canUnblock === 1}
-							onChange={(event, isInputChecked) =>
-								updateState({
+							onChange={(event, isInputChecked) => updateState({
 									canUnblock: isInputChecked ? 1 : 0
 								})
 							}
@@ -568,35 +530,34 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<SelectInput
-								floatingText={translate.default_vote}
-								value={statute.defaultVote}
-								onChange={event =>
-									updateState({
-										defaultVote: event.target.value
-									})
-								}
+							floatingText={translate.default_vote}
+							value={statute.defaultVote}
+							onChange={event => updateState({
+									defaultVote: event.target.value
+								})
+							}
+						>
+							<MenuItem
+								value={-1}
 							>
-								<MenuItem
-									value={-1}
-								>
-									{translate.dont_vote}
-								</MenuItem>
-								<MenuItem
-									value={0}
-								>
-									{translate.against_btn}
-								</MenuItem>
-								<MenuItem
-									value={1}
-								>
-									{translate.in_favor_btn}
-								</MenuItem>
-								<MenuItem
-									value={2}
-								>
-									{translate.abstention_btn}
-								</MenuItem>
-							</SelectInput>
+								{translate.dont_vote}
+							</MenuItem>
+							<MenuItem
+								value={0}
+							>
+								{translate.against_btn}
+							</MenuItem>
+							<MenuItem
+								value={1}
+							>
+								{translate.in_favor_btn}
+							</MenuItem>
+							<MenuItem
+								value={2}
+							>
+								{translate.abstention_btn}
+							</MenuItem>
+						</SelectInput>
 					</GridItem>
 				</Grid>
 				<VideoSection
@@ -618,35 +579,32 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						<SelectInput
 							floatingText={translate.associated_census}
 							value={statute.censusId || "-1"}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									censusId: event.target.value
 								})
 							}
 						>
 							{!!props.censusList && !props.censusList.loading &&
 								props.censusList.censuses.list.map(
-									census => {
-										return (
+									census => (
 											<MenuItem
 												value={census.id}
 												key={`census_${census.id}`}
 											>
 												{census.censusName}
 											</MenuItem>
-										);
-									}
+										)
 								)
 							}
 							{(CBX.multipleGoverningBody(company.governingBodyType) &&
 								company.governingBodyData &&
 								company.governingBodyData.list &&
 								company.governingBodyData.list.length > 0) &&
-									<MenuItem
-										value={parseInt(-1, 10)}
-									>
-										{translate.governing_body}
-									</MenuItem>
+								<MenuItem
+									value={parseInt(-1, 10)}
+								>
+									{translate.governing_body}
+								</MenuItem>
 							}
 						</SelectInput>
 					</GridItem>
@@ -665,7 +623,6 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 			</Grid>
 		</Fragment>
 	);
-
 }
 
 
@@ -689,8 +646,8 @@ const VideoSection = ({ updateState, statute, translate }) => {
 					<TextInput
 						floatingText={'RTMP'}
 						required
-						errorText={!validURL? translate.invalid_url : null}
-						value={statute.videoConfig? statute.videoConfig.rtmp : ''}
+						errorText={!validURL ? translate.invalid_url : null}
+						value={statute.videoConfig ? statute.videoConfig.rtmp : ''}
 						onChange={event => {
 							updateState({
 								videoConfig: {

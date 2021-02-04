@@ -15,7 +15,7 @@ const getActualParticipant = (participant, representative) => {
 		return participant;
 	}
 
-	return representative ? representative : participant;
+	return representative || participant;
 }
 
 

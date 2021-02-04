@@ -29,7 +29,7 @@ const TimelineModal = ({ translate, council }) => {
                 acceptAction={closeModal}
                 buttonAccept={translate.accept}
                 bodyText={
-                    <div style={{height: '60vh'}}>
+                    <div style={{ height: '60vh' }}>
                         <TimelineSection council={council} translate={translate} />
                     </div>
                 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import gql from 'graphql-tag';
 import { signature } from '../../../queries/signature';
 import { LoadingSection } from '../../../displayComponents';
 import { SIGNATURE_STATES } from '../../../constants';
 import SignatureEditorPage from './editor/SignatureEditorPage';
 import SignatureConfirmed from './confirmed/SignatureConfirmed';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import { withRouter } from 'react-router-dom';
-import gql from 'graphql-tag';
 
 const SignatureRootPage = props => {
     const { data } = props;

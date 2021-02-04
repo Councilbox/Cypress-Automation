@@ -1,10 +1,10 @@
 import React from "react";
+import { graphql } from "react-apollo";
 import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
 } from "../../../displayComponents";
-import { graphql } from "react-apollo";
 import { getPrimary } from "../../../styles/colors";
 import { createCensus } from "../../../queries/census";
 import CensusInfoForm from './CensusInfoForm';
@@ -58,8 +58,7 @@ class AddCensusButton extends React.Component {
 		});
 	};
 
-	_renderBody = () => {
-		return (
+	_renderBody = () => (
 			<div style={{ minWidth: !isMobile && "800px" }}>
 				<CensusInfoForm
 					translate={this.props.translate}
@@ -69,7 +68,6 @@ class AddCensusButton extends React.Component {
 				/>
 			</div>
 		);
-	};
 
 	checkRequiredFields() {
 		let hasError = false;
@@ -97,7 +95,7 @@ class AddCensusButton extends React.Component {
 				})
 			}
 		}
-		
+
 		if (!this.state.data.censusName) {
 			hasError = true;
 			this.setState({
@@ -109,15 +107,14 @@ class AddCensusButton extends React.Component {
 		}
 		if (hasError) {
 			return true;
-		} else {
-			return false;
 		}
+			return false;
 	}
 
 	render() {
 		const { translate } = this.props;
 		const primary = getPrimary();
-		
+
 		return (
 			<React.Fragment>
 				<BasicButton

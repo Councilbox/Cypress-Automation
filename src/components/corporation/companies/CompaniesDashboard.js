@@ -1,9 +1,9 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { MenuItem, Table, TableCell, TableRow, TableHead, InputAdornment } from 'material-ui';
 import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Link, Scrollbar } from '../../../displayComponents';
 import CompanyItem from './CompanyItem';
-import { MenuItem, Table, TableCell, TableRow, TableHead, InputAdornment } from 'material-ui';
 import NewCompanyPage from '../../company/new/NewCompanyPage';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
@@ -41,7 +41,7 @@ class CompaniesDashboard extends React.PureComponent {
     }
 
     refresh = () => {
-        let variables = {
+        const variables = {
             options: DEFAULT_OPTIONS
         };
         variables.options.limit = this.state.limit;
@@ -50,7 +50,6 @@ class CompaniesDashboard extends React.PureComponent {
     }
 
     render() {
-
         if (this.state.addCompany) {
             return <NewCompanyPage />
         }

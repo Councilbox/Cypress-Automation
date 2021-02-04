@@ -23,7 +23,7 @@ const reducer = (state, action) => {
             loading: false,
             data: {
                 ...action.payload,
-                file: action.payload.file? action.payload.file : {}
+                file: action.payload.file ? action.payload.file : {}
             }
         }),
         'UPDATE_COMPANY_DATA': () => ({
@@ -45,8 +45,7 @@ const reducer = (state, action) => {
         })
     }
 
-    return actions[action.type]? actions[action.type]() : state;
-
+    return actions[action.type] ? actions[action.type]() : state;
 }
 
 
@@ -73,7 +72,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
     }, [getData])
 
     function checkRequiredFields() {
-		let errors = {
+		const errors = {
 			businessName: "",
 			tin: ""
 		};
@@ -120,8 +119,7 @@ const FileCompany = ({ translate, match, client, ...props }) => {
         dispatch({ type: 'UPDATE_FILE_DATA', payload: object })
     }, [match.params.id])
 
-    const getInformacion = () => {
-        return (
+    const getInformacion = () => (
             <FileInfo
                 data={data}
                 updateState={updateState}
@@ -130,10 +128,8 @@ const FileCompany = ({ translate, match, client, ...props }) => {
                 updateCompany={saveCompany}
             />
         )
-    }
 
-    const OrgAdministracion = () => {
-        return (
+    const OrgAdministracion = () => (
             <FileOrgAdm
                 data={data}
                 updateState={updateState}
@@ -141,10 +137,8 @@ const FileCompany = ({ translate, match, client, ...props }) => {
                 updateCompany={saveCompany}
             />
         )
-    }
 
-    const getShareCapital = () => {
-        return (
+    const getShareCapital = () => (
             <SocialCapital
                 data={data}
                 updateState={updateState}
@@ -153,10 +147,8 @@ const FileCompany = ({ translate, match, client, ...props }) => {
                 updateCompany={saveCompany}
             />
         )
-    }
 
-    const librosOficiales = () => {
-        return (
+    const librosOficiales = () => (
             <FileLibrosOfi
                 data={data}
                 updateState={updateState}
@@ -165,10 +157,8 @@ const FileCompany = ({ translate, match, client, ...props }) => {
                 updateCompany={saveCompany}
             />
         )
-    }
 
-    const auditoresPoderes = () => {
-        return (
+    const auditoresPoderes = () => (
             <FileAuditoresPode
                 data={data}
                 updateState={updateState}
@@ -176,10 +166,8 @@ const FileCompany = ({ translate, match, client, ...props }) => {
                 updateCompany={saveCompany}
             />
         )
-    }
 
-    const estatutos = () => {
-        return (
+    const estatutos = () => (
             <FileEstatutos
                 data={data}
                 updateState={updateState}
@@ -187,15 +175,12 @@ const FileCompany = ({ translate, match, client, ...props }) => {
                 updateCompany={saveCompany}
             />
         )
-    }
 
-    const calendario = () => {
-        return (
+    const calendario = () => (
             <FileCalendario
                 company={data}
             />
         )
-    }
 
     if(loading){
         return <LoadingSection />
@@ -240,10 +225,8 @@ const FileCompany = ({ translate, match, client, ...props }) => {
     )
 }
 
-const DividerContenido = ({ titulo, contenido }) => {
-    return (
+const DividerContenido = ({ titulo, contenido }) => (
         <div style={{ borderBottom: "1px solid" + getPrimary(), }}></div>
     )
-}
 
 export default withTranslations()(withApollo(FileCompany));

@@ -1,8 +1,8 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm } from '../../../../displayComponents';
 import { Input } from 'material-ui';
+import { AlertConfirm } from '../../../../displayComponents';
 
 
 const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, company, parentFolder }) => {
@@ -21,7 +21,7 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
                 companyDocument: {
                     name,
                     companyId: company.id,
-                    parentFolder: parentFolder? parentFolder : 0
+                    parentFolder: parentFolder || 0
                 }
             }
         });
@@ -31,8 +31,7 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
     }
 
 
-    const renderBody = () => {
-        return (
+    const renderBody = () => (
             <Input
                 placeholder={translate.title}
                 //error={!!errors.title}
@@ -48,12 +47,10 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
                     marginTop: "1em"
                 }}
                 value={name}
-                onChange={event =>
-                    setName(event.nativeEvent.target.value)
+                onChange={event => setName(event.nativeEvent.target.value)
                 }
             />
         )
-    }
 
     return (
         <>

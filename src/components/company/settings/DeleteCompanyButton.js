@@ -1,7 +1,7 @@
 import React from 'react';
-import { BasicButton, AlertConfirm } from '../../../displayComponents';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { BasicButton, AlertConfirm } from '../../../displayComponents';
 import { bHistory } from '../../../containers/App';
 
 
@@ -35,7 +35,7 @@ const DeleteCompanyButton = ({ company, deleteCompany }) => {
             <BasicButton
                 text="Eliminar compañía"
                 color="red"
-                textStyle={{color: 'white'}}
+                textStyle={{ color: 'white' }}
                 onClick={() => setModal(true)}
             />
             <AlertConfirm

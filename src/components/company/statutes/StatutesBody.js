@@ -1,38 +1,34 @@
 import React from "react";
-import withSharedProps from "../../../HOCs/withSharedProps";
 import { compose, graphql, withApollo } from "react-apollo";
+import { withRouter } from "react-router-dom";
+import { toast } from 'react-toastify';
+import withSharedProps from "../../../HOCs/withSharedProps";
 import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
-	CardPageLayout,
 	LiveToast,
 	Scrollbar,
 	UnsavedChangesModal,
 	LoadingSection,
 	TextInput,
-	VTabs,
-	CloseIcon
+	VTabs
 } from "../../../displayComponents";
 import {
-	createStatute,
-	deleteStatute,
+	createStatute as createStatuteMutation,
+	deleteStatute as deleteStatuteMutation,
 	statutes,
-	updateStatute
+	updateStatute as updateStatuteMutation
 } from "../../../queries";
 import { censuses } from "../../../queries/census";
-import { withRouter } from "react-router-dom";
 import { store } from '../../../containers/App';
 import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from "./StatuteEditor";
 import StatuteNameEditor from './StatuteNameEditor';
-import { getPrimary, getSecondary, primary, secondary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../styles/colors";
 import { checkForUnclosedBraces } from '../../../utils/CBX';
-import { toast } from 'react-toastify';
-import { useOldState } from "../../../hooks";
 import { isMobile } from '../../../utils/screen';
-import { Paper, IconButton } from "material-ui";
-import { Tooltip } from "material-ui";
+
 
 
 const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props }) => {
@@ -53,26 +49,29 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		deleteModal: false,
 	});
 	const [censusList, setCensusList] = React.useState(null);
+	const [editorHeight, setEditorHeight] = React.useState('100%');
 	const [tabs, setTabs] = React.useState([]);
+	const statuteEditorRef = React.useRef();
 
 	React.useEffect(() => {
 		if (!data.loading) {
-			setState(state => ({
-				...state,
-				statute: data.companyStatutes[state.selectedStatute]
+			setState(oldState => ({
+				...oldState,
+				statute: data.companyStatutes[oldState.selectedStatute]
 			}));
 			setTabs(data.companyStatutes.map(statute => ({
 				title: translate[statute.title] || statute.title,
-				data: statute
+				data: statute,
+				disabled: statute.companyId !== +props.company.id
 			})));
 		}
 	}, [state.selectedStatute, data.loading]);
 
 	React.useEffect(() => {
 		if (state.statute === null) {
-			setState(state => ({
-				...state,
-				statute: data.companyStatutes[state.selectedStatute]
+			setState(oldState => ({
+				...oldState,
+				statute: data.companyStatutes[oldState.selectedStatute]
 			}));
 		}
 	}, [state.statute]);
@@ -93,7 +92,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	}, [censuses]);
 
 	function checkRequiredFields() {
-		let errors = {
+		const errors = {
 			advanceNoticeDays: '',
 			minimumSeparationBetweenCall: '',
 			maxNumDelegatedVotes: '',
@@ -108,22 +107,22 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 		const { statute } = state;
 
-		if (statute.existsAdvanceNoticeDays && isNaN(statute.advanceNoticeDays)) {
+		if (statute.existsAdvanceNoticeDays && Number.isNaN(statute.advanceNoticeDays)) {
 			errors.advanceNoticeDays = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsSecondCall && isNaN(statute.minimumSeparationBetweenCall)) {
+		if (statute.existsSecondCall && Number.isNaN(statute.minimumSeparationBetweenCall)) {
 			errors.minimumSeparationBetweenCall = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsMaxNumDelegatedVotes && isNaN(statute.maxNumDelegatedVotes)) {
+		if (statute.existsMaxNumDelegatedVotes && Number.isNaN(statute.maxNumDelegatedVotes)) {
 			hasError = true;
 			errors.maxNumDelegatedVotes = translate.required_field;
 		}
 
-		if (statute.existsLimitedAccessRoom && isNaN(statute.limitedAccessRoomMinutes)) {
+		if (statute.existsLimitedAccessRoom && Number.isNaN(statute.limitedAccessRoomMinutes)) {
 			hasError = true;
 			errors.limitedAccessRoomMinutes = translate.required_field;
 		}
@@ -166,8 +165,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			);
 		}
 
-		setState(state => ({
-			...state,
+		setState(oldState => ({
+			...oldState,
 			errors,
 			error: hasError
 		}));
@@ -209,7 +208,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 			const response = await props.updateStatute({
 				variables: {
-					statute: statute
+					statute
 				}
 			});
 			if (response.errors) {
@@ -254,9 +253,32 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		}
 	};
 
+	const handleStatuteChange = index => {
+		if (index !== 'new') {
+			if (!state.unsavedChanges) {
+				setState({
+					...state,
+					selectedStatute: index,
+					statute: null,
+					error: false,
+					loading: false,
+					success: false
+				})
+			} else {
+				setState({
+					...state,
+					unsavedAlert: true,
+					error: false,
+					loading: false,
+					success: false
+				});
+			}
+		}
+	};
+
 	const createStatute = async () => {
-		var regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
-		
+		const regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
+
 		if (state.newStatuteName) {
 			if ((regex.test(state.newStatuteName)) && state.newStatuteName.trim()) {
 				setState({
@@ -308,46 +330,29 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const updateState = object => {
+		if(state.statute.companyId !== props.company.id){
+			return;
+		}
+
 		if (!state.unsavedChanges) {
 			store.dispatch(setUnsavedChanges(true));
 		}
 
 
-		setState(state => ({
-			...state,
+		setState(oldState => ({
+			...oldState,
 			statute: {
-				...state.statute,
+				...oldState.statute,
 				...object
 			},
-			unsavedChanges: JSON.stringify({...state.statute, ...object}) !== JSON.stringify(data.companyStatutes[state.selectedStatute])
+			unsavedChanges: JSON.stringify({ ...oldState.statute, ...object }) !== JSON.stringify(data.companyStatutes[oldState.selectedStatute])
 		}));
 	};
 
-	const handleStatuteChange = index => {
-		if (index !== 'new') {
-			if (!state.unsavedChanges) {
-				setState({
-					...state,
-					selectedStatute: index,
-					statute: null,
-					error: false,
-					loading: false,
-					success: false
-				})
-			} else {
-				setState({
-					...state,
-					unsavedAlert: true,
-					error: false,
-					loading: false,
-					success: false
-				});
-			}
-		}
-	};
-
 	const showNewStatute = () => setState({
-		...state, newStatute: true, errors: {
+		...state,
+		newStatute: true,
+		errors: {
 			...state.errors,
 			newStatuteName: ""
 		}
@@ -365,6 +370,10 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		store.dispatch(setUnsavedChanges(false));
 	}
 
+	React.useLayoutEffect(() => {
+		setEditorHeight(statuteEditorRef.current?.offsetHeight || '100%');
+	}, [statuteEditorRef.current]);
+
 	const { companyStatutes } = data;
 	const { statute, errors, success } = state;
 	const secondary = getSecondary();
@@ -372,7 +381,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	if (!companyStatutes) {
 		return <LoadingSection />;
 	}
-	
+
+	const disabled = statute && (statute.companyId !== props.company.id);
 
 	const body = () => (
 		<>
@@ -407,12 +417,43 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 							<React.Fragment>
 								<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
 									<Scrollbar>
-										<div style={{ paddingLeft: '1em', paddingRight: '1.5em', overflow: 'hidden' }}>
+										{disabled &&
+											<>
+												<div
+													style={{
+														position: 'absolute',
+														top: '0',
+														left: '0',
+														width: '100%',
+														height: editorHeight,
+														//backgroundColor: 'red',
+														zIndex: 1000000
+													}}
+													onClick={() => {}}
+												/>
+												<div
+													style={{
+														width: '100%',
+														textAlign: 'center',
+														border: '1px solid black',
+														borderRadius: '4px',
+														fontWeight: '700',
+														padding: '0.6em 0',
+														margin: '1em 0'
+													}}
+												>
+													{translate.organization_statute} <br/>
+													{translate.read_only}
+												</div>
+											</>
+										}
+										<div style={{ paddingLeft: '1em', paddingRight: '1.5em', overflow: 'hidden' }} ref={statuteEditorRef}>
 											<StatuteEditor
 												companyStatutes={companyStatutes}
 												statute={statute}
 												censusList={censusList}
 												company={props.company}
+												disabled={disabled}
 												translate={translate}
 												organization={props.organization}
 												updateState={updateState}
@@ -425,7 +466,6 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 								<div
 									style={{
 										width: '100%',
-										paddingRight: '24px',
 										height: '3.5em',
 										paddingTop: '0.5em',
 										borderTop: '1px solid gainsboro',
@@ -460,27 +500,29 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 												}
 											/>
 										}
-										<BasicButton
-											text={translate.save}
-											disabled={state.error}
-											color={success ? "green" : getPrimary()}
-											textStyle={{
-												color: "white",
-												fontWeight: "700",
-												textTransform: 'none'
-											}}
-											onClick={updateStatute}
-											loading={state.loading}
-											error={state.error}
-											reset={resetButtonStates}
-											success={success}
-											icon={
-												<ButtonIcon
-													type={"save"}
-													color="white"
-												/>
-											}
-										/>
+										{!disabled &&
+											<BasicButton
+												text={translate.save}
+												disabled={state.error}
+												color={success ? "green" : getPrimary()}
+												textStyle={{
+													color: "white",
+													fontWeight: "700",
+													textTransform: 'none'
+												}}
+												onClick={updateStatute}
+												loading={state.loading}
+												error={state.error}
+												reset={resetButtonStates}
+												success={success}
+												icon={
+													<ButtonIcon
+														type={"save"}
+														color="white"
+													/>
+												}
+											/>
+										}
 									</div>
 								</div>
 							</React.Fragment>
@@ -542,8 +584,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				requestClose={() => setState({ ...state, rollbackAlert: false })}
 			/>
 			<AlertConfirm
-				requestClose={() =>
-					setState({ ...state, newStatute: false })
+				requestClose={() => setState({ ...state, newStatute: false })
 				}
 				open={state.newStatute}
 				acceptAction={createStatute}
@@ -557,8 +598,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 						type="text"
 						errorText={errors.newStatuteName}
 						value={statute ? statute.newStatuteName : state.newStatuteName}
-						onChange={event =>
-							setState({
+						onChange={event => setState({
 								...state,
 								newStatuteName:
 									event.target.value
@@ -570,8 +610,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			/>
 			{state.editModal !== false &&
 				<StatuteNameEditor
-					requestClose={() =>
-						setState({ ...state, editModal: false })
+					requestClose={() => setState({ ...state, editModal: false })
 					}
 					key={companyStatutes[state.editModal].id}
 					statute={companyStatutes[state.editModal]}
@@ -588,13 +627,13 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 export default withSharedProps()(
 	compose(
-		graphql(updateStatute, {
+		graphql(updateStatuteMutation, {
 			name: "updateStatute"
 		}),
-		graphql(deleteStatute, {
+		graphql(deleteStatuteMutation, {
 			name: "deleteStatute"
 		}),
-		graphql(createStatute, {
+		graphql(createStatuteMutation, {
 			name: "createStatute"
 		}),
 		graphql(statutes, {

@@ -1,13 +1,13 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
+import { TableRow, TableCell, Tooltip } from 'material-ui';
+import gql from 'graphql-tag';
 import { councilParticipantsWithActSends } from '../../../../queries';
 import { LoadingSection, EnhancedTable, RefreshButton } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
-import { TableRow, TableCell, Tooltip } from 'material-ui';
 import * as CBX from '../../../../utils/CBX';
 import AttendIntentionIcon from '../../live/participants/AttendIntentionIcon';
-import DownloadCBXDataButton from '../../../council/prepare/DownloadCBXDataButton';
-import gql from 'graphql-tag';
+import DownloadCBXDataButton from "../../prepare/DownloadCBXDataButton";
 
 
 const updateActSends = gql`
@@ -21,7 +21,6 @@ const updateActSends = gql`
 
 
 class ParticipantsWithActTable extends React.Component {
-
     async componentDidMount(){
         this.refreshEmails();
     }
@@ -55,27 +54,25 @@ class ParticipantsWithActTable extends React.Component {
                     limits={PARTICIPANTS_LIMITS}
                     page={1}
                     loading={this.props.data.loading}
-                    length={this.props.data.loading? [] : this.props.data.councilParticipantsWithActSends.list.length}
-                    total={this.props.data.loading? [] : this.props.data.councilParticipantsWithActSends.total}
+                    length={this.props.data.loading ? [] : this.props.data.councilParticipantsWithActSends.list.length}
+                    total={this.props.data.loading ? [] : this.props.data.councilParticipantsWithActSends.total}
                     refetch={this.props.data.refetch}
                     action={this._renderDeleteIcon}
                     headers={[]}
                 >
-                    {this.props.data.loading?
+                    {this.props.data.loading ?
                         <LoadingSection />
                     : (
                         this.props.data.councilParticipantsWithActSends.list.map(
-                            (participant, index) => {
-                                return (
+                            (participant, index) => (
                                     <React.Fragment
                                         key={`participant${participant.id}`}
                                     >
                                         <TableRow
                                             hover
-                                            onClick={() =>
-                                                this.setState({
+                                            onClick={() => this.setState({
                                                     editingParticipant: true,
-                                                    participant: participant
+                                                    participant
                                                 })
                                             }
                                             style={{
@@ -145,8 +142,7 @@ class ParticipantsWithActTable extends React.Component {
                                             </TableCell>
                                         </TableRow>
                                     </React.Fragment>
-                                );
-                            }
+                                )
                         )
                     )}
                 </EnhancedTable>

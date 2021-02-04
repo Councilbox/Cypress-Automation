@@ -1,6 +1,6 @@
 import React from 'react';
-import { AlertConfirm } from '../../../displayComponents';
 import { IconButton, Card } from 'material-ui';
+import { AlertConfirm } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import Convene from '../../council/convene/Convene';
 import CouncilInfo from '../../council/convene/CouncilInfo';
@@ -37,17 +37,14 @@ const CouncilInfoMenu = ({ translate, council, participant, agendaNoSession, noS
         })
     }
 
-    const _renderCouncilInfo = () => {
-        return (
+    const _renderCouncilInfo = () => (
             <CouncilInfo
                 council={council}
                 translate={translate}
             />
         )
-    }
 
-    const _renderConveneBody = () => {
-        return (
+    const _renderConveneBody = () => (
             <div>
                 <Convene
                     council={council}
@@ -56,15 +53,10 @@ const CouncilInfoMenu = ({ translate, council, participant, agendaNoSession, noS
                 />
             </div>
         )
-    }
 
-    const calculateParticipantVotes = () => {
-        return participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations);
-    }
+    const calculateParticipantVotes = () => participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations)
 
-    const _renderParticipantInfo = () => {
-
-        return (
+    const _renderParticipantInfo = () => (
             <div>
                 <Card style={{ padding: "20px" }}>
                     <div>
@@ -86,20 +78,19 @@ const CouncilInfoMenu = ({ translate, council, participant, agendaNoSession, noS
                 </Card>
             </div>
         )
-    }
 
     const secondary = getSecondary();
-    let fecha1 = moment(new Date(council.closeDate))
-    let fecha2 = moment(new Date())
+    const fecha1 = moment(new Date(council.closeDate))
+    const fecha2 = moment(new Date())
 
-    let duration = fecha1.diff(fecha2)
+    const duration = fecha1.diff(fecha2)
     const diffDuration = moment.duration(duration);
-    let dias = diffDuration.days() ? diffDuration.days() + "d " : ""
+    const dias = diffDuration.days() ? diffDuration.days() + "d " : ""
     let finalizado = false
     if (diffDuration.hours() < 0 && (diffDuration.minutes() == 0 && diffDuration.seconds() == 0)) {
         finalizado = '00:00'
     }
-    let date = dias + (finalizado ? finalizado : (diffDuration.hours() < 10 ? "0" + diffDuration.hours() : diffDuration.hours()) + ":" + (diffDuration.minutes() < 10 ? "0" + diffDuration.minutes() : diffDuration.minutes()) + ":" + (diffDuration.seconds() < 10 ? "0" + diffDuration.seconds() : diffDuration.seconds()));
+    const date = dias + (finalizado || (diffDuration.hours() < 10 ? "0" + diffDuration.hours() : diffDuration.hours()) + ":" + (diffDuration.minutes() < 10 ? "0" + diffDuration.minutes() : diffDuration.minutes()) + ":" + (diffDuration.seconds() < 10 ? "0" + diffDuration.seconds() : diffDuration.seconds()));
     return (
         <React.Fragment>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -119,8 +110,7 @@ const CouncilInfoMenu = ({ translate, council, participant, agendaNoSession, noS
 
                 <IconButton
                     size={'small'}
-                    onClick={() =>
-                        setState({
+                    onClick={() => setState({
                             ...state,
                             showCouncilInfo: true
                         })

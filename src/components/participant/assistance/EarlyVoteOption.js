@@ -1,16 +1,16 @@
 import React from 'react';
 import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
 import { AlertConfirm, LoadingSection, BasicButton } from '../../../displayComponents';
 import { PARTICIPANT_STATES, VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_TYPE } from '../../../constants';
 import AssistanceOption from './AssistanceOption';
-import { withApollo } from 'react-apollo';
 
 import EarlyVoteModal from './EarlyVoteModal';
 
 
 const EarlyVoteOption = ({ data, setState, state, participant, council, translate, client, ...props }) => {
     const [modal, setModal] = React.useState(false);
-    
+
     return (
         <>
             <AssistanceOption

@@ -1,10 +1,10 @@
 import React from 'react';
-import withTranslations from '../../HOCs/withTranslations';
 import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { Paper } from 'material-ui';
-import { bHistory } from '../../containers/App';
 import gql from 'graphql-tag';
+import { bHistory } from '../../containers/App';
+import withTranslations from '../../HOCs/withTranslations';
 import { getPrimary } from '../../styles/colors';
 import { LoadingSection, BasicButton, TextInput, NotLoggedLayout } from '../../displayComponents';
 import { useSubdomain } from '../../utils/subdomain';
@@ -61,7 +61,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
     }
 
     const checkRequiredFields = () => {
-        let errors = {
+        const errors = {
             confirmPassword: '',
             password: ''
         }
@@ -71,17 +71,13 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
         if(state.password.length === 0){
             hasError = true;
             errors.password = translate.required_field;
-        }else{
-            if(state.confirmPassword.length === 0){
+        }else if(state.confirmPassword.length === 0){
                 hasError = true;
                 errors.confirmPassword = translate.required_field;
-            }else{
-                if(state.password !== state.confirmPassword){
+            }else if(state.password !== state.confirmPassword){
                     errors.confirmPassword = translate.register_unmatch_pwds;
                     hasError = true;
                 }
-            }
-        }
 
         setState({
             ...state,
@@ -91,8 +87,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
         return hasError;
     }
 
-    const errorWrapper = () => {
-        return(
+    const errorWrapper = () => (
             <div
                 style={{
                     color: primary,
@@ -101,17 +96,15 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                     marginBottom: '1.3em'
                 }}
             >
-                {state.error === 407?
+                {state.error === 407 ?
                     translate.account_actived_yet
                 :
                     translate.error_active_account
                 }
             </div>
         )
-    }
 
-    const successMessage = () => {
-        return (
+    const successMessage = () => (
             <div
                 style={{
                     color: primary,
@@ -123,7 +116,6 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                 {translate.account_actived}
             </div>
         )
-    }
 
     return(
         <NotLoggedLayout
@@ -153,7 +145,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                         flexDirection: 'column'
                     }}
                 >
-                    {state.loading?
+                    {state.loading ?
                             <LoadingSection />
                         :
                             <React.Fragment>
@@ -161,7 +153,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                     errorWrapper()}
                                 {state.success &&
                                     successMessage()}
-                                {(!state.success && !state.error)?
+                                {(!state.success && !state.error) ?
                                     <React.Fragment>
                                         <p
                                             style={{
@@ -195,8 +187,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                                         ? "text"
                                                         : "password"
                                                 }
-                                                passwordToggler={() =>
-                                                    setState({
+                                                passwordToggler={() => setState({
                                                         ...state,
                                                         showPassword: !state.showPassword
                                                     })
@@ -217,8 +208,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                                         ? "text"
                                                         : "password"
                                                 }
-                                                passwordToggler={() =>
-                                                    setState({
+                                                passwordToggler={() => setState({
                                                         ...state,
                                                         showConfirmPassword: !state.showConfirmPassword
                                                     })
@@ -232,12 +222,12 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                                 })}
                                             />
                                             <div
-                                                style={{marginTop: '1.2em'}}
+                                                style={{ marginTop: '1.2em' }}
                                             >
                                                 <BasicButton
                                                     text={translate.set_pwd}
                                                     color={primary}
-                                                    textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                                                    textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
                                                     onClick={confirmEmailAndSetPwd}
                                                 />
                                             </div>
@@ -246,7 +236,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                 :
                                     <BasicButton
                                         text={translate.go_login}
-                                        textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                                        textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
                                         color={primary}
                                         onClick={() => bHistory.push('/')}
                                     />
@@ -257,7 +247,6 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
             </div>
         </NotLoggedLayout>
     )
-
 }
 
 

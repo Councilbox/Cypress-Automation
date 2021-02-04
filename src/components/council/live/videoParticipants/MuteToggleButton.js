@@ -1,12 +1,11 @@
 import React from "react";
 import { Card, MenuItem, Tooltip } from "material-ui";
-import { getSecondary } from "../../../../styles/colors";
 import { graphql, compose } from "react-apollo";
-import { haveGrantedWord } from "../../../../utils/CBX";
 import gql from 'graphql-tag';
+import { getSecondary } from "../../../../styles/colors";
+import { haveGrantedWord } from "../../../../utils/CBX";
 
 class MuteToggleButton extends React.Component {
-
     toggleMuteParticipant = async () => {
 		this.setState({
 			loading: true
@@ -51,7 +50,7 @@ class MuteToggleButton extends React.Component {
 
 		//TRADUCCION
 		return (
-			<div style={{marginRight: '0.3em'}}>
+			<div style={{ marginRight: '0.3em' }}>
 				{haveGrantedWord(participant) && (
 					<Tooltip
 						title={
@@ -61,8 +60,7 @@ class MuteToggleButton extends React.Component {
 						}
 					>
 						<Card
-							onClick={() =>
-								this.toggleMuteParticipant(participant.id)
+							onClick={() => this.toggleMuteParticipant(participant.id)
 							}
 							style={{
 								width: "1.6em",
@@ -83,8 +81,8 @@ class MuteToggleButton extends React.Component {
 									justifyContent: "center"
 								}}
 							>
-								{(this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic)?
-									<i className="fa fa-microphone-slash" aria-hidden="true" style={{transform: 'scaleX(-1)'}}></i>
+								{(this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic) ?
+									<i className="fa fa-microphone-slash" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}></i>
 								:
 									<i className="fa fa-microphone" aria-hidden="true"></i>
 								}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import Loadable from 'react-loadable';
 import { LoadingMainApp } from '../displayComponents';
 import Dashboard from "../components/dashboard/Dashboard";
 import CouncilEditorContainer from "./CouncilEditorContainer";
@@ -28,12 +29,10 @@ import MeetingsContainer from "./MeetingsContainer";
 import PartnersBookPage from '../components/partners/PartnersBookPage';
 import PartnerEditorPage from '../components/partners/PartnerEditorPage';
 import NewPartnerPage from '../components/partners/NewPartnerPage';
-import Loadable from 'react-loadable';
 import { bHistory, store } from './App';
 import { addSpecificTranslations } from '../actions/companyActions';
 import TablaCompanies from '../components/corporation/companies/TablaCompanies';
 import UserEdit from '../components/corporation/users/UserEdit';
-import UsersDashboard from '../components/corporation/users/UsersDashboard';
 import OrganizationUsers from '../components/corporation/users/OrganizationUsers';
 import FileCompany from '../components/company/compayFile/FileCompany';
 import CompanyDraftNew from '../components/company/drafts/CompanyDraftNew';
@@ -43,11 +42,9 @@ const DevAdminPanel = Loadable({
 	loading: LoadingMainApp
 });
 
-const redirect = company => () => {
-    return <Redirect to={`/company/${company.id}`} />
-}
+const redirect = company => () => <Redirect to={`/company/${company.id}`} />
 
-const MainRouter = ({ company, user, location, disabled }) => {
+const MainRouter = ({ company, user, location }) => {
     React.useEffect(() => {
 		store.dispatch(addSpecificTranslations(company));
 	}, [store, company]);
@@ -57,9 +54,7 @@ const MainRouter = ({ company, user, location, disabled }) => {
         //return <Redirect to={`/company/${company.id}`} />
     }
 
-    const companySettings = () => {
-        return <CompanySettingsPage linkButton={true} />
-    }
+    const companySettings = () => <CompanySettingsPage linkButton={true} />
 
     return(
         <Switch>

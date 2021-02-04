@@ -1,4 +1,5 @@
 import React from "react";
+import { MenuItem } from "material-ui/Menu";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -9,7 +10,6 @@ import {
 	TextInput
 } from "../../../displayComponents";
 import { getPrimary, secondary } from "../../../styles/colors";
-import { MenuItem } from "material-ui/Menu";
 import TermsModal from "./TermsModal";
 
 class SignUpPay extends React.Component {
@@ -39,7 +39,7 @@ class SignUpPay extends React.Component {
 	checkRequiredFields() {
 		const { translate } = this.props;
 
-		let errors = {
+		const errors = {
 			termsCheck: ""
 		};
 		let hasError = false;
@@ -55,7 +55,7 @@ class SignUpPay extends React.Component {
 	}
 
 	checkTerms() {
-		let errors = {
+		const errors = {
 			termsCheck: ""
 		};
 
@@ -68,7 +68,7 @@ class SignUpPay extends React.Component {
 
 		this.props.updateErrors({
 			...errors,
-			hasError: hasError
+			hasError
 		});
 
 		return hasError;
@@ -84,7 +84,6 @@ class SignUpPay extends React.Component {
 	};
 
 	render() {
-
 		const { translate, errors } = this.props;
 		const data = this.props.formData;
 		const primary = getPrimary();
@@ -111,23 +110,20 @@ class SignUpPay extends React.Component {
 						<SelectInput
 							floatingText={translate.type_of_subscription}
 							value={data.subscriptionType}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									subscriptionType: event.target.value
 								})
 							}
 							errorText={errors.subscriptionType}
 						>
-							{this.state.subscriptions.map(subscription => {
-								return (
+							{this.state.subscriptions.map(subscription => (
 									<MenuItem
 										key={subscription}
 										value={subscription}
 									>
 										{subscription}
 									</MenuItem>
-								);
-							})}
+								))}
 						</SelectInput>
 					</GridItem>
 					<GridItem xs={12} md={4} lg={4}>
@@ -135,8 +131,7 @@ class SignUpPay extends React.Component {
 							floatingText="IBAN"
 							type="text"
 							value={this.state.iban}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									iban: event.target.value
 								})
 							}
@@ -148,8 +143,7 @@ class SignUpPay extends React.Component {
 							floatingText={translate.code_society_up}
 							type="text"
 							value={this.state.code}
-							onChange={event =>
-								this.props.updateState({
+							onChange={event => this.props.updateState({
 									code: event.target.value
 								})
 							}
@@ -158,12 +152,11 @@ class SignUpPay extends React.Component {
 					</GridItem>
 
 					<GridItem xs={12} md={12} lg={12}>
-						<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 							<Checkbox
 								label={translate.login_read_terms + ' '}
 								value={this.state.termsCheck}
-								onChange={(event, isInputChecked) =>
-									this.setState({
+								onChange={(event, isInputChecked) => this.setState({
 										termsCheck: isInputChecked
 									})
 								}
@@ -231,7 +224,7 @@ class SignUpPay extends React.Component {
 						/>
 					</GridItem>
 				</Grid>
-				
+
 			</div>
 		);
 	}

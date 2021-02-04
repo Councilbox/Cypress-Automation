@@ -38,7 +38,7 @@ const KPI = ({ translate, client }) => {
     return (
         <div style={{ padding: '2em', overflow: 'auto', height: '100%' }}>
             <DatePicker onChange={value => setDateStart(value)} value={dateStart} placeholder={'Fecha inicial'} />
-            <DatePicker onChange={value => setDateEnd(value)} value={dateEnd} placeholder={'Fecha final'} style={{ marginLeft: '1em'}} />
+            <DatePicker onChange={value => setDateEnd(value)} value={dateEnd} placeholder={'Fecha final'} style={{ marginLeft: '1em' }} />
             {KPI &&
                 <div style={{ marginTop: '1em' }}>
                     {Object.keys(KPI).map((key, index) => (

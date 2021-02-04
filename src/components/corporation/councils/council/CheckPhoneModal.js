@@ -1,8 +1,8 @@
 import React from 'react';
-import { AlertConfirm, BasicButton, TextInput } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
-import { getSecondary } from '../../../../styles/colors';
 import gql from 'graphql-tag';
+import { AlertConfirm, BasicButton, TextInput } from '../../../../displayComponents';
+import { getSecondary } from '../../../../styles/colors';
 
 
 const CheckPhoneModal = ({ translate, client }) => {
@@ -53,7 +53,7 @@ const CheckPhoneModal = ({ translate, client }) => {
                             floatingText={translate.phone}
                             onChange={event => setPhone(event.target.value)}
                         />
-                        {result && 
+                        {result &&
                             <div>
                                 {Object.keys(result).map((key, index) => (
                                     <div key={`${key}_${index}`}>

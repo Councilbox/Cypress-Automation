@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import gql from 'graphql-tag';
+import FileSaver from 'file-saver';
 import { checkValidEmail } from './utils';
 import { checkUniqueCouncilEmails } from './queries/councilParticipant';
-import FileSaver from 'file-saver';
 import { SERVER_URL } from './config';
 
 
@@ -20,7 +20,7 @@ export const useInterval = (callback, delay, deps = []) => {
 			savedCallback.current();
 		}
 		if (delay !== null) {
-			let id = setInterval(tick, delay);
+			const id = setInterval(tick, delay);
 			return () => clearInterval(id);
 		}
     }, [delay, ...deps]);
@@ -30,8 +30,8 @@ export const useOldState = initialValue => {
 	const [state, setState] = React.useState(initialValue);
 
 	const oldSetState = object => {
-		setState(state => ({
-			...state,
+		setState(previousState => ({
+			...previousState,
 			...object
 		}));
 	}
@@ -52,6 +52,61 @@ export const useHoverRow = () => {
 
 
 	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
+}
+
+export const STATUS = {
+	ERROR: 'ERROR',
+	SUCCESS: 'SUCCESS',
+	LOADING: 'LOADING',
+	IDDLE: 'IDDLE'
+
+};
+
+const statusReducer = (state, action) => {
+    const actions = {
+        [STATUS.ERROR]: () => ({
+            ...state,
+			status: 'ERROR',
+			data: action.payload
+		}),
+		[STATUS.SUCCESS]: () => ({
+            ...state,
+			status: 'SUCCESS',
+			data: action.payload
+		}),
+		[STATUS.LOADING]: () => ({
+            ...state,
+			status: 'LOADING',
+			data: null
+		}),
+		[STATUS.IDDLE]: () => ({
+            ...state,
+			status: 'IDDLE',
+			data: null
+		}),
+	}
+
+	return actions[action.type] ? actions[action.type]() : state;
+}
+
+export const useStatus = initialStatus => {
+	const [{ status, data }, dispatch] = React.useReducer(statusReducer, {
+		status: initialStatus || STATUS.IDDLE
+	});
+
+	const setStatus = (type, payload) => {
+		dispatch({ type, payload });
+	}
+
+	return {
+		loading: status === STATUS.LOADING,
+		error: status === STATUS.ERROR,
+		iddle: status === STATUS.IDDLE,
+		success: status === STATUS.SUCCESS,
+		data,
+		STATUS,
+		setStatus
+	}
 }
 
 
@@ -90,11 +145,13 @@ export const usePolling = (cb, interval, deps = []) => {
         if(visible && online && !inThrottle.current){
 			cb();
 			inThrottle.current = true;
-			setTimeout(() => inThrottle.current = false, interval);
+			setTimeout(() => {
+				inThrottle.current = false
+			}, interval);
 		}
 	}, [visible, online]);
 
-	useInterval(cb, !online? interval * 1000 : visible? interval : interval * 10, deps);
+	useInterval(cb, !online ? interval * 1000 : visible ? interval : interval * 10, deps);
 }
 
 
@@ -155,6 +212,57 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 		return () => clearTimeout(timeout);
 	}, [success])
 
+	const checkRequiredFields = async () => {
+		const newErrors = {};
+
+		if(email !== participant.email){
+			if(!email){
+				newErrors.email = translate.required_field;
+			} else if(!checkValidEmail(email.toLocaleLowerCase())){
+					newErrors.email = translate.valid_email_required;
+			} else {
+				const response = await client.query({
+					query: checkUniqueCouncilEmails,
+					variables: {
+						councilId: council.id,
+						emailList: [email]
+					}
+				});
+
+				if(!response.data.checkUniqueCouncilEmails.success){
+					newErrors.email = translate.register_exists_email;
+				}
+			}
+		}
+
+		if(phone !== participant.phone){
+			if(!phone){
+				newErrors.phone = translate.required_field;
+			} else {
+				const response = await client.query({
+					query: gql`
+						query phoneLookup($phone: String!){
+							phoneLookup(phone: $phone){
+								success
+								message
+							}
+						}
+					`,
+					variables: {
+						phone
+					}
+				});
+
+				if(!response.data.phoneLookup.success){
+					errors.phone = translate.invalid_phone;
+				}
+			}
+		}
+
+		setErrors(newErrors);
+		return Object.keys(newErrors).length > 0;
+	}
+
 	const updateParticipantContactInfo = async () => {
 		setSaving(true);
 		if(!await checkRequiredFields()){
@@ -178,62 +286,6 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 			}
 		}
 		setSaving(false);
-
-		
-	}
-	
-	const checkRequiredFields = async () => {
-		let errors = {};
-
-		if(email !== participant.email){
-			if(!email){
-				errors.email = translate.required_field;
-			} else {
-				if(!checkValidEmail(email.toLocaleLowerCase())){
-					errors.email = translate.valid_email_required;
-				} else {
-					const response = await client.query({
-						query: checkUniqueCouncilEmails,
-						variables: {
-							councilId: council.id,
-							emailList: [email]
-						}
-					});
-
-					if(!response.data.checkUniqueCouncilEmails.success){
-						errors.email = translate.register_exists_email;
-					}
-				}
-			}
-		}
-
-		if(phone !== participant.phone){
-			if(!phone){
-				errors.phone = translate.required_field;
-			} else {
-				const response = await client.query({
-					query: gql`
-						query phoneLookup($phone: String!){
-							phoneLookup(phone: $phone){
-								success
-								message
-							}
-						}
-					`,
-					variables: {
-						phone
-					}
-				});
-
-				if(!response.data.phoneLookup.success){
-					errors.phone = translate.invalid_phone;
-				}
-			}
-		}
-
-		setErrors(errors);
-
-		return Object.keys(errors).length > 0;
 	}
 
 	return {
@@ -297,7 +349,7 @@ export const useCouncilAgendas = ({
 	React.useEffect(() => {
         getData();
     }, [councilId])
-	
+
 	return {
 		data,
 		loading
@@ -329,7 +381,7 @@ export const useSendRoomKey = client => {
 
 
 export const useCountdown = time => {
-	const [secondsLeft, setCountdown] = React.useState(time ? time : 0);
+	const [secondsLeft, setCountdown] = React.useState(time || 0);
 
 	React.useEffect(() => {
 		let timeout;
@@ -370,7 +422,7 @@ export const useQueryReducer = ({ client, query, variables }) => {
 			query,
 			variables
 		});
-		
+
 		if(!response.errors){
 			dispatch({ type: 'DATA_LOADED', payload: response.data });
 		}
@@ -387,7 +439,6 @@ export const useQueryReducer = ({ client, query, variables }) => {
 		errors,
 		loading
 	}
-	
 }
 
 export const useDownloadHTMLAsPDF = () => {
@@ -410,7 +461,7 @@ export const useDownloadHTMLAsPDF = () => {
 		FileSaver.saveAs(blob, `${name}.pdf`);
 		setDownloading(false);
 	}
-	
+
 	return {
 		downloading,
 		downloadHTMLAsPDF

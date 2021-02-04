@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Grid, GridItem, SelectInput, TextInput } from "./index";
 import { MenuItem } from "material-ui";
+import { Grid, GridItem, SelectInput, TextInput } from "./index";
 
 class TableEnhancer extends Component {
 	updateFilterText = async value => {
@@ -10,7 +10,7 @@ class TableEnhancer extends Component {
 			page: 1
 		});
 
-		let newVariables = {
+		const newVariables = {
 			filter: {
 				field: this.state.filterField,
 				text: value
@@ -19,6 +19,7 @@ class TableEnhancer extends Component {
 		clearTimeout(this.timeout);
 		this.timeout = setTimeout(() => refetch(newVariables), 450);
 	};
+
 	updateFilterField = async value => {
 		const { refetch } = this.props;
 
@@ -28,7 +29,7 @@ class TableEnhancer extends Component {
 		});
 
 		if (this.state.filterText) {
-			let newVariables = {
+			const newVariables = {
 				filter: {
 					field: value,
 					text: this.state.filterText
@@ -37,16 +38,17 @@ class TableEnhancer extends Component {
 			refetch(newVariables);
 		}
 	};
+
 	updateLimit = async limit => {
 		const { refetch } = this.props;
 
-		if (!!limit) {
+		if (limit) {
 			let variables = {
 				options: {
-					limit: limit
+					limit
 				}
 			};
-			if (!!this.state.filterText) {
+			if (this.state.filterText) {
 				variables = {
 					...variables,
 					filter: {
@@ -57,22 +59,23 @@ class TableEnhancer extends Component {
 			}
 			refetch(variables);
 			this.setState({
-				limit: limit,
+				limit,
 				page: 1
 			});
 		}
 	};
+
 	changePage = async page => {
 		const { refetch } = this.props;
 
-		if (!!page) {
+		if (page) {
 			let variables = {
 				options: {
 					limit: this.state.limit,
 					offset: this.state.limit * (page - 1)
 				}
 			};
-			if (!!this.state.filterText) {
+			if (this.state.filterText) {
 				variables = {
 					...variables,
 					filter: {
@@ -83,7 +86,7 @@ class TableEnhancer extends Component {
 			}
 			refetch(variables);
 			this.setState({
-				page: page
+				page
 			});
 		}
 	};
@@ -117,8 +120,7 @@ class TableEnhancer extends Component {
 						<GridItem xs={2} md={1} lg={1}>
 							<SelectInput
 								value={limit}
-								onChange={event =>
-									this.updateLimit(event.target.value)
+								onChange={event => this.updateLimit(event.target.value)
 								}
 							>
 								{limits.map(item => (
@@ -147,8 +149,7 @@ class TableEnhancer extends Component {
 							<SelectInput
 								floatingText={translate.filter_by}
 								value={filterField}
-								onChange={event =>
-									this.updateFilterField(event.target.value)
+								onChange={event => this.updateFilterField(event.target.value)
 								}
 							>
 								{fields.map(field => (
@@ -230,8 +231,7 @@ class TableEnhancer extends Component {
 									{translate.table_button_next}
 								</span>
 								<span
-									onClick={() =>
-										this.changePage(
+									onClick={() => this.changePage(
 											Math.ceil(total / limit)
 										)
 									}

@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { councils, deleteCouncil } from "../../queries.js";
 import { compose, graphql } from "react-apollo";
+import { TableCell, TableRow } from "material-ui/Table";
+import Scrollbar from "react-perfect-scrollbar";
+import { councils, deleteCouncil } from "../../queries.js";
 import {
 	AlertConfirm,
 	DateWrapper,
@@ -10,8 +12,6 @@ import {
 	Table
 } from "../../displayComponents/index";
 import { getPrimary } from "../../styles/colors";
-import { TableCell, TableRow } from "material-ui/Table";
-import Scrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import TableStyles from "../../styles/table";
 import { bHistory } from "../../containers/App";
@@ -30,12 +30,14 @@ class Meetings extends Component {
 			/>
 		);
 	};
+
 	openDeleteModal = meetingID => {
 		this.setState({
 			deleteModal: true,
 			meetingToDelete: meetingID
 		});
 	};
+
 	deleteCouncil = async () => {
 		this.props.data.loading = true;
 		const response = await this.props.mutate({
@@ -87,15 +89,13 @@ class Meetings extends Component {
 							<Fragment>
 								{error ? (
 									<div>
-										{error.graphQLErrors.map((error, index)=> {
-											return (
+										{error.graphQLErrors.map((error, index) => (
 												<ErrorWrapper
 													key={`error_${index}`}
 													error={error}
 													translate={translate}
 												/>
-											);
-										})}
+											))}
 									</div>
 								) : councils.length > 0 ? (
 									<Table
@@ -107,8 +107,7 @@ class Meetings extends Component {
 										action={this._renderDeleteIcon}
 										companyID={this.props.company.id}
 									>
-										{councils.map(meeting => {
-											return (
+										{councils.map(meeting => (
 												<TableRow
 													hover
 													style={TableStyles.ROW}
@@ -151,8 +150,7 @@ class Meetings extends Component {
 														)}
 													</TableCell>
 												</TableRow>
-											);
-										})}
+											))}
 									</Table>
 								) : (
 									<span>{translate.no_results}</span>
@@ -166,8 +164,7 @@ class Meetings extends Component {
 									buttonCancel={translate.cancel}
 									modal={true}
 									acceptAction={this.deleteCouncil}
-									requestClose={() =>
-										this.setState({ deleteModal: false })
+									requestClose={() => this.setState({ deleteModal: false })
 									}
 								/>
 							</Fragment>

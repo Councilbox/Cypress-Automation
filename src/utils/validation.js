@@ -1,6 +1,6 @@
+import React from 'react';
 import { AGENDA_TYPES, INPUT_REGEX, MAJORITY_TYPES } from "../constants";
 import { checkForUnclosedBraces, majorityNeedsInput } from './CBX';
-import React from 'react';
 import { LiveToast } from '../displayComponents';
 
 export const checkValidEmail = email => {
@@ -39,7 +39,7 @@ export const checkRequiredFieldsParticipant = (
 	hasSocialCapital,
 	company
 ) => {
-	let errors = {
+	const errors = {
 		name: "",
 		surname: "",
 		dni: "",
@@ -65,11 +65,6 @@ export const checkRequiredFieldsParticipant = (
 			errors.surname = translate.field_required;
 		}
 
-		// if (!participant.dni) {
-		// 	hasError = true;
-		// 	errors.dni = translate.field_required;
-		// }
-		// Comprobamos que exista email para que no de error
 		if (participant.secondaryEmail) {
 			if (!checkValidEmail(participant.secondaryEmail.toLocaleLowerCase())) {
 				hasError = true;
@@ -81,23 +76,15 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else {
-			if (participant.personOrEntity === 0) {
-				hasError = true;
-				errors.email = translate.valid_email_required;
-			}
+		} else if (participant.personOrEntity === 0) {
+			hasError = true;
+			errors.email = translate.valid_email_required;
 		}
-
-		// if (!participant.phone) {
-		// 	hasError = true;
-		// 	errors.phone = translate.field_required;
-		// }
 
 		if (!participant.language) {
 			hasError = true;
 			errors.language = translate.field_required;
 		}
-		
 
 		if (!participant.numParticipations && participant.numParticipations !== 0) {
 			hasError = true;
@@ -113,11 +100,11 @@ export const checkRequiredFieldsParticipant = (
 	return {
 		errors,
 		hasError
-	};
-};
+	}
+}
 
 export const checkRequiredFieldsRepresentative = (participant, translate) => {
-	let errors = {
+	const errors = {
 		name: "",
 		surname: "",
 		dni: "",
@@ -127,7 +114,6 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 	};
 
 	let hasError = false;
-
 	const regex = INPUT_REGEX;
 
 	if (participant.name) {
@@ -177,11 +163,6 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 		}
 	}
 
-	// if (!participant.phone) {
-	// 	hasError = true;
-	// 	errors.phone = translate.field_required;
-	// }
-
 	if (!participant.language) {
 		hasError = true;
 		errors.language = translate.field_required;
@@ -194,7 +175,7 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 };
 
 export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
-	let errors = {
+	const errors = {
 		agendaSubject: "",
 		subjectType: "",
 		description: "",
@@ -204,7 +185,6 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 	};
 
 	let hasError = false;
-
 	const regex = INPUT_REGEX;
 
 	if (agenda.agendaSubject) {
@@ -218,12 +198,12 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 		hasError = true;
 		errors.agendaSubject = translate.field_required;
 	}
-	
+
 	if (!agenda.subjectType && agenda.subjectType !== 0) {
 		hasError = true;
 		errors.subjectType = translate.field_required;
 	}
-	
+
 	if (majorityNeedsInput(agenda) && !agenda.majority && agenda.majority !== 0) {
 		hasError = true;
 		errors.majority = translate.field_required;

@@ -1,11 +1,11 @@
 import React from "react";
+import { compose, graphql, withApollo } from "react-apollo";
 import {
 	BasicButton,
 	ButtonIcon,
 	CustomDialog,
     LoadingSection
 } from "../../../../displayComponents";
-import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary, secondary } from "../../../../styles/colors";
 import { languages } from "../../../../queries/masters";
 import ParticipantForm from "../../participants/ParticipantForm";
@@ -49,8 +49,8 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 						...state.data,
 						councilId: props.councilId
 					},
-					representative: representative,
-					sendConvene: sendConvene
+					representative,
+					sendConvene
 				}
 			});
 			if (!response.errors) {
@@ -88,19 +88,19 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 		const participant = state.data;
 		const representative = state.representative;
 
-		let errorsParticipant = {
+		const errorsParticipant = {
 			errors: {},
 			hasError: false
 		};
 
 
-		let errorsRepresentative = {
+		const errorsRepresentative = {
 			errors: {},
 			hasError: false
 		};
 
 		if(participant.email && company.type !== 10){
-			let emailsToCheck = [participant.email];
+			const emailsToCheck = [participant.email];
 
 			if (representative.email && !representative.id) {
 				emailsToCheck.push(representative.email);
@@ -152,7 +152,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 	} = state;
 
     const { languages } = props.data;
-    
+
     if(props.data.loading){
         return ''
     }
@@ -192,7 +192,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 					</React.Fragment>
 				}
 			>
-				<div style={{maxWidth: '900px'}}>
+				<div style={{ maxWidth: '900px' }}>
 					<SelectRepresentative
 						open={state.selectRepresentative}
 						council={props.council}

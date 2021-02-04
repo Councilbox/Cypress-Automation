@@ -47,13 +47,13 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
             }}
         >
             <Paper
-                className={props.windowSize !== 'xs'? 'htmlPreview' : ''}
+                className={props.windowSize !== 'xs' ? 'htmlPreview' : ''}
                 style={{
                     marginTop: '2em',
                     marginBottom: '1em'
                 }}
             >
-                {!error?
+                {!error ?
                     <div
                         dangerouslySetInnerHTML={{ __html: convene }}
                         style={{
@@ -74,7 +74,7 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
                             flexDirection: 'column'
                         }}
                     >
-                        <img src="/img/logo-icono.png" style={{height: '3em'}} alt="councilbox-logo" />
+                        <img src="/img/logo-icono.png" style={{ height: '3em' }} alt="councilbox-logo" />
                         {error === 400 &&
                             'La convocatoria no es de acceso público'
                         }

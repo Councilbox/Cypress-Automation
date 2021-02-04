@@ -12,8 +12,7 @@ const selectedStyle = {
 }
 
 
-const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, selected }) => {
-	return (
+const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, selected }) => (
 		<React.Fragment>
 			<Grid
 				spacing={0}
@@ -38,7 +37,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === null?
+						...(selected === null ?
 							selectedStyle
 						:
 							{}
@@ -46,7 +45,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					}}
 				>
 					<EmailIcon
-						color={selected === null? getSecondary() : 'grey'}
+						color={selected === null ? getSecondary() : 'grey'}
 						translate={translate}
 						reqCode={"ALL"}
 						number={crendentialSendRecount.all}
@@ -60,7 +59,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === EMAIL_TRACK_STATES.FAILED?
+						...(selected === EMAIL_TRACK_STATES.FAILED ?
 							selectedStyle
 						:
 							{}
@@ -81,7 +80,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === EMAIL_TRACK_STATES.NOT_SENT?
+						...(selected === EMAIL_TRACK_STATES.NOT_SENT ?
 							selectedStyle
 						:
 							{}
@@ -102,7 +101,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS?
+						...(selected === EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS ?
 							selectedStyle
 						:
 							{}
@@ -121,7 +120,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === EMAIL_TRACK_STATES.SPAM?
+						...(selected === EMAIL_TRACK_STATES.SPAM ?
 							selectedStyle
 						:
 							{}
@@ -142,7 +141,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === EMAIL_TRACK_STATES.PENDING_SHIPPING?
+						...(selected === EMAIL_TRACK_STATES.PENDING_SHIPPING ?
 							selectedStyle
 						:
 							{}
@@ -163,7 +162,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === EMAIL_TRACK_STATES.DELIVERED?
+						...(selected === EMAIL_TRACK_STATES.DELIVERED ?
 							selectedStyle
 						:
 							{}
@@ -184,7 +183,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					}}
 					style={{
 						cursor: "pointer",
-						...(selected === EMAIL_TRACK_STATES.OPENED?
+						...(selected === EMAIL_TRACK_STATES.OPENED ?
 							selectedStyle
 						:
 							{}
@@ -199,7 +198,6 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 				</div>
 			</Grid>
 		</React.Fragment>
-	);
-}
+	)
 
 export default CredentialsHeader;

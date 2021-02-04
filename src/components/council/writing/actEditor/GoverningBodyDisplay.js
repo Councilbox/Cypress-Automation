@@ -1,7 +1,7 @@
 import React from 'react';
+import { Tooltip } from 'material-ui';
 import { GOVERNING_BODY_TYPES } from '../../../../constants';
 import * as CBX from '../../../../utils/CBX';
-import { Tooltip } from 'material-ui';
 import { useHoverRow } from '../../../../hooks';
 import { BasicButton } from '../../../../displayComponents';
 import { getCouncilAdminPosition } from '../../../company/settings/GoverningBodyForm';
@@ -9,12 +9,10 @@ import { getSecondary } from '../../../../styles/colors';
 
 
 const GoverningBodyDisplay = ({ translate, company, open }) => {
-    const copyAll = () => {
-        return company.governingBodyType > 2?
+    const copyAll = () => (company.governingBodyType > 2 ?
             CBX.copyStringToClipboard(company.governingBodyData.list.reduce((acc, curr) => acc + `${curr.name} ${curr.surname || ''} \n`, ''))
         :
-            CBX.copyStringToClipboard(`${company.governingBodyData.name} ${company.governingBodyData.surname || ''}`);
-    }
+            CBX.copyStringToClipboard(`${company.governingBodyData.name} ${company.governingBodyData.surname || ''}`))
 
 
     const type = GOVERNING_BODY_TYPES[Object.keys(GOVERNING_BODY_TYPES).filter(key => GOVERNING_BODY_TYPES[key].value === company.governingBodyType)[0]];
@@ -34,17 +32,15 @@ const GoverningBodyDisplay = ({ translate, company, open }) => {
                             text="Copiar todos"
                         />}
                     </div>
-                    {company.governingBodyType > 2?
-                        company.governingBodyData.list.map((admin, index) => {
-                            return(
+                    {company.governingBodyType > 2 ?
+                        company.governingBodyData.list.map((admin, index) => (
                                 <div>
                                     <Row
-                                        field={company.governingBodyType === 5? getCouncilAdminPosition(index, translate) : null}
+                                        field={company.governingBodyType === 5 ? getCouncilAdminPosition(index, translate) : null}
                                         value={`${admin.name} ${admin.surname || ''}`}
                                     />
                                 </div>
-                            )
-                        })
+                            ))
                     :
                         company.governingBodyType !== 0 &&
                             <div>
@@ -55,7 +51,7 @@ const GoverningBodyDisplay = ({ translate, company, open }) => {
                                     />
                                 }
                                 <Row
-                                    field={company.governingBodyType === 2? translate.representative : null}
+                                    field={company.governingBodyType === 2 ? translate.representative : null}
                                     value={`${company.governingBodyData.name} ${company.governingBodyData.surname || ''}`}
                                 />
                             </div>
@@ -88,8 +84,7 @@ const Row = ({ value, field }) => {
         CBX.copyStringToClipboard(value);
     }
 
-    const icon = () => {
-        return (
+    const icon = () => (
             <i className="fa fa-clone"
                 onClick={copy}
                 style={{
@@ -101,7 +96,6 @@ const Row = ({ value, field }) => {
                 }}
             />
         )
-    }
 
     return (
         <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: showActions ? "gainsboro" : "", paddingRight: "0.25em", paddingLeft: "0.25em", paddingBottom: "0.25em", paddingTop: "0.25em", }}

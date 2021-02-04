@@ -1,13 +1,13 @@
 import React from "react";
 import { graphql } from "react-apollo";
+import { arrayMove } from "react-sortable-hoc";
 import { AlertConfirm } from "../../../displayComponents";
 import { updateAgendas } from "../../../queries/agenda";
 import SortableList from "../../../displayComponents/SortableList";
-import { arrayMove } from "react-sortable-hoc";
 import * as CBX from '../../../utils/CBX';
 
 
-const ReorderPointsModal = ({ updateAgendas, translate, ...props}) => {
+const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 	const [agendas, setAgendas] = React.useState(props.agendas);
 	const [reorderModal, setReorderModal] = React.useState(false);
 
@@ -43,8 +43,8 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props}) => {
 	};
 
 	const _renderNewPointBody = () => {
-		let opened = [];
-		let unOpened = [];
+		const opened = [];
+		const unOpened = [];
 		agendas.forEach(agenda => {
 			if(CBX.agendaPointNotOpened(agenda)){
 				unOpened.push(agenda);

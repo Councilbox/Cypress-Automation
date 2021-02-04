@@ -1,12 +1,12 @@
 import React from 'react';
+import { Avatar, Tooltip } from 'material-ui';
 import { GridItem, Grid, BasicButton } from '../../../displayComponents';
 import { bHistory, moment } from '../../../containers/App';
-import { Avatar, Tooltip } from 'material-ui';
 import OneOnOneAttachmentsModal from './OneOnOneAttachmentsModal';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import SendMessageToParticipant from './SendMessageToParticipant';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import oval from '../../../../src/assets/img/oval.png'
+import oval from "../../../assets/img/oval.png"
 import { councilStarted } from '../../../utils/CBX';
 
 
@@ -21,7 +21,7 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
         <div>
             <GridItem
                 key={council.id}
-                style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em"}}
+                style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em" }}
                 xs={12}
                 md={12}
                 lg={12}
@@ -39,6 +39,7 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                 }
                 <SendMessageToParticipant
                     translate={translate}
+                    council={council}
                     participantId={council.participants[0].id}
                     open={messageModal}
                     requestClose={() => setMessageModal(false)}

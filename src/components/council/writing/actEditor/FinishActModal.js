@@ -1,18 +1,18 @@
 import React from "react";
+import { compose, graphql } from "react-apollo";
+import Dropzone from 'react-dropzone';
+import gql from 'graphql-tag';
+import { Card } from 'material-ui';
 import {
 	AlertConfirm,
 	BasicButton,
 	Grid,
 	GridItem
 } from "../../../../displayComponents";
-import { compose, graphql } from "react-apollo";
 import { approveAct } from '../../../../queries';
 import ActHTML from "../actViewer/ActHTML";
-import Dropzone from 'react-dropzone';
-import gql from 'graphql-tag';
 import { getSecondary } from "../../../../styles/colors";
 import { useHoverRow, useOldState } from "../../../../hooks";
-import { Card } from 'material-ui';
 import logo from '../../../../assets/img/logo-icono.png';
 import { isMobile } from "../../../../utils/screen";
 import DocumentPreview from "../../../documentEditor/DocumentPreview";
@@ -50,7 +50,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 			}
 		});
 
-		if (!!response) {
+		if (response) {
 			if (!response.data.errors) {
 				setState({
 					success: true,
@@ -100,7 +100,6 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 	}
 
 	function _modalBody() {
-
 		if(state.step === 2){
 			if(state.file){
 				return (
@@ -119,7 +118,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 		}
 
 		return (
-			<div style={{marginTop: '12px', height: '100%', border: '1px solid gainsboro'}}>
+			<div style={{ marginTop: '12px', height: '100%', border: '1px solid gainsboro' }}>
 				<DocumentPreview
 					translate={translate}
 					options={props.options}
@@ -159,8 +158,6 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 			title={translate.finish_and_aprove_act}
 		/>
 	);
-
-
 }
 
 const UploadAct = ({ ...props }) => {
@@ -175,8 +172,7 @@ const UploadAct = ({ ...props }) => {
 	}
 
 	const handleFile = file => {
-
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
 		/*TODO ADD LIMIT TO FILE*/
@@ -192,8 +188,7 @@ const UploadAct = ({ ...props }) => {
 			multiple={false}
 			accept="application/pdf"
 		>
-			{({ getRootProps, getInputProps, isDragActive }) => {
-				return (
+			{({ getRootProps, getInputProps, isDragActive }) => (
 					<div
 						{...getRootProps()}
 						className={`dropzone`}
@@ -207,18 +202,13 @@ const UploadAct = ({ ...props }) => {
 						}}
 					>
 						<input {...getInputProps()} />
-						{error ?
-							error
-
-							:
-							isDragActive ?
+						{error || (isDragActive ?
 								<p>Arrastre los archivos aquí</p>//TRADUCCION
 								:
-								<p>Arrastre el archivo o haga click para seleccionarlo.</p>
+								<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
 						}
 					</div>
-				)
-			}}
+				)}
 		</Dropzone>
 	)
 }

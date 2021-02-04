@@ -1,4 +1,6 @@
 import React from "react";
+import { graphql, compose } from "react-apollo";
+import gql from 'graphql-tag';
 import {
 	CustomDialog,
     BasicButton,
@@ -6,8 +8,6 @@ import {
     Checkbox
 } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
-import { graphql, compose } from "react-apollo";
-import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { removeHTMLTags } from "../../../../utils/CBX";
 
@@ -48,7 +48,6 @@ class AnnouncementModal extends React.Component {
                 errorText: this.props.translate.max_chars_exceeded
             });
         }
-        
     }
 
     closeAnnouncement = async () => {
@@ -109,22 +108,22 @@ class AnnouncementModal extends React.Component {
                             text={translate.cancel}
                             onClick={this.props.requestClose}
                             type="flat"
-                            textStyle={{fontWeight: '700', textTransform: 'none'}}
+                            textStyle={{ fontWeight: '700', textTransform: 'none' }}
                         />
-                        {this.props.data.adminAnnouncement && this.props.data.adminAnnouncement  &&
+                        {this.props.data.adminAnnouncement && this.props.data.adminAnnouncement &&
                             <BasicButton
                                 text={translate.hide_announcement}
                                 onClick={this.closeAnnouncement}
                                 color={getSecondary()}
-                                textStyle={{fontWeight: '700', color: 'white', textTransform: 'none'}}
-                                buttonStyle={{marginLeft: '0.3em', marginRight: '0.3em'}}
+                                textStyle={{ fontWeight: '700', color: 'white', textTransform: 'none' }}
+                                buttonStyle={{ marginLeft: '0.3em', marginRight: '0.3em' }}
                             />
                         }
                         <BasicButton
                             text={translate.save}
                             onClick={this.addAnnouncement}
                             color={getPrimary()}
-                            textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
+                            textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}
                         />
                     </React.Fragment>
                 }

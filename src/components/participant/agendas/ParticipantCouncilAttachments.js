@@ -1,17 +1,17 @@
 import React from 'react';
-import upload from '../../../../src/assets/img/upload.svg';
 import fileSize from 'filesize';
 import Dropzone from 'react-dropzone';
 import gql from 'graphql-tag';
 import { Icon, Card, Table, TableCell, TableBody, TableRow } from 'material-ui';
 import { withApollo } from 'react-apollo';
+import { isMobile } from 'react-device-detect';
 import { BasicButton, Checkbox, AlertConfirm } from '../../../displayComponents';
 import { addCouncilAttachment, removeCouncilAttachment } from '../../../queries';
 import { moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
-import { isMobile } from 'react-device-detect';
+import upload from "../../../assets/img/upload.svg";
 
-const ParticipantCouncilAttachments = ({ translate, participant, client, council }) =>  {
+const ParticipantCouncilAttachments = ({ translate, participant, client, council }) => {
     const [data, setData] = React.useState(null);
     const [confirmationModal, setConfirmationModal] = React.useState(false);
     const [check, setCheck] = React.useState(false);
@@ -35,7 +35,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
         });
         setData(response.data.participantCouncilAttachments);
     });
-    
+
     React.useEffect(() => {
         getData();
     }, [participant.id])
@@ -52,10 +52,10 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
 			return;
 		}
 
-		let reader = new FileReader();
+		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 		reader.onload = async event => {
-			let fileInfo = {
+			const fileInfo = {
                 filename: file.name,
 				filetype: file.type,
 				filesize: event.loaded,
@@ -150,8 +150,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                     <div style={{ marginTop: "2em", height: '100%', marginBottom: "2em", width: '100%' }}>
                         {isMobile ?
                             <>
-                                {data && data.map(attachment => {
-                                    return (
+                                {data && data.map(attachment => (
                                         <Card style={{ position: "relative", padding: '1.2em', marginTop: '5px' }} key={attachment.id}>
                                             <i
                                                 className="fa fa-trash-o"
@@ -169,8 +168,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                                 {translate.name} {attachment.filename}
                                             </div>
                                         </Card>
-                                    )
-                                })}
+                                    ))}
                             </>
                         :
                             <Table style={{ width: '100%', maxWidth: '100%' }}>
@@ -211,8 +209,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                             borderBottom: "1px solid #979797"
                                         }} />
                                     </TableRow>
-                                    {data && data.map(attachment => {
-                                        return (
+                                    {data && data.map(attachment => (
                                             <TableRow key={`attachment_${attachment.id}`}>
                                                 <TableCell>
                                                     {attachment.filename}
@@ -234,8 +231,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                                     ></i>
                                                 </TableCell>
                                             </TableRow>
-                                        )
-                                    })}
+                                        ))}
                                 </TableBody>
                             </Table>
 
@@ -252,8 +248,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                         disabled={!check}
                         onDrop={onDrop}
                     >
-                        {({ getRootProps, getInputProps, isDragActive }) => {
-                            return (
+                        {({ getRootProps, getInputProps, isDragActive }) => (
                                 <div
                                     style={{ maxWidth: "700px", margin: "1em", marginTop: "2em" }}
                                     {...getRootProps()}
@@ -262,7 +257,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                     <div style={{ color: "black", fontSize: "20px", marginBottom: "1em", textAlign: "center" }}>Seleccione los archivos de su ordenador</div>
                                     <div
                                         style={{ marginBottom: "1em", display: "flex", justifyContent: "center" }}
-                                    >    
+                                    >
                                         <BasicButton
                                             onClick={event => {
                                                 if(!check){
@@ -291,7 +286,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                     </div>
                                     <div style={{ color: '#154481', textAlign: "center", marginBottom: "2em" }}>O arrastrelos y suéltelos en esta pantalla</div>
                                     {(!check && checkError) &&
-                                            <div style={{ color: 'red', fontWeight: '700'}}>
+                                            <div style={{ color: 'red', fontWeight: '700' }}>
                                                 Es necesaria la confirmación para poder enviar
                                             </div>
                                         }
@@ -307,8 +302,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                         />
                                     </div>
                                 </div>
-                            )
-                        }}
+                            )}
                     </Dropzone>
                 }
             />

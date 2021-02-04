@@ -1,10 +1,10 @@
 import React from "react";
-import { AlertConfirm, Icon, SuccessMessage, LoadingSection } from "../../../../displayComponents/index";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
+import { AlertConfirm, Icon, SuccessMessage, LoadingSection } from "../../../../displayComponents/index";
 import { cancelCouncil } from "../../../../queries/council";
-import { bHistory } from "../../../../containers/App";
-import { moment } from '../../../../containers/App';
+import { bHistory, moment } from "../../../../containers/App";
+
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 
 class CancelModal extends React.Component {
@@ -70,8 +70,7 @@ class CancelModal extends React.Component {
 					translate={translate}
 					floatingText={translate.message}
 					value={this.state.message}
-					onChange={value =>
-						this.setState({
+					onChange={value => this.setState({
 							message: value
 						})
 					}

@@ -1,12 +1,12 @@
 import { Card } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { NotLoggedLayout, Scrollbar, BasicButton, Checkbox } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
-import { ReactComponent as VideoCamera } from '../../../../src/assets/img/video-camera.svg';
-import { ReactComponent as Folder } from '../../../../src/assets/img/folder-1.svg';
+import { ReactComponent as VideoCamera } from "../../../assets/img/video-camera.svg";
+import { ReactComponent as Folder } from "../../../assets/img/folder-1.svg";
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import gql from 'graphql-tag';
 
 const width = window.innerWidth > 450 ? '850px' : '100%'
 

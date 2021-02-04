@@ -1,11 +1,11 @@
 import React from 'react';
+import { MenuItem } from 'material-ui';
 import {
     Grid,
     GridItem,
     SelectInput,
     TextInput
 } from "../../displayComponents";
-import { MenuItem } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
 import { isMobile } from '../../utils/screen';
 
@@ -24,8 +24,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                     styles={{ fontWeight: "bold", width: isMobile ? "100%" : '300px' }}
                     value={data.name}
                     errorText={errors.name}
-                    onChange={event =>
-                        updateState({
+                    onChange={event => updateState({
                             name: event.target.value
                         })
                     }
@@ -43,8 +42,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                     value={data.surname || ''}
                     disableUnderline={!!data.surname}
                     styles={{ fontWeight: "bold", width: isMobile ? "100%" : '300px' }}
-                    onChange={event =>
-                        updateState({
+                    onChange={event => updateState({
                             surname: event.target.value
                         })
                     }
@@ -64,9 +62,8 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                     value={data.email}
                     disableUnderline={!!data.email}
                     styles={{ fontWeight: "bold", width: isMobile ? "100%" : '300px' }}
-                    {...(!!onKeyUp ? { onKeyUp: onKeyUp } : {})}
-                    onChange={event =>
-                        updateState({
+                    {...(onKeyUp ? { onKeyUp } : {})}
+                    onChange={event => updateState({
                             email: event.target.value
                         })
                     }
@@ -86,9 +83,8 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                         value={data.code}
                         disableUnderline={!!data.code}
                         styles={{ fontWeight: "bold", width: isMobile ? "100%" : '300px' }}
-                        {...(!!onKeyUp ? { onKeyUp: onKeyUp } : {})}
-                        onChange={event =>
-                            updateState({
+                        {...(onKeyUp ? { onKeyUp } : {})}
+                        onChange={event => updateState({
                                 code: event.target.value
                             })
                         }
@@ -112,8 +108,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                             disableUnderline={true}
                             styles={{ fontWeight: "bold", width: '300px' }}
                             errorText={errors.phone}
-                            onChange={event =>
-                                updateState({
+                            onChange={event => updateState({
                                     phone: event.target.value
                                 })
                             }
@@ -129,8 +124,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                             <SelectInput
                                 // floatingText={translate.language}
                                 value={data.preferredLanguage}
-                                onChange={event =>
-                                    updateState({
+                                onChange={event => updateState({
                                         preferredLanguage: event.target.value
                                     })
                                 }
@@ -167,8 +161,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                         <SelectInput
                             // floatingText={translate.language}
                             value={data.preferredLanguage}
-                            onChange={event =>
-                                updateState({
+                            onChange={event => updateState({
                                     preferredLanguage: event.target.value
                                 })
                             }

@@ -1,16 +1,16 @@
 import React from "react";
+import { Typography } from "material-ui";
+import { graphql } from "react-apollo";
+import { toast } from 'react-toastify';
 import {
 	AlertConfirm,
 	Icon,
 	LiveToast
 } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
 import { noCelebrateCouncil } from "../../../../queries";
 import { bHistory } from "../../../../containers/App";
 import { checkForUnclosedBraces } from '../../../../utils/CBX';
-import { toast } from 'react-toastify';
 
 class NoCelebrateModal extends React.Component {
 	state = {
@@ -46,7 +46,7 @@ class NoCelebrateModal extends React.Component {
 						message={this.props.translate.revise_text}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,			
+						autoClose: true,
 						className: "errorToast"
 					}
 				);

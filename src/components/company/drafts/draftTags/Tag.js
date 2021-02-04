@@ -6,7 +6,7 @@ const Tag = ({ text, color, childs, width, etiquetas, addTag, action }) => {
 	const [openTimeOut, setOpenTimeOut] = React.useState(false);
 
 	const toggle = () => {
-		let time = open ? 200 : 0;
+		const time = open ? 200 : 0;
 		setTimeout(() => setOpenTimeOut(!open), time);
 		setOpen(!open)
 	}
@@ -15,7 +15,7 @@ const Tag = ({ text, color, childs, width, etiquetas, addTag, action }) => {
 		borderRadius: '14px',
 		border: `solid 1px`,
 		borderColor: color,
-		color: color,
+		color,
 		padding: "4px 0.8em",
 		cursor: 'pointer',
 		display: openTimeOut ? width ? "inline-block" : "block" : "inline-block",
@@ -53,14 +53,12 @@ const Tag = ({ text, color, childs, width, etiquetas, addTag, action }) => {
 				</div>
 			</div>
 		)
-	} else {
+	}
 		return (
 			<div style={{ ...styles }} onClick={action}>
 				{text}
 			</div>
 		)
-	}
-
 }
 
 export default Tag;

@@ -1,8 +1,5 @@
 import React from "react";
 import { compose, graphql } from "react-apollo";
-import { liveParticipant, updateParticipantSends } from "../../../../queries";
-import { isLandscape, isMobile } from "../../../../utils/screen";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
 	Typography,
 	Table,
@@ -11,6 +8,10 @@ import {
 	TableRow,
 	TableCell
 } from "material-ui";
+import gql from "graphql-tag";
+import { liveParticipant, updateParticipantSends } from "../../../../queries";
+import { isLandscape, isMobile } from "../../../../utils/screen";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
 	Grid,
 	GridItem,
@@ -37,7 +38,6 @@ import { PARTICIPANT_STATES } from "../../../../constants";
 import { useOldState, useHoverRow } from "../../../../hooks";
 import SignatureButton from "./SignatureButton";
 import { client } from "../../../../containers/App";
-import gql from "graphql-tag";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const [state, setState] = useOldState({
@@ -79,9 +79,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		}
 	};
 
-	const showStateMenu = () => {
-		return !(participant.representatives && participant.representatives.length > 0);
-	}
+	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0)
 
 	const handleToggleVisib = () => {
 		const visib = !state.visib;
@@ -471,13 +469,13 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 	}
 
 	return (
-		<div style={{marginBottom: '1em'}}>
+		<div style={{ marginBottom: '1em' }}>
 			<Typography variant="subheading">
 				{translate.representative}
 			</Typography>
-			<div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+			<div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
 				{`${representative.name} ${representative.surname || ''}`}
-				{participant.state !== PARTICIPANT_STATES.DELEGATED?
+				{participant.state !== PARTICIPANT_STATES.DELEGATED ?
 					<React.Fragment>
 						{CBX.showSendCredentials(representative.state) &&
 							<div>

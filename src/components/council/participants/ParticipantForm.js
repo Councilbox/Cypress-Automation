@@ -1,4 +1,5 @@
 import React from "react";
+import { MenuItem } from "material-ui";
 import {
 	Grid,
 	GridItem,
@@ -6,7 +7,6 @@ import {
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
-import { MenuItem } from "material-ui";
 
 const ParticipantForm = ({
 	type,
@@ -18,16 +18,14 @@ const ParticipantForm = ({
 	hideVotingInputs,
 	translate,
 	languages
-}) => {
-	return (
+}) => (
 		<Grid>
 			{!participant.id && (
 				<GridItem xs={12} md={12} lg={12}>
 					<Radio
 						checked={participant.personOrEntity === 0}
 						label={translate.person}
-						onChange={event =>
-							updateState({
+						onChange={event => updateState({
 								personOrEntity: parseInt(
 									event.nativeEvent.target.value,
 									10
@@ -40,8 +38,7 @@ const ParticipantForm = ({
 					<Radio
 						checked={participant.personOrEntity === 1}
 						label={translate.entity}
-						onChange={event =>
-							updateState({
+						onChange={event => updateState({
 								personOrEntity: parseInt(
 									event.nativeEvent.target.value,
 									10
@@ -61,8 +58,7 @@ const ParticipantForm = ({
 						type="text"
 						errorText={errors.name}
 						value={participant.name}
-						onChange={event =>
-							updateState({
+						onChange={event => updateState({
 								name: event.nativeEvent.target.value
 							})
 						}
@@ -76,8 +72,7 @@ const ParticipantForm = ({
 							type="text"
 							errorText={errors.name}
 							value={participant.name}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									name: event.nativeEvent.target.value
 								})
 							}
@@ -89,8 +84,7 @@ const ParticipantForm = ({
 							type="text"
 							errorText={errors.surname || ''}
 							value={participant.surname || ''}
-							onChange={event =>
-								updateState({
+							onChange={event => updateState({
 									surname: event.nativeEvent.target.value
 								})
 							}
@@ -101,12 +95,11 @@ const ParticipantForm = ({
 
 			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
-					floatingText={participant.personOrEntity === 1? translate.cif : translate.dni}
+					floatingText={participant.personOrEntity === 1 ? translate.cif : translate.dni}
 					type="text"
 					errorText={errors.dni}
 					value={participant.dni}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							dni: event.nativeEvent.target.value
 						})
 					}
@@ -119,8 +112,7 @@ const ParticipantForm = ({
 						type="text"
 						errorText={errors.position}
 						value={participant.position}
-						onChange={event =>
-							updateState({
+						onChange={event => updateState({
 								position: event.nativeEvent.target.value
 							})
 						}
@@ -130,12 +122,11 @@ const ParticipantForm = ({
 			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
 					floatingText={translate.email}
-					{...(checkEmail? {onKeyUp: (event) => checkEmail(event, 'participant')} : {})}
+					{...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'participant') } : {})}
 					type="text"
 					errorText={errors.email}
 					value={participant.email}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							email: event.nativeEvent.target.value
 						})
 					}
@@ -154,31 +145,28 @@ const ParticipantForm = ({
 					}}
 				/>
 			</GridItem>
-			<GridItem xs={6} md={4} lg={2}>
+			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
 					floatingText={translate.phone}
 					type="text"
 					errorText={errors.phone}
 					value={participant.phone}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							phone: event.nativeEvent.target.value
 						})
 					}
 				/>
 			</GridItem>
-			<GridItem xs={6} md={4} lg={2}>
+			<GridItem xs={6} md={4} lg={3}>
 				<SelectInput
 					floatingText={translate.language}
 					value={participant.language}
-					onChange={event =>
-						updateState({
+					onChange={event => updateState({
 							language: event.target.value
 						})
 					}
 				>
-					{languages.map(language => {
-						return (
+					{languages.map(language => (
 							<MenuItem
 								value={
 									language.columnName
@@ -193,18 +181,16 @@ const ParticipantForm = ({
 							>
 								{language.desc}
 							</MenuItem>
-						);
-					})}
+						))}
 				</SelectInput>
 			</GridItem>
 			{participant.personOrEntity === 0 &&
-				<GridItem xs={6} md={4} lg={2}>
+				<GridItem xs={6} md={4} lg={3}>
 					<SelectInput
 						floatingText={translate.participation_type}
 						errorText={errors.initialState}
-						value={''+participant.initialState}
-						onChange={event =>
-							updateState({
+						value={'' + participant.initialState}
+						onChange={event => updateState({
 								initialState: +event.target.value
 							})
 						}
@@ -272,6 +258,5 @@ const ParticipantForm = ({
 			}
 		</Grid>
 	);
-};
 
 export default ParticipantForm;

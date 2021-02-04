@@ -1,7 +1,7 @@
 import React from "react";
 import { Tooltip } from "material-ui";
-import { getTranslationReqCode, getEmailIconByReqCode } from "../../../../utils/CBX";
 import FontAwesome from "react-fontawesome";
+import { getTranslationReqCode, getEmailIconByReqCode } from "../../../../utils/CBX";
 
 class EmailIcon extends React.PureComponent {
 	render() {
@@ -10,23 +10,19 @@ class EmailIcon extends React.PureComponent {
 	}
 }
 
-const styleMainIcon = (color, ratio) => {
-	return {
+const styleMainIcon = (color, ratio) => ({
 		fontSize: `${1.5 * ratio}em`,
 		color
-	};
-};
+	});
 
-const styleImageIcon = (ratio) => {
-	return {
+const styleImageIcon = (ratio) => ({
 		height: `${1.6 * ratio}em`,
 		width: "auto"
-	}
-}
+	})
 
 const _renderIcon = (color, reqCode, number, translate, ratio) => {
-	let translation = reqCode === -2 ? translate['tooltip_dropped'] : translate[getTranslationReqCode(reqCode)];
-	let src = getEmailIconByReqCode(reqCode);
+	const translation = reqCode === -2 ? translate.tooltip_dropped : translate[getTranslationReqCode(reqCode)];
+	const src = getEmailIconByReqCode(reqCode);
 	if (reqCode === 'ALL') {
 		return (
 			<Tooltip title={translation}>

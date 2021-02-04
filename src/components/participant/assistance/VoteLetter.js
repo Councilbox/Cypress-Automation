@@ -1,19 +1,19 @@
 import React from 'react';
+import { Card } from 'material-ui';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar, HelpPopover } from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { moment } from '../../../containers/App';
-import { Card } from 'material-ui';
 import { isMobile } from "../../../utils/screen";
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import { replaceDocsTags } from './DelegationProxyModal';
 import EarlyVoteMenu from './EarlyVoteMenu';
 import { voteValuesText } from '../../../utils/CBX';
 
 
 const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action, ...props }) => {
-    const initialStep = council.statute.canEarlyVote? 1 : 2;
+    const initialStep = council.statute.canEarlyVote ? 1 : 2;
     const [step, setStep] = React.useState(initialStep);
     const signature = React.useRef();
     const [loading, setLoading] = React.useState(false);
@@ -46,11 +46,11 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
             open={open}
             loadingAction={loading}
             bodyStyle={{
-                width: isMobile? '100%' : step !== 1? council.statute.doubleColumnDocs? "80vw" : "60vw" : '600px',
+                width: isMobile ? '100%' : step !== 1 ? council.statute.doubleColumnDocs ? "80vw" : "60vw" : '600px',
             }}
             PaperProps={{
                 style: {
-                    margin: isMobile? 0 : '32px'
+                    margin: isMobile ? 0 : '32px'
                 }
             }}
             requestClose={() => {
@@ -59,9 +59,9 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
             }}
             title={translate.create_vote_letter}
             bodyText={
-                step === 1?
+                step === 1 ?
                     <>
-                        <div style={{marginBottom: '1em'}}>
+                        <div style={{ marginBottom: '1em' }}>
                             Indique el sentido de voto:
                         </div>
                         <EarlyVoteMenu
@@ -73,7 +73,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                             council={council}
                             translate={translate}
                         />
-                        <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '1em'}}>
+                        <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '1em' }}>
                             <div>
                                 <BasicButton
                                     text={translate.next}
@@ -87,13 +87,13 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                                     }}
                                 />
                                 {error &&
-                                    <div style={{color: 'red', fontWeight: '700', clear: 'both'}}>{error}</div>
+                                    <div style={{ color: 'red', fontWeight: '700', clear: 'both' }}>{error}</div>
                                 }
                             </div>
                         </div>
 
                     </>
-                    
+
                 :
                     <SignatureStep
                         signature={signature}
@@ -107,7 +107,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                         sendVote={sendVote}
                         loading={loading}
                     />
-            }   
+            }
         />
     )
 }
@@ -130,9 +130,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 		signature.current.clear();
     };
 
-    const disableSendButton = () => {
-        return existingProxy;
-    }
+    const disableSendButton = () => existingProxy
 
 
     const getProxy = React.useCallback(async () => {
@@ -159,11 +157,11 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
     }, [participant.id]);
 
     React.useEffect(() => {
-       
+
        // getProxy();
     }, [getProxy]);
 
-    
+
     React.useEffect(() => {
         if (signaturePreview.current) {
             signaturePreview.current.off();
@@ -171,7 +169,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
     }, [signaturePreview.current]);
 
     React.useEffect(() => {
-		let timeout = setTimeout(() => {
+		const timeout = setTimeout(() => {
 			if (signatureContainer.current) {
 				setCanvasSize({
 					width: (signatureContainer.current.getBoundingClientRect().width),
@@ -180,7 +178,6 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
             }
 		}, 150)
 		return () => clearTimeout(timeout);
-
     }, [innerWidth])
 
     const getSignaturePreview = () => {
@@ -192,11 +189,11 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
         const segments = text.split('{{signature}}');
 
         if(segments.length === 1){
-            return <div dangerouslySetInnerHTML={{ __html: segments[0] }} style={{width: '48%'}}></div>
+            return <div dangerouslySetInnerHTML={{ __html: segments[0] }} style={{ width: '48%' }}></div>
         }
 
         return (
-            <div style={{width: '48%'}}>
+            <div style={{ width: '48%' }}>
                 <div dangerouslySetInnerHTML={{ __html: segments[0] }} />
                 <ReactSignature
                     height={80}
@@ -208,7 +205,6 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                 <div dangerouslySetInnerHTML={{ __html: segments[1] }} />
             </div>
         )
-
     }
 
     const proxyPreview = () => {
@@ -218,7 +214,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
             language: translate.selectedLanguage,
             withVoteSense
         })
-                
+
         const getBody = () => {
             const docBody = <>
                 <div>{proxyTranslate.intro}</div>
@@ -235,7 +231,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 
                             return (
                                 <>
-                                    <div style={{marginTop: '1em'}}>
+                                    <div style={{ marginTop: '1em' }}>
                                         <b>{point.agendaSubject}</b>
                                     </div>
                                     {translate[voteValuesText(vote.value)]}
@@ -267,21 +263,21 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 
             if(council.statute.doubleColumnDocs && !withVoteSense){
                 return (
-                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
-                        {council.statute.voteLetter?
-                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetter, { council, participant }) }} style={{width: '48%'}}></div>
+                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+                        {council.statute.voteLetter ?
+                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetter, { council, participant }) }} style={{ width: '48%' }}></div>
                         :
                             docBody
                         }
-                        {council.statute.voteLetterSecondary?
-                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetterSecondary, { council, participant }) }} style={{width: '48%'}}></div>
+                        {council.statute.voteLetterSecondary ?
+                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetterSecondary, { council, participant }) }} style={{ width: '48%' }}></div>
                         :
                             docBody
                         }
                     </div>
                 )
             }
-            
+
 
             if(council.statute.voteLetter && !withVoteSense){
                 return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetter }}></div>
@@ -289,14 +285,14 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 
             if(council.statute.doubleColumnDocs && withVoteSense){
                 return (
-                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
-                        {council.statute.voteLetterWithSense?
+                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+                        {council.statute.voteLetterWithSense ?
                             renderCustom()
                         :
                             docBody
                         }
-                        {council.statute.voteLetterWithSenseSecondary?
-                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetterWithSenseSecondary, { council, participant, votes, language: 'en' }) }} style={{width: '48%'}}></div>
+                        {council.statute.voteLetterWithSenseSecondary ?
+                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetterWithSenseSecondary, { council, participant, votes, language: 'en' }) }} style={{ width: '48%' }}></div>
                         :
                             docBody
                         }
@@ -310,10 +306,10 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 
             return docBody;
         }
-        
-        
+
+
         return (
-            <Card style={{padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'}}>
+            <Card style={{ padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%' }}>
                 <div>{council.company.businessName}</div>
                 <div>{council.street}</div>
                 <div>{council.countryState} {council.countryState}</div>
@@ -328,8 +324,8 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 
     return (
         <Grid style={{ marginTop: "15px", height: "100%" }}>
-            <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile? {} : { height: "70vh" }) }} >
-                {isMobile? 
+            <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile ? {} : { height: "70vh" }) }} >
+                {isMobile ?
                     proxyPreview()
                 :
                     <Scrollbar>
@@ -346,13 +342,13 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                         padding: "0",
                         borderRadius: '3px',
                         marginBottom: "1em",
-                        height: isMobile? '250px' : '300px'
+                        height: isMobile ? '250px' : '300px'
                     }}
                     onMouseDown={() => setSigned(true)}
                     ref={signatureContainer}
                 >
                     {!signed &&
-                        <div style={{ position: 'absolute', margin: '0.6em'}}>{translate.sign_to_create_proxy}.</div>
+                        <div style={{ position: 'absolute', margin: '0.6em' }}>{translate.sign_to_create_proxy}.</div>
                     }
                     <div>
                         <ReactSignature
@@ -370,7 +366,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                         />
                     </div>
                 </div>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <BasicButton
                         text={translate.clean}
                         color={'white'}
@@ -383,8 +379,8 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                         onClick={clear}
                     />
                     <BasicButton
-                        text={disableSendButton()? `${translate.tooltip_sent} ${moment(existingProxy.date).format('LLL')}` : translate.send_signed_document}
-                        color={!signed || disableSendButton()? 'silver' : secondary}
+                        text={disableSendButton() ? `${translate.tooltip_sent} ${moment(existingProxy.date).format('LLL')}` : translate.send_signed_document}
+                        color={!signed || disableSendButton() ? 'silver' : secondary}
                         disabled={!signed || disableSendButton()}
                         loading={loading}
                         textStyle={{
@@ -405,8 +401,6 @@ export default withApollo(withWindowSize(VoteLetter));
 
 
 const getVoteLetterTranslation = ({ language, withVoteSense }) => {
-
-
     const voteLetterTranslations = {
         es: {
             at: 'a',
@@ -421,7 +415,7 @@ const getVoteLetterTranslation = ({ language, withVoteSense }) => {
                         ''}para el caso de que los acuerdos sean finalmente adoptados por el Consejo:
                     `)
                 }
-            
+
                 return (`El abajo firmante, en su condición de miembro del Consejo de Administración de${
                     company.businessName}, tras ser informado por el Secretario/no-miembro del Consejo de la urgencia de adoptar unos acuerdos${
                         ''} y a la vista de las dificultades de celebrar inmediatamente una reunión del Consejo de Administración de la Sociedad, (1)${
@@ -450,9 +444,6 @@ const getVoteLetterTranslation = ({ language, withVoteSense }) => {
         }
     }
 
-    return voteLetterTranslations[language]? voteLetterTranslations[language] : voteLetterTranslations.es;
-
-
-
+    return voteLetterTranslations[language] ? voteLetterTranslations[language] : voteLetterTranslations.es;
 }
 

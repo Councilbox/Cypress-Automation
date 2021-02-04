@@ -7,19 +7,18 @@ import {
 	withStyles,
 	Tooltip
 } from "material-ui";
+import FontAwesome from "react-fontawesome";
 import sidebarStyleLite from "../../styles/sidebarStyleLite";
 import { Link } from '../../displayComponents';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { getSecondary, darkGrey } from "../../styles/colors";
 import { isLandscape, isMobile } from "../../utils/screen";
-import CompanyMenu from "../sideMenu/CompanyMenu";
-import FontAwesome from "react-fontawesome";
+import CompanyMenu from "./CompanyMenu";
 import LateralMenuOptions from "../dashboard/LateralMenuOptions";
 import { isAdmin } from "../../utils/CBX";
 
 
 class Sidebar extends React.Component {
-
 	state = {
 		selectedRoute: 0,
 		companyMenu: false,
@@ -99,7 +98,7 @@ class Sidebar extends React.Component {
 		}
 	}
 
-	findActiveRoute = (pathname, routes) => {
+	findActiveRoute = pathname => {
 		let routeIndex = 0;
 		this.routes.forEach((route, index) => {
 			if (pathname.includes(route.name)) {
@@ -109,14 +108,12 @@ class Sidebar extends React.Component {
 		return routeIndex;
 	};
 
-	showVerticalLayout = () => {
-		return this.props.windowSize === 'xs' && !isLandscape();
-	}
+	showVerticalLayout = () => this.props.windowSize === 'xs' && !isLandscape()
 
 	links = () => (
 		<div className={this.props.classes.list}
 			style={{
-				zIndex:"99999",
+				zIndex: "99999",
 				display: 'flex',
 				flexDirection: 'column',
 				position: isMobile ? "" : "absolute",
@@ -130,7 +127,7 @@ class Sidebar extends React.Component {
 					<div
 						className={this.props.classes.logoLink}
 						style={{
-							zIndex:"99999",
+							zIndex: "99999",
 							display: "flex",
 							flexDirection: "row",
 							width: '100%',
@@ -140,7 +137,7 @@ class Sidebar extends React.Component {
 					>
 						<div
 							style={{
-								zIndex:"99999",
+								zIndex: "99999",
 								width: '100%',
 								display: 'flex',
 								alignItems: 'center',
@@ -150,9 +147,9 @@ class Sidebar extends React.Component {
 						>
 							<Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
 								<div>
-									{isAdmin(this.props.user)?
+									{isAdmin(this.props.user) ?
 										<Link to={`/company/${this.props.company.id}/settings`}>
-											{!!this.props.company.logo ? (
+											{this.props.company.logo ? (
 												<img
 													src={this.props.company.logo}
 													alt="logo"
@@ -166,7 +163,7 @@ class Sidebar extends React.Component {
 											}
 										</Link>
 									:
-										!!this.props.company.logo ? (
+										this.props.company.logo ? (
 											<img
 												src={this.props.company.logo}
 												alt="logo"
