@@ -17,12 +17,12 @@ export const getSubjectAbrv = text => {
 		return '';
 	}
 
-	if(!isNaN(text)){
-		text = ''+text;
+	if(!Number.isNaN(text)){
+		text = '' + text;
 	}
 
 	while (!isChar){
-		if(!isNaN(text[index]) || (text[index] === '.' && !isNaN(+text[index + 1]) && text[index + 1] !== ' ')){
+		if(!Number.isNaN(text[index]) || (text[index] === '.' && !Number.isNaN(+text[index + 1]) && text[index + 1] !== ' ')){
 			start += text[index];
 		} else {
 			isChar = true;
