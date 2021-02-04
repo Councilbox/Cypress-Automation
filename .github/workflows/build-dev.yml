@@ -31,12 +31,14 @@ jobs:
       - name: print tag_name
         run: echo ${{ steps.tag.outputs.sha8 }}
 
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Login acr
-        uses: azure/docker-login@v1
-        with:  
-          login-server: ${{ env.registry_url }}
-          username: ${{ secrets.ACR_USER }}
-          password: ${{ secrets.ACR_PASSWORD }}
+        run: |
+              ACCESS_TOKEN=$(az acr login --name ${{ env.registry_url }} --expose-token --output tsv --query accessToken)
+              echo $ACCESS_TOKEN | docker login ${{ env.registry_url }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
