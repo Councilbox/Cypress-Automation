@@ -3,7 +3,7 @@ import { Avatar, Tooltip } from 'material-ui';
 import { GridItem, Grid, BasicButton } from '../../../displayComponents';
 import { bHistory, moment } from '../../../containers/App';
 import OneOnOneAttachmentsModal from './OneOnOneAttachmentsModal';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { getPrimary } from '../../../styles/colors';
 import SendMessageToParticipant from './SendMessageToParticipant';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import oval from "../../../assets/img/oval.png"
@@ -13,7 +13,6 @@ import { councilStarted } from '../../../utils/CBX';
 const OneOnOneItem = ({ translate, council, index, company }) => {
     const [attachmentsModal, setAttachmentsModal] = React.useState(false);
     const [messageModal, setMessageModal] = React.useState(false);
-    const secondary = getSecondary();
     const primary = getPrimary();
     const participant = council.participants[0];
 

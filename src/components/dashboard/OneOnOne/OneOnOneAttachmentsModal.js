@@ -6,7 +6,7 @@ import { useQueryReducer } from '../../../hooks';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
 
 const OneOnOneAttachmentsModal = ({ client, translate, council, open, requestClose }) => {
-    const { data, loading, errors } = useQueryReducer({
+    const { data, loading } = useQueryReducer({
         client,
         query: gql`
             query council($id: Int!){
@@ -33,12 +33,13 @@ const OneOnOneAttachmentsModal = ({ client, translate, council, open, requestClo
             bodyText={
                 <div>
                     {!loading ?
-                        data.council.attachments.length > 0 ? data.council.attachments.map(attachment => (
+                        data.council.attachments.length > 0 ? data.council.attachments.map((attachment, index) => (
                             <AttachmentDownload
                                 attachment={attachment}
                                 //loading={this.state.downloading}
                                 spacing={0.5}
-                            />
+                                key={`attachment_key_${index}`}
+                             />
                         ))
                         :
                             translate.no_results
