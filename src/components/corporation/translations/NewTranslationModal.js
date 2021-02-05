@@ -30,40 +30,6 @@ const NewTranslationModal = ({ translate, ...props }) => {
         });
     }
 
-    const saveNewTranslation = async () => {
-        if (!checkRequiredFields()) {
-            const response = await props.createTranslation({
-                variables: {
-                    translation: state.data
-                }
-            });
-
-            if (!response.errors) {
-                setState({
-                    ...initialState.current,
-                    success: true,
-                });
-            }
-        }
-    }
-
-
-    const updateTranslationAction = async () => {
-        if (!checkRequiredFields()) {
-            const { __typename, ...translation } = state.data;
-            const response = await props.updateTranslation({
-                variables: {
-                    translation
-                }
-            });
-
-            if(!response.errors){
-                await props.refresh();
-                props.requestClose();
-            }
-        }
-    }
-
     const checkRequiredFields = () => {
         const errors = {
             label: '',
@@ -114,14 +80,48 @@ const NewTranslationModal = ({ translate, ...props }) => {
         return hasError;
     }
 
+    const saveNewTranslation = async () => {
+        if (!checkRequiredFields()) {
+            const response = await props.createTranslation({
+                variables: {
+                    translation: state.data
+                }
+            });
+
+            if (!response.errors) {
+                setState({
+                    ...initialState.current,
+                    success: true,
+                });
+            }
+        }
+    }
+
+
+    const updateTranslationAction = async () => {
+        if (!checkRequiredFields()) {
+            const { __typename, ...translation } = state.data;
+            const response = await props.updateTranslation({
+                variables: {
+                    translation
+                }
+            });
+
+            if (!response.errors) {
+                await props.refresh();
+                props.requestClose();
+            }
+        }
+    }
+
     const _renderModalBody = () => (
-            <TranslationForm
-                errors={state.errors}
-                updateState={updateState}
-                data={state.data}
-                flagEdit={!!props.values}
-            />
-        )
+        <TranslationForm
+            errors={state.errors}
+            updateState={updateState}
+            data={state.data}
+            flagEdit={!!props.values}
+        />
+    )
 
     return (
         <AlertConfirm

@@ -156,7 +156,7 @@ class TranslationsPage extends React.Component {
 				</div>
 				<Scrollbar
 					onScrollStop={this.handleScrollStop}
-					ref={ref => (this.scrollbar = ref)}
+					ref={ref => { this.scrollbar = ref }}
 				>
 					<div style={{ width: "100%", padding: "1em" }}>
 						{this.props.data.rootTranslations.map(translation => (

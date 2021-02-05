@@ -1,26 +1,16 @@
 import React from 'react';
-import { graphql, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BasicButton } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
 import SignatureParticipants from './SignatureParticipants';
 
-const SignatureStepTwoIvnosys = ({ client, ...props }) => {
+const SignatureStepTwoIvnosys = ({ client, translate, ...props }) => {
     const [state, setState] = React.useState({
         loading: false,
         error: false
     })
-
-    const updateState = object => {
-        setState({
-            ...state,
-            data: {
-                ...state.data,
-                ...object
-            }
-        });
-    }
 
     const sendSignature = async () => {
         setState({
@@ -49,7 +39,7 @@ const SignatureStepTwoIvnosys = ({ client, ...props }) => {
             props.refetch();
         }
 
-        if(response.errors && response.errors[0].message === 'There is no participants added'){
+        if (response.errors && response.errors[0].message === 'There is no participants added') {
             setState({
                 ...state,
                 loading: false,
@@ -58,7 +48,6 @@ const SignatureStepTwoIvnosys = ({ client, ...props }) => {
         }
     }
 
-    const { translate } = props;
     const primary = getPrimary();
     const secondary = getSecondary();
 
@@ -94,8 +83,8 @@ const SignatureStepTwoIvnosys = ({ client, ...props }) => {
                         text={translate.save}
                         color={secondary}
                         textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
-                        //////cambiar esto
-                        // onClick={saveSignature}
+                    //////cambiar esto
+                    // onClick={saveSignature}
                     />
                     <BasicButton
                         text={translate.new_send_to_sign}
