@@ -11,8 +11,37 @@ import { isMobile } from "../../../../utils/screen";
 
 import { councilTypesInfo } from "../../../../constants";
 
+export const agendaManager = gql`
+	query AgendaManagerFields($councilId: Int!) {
+		agendas(councilId: $councilId) {
+			abstentionManual
+			abstentionVotings
+			agendaSubject
+			id
+			subjectType
+			pointState
+			councilId
+			votingState
+		}
 
-const CouncilInfoModal = ({ council, requestClose, show, translate, client, ...props }) => {
+		majorityTypes {
+			value
+			label
+		}
+
+		quorumTypes {
+			label
+			value
+		}
+
+		votingTypes {
+			label
+			value
+		}
+	}
+`;
+
+const CouncilInfoModal = ({ council, requestClose, show, translate, client }) => {
 	const [open, setOpen] = React.useState(false);
 	const [openPoints, setOpenPoints] = React.useState(false);
 	const [data, setData] = React.useState(false);
@@ -276,39 +305,5 @@ boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 		/>
 	);
 }
-
-
-
-
-export const agendaManager = gql`
-	query AgendaManagerFields($councilId: Int!) {
-		agendas(councilId: $councilId) {
-			abstentionManual
-			abstentionVotings
-			agendaSubject
-			id
-			subjectType
-			pointState
-			councilId
-			votingState
-		}
-
-		majorityTypes {
-			value
-			label
-		}
-
-		quorumTypes {
-			label
-			value
-		}
-
-		votingTypes {
-			label
-			value
-		}
-	}
-`;
-
 
 export default withApollo(CouncilInfoModal);

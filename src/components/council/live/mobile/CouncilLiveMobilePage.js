@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import FloatGroup from 'react-float-button';
 import { LoadingMainApp, FabButton, Icon, BasicButton } from '../../../../displayComponents';
 import { showVideo } from '../../../../utils/CBX';
