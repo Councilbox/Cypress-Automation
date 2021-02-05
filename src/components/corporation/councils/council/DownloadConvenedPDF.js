@@ -5,7 +5,7 @@ import { SERVER_URL } from '../../../../config';
 import { BasicButton } from '../../../../displayComponents';
 
 
-const DownloadConvenedPDF = ({ translate, color, council, client }) => {
+const DownloadConvenedPDF = ({ color, council }) => {
     const [loading, setLoading] = React.useState(false);
 
     const downloadAttachment = async () => {

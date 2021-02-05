@@ -25,7 +25,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
     }
 
     const updateCouncil = async object => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation UpdateCouncil($council: CouncilInput!){
                     updateCouncil(council: $council){

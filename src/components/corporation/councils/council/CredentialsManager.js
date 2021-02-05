@@ -164,15 +164,6 @@ const Content = ({ participant, translate, refetch, council }) => {
     )
 }
 
-
-const filterParticipants = (participants, text) => {
-    if (!text) {
-        return participants;
-    }
-    const lText = text.toLowerCase();
-    return participants.filter(participant => `${participant.name} ${participant.surname || ''}`.toLowerCase().includes(lText) || participant.email.toLowerCase().includes(lText) || participant.phone.includes(lText));
-}
-
 const participants = gql`
     query CredsParticipants($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
         liveParticipants(councilId: $councilId, filters: $filters, options: $options){

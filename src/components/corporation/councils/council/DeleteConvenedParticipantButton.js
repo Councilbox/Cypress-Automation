@@ -9,7 +9,7 @@ const DeleteConvenedParticipantButton = ({ translate, participant, client, refet
     const [modal, setModal] = React.useState(false);
 
     const killParticipant = async () => {
-        const response = await client.mutate({
+         await client.mutate({
             mutation: gql`
                 mutation removeConvenedParticipant($participantId: Int!){
                     removeConvenedParticipant(participantId: $participantId){

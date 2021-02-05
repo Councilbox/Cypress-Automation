@@ -16,7 +16,7 @@ import {
 } from "../../../../displayComponents";
 import { downloadCBXData, updateConveneSends } from "../../../../queries";
 import { convenedcouncilParticipants } from "../../../../queries/councilParticipant";
-import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
+import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from "../../../../constants";
 import { useOldState, usePolling } from "../../../../hooks";
 import AttendIntentionIcon from '../../../council/live/participants/AttendIntentionIcon';
 import DownloadCBXDataButton from '../../../council/prepare/DownloadCBXDataButton';
@@ -29,8 +29,6 @@ import ParticipantContactEditor from './ParticipantContactEditor';
 import NotificationsTable from '../../../notifications/NotificationsTable';
 import AddGuestModal from '../../../council/live/participants/AddGuestModal';
 import DeleteConvenedParticipantButton from './DeleteConvenedParticipantButton';
-
-const limit = PARTICIPANTS_LIMITS[0];
 
 const CouncilDetailsParticipants = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
 	const [filters, setFilters] = React.useState({
@@ -124,9 +122,6 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 		})
 	}
 
-	const resetPage = () => {
-		table.current.setPage(filters.page);
-	}
 
 	const showModalComment = comment => event => {
 		event.stopPropagation();
@@ -196,84 +191,84 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	}
 
 	const menuButtons = () => (
-			<>
-				<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
-					{!hideNotifications &&
-						<Tooltip
-							title={
-								translate.tooltip_refresh_convene_email_state_assistance
-							}
-						>
-							<div>
-								<BasicButton
-									floatRight
-									text={translate.refresh_convened}
-									color={secondary}
-									loading={refreshing}
-									buttonStyle={{
-										margin: "0",
-										marginRight: '1.2em'
-									}}
-									textStyle={{
-										color: "white",
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									icon={
-										<ButtonIcon
-											color="white"
-											type="refresh"
-										/>
-									}
-									textPosition="after"
-									onClick={refreshEmailStates}
-								/>
-							</div>
-						</Tooltip>
-					}
-					<>
-						<BasicButton
-							floatRight
-							disabled={CBX.councilIsFinished(council)}
-							text={translate.add_guest}
-							color="white"
-							buttonStyle={{
-								margin: "0",
-								marginRight: '1.2em',
-								border: `1px solid ${secondary}`
-							}}
-							textStyle={{
-								color: secondary,
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							textPosition="after"
-							onClick={() => setAddGuest(true)}
-						/>
-						<AddGuestModal
-							show={addGuest}
-							requestClose={() => setAddGuest(false)}
-							refetch={refetch}
-							council={council}
-							translate={translate}
-						/>
-					</>
-					{!hideAddParticipant &&
+		<>
+			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
+				{!hideNotifications &&
+					<Tooltip
+						title={
+							translate.tooltip_refresh_convene_email_state_assistance
+						}
+					>
 						<div>
-							<AddConvenedParticipantButton
-								participations={participations}
-								translate={translate}
-								councilId={council.id}
-								council={council}
-								refetch={refetch}
+							<BasicButton
+								floatRight
+								text={translate.refresh_convened}
+								color={secondary}
+								loading={refreshing}
+								buttonStyle={{
+									margin: "0",
+									marginRight: '1.2em'
+								}}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								icon={
+									<ButtonIcon
+										color="white"
+										type="refresh"
+									/>
+								}
+								textPosition="after"
+								onClick={refreshEmailStates}
 							/>
 						</div>
-					}
-				</div>
-			</>
-		)
+					</Tooltip>
+				}
+				<>
+					<BasicButton
+						floatRight
+						disabled={CBX.councilIsFinished(council)}
+						text={translate.add_guest}
+						color="white"
+						buttonStyle={{
+							margin: "0",
+							marginRight: '1.2em',
+							border: `1px solid ${secondary}`
+						}}
+						textStyle={{
+							color: secondary,
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						textPosition="after"
+						onClick={() => setAddGuest(true)}
+					/>
+					<AddGuestModal
+						show={addGuest}
+						requestClose={() => setAddGuest(false)}
+						refetch={refetch}
+						council={council}
+						translate={translate}
+					/>
+				</>
+				{!hideAddParticipant &&
+					<div>
+						<AddConvenedParticipantButton
+							participations={participations}
+							translate={translate}
+							councilId={council.id}
+							council={council}
+							refetch={refetch}
+						/>
+					</div>
+				}
+			</div>
+		</>
+	)
 
 	return (
 		<div style={{ width: "100%", height: 'calc( 100%  - 10em )', marginTop: "3.5em" }}>
@@ -309,15 +304,15 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 							>
 								{councilParticipants.list.map(
 									item => {
-										const participant = formatParticipant(item);
+										const formatDataParticipant = formatParticipant(item);
 										return (
 											<React.Fragment
-												key={`participant${participant.id}_${filters.notificationStatus}`}
+												key={`participant${formatDataParticipant.id}_${filters.notificationStatus}`}
 											>
 												<HoverableRow
 													translate={translate}
-													participant={participant}
-													representative={participant.representative}
+													participant={formatDataParticipant}
+													representative={formatDataParticipant.representative}
 													showModalComment={showModalComment}
 													cbxData={false}
 													participations={participations}
@@ -325,7 +320,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 														!props.cantEdit &&
 															setState({
 																editingParticipant: true,
-																participant
+																participant: formatDataParticipant
 															})
 													}}
 													council={council}
@@ -420,9 +415,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 						<div>
 							<div style={{ color: "black", marginBottom: ".5em" }}>Credenciales de: {`${participant.name} ${participant.surname
 								}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
-									participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${
-									participant.representatives[0].name} ${
-									participant.representatives[0].surname || ''}` : ''}`}</div>
+									participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}</div>
 							<div style={{}}>
 								<ParticipantContactEditor
 									participant={participant.live}
@@ -484,12 +477,9 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 					}
 				</TableCell>
 				<TableCell>
-					<div style={{ fontWeight: '700', marginBottom: "0.2em" }}>{`${participant.name} ${
-						participant.surname
+					<div style={{ fontWeight: '700', marginBottom: "0.2em" }}>{`${participant.name} ${participant.surname
 						}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
-							participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${
-							participant.representatives[0].name} ${
-							participant.representatives[0].surname || ''}` : ''}`}
+							participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}
 					</div>
 					{voteParticipantInfo}
 				</TableCell>
@@ -512,8 +502,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 					}
 				</TableCell>
 				<TableCell>
-					{`${
-						participant.numParticipations
+					{`${participant.numParticipations
 						} (${participant.numParticipations > 0 ? (
 							(participant.numParticipations /
 								totalVotes) *
@@ -527,8 +516,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				</TableCell>
 				{props.participations && (
 					<TableCell>
-						{`${
-							participant.socialCapital
+						{`${participant.socialCapital
 							} (${participant.socialCapital > 0 ?
 								((participant.socialCapital / socialCapital) * 100).toFixed(2)
 								:
@@ -577,8 +565,8 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 									/>
 								</Tooltip>
 							) : (
-								""
-							)}
+									""
+								)}
 						</TableCell>
 						{CBX.councilHasAssistanceConfirmation(council) &&
 							(
@@ -624,83 +612,84 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 }
 
 const formatParticipant = participant => {
-	let { representing, ...newParticipant } = participant;
+	const { representing, ...newParticipant } = participant;
+	let currentParticipant = newParticipant;
 
 	if (participant.representatives.length > 0) {
-		newParticipant = {
+		currentParticipant = {
 			...newParticipant,
 			representative: participant.representatives[0]
 		}
 	}
 
 	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
-		newParticipant = {
+		currentParticipant = {
 			...newParticipant,
 			delegate: participant.live.representative
 		}
 	}
-	return newParticipant;
+	return currentParticipant;
 }
 
 const applyFilters = (participants, filters) => applyOrder(participants.filter(item => {
-		const participant = formatParticipant(item);
-		if (filters.text) {
-			const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
+	const participant = formatParticipant(item);
+	if (filters.text) {
+		const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
 
-			if (filters.field === 'fullName') {
-				const fullName = `${participant.name} ${participant.surname || ''}`;
-				let repreName = '';
-				if (participant.representative) {
-					repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
-				}
-				if (!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
-					&& !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)) {
-					return false;
-				}
-			}
-
-			if (filters.field === 'position') {
-				if (participant.representative) {
-					if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
-						!CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
-						return false;
-					}
-				} else if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
-						return false;
-					}
-			}
-
-			if (filters.field === 'dni') {
-				if (participant.representative) {
-					if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
-						!CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
-						return false;
-					}
-				} else if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
-						return false;
-					}
-			}
-		}
-
-		if (filters.notificationStatus) {
+		if (filters.field === 'fullName') {
+			const fullName = `${participant.name} ${participant.surname || ''}`;
+			let repreName = '';
 			if (participant.representative) {
-				if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
-					return false;
-				}
-			} else if (participant.notifications[0].reqCode !== filters.notificationStatus) {
-					return false;
-				}
+				repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
+			}
+			if (!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
+				&& !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)) {
+				return false;
+			}
 		}
 
-		return true;
-	}), filters.orderBy, filters.orderDirection)
+		if (filters.field === 'position') {
+			if (participant.representative) {
+				if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
+					!CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
+					return false;
+				}
+			} else if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
+				return false;
+			}
+		}
+
+		if (filters.field === 'dni') {
+			if (participant.representative) {
+				if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
+					!CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
+					return false;
+				}
+			} else if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
+				return false;
+			}
+		}
+	}
+
+	if (filters.notificationStatus) {
+		if (participant.representative) {
+			if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
+				return false;
+			}
+		} else if (participant.notifications[0].reqCode !== filters.notificationStatus) {
+			return false;
+		}
+	}
+
+	return true;
+}), filters.orderBy, filters.orderDirection)
 
 
 const applyOrder = (participants, orderBy, orderDirection) => participants.sort((a, b) => {
-		const participantA = formatParticipant(a);
-		const participantB = formatParticipant(b);
-		return participantA[orderBy] > participantB[orderBy]
-	})
+	const participantA = formatParticipant(a);
+	const participantB = formatParticipant(b);
+	return participantA[orderBy] > participantB[orderBy]
+})
 
 export default compose(
 	graphql(updateConveneSends, {

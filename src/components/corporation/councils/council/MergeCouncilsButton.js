@@ -59,13 +59,15 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
             }
         });
 
-        if(response.errors){
-            if(response.errors[0].message = 'Repeated emails between councils'){
-                dispatch({ type: 'ERROR',
-payload: {
-                    type: 'Duplicated emails',
-                    repeatedEmails: response.errors[0].originalError.errors.repeatedEmails
-                } });
+        if (response.errors) {
+            if (response.errors[0].message === 'Repeated emails between councils') {
+                dispatch({
+                    type: 'ERROR',
+                    payload: {
+                        type: 'Duplicated emails',
+                        repeatedEmails: response.errors[0].originalError.errors.repeatedEmails
+                    }
+                });
             }
         } else {
             dispatch({ type: 'SUCCESS' });
@@ -74,13 +76,13 @@ payload: {
 
 
     const renderBody = () => {
-        if(status === 'SUCCESS'){
+        if (status === 'SUCCESS') {
             return (
                 'Reuniones mezcladas con éxito'
             )
         }
 
-        if(hasError){
+        if (hasError) {
             return (
                 <>
                     {error.type === 'Duplicated emails' &&
@@ -93,9 +95,9 @@ payload: {
                             ))}
                             Forzar la mezcla igualmente omitiendo el participante con email repetido?
                             <Checkbox
-								value={force}
-								onChange={() => setForce(!force)}
-							/>
+                                value={force}
+                                onChange={() => setForce(!force)}
+                            />
                         </>
                     }
 
@@ -104,7 +106,7 @@ payload: {
             )
         }
 
-        if(loading){
+        if (loading) {
             return <LoadingSection />
         }
 
