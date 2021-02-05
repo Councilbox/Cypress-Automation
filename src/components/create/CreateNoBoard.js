@@ -26,7 +26,6 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
     }, [company.id]);
 
     React.useEffect(() => {
-        props.setTitle('Seleccionar tipo de reunión');//TRADUCCION
         getData();
     }, [getData]);
 
