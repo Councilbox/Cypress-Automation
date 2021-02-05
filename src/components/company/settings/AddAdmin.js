@@ -76,7 +76,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
                 requestClose={() => setModal(false)}
             />
             {users.list.map(user => (
-                <div style={{ display: 'flex' }}>
+                <div key={user.id} style={{ display: 'flex' }}>
                     {`${user.name} ${user.surname || ''} - ${user.email}`}
                     <div style={{ cursor: 'pointer' }} onClick={() => {
                         setModal(user)

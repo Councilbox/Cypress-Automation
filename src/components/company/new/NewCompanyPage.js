@@ -1,6 +1,6 @@
 import React from "react";
 import { compose, graphql, withApollo } from "react-apollo";
-import { MenuItem, Typography } from "material-ui";
+import { MenuItem } from "material-ui";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import withSharedProps from "../../../HOCs/withSharedProps";
@@ -621,11 +621,6 @@ class NewCompanyPage extends React.PureComponent {
 											textStyle={{ textTransform: 'none', color: 'black', fontWeight: '700' }}
 											onClick={requestClose}
 											buttonStyle={{ marginRight: '1em' }}
-
-											textStyle={{
-												textTransform: "none",
-												fontWeight: "700",
-											}}
 											primary={true}
 											color='transparent'
 											type="flat"

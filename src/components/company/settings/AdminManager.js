@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { AlertConfirm, BasicButton, LoadingSection } from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary } from "../../../styles/colors";
 import AddAdmin from './AddAdmin';
 
 const AdminManager = ({ company, translate, client }) => {
@@ -71,7 +71,7 @@ const AdminManager = ({ company, translate, client }) => {
                 </div>
                 <div>
                     {admins.length > 0 ?
-                        admins.map(admin => <div>{`${admin.name} ${admin.surname || ''} - ${admin.email}`}</div>)
+                        admins.map((admin, index) => <div key={`admin_id${index}`}>{`${admin.name} ${admin.surname || ''} - ${admin.email}`}</div>)
                     :
                         translate.no_results
                     }
