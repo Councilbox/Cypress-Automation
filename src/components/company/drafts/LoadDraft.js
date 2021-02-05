@@ -717,7 +717,7 @@ const regularCardStyle = {
 
 
 const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => {
-	const styles = {
+	const stylesEtiquetas = {
 		borderRadius: '20px',
 		background: color,
 		padding: "0 0.5em",
@@ -742,26 +742,26 @@ const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => 
 				}}
 					id={'tipoDeReunion'}
 				>
-					{tags.map((tag, index) => (
-							<div
-								style={{
-									width: "100%",
-									marginRight: "1em",
-									cursor: "pointer",
-									whiteSpace: 'nowrap',
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									maxWidth: tags.length > 6 ? "150px" : '220px',
-									...(testTags[tag.name] ? {
-										...styles
-									} : {}),
-								}}
-								key={"tag_" + tag.label}
-								onClick={() => (testTags[tag.name] ? removeTag(tag) : addTag(tag))}
-							>
-								{tag.label}
-							</div>
-						))}
+					{tags.map((tag) => (
+						<div
+							style={{
+								width: "100%",
+								marginRight: "1em",
+								cursor: "pointer",
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								maxWidth: tags.length > 6 ? "150px" : '220px',
+								...(testTags[tag.name] ? {
+									...styles
+								} : {}),
+							}}
+							key={"tag_" + tag.label}
+							onClick={() => (testTags[tag.name] ? removeTag(tag) : addTag(tag))}
+						>
+							{tag.label}
+						</div>
+					))}
 				</div>
 			</div>
 		</div>

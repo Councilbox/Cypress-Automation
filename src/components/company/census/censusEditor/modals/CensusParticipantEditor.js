@@ -13,6 +13,24 @@ import {
 } from "../../../../../utils/validation";
 import SelectCensusParticipantRepresentative from "./SelectCensusParticipantRepresentative";
 
+const initialRepresentative = {
+	hasRepresentative: false,
+	language: "es",
+	type: 2,
+	initialState: 0,
+	name: "",
+	surname: "",
+	position: "",
+	email: "",
+	phone: "",
+	dni: ""
+};
+
+function extractTypeName(object) {
+	const { __typename, ...rest } = object;
+	return rest;
+}
+
 class CensusParticipantEditor extends React.Component {
 	state = {
 		modal: false,
@@ -238,20 +256,3 @@ export default compose(
 	graphql(languages)
 )(CensusParticipantEditor);
 
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: "es",
-	type: 2,
-	initialState: 0,
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: ""
-};
-
-function extractTypeName(object) {
-	const { __typename, ...rest } = object;
-	return rest;
-}

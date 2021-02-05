@@ -8,7 +8,7 @@ import folderIcon from '../../../../assets/img/folder.svg';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
-import { TextInput, ProgressBar, LoadingSection, BasicButton, DropDownMenu, FileUploadButton, AlertConfirm, Scrollbar } from "../../../../displayComponents";
+import { TextInput, ProgressBar, DropDownMenu, AlertConfirm, Scrollbar } from "../../../../displayComponents";
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
 
@@ -499,7 +499,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         refetch={getData}
                                     />
                             ))}
-                            {queue.map((item, index) => (
+                            {queue.map((item) => (
                                 <DelayedRow key={'delayedRow_' + item.id} delay={1000}>
                                     <TableRow>
                                         <TableCell>
