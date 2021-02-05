@@ -97,7 +97,7 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
                 </TableHead>
                 <TableBody>
                     {data.list.map(council => (
-                        <TableRow>
+                        <TableRow key={council.id}>
                             <TableCell>
                                 {council.customer_code || ''}
                             </TableCell>

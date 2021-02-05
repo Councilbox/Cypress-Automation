@@ -35,7 +35,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
             }
         });
 
-        if(response.data.councilRoom){
+        if (response.data.councilRoom) {
             const { __typename, ...councilRoom } = response.data.councilRoom;
             setData({
                 platformVideo: councilRoom.platformVideo || null,
@@ -67,7 +67,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 
     React.useEffect(() => () => clearInterval(interval), [state.modal]);
 
-    if(!data){
+    if (!data) {
         return <LoadingSection />
     }
 
@@ -85,6 +85,15 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
         setState({
             ...state,
             modal: false
+        });
+    }
+
+    const refreshButtons = () => {
+        setState({
+            ...state,
+            success: false,
+            loading: false,
+            error: false
         });
     }
 
@@ -110,86 +119,85 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
         interval = setInterval(refreshButtons, 3000);
     }
 
-    const refreshButtons = () => {
-        setState({
-            ...state,
-            success: false,
-            loading: false,
-            error: false
-        });
-    }
+
 
 
     const handleEnter = event => {
         refreshButtons();
-		if (event.nativeEvent.keyCode === 13) {
-			updateCouncilRoomLink();
-		}
-	};
+        if (event.nativeEvent.keyCode === 13) {
+            updateCouncilRoomLink();
+        }
+    };
 
     const _renderBody = () => (
-            <>
-                {videoConfig &&
-                    <>
-                        <div style={{ marginBottom: '1em' }}>
-                            <h5>Video config:</h5>
-                            <div>
-                                Número de instancias disponibles: {videoConfig.instances}
-                            </div>
-                            <div>
-                                En rotación: {videoConfig.availableSlots}
-                            </div>
+        <>
+            {videoConfig &&
+                <>
+                    <div style={{ marginBottom: '1em' }}>
+                        <h5>Video config:</h5>
+                        <div>
+                            Número de instancias disponibles: {videoConfig.instances}
                         </div>
+                        <div>
+                            En rotación: {videoConfig.availableSlots}
+                        </div>
+                    </div>
 
-                    </>
-                }
+                </>
+            }
 
-                <TextInput
-                    value={data.platformVideo}
-                    onKeyUp={handleEnter}
-                    floatingText="Fijado al número"
-                    onChange={event => setData({ ...data, platformVideo: event.target.value })}
-                />
+            <TextInput
+                value={data.platformVideo}
+                onKeyUp={handleEnter}
+                floatingText="Fijado al número"
+                onChange={event => setData({ ...data, platformVideo: event.target.value })}
+            />
 
-                <TextInput
-                    value={data.videoLink}
-                    onKeyUp={handleEnter}
-                    floatingText="Video URL"
-                    onChange={event => setData({ ...data, videoLink: event.target.value })}
-                />
+            <TextInput
+                value={data.videoLink}
+                onKeyUp={handleEnter}
+                floatingText="Video URL"
+                onChange={event => setData({ ...data, videoLink: event.target.value })}
+            />
 
-                <TextInput
-                    value={data.videoConfig.rtmp}
-                    onKeyUp={handleEnter}
-                    floatingText="URL RTMP"
-                    onChange={event => setData({ ...data,
-videoConfig: {
+            <TextInput
+                value={data.videoConfig.rtmp}
+                onKeyUp={handleEnter}
+                floatingText="URL RTMP"
+                onChange={event => setData({
+                    ...data,
+                    videoConfig: {
                         ...data.videoConfig,
                         rtmp: event.target.value
-                    } })}
-                />
-                <TextInput
-                    value={data.videoConfig.viewerURL}
-                    onKeyUp={handleEnter}
-                    floatingText="URL para participantes sin palabra"
-                    onChange={event => setData({ ...data,
-videoConfig: {
+                    }
+                })}
+            />
+            <TextInput
+                value={data.videoConfig.viewerURL}
+                onKeyUp={handleEnter}
+                floatingText="URL para participantes sin palabra"
+                onChange={event => setData({
+                    ...data,
+                    videoConfig: {
                         ...data.videoConfig,
                         viewerURL: event.target.value
-                    } })}
-                />
-                <Checkbox
-                    label={'Activar sistema híbrido'}
-                    value={data.videoConfig.autoHybrid}
-                    onChange={(event, isInputChecked) => setData({ ...data,
-videoConfig: {
+                    }
+                })}
+            />
+            <Checkbox
+                label={'Activar sistema híbrido'}
+                value={data.videoConfig.autoHybrid}
+                onChange={(event, isInputChecked) => setData({
+                    ...data,
+                    videoConfig: {
                         ...data.videoConfig,
                         autoHybrid: isInputChecked
-                    } })}
-                />
-                {data.videoConfig.autoHybrid &&
-                    <>
-                        {/* <SelectInput
+                    }
+                })}
+            />
+            {data.videoConfig.autoHybrid &&
+                <>
+                    {/* <SelectInput
                             value={data.videoConfig.hybridMode}
                             floatingText={'Sistema híbrido'}
                             onChange={event => setData({ ...data, videoConfig: {
@@ -200,40 +208,37 @@ videoConfig: {
                             <MenuItem value={'STREAMING'}>Streaming</MenuItem>
                             <MenuItem value={'WEBRTC'}>WebRTC</MenuItem>
                         </SelectInput> */}
-                        <SelectInput
-                            value={data.videoConfig.rtmpType}
-                            floatingText={'Tipo de streaming híbrido'}
-                            onChange={event => setData({ ...data,
-videoConfig: {
+                    <SelectInput
+                        value={data.videoConfig.rtmpType}
+                        floatingText={'Tipo de streaming híbrido'}
+                        onChange={event => setData({
+                            ...data,
+                            videoConfig: {
                                 ...data.videoConfig,
                                 rtmpType: event.target.value
-                            } })}
-                        >
-                            <MenuItem value={'presenter'}>Presentador</MenuItem>
-                            <MenuItem value={'multi'}>Pantalla partida</MenuItem>
-                        </SelectInput>
-                    </>
+                            }
+                        })}
+                    >
+                        <MenuItem value={'presenter'}>Presentador</MenuItem>
+                        <MenuItem value={'multi'}>Pantalla partida</MenuItem>
+                    </SelectInput>
+                </>
 
-                }
+            }
 
-                <Checkbox
-                    label={'Desactivar detección automática del sistema híbrido'}
-                    value={data.videoConfig.disableHybrid}
-                    onChange={(event, isInputChecked) => setData({ ...data,
-videoConfig: {
+            <Checkbox
+                label={'Desactivar detección automática del sistema híbrido'}
+                value={data.videoConfig.disableHybrid}
+                onChange={(event, isInputChecked) => setData({
+                    ...data,
+                    videoConfig: {
                         ...data.videoConfig,
                         disableHybrid: isInputChecked
-                    } })}
-                />
-            </>
-        )
-
-    const setValue = event => {
-        setData({
-            ...data,
-            videoLink: event.target.value
-        });
-    }
+                    }
+                })}
+            />
+        </>
+    )
 
     return (
         <>

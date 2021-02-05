@@ -26,7 +26,7 @@ const CostManager = ({ council, updateCouncil }) => {
 
     const sendUpdate = async () => {
         setLoading(true);
-        const response = await updateCouncil({
+        await updateCouncil({
             variables: {
                 council: {
                     id: council.id,

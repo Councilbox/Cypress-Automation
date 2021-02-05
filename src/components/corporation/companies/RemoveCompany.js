@@ -16,7 +16,7 @@ const RemoveCompany = ({ company, render, refetch, translate, styles, client }) 
     }
 
     const action = async () => {
-        const reponse = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation removeCompanyFromCorporation($companyId: Int!){
                     removeCompanyFromCorporation(companyId: $companyId){

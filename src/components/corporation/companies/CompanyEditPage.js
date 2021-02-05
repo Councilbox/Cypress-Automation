@@ -4,10 +4,10 @@ import { graphql } from 'react-apollo';
 import { LoadingSection } from '../../../displayComponents';
 import CompanySettingsPage from '../../company/settings/CompanySettingsPage';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import { company } from '../../../queries';
+import { company as queryCompany } from '../../../queries';
 import { bHistory } from '../../../containers/App';
 
-const CompanyEditPage = ({ data, user, match, company, translate }) => {
+const CompanyEditPage = ({ data, user, company, translate }) => {
     if(data.loading){
         return <LoadingSection />
     }
@@ -31,7 +31,7 @@ const CompanyEditPage = ({ data, user, match, company, translate }) => {
     )
 }
 
-export default graphql(company, {
+export default graphql(queryCompany, {
     options: props => ({
         variables: {
             id: +props.match.params.id
