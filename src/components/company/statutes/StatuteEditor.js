@@ -234,7 +234,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							}
 						</SelectInput>
 					</GridItem>
-					<GridItem xs={6} md={2} lg={2}>
+					<GridItem xs={5} md={2} lg={2}>
 						{CBX.quorumNeedsInput(statute.firstCallQuorumType) && (
 							<QuorumInput
 								type={statute.firstCallQuorumType}
@@ -279,7 +279,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 						</GridItem>
 					)}
 					{statute.existsSecondCall === 1 && (
-						<GridItem xs={6} md={2} lg={2}>
+						<GridItem xs={5} md={2} lg={2}>
 							{CBX.quorumNeedsInput(statute.secondCallQuorumType) && (
 								<QuorumInput
 									type={statute.secondCallQuorumType}
