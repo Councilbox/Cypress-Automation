@@ -1,10 +1,8 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import { Icon, MenuItem, Card, CardHeader, IconButton, Collapse } from 'material-ui';
+import { Card, IconButton } from 'material-ui';
 import ContentEditable from 'react-contenteditable';
-import { CardPageLayout, TextInput, Scrollbar, DateTimePicker, SelectInput, BasicButton } from '../../../displayComponents';
-import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import { Scrollbar, DateTimePicker, BasicButton } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
 
@@ -67,7 +65,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                     <div key={`book_${index}`}>
                                         <Card style={{ marginTop: "1em" }}>
                                             <div style={{ position: "relative" }}>
-                                                <div style={{ color: 'black', display: "flex", justifyContent: "space-between", color: "black", fontSize: "15px", paddingLeft: '24px', paddingRight: '24px', paddingTop: "3em", paddingBottom: "3em" }}>
+                                                <div style={{ color: 'black', display: "flex", justifyContent: "space-between", fontSize: "15px", paddingLeft: '24px', paddingRight: '24px', paddingTop: "3em", paddingBottom: "3em" }}>
                                                     <div style={{ width: '15%' }}>
                                                         <ContentEditable
                                                             style={{ color: 'black', minWidth: '10em' }}

@@ -6,7 +6,7 @@ import { LoadingSection } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import withTranslations from '../../../HOCs/withTranslations';
-import { getSecondary, getPrimary } from '../../../styles/colors';
+import { getPrimary } from '../../../styles/colors';
 import { usePolling } from '../../../hooks';
 import { COUNCIL_TYPES } from '../../../constants';
 
@@ -109,7 +109,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                         </div>
                     }
                     <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }}>
-                        {timeline.map((event, index) => {
+                        {timeline.map((event) => {
                             const content = JSON.parse(event.content);
                             return (
                                 <Step active key={`event_${event.id}`} aria-label={getTimelineTranslation({ event: event.type, content, translate, council }) + " Hora: " + moment(event.date).format('LLL')} >

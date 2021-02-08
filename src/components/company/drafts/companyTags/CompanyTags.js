@@ -2,7 +2,7 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Table, TableHead, TableRow, TableCell, TableBody, IconButton, Icon, Divider } from 'material-ui';
-import { CloseIcon, SectionTitle, Scrollbar, Grid, GridItem, TextInput, AlertConfirm } from '../../../../displayComponents';
+import { CloseIcon, Scrollbar, Grid, GridItem, TextInput, AlertConfirm } from '../../../../displayComponents';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { useHoverRow } from '../../../../hooks';
 import { getPrimary } from '../../../../styles/colors';
@@ -38,7 +38,6 @@ const CompanyTags = ({ client, translate, company }) => {
     const [buscarTags, setBuscarTags] = React.useState("");
     const [toggleText, setToggleText] = React.useState(true);
     const [inputSearch, setInputSearch] = React.useState(false);
-    const primary = getPrimary();
 
     const getData = async () => {
         const response = await client.query({
@@ -235,7 +234,6 @@ const CompanyTags = ({ client, translate, company }) => {
                                                 stylesAdornment={{}}
                                                 adornment={<Icon style={{ color: getPrimary() }}>search</Icon>}
                                                 type="text"
-                                                value={""}
                                                 value={buscarTags}
                                                 placeholder={translate.search_tags}
                                                 onChange={event => {
