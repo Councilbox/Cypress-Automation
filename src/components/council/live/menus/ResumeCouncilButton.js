@@ -1,17 +1,30 @@
 import React from "react";
 import { withApollo } from "react-apollo";
+import gql from "graphql-tag";
 import {
 	BasicButton,
 	Icon } from "../../../../displayComponents";
 import { getPrimary } from "../../../../styles/colors";
 
 
-const ResumeCouncilButton = ({ translate, refetch }) => {
+const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
     const [loading, setLoading] = React.useState(false);
 	const primary = getPrimary();
 
 	const resumeCouncil = async () => {
         setLoading(true);
+         await client.mutate({
+            mutation: gql`
+                mutation ResumeCouncil($councilId: Int!){
+                    resumeCouncil(councilId: $councilId){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                councilId: council.id
+            }
+        });
         refetch();
         setLoading(false);
 	}
