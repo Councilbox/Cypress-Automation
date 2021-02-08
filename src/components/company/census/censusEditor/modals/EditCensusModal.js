@@ -30,44 +30,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
 
     React.useEffect(() => {
         getData();
-    }, [getData])
-
-    const updateCensusFunction = async () => {
-        if (!checkRequiredFields()) {
-            const { __typename, ...census } = state.data;
-            const response = await client.mutate({
-                mutation: updateCensus,
-                variables: {
-                    census
-                }
-            });
-            if (!response.errors) {
-                await props.refetch();
-                props.requestClose();
-            }
-        }
-    }
-
-    const updateState = object => {
-        setState({
-            ...state,
-            data: {
-                ...state.data,
-                ...object
-            }
-        });
-    };
-
-    const _renderBody = () => (
-            <div style={{ minWidth: "800px" }}>
-                <CensusInfoForm
-                    translate={translate}
-                    errors={state.errors}
-                    updateState={updateState}
-                    census={state.data}
-                />
-            </div>
-        );
+    }, [getData]);
 
     const checkRequiredFields = () => {
         let hasError = false;
@@ -112,6 +75,43 @@ const EditCensusButton = ({ translate, client, ...props }) => {
         }
             return false;
     }
+
+    const updateCensusFunction = async () => {
+        if (!checkRequiredFields()) {
+            const { __typename, ...censusData } = state.data;
+            const response = await client.mutate({
+                mutation: updateCensus,
+                variables: {
+                    census: censusData
+                }
+            });
+            if (!response.errors) {
+                await props.refetch();
+                props.requestClose();
+            }
+        }
+    }
+
+    const updateState = object => {
+        setState({
+            ...state,
+            data: {
+                ...state.data,
+                ...object
+            }
+        });
+    };
+
+    const _renderBody = () => (
+        <div style={{ minWidth: "800px" }}>
+            <CensusInfoForm
+                translate={translate}
+                errors={state.errors}
+                updateState={updateState}
+                census={state.data}
+            />
+        </div>
+    );
 
     const comprobateChanges = () => {
         const unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(state.data)

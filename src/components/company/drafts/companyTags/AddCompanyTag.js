@@ -25,7 +25,7 @@ export const checkUsedKey = gql`
 `;
 
 
-const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }) => {
+const AddCompanyTag = ({ company, translate, refetch, client, styles }) => {
     const [modal, setModal] = React.useState(false);
     const [errors, setErrors] = React.useState({
         key: '',
@@ -40,6 +40,40 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
     });
 
 
+    const checkRequiredFields = async () => {
+        const checkErrors = {}
+
+        if (!tag.key || !tag.key.trim()) {
+            checkErrors.key = translate.required_field;
+        } else {
+            const response = await client.query({
+                query: checkUsedKey,
+                variables: {
+                    companyId: company.id,
+                    key: tag.key
+                }
+            });
+
+            if (response.data.companyTagKeyUsed) {
+                checkErrors.key = translate.key_already_used;
+            }
+        }
+
+        if (!tag.value || !tag.key.trim()) {
+            checkErrors.value = translate.required_field;
+        }
+
+        setErrors(checkErrors);
+
+        return Object.keys(checkErrors).length > 0;
+    }
+
+    const updateTag = object => {
+        setTag({
+            ...tag,
+            ...object
+        });
+    }
 
     const createCompanyTag = async () => {
         if (!await checkRequiredFields()) {
@@ -72,40 +106,6 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
         }
     }
 
-    const checkRequiredFields = async () => {
-        const errors = {}
-
-        if (!tag.key || !tag.key.trim()) {
-            errors.key = translate.required_field;
-        } else {
-            const response = await client.query({
-                query: checkUsedKey,
-                variables: {
-                    companyId: company.id,
-                    key: tag.key
-                }
-            });
-
-            if (response.data.companyTagKeyUsed) {
-                errors.key = translate.key_already_used;
-            }
-        }
-
-        if (!tag.value || !tag.key.trim()) {
-            errors.value = translate.required_field;
-        }
-
-        setErrors(errors);
-
-        return Object.keys(errors).length > 0;
-    }
-
-    const updateTag = object => {
-        setTag({
-            ...tag,
-            ...object
-        });
-    }
 
     const openModal = React.useCallback(() => {
         setModal(true);
@@ -116,13 +116,13 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles, ...props }
     })
 
     const renderModalBody = () => (
-            <CompanyTagForm
-                translate={translate}
-                tag={tag}
-                errors={errors}
-                setTag={updateTag}
-            />
-        )
+        <CompanyTagForm
+            translate={translate}
+            tag={tag}
+            errors={errors}
+            setTag={updateTag}
+        />
+    )
 
     return (
         <React.Fragment>

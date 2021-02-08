@@ -104,7 +104,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 						/>
 					</GridItem>
 				</Grid>
-				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%", }}>
+				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%", }}>
 					{loading ? (
 						<LoadingSection />
 					) : (
@@ -115,18 +115,18 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 											{participants.length > 0 ? (
 												<React.Fragment>
 													{participants.map((participant, index) => (
-															<CardPlantillas
-																translate={translate}
-																key={`delegateVote_${participant.id}`}
-																item={participant}
-																onClick={() => {
-                                                                    const { __typename, representative, ...data } = participant;
-                                                                    props.updateRepresentative(data);
-                                                                    close();
-																}}
-																index={index}
-															/>
-														))}
+														<CardPlantillas
+															translate={translate}
+															key={`delegateVote_${participant.id}`}
+															item={participant}
+															onClick={() => {
+																const { __typename, representative, ...data } = participant;
+																props.updateRepresentative(data);
+																close();
+															}}
+															index={index}
+														/>
+													))}
 													{participants.length < total - 1 && (
 														<Card
 															style={{
@@ -203,7 +203,7 @@ const regularCardStyle = {
 
 
 
-const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate, onClick, index }) => {
+const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, onClick, index }) => {
 	const [hover, setHover] = React.useState(false);
 
 	const mouseEnterHandler = () => {

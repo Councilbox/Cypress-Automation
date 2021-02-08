@@ -697,7 +697,7 @@ export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate
 ))
 
 const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => {
-	const styles = {
+	const stylesEtiquetas = {
 		borderRadius: '20px',
 		background: color,
 		padding: "0 0.5em",

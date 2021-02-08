@@ -5,7 +5,7 @@ import { DateTimePicker, BasicButton, TextInput } from '../../../displayComponen
 
 
 
-const AddCompanyNotificationMenu = ({ requestClose, refetch, company, translate, client }) => {
+const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => {
     const defaultState = {
         limitDate: null,
         description: '',

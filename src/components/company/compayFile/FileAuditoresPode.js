@@ -1,10 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import { Icon, MenuItem, Card, CardHeader, IconButton } from 'material-ui';
 import ContentEditable from 'react-contenteditable';
-import { CardPageLayout, TextInput, BasicButton, Scrollbar, DateTimePicker, SelectInput } from '../../../displayComponents';
-import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import { BasicButton, Scrollbar, DateTimePicker } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
 
@@ -43,7 +40,7 @@ const FileAuditoresPode = props => (
         </div>
     )
 
-const AuditorsForm = ({ data, updateFileData, translate, ...props }) => {
+const AuditorsForm = ({ data, updateFileData, translate }) => {
     const auditors = (data.file && data.file.auditors) ? data.file.auditors : [];
     const primary = getPrimary();
 
@@ -108,7 +105,7 @@ const AuditorsForm = ({ data, updateFileData, translate, ...props }) => {
                             </div>
                             {auditors.length > 0 ?
                                 auditors.map((auditor, index) => (
-                                    <div style={{ color: "black", display: "flex", width: "100%", padding: '1em' }}>
+                                    <div key={`auditor_key_${index}`} style={{ color: "black", display: "flex", width: "100%", padding: '1em' }}>
                                         <div style={{ width: "20%", paddingTop: '8px' }}>
                                             <ContentEditable
                                                 style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
@@ -192,7 +189,7 @@ const AuditorsForm = ({ data, updateFileData, translate, ...props }) => {
     )
 }
 
-const PowersForm = ({ data, updateFileData, translate, ...props }) => {
+const PowersForm = ({ data, updateFileData, translate }) => {
     const powers = (data.file && data.file.powers) ? data.file.powers : [];
     const primary = getPrimary();
 
@@ -258,7 +255,7 @@ const PowersForm = ({ data, updateFileData, translate, ...props }) => {
                             </div>
                             {powers.length > 0 ?
                                 powers.map((power, index) => (
-                                    <div style={{ color: "black", display: "flex", width: "100%", padding: '1em' }}>
+                                    <div key={`power_key_${index}`} style={{ color: "black", display: "flex", width: "100%", padding: '1em' }}>
                                         <div style={{ width: "20%", paddingTop: '8px' }}>
                                             <ContentEditable
                                                 style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
