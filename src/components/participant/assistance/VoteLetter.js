@@ -181,7 +181,9 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
     }, [innerWidth])
 
     const getSignaturePreview = () => {
-        signaturePreview.current.fromDataURL(signature.current.toDataURL());
+        if(signaturePreview.current) {
+            signaturePreview.current.fromDataURL(signature.current.toDataURL());
+        }
     }
 
     const renderCustom = () => {
