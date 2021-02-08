@@ -76,6 +76,20 @@ const FileCalendario = ({ translate, company, client }) => {
             __typename: undefined
         };
 
+        await client.mutate({
+            mutation: gql`
+                mutation UpdateCompanyNotification($notification: CompanyNotificationInput){
+                    updateCompanyNotification(notification: $notification){
+                        id
+                        state
+                    }
+                }
+            `,
+            variables: {
+                notification: newValues
+            }
+        });
+
         getData();
     }
 
