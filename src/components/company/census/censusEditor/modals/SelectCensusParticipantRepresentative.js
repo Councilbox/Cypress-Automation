@@ -144,10 +144,9 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 															onClick={loadMore}
 														>
 															<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
-																{`DESCARGAR ${
-																	rest > DELEGATION_USERS_LOAD
-																		? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-																		: translate.all_plural.toLowerCase()
+																{`DESCARGAR ${rest > DELEGATION_USERS_LOAD
+																	? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+																	: translate.all_plural.toLowerCase()
 																	}`
 																}
 																{loading &&
@@ -184,7 +183,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
 			title={translate.select}
-			bodyStyle={{ width: "75vw", minWidth: "50vw", overflow: isMobile && "hidden", width: isMobile && "100%", height: isMobile && '100%' }}
+			bodyStyle={{ minWidth: "50vw", overflow: isMobile && "hidden", width: isMobile && "100%", height: isMobile && '100%' }}
 		/>
 	);
 }

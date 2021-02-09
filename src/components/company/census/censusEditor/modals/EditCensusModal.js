@@ -1,12 +1,11 @@
 
 import React from "react";
-import { graphql, compose, withApollo } from "react-apollo";
+import { withApollo } from "react-apollo";
 import {
     AlertConfirm, UnsavedChangesModal
 } from "../../../../../displayComponents";
 import { census, updateCensus } from "../../../../../queries/census";
 import CensusInfoForm from '../../CensusInfoForm';
-import { isMobile } from "../../../../../utils/screen";
 import { INPUT_REGEX } from "../../../../../constants";
 
 const EditCensusButton = ({ translate, client, ...props }) => {

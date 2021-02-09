@@ -1,7 +1,6 @@
 import React from 'react';
 import { MenuItem } from 'material-ui';
 import { TextInput, SelectInput, Grid, GridItem } from '../../../displayComponents';
-import { isMobile } from '../../../utils/screen';
 
 const CensusInfoForm = ({ translate, census, updateState, errors }) => (
             <Grid>
