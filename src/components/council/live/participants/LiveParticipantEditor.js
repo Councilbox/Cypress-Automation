@@ -2,7 +2,8 @@ import React from "react";
 import { compose, graphql, withApollo } from "react-apollo";
 import {
 	Typography,
- Tooltip } from "material-ui";
+	Tooltip
+} from "material-ui";
 import gql from "graphql-tag";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
 import { isLandscape, isMobile } from "../../../../utils/screen";
@@ -33,6 +34,7 @@ import EarlyVotingModal from "./EarlyVotingModal";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
+	const participant = { ...data.liveParticipant };
 
 	const refreshEmailStates = async () => {
 		const response = await props.updateParticipantSends({
@@ -45,8 +47,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 			data.refetch();
 		}
 	};
-
-	let participant = { ...data.liveParticipant };
 
 	React.useEffect(() => {
 		let interval;
@@ -195,8 +195,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						}
 
 						{(participant.representatives && participant.representatives.length > 0 && participant.representatives[0].delegatedVotes) &&
-							participant.representatives[0].delegatedVotes.map(delegatedVote => (
+							participant.representatives[0].delegatedVotes.map((delegatedVote, index) => (
 								<ParticipantBlock
+									key={`participantBlock_Representatives_${index}`}
 									{...props}
 									active={false}
 									participant={delegatedVote}
@@ -216,8 +217,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						}
 
 						{(participant.delegatedVotes && participant.delegatedVotes.length > 0) &&
-							participant.delegatedVotes.map(delegatedVote => (
+							participant.delegatedVotes.map((delegatedVote, index) => (
 								<ParticipantBlock
+									key={`participantBlock_deletedVoted_${index}`}
 									{...props}
 									active={false}
 									participant={delegatedVote}

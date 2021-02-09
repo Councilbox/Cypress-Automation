@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Card, TableRowColumn, TableRow, Table, TableCell } from "material-ui";
+import { Typography, Card, TableRow, Table, TableCell } from "material-ui";
 import { compose, graphql } from "react-apollo";
 import FontAwesome from 'react-fontawesome';
 import {
@@ -7,7 +7,6 @@ import {
 	Icon,
 	BasicButton,
 	LoadingSection,
-	ParticipantRow,
 	Scrollbar,
 	TextInput,
 	Checkbox,
@@ -15,7 +14,6 @@ import {
 } from "../../../../displayComponents";
 import { councilParticipantsActSends, sendAct } from "../../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
-import { checkValidEmail } from '../../../../utils/validation';
 
 import { useOldState } from "../../../../hooks";
 import { getSecondary } from "../../../../styles/colors";
@@ -79,8 +77,8 @@ const SendActModal = ({ translate, data, ...props }) => {
 	const checkRow = (participant, check) => {
 		let participants = [...state.participants];
 		if(check){
-			const { __typename, ...data } = participant;
-			participants = [...participants, data];
+			const { __typename, ...participantData } = participant;
+			participants = [...participants, participantData];
 		}else{
 			const index = participants.findIndex(item => item.id === participant.id);
 			participants.splice(index, 1);
@@ -227,7 +225,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 									<Table style={{ marginBottom: "1em", width: "600px", margin: "0 auto" }}>
 										{participants.length > 0 ? (
 											participants.filter(p => !!p.email).map(participant => (
-													<TableRow>
+													<TableRow key={participant.id}>
 														<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
 															<Checkbox
 																value={isChecked(participant.id)}

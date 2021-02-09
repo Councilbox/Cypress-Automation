@@ -3,13 +3,6 @@ import { Tooltip } from "material-ui";
 import FontAwesome from "react-fontawesome";
 import { getTranslationReqCode, getEmailIconByReqCode } from "../../../../utils/CBX";
 
-class EmailIcon extends React.PureComponent {
-	render() {
-		const { color = 'grey', reqCode, number, translate, ratio = 1 } = this.props;
-		return _renderIcon(color, reqCode, number, translate, ratio)
-	}
-}
-
 const styleMainIcon = (color, ratio) => ({
 		fontSize: `${1.5 * ratio}em`,
 		color
@@ -50,6 +43,13 @@ const _renderIcon = (color, reqCode, number, translate, ratio) => {
 			</div>
 		</Tooltip>
 	);
+}
+
+class EmailIcon extends React.PureComponent {
+	render() {
+		const { color = 'grey', reqCode, number, translate, ratio = 1 } = this.props;
+		return _renderIcon(color, reqCode, number, translate, ratio)
+	}
 }
 
 export default EmailIcon;

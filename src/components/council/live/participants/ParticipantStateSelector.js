@@ -24,7 +24,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 	const landscape = isLandscape() || window.innerWidth > 700;
 	const primary = getPrimary();
 
-	const changeParticipantState = async (state, index) => {
+	const handleParticipantState = async (state, index) => {
 		setLoading(state);
 		const response = await props.changeParticipantState({
 			variables: {
@@ -63,7 +63,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 						tooltip={translate.change_to_no_participate}
 						loading={loading === 0}
 						size="2.8em"
-						onClick={() => changeParticipantState(6, 0, null)}
+						onClick={() => handleParticipantState(6, 0, null)}
 						active={
 							participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
 						}
@@ -82,7 +82,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 						tooltip={translate.change_to_remote}
 						loading={loading === 1}
 						size="2.8em"
-						onClick={() => changeParticipantState(0, 1, null)}
+						onClick={() => handleParticipantState(0, 1, null)}
 						active={participant.state === PARTICIPANT_STATES.REMOTE}
 					>
 						<StateIcon
@@ -99,7 +99,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 						tooltip={translate.physically_present_assistance}
 						loading={loading === 2}
 						size="2.8em"
-						onClick={() => changeParticipantState(5, 2, null)}
+						onClick={() => handleParticipantState(5, 2, null)}
 						active={
 							participant.state ===
 							PARTICIPANT_STATES.PHYSICALLY_PRESENT
@@ -120,7 +120,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 							tooltip={translate.change_to_present_with_remote_vote}
 							loading={loading === 3}
 							size="2.8em"
-							onClick={() => changeParticipantState(7, 3, null)}
+							onClick={() => handleParticipantState(7, 3, null)}
 							active={
 								participant.state ===
 								PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE

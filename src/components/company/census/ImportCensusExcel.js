@@ -8,7 +8,6 @@ import {
 	Scrollbar,
 	Grid,
 	GridItem,
-	CustomDialog,
 	FileUploadButton,
 	AlertConfirm
 } from "../../../displayComponents";
@@ -16,10 +15,9 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from "../../../queries/census";
 import { checkValidEmail } from "../../../utils";
 import { downloadFile } from "../../../utils/CBX";
-import { isMobile } from "../../../utils/screen";
 
 let XLSX;
-import('xlsx').then(data => XLSX = data);
+import('xlsx').then(data => { XLSX = data });
 
 const original = {
 	NOMBRE: "name",
@@ -179,7 +177,7 @@ class ImportCensusButton extends React.Component {
 		}
 
 		const emails = [];
-		uniqueEmails.forEach((value, key, map) => emails.push(key));
+		uniqueEmails.forEach((value, key) => emails.push(key));
 
 		const response = await this.props.client.query({
 			query: checkUniqueCensusEmails,
@@ -672,7 +670,7 @@ class ImportCensusButton extends React.Component {
 												<div
 													style={{ width: '100%' }}
 												>
-													{this.state.invalidEmails.map((item, index) => (
+													{this.state.invalidEmails.map((item) => (
 														<React.Fragment key={`invalidEmails_${item.line}`}>
 															{this.buildErrorString(item)}<br />
 														</React.Fragment>
@@ -706,7 +704,7 @@ class ImportCensusButton extends React.Component {
 												<div
 													style={{ width: '100%' }}
 												>
-													{this.state.invalidEmails.map((item, index) => (
+													{this.state.invalidEmails.map((item) => (
 														<React.Fragment key={`invalidEmails_${item[0]}`}>
 															{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
 														</React.Fragment>

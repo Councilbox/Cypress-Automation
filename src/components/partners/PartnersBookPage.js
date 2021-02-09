@@ -81,12 +81,6 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
         bHistory.push(`/company/${props.match.params.company}/book/new`);
     }
 
-    const showDeleteModal = () => {
-        setState({
-            ...state,
-            deleteModal: true
-        });
-    }
 
     const closeDeleteModal = () => {
         setState({
@@ -304,7 +298,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 headers={headers}
             >
                 {bookParticipantsData.map(
-                    (participant, index) => (
+                    (participant) => (
                             <HoverableRow
                                 key={`participant${participant.id}`}
                                 deleteBookParticipant={selectedIdToDelete}

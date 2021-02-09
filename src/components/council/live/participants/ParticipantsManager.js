@@ -86,7 +86,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 	};
 
     const updateParticipants = async () => {
-        setState(state => ({ ...state, loading: true }));
+        setState(() => ({ ...state, loading: true }));
         const response = await client.query({
             query: getQuery(state.view),
             variables: {
@@ -99,7 +99,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
             ...response.data,
             refetch: updateParticipants
         });
-        setState(state => ({ ...state, loading: false }));
+        setState(() => ({ ...state, loading: false }));
     }
 
     const toggleSettings = () => {

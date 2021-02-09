@@ -1,13 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { MenuItem, Collapse } from "material-ui";
 
 import {
-	Checkbox,
 	Grid,
 	GridItem,
 	SelectInput,
 	TextInput,
-	BasicButton,
 	LoadingSection
 } from "../../../../displayComponents";
 import { getSecondary } from "../../../../styles/colors";

@@ -5,7 +5,7 @@ import { LoadingSection } from '../../../../displayComponents';
 
 
 
-const DownloadCompanyDocument = ({ file, companyId, translate, trigger, color = getSecondary() }) => {
+const DownloadCompanyDocument = ({ file, trigger, color = getSecondary() }) => {
     const [downloading, setDownloading] = React.useState(false);
 
     const download = async () => {

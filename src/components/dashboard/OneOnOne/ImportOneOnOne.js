@@ -6,22 +6,22 @@ import { moment } from '../../../containers/App';
 import { AlertConfirm, BasicButton, FileUploadButton, ButtonIcon, LoadingSection } from '../../../displayComponents';
 
 let XLSX;
-import('xlsx').then(data => XLSX = data);
+import('xlsx').then(data => { XLSX = data });
 
 function to_json(workbook) {
-	const result = {};
-	workbook.SheetNames.forEach(sheetName => {
-		const roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-		if (roa.length > 0) {
-			result[sheetName] = roa;
-		}
-	});
-	return result;
+    const result = {};
+    workbook.SheetNames.forEach(sheetName => {
+        const roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+        if (roa.length > 0) {
+            result[sheetName] = roa;
+        }
+    });
+    return result;
 }
 
 const itemRefs = [];
 
-const ImportOneOneOne = ({ translate, company, client }) => {
+const ImportOneOneOne = ({ translate, client }) => {
     const [modal, setModal] = React.useState(false);
     const [step, setStep] = React.useState(1);
     const [councilsToCreate, setCouncilsToCreate] = React.useState([]);
@@ -31,12 +31,12 @@ const ImportOneOneOne = ({ translate, company, client }) => {
     const primary = getPrimary();
 
     const read = workbook => {
-		const wb = XLSX.read(workbook, { type: 'binary' });
-		return to_json(wb);
+        const wb = XLSX.read(workbook, { type: 'binary' });
+        return to_json(wb);
     };
 
     const createOneOnOneCouncil = async council => client.mutate({
-            mutation: gql`
+        mutation: gql`
                 mutation createOneOnOneCouncil(
                     $council: CouncilInput,
                     $participant: ParticipantInput
@@ -52,8 +52,8 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                     }
                 }
             `,
-            variables: council
-        })
+        variables: council
+    })
 
     const cleanAndClose = () => {
         setStep(1);
@@ -64,13 +64,18 @@ const ImportOneOneOne = ({ translate, company, client }) => {
         setStatus('IDDLE');
     }
 
+    const scrollTo = id => {
+        if (itemRefs[id] != null) {
+            itemRefs[id].scrollIntoView();
+        }
+    }
+
     const startCreating = async () => {
         setStatus('CREATING');
-        for(let i = 0; i < councilsToCreate.length; i++){
+        for (let i = 0; i < councilsToCreate.length; i++) {
             const newCouncil = councilsToCreate[i];
             setCreatingIndex(i);
-            let response;
-            response = await createOneOnOneCouncil(newCouncil);
+            const response = await createOneOnOneCouncil(newCouncil);
             createdCouncils.push(response);
             setCreatedCouncils([...createdCouncils]);
             scrollTo(i);
@@ -78,81 +83,77 @@ const ImportOneOneOne = ({ translate, company, client }) => {
         setStatus('CREATED');
     }
 
-    const scrollTo = id => {
-        if (itemRefs[id] != null) {
-            itemRefs[id].scrollIntoView();
-        }
-    }
+
 
     const handleFile = async event => {
-		const file = event.nativeEvent.target.files[0];
-		if (!file) {
-			return;
-		}
+        const file = event.nativeEvent.target.files[0];
+        if (!file) {
+            return;
+        }
 
-		const reader = new FileReader();
-		reader.readAsBinaryString(file);
+        const reader = new FileReader();
+        reader.readAsBinaryString(file);
 
-		reader.onload = async () => {
-			const result = await read(reader.result);
-			const pages = Object.keys(result);
-			if (pages.length >= 1) {
+        reader.onload = async () => {
+            const result = await read(reader.result);
+            const pages = Object.keys(result);
+            if (pages.length >= 1) {
                 const processedCouncils = result[pages[0]].filter(row => !!row['council.externalId']).map(row => ({
-                        "council": {
-                            "name": row['council.name'],
-                            "externalId": row['council.externalId'],
-                            "companyExternalId": row['council.companyExternalId'],
-                            "contactEmail": row['council.contactEmail'],
-                            "dateStart": moment(row['council.dateStart'], 'MM/DD/YYYY HH:mm').toISOString(),
-                            "conveneText": row['council.conveneText']
+                    "council": {
+                        "name": row['council.name'],
+                        "externalId": row['council.externalId'],
+                        "companyExternalId": row['council.companyExternalId'],
+                        "contactEmail": row['council.contactEmail'],
+                        "dateStart": moment(row['council.dateStart'], 'MM/DD/YYYY HH:mm').toISOString(),
+                        "conveneText": row['council.conveneText']
+                    },
+                    "participant": {
+                        "name": row['participant.name'],
+                        "dni": row['participant.dni'],
+                        "surname": row['participant.surname'] || '',
+                        "email": row['participant.email'],
+                        "phone": row['participant.phone']
+                    },
+                    agenda: [
+                        {
+                            "type": +row['agenda1.type'] || 9,
+                            "templateId": +row['agenda1.id']
                         },
-                        "participant": {
-                            "name": row['participant.name'],
-                            "dni": row['participant.dni'],
-                            "surname": row['participant.surname'] || '',
-                            "email": row['participant.email'],
-                            "phone": row['participant.phone']
+                        {
+                            "type": +row['agenda2.type'] || 9,
+                            "templateId": +row['agenda2.id']
                         },
-                        agenda: [
-                            {
-                                "type": +row['agenda1.type'] || 9,
-                                "templateId": +row['agenda1.id']
-                            },
-                            {
-                                "type": +row['agenda2.type'] || 9,
-                                "templateId": +row['agenda2.id']
-                            },
-                            {
-                                "type": +row['agenda3.type'] || 9,
-                                "templateId": +row['agenda3.id']
-                            },
-                            {
-                                "type": +row['agenda4.type'] || 9,
-                                "templateId": +row['agenda4.id']
-                            }
-                        ].filter(agenda => !!agenda.templateId)
-                    }));
+                        {
+                            "type": +row['agenda3.type'] || 9,
+                            "templateId": +row['agenda3.id']
+                        },
+                        {
+                            "type": +row['agenda4.type'] || 9,
+                            "templateId": +row['agenda4.id']
+                        }
+                    ].filter(agenda => !!agenda.templateId)
+                }));
 
                 setCouncilsToCreate(processedCouncils);
                 setStep(2);
-			} else {
-				console.error(result);
-			}
-		};
+            } else {
+                console.error(result);
+            }
+        };
     };
 
     const getButtonOptions = () => {
-        if(step === 1 || councilsToCreate.length === 0 || status === 'CREATING'){
+        if (step === 1 || councilsToCreate.length === 0 || status === 'CREATING') {
             return {}
         }
 
-        if(status === 'CREATED'){
+        if (status === 'CREATED') {
             return {
                 buttonCancel: translate.close,
             }
         }
 
-        if(step === 2){
+        if (step === 2) {
             return {
                 buttonCancel: translate.cancel,
                 buttonAccept: 'Importar',
@@ -202,7 +203,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                         return (
                                             <div
                                                 key={`council_to_create_${index}`}
-                                                ref={el => itemRefs[index] = el}
+                                                ref={el => { itemRefs[index] = el }}
                                                 style={{
                                                     display: 'flex',
                                                     justifyContent: 'space-between',
@@ -217,7 +218,7 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                                     <span>{moment(item.council.dateStart).format('DD/MM/YYYY HH:mm')}</span>
                                                     {hasError &&
                                                         <>
-                                                            <br/>
+                                                            <br />
                                                             {result.errors[0].message === 'The request has invalid values' &&
                                                                 'La cita contiene valores no válidos'
                                                             }
@@ -232,17 +233,17 @@ const ImportOneOneOne = ({ translate, company, client }) => {
                                                         {result ?
                                                             <>
                                                                 {(result.data.createOneOnOneCouncil && result.data.createOneOnOneCouncil.id) &&
-							                                        <i className="fa fa-check" style={{ color: 'green' }}></i>
+                                                                    <i className="fa fa-check" style={{ color: 'green' }}></i>
                                                                 }
                                                                 {hasError &&
-							                                        <i className="fa fa-times" style={{ color: 'red' }}></i>
+                                                                    <i className="fa fa-times" style={{ color: 'red' }}></i>
                                                                 }
                                                             </>
                                                             :
                                                             creatingIndex === index ?
                                                                 <LoadingSection size={12} />
-                                                            :
-                                                            'En cola'
+                                                                :
+                                                                'En cola'
                                                         }
                                                     </div>
                                                 }

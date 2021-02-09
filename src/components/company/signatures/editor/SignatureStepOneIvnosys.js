@@ -1,9 +1,9 @@
 import React from 'react';
 import { Typography, MenuItem } from 'material-ui';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
-import { TextInput, DateTimePicker, BasicButton, FileUploadButton, ButtonIcon, LiveToast, SelectInput } from '../../../../displayComponents';
+import { TextInput, BasicButton, FileUploadButton, ButtonIcon, LiveToast, SelectInput } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
@@ -11,6 +11,39 @@ import AttachmentItem from '../../../attachments/AttachmentItem';
 import DocumentNameEditor from './DocumentNameEditor';
 import { checkForUnclosedBraces } from '../../../../utils/CBX';
 import { INPUT_REGEX } from '../../../../constants';
+
+export const saveSignatureDocument = gql`
+    mutation SaveSignatureDocument($document: SignatureDocumentInput){
+        saveSignatureDocument(document: $document){
+            id
+            signatureId
+            title
+            description
+            filename
+            base64
+            filesize
+            filetype
+        }
+    }
+`;
+
+const removeSignatureDocument = gql`
+    mutation RemoveSignatureDocument($id: Int!){
+        removeSignatureDocument(id: $id){
+            success
+            message
+        }
+    }
+`;
+
+const saveSignature = gql`
+    mutation UpdateSignature($signature: SignatureInput){
+        saveSignature(signature: $signature){
+            id
+            title
+        }
+    }
+`;
 
 const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, client, ...props }) => {
     const [state, setState] = React.useState({
@@ -57,12 +90,12 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
 
         const reader = new FileReader();
         reader.readAsBinaryString(file);
-        reader.onload = async event => {
+        reader.onload = async ev => {
             const fileInfo = {
                 filename: file.name,
                 filetype: file.type,
-                filesize: event.loaded.toString(),
-                base64: btoa(event.target.result),
+                filesize: ev.loaded.toString(),
+                base64: btoa(ev.target.result),
                 signatureId: state.data.id
             };
 
@@ -107,29 +140,18 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
     };
 
     const saveSignaturefunc = async () => {
-        const { __typename, attachment, ...signature } = state.data;
+        const { __typename, attachment, ...signatureData } = state.data;
         const response = await client.mutate({
             mutation: saveSignature,
             variables: {
                 signature: {
-                    ...signature
+                    ...signatureData
                 }
             }
         });
         return response;
     }
-
-    const nextStepIn = async () => {
-        if (!checkRequiredFields()) {
-            const result = await saveSignaturefunc();
-            if (!result.errors) {
-                nextStep();
-            }
-        }
-    }
-
     let toastId = null;
-
     const checkRequiredFields = () => {
         const errors = {
             expirationDateToSign: '',
@@ -138,7 +160,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
             file: ''
         }
 
-        const { data } = state;
+        const { data: dataState } = state;
 
         let hasError = false;
 
@@ -147,40 +169,40 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         //     hasError = true;
         // }
 
-        if (!data.title) {
+        if (!dataState.title) {
             errors.title = translate.required_field;
             hasError = true;
         }
 
-        if (data.title) {
-            if (!(INPUT_REGEX.test(data.title)) || !data.title.trim()) {
+        if (dataState.title) {
+            if (!(INPUT_REGEX.test(dataState.title)) || !dataState.title.trim()) {
                 hasError = true;
                 errors.title = translate.invalid_field;
             }
         }
 
-        if (!data.description) {
+        if (!dataState.description) {
             //errors.description = translate.required_field;
             //hasError = true;
-        } else if (checkForUnclosedBraces(data.description)) {
-                errors.description = true;
-                hasError = true;
-                if (toastId) {
-                    toast.dismiss(toastId);
-                }
-                toastId = toast(
-                    <LiveToast
-                        message={translate.revise_text}
-                    />, {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: true,
-                    onClose: () => toastId = null,
-                    className: "errorToast"
-                }
-                );
+        } else if (checkForUnclosedBraces(dataState.description)) {
+            errors.description = true;
+            hasError = true;
+            if (toastId) {
+                toast.dismiss(toastId);
             }
+            toastId = toast(
+                <LiveToast
+                    message={translate.revise_text}
+                />, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: true,
+                onClose: () => { toastId = null },
+                className: "errorToast"
+            }
+            );
+        }
 
-        if (!data.attachment) {
+        if (!dataState.attachment) {
             errors.file = translate.must_add_attachment_file_to_sign;
             hasError = true;
         }
@@ -192,6 +214,18 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
 
         return hasError;
     }
+
+    const nextStepIn = async () => {
+        if (!checkRequiredFields()) {
+            const result = await saveSignaturefunc();
+            if (!result.errors) {
+                nextStep();
+            }
+        }
+    }
+
+
+
 
     return (
         <EditorStepLayout
@@ -308,15 +342,15 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                                     key={state.data.attachment.id}
                                     attachment={state.data.attachment}
                                     updateAttachment={(event) => setState({
-                                            ...state,
-                                            data: {
-                                                ...state.data,
-                                                attachment: {
-                                                    ...state.data.attachment,
-                                                    ...event
-                                                }
+                                        ...state,
+                                        data: {
+                                            ...state.data,
+                                            attachment: {
+                                                ...state.data.attachment,
+                                                ...event
                                             }
-                                        })
+                                        }
+                                    })
                                     }
                                     translate={translate}
                                     open={state.editDocument}
@@ -378,39 +412,5 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         />
     )
 }
-
-
-export const saveSignatureDocument = gql`
-    mutation SaveSignatureDocument($document: SignatureDocumentInput){
-        saveSignatureDocument(document: $document){
-            id
-            signatureId
-            title
-            description
-            filename
-            base64
-            filesize
-            filetype
-        }
-    }
-`;
-
-const removeSignatureDocument = gql`
-    mutation RemoveSignatureDocument($id: Int!){
-        removeSignatureDocument(id: $id){
-            success
-            message
-        }
-    }
-`;
-
-const saveSignature = gql`
-    mutation UpdateSignature($signature: SignatureInput){
-        saveSignature(signature: $signature){
-            id
-            title
-        }
-    }
-`;
 
 export default (withApollo(SignatureStepOneIvnosys));

@@ -104,7 +104,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 						/>
 					</GridItem>
 				</Grid>
-				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%", }}>
+				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%", }}>
 					{loading ? (
 						<LoadingSection />
 					) : (
@@ -115,18 +115,18 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 											{participants.length > 0 ? (
 												<React.Fragment>
 													{participants.map((participant, index) => (
-															<CardPlantillas
-																translate={translate}
-																key={`delegateVote_${participant.id}`}
-																item={participant}
-																onClick={() => {
-                                                                    const { __typename, representative, ...data } = participant;
-                                                                    props.updateRepresentative(data);
-                                                                    close();
-																}}
-																index={index}
-															/>
-														))}
+														<CardPlantillas
+															translate={translate}
+															key={`delegateVote_${participant.id}`}
+															item={participant}
+															onClick={() => {
+																const { __typename, representative, ...data } = participant;
+																props.updateRepresentative(data);
+																close();
+															}}
+															index={index}
+														/>
+													))}
 													{participants.length < total - 1 && (
 														<Card
 															style={{
@@ -144,10 +144,9 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 															onClick={loadMore}
 														>
 															<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
-																{`DESCARGAR ${
-																	rest > DELEGATION_USERS_LOAD
-																		? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-																		: translate.all_plural.toLowerCase()
+																{`DESCARGAR ${rest > DELEGATION_USERS_LOAD
+																	? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+																	: translate.all_plural.toLowerCase()
 																	}`
 																}
 																{loading &&
@@ -184,7 +183,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
 			title={translate.select}
-			bodyStyle={{ width: "75vw", minWidth: "50vw", overflow: isMobile && "hidden", width: isMobile && "100%", height: isMobile && '100%' }}
+			bodyStyle={{ minWidth: "50vw", overflow: isMobile && "hidden", width: isMobile && "100%", height: isMobile && '100%' }}
 		/>
 	);
 }
@@ -203,7 +202,7 @@ const regularCardStyle = {
 
 
 
-const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate, onClick, index }) => {
+const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, onClick, index }) => {
 	const [hover, setHover] = React.useState(false);
 
 	const mouseEnterHandler = () => {

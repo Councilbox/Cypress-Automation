@@ -99,7 +99,7 @@ class SignatureConfirmed extends React.Component {
                     :
                         <div style={{ width: '100%', height: '100%' }}>
                             <SignersList
-                                ref={ref => this.signers = ref}
+                                ref={ref => { this.signers = ref }}
                                 refetch={this.props.data.refetch}
                                 signature={signature}
                                 translate={this.props.translate}

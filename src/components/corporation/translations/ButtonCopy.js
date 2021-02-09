@@ -3,12 +3,19 @@ import FontAwesome from "react-fontawesome";
 import { Tooltip } from 'material-ui';
 
 
-const ButtonCopy = ({ val }) => {
+const ButtonCopy = () => {
     const [state, setState] = React.useState({
         showCopyTooltip: false,
         showActions: false
     });
 
+    const startCloseTimeout = () => {
+        setTimeout(() => {
+            setState({
+                showCopyTooltip: false
+            });
+        }, 2000);
+    }
 
     const copy = () => {
         setState({
@@ -24,15 +31,6 @@ const ButtonCopy = ({ val }) => {
         // document.execCommand('copy');
         // CBX.copyStringToClipboard(value);
     }
-
-    const startCloseTimeout = () => {
-        const timeout = setTimeout(() => {
-            setState({
-                showCopyTooltip: false
-            });
-        }, 2000);
-    }
-
 
     return (
         <Tooltip title="Copiado" open={state.showCopyTooltip}>

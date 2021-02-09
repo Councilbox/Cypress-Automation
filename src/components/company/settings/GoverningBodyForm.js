@@ -1,8 +1,8 @@
 import React from 'react';
 import { MenuItem, TableBody, Table, TableHead, TableRow, TableCell } from 'material-ui';
 import ContentEditable from 'react-contenteditable';
-import { SectionTitle, SelectInput, TextInput, BasicButton, GridItem, ButtonIcon, DropDownMenu } from '../../../displayComponents';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { TextInput, GridItem, DropDownMenu } from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
 
 import CheckBox from '../../../displayComponents/CheckBox';
@@ -332,7 +332,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                             </TableHead>
                             <TableBody>
                             {data.list && data.list.map((item, index) => (
-                                <TableRow style={{ color: "black", width: "100%", padding: '1em' }}>
+                                <TableRow key={`data_keys_${index}`} style={{ color: "black", width: "100%", padding: '1em' }}>
                                     <TableCell>
                                         <ContentEditable
                                             html={item.name || ''}

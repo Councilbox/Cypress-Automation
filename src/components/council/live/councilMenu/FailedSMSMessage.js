@@ -2,7 +2,7 @@ import React from 'react';
 import { BasicButton } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 
-const FailedSMSMessage = ({ translate, onClick }) => {
+const FailedSMSMessage = ({ onClick }) => {
     const primary = getPrimary();
 
     return (

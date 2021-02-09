@@ -1,6 +1,6 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
-import { MenuItem, Table, TableHead, TableRow, TableCell } from 'material-ui';
+import { MenuItem, Table, TableRow, TableCell } from 'material-ui';
 import { Checkbox } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 
@@ -11,7 +11,6 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                 <Table
                     style={{ width: "100%", maxWidth: "100%", height: "100%" }}
                 >
-                    {/* <TableHead> */}
                     <TableRow>
                         <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>
                             {company.logo ?

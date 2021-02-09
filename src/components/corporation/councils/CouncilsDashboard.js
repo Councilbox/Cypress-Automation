@@ -1,52 +1,96 @@
 import React from 'react';
-import { graphql, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Card, Table, TableBody, TableRow, TableHead, TableCell } from 'material-ui';
 import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput, Grid, PaginationFooter } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { lightGrey, getSecondary, getPrimary, secondary } from '../../../styles/colors';
-import { Card, Table, TableBody, TableRow } from 'material-ui';
+import { lightGrey, getSecondary, secondary } from '../../../styles/colors';
 import CouncilItem from './CouncilItem';
 import CouncilsSectionTrigger from './CouncilsSectionTrigger';
 import { bHistory } from '../../../containers/App';
-import { TableHead } from 'material-ui';
-import { TableCell } from 'material-ui';
+
+
+const corporationConvenedCouncils = gql`
+    query corporationConvenedCouncils($options: OptionsInput){
+        corporationConvenedCouncils(options: $options){
+            list{
+                id
+                name
+                state
+                dateStart
+                councilType
+                prototype
+                participants {
+                    id
+                }
+                company{
+                    id
+                    businessName
+                }
+            }
+            total
+        }
+    }
+`;
+const corporationLiveCouncils = gql`
+    query corporationLiveCouncils($options: OptionsInput){
+        corporationLiveCouncils(options: $options){
+            list{
+                id
+                name
+                state
+                dateStart
+                councilType
+                prototype
+                participants {
+                    id
+                }
+                company{
+                    id
+                    businessName
+                }
+            }
+            total
+        }
+    }
+`;
+
+const CouncilDetailsRoot = gql`
+    query CouncilDetailsRoot($id: Int!){
+        council(id: $id) {
+			id
+		}
+    }
+`;
 
 
 
-const CouncilsDashboard = ({ translate, client, ...props }) => {
-
-    const _convenedTrigger = () => {
-        return (
+const CouncilsDashboard = ({ translate, client }) => {
+    const _convenedTrigger = () => (
             <CouncilsSectionTrigger
                 text={translate.companies_calendar}
                 icon={'calendar-o'}
                 description={translate.companies_calendar_desc}
             />
         )
-    }
 
-    const _convenedSection = () => {
-        return (
+    const _convenedSection = () => (
             <Councils
                 translate={translate}
                 client={client}
                 query={corporationConvenedCouncils}
             />
         )
-    }
 
-    const _celebrationTrigger = () => {
-        return (
+    const _celebrationTrigger = () => (
             <CouncilsSectionTrigger
                 text={translate.companies_live}
                 icon={'users'}
                 description={translate.companies_live_desc}
             />
         )
-    }
 
-    const _celebrationSection = () => {
-        return (
+    const _celebrationSection = () => (
 
             <Councils
                 translate={translate}
@@ -54,7 +98,6 @@ const CouncilsDashboard = ({ translate, client, ...props }) => {
                 query={corporationLiveCouncils}
             />
         )
-    }
 
     return (
         <div
@@ -107,7 +150,7 @@ const Councils = ({ translate, client, query }) => {
     const getDataCouncils = React.useCallback(async () => {
         setLoading(true)
         const response = await client.query({
-            query: query,
+            query,
             variables: {
                 options: {
                     limit: 10,
@@ -118,7 +161,7 @@ const Councils = ({ translate, client, query }) => {
 
         if (response.data) {
             Object.entries(response.data).map(([name, value]) => {
-                if ('corporationLiveCouncils' === name || 'corporationConvenedCouncils' === name) {
+                if (name === 'corporationLiveCouncils' || name === 'corporationConvenedCouncils') {
                     setCouncils(value)
                 }
             })
@@ -204,7 +247,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
             const response = await client.query({
                 query: CouncilDetailsRoot,
                 variables: {
-                    id: parseInt(idCouncilSearch)
+                    id: parseInt(idCouncilSearch, 10)
                 }
             });
             if (response.data.council && response.data.council.id) {
@@ -222,7 +265,6 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
             setError("Escribe un numero")
             setLoading(false)
         }
-
     };
     return (
         <div
@@ -270,58 +312,5 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
         </div>
     )
 })
-
-const corporationConvenedCouncils = gql`
-    query corporationConvenedCouncils($options: OptionsInput){
-        corporationConvenedCouncils(options: $options){
-            list{
-                id
-                name
-                state
-                dateStart
-                councilType
-                prototype
-                participants {
-                    id
-                }
-                company{
-                    id
-                    businessName
-                }
-            }
-            total
-        }
-    }
-`;
-const corporationLiveCouncils = gql`
-    query corporationLiveCouncils($options: OptionsInput){
-        corporationLiveCouncils(options: $options){
-            list{
-                id
-                name
-                state
-                dateStart
-                councilType
-                prototype
-                participants {
-                    id
-                }
-                company{
-                    id
-                    businessName
-                }
-            }
-            total
-        }
-    }
-`;
-
-const CouncilDetailsRoot = gql`
-    query CouncilDetailsRoot($id: Int!){
-        council(id: $id) {
-			id
-		}
-    }
-`;
 
 export default withTranslations()(withApollo(CouncilsDashboard));

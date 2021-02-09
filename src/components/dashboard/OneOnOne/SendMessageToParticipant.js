@@ -2,12 +2,11 @@ import gql from 'graphql-tag';
 import { Input } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm, BasicButton, ButtonIcon, CloseIcon, DropDownMenu, FileUploadButton, SuccessMessage } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, ButtonIcon, CloseIcon, FileUploadButton, SuccessMessage } from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { useOldState } from '../../../hooks';
 import { getPrimary } from '../../../styles/colors';
-import { checkRequiredFields } from '../../../utils/CBX';
 import AttachmentItem from '../../attachments/AttachmentItem';
 
 
@@ -25,7 +24,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
     const primary = getPrimary();
 
     React.useEffect(() => {
-        if(open){
+        if (open) {
             setState({
                 ...state,
                 subject: council.name
@@ -36,17 +35,17 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
     const checkRequiredFields = () => {
         const newErrors = {};
 
-        if(!state.subject){
+        if (!state.subject) {
             newErrors.subject = translate.required_field;
         }
 
-        if(!state.body){
+        if (!state.body) {
             newErrors.body = translate.required_field;
         }
 
         const hasError = Object.keys(newErrors).length > 0;
 
-        if(hasError){
+        if (hasError) {
             setErrors(newErrors);
         } else {
             setErrors({
@@ -59,7 +58,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
     }
 
     const send = async () => {
-        if(!checkRequiredFields()){
+        if (!checkRequiredFields()) {
             setStatus('LOADING');
             await client.mutate({
                 mutation: gql`
@@ -91,22 +90,22 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
     }
 
     const handleFile = async event => {
-		const file = event.nativeEvent.target.files[0];
-		if (!file) {
-			return;
-		}
-		const reader = new FileReader();
-		reader.readAsBinaryString(file);
+        const file = event.nativeEvent.target.files[0];
+        if (!file) {
+            return;
+        }
+        const reader = new FileReader();
+        reader.readAsBinaryString(file);
 
-		reader.onload = async event => {
-			const fileInfo = {
-				filename: file.name,
-				filetype: file.type,
-				filesize: '' + event.loaded,
-				base64: btoa(event.target.result)
+        reader.onload = async ev => {
+            const fileInfo = {
+                filename: file.name,
+                filetype: file.type,
+                filesize: '' + ev.loaded,
+                base64: btoa(ev.target.result)
             };
             setAttachments([...attachments, fileInfo]);
-		};
+        };
     };
 
     return (
@@ -128,7 +127,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                         <SuccessMessage
                             message={translate.sent}
                         />
-                    :
+                        :
                         <>
                             <div style={{ marginTop: "1em" }}>
                                 <div style={{ fontWeight: "bold" }}>{translate.title}</div>
@@ -195,7 +194,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                                     color: primary
                                                 }}
                                                 onClick={() => removeAttachment(index)}
-							                />
+                                            />
                                         }
                                         loadingId={null}
                                         key={`attachment${index}`}

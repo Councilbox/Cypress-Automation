@@ -11,7 +11,7 @@ import { isMobile } from '../../../../utils/screen';
 
 const limitPerPage = 10;
 
-const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props }) => {
+const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
     const [state, setState] = React.useState({
         page: 1
     });

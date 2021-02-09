@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, Card, CardActions, Button, CardContent } from "material-ui";
+import { Icon, Card, CardActions, CardContent } from "material-ui";
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { withApollo } from "react-apollo";
@@ -23,19 +23,33 @@ import { isMobile } from "../../../utils/screen";
 
 const queryLimit = 20;
 
-const TablaCompanies = ({ client, translate, company, match }) => {
+const corporationCompanies = gql`
+query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
+corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
+	list{
+		id
+		businessName
+		logo
+	}
+	total
+}
+}
+`;
+
+const TablaCompanies = ({ client, translate, company }) => {
 	const [companies, setCompanies] = React.useState(false);
 	const [companiesPage, setCompaniesPage] = React.useState(1);
 	const [companiesTotal, setCompaniesTotal] = React.useState(false);
 	const [addEntidades, setEntidades] = React.useState(false);
 	const [inputSearch, setInputSearch] = React.useState(false);
-	const [selectedCompany, setSelectedCompany] = React.useState('Lista de entidades');
 	const [state, setState] = React.useState({
 		filterTextCompanies: "",
 		filterTextUsuarios: "",
 		filterFecha: ""
 	});
 	const primary = getPrimary();
+
+
 
 	const getCompanies = async () => {
 		const response = await client.query({
@@ -77,7 +91,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: "100%" }} disableScroll={true}>
 					<div style={{ fontSize: "13px", padding: '1.5em 1.5em 1.5em', height: "100%", paddingTop: "0px" }}>
 						<div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", width: "100%", overflow: "hidden" }}>
-							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between", width: "100%", overflow: "hidden", paddingTop: "0px" }}>
+							<div style={{ padding: "0.5em", display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between", overflow: "hidden", paddingTop: "0px" }}>
 								<BasicButton
 									buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
 									backgroundColor={{ backgroundColor: getPrimary(), color: "white", minHeight: "0", fontWeight: "bold" }}
@@ -115,6 +129,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 								<Grid style={{ padding: '2em 2em 1em 2em', height: "100%" }}>
 									{companies.filter(item => item.id !== company.id).map(item => (
 											<Card
+											key={item.id}
 												style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative', width: "100%" }}
 											>
 												<CardContent>
@@ -395,7 +410,7 @@ const TablaCompanies = ({ client, translate, company, match }) => {
 
 
 const CellAvatar = ({ avatar, width }) => (
-		<div style={{ overflow: "hidden", width: `calc(${width}%)`, textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
+		<div style={{ overflow: "hidden", width: `calc(${width}%)`, textAlign: 'left', whiteSpace: 'nowrap', textOverflow: 'ellipsis', paddingRight: "10px" }}>
 			{avatar ?
 				<div style={{ height: '1.7em', width: '1.7em', borderRadius: '0.9em' }}>
 					<img src={avatar} alt="Foto" style={{ height: '100%', width: '100%' }} />
@@ -406,13 +421,12 @@ const CellAvatar = ({ avatar, width }) => (
 		</div>
 	)
 
-const Cell = ({ text, avatar, width, children, style }) => (
+const Cell = ({ width, children, style }) => (
 		<div style={{
 			overflow: "hidden",
 			width: width ? `calc(${width}%)` : 'calc( 100% / 5 )',
 			textAlign: 'left',
 			whiteSpace: 'nowrap',
-			overflow: 'hidden',
 			textOverflow: 'ellipsis',
 			paddingRight: "10px",
 			...style
@@ -422,17 +436,6 @@ const Cell = ({ text, avatar, width, children, style }) => (
 	)
 
 
-const corporationCompanies = gql`
-    query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
-		corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
-			list{
-				id
-				businessName
-				logo
-			}
-			total
-		}
-	}
-`;
+
 
 export default withApollo(withSharedProps()(withRouter(TablaCompanies)));

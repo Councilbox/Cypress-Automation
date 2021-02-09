@@ -70,7 +70,7 @@ class Sidebar extends React.Component {
 		}
 	}
 
-	findActiveRoute = (pathname, routes) => {
+	findActiveRoute = (pathname) => {
 		let routeIndex = 0;
 		this.routes.forEach((route, index) => {
 			if (pathname.includes(route.name)) {

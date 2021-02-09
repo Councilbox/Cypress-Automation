@@ -4,11 +4,9 @@ import { compose, graphql, withApollo } from "react-apollo";
 import { Card, Collapse, IconButton, Icon, CardActions, CardContent, CardHeader, withStyles } from 'material-ui';
 import { TableCell, TableRow } from "material-ui/Table";
 import { companyDrafts as query, deleteDraft, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts.js";
-import CompanyDraftNew from "./CompanyDraftNew";
 import {
 	AlertConfirm,
 	BasicButton,
-	ButtonIcon,
 	CloseIcon,
 	TextInput,
 	Grid,
@@ -282,7 +280,6 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 										textOverflow: isMobile && 'ellipsis',
 										padding: isMobile && "8px 8px",
 										minHeight: '0',
-										padding: '8px',
 									}
 								)
 							}}
@@ -325,7 +322,6 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 											whiteSpace: isMobile && 'nowrap',
 											overflow: isMobile && 'hidden',
 											textOverflow: isMobile && 'ellipsis',
-											padding: isMobile && "8px 8px",
 											minHeight: '0',
 											padding: '8px',
 										}
@@ -514,7 +510,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 		)
 	}
 
-	const clickMobilExpand = event => {
+	const clickMobilExpand = () => {
 		setExpandedCard(!expandedCard)
 		if (expanded) {
 			setExpanded(!expanded)
@@ -526,7 +522,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 			<Grid style={{ height: "100%", width: "100%", overflow: "hidden" }} >
 				{columns &&
 					<Card
-						style={{ width: "100%", border: "none", boxShadow: "none", width: '100%', ...stylesBackground, overflow: "hidden" }}>
+						style={{ width: "100%", border: "none", boxShadow: "none", ...stylesBackground, overflow: "hidden" }}>
 						<CardHeader
 							classes={{
 								content: classes.cardTitle,

@@ -9,7 +9,7 @@ import LiveHeader from "./council/live/LiveHeader";
 import { lightGrey } from "../styles/colors";
 
 let logo;
-import("../assets/img/logo-white.png").then(data => logo = data);
+import("../assets/img/logo-white.png").then(data => { logo = data });
 
 
 class CouncilLiveTest extends React.Component {

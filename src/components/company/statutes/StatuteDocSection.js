@@ -79,7 +79,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 		if (intro.current) {
 			intro.current.setValue(statute.intro || '');
 		}
-		if(introSecondary.current) {
+		if (introSecondary.current) {
 			introSecondary.current.setValue(statute.introSecondary || '');
 		}
 		if (footer.current) {
@@ -88,10 +88,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 		if (constitution.current) {
 			constitution.current.setValue(statute.constitution || '');
 		}
-		if(constitutionSecondary.current) {
+		if (constitutionSecondary.current) {
 			constitutionSecondary.current.setValue(statute.constitutionSecondary || '');
 		}
-		if(conclusionSecondary.current) {
+		if (conclusionSecondary.current) {
 			conclusionSecondary.current.setValue(statute.conclusionSecondary || '');
 		}
 		if (conclusion.current) {
@@ -164,8 +164,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						label={translate.exists_act}
 						value={statute.existsAct === 1}
 						onChange={(event, isInputChecked) => updateState({
-								existsAct: isInputChecked ? 1 : 0
-							})
+							existsAct: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 				</GridItem>
@@ -174,8 +174,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						label={translate.included_in_act_book}
 						value={statute.includedInActBook === 1}
 						onChange={(event, isInputChecked) => updateState({
-								includedInActBook: isInputChecked ? 1 : 0
-							})
+							includedInActBook: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 				</GridItem>
@@ -184,10 +184,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						label={translate.include_participants_list_in_act}
 						value={statute.includeParticipantsList === 1}
 						onChange={(event, isInputChecked) => updateState({
-								includeParticipantsList: isInputChecked
-									? 1
-									: 0
-							})
+							includeParticipantsList: isInputChecked
+								? 1
+								: 0
+						})
 						}
 					/>
 				</GridItem>
@@ -215,8 +215,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 									: ""
 							}
 							onChange={value => handleUpdate({
-									conveneHeader: value
-								})
+								conveneHeader: value
+							})
 							}
 							saveDraft={
 								<SaveDraftIcon
@@ -286,8 +286,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						floatingText={translate.convene_footer}
 						value={internalState.conveneFooter || ""}
 						onChange={value => handleUpdate({
-								conveneFooter: value
-							})
+							conveneFooter: value
+						})
 						}
 					/>
 				</GridItem>
@@ -325,8 +325,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								errorText={errors.intro}
 								value={internalState.intro || ""}
 								onChange={value => handleUpdate({
-										intro: value
-									})
+									intro: value
+								})
 								}
 								saveDraft={
 									<SaveDraftIcon
@@ -376,8 +376,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										: ""
 								}
 								onChange={value => handleUpdate({
-										introSecondary: value
-									})
+									introSecondary: value
+								})
 								}
 								tags={introTags}
 							/>
@@ -391,8 +391,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								translate={translate}
 								value={internalState.constitution || ""}
 								onChange={value => handleUpdate({
-										constitution: value
-									})
+									constitution: value
+								})
 								}
 								saveDraft={
 									<SaveDraftIcon
@@ -442,8 +442,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										: ""
 								}
 								onChange={value => handleUpdate({
-										constitutionSecondary: value
-									})
+									constitutionSecondary: value
+								})
 								}
 								tags={constitutionTags}
 							/>
@@ -457,8 +457,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								translate={translate}
 								value={internalState.conclusion || ""}
 								onChange={value => handleUpdate({
-										conclusion: value
-									})
+									conclusion: value
+								})
 								}
 								saveDraft={
 									<SaveDraftIcon
@@ -508,8 +508,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										: ""
 								}
 								onChange={value => handleUpdate({
-										conclusionSecondary: value
-									})
+									conclusionSecondary: value
+								})
 								}
 								tags={conclusionTags}
 							/>
@@ -558,11 +558,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 
 export default StatuteDocSection;
 
-
 const SaveDraftIcon = ({ onClick, translate }) => (
-		<Tooltip title={translate.new_save}>
-			<div onClick={onClick} style={{ marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-				<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
-			</div>
-		</Tooltip>
-	)
+	<Tooltip title={translate.new_save}>
+		<div onClick={onClick} style={{ marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+			<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
+		</div>
+	</Tooltip>
+)

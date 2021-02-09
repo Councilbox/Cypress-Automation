@@ -27,6 +27,34 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
         });
     }
 
+    const checkRequiredFields = async () => {
+        const checkErrors = {}
+
+        if (!tag.key) {
+            checkErrors.key = translate.required_field;
+        } else {
+            const response = await client.query({
+                query: checkUsedKey,
+                variables: {
+                    companyId: company.id,
+                    key: tag.key
+                }
+            });
+
+            if (response.data.companyTagKeyUsed && tag.key !== initialValue.key) {
+                checkErrors.key = translate.key_already_used;
+            }
+        }
+
+        if (!tag.value) {
+            checkErrors.value = translate.required_field;
+        }
+
+        setErrors(checkErrors);
+
+        return Object.keys(checkErrors).length > 0;
+    }
+
     const updateTag = async () => {
         if (!await checkRequiredFields()) {
             const { __typename, ...data } = tag;
@@ -42,47 +70,19 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
         }
     }
 
-    const checkRequiredFields = async () => {
-        const errors = {}
-
-        if (!tag.key) {
-            errors.key = translate.required_field;
-        } else {
-            const response = await client.query({
-                query: checkUsedKey,
-                variables: {
-                    companyId: company.id,
-                    key: tag.key
-                }
-            });
-
-            if (response.data.companyTagKeyUsed && tag.key !== initialValue.key) {
-                errors.key = translate.key_already_used;
-            }
-        }
-
-        if (!tag.value) {
-            errors.value = translate.required_field;
-        }
-
-        setErrors(errors);
-
-        return Object.keys(errors).length > 0;
-    }
-
     const renderBody = () => (
-            <CompanyTagForm
-                errors={errors}
-                tag={tag}
-                setTag={updateTagData}
-                translate={translate}
-            />
-        )
+        <CompanyTagForm
+            errors={errors}
+            tag={tag}
+            setTag={updateTagData}
+            translate={translate}
+        />
+    )
 
     const comprobateChanges = () => {
-        const unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(tag)
-        setUnsavedAlert(unsavedAlert)
-        return unsavedAlert
+        const isUnsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(tag)
+        setUnsavedAlert(isUnsavedAlert)
+        return isUnsavedAlert
     };
 
     const closeModal = () => {
@@ -106,7 +106,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
             <UnsavedChangesModal
                 acceptAction={updateTag}
                 cancelAction={requestClose}
-                requestClose={() => setUnsavedAlert(false) }
+                requestClose={() => setUnsavedAlert(false)}
                 open={unsavedAlert}
             />
         </div>

@@ -18,8 +18,7 @@ import StatuteDocSection from "./StatuteDocSection";
 import { useValidRTMP } from "../../../hooks";
 import withSharedProps from "../../../HOCs/withSharedProps";
 
-
-const StatuteEditor = ({ statute, translate, updateState, errors, client, company, disabled, ...props }) => {
+const StatuteEditor = ({ statute, translate, updateState, errors, client, disabled, company, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 	const config = React.useContext(ConfigContext);
@@ -139,7 +138,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 									advanceNoticeDays: parseInt(event.target.value, 10) || 1
 								})}
 								onChange={event => updateState({
-										advanceNoticeDays: Number.isNaN(event.target.value) ? '' : parseInt(event.target.value, 10) || ''
+										advanceNoticeDays: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
 									})
 								}
 							/>
@@ -168,7 +167,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 								errorText={errors.minimumSeparationBetweenCall}
 								value={statute.minimumSeparationBetweenCall}
 								onChange={event => {
-									if (!Number.isNaN(event.target.value) && +event.target.value > 0) {
+									if (!Number.isNaN(Number(event.target.value)) && +event.target.value > 0) {
 										updateState({
 											minimumSeparationBetweenCall: parseInt(event.target.value, 10)
 										})
@@ -362,7 +361,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 								errorText={errors.maxNumDelegatedVotes}
 								value={statute.maxNumDelegatedVotes}
 								onChange={event => {
-									if (!Number.isNaN(event.target.value) && +event.target.value > 0) {
+									if (Number.isNaN(Number(event.target.value)) && +event.target.value > 0) {
 										updateState({
 											maxNumDelegatedVotes: parseInt(event.target.value, 10)
 										})
@@ -399,7 +398,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 								errorText={errors.limitedAccessRoomMinutes}
 								value={statute.limitedAccessRoomMinutes}
 								onChange={event => {
-									if (!Number.isNaN(event.target.value) && +event.target.value > 0) {
+									if (Number.isNaN(Number(event.target.value)) && +event.target.value > 0) {
 										updateState({
 											limitedAccessRoomMinutes: parseInt(event.target.value, 10)
 										})

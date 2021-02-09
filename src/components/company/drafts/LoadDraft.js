@@ -2,13 +2,12 @@ import React from "react";
 import { graphql, withApollo } from "react-apollo";
 import { compose } from "react-apollo/index";
 import gql from "graphql-tag";
-import { MenuItem, Card, CardHeader, Tooltip, TableCell, TableRow, Divider, withStyles, IconButton, Collapse } from "material-ui";
+import { MenuItem, TableCell, TableRow, Divider, withStyles, IconButton, Collapse } from "material-ui";
 import { Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem, EnhancedTable } from "../../../displayComponents/index";
 import { companyDrafts, getCompanyDraftDataNoCompany } from "../../../queries/companyDrafts";
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from "../../../constants";
 import { sendGAevent } from "../../../utils/analytics";
-import * as CBX from "../../../utils/CBX";
-import { levelColor, ContenedorEtiquetas } from "./CompanyDraftForm";
+import { ContenedorEtiquetas } from "./CompanyDraftForm";
 
 import { primary } from "../../../styles/colors";
 import { isMobile } from '../../../utils/screen';
@@ -132,12 +131,12 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 	}
 
 	const formatTagLabel = tag => (tag.segments ?
-			`${tag.segments.reduce((acc, curr) => {
-				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
-				return acc;
-			}, '')}`
-			:
-			tag.label)
+		`${tag.segments.reduce((acc, curr) => {
+			if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
+			return acc;
+		}, '')}`
+		:
+		tag.label)
 
 	if (!varsLoading) {
 		const tagsSearch = [];
@@ -160,16 +159,16 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 
 		const renderEtiquetasSeleccionadas = () => {
 			const TagColumn = props => (
-					<div style={{
-						display: "flex",
-						color: "#ffffff",
-						fontSize: "12px",
-						marginBottom: "0.5em ",
-						flexDirection: 'column'
-					}}>
-						{props.children}
-					</div>
-				)
+				<div style={{
+					display: "flex",
+					color: "#ffffff",
+					fontSize: "12px",
+					marginBottom: "0.5em ",
+					flexDirection: 'column'
+				}}>
+					{props.children}
+				</div>
+			)
 
 			const buildTagColumns = tags => {
 				const columns = {};
@@ -188,14 +187,14 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 					{Object.keys(columns).map(key => (
 						<TagColumn key={`column_${key}`}>
 							{columns[key].map(tag => (
-									<SelectedTag
-										key={`tag_${tag.label}`}
-										text={translate[tag.label] || tag.label}
-										color={getTagColor(key)}
-										action={() => removeTag(tag)}
-										props={props}
-									/>
-								))}
+								<SelectedTag
+									key={`tag_${tag.label}`}
+									text={translate[tag.label] || tag.label}
+									color={getTagColor(key)}
+									action={() => removeTag(tag)}
+									props={props}
+								/>
+							))}
 						</TagColumn>
 					))}
 				</div>
@@ -297,25 +296,25 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 											stylesDivSuperior={{ height: "100%" }}
 										>
 											{!draftLoading &&
-												draftsRender.map((item, key) => (
-														<HoverableRow
-															key={'key__' + item.id}
-															translate={translate}
-															draft={item}
-															classes={props.classes}
-															draftTypes={draftTypes}
-															company={company}
-															companyStatutes={vars.companyStatutes}
-															info={props}
-															onClick={() => {
-																sendGAevent({
-																	category: 'Borradores',
-																	action: `Carga de borrador`,
-																})
-																props.loadDraft(item);
-															}}
-														/>
-													))
+												draftsRender.map((item) => (
+													<HoverableRow
+														key={'key__' + item.id}
+														translate={translate}
+														draft={item}
+														classes={props.classes}
+														draftTypes={draftTypes}
+														company={company}
+														companyStatutes={vars.companyStatutes}
+														info={props}
+														onClick={() => {
+															sendGAevent({
+																category: 'Borradores',
+																action: `Carga de borrador`,
+															})
+															props.loadDraft(item);
+														}}
+													/>
+												))
 											}
 										</EnhancedTable>
 									}
@@ -327,28 +326,28 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 			</div>
 		);
 	}
-		return (
-			<div></div>
-		)
+	return (
+		<div></div>
+	)
 }))
 
 
-const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, companyStatutes, classes, ...props }) => {
+const HoverableRow = ({ draft, company, translate, info, onClick, companyStatutes, classes, ...props }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 	const [showActions, setShowActions] = React.useState(false);
 
 	const TagColumn = props => (
-			<div style={{
-				display: "flex",
-				color: "#ffffff",
-				fontSize: "12px",
-				marginBottom: "0.5em ",
-				flexDirection: 'column'
-			}}>
-				{props.children}
-			</div>
-		)
+		<div style={{
+			display: "flex",
+			color: "#ffffff",
+			fontSize: "12px",
+			marginBottom: "0.5em ",
+			flexDirection: 'column'
+		}}>
+			{props.children}
+		</div>
+	)
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
@@ -367,22 +366,22 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 	}
 
 	const _renderEyeIcon = () => (
-			<IconButton
-				style={{
-					color: primary,
-					height: "32px",
-					width: "32px",
-					outline: 0
-				}}
-				onClick={event => {
-					event.stopPropagation();
-					setExpanded(!expanded);
-				}}
-			>
-				<i className="fa fa-eye">
-				</i>
-			</IconButton>
-		)
+		<IconButton
+			style={{
+				color: primary,
+				height: "32px",
+				width: "32px",
+				outline: 0
+			}}
+			onClick={event => {
+				event.stopPropagation();
+				setExpanded(!expanded);
+			}}
+		>
+			<i className="fa fa-eye">
+			</i>
+		</IconButton>
+	)
 
 
 	const buildTagColumns = tags => {
@@ -459,31 +458,31 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 							return (
 								<TagColumn key={`column_${key}`}>
 									{columns[key].map((tag, index) => (
-											index > 0 ?
-												<Collapse in={expanded} timeout="auto" unmountOnExit>
-													<SelectedTag
-														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
-														text={translate[tag.label] || tag.label}
-														color={getTagColor(tag.type)}
-														props={props}
-														list={true}
-														count={""}
-													/>
-												</Collapse>
-												:
+										index > 0 ?
+											<Collapse in={expanded} timeout="auto" unmountOnExit>
 												<SelectedTag
-													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
 													text={translate[tag.label] || tag.label}
 													color={getTagColor(tag.type)}
 													props={props}
 													list={true}
-													count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
-													stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
-													desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
-													mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
-													mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
+													count={""}
 												/>
-										))}
+											</Collapse>
+											:
+											<SelectedTag
+												key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+												text={translate[tag.label] || tag.label}
+												color={getTagColor(tag.type)}
+												props={props}
+												list={true}
+												count={columnaLength > 1 ? expanded ? "" : columnaLength : ""}
+												stylesEtiqueta={{ cursor: columnaLength > 1 ? "pointer" : "", }}
+												desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ""}
+												mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ""}
+												mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ""}
+											/>
+									))}
 								</TagColumn>
 							)
 						})
@@ -501,223 +500,204 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 
 
 export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props }) => (
-		<DropDownMenu
-			id={"cargarPlantillasSelectorEtiquetas"}
-			color={primary}
-			loading={false}
-			paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
-			anchorOrigin={anchorOrigin}
-			transformOrigin={transformOrigin}
-			Component={() => (soloIcono ?
-					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingRight: "10px" }}>
-						local_offer
+	<DropDownMenu
+		id={"cargarPlantillasSelectorEtiquetas"}
+		color={primary}
+		loading={false}
+		paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
+		anchorOrigin={anchorOrigin}
+		transformOrigin={transformOrigin}
+		Component={() => (soloIcono ?
+			<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingRight: "10px" }}>
+				local_offer
 					</i>
-					:
-					<MenuItem
-						style={{
-							height: '100%',
-							border: " solid 1px #35343496",
-							borderRadius: '3px',
-							width: '100%',
-							margin: 0,
-							padding: 0,
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							marginTop: '14px',
-							padding: "3px 7px",
-							color: "#353434ed",
-							...stylesMenuItem
-						}}
-					>
-						<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
-							local_offer
+			:
+			<MenuItem
+				style={{
+					height: '100%',
+					border: " solid 1px #35343496",
+					borderRadius: '3px',
+					width: '100%',
+					margin: 0,
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					marginTop: '14px',
+					padding: "3px 7px",
+					color: "#353434ed",
+					...stylesMenuItem
+				}}
+			>
+				<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
+					local_offer
 						</i>
-						{translate.filter_by}
-					</MenuItem>)
-			}
-			text={translate.add_agenda_point}
-			textStyle={"ETIQUETA"}
-			items={
-				<div style={{}} onClick={event => {
-					event.stopPropagation();
+				{translate.filter_by}
+			</MenuItem>)
+		}
+		text={translate.add_agenda_point}
+		textStyle={"ETIQUETA"}
+		items={
+			<div style={{}} onClick={event => {
+				event.stopPropagation();
+			}}>
+				<div style={{
+					margin: "0px 1em",
+					minWidth: "50vw",
+					...styleBody
 				}}>
 					<div style={{
-						margin: "0px 1em",
-						minWidth: "50vw",
-						...styleBody
-					}}>
+						width: "100%",
+						display: "flex",
+						// flexDirection: "row",
+						justifyContent: "space-between",
+					}}
+					>
 						<div style={{
-							width: "100%",
 							display: "flex",
-							// flexDirection: "row",
-							justifyContent: "space-between",
+							color: "rgb(53, 52, 52)",
+							alignItems: "center",
 							width: "100%"
 						}}
 						>
-							<div style={{
-								display: "flex",
-								color: "rgb(53, 52, 52)",
-								alignItems: "center",
-								width: "100%"
-							}}
-							>
-								<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
-									local_offer
+							<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px", paddingLeft: "10px" }}>
+								local_offer
 								</i>
-								{translate.tags}
-							</div>
-							<div>
-								<TextInput
-									placeholder={translate.search_template_tags}
-									adornment={<Icon>search</Icon>}
-									id={"buscarEtiquetasEnModal"}
-									type="text"
-									value={search}
-									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)" }}
-									styles={{ marginBottom: "0" }}
-									classes={{ input: props.classes.input }}
-									onChange={event => {
-										setSearchModal(event.target.value);
-									}}
-									disableUnderline={true}
-								/>
-							</div>
+							{translate.tags}
+						</div>
+						<div>
+							<TextInput
+								placeholder={translate.search_template_tags}
+								adornment={<Icon>search</Icon>}
+								id={"buscarEtiquetasEnModal"}
+								type="text"
+								value={search}
+								styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)" }}
+								styles={{ marginBottom: "0" }}
+								classes={{ input: props.classes.input }}
+								onChange={event => {
+									setSearchModal(event.target.value);
+								}}
+								disableUnderline={true}
+							/>
 						</div>
 					</div>
-					<Divider />
-					<div
-						style={{
-							width: "100%",
-							display: "flex",
-							flexDirection: "row",
-							justifyContent: "space-between",
-							margin: "1em"
-						}}
-					>
-						{matchSearch.length > 0 ?
-							<ContenedorEtiquetas
-								search={true}
-								color={'rgba(128, 78, 33, 0.58)'}
-								addTag={addTag}
-								translate={translate}
-								title={translate.council_type}
-								tags={matchSearch}
-							/>
-							:
+				</div>
+				<Divider />
+				<div
+					style={{
+						width: "100%",
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "space-between",
+						margin: "1em"
+					}}
+				>
+					{matchSearch.length > 0 ?
+						<ContenedorEtiquetas
+							search={true}
+							color={'rgba(128, 78, 33, 0.58)'}
+							addTag={addTag}
+							translate={translate}
+							title={translate.council_type}
+							tags={matchSearch}
+						/>
+						:
 
-							<Grid style={{
+						<Grid style={{
+							width: "100%",
+						}}>
+							<GridItem xs={3} lg={3} md={3} style={{
 								width: "100%",
 							}}>
-								<GridItem xs={3} lg={3} md={3} style={{
-									width: "100%",
-								}}>
-									<div style={{ width: "100%" }}>
-										{!!vars.companyStatutes &&
-											<EtiquetasModal
-												color={getTagColor(TAG_TYPES.STATUTE)}
-												addTag={addTag}
-												title={translate.council_type}
-												stylesContent={{
-													border: '1px solid #c196c3',
-													color: getTagColor(TAG_TYPES.STATUTE),
-												}}
-												tags={vars.companyStatutes.map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
-												testTags={testTags}
-												removeTag={removeTag}
-											/>
-										}
-									</div>
-								</GridItem>
-								<GridItem xs={3} lg={3} md={3} style={{
-									width: "100%",
-								}}>
-									<div style={{ width: "100%" }}>
+								<div style={{ width: "100%" }}>
+									{!!vars.companyStatutes &&
 										<EtiquetasModal
-											color={getTagColor(TAG_TYPES.GOVERNING_BODY)}
+											color={getTagColor(TAG_TYPES.STATUTE)}
 											addTag={addTag}
-											title={translate.governing_body}
+											title={translate.council_type}
 											stylesContent={{
-												border: '1px solid #7fa5b6',
-												color: getTagColor(TAG_TYPES.GOVERNING_BODY),
+												border: '1px solid #c196c3',
+												color: getTagColor(TAG_TYPES.STATUTE),
 											}}
-											tags={Object.keys(governingBodyTypes)
-												.map(key => createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))}
+											tags={vars.companyStatutes.map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
 											testTags={testTags}
 											removeTag={removeTag}
 										/>
+									}
+								</div>
+							</GridItem>
+							<GridItem xs={3} lg={3} md={3} style={{
+								width: "100%",
+							}}>
+								<div style={{ width: "100%" }}>
+									<EtiquetasModal
+										color={getTagColor(TAG_TYPES.GOVERNING_BODY)}
+										addTag={addTag}
+										title={translate.governing_body}
+										stylesContent={{
+											border: '1px solid #7fa5b6',
+											color: getTagColor(TAG_TYPES.GOVERNING_BODY),
+										}}
+										tags={Object.keys(governingBodyTypes)
+											.map(key => createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))}
+										testTags={testTags}
+										removeTag={removeTag}
+									/>
 
-									</div>
-								</GridItem>
+								</div>
+							</GridItem>
+							<GridItem xs={3} lg={3} md={3} style={{
+								width: "100%",
+							}}>
+								<div style={{ display: "flex", width: "100%" }}>
+									{!!vars.draftTypes &&
+										<EtiquetasModal
+											color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
+											addTag={addTag}
+											title={translate.draft_type}
+											stylesContent={{
+												border: '1px solid #7fa5b6',
+												color: getTagColor(TAG_TYPES.DRAFT_TYPE),
+											}}
+											tags={vars.draftTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
+											testTags={testTags}
+											removeTag={removeTag}
+										/>
+									}
+								</div>
+							</GridItem>
+							{((props.company && props.company.id === props.company.corporationId) || corporation) &&
 								<GridItem xs={3} lg={3} md={3} style={{
 									width: "100%",
 								}}>
 									<div style={{ display: "flex", width: "100%" }}>
-										{!!vars.draftTypes &&
+										{!!vars.companyTypes &&
 											<EtiquetasModal
-												color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
+												color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
 												addTag={addTag}
-												title={translate.draft_type}
+												title={translate.company_type}
 												stylesContent={{
-													border: '1px solid #7fa5b6',
-													color: getTagColor(TAG_TYPES.DRAFT_TYPE),
+													border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
+													color: getTagColor(TAG_TYPES.COMPANY_TYPE),
 												}}
-												tags={vars.draftTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
+												tags={vars.companyTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
 												testTags={testTags}
 												removeTag={removeTag}
 											/>
 										}
 									</div>
 								</GridItem>
-								{((props.company && props.company.id === props.company.corporationId) || corporation) &&
-									<GridItem xs={3} lg={3} md={3} style={{
-										width: "100%",
-									}}>
-										<div style={{ display: "flex", width: "100%" }}>
-											{!!vars.companyTypes &&
-												<EtiquetasModal
-													color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
-													addTag={addTag}
-													title={translate.company_type}
-													stylesContent={{
-														border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
-														color: getTagColor(TAG_TYPES.COMPANY_TYPE),
-													}}
-													tags={vars.companyTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
-													testTags={testTags}
-													removeTag={removeTag}
-												/>
-											}
-										</div>
-									</GridItem>
-								}
-							</Grid>
-						}
-					</div>
+							}
+						</Grid>
+					}
 				</div>
-			}
-		/>
-	))
-
-
-
-const regularCardStyle = {
-	cardTitle: {
-		// fontSize: "1em",
-		width: "100%",
-		overflow: "hidden"
-	},
-	content: {
-		whiteSpace: 'nowrap',
-		overflow: 'hidden',
-		textOverflow: 'ellipsis',
-		maxWidth: '100%'
-	}
-}
-
+			</div>
+		}
+	/>
+))
 
 const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => {
-	const styles = {
+	const stylesEtiquetas = {
 		borderRadius: '20px',
 		background: color,
 		padding: "0 0.5em",
@@ -742,26 +722,26 @@ const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => 
 				}}
 					id={'tipoDeReunion'}
 				>
-					{tags.map((tag, index) => (
-							<div
-								style={{
-									width: "100%",
-									marginRight: "1em",
-									cursor: "pointer",
-									whiteSpace: 'nowrap',
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									maxWidth: tags.length > 6 ? "150px" : '220px',
-									...(testTags[tag.name] ? {
-										...styles
-									} : {}),
-								}}
-								key={"tag_" + tag.label}
-								onClick={() => (testTags[tag.name] ? removeTag(tag) : addTag(tag))}
-							>
-								{tag.label}
-							</div>
-						))}
+					{tags.map((tag) => (
+						<div
+							style={{
+								width: "100%",
+								marginRight: "1em",
+								cursor: "pointer",
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								maxWidth: tags.length > 6 ? "150px" : '220px',
+								...(testTags[tag.name] ? {
+									...styles
+								} : {}),
+							}}
+							key={"tag_" + tag.label}
+							onClick={() => (testTags[tag.name] ? removeTag(tag) : addTag(tag))}
+						>
+							{tag.label}
+						</div>
+					))}
 				</div>
 			</div>
 		</div>

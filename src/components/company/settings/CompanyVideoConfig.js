@@ -48,12 +48,12 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
             }
         });
 
-        const data = response.data.companyPlatform;
+        const companyPlatform = response.data.companyPlatform;
         setData({
             videoConfig: {
-                rtmp: (data.videoConfig && data.videoConfig.rtmp) ? data.videoConfig.rtmp : '',
-                fixedSlot: (data.videoConfig && data.videoConfig.fixedSlot) ? data.videoConfig.fixedSlot : '',
-                viewerURL: (data.videoConfig && data.videoConfig.viewerURL) ? data.videoConfig.viewerURL : ''
+                rtmp: (companyPlatform.videoConfig && companyPlatform.videoConfig.rtmp) ? companyPlatform.videoConfig.rtmp : '',
+                fixedSlot: (companyPlatform.videoConfig && companyPlatform.videoConfig.fixedSlot) ? companyPlatform.videoConfig.fixedSlot : '',
+                viewerURL: (companyPlatform.videoConfig && companyPlatform.videoConfig.viewerURL) ? companyPlatform.videoConfig.viewerURL : ''
             }
         });
     }, [company.id]);

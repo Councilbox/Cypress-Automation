@@ -21,7 +21,7 @@ const updateActSends = gql`
 
 
 class ParticipantsWithActTable extends React.Component {
-    async componentDidMount(){
+    async componentDidMount() {
         this.refreshEmails();
     }
 
@@ -34,10 +34,10 @@ class ParticipantsWithActTable extends React.Component {
         this.props.data.refetch();
     }
 
-    render(){
+    render() {
         const { translate, council } = this.props;
 
-        return(
+        return (
             <div>
                 <RefreshButton
                     translate={translate}
@@ -45,7 +45,7 @@ class ParticipantsWithActTable extends React.Component {
                     onClick={this.refreshEmails}
                 />
                 <EnhancedTable
-                    ref={table => (this.table = table)}
+                    ref={table => { this.table = table }}
                     translate={translate}
                     defaultLimit={PARTICIPANTS_LIMITS[0]}
                     defaultFilter={"fullName"}
@@ -62,18 +62,18 @@ class ParticipantsWithActTable extends React.Component {
                 >
                     {this.props.data.loading ?
                         <LoadingSection />
-                    : (
-                        this.props.data.councilParticipantsWithActSends.list.map(
-                            (participant, index) => (
+                        : (
+                            this.props.data.councilParticipantsWithActSends.list.map(
+                                (participant) => (
                                     <React.Fragment
                                         key={`participant${participant.id}`}
                                     >
                                         <TableRow
                                             hover
                                             onClick={() => this.setState({
-                                                    editingParticipant: true,
-                                                    participant
-                                                })
+                                                editingParticipant: true,
+                                                participant
+                                            })
                                             }
                                             style={{
                                                 cursor: "pointer"
@@ -91,47 +91,47 @@ class ParticipantsWithActTable extends React.Component {
                                             <TableCell>
                                                 {participant.actNotifications
                                                     .length > 0 ? (
-                                                    <Tooltip
-                                                        title={
-                                                            translate[
+                                                        <Tooltip
+                                                            title={
+                                                                translate[
                                                                 CBX.getTranslationReqCode(
                                                                     participant
                                                                         .actNotifications[0]
                                                                         .reqCode
                                                                 )
-                                                            ]
-                                                        }
-                                                    >
-                                                        <img
-                                                            style={{
-                                                                height:
-                                                                    "2.1em",
-                                                                width:
-                                                                    "auto"
-                                                            }}
-                                                            src={CBX.getEmailIconByReqCode(
-                                                                participant
-                                                                    .actNotifications[0]
-                                                                    .reqCode
-                                                            )}
-                                                            alt="email-state-icon"
-                                                        />
-                                                    </Tooltip>
-                                                ) : (
-                                                    ""
-                                                )}
+                                                                ]
+                                                            }
+                                                        >
+                                                            <img
+                                                                style={{
+                                                                    height:
+                                                                        "2.1em",
+                                                                    width:
+                                                                        "auto"
+                                                                }}
+                                                                src={CBX.getEmailIconByReqCode(
+                                                                    participant
+                                                                        .actNotifications[0]
+                                                                        .reqCode
+                                                                )}
+                                                                alt="email-state-icon"
+                                                            />
+                                                        </Tooltip>
+                                                    ) : (
+                                                        ""
+                                                    )}
                                             </TableCell>
                                             {CBX.councilHasAssistanceConfirmation(
                                                 council
                                             ) && (
-                                                <TableCell>
-                                                    <AttendIntentionIcon
-                                                        participant={participant.live}
-                                                        translate={translate}
-                                                        size="2em"
-                                                    />
-                                                </TableCell>
-                                            )}
+                                                    <TableCell>
+                                                        <AttendIntentionIcon
+                                                            participant={participant.live}
+                                                            translate={translate}
+                                                            size="2em"
+                                                        />
+                                                    </TableCell>
+                                                )}
                                             <TableCell>
                                                 <DownloadCBXDataButton
                                                     translate={translate}
@@ -143,8 +143,8 @@ class ParticipantsWithActTable extends React.Component {
                                         </TableRow>
                                     </React.Fragment>
                                 )
-                        )
-                    )}
+                            )
+                        )}
                 </EnhancedTable>
             </div>
         )

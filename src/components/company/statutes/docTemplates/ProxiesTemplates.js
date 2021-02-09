@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionTitle, GridItem, Checkbox, Grid } from '../../../../displayComponents';
+import { SectionTitle, GridItem, Checkbox } from '../../../../displayComponents';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
 import { getPrimary } from '../../../../styles/colors';
 
@@ -55,7 +55,7 @@ const getCustomDocsTags = (type, translate) => {
     return types[type] ? types[type] : [];
 }
 
-const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...props }) => {
+const ProxiesTemplates = ({ statute, updateState, translate }) => {
     const primary = getPrimary();
     const internalState = React.useRef({
         proxy: statute.proxy,
@@ -108,8 +108,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                     label={translate.double_column}
                     value={statute.doubleColumnDocs === 1}
                     onChange={(event, isInputChecked) => updateState({
-                            doubleColumnDocs: isInputChecked ? 1 : 0
-                        })
+                        doubleColumnDocs: isInputChecked ? 1 : 0
+                    })
                     }
                 />
             </GridItem>
@@ -118,8 +118,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                     label={translate.require_proxies}
                     value={statute.requireProxy === 1}
                     onChange={(event, isInputChecked) => updateState({
-                            requireProxy: isInputChecked ? 1 : 0
-                        })
+                        requireProxy: isInputChecked ? 1 : 0
+                    })
                     }
                 />
             </GridItem>
@@ -135,8 +135,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             : ""
                     }
                     onChange={value => handleUpdate({
-                            proxy: value
-                        })
+                        proxy: value
+                    })
                     }
                     tags={getCustomDocsTags('PROXY', translate)}
                 />
@@ -152,8 +152,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             : ""
                     }
                     onChange={value => handleUpdate({
-                            proxySecondary: value
-                        })
+                        proxySecondary: value
+                    })
                     }
                     tags={getCustomDocsTags('PROXY', translate)}
                 />
@@ -169,8 +169,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             : ""
                     }
                     onChange={value => handleUpdate({
-                            voteLetter: value
-                        })
+                        voteLetter: value
+                    })
                     }
                     tags={getCustomDocsTags('VOTE_LETTER', translate)}
                 />
@@ -186,8 +186,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             : ""
                     }
                     onChange={value => handleUpdate({
-                            voteLetterSecondary: value
-                        })
+                        voteLetterSecondary: value
+                    })
                     }
                     tags={getCustomDocsTags('VOTE_LETTER', translate)}
                 />
@@ -203,8 +203,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             : ""
                     }
                     onChange={value => handleUpdate({
-                            voteLetterWithSense: value
-                        })
+                        voteLetterWithSense: value
+                    })
                     }
                     tags={getCustomDocsTags('VOTE_LETTER_WITH_SENSE', translate)}
                 />
@@ -220,8 +220,8 @@ const ProxiesTemplates = ({ statute, updateState, errors, translate, data, ...pr
                             : ""
                     }
                     onChange={value => handleUpdate({
-                            voteLetterWithSenseSecondary: value
-                        })
+                        voteLetterWithSenseSecondary: value
+                    })
                     }
                     tags={getCustomDocsTags('VOTE_LETTER_WITH_SENSE', translate)}
                 />

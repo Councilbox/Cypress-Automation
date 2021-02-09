@@ -16,7 +16,7 @@ const DeletCompany = ({ company, render, refetch, translate, styles, client }) =
     }
 
     const action = async () => {
-        const reponse = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation deleteCompany($companyId: Int!){
                     deleteCompany(companyId: $companyId){
@@ -33,11 +33,11 @@ const DeletCompany = ({ company, render, refetch, translate, styles, client }) =
     }
 
     const renderModalBody = () => (
-            <>
-                {`¿Esta acción eliminará la compañía ${company.businessName} por completo y todas su reuniones. ¿Continuar?`}
-                <span onClick={action}>Aceptar</span>
-            </>
-        )
+        <>
+            {`¿Esta acción eliminará la compañía ${company.businessName} por completo y todas su reuniones. ¿Continuar?`}
+            <span onClick={action}>Aceptar</span>
+        </>
+    )
 
     return (
         <React.Fragment>

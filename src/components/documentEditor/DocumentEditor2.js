@@ -1,14 +1,12 @@
 import React from 'react';
 import { arrayMove, SortableContainer, SortableElement } from "react-sortable-hoc";
 import { Card, Tooltip } from 'material-ui';
-import { withRouter } from 'react-router-dom';
 import { shouldCancelStart } from './utils';
 
 import { Grid, Scrollbar, BasicButton } from '../../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
 import Lupa from '../../displayComponents/Lupa';
-import textool from '../../assets/img/text-tool.svg';
 import GroupedBlock from './GroupedBlock';
 import Block, { BorderBox } from './Block';
 import AgreementsPreview from './AgreementsPreview';
@@ -18,8 +16,15 @@ import DocumentPreview from './DocumentPreview';
 
 
 const DocumentEditor = ({ translate, company, data, documentId, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, withDrawer, ...props }) => {
+    function filterBlocks() {
+        if (doc && blocks) {
+            return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
+        }
+        return [];
+    }
+
     const [edit, setEdit] = React.useState(true);
-    const [filteredBlocks, setBlocks] = React.useState(filterBlocks(blocks, doc));
+    const [filteredBlocks, setBlocks] = React.useState(filterBlocks());
     const [state, setState] = React.useState({
         loadDraft: false,
         load: 'intro',
@@ -42,7 +47,6 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     const primary = getPrimary();
     const secondary = getSecondary();
 
-
     React.useEffect(() => {
         setBlocks(filterBlocks(blocks, doc));
     }, [doc.length]);
@@ -57,12 +61,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
         }
     }, [newId]);
 
-    function filterBlocks(blocks, doc) {
-        if (doc && blocks) {
-            return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
-        }
-        return [];
-    }
+
 
     const changeToColumn = index => {
         props.setColumn(index);
@@ -86,7 +85,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
         setDoc(arrayMove(doc, oldIndex, newIndex));
     }
 
-    const remove = (id, index) => {
+    const remove = (id) => {
         const arrayDoc = doc.filter(item => item.id !== id);
         setDoc(arrayDoc);
     };
@@ -94,15 +93,15 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     const addItem = id => {
         const resultado = filteredBlocks.find(arrastrable => arrastrable.id === id);
 
-        const newId = Math.random().toString(36).substr(2, 9);
+        const newRamdomId = Math.random().toString(36).substr(2, 9);
 
         const newDoc = [...doc];
         newDoc.push({
             ...resultado,
-            id: newId,
+            id: newRamdomId,
         });
         setDoc(newDoc);
-        setNewId(newId);
+        setNewId(newRamdomId);
     }
 
     const opcionesMenu = () => (
@@ -133,7 +132,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                     options={options}
                                     setOptions={setOptions}
                                 />
-                                {filteredBlocks.filter(item => !item.logic).map((item, index) => (
+                                {filteredBlocks.filter(item => !item.logic).map((item) => (
                                         <BorderBox
                                             key={item.id}
                                             addItem={addItem}
@@ -442,7 +441,6 @@ const DraggableBlock = SortableElement(props => {
         value: {
             id: Math.random().toString(36).substr(2, 9),
             label: "Toma de acuerdos",
-            editButton: true,
             type: 'Toma de acuerdos',
             noBorrar: true,
             editButton: false,

@@ -254,7 +254,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
     )
 }
 
-const DividerContenido = ({ titulo, contenido }) => (
+const DividerContenido = () => (
         <div style={{ borderBottom: `1px solid ${getPrimary()}` }}></div>
     )
 

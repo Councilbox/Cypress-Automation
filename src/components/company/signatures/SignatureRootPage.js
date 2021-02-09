@@ -1,7 +1,6 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import gql from 'graphql-tag';
 import { signature } from '../../../queries/signature';
 import { LoadingSection } from '../../../displayComponents';
 import { SIGNATURE_STATES } from '../../../constants';

@@ -7,7 +7,7 @@ import { DropDownMenu } from '../../displayComponents';
 import { downloadFile, prepareTextForFilename } from '../../utils/CBX';
 import { buildDocVariable } from './utils';
 
-const DownloadDoc = ({ client, doc, council, options, translate, filename, styles }) => {
+const DownloadDoc = ({ client, doc, council, options, translate, filename }) => {
     const [loading, setLoading] = React.useState(false);
 
     const getLanguageView = () => {
@@ -97,11 +97,11 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename, style
             </style>\
         `);
 
-        const filename = `${translate.act} - ${council.name}.doc`;
+        const docFilename = `${translate.act} - ${council.name}.doc`;
         const blob = new Blob(['\ufeff', css + html], {
             type: 'application/msword'
         });
-        FileSaver.saveAs(blob, filename);
+        FileSaver.saveAs(blob, docFilename);
     }
 
     return (

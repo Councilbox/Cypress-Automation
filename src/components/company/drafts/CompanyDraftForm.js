@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Icon, Collapse, withStyles, FormControlLabel } from "material-ui";
+import { Input, Icon, Collapse, withStyles } from "material-ui";
 import PropTypes from "prop-types";
 import { withApollo } from 'react-apollo';
 import {
@@ -10,7 +10,7 @@ import {
 } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import * as CBX from "../../../utils/CBX";
-import { GOVERNING_BODY_TYPES, DRAFT_TYPES } from "../../../constants";
+import { GOVERNING_BODY_TYPES } from "../../../constants";
 
 import withWindowSize from "../../../HOCs/withWindowSize";
 import { isMobile } from '../../../utils/screen';
@@ -39,7 +39,6 @@ const styles = {
 
 const CompanyDraftForm = ({ translate, draft, errors, company, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props }) => {
 	const [search, setSearch] = React.useState('');
-	const [newTag, setNewTag] = React.useState('');
 	const [testTags, setTestTags] = React.useState({});
 	const [tagsSend, setTagsSend] = React.useState([]);
 	const [companyT, setCompanyT] = React.useState([]);
@@ -52,12 +51,12 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	}
 
 	const formatTagLabel = tag => (tag.segments ?
-			`${tag.segments.reduce((acc, curr) => {
-				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
-				return acc;
-			}, '')}`
-			:
-			tag.label)
+		`${tag.segments.reduce((acc, curr) => {
+			if (curr !== tag.label) return acc + (translate[curr] || curr) + '. '
+			return acc;
+		}, '')}`
+		:
+		tag.label)
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
@@ -127,51 +126,51 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 	}, []);
 
 	const renderTitle = () => (
-			<React.Fragment>
-				<div style={{ fontSize: "18px" }}>{translate.title}</div>
-				<div>
-					<Input
-						placeholder={translate.title}
-						error={!!errors.title}
-						disableUnderline={true}
-						id={"titleDraft"}
-						style={{
-							color: "rgba(0, 0, 0, 0.65)",
-							fontSize: '15px',
-							boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-							border: errors.title ? '2px solid red' : '1px solid #d7d7d7',
-							width: "100%",
-							padding: '.5em 1.6em',
-							marginTop: "1em"
-						}}
-						value={draft.title}
-						onChange={event => updateState({
-								title: event.nativeEvent.target.value
-							})
-						}
-						classes={{ input: props.classes.input }}
-					>
-					</Input>
-					{!!errors.title &&
-						<span style={{ color: 'red' }}>{errors.title}</span>
+		<React.Fragment>
+			<div style={{ fontSize: "18px" }}>{translate.title}</div>
+			<div>
+				<Input
+					placeholder={translate.title}
+					error={!!errors.title}
+					disableUnderline={true}
+					id={"titleDraft"}
+					style={{
+						color: "rgba(0, 0, 0, 0.65)",
+						fontSize: '15px',
+						boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+						border: errors.title ? '2px solid red' : '1px solid #d7d7d7',
+						width: "100%",
+						padding: '.5em 1.6em',
+						marginTop: "1em"
+					}}
+					value={draft.title}
+					onChange={event => updateState({
+						title: event.nativeEvent.target.value
+					})
 					}
-				</div>
-			</React.Fragment>
-		)
+					classes={{ input: props.classes.input }}
+				>
+				</Input>
+				{!!errors.title &&
+					<span style={{ color: 'red' }}>{errors.title}</span>
+				}
+			</div>
+		</React.Fragment>
+	)
 
 
 	const renderEtiquetasSeleccionadas = () => {
 		const TagColumn = props => (
-				<div style={{
-					display: "flex",
-					color: "#ffffff",
-					fontSize: "12px",
-					marginBottom: "0.5em ",
-					flexDirection: 'column'
-				}}>
-					{props.children}
-				</div>
-			)
+			<div style={{
+				display: "flex",
+				color: "#ffffff",
+				fontSize: "12px",
+				marginBottom: "0.5em ",
+				flexDirection: 'column'
+			}}>
+				{props.children}
+			</div>
+		)
 
 		const buildTagColumns = tags => {
 			const columns = {};
@@ -233,8 +232,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						errorText={errors.text}
 						translate={translate}
 						onChange={value => updateState({
-								text: value
-							})
+							text: value
+						})
 						}
 						tags={tags}
 					/>
@@ -247,8 +246,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						errorText={errors.secondaryText}
 						translate={translate}
 						onChange={value => updateState({
-								secondaryText: value
-							})
+							secondaryText: value
+						})
 						}
 						tags={tags}
 					/>
@@ -284,114 +283,114 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 
 	const renderSelectorEtiquetas = () => (
-			<React.Fragment>
-				<div style={{ fontSize: "18px", display: "flex" }}>
-					<div style={{ marginRight: "0.6em" }}>{translate.tags}</div>
-					<div>
-						<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px" }}>
-							local_offer
+		<React.Fragment>
+			<div style={{ fontSize: "18px", display: "flex" }}>
+				<div style={{ marginRight: "0.6em" }}>{translate.tags}</div>
+				<div>
+					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px" }}>
+						local_offer
 						</i>
-					</div>
 				</div>
-				<div style={{ minHeight: props.innerWidth > 960 ? "300px" : "", height: "calc( 100% - 4em )" }}>
-					<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", height: "100%", paddingBottom: isMobile && "1em" }}>
-						<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
-							<div style={{ marginBottom: "1em", display: "flex" }}>
-								<TextInput
-									id={"buscadorEtiqueta"}
-									placeholder={translate.search_template_tag}
-									adornment={<Icon>search</Icon>}
-									type="text"
-									value={search}
-									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.65)" }}
-									classes={{ input: props.classes.input }}
-									onChange={event => {
-										setSearch(event.target.value);
-									}}
-								/>
-							</div>
-							<Collapse in={openSelectorEtiquetas} timeout="auto" unmountOnExit >
-								<div style={{ display: matchSearch.length > 0 ? "block" : "none" }}>
-									{matchSearch &&
-										!!companyStatutes &&
-										<ContenedorEtiquetas
-											search={true}
-											color={'rgba(128, 78, 33, 0.58)'}
-											addTag={addTag}
-											translate={translate}
-											title={translate.council_type}
-											tags={matchSearch}
-										/>
-									}
-								</div>
-								<div style={{}}>
-									{company.id === company.corporationId &&
-										<ContenedorEtiquetas
-											color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
-											translate={translate}
-											addTag={addTag}
-											title={translate.company_type}
-											stylesContent={{
-												border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
-												color: getTagColor(TAG_TYPES.COMPANY_TYPE),
-											}}
-											tags={companyT.filter(companyType => !testTags[companyType.label]).map(companyType => createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate))}
-										/>
-									}
-
-									{!!companyStatutes &&
-										<ContenedorEtiquetas
-											color={'#b47fb6'}
-											translate={translate}
-											addTag={addTag}
-											title={translate.council_type}
-											stylesContent={{
-												border: `1px solid ${getTagColor(TAG_TYPES.STATUTE)}`,
-												color: getTagColor(TAG_TYPES.STATUTE),
-											}}
-											tags={companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
-										/>
-									}
+			</div>
+			<div style={{ minHeight: props.innerWidth > 960 ? "300px" : "", height: "calc( 100% - 4em )" }}>
+				<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: "1em", height: "100%", paddingBottom: isMobile && "1em" }}>
+					<div style={{ paddingLeft: "1em", paddingRight: "1em" }}>
+						<div style={{ marginBottom: "1em", display: "flex" }}>
+							<TextInput
+								id={"buscadorEtiqueta"}
+								placeholder={translate.search_template_tag}
+								adornment={<Icon>search</Icon>}
+								type="text"
+								value={search}
+								styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.65)" }}
+								classes={{ input: props.classes.input }}
+								onChange={event => {
+									setSearch(event.target.value);
+								}}
+							/>
+						</div>
+						<Collapse in={openSelectorEtiquetas} timeout="auto" unmountOnExit >
+							<div style={{ display: matchSearch.length > 0 ? "block" : "none" }}>
+								{matchSearch &&
+									!!companyStatutes &&
 									<ContenedorEtiquetas
-										color={'#7fa5b6'}
+										search={true}
+										color={'rgba(128, 78, 33, 0.58)'}
+										addTag={addTag}
+										translate={translate}
+										title={translate.council_type}
+										tags={matchSearch}
+									/>
+								}
+							</div>
+							<div style={{}}>
+								{company.id === company.corporationId &&
+									<ContenedorEtiquetas
+										color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
 										translate={translate}
 										addTag={addTag}
-										title={translate.governing_body}
+										title={translate.company_type}
 										stylesContent={{
-											border: `1px solid ${getTagColor(TAG_TYPES.GOVERNING_BODY)}`,
-											color: getTagColor(TAG_TYPES.GOVERNING_BODY),
+											border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
+											color: getTagColor(TAG_TYPES.COMPANY_TYPE),
 										}}
-										tags={Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label])
-											.map(key => createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))}
+										tags={companyT.filter(companyType => !testTags[companyType.label]).map(companyType => createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate))}
 									/>
+								}
 
-									{!!draftTypes &&
-										<ContenedorEtiquetas
-											color={'#7fa5b6'}
-											addTag={addTag}
-											translate={translate}
-											title={translate.draft_type}
-											stylesContent={{
-												border: `1px solid ${getTagColor(TAG_TYPES.DRAFT_TYPE)}`,
-												color: getTagColor(TAG_TYPES.DRAFT_TYPE),
-											}}
-											tags={draftTypes.filter(type => !testTags[type.label]).map(draft => createTag({
-												...draft,
-												votingTypes,
-												majorityTypes,
-												addTag,
-											}, TAG_TYPES.DRAFT_TYPE, translate))}
-										/>
-									}
-								</div>
-								<div style={{ marginBottom: "1em" }}>
-								</div>
-							</Collapse>
-						</div>
+								{!!companyStatutes &&
+									<ContenedorEtiquetas
+										color={'#b47fb6'}
+										translate={translate}
+										addTag={addTag}
+										title={translate.council_type}
+										stylesContent={{
+											border: `1px solid ${getTagColor(TAG_TYPES.STATUTE)}`,
+											color: getTagColor(TAG_TYPES.STATUTE),
+										}}
+										tags={companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
+									/>
+								}
+								<ContenedorEtiquetas
+									color={'#7fa5b6'}
+									translate={translate}
+									addTag={addTag}
+									title={translate.governing_body}
+									stylesContent={{
+										border: `1px solid ${getTagColor(TAG_TYPES.GOVERNING_BODY)}`,
+										color: getTagColor(TAG_TYPES.GOVERNING_BODY),
+									}}
+									tags={Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label])
+										.map(key => createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))}
+								/>
+
+								{!!draftTypes &&
+									<ContenedorEtiquetas
+										color={'#7fa5b6'}
+										addTag={addTag}
+										translate={translate}
+										title={translate.draft_type}
+										stylesContent={{
+											border: `1px solid ${getTagColor(TAG_TYPES.DRAFT_TYPE)}`,
+											color: getTagColor(TAG_TYPES.DRAFT_TYPE),
+										}}
+										tags={draftTypes.filter(type => !testTags[type.label]).map(draft => createTag({
+											...draft,
+											votingTypes,
+											majorityTypes,
+											addTag,
+										}, TAG_TYPES.DRAFT_TYPE, translate))}
+									/>
+								}
+							</div>
+							<div style={{ marginBottom: "1em" }}>
+							</div>
+						</Collapse>
 					</div>
 				</div>
-			</React.Fragment>
-		)
+			</div>
+		</React.Fragment>
+	)
 
 	if (props.innerWidth > 960) {
 		return (
@@ -426,30 +425,30 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 			</Scrollbar>
 		);
 	}
-		return (
-			<Scrollbar>
-				<Grid spacing={16} style={{ height: "100%", width: "100%", marginBottom: "1em" }}>
-					<GridItem xs={12} lg={12} md={12} style={{ height: "100%" }}>
-						<Grid spacing={16} style={{ height: "100%" }}>
-							<GridItem xs={12} lg={8} md={8} >
-								{renderTitle()}
+	return (
+		<Scrollbar>
+			<Grid spacing={16} style={{ height: "100%", width: "100%", marginBottom: "1em" }}>
+				<GridItem xs={12} lg={12} md={12} style={{ height: "100%" }}>
+					<Grid spacing={16} style={{ height: "100%" }}>
+						<GridItem xs={12} lg={8} md={8} >
+							{renderTitle()}
+						</GridItem>
+						{Object.keys(testTags).length > 0 &&
+							<GridItem xs={12} lg={12} md={12} style={{}}>
+								{renderEtiquetasSeleccionadas()}
 							</GridItem>
-							{Object.keys(testTags).length > 0 &&
-								<GridItem xs={12} lg={12} md={12} style={{}}>
-									{renderEtiquetasSeleccionadas()}
-								</GridItem>
-							}
-							<GridItem xs={12} lg={4} md={4} style={{}}>
-								{renderSelectorEtiquetas()}
-							</GridItem>
-							<GridItem xs={12} lg={8} md={8}>
-								{renderRichEditor()}
-							</GridItem>
-						</Grid>
-					</GridItem>
-				</Grid>
-			</Scrollbar>
-		);
+						}
+						<GridItem xs={12} lg={4} md={4} style={{}}>
+							{renderSelectorEtiquetas()}
+						</GridItem>
+						<GridItem xs={12} lg={8} md={8}>
+							{renderRichEditor()}
+						</GridItem>
+					</Grid>
+				</GridItem>
+			</Grid>
+		</Scrollbar>
+	);
 }
 
 
@@ -477,38 +476,38 @@ const Fade = ({ show, children }) => {
 };
 
 
-export const EtiquetasModal = ({ color, title, tags, addTag, translate }) => (
-		<div>
-			<div style={{ fontWeight: "700" }} >
-				<div>{title}</div>
-			</div>
-			<div style={{ color }}>
-				<div style={{
-					display: 'flex',
-					flexFlow: 'wrap column',
-					maxHeight: '135px',
-				}}
-				>
-					{tags.map((tag, index) => (
-						<div
-							style={{
-								marginRight: "1em",
-								cursor: "pointer",
-								whiteSpace: 'nowrap',
-								overflow: 'hidden',
-								textOverflow: 'ellipsis',
-								maxWidth: '150px',
-							}}
-							key={`tag_${index}`}
-							onClick={() => addTag(tag)}
-						>
-							{tag.translation ? tag.translation : tag.label}
-						</div>
-					))}
-				</div>
+export const EtiquetasModal = ({ color, title, tags, addTag }) => (
+	<div>
+		<div style={{ fontWeight: "700" }} >
+			<div>{title}</div>
+		</div>
+		<div style={{ color }}>
+			<div style={{
+				display: 'flex',
+				flexFlow: 'wrap column',
+				maxHeight: '135px',
+			}}
+			>
+				{tags.map((tag, index) => (
+					<div
+						style={{
+							marginRight: "1em",
+							cursor: "pointer",
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							maxWidth: '150px',
+						}}
+						key={`tag_${index}`}
+						onClick={() => addTag(tag)}
+					>
+						{tag.translation ? tag.translation : tag.label}
+					</div>
+				))}
 			</div>
 		</div>
-	)
+	</div>
+)
 
 
 
@@ -547,50 +546,50 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 			</div>
 		);
 	}
-		return (
-			<div style={{
-				boxShadow: ' 0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-				marginBottom: !last && "1em",
-				fontSize: "12px",
-				paddingRight: "1em",
-				paddingLeft: "1em",
-				minHeight: "3.5em",
-				...stylesContent
-			}}
-			>
-				<div style={{ alignItems: "center", justifyContent: "space-between", display: "flex", width: "100%", cursor: "pointer", }} onClick={toggle}>
-					<div>{title}</div>
-					<div style={{ display: "flex", alignItems: "center" }}>
-						{open ?
-							<i className="material-icons" style={{ fontSize: "40px" }}>
-								arrow_drop_up
+	return (
+		<div style={{
+			boxShadow: ' 0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+			marginBottom: !last && "1em",
+			fontSize: "12px",
+			paddingRight: "1em",
+			paddingLeft: "1em",
+			minHeight: "3.5em",
+			...stylesContent
+		}}
+		>
+			<div style={{ alignItems: "center", justifyContent: "space-between", display: "flex", width: "100%", cursor: "pointer", }} onClick={toggle}>
+				<div>{title}</div>
+				<div style={{ display: "flex", alignItems: "center" }}>
+					{open ?
+						<i className="material-icons" style={{ fontSize: "40px" }}>
+							arrow_drop_up
 							</i>
-							:
-							<i className="material-icons" style={{ fontSize: "40px" }}>
-								arrow_drop_down
+						:
+						<i className="material-icons" style={{ fontSize: "40px" }}>
+							arrow_drop_down
 							</i>
-						}
+					}
+				</div>
+			</div>
+			<Collapse in={open} timeout="auto" unmountOnExit >
+				<div style={{ marginBottom: "1em" }}>
+					<div style={{}}>
+						{tags.map((tag, index) => (
+							<Tag
+								key={`tag_${index}`}
+								childs={tag.childs}
+								text={translate[tag.label] || tag.label}
+								color={getTagColor(tag.type)}
+								action={() => addTag(tag)}
+							/>
+						))}
+
 					</div>
 				</div>
-				<Collapse in={open} timeout="auto" unmountOnExit >
-					<div style={{ marginBottom: "1em" }}>
-						<div style={{}}>
-							{tags.map((tag, index) => (
-								<Tag
-									key={`tag_${index}`}
-									childs={tag.childs}
-									text={translate[tag.label] || tag.label}
-									color={getTagColor(tag.type)}
-									action={() => addTag(tag)}
-								/>
-							))}
+			</Collapse>
 
-						</div>
-					</div>
-				</Collapse>
-
-			</div>
-		);
+		</div>
+	);
 }
 
 
