@@ -3,11 +3,12 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextArea from "antd/lib/input/TextArea";
 import { moment } from '../../../containers/App';
-import { AlertConfirm, BasicButton } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, Scrollbar } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import Stars from './Stars';
 import { useSubdomain } from '../../../utils/subdomain';
 import { useStatus, STATUS } from '../../../hooks';
+import { isMobile } from '../../../utils/screen';
 
 let timeout;
 
@@ -31,19 +32,19 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
     const checkRequiredFields = () => {
         const newErrors = {};
 
-        if(state.satisfaction === 0){
+        if (state.satisfaction === 0) {
             newErrors.satisfaction = translate.required_field;
         }
 
-        if(state.performance === 0){
+        if (state.performance === 0) {
             newErrors.performance = translate.required_field;
         }
 
-        if(state.recommend === 0){
+        if (state.recommend === 0) {
             newErrors.recommend = translate.required_field;
         }
 
-        if(state.care === 0){
+        if (state.care === 0) {
             newErrors.care = translate.required_field;
         }
 
@@ -67,11 +68,11 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
             }
         });
 
-        if(response.data.participantSurvey){
+        if (response.data.participantSurvey) {
             setState(response.data.participantSurvey);
         } else {
             const closedWindow = localStorage.getItem('cbx-survey-closed');
-            if(!closedWindow || !JSON.parse(closedWindow)[participant.id]){
+            if (!closedWindow || !JSON.parse(closedWindow)[participant.id]) {
                 autoOpen();
             }
         }
@@ -87,13 +88,13 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
     }
 
     React.useEffect(() => {
-        if(!open){
+        if (!open) {
             return () => clearTimeout(timeout);
         }
     }, [open])
 
     const sendSurvey = async () => {
-        if(!checkRequiredFields()){
+        if (!checkRequiredFields()) {
             setStatus(STATUS.LOADING);
             await client.mutate({
                 mutation: gql`
@@ -143,181 +144,184 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
 
     return (
         <AlertConfirm
-            bodyStyle={{ minWidth: "60vw", }}
+            bodyStyle={{ minWidth: "60vw", overflow: 'hidden', minHeight: '70vh', maxHeight: '95vh', height: '50px', padding: '1.5em' }}
             bodyText={
-                <div style={{ marginTop: "3em" }}>
-                    <div style={{
-                        width: "100%",
-                        borderRadius: '3px',
-                        marginBottom: '1em',
-                        marginTop: '1em',
-                        background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)'
-                    }}>
-                        <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', padding: "0 1em" }}>
-                            <div>
-                                <div style={{ fontWeight: "800", color: "white", fontSize: '.9rem', padding: '1rem' }} >
-                                    <p style={{ margin: '0' }}>
-                                        {translate.rate_app.replace(/{{appName}}/, subdomain.name || 'Councilbox')}
-                                    </p>
+                <Scrollbar style={{marginTop: "1rem" }}>
+                    <div style={{padding: '1em'}}>
+                        <div style={{
+                            width: "100%",
+                            borderRadius: '3px',
+                            marginBottom: '1em',
+                            background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)'
+                        }}>
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', padding: "0 1em" }}>
+                                <div>
+                                    <div style={{ fontWeight: "800", color: "white", fontSize: '.9rem', padding: '1rem' }} >
+                                        <p style={{ margin: '0' }}>
+                                            {translate.rate_app.replace(/{{appName}}/, subdomain.name || 'Councilbox')}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div style={{ border: "none", borderRadius: "1px", textAlign: 'left', color: "black", fontSize: '14px' }}>
-                        <div>
+                        <div style={{ border: "none", borderRadius: "1px", textAlign: 'left', color: "black", fontSize: '14px' }}>
                             <div>
-                                <div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
+                                {/* <Scrollbar> */}
                                 <div>
-                                    <Stars
-                                        name={"satisfaction"}
-                                        value={state.data.satisfaction}
-                                        disabled={disabled}
-                                        error={errors.satisfaction}
-                                        onClick={value => {
-                                            setState({
-                                                ...state,
-                                                data: {
-                                                    ...state.data,
-                                                    satisfaction: +value
-                                                }
-                                            })
-                                        }}
-                                    />
+                                    <div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
+                                    <div>
+                                        <Stars
+                                            name={"satisfaction"}
+                                            value={state.data.satisfaction}
+                                            disabled={disabled}
+                                            error={errors.satisfaction}
+                                            onClick={value => {
+                                                setState({
+                                                    ...state,
+                                                    data: {
+                                                        ...state.data,
+                                                        satisfaction: +value
+                                                    }
+                                                })
+                                            }}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <div>{translate.rate_performance.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
                                 <div>
-                                    <Stars
-                                        name={"performance"}
-                                        value={state.data.performance}
-                                        error={errors.performance}
-                                        disabled={disabled}
-                                        onClick={value => {
-                                            setState({
-                                                ...state,
-                                                data: {
-                                                    ...state.data,
-                                                    performance: +value
-                                                }
-                                            })
-                                        }}
-                                    />
+                                    <div>{translate.rate_performance.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
+                                    <div>
+                                        <Stars
+                                            name={"performance"}
+                                            value={state.data.performance}
+                                            error={errors.performance}
+                                            disabled={disabled}
+                                            onClick={value => {
+                                                setState({
+                                                    ...state,
+                                                    data: {
+                                                        ...state.data,
+                                                        performance: +value
+                                                    }
+                                                })
+                                            }}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
                                 <div>
-                                    <Stars
-                                        name={"recommend"}
-                                        value={state.data.recommend}
-                                        error={errors.recommend}
-                                        disabled={disabled}
-                                        onClick={value => {
-                                            setState({
-                                                ...state,
-                                                data: {
-                                                    ...state.data,
-                                                    recommend: +value
-                                                }
-                                            })
-                                        }}
-                                    />
+                                    <div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
+                                    <div>
+                                        <Stars
+                                            name={"recommend"}
+                                            value={state.data.recommend}
+                                            error={errors.recommend}
+                                            disabled={disabled}
+                                            onClick={value => {
+                                                setState({
+                                                    ...state,
+                                                    data: {
+                                                        ...state.data,
+                                                        recommend: +value
+                                                    }
+                                                })
+                                            }}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <div>{translate.rate_care_received}</div>
                                 <div>
-                                    <Stars
-                                        name={"care"}
-                                        value={state.data.care}
-                                        error={errors.care}
-                                        disabled={disabled}
-                                        onClick={value => {
-                                            setState({
-                                                ...state,
-                                                data: {
-                                                    ...state.data,
-                                                    care: +value
-                                                }
-                                            })
-                                        }}
-                                    />
+                                    <div>{translate.rate_care_received}</div>
+                                    <div>
+                                        <Stars
+                                            name={"care"}
+                                            value={state.data.care}
+                                            error={errors.care}
+                                            disabled={disabled}
+                                            onClick={value => {
+                                                setState({
+                                                    ...state,
+                                                    data: {
+                                                        ...state.data,
+                                                        care: +value
+                                                    }
+                                                })
+                                            }}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
-                                <div style={{ marginTop: "0.5em" }}>
-                                    <TextArea
-                                        style={{
-                                            width: '100%',
-                                            resize: 'none',
-                                            border: 'none',
-                                            padding: '.2rem',
-                                            background: "#d0d0d080"
-                                        }}
-                                        value={state.data.suggestions}
-                                        disabled={disabled}
-                                        onChange={event => {
-                                            setState({
-                                                ...state,
-                                                data: {
-                                                    ...state.data,
-                                                    suggestions: event.target.value
-                                                }
-                                            })
-                                        }}
-                                    />
+                                <div>
+                                    <div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
+                                    <div style={{ marginTop: "0.5em" }}>
+                                        <TextArea
+                                            style={{
+                                                width: '100%',
+                                                resize: 'none',
+                                                border: 'none',
+                                                padding: '.2rem',
+                                                background: "#d0d0d080"
+                                            }}
+                                            value={state.data.suggestions}
+                                            disabled={disabled}
+                                            onChange={event => {
+                                                setState({
+                                                    ...state,
+                                                    data: {
+                                                        ...state.data,
+                                                        suggestions: event.target.value
+                                                    }
+                                                })
+                                            }}
+                                        />
+                                    </div>
                                 </div>
+                                {/* </Scrollbar> */}
                             </div>
-                        </div>
-                        {state.creationDate &&
-                            <div style={{ marginBottom: '1em', marginTop: '1em' }}>
-                                {translate.sent_fem}: {moment(state.creationDate).format('LLL')}
-                            </div>
-                        }
+                            {state.creationDate &&
+                                <div style={{ marginBottom: '1em', marginTop: '1em' }}>
+                                    {translate.sent_fem}: {moment(state.creationDate).format('LLL')}
+                                </div>
+                            }
 
-                        <div>
-                            <div style={{ marginTop: "1.5em" }}>
-                                {!disabled &&
+                            <div>
+                                <div style={{ marginTop: "1.5em", display: 'flex', flexDirection: 'row', padding: '1rem' }}>
+                                    {!disabled &&
+                                        <BasicButton
+                                            onClick={sendSurvey}
+                                            text={translate.send}
+                                            loading={loading}
+                                            error={error}
+                                            backgroundColor={{
+                                                background: getPrimary(),
+                                                color: "white",
+                                                borderRadius: "1px",
+                                                padding: "1em 3em 1em 3em",
+                                                marginRight: "1em"
+                                            }}
+                                        >
+                                        </BasicButton>
+                                    }
+
                                     <BasicButton
-                                        onClick={sendSurvey}
-                                        text={translate.send}
-                                        loading={loading}
-                                        error={error}
+                                        onClick={() => {
+                                            localStorage.setItem('cbx-survey-closed', JSON.stringify({
+                                                [participant.id]: true
+                                            }));
+                                            requestClose();
+                                        }}
+                                        text={translate.close}
                                         backgroundColor={{
-                                            background: getPrimary(),
-                                            color: "white",
+                                            background: 'white',
+                                            color: getPrimary(),
                                             borderRadius: "1px",
+                                            fontWeight: '700',
                                             padding: "1em 3em 1em 3em",
-                                            marginRight: "1em"
+                                            boxShadow: "none"
                                         }}
                                     >
                                     </BasicButton>
-                                }
-
-                                <BasicButton
-                                    onClick={() => {
-                                        localStorage.setItem('cbx-survey-closed', JSON.stringify({
-                                            [participant.id]: true
-                                        }));
-                                        requestClose();
-                                    }}
-                                    text={translate.close}
-                                    backgroundColor={{
-                                        background: 'white',
-                                        color: getPrimary(),
-                                        borderRadius: "1px",
-                                        fontWeight: '700',
-                                        padding: "1em 3em 1em 3em",
-                                        boxShadow: "none"
-                                    }}
-                                >
-                                </BasicButton>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </Scrollbar>
             }
             open={open}
             requestClose={requestClose}
