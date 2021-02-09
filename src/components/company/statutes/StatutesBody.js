@@ -169,7 +169,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			...oldState,
 			errors,
 			error: hasError
-		});
+		}));
 
 		return hasError;
 	}
@@ -198,7 +198,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		});
 	};
 
-	const actionUpdateStatute = async () => {
+	const updateStatute = async () => {
 		if (!checkRequiredFields()) {
 			setState({
 				...state,
@@ -233,7 +233,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		}
 	};
 
-	const actionDeleteStatute = async () => {
+	const deleteStatute = async () => {
 		const response = await props.deleteStatute({
 			variables: {
 				statuteId: state.deleteID
@@ -252,6 +252,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			});
 		}
 	};
+
 	const handleStatuteChange = index => {
 		if (index !== 'new') {
 			if (!state.unsavedChanges) {
@@ -274,7 +275,6 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			}
 		}
 	};
-
 
 	const createStatute = async () => {
 		const regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
@@ -562,14 +562,14 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				buttonAccept={translate.delete}
 				buttonCancel={translate.cancel}
 				modal={true}
-				acceptAction={actionDeleteStatute}
+				acceptAction={deleteStatute}
 				requestClose={() => setState({ ...state, deleteModal: false, deleteId: null })}
 			/>
 			<UnsavedChangesModal
 				cancelAction={() => {
 					restoreStatute();
 				}}
-				acceptAction={actionUpdateStatute}
+				acceptAction={updateStatute}
 				requestClose={() => setState({ ...state, unsavedAlert: false })}
 				open={state.unsavedAlert}
 			/>
@@ -587,7 +587,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				requestClose={() => setState({ ...state, newStatute: false })
 				}
 				open={state.newStatute}
-				acceptAction={actionCreateStatute}
+				acceptAction={createStatute}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				bodyText={
@@ -599,10 +599,10 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 						errorText={errors.newStatuteName}
 						value={statute ? statute.newStatuteName : state.newStatuteName}
 						onChange={event => setState({
-							...state,
-							newStatuteName:
-								event.target.value
-						})
+								...state,
+								newStatuteName:
+									event.target.value
+							})
 						}
 					/>
 				}

@@ -72,16 +72,6 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 	const primary = getPrimary();
 	const config = React.useContext(ConfigContext);
 
-	const [saveDraft, setSaveDraft] = React.useState(false);
-	const editor = React.useRef();
-	const intro = React.useRef();
-	const introSecondary = React.useRef();
-	const constitutionSecondary = React.useRef();
-	const conclusionSecondary = React.useRef();
-	const footer = React.useRef();
-	const constitution = React.useRef();
-	const conclusion = React.useRef();
-
 	React.useEffect(() => {
 		if (editor.current) {
 			editor.current.setValue(statute.conveneHeader || '');

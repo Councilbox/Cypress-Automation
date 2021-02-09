@@ -18,7 +18,7 @@ import StatuteDocSection from "./StatuteDocSection";
 import { useValidRTMP } from "../../../hooks";
 import withSharedProps from "../../../HOCs/withSharedProps";
 
-const StatuteEditor = ({ statute, translate, updateState, errors, client, company, ...props }) => {
+const StatuteEditor = ({ statute, translate, updateState, errors, client, disabled, company, ...props }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 	const config = React.useContext(ConfigContext);
