@@ -109,6 +109,8 @@ class NoCelebrateModal extends React.Component {
 	render() {
 		const { translate } = this.props;
 
+		console.log(translate);
+
 		return (
 			<AlertConfirm
 				requestClose={this.props.requestClose}
@@ -125,7 +127,7 @@ class NoCelebrateModal extends React.Component {
 				}
 				buttonCancel={translate.close}
 				bodyText={this._renderBody()}
-				title={translate.send_convene_reminder}
+				title={translate.council_not_celebrated}
 			/>
 		);
 	}
